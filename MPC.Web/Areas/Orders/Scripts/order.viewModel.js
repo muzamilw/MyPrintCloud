@@ -53,6 +53,7 @@ define("order/order.viewModel",
                     counterForSection = -1000,
                     //
                     selectedCompanyTaxRate = ko.observable(),
+                    selectedCompanyJobManagerUser = ko.observable(),
                     // selected Company
                     selectedCompany = ko.observable(),
                     //inquiries
@@ -160,6 +161,7 @@ define("order/order.viewModel",
                     sectionHeader = ko.observable(''),
                     currencySymbol = ko.observable(''),
                     loggedInUser = ko.observable(),
+                    itemIdFromDashboard = ko.observable(),
                      inquiryDetailEditorViewModel = new ist.ViewModel(model.InquiryItem),
                     selectedInquiryItem = inquiryDetailEditorViewModel.itemForEditing,
                     //On Order Status change to progress to job that will open wizard
@@ -308,6 +310,17 @@ define("order/order.viewModel",
                             isDisplayInquiryDetailScreen(true);
                         } else {
                             isOrderDetailsVisible(true);
+                            if (itemIdFromDashboard() !== 0 && itemIdFromDashboard() !== '') { //here
+                                $('#orderDetailTabs a[href="#tab-EstimateHeader"]').tab('show');
+                                showProgress();
+                                var product = _.find(selectedOrder().nonDeliveryItems(), function (obj) {
+                                    return obj.id() == itemIdFromDashboard();
+                                });
+                                if (product) {
+                                    editItem(product);
+                                    hideProgress();
+                                }
+                            }
                         }
 
                     },
@@ -780,6 +793,9 @@ define("order/order.viewModel",
                         if (selectedOrder().nonDeliveryItems().length > 0) {
                             selectedItemForProgressToJobWizard(selectedOrder().nonDeliveryItems()[progressToJobItemCounter]);
                             selectedItemForProgressToJobWizard().jobStatusId(jobStatuses()[0].StatusId);
+                            selectedItemForProgressToJobWizard().jobEstimatedStartDateTime(moment().toDate());
+                            selectedItemForProgressToJobWizard().jobEstimatedCompletionDateTime(moment().add('days', 2).toDate());
+                            selectedItemForProgressToJobWizard().jobManagerUser(selectedCompanyJobManagerUser());
                             if (selectedItemForProgressToJobWizard().systemUsers().length === 0) {
                                 selectedItemForProgressToJobWizard().systemUsers(systemUsers());
                             }
@@ -1461,6 +1477,7 @@ define("order/order.viewModel",
                                         setDefaultContactForCompany();
                                     }
                                     selectedCompanyTaxRate(data.TaxRate);
+                                    selectedCompanyJobManagerUser(data.JobManagerId);
                                 }
                                 isCompanyBaseDataLoaded(true);
                             },
@@ -2578,7 +2595,9 @@ define("order/order.viewModel",
                             isEstimateScreen(false);
                             // Get Base Data
                             getBaseData();
-                            var orderIdFromDashboard = $('#OrderId').val();
+                            var orderIdFromDashboard = $('#OrderId').val(); 
+                            var itemIdFromOrderScreen = $('#ItemId').val();
+                            itemIdFromDashboard(itemIdFromOrderScreen);
                             if (orderIdFromDashboard != 0) {
                                 editOrder({ id: function () { return orderIdFromDashboard; } });
                             } else {
@@ -2591,9 +2610,10 @@ define("order/order.viewModel",
                             pager(new pagination.Pagination({ PageSize: 5 }, orders, getEstimates));
                             isEstimateScreen(true);
                             var estimateIdFromOrderScreen = $('#OrderId').val();
-                            if (estimateIdFromOrderScreen != 0) {
+                            if (estimateIdFromOrderScreen != 0 ) {
                                 editOrder({ id: function () { return estimateIdFromOrderScreen; } });
                             }
+                           
                             getEstimates();
                             // Get Base Data For Estimate
                             getBaseDataForEstimate();

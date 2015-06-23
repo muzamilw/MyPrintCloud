@@ -256,9 +256,14 @@
 
                                             <div class="clearfix">
                                                 <div class="col-lg-12">
+                                                    <!-- ko ifnot: storeImageFileBinary() -->
+                                                    <img style="margin-left:27%" src="/mis/Content/Images/Company_Default.png">
+                                                    <!--/ko-->
+                                                    <!-- ko if: storeImageFileBinary() -->
                                                     <img id="idCostcenterimage" style="width: 240px; height: 130px; -o-object-fit: contain; object-fit: contain;" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
                                                     <img style="width: 240px; height: 130px; -o-object-fit: contain; object-fit: contain;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
-                                                </div>
+
+                                                    <!--/ko--></div>
 
                                                 <div class="col-lg-12" style="margin-top: 10px;text-align:center;width:220px;padding-right:0px;">
                                                     <div class="col-lg-8">
@@ -559,11 +564,13 @@
                                 </div>
                             </div>
 
-                            <div>
-                                <p class="group-header-description">add categories and products to your store, retail stores come populated with a default database while private stores are blank in order to allow for you to add your customers products and categories</p>
-                            </div>
+                           
                             <div class="tab-pane fade" id="tab-products">
                                 
+                                <div>
+                                    <p class="group-header-description">add categories and products to your store, retail stores come populated with a default database while private stores are blank in order to allow for you to add your customers products and categories</p>
+                                </div>
+
                                 <div class="col-lg-4" data-bind="with: $root.selectedStore">
                                    
                                     <div class="clearfix">

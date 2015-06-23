@@ -2721,11 +2721,15 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         if (oObject.ObjectId != -999)
                         {
-                            oObject.PositionX = Math.Round(DesignerUtils.PixelToPoint(oObject.PositionX.Value), 6);
+                            if(oObject.PositionX.HasValue)
+                                oObject.PositionX = Math.Round(DesignerUtils.PixelToPoint(oObject.PositionX.Value), 6);
                             oObject.PositionY = Math.Round(DesignerUtils.PixelToPoint(oObject.PositionY.Value), 6);
-                            oObject.FontSize = Math.Round(DesignerUtils.PixelToPoint(oObject.FontSize.Value), 6);
-                            oObject.MaxWidth = Math.Round(DesignerUtils.PixelToPoint(oObject.MaxWidth.Value), 6);
-                            oObject.MaxHeight = Math.Round(DesignerUtils.PixelToPoint(oObject.MaxHeight.Value), 6);
+                            if(oObject.FontSize.HasValue)
+                              oObject.FontSize = Math.Round(DesignerUtils.PixelToPoint(oObject.FontSize.Value), 6);
+                            if(oObject.MaxWidth.HasValue)
+                                 oObject.MaxWidth = Math.Round(DesignerUtils.PixelToPoint(oObject.MaxWidth.Value), 6);
+                            if(oObject.MaxHeight.HasValue)
+                                oObject.MaxHeight = Math.Round(DesignerUtils.PixelToPoint(oObject.MaxHeight.Value), 6);
                             if (oObject.CharSpacing != null)
                             {
                                 oObject.CharSpacing = Convert.ToDouble(DesignerUtils.PixelToPoint(Convert.ToDouble(oObject.CharSpacing.Value)));

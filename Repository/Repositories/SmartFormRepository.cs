@@ -489,7 +489,7 @@ namespace MPC.Repository.Repositories
                             int scope = obj.FieldVariable.Scope.Value;
                             if (scope == (int)FieldVariableScopeType.Address)
                             {
-                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contact.AddressId).SingleOrDefault();
+                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contact.AddressId).FirstOrDefault();
                                 if (scopeObj != null)
                                 {
                                     if (scopeObj != null)
@@ -511,7 +511,7 @@ namespace MPC.Repository.Repositories
                             }
                             else if (scope == (int)FieldVariableScopeType.Contact)
                             {
-                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contactId).SingleOrDefault();
+                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contactId).FirstOrDefault();
                                 if (scopeObj != null)
                                 {
                                     if (scopeObj != null)
@@ -540,7 +540,7 @@ namespace MPC.Repository.Repositories
                             }
                             else if (scope == (int)FieldVariableScopeType.Store)
                             {
-                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == obj.FieldVariable.CompanyId).SingleOrDefault();
+                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == obj.FieldVariable.CompanyId).FirstOrDefault();
                                 if (scopeObj != null)
                                 {
                                     result.Add(scopeObj);
@@ -563,7 +563,7 @@ namespace MPC.Repository.Repositories
                                // var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
                                 if (contact != null)
                                 {
-                                    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contact.TerritoryId).SingleOrDefault();
+                                    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contact.TerritoryId).FirstOrDefault();
                                     if (scopeObj != null)
                                     {
                                         if (scopeObj != null)
@@ -602,6 +602,12 @@ namespace MPC.Repository.Repositories
                 var fieldVariable = db.FieldVariables.Where(g => g.VariableId == item.VariableId).SingleOrDefault();
                 if(fieldVariable != null)
                 {
+                    fieldVariable.Company = null;
+                    fieldVariable.SmartFormDetails = null;
+                    fieldVariable.TemplateVariables = null;
+                    fieldVariable.VariableExtensions = null;
+                    fieldVariable.VariableOptions = null;
+                   
                     lstVariables.Add(fieldVariable);
                 }
             }
@@ -711,7 +717,7 @@ namespace MPC.Repository.Repositories
                         int scope = obj.Scope.Value;
                         if (scope == (int)FieldVariableScopeType.Address)
                         {
-                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contact.AddressId).SingleOrDefault();
+                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contact.AddressId).FirstOrDefault();
                             if (scopeObj != null)
                             {
                                 result.Add(scopeObj);
@@ -730,7 +736,7 @@ namespace MPC.Repository.Repositories
                         }
                         else if (scope == (int)FieldVariableScopeType.Contact)
                         {
-                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contactId).SingleOrDefault();
+                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contactId).FirstOrDefault();
                             if (scopeObj != null)
                             {
                                 result.Add(scopeObj);
@@ -757,7 +763,7 @@ namespace MPC.Repository.Repositories
                         }
                         else if (scope == (int)FieldVariableScopeType.Store)
                         {
-                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == obj.CompanyId).SingleOrDefault();
+                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == obj.CompanyId).FirstOrDefault();
                             if (scopeObj != null)
                             {
                                 result.Add(scopeObj);
@@ -780,7 +786,7 @@ namespace MPC.Repository.Repositories
                             // var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
                             if (contact != null)
                             {
-                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contact.TerritoryId).SingleOrDefault();
+                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contact.TerritoryId).FirstOrDefault();
                                 if (scopeObj != null)
                                 {
                                     result.Add(scopeObj);
@@ -879,7 +885,7 @@ namespace MPC.Repository.Repositories
                 List<ScopeVariable> allTemplateVariables = GetTemplateScopeVariables(templateId, contact.ContactId);
                 foreach (var item in allTemplateVariables)
                 {
-                    var sVariable = variables.Where(g => g.FieldVariable.VariableId == item.FieldVariable.VariableId).SingleOrDefault();
+                    var sVariable = variables.Where(g => g.FieldVariable.VariableId == item.FieldVariable.VariableId).FirstOrDefault();
                     if (sVariable == null)
                     {
                         if (item.FieldVariable != null)
@@ -1007,7 +1013,7 @@ namespace MPC.Repository.Repositories
                                 {
                                     if (contact != null)
                                     {
-                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contact.AddressId).SingleOrDefault();
+                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contact.AddressId).FirstOrDefault();
                                         if (scopeObj != null)
                                         {
                                             scopeObj.Value = scope.Value;
@@ -1021,7 +1027,7 @@ namespace MPC.Repository.Repositories
                                 }
                                 else if (variable.Scope.Value == (int)FieldVariableScopeType.Contact)
                                 {
-                                    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contactId).SingleOrDefault();
+                                    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contactId).FirstOrDefault();
                                     if (scopeObj != null)
                                     {
                                         scopeObj.Value = scope.Value;
@@ -1041,7 +1047,7 @@ namespace MPC.Repository.Repositories
                                 }
                                 else if (variable.Scope.Value == (int)FieldVariableScopeType.Store)
                                 {
-                                    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == variable.CompanyId).SingleOrDefault();
+                                    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == variable.CompanyId).FirstOrDefault();
                                     if (scopeObj != null)
                                     {
                                         scopeObj.Value = scope.Value;
@@ -1056,7 +1062,7 @@ namespace MPC.Repository.Repositories
                                 {
                                     if (contact != null)
                                     {
-                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contact.TerritoryId).SingleOrDefault();
+                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contact.TerritoryId).FirstOrDefault();
                                         if (scopeObj != null)
                                         {
                                             scopeObj.Value = scope.Value;
@@ -1227,7 +1233,7 @@ namespace MPC.Repository.Repositories
                                     int scope = FieldVariable.Scope.Value;
                                     if (scope == (int)FieldVariableScopeType.Address)
                                     {
-                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == contact.AddressId).SingleOrDefault();
+                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == contact.AddressId).FirstOrDefault();
                                         if (scopeObj != null)
                                         {
                                             result.Add(scopeObj);
@@ -1246,7 +1252,7 @@ namespace MPC.Repository.Repositories
                                     }
                                     else if (scope == (int)FieldVariableScopeType.Contact)
                                     {
-                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == contactID).SingleOrDefault();
+                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == contactID).FirstOrDefault();
                                         if (scopeObj != null)
                                         {
                                             result.Add(scopeObj);
@@ -1273,7 +1279,7 @@ namespace MPC.Repository.Repositories
                                     }
                                     else if (scope == (int)FieldVariableScopeType.Store)
                                     {
-                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == FieldVariable.CompanyId).SingleOrDefault();
+                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == FieldVariable.CompanyId).FirstOrDefault();
                                         if (scopeObj != null)
                                         {
                                             result.Add(scopeObj);
@@ -1296,7 +1302,7 @@ namespace MPC.Repository.Repositories
                                         // var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
                                         if (contact != null)
                                         {
-                                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == contact.TerritoryId).SingleOrDefault();
+                                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == contact.TerritoryId).FirstOrDefault();
                                             if (scopeObj != null)
                                             {
                                                 result.Add(scopeObj);
@@ -1362,10 +1368,10 @@ namespace MPC.Repository.Repositories
             result = true;
             return result;
         }
-        public List<VariableExtension> getVariableExtensions(List<ScopeVariable> listScope, long contactId)
+        public List<VariableExtensionWebstoreResposne> getVariableExtensions(List<ScopeVariable> listScope, long contactId)
         {
             db.Configuration.LazyLoadingEnabled = false;
-            List<VariableExtension> listExtensions = new List<VariableExtension>();
+            List<VariableExtensionWebstoreResposne> listExtensions = new List<VariableExtensionWebstoreResposne>();
             var contact = db.CompanyContacts.Where(g=>g.ContactId == contactId).SingleOrDefault();
             if(contact != null)
             {
@@ -1377,7 +1383,16 @@ namespace MPC.Repository.Repositories
                         var ext = db.VariableExtensions.Where(g => g.CompanyId == company.CompanyId && g.FieldVariableId == variable.FieldVariable.VariableId).SingleOrDefault();
                         if(ext != null)
                         {
-                            listExtensions.Add(ext);
+                            VariableExtensionWebstoreResposne obj = new VariableExtensionWebstoreResposne();
+                            obj.CollapsePostfix = ext.CollapsePostfix;
+                            obj.CollapsePrefix = ext.CollapsePrefix;
+                            obj.CompanyId = ext.CompanyId;
+                            obj.FieldVariableId = ext.FieldVariableId;
+                            obj.Id = ext.Id;
+                            obj.VariablePostfix = ext.VariablePostfix;
+                            obj.VariablePrefix = ext.VariablePrefix;
+
+                            listExtensions.Add(obj);
                         }
                     }
                 
