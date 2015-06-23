@@ -49,7 +49,7 @@ namespace MPC.Webstore
             DatabaseFactory.SetDatabaseProviderFactory(new DatabaseProviderFactory());
             IConfigurationSource configurationSource = ConfigurationSourceFactory.Create();
             LogWriterFactory logWriterFactory = new LogWriterFactory(configurationSource);
-            // Logger.SetLogWriter(logWriterFactory.Create());
+          //  Logger.SetLogWriter(logWriterFactory.Create());
         }
         /// <summary>
         /// Create the unity container
@@ -68,7 +68,7 @@ namespace MPC.Webstore
         {
             MPC.WebBase.TypeRegistrations.RegisterTypes(container);
             MPC.Implementation.TypeRegistrations.RegisterType(container);
-
+            MPC.ExceptionHandling.TypeRegistrations.RegisterType(container);
         }
         /// <summary>
         /// Register unity 
