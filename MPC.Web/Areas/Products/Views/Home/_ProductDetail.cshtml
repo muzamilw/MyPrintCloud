@@ -182,9 +182,9 @@
 
                                             </div>
                                             <div class="col-lg-9">
-                                                <label class="control-label" data-bind="html: availableProductCategoryItems">
+                                                <label class="control-label" style="text-align: left" data-bind="html: availableProductCategoryItems">
                                                 </label>
-                                                <a href="#" id="productCategorySelectorLink" style="margin-left:4px;" data-bind="click: $root.openProductCategoryDialog, validationOnElement: productCategoryElement, css:{ errorFill: !availableProductCategoryItems() }">
+                                                <a href="#" id="productCategorySelectorLink" style="margin-left:4px;" data-bind="click: $root.openProductCategoryDialog, validationOnElement: productCategoryElement, css:{ errorFill: !availableProductCategoryItems() && shouldValidateCategory() }">
                                                     <i class="fa fa-lg"></i>&nbsp;Select Categories
                                                 </a>
 
