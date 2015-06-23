@@ -334,11 +334,11 @@
                                                     <label class="control-label" style="float: right; padding-right: 5px; ">Quantity</label>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <div class="col-sm-5">
+                                                    <div class="col-sm-6">
                                                         <input type="text" class="form-control font20px" style="text-align: right; width: 87%; margin-left: -6.5% " data-bind="value: qty1, validationOnElement: qty1" id="qty1" />
                                                     </div>
                                                     <!--ko if: $root.isEstimateScreen()-->
-                                                    <div class="col-sm-5">
+                                                    <div class="col-sm-6">
                                                         <input type="text" class="form-control font20px" style="text-align:right; width: 92%; margin-left: -21%" data-bind="value: qty2, validationOnElement: qty2" id="qty2" />       
                                                     </div>
                                                     <!--/ko-->
@@ -537,7 +537,7 @@
             </td>
             <!--ko if: $root.isEstimateScreen()-->
             <td style="text-align: right">
-                <div class="col-sm-6" style="padding-right: 10%;">
+                <div class="col-sm-6">  @*style="padding-right: 10%;"*@
                     <span class="font20px" data-bind="text:$root.currencySymbol" style="color: #3498db"></span> <a href="#" class="font20px" data-bind="numberInput: qty2NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 2)}"></a>
                 </div>
                 <div class="col-sm-6">

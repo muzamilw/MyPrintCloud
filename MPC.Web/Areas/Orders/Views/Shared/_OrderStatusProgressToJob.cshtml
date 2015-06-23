@@ -33,7 +33,8 @@
                                 <label class="control-label text-right tooltip-float">Select Job Manager</label>
                             </div>
                             <div class="col-lg-5">
-                                <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsCaption: 'Select job manager',value:jobManagerUser"></select>
+                                @*<select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsCaption: 'Select job manager', optionsValue: jobManagerUser "></select>*@ @*,value:jobManagerUser*@
+                                <select class="form-control" id="systemUsers" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsValue: 'id',value:jobManagerUser"></select>
                             </div>
                         </div>
                         <div class="form-group">

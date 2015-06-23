@@ -1,5 +1,6 @@
 ﻿using MPC.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +17,7 @@ namespace MPC.Interfaces.WebStoreServices
         bool SaveTemplateVariables(List<TemplateVariablesObj> obj);
         List<SmartFormUserList> GetUsersList(long contactId);
 
-        SmartForm GetSmartForm(long smartFormId);
+        SmartFormWebstoreResponse GetSmartForm(long smartFormId);
 
         List<SmartFormDetail> GetSmartFormObjects(long smartFormId);
 
@@ -31,7 +32,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<ScopeVariable> GetTemplateScopeVariables(long templateID, long contactId);
         bool AutoResolveTemplateVariables(long itemID, long contactId);
 
-        List<VariableExtension> getVariableExtensions(List<ScopeVariable> listScope, long contactId);
+        List<VariableExtensionWebstoreResposne> getVariableExtensions(List<ScopeVariable> listScope, long contactId);
 
     }
 }
