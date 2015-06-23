@@ -894,13 +894,57 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             removeItemRelatedItem = function (item) {
                 itemRelatedItems.remove(item);
             },
+            // Last Active Stock Option tab
+            lastActiveStockOptionTab = ko.observable(),
+            // Set New Stock Option Tab Active
+            setNewStockOptionTabActive = function (element) {
+                var active = $('#stockLabelTabListItem').find('> .active');
+                if (active) {
+                    active.removeClass('active');
+                }
+                var tabListItem = $('#stockLabelTabListItem a[href=#' + element.id + ']');
+                if (tabListItem) {
+                    tabListItem.tab('show');
+                }
+                var activeContentItem = $('#stockLabelTabListItemDetails').find('> .active');
+                if (activeContentItem) {
+                    activeContentItem.removeClass('in active');
+                }
+                var tabContentItem = $('#stockLabelTabListItemDetails #' + element.id);
+                if (tabContentItem) {
+                    tabContentItem.addClass('in active');
+                }
+            },
+            // Wireup Item Stock Option Tab Events
+            wireupItemStockOptionTabEvents = function (stockOption) {
+                setTimeout(function () {
+                    var index = itemStockOptions.indexOf(stockOption);
+                    if (index >= 0) {
+                        var stockOptionItem = itemStockOptions()[index];
+                        if (stockOptionItem) {
+                            if (stockOptionItem.stockItemName && stockOptionItem.stockItemName.domElement) {
+                                $(stockOptionItem.stockItemName.domElement).on('click', function () {
+                                    setNewStockOptionTabActive(stockOptionItem.stockItemName.domElement);
+                                });
+                                setNewStockOptionTabActive(stockOptionItem.stockItemName.domElement);
+                            }
+                        }
+                    }
+                }, 500);
+            },
             // Add Item Stock Option
             addItemStockOption = function () {
-                itemStockOptions.push(ItemStockOption.Create({ ItemId: id() }, callbacks));
+                var stockOption = ItemStockOption.Create({ ItemId: id() }, callbacks);
+                itemStockOptions.push(stockOption);
+                wireupItemStockOptionTabEvents(stockOption);
             },
             // Remove Item Stock Option
             removeItemStockOption = function (itemStockOption) {
                 itemStockOptions.remove(itemStockOption);
+                if (!$('#stockLabelTabListItem li a').last()[0]) {
+                    return;
+                }
+                setNewStockOptionTabActive($('#stockLabelTabListItem li a').last()[0]);
             },
             // On Add Item Cost Centre
             onAddItemCostCentre = function (itemStockOption) {
@@ -1282,6 +1326,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
                 return (isFinishedGoodsUi() === '1') && (templateTypeUi() === '1') && (template() && template().templatePages().length > 0);
             },
+            // Has a category
+            hasInvalidCategroy = function() {
+                return !availableProductCategoryItems();
+            },
             // Is Valid
             isValid = ko.computed(function () {
                 return errors().length === 0 && itemVdpPrices.filter(function (itemVdpPrice) {
@@ -1294,6 +1342,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     return !itemSection.isValid();
                 }).length === 0 &&
                 template().isValid() &&
+                !hasInvalidCategroy() && 
                 hasTemplatePagesForManual();
             }),
             // Show All Error Messages
@@ -1844,6 +1893,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemPriceMatricesForSupplierId2: itemPriceMatricesForSupplierId2,
             addItemStockOption: addItemStockOption,
             removeItemStockOption: removeItemStockOption,
+            wireupItemStockOptionTabEvents: wireupItemStockOptionTabEvents,
             chooseStockItem: chooseStockItem,
             activeStockOption: activeStockOption,
             activeItemSection: activeItemSection,
@@ -4076,15 +4126,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         // Map Item Stock Options if any
         if (source.ItemStockOptions && source.ItemStockOptions.length > 0) {
-            var itemStockOptions = [];
-
             _.each(source.ItemStockOptions, function (itemStockOption) {
-                itemStockOptions.push(ItemStockOption.Create(itemStockOption, callbacks));
+                var stockOption = ItemStockOption.Create(itemStockOption, callbacks);
+                item.itemStockOptions.push(stockOption);
+                item.wireupItemStockOptionTabEvents(stockOption);
             });
-
-            // Push to Original Item
-            ko.utils.arrayPushAll(item.itemStockOptions(), itemStockOptions);
-            item.itemStockOptions.valueHasMutated();
         }
         else {
             // Add one atleast if Newly Created Product

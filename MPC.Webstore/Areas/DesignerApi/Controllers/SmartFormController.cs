@@ -1,4 +1,5 @@
-﻿using MPC.Common;
+﻿using AutoMapper;
+using MPC.Common;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
 using Newtonsoft.Json;
@@ -172,7 +173,33 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             this.smartForm = smartForm;
             this.smartFormObjs = smartFormObjs;
             this.scopeVariables = scopeVariables;
-            this.AllUserScopeVariables = AllUserScopeVariables;
+
+            if (AllUserScopeVariables != null)
+            {
+              foreach (var item in AllUserScopeVariables)
+              {
+                  foreach(var scope in item.Value)
+                  {
+                      if(scope.FieldVariable != null)
+                      {
+                          if(scope.FieldVariable.Company != null)
+                          {
+                              scope.FieldVariable.Company = null;
+                          }
+                      }
+                  }
+              }
+              this.AllUserScopeVariables = AllUserScopeVariables;
+            }
+            else
+            {
+                this.AllUserScopeVariables = AllUserScopeVariables;
+            }
+         
+
+          
+
+            
             this.variableExtensions = variableExtensions;
         }
     }

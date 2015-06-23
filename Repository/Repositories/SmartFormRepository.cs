@@ -829,6 +829,7 @@ namespace MPC.Repository.Repositories
 
         public Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails,List<SmartFormUserList> contacts,long templateId) {
             bool hasContactVariables = false;
+            db.Configuration.LazyLoadingEnabled = false;
             Dictionary<long, List<ScopeVariable>> UserScopeVariables = new Dictionary<long, List<ScopeVariable>>();
             foreach(var contact in contacts)
             {
@@ -837,8 +838,12 @@ namespace MPC.Repository.Repositories
               //  variablesList = variables;
                 foreach (var variable in variables)
                 {
-                    if(variable == null)
+                    if (variable == null)
                         variablesToRemove.Add(variable);
+                    else
+                        if(variable.FieldVariable != null)
+                            if(variable.FieldVariable.Company != null)
+                               variable.FieldVariable.Company = null;
                 }
                 foreach(var variable in variablesToRemove)
                 {
@@ -850,9 +855,14 @@ namespace MPC.Repository.Repositories
                     var sVariable = variables.Where(g => g.FieldVariable.VariableId == item.FieldVariable.VariableId).SingleOrDefault();
                     if (sVariable == null)
                     {
+                        if (item.FieldVariable != null)
+                            if (item.FieldVariable.Company != null)
+                                item.FieldVariable.Company = null;
                         variables.Add(item);
+
                     }
                 }
+                
                 UserScopeVariables.Add(contact.ContactId, variables);
             }
             return UserScopeVariables;
