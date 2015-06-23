@@ -1,6 +1,8 @@
-﻿using MPC.Common;
+﻿using AutoMapper;
+using MPC.Common;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -71,7 +73,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         public HttpResponseMessage GetSmartFormData(long parameter1,long parameter2,long parameter3)
         {
             List<SmartFormUserList> usersListData = null;
-            SmartForm objSmartform = smartFormService.GetSmartForm(parameter2);
+            SmartFormWebstoreResponse objSmartform = smartFormService.GetSmartForm(parameter2);
             List<SmartFormDetail> smartFormObjs = smartFormService.GetSmartFormObjects(parameter2);
             bool hasContactVariables = false;
             Dictionary<long, List<ScopeVariable>> AllUserScopeVariables = null;
@@ -159,20 +161,46 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
     public class SmartFormUserData
     {
         public List<SmartFormUserList> usersList { get; set; }
-        public SmartForm smartForm { get; set; }
+        public SmartFormWebstoreResponse smartForm { get; set; }
         public List<SmartFormDetail> smartFormObjs { get; set; }
 
         public List<ScopeVariable> scopeVariables { get; set; }
         public Dictionary<long, List<ScopeVariable>> AllUserScopeVariables;
 
         public List<VariableExtension> variableExtensions { get; set; }
-        public SmartFormUserData(List<SmartFormUserList> usersList, SmartForm smartForm, List<SmartFormDetail> smartFormObjs, List<ScopeVariable> scopeVariables, Dictionary<long, List<ScopeVariable>> AllUserScopeVariables, List<VariableExtension> variableExtensions)
+        public SmartFormUserData(List<SmartFormUserList> usersList, SmartFormWebstoreResponse smartForm, List<SmartFormDetail> smartFormObjs, List<ScopeVariable> scopeVariables, Dictionary<long, List<ScopeVariable>> AllUserScopeVariables, List<VariableExtension> variableExtensions)
         {
             this.usersList = usersList;
             this.smartForm = smartForm;
             this.smartFormObjs = smartFormObjs;
             this.scopeVariables = scopeVariables;
-            this.AllUserScopeVariables = AllUserScopeVariables;
+
+            if (AllUserScopeVariables != null)
+            {
+              foreach (var item in AllUserScopeVariables)
+              {
+                  foreach(var scope in item.Value)
+                  {
+                      if(scope.FieldVariable != null)
+                      {
+                          if(scope.FieldVariable.Company != null)
+                          {
+                              scope.FieldVariable.Company = null;
+                          }
+                      }
+                  }
+              }
+              this.AllUserScopeVariables = AllUserScopeVariables;
+            }
+            else
+            {
+                this.AllUserScopeVariables = AllUserScopeVariables;
+            }
+         
+
+          
+
+            
             this.variableExtensions = variableExtensions;
         }
     }

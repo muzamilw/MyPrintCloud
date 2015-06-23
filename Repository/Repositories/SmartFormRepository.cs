@@ -216,7 +216,7 @@ namespace MPC.Repository.Repositories
             }
             return objUsers;
         }
-         public SmartForm GetSmartForm(long smartFormId)
+        public SmartFormWebstoreResponse GetSmartForm(long smartFormId)
         {
             db.Configuration.LazyLoadingEnabled = false;
             db.Configuration.ProxyCreationEnabled = false;
@@ -224,7 +224,18 @@ namespace MPC.Repository.Repositories
             SmartForm smartFormObj =  db.SmartForms.Where(g => g.SmartFormId == smartFormId).SingleOrDefault();
             if(smartFormObj != null)
              smartFormObj.SmartFormDetails = null;
-            return smartFormObj;
+            if (smartFormObj != null)
+                smartFormObj.Company = null;
+
+
+            SmartFormWebstoreResponse res = new SmartFormWebstoreResponse();
+            res.CompanyId = smartFormObj.CompanyId;
+            res.Heading = smartFormObj.Heading;
+            res.Name = smartFormObj.Name;
+            res.OrganisationId = smartFormObj.OrganisationId;
+            res.SmartFormId = smartFormObj.SmartFormId;
+
+            return res;
         }
 
         public List<SmartFormDetail> GetSmartFormObjects(long smartFormId)
@@ -255,7 +266,11 @@ namespace MPC.Repository.Repositories
                         if (contact != null)
                         {
 
-
+                            obj.FieldVariable.Company = null;
+                            obj.FieldVariable.ScopeVariables = null;
+                            obj.FieldVariable.SmartFormDetails = null;
+                            obj.FieldVariable.TemplateVariables = null;
+                            obj.FieldVariable.VariableExtensions = null;
                             switch (obj.FieldVariable.RefTableName)
                             {
                                 case "tbl_Listing":
@@ -451,6 +466,11 @@ namespace MPC.Repository.Repositories
                             objScopeVariable.Scope = 0;
                             objScopeVariable.VariableId = obj.FieldVariable.VariableId;
                             objScopeVariable.Value = fieldValue;
+                            obj.FieldVariable.Company = null;
+                            obj.FieldVariable.ScopeVariables = null;
+                            obj.FieldVariable.SmartFormDetails = null;
+                            obj.FieldVariable.TemplateVariables = null;
+                            obj.FieldVariable.VariableExtensions = null;
                             objScopeVariable.FieldVariable = obj.FieldVariable;
                             if(obj != null)
                                 result.Add(objScopeVariable);
@@ -460,6 +480,12 @@ namespace MPC.Repository.Repositories
                     {
                         if (obj.FieldVariable != null && obj.FieldVariable.Scope.HasValue)
                         {
+                             obj.FieldVariable.Company = null;
+                            obj.FieldVariable.ScopeVariables = null;
+                            obj.FieldVariable.SmartFormDetails = null;
+                            obj.FieldVariable.TemplateVariables = null;
+                            obj.FieldVariable.VariableExtensions = null;
+
                             int scope = obj.FieldVariable.Scope.Value;
                             if (scope == (int)FieldVariableScopeType.Address)
                             {
@@ -477,6 +503,7 @@ namespace MPC.Repository.Repositories
                                     objScopeVariable.Value = obj.FieldVariable.DefaultValue;
                                     objScopeVariable.Id = contact.AddressId;
                                     objScopeVariable.Scope = scope;
+
                                     objScopeVariable.FieldVariable = obj.FieldVariable;
                                     if (objScopeVariable != null)
                                         result.Add(objScopeVariable);
@@ -829,6 +856,7 @@ namespace MPC.Repository.Repositories
 
         public Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails,List<SmartFormUserList> contacts,long templateId) {
             bool hasContactVariables = false;
+            db.Configuration.LazyLoadingEnabled = false;
             Dictionary<long, List<ScopeVariable>> UserScopeVariables = new Dictionary<long, List<ScopeVariable>>();
             foreach(var contact in contacts)
             {
@@ -837,8 +865,12 @@ namespace MPC.Repository.Repositories
               //  variablesList = variables;
                 foreach (var variable in variables)
                 {
-                    if(variable == null)
+                    if (variable == null)
                         variablesToRemove.Add(variable);
+                    else
+                        if(variable.FieldVariable != null)
+                            if(variable.FieldVariable.Company != null)
+                               variable.FieldVariable.Company = null;
                 }
                 foreach(var variable in variablesToRemove)
                 {
@@ -850,9 +882,14 @@ namespace MPC.Repository.Repositories
                     var sVariable = variables.Where(g => g.FieldVariable.VariableId == item.FieldVariable.VariableId).SingleOrDefault();
                     if (sVariable == null)
                     {
+                        if (item.FieldVariable != null)
+                            if (item.FieldVariable.Company != null)
+                                item.FieldVariable.Company = null;
                         variables.Add(item);
+
                     }
                 }
+                
                 UserScopeVariables.Add(contact.ContactId, variables);
             }
             return UserScopeVariables;

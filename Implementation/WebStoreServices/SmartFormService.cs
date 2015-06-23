@@ -2,6 +2,7 @@
 using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -40,7 +41,7 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _smartFormRepository.GetUsersList(contactId);
         }
-        public SmartForm GetSmartForm(long smartFormId)
+        public SmartFormWebstoreResponse GetSmartForm(long smartFormId)
         {
             return _smartFormRepository.GetSmartForm(smartFormId);
         }
