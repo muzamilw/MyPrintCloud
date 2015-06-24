@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -22,5 +23,9 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
 
         public double? TaxRate { get; set; }
+        /// <summary>
+        /// Job Manager Id
+        /// </summary>
+        public Guid? JobManagerId { get; set; }
     }
 }

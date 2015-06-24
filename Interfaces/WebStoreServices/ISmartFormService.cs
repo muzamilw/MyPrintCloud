@@ -32,7 +32,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<ScopeVariable> GetTemplateScopeVariables(long templateID, long contactId);
         bool AutoResolveTemplateVariables(long itemID, long contactId);
 
-        List<VariableExtension> getVariableExtensions(List<ScopeVariable> listScope, long contactId);
+        List<VariableExtensionWebstoreResposne> getVariableExtensions(List<ScopeVariable> listScope, long contactId);
 
     }
 }

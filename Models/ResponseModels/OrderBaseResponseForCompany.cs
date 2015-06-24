@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MPC.Models.DomainModels;
 
 namespace MPC.Models.ResponseModels
@@ -23,5 +24,10 @@ namespace MPC.Models.ResponseModels
         /// </summary>
 
         public double? TaxRate { get; set; }
+
+        /// <summary>
+        /// Job Manager Id
+        /// </summary>
+        public Guid? JobManagerId { get; set; }
     }
 }
