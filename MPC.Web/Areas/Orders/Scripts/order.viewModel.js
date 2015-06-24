@@ -312,13 +312,11 @@ define("order/order.viewModel",
                             isOrderDetailsVisible(true);
                             if (itemIdFromDashboard() !== 0 && itemIdFromDashboard() !== '') { //here
                                 $('#orderDetailTabs a[href="#tab-EstimateHeader"]').tab('show');
-                                showProgress();
                                 var product = _.find(selectedOrder().nonDeliveryItems(), function (obj) {
                                     return obj.id() == itemIdFromDashboard();
                                 });
                                 if (product) {
                                     editItem(product);
-                                    hideProgress();
                                 }
                             }
                         }
