@@ -86,14 +86,10 @@
             </a>
         </td>
         <td>
-            <a class="user-link font20px">
-                <span data-bind="text: companyName"></span>
-            </a>
+            <span data-bind="text: companyName"></span>
         </td>
         <td>
-            <a class="user-link font20px">
-                <span data-bind="text: storeName"></span>
-            </a>
+            <span data-bind="text: storeName"></span>
         </td>
     </tr>
 </script>
@@ -104,7 +100,7 @@
         <form data-bind="submit: $root.searchCompanies">
             <div class="filter-block pull-right">
                 <div class="form-group pull-right">
-                    <input type="text" class="form-control" placeholder="Search" data-bind="value: companyDialogFilter">
+                    <input type="text" class="form-control" id="companySearchFilter" placeholder="Search" >
                     <i class="fa fa-search search-icon" data-bind="click: $root.searchCompanies"></i>
                 </div>
             </div>

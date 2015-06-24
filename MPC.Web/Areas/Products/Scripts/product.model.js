@@ -1439,7 +1439,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     return !itemSection.isValid();
                 });
                 if (itemSectionInvalid) {
-                    if (itemSectionInvalid.name.error || itemSectionInvalid.pressId.error || itemSectionInvalid.stockItemId.error) {
+                    if (itemSectionInvalid.name.error || itemSectionInvalid.pressId.error || itemSectionInvalid.stockItemId.error ||
+                        itemSectionInvalid.itemGutterHorizontal.error) {
                         var nameElement = itemSectionInvalid.name.domElement;
                         var errorName = "";
                         if (itemSectionInvalid.name.error) {
@@ -1450,6 +1451,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         }
                         else if (itemSectionInvalid.stockItemId.error) {
                             errorName = "Section Stock Item";
+                        }
+                        else if (itemSectionInvalid.itemGutterHorizontal.error) {
+                            errorName = "Gutter value must be a number from 0 to 99";
                         }
                         validationSummaryList.push({ name: errorName, element: nameElement });
                     }
@@ -2619,7 +2623,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedPressId, specifiedStockItemId, specifiedStockItemName, specifiedPressName, specifiedItemId, specifiedIsDoubleSided, specifiedIsWorknTurn,
         specifiedPrintViewLayoutPortrait, specifiedPrintViewLayoutLandscape, specifiedIsPortrait, specifiedPressIdSide2, specifiedImpressionCoverageSide1,
         specifiedImpressionCoverageSide2, specifiedPrintingType, specifiedPressSide1ColourHeads, specifiedPressSide1IsSpotColor,
-        specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty) {
+        specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty, specifiedItemGutterHorizontal) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -2755,6 +2759,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             pressIdSide1IsSpotColor = ko.observable(specifiedPressSide1IsSpotColor || false),
             // Press Id Side 2 Is Spot Color
             pressIdSide2IsSpotColor = ko.observable(specifiedPressSide2IsSpotColor || false),
+            // Item Gutter Horizontal
+            itemGutterHorizontal = ko.observable(specifiedItemGutterHorizontal || 0).extend({ number: true, min: 0, max: 99 }),
             // Select Stock Item
             selectStock = function (stockItem) {
                 if (!stockItem || stockItemId() === stockItem.id) {
@@ -2789,7 +2795,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Errors
             errors = ko.validation.group({
                 name: name,
-                stockItemId: stockItemId
+                stockItemId: stockItemId,
+                itemGutterHorizontal: itemGutterHorizontal
             }),
             // Is Valid
             isValid = ko.computed(function () {
@@ -2816,7 +2823,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 pressIdSide2: pressIdSide2,
                 impressionCoverageSide1: impressionCoverageSide1,
                 impressionCoverageSide2: impressionCoverageSide2,
-                printingType: printingType
+                printingType: printingType,
+                itemGutterHorizontal: itemGutterHorizontal
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -2853,6 +2861,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     ImpressionCoverageSide1: impressionCoverageSide1(),
                     ImpressionCoverageSide2: impressionCoverageSide2(),
                     PrintingType: printingType(),
+                    ItemGutterHorizontal: itemGutterHorizontal(),
                     SectionInkCoverages: sectionInkCoverageList.map(function (sic) {
                         var inkCoverage = sic.convertToServerData();
                         return inkCoverage;
@@ -2892,6 +2901,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             swapItemHeightWidth: swapItemHeightWidth,
             numberUp: numberUp,
             printingTypeUi: printingTypeUi,
+            itemGutterHorizontal: itemGutterHorizontal,
             pressIdSide1ColourHeads: pressIdSide1ColourHeads,
             pressIdSide2ColourHeads: pressIdSide2ColourHeads,
             pressIdSide1IsSpotColor: pressIdSide1IsSpotColor,
@@ -4024,7 +4034,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.ItemSizeWidth, source.PressId, source.StockItemId1, source.StockItem1Name, source.PressName, source.ItemId, source.IsDoubleSided, source.IsWorknTurn,
             source.PrintViewLayoutPortrait, source.PrintViewLayoutLandScape, source.IsPortrait,
             source.PressIdSide2, source.ImpressionCoverageSide1, source.ImpressionCoverageSide2, source.PrintingType,
-            source.PressSide1ColourHeads, source.PressSide1IsSpotColor, source.PressSide2ColourHeads, source.PressSide2IsSpotColor, source.StockItemPackageQty);
+            source.PressSide1ColourHeads, source.PressSide1IsSpotColor, source.PressSide2ColourHeads, source.PressSide2IsSpotColor, source.StockItemPackageQty,
+            source.ItemGutterHorizontal);
         
         // Map Section Ink Coverage if Any
         if (source.SectionInkCoverages && source.SectionInkCoverages.length > 0) {
