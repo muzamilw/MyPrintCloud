@@ -25,6 +25,20 @@
                                     &nbsp;
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div class="radio col-sm-2" style="width: 12%;margin-left: 2%">
+                                    <input type="radio" name="optionsRadiosFirst" id="optionsRadiosFirst_1" value="1" data-bind="checked: printingTypeUi">
+                                    <label for="optionsRadiosFirst_1">
+                                        Sheet Fed
+                                    </label>
+                                </div>
+                                <div class="radio col-sm-2" style="width: 12%;">
+                                    <input type="radio" name="optionsRadiosFirst" id="optionsRadiosFirst_2" value="2" data-bind="checked: printingTypeUi">
+                                    <label for="optionsRadiosFirst_2">
+                                        Roll Fed
+                                    </label>
+                                </div>
+                            </div>
                             <div class="form-group" style="margin-bottom: 0;">
                                 <div class="col-sm-2 col-lg-2 text-left" style="padding-left: 2.5%;">
                                     <label for="switchPrintOnBothSides" data-bind="visible: printingTypeUi() !== '2'" style="float:left" class="control-label text-left tooltip-float">Print on both sides</label>
@@ -43,9 +57,8 @@
                                     <!-- ko if: printingTypeUi() === '2' -->
                                     &nbsp;
                                     <!-- /ko -->
-                                    
                                 </div>
-                                <div class="col-sm-4" style="padding-left: 0.1%;">
+                                <div class="col-sm-3" style="padding-left: 0.1%;">
                                     <div class="col-sm-2"></div>
                                     <div class="col-sm-4">
                                         <label for="switchworknturn" data-bind="visible:isDoubleSidedUi() && printingTypeUi() !== '2'" style="float:left" class="control-label text-left tooltip-float">Work 'n' Turn</label>
@@ -71,18 +84,13 @@
                                     &nbsp;
                                     <!-- /ko -->
                                 </div>
-                                <div class="form-group">
-                                    <div class="radio col-sm-2" style=" width: 18%; padding-left: 6%;">
-                                        <input type="radio" name="optionsRadiosFirst" id="optionsRadiosFirst_1" value="1" data-bind="checked: printingTypeUi">
-                                        <label for="optionsRadiosFirst_1">
-                                            Sheet Fed
-                                        </label>
+                                <div class="col-sm-2">&nbsp;</div>
+                                <div class="col-sm-3">
+                                    <div class="col-sm-5">
+                                        <label style="float:left;margin-left: 2px;" class="control-label text-left tooltip-float">Gutter</label>
                                     </div>
-                                    <div class="radio col-sm-2" style="width: 12%; margin-left: 2%;">
-                                        <input type="radio" name="optionsRadiosFirst" id="optionsRadiosFirst_2" value="2" data-bind="checked: printingTypeUi">
-                                        <label for="optionsRadiosFirst_2">
-                                            Roll Fed
-                                        </label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="itemGutterTextBox" class="form-control" data-bind="value: itemGutterHorizontal, validationOnElement: itemGutterHorizontal" min="0" max="99" style="width: 83%;margin-left: 10px;">
                                     </div>
                                 </div>
                             </div>
