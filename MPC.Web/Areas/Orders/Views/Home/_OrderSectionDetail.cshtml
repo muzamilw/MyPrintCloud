@@ -13,13 +13,13 @@
                         </div>
                         <div class="col-sm-2"></div>
                     </div>
-                    <div class="col-sm-12 form-horizontal" id="OrderDialogSection1" style="width: 97%; margin-left: 2%; margin-bottom: 1%; margin-top: 1.5%">
+                    <div class="col-sm-12 form-horizontal" id="OrderDialogSection1" style="width: 97%; margin-left: 2%; margin-bottom: 1%; margin-top: 1.5%" data-bind="visible:$root.selectedProduct().productType()!==3">
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <div class="col-sm-3">
                                     &nbsp;
                                 </div>
-                                
+
                                 <div class="col-sm-3">&nbsp;</div>
                                 <div class="col-sm-1">
                                     &nbsp;
@@ -72,14 +72,14 @@
                                             </label>
                                         </div>
                                     </div>
-                                    
+
 
                                     @*<div class="checkbox-nice" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'">
-                                       <input type="checkbox" id="checkbox-work_turn" data-bind="checked: isWorknTurn" />
-                                        <label for="checkbox-work_turn">
-                                            Work 'n' Turn
-                                        </label>
-                                    </div>*@
+                                           <input type="checkbox" id="checkbox-work_turn" data-bind="checked: isWorknTurn" />
+                                            <label for="checkbox-work_turn">
+                                                Work 'n' Turn
+                                            </label>
+                                        </div>*@
                                     <!-- ko if: !isDoubleSided() || (printingTypeUi() === '2') -->
                                     &nbsp;
                                     <!-- /ko -->
@@ -98,14 +98,14 @@
                                 <div class="col-sm-5 text-right">
                                     <label for="switchPrintOnBothSides" class="control-label  tooltip-float" style="float: left; padding-left: 4%;">Press feed size</label>
                                 </div>
-                              
+
                                 <div class=" col-sm-5">
                                     <label style="float: left; padding-left: 8%;" class="control-label text-right tooltip-float" data-bind="visible: printingTypeUi() !== '2'">First sheet trim size</label>
                                     <!-- ko if: printingTypeUi() === '2' -->
                                     &nbsp;
                                     <!-- /ko -->
                                 </div>
-                               
+
                                 <div class="col-sm-2" style="padding-left: 12px;">
                                     <label style=" float: left;" class="control-label text-right tooltip-float" data-bind="visible: printingTypeUi() !== '2'">Number up</label>
                                     <!-- ko if: printingTypeUi() === '2' -->
@@ -153,7 +153,7 @@
                                                     Custom
                                                 </label>
                                             </div>
-                                          
+
                                         </div>
                                     </div>
                                     <div class="col-sm-6" data-bind="visible: printingTypeUi() !== '2'">
@@ -198,13 +198,13 @@
                                 <div class="col-sm-10 text-right" style="padding-left: 2.5%">
                                     <label style="float: left;" for="switchPrintOnBothSides" class="control-label text-right tooltip-float">Side 1 Press Profile</label>
                                 </div>
-                               
+
                                 <div class=" col-sm-2" style="padding-left: 12px;">
                                     <label style="float: left" class="control-label text-right tooltip-float">Color #1</label>
 
                                 </div>
                             </div>
-                            <div class="form-group" >
+                            <div class="form-group">
                                 <div class="col-sm-8 text-right" style="padding-left: 2.4%;width: 69.5%;">
                                     <select class="form-control font20px" data-bind="options: $root.presses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Press', value: pressId, validationOnElement: pressId"></select>
                                 </div>
@@ -315,7 +315,8 @@
                                         <header class="main-box-header clearfix" style="padding-left: 0%;">
                                             <div class="col-sm-12" style="margin-left: 1%; margin-top: 1%;">
                                                 <div class="col-sm-2" style="padding-left: 0.15%; ">
-                                                    <div class="checkbox-nice">
+                                                    <div data-bind="visible:$root.selectedProduct().productType()===3">&nbsp;</div>
+                                                    <div class="checkbox-nice" data-bind="visible:$root.selectedProduct().productType()!==3">
                                                         <input type="checkbox" id="checkbox-2_Trim" data-bind="checked: isSecondTrim" />
                                                         <label for="checkbox-2_Trim">
                                                             2nd Trim
@@ -323,7 +324,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-2" style="">
-                                                    <div class="checkbox-nice">
+                                                    <div data-bind="visible:$root.selectedProduct().productType()===3">&nbsp;</div>
+                                                    <div class="checkbox-nice" data-bind="visible:$root.selectedProduct().productType()!==3">
                                                         <input type="checkbox" id="checkbox_stock" data-bind="checked: isPaperSupplied" />
                                                         <label for="checkbox_stock">
                                                             Stock Supplied
@@ -339,24 +341,24 @@
                                                     </div>
                                                     <!--ko if: $root.isEstimateScreen()-->
                                                     <div class="col-sm-6">
-                                                        <input type="text" class="form-control font20px" style="text-align:right; width: 92%; margin-left: -21%" data-bind="value: qty2, validationOnElement: qty2" id="qty2" />       
+                                                        <input type="text" class="form-control font20px" style="text-align:right; width: 92%; margin-left: -21%" data-bind="value: qty2, validationOnElement: qty2" id="qty2" />
                                                     </div>
                                                     <!--/ko-->
-                                                    
+
                                                 </div>
                                                 <!--ko if: $root.isEstimateScreen()-->
-                                                <div class="col-sm-2" >
-                                                   
+                                                <div class="col-sm-2">
+
                                                     @*<div class="form-group" >
-                                                        <div class="col-sm-4" style=" margin-left: -1%; padding-right: 0; padding-left: 0;">
-                                                            <label class="control-label" style="font-size: 12px; padding-top: 15.5%; float: right;">Qty 2</label>
-                                                        </div>
-                                                        <div class="col-sm-6" style="width: 48%; ">
-                                                            
-                                                        </div>
-                                                    </div>*@
+                                                            <div class="col-sm-4" style=" margin-left: -1%; padding-right: 0; padding-left: 0;">
+                                                                <label class="control-label" style="font-size: 12px; padding-top: 15.5%; float: right;">Qty 2</label>
+                                                            </div>
+                                                            <div class="col-sm-6" style="width: 48%; ">
+
+                                                            </div>
+                                                        </div>*@
                                                 </div>
-                                                
+
                                                 @*<div class="col-sm-2" style="float: right;">
                                                         <div class="form-group">
                                                             <div class="col-sm-2" style=" width: 30%;">
@@ -381,13 +383,13 @@
                                                                     <tr>
                                                                         <th class="col-sm-2 text-left">
                                                                         </th>
-                                                                        <th class="col-sm-1 " >
+                                                                        <th class="col-sm-1 ">
 
                                                                         </th>
                                                                         <th class="col-sm-1">
 
                                                                         </th>
-                                                                       
+
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -412,7 +414,7 @@
                                             </div>
 
                                         </div>
-                                       
+
                                         <div class="col-lg-12" style="  padding-left: 1.8%; margin-top: 10px;">
                                             <div class="col-lg-7">
                                                 <div class="col-lg-6">
@@ -428,11 +430,11 @@
                                                         <button type="button" class="btn btn-primary">Post-Press</button>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="col-sm-6">
                                                     <label class="control-label" style="float: right; padding-right: 5px; margin-top: 2.5% ">Markup</label>
                                                 </div>
-                                                
+
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="col-sm-5">
@@ -445,19 +447,19 @@
 
                                                 <!--/ko-->
                                             </div>
-                                            
-                                            
+
+
                                         </div>
-                                        
+
                                         @*<div class="form-group" style="padding-bottom: 1%;">
 
-                                            <div class="col-sm-12" style="padding-left: 5.5%; padding-bottom: 1%;">
+                                                <div class="col-sm-12" style="padding-left: 5.5%; padding-bottom: 1%;">
 
-                                               
-                                                
 
-                                            </div>
-                                        </div>*@
+
+
+                                                </div>
+                                            </div>*@
                                     </div>
                                 </div>
                             </div>
@@ -469,7 +471,7 @@
                                 <div class="col-sm-7" style="padding-left: 1.5%; margin-top: 2%; ">
                                     <label class="control-label" style="  float: right;"> Sections like this</label>
                                 </div>
-                                <div class="col-sm-2" >
+                                <div class="col-sm-2">
                                     <input type="text" style="width:70%" class="form-control font20px" data-bind="value: $root.calculateBaseChargeBasedOnSimilarSectionsValue" />
                                 </div>
                                 <div class="col-sm-3" style="padding-right: 5%; margin-top: 1%;">
@@ -477,7 +479,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-4" style="padding-left: 6.8%;">
-                                
+
                                 <div class="col-sm-5" style="margin-top: 1%; padding-right: 17.5%">
                                     <label class="control-label font20px" style="float: right"><span data-bind="text:$root.currencySymbol"></span><span class="font20px" data-bind="numberInput:baseCharge1"></span></label>
                                 </div>
@@ -485,7 +487,7 @@
                                 <div class="col-sm-5" style=" padding-right: 20.8%; margin-top: 1%;">
                                     <label class="control-label font20px" style="  float: right;"><span data-bind="text:$root.currencySymbol"></span><span class="font20px" data-bind="numberInput:baseCharge2"></span></label>
                                 </div>
-                               
+
                                 <!--/ko-->
                             </div>
 
@@ -494,7 +496,7 @@
 
                 </div>
             </div>
-            <div class="col-sm-2" style="display: none; overflow-y: auto; width: 14%; padding: 0px; height: 890px; max-height: 890px;" >
+            <div class="col-sm-2" style="display: none; overflow-y: auto; width: 14%; padding: 0px; height: 890px; max-height: 890px;">
                 <!--Holds right section-->
                 <ul style="padding-top: 12%; list-style: none; padding-left: 0px;">
                     <li style=" margin-bottom: 75%;">
@@ -530,21 +532,22 @@
             <td>
                 <a href="#" class="font20px " data-bind="text: name, click: function(){$root.openSectionCostCenterDialog($data, 1)}"></a>
             </td>
-            <td >
+            <td>
                 <div style="text-align: right; padding-right: 11.5%;">
                     <span class="font20px" data-bind="text:$root.currencySymbol" style="color: #3498db"></span><a href="#" class="font20px" style="margin-left: 0px" data-bind="numberInput: qty1NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 1)}"></a>
                 </div>
             </td>
             <!--ko if: $root.isEstimateScreen()-->
             <td style="text-align: right">
-                <div class="col-sm-6">  @*style="padding-right: 10%;"*@
+                <div class="col-sm-6">
+                    @*style="padding-right: 10%;"*@
                     <span class="font20px" data-bind="text:$root.currencySymbol" style="color: #3498db"></span> <a href="#" class="font20px" data-bind="numberInput: qty2NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 2)}"></a>
                 </div>
                 <div class="col-sm-6">
-&nbsp;
+                    &nbsp;
                 </div>
             </td>
-           
+
             <!--/ko-->
             <!--ko if: !$root.isEstimateScreen()-->
             <td></td>
