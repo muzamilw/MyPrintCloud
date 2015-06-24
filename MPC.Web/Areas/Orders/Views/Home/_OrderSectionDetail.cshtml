@@ -59,11 +59,10 @@
                                     <!-- /ko -->
                                 </div>
                                 <div class="col-sm-3" style="padding-left: 0.1%;">
-                                    <div class="col-sm-2"></div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-6">
                                         <label for="switchworknturn" data-bind="visible:isDoubleSidedUi() && printingTypeUi() !== '2'" style="float:left" class="control-label text-left tooltip-float">Work 'n' Turn</label>
                                     </div>
-                                    <div class="col-sm-5" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'" style="margin-left:-5.9%">
+                                    <div class="col-sm-6" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'" style="margin-left:-5.9%">
                                         <div class="onoffswitch">
                                             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchworknturn" data-bind="checked: isWorknTurn">
                                             <label class="onoffswitch-label" for="switchworknturn">
@@ -90,7 +89,7 @@
                                         <label style="float:left;margin-left: 2px;" class="control-label text-left tooltip-float">Gutter</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" id="itemGutterTextBox" class="form-control" data-bind="value: itemGutterHorizontal, validationOnElement: itemGutterHorizontal" min="0" max="99" style="width: 83%;margin-left: 10px;">
+                                        <input type="text" id="itemGutterTextBox" class="form-control font20px" data-bind="value: itemGutterHorizontal, validationOnElement: itemGutterHorizontal" min="0" max="99" style="width: 83%;margin-left: 10px;">
                                     </div>
                                 </div>
                             </div>
@@ -421,11 +420,11 @@
 
                                                     </div>
                                                     <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
-                                                        <button type="button" class="btn btn-primary">Pre-Press</button>
+                                                        <button type="button" class="btn btn-primary" data-bind="click : $root.onAddPrePressCostCenter">Pre-Press</button>
 
                                                     </div>
                                                     <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
-                                                        <button type="button" class="btn btn-primary">Post-Press</button>
+                                                        <button type="button" class="btn btn-primary" data-bind="click : $root.onAddPostPressCostCenter">Post-Press</button>
                                                     </div>
                                                 </div>
                                                 
@@ -436,7 +435,7 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="col-sm-5">
-                                                    <select class="form-control" style="margin-left: -6.5%; width:87% padding-right: 0; margin-top: 10px;" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty1MarkUpId,event:{ change: $root.onChangeQty1MarkUpId}"></select>
+                                                    <select class="form-control" style="margin-left: -6.5%; width:87%; padding-right: 0; margin-top: 10px;" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty1MarkUpId,event:{ change: $root.onChangeQty1MarkUpId}"></select>
                                                 </div>
                                                 <!--ko if: $root.isEstimateScreen()-->
                                                 <div class="col-sm-5" style="padding-left: 5.6%; ">
