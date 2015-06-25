@@ -852,7 +852,8 @@ namespace MPC.Repository.Repositories
             try
             {
                 Mapper.CreateMap<Machine, Machine>()
-               .ForMember(x => x.ItemSections, opt => opt.Ignore());
+               .ForMember(x => x.ItemSections, opt => opt.Ignore())
+               .ForMember(x => x.ItemSectionsSide2, opt => opt.Ignore());
 
 
                  Mapper.CreateMap<MachineInkCoverage, MachineInkCoverage>()

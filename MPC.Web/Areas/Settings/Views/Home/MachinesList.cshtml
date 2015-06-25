@@ -44,7 +44,7 @@
                                                             <p class="group-header-description">Configure sheet (or roll) fed Digital and Litho presses and plotters.</p>
                                                             
                                                             <br />
-                                                            <table class="table user-list">
+                                                            <table class="table user-list table-striped table-hover">
                                                                 <thead>
                                                                     <tr>
                                                                         <th class="col-lg-1"></th>
@@ -58,7 +58,6 @@
                                                                 <tbody>
                                                                     <!-- ko template: { name: 'itemMachineTemplate' , foreach: $root.machineList } -->
                                                                     <!-- /ko -->
-
                                                                 </tbody>
                                                             </table>
 
@@ -83,7 +82,7 @@
                                                             <p class="group-header-description">Set guillotines throat intake and cutting speeds.</p>
                                                             
                                                             <br />
-                                                            <table class="table user-list">
+                                                            <table class="table user-list table-striped table-hover">
                                                                 <thead>
                                                                     <tr>
                                                                         <th><span>Machine Name</span></th>
@@ -96,7 +95,6 @@
                                                                 <tbody>
                                                                     <!-- ko template: { name: 'itemMachineTemplate' , foreach: $root.machineList } -->
                                                                     <!-- /ko -->
-
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -125,14 +123,14 @@
 </div>
 <script id="itemMachineTemplate" type="text/html">
     @*<tr data-bind="click: $root.selectItem, css: { selectedRow: $data === $root.selectedMachine}">*@
-    <tr>
-       
-        <!-- ko ifnot: MachineCatId()=== 4 -->       
+    <tr data-bind=" click: $root.onEditItem" style="cursor: pointer">
+
+        <!-- ko ifnot: MachineCatId()=== 4 -->
         <!-- ko if: isSpotColor() -->
         <td><img src="@Url.Content("~/Content/Images/Section_spotColor.jpeg")" style="  width: 100%; float: left;" /></td>
         <!-- /ko -->
         <!-- ko ifnot: isSpotColor() -->
-            <td><img src="@Url.Content("~/Content/Images/Order_Section_CMYK_circle.jpeg")" style="  width: 100%; float: left;" /></td>        
+        <td><img src="@Url.Content("~/Content/Images/Order_Section_CMYK_circle.jpeg")" style="  width: 100%; float: left;" /></td>
         <!-- /ko -->
         <!-- /ko -->
         <td>
@@ -195,7 +193,7 @@
                     $("#clickChargeZoneSection").css("display", "block");
                     $("#GuillotineSection").css("display", "none");
                        
-                    $("#btnCreateNewMachine").html("Create New Press");
+                    $("#btnCreateNewMachine").html("Add New Press");
                    
                 }
                 else if(page == 'guillotine')
@@ -213,7 +211,7 @@
                     $("#GuillotineSection").css("display", "block");
                     $("#clickChargeZoneSection").css("display", "none");
 
-                    $("#btnCreateNewMachine").html("Create New Guillotine");
+                    $("#btnCreateNewMachine").html("Add New Guillotine");
                 }
             
             }
