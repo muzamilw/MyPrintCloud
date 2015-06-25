@@ -154,7 +154,7 @@ namespace MPC.Webstore.Controllers
                         UserCookieManager.isWritePresistentCookie = true;
                     else
                         UserCookieManager.isWritePresistentCookie = false;
-                    string ReturnURL = Request.Form["hfReturnURL"];
+                    string ReturnURL = Request.QueryString["ReturnURL"];
 
                     return VerifyUser(user, ReturnURL, StoreBaseResopnse);
                 }

@@ -125,13 +125,13 @@
 <!-- ko stopBinding: true -->
 @Html.Partial("~/Areas/CRM/Views/Home/_UserProfileDetailsForContact.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_CompanySelector.cshtml")
-
+@Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 <!-- /ko -->
 @section Scripts{
 
 
     <script>
-        require(["toDoList/toDoList.view", "common/companySelector.view", "crm/contacts.view"]);
+        require(["toDoList/toDoList.view", "common/companySelector.view", "crm/contacts.view", "common/confirmation.view"]);
     </script>
 }
 
