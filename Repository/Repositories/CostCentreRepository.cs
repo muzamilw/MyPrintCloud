@@ -81,6 +81,7 @@ namespace MPC.Repository.Repositories
                     (isSearchFilterSpecified && (s.Name.Contains(request.SearchString)) ||
                      (s.HeaderCode.Contains(request.SearchString)) ||
                      !isSearchFilterSpecified && (s.Type != 1) && (s.Type != 11) && (s.Type != 29)) &&
+                     (!request.Type.HasValue || s.Type == request.Type.Value) &&
                      s.OrganisationId == OrganisationId;
 
             int rowCount = DbSet.Count(query);

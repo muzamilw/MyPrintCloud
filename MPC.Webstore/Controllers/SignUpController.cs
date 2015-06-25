@@ -290,11 +290,11 @@ namespace MPC.Webstore.Controllers
                 }
                 StoreBaseResopnse = null;
           
-                if (!string.IsNullOrEmpty(Request.Form["hfReturnURL"]))
+                if (!string.IsNullOrEmpty(Request.QueryString["ReturnURL"]))
                 {
-                    if (Url.IsLocalUrl(Request.Form["hfReturnURL"]))
+                    if (Url.IsLocalUrl(Request.QueryString["ReturnURL"]))
                     {
-                        ControllerContext.HttpContext.Response.Redirect(Request.Form["hfReturnURL"]);
+                        ControllerContext.HttpContext.Response.Redirect(Request.QueryString["ReturnURL"]);
                     }
                 }
                 else 

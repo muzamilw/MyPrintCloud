@@ -35,7 +35,7 @@
         {
             <div class="MB_MsgSm col-xs-12 col-md-12 col-lg-12">
                 <span id="lblSummeryMesg">
-                    @Model.ProductSpecification
+                   @Html.Raw(Model.ProductWebDescription)
                 </span>
             </div>
             <div class="clearBoth">
@@ -205,16 +205,16 @@
                     }
                 </div>
                 <div id="RightPanel" class="MB_RightCont float_left_simple col-lg-3 col-md-3 col-xs-12 col-sm-12">
-                    <img id="CatImge" class="MB_ProductImage float_left_simple" src='@Html.GetAppBasePath()@Model.ThumbnailPath' />
+                    <img id="CatImge" class="MB_ProductImage float_left_simple" src='/@Model.ThumbnailPath' />
                     <div class="float_left_simple LGBC rounded_corners paddingLeft5px Mleft10 MB_InnerRightCont">
                         <div class="white_background rounded_corners MB_RightInnerPnl">
                             <div class="MB_GrayBack">
-                                <label id="lbl_Reply_Message" class="Fsize17">Reply back to me by</label>
+                                <label id="lbl_Reply_Message" class="Fsize15">Reply back to me by</label>
                                 <div class="left_align">
-                                    <span id="lbl_Email" class="MB_EMailtxtColor">Email: <label>@MPC.Webstore.Common.UserCookieManager.WEBEmail</label></span>
+                                    <span id="lbl_Email" class="MB_EMailtxtColor Fsize13">Email: <span>@MPC.Webstore.Common.UserCookieManager.WEBEmail</span></span>
                                 </div>
                                 <div style="margin-top: 10px; text-align: left;">
-                                    <span id="lblTelText" class="MB_EMailtxtColor">Tel: <label>@ViewBag.Phone</label></span>
+                                    <span id="lblTelText" class="MB_EMailtxtColor Fsize13">Tel: <span>@ViewBag.Phone</span></span>
                                 </div>
                                 <a id="lbl_Change" href="#" style="float: right; cursor: pointer; color:#73a8ac; clear: both; display:none;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblChange", UserCookieManager.WBStoreId))</a>
                                 <div class="clearBoth">
