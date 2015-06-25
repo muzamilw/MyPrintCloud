@@ -72,21 +72,21 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 // Start Delivery Date
                 startDeliveryDate = ko.observable(specifiedStartDeliveryDate ? moment(specifiedStartDeliveryDate).toDate() : undefined),
                 // Finish Delivery Date
-                finishDeliveryDate = ko.observable(specifiedFinishDeliveryDate ? moment(specifiedFinishDeliveryDate).toDate() : undefined),
+                finishDeliveryDate = ko.observable(specifiedFinishDeliveryDate ? moment(specifiedFinishDeliveryDate).toDate() : moment().toDate()),
                 // Head Notes
                 headNotes = ko.observable(specifiedHeadNotes || undefined),
                 // Artwork By Date
-                artworkByDate = ko.observable(specifiedArtworkByDate ? moment(specifiedArtworkByDate).toDate() : undefined),
+                artworkByDate = ko.observable(specifiedArtworkByDate ? moment(specifiedArtworkByDate).toDate() : moment().toDate()),
                 // Data By Date
-                dataByDate = ko.observable(specifiedDataByDate ? moment(specifiedDataByDate).toDate() : undefined),
+                dataByDate = ko.observable(specifiedDataByDate ? moment(specifiedDataByDate).toDate() : moment().toDate()),
                 // Paper By Date
-                paperByDate = ko.observable(specifiedPaperByDate ? moment(specifiedPaperByDate).toDate() : undefined),
+                paperByDate = ko.observable(specifiedPaperByDate ? moment(specifiedPaperByDate).toDate() : moment().toDate()),
                 // Target Bind Date
-                targetBindDate = ko.observable(specifiedTargetBindDate ? moment(specifiedTargetBindDate).toDate() : undefined),
+                targetBindDate = ko.observable(specifiedTargetBindDate ? moment(specifiedTargetBindDate).toDate() : moment().toDate()),
                 // Xero Access Code
                 xeroAccessCode = ko.observable(specifiedXeroAccessCode || undefined),
                 // Target Print Date
-                targetPrintDate = ko.observable(specifiedTargetPrintDate ? moment(specifiedTargetPrintDate).toDate() : undefined),
+                targetPrintDate = ko.observable(specifiedTargetPrintDate ? moment(specifiedTargetPrintDate).toDate() : moment().toDate()),
                 // Order Creation Date Time
                 orderCreationDateTime = ko.observable(specifiedOrderCreationDateTime ? moment(specifiedOrderCreationDateTime).toDate() : undefined),
                 // Order Manager Id
