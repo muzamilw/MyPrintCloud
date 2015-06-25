@@ -1557,6 +1557,7 @@ define("order/order.viewModel",
                              addProductVm.show(addItemFromFinishedGoods, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id(), saveSectionCostCenter, createitemForRetailStoreProduct, selectedCompanyTaxRate(), pageHeader(), isEstimateScreen() === true ? 'Estimate' : "Order", selectedOrder().companyName(), 3);
                          }
                      },
+                     
                     //},
                     //addItemFromRetailStore = function (newItem) {
                     //    selectedProduct(newItem);
@@ -2845,7 +2846,6 @@ define("order/order.viewModel",
                     formatResult: formatResult,
                     onDeletePrePayment: onDeletePrePayment,
                     onAddFinishedGoods: onAddFinishedGoods,
-
                     onCreateNewCostCenterProduct: onCreateNewCostCenterProduct
 
                     //#endregion
