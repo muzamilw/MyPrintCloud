@@ -794,7 +794,7 @@ define("common/itemDetail.viewModel",
                                 return;
                             }
 
-                            getPtvCalculation();
+                            getPtvCalculation(getSectionSystemCostCenters);
                         });
 
                         // On Press Change set Section Size Width to Press Max Width
