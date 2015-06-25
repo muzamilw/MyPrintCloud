@@ -3,7 +3,7 @@
 define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // #region ______________  CUSTOMER LIST VIEW MODEL   _________________
-    var customerViewListModel = function (companytId, custName, custCraetionDate, custStatus, cusStatusClass, custEmail, cusStoreImageFileBinary) {
+    var customerViewListModel = function (companytId, custName, custCraetionDate, custStatus, cusStatusClass, custEmail, cusStoreImageFileBinary,custstoreName) {
         var
             self,
             id = ko.observable(companytId),
@@ -14,6 +14,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             statusClass = ko.observable(cusStatusClass),
             storeImageFileBinary = ko.observable(cusStoreImageFileBinary),
             email = ko.observable(custEmail),
+            storeName = ko.observable(custstoreName),
             defaultContact = ko.observable(undefined),
             defaultContactEmail = ko.observable(undefined),
             // Errors
@@ -44,6 +45,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             status: status,
             statusClass: statusClass,
             email: email,
+            storeName: storeName,
             customerTYpe:customerTYpe,
             defaultContact: defaultContact,
             defaultContactEmail:defaultContactEmail,
@@ -75,7 +77,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.Status,
             statusClass,
             source.Email,
-            source.StoreImagePath
+            source.StoreImagePath,
+            source.StoreName
         );
         customer.defaultContact(source.DefaultContactName);
         customer.defaultContactEmail(source.DefaultContactEmail);
@@ -485,7 +488,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedShippingAddressId, specifiedisUserLoginFirstTime, specifiedquickMobileNumber, specifiedquickTwitterId, specifiedquickFacebookId, specifiedquickLinkedInId,
         specifiedquickOtherId, specifiedPOBoxAddress, specifiedCorporateUnit, specifiedOfficeTradingName, specifiedContractorName, specifiedBPayCRN, specifiedABN, specifiedACN,
         specifiedAdditionalField1, specifiedAdditionalField2, specifiedAdditionalField3, specifiedAdditionalField4, specifiedAdditionalField5, specifiedcanUserPlaceOrderWithoutApproval,
-        specifiedCanUserEditProfile, specifiedcanPlaceDirectOrder, specifiedOrganisationId, specifiedBussinessAddressId, specifiedRoleName) {
+        specifiedCanUserEditProfile, specifiedcanPlaceDirectOrder, specifiedOrganisationId, specifiedSecondaryEmail, specifiedBussinessAddressId, specifiedRoleName, specifiedStoreName) {
         var self,
             contactId = ko.observable(specifiedContactId),
             addressId = ko.observable(specifiedAddressId),
@@ -571,13 +574,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             canUserEditProfile = ko.observable(specifiedCanUserEditProfile),
             canPlaceDirectOrder = ko.observable(specifiedcanPlaceDirectOrder),
             organisationId = ko.observable(specifiedOrganisationId),
+            secondaryEmail = ko.observable(specifiedSecondaryEmail).extend({ email: true }),
             bussinessAddressId = ko.observable(specifiedBussinessAddressId).extend({ required: true }),
             roleName = ko.observable(specifiedRoleName),
             fileName = ko.observable(),
             bussinessAddress = ko.observable(),
             shippingAddress = ko.observable(),
             stateName = ko.observable(),
-
+            StoreName = ko.observable(specifiedStoreName),
             companyContactVariables = ko.observableArray([]),
             confirmPassword = ko.observable(specifiedPassword).extend({ compareWith: password }),
 
@@ -588,7 +592,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 email: email,
                 bussinessAddressId: bussinessAddressId,
                 password: password,
-                confirmPassword: confirmPassword
+                confirmPassword: confirmPassword,
+                secondaryEmail: secondaryEmail
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -681,7 +686,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 canPlaceDirectOrder: canPlaceDirectOrder,
                 organisationId: organisationId,
                 bussinessAddressId: bussinessAddressId,
+                StoreName: StoreName,
                 fileName: fileName,
+                secondaryEmail: secondaryEmail,
                 companyName: companyName
             }),
             // Has Changes
@@ -776,6 +783,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     OrganisationId: organisationId(),
                     BussinessAddressId: bussinessAddressId(),
                     FileName: fileName(),
+                    StoreName: StoreName(),
+                    SecondaryEmail: secondaryEmail(),
                     ScopVariables: []
                     //BussinessAddress: bussinessAddress() != undefined ? bussinessAddress().convertToServerData(): null,
                     //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
@@ -874,6 +883,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                  shippingAddress(source.shippingAddress());
                  stateName(source.stateName());
                  companyContactVariables(source.companyContactVariables());
+                 StoreName(source.StoreName());
+                 secondaryEmail(source.secondaryEmail());
              },
             // Reset
             reset = function () {
@@ -971,6 +982,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             bussinessAddress: bussinessAddress,
             shippingAddress: shippingAddress,
             stateName: stateName,
+            StoreName: StoreName,
+            secondaryEmail: secondaryEmail,
             companyContactVariables: companyContactVariables,
             isValid: isValid,
             errors: errors,
@@ -1067,8 +1080,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.canUserEditProfile,
             source.canPlaceDirectOrder,
             source.organisationId,
+            source.secondaryEmail,
             source.BussinessAddressId,
-            source.FileName
+            source.FileName,
+            source.StoreName
         );
     };
     CompanyContact.Create = function (source) {
@@ -1156,12 +1171,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.CanUserEditProfile,
             source.canPlaceDirectOrder,
             source.OrganisationId,
+            source.SecondaryEmail,
             //source.BussinessAddressId,
             source.AddressId,
             source.RoleName,
-            source.FileName
+            source.FileName,
+            source.StoreName
         );
         companyContact.companyName(source.CompanyName);
+        companyContact.StoreName(source.StoreName);
         return companyContact;
     };
 

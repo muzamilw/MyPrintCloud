@@ -169,9 +169,9 @@
                 </div>
                
                 <div class="pull-left">
-                    <button class="btn btn-primary" data-bind="click: $root.openReport" style=" margin-left: 0px">
+                    <a class="btn btn-primary" data-bind="click: $root.openReport" style=" margin-left: 0px">
                         Reports
-                    </button>
+                    </a>
                     <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
                         Add Supplier
                     </a>
@@ -183,6 +183,7 @@
     </div>
 </script>
 @Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 @section Scripts{
 
     <script>

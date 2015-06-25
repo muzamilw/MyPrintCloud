@@ -14,9 +14,7 @@
                     
                     <div class=" form-horizontal col-padding" style="padding-top:30px;padding-bottom:40px; ">
                         <h5>Please select a report below to execute</h5>
-                        <div class="col-md-3" style="width:auto;border-right: 1px solid #e5e5e5;margin-right: 50px;">
-
-
+                        <div class="col-md-3" style="overflow-y: auto; width: auto; border-right: 1px solid #e5e5e5; margin-right: 14px; height: 355px; max-height: 355px; ">
                             <div style="display:inline;position:relative;">
                                 <ol class="dd-list">
                                     <!-- ko template: { name: 'reportCategoriesTemplate' , foreach: reportcategoriesList } -->
@@ -27,26 +25,26 @@
                         <div style="display:inline;width:50% !important;" class="col-md-8">
                             <div class="treeviewClickCharge-partial">
                                 <div class="form-group" data-bind="visible:IsExternalReport">
-                                    <div class="col-lg-6 text-right" >
-                                        <label class="control-label text-right tooltip-float">Title: </label>
+                                    <div class="col-lg-5 text-right" style="padding-right: 5px;">
+                                        <label style="padding-top: 5px;" class="control-label text-right tooltip-float">Title: </label>
                                     </div>
-                                    <div class="col-lg-5" style="margin-top: 4px;">
-                                        <span data-bind="text:selectedItemTitle"></span>
+                                    <div class="col-lg-7" style="margin-top: 4px;">
+                                        <span data-bind="text:selectedItemTitle" style="margin-left: 5px;"></span>
 
                                     </div>
                                 </div>
                                 <div class="form-group" data-bind="visible:IsExternalReport">
-                                    <div class="col-lg-6 text-right">
-                                        <label class="control-label text-right tooltip-float">Code: </label>
+                                    <div class="col-lg-5 text-right" style="padding-right: 0px;">
+                                        <label style="padding-top: 5px;" class="control-label text-right tooltip-float">Code: </label>
                                     </div>
                                     <div class="col-lg-5" style="margin-top: 4px;">
-                                        <span data-bind="text:selectedItemCode"> </span>
+                                        <span data-bind="text:selectedItemCode" style="margin-left: 5px;"> </span>
 
                                     </div>
                                 </div>
                                 <div class="form-group" data-bind="visible:IsExternalReport">
-                                    <div class="col-lg-6 text-right">
-                                        <label class="control-label text-right tooltip-float">Name: </label>
+                                    <div class="col-lg-5 text-right" style="width: 43.3%; padding-right: 0px; ">
+                                        <label style="padding-top: 5px;" class="control-label text-right tooltip-float">Name: </label>
                                     </div>
                                     <div class="col-lg-5" style="margin-top: 4px;">
                                         <span data-bind="text:selectedItemName"> </span>

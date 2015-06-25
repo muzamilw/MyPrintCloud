@@ -603,24 +603,51 @@ function d1SvgOl(cCanvas, IO) {
             loadedObject.lockScalingY = true;
             loadedObject.lockRotation = true;
         }
-        loadedObject.customStyles = JSON.parse(IO.textStyles);
-        $.each(loadedObject.customStyles, function (j, IT) {
-            var clr = IT.OriginalColor;
-            if (IT.ModifiedColor != "")
-                clr = IT.ModifiedColor;
+        if (IO.textStyles != null) {
 
+            loadedObject.customStyles = JSON.parse(IO.textStyles);
+            $.each(loadedObject.customStyles, function (j, IT) {
+                var clr = IT.OriginalColor;
+                if (IT.ModifiedColor != "")
+                    clr = IT.ModifiedColor;
+
+                if (loadedObject.isSameColor && loadedObject.isSameColor() || !loadedObject.paths) {
+                    loadedObject.setFill(clr);
+                }
+                else if (loadedObject.paths) {
+                    for (var i = 0; i < loadedObject.paths.length; i++) {
+                        if (i == j) {
+                            loadedObject.paths[i].setFill(clr);
+                        }
+                    }
+                }
+            });
+        } else
+        {
+            var colors = [];
+            // get colors 
             if (loadedObject.isSameColor && loadedObject.isSameColor() || !loadedObject.paths) {
-                loadedObject.setFill(clr);
+                clr = (loadedObject.get('fill'));
+                var objClr = {
+                    OriginalColor: clr,
+                    PathIndex: -2,
+                    ModifiedColor: ''
+                }
+                colors.push(objClr);
             }
             else if (loadedObject.paths) {
                 for (var i = 0; i < loadedObject.paths.length; i++) {
-                    if (i == j) {
-                        loadedObject.paths[i].setFill(clr);
+                    clr = (loadedObject.paths[i].get('fill'));
+                    var objClr = {
+                        OriginalColor: clr,
+                        PathIndex: i,
+                        ModifiedColor: ''
                     }
+                    colors.push(objClr);
                 }
             }
-        });
-
+            loadedObject.customStyles = colors;
+        }
         loadedObject.set({
             borderColor: 'red',
             cornerColor: 'orange',
@@ -2010,6 +2037,8 @@ function fu14() {
             $("#btntemplateBkImagesCorp").css("display", "block !important");
             $("#btnFreeImgsCorp").css("display", "block !important");
             $("#clearBackground").css("margin-top", "20px"); $("#uploadBackgroundMn").css("margin-top", "20px");
+        } else {
+            $("#btnImagePlaceHolderUser").css("display", "block !important");
         }
 
     }
@@ -2344,6 +2373,8 @@ function j8_FindBestPercentage() {
 
 }
 function j8(src) {
+    var fileNameIndex = src.lastIndexOf("/") + 1;
+    var filename = src.substr(fileNameIndex);
     var D1AO = canvas.getActiveObject();
     if (D1AO.type === 'image') {
         $.each(TO, function (i, IT) {
@@ -2351,7 +2382,7 @@ function j8(src) {
                 if (src.indexOf('.svg') == -1) {
                     D1AO.ImageClippedInfo = null;
                     $.each(LiImgs, function (i, IT) {
-                        if (src.indexOf(IT.ImageName) != -1) {
+                        if (IT.ImageName.indexOf(filename) != -1) {
                             IW = IT.ImageWidth;
                             IH = IT.ImageHeight;
                             var originalWidth = IW;
@@ -2391,7 +2422,6 @@ function j8(src) {
                             XML.Node("crv5", "0");
                             XML.EndNode();
                             XML.Close();
-                            console.log(XML);
                             D1AO.ImageClippedInfo = XML.ToString().replace(/</g, "\n<");
                             D1AO.height = (D1AO.getHeight());
                             D1AO.width = (D1AO.getWidth());
@@ -2583,6 +2613,16 @@ function k0() {
         $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + '.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
 
     });
+    if (IsCalledFrom == 3) {
+        for (var i = TP[TP.length - 1].PageNo +1; i <= 12; i++) {
+            ////$("#sliderDesigner").append('<img src="' + stPath + '/p' + i + '.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + ''+ '" />');
+            ////$("#thumbs").append(' <div id="thumbPageSP' + i + '"style="visibility:hidden;"  class="thumb additionalPages"><div class="frame"><img src="' + stPath + '/p' + i + '.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + '' + '</p></div><div style="clear:both;"></div></div>');
+
+            $("#sliderDesigner").append('<img  style="visibility:hidden;" src="' + stPath + '/p' + i + '.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + ''+ '" />');
+            $("#thumbs").append(' <div id="thumbPageSP' + i + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + i + '.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + '' + '</p></div><div style="clear:both;"></div></div>');
+
+        }
+    }
     $.each(TP, function (i, IT) {
         $("#sliderDesigner").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '"  alt="' + IT.PageName + '" />');
         $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=' + fabric.util.getRandomInt(1, 100) + '" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
@@ -2637,6 +2677,7 @@ function k0() {
     //        }
     //    });
     //}
+
 }
 function k4() {
     var D1AO = canvas.getActiveObject();

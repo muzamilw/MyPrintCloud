@@ -29,10 +29,10 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group ">
                                                             <div class="col-lg-5 text-right">
-                                                                <label for="txtEmail" class="control-label text-right tooltip-float">Email</label>
+                                                                <label for="txtEmail" class="control-label text-right tooltip-float">Secondary Email</label>
                                                             </div>
                                                             <div class="col-lg-7" style="padding-right:4px;">
-                                                                <input type="text" class="form-control" id="txtEmail" data-bind="value: email">
+                                                                <input type="text" class="form-control" id="txtEmail" data-bind="value: secondaryEmail">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -144,11 +144,19 @@
                                                                     </div>
                                                                 </div>
                                                                 <div style="width:220px;text-align:center;">
-                                                                    <span class="help-block">Upload Profile image</span>
+                                                                    <span class="help-block">Upload an image (PNG,JPG,GIF) for contact profile. This image is also used in Designer tool where contact image placeholder is used</span>
                                                                 </div>
                                                                   </div>
                                                         </div>
                                                         <br />
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+                                                                <label for="txtEmail" class="control-label text-right tooltip-float">UserName/Email</label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-right:4px;">
+                                                                <input type="text" class="form-control" id="txtEmail" data-bind="value: email">
+                                                            </div>
+                                                        </div>
                                                         <div class="form-group ">
                                                             <div class="col-lg-5 text-right">
                                                                 <label for="txtPassword" class="control-label text-right tooltip-float">Password</label>
@@ -542,7 +550,7 @@
                 </div>
             </div>
             <div class="modal-footer col-xs-12" style="padding-left:4px;">
-                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyContact">Save</button>
+                <button type="button" class="btn btn-primary btn-warning" data-bind="click: $root.onSaveCompanyContact, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyContact" style="margin-left:0px;">Close</button>
                 <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteCompanyContact">Archive</button>
             </div>

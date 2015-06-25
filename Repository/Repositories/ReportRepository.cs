@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using MPC.Models.ResponseModels;
+using MPC.Models.RequestModels;
 
 namespace MPC.Repository.Repositories
 {
@@ -387,6 +388,66 @@ namespace MPC.Repository.Repositories
             lstReportNotes.Add(objReportNoteDelivery);
 
             return lstReportNotes;  
+        }
+
+
+        /// <summary>
+        /// SP for PO Report
+        /// </summary>
+        public List<usp_PurchaseOrderReport_Result> GetPOReport(long PurchaseId)
+        {
+            try
+            {
+               return db.usp_PurchaseOrderReport(OrganisationId, PurchaseId).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public ReportEmailResponseModel GetReportEmailBaseData(ReportEmailRequestModel request, string Path)
+        {
+            try
+            {
+
+
+                string To = string.Empty;
+                string cc = string.Empty;
+                string subject = string.Empty;
+                string signature = string.Empty;
+
+
+                int isExternalReport = db.Reports.Where(c => c.ReportId == request.Reportid).Select(c => c.IsExternal).FirstOrDefault();
+
+
+                SystemUser systemUser = db.SystemUsers.Where(c => c.SystemUserId == request.SignedBy).FirstOrDefault();
+
+
+                string Email = db.CompanyContacts.Where(x => x.ContactId == request.ContactId).Select(c => c.Email).FirstOrDefault();
+
+
+                Estimate order = db.Estimates.Where(c => c.EstimateId == request.RecordId).FirstOrDefault();
+                To = Email;
+                subject = order.Estimate_Name + " " + order.Company.Name + " " + order.Order_Code;
+
+
+            
+                return new ReportEmailResponseModel
+                {
+                    Attachment = subject + ".pdf",
+                    AttachmentPath = Path,
+                    Subject = subject,
+                    To = To
+                };
+
+             
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
        // GetReportsByOrganisationID
     }

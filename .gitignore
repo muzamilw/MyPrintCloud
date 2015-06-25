@@ -122,3 +122,7 @@ MPC.Web/Web.config
 MPC.Webstore/ccAssembly/PinkCardsUserCostCentres.dll
 MPC.Webstore/ccAssembly/PinkCardsUserCostCentres.dll
 MPC.Webstore/ccAssembly/PinkCardsUserCostCentres.dll
+MPC.Theming/MPC_Themes/classic.zip
+MPC.Theming/MPC_Themes/goldwell.zip
+MPC.Theming/MPC_Themes/London.zip
+MPC.Web/Web.config

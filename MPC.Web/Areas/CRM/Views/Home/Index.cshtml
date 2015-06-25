@@ -78,6 +78,7 @@
                                                             <tr>
                                                                 <th class="col-lg-1"></th>
                                                                 <th class="col-lg-3"><span>Company</span></th>
+                                                                <th class="col-lg-3"><span>Store</span></th>
                                                                 <th class="col-lg-1"><span>Created</span></th>
                                                                 <th class="col-lg-2"><span>Email</span></th>
                                                                 <th class="col-lg-1"><span>Type</span></th>
@@ -94,6 +95,10 @@
                                                                 <td>
                                                                     <a href="#" class="store-user-link" data-bind="text:name"></a>
                                                                     <span class="user-subhead" data-bind="text:defaultContact"></span>
+                                                                </td>
+                                                                <td>
+                                                                   
+                                                                    <span class="user-subhead" data-bind="text:storeName"></span>
                                                                 </td>
                                                                 <td>
                                                                     <p data-bind="dateString: creationdate, datePattern: 'DD/MM/YYYY'"></p>
@@ -147,9 +152,9 @@
                                 <i class="fa fa-search search-icon" data-bind="click: $root.filterHandler"></i>
                             </div>
                             <div class="pull-left">
-                                <button class="btn btn-primary" data-bind="click: $root.openReport" style=" margin-left: 0px">
+                                <a class="btn btn-primary" data-bind="click: $root.openReport" style=" margin-left: 0px">
                                     Reports
-                                </button>
+                                </a>
                                 <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
                                     Add Customer
                                 </a>
@@ -157,7 +162,7 @@
                         </div>
 
                     </form>
-
+                   
                     <div class="clearfix">
                     </div>
                 </div>
@@ -166,6 +171,7 @@
     </div>
 </div>
     @Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 @section Scripts{
     <script>
         require(["crm/crm.view", "common/confirmation.view", "common/reportManager.view"]);

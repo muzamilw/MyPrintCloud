@@ -850,6 +850,22 @@ define("common/itemDetail.viewModel",
                             getSectionSystemCostCenters();
 
                         });
+                        selectedSection().impressionCoverageSide1.subscribe(function (value) {
+                            if (value !== selectedSection().impressionCoverageSide1()) {
+                                selectedSection().impressionCoverageSide1(value);
+                            }
+                            getSectionSystemCostCenters();
+
+                        });
+                        selectedSection().impressionCoverageSide2.subscribe(function (value) {
+                            if (value !== selectedSection().impressionCoverageSide2()) {
+                                selectedSection().impressionCoverageSide2(value);
+                            }
+                            getSectionSystemCostCenters();
+
+                        });
+                        
+                        
                         
                     },
                     // Get Press By Id

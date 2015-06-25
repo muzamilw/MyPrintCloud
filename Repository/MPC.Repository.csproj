@@ -221,6 +221,7 @@
     <Compile Include="Repositories\DeliveryNoteRepository.cs" />
     <Compile Include="Repositories\EstimateInquiryRepository.cs" />
     <Compile Include="Repositories\GoodRecieveNoteRepository.cs" />
+    <Compile Include="Repositories\GoodsReceivedNoteDetailRepository.cs" />
     <Compile Include="Repositories\InkCoverageGroupRepository.cs" />
     <Compile Include="Repositories\InquiryItemRepository.cs" />
     <Compile Include="Repositories\InvoiceDetailRepository.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="Repositories\InkPlateSideRepository.cs" />
     <Compile Include="Repositories\ProductMarketBriefAnswerRepository.cs" />
     <Compile Include="Repositories\ProductMarketBriefQuestionRepository.cs" />
+    <Compile Include="Repositories\PurchaseDetailRepository.cs" />
     <Compile Include="Repositories\SectionCostCentreDetailRepository.cs" />
     <Compile Include="Repositories\ShippingInformationRepository.cs" />
     <Compile Include="Repositories\SectionInkCoverageRepository.cs" />
@@ -286,6 +288,7 @@
     <Compile Include="Repositories\ReportRepository.cs" />
     <Compile Include="Repositories\SmartFormDetailRepository.cs" />
     <Compile Include="Repositories\SmartFormRepository.cs" />
+    <Compile Include="Repositories\StagingImportCompanyContactAddressRepository.cs" />
     <Compile Include="Repositories\StateRepository.cs" />
     <Compile Include="Repositories\CostCenterTypeRepository.cs" />
     <Compile Include="Repositories\StatusRepository.cs" />

@@ -6849,13 +6849,43 @@ namespace MPC.Repository.Repositories
            .Skip(fromRow)
             .Take(toRow)
             .ToList();
-
             return new LiveJobsSearchResponse { Items = items, TotalCount = estimates.Count() };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="OrderId"></param>
+        /// <returns></returns>
+        public long GetStoreIdByOrderId(long OrderId)
+        {
+            try
+            {
+                long StoreId = 0;
+                Estimate order = db.Estimates.Where(e => e.EstimateId == OrderId).FirstOrDefault();
+                if(order != null)
+                {
+                    Company oCompany = db.Companies.Where(c => c.CompanyId == order.CompanyId).FirstOrDefault();
+                    if(oCompany != null)
+                    {
+                        if(oCompany.IsCustomer == 1 && oCompany.StoreId != null)
+                        {
+                            StoreId = oCompany.StoreId ?? 0;
+                        }
+                        else if(oCompany.IsCustomer == 3)
+                        {
+                            StoreId = oCompany.CompanyId;
+                        }
+                    }
+                }
+                return StoreId;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
-
-
 }
 
 

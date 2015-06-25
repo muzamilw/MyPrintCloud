@@ -21,8 +21,8 @@
 }
 
 <div class="container content_area">
-    <div class="row left_right_padding">
-        <div class="signin_heading_div textAlignLeft" style="padding-bottom: 0px !important;">
+    <div class="left_right_padding">
+        <div class="signin_heading_div textAlignLeft col-lg-12 col-md-12 col-xs-12" style="padding-bottom: 0px !important;">
             <table style="  width: 100%;">
                 <tr>
                     <td>
@@ -48,7 +48,7 @@
         {
             if (Model.CartItemsList == null || Model.CartItemsList.Count == 0)
             {
-                <div class="get_in_touch_box rounded_corners">
+                <div class="get_in_touch_box rounded_corners col-lg-12 col-md-12 col-xs-12">
                     <div class="textAlignCenter">
 
                         <label class="lbl_Cart">@Html.Raw(Html.GetKeyValueFromResourceFile("lblMsg", UserCookieManager.WBStoreId))</label>
@@ -61,9 +61,9 @@
             {
                 using (Html.BeginForm())
                 {
-                    <div class="get_in_touch_box rounded_corners">
+                    <div class="col-lg-12 col-md-12 col-xs-12">
 
-                        <div id="ShopingCartDisplay">
+                        <div id="ShopingCartDisplay" class="get_in_touch_box rounded_corners ">
 
                             <button id="Button1" style="display:none;" onclick="return EmailProofClick()" class="start_creating_btn_EmailProof float_right rounded_corners5"></button>
 
@@ -111,7 +111,7 @@
                                                  {
                                                      imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
                                                  }
-                                                 else 
+                                                 else
                                                  {
                                                      imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
                                                  }
@@ -137,7 +137,7 @@
                                                     }
                                                     <a id="lnkPdfFile" href=@pdfLinkBtn><img id="imgToShow" class="image_stretcher" src="@imgToShowURL" /></a>
                                                 </div>
-                                                <div class="BtnTemplateModifyContainer">
+                                                <div class="BtnTemplateModifyContainer visible-xs hidden-sm">
                                                     @if (prod.ProductType == (int)ProductType.PrintProduct)
                                                     {
                                                         <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
@@ -188,6 +188,17 @@
                                                 <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID');" value="Remove product from cart">
                                                 <br />
                                                 <input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID');" value="Make a copy of this product in cart">
+                                            
+                                               <br />
+                                                <br />
+                                                @if (prod.ProductType == (int)ProductType.PrintProduct)
+                                                {
+                                                    <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="visible-sm visible-xs silver_back_button">
+                                                }
+                                                else
+                                                {
+                                                    <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('0','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="visible-sm visible-xs silver_back_button">
+                                                }
                                             </td>
                                             <td class="PadTop5" align="left" style="width:5%;" valign="top">
                                                 <span id="lblItemQuantity" class="fntQtyPrice" style="font-weight:bold;">@prod.Qty1</span>
@@ -211,7 +222,7 @@
                                                 </td>
                                             }
 
-                                          
+
                                         </tr>
 
                                             subtotal = _priceTotal.ToString();
@@ -233,17 +244,17 @@
 
                             <br />
                             <div class="cnttotalPayables">
-@if (ViewBag.IsShowPrices)
-{
-                                <div class="cntsubHeadings">
-                                    <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId))</label>
-                                    <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">Delivery:</label>
-                                    <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">@Model.TaxLabel</label>
-                                    <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">Total:</label>
+                                @if (ViewBag.IsShowPrices)
+                                {
+                                    <div class="cntsubHeadings">
+                                        <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId))</label>
+                                        <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">Delivery:</label>
+                                        <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">@Model.TaxLabel</label>
+                                        <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">Total:</label>
 
 
-                                </div>
-                               
+                                    </div>
+
                                     <div class="cnttotals" id="cntRightPricing1">
 
                                         <label id="lblSubTotal" class="Fsize13 colorBlack displayClear">@subtotal</label>

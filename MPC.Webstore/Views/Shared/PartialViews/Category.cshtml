@@ -22,7 +22,7 @@
 <script src="~/Scripts/Designer/p101.js" type="text/javascript"></script>
 <div class="container content_area" id="catagory">
 
-    <div class="left_right_padding row">
+    <div class="left_right_padding">
         @{Html.RenderAction("Index", "BreadCrumb");}
         <div class="signin_heading_div Categorytitle col-md-12 col-lg-12 col-xs-12">
             <h1>
@@ -134,9 +134,9 @@
                                                     //}
                                                     //else
                                                     //{
-                                                        isUploadImage = false;
+                                                    isUploadImage = false;
 
-                                                        RedirectURL = "/Category/CloneItem/" + item.ItemId;
+                                                    RedirectURL = "/Category/CloneItem/" + item.ItemId;
                                                     //}
                                                 }
 
@@ -182,7 +182,7 @@
                                                         string ProductName = "'" + item.ProductName + "'";
                                                         string itemID = "'" + item.ItemId + "'";
 
-                                                        <a id="hlProductDetail" onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@item.ProductName','@item.ItemId','@Model.ProductCategoryId');">
+                                                        <a id="hlProductDetail" onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@Utils.specialCharactersEncoder(item.ProductName)','@item.ItemId','@Model.ProductCategoryId');">
 
                                                             <div class="PDTC_CatProd FI_CatProd">
                                                                 @{
@@ -276,7 +276,7 @@
                                             }
 
 
-                                            
+
 
                                         }
                                     </table>
@@ -306,14 +306,14 @@
 
                                                 if (ViewBag.IsUserLogin == 1) // check if user login or not ??
                                                 {
-                                            
-                                                 <a href="/MarketingBrief/@item.ProductName/@item.ItemId/@Model.ProductCategoryId" onclick="ShowLoader();">
+
+                                                    <a href="/MarketingBrief/@item.ProductName/@item.ItemId/@Model.ProductCategoryId" onclick="ShowLoader();">
                                                         <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId))" class="place-inquiry-button rounded_corners" />
                                                     </a>
                                                 }
                                                 else
                                                 {
-                                                    <a onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@item.ProductName','@item.ItemId','@Model.ProductCategoryId');">
+                                                    <a onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@Utils.specialCharactersEncoder(item.ProductName)','@item.ItemId','@Model.ProductCategoryId');">
                                                         <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId))" class="place-inquiry-button rounded_corners" />
                                                     </a>
 
@@ -335,7 +335,7 @@
                                                     </a>
                                                 }
 
-                                                if (item.isUploadImage == true && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+                                                if (item.isUploadImage == true)
                                                 {
                                                     <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/UploadDesign" onclick="ShowLoader();">
                                                         <input type="button" value="Upload your design" class="create-design-button rounded_corners" />
@@ -363,7 +363,7 @@
                                             }
 
                                         </div>
-                                      
+
                                     </div>
                                     <div id="PriceCircle" class="blue_cicle_container DisplayNoneCSS6">
                                         <div class="BC_CatProd">

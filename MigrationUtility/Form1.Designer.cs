@@ -39,16 +39,27 @@
             this.rdRetailStoreTargetNew = new System.Windows.Forms.RadioButton();
             this.rdRetailStoreTargetExisting = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtMPCContentBasePath = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtPinkCardsStoredImagesBasePath = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.btnContentPath = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.txtOrganisationId = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtStatus = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // output
             // 
             this.output.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.output.Location = new System.Drawing.Point(0, 149);
+            this.output.Location = new System.Drawing.Point(0, 243);
             this.output.Multiline = true;
             this.output.Name = "output";
-            this.output.Size = new System.Drawing.Size(1317, 522);
+            this.output.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.output.Size = new System.Drawing.Size(1251, 429);
             this.output.TabIndex = 0;
             // 
             // btnImportRetail
@@ -63,7 +74,7 @@
             // 
             // btnCorporateStoreImport
             // 
-            this.btnCorporateStoreImport.Location = new System.Drawing.Point(438, 105);
+            this.btnCorporateStoreImport.Location = new System.Drawing.Point(438, 158);
             this.btnCorporateStoreImport.Name = "btnCorporateStoreImport";
             this.btnCorporateStoreImport.Size = new System.Drawing.Size(122, 23);
             this.btnCorporateStoreImport.TabIndex = 2;
@@ -73,7 +84,7 @@
             // 
             // txtCorpStoreId
             // 
-            this.txtCorpStoreId.Location = new System.Drawing.Point(321, 107);
+            this.txtCorpStoreId.Location = new System.Drawing.Point(321, 160);
             this.txtCorpStoreId.Name = "txtCorpStoreId";
             this.txtCorpStoreId.Size = new System.Drawing.Size(100, 20);
             this.txtCorpStoreId.TabIndex = 3;
@@ -98,7 +109,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 12);
+            this.button1.Location = new System.Drawing.Point(0, -1);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(162, 23);
             this.button1.TabIndex = 6;
@@ -112,7 +123,7 @@
             this.txtTargetRetailStoreId.Name = "txtTargetRetailStoreId";
             this.txtTargetRetailStoreId.Size = new System.Drawing.Size(100, 20);
             this.txtTargetRetailStoreId.TabIndex = 7;
-            this.txtTargetRetailStoreId.Text = "32896";
+            this.txtTargetRetailStoreId.Text = "63399";
             // 
             // rdRetailStoreTargetNew
             // 
@@ -139,22 +150,111 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtStatus);
             this.groupBox1.Controls.Add(this.rdRetailStoreTargetExisting);
             this.groupBox1.Controls.Add(this.btnImportRetail);
             this.groupBox1.Controls.Add(this.rdRetailStoreTargetNew);
             this.groupBox1.Controls.Add(this.txtTargetRetailStoreId);
-            this.groupBox1.Location = new System.Drawing.Point(12, 54);
+            this.groupBox1.Location = new System.Drawing.Point(12, 107);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(652, 45);
+            this.groupBox1.Size = new System.Drawing.Size(733, 45);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
+            // 
+            // txtMPCContentBasePath
+            // 
+            this.txtMPCContentBasePath.Location = new System.Drawing.Point(180, 49);
+            this.txtMPCContentBasePath.Name = "txtMPCContentBasePath";
+            this.txtMPCContentBasePath.Size = new System.Drawing.Size(565, 20);
+            this.txtMPCContentBasePath.TabIndex = 11;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(50, 52);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(124, 13);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "txtMPCContentBasePath";
+            // 
+            // txtPinkCardsStoredImagesBasePath
+            // 
+            this.txtPinkCardsStoredImagesBasePath.Location = new System.Drawing.Point(180, 81);
+            this.txtPinkCardsStoredImagesBasePath.Name = "txtPinkCardsStoredImagesBasePath";
+            this.txtPinkCardsStoredImagesBasePath.Size = new System.Drawing.Size(565, 20);
+            this.txtPinkCardsStoredImagesBasePath.TabIndex = 13;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(50, 84);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(121, 13);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "StoredImages BasePath";
+            // 
+            // folderBrowserDialog1
+            // 
+            this.folderBrowserDialog1.HelpRequest += new System.EventHandler(this.folderBrowserDialog1_HelpRequest);
+            // 
+            // btnContentPath
+            // 
+            this.btnContentPath.Location = new System.Drawing.Point(751, 47);
+            this.btnContentPath.Name = "btnContentPath";
+            this.btnContentPath.Size = new System.Drawing.Size(37, 23);
+            this.btnContentPath.TabIndex = 15;
+            this.btnContentPath.Text = "...";
+            this.btnContentPath.UseVisualStyleBackColor = true;
+            this.btnContentPath.Click += new System.EventHandler(this.btnContentPath_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(751, 79);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(37, 23);
+            this.button2.TabIndex = 16;
+            this.button2.Text = "...";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // txtOrganisationId
+            // 
+            this.txtOrganisationId.Location = new System.Drawing.Point(180, 23);
+            this.txtOrganisationId.Name = "txtOrganisationId";
+            this.txtOrganisationId.Size = new System.Drawing.Size(100, 20);
+            this.txtOrganisationId.TabIndex = 17;
+            this.txtOrganisationId.Text = "1";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(50, 26);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(77, 13);
+            this.label3.TabIndex = 18;
+            this.label3.Text = "OrganisationID";
+            // 
+            // txtStatus
+            // 
+            this.txtStatus.Location = new System.Drawing.Point(572, 20);
+            this.txtStatus.Name = "txtStatus";
+            this.txtStatus.Size = new System.Drawing.Size(155, 20);
+            this.txtStatus.TabIndex = 10;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1317, 671);
+            this.ClientSize = new System.Drawing.Size(1251, 672);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtOrganisationId);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btnContentPath);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.txtPinkCardsStoredImagesBasePath);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtMPCContentBasePath);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.txtStoreId);
@@ -185,6 +285,16 @@
         private System.Windows.Forms.RadioButton rdRetailStoreTargetNew;
         private System.Windows.Forms.RadioButton rdRetailStoreTargetExisting;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox txtMPCContentBasePath;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtPinkCardsStoredImagesBasePath;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.Button btnContentPath;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox txtOrganisationId;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtStatus;
     }
 }
 

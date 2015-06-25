@@ -76,7 +76,7 @@ namespace MPC.Repository.Repositories
                     (string.IsNullOrEmpty(request.SearchString) || (stockItem.ItemName.Contains(request.SearchString)) ||
                      (stockItem.AlternateName.Contains(request.SearchString))) && (
                          (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId) &&
-                         (!request.SubCategoryId.HasValue || request.SubCategoryId == stockItem.SubCategoryId)) && stockItem.OrganisationId == OrganisationId && stockItem.IsImperical == isImperical;
+                         (!request.SubCategoryId.HasValue || request.SubCategoryId == stockItem.SubCategoryId)) && stockItem.OrganisationId == OrganisationId && stockItem.IsImperical == isImperical && stockItem.isDisabled != true;
 
             IEnumerable<StockItem> stockItems = request.IsAsc
                ? DbSet.Where(query)
@@ -105,7 +105,7 @@ namespace MPC.Repository.Repositories
                     (string.IsNullOrEmpty(request.SearchString) || (stockItem.ItemName.Contains(request.SearchString)) ||
                      (stockItem.AlternateName.Contains(request.SearchString)) || (stockItem.StockCategory.Name.Contains(request.SearchString))
                      || (stockItem.StockSubCategory.Name.Contains(request.SearchString)) || (stockItem.Company.Name.Contains(request.SearchString))) && (
-                         (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId)) && stockItem.OrganisationId == OrganisationId & stockItem.IsImperical == isImperical;
+                         (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId)) && stockItem.OrganisationId == OrganisationId && stockItem.IsImperical == isImperical && stockItem.isDisabled != true;
 
             IEnumerable<StockItem> stockItems = request.IsAsc
                ? DbSet.Where(query)
@@ -125,22 +125,23 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public InventorySearchResponse GetStockItemsForProduct(StockItemRequestModel request)
         {
+            bool isImperical = db.Organisations.Where(o => o.OrganisationId == OrganisationId).Select(c => c.IsImperical ?? false).FirstOrDefault();
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
             Expression<Func<StockItem, bool>> query =
                 stockItem =>
                     (string.IsNullOrEmpty(request.SearchString) || stockItem.ItemName.Contains(request.SearchString)) &&
                     (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId) &&
-                    stockItem.OrganisationId == OrganisationId;
+                    stockItem.OrganisationId == OrganisationId && stockItem.IsImperical == isImperical && stockItem.isDisabled != true;
 
             IEnumerable<StockItem> stockItems = request.IsAsc
                ? DbSet.Where(query)
-                   .OrderBy(stockItemOrderByClause[request.StockItemOrderBy])
+                   .OrderBy(item=> item.ItemName)
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList()
                : DbSet.Where(query)
-                   .OrderByDescending(stockItemOrderByClause[request.StockItemOrderBy])
+                   .OrderBy(item => item.ItemName)
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList();

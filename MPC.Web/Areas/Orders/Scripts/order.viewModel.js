@@ -398,6 +398,8 @@ define("order/order.viewModel",
                     },
                     // Edit Item
                     editItem = function (item) {
+                        var itemHasChanges = item.hasChanges();
+                        var orderGotChanges = selectedOrder().hasChanges();
                         itemCodeHeader(item.code());
                         var itemSection = _.find(item.itemSections(), function (itemSec) {
                             return itemSec.flagForAdd() === true;
@@ -408,10 +410,14 @@ define("order/order.viewModel",
                             counterForSection = counterForSection - 1;
                             itemSectionForAddView.id(counterForSection);
                             item.itemSections.push(itemSectionForAddView);
-                            item.reset();
+                            if (!itemHasChanges) {
+                                item.reset();
+                            }
                         }
                         selectedProduct(item);
-                        selectedOrder().reset();
+                        if (!orderGotChanges) {
+                            selectedOrder().reset();
+                        }
                         var section = selectedProduct() != undefined ? selectedProduct().itemSections()[0] : undefined;
                         editSection(section);
                         openItemDetail();
@@ -872,7 +878,6 @@ define("order/order.viewModel",
                             }
                         });
                     },
-
                     selectedSectionCostCenter = ko.observable(),
                     selectedQty = ko.observable(),
                     //Opens Cost Center dialog for Shipping
@@ -907,7 +912,7 @@ define("order/order.viewModel",
                     createNewCostCenterProduct = function () {
                         view.hideCostCentersQuantityDialog();
                         //selectedCostCentre(costCenter);
-                        var item = itemModel.Item.Create({ EstimateId: selectedOrder().id() });
+                        var item = itemModel.Item.Create({ EstimateId: selectedOrder().id(), RefItemId: selectedCostCentre().id() });
                         applyProductTax(item);
                         selectedProduct(item);
                         item.productName(selectedCostCentre().name());
@@ -978,7 +983,7 @@ define("order/order.viewModel",
                     //Req. Change: When adding CostCenter Product For shipping charge
                     //Do not show quantity dialog
                     createNewCostCenterProductForShippingCharge = function () {
-                        var item = itemModel.Item.Create({ EstimateId: selectedOrder().id() });
+                        var item = itemModel.Item.Create({ EstimateId: selectedOrder().id(), RefItemId: selectedCostCentre().id() });
                         applyProductTax(item);
                         selectedProduct(item);
                         item.productName(selectedCostCentre().name());
@@ -1502,7 +1507,7 @@ define("order/order.viewModel",
                         } else {
                             companyId = selectedOrder().companyId();
                         }
-                        addCostCenterVM.show(afterSelectCostCenter, companyId, true, currencySymbol(), selectedCompanyTaxRate(), selectedCompanyTaxRate());
+                        addCostCenterVM.show(afterSelectCostCenter, companyId, true, currencySymbol(), selectedCompanyTaxRate());
                     },
                     onAddCostCenterForProduct = function () {
                         getCostCentersForProduct();
@@ -1597,7 +1602,7 @@ define("order/order.viewModel",
                         }
                     },
                     onSaveProductInventory = function () {
-                        var item = itemModel.Item.Create({ EstimateId: selectedOrder().id() });
+                        var item = itemModel.Item.Create({ EstimateId: selectedOrder().id(), RefItemId: inventoryStockItemToCreate().id });
                         item.productName(inventoryStockItemToCreate().name);
 
                         updateQuantitiesValues();
@@ -1768,7 +1773,7 @@ define("order/order.viewModel",
                     //#endregion
                     //#region Add Blank Print Product
                     onCreateNewBlankPrintProduct = function () {
-                        var newItem = itemModel.Item.Create({});
+                        var newItem = itemModel.Item.Create({ EstimateId: selectedOrder().id() });
                         applyProductTax(newItem);
                         //Req: Item Product code is set to '1', so while editting item's section is mandatory
                         newItem.productType(1);
@@ -2093,8 +2098,8 @@ define("order/order.viewModel",
                             }
                         });
                     },
-                    openReportsOrder = function () {
-                        reportManager.show(ist.reportCategoryEnums.Orders, 0, 0);
+                    openReportsOrder = function (isFromEditor) {
+                        reportManager.show(ist.reportCategoryEnums.Orders, isFromEditor == true ? true : false, 0);
                     },
                     openExternalReportsOrder = function () {
                         reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());

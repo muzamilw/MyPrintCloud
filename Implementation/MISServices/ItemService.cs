@@ -877,8 +877,8 @@ namespace MPC.Implementation.MISServices
                     templatePageService.CreatePageBlankBackgroundPDFs(
                     template.ProductId,
                     tempPageCustom,
-                    template.PDFTemplateHeight.HasValue ? template.PDFTemplateHeight.Value : 0,
-                    template.PDFTemplateWidth.HasValue ? template.PDFTemplateWidth.Value : 0,
+                    tempPageCustom.Height.HasValue ? tempPageCustom.Height.Value : 0,
+                    tempPageCustom.Width.HasValue ? tempPageCustom.Width.Value : 0,
                     organisationId));
             }
             catch (Exception exp)
@@ -2372,7 +2372,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public IEnumerable<Item> GetItemsByCompanyId(ItemSearchRequestModel request)
+        public ItemSearchResponse GetItemsByCompanyId(ItemSearchRequestModel request)
         {
             return itemRepository.GetItemsByCompanyId(request);
         }

@@ -1,8 +1,8 @@
 ﻿<div class="row" style="display: none" data-bind="visible: $root.isEditorVisible()">
     <div class="row" style="">
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <div class="row">
-                <div class="col-lg-12" id="topArea" style="padding-left:16px;">
+                <div class="col-sm-12" id="topArea" style="padding-left:16px;">
                     <ol class="breadcrumb">
                         <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
                         <li><a href="~/Orders/Home/PurchaseOrders/Index" class="my-navigator">Purchase Orders</a></li>
@@ -12,8 +12,8 @@
                         <h1 class="pull-left" style="padding-left:0px;margin-top:35px;">&nbsp;</h1>
                     </div>
 
-                    <div class="col-lg-12" id="filter" style="height:50px;margin-bottom:7px;">
-                        <div class="col-lg-2 pull-right" style="padding-right: 2%; ">
+                    <div class="col-sm-12" id="filter" style="height:50px;margin-bottom:7px;">
+                        <div class="col-sm-2 pull-right" style="padding-right: 2%; ">
                         </div>
                     </div>
                 </div>
@@ -21,7 +21,7 @@
         </div>
     </div>
     <div>
-        <div class="row col-lg-6" style="float:left;padding-left: 1.7%;">
+        <div class="row col-sm-6" style="float:left;padding-left: 1.7%;">
             <div class="pull-left validationSummaryContainer">
                 <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopupForStore', popoverId: 'validationSummaryPopoverBodyForStore' }" style="display: none">Invalid data: Click here to see details.</a>
                 <div class="well well-small validationSummaryModal" id="validationSummaryPopupForStore" style="display: none">
@@ -38,35 +38,36 @@
         <div class="row" id="prefixesdata" style="float: right; padding-right: 1.1%; margin-top: 1%; ">
 
             <div class="input-group">
-                <button class="btn btn-primary" data-bind="click: $root.openReport" style="margin-right:5px">
-                    Reports
+                <button class="btn btn-primary" data-bind="visible:$root.selectedPurchaseOrder().id()!==undefined,click: $root.openReport.bind($data, true) " style="margin-right:5px">
+                    Print
                 </button>
                 <button data-bind="click:$root.onCloseEditor" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;">&nbsp;Cancel</button>
-                <button class="btn btn-primary" style="float: right;margin-right: 6px;display:inline;" id="saveBtn" data-bind="click:$root.onSavePurchaseOrder,css: { 'btn-warning': $root.selectedPurchaseOrder().hasChanges() }">
+                <button class="btn btn-primary" style="float: right;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===31,click:$root.onSavePurchaseOrder,css: { 'btn-warning': $root.selectedPurchaseOrder().hasChanges() }">
                     &nbsp;Save
                 </button>
-                <button class="btn  btn-danger" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()!==31,enable:($root.selectedPurchaseOrder().id()!==undefined && $root.selectedPurchaseOrder().status()!==31),click:$root.onDeleteDeliveryNote">&nbsp;Delete</button>
-                @*<button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn" data-bind="enable:$root.selectedPurchaseOrder().id()!==undefined"><i class="fa fa-print fa-lg"></i>&nbsp;Print</button>*@
-                <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()!==31,enable:($root.selectedPurchaseOrder().id()!==undefined && $root.selectedPurchaseOrder().status()!==31),click:$root.onPostDeliveryNote">&nbsp;Post</button>
+                <button class="btn  btn-danger" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===31 && $root.selectedPurchaseOrder().id()!==undefined,click:$root.onDeletePurchase">&nbsp;Delete</button>
+                <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===31 && $root.selectedPurchaseOrder().id()!==undefined,click:$root.onPostPurchaseOrder">&nbsp;Post PO</button>
+                <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===31 && $root.selectedPurchaseOrder().id()!==undefined,click:$root.onCancelPurchaseOrder">&nbsp;Cancel PO</button>
+                <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===32 && $root.selectedPurchaseOrder().id()!==undefined,click:$root.onCreateGRN">&nbsp;Create GRN</button>
 
             </div>
         </div>
     </div>
     <div class="row" id="user-profile" data-bind="with: selectedPurchaseOrder" style="padding-left: 18px; padding-right: 20px; margin-top: 5.5%; ">
-        <div class="col-lg-12 col-md-8 col-sm-8">
+        <div class="col-sm-12">
             <div class="main-box clearfix">
-                <div class="col-lg-12 form-horizontal" style="margin-top: 3%;">
+                <div class="col-sm-12 form-horizontal" style="margin-top: 3%;">
                     <h3 class="group-header">General Information</h3>
-                    <div class="col-lg-6">
+                    <div class="col-sm-6">
                         <div class="form-group">
-                            <div class="col-lg-4 text-right">
+                            <div class="col-sm-4 text-right">
                                 <div class="bs-example-tooltips tooltip-float-width">
 
                                 </div>
 
                                 <label class="control-label tooltip-float">&nbsp;</label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-sm-6">
                                 <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: supplierId, click: !$root.selectedPurchaseOrder().id() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
                             </div>
                             <div class="col-sm-1" style="padding-top:10px;margin-left: 10px">
@@ -81,7 +82,7 @@
                                 &nbsp;
                             </div>
                             <div class="col-sm-6" data-bind="if: $root.isCompanyBaseDataLoaded">
-                                <select class="form-control" data-bind="options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a contact', value: contactId"></select>
+                                <select class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a contact', value: contactId"></select>
                                 <span class="help-block text-right"></span>
                             </div>
                         </div>
@@ -90,7 +91,7 @@
                                 &nbsp;
                             </div>
                             <div class="col-sm-6" data-bind="if: $root.isCompanyBaseDataLoaded">
-                                <select class="form-control" data-bind="options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select an address', value: addressId"></select>
+                                <select class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select an address', value: addressId"></select>
                                 <span class="help-block text-right"></span>
                             </div>
                             <div class="col-sm-1" data-bind="if: $root.isCompanyBaseDataLoaded" style="margin-left: 10px">
@@ -140,7 +141,7 @@
 
                         <!--here it ends-->
                         <div class="form-group">
-                            <div class="col-lg-4 text-right">
+                            <div class="col-sm-4 text-right">
                                 <div class="bs-example-tooltips tooltip-float-width">
                                     <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Order Ref. No" data-original-title="" title="">
                                         @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
@@ -149,18 +150,18 @@
 
                                 <label class="control-label tooltip-float"></label>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-sm-6">
                                 <div>
-                                    <input type="text" value="Double-Sided A4" placeholder="Order Ref. No" class="form-control" data-bind="value:reffNo" />
+                                    <input type="text" value="Double-Sided A4" placeholder="Order Ref. No" class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,value:reffNo" />
 
                                 </div>
                             </div>
                         </div>
                         @*<div class="form-group">
-                                <div class="col-lg-4 text-right">
+                                <div class="col-sm-4 text-right">
                                     <label class="control-label text-right tooltip-float"></label>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-sm-6">
                                     <input type="text" class="form-control" placeholder="Carrier Tracking Path">
 
                                 </div>
@@ -168,11 +169,11 @@
                     </div>
 
 
-                    <div class="col-lg-6">
+                    <div class="col-sm-6">
 
                         <div class="form-group">
-                            <div class="col-sm-4 text-right" style="padding-top:10px;">
-                                <label class="control-label text-right tooltip-float">Delivery Status</label>
+                            <div class="col-sm-4 text-right" style="padding-top:14px;">
+                                <label class="control-label text-right tooltip-float">Status</label>
                             </div>
                             <div class="col-sm-6">
                                 <input type="text" style="height: 60px;" data-bind="value: status()===31 ? 'Open' :'Posted'" readonly class="form-control font24px" id="code" />
@@ -183,36 +184,36 @@
                                 &nbsp;
                             </div>
                             <div class="col-sm-6">
-                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag',value:flagId"></select>
+                                <select class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag',value:flagId,validationOptions:flagId, validationOnElement:flagId"></select>
                                 <span class="help-block text-right"></span>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <div class="col-lg-4 text-right">
+                            <div class="col-sm-4 text-right">
 
                                 <label class="control-label text-right tooltip-float">Type</label>
                             </div>
-                            <div class="col-lg-6">
-                                <select class="form-control" data-bind="enable:!(id()!==undefined || purchaseDetails().length >0),options: $root.purchaseOrderTypes, optionsText: 'name', optionsValue: 'id',value:isproduct"></select>
+                            <div class="col-sm-6">
+                                <select class="form-control" data-bind="enable:!(id()!==undefined || purchaseDetails().length >0),options: $root.purchaseOrderDetailTypes, optionsText: 'name', optionsValue: 'id',value:isproduct"></select>
                                 <span class="help-block text-right"></span>
                             </div>
                         </div>
 
 
                         <div class="form-group">
-                            <div class="col-lg-4 text-right">
+                            <div class="col-sm-4 text-right" style="margin-top: 2%">
 
                                 <label class="control-label text-right tooltip-float">Purchase Date</label>
                             </div>
-                            <div class="col-lg-6">
-                                <input type="text" style="height:60px;" class="form-control" data-bind="datepicker:purchaseDate">
+                            <div class="col-sm-6">
+                                <input type="text" style="height:60px;" class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,datepicker:purchaseDate">
                             </div>
                         </div>
                     </div>
 
 
-                    @* <div class="col-lg-9 form-horizontal">*@
+                    @* <div class="col-sm-9 form-horizontal">*@
 
                     @*</div>*@
                 </div>
@@ -284,16 +285,16 @@
                                         </div>
                                     </div>
                                     <div class="btn-group" style="float: left; margin-top: 10px;">
-                                        <button type="button" class="btn btn-primary" data-bind="click:$root.addPurchaseDetail">Add Purchase Detail</button>
+                                        <button type="button" class="btn btn-primary" data-bind="enable:$root.selectedPurchaseOrder().status()===31,click:$root.addPurchaseDetail">Add Purchase Detail</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12 form-horizontal main-box-body clearfix">
+                <div class="col-sm-12 form-horizontal main-box-body clearfix">
                     <div class="form-group">
-                        <div class="col-lg-2 text-right">
+                        <div class="col-sm-2 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select estimate date." data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -301,37 +302,37 @@
                             </div>
                             <label class="control-label text-right tooltip-float">Comments</label>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="col-lg-11" style="padding-right: 5px;padding-left: 5px;">
-                                <textarea class="form-control" id="EstimateHeader" rows="4" data-bind="value: comments"></textarea>
+                        <div class="col-sm-6">
+                            <div class="col-sm-11" style="padding-right: 5px;padding-left: 5px;">
+                                <textarea class="form-control" id="EstimateHeader" rows="4" data-bind="enable:$root.selectedPurchaseOrder().status()===31,value: comments"></textarea>
                             </div>
                         </div>
 
-                        <div class="col-lg-3">
+                        <div class="col-sm-3">
                             <div class="form-group">
-                                <div class="col-lg-6 text-right">
+                                <div class="col-sm-6 text-right">
                                     <label class="control-label text-right tooltip-float" style="font-weight: 800;">Total Price</label>
                                 </div>
-                                <div class="col-lg-6">
-                                    <label class="control-label" data-bind="text:totalPrice"></label>
+                                <div class="col-sm-6" style="text-align: right">
+                                    <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput:totalPrice"></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-lg-3 text-right">
+                                <div class="col-sm-3 text-right">
                                     <label class="control-label text-right tooltip-float">Discount</label>
                                 </div>
-                                <div class="col-lg-4">
-                                    <input type="text" class="form-control" data-bind="value:discount">
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,value:discount">
                                 </div>
-                                <div class="col-lg-5">
-                                    <select class="form-control" data-bind="options: $root.discountTypes, optionsText: 'name', optionsValue: 'id',value:discountType"></select>
+                                <div class="col-sm-5">
+                                    <select class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,options: $root.discountTypes, optionsText: 'name', optionsValue: 'id',value:discountType"></select>
 
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-lg-2 text-right">
+                        <div class="col-sm-2 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select estimate date." data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -339,27 +340,27 @@
                             </div>
                             <label class="control-label text-right tooltip-float">Foot Notes</label>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="col-lg-11" style="padding-right: 5px;padding-left: 5px;">
-                                <textarea class="form-control" id="EstimateHeader" rows="4" data-bind="value: footnote"></textarea>
+                        <div class="col-sm-6">
+                            <div class="col-sm-11" style="padding-right: 5px;padding-left: 5px;">
+                                <textarea class="form-control" id="EstimateHeader" rows="4" data-bind="enable:$root.selectedPurchaseOrder().status()===31,value: footnote"></textarea>
                             </div>
                         </div>
 
-                        <div class="col-lg-3">
+                        <div class="col-sm-3">
                             <div class="form-group">
-                                <div class="col-lg-6 text-right">
+                                <div class="col-sm-6 text-right">
                                     <label class="control-label text-right tooltip-float" style="font-weight: 800;">Net Total</label>
                                 </div>
-                                <div class="col-lg-6">
-                                    <label class="control-label" data-bind="text:netTotal"></label>
+                                <div class="col-sm-6 text-right">
+                                    <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput:netTotal"></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-lg-6 text-right">
+                                <div class="col-sm-6 text-right">
                                     <label class="control-label text-right tooltip-float" style="font-weight: 800;">Total Tax</label>
                                 </div>
-                                <div class="col-lg-6">
-                                    <label class="control-label" data-bind="text:totalTax"></label>
+                                <div class="col-sm-6 text-right">
+                                    <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput:totalTax"></span>
                                 </div>
 
                             </div>
@@ -367,7 +368,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-lg-2 text-right">
+                        <div class="col-sm-2 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Source for Estimate." data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -375,15 +376,15 @@
                             </div>
                             <label class="control-label text-right tooltip-float">Created By</label>
                         </div>
-                        <div class="col-lg-3" style="padding-right: 5px;">
-                            <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsValue: 'id', optionsCaption: 'Select a system user',value:createdBy"></select>
+                        <div class="col-sm-3" style="padding-right: 5px;">
+                            <select class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,options: $root.systemUsers, optionsText: 'fullName', optionsValue: 'id', optionsCaption: 'Select a system user',value:createdBy"></select>
                             <span class="help-block text-right"></span>
                         </div>
-                        <div class="col-lg-5 text-right">
+                        <div class="col-sm-5 text-right">
                             <label class="control-label text-right tooltip-float" style="padding-right: 10%;font-weight: 800;">Grand Total</label>
                         </div>
-                        <div class="col-lg-2">
-                            <label class="control-label" data-bind="text:grandTotal"></label>
+                        <div class="col-sm-1 text-right" style="padding-right: 0px;">
+                            <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput:grandTotal"></span>
                         </div>
                     </div>
                 </div>
@@ -411,15 +412,21 @@
 <script id="productItemTemplate" type="text/html">
     <tr style="cursor: pointer">
         <td data-bind="text: itemCode,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: serviceDetail"></td>
-        <td data-bind="text: packqty,click:$root.editPurchaseDetail,click:$root.editPurchaseDetail"></td>
+        <td data-bind="text: serviceDetail,click:$root.editPurchaseDetail"></td>
+        <td data-bind="text: packqty,click:$root.editPurchaseDetail"></td>
         <td data-bind="text: quantity,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: price,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: totalPrice,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: taxValue,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: netTax,click:$root.editPurchaseDetail"></td>
+        <td>
+            <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: price,click:$root.editPurchaseDetail"></span>
+        </td>
+        <td>
+            <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: totalPrice,click:$root.editPurchaseDetail"></span>
+        </td>
+        <td data-bind="numberInput: taxValue,click:$root.editPurchaseDetail"></td>
+        <td>
+            <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: netTax,click:$root.editPurchaseDetail"></span>
+        </td>
         <td data-bind="text: freeitems,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: discount,click:$root.editPurchaseDetail"></td>
+        <td data-bind="numberInput: discount,click:$root.editPurchaseDetail"></td>
         <td style="width: 5%">
             <!-- ko template: { name: 'deletePurchaseDetailTemplate' } -->
             <!-- /ko -->
@@ -427,13 +434,13 @@
     </tr>
 </script>
 <script id="serviceItemTemplate" type="text/html">
-    <tr style="cursor: pointer">
+    <tr style="cursor: pointer" data-bind="enable:$root.selectedPurchaseOrder().status()===31">
         <td data-bind="text: serviceDetail,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: price,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: totalPrice,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: taxValue,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: netTax,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: discount,click:$root.editPurchaseDetail"></td>
+        <td data-bind="numberInput: price,click:$root.editPurchaseDetail"></td>
+        <td data-bind="numberInput: totalPrice,click:$root.editPurchaseDetail"></td>
+        <td data-bind="numberInput: taxValue,click:$root.editPurchaseDetail"></td>
+        <td data-bind="numberInput: netTax,click:$root.editPurchaseDetail"></td>
+        <td data-bind="numberInput: discount,click:$root.editPurchaseDetail"></td>
         <td style="width: 5%">
             <!-- ko template: { name: 'deletePurchaseDetailTemplate' } -->
             <!-- /ko -->

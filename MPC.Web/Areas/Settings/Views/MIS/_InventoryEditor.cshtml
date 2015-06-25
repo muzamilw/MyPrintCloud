@@ -29,8 +29,8 @@
                         </div>
                         <div class="pull-right top-page-ui" style="padding-right:10PX;">
                             <button class="btn btn-danger" id="delButton" data-bind="click: $root.onArchiveStock, visible:itemId()!== 0">Archive</button>
-                            <button class="btn btn-primary" data-bind="click: $root.openReport" style="margin-right:-1px">
-                                Reports
+                            <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:-1px">
+                                Print
                             </button>
                             <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveInventory, enable: $root.hasChangesOnInventory, css: { 'btn-warning': $root.hasChangesOnInventory }">Save</button>
                             <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeInventoryEditor">Close</button>
@@ -66,9 +66,9 @@
                                     <div class="form-group ">
                                         <div class="col-lg-5 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-content="Select Stock Category" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-content="Select Stock Category" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
+                                                </a>*@
                                             </div>
                                             <label for="category" class="control-label text-right tooltip-float">Inventory Category</label>
                                         </div>
@@ -79,9 +79,9 @@
                                     <div class="form-group ">
                                         <div class="col-lg-5 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-content="Select Stock Sub Category" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-content="Select Stock Sub Category" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
+                                                </a>*@
                                             </div>
                                             <label for="subcategory" class="control-label text-right tooltip-float">Inventory Sub Category</label>
                                         </div>
@@ -110,9 +110,9 @@
                                         <div class="form-group ">
                                             <div class="col-lg-5 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Flag" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                    @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Flag" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
+                                                    </a>*@
                                                 </div>
                                                 <label for="flag" class="control-label text-right tooltip-float">Flag</label>
                                             </div>
@@ -584,7 +584,7 @@
                                                             <th style="width: 28%"> <span>Price/ <span data-bind="text:headerComputedValue"></span></span></th>
                                                             <th style="width: 22%"> <span>From<span></span></span></th>
                                                             <th style="width: 22%"> <span>To<span></span></span></th>
-                                                            <th style="width: 22%"> <span>Pack Cost<span></span></span></th>
+                                                            <th style="width: 22%"> <span>Pack Price<span></span></span></th>
                                                             <th style="width: 5%">&nbsp;</th>
                                                         </tr>
                                                     </thead>

@@ -59,6 +59,8 @@ define("common/addProduct.viewModel",
                     storeName = ko.observable(),
                     callerNaMe = ko.observable(),
                     selectedCompanyName = ko.observable(),
+                     //Pager
+                    pager = ko.observable(0),
                     // Show
                     show = function (afterAddCostCenterCallback, companyId, costCentresBaseData, currencySym, oId, saveSectionCostCenter, createItem, companyTaxRateParam, productName, callerName, companyName) {
                         resetFields();
@@ -74,6 +76,7 @@ define("common/addProduct.viewModel",
                         saveSectionCostCenterForproduct = saveSectionCostCenter;
                         createItemFromOrder = createItem;
                         companyTaxRate = companyTaxRateParam;
+                        pager(new pagination.Pagination({ PageSize: 5 }, orderProductItems, getItemsByCompanyId));
                         getItemsByCompanyId();
                     },
                     resetFields = function() {
@@ -93,21 +96,27 @@ define("common/addProduct.viewModel",
                     },                    
                     //Get Items By CompanyId
                     getItemsByCompanyId = function() {
-
                         dataservice.getItemsByCompanyId({
                                 CompanyId: companyIdFromOrder,
-                                SearchString: searchFilter()
+                                SearchString: searchFilter(),
+                                PageSize: pager().pageSize(),
+                    PageNo: pager().currentPage(),
                             }, {
                                 success: function(data) {
                                     if (data != null) {
                                         orderProductItems.removeAll();
                                         productQuantitiesList.removeAll();
+                                        if (selectedStockOption()) {
+                                            selectedStockOption().itemAddonCostCentres.removeAll();
+                                        }
                                         selecteditem(undefined);
 
-                                        _.each(data.Items, function(item) {
+                                        _.each(data.Items, function (item) {
                                             var itemToBePushed = new model.Item.Create(item);
                                             orderProductItems.push(itemToBePushed);
                                         });
+                                        pager().totalCount(data.TotalCount);
+
                                         //Select First Item by Default if list is not empty
                                         if (orderProductItems().length > 0) {
                                            // updateItemsDataOnItemSelection(orderProductItems()[0]);
@@ -136,6 +145,7 @@ define("common/addProduct.viewModel",
                                         item.itemPriceMatrices.removeAll();
                                         item.itemSections.removeAll();
                                         productQuantitiesList.removeAll();
+                                       // selectedStockOption().itemAddonCostCentres.removeAll();
                                         _.each(data.ItemStockOptions, function(itemStockoption) {
                                             itemStockoption.ProductItemTax = item.defaultItemTax();
                                             itemStockoption.CompanyTaxRate = companyTaxRate;
@@ -158,7 +168,7 @@ define("common/addProduct.viewModel",
                                             var itemSectionToBePushed = new model.ItemSection.Create(data.ItemSection);
                                             item.itemSections.push(itemSectionToBePushed);
                                         }
-
+                                      
                                         selecteditem(item);
                                     }
                                 },
@@ -170,15 +180,13 @@ define("common/addProduct.viewModel",
                     createNewRetailStoreProduct = function() {
                         var newItem = createItemFromOrder(selecteditem());
                         newItem.estimateId(orderId);
-                        //var item = selecteditem().convertToServerData();
-                        //item.EstimateId = orderId;
-                        //var newItem = model.Item.Create(item);
                         counterForItem(counterForItem() - 1);
                         newItem.id(0);
                         newItem.qty1NetTotal(totalProductPriceWithoutTax());
                         newItem.itemSections()[0].baseCharge1(totalProductPriceWithoutTax());
                         newItem = addSelectedAddOnsAsCostCenters(newItem);
                         newItem.productType(1);
+                        newItem.refItemId(selecteditem().id());
                         afterAddCostCenter(newItem);
                     },
                     onSaveRetailStoreProduct = function() {
@@ -271,14 +279,88 @@ define("common/addProduct.viewModel",
                         }
                         // ReSharper disable once NotAllPathsReturnValue
                     },
+                    // #region Cost Centre Execution
+                    isQueueExist = false,
+                    questionQueueObject = null,
+                    inputQueueObject = null,
+                    workInstructions = null,
                     // Subscribe Refining Option Selection Change
                     subscribeRefiningOptionSelectionChange = function() {
                         selectedStockOption().itemAddonCostCentres.each(function(refiningOption) {
-                            refiningOption.isSelected.subscribe(function(value) {
+                            refiningOption.isSelected.subscribe(function (value) {
+                                if (!value) {
+                                    return;
+                                }
                                 executeCostCenter(refiningOption);
                             });
                         });
                     },
+                    // Execute Cost Center
+                    executeCostCenter = function (refiningOption) {
+                        if (!selectedProductQuanity()) {
+                            toastr.info("Please select quantity!");
+                            return;
+                        }
+                        dataservice.executeCostCenter({
+                            CostCentreId: refiningOption.costCentreId(),
+                            ClonedItemId: selecteditem().id(),
+                            QuantityOrdered: selectedProductQuanity(),
+                            CallMode: 'New'
+                        }, {
+                            success: function (data) {
+                                questionQueueObject = data[2];
+                                inputQueueObject = data[7];
+                                workInstructions = data[3][0].WorkInstructions;
+                                if (refiningOption.costCentreTypeId() === 4) { // cost centres of calculation methode type 4 are formula based
+                                    if(questionQueueObject != null){ // process the question queue and prompt for values
+                                        if(questionQueueObject.length > 0){
+                                            isQueueExist = true;
+                                            ShowCostCentrePopup(questionQueueObject, refiningOption.costCentreId(), selecteditem().id(), "", "New", currencySymbol(), 
+                                                totalProductPrice(), inputQueueObject.Items, refiningOption.costCentreTypeId(), companyTaxRate, workInstructions,
+                                                selectedProductQuanity(), selectedStockOption().itemAddonCostCentres);
+                                        }
+                                        if(inputQueueObject.Items.length === 3){ // do not process the queue for prompting values
+                                            isQueueExist = true;
+                                        }
+                                    }
+                                } else if (refiningOption.costCentreTypeId() === 3) { // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+                                    if(refiningOption.costCentreQuantitySourceType() === 1){ // do not process the queue for prompting values else execute it as it is of variable type
+                                        isQueueExist = true;
+                                        SetGlobalCostCentreQueue(questionQueueObject, inputQueueObject.Items, refiningOption.costCentreId(), refiningOption.costCentreTypeId(),
+                                            selecteditem().id(), "", "", totalProductPrice(), currencySymbol(), false, companyTaxRate, selectedProductQuanity(),
+                                            selectedStockOption().itemAddonCostCentres);
+                                    }else{ // process the input queue and prompt for values
+                                        isQueueExist = true;
+                                        ShowInputCostCentrePopup(inputQueueObject.Items, refiningOption.costCentreId(), selecteditem().id(), "", "New", currencySymbol(), 
+                                            totalProductPrice(), questionQueueObject, refiningOption.costCentreTypeId(), companyTaxRate, workInstructions,
+                                            selectedProductQuanity(), selectedStockOption().itemAddonCostCentres);
+                                    }
+                                } else if (refiningOption.costCentreTypeId() === 2) { // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+
+                                    if(refiningOption.costCentreTimeSourceType() === 1){ // do not process the queue for prompting values else execute it as it is of variable type
+                                        isQueueExist = true;
+                                        SetGlobalCostCentreQueue(questionQueueObject, inputQueueObject.Items, refiningOption.costCentreId(), refiningOption.costCentreTypeId(),
+                                            selecteditem().id(), refiningOption.isSelected.domElement, "", totalProductPrice(), currencySymbol(),
+                                            false, companyTaxRate, selectedProductQuanity(),
+                                            selectedStockOption().itemAddonCostCentres);
+                                    }else{ // process the input queue and prompt for values
+                                        isQueueExist = true;
+                                        ShowInputCostCentrePopup(inputQueueObject.Items, refiningOption.costCentreId(), selecteditem().id(),
+                                            refiningOption.isSelected.domElement, "New", currencySymbol(),
+                                            totalProductPrice(), questionQueueObject, refiningOption.costCentreTypeId(), companyTaxRate, workInstructions,
+                                            selectedProductQuanity(), selectedStockOption().itemAddonCostCentres);
+                                    }
+                                }
+                                if(isQueueExist === false){// queue is not populating
+                                    toastr.error("Queue is not populating.");
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to execute cost center. Error: " + response);
+                            }
+                        });
+                    },
+                    // #endregion
                     //On Product From Retail Store update Item price matrix table and Add on Table 
                     updateViewOnStockOptionChange = ko.computed(function() {
                         if (selecteditem() == undefined || selecteditem().itemStockOptions == undefined) {
@@ -300,24 +382,6 @@ define("common/addProduct.viewModel",
                     }),
                     showCostCenterSections = function() {
                         costCenterVisibility(!costCenterVisibility());
-                    },
-                    // Execute Cost Center
-                    executeCostCenter = function (refiningOption) {
-                        dataservice.executeCostCenter({
-                            CostCentreId: refiningOption.costCentreId(),
-                            ClonedItemId: selecteditem().id(),
-                            QuantityOrdered: selectedProductQuanity(),
-                            CallMode: 'New'
-                        }, {
-                            success: function (data) {
-                                if (data != null) {
-                                    
-                                }
-                            },
-                            error: function (response) {
-                                toastr.error("Failed to execute cost center. Error: " + response);
-                            }
-                        });
                     },
                     //Calculate Total Price
                     // ReSharper disable once UnusedLocals
@@ -414,7 +478,8 @@ define("common/addProduct.viewModel",
                     selecteditemName: selecteditemName,
                     storeName: storeName,
                     callerNaMe: callerNaMe,
-                    isQuantitySelected: isQuantitySelected
+                    isQuantitySelected: isQuantitySelected,
+                    pager: pager
                 };
             })()
         };

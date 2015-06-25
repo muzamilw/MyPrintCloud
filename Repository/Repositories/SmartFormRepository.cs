@@ -1319,6 +1319,28 @@ namespace MPC.Repository.Repositories
             result = true;
             return result;
         }
+        public List<VariableExtension> getVariableExtensions(List<ScopeVariable> listScope, long contactId)
+        {
+            List<VariableExtension> listExtensions = new List<VariableExtension>();
+            var contact = db.CompanyContacts.Where(g=>g.ContactId == contactId).SingleOrDefault();
+            if(contact != null)
+            {
+                var company = db.Companies.Where(g=>g.CompanyId == contact.CompanyId).SingleOrDefault();
+                if(company != null)
+                {
+                    foreach(var variable in listScope)
+                    {
+                        var ext = db.VariableExtensions.Where(g => g.CompanyId == company.CompanyId && g.FieldVariableId == variable.FieldVariable.VariableId).SingleOrDefault();
+                        if(ext != null)
+                        {
+                            listExtensions.Add(ext);
+                        }
+                    }
+                
+                }
+            }
+            return listExtensions;
+        }
         #endregion
     }
 }

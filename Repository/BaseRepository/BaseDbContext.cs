@@ -676,9 +676,19 @@ namespace MPC.Repository.BaseRepository
         public DbSet<Reportparam> Reportparams { get; set; }
 
         /// <summary>
+        /// Staging Import Company Contact Address DbSet
+        /// </summary>
+        public DbSet<StagingImportCompanyContactAddress> StagingImportCompanyContactAddresses { get; set; }
+
+        /// <summary>
         /// Machine Lookup Method DbSet
         /// </summary>
         public DbSet<MachineLookupMethod> MachineLookupMethods { get; set; }
+
+        /// <summary>
+        /// Variable Extension DbSet
+        /// </summary>
+        public DbSet<VariableExtension> VariableExtensions { get; set; }
         
         /// <summary>
         /// Clone Template Stored Procedure
@@ -971,7 +981,7 @@ namespace MPC.Repository.BaseRepository
         }
 
 // ReSharper disable InconsistentNaming
-        public ObjectResult<usp_TotalEarnings_Result> usp_TotalEarnings(DateTime? fromdate, DateTime? todate)
+        public ObjectResult<usp_TotalEarnings_Result> usp_TotalEarnings(DateTime? fromdate, DateTime? todate, long? organisationid)
 // ReSharper restore InconsistentNaming
         {
             var fromdateParameter = fromdate.HasValue ?
@@ -982,7 +992,53 @@ namespace MPC.Repository.BaseRepository
                 new ObjectParameter("todate", todate) :
                 new ObjectParameter("todate", typeof(DateTime));
 
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_TotalEarnings_Result>("usp_TotalEarnings", fromdateParameter, todateParameter);
+            var organisationidParameter = organisationid.HasValue ?
+                new ObjectParameter("Organisationid", organisationid) :
+                new ObjectParameter("Organisationid", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_TotalEarnings_Result>("usp_TotalEarnings", fromdateParameter, 
+                todateParameter, organisationidParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public int usp_DeletePurchaseOrders(int? orderId)
+// ReSharper restore InconsistentNaming
+        {
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderID", orderId) :
+                new ObjectParameter("OrderID", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeletePurchaseOrders", orderIdParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public int usp_GeneratePurchaseOrders(int? orderId, Guid? createdBy)
+// ReSharper restore InconsistentNaming
+        {
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderID", orderId) :
+                new ObjectParameter("OrderID", typeof(int));
+
+            var createdByParameter = createdBy.HasValue ?
+                new ObjectParameter("CreatedBy", createdBy) :
+                new ObjectParameter("CreatedBy", typeof(System.Guid));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_GeneratePurchaseOrders", orderIdParameter, createdByParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public int usp_importTerritoryContactAddressByStore(long? organisationId, long? storeId)
+// ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("OrganisationId", organisationId) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            var storeIdParameter = storeId.HasValue ?
+                new ObjectParameter("StoreId", storeId) :
+                new ObjectParameter("StoreId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_importTerritoryContactAddressByStore", organisationIdParameter, storeIdParameter);
         }
 
         #endregion

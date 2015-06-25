@@ -25,7 +25,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PaperThroatQty4 = source.PaperThroatQty4,
                 PaperWeight5 = source.PaperWeight5,
                 PaperThroatQty5 = source.PaperThroatQty5
-
+               
             };
         }
         public static ApiModel.MachineGuillotineCalc CreateFrom(this DomainModel.MachineGuillotineCalc source)

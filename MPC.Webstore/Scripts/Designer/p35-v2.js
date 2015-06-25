@@ -2253,3 +2253,6 @@ $("#btnGoToLandingPage").click(function () {
 $("#btnImagePlaceHolder").click(function () {
     d1PlaceHoldToCanvas();
 });
+$("#btnImagePlaceHolderUser").click(function () {
+    d1PlaceHoldToCanvas();
+});

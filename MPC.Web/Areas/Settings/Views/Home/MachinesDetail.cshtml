@@ -152,50 +152,23 @@
                                             </div>
 
                                         </div>
+                                       
 
 
                                         <div class="form-group">
-
-
-
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-
                                                     <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This charge is used to apply a ONE time fixed cost to load the paper, set the paper feeders, runners and general press setup charges every time a NEW item is to be printed on this press." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
-
                                                 </div>
                                                 <label class="control-label text-right">Paper Feed and Loading Charges</label>
-
                                             </div>
-
                                             <div class="col-lg-6">
                                                 <span data-bind="text:CurrencySymbol" class="CurrencySymbol"></span>
                                                 <div class="col-xs-4" style="width: 23%; padding:0">
-
                                                     <input type="text" class="form-control txtBox-contentAlignRight" value="20" id="qty11" placeholder="Setup Charge" data-bind="autoNumeric: SetupCharge , settings:{mDec:2}" />
-
                                                 </div>
-                                                @*<div class="col-lg-6 text-right" data-bind="visible: ismakereadyused">
-        <div class="bs-example-tooltips tooltip-float-width">
-
-            <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate MakeReady Charge" data-original-title="" title="">
-                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-            </a>
-
-        </div>
-        <label class="control-label text-right">Plate Makeready Price Per Head</label>
-
-    </div>
-    <span data-bind="text:CurrencySymbol, visible: ismakereadyused" class="CurrencySymbol"></span>
-    <div class="col-xs-4" style="width: 22%; padding:0" data-bind="visible: ismakereadyused">
-
-        <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" placeholder="Enter Plate MakeReady Charge" data-bind="autoNumeric: MakeReadyPrice, settings:{mDec:2}" />
-
-    </div>
-                                                *@
-
                                             </div>
                                         </div>
 
@@ -209,7 +182,7 @@
                                                     </a>
 
                                                 </div>
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Press Minimum Charge</label>
+                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Minimum Charge</label>
                                             </div>
 
                                             <div class="col-lg-6">
@@ -219,22 +192,22 @@
                                                     @*<span data-bind="text:WeightUnit" class="help-block text-right"></span>*@
                                                 </div>
                                                 @*<div class="col-lg-6 text-right" data-bind="visible:iswashupused">
-        <div class="bs-example-tooltips tooltip-float-width">
+                    <div class="bs-example-tooltips tooltip-float-width">
 
-            <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate MakeReady Charge" data-original-title="" title="">
-                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-            </a>
-        </div>
-        <label class="control-label text-right">Washup Price Per Head</label>
-    </div>
-    <span data-bind="text:CurrencySymbol, visible:iswashupused" class="CurrencySymbol"></span>
-    <div class="col-xs-4" style="width: 22%; padding:0" data-bind="visible:iswashupused">
-        <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" placeholder="Washup Charge" data-bind="autoNumeric: WashupPrice, settings:{mDec:2}" />
+                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate MakeReady Charge" data-original-title="" title="">
+                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                        </a>
+                    </div>
+                    <label class="control-label text-right">Washup Price Per Head</label>
+                </div>
+                <span data-bind="text:CurrencySymbol, visible:iswashupused" class="CurrencySymbol"></span>
+                <div class="col-xs-4" style="width: 22%; padding:0" data-bind="visible:iswashupused">
+                    <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" placeholder="Washup Charge" data-bind="autoNumeric: WashupPrice, settings:{mDec:2}" />
 
-    </div>*@
+                </div>*@
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" data-bind="visible:!$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
@@ -243,7 +216,7 @@
                                                     </a>
 
                                                 </div>
-                                                <label  class="control-label text-right tooltip-float">Uplift charged to Work ‘n’ Turn Plans</label>
+                                                <label class="control-label text-right tooltip-float">Uplift charged to Work ‘n’ Turn Plans</label>
 
                                             </div>
 
@@ -254,7 +227,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" data-bind="visible: !$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
@@ -289,6 +262,43 @@
                                             </div>
 
                                         </div>
+                                        
+                                        @*Controls for Guillotine*@
+
+                                        <div class="form-group" data-bind="visible:$root.isGuillotineList()">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Set cost per cut." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label class="control-label text-right">Cost Per Cut </label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <span data-bind="text:CurrencySymbol" class="CurrencySymbol"></span>
+                                                <div class="col-xs-4" style="width: 23%; padding:0">
+                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="20" id="qty11" placeholder="Setup Charge" data-bind="autoNumeric: CostPerCut , settings:{mDec:2}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" data-bind="visible:$root.isGuillotineList()">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Set price per cut." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label class="control-label text-right">Price Per Cut </label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <span data-bind="text:CurrencySymbol" class="CurrencySymbol"></span>
+                                                <div class="col-xs-4" style="width: 23%; padding:0">
+                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="20" id="qty11" placeholder="Setup Charge" data-bind="autoNumeric: PricePerCut , settings:{mDec:2}" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @*Control for Guillotine Ends*@
 
                                         @*<div class="form-group">
                                                 <div class="col-lg-4 text-right">
@@ -419,7 +429,7 @@
                                         </div>
 
 
-                                        <div class="form-group PressControls">
+                                        <div class="form-group PressControls" data-bind="visible:!$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
 
                                                 <div class="bs-example-tooltips tooltip-float-width">
@@ -441,7 +451,7 @@
 
                                         </div>
 
-                                        <div class="form-group PressControls">
+                                        <div class="form-group PressControls" data-bind="visible:!$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
@@ -465,7 +475,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group PressControls">
+                                        <div class="form-group PressControls" data-bind="visible:!$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
@@ -490,7 +500,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group PressControls">
+                                        <div class="form-group PressControls" data-bind="visible:!$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
@@ -515,7 +525,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group" data-bind="visible:!$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
@@ -885,8 +895,8 @@
 
                                         <div class="tab-pane fade PressControls" id="tab-lookup">
                                             <div class="col-md-12 form-horizontal">
-                                                <h3 class="group-header">Lookup Methods</h3>
-                                                <div class="col-md-9">
+                                                <h3 class="group-header" data-bind="visible: !$root.isGuillotineList()">Lookup Methods</h3>
+                                                <div class="col-md-9" data-bind="visible: !$root.isGuillotineList()">
                                                     <div class="form-group">
                                                         <div class="col-lg-4 text-right">
 
@@ -904,8 +914,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="col-lg-3" style="padding-left:0px;">
 
-                                                                <input type="text" class="form-control" style="text-align:right;" data-bind="value:SetupSpoilage" >
-                                                                
+                                                                <input type="text" class="form-control" style="text-align:right;" data-bind="value:SetupSpoilage">
+
                                                             </div>
                                                             <div class="col-lg-1 help-block text-left">Sheets</div>
                                                         </div>
@@ -913,25 +923,25 @@
                                                     </div>
 
                                                     @*<div class="form-group">
-                            <div class="col-lg-4 text-right">
+                <div class="col-lg-4 text-right">
 
-                                <div class="bs-example-tooltips tooltip-float-width">
+                    <div class="bs-example-tooltips tooltip-float-width">
 
-                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Create Virtual Presses to simulate different press modes for single or multiple colors. Create Virtual Presses that simulate different press speeds for low run and large run jobs." data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                    </a>
+                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Create Virtual Presses to simulate different press modes for single or multiple colors. Create Virtual Presses that simulate different press speeds for low run and large run jobs." data-original-title="" title="">
+                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                        </a>
 
-                                </div>
-                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Setup Sheets</label>
+                    </div>
+                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Setup Sheets</label>
 
-                            </div>
+                </div>
 
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control" placeholder="Enter Setup Sheets" data-bind="value:MachineName">
-                                <span class=" help-block text-right"></span>
-                            </div>
+                <div class="col-lg-6">
+                    <input type="text" class="form-control" placeholder="Enter Setup Sheets" data-bind="value:MachineName">
+                    <span class=" help-block text-right"></span>
+                </div>
 
-                        </div>*@
+            </div>*@
 
                                                     <div class="form-group">
                                                         <div class="col-lg-4 text-right">

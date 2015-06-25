@@ -154,6 +154,9 @@ namespace MPC.Models.DomainModels
 
         public long? StoreId { get; set; }
 
+        [NotMapped]
+        public string StoreName { get; set; }
+
         public bool? isAddCropMarks { get; set; }
 
         public bool? isCalculateTaxByService { get; set; }
@@ -195,8 +198,9 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<DeliveryNote> DeliveryNotes { get; set; }
         public virtual ICollection<Inquiry> Inquiries { get; set; }
         public virtual ICollection<Purchase> Purchases { get; set; }
+        public virtual ICollection<GoodsReceivedNote> GoodsReceivedNotes { get; set; }
 
-        #region Additional Properties
+            #region Additional Properties
 
         /// <summary>
         /// Default Sprite Source

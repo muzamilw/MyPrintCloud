@@ -357,6 +357,7 @@
     <Compile Include="Areas\Api\Controllers\ProgressEstimateController.cs" />
     <Compile Include="Areas\Api\Controllers\PurchaseBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\PurchaseOrderController.cs" />
+    <Compile Include="Areas\Api\Controllers\ReportEmailController.cs" />
     <Compile Include="Areas\Api\Controllers\ReportNoteController.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />
@@ -451,6 +452,7 @@
     <Compile Include="Areas\Api\ModelMappers\DeliveryNoteDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\DeliveryNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GetInquiryResponseMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\GoodsReceivedNoteDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GoodsReceivedNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ImportCompanyContactMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InquiryAttachmentMapper.cs" />
@@ -475,6 +477,7 @@
     <Compile Include="Areas\Api\ModelMappers\MachineSpeedWeightLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InkPlateSideMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PurchaseBaseResponse.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PurchaseDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ReportNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ReportparamMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ShippingInformationMapper.cs" />
@@ -528,6 +531,7 @@
     <Compile Include="Areas\Api\ModelMappers\StockItemForDropDownMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\TemplateColorStyleMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\usp_TotalEarnings_ResultMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\VariableExtensionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\VariableOptionMapper.cs" />
     <Compile Include="Areas\Api\Models\Activity.cs" />
     <Compile Include="Areas\Api\Models\ActivityListView.cs" />
@@ -568,6 +572,8 @@
     <Compile Include="Areas\Api\Models\DeliveryNoteDetail.cs" />
     <Compile Include="Areas\Api\Models\DeliveryNote.cs" />
     <Compile Include="Areas\Api\Models\GetInquiriesResponse.cs" />
+    <Compile Include="Areas\Api\Models\GoodsReceivedNote.cs" />
+    <Compile Include="Areas\Api\Models\GoodsReceivedNoteDetail.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteListView.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteResponseModel.cs" />
     <Compile Include="Areas\Api\Models\ImportCompanyContact.cs" />
@@ -614,6 +620,7 @@
     <Compile Include="Areas\Api\Models\Report.cs" />
     <Compile Include="Areas\Api\Models\ReportCategory.cs" />
     <Compile Include="Areas\Api\Models\ReportCategoryRequestModel.cs" />
+    <Compile Include="Areas\Api\Models\ReportEmailResponse.cs" />
     <Compile Include="Areas\Api\Models\ReportManagerResponseModel.cs" />
     <Compile Include="Areas\Api\Models\ReportNote.cs" />
     <Compile Include="Areas\Api\Models\Reportparam.cs" />
@@ -833,6 +840,7 @@
     <Compile Include="Areas\Api\Models\TemplateColorStyle.cs" />
     <Compile Include="Areas\Api\Models\TemplatePage.cs" />
     <Compile Include="Areas\Api\Models\usp_TotalEarnings_Result.cs" />
+    <Compile Include="Areas\Api\Models\VariableExtension.cs" />
     <Compile Include="Areas\Api\Models\VariableOption.cs" />
     <Compile Include="Areas\Api\Models\Widget.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetBaseController.cs" />
@@ -1216,7 +1224,7 @@
     <Content Include="Content\Images\Ptv\imgLongSide.gif" />
     <Content Include="Content\Images\Ptv\imgShortSide.gif" />
     <Content Include="Content\Images\OrderSection-right-arrow.jpg" />
-    <Content Include="Content\Images\Section_spotColor.jpg" />
+    <Content Include="Content\Images\Section_spotColor.jpeg" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\less\Inventory.css">
       <DependentUpon>Inventory.less</DependentUpon>

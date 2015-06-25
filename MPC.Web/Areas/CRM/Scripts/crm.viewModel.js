@@ -49,7 +49,8 @@ define("crm/crm.viewModel",
                     //Is Loading stores
                     isLoadingStores = ko.observable(false),
                     //Selected Company Contact
-                    selectedCompanyContact = ko.observable(),
+                    companyContactEditorViewModel = new ist.ViewModel(model.CompanyContact),
+                    selectedCompanyContact = companyContactEditorViewModel.itemForEditing,
                     //Check if screen is Prospect Or Customer Screen
                     isProspectOrCustomerScreen = ko.observable(false),
                     //Setting up computed method calling 
@@ -550,7 +551,8 @@ define("crm/crm.viewModel",
                 // #region _________A D D R E S S E S __________________________
 
                 //Selected AddresssearchCompanyTerritory
-                selectedAddress = ko.observable(),
+                addressEditorViewModel = new ist.ViewModel(model.Address),
+                selectedAddress = addressEditorViewModel.itemForEditing,
                 //SelectedAddressTerritoryFilter
                 addressTerritoryFilter = ko.observable(),
                 //List for Address Territory
@@ -851,7 +853,12 @@ define("crm/crm.viewModel",
                                         }, {
                                             success: function (data) {
                                                 if (data) {
-                                                    selectedStore().addresses.remove(address);
+                                                        _.each(selectedStore().addresses(), function (item) {
+                                                            if (item.addressId() == address.addressId() ) {
+                                                                selectedStore().addresses.remove(item);
+                                                            }
+                                                        });
+                                                      
                                                     toastr.success("Deleted Successfully");
                                                     isLoadingStores(false);
                                                     //Updating Drop downs
@@ -889,8 +896,14 @@ define("crm/crm.viewModel",
                                         flag = false;
                                     }
                                 });
+                                var selectedObj = null;
                                 if (flag) {
-                                    selectedStore().addresses.remove(address);
+                                    _.each(selectedStore().addresses(), function (item) {
+                                        if (item.addressId() == address.addressId() ) {
+                                            selectedObj = item;
+                                        }
+                                    });
+                                    selectedStore().addresses.remove(selectedObj);
                                 } else {
                                     toastr.error("Address can not be deleted as it exist in User", "", ist.toastrOptions);
                                 }
@@ -905,7 +918,7 @@ define("crm/crm.viewModel",
                     }
                 },
                 onEditAddress = function (address) {
-                    selectedAddress(address);
+                    addressEditorViewModel.selectItem(address);
                     isSavingNewAddress(false);
                     selectedAddress().reset();
                     view.showAddressDialog();
@@ -1312,8 +1325,14 @@ define("crm/crm.viewModel",
                             }, {
                                 success: function (data) {
                                     if (data) {
-                                        selectedStore().users.remove(companyContact);
-                                        toastr.success("Deleted Successfully");
+                                        var contact = selectedStore().users.find(function(user) {
+                                            return user.contactId() === companyContact.contactId();
+                                        });
+                                        if (contact) {
+                                            selectedStore().users.remove(contact);
+                                            toastr.success("Deleted Successfully");
+                                        }
+                                        
                                         isLoadingStores(false);
                                     } else {
                                         toastr.error("Contact can not be deleted", "", ist.toastrOptions);
@@ -1346,7 +1365,8 @@ define("crm/crm.viewModel",
             },
             selectedCompanyContactEmail = ko.observable(),
             onEditCompanyContact = function (companyContact) {
-                selectedCompanyContact(companyContact);
+                //selectedCompanyContact(companyContact);
+                companyContactEditorViewModel.selectItem(companyContact);
                 selectedCompanyContactEmail(companyContact.email());
                 selectedCompanyContact().reset();
                 isSavingNewCompanyContact(false);
@@ -1413,10 +1433,20 @@ define("crm/crm.viewModel",
                                         }
                                         else {
                                             selectedCompanyContact(savedCompanyContact);
+                                            //_.each(selectedStore().users(), function (user) {
+                                            //    if (user.contactId() == savedCompanyContact.contactId()) {
+                                            //        user.roleName(savedCompanyContact.roleName());
+                                            //    }
+                                            //});
+                                            var count = 0;
                                             _.each(selectedStore().users(), function (user) {
                                                 if (user.contactId() == savedCompanyContact.contactId()) {
-                                                    user.roleName(savedCompanyContact.roleName());
+                                                    var totalCount = contactCompanyPager().totalCount();
+                                                    selectedStore().users.remove(user);
+                                                    selectedStore().users.splice(count, 0, savedCompanyContact);
+                                                    contactCompanyPager().totalCount(totalCount);
                                                 }
+                                                count = count + 1;
                                             });
                                         }
                                         if (savedCompanyContact.isDefaultContact()) {
@@ -1522,11 +1552,11 @@ define("crm/crm.viewModel",
                 // #endregion
 
                 //#region ___________ UTILITY FUNCTIONS ______
-                openReport = function () {
+                openReport = function (isFromEditor) {
                     if (isProspectOrCustomerScreen()) {
-                        reportManager.show(ist.reportCategoryEnums.CRM, 0, 0);
+                        reportManager.show(ist.reportCategoryEnums.CRM, isFromEditor == true ? true : false, 0);
                     } else {
-                        reportManager.show(ist.reportCategoryEnums.Suppliers, 0, 0);
+                        reportManager.show(ist.reportCategoryEnums.Suppliers, isFromEditor == true ? true : false, 0);
                     }
                 },
                 onCreateNewStore = function () {

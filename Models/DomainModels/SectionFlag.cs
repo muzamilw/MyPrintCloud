@@ -58,6 +58,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<Estimate> Estimates { get; set; }
         public virtual ICollection<DeliveryNote> DeliveryNotes { get; set; }
         public virtual ICollection<Purchase> Purchases { get; set; }
+        public virtual ICollection<GoodsReceivedNote> GoodsReceivedNotes { get; set; }
         #endregion
     }
 }

@@ -1,4 +1,5 @@
-﻿using MPC.Models.RequestModels;
+﻿using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
 namespace MPC.Interfaces.MISServices
@@ -16,8 +17,30 @@ namespace MPC.Interfaces.MISServices
         PurchaseResponseModel GetPurchaseOrders(PurchaseOrderSearchRequestModel model);
 
         /// <summary>
+        /// Ge Goods Received Notes
+        /// </summary>
+        GoodsReceivedNotesResponseModel GetGoodsReceivedNotes(PurchaseOrderSearchRequestModel request);
+
+        /// <summary>
         /// base Data for Purchase
         /// </summary>
         PurchaseBaseResponse GetBaseData();
+
+        /// <summary>
+        /// Save Purchase
+        /// </summary>
+        Purchase SavePurchase(Purchase purchase);
+
+        /// <summary>
+        /// Get Purchase By Id
+        /// </summary>
+        Purchase GetPurchaseById(int purchaseId);
+
+        /// <summary>
+        /// Delete Purchase Order
+        /// </summary>
+        void DeletePurchaseOrder(int purchaseId);
+
+
     }
 }
