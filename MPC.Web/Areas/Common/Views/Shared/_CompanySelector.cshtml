@@ -100,7 +100,7 @@
         <form data-bind="submit: $root.searchCompanies">
             <div class="filter-block pull-right">
                 <div class="form-group pull-right">
-                    <input type="text" class="form-control" id="companySearchFilter" placeholder="Search" >
+                    <input type="text" class="form-control" id="companySearchFilter" placeholder="Search" data-bind="value:$root.companyDialogFilter">
                     <i class="fa fa-search search-icon" data-bind="click: $root.searchCompanies"></i>
                 </div>
             </div>
