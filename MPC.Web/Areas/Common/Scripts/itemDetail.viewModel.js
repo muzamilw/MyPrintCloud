@@ -1721,6 +1721,9 @@ define("common/itemDetail.viewModel",
                     onAddPrePressCostCenter = function () {
                         addCostCenterVm.show(addCostCenter, selectedOrder().companyId(), false, currencySymbol(), null, costCenterType.prePress);
                     },
+                    openJobCardsTab = function () {
+                        $("#sectionTabTabs a[href=#tab-jobs]").tab('show');
+                    },
                     // Add Post Press Cost Center
                     onAddPostPressCostCenter = function () {
                         addCostCenterVm.show(addCostCenter, selectedOrder().companyId(), false, currencySymbol(), null, costCenterType.postPress);
@@ -1955,6 +1958,7 @@ define("common/itemDetail.viewModel",
                     deleteItem: deleteItem,
                     defaultSection: defaultSection,
                     onAddPrePressCostCenter: onAddPrePressCostCenter,
+                    openJobCardsTab: openJobCardsTab,
                     onAddPostPressCostCenter: onAddPostPressCostCenter
                     //#endregion
                 };

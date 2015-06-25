@@ -1228,6 +1228,11 @@ namespace MPC.Models.ModelMappers
             target.File4Byte = source.File4Byte;
             target.File5Name = source.File5Name;
             target.File5Byte = source.File5Byte;
+            target.File1Deleted = source.File1Deleted;
+            target.File2Deleted = source.File2Deleted;
+            target.File3Deleted = source.File3Deleted;
+            target.File4Deleted = source.File4Deleted;
+            target.File5Deleted = source.File5Deleted;
         }
 
         /// <summary>
