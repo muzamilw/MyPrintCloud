@@ -1710,7 +1710,7 @@ define("common/itemDetail.viewModel",
                         addCostCenterVm.show(addCostCenter, selectedOrder().companyId(), false, currencySymbol(), null, costCenterType.prePress);
                     },
                     openJobCardsTab = function () {
-                        $("#sectionTabTabs a[href=#tab-jobs]").tab('show')
+                        $("#sectionTabTabs a[href=#tab-jobs]").tab('show');
                     },
                     // Add Post Press Cost Center
                     onAddPostPressCostCenter = function () {
