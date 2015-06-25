@@ -779,6 +779,18 @@ define("common/itemDetail.viewModel",
 
                             getPtvCalculation();
                         });
+                        // Set Gutter Value
+                        selectedSection().itemGutterHorizontal.subscribe(function (value) {
+                            if (value !== selectedSection().itemGutterHorizontal()) {
+                                selectedSection().itemGutterHorizontal(value);
+                            }
+
+                            if (selectedSection().printingTypeUi() === '2') {
+                                return;
+                            }
+
+                            getPtvCalculation();
+                        });
 
                         // On Press Change set Section Size Width to Press Max Width
                         selectedSection().pressId.subscribe(function (value) {
@@ -1248,9 +1260,9 @@ define("common/itemDetail.viewModel",
                             grip: 1,
                             gripDepth: 0,
                             headDepth: 0,
-                            printGutter: 5,
-                            horizentalGutter: 5,
-                            verticalGutter: 5
+                            printGutter: selectedSection().itemGutterHorizontal(),
+                            itemHorizentalGutter: selectedSection().itemGutterHorizontal(),
+                            itemVerticalGutter: selectedSection().itemGutterHorizontal()
                         }, {
                             success: function (data) {
                                 if (data != null) {
