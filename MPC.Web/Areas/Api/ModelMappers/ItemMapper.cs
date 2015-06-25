@@ -346,6 +346,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 File4Name = source.File4Name,
                 File5Byte = source.File5Byte,
                 File5Name = source.File5Name,
+                File1Deleted = source.File1Deleted,
+                File2Deleted = source.File2Deleted,
+                File3Deleted = source.File3Deleted,
+                File4Deleted = source.File4Deleted,
+                File5Deleted = source.File5Deleted,
                 ProductCategoryCustomItems = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.CreateFrom()).ToList() :
                 new List<DomainModels.ProductCategoryItemCustom>(),
                 ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()).ToList() :

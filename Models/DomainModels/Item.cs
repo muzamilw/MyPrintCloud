@@ -474,6 +474,16 @@ namespace MPC.Models.DomainModels
         public string File4Byte { get; set; }
         [NotMapped]
         public string File5Byte { get; set; }
+        [NotMapped]
+        public bool? File1Deleted { get; set; }
+        [NotMapped]
+        public bool? File2Deleted { get; set; }
+        [NotMapped]
+        public bool? File3Deleted { get; set; }
+        [NotMapped]
+        public bool? File4Deleted { get; set; }
+        [NotMapped]
+        public bool? File5Deleted { get; set; }
 
         /// <summary>
         /// Thumbnail Image Bytes - byte[] representation of Base64 string Thumbnail Image

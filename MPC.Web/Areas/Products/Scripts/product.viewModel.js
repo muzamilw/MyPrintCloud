@@ -723,6 +723,20 @@ define("product/product.viewModel",
                         });
                         confirmation.show();
                     },
+                    // On Delete File type 4 for Template Layouts
+                    onDeleteTemplateLayoutFile = function (fileSequenceNo) {
+                        confirmation.afterProceed(function () {
+                            selectedProduct().removeTemplateLayoutFile(fileSequenceNo);
+                        });
+                        confirmation.show();
+                    },
+                    // On Delete Product Banner
+                    onDeleteProductBanner = function (banner) {
+                        confirmation.afterProceed(function () {
+                            selectedProduct().removeItemImage(banner);
+                        });
+                        confirmation.show();
+                    },
                     // Initialize the view model
                     initialize = function (specifiedView, isOnStoreScreen) {
                         view = specifiedView;
@@ -1963,6 +1977,8 @@ define("product/product.viewModel",
                     onCloneProduct: onCloneProduct,
                     editTemplate: editTemplate,
                     onDeleteProduct: onDeleteProduct,
+                    onDeleteTemplateLayoutFile: onDeleteTemplateLayoutFile,
+                    onDeleteProductBanner: onDeleteProductBanner,
                     // For Store
                     initializeForStore: initializeForStore,
                     categorySelectedEventHandler: categorySelectedEventHandler,
