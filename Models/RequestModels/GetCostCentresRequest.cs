@@ -1,9 +1,4 @@
 ﻿using MPC.Models.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MPC.Models.RequestModels
 {
@@ -16,6 +11,11 @@ namespace MPC.Models.RequestModels
         /// Company Id
         /// </summary>
         public int CompanyId { get; set; }
+
+        /// <summary>
+        /// Cost Centre Type
+        /// </summary>
+        public int? Type { get; set; }
 
         /// <summary>
         /// Order By Column for sorting

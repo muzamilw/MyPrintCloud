@@ -634,27 +634,28 @@ define("product/product.viewModel",
                     },
                     // On Delete Product
                     onDeleteProduct = function () {
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             deleteProduct(selectedProduct().id());
                         });
                         confirmation.show();
                     },
                     onDeleteTemplatePage = function (templatePage) {
-                        confirmation.messageText("Do you want to proceed with the request?");
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().template().removeTemplatePage(templatePage);
                         });
                         confirmation.show();
                     },
                     onDeleteItemAddonCostCentre = function () {
-                        confirmation.messageText("Do you want to proceed with the request?");
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().activeStockOption().removeItemAddonCostCentre();
                         });
                         confirmation.show();
                     },
                     onDeleteItemStockOption = function (itemStockOption) {
-                        confirmation.messageText("Do you want to proceed with the request?");
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().removeItemStockOption(itemStockOption);
                         });
@@ -694,7 +695,7 @@ define("product/product.viewModel",
                     },
                     // On Delete Product Market Brief Question
                     onDeleteProductMarketBriefQuestion = function (onProceed) {
-                        confirmation.messageText("Do you want to delete this market brief question?");
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             if (onProceed && typeof onProceed === "function") {
                                 onProceed();
@@ -705,7 +706,7 @@ define("product/product.viewModel",
                     },
                     // On Delete Product Market Brief Answer
                     onDeleteProductMarketBriefAnswer = function (onProceed) {
-                        confirmation.messageText("Do you want to delete this market brief answer?");
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             if (onProceed && typeof onProceed === "function") {
                                 onProceed();
@@ -715,11 +716,25 @@ define("product/product.viewModel",
                     },
                     // On Delete Item Related Item
                     onDeleteItemRelatedItem = function (onProceed) {
-                        confirmation.messageText("Do you want to delete this upsell product?");
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             if (onProceed && typeof onProceed === "function") {
                                 onProceed();
                             }
+                        });
+                        confirmation.show();
+                    },
+                    // On Delete File type 4 for Template Layouts
+                    onDeleteTemplateLayoutFile = function (fileSequenceNo) {
+                        confirmation.afterProceed(function () {
+                            selectedProduct().removeTemplateLayoutFile(fileSequenceNo);
+                        });
+                        confirmation.show();
+                    },
+                    // On Delete Product Banner
+                    onDeleteProductBanner = function (banner) {
+                        confirmation.afterProceed(function () {
+                            selectedProduct().removeItemImage(banner);
                         });
                         confirmation.show();
                     },
@@ -1963,6 +1978,8 @@ define("product/product.viewModel",
                     onCloneProduct: onCloneProduct,
                     editTemplate: editTemplate,
                     onDeleteProduct: onDeleteProduct,
+                    onDeleteTemplateLayoutFile: onDeleteTemplateLayoutFile,
+                    onDeleteProductBanner: onDeleteProductBanner,
                     // For Store
                     initializeForStore: initializeForStore,
                     categorySelectedEventHandler: categorySelectedEventHandler,

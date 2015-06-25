@@ -1247,7 +1247,8 @@ namespace MPC.Repository.Repositories
                 Mapper.CreateMap<ItemSection, ItemSection>()
                 .ForMember(x => x.Item, opt => opt.Ignore())
                 .ForMember(x => x.StockItem, opt => opt.Ignore())
-                .ForMember(x => x.Machine, opt => opt.Ignore());
+                .ForMember(x => x.Machine, opt => opt.Ignore())
+                .ForMember(x => x.MachineSide2, opt => opt.Ignore());
 
                 Mapper.CreateMap<SectionCostcentre, SectionCostcentre>()
                 .ForMember(x => x.CostCentre, opt => opt.Ignore());
@@ -2504,6 +2505,7 @@ namespace MPC.Repository.Repositories
                                     {
                                         foreach (var itm in item.ItemSections)
                                         {
+                                            itm.MachineSide2 = null;
                                             if (stockitems != null && stockitems.Count > 0)
                                             {
                                                 long SID = stockitems.Where(c => c.RollStandards == itm.StockItemID1).Select(s => s.StockItemId).FirstOrDefault();
@@ -2521,19 +2523,47 @@ namespace MPC.Repository.Repositories
                                             }
                                             if (machines != null && machines.Count > 0)
                                             {
-                                                long MID = machines.Where(c => c.LockedBy == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
+                                                long MID = machines.Where(c => c.SystemSiteId == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
+                                                long MIDSide2 = machines.Where(c => c.SystemSiteId == itm.PressIdSide2).Select(s => s.MachineId).FirstOrDefault();
                                                 if (MID > 0)
                                                 {
                                                     itm.PressId = (int)MID;
                                                 }
                                                 else
                                                 {
-                                                    MID = machines.Select(s => s.MachineId).FirstOrDefault();
-                                                    itm.PressId = (int)MID;
-
-
+                                                   // MID = machines.Select(s => s.MachineId).FirstOrDefault();
+                                                    itm.PressId = null;
+                                                  
                                                 }
+                                                if (MIDSide2 > 0)
+                                                {
+                                                    itm.PressIdSide2 = (int)MIDSide2;
+                                                }
+                                                else
+                                                {
+                                                   // MIDSide2 = machines.Select(s => s.MachineId).FirstOrDefault();
+                                                    itm.PressIdSide2 = null;
+                                                    //itm.PressId = null;
+                                                }
+
+
                                             }
+                                            //if (machines != null && machines.Count > 0)
+                                            //{
+                                            //    long MID = machines.Where(c => c.SystemSiteId == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
+                                            //    if (MID > 0)
+                                            //    {
+                                            //        itm.PressId = (int)MID;
+                                            //    }
+                                            //    else
+                                            //    {
+                                            //        MID = machines.Select(s => s.MachineId).FirstOrDefault();
+                                            //       // itm.PressId = (int)MID;
+                                            //        itm.PressId = null;
+
+
+                                            //    }
+                                            //}
 
                                         }
                                     }
@@ -2871,6 +2901,7 @@ namespace MPC.Repository.Repositories
                                     {
                                         foreach (var itm in item.ItemSections)
                                         {
+                                            itm.MachineSide2 = null;
                                             if (stockitems != null && stockitems.Count > 0)
                                             {
                                                 long SID = stockitems.Where(c => c.RollStandards == itm.StockItemID1).Select(s => s.StockItemId).FirstOrDefault();
@@ -2888,19 +2919,46 @@ namespace MPC.Repository.Repositories
                                             }
                                             if (machines != null && machines.Count > 0)
                                             {
-                                                long MID = machines.Where(c => c.LockedBy == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
+                                                long MID = machines.Where(c => c.SystemSiteId == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
+                                                long MIDSide2 = machines.Where(c => c.SystemSiteId == itm.PressIdSide2).Select(s => s.MachineId).FirstOrDefault();
                                                 if (MID > 0)
                                                 {
                                                     itm.PressId = (int)MID;
                                                 }
                                                 else
                                                 {
-                                                    MID = machines.Select(s => s.MachineId).FirstOrDefault();
-                                                    itm.PressId = (int)MID;
-
-
+                                                   // MID = machines.Select(s => s.MachineId).FirstOrDefault();
+                                                    itm.PressId = null;
+                                                  
                                                 }
+                                                if (MIDSide2 > 0)
+                                                {
+                                                    itm.PressIdSide2 = (int)MIDSide2;
+                                                }
+                                                else
+                                                {
+                                                    //MIDSide2 = machines.Select(s => s.MachineId).FirstOrDefault();
+                                                    itm.PressIdSide2 = null;
+                                                   
+                                                }
+
+
                                             }
+                                            //if (machines != null && machines.Count > 0)
+                                            //{
+                                            //    long MID = machines.Where(c => c.SystemSiteId == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
+                                            //    if (MID > 0)
+                                            //    {
+                                            //        itm.PressId = (int)MID;
+                                            //    }
+                                            //    else
+                                            //    {
+                                            //        MID = machines.Select(s => s.MachineId).FirstOrDefault();
+                                            //       // itm.PressId = (int)MID;
+                                            //        itm.PressId = null;
+
+                                            //    }
+                                            //}
 
                                         }
                                     }
@@ -3235,6 +3293,7 @@ namespace MPC.Repository.Repositories
                                     {
                                         foreach (var itm in item.ItemSections)
                                         {
+                                            itm.MachineSide2 = null;
                                             if (stockitems != null && stockitems.Count > 0)
                                             {
                                                 long SID = stockitems.Where(c => c.RollStandards == itm.StockItemID1).Select(s => s.StockItemId).FirstOrDefault();
@@ -3252,19 +3311,47 @@ namespace MPC.Repository.Repositories
                                             }
                                             if (machines != null && machines.Count > 0)
                                             {
-                                                long MID = machines.Where(c => c.LockedBy == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
+                                                long MID = machines.Where(c => c.SystemSiteId == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
+                                                long MIDSide2 = machines.Where(c => c.SystemSiteId == itm.PressIdSide2).Select(s => s.MachineId).FirstOrDefault();
                                                 if (MID > 0)
                                                 {
                                                     itm.PressId = (int)MID;
                                                 }
                                                 else
                                                 {
-                                                    MID = machines.Select(s => s.MachineId).FirstOrDefault();
-                                                    itm.PressId = (int)MID;
-
-
+                                                  //  MID = machines.Select(s => s.MachineId).FirstOrDefault();
+                                                    itm.PressId = null;
+                                                  
                                                 }
+                                                if (MIDSide2 > 0)
+                                                {
+                                                    itm.PressIdSide2 = (int)MIDSide2;
+                                                }
+                                                else
+                                                {
+                                                   // MIDSide2 = machines.Select(s => s.MachineId).FirstOrDefault();
+                                                    itm.PressIdSide2 = null;
+                                                    //itm.PressId = null;
+                                                }
+
+
                                             }
+
+                                            //if (machines != null && machines.Count > 0)
+                                            //{
+                                            //    long MID = machines.Where(c => c.SystemSiteId == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
+                                            //    if (MID > 0)
+                                            //    {
+                                            //        itm.PressId = (int)MID;
+                                            //    }
+                                            //    else
+                                            //    {
+                                            //        MID = machines.Select(s => s.MachineId).FirstOrDefault();
+                                            //       // itm.PressId = (int)MID;
+                                            //        itm.PressId = null;
+
+                                            //    }
+                                            //}
 
                                         }
                                     }
@@ -3612,8 +3699,10 @@ namespace MPC.Repository.Repositories
 
                                     if (item.ItemSections != null && item.ItemSections.Count > 0)
                                     {
+                                       
                                         foreach (var itm in item.ItemSections)
                                         {
+                                            itm.MachineSide2 = null;
                                             if (stockitems != null && stockitems.Count > 0)
                                             {
                                                 long SID = stockitems.Where(c => c.RollStandards == itm.StockItemID1).Select(s => s.StockItemId).FirstOrDefault();
@@ -3631,19 +3720,47 @@ namespace MPC.Repository.Repositories
                                             }
                                             if (machines != null && machines.Count > 0)
                                             {
-                                                long MID = machines.Where(c => c.LockedBy == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
+                                                long MID = machines.Where(c => c.SystemSiteId == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
+                                                long MIDSide2 = machines.Where(c => c.SystemSiteId == itm.PressIdSide2).Select(s => s.MachineId).FirstOrDefault();
                                                 if (MID > 0)
                                                 {
                                                     itm.PressId = (int)MID;
                                                 }
                                                 else
                                                 {
-                                                    MID = machines.Select(s => s.MachineId).FirstOrDefault();
-                                                    itm.PressId = (int)MID;
-
-
+                                                  //  MID = machines.Select(s => s.MachineId).FirstOrDefault();
+                                                    itm.PressId = null;
+                                                  //  itm.PressId = (int)MID;
                                                 }
+                                                if (MIDSide2 > 0)
+                                                {
+                                                    itm.PressIdSide2 = (int)MIDSide2;
+                                                }
+                                                else
+                                                {
+                                                   // MIDSide2 = machines.Select(s => s.MachineId).FirstOrDefault();
+                                                    itm.PressIdSide2 = null;
+                                                    //itm.PressId = null;
+                                                }
+
+
                                             }
+                                            //if (machines != null && machines.Count > 0)
+                                            //{
+                                            //    long MID = machines.Where(c => c.SystemSiteId == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
+                                            //    if (MID > 0)
+                                            //    {
+                                            //        itm.PressId = (int)MID;
+                                            //    }
+                                            //    else
+                                            //    {
+                                            //        MID = machines.Select(s => s.MachineId).FirstOrDefault();
+                                            //        //itm.PressId = (int)MID;
+                                            //        itm.PressId = null;
+
+
+                                            //    }
+                                            //}
 
                                         }
                                     }
@@ -5203,7 +5320,7 @@ namespace MPC.Repository.Repositories
                 return null;
             }
             Company company = DbSet.FirstOrDefault(x => x.CompanyId == storeId);
-            return company != null ? company.AccountManagerId : null;
+            return company != null ? company.ProductionManagerId1 : null;
         }
 
         public List<Company> GetSupplierByOrganisationid(long OID)

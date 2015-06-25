@@ -5805,5 +5805,6 @@ foreign key (LastModifiedBy)
 references SystemUser (SystemUserId)
 
 
+-----Executed on All servers on 20150622------------
 
 update FieldVariable set CriteriaFieldName = 'SecondaryEmail' where VariableTag like '{{Email}}'

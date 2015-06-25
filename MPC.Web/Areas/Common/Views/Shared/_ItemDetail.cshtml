@@ -43,10 +43,10 @@
             <div class="col-sm-12" data-bind="visible:!$root.showSectionDetail()" style="padding-left: 16px;padding-right: 16px;">
                 <div class="main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
-                        <ul class="nav nav-tabs">
-                            <li class="active"><a href="#tab-detail" data-toggle="tab">Print Product</a></li>
-                            <li data-bind="visible: $root.selectedOrder() &&  $root.selectedOrder().statusId!==undefined && $root.selectedOrder().statusId() === 6" style="display: none"><a href="#tab-jobs" data-toggle="tab">Job Card</a></li>
-                            <li><a href="#tab-attachments" data-toggle="tab">Attachments</a></li>
+                        <ul class="nav nav-tabs" id="sectionTabTabs">
+                            <li id="printProduct" class="active"><a href="#tab-detail" data-toggle="tab">Print Product</a></li>
+                            <li id="jobCards" data-bind="visible: $root.selectedOrder() &&  $root.selectedOrder().statusId!==undefined && $root.selectedOrder().statusId() === 6" style="display: none"><a href="#tab-jobs" data-toggle="tab">Job Card</a></li>
+                            <li id="attachmentTab"><a href="#tab-attachments" data-toggle="tab">Attachments</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-detail">
@@ -58,7 +58,7 @@
                                                 <input type="text" style="font-size: 24px;height: 60px;border-bottom: 2px dashed black !important;font-weight: bold;padding-left: 0px;border-top: none;border-left: none;border-right: none; text-align: center; color:#C2C2C2" class="form-control" placeholder="Product Name" data-bind="value: productName, validationTooltip: productName, validationOnElement: productName" />
                                                 <span style="margin-left: 44%">Product Name</span>
                                             </div>
-                                            
+
                                         </div>
 
                                         <div class="form-group">
@@ -74,10 +74,17 @@
                                             </div>
                                             <div class="col-sm-2">
                                                 <div>
-
-                                                    <div style="float: left">
-                                                        <img style="width: 40%; position: absolute; cursor: pointer" alt="Click to Add New Section/Signature/Component" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.createNewItemSection" />
-                                                        <span data-bind="click:$root.createNewItemSection" style=" margin-left: 9%; margin-top: -16%;" class="label label-circle-addsection">&nbsp;+&nbsp;</span>
+                                                    <!--ko if:$root.selectedOrder() &&   $root.selectedOrder().statusId !==undefined && $root.selectedOrder().statusId() === 6-->
+                                                    <a href="#" class="btn btn-primary pull-left" data-bind="click:$root.openJobCardsTab">
+                                                    <i class="fa fa-lg"></i>&nbsp;Current Job Status
+                                                </a>
+                                                    <!--/ko-->
+                                                    <!--ko if:$root.selectedOrder() && ($root.selectedOrder().statusId === undefined || $root.selectedOrder().statusId() !== 6)-->
+                                                    <div style="height: 35px;">&nbsp;</div>
+                                                <!--/ko-->
+                                                    <div style="float: left" data-bind="visible:$root.selectedProduct().productType()!==3">
+                                                        <img style="width: 40%; cursor: pointer" alt="Click to Add New Section/Signature/Component" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.createNewItemSection" />  @*position: absolute;*@ 
+                                                        <span data-bind="click:$root.createNewItemSection" style=" margin-left: -31%; margin-top: -9%;" class="label label-circle-addsection">&nbsp;+&nbsp;</span>
                                                     </div>
                                                 </div>
                                                 @*<div class="btn btn-success" style="font-size: x-small;margin-left: 10%;" data-bind="click:$root.createNewItemSection">
@@ -156,7 +163,7 @@
                                             </div>
                                             <div class="col-sm-1 help-block text-right">%</div>
                                         </div>
-                                        
+
                                         <div class="col-sm-8">
                                             <div class="col-xs-3 txtBox-contentAlignRight">
                                                 <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty1Tax1Value"></span></label>
@@ -627,7 +634,7 @@
                 <span data-bind="text:sectionsMultiplier, css: { 'sectionmultiplierindex':  $index() === 0,  'sectionmultiplier':  $index() !== 0 }" class="font20px"></span>
                 <img class="photo-box" style="padding-top: 0px;cursor: pointer;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.showSectionDetailEditor" />
                 <i class="fa fa-pencil font20px" style="cursor: pointer; bottom: 40px;margin-left: 75%;position: relative;" data-bind="click:$root.showSectionDetailEditor"></i>
-                
+
             </div>
             <div style="font-size: small;float: right;margin-top: -139%;cursor: pointer; margin-right: -6%; width: 86%;" data-bind="click:$root.showSectionDetailEditor">
                 <span class="form-control" data-bind="text:name" style="text-align: center;cursor: pointer;color: #3c9bf6;border: none;background-color: transparent;padding-right: 23%;padding-left: 0px;"></span>

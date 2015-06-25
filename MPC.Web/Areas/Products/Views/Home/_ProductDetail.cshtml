@@ -2571,11 +2571,40 @@
 
                                             <div class="col-lg-8" style="background: gainsboro; border: 4px solid rgba(0, 0, 0, 0.30); ">
                                                 <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file1 }" />
+                                                <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(1, 1), visible: file1() || file1FileSource()">
+                                                    <span class="fa-stack">
+                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                    </span>
+                                                </a>
                                                 <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file2 }" />
+                                                <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(2, 2), visible: file2() || file2FileSource()">
+                                                    <span class="fa-stack">
+                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                    </span>
+                                                </a>
                                                 <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file3 }" />
+                                                <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(3, 3), visible: file3() || file3FileSource()">
+                                                    <span class="fa-stack">
+                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                    </span>
+                                                </a>
                                                 <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file4 }" />
+                                                <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(4, 4), visible: file4() || file4FileSource()">
+                                                    <span class="fa-stack">
+                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                    </span>
+                                                </a>
                                                 <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file5 }" />
-
+                                                <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(5, 5), visible: file5() || file5FileSource()">
+                                                    <span class="fa-stack">
+                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                    </span>
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -3267,6 +3296,12 @@
         <li class="col-md-3 col-sm-3 col-xs-6">
             <div class="photo-box image-link" data-bind="style: { backgroundImage:'url(' + image() + ')' }"></div>
             <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
+            <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteProductBanner">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
         </li>
     </script>
 

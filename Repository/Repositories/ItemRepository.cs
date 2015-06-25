@@ -65,7 +65,7 @@ namespace MPC.Repository.Repositories
         #endregion
 
         #region public
-        
+
         /// <summary>
         /// Get Item With Details
         /// </summary>
@@ -117,7 +117,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return DbSet.Any(item => item.ProductCode == productCode && (!itemId.HasValue || item.ItemId != itemId) && item.OrganisationId == OrganisationId && 
+                return DbSet.Any(item => item.ProductCode == productCode && (!itemId.HasValue || item.ItemId != itemId) && item.OrganisationId == OrganisationId &&
                     item.EstimateId == null && (!companyId.HasValue || item.CompanyId == companyId));
             }
             catch (Exception ex)
@@ -208,9 +208,9 @@ namespace MPC.Repository.Repositories
                 //}
                 //else
                 //{
-                    return
-                        db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.OptionSequence == 1)
-                            .FirstOrDefault();
+                return
+                    db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.OptionSequence == 1)
+                        .FirstOrDefault();
                 //}
             }
             catch (Exception ex)
@@ -346,7 +346,7 @@ namespace MPC.Repository.Repositories
                         }
 
                     }
-                    
+
                 }
                 //Copy Template if it does exists
 
@@ -368,13 +368,13 @@ namespace MPC.Repository.Repositories
                             clonedTemplate.isWatermarkText = oCutomer.isTextWatermark;
                             if (oCutomer.isTextWatermark == false)
                             {
-                                clonedTemplate.TempString = HttpContext.Current.Server.MapPath("~/"+oCutomer.WatermarkText);
+                                clonedTemplate.TempString = HttpContext.Current.Server.MapPath("~/" + oCutomer.WatermarkText);
                             }
 
                         }
                         // here 
 
-                      //  VariablesResolve(itemID, clonedTemplate.ProductId, objContactID);
+                        //  VariablesResolve(itemID, clonedTemplate.ProductId, objContactID);
                     }
 
                 }
@@ -596,14 +596,14 @@ namespace MPC.Repository.Repositories
                             File.Copy(drURL + oTemplatePage.BackgroundFileName,
                                 drURL + result.ToString() + "/" +
                                 oTemplatePage.BackgroundFileName.Substring(oTemplatePage.BackgroundFileName.IndexOf("/"),
-                                    oTemplatePage.BackgroundFileName.Length - oTemplatePage.BackgroundFileName.IndexOf("/")),true);
+                                    oTemplatePage.BackgroundFileName.Length - oTemplatePage.BackgroundFileName.IndexOf("/")), true);
                             oTemplatePage.BackgroundFileName = result.ToString() + "/" +
                                                                oTemplatePage.BackgroundFileName.Substring(
                                                                    oTemplatePage.BackgroundFileName.IndexOf("/"),
                                                                    oTemplatePage.BackgroundFileName.Length -
                                                                    oTemplatePage.BackgroundFileName.IndexOf("/"));
                         }
-                        
+
 
                     }
                 }
@@ -2011,7 +2011,7 @@ namespace MPC.Repository.Repositories
             {
                 var query = from productsList in db.GetCategoryProducts
                             join tblRelItems in db.ItemRelatedItems on productsList.ItemId
-                                equals tblRelItems.ItemId 
+                                equals tblRelItems.ItemId
                             where
                                 productsList.IsPublished == true && productsList.EstimateId == null &&
                                 productsList.IsEnabled == true
@@ -2120,10 +2120,10 @@ namespace MPC.Repository.Repositories
                     Item clonedItem = null;
 
                     clonedItem = db.Items.Where(i => i.ItemId == clonedItemID).FirstOrDefault();
-                   
+
                     long? markupid = 1;
 
-                   
+
                     Markup OrgMarkup = db.Markups.Where(m => m.OrganisationId == OrganisationId && m.IsDefault == true).FirstOrDefault();
 
                     if (OrgMarkup != null)
@@ -2146,7 +2146,7 @@ namespace MPC.Repository.Repositories
 
                     clonedItem.IsOrderedItem = true;
 
-                   
+
 
                     if (isInculdeTax == true)
                     {
@@ -2177,7 +2177,7 @@ namespace MPC.Repository.Repositories
                             clonedItem.Qty1Tax1Value = TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal;//GetTaxPercentage(netTotal, TaxRate);
                         }
                     }
-                    else 
+                    else
                     {
                         clonedItem.Tax1 = Convert.ToInt32(TaxRate);
                         netTotal = itemPrice + addonsPrice;
@@ -2211,12 +2211,12 @@ namespace MPC.Repository.Repositories
                     FirstItemSection.BaseCharge1 = clonedItem.Qty1BaseCharge1;
 
 
-                  
+
                     FirstItemSection.Qty1MarkUpID = (int)markupid;
                     FirstItemSection.QuestionQueue = QuestionQueue;
                     FirstItemSection.InputQueue = InputQueue;
                     FirstItemSection.CostCentreQueue = CostCentreQueue;
-                    
+
 
                     bool isNewSectionCostCenter = false;
 
@@ -2239,11 +2239,11 @@ namespace MPC.Repository.Repositories
                     if (sectionCC == null)
                     {
                         sectionCC = new SectionCostcentre();
-                      
+
                         sectionCC.Qty1MarkUpID = 1;
                         sectionCC.Qty1Charge = itemPrice;
                         sectionCC.Qty1NetTotal = itemPrice;
-                        
+
                         isNewSectionCostCenter = true;
                     }
 
@@ -2459,7 +2459,7 @@ namespace MPC.Repository.Repositories
                             order.CompanyId == realCustomerID && order.ContactId == realContactID &&
                             order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false)
                         .FirstOrDefault();
-                if(ActualOrder == null)
+                if (ActualOrder == null)
                 {
                     ActualOrder = new Estimate();
                 }
@@ -2467,7 +2467,7 @@ namespace MPC.Repository.Repositories
                 {
                     ActualOrder.CreationTime = DateTime.Now;
                     ActualOrder.SectionFlagId = 3;
-                   // ActualOrder.AddressId = 159239;
+                    // ActualOrder.AddressId = 159239;
                     ActualOrder.LockedBy = Convert.ToInt32(realContactID);
                     ActualOrder.CompanyId = realCustomerID;
                     TemporaryContact =
@@ -2550,7 +2550,7 @@ namespace MPC.Repository.Repositories
 
                                         SourceTargetFolder = System.Web.HttpContext.Current.Server.MapPath(attatchment.FolderPath + "/");
                                         string destinationTargetFolder = System.Web.HttpContext.Current.Server.MapPath(attatchment.FolderPath + "/");
-                                        
+
                                         string destnationfilepdf =
                                             HttpContext.Current.Server.MapPath(attatchment.FolderPath + "/" + newfilenamepdf);
 
@@ -2560,7 +2560,7 @@ namespace MPC.Repository.Repositories
                                         }
 
                                         System.IO.File.Move(Sourcefilenamepdf, destnationfilepdf);
-                                      
+
                                         string Sourcefilenamepng =
                                             HttpContext.Current.Server.MapPath(attatchment.FolderPath + "/" +
                                                                                attatchment.FileName + "Thumb.png");
@@ -2575,9 +2575,9 @@ namespace MPC.Repository.Repositories
                                     }
                                     attatchment.CompanyId = realCustomerID;
                                     attatchment.ContactId = realContactID;
-                                    
+
                                     PageNo = PageNo + 1;
-                                    
+
                                 });
                             });
                         }
@@ -2586,7 +2586,7 @@ namespace MPC.Repository.Repositories
                         //{
                         //    System.IO.Directory.Delete(SourceTargetFolder, true);
                         //}
-                        
+
                         //item
                         TemporaryOrderItems.ToList().ForEach(item =>
                         {
@@ -2602,7 +2602,7 @@ namespace MPC.Repository.Repositories
                             TemporaryOrder.CompanyId = realCustomerID;
                             TemporaryOrder.ContactId = realContactID;
                         }
-                       
+
 
                         //List<Address> temporaryCustomerAddress = db.Addesses.Where(a => a.CompanyId == TemporaryCustomerID).ToList();
                         //foreach (Address add in temporaryCustomerAddress)
@@ -2619,7 +2619,7 @@ namespace MPC.Repository.Repositories
 
                     }
                 }
-               
+
                 return orderID;
             }
             catch (Exception ex)
@@ -3132,7 +3132,7 @@ namespace MPC.Repository.Repositories
                     System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" +
                                                                   organisationId.ToString() + "/Templates/");
                 // string DesignerPath = System.Web.HttpContext.Current.Server.MapPath("~/designengine/designer/products/");
-                
+
                 if (oLstAttachments.Count == 0)
                 //no attachments already exist, hence a new entry in attachments is required
                 {
@@ -3157,7 +3157,7 @@ namespace MPC.Repository.Repositories
 
                     if (!System.IO.Directory.Exists(virtualFolderPth))
                         System.IO.Directory.CreateDirectory(virtualFolderPth);
-                   
+
                     if (Item.isMultipagePDF == true)
                     {
                         //saving Page1  or Side 1 
@@ -3795,17 +3795,20 @@ namespace MPC.Repository.Repositories
         public ItemSearchResponse GetItemsByCompanyId(ItemSearchRequestModel request)
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
+            bool isNonPrintProductSpecified = request.ProductType == 3;
             int toRow = request.PageSize;
             Expression<Func<Item, bool>> query =
                 item =>
                     (string.IsNullOrEmpty(request.SearchString) || (item.ProductName.Contains(request.SearchString)) ||
                      (item.ProductCode.Contains(request.SearchString)))
-                     && item.CompanyId.HasValue && item.CompanyId == request.CompanyId
-                     && item.OrganisationId == OrganisationId 
-                     && item.IsPublished == true 
-                     && item.EstimateId == null
-                     && item.ProductType != (int)ProductType.MarketingBrief;
-            List<Item> totalItems=DbSet.Where(query).ToList();
+                    && item.CompanyId.HasValue && item.CompanyId == request.CompanyId
+                    && item.OrganisationId == OrganisationId
+                    && item.IsPublished == true
+                    && item.EstimateId == null
+                    //&& item.ProductType != (int)ProductType.MarketingBrief;
+              && ((!isNonPrintProductSpecified && item.ProductType != (int)ProductType.MarketingBrief) || (isNonPrintProductSpecified && item.ProductType == (int)ProductType.NonPrintProduct));
+
+            List<Item> totalItems = DbSet.Where(query).ToList();
 
             List<Item> items = totalItems.OrderBy(item => item.ProductCode)
            .Skip(fromRow)
@@ -3813,7 +3816,7 @@ namespace MPC.Repository.Repositories
             .ToList();
             return new ItemSearchResponse
             {
-                Items= items,
+                Items = items,
                 TotalCount = totalItems.Count
             };
         }
@@ -4008,7 +4011,7 @@ namespace MPC.Repository.Repositories
                         }
                     });
                 }
-             
+
 
                 newItem.ItemCode = "ITM-0-001-" + newItem.ItemId;
                 //dbContext.SaveChanges();
@@ -4017,7 +4020,7 @@ namespace MPC.Repository.Repositories
                     if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2))
                     {
                         newItem.TemplateId = clonedTemplate.ProductId;
-                       
+
                         CopyTemplatePaths(clonedTemplate, OrganisationId);
                     }
 
@@ -4273,7 +4276,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-     
+
         /// <summary>
         /// get all parent categories and corresponding products of a category against a store
         /// </summary>
@@ -4320,7 +4323,7 @@ namespace MPC.Repository.Repositories
             long OrganisationID = 0;
             try
             {
-                
+
                 var item = db.Items.Where(g => g.ItemId == itemId).SingleOrDefault();
                 if (item != null)
                 {
@@ -4331,25 +4334,26 @@ namespace MPC.Repository.Repositories
                     if (item.RefItemId.HasValue && item.RefItemId.Value != 0)
                     {
                         var refItem = db.Items.Where(g => g.ItemId == item.RefItemId).SingleOrDefault();
-                        if(refItem.TemplateId.HasValue)
+                        if (refItem.TemplateId.HasValue)
                             parentTemplateId = refItem.TemplateId.Value;
                     }
                 }
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new MPCException(ex.ToString(), OrganisationID);
             }
             return parentTemplateId;
         }
 
-        public  List<ProductItem> GetAllRetailDisplayProductsQuickCalc(long CompanyID)
+        public List<ProductItem> GetAllRetailDisplayProductsQuickCalc(long CompanyID)
         {
 
             db.Configuration.LazyLoadingEnabled = false;
             var itemsList = GetAllRetailActiveProducts(CompanyID);
             var query = from productsList in itemsList
                         join tblCmsOffer in db.CmsOffers on productsList.ItemId
-                        equals tblCmsOffer.ItemId??0 into ProdTblCmsOfferGroupJoin
+                        equals tblCmsOffer.ItemId ?? 0 into ProdTblCmsOfferGroupJoin
                         where productsList.IsPublished == true
                         && (productsList.IsArchived == null || productsList.IsArchived == false)
                         && Object.Equals(productsList.EstimateId, null)
@@ -4366,7 +4370,7 @@ namespace MPC.Repository.Repositories
                             //ProductCategoryName = productsList.ca,
                             //ProductCategoryID = productsList.productC,
                             //ParentCategoryID = productsList.ParentCategoryID,
-                             MinPrice = productsList.MinPrice,
+                            MinPrice = productsList.MinPrice,
                             //ImagePath = productsList.ImagePath,
                             //ThumbnailPath = productsList.ThumbnailPath,
                             //IconPath = productsList.IconPath,
@@ -4381,7 +4385,7 @@ namespace MPC.Repository.Repositories
                             //CompleteSpecification = productsList.CompleteSpecification,
                             //TipsAndHints = productsList.TipsAndHints,
                             //TopCategoryID = productsList.TopCategoryID,
-                             IsQtyRanged = productsList.IsQtyRanged,
+                            IsQtyRanged = productsList.IsQtyRanged,
                         };
 
             //var query = db.vw_GetAllRetailStoreActiveProducts.ToList();
@@ -4389,29 +4393,29 @@ namespace MPC.Repository.Repositories
             //query.ToList().ForEach(a => mylist.Add(new Model.ProductItem { ItemID = a.ItemID, ProductName = a.ProductName, ProductCategoryName = a.ProductCategoryName, ProductCategoryID = a.ProductCategoryID, ParentCategoryID = a.ParentCategoryID ?? 0, MinPrice = a.MinPrice, IsQtyRanged = a.isQtyRanged,  IsFinishedGoods = a.IsFinishedGoods == 1 || a.IsFinishedGoods == 4 ? true : false }));
 
             return query.ToList<ProductItem>();
-                // return mylist;
-            
+            // return mylist;
+
         }
 
         public List<Item> GetAllRetailActiveProducts(long CompanyID)
         {
-            return db.Items.Where(i => i.CompanyId == CompanyID&&i.IsPublished==true).ToList();
+            return db.Items.Where(i => i.CompanyId == CompanyID && i.IsPublished == true).ToList();
         }
 
-        public  List<ItemPriceMatrix> GetRetailProductsPriceMatrix(long CompanyID) // Customer ID , Broker Product List
+        public List<ItemPriceMatrix> GetRetailProductsPriceMatrix(long CompanyID) // Customer ID , Broker Product List
         {
 
 
-                db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.LazyLoadingEnabled = false;
 
-                var qry = from prices in db.ItemPriceMatrices
-                          join i in db.Items on prices.ItemId equals i.ItemId
+            var qry = from prices in db.ItemPriceMatrices
+                      join i in db.Items on prices.ItemId equals i.ItemId
 
-                          where i.CompanyId == CompanyID && i.IsPublished == true && prices.SupplierId == null && ((i.IsQtyRanged == true && prices.QtyRangeFrom > 0) || (i.IsQtyRanged == false && prices.Quantity > 0))
+                      where i.CompanyId == CompanyID && i.IsPublished == true && prices.SupplierId == null && ((i.IsQtyRanged == true && prices.QtyRangeFrom > 0) || (i.IsQtyRanged == false && prices.Quantity > 0))
 
-                          select prices;
+                      select prices;
 
-                return qry.ToList();
+            return qry.ToList();
         }
 
 
@@ -4451,13 +4455,13 @@ namespace MPC.Repository.Repositories
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 //filter the items which are of type delivery i.e. itemtype = 2
-                return  db.Items.Include("ItemAttachments").Where(i => i.EstimateId == OrderID && (i.ItemType == null || i.ItemType != 2)).ToList();
+                return db.Items.Include("ItemAttachments").Where(i => i.EstimateId == OrderID && (i.ItemType == null || i.ItemType != 2)).ToList();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-             
+
         }
 
 

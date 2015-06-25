@@ -353,6 +353,11 @@ namespace MPC.MIS.Areas.Api.Models
         public string File3Name { get; set; }
         public string File4Name { get; set; }
         public string File5Name { get; set; }
+        public bool? File1Deleted { get; set; }
+        public bool? File2Deleted { get; set; }
+        public bool? File3Deleted { get; set; }
+        public bool? File4Deleted { get; set; }
+        public bool? File5Deleted { get; set; }
         public string GridImage { get; set; }
         public bool? IsQtyRanged { get; set; }
         public double? CostCentreProfitBroker { get; set; }

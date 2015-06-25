@@ -35,6 +35,8 @@
                                         <td>
                                             <span data-bind="text: 'No Items found!'"></span>
                                         </td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                     <!-- /ko -->
                                     <!-- ko template: { if: !isOpenedFromOrder(), name: 'companySelectorItemTemplate' , foreach: companies } -->
@@ -100,7 +102,7 @@
         <form data-bind="submit: $root.searchCompanies">
             <div class="filter-block pull-right">
                 <div class="form-group pull-right">
-                    <input type="text" class="form-control" id="companySearchFilter" placeholder="Search" data-bind="value: companyDialogFilter">
+                    <input type="text" class="form-control" id="companySearchFilter" placeholder="Search" data-bind="value:$root.companyDialogFilter">
                     <i class="fa fa-search search-icon" data-bind="click: $root.searchCompanies"></i>
                 </div>
             </div>
