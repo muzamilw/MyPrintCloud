@@ -16,7 +16,7 @@
                     <h1 class="pull-left" style="padding-left:0px;">Shipping Cost Centers</h1>
                 </div>
                 <div class="pull-right top-page-ui" style="margin-bottom:10px;">
-                    <a href="~/Settings" class="btn  btn-default" style="float: right;margin-bottom: 10px;margin-left: 15px;">Close</a>
+                    <a href="~/Settings" class="btn  btn-default" style="float: right;margin-bottom: 10px;margin-left: 5px;">Close</a>
                     <a class="btn btn-primary" data-bind="click: $root.createDeliveryCostCenter">
                         Add New Shipping Cost Center
                     </a>
@@ -49,7 +49,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="pagerDiv" style="float:right">
+                    <div id="pagerDiv" style="float:right;margin-right:7px;">
                         <!-- ko with: pager -->
                         @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                         <!-- /ko -->
@@ -101,7 +101,7 @@
 
                 </div>
                 <form data-bind="submit: $root.getCostCenterByFilter">
-                    <div class="filter-block pull-right" style="margin-right: -10px; margin-top: -3px;">
+                    <div class="filter-block pull-right" style="margin-right: -22px; margin-top: -3px;">
                         <div class="form-group pull-left">
                             <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
                             <i class="fa fa-search search-icon" data-bind="click:$root.getCostCenterByFilter"></i>

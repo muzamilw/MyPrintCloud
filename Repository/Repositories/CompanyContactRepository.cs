@@ -61,38 +61,57 @@ namespace MPC.Repository.Repositories
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
+            var query = (from contact in db.CompanyContacts
+                from cmp in db.Companies.Where(c => c.CompanyId == contact.Company.StoreId).DefaultIfEmpty()
+                where (string.IsNullOrEmpty(request.SearchString)
+                       ||
+                       (contact.FirstName.Contains(request.SearchString)) ||
+                       (contact.MiddleName.Contains(request.SearchString)) ||
+                       (contact.LastName.Contains(request.SearchString)) ||
+                       (contact.Email.Contains(request.SearchString)) ||
+                       cmp.Name.Contains(request.SearchString) ||
+                       contact.Company.Name.Contains(request.SearchString)) &&
+                      (request.CustomerTypes.Any(obj => contact.Company.IsCustomer == obj)) &&
+                      (!contact.isArchived.HasValue || contact.isArchived.Value == false) &&
+                      contact.OrganisationId == OrganisationId
 
-            Expression<Func<CompanyContact, bool>> query =
-                contact =>
-                    (string.IsNullOrEmpty(request.SearchString) ||
-                    (contact.FirstName.Contains(request.SearchString)) ||
-                    (contact.MiddleName.Contains(request.SearchString)) ||
-                    (contact.LastName.Contains(request.SearchString)) ||
-                    (contact.Email.Contains(request.SearchString)) ||
-                    contact.Company.Name.Contains(request.SearchString)) &&
-                    (request.CustomerTypes.Any(obj => contact.Company.IsCustomer==obj)) &&
-                    (contact.isArchived == false || contact.isArchived == null) && contact.OrganisationId == OrganisationId;
-
-            int rowCount = DbSet.Count(query);
-            IEnumerable<CompanyContact> companyContacts = request.IsAsc
-                ? DbSet.Where(query)
-                    .OrderByDescending(x => x.CompanyId)
-                    .Skip(fromRow)
-                    .Take(toRow)
-                    .ToList()
-                : DbSet.Where(query)
-                    .OrderByDescending(x => x.CompanyId)
-                    .Skip(fromRow)
-                    .Take(toRow)
-                    .ToList();
-            foreach (var comp in companyContacts)
-            {
-                comp.Company.StoreName = GetStoreNameByStoreId(comp.Company.StoreId ?? 0);
-            }
+                select new 
+                {
+                    contact.FirstName,
+                    contact.LastName,
+                    contact.ContactId,
+                    contact.AddressId,
+                    contact.CompanyId,
+                    Company = new
+                    {
+                        contact.CompanyId, 
+                        contact.Company.Name,
+                        contact.Company.StoreId,
+                        StoreName = cmp != null ? cmp.Name : string.Empty,
+                        contact.Company.IsCustomer
+                    }
+                });
+            var que = query.Distinct().OrderBy(contact => contact.FirstName).Skip(fromRow).Take(toRow).ToList();
+            int rowCount = query.Distinct().Count();
             return new ContactsResponseForOrder
             {
                 RowCount = rowCount,
-                CompanyContacts = companyContacts
+                CompanyContacts = que.Select(contact => new CompanyContact
+                {
+                    FirstName = contact.FirstName,
+                    LastName = contact.LastName,
+                    ContactId = contact.ContactId,
+                    AddressId = contact.AddressId,
+                    CompanyId = contact.CompanyId,
+                    Company = new Company
+                    {
+                        CompanyId = contact.Company.CompanyId,
+                        Name = contact.Company.Name,
+                        StoreId = contact.Company.StoreId,
+                        StoreName = contact.Company.StoreName,
+                        IsCustomer = contact.Company.IsCustomer
+                    }
+                }).ToList()
             };
         }
         /// <summary>

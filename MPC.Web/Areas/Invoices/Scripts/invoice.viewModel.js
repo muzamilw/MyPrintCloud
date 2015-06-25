@@ -369,6 +369,7 @@ define("invoice/invoice.viewModel",
                     //var orderNewItem = new model.Item.Create(newItem.convertToServerData());
                     //newItem = orderNewItem;
                     sectionCostCenter.name('Web Order Cost Center');
+                    var qty1Total = sectionCostCenter.qty1Charge();
                     sectionCostCenter.qty1EstimatedStockCost(0);
                     sectionCostCenter.qty2EstimatedStockCost(0);
                     sectionCostCenter.qty3EstimatedStockCost(0);
@@ -376,6 +377,9 @@ define("invoice/invoice.viewModel",
                     sectionCostCenter.qty2Charge(0);
                     sectionCostCenter.qty3Charge(0);
                     sectionCostCenter.qty1(selectedProductQuanityParam);
+                    sectionCostCenter.qty2NetTotal(0);
+                    sectionCostCenter.qty3NetTotal(0);
+                    sectionCostCenter.qty1NetTotal(qty1Total || 0);
                     selectedSectionCostCenter(sectionCostCenter);
                     selectedQty(1);
 
@@ -385,7 +389,7 @@ define("invoice/invoice.viewModel",
                     newItem.itemSections()[0].qty1(selectedProductQuanityParam);
                     newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
 
-                    itemDetailVm.updateOrderData(selectedInvoice(), newItem, selectedSectionCostCenter(), selectedQty(), newItem.itemSections()[0]);
+                    //itemDetailVm.updateOrderData(selectedInvoice(), newItem, selectedSectionCostCenter(), selectedQty(), newItem.itemSections()[0]);
 
                     //#region Add Selected Addons as Cost Centers
                     if (selectedStockOptionParam != undefined && selectedStockOptionParam.itemAddonCostCentres().length > 0) {
@@ -882,9 +886,39 @@ define("invoice/invoice.viewModel",
                         } else {
                             companyId = selectedInvoice().companyId();
                         }
-                        addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedInvoice().id(), saveSectionCostCenter, createitemForRetailStoreProduct, selectedCompanyTaxRate(), invoiceCodeHeader(), 'Invoice');
+                        addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedInvoice().id(), saveSectionCostCenter, createitemForRetailStoreProduct, selectedCompanyTaxRate(), invoiceCodeHeader(), 'Invoice', 2);
                     }
                 },
+                // Add Finished Goods
+                 onAddFinishedGoods = function () {
+
+                     if (selectedInvoice().companyId() === undefined) {
+                         toastr.error("Please select customer.");
+                     } else {
+                         // ReSharper disable AssignedValueIsNeverUsed
+                         var companyId = 0;
+                         // ReSharper restore AssignedValueIsNeverUsed
+                         if (selectedInvoice().storeId()) {
+                             companyId = selectedInvoice().storeId();
+                         } else {
+                             companyId = selectedInvoice().companyId();
+                         }
+                         addProductVm.show(addItemFromFinishedGoods, companyId, costCentresBaseData(), currencySymbol(), selectedInvoice().id(), saveSectionCostCenter, createitemForRetailStoreProduct, selectedCompanyTaxRate(), pageHeader(), isEstimateScreen() === true ? 'Estimate' : "Order", selectedInvoice().companyName(), 3);
+                     }
+                 },
+                  addItemFromFinishedGoods = function (newItem) {
+                      selectedProduct(newItem);
+                      selectedInvoice().items.splice(0, 0, newItem);
+                      itemDetailVm.updateOrderData(selectedInvoice(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
+                      selectedProduct().productType(3);
+                      newItem.itemSections()[0].productType(3);
+                      // Set Default Section to be used as a default for new sections in this item
+                      itemDetailVm.defaultSection(newItem.itemSections()[0].convertToServerData());
+
+                      //itemDetailVm.defaultSection().productType(3);
+                      //Req: Open Edit dialog of product on adding product
+                      editItem(newItem);
+                  },
                  addItemFromRetailStore = function (newItem) {
                      var itemSectionForAddView = itemModel.ItemSection.Create({});
                      counterForSection = counterForSection - 1;
@@ -1241,7 +1275,8 @@ define("invoice/invoice.viewModel",
                     openExternalEmailInvoiceReport: openExternalEmailInvoiceReport,
                     calculateGrossTotal: calculateGrossTotal,
                     calculateTaxValue: calculateTaxValue,
-                    onCreateNewCostCenterProduct: onCreateNewCostCenterProduct
+                    onCreateNewCostCenterProduct: onCreateNewCostCenterProduct,
+                    onAddFinishedGoods:onAddFinishedGoods
                     //#endregion
                 };
             })()

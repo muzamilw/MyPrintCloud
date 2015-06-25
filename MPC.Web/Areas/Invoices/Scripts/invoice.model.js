@@ -310,9 +310,9 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             var result = {};
             result.InvoiceDetailId = source.id();
             result.InvoiceTitle = source.productName();
-            result.ItemCharge = source.itemCharge() === null ? 0 : source.itemCharge();
+            result.ItemCharge = (source.itemCharge() === undefined || source.itemCharge()) === null ? 0 : source.itemCharge();
             result.Quantity = source.qty1();
-            result.ItemTaxValue = source.itemTaxValue();
+            result.ItemTaxValue = (source.itemTaxValue() === undefined || source.itemTaxValue() === null) ? 0 : source.itemTaxValue();
             result.TaxValue = source.tax();
             result.FlagId = source.flagId();
             result.Description = source.description();
