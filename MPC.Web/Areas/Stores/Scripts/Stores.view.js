@@ -130,6 +130,15 @@ define("stores/stores.view",
                 hidePaymentGatewayDialog = function () {
                     $("#myPaymentGatewayModal").modal("hide");
                 },
+                 // show Media Lib Image Dialog
+                showMediaLibImageDialog = function () {
+                    $("#mediaLibImageModel").modal("show");
+                    initializeLabelPopovers();
+                },
+                // Hide Media Lib Image Dialog
+                hideMediaLibImageDialog = function () {
+                    $("#mediaLibImageModel").modal("hide");
+                },
                 // show item sFor Widgets Dialog
                 showItemsForWidgetsDialog = function () {
                     $("#itemsForWidgetsDialog").modal("show");
@@ -315,7 +324,9 @@ define("stores/stores.view",
                 initializeLabelPopovers: initializeLabelPopovers,
                 productCategorySelectedEvent: productCategorySelectedEvent,
                 wireupThemeListClick: wireupThemeListClick,
-                closeThemeList: closeThemeList
+                closeThemeList: closeThemeList,
+                showMediaLibImageDialog: showMediaLibImageDialog,
+                hideMediaLibImageDialog: hideMediaLibImageDialog
             };
         })(storesViewModel);
 

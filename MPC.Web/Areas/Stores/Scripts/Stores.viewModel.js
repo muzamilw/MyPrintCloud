@@ -82,7 +82,8 @@ define("stores/stores.viewModel",
                     selectedItemForRemove = ko.observable(),
                     //selected hex value for cmyk
                     selectedHexValue = ko.observable(),
-
+                     //selected media lib image
+                    selectedMediaLibImage = ko.observable(),
                     //Active offer Type
                     selectedOfferType = ko.observable(),
                     //Product Priority Radio Option
@@ -340,6 +341,7 @@ define("stores/stores.viewModel",
                             }
                         });
                     },
+                    
                     //getItemsForWidgets
                     getItemsForWidgets = function (callBack) {
                         dataservice.getItemsForWidgets({
@@ -641,6 +643,14 @@ define("stores/stores.viewModel",
                         }
                     }
                 });
+            },
+            openMediaLibImage = function (image) {
+                if (image.id() <= 0) {
+                    toastr.error("You need to save store in order to get image's URL!");
+                    return false;
+                }
+                selectedMediaLibImage(image);
+                view.showMediaLibImageDialog();
             },
             //#endregion _____________________  S T O R E ____________________
 
@@ -6912,6 +6922,7 @@ define("stores/stores.viewModel",
                     openMediaLibraryDialogFromProductCategoryThumbnail: openMediaLibraryDialogFromProductCategoryThumbnail,
                     openMediaLibraryDialogFromProductCategoryBanner: openMediaLibraryDialogFromProductCategoryBanner,
                     hideMediaLibraryDialog: hideMediaLibraryDialog,
+                    openMediaLibImage:openMediaLibImage,
                     selectMediaFile: selectMediaFile,
                     selectedMediaFile: selectedMediaFile,
                     onSaveMedia: onSaveMedia,
@@ -7019,7 +7030,8 @@ define("stores/stores.viewModel",
                     systemVariables: systemVariables,
                     onClickSystemVaribaleTab: onClickSystemVaribaleTab,
                     systemVariablePager: systemVariablePager,
-                    getSystemVariables: getSystemVariables
+                    getSystemVariables: getSystemVariables,
+                    selectedMediaLibImage: selectedMediaLibImage
 
 
                 };

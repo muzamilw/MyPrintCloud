@@ -1238,7 +1238,7 @@
                                                 <div style="padding-left:0px;">
                                                     <div class="fileUpload btn btn-primary">
                                                         <span>Upload Multiple Files</span>
-                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.mediaLibraryFileLoadedCallback, fileFilter: 'image.*'}" />
+                                                        <input type="file" class="upload" id="image_files" multiple="" data-bind="files: { onLoaded: $root.mediaLibraryFileLoadedCallback, fileFilter: 'image.*'}" />
                                                     </div>
                                                 </div>
 
@@ -3573,6 +3573,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
 @Html.Partial("~/Areas/Stores/Views/Shared/_ProductsFilter.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Shared/_ChooseUsIcon.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Shared/_ProductCategoryDetail.cshtml")
+@Html.Partial("~/Areas/Stores/Views/Shared/_ViewMediaLibImage.cshtml")
+
 <script id="workflowEmailItemTemplate" type="text/html">
     <!-- ko if: campaignType() === 1 -->
     <tr data-bind=" click: $root.onEditEmail" style="cursor: pointer">
@@ -3686,7 +3688,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 </script>
 <script id="mediaLibraryItemTemplate" type="text/html">
     <li class="col-md-3 col-sm-3 col-xs-6">
-        <div class="photo-box image-link" style="padding-top: 0">
+        <div class="photo-box image-link" style="padding-top: 0" data-bind="event:{click:$root.openMediaLibImage}">
             <img class="photo-box image-link" style="padding-top: 0;height:127px !important" data-bind="visible:fileSource()===undefined,attr: { src: '@Url.Content("~/")' + imageSourcePath() }" alt="" />
             <img class="photo-box image-link" style="padding-top: 0;height:127px !important" data-bind="visible:fileSource()!==undefined,attr: { src: fileSource }" />
         </div>
