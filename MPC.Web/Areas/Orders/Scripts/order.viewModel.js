@@ -110,10 +110,10 @@ define("order/order.viewModel",
                         { name: "Direct  Order", value: "0" },
                         { name: "Online Order", value: "1" }
                     ]),
-                    flagItem = function (state) {
+                    flagItem = function(state) {
                         return "<div style=\"height:20px;margin-right:10px;width:25px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
                     },
-                    flagSelection = function (state) {
+                    flagSelection = function(state) {
                         return "<span style=\"height:20px;width:25px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
                     },
                     orderTypeFilter = ko.observable(),
@@ -162,7 +162,7 @@ define("order/order.viewModel",
                     currencySymbol = ko.observable(''),
                     loggedInUser = ko.observable(),
                     itemIdFromDashboard = ko.observable(),
-                     inquiryDetailEditorViewModel = new ist.ViewModel(model.InquiryItem),
+                    inquiryDetailEditorViewModel = new ist.ViewModel(model.InquiryItem),
                     selectedInquiryItem = inquiryDetailEditorViewModel.itemForEditing,
                     //On Order Status change to progress to job that will open wizard
                     selectedItemForProgressToJobWizard = ko.observable(itemModel.Item()),
@@ -175,7 +175,7 @@ define("order/order.viewModel",
                     //Estimate To Be Progressed
                     estimateToBeProgressed = ko.observable(undefined),
                     // Page Header 
-                    pageHeader = ko.computed(function () {
+                    pageHeader = ko.computed(function() {
                         return selectedOrder() && selectedOrder().name() ? selectedOrder().name() : 'Orders';
                     }),
                     // Sort On
@@ -206,20 +206,20 @@ define("order/order.viewModel",
                         selectedEstimatePhraseContainer(e.currentTarget.id);
                     },
                     // Open Phrase Library
-                    openPhraseLibrary = function () {
+                    openPhraseLibrary = function() {
                         phraseLibrary.isOpenFromPhraseLibrary(false);
-                        phraseLibrary.show(function (phrase) {
+                        phraseLibrary.show(function(phrase) {
                             updateEstimatePhraseContainer(phrase);
                         });
                     },
-                     formatSelection = function (state) {
-                         return "<span style=\"height:20px;width:20px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
-                     },
-                    formatResult = function (state) {
+                    formatSelection = function(state) {
+                        return "<span style=\"height:20px;width:20px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
+                    },
+                    formatResult = function(state) {
                         return "<div style=\"height:20px;margin-right:10px;width:20px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
                     },
                     // update Estimate Phrase Container
-                    updateEstimatePhraseContainer = function (phrase) {
+                    updateEstimatePhraseContainer = function(phrase) {
                         if (!phrase) {
                             return;
                         }
@@ -227,18 +227,17 @@ define("order/order.viewModel",
                         // Set Phrase to selected Estimate Phrase Container
                         if (selectedEstimatePhraseContainer() === 'EstimateHeader') {
                             selectedOrder().headNotes(selectedOrder().headNotes() ? selectedOrder().headNotes() + ' ' + phrase : phrase);
-                        }
-                        else if (selectedEstimatePhraseContainer() === 'EstimateFootNotesTextBox') {
+                        } else if (selectedEstimatePhraseContainer() === 'EstimateFootNotesTextBox') {
                             selectedOrder().footNotes(selectedOrder().footNotes() ? selectedOrder().footNotes() + ' ' + phrase : phrase);
-                        } 
+                        }
                     },
                     // Selected Address
-                    selectedAddress = ko.computed(function () {
+                    selectedAddress = ko.computed(function() {
                         if (!selectedOrder() || !selectedOrder().addressId() || companyAddresses().length === 0) {
                             return defaultAddress();
                         }
 
-                        var addressResult = companyAddresses.find(function (address) {
+                        var addressResult = companyAddresses.find(function(address) {
                             return address.id === selectedOrder().addressId();
                         });
 
@@ -246,12 +245,12 @@ define("order/order.viewModel",
                     }),
 
                     // Selected Company Contact
-                    selectedCompanyContact = ko.computed(function () {
+                    selectedCompanyContact = ko.computed(function() {
                         if (!selectedOrder() || !selectedOrder().contactId() || companyContacts().length === 0) {
                             return defaultCompanyContact();
                         }
 
-                        var contactResult = companyContacts.find(function (contact) {
+                        var contactResult = companyContacts.find(function(contact) {
                             return contact.id === selectedOrder().contactId();
                         });
 
@@ -277,7 +276,7 @@ define("order/order.viewModel",
                     isAddProductFromInventory = ko.observable(false),
                     //Is Inventory Dialog is opening for Section Cost Center
                     isAddProductForSectionCostCenter = ko.observable(false),
-                    orderHasChanges = ko.computed(function () {
+                    orderHasChanges = ko.computed(function() {
                         var hasChanges = false;
                         if (selectedOrder()) {
                             hasChanges = selectedOrder().hasChanges();
@@ -286,7 +285,7 @@ define("order/order.viewModel",
                         return hasChanges;
                     }),
                     // Create New Order
-                    createOrder = function () {
+                    createOrder = function() {
                         selectedOrder(model.Estimate.Create({}, { SystemUsers: systemUsers() }));
                         selectedOrder().setOrderReportSignedBy(loggedInUser());
                         selectedOrder().setCreditiLimitSetBy(loggedInUser());
@@ -298,6 +297,14 @@ define("order/order.viewModel",
                         $('#orderDetailTabs a[href="#tab-EstimateHeader"]').tab('show');
                         openOrderEditor();
                     },
+                    //method to set credit approval fields
+                    // ReSharper disable once UnusedLocals
+                    updateCreditApprovalFields = ko.computed(function() {
+                        if (selectedOrder().isJobAllowedWoCreditCheck()) {
+                            selectedOrder().setAllowJobWoCreditCheckSetBy(loggedInUser());
+                            selectedOrder().allowJobWoCreditCheckSetOnDateTime(moment().toDate());
+                        }
+                    }),
                     // Edit Order
                     editOrder = function (data) {
                         getOrderById(data.id(), openOrderEditor);
@@ -888,7 +895,7 @@ define("order/order.viewModel",
                     },
 
                     deleteOrderButtonHandler = function () {
-                        confirmation.messageText("Are you sure you want to delete order?");
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(deleteOrder);
                         confirmation.afterCancel(function () {
 
@@ -1889,6 +1896,17 @@ define("order/order.viewModel",
                             hideOrderPrePaymentModal();
                         }
                     },
+                    onDeletePrePayment = function (prePayment) {
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.afterProceed(function() {
+                            var index = selectedOrder().prePayments().indexOf(prePayment);
+                            selectedOrder().prePayments.remove(selectedOrder().prePayments()[index]);
+                            toastr.success("Deleted Successfully");
+                            hideOrderPrePaymentModal();
+                        });
+                        confirmation.show();
+                        return;
+                    },
                     // Do Before Save
                     dobeforeSavePrePayment = function () {
                         var flag = true;
@@ -2102,7 +2120,7 @@ define("order/order.viewModel",
                         if (selectedDeliverySchedule().deliveryNoteRaised()) {
                             toastr.error("Raised item cannot be deleted.");
                         } else {
-                            confirmation.messageText("Are you sure you want to delete Delivery Schedule?");
+                            confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                             confirmation.afterProceed(deleteDeliverySchedule);
                             confirmation.afterCancel(function () {
 
@@ -2798,7 +2816,8 @@ define("order/order.viewModel",
                     selectEstimatePhraseContainer: selectEstimatePhraseContainer,
                     openPhraseLibrary: openPhraseLibrary,
                     formatSelection:formatSelection,
-                    formatResult:formatResult,
+                    formatResult: formatResult,
+                    onDeletePrePayment: onDeletePrePayment,
                     
                   
                     onCreateNewCostCenterProduct: onCreateNewCostCenterProduct

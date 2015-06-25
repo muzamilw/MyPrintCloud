@@ -174,6 +174,8 @@ namespace MPC.Implementation.MISServices
             inquiry.InquiryCode = prefixRepository.GetNextInquiryCodePrefix();
             estimateInquiryRepository.Add(inquiry);
             estimateInquiryRepository.SaveChanges();
+            SaveInquiryAttachments(inquiry);
+            estimateInquiryRepository.SaveChanges();
             return inquiry;
         }
 
@@ -182,7 +184,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public Inquiry Update(Inquiry recievedInquiry)
         {
-            Inquiry inquiry = GetInquiryById(recievedInquiry.InquiryId) ?? CreateNewInquiry();
+            Inquiry inquiry = recievedInquiry.InquiryId != 0 ? GetInquiryById(recievedInquiry.InquiryId):CreateNewInquiry();
             // Update Inquiry
             recievedInquiry.UpdateTo(inquiry, new InquiryMapperActions
             {

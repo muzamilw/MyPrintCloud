@@ -213,7 +213,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         reportManager.OpenExternalReport(ist.reportCategoryEnums.Delivery, 1, selectedDeliveryNote().deliveryNoteId());
 
 
-                    }
+                    },
 
 
                      // Open Company Dialog
@@ -382,6 +382,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     },
                     // Delete Delivry Notes
                 onDeleteDeliveryNote = function () {
+                    confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         deleteDeliveryNote(selectedDeliveryNote().convertToServerData());
                     });
