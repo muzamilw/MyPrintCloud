@@ -5803,3 +5803,7 @@ alter table ItemStockUpdateHistory
 add constraint FK_ItemStockUpdateHistory_SystemUser
 foreign key (LastModifiedBy)
 references SystemUser (SystemUserId)
+
+
+
+update FieldVariable set CriteriaFieldName = 'SecondaryEmail' where VariableTag like '{{Email}}'

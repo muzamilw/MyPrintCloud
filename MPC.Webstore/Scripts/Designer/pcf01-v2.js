@@ -4339,7 +4339,8 @@ function pcl40_addDropDown(title, varId,options,def,tabindex) {
 function pcl40_addTxtControl(title, varId, placeHolder, Value, IsRequired, InputMask,tabindex,variableTag) {
     var required = "";
     if (variableTag != null) {
-        if (variableTag.toLowerCase() == "{{webaccesscode}}" || variableTag.toLowerCase() == "{{email}}") {
+        //  if (variableTag.toLowerCase() == "{{webaccesscode}}" || variableTag.toLowerCase() == "{{email}}") {
+        if (variableTag.toLowerCase() == "{{webaccesscode}}") {
             required += 'disabled=disabled';
         }
     }
@@ -4352,7 +4353,7 @@ function pcl40_addTxtControl(title, varId, placeHolder, Value, IsRequired, Input
         Value = ""; 
     }
     var html = '<div class="QtextData"><label class="lblQData" id="lblQName">' + title + '</label><br>' +
-        '<textarea id="txtSmart' + varId + '" maxlength="500" class="qTextInput" style="" placeholder="' + placeHolder + '" ' + required + ' tabindex= "' + tabindex + '" onClick="" >' + Value + '</textarea></div>';
+        '<textarea id="txtSmart' + varId + '" maxlength="1500" class="qTextInput" style="" placeholder="' + placeHolder + '" ' + required + ' tabindex= "' + tabindex + '" onClick="" >' + Value + '</textarea></div>';
     return html;
 }
 function pcl40_addCaption(caption) {
