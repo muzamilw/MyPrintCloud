@@ -114,7 +114,7 @@
                     &nbsp;
                 </div>
                 <div class="col-sm-6">
-                  
+
                     <select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: sectionFlagId, foreach: $root.sectionFlags">
                         <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
                     </select>
@@ -223,14 +223,14 @@
                                 </table>
                             </div>
                         </div>
-                        
+
                         <div class="btn-group" style="float: left; margin-top: 10px;">
                             <button type="button" class="btn btn-primary" data-bind="click : $root.onCreateNewProductFromRetailStore">Add Product from Store</button>
                         </div>
-                        @*<div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
-                            <button type="button" class="btn btn-primary" data-bind="click : $root.onCreateNewBlankPrintProduct">Add Blank Print Product</button>
-                        </div>
                         <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
+                            <button type="button" class="btn btn-primary" data-bind="click : $root.onAddFinishedGoods"> Add Finished Goods</button>
+                        </div>
+                        @*<div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
                             <button type="button" class="btn btn-primary" data-bind="click: $root.openStockItemDialogForAddingProduct">Add Inventory Item</button>
                         </div>
                         <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">

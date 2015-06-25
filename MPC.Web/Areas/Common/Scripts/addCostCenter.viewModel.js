@@ -29,6 +29,8 @@ define("common/addCostCenter.viewModel",
                     isCostCenterDialogForShipping = ko.observable(false),
                     // Pagination For Press Dialog
                     costCentreDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, costCentres)),
+                    // Cost Center Type
+                    costCenterTypeFilter = ko.observable(),
                     // Search Stock Items
                     searchCostCenters = function () {
                         costCentreDialogPager().reset();
@@ -61,7 +63,7 @@ define("common/addCostCenter.viewModel",
                         costCenterDialogFilter(undefined);
                     },
                     // Show
-                    show = function (afterAddCostCenterCallback, companyId, isCostCenterDialogForShippingFlag, currency, companyTaxRateParam) {
+                    show = function (afterAddCostCenterCallback, companyId, isCostCenterDialogForShippingFlag, currency, companyTaxRateParam, costCenterType) {
                         currencySmb(currency);
                         isAddProductForSectionCostCenter(false);
                         isAddProductFromInventory(false);
@@ -73,6 +75,7 @@ define("common/addCostCenter.viewModel",
                         afterCostCenterExecution = null;
                         companyTaxRate = companyTaxRateParam;
                         selectedCompanyId(companyId);
+                        costCenterTypeFilter(costCenterType || undefined);
                         if (isCostCenterDialogForShipping()) {
                             getCostCenters();
                         } else {
@@ -225,6 +228,7 @@ define("common/addCostCenter.viewModel",
                             SearchString: costCenterDialogFilter(),
                             PageSize: costCentreDialogPager().pageSize(),
                             PageNo: costCentreDialogPager().currentPage(),
+                            Type: costCenterTypeFilter()
                         }, {
                             success: function (data) {
                                 if (data != null) {

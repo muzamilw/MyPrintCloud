@@ -5203,7 +5203,7 @@ namespace MPC.Repository.Repositories
                 return null;
             }
             Company company = DbSet.FirstOrDefault(x => x.CompanyId == storeId);
-            return company != null ? company.AccountManagerId : null;
+            return company != null ? company.ProductionManagerId1 : null;
         }
 
         public List<Company> GetSupplierByOrganisationid(long OID)
