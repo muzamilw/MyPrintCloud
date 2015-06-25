@@ -111,10 +111,25 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return isArchived() ? "Yes" : "No";
             }),
             // is published
-            isPublished = ko.observable(specifiedIsPublished || undefined),
+            isPublished = ko.observable(specifiedIsPublished !== undefined && specifiedIsPublished !== null ? specifiedIsPublished : true),
             // Is Published Ui
             isPublishedUi = ko.computed(function () {
                 return isPublished() ? "Yes" : "No";
+            }),
+            isStoreTax = ko.observable(specifiedDefaultItemTax == undefined || specifiedDefaultItemTax == null ? 2 : 1),
+            isStoreTaxUi = ko.computed({
+                read: function () {
+                    
+                    return '' + isStoreTax();
+                },
+                write: function (value) {
+                    var storeTax = parseInt(value);
+                    if (storeTax === isStoreTax()) {
+                        return;
+                    }
+                    isStoreTax(storeTax);
+                    defaultItemTax(0);
+                }
             }),
             // product Category Name
             productCategoryName = ko.observable(specifiedProductCategoryName || undefined),
@@ -158,9 +173,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // is stock control
             isStockControl = ko.observable(specifiedIsStockControl || undefined),
             // is enabled
-            isEnabled = ko.observable(specifiedIsEnabled || undefined),
+            isEnabled = ko.observable(specifiedIsEnabled !== undefined && specifiedIsEnabled !== null ? specifiedIsEnabled : true),
             // sort order
-            sortOrder = ko.observable(specifiedSortOrder || undefined),
+            sortOrder = ko.observable(specifiedSortOrder || 1),
             // xero access code
             xeroAccessCode = ko.observable(specifiedXeroAccessCode || undefined),
             // web Description
@@ -326,7 +341,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }
             }),
             // Scalar
-            scalar = ko.observable(specifiedScalar || undefined).extend({ number: true }),
+            scalar = ko.observable(specifiedScalar || 1).extend({ number: true }),
             // Zoom Factor
             zoomFactor = ko.observable(specifiedZoomFactor || undefined).extend({ number: true }),
             // Designer Category Id
@@ -383,7 +398,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 return templateType() === 3;
             }),
             // Product Display Options
-            productDisplayOptions = ko.observable(specifiedProductDisplayOptions || 1),
+            productDisplayOptions = ko.observable(specifiedProductDisplayOptions || 2),
             // Product DisplayOptions for ui
             productDisplayOptionsUi = ko.computed({
                 read: function () {
@@ -409,19 +424,19 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Is Digital Download
             isDigitalDownload = ko.observable(specifiedIsDigitalDownload || false),
             // Print Crop Marks
-            printCropMarks = ko.observable(specifiedPrintCropMarks || false),
+            printCropMarks = ko.observable(specifiedPrintCropMarks !== undefined && specifiedPrintCropMarks !== null ? specifiedPrintCropMarks : true),
             // Draw Water Mark
-            drawWatermarkText = ko.observable(specifiedDrawWatermarkText || false),
+            drawWatermarkText = ko.observable(specifiedDrawWatermarkText !== undefined && specifiedDrawWatermarkText !== null ? specifiedDrawWatermarkText : true),
             // Is Add Crop Marks
             isAddCropMarks = ko.observable(specifiedIsAddCropMarks || false),
             // Draw bleed area
-            drawBleedArea = ko.observable(specifiedDrawBleedArea || false),
+            drawBleedArea = ko.observable(specifiedDrawBleedArea !== undefined && specifiedDrawBleedArea !== null ? specifiedDrawBleedArea : true),
             // Is Multipage Pdf
             isMultiPagePdf = ko.observable(specifiedIsMultiPagePdf || false),
             // Allow Pdf Download
             allowPdfDownload = ko.observable(specifiedAllowPdfDownload || false),
             // Allow Image Download
-            allowImageDownload = ko.observable(specifiedAllowImageDownload || false),
+            allowImageDownload = ko.observable(specifiedAllowImageDownload !== undefined && specifiedAllowImageDownload !== null ? specifiedAllowImageDownload : true),
             // Item Length
             itemLength = ko.observable(specifiedItemLength || 0),
             // Item Height
@@ -454,6 +469,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemPriceMatrices = ko.observableArray([]),
             // Product Category Items
             productCategoryItems = ko.observableArray([]),
+            // Product Category Element
+            productCategoryElement = ko.observable(),
             // Item Images
             itemImages = ko.observableArray([]),
             // Product Market Brief Questions
@@ -770,6 +787,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     callbacks.onSelectStockItem();
                 }
             },
+            // Set Stock Item For Stock Option in Case of New Product
+            selectStockItemForStockOptionForNewProduct = function (stockItem) {
+                if (itemStockOptions().length === 0) {
+                    return;
+                }
+                activeStockOption(itemStockOptions()[0]);
+                selectStockItemForStockOption(stockItem);
+            },
             // Select Stock Item For Stock Option
             selectStockItemForStockOption = function (stockItem) {
                 activeStockOption().selectStock(stockItem);
@@ -791,6 +816,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
                 // Set Stock Item Selection Callback
                 selectStockItemCallback = selectStockItemForSection;
+            },
+            // Select Stock Item for Section for New Product
+            selectStockItemForSectionForNewProduct = function(stockItem) {
+                if (itemSections().length === 0) {
+                    return;
+                }
+                activeItemSection(itemSections()[0]);
+                selectStockItemForSection(stockItem);
             },
             // On Select Stock Item
             selectStockItemForSection = function (stockItem) {
@@ -861,13 +894,57 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             removeItemRelatedItem = function (item) {
                 itemRelatedItems.remove(item);
             },
+            // Validate Category Only while Save
+            shouldValidateCategory = ko.observable(false),
+            // Set New Stock Option Tab Active
+            setNewStockOptionTabActive = function (element) {
+                var active = $('#stockLabelTabListItem').find('> .active');
+                if (active) {
+                    active.removeClass('active');
+                }
+                var tabListItem = $('#stockLabelTabListItem a[href=#' + element.id + ']');
+                if (tabListItem) {
+                    tabListItem.tab('show');
+                }
+                var activeContentItem = $('#stockLabelTabListItemDetails').find('> .active');
+                if (activeContentItem) {
+                    activeContentItem.removeClass('in active');
+                }
+                var tabContentItem = $('#stockLabelTabListItemDetails #' + element.id);
+                if (tabContentItem) {
+                    tabContentItem.addClass('in active');
+                }
+            },
+            // Wireup Item Stock Option Tab Events
+            wireupItemStockOptionTabEvents = function (stockOption) {
+                setTimeout(function () {
+                    var index = itemStockOptions.indexOf(stockOption);
+                    if (index >= 0) {
+                        var stockOptionItem = itemStockOptions()[index];
+                        if (stockOptionItem) {
+                            if (stockOptionItem.stockItemName && stockOptionItem.stockItemName.domElement) {
+                                $(stockOptionItem.stockItemName.domElement).on('click', function () {
+                                    setNewStockOptionTabActive(stockOptionItem.stockItemName.domElement);
+                                });
+                                setNewStockOptionTabActive(stockOptionItem.stockItemName.domElement);
+                            }
+                        }
+                    }
+                }, 500);
+            },
             // Add Item Stock Option
             addItemStockOption = function () {
-                itemStockOptions.push(ItemStockOption.Create({ ItemId: id() }, callbacks));
+                var stockOption = ItemStockOption.Create({ ItemId: id() }, callbacks);
+                itemStockOptions.push(stockOption);
+                wireupItemStockOptionTabEvents(stockOption);
             },
             // Remove Item Stock Option
             removeItemStockOption = function (itemStockOption) {
                 itemStockOptions.remove(itemStockOption);
+                if (!$('#stockLabelTabListItem li a').last()[0]) {
+                    return;
+                }
+                setNewStockOptionTabActive($('#stockLabelTabListItem li a').last()[0]);
             },
             // On Add Item Cost Centre
             onAddItemCostCentre = function (itemStockOption) {
@@ -961,6 +1038,30 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             chooseTemplateForStateTax = function (stateTaxItem) {
                 return selectedStateTaxItem() === stateTaxItem ? 'editStateTaxTemplate' : 'itemStateTaxTemplate';
             },
+            // Set Default Qty and Price for 1st Five items in Price Matrix while Creating New
+            setDefaultQtyAndPriceForFirstFive = function(index, itemPriceMatrix) {
+                if (index === 0) {
+                    itemPriceMatrix.quantity(100);
+                    itemPriceMatrix.pricePaperType1(10);
+                }
+                else if (index === 1) {
+                    itemPriceMatrix.quantity(200);
+                    itemPriceMatrix.pricePaperType1(20);
+                }
+                else if (index === 2) {
+                    itemPriceMatrix.quantity(300);
+                    itemPriceMatrix.pricePaperType1(30);
+                }
+                else if (index === 3) {
+                    itemPriceMatrix.quantity(500);
+                    itemPriceMatrix.pricePaperType1(50);
+                }
+                else if (index === 4) {
+                    itemPriceMatrix.quantity(1000);
+                    itemPriceMatrix.pricePaperType1(100);
+                }
+                return itemPriceMatrix;
+            },
             // Set Item Price Matrices for Selected Flag
             setItemPriceMatrices = function (itemPriceMatrixList) {
                 // If no list then create new
@@ -981,9 +1082,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         itemPriceMatrices.valueHasMutated();
                     }
                     else { // Add New
+                        var itemPriceMatrixNew;
                         for (var i = 0; i < 15; i++) {
-                            itemPriceMatrixItems.push(ItemPriceMatrix.Create({ ItemId: id(), FlagId: flagId() },
-                                { onPriceMatrixQuantityChange: updateQuantitiesForSupplier }));
+                            itemPriceMatrixNew = ItemPriceMatrix.Create({ ItemId: id(), FlagId: flagId() },
+                                { onPriceMatrixQuantityChange: updateQuantitiesForSupplier });
+                            itemPriceMatrixNew = setDefaultQtyAndPriceForFirstFive(i, itemPriceMatrixNew);
+                            itemPriceMatrixItems.push(itemPriceMatrixNew);
                         }
                         ko.utils.arrayPushAll(itemPriceMatrices(), itemPriceMatrixItems);
                         itemPriceMatrices.valueHasMutated();
@@ -1222,6 +1326,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
                 return (isFinishedGoodsUi() === '1') && (templateTypeUi() === '1') && (template() && template().templatePages().length > 0);
             },
+            // Has a category
+            hasInvalidCategroy = function() {
+                return !availableProductCategoryItems();
+            },
             // Is Valid
             isValid = ko.computed(function () {
                 return errors().length === 0 && itemVdpPrices.filter(function (itemVdpPrice) {
@@ -1234,6 +1342,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     return !itemSection.isValid();
                 }).length === 0 &&
                 template().isValid() &&
+                !hasInvalidCategroy() && 
                 hasTemplatePagesForManual();
             }),
             // Show All Error Messages
@@ -1330,7 +1439,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     return !itemSection.isValid();
                 });
                 if (itemSectionInvalid) {
-                    if (itemSectionInvalid.name.error || itemSectionInvalid.pressId.error || itemSectionInvalid.stockItemId.error) {
+                    if (itemSectionInvalid.name.error || itemSectionInvalid.pressId.error || itemSectionInvalid.stockItemId.error ||
+                        itemSectionInvalid.itemGutterHorizontal.error) {
                         var nameElement = itemSectionInvalid.name.domElement;
                         var errorName = "";
                         if (itemSectionInvalid.name.error) {
@@ -1342,8 +1452,19 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         else if (itemSectionInvalid.stockItemId.error) {
                             errorName = "Section Stock Item";
                         }
+                        else if (itemSectionInvalid.itemGutterHorizontal.error) {
+                            errorName = "Gutter value must be a number from 0 to 99";
+                        }
                         validationSummaryList.push({ name: errorName, element: nameElement });
                     }
+                }
+                // Check if a category is selected
+                if (!availableProductCategoryItems()) {
+                    validationSummaryList.push({ name: "Product should have atleast one category", element: productCategoryElement.domElement });
+                    shouldValidateCategory(true);
+                }
+                else {
+                    shouldValidateCategory(false);
                 }
             },
             // True if the product has been changed
@@ -1708,7 +1829,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             jobDescription9: jobDescription9,
             jobDescription10: jobDescription10,
             isTemplateTabsVisible: isTemplateTabsVisible,
-           
             flagId: flagId,
             internalFlagId: internalFlagId,
             isQtyRangedUi: isQtyRangedUi,
@@ -1774,12 +1894,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemPriceMatrices: itemPriceMatrices,
             productCategoryItems: productCategoryItems,
             availableProductCategoryItems: availableProductCategoryItems,
+            productCategoryElement: productCategoryElement,
             itemSections: itemSections,
             itemPriceMatricesForCurrentFlag: itemPriceMatricesForCurrentFlag,
             itemPriceMatricesForSupplierId1: itemPriceMatricesForSupplierId1,
             itemPriceMatricesForSupplierId2: itemPriceMatricesForSupplierId2,
             addItemStockOption: addItemStockOption,
             removeItemStockOption: removeItemStockOption,
+            wireupItemStockOptionTabEvents: wireupItemStockOptionTabEvents,
             chooseStockItem: chooseStockItem,
             activeStockOption: activeStockOption,
             activeItemSection: activeItemSection,
@@ -1816,6 +1938,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             onSelectImage: onSelectImage,
             itemImages: itemImages,
             onSelectItemImage: onSelectItemImage,
+            isStoreTaxUi:isStoreTaxUi,
             resetFiles: resetFiles,
             errors: errors,
             isValid: isValid,
@@ -1834,6 +1957,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             onAddProductMarketBriefQuestion: onAddProductMarketBriefQuestion,
             onEditProductMarketBriefQuestion: onEditProductMarketBriefQuestion,
             onRemoveItemRelatedItem: onRemoveItemRelatedItem,
+            selectStockItemForStockOption: selectStockItemForStockOption,
+            selectStockItemForSection: selectStockItemForSection,
+            selectStockItemForStockOptionForNewProduct: selectStockItemForStockOptionForNewProduct,
+            selectStockItemForSectionForNewProduct: selectStockItemForSectionForNewProduct,
+            shouldValidateCategory: shouldValidateCategory,
             reset: reset,
             convertToServerData: convertToServerData
         };
@@ -2028,7 +2156,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }
             }),
             // Pdf Template Width
-            pdfTemplateWidth = ko.observable(specifiedPdfTemplateWidth || undefined).extend({
+            pdfTemplateWidth = ko.observable(specifiedPdfTemplateWidth || 95).extend({
                 required: {
                     onlyIf: function () {
                         return isCreatedManual() === true;
@@ -2036,7 +2164,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }
             }),
             // Pdf Template Height
-            pdfTemplateHeight = ko.observable(specifiedPdfTemplateHeight || undefined).extend({
+            pdfTemplateHeight = ko.observable(specifiedPdfTemplateHeight || 65).extend({
                 required: {
                     onlyIf: function () {
                         return isCreatedManual() === true;
@@ -2065,6 +2193,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Add Template Page
             addTemplatePage = function () {
                 templatePages.push(TemplatePage.Create({ ProductId: id(), Width: pdfTemplateWidth(), Height: pdfTemplateHeight() }));
+            },
+            // Add Default Template Page For New Product
+            addDefaultTemplatePage = function() {
+                templatePages.push(TemplatePage.Create({ ProductId: id(), Width: pdfTemplateWidth(), Height: pdfTemplateHeight(), PageName: "Front" }));
             },
             // Remove Template Page
             removeTemplatePage = function (templatePage) {
@@ -2157,6 +2289,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             onSelectFile: onSelectFile,
             templatePages: templatePages,
             addTemplatePage: addTemplatePage,
+            addDefaultTemplatePage: addDefaultTemplatePage,
             removeTemplatePage: removeTemplatePage,
             moveTemplatePageUp: moveTemplatePageUp,
             moveTemplatePageDown: moveTemplatePageDown,
@@ -2313,7 +2446,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 stockItemDescription(stockItem.description);
                 label(stockItem.name);
                 inStock(stockItem.inStock);
-                allocated(stockItem.allocated)
+                allocated(stockItem.allocated);
             },
             // On Select File
             onSelectImage = function (file, data) {
@@ -2490,7 +2623,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedPressId, specifiedStockItemId, specifiedStockItemName, specifiedPressName, specifiedItemId, specifiedIsDoubleSided, specifiedIsWorknTurn,
         specifiedPrintViewLayoutPortrait, specifiedPrintViewLayoutLandscape, specifiedIsPortrait, specifiedPressIdSide2, specifiedImpressionCoverageSide1,
         specifiedImpressionCoverageSide2, specifiedPrintingType, specifiedPressSide1ColourHeads, specifiedPressSide1IsSpotColor,
-        specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty) {
+        specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty, specifiedItemGutterHorizontal) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -2615,9 +2748,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 });
             }),
             // Impression Coverage Side 1
-            impressionCoverageSide1 = ko.observable(specifiedImpressionCoverageSide1 || undefined),
+            impressionCoverageSide1 = ko.observable(specifiedImpressionCoverageSide1 || 3),
             // Impression Coverage Side 2
-            impressionCoverageSide2 = ko.observable(specifiedImpressionCoverageSide2 || undefined),
+            impressionCoverageSide2 = ko.observable(specifiedImpressionCoverageSide2),
             // Press Id Side 1 Colour Heads
             pressIdSide1ColourHeads = ko.observable(specifiedPressSide1ColourHeads || 0),
             // Press Id Side 2 Colour Heads
@@ -2626,6 +2759,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             pressIdSide1IsSpotColor = ko.observable(specifiedPressSide1IsSpotColor || false),
             // Press Id Side 2 Is Spot Color
             pressIdSide2IsSpotColor = ko.observable(specifiedPressSide2IsSpotColor || false),
+            // Item Gutter Horizontal
+            itemGutterHorizontal = ko.observable(specifiedItemGutterHorizontal || 0).extend({ number: true, min: 0, max: 99 }),
             // Select Stock Item
             selectStock = function (stockItem) {
                 if (!stockItem || stockItemId() === stockItem.id) {
@@ -2634,6 +2769,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
                 stockItemId(stockItem.id);
                 stockItemName(stockItem.name);
+                stockItemPackageQty(stockItem.packageQty);
             },
             // Select Press
             selectPress = function (press) {
@@ -2659,7 +2795,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Errors
             errors = ko.validation.group({
                 name: name,
-                stockItemId: stockItemId
+                stockItemId: stockItemId,
+                itemGutterHorizontal: itemGutterHorizontal
             }),
             // Is Valid
             isValid = ko.computed(function () {
@@ -2686,7 +2823,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 pressIdSide2: pressIdSide2,
                 impressionCoverageSide1: impressionCoverageSide1,
                 impressionCoverageSide2: impressionCoverageSide2,
-                printingType: printingType
+                printingType: printingType,
+                itemGutterHorizontal: itemGutterHorizontal
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -2723,6 +2861,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     ImpressionCoverageSide1: impressionCoverageSide1(),
                     ImpressionCoverageSide2: impressionCoverageSide2(),
                     PrintingType: printingType(),
+                    ItemGutterHorizontal: itemGutterHorizontal(),
                     SectionInkCoverages: sectionInkCoverageList.map(function (sic) {
                         var inkCoverage = sic.convertToServerData();
                         return inkCoverage;
@@ -2762,6 +2901,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             swapItemHeightWidth: swapItemHeightWidth,
             numberUp: numberUp,
             printingTypeUi: printingTypeUi,
+            itemGutterHorizontal: itemGutterHorizontal,
             pressIdSide1ColourHeads: pressIdSide1ColourHeads,
             pressIdSide2ColourHeads: pressIdSide2ColourHeads,
             pressIdSide1IsSpotColor: pressIdSide1IsSpotColor,
@@ -2781,14 +2921,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     },
 
     // Stock Item Entity        
-    StockItem = function (specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight, specifiedDescription) {
+    StockItem = function (specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight, specifiedDescription, specifiedPackageQty,
+        specifiedAllocated, specifiedInStock) {
         return {
             id: specifiedId,
             name: specifiedName,
             category: specifiedCategoryName,
             location: specifiedLocation,
             weight: specifiedWeight,
-            description: specifiedDescription
+            description: specifiedDescription,
+            packageQty: specifiedPackageQty,
+            allocated: specifiedAllocated,
+            inStock: specifiedInStock
         };
     },
 
@@ -3438,7 +3582,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     },
 
     // Product Category Entity
-    ProductCategory = function (specifiedId, specifiedName, specifiedIsSelected, specifiedParentCategoryId) {
+    ProductCategory = function (specifiedId, specifiedName, specifiedIsSelected, specifiedParentCategoryId, specifiedIsArchived) {
         // True If Selected
         var isSelected = ko.observable(specifiedIsSelected || undefined);
 
@@ -3446,7 +3590,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             id: specifiedId,
             name: specifiedName,
             isSelected: isSelected,
-            parentCategoryId: specifiedParentCategoryId
+            parentCategoryId: specifiedParentCategoryId,
+            isArchived: specifiedIsArchived
         };
     },
 
@@ -3889,7 +4034,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.ItemSizeWidth, source.PressId, source.StockItemId1, source.StockItem1Name, source.PressName, source.ItemId, source.IsDoubleSided, source.IsWorknTurn,
             source.PrintViewLayoutPortrait, source.PrintViewLayoutLandScape, source.IsPortrait,
             source.PressIdSide2, source.ImpressionCoverageSide1, source.ImpressionCoverageSide2, source.PrintingType,
-            source.PressSide1ColourHeads, source.PressSide1IsSpotColor, source.PressSide2ColourHeads, source.PressSide2IsSpotColor, source.StockItemPackageQty);
+            source.PressSide1ColourHeads, source.PressSide1IsSpotColor, source.PressSide2ColourHeads, source.PressSide2IsSpotColor, source.StockItemPackageQty,
+            source.ItemGutterHorizontal);
         
         // Map Section Ink Coverage if Any
         if (source.SectionInkCoverages && source.SectionInkCoverages.length > 0) {
@@ -3996,15 +4142,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         // Map Item Stock Options if any
         if (source.ItemStockOptions && source.ItemStockOptions.length > 0) {
-            var itemStockOptions = [];
-
             _.each(source.ItemStockOptions, function (itemStockOption) {
-                itemStockOptions.push(ItemStockOption.Create(itemStockOption, callbacks));
+                var stockOption = ItemStockOption.Create(itemStockOption, callbacks);
+                item.itemStockOptions.push(stockOption);
+                item.wireupItemStockOptionTabEvents(stockOption);
             });
-
-            // Push to Original Item
-            ko.utils.arrayPushAll(item.itemStockOptions(), itemStockOptions);
-            item.itemStockOptions.valueHasMutated();
         }
         else {
             // Add one atleast if Newly Created Product
@@ -4105,7 +4247,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Stock Item Factory
     StockItem.Create = function (source) {
-        return new StockItem(source.StockItemId, source.ItemName, source.CategoryName, source.StockLocation, source.ItemWeight, source.ItemDescription);
+        return new StockItem(source.StockItemId, source.ItemName, source.CategoryName, source.StockLocation, source.ItemWeight, source.ItemDescription,
+        source.PackageQty, source.Allocated, source.InStock);
     };
 
     // Cost Centre Factory
@@ -4135,7 +4278,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Product Category Factory
     ProductCategory.Create = function (source) {
-        var productCategory = new ProductCategory(source.ProductCategoryId, source.CategoryName, source.IsSelected, source.ParentCategoryId);
+        var productCategory = new ProductCategory(source.ProductCategoryId, source.CategoryName, source.IsSelected, source.ParentCategoryId, source.IsArchived);
 
         return productCategory;
     };

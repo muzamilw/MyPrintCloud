@@ -12,8 +12,9 @@
                 <ol class="breadcrumb">
                     <li><a href="~/Dashboard/Index">&nbsp;</a></li>
                 </ol>
-                <div class="clearfix">
-                    <h1 class="pull-left" style="padding-left:0px;">Companies</h1>
+                <h1 style="padding-left:0px;">Companies</h1>
+                <div class="clearfix pull-left" style="padding-bottom: 1%">
+                    <h5>Create Contacts, Customers and Suppliers. View system users calendars.  Create marketing emails.</h5>
                 </div>
             </div>
             <div class="col-lg-12" data-bind="visible: $root.isEditorVisible" style="display: none">
@@ -41,7 +42,7 @@
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
-                                @Html.ActionLink("All Contacts", "Contacts", "Home")
+                                @Html.ActionLink("Public Store Registered Users", "Contacts", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Companies) { <text>active</text> }">
                                 <a href="#tab-Customers" data-toggle="tab">Companies</a>
@@ -51,7 +52,7 @@
                                 @Html.ActionLink("Supplier", "SuppliersList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
-                                @Html.ActionLink("To Do Lists", "ToDoList", "Home")
+                                @Html.ActionLink("Calender Events", "ToDoList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
                                 @Html.ActionLink("Calendar", "Calendar", "Home")
@@ -89,8 +90,12 @@
                                                             <!-- ko foreach: $root.customersForListView -->
                                                             <tr data-bind=" click: $root.onEditItem" style="cursor: pointer">
                                                                 <td>
-                                                                    <img style="width: 70%; max-width: 70%;" data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
-
+                                                                    <!-- ko if: storeImageFileBinary()==='' -->
+                                                                    <img style="margin-bottom: -12px; margin-top: -12px; margin-left: -18%; -o-object-fit: contain; object-fit: contain; " data-bind="attr: { src: storeImageFileBinary()==='' ? '/mis/Content/Images/Company_Default.png':'' }" alt="">
+                                                                    <!--/ko-->
+                                                                    <!-- ko if: storeImageFileBinary()!=='' -->
+                                                                    <img style="width: 43%; max-width: 43%; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
+                                                                    <!--/ko-->
                                                                 </td>
                                                                 <td>
                                                                     <a href="#" class="store-user-link" data-bind="text:name"></a>
@@ -156,7 +161,7 @@
                                     Reports
                                 </a>
                                 <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
-                                    Add Customer
+                                    Add New Company
                                 </a>
                             </div>
                         </div>

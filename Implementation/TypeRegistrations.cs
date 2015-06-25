@@ -58,7 +58,9 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ICostCentersService, CostCenterService>();
             unityContainer.RegisterType<IMachineService, MachineService>();
             unityContainer.RegisterType<Interfaces.WebStoreServices.ICampaignService, WebStoreServices.CampaignService>();
+
             unityContainer.RegisterType<ICompanyTerritoryService, CompanyTerritoryService>();
+            unityContainer.RegisterType<Interfaces.MISServices.ICampaignService, MISServices.CampaignService>();
             unityContainer.RegisterType<IAddressService, AddressService>();
             unityContainer.RegisterType<ICompanyContactService, CompanyContactService>();
             unityContainer.RegisterType<ICrmSupplierService, CrmSupplierService>();
@@ -92,6 +94,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ILiveJobsService, LiveJobsService>();
             unityContainer.RegisterType<IDeliveryNotesService, DeliveryNotesService>();
             unityContainer.RegisterType<IExportReportHelper, ExportReportHelper>();
+            unityContainer.RegisterType<ISectionService, SectionService>();
 
         }
     }

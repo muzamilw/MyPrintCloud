@@ -2435,7 +2435,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             contactId = ko.observable(specifiedContactId),
             addressId = ko.observable(specifiedAddressId),
             companyId = ko.observable(specifiedCompanyId),
-            firstName = ko.observable(specifiedFirstName || "").extend({ required: true }),
+            firstName = ko.observable(specifiedFirstName).extend({ required: { params: true, message: 'This field is required!' } }),
             middleName = ko.observable(specifiedMiddleName || ""),
             lastName = ko.observable(specifiedLastName || ""),
             title = ko.observable(specifiedTitle),
@@ -2444,7 +2444,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             homeExtension1 = ko.observable(specifiedHomeExtension1),
             homeExtension2 = ko.observable(specifiedHomeExtension2),
             mobile = ko.observable(specifiedMobile),
-            email = ko.observable(specifiedEmail).extend({ required: true, email: true }),
+            email = ko.observable(specifiedEmail).extend({ required: { params: true, message: 'Please enter Valid Email Address!' }, email: true }),
             fAX = ko.observable(specifiedFAX),
             jobTitle = ko.observable(specifiedJobTitle),
             dOB = ko.observable(specifiedDOB),
@@ -3020,7 +3020,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.secondaryEmail,
             source.BussinessAddressId,
             source.FileName
-            
+
         );
     };
     CompanyContact.Create = function (source) {
@@ -4327,11 +4327,23 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
           specifiedInputMask, specifiedCompanyId, specifiedVariableTag, specifiedVariableTitle, specifiedIsSystem) {
         var self,
             id = ko.observable(specifiedVariableId),
-            variableName = ko.observable(specifiedVariableName).extend({ required: true }),
+            isSystem = ko.observable(specifiedIsSystem || false),
+            variableName = ko.observable(specifiedVariableName).extend({
+                required: {
+                    onlyIf: function () {
+                        return !isSystem();
+                    }
+                }
+            }),
             variableType = ko.observable(specifiedVariableType),
             scope = ko.observable(specifiedScope),
-            isSystem = ko.observable(specifiedIsSystem),
-            waterMark = ko.observable(specifiedWaterMark || "").extend({ required: true }),
+            waterMark = ko.observable(specifiedWaterMark || "").extend({
+                required: {
+                    onlyIf: function () {
+                        return !isSystem();
+                    }
+                }
+            }),
             defaultValue = ko.observable(specifiedDefaultValue || ""),
             defaultValueForInput = ko.observable(specifiedDefaultValue || ""),
             inputMask = ko.observable(specifiedInputMask),

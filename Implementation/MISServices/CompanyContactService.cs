@@ -135,9 +135,6 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public CompanyContactResponse SearchCompanyContacts(CompanyContactRequestModel request)
         {
-           
-
-            
             return companyContactRepository.GetCompanyContactsForCrm(request);
         }
         /// <summary>
@@ -264,6 +261,20 @@ namespace MPC.Implementation.MISServices
             }
             companyContactRepository.SaveChanges();
             return true;
+        }
+
+        /// <summary>
+        /// Get Contacts for order screen
+        /// </summary>
+        public ContactsResponseForOrder GetContactsForOrder(CompanyRequestModelForCalendar request)
+        {
+            return companyContactRepository.GetContactsForOrder(request);
+        }
+
+
+        public CompanyContact GetContactByContactId(long ContactId)
+        {
+           return companyContactRepository.GetContactByContactId(ContactId);
         }
     }
 }

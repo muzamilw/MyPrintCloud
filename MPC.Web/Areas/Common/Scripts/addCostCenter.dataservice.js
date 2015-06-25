@@ -22,6 +22,13 @@ define("common/addCostCenter.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    
+                    // Define request to Execute Cost Center
+                    amplify.request.define('executeCostCenterForCostCenter', 'ajax', {
+                        url: '/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId={CostCentreId}&ClonedItemId={ClonedItemId}&OrderedQuantity={QuantityOrdered}&CallMode={CallMode}',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
 
                     isInitialized = true;
                 }
@@ -31,6 +38,16 @@ define("common/addCostCenter.dataservice", function () {
             initialize();
             return amplify.request({
                 resourceId: 'getCostCentersForProduct',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
+        },
+        // Execute Cost Center
+        executeCostCenterForCostCenter = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'executeCostCenterForCostCenter',
                 success: callbacks.success,
                 error: callbacks.error,
                 data: params
@@ -48,7 +65,8 @@ define("common/addCostCenter.dataservice", function () {
         };
         return {
             getCostCentersForProduct: getCostCentersForProduct,
-            getCostCenters: getCostCenters
+            getCostCenters: getCostCenters,
+            executeCostCenterForCostCenter: executeCostCenterForCostCenter
         };
     })();
 

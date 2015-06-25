@@ -5,6 +5,16 @@ using System.Web;
 
 namespace MPC.Models.Common
 {
+
+
+    public enum StockLevelHistory : int
+    {
+        Added = 1,
+        Ordered = 2,
+        ThresholdOrder = 3,
+        BackOrder = 4
+    }
+
     public enum FieldVariableScopeType : int
     {
         Store = 1,
@@ -146,7 +156,7 @@ namespace MPC.Models.Common
     {
         ThumbAndBanner = 1,
         ThumbWithMultipleBanners = 2
-        
+
 
     }
 
@@ -300,7 +310,7 @@ namespace MPC.Models.Common
         Landscape = 1,
         Portrait = 0
     }
-    public enum GripSide :int
+    public enum GripSide : int
     {
         LongSide = 1,
         ShortSide = 2
@@ -384,7 +394,8 @@ namespace MPC.Models.Common
     {
         Mm = 1,
         Cm = 2,
-        Inch = 3
+        Inch = 3,
+        Meters = 4
     }
     public enum SystemCostCenterTypes
     {
@@ -462,6 +473,22 @@ namespace MPC.Models.Common
         CriteriaFields = 8
 
     }
+
+    public enum ReportCategoryEnum : int
+    {
+        CRM = 4,
+        Stores = 1,
+        Suppliers = 2,
+        PurchaseOrders = 5,
+        Delivery = 6,
+        Order = 12,
+        Estimate = 3,
+        Invoice = 13,
+        GRN = 15,
+        Inventory = 7
+
+    }
+
 
     /// <summary>
     /// Impression Coverage (Used in Order - Item Section)

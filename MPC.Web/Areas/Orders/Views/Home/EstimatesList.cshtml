@@ -18,6 +18,7 @@
                     </ol>
                     <div class="clearfix">
                         <h1 style="padding-left:7px !important;" data-bind=" visible:  $root.currentScreen() != 8">Estimating</h1>
+                        
                         <div style="display: none" data-bind=" visible:  $root.currentScreen() == 8">
                             <h1 style="padding-left:7px !important;">Inquiry</h1>
                         </div>
@@ -25,6 +26,9 @@
                     </div>
                     <div class="row" data-bind="visible: (!isOrderDetailsVisible() && !isDisplayInquiryDetailScreen())">
                         <div class="col-sm-12">
+                            <div class="pull-left">
+                                <h5 style="padding-left: 7px;">Create Estimates for direct Inquiries and progress Estimates to Orders.</h5>
+                            </div>
                             <div class="pull-right" style="margin-right:10px;">
                                 <button id="open-wizard" data-bind="click: createOrder, visible:  $root.currentScreen() != 8" class="btn btn-primary pull-right">
                                     Add New Estimate
@@ -46,19 +50,21 @@
                                 <div class="main-box-body main-box clearfix">
                                     <div class="tabs-wrapper profile-tabs">
                                         <ul class="nav nav-tabs" id="estimateListTabs">
-                                            <li id="all-orders" class="active"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(0);}">All Estimates</a></li>
-                                            <li id="pending-orders"><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(1);}">Open Estimates</a></li>
-                                            <li><a href="#tab-ConfirmedStarts" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(39);}">Progressed to Orders</a></li>
-                                            <li><a href="#tab-InProduction" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(40);}">In Production</a></li>
-                                            <li><a href="#tab-ReadyForShipping" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(41);}">Invoiced</a></li>
+                                            <li id="pending-orders" class="active"><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(1);}">Live Estimates(Pipeline)</a></li>
                                             <li><a href="#tab-Invoiced" data-toggle="tab" data-bind="click: function(){$root.inqiriesTabClick();}">Inquiries</a></li>
+                                            <li id="all-orders"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(0);}">All Estimates</a></li>
+
+                                            @*<li><a href="#tab-ConfirmedStarts" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(39);}">Progressed to Orders</a></li>
+                                            <li><a href="#tab-InProduction" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(40);}">In Production</a></li>
+                                            <li><a href="#tab-ReadyForShipping" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(41);}">Invoiced</a></li>*@
+
                                         </ul>
                                         <div class="tab-content">
-                                            <div class="tab-pane fade in active" id="tab-All">
+                                            <div class="tab-pane fade in" id="tab-All">
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
-                                            <div class="tab-pane fade in" id="tab-PendingOrders">
+                                            <div class="tab-pane fade in active" id="tab-PendingOrders">
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
@@ -92,10 +98,16 @@
                                     <div class="filter-block pull-right">
                                         <div class="form-group pull-left">
                                             <!--ko if: currentScreen() != 8 -->
-                                            <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag"></select>
+                                            <select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: selectedFilterFlag, foreach: $root.sectionFlags">
+                                                <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
+                                            </select>
+                                            @*<select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag"></select>*@
                                             <!--/ko-->
                                             <!--ko if: currentScreen() == 8 -->
-                                            <select class="form-control" data-bind="options: $root.inquiriesSectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag"></select>
+                                            <select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: selectedFilterFlag, foreach: $root.inquiriesSectionFlags">
+                                                <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
+                                            </select>
+                                            @*<select class="form-control" data-bind="options: $root.inquiriesSectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag"></select>*@
                                             <!--/ko-->
                                         </div>
                                         <div class="form-group pull-left">
@@ -254,6 +266,7 @@
 @Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_AddCostCenters.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_ProductFromRetailStore.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
 @section Scripts{
     <script src="~/Content/themes/Centaurus/js/CSJSRequestObject.js"></script>
     <script>

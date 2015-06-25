@@ -4,7 +4,7 @@
 define("common/itemDetail.viewModel",
     ["jquery", "amplify", "ko", "common/itemDetail.dataservice", "common/itemDetail.model", "common/confirmation.viewModel", "common/pagination"
         , "common/sharedNavigation.viewModel", "common/stockItem.viewModel", "common/addCostCenter.viewModel", "common/phraseLibrary.viewModel"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM, stockDialog, addCostCenterVM, phraseLibrary) {
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM, stockDialog, addCostCenterVm, phraseLibrary) {
         var ist = window.ist || {};
         ist.itemDetail = {
             viewModel: (function () {
@@ -98,6 +98,11 @@ define("common/itemDetail.viewModel",
                         films: 3,
                         plates: 4
                     },
+                    // Cost Center Type
+                    costCenterType = {
+                        prePress: 2,
+                        postPress: 3
+                    },
                     itemPlan = ko.observable(),
                     side1Image = ko.observable(),
                     side2Image = ko.observable(),
@@ -132,6 +137,8 @@ define("common/itemDetail.viewModel",
                     isSectionVisible = ko.observable(false),
                     // Is Side 1 Ink button clicked
                     isSide1InkButtonClicked = ko.observable(false),
+                    // Default Section - From the Item Added from Retail Store
+                    defaultSection = ko.observable(),
                     //#region Utility Functions
                     sectionCostCenterQty1Charge = ko.computed({
                         read: function () {
@@ -480,7 +487,11 @@ define("common/itemDetail.viewModel",
                         setWorkInstructionsForStockCostCenter(sectionCostCenter);
                         sectionCostCenter.qty1Charge(stockItemToCreate().price);
                         sectionCostCenter.qty1NetTotal(stockItemToCreate().price);
-                        sectionCostCenter.qty2Charge(0);
+                        //if (isEstimateScreen()) {
+                        //    selectedQty(2);
+                        //}
+                        sectionCostCenter.qty2Charge(stockItemToCreate().price);
+                        sectionCostCenter.qty2NetTotal(stockItemToCreate().price);
                         sectionCostCenter.qty3Charge(0);
                         view.hideCostCentersQuantityDialog();
 
@@ -489,14 +500,17 @@ define("common/itemDetail.viewModel",
                         sectionCostCenterDetail.stockId(stockItemToCreate().id);
                         sectionCostCenterDetail.costPrice(stockItemToCreate().price);
                         sectionCostCenterDetail.qty1(selectedCostCentre().quantity1());
+                        sectionCostCenterDetail.qty2(selectedCostCentre().quantity2());
+
                         sectionCostCenter.sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
                         if (!containsStockItem) {
+                            updateSectionCostCenter(sectionCostCenterDetail);
                             selectedSection().sectionCostCentres.splice(0, 0, sectionCostCenter);
 
                         } else {
-                            var newCost = selectedSectionCostCenter().qty1Charge() + (sectionCostCenterDetail.costPrice() * sectionCostCenterDetail.qty1());
-                            selectedSectionCostCenter().qty1Charge(newCost);
-                            selectedSectionCostCenter().qty1NetTotal(newCost);
+
+                            updateSectionCostCenter(sectionCostCenterDetail);
+                            
                             setWorkInstructionsForStockCostCenter(selectedSectionCostCenter());
                             selectedSectionCostCenter().sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
                         }
@@ -504,6 +518,18 @@ define("common/itemDetail.viewModel",
                         calculateSectionBaseCharge1();
                         calculateSectionBaseCharge2();
                         calculateSectionBaseCharge3();
+                    },
+                    //Update Section Cost Center
+                    updateSectionCostCenter = function (sectionCostCenterDetail) {
+                        var newCost = (sectionCostCenterDetail.costPrice() * sectionCostCenterDetail.qty1());//selectedSectionCostCenter().qty1Charge() + 
+                        selectedSectionCostCenter().qty1Charge(newCost);
+                        selectedSectionCostCenter().qty1NetTotal(newCost);
+                        if (isEstimateScreen()) {
+                            selectedQty(2);
+                            var newCost2 = (sectionCostCenterDetail.costPrice() * sectionCostCenterDetail.qty2());// selectedSectionCostCenter().qty2Charge() + 
+                            selectedSectionCostCenter().qty2Charge(newCost2);
+                            selectedSectionCostCenter().qty2NetTotal(newCost2);
+                        }
                     },
                     // Set Work Instructions in case of Stock Cost Center
                     setWorkInstructionsForStockCostCenter = function (sectionCostCenter) {
@@ -1475,28 +1501,27 @@ define("common/itemDetail.viewModel",
                         selectedCostCentre(costCenter);
 
                         stockItemToCreate(stockItem);
-
+                        //req.selecting stock quantity default values should be from section base quantity
+                        selectedCostCentre().quantity1(selectedSection().qty1());
+                        selectedCostCentre().quantity2(selectedSection().qty2());
                         view.showCostCentersQuantityDialog();
                         isAddProductFromInventory(false);
                         isAddProductForSectionCostCenter(true);
 
                     },
-                    onSaveProductCostCenter = function () {
-                        createNewCostCenterProduct();
-                        hideCostCentreDialog();
-                        hideCostCentreQuantityDialog();
+                    // On Proceeding to Quantity Input dialog
+                    onCostCenterQuantityInputProceed = function () {
+                        view.hideCostCentersQuantityDialog();
+                        addCostCenterVm.executeCostCenter(function (costCenter) {
+                            selectedCostCentre(costCenter);
+                            createNewCostCenterProduct();
+                        });
                     },
                     //Product From Cost Center
-                    createNewCostCenterProduct = function (costCenter) {
-                        selectedCostCentre(costCenter);
-                        var item = model.Item.Create({ EstimateId: selectedOrder().id() });
-                        selectedProduct(item);
-                        item.productName(selectedCostCentre().name());
-                        item.qty1(selectedCostCentre().quantity1());
-                        item.qty1NetTotal(selectedCostCentre().setupCost());
-
-                        var itemSection = model.ItemSection.Create({});
-
+                    createNewCostCenterProduct = function () {
+                        if (!selectedCostCentre()) {
+                            return;
+                        }
                         var sectionCostCenter = model.SectionCostCentre.Create({});
                         sectionCostCenter.qty1(selectedCostCentre().quantity1());
                         sectionCostCenter.qty2(selectedCostCentre().quantity2());
@@ -1507,32 +1532,11 @@ define("common/itemDetail.viewModel",
                         sectionCostCenter.costCentreId(selectedCostCentre().id());
                         sectionCostCenter.costCentreName(selectedCostCentre().name());
                         sectionCostCenter.name(selectedCostCentre().name());
-
-                        //sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
                         sectionCostCenter.qty1Charge(selectedCostCentre().setupCost());
-
+                        sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
                         selectedSectionCostCenter(sectionCostCenter);
                         selectedQty(1);
-
-
-                        itemSection.sectionCostCentres.push(sectionCostCenter);
-                        item.itemSections.push(itemSection);
-
-                        if (isCostCenterDialogForShipping()) {
-                            item.itemType(2); // Delivery Item
-                            var deliveryItem = _.find(selectedOrder().items(), function (itemWithType2) {
-                                return itemWithType2.itemType() === 2;
-                            });
-                            if (deliveryItem !== undefined) {
-                                selectedOrder().items.remove(deliveryItem);
-                            }
-
-                        }
-
-                        selectedOrder().items.splice(0, 0, item);
-
-                        selectedSection(itemSection);
-
+                        selectedSection().sectionCostCentres.push(sectionCostCenter);
                     },
                     // Copy job Cards
                     copyJobCards = function () {
@@ -1613,7 +1617,7 @@ define("common/itemDetail.viewModel",
                     },
                     // Remove Item Section
                     deleteSection = function (section) {
-                        confirmation.messageText("Are you sure you want to remove section?");
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().itemSections.remove(section);
                             showSectionDetail(false);
@@ -1662,9 +1666,11 @@ define("common/itemDetail.viewModel",
                     counter = 0,
                     // Create new Item Section
                     createNewItemSection = function () {
-                        var itemSection = model.ItemSection.Create({ ItemId: selectedProduct().id() });
+                        var section = defaultSection() ? defaultSection() : {};
+                        var itemSection = model.ItemSection.Create(section);
                         counter = counter - 1;
                         itemSection.id(counter);
+                        itemSection.itemId(selectedProduct().id());
                         itemSection.name("Text Sheet");
                         if (selectedProduct().itemSections().length > 0) {
                             selectedProduct().itemSections.splice(-1, 0, itemSection);
@@ -1679,6 +1685,7 @@ define("common/itemDetail.viewModel",
                     // Delete Section Cost Center
                     onDeleteSectionCostCenter = function (costCenter) {
                         // Ask for confirmation
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             view.hideSectionCostCenterDialogModel();
                             selectedSection().sectionCostCentres.remove(costCenter);
@@ -1697,7 +1704,25 @@ define("common/itemDetail.viewModel",
                         confirmation.show();
                         return;
                     },
-
+                    // #region Pre Press / Post Press Cost Center
+                    // Add Pre Press Cost Center
+                    onAddPrePressCostCenter = function () {
+                        addCostCenterVm.show(addCostCenter, selectedOrder().companyId(), false, currencySymbol(), null, costCenterType.prePress);
+                    },
+                    // Add Post Press Cost Center
+                    onAddPostPressCostCenter = function () {
+                        addCostCenterVm.show(addCostCenter, selectedOrder().companyId(), false, currencySymbol(), null, costCenterType.postPress);
+                    },
+                    // After adding cost center
+                    addCostCenter = function(costCenter) {
+                        if (costCenter) {
+                            selectedCostCentre(costCenter);
+                        }
+                        isAddProductFromInventory(false);
+                        isAddProductForSectionCostCenter(false);
+                        view.showCostCentersQuantityDialog();
+                    },
+                    // #endregion Pre Press / Post Press Cost Center
                     //#endregion
                     itemAttachmentFileLoadedCallback = function (file, data) {
                         ////Flag check, whether file is already exist in media libray
@@ -1784,6 +1809,7 @@ define("common/itemDetail.viewModel",
                     }),
                     // Delete Item attachment
                     deleteItemAttachment = function (attachment) {
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().itemAttachments.remove(attachment);
 
@@ -1794,6 +1820,7 @@ define("common/itemDetail.viewModel",
                         return;
                     },
                     deleteItem = function (item) {
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedOrder().items.remove(selectedProduct());
                             closeItemDetail();
@@ -1861,7 +1888,7 @@ define("common/itemDetail.viewModel",
                     openStockItemDialogForAddingStock: openStockItemDialogForAddingStock,
                     isAddProductFromInventory: isAddProductFromInventory,
                     isAddProductForSectionCostCenter: isAddProductForSectionCostCenter,
-                    onSaveProductCostCenter: onSaveProductCostCenter,
+                    onCostCenterQuantityInputProceed: onCostCenterQuantityInputProceed,
                     openSectionCostCenterDialog: openSectionCostCenterDialog,
                     onSaveStockitemForSectionCostCenter: onSaveStockitemForSectionCostCenter,
                     copyJobCards: copyJobCards,
@@ -1913,7 +1940,10 @@ define("common/itemDetail.viewModel",
                     parentFilterFileList: parentFilterFileList,
                     isSide1InkButtonClicked: isSide1InkButtonClicked,
                     deleteItemAttachment: deleteItemAttachment,
-                    deleteItem: deleteItem
+                    deleteItem: deleteItem,
+                    defaultSection: defaultSection,
+                    onAddPrePressCostCenter: onAddPrePressCostCenter,
+                    onAddPostPressCostCenter: onAddPostPressCostCenter
                     //#endregion
                 };
             })()

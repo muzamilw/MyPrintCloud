@@ -23,6 +23,7 @@
     <div>
         <div class="row col-sm-6" style="float:left;padding-left: 1.7%;">
             <div class="pull-left validationSummaryContainer">
+               
                 <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopupForStore', popoverId: 'validationSummaryPopoverBodyForStore' }" style="display: none">Invalid data: Click here to see details.</a>
                 <div class="well well-small validationSummaryModal" id="validationSummaryPopupForStore" style="display: none">
                     <div id="validationSummaryPopoverBodyForStore">
@@ -33,10 +34,29 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+                    <div class="btn-group" style="float:left;margin-bottom: 3px; margin-left:14px;  margin-top: 10px;">
+                        <button type="button" class="btn btn-primary">Actions</button>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#" data-bind="click:$root.openExternalReportsDelivery">Print Delivery Note</a></li>
+                            <li><a href="#" data-bind="click:$root.openExternalEmailDeliveryReport">Email Delivery Note</a></li>
+                            
+                        </ul>
+                    </div>
+
+                
+               
+                
+                    
+                
+  
+                </div>
         </div>
         <div class="row" id="prefixesdata" style="float: right; padding-right: 1.1%; margin-top: 1%; ">
-
+           
             <div class="input-group">
                 <button data-bind="click:$root.onCloseEditor" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;">&nbsp;Cancel</button>
                 <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedDeliveryNote().isStatus()!==20,click:$root.onSaveDeliveryNotes, enable: ($root.selectedDeliveryNote().hasChanges() && $root.selectedDeliveryNote().isStatus()!==20), css: { 'btn-warning': $root.selectedDeliveryNote().hasChanges() }">
@@ -45,9 +65,9 @@
                 <button class="btn  btn-danger" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedDeliveryNote().isStatus()!==20,enable:($root.selectedDeliveryNote().deliveryNoteId()!==undefined && $root.selectedDeliveryNote().isStatus()!==20),click:$root.onDeleteDeliveryNote">&nbsp;Delete</button>
                 @*<button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn" data-bind="enable:$root.selectedDeliveryNote().deliveryNoteId()!==undefined"><i class="fa fa-print fa-sm"></i>&nbsp;Print</button>*@
                 <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedDeliveryNote().isStatus()!==20,enable:($root.selectedDeliveryNote().deliveryNoteId()!==undefined && $root.selectedDeliveryNote().isStatus()!==20),click:$root.onPostDeliveryNote">&nbsp;Post</button>
-                <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:5px">
+                @*<button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:5px">
                     Print
-                </button>
+                </button>*@
             </div>
         </div>
     </div>
@@ -182,8 +202,11 @@
                                 &nbsp;
                             </div>
                             <div class="col-sm-6">
-                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag',value:flagId"></select>
-                                <span class="help-block text-right"></span>
+                                <select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: flagId, foreach: $root.sectionFlags">
+                                    <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
+                                </select>
+                                @*<select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag',value:flagId"></select>
+                                <span class="help-block text-right"></span>*@
                             </div>
                         </div>
 
@@ -281,38 +304,38 @@
                 <div class="col-sm-12 form-horizontal main-box-body clearfix">
                     <div class="form-group">
                         <div class="col-sm-2 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
+                            @*<div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select estimate date." data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
                             </div>
-                            <label class="control-label text-right tooltip-float">Comments</label>
+                            <label class="control-label text-right tooltip-float">Comments</label>*@
                         </div>
                         <div class="col-sm-9" style="padding-right: 5px;padding-left: 5px;">
-                            <textarea class="form-control" id="EstimateHeader" rows="3" data-bind="value: comments"></textarea>
+                            <textarea class="form-control" placeholder="Enter Comments" id="EstimateHeader" rows="3" data-bind="value: comments"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-2 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
+                            @*<div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select estimate date." data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
                             </div>
-                            <label class="control-label text-right tooltip-float">Foot Notes</label>
+                            <label class="control-label text-right tooltip-float">Foot Notes</label>*@
                         </div>
                         <div class="col-sm-9" style="padding-right: 5px;padding-left: 5px;">
-                            <textarea class="form-control" id="EstimateHeader" rows="3" data-bind="value: userNotes"></textarea>
+                            <textarea class="form-control" id="EstimateHeader" placeholder="Enter Delivery Notes closing paragraph as it would appear on Reports" rows="3" data-bind="value: userNotes"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-2 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
+                            @*<div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Source for Estimate." data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
                             </div>
-                            <label class="control-label text-right tooltip-float">Raised By</label>
+                            <label class="control-label text-right tooltip-float">Raised By</label>*@
                         </div>
                         <div class="col-sm-3" style="padding-right: 5px;">
                             <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsValue: 'id', optionsCaption: 'Select a system user',value:raisedBy"></select>

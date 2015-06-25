@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel">Report(s)</h4>
+                <h4 class="modal-title" id="myModalLabel" data-bind="text: $root.ReportTitle"></h4>
             </div>
             <div class="col-lg-12 main-box clearfix col-padding">
                 <div class="validationSummaryContainer" style="text-align: center;">
@@ -13,8 +13,9 @@
                 <div class="main-box-body">
                     
                     <div class=" form-horizontal col-padding" style="padding-top:30px;padding-bottom:40px; ">
+                        <!-- ko ifnot: IsExternalReport() -->
                         <h5>Please select a report below to execute</h5>
-                        <div class="col-md-3" style="overflow-y: auto; width: auto; border-right: 1px solid #e5e5e5; margin-right: 14px; height: 355px; max-height: 355px; ">
+                        <div class="col-md-3" style="overflow-y: auto; width: auto; border-right: 1px solid #e5e5e5; margin-right: 14px; height: 355px; max-height: 355px; " >
                             <div style="display:inline;position:relative;">
                                 <ol class="dd-list">
                                     <!-- ko template: { name: 'reportCategoriesTemplate' , foreach: reportcategoriesList } -->
@@ -22,6 +23,9 @@
                                 </ol>
                             </div>
                         </div>
+                        <!-- /ko -->
+                       
+                     
                         <div style="display:inline;width:50% !important;" class="col-md-8">
                             <div class="treeviewClickCharge-partial">
                                 <div class="form-group" data-bind="visible:IsExternalReport">
@@ -77,14 +81,14 @@
                                     <div class="col-lg-3"></div>
                                     <div class="col-lg-7 radio">
                                         <input id="chkpdf" type="radio" value="pdf" data-bind="checked: outputTo" />
-                                        <label for="chkpdf">Acrobat Reader (PDF)</label>
+                                        <label for="chkpdf">Export PDF</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-lg-3"></div>
                                     <div class="col-lg-7 radio">
                                         <input type="radio" id="chkexcel" value="excel" data-bind="checked: outputTo" />
-                                        <label for="chkexcel">Microsoft Excel</label>
+                                        <label for="chkexcel">Export Excel</label>
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +101,7 @@
                 <button type="button" class="btn btn-primary" data-bind="click:$root.OpenReport" style="margin-left: 0px;">
                         ok
                 </button>
-                <button type="button" class="btn btn-default" data-bind="click:$root.hide"> Cancel</button>
+                @*<button type="button" class="btn btn-default" data-bind="click:$root.hide"> Cancel</button>*@
             </div>
         </div>
 

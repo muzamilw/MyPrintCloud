@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewBag.Title = "Company Contacts";
 }
 @section leftmenue {
@@ -9,21 +9,23 @@
             <div class="col-lg-12">
                 <ol class="breadcrumb">
                     <li><a href="#">&nbsp;</a></li>
-                   
+
                 </ol>
-                <h1 style="padding-left:0px;">Contacts</h1>
-              
+                <h1 style="padding-left:0px;">Public Store Registered Users</h1>
+                <div class="clearfix pull-left" style="padding-bottom: 1%">
+                    <h5>Create Contacts, Customers and Suppliers. Add to-do items and update shared calendars. Increase your pipeline by creating e-marketing emails and scheduling them for future release.</h5>
+                </div>
             </div>
         </div>
         <div class="row">
-          
+
             <div class="col-lg-12">
                 <div class="main-box-body main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
                                 @*@Html.ActionLink("All Contacts", "Contacts", "Home")*@
-                                <a href="#tab-Contacts" data-toggle="tab">All Contacts</a>
+                                <a href="#tab-Contacts" data-toggle="tab">Public Store Registered Users</a>
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Companies) { <text>active</text> }">
                                 @Html.ActionLink("Companies", "Index", "Home")
@@ -32,7 +34,7 @@
                                 @Html.ActionLink("Supplier", "SuppliersList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
-                                @Html.ActionLink("To Do Lists", "ToDoList", "Home")
+                                @Html.ActionLink("Calender Events", "ToDoList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
                                 @Html.ActionLink("Calendar", "Calendar", "Home")
@@ -60,7 +62,6 @@
                                                                 <th class="col-lg-1"></th>
                                                                 <th class="col-lg-3"><span>Name</span></th>
                                                                 <th class="col-lg-3"><span>Email</span></th>
-                                                                <th class="col-lg-3"><span>Company</span></th>
                                                                 <th class="col-lg-3"><span>Store</span></th>
                                                             </tr>
                                                         </thead>
@@ -68,7 +69,13 @@
                                                             <!-- ko  foreach: $root.companyContactsForListView  -->
                                                             <tr data-bind=" click: $root.editContactbuttonHandler" style="cursor: pointer">
                                                                 <td>
-                                                                    <img style="width: 70%; max-width: 70%;"  data-bind="attr: { src: image()==='' ? 'abc/def':image() }" alt="" />
+                                                                    <!-- ko if: image()==='' -->
+                                                                    <img style="margin-bottom: -12px; margin-top: -12px; margin-left: -18%; -o-object-fit: contain; object-fit: contain; " data-bind="attr: { src: image()==='' ? '/mis/Content/Images/Company_Default.png':'' }" alt="">
+                                                                    <!--/ko-->
+                                                                    <!-- ko if: image()!=='' -->
+                                                                    <img style="width: 70%; max-width: 70%; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: image()==='' ? '/mis/Content/Images/company_contact.jpg':image() }" alt="" />
+                                                                    <!--/ko-->
+
                                                                 </td>
                                                                 <td>
                                                                     <a class="user-link" href="#" data-bind="text: firstName "></a>
@@ -77,9 +84,7 @@
                                                                 <td>
                                                                     <span data-bind="text:email"></span> <br /> <span data-bind="text:quickPhone"></span>
                                                                 </td>
-                                                                <td>
-                                                                    <span data-bind="text:companyName"></span>
-                                                                </td>
+                                                               
                                                                 <td>
                                                                     <span data-bind="text:StoreName"></span>
                                                                 </td>

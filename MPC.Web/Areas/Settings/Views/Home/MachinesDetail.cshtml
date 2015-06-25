@@ -157,8 +157,13 @@
 
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                <div class="bs-example-tooltips tooltip-float-width" data-bind="visible:!$root.isGuillotineList()">
                                                     <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This charge is used to apply a ONE time fixed cost to load the paper, set the paper feeders, runners and general press setup charges every time a NEW item is to be printed on this press." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <div class="bs-example-tooltips tooltip-float-width" data-bind="visible:$root.isGuillotineList()">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This charge is used to apply a ONE time fixed cost to load the paper, fine tune the cutting program and make any adjustments" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
@@ -177,7 +182,7 @@
 
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="The press minimum charge is a threshold value used to compare if the total of all charges for printing (Click charges), make ready, Wash Up and Paper loading charges are LESS than the minimum charge.  <br>If the total is less than the minimum charge then the minimum charge will override the calculated sum." data-html="true" data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="The press minimum charge is a threshold value used to compare if the total of all charges for printing (Click charges), make ready, Wash Up and Paper loading charges are LESS than the minimum charge. If the total is less than the minimum charge then the minimum charge will override the calculated sum" data-html="true" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -211,7 +216,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="When estimating a double sided printed component, the estimator may have the option to plan the sheet using Work ’n’ Turn or Work ‘n’ Tumble methods.  These to methods saves the operator with plates and setting up costs making the print run more efficient and cheaper to produce.<br> Most Lithographic printers want to benefit from the considerable saving in plates and setup times.  This can be achieved by applying an Uplift charge PER UNIT to offset the savings made in Make readies." data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="When estimating a double sided printed section, the estimator may have the option to plan the sheet using Work ’n’ Turn or Work ‘n’ Tumble methods. These two methods can save the operator with plates and setup costs making the print run more efficient and cheaper to produce.  Most lithographic printers want to benefit from the considerable saving in plates and setup times. This can be achieved by applying an Uplift charge PER UNIT to offset the savings made in make readies." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -231,7 +236,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-html="true" data-placement="right" data-content=" <p>Digital CMYK presses are generally treated as a single Unit. i.e. one pass is required to print all 4 colors on one side.</p> <p >Each unit will attract a separate:</p> <p >• Makeready charge </p><p >• Wash Up charge</p><p >• And a Plate (CTP) charge</p><p >Typically ZERO charges are applied for Digital presses.</p><p >Litho presses generally have one unit per color per pass.  So a four color press would have 4 Units.  </p>" data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-html="true" data-placement="right" data-content="Spot Colour or CMYK Print" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -268,7 +273,7 @@
                                         <div class="form-group" data-bind="visible:$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Set cost per cut." data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="The cost per cut is calculated by the time, power & labor it takes to make a single cut on the guillotine" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
@@ -284,7 +289,7 @@
                                         <div class="form-group" data-bind="visible:$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Set price per cut." data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="The price per cut is calculated by the time, power & labor it takes to make a single cut on the guillotine, plus a default uplift from cost" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
@@ -372,7 +377,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="These dimensions are used when running Best press calculations for the given working sheet size when estimating.  Sheet sizes greater than this value will exclude this press from comparison." data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Set the maximum width and depth of the guillotines cutting ability.  Refer to your guillotine operator manual for this information" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -407,7 +412,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This is the maximum sheet weight in gsm or basis weight that the press will allow.  This press will not be considered when the Inventory stock chosen at the time of ordering is greater than this value." data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Set the maximum stock weight of the guillotines cutting ability.  Refer to your guillotine operator manual for this information" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -434,7 +439,7 @@
 
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Grip Side Orientation is the side the paper that the press generally grabs to paper from the press feed system.  This is useful to know when recommending Work ‘ n ‘ Turn or Work ‘n’ Tumble plans for Number Up." data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Grip Side Orientation is the side the paper that the press generally grabs to paper from the press feed system. This is useful to know when recommending Work ‘ n ‘ Turn or Work ‘n’ Tumble plans for Number Up" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -445,7 +450,7 @@
                                             <div class="col-lg-6">
                                                 <div class="col-lg-5">
                                                     <select class="form-control" data-bind="options: Orientation, optionsText: 'name', optionsValue: 'id', value: gripsideorientaion"></select>
-                                                    <span class="help-block text-right"></span>
+                                                    @*<span class="help-block text-right"></span>*@
                                                 </div>
                                             </div>
 
@@ -455,7 +460,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This is the Non Printable area by the press on the Grip edge. This area is removed from the Number Up count thus providing a more accurate calculation on press runs and stock used." data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This is the Non Printable area by the press on the Head or Tail edge. This area is removed from the Number Up count thus providing a more accurate calculation on press runs and stock used" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -504,7 +509,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This is the Non Printable area by the press on either side of the paper perpendicular to the grip side. This area is removed from the Number Up count thus providing a more accurate  calculation on press runs and stock used." data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This is the Non Printable area by the press on either side of the paper perpendicular to the grip side. This area is removed from the Number Up count thus providing a more accurate calculation on press runs and stock used" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -529,7 +534,7 @@
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-html="true" data-placement="right" data-content=" <p>Digital CMYK presses are generally treated as a single Unit. i.e. one pass is required to print all 4 colors on one side.</p> <p >Each unit will attract a separate:</p> <p >• Makeready charge </p><p >• Wash Up charge</p><p >• And a Plate (CTP) charge</p><p >Typically ZERO charges are applied for Digital presses.</p><p >Litho presses generally have one unit per color per pass.  So a four color press would have 4 Units.  </p>" data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-html="true" data-placement="right" data-content=" <p>Digital CMYK presses are generally treated as a single Unit. i.e. one pass is required to print all 4 colors on one side.</p> <p >Each unit will attract a separate:</p> <p >• Makeready charge </p><p >• Wash Up charge</p><p >• And a Plate (CTP) charge</p><p >Enter ONE for digital presses</p><p >Litho presses generally have one unit per color per pass.  So a four color press would have 4 Units.  </p>" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -902,7 +907,7 @@
 
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Create Virtual Presses to simulate different press modes for single or multiple colors. Create Virtual Presses that simulate different press speeds for low run and large run jobs." data-original-title="" title="">
+                                                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Setup Spoilage is the average number of sheets required to be printed in order to get to the first chargeable sheet." data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -948,7 +953,7 @@
 
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Create Virtual Presses to simulate different press modes for single or multiple colors. Create Virtual Presses that simulate different press speeds for low run and large run jobs." data-original-title="" title="">
+                                                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Running Spoilages the average percentage of spoils or jams while a press is running." data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -971,7 +976,7 @@
 
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Create Virtual Presses to simulate different press modes for single or multiple colors. Create Virtual Presses that simulate different press speeds for low run and large run jobs." data-original-title="" title="">
+                                                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Passes Multiply the press calculations, mainly used in roll and UV large format where the quality mode determines the number of passes the heads make before advancing down the sheet" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 
@@ -994,7 +999,7 @@
 
                                                             <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Create Virtual Presses to simulate different press modes for single or multiple colors. Create Virtual Presses that simulate different press speeds for low run and large run jobs." data-original-title="" title="">
+                                                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Ink Coverage multiplies the cost of ink and clicks, uplifting the ink calculations by this amount.  Black and White impressions may multiply by 1, while CMYK multiply by 3.5 up to 6 (heavy)" data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
 

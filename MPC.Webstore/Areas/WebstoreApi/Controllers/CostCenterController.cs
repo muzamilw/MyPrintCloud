@@ -66,7 +66,30 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     string CacheKeyName = "CompanyBaseResponse";
                     ObjectCache cache = MemoryCache.Default;
 
-                    string OrganizationName = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId].Organisation.OrganisationName;
+// ReSharper disable SuggestUseVarKeywordEvident
+                    Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse> companyBaseResponse =
+// ReSharper restore SuggestUseVarKeywordEvident
+                        (cache.Get(CacheKeyName) as
+                            Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>);
+                    string orgName = string.Empty;
+                    if (companyBaseResponse != null)
+                    {
+                        MPC.Models.ResponseModels.MyCompanyDomainBaseReponse myCompanyBaseResponseFromCache =
+                        companyBaseResponse[UserCookieManager.WBStoreId];    
+                        if (myCompanyBaseResponseFromCache != null && myCompanyBaseResponseFromCache.Organisation != null)
+                        {
+                            orgName = myCompanyBaseResponseFromCache.Organisation.OrganisationName;
+                        }
+                    }
+                    else
+                    {
+                        Organisation organisation = _CostCentreService.GetOrganisation(Convert.ToInt64(CostCentreId));
+                        if (organisation != null)
+                        {
+                            orgName = organisation.OrganisationName;
+                        }
+                    }
+                    string OrganizationName = orgName;
                     OrganizationName = Utils.specialCharactersEncoderCostCentre(OrganizationName);
 
                     AppDomainSetup _AppDomainSetup = new AppDomainSetup();
@@ -198,18 +221,20 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                  
                     //InputQueue
 
-                    if (OrderedQuantity == "null" || OrderedQuantity == null)
+                    if (!string.IsNullOrEmpty(ClonedItemId))
                     {
-                        // get first item section
-                        _CostCentreParamsArray[8] = _ItemService.GetItemFirstSectionByItemId(Convert.ToInt64(ClonedItemId));
-                    }
-                    else
-                    {
-                        // update quantity in item section and return
-                        _CostCentreParamsArray[8] = _ItemService.UpdateItemFirstSectionByItemId(Convert.ToInt64(ClonedItemId), Convert.ToInt32(OrderedQuantity));
-                     
-                    }
+                        if (OrderedQuantity == "null" || OrderedQuantity == null)
+                        {
+                            // get first item section
+                            _CostCentreParamsArray[8] = _ItemService.GetItemFirstSectionByItemId(Convert.ToInt64(ClonedItemId));
+                        }
+                        else
+                        {
+                            // update quantity in item section and return
+                            _CostCentreParamsArray[8] = _ItemService.UpdateItemFirstSectionByItemId(Convert.ToInt64(ClonedItemId), Convert.ToInt32(OrderedQuantity));
 
+                        }    
+                    }
 
                     _CostCentreParamsArray[9] = 1;
 
@@ -623,7 +648,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse1 = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             Inquiry NewInqury = new Inquiry();
 
             NewInqury.Title = Title;
@@ -649,7 +674,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
 
 
-                long Customer = _companyService.CreateCustomer(FirstName, false, false, CompanyTypes.SalesCustomer, string.Empty, 0, StoreBaseResopnse1.Company.CompanyId, Contact);
+                long Customer = _companyService.CreateCustomer(FirstName, false, false, CompanyTypes.SalesCustomer, string.Empty, 0, StoreBaseResopnse.Company.CompanyId, Contact);
 
                 if (Customer > 0)
                 {
@@ -712,10 +737,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 cep.AddressId = (int)NewInqury.CompanyId;
                 cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
                 cep.StoreId = UserCookieManager.WBStoreId;
+                cep.CompanyId = UserCookieManager.WBStoreId;
                 Company GetCompany = _companyService.GetCompanyByCompanyID(UserCookieManager.WBStoreId);
-                string CacheKeyName1 = "CompanyBaseResponse";
-                ObjectCache cache1 = MemoryCache.Default;
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache1.Get(CacheKeyName1) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+              
                 SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
 
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)

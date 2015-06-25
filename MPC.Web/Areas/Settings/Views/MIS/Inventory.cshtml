@@ -13,7 +13,7 @@
                         <li class="active"><span>Inventories</span></li>
                     </ol>*@
                 <div class="clearfix">
-                    <h1 class="pull-left" style="padding-left:0px;margin-top:35px;">Paper & Inks</h1>
+                    <h1 class="pull-left" style="padding-left:0px;margin-top:35px;">Paper, Boards, Inks...</h1>
 
                 </div>
                 <div class="pull-right top-page-ui">
@@ -23,7 +23,7 @@
                     <button class="btn btn-primary" data-bind="click:createInventory">
                         Add New Inventory
                     </button>
-                    <a href="/mis/Settings" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-left:10px;">Close</a>
+                    <a href="/mis/Settings" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-left:10px;">Close</a> 
 
                 </div>
                 <div id="addInventory">
@@ -94,6 +94,7 @@
         </script>
     </div>
     @Html.Partial("_InventoryEditor")
+    @Html.Partial("~/Areas/Settings/Views/Shared/_AddStockQty.cshtml")
 </div>
 <!-- ko stopBinding: true -->
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")

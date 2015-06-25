@@ -1,5 +1,5 @@
 ﻿<div id="reportEmailView" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" style="width: 814px;">
+    <div class="modal-dialog" style="width: 814px;" data-bind="with:SelectedEmailReport">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -14,7 +14,8 @@
                                 <label for="txtEmail" class="control-label text-right tooltip-float">To</label>
                             </div>
                             <div class="col-lg-7">
-                                <input type="text" class="form-control" id="txtEmail">
+                                <input type="text" class="form-control" id="txtEmail" data-bind="value: emailTo">
+                                @*<input type="text" class="form-control" id="txtEmail" data-bind="value: $root.To()">*@
                             </div>
                         </div>
                         <div class="form-group ">
@@ -23,47 +24,50 @@
                                 <label for="txtEmail" class="control-label text-right tooltip-float">Cc</label>
                             </div>
                             <div class="col-lg-7">
-                                <input type="text" class="form-control" id="txtEmail">
+                                <input type="text" class="form-control" id="txtEmail" data-bind="value: emailCC">
                             </div>
                         </div>
                         <div class="form-group ">
                             <div class="col-lg-1 text-right">
-
+                                
                                 <label for="txtEmail" class="control-label text-right tooltip-float">Subject</label>
                             </div>
                             <div class="col-lg-7">
-                                <input type="text" class="form-control" id="txtEmail">
+                                <input type="text" class="form-control" id="txtEmail" data-bind="value: emailSubject">
                             </div>
                             <div class="col-lg-1">
-                                <button class="btn btn-primary">Send</button>
+                                <button class="btn btn-primary" data-bind="click:$root.sendEmailReport">Send</button>
                             </div>
                         </div>
 
-                      
+
                         <div class="form-group ">
-                            <div class="col-lg-1 text-right">
+                               <div class="col-lg-1 text-right">
 
-                                
+
+                               </div>
+                               <div class="col-lg-7">
+
+                                   <img width="20" src="~/Content/Images/ImageAttach.png" />
+
+                                   <a data-bind="attr: { href: emailAttachmentPath, title: emailAttachment},text : emailAttachment" target="_blank">
+
+                                       
+                                   </a>
+
+                                </div>
+                               <div class="col-lg-1">
+
+                                   </div>
                             </div>
-                            <div class="col-lg-7">
 
-                                <img src="#" />
-                               @* <asp:Image runat="server" ID="AttchmentFinder" Width="20px" ImageUrl="~/StoredImages/AppImages/ImageAttach.png" />*@
-                                <a data-bind="href: $root.AttacmentPath" target="_blank"></a>
-                               @* <a id="anchrAttachment" runat="server" class="EmailViewerTxtBox" onclick="lblAttachment_Click" target="_blank"></a>*@
-                             </div>
-                            <div class="col-lg-1">
-
-                                </div>
-                         </div>
-
-                            <div class="form-group">
-                                <div class="col-lg-1 text-right"></div>
-                                <div class="col-lg-11">
-                                    <textarea name="html_link_content" id="content" data-bind="editor: hTmlMessageA,drop: $root.droppedEmailSection,openFrom:$root.ckEditorOpenFrom"></textarea>
-                                </div>
+                        <div class="form-group">
+                            <div class="col-lg-1 text-right"></div>
+                            <div class="col-lg-11">
+                                <textarea name="html_link_content" id="content" data-bind="editor: emailSignature,drop: $root.droppedEmailSection,openFrom:$root.ckEditorOpenFrom"></textarea>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

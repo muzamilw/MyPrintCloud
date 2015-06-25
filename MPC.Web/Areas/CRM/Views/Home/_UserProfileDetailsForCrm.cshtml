@@ -26,22 +26,14 @@
                                             <div class=" form-horizontal clearfix">
                                                 <div class="col-lg-12 clearfix">
                                                     <div class="col-lg-6">
-                                                        <div class="form-group ">
-                                                            <div class="col-lg-5 text-right">
-
-                                                                <label for="txtEmail" class="control-label text-right tooltip-float">Secondary Email</label>
-                                                            </div>
-                                                            <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtEmail" data-bind="value: secondaryEmail">
-                                                            </div>
-                                                        </div>
+                                                        
                                                         <div class="form-group ">
                                                             <div class="col-lg-5 text-right">
 
                                                                 <label for="txtFName" class="control-label text-right tooltip-float">First Name</label>
                                                             </div>
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtFName" data-bind="value: firstName">
+                                                                <input type="text" class="form-control" id="txtFName" data-bind="value: firstName,validationTooltip: firstName">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -96,6 +88,35 @@
                                                         <div class="form-group ">
                                                             <div class="col-lg-5 text-right">
 
+                                                                <label for="txtEmail" class="control-label text-right tooltip-float">Email</label>
+                                                            </div>
+                                                            <div class="col-lg-7">
+                                                                <input type="text" class="form-control" id="txtEmail" data-bind="value: secondaryEmail">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-lg-5 text-right">
+                                                                <div class="control-label text-right tooltip-float">
+                                                                    @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="If creating an Estimate, Order or Invoice in MIS then this user will be selected by default." data-original-title="" title="">
+                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                    </a>*@
+                                                                </div>
+                                                                <label for="switchIsDefaultContact" class="control-label text-right tooltip-float">Primary Contact</label>
+                                                            </div>
+                                                            <div class="col-lg-7">
+                                                                <div class="onoffswitch">
+                                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsDefaultContact" data-bind="checked: isDefaultContact, disable  : isDefaultContact">
+                                                                    <label class=" onoffswitch-label" for="switchIsDefaultContact">
+                                                                        <div class="onoffswitch-inner"></div>
+                                                                        <div class="onoffswitch-switch"></div>
+                                                                    </label>
+                                                                </div>
+                                                                <span class="help-block text-right"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+
                                                                 <label for="switchNewsLetter" class="control-label text-right tooltip-float">Newsletter Subscription</label>
                                                             </div>
                                                             <div class="col-lg-7">
@@ -123,6 +144,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        
                                                         @*<div class="form-group ">
                     <div class="col-lg-5 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
@@ -138,17 +160,17 @@
                 </div>*@
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <div class="form-group">
+                                                        <div class="form-group" style="margin-bottom: 5px;">
                                                             <div class="col-lg-5 text-right">
 
-                                                                
+
                                                             </div>
                                                             <div class="col-lg-6" style="text-align: center;">
                                                                 <!--ko ifnot:image()-->
                                                                 <img style="height:180px; width:200px;" src="/mis/Content/Images/imageplaceholder.png" />
                                                                 <!--/ko-->
                                                                 <!--ko if:image()-->
-                                                                <img style="height:130px; width:215px; border:1px solid rgb(238, 238, 238)" data-bind="attr: { src: image }" />
+                                                                <img style="height:130px; width:215px; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: image }" />
                                                                 <!--/ko-->
                                                                 <div style="width:215px;text-align:center;">
                                                                     <div class="fileUpload btn btn-primary marginT5">
@@ -163,10 +185,10 @@
                                                         <div class="form-group ">
                                                             <div class="col-lg-5 text-right">
 
-                                                                <label for="txtEmail" class="control-label text-right tooltip-float">UserName/Email</label>
+                                                                <label for="txtEmail" class="control-label text-right tooltip-float">UserName</label>
                                                             </div>
                                                             <div class="col-lg-7">
-                                                                <input type="text" class="form-control" id="txtEmail" data-bind="value: email">
+                                                                <input type="text" class="form-control" id="txtEmail" data-bind="value: email,validationTooltip: email">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">

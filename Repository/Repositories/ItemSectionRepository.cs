@@ -98,7 +98,7 @@ namespace MPC.Repository.Repositories
         public List<StockCostAndPrice> GetStockPricingByStockId(int StockId, bool isPrice)
         {
             if(isPrice)
-                return db.StockCostAndPrices.Where(s => s.ItemId == StockId && s.CostOrPriceIdentifier == 1).ToList();
+                return db.StockCostAndPrices.Where(s => s.ItemId == StockId && s.CostOrPriceIdentifier == -1).ToList();
             else
                 return db.StockCostAndPrices.Where(s => s.ItemId == StockId && s.CostOrPriceIdentifier == 0).ToList();
         }

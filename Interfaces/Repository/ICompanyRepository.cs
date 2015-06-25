@@ -1,4 +1,5 @@
-﻿using MPC.Models.Common;
+﻿using System;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -16,6 +17,7 @@ namespace MPC.Interfaces.Repository
         int UserCount(long? storeId, int numberOfDays);
         long GetStoreIdFromDomain(string domain);
         CompanyResponse SearchCompanies(CompanyRequestModel request);
+        Guid? GetStoreJobManagerId(long storeId);
         Company GetCustomer(int CompanyId);
         /// <summary>
         /// Get Suppliers For Inventories
@@ -93,5 +95,8 @@ namespace MPC.Interfaces.Repository
         Company isValidWebAccessCode(string WebAccessCode, long OrganisationId);
 
         List<StoresListResponse> GetStoresNameByOrganisationId();
+        IEnumerable<Company> GetAllRetailStores();
+        // ReSharper disable once InconsistentNaming
+        void DeleteCrmCompanyBySP(long storeId);
     }
 }

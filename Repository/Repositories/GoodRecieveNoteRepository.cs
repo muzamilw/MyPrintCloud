@@ -81,7 +81,7 @@ namespace MPC.Repository.Repositories
                 )) && (!isStatusSpecified && item.Status == request.Status || isStatusSpecified);
 
             IEnumerable<GoodsReceivedNote> items = DbSet.Where(query)
-                .OrderBy(x => x.DeliveryDate)
+                .OrderByDescending(x => x.DeliveryDate)
                 .Skip(fromRow)
                 .Take(toRow)
                 .ToList();

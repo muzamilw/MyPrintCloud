@@ -855,11 +855,13 @@ namespace MPC.Repository.Repositories
                         foreach (var machine in Sets.ExportOrganisationSet3.Machines)
                         {
                             int oldMID = (int)machine.LookupMethodId;
+                            int oldMachineId = (int)machine.MachineId;
                             Machine Mac = new Machine();
                             Mac = machine;
                             Mac.MachineId = 0;
                             Mac.OrganisationId = (int)OrganisationID;
                             Mac.LockedBy = oldMID;
+                            Mac.SystemSiteId = oldMachineId;
                             if(stockItems != null)
                             {
                                 long paperID = stockItems.Where(s => s.RollStandards == machine.DefaultPaperId).Select(c => c.StockItemId).FirstOrDefault();
@@ -1180,6 +1182,8 @@ namespace MPC.Repository.Repositories
                                  {
                                      foreach(var itm in item.ItemSections)
                                      {
+                                         itm.MachineSide2 = null;
+                                         
                                          if(stockitems != null && stockitems.Count > 0)
                                          {
                                              long SID = stockitems.Where(c => c.RollStandards == itm.StockItemID1).Select(s => s.StockItemId).FirstOrDefault();
@@ -1197,18 +1201,29 @@ namespace MPC.Repository.Repositories
                                          }
                                          if (machines != null && machines.Count > 0)
                                          {
-                                             long MID = machines.Where(c => c.LockedBy == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
+                                             long MID = machines.Where(c => c.SystemSiteId == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
+                                             long MIDSide2 = machines.Where(c => c.SystemSiteId == itm.PressIdSide2).Select(s => s.MachineId).FirstOrDefault();
                                              if (MID > 0)
                                              {
                                                  itm.PressId = (int)MID;
                                              }
                                              else
                                              {
-                                                 MID = machines.Select(s => s.MachineId).FirstOrDefault();
-                                                 itm.PressId = (int)MID;
-
-
+                                                
+                                                 itm.PressId = null;
                                              }
+                                             if (MIDSide2 > 0)
+                                             {
+                                                 itm.PressIdSide2 = (int)MIDSide2;
+                                             }
+                                             else
+                                             {
+                                                // MIDSide2 = machines.Select(s => s.MachineId).FirstOrDefault();
+                                                 itm.PressIdSide2 = null;
+                                                 //itm.PressId = null;
+                                             }
+
+
                                          }
                                          
                                          

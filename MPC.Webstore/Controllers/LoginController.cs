@@ -92,7 +92,7 @@ namespace MPC.Webstore.Controllers
 
 
             if (string.IsNullOrEmpty(ReturnURL))
-                ViewBag.ReturnURL = "Social";
+                ViewBag.ReturnURL = "";
             else
                 ViewBag.ReturnURL = ReturnURL;
             
@@ -131,9 +131,6 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index(AccountViewModel model)
         {
 
-
-
-            string returnUrl = string.Empty;
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
@@ -157,9 +154,9 @@ namespace MPC.Webstore.Controllers
                         UserCookieManager.isWritePresistentCookie = true;
                     else
                         UserCookieManager.isWritePresistentCookie = false;
-                    string ReturnURL = Request.Form["hfReturnURL"];
+                    string ReturnURL = Request.QueryString["ReturnURL"];
 
-                    return VerifyUser(user, returnUrl, StoreBaseResopnse);
+                    return VerifyUser(user, ReturnURL, StoreBaseResopnse);
                 }
                 else
                 {
@@ -213,22 +210,26 @@ namespace MPC.Webstore.Controllers
                         if (Orderid > 0)
                         {
                             UserCookieManager.TemporaryCompanyId = 0;
-                           // return RedirectToAction("ShopCart", new { optionalOrderId = Orderid });
-                           Response.Redirect("/ShopCart/" + Orderid);
+                            if (!string.IsNullOrEmpty(ReturnUrl))
+                            {
+                                RedirectToLocal(ReturnUrl);
+                            }
+                            else 
+                            {
+                                Response.Redirect("/ShopCart/" + Orderid);
+                            }
                         }
                     }
 
                    
-                    if (ReturnUrl == "Social")
+                    if (!string.IsNullOrEmpty(ReturnUrl))
                     {
                         RedirectToLocal(ReturnUrl);
                     }
                     else
                     {
                         Response.Redirect("/");
-                     //Response.Redirect("/");
-                      //  ControllerContext.HttpContext.Response.Redirect("/");
-                      // return RedirectToAction("Index", "Home");
+                    
                     }
                     return null;
                 }

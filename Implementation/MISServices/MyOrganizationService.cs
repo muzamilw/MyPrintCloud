@@ -215,9 +215,9 @@ namespace MPC.Implementation.MISServices
             IEnumerable<ChartOfAccount> chartOfAccountsDbVersion = chartOfAccountRepository.GetAll();
             organisationDbVersion.OrganisationId = organisationRepository.OrganisationId;
             organisationDbVersion.OrganisationName = organisation.OrganisationName;
-            organisationDbVersion.SmtpServer = organisation.SmtpServer;
-            organisationDbVersion.SmtpUserName = organisation.SmtpUserName;
-            organisationDbVersion.SmtpPassword = organisation.SmtpPassword;
+           // organisationDbVersion.SmtpServer = organisation.SmtpServer;
+           // organisationDbVersion.SmtpUserName = organisation.SmtpUserName;
+          //  organisationDbVersion.SmtpPassword = organisation.SmtpPassword;
             organisationDbVersion.Address1 = organisation.Address1;
             organisationDbVersion.Address2 = organisation.Address2;
             organisationDbVersion.City = organisation.City;

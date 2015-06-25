@@ -22,7 +22,7 @@
             <div class="col-lg-12">
                 <div class="main-box no-header clearfix" style="padding-left: 1%;">
                     <div class="main-box-body clearfix form-horizontal">
-                        <div class="col-lg-2">
+                        <div class="col-lg-4">
                             <div class="form-group collapsableView">
                                 <div class="panel-group" id="accordion1">
                                     <div class="panel panel-default">
@@ -32,7 +32,7 @@
                                             </h4>
                                         </div>
                                         <div id="needAssigning" class="panel-collapse collapse in" style="margin-top: 2%; border-radius: 5px;">
-                                            <div class="panel-body collapsableHeight" data-bind="drop: $root.droppedNeedAssigning" style="padding: 1%; background-color: gainsboro; border-radius: 5px;">
+                                            <div class="panel-body collapsableHeight" data-bind="drop: $root.droppedNeedAssigning" style="padding: 1%; background-color: gainsboro; border-radius: 5px; max-height: inherit; min-height: inherit; overflow-y: inherit;">
                                                 <ol class="dd-list">
                                                     <!-- ko template: { name: 'needAssigningItemTemplate', foreach: $root.items }-->
                                                     <!-- /ko -->
@@ -43,7 +43,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-2">
+                        <div class="col-lg-4">
                             <div class="form-group collapsableView">
                                 <div class="panel-group" id="accordion2">
                                     <div class="panel panel-default">
@@ -53,7 +53,7 @@
                                             </h4>
                                         </div>
                                         <div id="inStudio" class="panel-collapse collapse in" style="margin-top: 2%; border-radius: 5px;">
-                                            <div class=" panel-body collapsableHeight" data-bind="drop: $root.droppedInStudio" style="padding: 1%; background-color: gainsboro; border-radius: 5px;">
+                                            <div class=" panel-body collapsableHeight" data-bind="drop: $root.droppedInStudio" style="padding: 1%; background-color: gainsboro; border-radius: 5px; max-height: inherit; min-height: inherit; overflow-y: inherit; ">
                                                 <ol class="dd-list">
                                                     <!-- ko template: { name: 'inStudioItemTemplate', foreach: $root.items }-->
                                                     <!-- /ko -->
@@ -79,7 +79,7 @@
     <script>
         require(["itemJobStatus/itemJobStatus.view"]);
         $(function () {
-            $('#listores').addClass('active');
+            $('#liproduction').addClass('active');
         });
     </script>
 }
@@ -87,99 +87,127 @@
 
 
 <script id="needAssigningItemTemplate" type="text/html">
-    <a style="cursor: pointer;" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">
-        <li data-bind="if: (statusId()=== 1)">
-            <div class="col-lg-12" style=" background-color: white; border-radius: 7px; margin-bottom: 2%;">
-                <div class="form-group formGroupSmall" style="margin-left: 0%;">
-                    <div style="color: #1cc7ed;" data-bind="text:companyName">
-                    </div>
+    <li data-bind="if: (statusId()=== 1)">
+        <div class="col-lg-12" style=" background-color: white; border-radius: 7px; margin-bottom: 5%; padding-top: 5px;">
+            <div class="form-group formGroupSmall" style="margin-left: 0%;">
+                <div style="color: #1cc7ed; font-size: 18px;" data-bind="text:companyName">
                 </div>
-                <div class="form-group code" style="margin-left: 0%;">
-                    <div data-bind="text:code">
-                    </div>
+            </div>
+            <div class="form-group code" style="margin-left: 0%;">
+                <div  style="color: lightslategray; font-size: 10px;">
+                    <span data-bind="text:code"></span> &nbsp; <span style="margin-left: 6%;"data-bind="text:orderCode"></span>
                 </div>
-                <div class="form-group formGroupSmall" style="margin-left: 0%;">
-                    <div data-bind="text:productName">
-                    </div>
+            </div>
+            <div class="form-group code" style="margin-left: 0%; font-size: 12px;">
+                <div><span style="color: red;">Order Status : </span>  <span style="color: red; margin-left: 9.5%;">In Production</span>
                 </div>
-                <div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div class="col-lg-6" style="padding-left: 0px; width: 19%;">
-                        <label class="control-label">Qty :</label>
-                    </div>
-                    <div class="col-lg-6">
-                        <label class="control-label text-right" data-bind="text:qty1"></label>
-                    </div>
+            </div>
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;">
+                <div class="col-lg-4" style="padding-left: 0px; ">
+                    <label style="font-size: 12px; color: lightslategray;" class="control-label">Product Title:</label>
                 </div>
-                <div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div style="float: left;">
-                        <label class="control-label labelToPadding">Selling Price :</label>
-                    </div>
-                    <div>
-                        <label class="labelToPadding" data-bind=" text:$root.currencySymbol"></label><label class="control-label text-right labelToPadding" data-bind="text:qty1NetTotal"></label>
-                    </div>
+                <div class="col-lg-8" style="padding-left: 0px;">
+                    <label style="font-size: 12px; color: lightslategray;" class="control-label text-right" data-bind="text:productName"></label>
                 </div>
-                <div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div>
-                        <label>Expected Shipping Date(end)</label>
-                    </div>
+            </div>
+              
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;">
+                <div class="col-lg-3" style="padding-left: 0px;">
+                    <label class="control-label" style="font-size: 12px; color: lightslategray;">Qty :</label>
                 </div>
-                <div class="form-group" style="margin-bottom: 3px; margin-left: 0%;">
-                    <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left :0px;">
+                <div class="col-lg-6" style="padding-left: 27px">
+                    <label style="font-size: 12px; color: lightslategray;"  class="control-label text-right" data-bind="text:qty1"></label>
+                </div>
+            </div>
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;">
+                <div style="float: left; padding-left: 0px;" class="col-lg-4">
+                    <label style="font-size: 12px; color: lightslategray;" class="control-label labelToPadding">Selling Price :</label>
+                </div>
+                <div class="col-lg-6" style="  padding-left: 0px;">
+
+                    <label style="font-size: 12px; color: lightslategray;" class="labelToPadding" data-bind=" text: $root.currencySymbol "></label><label class="control-label text-right labelToPadding" style="font-size: 12px; color: lightslategray;" data-bind="text:qty1NetTotal"></label>
+                </div>
+            </div>
+            <div class="form-group formGroupSmaller" style="margin-left: 0%;">
+                <div>
+                    <label style="font-size: 10px; color: lightslategray; ">Expected Shipping Date (end)</label>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 3px; margin-left: 0%;">
+                <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left: 0px; font-weight: bold; color: black;">
+                </div>
+                <div class="col-lg-4">
+                    <a style="font-size: 12px;margin-bottom: 3px; float: right;
+ margin-right: 5px;" class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId()+'&itemId='+id() },click: function() { return true;}, clickBubble: false" target="_blank">
+                        Open
+                    </a>
                     </div>
-                    @*<div>
-                            <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
-                        </div>*@
                 </div>
 
 
             </div>
         </li>
-    </a>
 </script>
 
 <script id="inStudioItemTemplate" type="text/html">
     <a style="cursor: pointer" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">
         <li data-bind="if: (statusId()=== 2)">
-            <div class="col-lg-12" style="cursor: pointer; background-color: white; border-radius: 7px; margin-bottom: 2%;">
+            <div class="col-lg-12" style=" background-color: white; border-radius: 7px; margin-bottom: 5%; padding-top: 5px;">
                 <div class="form-group formGroupSmall" style="margin-left: 0%;">
-                    <div style="color: #1cc7ed;" data-bind="text:companyName">
+                    <div style="color: #1cc7ed; font-size: 18px;" data-bind="text:companyName">
                     </div>
                 </div>
                 <div class="form-group code" style="margin-left: 0%;">
-                    <div data-bind="text:code">
+                    <div data-bind="text:code" style="color: lightslategray; font-size: 10px;">
                     </div>
                 </div>
-                <div class="form-group formGroupSmall" style="margin-left: 0%;">
-                    <div data-bind="text:productName">
-                    </div>
-                </div>
-                <div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div class="col-lg-6" style="padding-left: 0px; width: 19%;">
-                        <label class="control-label">Qty :</label>
-                    </div>
-                    <div class="col-lg-6">
-                        <label class="control-label text-right" data-bind="text:qty1"></label>
-                    </div>
-                </div>
-                <div class="form-group formGroupSmaller" style="margin-left: 0%;">
-                    <div style="float: left;">
-                        <label class="control-label labelToPadding">Selling Price :</label>
-                    </div>
+                <div class="form-group code" style="margin-left: 0%; font-size: 12px;">
                     <div>
-                        <label class="labelToPadding" data-bind=" text:$root.currencySymbol"></label><label class="control-label text-right labelToPadding" data-bind="text:qty1NetTotal"></label>
+                        <span style="color: red;">Order Status : In Production</span>
+                    </div>
+                </div>
+                <div class="form-group formGroupSmaller" style="margin-left: 0%;">
+                    <div class="col-lg-4" style="padding-left: 0px; ">
+                        <label style="font-size: 12px; color: lightslategray;" class="control-label">Product Title:</label>
+                    </div>
+                    <div class="col-lg-8" style="padding-left: 0px;">
+                        <label style="font-size: 12px; color: lightslategray;" class="control-label text-right" data-bind="text:productName"></label>
+                    </div>
+                </div>
+
+                <div class="form-group formGroupSmaller" style="margin-left: 0%;">
+                    <div class="col-lg-3" style="padding-left: 0px;">
+                        <label class="control-label" style="font-size: 12px; color: lightslategray;">Qty :</label>
+                    </div>
+                    <div class="col-lg-6" style="padding-left: 27px">
+                        <label style="font-size: 12px; color: lightslategray;" class="control-label text-right" data-bind="text:qty1"></label>
+                    </div>
+                </div>
+                <div class="form-group formGroupSmaller" style="margin-left: 0%;">
+                    <div style="float: left; padding-left: 0px;" class="col-lg-4">
+                        <label style="font-size: 12px; color: lightslategray;" class="control-label labelToPadding">Selling Price :</label>
+                    </div>
+                    <div class="col-lg-6" style="  padding-left: 0px;">
+
+                        <label style="font-size: 12px; color: lightslategray;" class="labelToPadding" data-bind=" text: $root.currencySymbol "></label><label class="control-label text-right labelToPadding" style="font-size: 12px; color: lightslategray;" data-bind="text:qty1NetTotal"></label>
                     </div>
                 </div>
                 <div class="form-group formGroupSmaller" style="margin-left: 0%;">
                     <div>
-                        <label>Expected Shipping Date(end)</label>
+                        <label style="font-size: 10px; color: lightslategray; ">Expected Shipping Date (end)</label>
                     </div>
                 </div>
-                <div class="form-group" style="margin-bottom: 3px;margin-left: 0%;">
-                    <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left :0px;">
+                <div class="form-group" style="margin-bottom: 3px; margin-left: 0%;">
+                    <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left: 0px; font-weight: bold; color: black;">
                     </div>
-                    @*<div>
-                            <a class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">Open</a>
-                        </div>*@
+                    <div class="col-lg-4">
+                        <a style="font-size: 12px;
+  margin-bottom: 3px;
+  float: right;
+  margin-right: 5px;" class="btn btn-primary openBtn" data-bind="attr: {href:'/mis/orders/home?id='+estimateId() },click: function() { return true;}, clickBubble: false" target="_blank">
+                            Open
+                        </a>
+                    </div>
                 </div>
 
 

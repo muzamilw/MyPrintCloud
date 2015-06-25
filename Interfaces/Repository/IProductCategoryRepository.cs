@@ -44,6 +44,8 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         IEnumerable<ProductCategory> GetParentCategories(long? companyId);
         List<ProductCategory> GetChildCategories(long categoryId);
+        List<ProductCategory> GetChildCategoriesIncludingArchive(long categoryId);
         List<ProductCategory> GetAllRetailPublishedCat();
+        IEnumerable<ProductCategory> GetParentCategoriesIncludingArchived(long? companyId);
     }
 }

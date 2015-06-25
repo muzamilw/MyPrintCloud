@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace MPC.Models.DomainModels
 {
     public class SystemUser
@@ -17,5 +19,7 @@ namespace MPC.Models.DomainModels
         public int? IsSystemUser { get; set; }
         public string UserAuthToken { get; set; }
         public string Email { get; set; }
+
+        public virtual ICollection<ItemStockUpdateHistory> ItemStockUpdateHistories { get; set; } 
     }
 }

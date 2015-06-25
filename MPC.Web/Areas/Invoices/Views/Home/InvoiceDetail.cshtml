@@ -10,39 +10,28 @@
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Print</a></li>
-                            <li><a href="#">Cancel</a></li>
-                            <li><a href="#">Archive</a></li>
-
+                            <li><a href="#" data-bind="click:$root.openExternalReportsInvoice">Print Invoice</a></li>
+                            <li><a href="#" data-bind="click:$root.openExternalEmailInvoiceReport">Email Invoice</a></li>
+                            <li><a href="#">Archive Invoice</a></li>
                         </ul>
                     </div>
                 </div>
                 <div data-bind="with: selectedInvoice" style="text-align: right; padding-right: 16px">
-                    <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:0px">
+                    @*<button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:0px">
                         Print
-                    </button>
+                    </button>*@
                     <button class="btn btn-primary" id="saveBtn" data-bind="visible:invoiceStatus()===19,click: $root.onSaveInvoice, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
                     <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseInvoiceEditor">Cancel</button>
                 </div>
             </div>
-
-
             <div class="col-sm-12 PaddingZero PaddingStatuses">
                 <div class="col-xs-7">
-
                     <!-- here -->
-
                 </div>
                 <div class="col-xs-3">
-
-
                 </div>
                 <div class="col-xs-2">
-
-
-
                 </div>
-
             </div>
         </div>
         <div class="col-sm-12">
@@ -94,7 +83,6 @@
                                                     <i class="fa fa-user"></i>
                                                 </button>
                                             </div>
-
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-4 text-right">
@@ -182,8 +170,11 @@
                                                 <label class="control-label text-right tooltip-float">&nbsp;</label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId', optionsCaption: 'Select a flag', value: sectionFlagId, validationOnElement: sectionFlagId"></select>
-                                                <span class="help-block text-right"></span>
+                                                @*<select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId', optionsCaption: 'Select a flag', value: sectionFlagId, validationOnElement: sectionFlagId"></select>
+                                                <span class="help-block text-right"></span>*@
+                                                <select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: sectionFlagId, foreach: $root.sectionFlags">
+                                                    <option style="width: 258px !important;" data-bind="text: FlagName, attr: { 'data-color': FlagColor, value: SectionFlagId }"></option>
+                                                </select>
                                             </div>
                                         </div>
                                        <div>
@@ -203,7 +194,6 @@
                                                   &nbsp;
                                                 </div>
                                             </div>
-
                                         </div>
                                         @*<div class="form-group">
                                             <div>
@@ -225,7 +215,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                                 <div class="col-sm-12 form-horizontal">
                                     <div class="col-sm-12">
@@ -235,8 +224,13 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <div>
-                                                    <textarea class="form-control" placeholder="Enter Invoice Header" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>
+                                                    <textarea class="form-control" placeholder="Enter Invoice Header" id="EstimateHeader" rows="3" data-bind="value: headNotes, click: $root.selectEstimatePhraseContainer"></textarea>
                                                 </div>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <a id="estimateHeaderPhraseLibraryBtn" data-bind="visible: $root.selectedEstimatePhraseContainer() === 'EstimateHeader', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary">
+                                                    <i class="fa fa-lg"></i>&nbsp;....
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -272,7 +266,11 @@
                                                     <div class="btn-group" style="float: left; margin-top: 10px;">
                                                         <button type="button" class="btn btn-primary" style="padding-left: 11px;padding-right: 11px;" data-bind="click : $root.onCreateNewProductFromRetailStore">Add Product from Store</button>
                                                     </div>
+
                                                     <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
+                                                        <button type="button" class="btn btn-primary" data-bind="click : $root.onAddFinishedGoods"> Add Finished Goods</button>
+                                                    </div>
+                                                    @*<div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
                                                         <button type="button" class="btn btn-primary" style="padding-left: 11px;padding-right: 11px;" data-bind="click : $root.onCreateNewBlankPrintProduct">Add Blank Print Product</button>
                                                     </div>
                                                     <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
@@ -280,7 +278,8 @@
                                                     </div>
                                                     <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
                                                         <button type="button" class="btn btn-primary" style="padding-left: 10px;padding-right: 10px;" data-bind="click: $root.onCostCenterClick">Add a Cost Center</button>
-                                                    </div>
+
+                                                    </div>*@
                                                     <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
                                                         <button type="button" class="btn btn-primary" style="padding-left: 10px;padding-right: 10px;" data-bind="click: $root.onAddInvoiceDetail">Add Invoice Detail</button>
                                                     </div>
@@ -343,8 +342,13 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <div>
-                                                    <textarea class="form-control" placeholder="Enter invoice closing paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: footNotes"></textarea>
+                                                    <textarea class="form-control" placeholder="Enter invoice closing paragraph as it would appear on reports" id="EstimateFootNotesTextBox" rows="3" data-bind="value: footNotes, click: $root.selectEstimatePhraseContainer"></textarea>
                                                 </div>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <a id="estimateFooterPhraseLibraryBtn" data-bind="visible: $root.selectedEstimatePhraseContainer() === 'EstimateFootNotesTextBox', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary">
+                                                    <i class="fa fa-lg"></i>&nbsp;....
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -373,7 +377,6 @@
                                             <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
                                             <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
                                         </td>
-
                                     </tr>
                                 </script>
                                 <script id="deliveryItemTemplate" type="text/html">
@@ -392,23 +395,19 @@
                                 @*@Html.Partial("~/Areas/Orders/Views/Shared/_OrderStatusProgressToJob.cshtml")*@
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <!-- ko stopBinding: true -->
 @Html.Partial("~/Areas/Common/Views/Shared/_ItemDetail.cshtml")
 <!--/ko-->
 <script type="text/javascript">
-
     function addAddress() {
         var e = document.getElementById("popoveraddress");
         var p = document.getElementById("addresspullicon");
-
         if (e.style.display == "none") {
             p.className = "fa fa-chevron-circle-down drop-icon";
             e.style.display = "block";
@@ -416,11 +415,7 @@
         else if (e.style.display == "block") {
             p.className = "fa fa-chevron-circle-right drop-icon";
             e.style.display = "none";
-
         }
     }
-
-
-
 </script>
 

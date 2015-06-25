@@ -21,6 +21,15 @@ define("purchaseOrders/purchaseOrders.view",
                 showPurchaseDetailDialog = function () {
                     $("#purchaseDetailDialog").modal("show");
                 },
+                // Hide GRN Detail Dialog
+                hideGRNDetailDialog = function () {
+                    $("#GRNDetailDialog").modal("hide");
+                },
+                 // Show GRN Detail Dialog
+                showGRNDetailDialog = function () {
+                    $("#GRNDetailDialog").modal("show");
+                },
+                
                 // Go To Element with Validation Errors
                 gotoElement = function (element) {
                     
@@ -32,6 +41,13 @@ define("purchaseOrders/purchaseOrders.view",
                         }, 1000);
                         return false;
                     }
+                },
+                 // Initialize Label Popovers
+                initializeLabelPopovers = function () {
+                    // ReSharper disable UnknownCssClass
+                    $('.bs-example-tooltips a').popover();
+                    // ReSharper restore UnknownCssClass
+                    window.scrollTo(0, 0);
                 },
                 // Initialize
                 initialize = function () {
@@ -50,6 +66,9 @@ define("purchaseOrders/purchaseOrders.view",
                 gotoElement: gotoElement,
                 showPurchaseDetailDialog:showPurchaseDetailDialog,
                 hidePurchaseDetailDialog: hidePurchaseDetailDialog,
+                hideGRNDetailDialog: hideGRNDetailDialog,
+                showGRNDetailDialog: showGRNDetailDialog,
+                initializeLabelPopovers: initializeLabelPopovers,
 
             };
         })(deliveryNotesViewModel);

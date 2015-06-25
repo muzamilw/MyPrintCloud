@@ -11,6 +11,9 @@ define("common/reportManager.view",
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#divReportManager")[0],
+
+                // bindingRoot = $("#reportEmailView")[0],
+
                 // Show the dialog
                 show = function () {
                     $("#divReportManager").modal("show");

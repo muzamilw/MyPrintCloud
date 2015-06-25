@@ -332,6 +332,12 @@
                         if (itemSectionInvalid.pressId.error) {
                             validationSummaryList.push({ name: "Section Side 1 Press", element: itemSectionInvalid.pressId.domElement });
                         }
+                        if (itemSectionInvalid.itemGutterHorizontal.error) {
+                            validationSummaryList.push({
+                                name: "Gutter value must be a number from 0 to 99",
+                                element: itemSectionInvalid.itemGutterHorizontal.domElement
+                            });
+                        }
                     }
                 },
                 // True if the product has been changed
@@ -543,7 +549,7 @@
             specifiedSimilarSections, specifiedSide1Inks, specifiedSide2Inks, specifiedIsPortrait, specifiedFirstTrim, specifiedSecondTrim, specifiedQty1MarkUpID,
             specifiedQty2MarkUpID, specifiedQty3MarkUpID, specifiedProductType, specifiedPressIdSide2, specifiedImpressionCoverageSide1, specifiedImpressionCoverageSide2,
             specifiedPassesSide1, specifiedPassesSide2, specifiedPrintingType, specifiedPressSide1ColourHeads, specifiedPressSide1IsSpotColor,
-            specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty) {
+            specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty, specifiedItemGutterHorizontal) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId),
@@ -552,13 +558,13 @@
                 // name
                 name = ko.observable(specifiedSectionName || undefined).extend({ required: { onlyIf: function () { return productType() != 2; } } }),
                 // Stock Item Id
-                stockItemId = ko.observable(specifiedStockItemId || undefined).extend({ required: { onlyIf: function () { return productType() != 2; } } }),
+                stockItemId = ko.observable(specifiedStockItemId || undefined).extend({ required: { onlyIf: function () { return (productType() != 2 && productType() != 3); } } }),
                 // Stock Item Name
                 stockItemName = ko.observable(specifiedStockItemName || undefined),
                 // Stock Item Package Qty
                 stockItemPackageQty = ko.observable(specifiedStockItemPackageQty || undefined),
                 // Press Id
-                pressId = ko.observable(specifiedPressId || undefined).extend({ required: { onlyIf: function () { return productType() != 2; } } }),
+                pressId = ko.observable(specifiedPressId || undefined).extend({ required: { onlyIf: function () { return (productType() != 2 && productType() != 3); } } }),
                 // Press Id Side 2
                 pressIdSide2 = ko.observable(specifiedPressIdSide2 || undefined),
                 // Press Name
@@ -582,10 +588,10 @@
                         if (printingValue === 2) { // Hide Number Up and set it as 1
                             printViewLayoutPortrait(0);
                             printViewLayoutLandscape(1);
-                           // If Initialized
-                           if (isDoubleSidedUi) {
-                               isDoubleSidedUi(false);
-                           }
+                            // If Initialized
+                            if (isDoubleSidedUi) {
+                                isDoubleSidedUi(false);
+                            }
                         }
                     }
                 }),
@@ -593,7 +599,7 @@
                 sectionSizeId = ko.observable(specifiedSectionSizeId || undefined).extend({
                     required: {
                         onlyIf: function () {
-                            return productType() != 2 && printingType() !== 2;
+                            return (productType() != 2 && productType() != 3) && printingType() !== 2;
                         }
                     }
                 }),
@@ -601,7 +607,7 @@
                 itemSizeId = ko.observable(specifiedItemSizeId || undefined).extend({
                     required: {
                         onlyIf: function () {
-                            return productType() != 2 && printingType() !== 2;
+                            return (productType() != 2 && productType() != 3) && printingType() !== 2;
                         }
                     }
                 }),
@@ -666,7 +672,7 @@
                         if (value === isDoubleSided()) {
                             return;
                         }
-                        
+
                         // Single Side
                         if (!value) {
                             isWorknTurn(false);
@@ -704,20 +710,20 @@
                 // Section Ink Coverage List
                 sectionInkCoverageList = ko.observableArray([]),
                 // section Ink Coverage Side1
-                sectionInkCoveragesSide1 = ko.computed(function() {
+                sectionInkCoveragesSide1 = ko.computed(function () {
                     if (sectionInkCoverageList().length === 0) {
                         return [];
                     }
-                    return sectionInkCoverageList.filter(function(sectionInkCoverage) {
+                    return sectionInkCoverageList.filter(function (sectionInkCoverage) {
                         return sectionInkCoverage.side() === 1;
                     });
                 }),
                 // section Ink Coverage Side2
-                sectionInkCoveragesSide2 = ko.computed(function() {
+                sectionInkCoveragesSide2 = ko.computed(function () {
                     if (sectionInkCoverageList().length === 0) {
                         return [];
                     }
-                    return sectionInkCoverageList.filter(function(sectionInkCoverage) {
+                    return sectionInkCoverageList.filter(function (sectionInkCoverage) {
                         return sectionInkCoverage.side() === 2;
                     });
                 }),
@@ -742,6 +748,8 @@
                 pressIdSide1IsSpotColor = ko.observable(specifiedPressSide1IsSpotColor || false),
                 // Press Id Side 2 Is Spot Color
                 pressIdSide2IsSpotColor = ko.observable(specifiedPressSide2IsSpotColor || false),
+                // Item Gutter Horizontal
+                itemGutterHorizontal = ko.observable(specifiedItemGutterHorizontal || 0).extend({ number: true, min: 0, max: 99 }),
                 // Select Stock Item
                 selectStock = function (stockItem) {
                     if (!stockItem || stockItemId() === stockItem.id) {
@@ -773,6 +781,14 @@
                     itemSizeHeight(itemSizeWidth());
                     itemSizeWidth(itemHeight);
                 },
+                //Show number of signatures
+                sectionsMultiplier = ko.computed(function () {
+                    if (similarSections() <= 1) {
+                        return similarSections();
+                    } else {
+                        return "X " + similarSections();
+                    }
+                }),
                 // Add Section icon to show also in list of sections, For Add Section Item set to True
                 flagForAdd = ko.observable(false),
                 // Errors
@@ -781,7 +797,8 @@
                     stockItemId: stockItemId,
                     sectionSizeId: sectionSizeId,
                     itemSizeId: itemSizeId,
-                    pressId: pressId
+                    pressId: pressId,
+                    itemGutterHorizontal: itemGutterHorizontal
                 }),
                 // Is Valid
                 isValid = ko.computed(function () {
@@ -821,7 +838,7 @@
                     passesSide1: passesSide1,
                     passesSide2: passesSide2,
                     printingType: printingType,
-                    sectionCostCentres: sectionCostCentres
+                    itemGutterHorizontal: itemGutterHorizontal
                 }),
                 // SectionCostCentres Has Changes
                 sectionCostCentresHasChanges = function () {
@@ -890,6 +907,18 @@
                         PassesSide1: passesSide1(),
                         PassesSide2: passesSide2(),
                         PrintingType: printingType(),
+                        // #region For Client Side Only
+                        // to be used in Default Section, that will be used to create new sections // For Client Side Only
+                        StockItemId1: stockItemId(),
+                        StockItem1Name: stockItemName(),
+                        PressSide1ColourHeads: pressIdSide1ColourHeads(),
+                        PressSide1IsSpotColor: pressIdSide1IsSpotColor(),
+                        PressSide2ColourHeads: pressIdSide2ColourHeads(),
+                        PressSide2IsSpotColor: pressIdSide2IsSpotColor(),
+                        StockItemPackageQty: stockItemPackageQty(),
+                        // to be used in Default Section, that will be used to create new sections // For Client Side Only
+                        // #endregion
+                        ItemGutterHorizontal: itemGutterHorizontal(),
                         SectionCostcentres: sectionCostCentres.map(function (scc) {
                             var sectionCc = scc.convertToServerData(scc.id() === 0);
                             if (isNewSection) {
@@ -973,12 +1002,14 @@
                 printingTypeUi: printingTypeUi,
                 isFirstTrim: isFirstTrim,
                 isSecondTrim: isSecondTrim,
+                itemGutterHorizontal: itemGutterHorizontal,
                 pressIdSide1ColourHeads: pressIdSide1ColourHeads,
                 pressIdSide2ColourHeads: pressIdSide2ColourHeads,
                 pressIdSide1IsSpotColor: pressIdSide1IsSpotColor,
                 pressIdSide2IsSpotColor: pressIdSide2IsSpotColor,
                 sectionInkCoveragesSide1: sectionInkCoveragesSide1,
                 sectionInkCoveragesSide2: sectionInkCoveragesSide2,
+                sectionsMultiplier: sectionsMultiplier,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -2157,8 +2188,9 @@
             source.Basecharge3, source.IncludeGutter, source.FilmId, source.IsPaperSupplied, source.Side1PlateQty, source.Side2PlateQty, source.IsPlateSupplied,
             source.ItemId, source.IsDoubleSided, source.IsWorknTurn, source.PrintViewLayoutPortrait, source.PrintViewLayoutLandScape, source.PlateInkId, source.SimilarSections, source.Side1Inks, source.Side2Inks,
             source.IsPortrait, source.IsFirstTrim, source.IsSecondTrim, source.Qty1MarkUpID, source.Qty2MarkUpID, source.Qty3MarkUpID, source.ProductType,
-            source.PressIdSide2, source.ImpressionCoverageSide1, source.ImpressionCoverageSide2, source.PassesSide1, source.PassesSide2, source.PrintingType, 
-            source.PressSide1ColourHeads, source.PressSide1IsSpotColor, source.PressSide2ColourHeads, source.PressSide2IsSpotColor, source.StockItemPackageQty);
+            source.PressIdSide2, source.ImpressionCoverageSide1, source.ImpressionCoverageSide2, source.PassesSide1, source.PassesSide2, source.PrintingType,
+            source.PressSide1ColourHeads, source.PressSide1IsSpotColor, source.PressSide2ColourHeads, source.PressSide2IsSpotColor, source.StockItemPackageQty,
+            source.ItemGutterHorizontal);
 
         // Map Section Cost Centres if Any
         if (source.SectionCostcentres && source.SectionCostcentres.length > 0) {

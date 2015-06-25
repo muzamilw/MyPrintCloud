@@ -28,6 +28,7 @@ namespace MPC.Implementation.MISServices
         private readonly IOrderRepository orderRepository;
         private readonly ICompanyRepository companyRepository;
         private readonly IExportReportHelper exportReportHelper;
+        private readonly IDeliveryCarrierRepository deliveryCarrierRepository;
         #endregion
 
         #region Constructor
@@ -37,7 +38,7 @@ namespace MPC.Implementation.MISServices
         public PurchaseService(IPurchaseRepository purchaseRepository, ISectionFlagRepository sectionFlagRepository, ISystemUserRepository systemUserRepository,
              IGoodRecieveNoteRepository goodRecieveNoteRepository,
              OrganisationRepository organisationRepository, IPrefixRepository prefixRepository, IPurchaseDetailRepository purchaseDetailRepository, IExportReportHelper ExportReportHelper, ICampaignRepository campaignRepository, IOrderRepository OrderRepository,
-            ICompanyRepository companyRepository
+            ICompanyRepository companyRepository, IDeliveryCarrierRepository deliveryCarrierRepository
            )
         {
             this.purchaseRepository = purchaseRepository;
@@ -57,6 +58,7 @@ namespace MPC.Implementation.MISServices
             this.campaignRepository = campaignRepository;
             this.orderRepository = OrderRepository;
             this.companyRepository = companyRepository;
+            this.deliveryCarrierRepository = deliveryCarrierRepository;
 
         }
 
@@ -94,6 +96,7 @@ namespace MPC.Implementation.MISServices
             {
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Order),
                 SystemUsers = systemUserRepository.GetAll(),
+                DeliveryCarriers = deliveryCarrierRepository.GetAll(),
                 CurrencySymbol = organisation != null ? (organisation.Currency != null ? organisation.Currency.CurrencySymbol : string.Empty) : string.Empty
             };
         }
@@ -114,7 +117,11 @@ namespace MPC.Implementation.MISServices
 
             // Save Changes
             purchaseRepository.SaveChanges();
-            return GetById(purchaseTarget.PurchaseId);
+
+            // Load Company
+            purchaseRepository.LoadProperty(purchaseTarget, () => purchaseTarget.Company);
+            purchaseRepository.LoadProperty(purchaseTarget, () => purchaseTarget.SectionFlag);
+            return purchaseTarget;
         }
 
         /// <summary>
@@ -142,7 +149,7 @@ namespace MPC.Implementation.MISServices
         {
             purchaseDetailRepository.Delete(purchaseDetail);
         }
-       
+
         /// <summary>
         /// Get By Id
         /// </summary>

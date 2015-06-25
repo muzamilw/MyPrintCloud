@@ -167,6 +167,12 @@ namespace MPC.Implementation.MISServices
                         List<usp_PurchaseOrderReport_Result> rptInvoiceSource = ReportRepository.GetPOReport(iRecordID);
                         currReport.DataSource = rptInvoiceSource;
                     }
+                    else if (type == ReportType.DeliveryNotes)
+                    {
+                        sFileName = iRecordID + "DeliveryReport.pdf";
+                        List<usp_DeliveryReport_Result> rptDeliverySource = ReportRepository.GetDeliveryNoteReport(iRecordID);
+                        currReport.DataSource = rptDeliverySource;
+                    }
                     else if (type == ReportType.Internal)
                     {
                         string ReportDataSource = string.Empty;

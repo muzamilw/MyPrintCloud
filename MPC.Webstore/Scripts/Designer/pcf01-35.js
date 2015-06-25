@@ -192,19 +192,18 @@ function d1CompanyLogoToCanvas(x, y) {
     D1NIO.ProductPageID = SP;
     D1NIO.MaxWidth = 100;
     D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
-    D1NIO.PositionX = center.left;
-    D1NIO.PositionY = center.top;
+    D1NIO.PositionX = canvas.getWidth()/2 - 300 ;
+    D1NIO.PositionY = canvas.getHeight() / 2 - 300;
     D1NIO.ObjectType = 8;
 
-    D1NIO.MaxHeight = 300;
-    D1NIO.Height = 300;
-    D1NIO.MaxWidth = 300;
-    D1NIO.Width = 300;
+    D1NIO.MaxHeight = 300 ;
+    D1NIO.Height = 300 ;
+    D1NIO.MaxWidth = 300 ;
+    D1NIO.Width = 300 ;
 
     D1NIO.IsQuickText = true;
     D1NIO.ContentString = "/Content/Designer/assets-v2/Imageplaceholder_sim.png";
     D1NIO.DisplayOrder = TO.length + 1;
-    D1NIO.left = center.left;
    
     k31(canvas, D1NIO);
     var OBS = canvas.getObjects();
@@ -228,8 +227,8 @@ function d1ContactLogoToCanvas(x, y) {
     D1NIO.ProductPageId = SP;
     D1NIO.MaxWidth = 100;
     D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
-    D1NIO.PositionX = center.left;
-    D1NIO.PositionY = center.top;
+    D1NIO.PositionX = canvas.getWidth() / 2 - 300;
+    D1NIO.PositionY = canvas.getHeight() / 2 - 300;
     D1NIO.ObjectType = 12;
 
     D1NIO.MaxHeight = 300;
@@ -906,7 +905,8 @@ function fu12(mode, title) {
         if(IsCalledFrom == 2)
         {
             item.originalTextStyles = item.textStyles;
-            item.originalContentString = item.ContentString;
+            if(item.ObjectType != 9)
+                item.originalContentString = item.ContentString;
         }
     });
     $.each(TPOs, function (i, IT) {
@@ -1629,7 +1629,7 @@ function g2_22(mode) {
                     lstClrs.push(clr);
                     if (IT.ModifiedColor != "")
                         clr = IT.ModifiedColor;
-                    $(".svgColorContainer").append('<button id="" class="BtnChngeClr btnChangeShapeColor BtnChngeSvgClr' + i + '" title="Color picker" style="display: inline-block; background-color:' + clr + ' " onclick="f2_ChangeSVGColor(' + IT.PathIndex + ');"> </button>');
+                    $(".svgColorContainer").append('<button id="" class="BtnChngeClrSvg btnChangeShapeColor BtnChngeSvgClr' + i + '" title="Color picker" style="display: inline-block; background-color:' + clr + ' " onclick="f2_ChangeSVGColor(' + IT.PathIndex + ');"> </button>');
                 }
             });
         } 
@@ -3108,7 +3108,7 @@ function pcl42() {
 function pcl42_updateVariables(data) {
     
     $.each(data, function (i, IT) {
-        if ($("#txtSmart" + IT.VariableId).val() != null && $("#txtSmart" + IT.VariableId).val() != "") {
+        if ($("#txtSmart" + IT.VariableId).val() != null ) {
             IT.Value = $("#txtSmart" + IT.VariableId).val();
         }
     });

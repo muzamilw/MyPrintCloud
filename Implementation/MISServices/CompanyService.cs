@@ -1016,7 +1016,7 @@ namespace MPC.Implementation.MISServices
 
             //UpdateSmartFormVariableIds(companySavingModel.Company.SmartForms, companyDbVersion);
 
-            //UpdateScopeVariables(companySavingModel);
+            UpdateScopeVariables(companySavingModel);
             if (companySavingModel.Company.ActiveBannerSetId < 0)
             {
                 CompanyBannerSet companyBannerSet =
@@ -1054,85 +1054,10 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void UpdateScopeVariables(CompanySavingModel companySavingModel)
         {
-            if (companySavingModel.Company.CompanyContacts != null)
-            {
-                foreach (CompanyContact companyContact in companySavingModel.Company.CompanyContacts)
-                {
-                    if (companyContact.ScopeVariables != null)
-                    {
-                        foreach (ScopeVariable scopeVariable in companyContact.ScopeVariables)
-                        {
-                            if (scopeVariable.ScopeVariableId == 0)
-                            {
-                                FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
-                               f => f.FakeIdVariableId == scopeVariable.FakeVariableId);
-                                if (fieldVariable != null)
-                                {
-                                    scopeVariable.VariableId = fieldVariable.VariableId;
-                                }
+            
 
-                                scopeVariable.Id = companyContact.ContactId;
-                                scopeVariableRepository.Add(scopeVariable);
-                            }
-                        }
-                    }
-                }
+          
 
-            }
-
-            if (companySavingModel.Company.CompanyTerritories != null)
-            {
-                foreach (CompanyTerritory companyTerritory in companySavingModel.Company.CompanyTerritories)
-                {
-                    if (companyTerritory.ScopeVariables != null)
-                    {
-                        foreach (ScopeVariable scopeVariable in companyTerritory.ScopeVariables)
-                        {
-                            if (scopeVariable.ScopeVariableId == 0)
-                            {
-                                FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
-                               f => f.FakeIdVariableId == scopeVariable.FakeVariableId);
-                                if (fieldVariable != null)
-                                {
-                                    scopeVariable.VariableId = fieldVariable.VariableId;
-                                }
-
-                                scopeVariable.Id = companyTerritory.TerritoryId;
-                                scopeVariable.Scope = (int)FieldVariableScopeType.Territory;
-                                scopeVariableRepository.Add(scopeVariable);
-                            }
-                        }
-                    }
-                }
-
-            }
-
-            //Address Scope variables
-            if (companySavingModel.Company.Addresses != null)
-            {
-                foreach (Address address in companySavingModel.Company.Addresses)
-                {
-                    if (address.ScopeVariables != null)
-                    {
-                        foreach (ScopeVariable scopeVariable in address.ScopeVariables)
-                        {
-                            if (scopeVariable.ScopeVariableId == 0)
-                            {
-                                FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
-                               f => f.FakeIdVariableId == scopeVariable.FakeVariableId);
-                                if (fieldVariable != null)
-                                {
-                                    scopeVariable.VariableId = fieldVariable.VariableId;
-                                }
-
-                                scopeVariable.Id = address.AddressId;
-                                scopeVariable.Scope = (int)FieldVariableScopeType.Address;
-                                scopeVariableRepository.Add(scopeVariable);
-                            }
-                        }
-                    }
-                }
-            }
 
             //Store Scope Variables
             if (companySavingModel.Company.ScopeVariables != null)
@@ -2598,7 +2523,10 @@ namespace MPC.Implementation.MISServices
                 fieldVariableDbVersion.VariableTitle = fieldVariable.VariableTitle;
                 fieldVariableDbVersion.VariableType = fieldVariable.VariableType;
                 fieldVariableDbVersion.WaterMark = fieldVariable.WaterMark;
-                fieldVariableDbVersion.OrganisationId = fieldVariableRepository.OrganisationId;
+                if (fieldVariableDbVersion.IsSystem != true)
+                {
+                    fieldVariableDbVersion.OrganisationId = fieldVariableRepository.OrganisationId;
+                }
                 if (fieldVariable.VariableOptions != null)
                 {
                     foreach (var item in fieldVariable.VariableOptions)
@@ -2636,6 +2564,11 @@ namespace MPC.Implementation.MISServices
                             variableExtensionDb.CollapsePrefix = item.CollapsePrefix;
                             variableExtensionDb.CollapsePostfix = item.CollapsePostfix;
                             variableExtensionDb.OrganisationId = (int)fieldVariableRepository.OrganisationId;
+                        }
+                        else
+                        {
+                            item.OrganisationId = (int)fieldVariableRepository.OrganisationId;
+                            fieldVariableDbVersion.VariableExtensions.Add(item);
                         }
                     }
                 }
@@ -3154,6 +3087,20 @@ namespace MPC.Implementation.MISServices
 
             companyRepository.DeleteStoryBySP(companyId);
         }
+        /// <summary>
+        /// Delete CRM Company Permanently
+        /// </summary>
+        public void DeleteCrmCompanyPermanently(long companyId)
+        {
+            Company company = companyRepository.Find(companyId);
+
+            if (company == null)
+            {
+                throw new MPCException(string.Format(CultureInfo.InvariantCulture, "Company with id {0} not found", companyId), companyRepository.OrganisationId);
+            }
+
+            companyRepository.DeleteCrmCompanyBySP(companyId);
+        }
 
         /// <summary>
         /// Get Items For Widgets
@@ -3285,6 +3232,17 @@ namespace MPC.Implementation.MISServices
             };
 
         }
+
+
+        /// <summary>
+        /// Get System Variables
+        /// </summary>
+        public FieldVariableResponse GetSystemVariables(FieldVariableRequestModel request)
+        {
+            return fieldVariableRepository.GetSystemFieldVariable(request);
+        }
+
+
         /// <summary>
         /// Base Data for Crm Screen (prospect/customer and suppliers)
         /// </summary>
@@ -3299,7 +3257,7 @@ namespace MPC.Implementation.MISServices
                 States = stateRepository.GetAll(),
                 Countries = countryRepository.GetAll(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM),
-                Companies = companyRepository.GetAllRetailAndCorporateStores()
+                Companies = companyRepository.GetAllRetailStores()//Get Retail Stores in crm base data
             };
         }
         public void SaveFile(string filePath, long companyId)
@@ -3651,6 +3609,8 @@ namespace MPC.Implementation.MISServices
 
             return true;
         }
+
+
         #endregion
 
         #region ExportOrganisation
