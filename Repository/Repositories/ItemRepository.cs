@@ -1452,7 +1452,7 @@ namespace MPC.Repository.Repositories
                  ProductName = item.ProductName,
                  ThumbnailPath = item.ThumbnailPath,
                  ProductCategoryName = category.CategoryName,
-                 ProductSpecification = item.ProductSpecification,
+                 ProductSpecification = item.WebDescription,
                  AllowBriefAttachments = ItemDetail.isAllowMarketBriefAttachment ?? false,
                  BriefSuccessMessage = ItemDetail.MarketBriefSuccessMessage
 
