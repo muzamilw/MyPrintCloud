@@ -562,7 +562,7 @@
                                         if (ViewBag.IsShowPrices)
                                         {
                                             <div id="PnalTotalBox">
-                                                <table border="0" cellpadding="3" cellspacing="0" width="100%" class="left_align">
+                                                @*<table border="0" cellpadding="3" cellspacing="0" width="100%" class="left_align">
                                                     <tr>
                                                         <td width="30%">
                                                             &nbsp;
@@ -676,7 +676,80 @@
                                                             <label class="CartFonts colorBlack Fsize15" id="lblGrandTotal">@GrandTotal</label>
                                                         </td>
                                                     </tr>
-                                                </table>
+                                                </table>*@
+                                                @{
+                                                            string price1 = Convert.ToString(_priceTotal);
+                                                            SubTotal = Convert.ToDouble(price1);
+                                                             
+                                                            if (deliveryCost > 0)
+                                                            {
+                                                                deliveryTotal = Convert.ToDouble(deliveryCost);
+                                                            }
+                                                            else
+                                                            {
+
+                                                                deliveryTotal = Convert.ToDouble(0);
+                                                            }
+                                                            if (deliveryCostTaxVal > 0)
+                                                            {
+                                                                double TotalTax = deliveryCostTaxVal + VatTotal;
+                                                                deliveryTax = Utils.FormatDecimalValueToTwoDecimal(TotalTax.ToString(), Model.Currency);
+                                                            }
+                                                            else
+                                                            {
+                                                                string vat = Convert.ToString(VatTotal);
+
+                                                                string dTax = Utils.FormatDecimalValueToTwoDecimal(vat, Model.Currency);
+                                                                deliveryTax = dTax;
+                                                            }
+                                                            if (deliveryCost > 0)
+                                                            {
+                                                                double objgross = _priceTotal + (deliveryCostTaxVal + VatTotal) + deliveryCost;
+                                                                string gross = Convert.ToString(objgross);
+                                                                string GT = Utils.FormatDecimalValueToTwoDecimal(gross, Model.Currency);
+                                                                GrandTotal = GT;
+                                                                Model.GrandTotal = GrandTotal;
+                                                            }
+                                                            else
+                                                            {
+                                                                double objgross = _priceTotal + VatTotal;
+                                                                string gross = Convert.ToString(objgross);
+                                                                string GT = Utils.FormatDecimalValueToTwoDecimal(gross, Model.Currency);
+                                                                GrandTotal = GT;
+                                                                Model.GrandTotal = GrandTotal;
+                                                            }
+                                                }
+                                               
+                                                <div class="cnttotalPayablesAS">
+
+                                                    <div class="cntsubHeadingsAS">
+                                                        <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId))</label>
+                                                        <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">Delivery:</label>
+                                                        <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">@Model.TaxLabel</label>
+                                                        <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">Total:</label>
+                                                    </div>
+
+                                                    <div class="cnttotalsAS" id="cntRightPricing1">
+
+                                                        <label id="lblSubTotal" class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(SubTotal.ToString(), Model.Currency)</label>
+
+                                                        <label class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(deliveryTotal.ToString(), Model.Currency)</label>
+                                                        <label class="Fsize13 colorBlack displayClear">@deliveryTax</label>
+                                                        <label class="Fsize13 colorBlack displayClear">@GrandTotal</label>
+                                                    </div>
+
+                                                    <div class="clearBoth">
+                                                    </div>
+                                                </div>
+                                                <div class="cntdispatchDelivery">
+                                                    <div class="tdDispatchDate">
+                                                       
+                                                    </div>
+                                                    <div class="tdDelivery">
+
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         }
 
@@ -746,7 +819,7 @@
                         <br />
                         <div id="DivSpclNotes" style="display: none;" class="textAlignLeft paddingLeft10px">
                             <span id="lblSpecialNoteTxt"
-                                  style="color: #C72965;" class="black_sub_heading">Special instructions(notes):</span><br />
+                                  style="color: #C72965;" class="black_sub_heading">Special instructions(notes):</span>
                             <br />
                             <label id="lblNotesDetail" class="SpecialNotesContainer" style="color: #C72965;" />
                         </div>
@@ -767,7 +840,7 @@
                                 @if (Model.shopcart.CartItemsList != null && Model.shopcart.CartItemsList.Count > 0)
                                 {
 
-                                    <input type="submit" class="start_creating_btn_SApp rounded_corners5" onclick="return ValidateCheckout();" value="Continue" />
+                                    <input type="submit" class="start_creating_btn_SApp rounded_corners5" onclick="return ValidateCheckout();" value="Continue" id="ContinueTo" />
 
                                 }
                             </div>

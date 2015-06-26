@@ -149,7 +149,7 @@ body:not(.compactHeader) .searchBtn {
     list-style: none;
     text-align: center;
       height: 70px;
-   width: 170%;
+    width: 562px;
 }
 
     #objectPanel > menu li {
@@ -447,6 +447,10 @@ line-height: 38px;
 
 .stage9 #selectedTab {
     left: 292px;
+}
+
+.stage9 .restrictedSelectedTab {
+    left: -59px !important;
 }
 
 .stage10 #selectedTab {

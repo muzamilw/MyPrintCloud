@@ -70,7 +70,8 @@
                                                             <tr data-bind=" click: $root.editContactbuttonHandler" style="cursor: pointer">
                                                                 <td>
                                                                     <!-- ko if: image()==='' -->
-                                                                    <img style="margin-bottom: -12px; margin-top: -12px; margin-left: -18%; -o-object-fit: contain; object-fit: contain; " data-bind="attr: { src: image()==='' ? '/mis/Content/Images/Company_Default.png':'' }" alt="">
+                                                                    @*<img style="margin-bottom: -12px; margin-top: -12px; margin-left: -18%; -o-object-fit: contain; object-fit: contain; " data-bind="attr: { src: image()==='' ? '/mis/Content/Images/Company_Default.png':'' }" alt="">*@
+                                                                    <img style="-o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: image()==='' ? '/mis/Content/Images/company_contact.jpg':image() }" alt="" />
                                                                     <!--/ko-->
                                                                     <!-- ko if: image()!=='' -->
                                                                     <img style="width: 70%; max-width: 70%; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: image()==='' ? '/mis/Content/Images/company_contact.jpg':image() }" alt="" />
