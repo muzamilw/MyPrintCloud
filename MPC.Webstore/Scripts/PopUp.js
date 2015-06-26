@@ -1,9 +1,11 @@
 ﻿function ShowPopUp(Type,Message) {
    
-    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '</div></div>';
+    var container = '<div class="md-modal md-effect-7" id="modal-7" style="border-radius:8px;"><div class="md-content" style="border-radius:8px;border-style: solid;border-width: 5px;border-radius: 8px;border-color: darkgray;"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '</div></div>';
    
     var bws = getBrowserHeight();
     var shadow = document.getElementById("innerLayer");
+    $("#innerLayer").css('border-radius', '10px');
+             
     document.getElementById("layer").style.width = bws.width + "px";
     document.getElementById("layer").style.height = bws.height + "px";
     
@@ -756,18 +758,21 @@ function ViewOrderPopUp(Type, panelHtml) {
 
     var left = 0;
     var container = "";
-    if (bws.width >= 481 && bws.width <= 558)
+    if (bws.width >= 481 && bws.width < 641)
     {
         document.getElementById("innerLayer").style.width = (bws.width) + "px";
         container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="ScrollBarOnOrderHistory ">' + panelHtml + '</div></div>';
+        document.getElementById("innerLayer").style.height = "536px";
     }
     else if (bws.width <= 481) {
         document.getElementById("innerLayer").style.width = (bws.width) + "px";
         container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="ScrollBarOnOrderHistory ">' + panelHtml + '</div></div>';
+        document.getElementById("innerLayer").style.height = "536px";
 
     } else {
         left = parseInt((bws.width - 730) / 2);
         document.getElementById("innerLayer").style.width = "730px";
+        document.getElementById("innerLayer").style.height = "536px";
         container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="ScrollBarOnOrderHistory ">' + panelHtml + '</div></div>';
 
     }

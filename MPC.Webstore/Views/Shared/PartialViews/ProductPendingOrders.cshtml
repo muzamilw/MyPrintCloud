@@ -75,10 +75,10 @@
     columns: new[] {
 
     grid.Column("OrderCode","OrderCode"),
-    grid.Column("YourRef","Your PO reference"),
-    grid.Column("SOrderDate","Order Date"),
-    grid.Column("SOrderDeliveryDate","Estimated Delivery"),
-    grid.Column("StatusName","Status",style:"GridStatusColumnColor"),
+    grid.Column("YourRef","Your PO reference",style:"hidden-xs"),
+    grid.Column("SOrderDate","Order Date",style:"hidden-xs "),
+    grid.Column("SOrderDeliveryDate","Estimated Delivery",style:"hidden-xs "),
+    grid.Column("StatusName","Status",style:"GridStatusColumnColor hidden-xs"),
     grid.Column("CustomerName","Order Created By"),
     grid.Column("Action(s)",format:@<text><input type="image" id="view" title="click to view order details" style="height: 28px; width: 28px;" src="Content/Images/view-order.png" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" /><input type="image" id="view" title="click to Approve Order " style="height: 28px; width: 28px;" src="Content/Images/accept.png" class="rounded_corners" onclick="ConfirmApprove(@item.OrderID)" /><input id="view" type="image" src="Content/Images/reject.png" title="click to Reject" style="height: 28px; width: 28px;" class="rounded_corners" onclick="ConfirmReject(@item.OrderID)" />
     </text>),
@@ -475,7 +475,7 @@
                     // if ((response.billingAddress.State) != null) {
 
                     if (response.BillingState != '')
-                    { ("#BillingAddressState").val(response.BillingState);}
+                    { $("#BillingAddressState").text(response.BillingState);}
                     //}
                     // if (response.billingAddress.Country!= null)
                     //{
