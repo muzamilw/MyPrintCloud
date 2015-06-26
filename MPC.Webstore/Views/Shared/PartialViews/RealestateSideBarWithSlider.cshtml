@@ -4,13 +4,8 @@
 
 <head>
     <link href="/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
-    <link href="/Content/RealEstateSlider/css/normalize.css" rel="stylesheet" />
-    <link href="/Content/RealEstateSlider/css/foundation.min.css" rel="stylesheet" />
 
-    <link href="/Content/RealEstateSlider/css/style.css" rel="stylesheet" />
-    <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
-    <link href="/Content/RealEstateSlider/css/jquery.circular-carousel.css" rel="stylesheet" />
+    <link href="/Content/RealEstateSlider/css/feature-carousel.css" rel="stylesheet" />
 
 </head>
 
@@ -24,8 +19,11 @@
     var bundle = System.Web.Optimization.BundleTable.Bundles.GetRegisteredBundles()
         .Where(b => b.Path == "~/pageSpecific")
         .First();
-    bundle.Include("~/Content/RealEstateSlider/js/jquery.circular-carousel.js", "~/Content/RealEstateSlider/js/script.js");
+    bundle.Include("~/Content/RealEstateSlider/js/jquery-1.7.min.js", "~/Content/RealEstateSlider/js/jquery.featureCarousel.min.js", "~/Content/RealEstateSlider/js/jquery.featureCarousel.js");
+    
 }
+
+
 <div class="container">
     <div class="sidebar-offcanvas sidebar realEs-myProfile-leftPanel" id="sidebar-left" role="navigation" style="">
         <div style="height: 10px;">
@@ -114,27 +112,48 @@
     <!--/Left Panel-->
     <!--Center Part-->
     <div class="realEs-myProfile-rightPanel">
-        <div class="row">
-            <ul class="carousel">
-                @foreach (var parent in ParentCategories)
-                {
-                <li class="item"><img src="@Html.GetAppBasePath()@parent.ThumbnailPath" width="350" height="250" /></li>
-                }
-            </ul>
+       
+        <div class="carousel-container">
+            <div id="carousel">
+              @foreach (var parent in ParentCategories)
+              { 
+                <div class="carousel-feature">
+                        <a href="#"><img class="carousel-image" alt="Image Caption" src="@Html.GetAppBasePath()@parent.ThumbnailPath"></a>
+                </div>
+              }
+            </div>
         </div>
-        <div class="controls">
-            @*<a href="#" class="previous">Previous</a>*@
-            <label id="previous" class="previous">Previous</label>
-            <label id="next" class="next">Next</label>
-            @*<a href="#" class="next">Next</a>*@
         </div>
-      </div>
         <div class="clearBoth">
             &nbsp;
         </div>
     
 
 <script type="text/javascript">
+    $(document).ready(function () {
+       
+        var carousel = $("#carousel").featureCarousel({
+            // include options like this:
+            // (use quotes only for string values, and no trailing comma after last option)
+            // option: value,
+            // option: value
+           
+        });
+
+        $("#but_prev").click(function () {
+            carousel.prev();
+        });
+        $("#but_pause").click(function () {
+            carousel.pause();
+        });
+        $("#but_start").click(function () {
+            carousel.start();
+        });
+        $("#but_next").click(function () {
+            carousel.next();
+        });
+    });
+
     function ExpandCollapseCategory(dataid) {
 
         var idOfCatPro = $('a[data-id=' + dataid + ']').attr("id");
@@ -152,74 +171,7 @@
 
     }
 
-    $(function () {
-        var _center = {
-            width: 300,
-            height: 200,
-            marginLeft: 0,
-            marginTop: 0,
-            marginRight: 0
-        };
-        var _left = {
-            width: 150,
-            height: 100,
-            marginLeft: 0,
-            marginTop: 150,
-            marginRight: -150
-        };
-        var _right = {
-            width: 150,
-            height: 100,
-            marginLeft: -150,
-            marginTop: 150,
-            marginRight: 0
-        };
-        var _outLeft = {
-            width: 75,
-            height: 50,
-            marginLeft: 150,
-            marginTop: 200,
-            marginRight: -200
-        };
-        var _outRight = {
-            width: 75,
-            height: 500,
-            marginLeft: -200,
-            marginTop: 200,
-            marginRight: 50
-        };
-        $('#carousel').carouFredSel({
-            width: 450,
-            height: 400,
-            align: false,
-            items: {
-                visible: 3,
-                width: 100
-            },
-            scroll: {
-                items: 1,
-                duration: 400,
-                onBefore: function (data) {
-                    data.items.old.eq(0).animate(_outLeft);
-                    data.items.visible.eq(0).animate(_left);
-                    data.items.visible.eq(1).animate(_center);
-                    data.items.visible.eq(2).animate(_right).css({ zIndex: 1 });
-                    data.items.visible.eq(2).next().css(_outRight).css({ zIndex: 0 });
-
-                    setTimeout(function () {
-                        data.items.old.eq(0).css({ zIndex: 1 });
-                        data.items.visible.eq(0).css({ zIndex: 2 });
-                        data.items.visible.eq(1).css({ zIndex: 3 });
-                        data.items.visible.eq(2).css({ zIndex: 2 });
-                    }, 200);
-                }
-            }
-        });
-        $('#carousel').children().eq(0).css(_left).css({ zIndex: 2 });
-        $('#carousel').children().eq(1).css(_center).css({ zIndex: 3 });
-        $('#carousel').children().eq(2).css(_right).css({ zIndex: 2 });
-        $('#carousel').children().eq(3).css(_outRight).css({ zIndex: 1 });
-    });
+    
 
 </script>
 
