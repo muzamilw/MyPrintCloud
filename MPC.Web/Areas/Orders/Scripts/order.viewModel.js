@@ -386,6 +386,7 @@ define("order/order.viewModel",
                     // Close Editor
                     closeOrderEditor = function () {
                         selectedOrder(model.Estimate.Create({}, { SystemUsers: systemUsers() }));
+                        selectedOrder().flagColor(getSectionFlagColor(selectedOrder().sectionFlagId()));
                         if (isEstimateScreen() && currentScreen() == 8) {
                             isDisplayInquiryDetailScreen(false);
                         } else {
@@ -1253,7 +1254,7 @@ define("order/order.viewModel",
                         dataservice.saveOrder(order, {
                             success: function (data) {
                                 var orderFlag = _.find(sectionFlags(), function (item) {
-                                    return item.id === selectedOrder().sectionFlagId();
+                                    return item.id == selectedOrder().sectionFlagId();
                                 });
 
                                 if (!selectedOrder().id()) {

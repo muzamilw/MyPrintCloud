@@ -223,6 +223,13 @@ define("stores/stores.view",
                         category: category
                     });
                 },
+                // Sub Categories Loaded Event 
+                subCategoriesLoadedEvent = function (categories) {
+                    $.event.trigger({
+                        type: "SubCategoriesLoaded",
+                        categories: categories
+                    });
+                },
                 // Wire Up Theme List Click event 
                 wireupThemeListClick = function () {
                     $(document).ready(function () {
@@ -275,11 +282,38 @@ define("stores/stores.view",
                 closeThemeList = function() {
                     $("#ops_theme_dropdown #ops_theme_list ul").hide();
                 },
+                // Sub Category Selected Event Handler
+                subCategorySelectedEventHandler = function (event) {
+                    if (event.category && event.category.productCategoryId) {
+                        // Get the Sub Category Tree Node Element
+                        var categoryTreeNode = $("#" + event.category.productCategoryId);
+                        if (!categoryTreeNode) {
+                            return;
+                        }
+                        var categoryTreeNodeExpander = categoryTreeNode.find("i.fa-chevron-circle-right");
+                        if (categoryTreeNodeExpander && categoryTreeNodeExpander[0]) {
+                            // Get Child Categories
+                            categoryTreeNodeExpander[0].click();
+                        }
+                        else {
+                            categoryTreeNodeExpander = categoryTreeNode.find("i.fa-chevron-circle-down");
+                            if (categoryTreeNodeExpander && categoryTreeNodeExpander[0]) {
+                                // Get Child Categories
+                                categoryTreeNodeExpander[0].click();
+                            }
+                        }
+                        // Get Products of Category
+                        categoryTreeNode.click();
+                    }
+                },
             // Initialize
             initialize = function () {
                 if (!bindingRoot) {
                     return;
                 }
+                
+                // subscribe to events
+                $(document).on("SubCategorySelectedFromProduct", subCategorySelectedEventHandler);
             };
             initialize();
             return {
@@ -323,6 +357,7 @@ define("stores/stores.view",
                 viewModel: viewModel,
                 initializeLabelPopovers: initializeLabelPopovers,
                 productCategorySelectedEvent: productCategorySelectedEvent,
+                subCategoriesLoadedEvent: subCategoriesLoadedEvent,
                 wireupThemeListClick: wireupThemeListClick,
                 closeThemeList: closeThemeList,
                 showMediaLibImageDialog: showMediaLibImageDialog,

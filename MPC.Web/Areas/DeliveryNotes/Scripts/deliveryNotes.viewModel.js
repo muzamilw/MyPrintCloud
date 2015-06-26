@@ -175,6 +175,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         selectedDeliveryNoteForListView(item);
                         getDetaildeliveryNote(item.deliveryNoteId());
                         isEditorVisible(true);
+                        errorList.removeAll();
                     },
                     onCloseEditor = function () {
                         if (selectedDeliveryNote().hasChanges() && selectedDeliveryNote().isStatus() !== 20) {
@@ -331,6 +332,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                          deliveryNotes.isStatus(19);
                          selectedDeliveryNote(deliveryNotes);
                          isEditorVisible(true);
+                         errorList.removeAll();
                      },
                      // add Delivery Note Detail
                      addDeliveryNoteDetail = function () {
@@ -407,7 +409,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                             }
                         }
                     });
-                }
+                },
                 // Save Delivery Notes
                 saveDeliveryNote = function (deliveryNote) {
                     dataservice.saveDeliveryNote(deliveryNote, {

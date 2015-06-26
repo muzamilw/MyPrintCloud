@@ -3553,6 +3553,12 @@ define("stores/stores.viewModel",
                     event.target.classList.add("fa-chevron-circle-right");
                 }
             },
+            // Get Child Categories from the List to be shown in product 
+            getChildCategories = function(parentCategoryId) {
+                return parentCategories.filter(function(category) {
+                    return category.parentCategoryId === parentCategoryId;
+                });
+            },
             //Get Category Child List Items
             getCategoryChildListItems = function (dataRecieved, event) {
                 changeIcon(event);
@@ -3563,12 +3569,15 @@ define("stores/stores.viewModel",
                     } else {
                         $(event.target).closest('li').children('ol').hide();
                     }
+                    // Notify the Event Subscribers
+                    view.subCategoriesLoadedEvent(getChildCategories(id));
                     return;
                 }
                 dataservice.getProductCategoryChilds({
                     id: id
                 }, {
                     success: function (data) {
+                        var childCategories = [];
                         if (data.ProductCategories != null) {
                             _.each(data.ProductCategories, function (productCategory) {
                                 $("#" + id).append('<ol class="dd-list" style="position: initial;"> <li class="dd-item dd-item-list" data-bind="click: $root.selectChildProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + productCategory.ProductCategoryId + '> <div class="dd-handle-list cursorShape" ><i class="fa fa-chevron-circle-right " data-bind="click: $root.getCategoryChildListItems"></i></div><div class="dd-handle col-sm-12"><span class="col-sm-10 cursorShape">' + productCategory.CategoryName + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link cursorShape" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');
@@ -3578,11 +3587,14 @@ define("stores/stores.viewModel",
                                     categoryName: productCategory.CategoryName,
                                     parentCategoryId: id
                                 };
+                                childCategories.push(category);
                                 parentCategories.push(category);
                             });
                         }
                         isLoadingStores(false);
                         $("#categoryTabItems li a").first().trigger("click");
+                        // Notify the Event Subscribers
+                        view.subCategoriesLoadedEvent(getChildCategories(id));
                     },
                     error: function (response) {
                         isLoadingStores(false);
