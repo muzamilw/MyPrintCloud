@@ -5812,5 +5812,8 @@ update FieldVariable set CriteriaFieldName = 'SecondaryEmail' where VariableTag 
 /* Execution Date: 29/06/2015 */
 
 alter table templateBackgroundImage add hasClippingPath bit null
+
+
 alter table templateBackgroundImage add clippingFileName nvarchar(max) null
+
 alter table templateObject add hasClippingPath bit null

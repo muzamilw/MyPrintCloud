@@ -48,6 +48,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICostCentreRepository _CostCentreRepository;
         private readonly IOrderRepository _OrderRepository;
         private readonly IPrefixRepository _prefixRepository;
+        private readonly IItemVideoRepository _videoRepository;
         #region Constructor
 
         /// <summary>
@@ -61,7 +62,7 @@ namespace MPC.Implementation.WebStoreServices
             , IItemSectionRepository ItemSectionRepository, ISectionCostCentreRepository ItemSectionCostCentreRepository
             , ITemplateRepository TemplateRepository, ITemplatePageRepository TemplatePageRepository, ITemplateBackgroundImagesRepository TemplateBackgroundImagesRepository
             , ITemplateObjectRepository TemplateObjectRepository, ICostCentreRepository CostCentreRepository
-            , IOrderRepository OrderRepository, IPrefixRepository prefixRepository)
+            , IOrderRepository OrderRepository, IPrefixRepository prefixRepository, IItemVideoRepository videoRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -89,6 +90,7 @@ namespace MPC.Implementation.WebStoreServices
             this._CostCentreRepository = CostCentreRepository;
             this._OrderRepository = OrderRepository;
             this._prefixRepository = prefixRepository;
+            this._videoRepository = videoRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -1926,7 +1928,10 @@ namespace MPC.Implementation.WebStoreServices
             return shopCartOrder.EstimateId;
 
         }
-
+        public List<ItemVideo> GetProductVideos(long ItemID)
+        {
+            return _videoRepository.GetProductVideos(ItemID);
+        }
       
         #endregion
     }
