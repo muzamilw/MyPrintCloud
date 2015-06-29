@@ -2194,10 +2194,16 @@ namespace MPC.Implementation.MISServices
             }
 
             // Item Images that are being removed
-            List<ItemImage> itemImagesToBeRemoved = itemTarget.ItemImages.Where(
+// ReSharper disable SuggestUseVarKeywordEvident
+            List<ItemImage> itemImagesToBeRemoved = new List<ItemImage>();
+// ReSharper restore SuggestUseVarKeywordEvident
+            if (itemTarget.ItemImages != null && item.ItemImages != null)
+            {
+                itemImagesToBeRemoved = itemTarget.ItemImages.Where(
                 ii => !IsNewItemImage(ii) && item.ItemImages.All(image => image.ProductImageId != ii.ProductImageId))
                   .ToList();
-
+            }
+            
             // Update
             item.UpdateTo(itemTarget, new ItemMapperActions
             {

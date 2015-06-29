@@ -134,9 +134,9 @@
                                                     //}
                                                     //else
                                                     //{
-                                                        isUploadImage = false;
+                                                    isUploadImage = false;
 
-                                                        RedirectURL = "/Category/CloneItem/" + item.ItemId;
+                                                    RedirectURL = "/Category/CloneItem/" + item.ItemId;
                                                     //}
                                                 }
 
@@ -276,7 +276,7 @@
                                             }
 
 
-                                            
+
 
                                         }
                                     </table>
@@ -306,8 +306,8 @@
 
                                                 if (ViewBag.IsUserLogin == 1) // check if user login or not ??
                                                 {
-                                            
-                                                 <a href="/MarketingBrief/@item.ProductName/@item.ItemId/@Model.ProductCategoryId" onclick="ShowLoader();">
+
+                                                    <a href="/MarketingBrief/@item.ProductName/@item.ItemId/@Model.ProductCategoryId" onclick="ShowLoader();">
                                                         <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId))" class="place-inquiry-button rounded_corners" />
                                                     </a>
                                                 }
@@ -363,7 +363,7 @@
                                             }
 
                                         </div>
-                                      
+
                                     </div>
                                     <div id="PriceCircle" class="blue_cicle_container DisplayNoneCSS6">
                                         <div class="BC_CatProd">

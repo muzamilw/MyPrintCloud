@@ -47,147 +47,181 @@ define("dashboard.viewModel",
                     sortIsAsc = ko.observable(true),
                     // Pending Orders Count
                     pendingOrdersCount = ko.observable(0),
+                // months = ['jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+                line = ko.observable([
 
-                    line = ko.observable([
-                        { year: '2008', value: 20 },
-                        { year: '2009', value: 10 },
-                        { year: '2010', value: 17 },
-                        { year: '2011', value: 5 },
-                        { year: '2013', value: 6 },
-                        { year: '2015', value: 8 },
-                        { year: '2012', value: 20 }
-                    ]),
+{ month: '2008-01', a: 100, b: 90 },
+{ month: '2008-02', a: 110, b: 90 },
+{ month: '2008-03', a: 200, b: 90 },
+{ month: '2008-04', a: 20, b: 90 },
+{ month: '2008-05', a: 100, b: 90 },
+{ month: '2008-06', a: 100, b: 90 },
+{ month: '2008-07', a: 10, b: 90 },
+{ month: '2008-08', a: 100, b: 90 },
+{ month: '2008-09', a: 100, b: 90 },
+{ month: '2008-10', a: 100, b: 90 },
+{ month: '2008-11', a: 300, b: 90 },
+{ month: '2008-12', a: 100, b: 90 }
+                    //{ year: 'Jun', value: 8 },
+                    //{ year: 'Aug', value: 20 },
+                    //{ year: 'Sep', value: 20 },
+                    //{ year: 'Oct', value: 20 },
+                    //{ year: 'Nov', value: 20 },
+                    //{ year: 'Dec', value: 20 }
+                ]),
 
+                 line1 = ko.observable([
 
+                     { month: 'abc', a: 100, b: 90 },
+{ month: 'abc1', a: 110, b: 90 },
+{ month: 'abc2', a: 200, b: 90 },
+{ month: 'abc3', a: 20, b: 90 },
+{ month: 'abc4', a: 100, b: 90 },
+{ month: 'abc4', a: 100, b: 90 },
+{ month: 'abc4', a: 100, b: 90 },
+{ month: 'a9', a: 100, b: 90 },
+{ month: 'a10', a: 100, b: 90 },
+{ month: 'a11', a: 100, b: 90 },
+{ month: 'a12', a: 100, b: 90 }
+
+//{ name: 'Hafiz', a: 100, b: 90 },
+//{ name: 'Hafiz', a: 100, b: 90 },
+//{ name: 'Hafiz', a: 100, b: 90 },
+//{ name: 'Hafiz', a: 100, b: 90 },
+//{ name: 'Hafiz', a: 100, b: 90 },
+//{ name: 'Hafiz', a: 100, b: 90 },
+//{ name: 'Hafiz', a: 100, b: 90 }
+
+                 ]),
                 // In-production Orders Count
-                inProductionOrdersCount = ko.observable(0),
+            inProductionOrdersCount = ko.observable(0),
                 // Completed Orders Count
-                completedOrdersCount = ko.observable(0),
+            completedOrdersCount = ko.observable(0),
                 // Canceled Orders Count
-                canceledOrdersCount = ko.observable(0),
-                 // Total Earnings
-                totalEarning = ko.observable(undefined).extend({ numberInput: ist.numberFormat }),
-                 // Live Stores
-                liveStoresCount = ko.observable(0),
+            canceledOrdersCount = ko.observable(0),
+                // Total Earnings
+            totalEarning = ko.observable(undefined).extend({ numberInput: ist.numberFormat }),
+                // Live Stores
+            liveStoresCount = ko.observable(0),
                 //Order Search String
-                orderSearchString = ko.observable(),
-                  // current Month Orders Count
-                currentMonthOrdersCount = ko.observable(0),
+            orderSearchString = ko.observable(),
+                // current Month Orders Count
+            currentMonthOrdersCount = ko.observable(0),
                 // Get Orders Statuses / dashboard data  getOrderStatusCount
-                getDashboardData = function () {
-                    dataservice.getOrderStauses({
-                        SearchString: orderSearchString()
-                    },
-                    {
-                        success: function (data) {
-                            if (data != null) {
-                                setOrderStatusesCount(data);
-                                mapOrders(data.Estimates);
-                                mapCustomer(data.Companies);
-
-                            }
-                            //load the tour
-                            //openTourInit();
-                        },
-                        error: function () {
-                            toastr.error("Error: Failed To load orders statues!!");
-                            //openTourInit();
-                        }
-                    });
+            getDashboardData = function () {
+                dataservice.getOrderStauses({
+                    SearchString: orderSearchString()
                 },
+                {
+                    success: function (data) {
+                        if (data != null) {
+                            setOrderStatusesCount(data);
+                            mapOrders(data.Estimates);
+                            mapCustomer(data.Companies);
+
+                        }
+                        //load the tour
+                        //openTourInit();
+                    },
+                    error: function () {
+                        toastr.error("Error: Failed To load orders statues!!");
+                        //openTourInit();
+                    }
+                });
+            },
 
                 // Map Orders 
-                    mapTotalEarnings = function (data) {
-                        //totalEarnings.removeAll();
-                        _.each(data, function (item) {
-                            var categor = _.filter(yAxisPointsWithStoreName(), function (tEarn) {
-                                return item.store !== null && tEarn.store !== null && tEarn.store.toLowerCase() === item.store.toLowerCase();
-                            });
-                            if (yAxisPointsWithStoreName().length === 0 || categor.length === 0) {
-
-                                yAxisPointsWithStoreName().push({ y: counter, store: (item.store === null ? "" : item.store) });
-                                yAxisPoints.push(counter);
-                                chartLabels.push(item.store === null ? "" : item.store);
-                                counter = counter + 1;
-                            }
+                mapTotalEarnings = function (data) {
+                    //totalEarnings.removeAll();
+                    _.each(data, function (item) {
+                        var categor = _.filter(yAxisPointsWithStoreName(), function (tEarn) {
+                            return item.store !== null && tEarn.store !== null && tEarn.store.toLowerCase() === item.store.toLowerCase();
                         });
-                        _.each(data, function (tEarning) {
-                            if (tEarning.monthname !== null && tEarning.monthname !== 0) {
-                                var item = dummyTotalEarnings()[tEarning.monthname - 1];
-                                if (item !== undefined && item !== null) {
-                                    var duplicateItem = model.TotalEarnings.Create(tEarning);
-                                    var category = _.filter(yAxisPointsWithStoreName(), function (tEarn) {
-                                        return duplicateItem.store !== null && tEarn.store !== null && tEarn.store.toLowerCase() === duplicateItem.store.toLowerCase();
-                                    });
-                                    if (category.length > 0) {
-                                        duplicateItem.month = item.month;
-                                        duplicateItem[category[0].y] = duplicateItem.total;
-                                        dummyTotalEarnings.push(duplicateItem);
-                                    }
+                        if (yAxisPointsWithStoreName().length === 0 || categor.length === 0) {
 
+                            yAxisPointsWithStoreName().push({ y: counter, store: (item.store === null ? "" : item.store) });
+                            yAxisPoints.push(counter);
+                            chartLabels.push(item.store === null ? "" : item.store);
+                            counter = counter + 1;
+                        }
+                    });
+                    _.each(data, function (tEarning) {
+                        if (tEarning.monthname !== null && tEarning.monthname !== 0) {
+                            var item = dummyTotalEarnings()[tEarning.monthname - 1];
+                            if (item !== undefined && item !== null) {
+                                var duplicateItem = model.TotalEarnings.Create(tEarning);
+                                var category = _.filter(yAxisPointsWithStoreName(), function (tEarn) {
+                                    return duplicateItem.store !== null && tEarn.store !== null && tEarn.store.toLowerCase() === duplicateItem.store.toLowerCase();
+                                });
+                                if (category.length > 0) {
+                                    duplicateItem.month = item.month;
+                                    duplicateItem[category[0].y] = duplicateItem.total;
+                                    dummyTotalEarnings.push(duplicateItem);
                                 }
+
                             }
-                        });
-                        ko.utils.arrayPushAll(totalEarnings(), dummyTotalEarnings());
-                        totalEarnings.valueHasMutated();
-                    },
-                // Get Total earning of current whole year
-                getTotalEarnings = function (callBack) {
-                    dataservice.getTotalEarnings({
-                        success: function (data) {
-                            if (data != null) {
-                                mapTotalEarnings(data);
-                            }
-                            //load the tour
-                            //openTourInit();
-                        },
-                        error: function () {
-                            toastr.error("Error: Failed To load orders statues!!");
-                            //openTourInit();
                         }
                     });
+                    ko.utils.arrayPushAll(totalEarnings(), dummyTotalEarnings());
+                    totalEarnings.valueHasMutated();
                 },
+                // Get Total earning of current whole year
+            getTotalEarnings = function (callBack) {
+                dataservice.getTotalEarnings({
+                    success: function (data) {
+                        if (data != null) {
+                            mapTotalEarnings(data);
+                        }
+                        //load the tour
+                        //openTourInit();
+                    },
+                    error: function () {
+                        toastr.error("Error: Failed To load orders statues!!");
+                        //openTourInit();
+                    }
+                });
+            },
                 // Map Orders 
-                    mapOrders = function (data) {
-                        orders.removeAll();
-                        _.each(data, function (order) {
-                            orders.push(model.Estimate.Create(order));
-                        });
-                    },
-                     // Map Customer 
-                    mapCustomer = function (data) {
-                        customers.removeAll();
-                        _.each(data, function (customer) {
-                            var customerModel = new model.customerViewListModel.Create(customer);
-                            customers.push(customerModel);
-                        });
-                    },
+                mapOrders = function (data) {
+                    orders.removeAll();
+                    _.each(data, function (order) {
+                        orders.push(model.Estimate.Create(order));
+                    });
+                },
+                // Map Customer 
+                mapCustomer = function (data) {
+                    customers.removeAll();
+                    _.each(data, function (customer) {
+                        var customerModel = new model.customerViewListModel.Create(customer);
+                        customers.push(customerModel);
+                    });
+                },
                 // Sets Orders Statuses Count
-                setOrderStatusesCount = function (data) {
-                    pendingOrdersCount(data.PendingOrdersCount);
-                    inProductionOrdersCount(data.InProductionOrdersCount);
-                    completedOrdersCount(data.CompletedOrdersCount);
-                    canceledOrdersCount(data.UnConfirmedOrdersCount);
-                    totalEarning(data.TotalEarnings !== null ? data.TotalEarnings.toFixed(2) : 0);
-                    liveStoresCount(data.LiveStoresCount);
-                    currentMonthOrdersCount(data.CurrentMonthOdersCount);
-                },
+            setOrderStatusesCount = function (data) {
+                pendingOrdersCount(data.PendingOrdersCount);
+                inProductionOrdersCount(data.InProductionOrdersCount);
+                completedOrdersCount(data.CompletedOrdersCount);
+                canceledOrdersCount(data.UnConfirmedOrdersCount);
+                totalEarning(data.TotalEarnings !== null ? data.TotalEarnings.toFixed(2) : 0);
+                liveStoresCount(data.LiveStoresCount);
+                currentMonthOrdersCount(data.CurrentMonthOdersCount);
+            },
                 // Go to Order
-                goToOrder = function (orderId) {
-                    view.goToOrder(orderId);
-                },
+            goToOrder = function (orderId) {
+                view.goToOrder(orderId);
+            },
                 // Go to Customer
-                goToCustomer = function (customerId) {
-                    view.goToCustomer(customerId);
-                },
+            goToCustomer = function (customerId) {
+                view.goToCustomer(customerId);
+            },
                 //Initialize
-                initialize = function (specifiedView) {
-                    view = specifiedView;
-                    ko.applyBindings(view.viewModel, view.bindingRoot);
-                    getDashboardData();
-                    getTotalEarnings();
-                    //  pager(new pagination.Pagination({ PageSize: 5 }, companyContactsForListView, getCompanyContacts));
-                };
+            initialize = function (specifiedView) {
+                view = specifiedView;
+                ko.applyBindings(view.viewModel, view.bindingRoot);
+                getDashboardData();
+                getTotalEarnings();
+                //  pager(new pagination.Pagination({ PageSize: 5 }, companyContactsForListView, getCompanyContacts));
+            };
                 return {
                     initialize: initialize,
                     pendingOrdersCount: pendingOrdersCount,
@@ -206,7 +240,9 @@ define("dashboard.viewModel",
                     customers: customers,
                     goToCustomer: goToCustomer,
                     yAxisPoints: yAxisPoints,
-                    chartLabels: chartLabels
+                    chartLabels: chartLabels,
+                    line1: line1
+                    // xLabelFormat: xLabelFormat
                 };
             })()
         };

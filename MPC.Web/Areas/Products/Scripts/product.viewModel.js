@@ -997,6 +997,8 @@ define("product/product.viewModel",
                     // Selected Category
                     selectedCategory = ko.observable(),
                     defaultTaxRate = ko.observable(),
+                    // Sub Categories
+                    subCategories = ko.observable(),
                     // Select Category
                     categorySelectedEventHandler = function (category) {
                         if (category && selectedCategory() !== category) {
@@ -1004,6 +1006,19 @@ define("product/product.viewModel",
                             // Filter Items on This Category
                             resetFilter(true);
                         }
+                    },
+                    // Sub Categories Loaded EventHandler
+                    subCategoriesLoadedEventHandler = function (categories) {
+                        subCategories(categories || undefined);
+                    },
+                    // On Select Sub Category
+                    onSelectSubCategory = function (category) {
+                        view.subCategorySelectedEvent(category);
+                    },
+                    // Edit Sub Category
+                    editSubCategory = function(category, event) {
+                        view.subCategoryEditEvent(category);
+                        event.stopImmediatePropagation();
                     },
                     // Is Product Section Initialized
                     isProductSectionInitialized = false,
@@ -1983,6 +1998,7 @@ define("product/product.viewModel",
                     // For Store
                     initializeForStore: initializeForStore,
                     categorySelectedEventHandler: categorySelectedEventHandler,
+                    subCategoriesLoadedEventHandler: subCategoriesLoadedEventHandler,
                     smartForms: smartForms,
                     weightUnit: weightUnit,
                     defaultTaxRate: defaultTaxRate,
@@ -2004,7 +2020,10 @@ define("product/product.viewModel",
                     presses: presses,
                     inks: inks,
                     isSide1InkButtonClicked: isSide1InkButtonClicked,
-                    selectedSection: selectedSection
+                    selectedSection: selectedSection,
+                    subCategories: subCategories,
+                    onSelectSubCategory: onSelectSubCategory,
+                    editSubCategory: editSubCategory
                     // For Store
                     // Utility Methods
                 };
