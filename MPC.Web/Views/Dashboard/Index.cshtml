@@ -240,7 +240,7 @@
                                     <div class="form-group">
                                         <div class="graph-box emerald-bg">
                                             @*<img src="~/Content/Images/chart_01.png" style="width: 100%;" />*@
-                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Bar', data: $root.line1, xkey: 'month', ykeys:['a', 'b'],barGap:1, labels: ['Series A', 'Series B'],gridTextColor: '#ffffff',resize: true, grid: false}"></div>
+                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Bar', data: $root.line1, ykeys: 'month', xkey:['a', 'b'],barGap:1, labels: ['Series A', 'Series B'],gridTextColor: '#ffffff',resize: true,setAxisReversed:true}"></div>
 
                                         </div>
                                     </div>
