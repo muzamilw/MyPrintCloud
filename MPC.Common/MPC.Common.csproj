@@ -83,7 +83,9 @@
     <Content Include="Externaldlls\ABCGecko.dll" />
     <Content Include="Externaldlls\ABCpdf.dll" />
     <Content Include="Externaldlls\GrapeCity.ActiveReports.Document.v7.dll" />
+    <Content Include="Externaldlls\GrapeCity.ActiveReports.Export.Document.v7.dll" />
     <Content Include="Externaldlls\GrapeCity.ActiveReports.Export.Excel.v7.dll" />
+    <Content Include="Externaldlls\GrapeCity.ActiveReports.Export.Html.v7.dll" />
     <Content Include="Externaldlls\GrapeCity.ActiveReports.Export.Pdf.v7.dll" />
     <Content Include="Externaldlls\GrapeCity.ActiveReports.v7.dll" />
     <Content Include="Externaldlls\GrapeCity.ActiveReports.Web.v7.dll" />
