@@ -474,6 +474,13 @@ define("product/product.view",
                         category: category
                     });
                 },
+                // Sub Category Edit Event
+                subCategoryEditEvent = function (category) {
+                    $.event.trigger({
+                        type: "SubCategoryEdit",
+                        category: category
+                    });
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -519,7 +526,8 @@ define("product/product.view",
                 hideSheetPlanImageDialog: hideSheetPlanImageDialog,
                 showInksDialog: showInksDialog,
                 hideInksDialog: hideInksDialog,
-                subCategorySelectedEvent: subCategorySelectedEvent
+                subCategorySelectedEvent: subCategorySelectedEvent,
+                subCategoryEditEvent: subCategoryEditEvent
             };
         })(productViewModel);
 
