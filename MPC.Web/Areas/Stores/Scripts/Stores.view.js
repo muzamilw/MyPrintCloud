@@ -306,6 +306,21 @@ define("stores/stores.view",
                         categoryTreeNode.click();
                     }
                 },
+                // Sub Category Edit Event Handler
+                subCategoryEditEventHandler = function (event) {
+                    if (event.category && event.category.productCategoryId) {
+                        // Get the Sub Category Tree Node Element
+                        var categoryTreeNode = $("#" + event.category.productCategoryId);
+                        if (!categoryTreeNode) {
+                            return;
+                        }
+                        var categoryTreeNodeEditor = categoryTreeNode.find("a");
+                        if (categoryTreeNodeEditor && categoryTreeNodeEditor[0]) {
+                            // Edit Category
+                            categoryTreeNodeEditor[0].click();
+                        }
+                    }
+                },
             // Initialize
             initialize = function () {
                 if (!bindingRoot) {
@@ -314,6 +329,7 @@ define("stores/stores.view",
                 
                 // subscribe to events
                 $(document).on("SubCategorySelectedFromProduct", subCategorySelectedEventHandler);
+                $(document).on("SubCategoryEdit", subCategoryEditEventHandler);
             };
             initialize();
             return {

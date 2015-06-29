@@ -704,13 +704,12 @@ define("inventory/inventory.viewModel",
                 // on Save Add Stock Quantity
                 saveAddStockQuantity = function (itemStockUpdateHistory) {
                     if (selectedItemStockUpdateHistory().lastModifiedQty() !== undefined && selectedItemStockUpdateHistory().lastModifiedQty() > 0) {
-                        selectedItemStockUpdateHistory().lastModifiedQty(parseInt(selectedItemStockUpdateHistory().lastModifiedQty()) + parseInt(selectedInventory().inStock()));
                         selectedItemStockUpdateHistory().lastModifiedDate(Date());
                         selectedItemStockUpdateHistory().actionName(itemStockUpdateHistoryActions()[0].name);
                         selectedItemStockUpdateHistory().modifyEvent(itemStockUpdateHistoryActions()[0].id);
                         selectedItemStockUpdateHistory().lastModifiedByName(loggedInUserIdentity());
                         selectedItemStockUpdateHistory().lastModifiedBy(loggedInUserId());
-                        selectedInventory().inStock(selectedItemStockUpdateHistory().lastModifiedQty());
+                        selectedInventory().inStock(parseInt(selectedItemStockUpdateHistory().lastModifiedQty()) + parseInt(selectedInventory().inStock()));
                         selectedInventory().itemStockUpdateHistories.push(selectedItemStockUpdateHistory());
                         view.hideAddStockQtyDialog();
                     }

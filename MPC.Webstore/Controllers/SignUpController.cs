@@ -246,6 +246,7 @@ namespace MPC.Webstore.Controllers
                     cep.SalesManagerContactID = loginUser.ContactId; // this is only dummy data these variables replaced with organization values 
                     cep.StoreId = UserCookieManager.WBStoreId;
                     cep.CompanyId = UserCookieManager.WBStoreId;
+
                     Address CompanyDefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.WBStoreId);
                     if (CompanyDefaultAddress != null)
                     {
