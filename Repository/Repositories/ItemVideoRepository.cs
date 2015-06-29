@@ -3,6 +3,8 @@ using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MPC.Repository.Repositories
 {
@@ -39,6 +41,12 @@ namespace MPC.Repository.Repositories
         #endregion
 
         #region public
+
+        public List<ItemVideo> GetProductVideos(long ItemID)
+        {
+            return db.ItemVideos.Where(i => i.ItemId == ItemID).ToList();
+        }
+
         #endregion
     }
 }
