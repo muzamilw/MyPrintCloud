@@ -263,6 +263,7 @@
                 Status: statusId(),
                 isDisabled: isDisabled(),
                 IsImperical: IsImperical(),
+                ThresholdLevel: thresholdLevel(),
                 ItemWeightSelectedUnit: itemWeightSelectedUnit(),
                 StockCostAndPrices: stockCostAndPriceListInInventory(),
                 isAllowBackOrder: isAllowBackOrder(),
