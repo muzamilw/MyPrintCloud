@@ -3586,6 +3586,8 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="UploadedFrom" Type="int" />
           <Property Name="ContactCompanyId" Type="bigint" />
           <Property Name="ContactId" Type="bigint" />
+          <Property Name="hasClippingPath" Type="bit" />
+          <Property Name="clippingFileName" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="TemplateColorStyle">
           <Key>
@@ -3688,6 +3690,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="originalContentString" Type="nvarchar(max)" />
           <Property Name="hasInlineFontStyle" Type="bit" />
           <Property Name="autoCollapseText" Type="bit" />
+          <Property Name="hasClippingPath" Type="bit" />
         </EntityType>
         <EntityType Name="TemplatePage">
           <Key>
@@ -11412,6 +11415,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ContactId" Type="Int64" />
           <NavigationProperty Name="Template" Relationship="DomainModels.FK_ProductBackgroundImages_Products" FromRole="TemplateBackgroundImage" ToRole="Template" />
           <NavigationProperty Name="ImagePermissions" Relationship="DomainModels.FK__ImagePerm__Image__60D4A69D" FromRole="TemplateBackgroundImage" ToRole="ImagePermission" />
+          <Property Name="hasClippingPath" Type="Boolean" />
+          <Property Name="clippingFileName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="TemplateObject">
           <Key>
@@ -11481,6 +11486,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="originalContentString" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="hasInlineFontStyle" Type="Boolean" />
           <Property Name="autoCollapseText" Type="Boolean" />
+          <Property Name="hasClippingPath" Type="Boolean" />
         </EntityType>
         <Association Name="FK_Objects_Products">
           <End Type="DomainModels.Template" Role="Template" Multiplicity="0..1" />
@@ -17209,6 +17215,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="TemplateBackgroundImages">
             <EntityTypeMapping TypeName="DomainModels.TemplateBackgroundImage">
               <MappingFragment StoreEntitySet="TemplateBackgroundImage">
+                <ScalarProperty Name="clippingFileName" ColumnName="clippingFileName" />
+                <ScalarProperty Name="hasClippingPath" ColumnName="hasClippingPath" />
                 <ScalarProperty Name="ContactId" ColumnName="ContactId" />
                 <ScalarProperty Name="ContactCompanyId" ColumnName="ContactCompanyId" />
                 <ScalarProperty Name="UploadedFrom" ColumnName="UploadedFrom" />
@@ -17232,6 +17240,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="TemplateObjects">
             <EntityTypeMapping TypeName="DomainModels.TemplateObject">
               <MappingFragment StoreEntitySet="TemplateObject">
+                <ScalarProperty Name="hasClippingPath" ColumnName="hasClippingPath" />
                 <ScalarProperty Name="autoCollapseText" ColumnName="autoCollapseText" />
                 <ScalarProperty Name="hasInlineFontStyle" ColumnName="hasInlineFontStyle" />
                 <ScalarProperty Name="originalContentString" ColumnName="originalContentString" />

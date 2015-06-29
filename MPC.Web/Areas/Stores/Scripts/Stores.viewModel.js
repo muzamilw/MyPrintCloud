@@ -3753,6 +3753,7 @@ define("stores/stores.viewModel",
                     _.each(addressTerritoryList(), function (territory) {
                         if (territory.territoryId() == categoryTerritory.TerritoryId) {
                             territory.isSelected(true);
+                            territory.reset();
                         }
                     });
                 });
@@ -3839,19 +3840,12 @@ define("stores/stores.viewModel",
                 }
             },
             //Computed To set Product Category dirty Flag 
-            setProductCategoryDirtyFlag = ko.computed(function () {
-                if (addressTerritoryList().length > 0) {
-                    _.filter(addressTerritoryList(), function (territory) {
-                        return territory.isSelected() == true;
-                    });
-                    if (selectedProductCategoryForEditting() != undefined) {
-                        if (selectedProductCategoryForEditting().isCategoryTerritoriesListChanged()) {
-                            selectedProductCategoryForEditting().isCategoryTerritoriesListChanged(false);
-                        } else {
-                            selectedProductCategoryForEditting().isCategoryTerritoriesListChanged(true);
-                        }
-                    }
-                }
+            productCategoryHasChanges = ko.computed(function () {
+                var categoryterritoryHasChanges = _.find(addressTerritoryList(), function(territory) {
+                    return territory.hasChanges();
+                }) !== undefined;
+                var productCategoryHasChangesTemp = selectedProductCategoryForEditting() != undefined ? selectedProductCategoryForEditting().hasChanges() : undefined;
+                return productCategoryHasChangesTemp || categoryterritoryHasChanges;
             }),
                     // Save category callback
             saveCategoryCallback = function(data) {
@@ -6888,7 +6882,6 @@ define("stores/stores.viewModel",
                     resetProductCategoryCounter: resetProductCategoryCounter,
                     getCategoryChildListItems: getCategoryChildListItems,
                     openProductCategoryDetail: openProductCategoryDetail,
-                    setProductCategoryDirtyFlag: setProductCategoryDirtyFlag,
                     //#endregion Product Category
                     //editorViewModelListView: editorViewModelListView,
                     selectedStoreListView: selectedStoreListView,
@@ -7072,7 +7065,8 @@ define("stores/stores.viewModel",
                     onClickSystemVaribaleTab: onClickSystemVaribaleTab,
                     systemVariablePager: systemVariablePager,
                     getSystemVariables: getSystemVariables,
-                    selectedMediaLibImage: selectedMediaLibImage
+                    selectedMediaLibImage: selectedMediaLibImage,
+                    productCategoryHasChanges: productCategoryHasChanges
 
 
                 };

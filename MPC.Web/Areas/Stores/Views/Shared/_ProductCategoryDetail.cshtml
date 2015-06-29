@@ -768,7 +768,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-danger pull-left" data-bind="click: $root.onArchiveCategory, visible: $root.selectedProductCategoryForEditting()!=undefined && $root.selectedProductCategoryForEditting().productCategoryId() > 0">Archive</button>
-                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveProductCategory, css: { 'btn-warning': hasChanges() }, enable: hasChanges()">Save</button>
+                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveProductCategory, css: { 'btn-warning': $root.productCategoryHasChanges() }, enable: $root.productCategoryHasChanges()">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.onCloseProductCategory" style="margin-left:0px;">Close</button>
             </div>
         </div>
