@@ -200,5 +200,5 @@ function restrictControls() {
     $("#btnMenuPaste").css("visibility", "hidden");
     $("#backgrounds").css("visibility", "hidden");
     $("#layersPanel").css("visibility", "hidden");
-    
+    $("#selectedTab").addClass("restrictedSelectedTab");
 }

@@ -1,4 +1,4 @@
-﻿<div class="modal fade my-modal" id="orderCostCentersQuanity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-bind="visible:$root.isDisplayCostCenterQuantityDialog">
+﻿<div class="modal fade my-modal" id="orderCostCentersQuanity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1051" data-bind="visible:$root.isDisplayCostCenterQuantityDialog">
     <div style="width:400px;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -43,7 +43,7 @@
                 <div class="pull-right">
                     <!--ko if: !$root.isAddProductFromInventory() -->
                     <!--ko if: !$root.isAddProductForSectionCostCenter() -->
-                    <button type="reset" class="btn btn-primary" data-bind="click: $root.createNewCostCenterProduct">Ok</button>
+                    <button type="reset" class="btn btn-primary" data-bind="click: $root.onCreateNewCostCenterProduct">Ok</button>
                     <!-- /ko -->
                     <!--ko if: $root.isAddProductForSectionCostCenter() -->
                     <button type="reset" class="btn btn-primary" data-bind="click: $root.onSaveStockitemForSectionCostCenter">Ok</button>

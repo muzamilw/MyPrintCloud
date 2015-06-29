@@ -33,7 +33,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CostCentreId = source.CostCentreId,
                 Description = source.Description,
                 SetupCost = source.SetupCost,
-                PricePerUnitQuantity = source.PricePerUnitQuantity
+                PricePerUnitQuantity = source.PricePerUnitQuantity,
+                Type = source.Type,
+                QuantitySourceType = source.QuantitySourceType,
+                TimeSourceType = source.TimeSourceType
             };
         }
 

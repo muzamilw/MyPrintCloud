@@ -64,7 +64,7 @@
                                 <label class="control-label tooltip-float">&nbsp;</label>
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: supplierId, click: !$root.selectedGRN().id() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
+                                <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: supplierId, click: !$root.selectedGRN().id() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Supplier" class="form-control font24px" id="txtCompany" />
                             </div>
                             <div class="col-sm-1" style="padding-top:10px;margin-left: 10px">
                                 <button data-bind="click: $root.openCompanyDialog, enable: (id() <= 0) || (id()===undefined)" class="btn btn-primary pull-right">
@@ -321,7 +321,7 @@
                     <div class="form-group">
                         <div class="col-sm-2 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select estimate date." data-original-title="" title="">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Comments" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
                             </div>
@@ -359,7 +359,7 @@
                     <div class="form-group" style="margin-bottom: 0px;">
                         <div class="col-sm-2 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select estimate date." data-original-title="" title="">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Created By" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
                             </div>

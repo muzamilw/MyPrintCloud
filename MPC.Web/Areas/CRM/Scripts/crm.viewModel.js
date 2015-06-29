@@ -842,6 +842,7 @@ define("crm/crm.viewModel",
                         return;
                     } else {
                         // Ask for confirmation
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             //#region Db Saved Record Id > 0
                             if (address.addressId() > 0) {
@@ -1315,10 +1316,10 @@ define("crm/crm.viewModel",
                     return;
                 }
                 // Ask for confirmation
+                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                 confirmation.afterProceed(function () {
                     //#region Db Saved Record Id > 0
                     if (companyContact.contactId() > 0) {
-
                         if (companyContact.companyId() > 0 && companyContact.contactId() > 0) {
                             dataservice.deleteCompanyContact({
                                 CompanyContactId: companyContact.contactId()
@@ -1345,7 +1346,7 @@ define("crm/crm.viewModel",
                             });
                         }
                     }
-                        //#endregion
+                    //#endregion
                     else {
                         if (companyContact.contactId() < 0 || companyContact.contactId() == undefined) {
 
@@ -1595,7 +1596,54 @@ define("crm/crm.viewModel",
                         newCompanyTerritories.push(companyTerritory);
                     }
                 },
-
+                // On Delete Store Permanently
+                onDeletePermanent = function () {
+                    confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                    confirmation.afterProceed(function () {
+                        deleteCompanyPermanently(selectedStore().companyId());
+                    });
+                    confirmation.show();
+                },
+                // Get Company By Id
+                getCompanyByIdFromListView = function (id) {
+                    return customersForListView.find(function (customer) {
+                        return customer.id() === id;
+                    });
+                },
+                // Get Supplier By Id
+                getSupplierByIdFromListView = function (id) {
+                    return suppliers.find(function (supplier) {
+                        return supplier.companyId() === id;
+                    });
+                },
+                // Delete Company Permanently
+                deleteCompanyPermanently = function (id) {
+                dataservice.deleteCompanyPermanent({ CompanyId: id }, {
+                    success: function () {
+                        toastr.success("Deleted successfully!");
+                        isEditorVisible(false);
+                        if (selectedStore()) {
+                            if (isProspectOrCustomerScreen()) {
+                                var customer = getCompanyByIdFromListView(selectedStore().companyId());
+                                if (customer) {
+                                    customersForListView.remove(customer);
+                                }
+                            }
+                            else {
+                                var supplier = getSupplierByIdFromListView(selectedStore().companyId());
+                                if (supplier) {
+                                    suppliers.remove(supplier);
+                                }
+                            }
+                            
+                        }
+                        //resetStoreEditor();
+                    },
+                    error: function (response) {
+                        toastr.error("Failed to delete store. Error: " + response, "", ist.toastrOptions);
+                    }
+                });
+            },
                 //Close Edit Dialog
                 closeEditDialog = function () {
                     var companyIdFromDashboard = $('#CompanyId').val();
@@ -1651,6 +1699,7 @@ define("crm/crm.viewModel",
                 //Open/Edit Store Dialog
                 openEditDialog = function (item) {
                     isEditorVisible(true);
+                    resetObservableArrays();
                     if (isProspectOrCustomerScreen()) {
                         getStoreForEditting(item.id());
                         getBaseData(item.id() || item);
@@ -1765,14 +1814,14 @@ define("crm/crm.viewModel",
                         //1- New saving company should have 1 address and 1 user
                         //2- if company is editting then company should have a 1 address and 1 user in database after saving
                         //1
-                        if (!(newAddresses().length - deletedAddresses().length) > 1 || (selectedStore().addresses().length == 0 && newAddresses().length == 0 && deletedAddresses().length == 0)) {
-                            errorList.push({ name: "At least one address required.", element: searchAddressFilter.domElement });
-                            flag = false;
-                        }
-                        if (!(newCompanyContacts().length - deletedCompanyContacts().length) > 1 || (selectedStore().users().length == 0 && newCompanyContacts().length == 0 && deletedCompanyContacts().length == 0)) {
-                            errorList.push({ name: "At least one user required.", element: searchCompanyContactFilter.domElement });
-                            flag = false;
-                        }
+                        //if (!(newAddresses().length - deletedAddresses().length) > 1 || (selectedStore().addresses().length == 0 && newAddresses().length == 0 && deletedAddresses().length == 0)) {
+                        //    errorList.push({ name: "At least one address required.", element: searchAddressFilter.domElement });
+                        //    flag = false;
+                        //}
+                        //if (!(newCompanyContacts().length - deletedCompanyContacts().length) > 1 || (selectedStore().users().length == 0 && newCompanyContacts().length == 0 && deletedCompanyContacts().length == 0)) {
+                        //    errorList.push({ name: "At least one user required.", element: searchCompanyContactFilter.domElement });
+                        //    flag = false;
+                        //}
 
                         if (selectedStore().companyId() == undefined) {
                             var haveIsDefaultTerritory = false;
@@ -1801,18 +1850,7 @@ define("crm/crm.viewModel",
                                     haveIsDefaultUser = true;
                                 }
                             });
-                            if (!haveIsDefaultTerritory) {
-                                errorList.push({ name: "At least one default territory required.", element: searchCompanyTerritoryFilter.domElement });
-                                flag = false;
-                            }
-                            if (!haveIsBillingDefaultAddress) {
-                                errorList.push({ name: "At least one Territory Default Billing Address required.", element: searchAddressFilter.domElement });
-                                flag = false;
-                            }
-                            if (!haveIsShippingDefaultAddress) {
-                                errorList.push({ name: "At least one Territory Default Shipping Address required.", element: searchAddressFilter.domElement });
-                                flag = false;
-                            }
+                            
                             if (!haveIsDefaultAddress) {
                                 errorList.push({ name: "At least one Company Default Address required.", element: searchAddressFilter.domElement });
                                 flag = false;
@@ -2014,6 +2052,7 @@ define("crm/crm.viewModel",
                     newAddresses.removeAll();
                     newCompanyTerritories.removeAll();
                     newCompanyContacts.removeAll();
+                    errorList.removeAll();
                 },
 
                 //Store Image Files Loaded Callback
@@ -2393,6 +2432,7 @@ define("crm/crm.viewModel",
                     closeEditDialog: closeEditDialog,
                     selectedStore: selectedStore,
                     systemUsers: systemUsers,
+                    onDeletePermanent: onDeletePermanent,
                     searchAddressFilter: searchAddressFilter,
 
                     onEditItem: onEditItem,

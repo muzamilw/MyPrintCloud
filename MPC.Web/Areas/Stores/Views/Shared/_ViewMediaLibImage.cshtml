@@ -1,0 +1,36 @@
+﻿
+<div class="modal fade my-modal" id="mediaLibImageModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width: 420px;" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">URL to image</h4>
+            </div>
+            <div class="col-lg-12 form-horizontal outerDiv-Padding">
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        &nbsp;
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-6">
+                        <div class="photo-box image-link" style="padding-top: 0">
+                            <!-- ko if: $root.selectedMediaLibImage() -->
+                            <img class="photo-box image-link" style="padding-top: 0;max-width: 90%" data-bind="attr: { src: '@Url.Content("~/")' + $root.selectedMediaLibImage().filePath() }" alt="" />
+                            <!--/ko-->
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-11" style="padding-left: 20px; -ms-word-break: break-all; -moz-word-break: break-all; -o-word-break: break-all; word-break: break-all; margin-left: 2px;">
+                        <!-- ko if: $root.selectedMediaLibImage() -->
+                        <a href="" target="_blank" data-bind="attr:{href:'@Url.Content("~/")' + $root.selectedMediaLibImage().filePath()},text:'http://'+'@Url.Content("~/")' + $root.selectedMediaLibImage().filePath()"></a>
+                        <!--/ko-->
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix">
+                &nbsp;
+            </div>
+           
+        </div>
+    </div>
+</div>

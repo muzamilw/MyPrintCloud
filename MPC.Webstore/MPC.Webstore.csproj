@@ -43,6 +43,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MPC.Common\ExternalDlls\ABCpdf.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="DotNetOpenAuth.Core">
       <HintPath>..\packages\DotNetOpenAuth.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
     </Reference>
@@ -375,6 +382,9 @@
     <Compile Include="Controllers\NewsletterSubscriberController.cs" />
     <Compile Include="Controllers\OrderConfirmationController.cs" />
     <Compile Include="Controllers\OrderPolicySaveController.cs" />
+    <Compile Include="Controllers\OxfordAboutUsController.cs" />
+    <Compile Include="Controllers\OxfordHeaderController.cs" />
+    <Compile Include="Controllers\OxfordTopLevelCategoriesController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PersonalDetailAndOrderPolicyController.cs" />
     <Compile Include="Controllers\PopularProductsController.cs" />
@@ -662,13 +672,17 @@
     <Content Include="Content\jquery.mousewheel-3.0.4.pack.js" />
     <Content Include="Content\metroboostrap.css" />
     <Content Include="Content\MetroStyles.css" />
-    <Content Include="Content\RealEstateSlider\css\foundation.min.css" />
-    <Content Include="Content\RealEstateSlider\css\jquery.circular-carousel.css" />
-    <Content Include="Content\RealEstateSlider\css\normalize.css" />
-    <Content Include="Content\RealEstateSlider\css\style.css" />
-    <Content Include="Content\RealEstateSlider\img\dirk.jpg" />
-    <Content Include="Content\RealEstateSlider\js\jquery.circular-carousel.js" />
-    <Content Include="Content\RealEstateSlider\js\script.js" />
+    <Content Include="Content\RealEstateSlider\css\feature-carousel.css" />
+    <Content Include="Content\RealEstateSlider\images\arrow-left.png" />
+    <Content Include="Content\RealEstateSlider\images\arrow-right.png" />
+    <Content Include="Content\RealEstateSlider\images\sample1.jpg" />
+    <Content Include="Content\RealEstateSlider\images\sample2.jpg" />
+    <Content Include="Content\RealEstateSlider\images\sample3.jpg" />
+    <Content Include="Content\RealEstateSlider\images\sample4.jpg" />
+    <Content Include="Content\RealEstateSlider\images\sample5.jpg" />
+    <Content Include="Content\RealEstateSlider\js\jquery-1.7.min.js" />
+    <Content Include="Content\RealEstateSlider\js\jquery.featureCarousel.js" />
+    <Content Include="Content\RealEstateSlider\js\jquery.featureCarousel.min.js" />
     <Content Include="Content\Slider.css" />
     <Content Include="Content\smoothslide.css" />
     <Content Include="Content\smoothslides.theme.css" />
@@ -689,6 +703,7 @@
     <Content Include="LightBox\Js\jquery.fancybox.js" />
     <Content Include="LightBox\Js\jquery.fancybox.pack.js" />
     <Content Include="Scripts\Designer\jquery.maskedinput.min.js" />
+    <Content Include="Scripts\Designer\p64test-1.4.js" />
     <Content Include="Scripts\FeedEk.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Content\Images\star.gif" />
@@ -937,6 +952,9 @@
     <Content Include="Views\Shared\PartialViews\RealStateFooter.cshtml" />
     <Content Include="Views\Shared\PartialViews\RealestateSideBarWithSlider.cshtml" />
     <Content Include="Views\Shared\PartialViews\ErrorPage404.cshtml" />
+    <Content Include="Views\Shared\PartialViews\OxfordAboutUs.cshtml" />
+    <Content Include="Views\Shared\PartialViews\OxfordHeader.cshtml" />
+    <Content Include="Views\Shared\PartialViews\OxfordTopLevelCategories.cshtml" />
     <Content Include="Views\Home\NotFound.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Domain\ClearCache.cshtml" />
@@ -948,6 +966,9 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
+    <Folder Include="Views\OxfordAboutUs\" />
+    <Folder Include="Views\OxfordHeader\" />
+    <Folder Include="Views\OxfordTopLevelCategories\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -1047,6 +1068,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
     <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
+  <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

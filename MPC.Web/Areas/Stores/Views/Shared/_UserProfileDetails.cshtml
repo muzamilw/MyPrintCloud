@@ -13,7 +13,7 @@
             <div class="col-lg-12 clearfix">
                 <div class="row" id="user-profile">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="main-box clearfix" id="tabsHeader">
+                        <diov class="main-box clearfix" id="tabsHeader">
                             <div class="tabs-wrapper profile-tabs">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#tab-UserProfileinfo" data-toggle="tab">Profile</a></li>
@@ -27,19 +27,7 @@
                                         <div class="col-lg-12">
                                             <div class=" form-horizontal clearfix">
                                                 <div class="col-lg-6">
-                                                    <div class="form-group ">
-                                                        <div class="col-lg-5 text-right">
-                                                            @*<div class="bs-example-tooltips tooltip-float-width">
-                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Email/UserName" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                                </a>
-                                                            </div>*@
-                                                            <label for="txtEmail" class="control-label text-right tooltip-float">Secondary Email</label>
-                                                        </div>
-                                                        <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtEmail" data-bind="value: secondaryEmail">
-                                                        </div>
-                                                    </div>
+                                                    
                                                     <div class="form-group ">
                                                         <div class="col-lg-5 text-right">
                                                             @*<div class="bs-example-tooltips tooltip-float-width">
@@ -50,7 +38,7 @@
                                                             <label for="txtFName" class="control-label text-right tooltip-float">First Name</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtFName" data-bind="value: firstName">
+                                                            <input type="text" class="form-control" id="txtFName" data-bind="value: firstName,validationTooltip:firstName">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -123,6 +111,19 @@
                                                             <input type="text" class="form-control" id="txtUFax" data-bind="value:fAX">
                                                         </div>
                                                     </div>
+                                                    <div class="form-group ">
+                                                        <div class="col-lg-5 text-right">
+                                                            @*<div class="bs-example-tooltips tooltip-float-width">
+                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Email/UserName" data-original-title="" title="">
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
+                                                            </div>*@
+                                                            <label for="txtEmail" class="control-label text-right tooltip-float">Email</label>@*"req: ssecondary email to rename email"*@
+                                                        </div>
+                                                        <div class="col-lg-7">
+                                                            <input type="text" class="form-control" id="txtEmail" data-bind="value: secondaryEmail">
+                                                        </div>
+                                                    </div>
                                                     <!--ko if: $root.selectedStore().type() != 4-->
                                                     <div class="form-group ">
                                                         <div class="col-lg-5 text-right">
@@ -141,7 +142,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
 
-                                                    <div class="form-group">
+                                                    <div class="form-group" style="margin-bottom: 7%">
                                                         <div class="col-lg-5 text-right">
                                                             @*<div class="bs-example-tooltips tooltip-float-width">
                                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload Profile Image" data-original-title="" title="">
@@ -157,7 +158,7 @@
                                                                 <img style="width:200px;height:180px;" src="/mis/Content/Images/imageplaceholder.png" />
                                                                 <!-- /ko -->
                                                                 <!-- ko if: image() -->
-                                                                <img style="height: 130px; width: 220px;" data-bind="attr: { src: image }" />
+                                                                <img style="height: 130px; width: 220px;-o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: image }" />
                                                                 <!-- /ko -->
                                                                 <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:220px;">
                                                                     <div class="fileUpload btn btn-primary">
@@ -181,17 +182,17 @@
                                                             <span class="help-block text-right"></span>*@
                                                         </div>
                                                     </div>
-                                                    <div class="form-group ">
+                                                    <div class="form-group " style="margin-bottom: -1.8%">
                                                         <div class="col-lg-5 text-right">
                                                             @*<div class="bs-example-tooltips tooltip-float-width">
-                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Email/UserName" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                                </a>
-                                                            </div>*@
-                                                            <label for="txtEmail" class="control-label text-right tooltip-float">UserName/Email</label>
+                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Email/UserName" data-original-title="" title="">
+                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                    </a>
+                </div>*@
+                                                            <label for="txtEmail" class="control-label text-right tooltip-float">UserName</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtEmail" data-bind="value: email">
+                                                            <input type="text" class="form-control" id="txtEmail" data-bind="value: email,validationTooltip:email">
                                                         </div>
                                                     </div>
                                                     <div class="form-group" style="margin-top:24px;">
@@ -1111,7 +1112,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </diov>
                     </div>
                 </div>
             </div>

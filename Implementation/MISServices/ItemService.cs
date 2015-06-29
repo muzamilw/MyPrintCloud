@@ -520,7 +520,7 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Save Product Images
         /// </summary>
-        private void SaveProductImages(Item target)
+        private void SaveProductImages(Item target, List<ItemImage> itemImagesRemoved)
         {
             string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
             HttpServerUtility server = HttpContext.Current.Server;
@@ -548,7 +548,7 @@ namespace MPC.Implementation.MISServices
             SaveItemFiles(target, mapPath);
 
             // Item Images
-            SaveItemImages(target, mapPath);
+            SaveItemImages(target, itemImagesRemoved, mapPath);
         }
 
         /// <summary>
@@ -583,13 +583,16 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Saves Item Images
         /// </summary>
-        private void SaveItemImages(Item target, string mapPath)
+        private void SaveItemImages(Item target, List<ItemImage> itemImagesRemoved, string mapPath)
         {
             foreach (ItemImage itemImage in target.ItemImages)
             {
                 // Write Image
                 SaveItemImage(mapPath, itemImage);
             }
+
+            // Delete Files From File System that have been removed from Db
+            itemImagesRemoved.ForEach(DeleteItemImageFile);
         }
 
         /// <summary>
@@ -607,6 +610,18 @@ namespace MPC.Implementation.MISServices
             {
                 itemImage.ImageURL = imageUrl;
             }
+        }
+
+        /// <summary>
+        /// Delete Item Image
+        /// </summary>
+        private void DeleteItemImageFile(ItemImage itemImage)
+        {
+            SaveImage(string.Empty, itemImage.ImageURL,
+                itemImage.ProductImageId + "_ItemImage_",
+                itemImage.FileName,
+                itemImage.FileSource,
+                itemImage.FileSourceBytes, true);
         }
 
         /// <summary>
@@ -672,7 +687,7 @@ namespace MPC.Implementation.MISServices
                 target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File1_",
                 target.File1Name,
                 target.File1Byte,
-                target.File1SourceBytes);
+                target.File1SourceBytes, target.File1Deleted.HasValue && target.File1Deleted.Value);
 
             if (path != null)
             {
@@ -684,7 +699,7 @@ namespace MPC.Implementation.MISServices
               target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File2_",
                 target.File2Name,
                 target.File2Byte,
-                target.File2SourceBytes);
+                target.File2SourceBytes, target.File2Deleted.HasValue && target.File2Deleted.Value);
 
             if (path != null)
             {
@@ -696,7 +711,7 @@ namespace MPC.Implementation.MISServices
                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File3_",
                 target.File3Name,
                 target.File3Byte,
-                target.File3SourceBytes);
+                target.File3SourceBytes, target.File3Deleted.HasValue && target.File3Deleted.Value);
 
             if (path != null)
             {
@@ -708,7 +723,7 @@ namespace MPC.Implementation.MISServices
                 target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File4_",
                 target.File4Name,
                 target.File4Byte,
-                target.File4SourceBytes);
+                target.File4SourceBytes, target.File4Deleted.HasValue && target.File4Deleted.Value);
 
             if (path != null)
             {
@@ -720,7 +735,7 @@ namespace MPC.Implementation.MISServices
               target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File5_",
                 target.File5Name,
                 target.File5Byte,
-                target.File5SourceBytes);
+                target.File5SourceBytes, target.File5Deleted.HasValue && target.File5Deleted.Value);
 
             if (path != null)
             {
@@ -738,11 +753,12 @@ namespace MPC.Implementation.MISServices
         /// <param name="fileName">Name of file being saved</param>
         /// <param name="fileSource">Base64 representation of file being saved</param>
         /// <param name="fileSourceBytes">Byte[] representation of file being saved</param>
+        /// <param name="fileDeleted">True if file has been deleted</param>
         /// <returns>Path of File being saved</returns>
         private string SaveImage(string mapPath, string existingImage, string caption, string fileName,
-            string fileSource, byte[] fileSourceBytes)
+            string fileSource, byte[] fileSourceBytes, bool fileDeleted = false)
         {
-            if (!string.IsNullOrEmpty(fileSource))
+            if (!string.IsNullOrEmpty(fileSource) || fileDeleted)
             {
                 // Look if file already exists then replace it
                 if (!string.IsNullOrEmpty(existingImage))
@@ -765,6 +781,13 @@ namespace MPC.Implementation.MISServices
                         }
                     }
 
+                }
+
+                // If File has been deleted then set the specified field as empty
+                // Used for File1, File2, File3, File4, File5
+                if (fileDeleted)
+                {
+                    return string.Empty;
                 }
 
                 // First Time Upload
@@ -924,6 +947,14 @@ namespace MPC.Implementation.MISServices
             itemTarget.ItemCode = itemCode;
             itemTarget.OrganisationId = itemRepository.OrganisationId;
             return itemTarget;
+        }
+
+        /// <summary>
+        /// True Is Item Image New
+        /// </summary>
+        private bool IsNewItemImage(ItemImage source)
+        {
+            return source.ProductImageId == 0;
         }
 
         /// <summary>
@@ -2162,6 +2193,17 @@ namespace MPC.Implementation.MISServices
                 throw new MPCException(LanguageResources.ItemService_ProductCodeDuplicated, itemRepository.OrganisationId);
             }
 
+            // Item Images that are being removed
+// ReSharper disable SuggestUseVarKeywordEvident
+            List<ItemImage> itemImagesToBeRemoved = new List<ItemImage>();
+// ReSharper restore SuggestUseVarKeywordEvident
+            if (itemTarget.ItemImages != null && item.ItemImages != null)
+            {
+                itemImagesToBeRemoved = itemTarget.ItemImages.Where(
+                ii => !IsNewItemImage(ii) && item.ItemImages.All(image => image.ProductImageId != ii.ProductImageId))
+                  .ToList();
+            }
+            
             // Update
             item.UpdateTo(itemTarget, new ItemMapperActions
             {
@@ -2202,7 +2244,7 @@ namespace MPC.Implementation.MISServices
             itemRepository.SaveChanges();
 
             // Save Images and Update Item
-            SaveProductImages(itemTarget);
+            SaveProductImages(itemTarget, itemImagesToBeRemoved);
 
             // Update Template Pages Background Image
             UpdateTemplatePagesBackgroundFileNames(itemTarget);
@@ -2256,7 +2298,8 @@ namespace MPC.Implementation.MISServices
                 CurrencyUnit = organisation != null && organisation.Currency != null ? organisation.Currency.CurrencySymbol : string.Empty,
                 WeightUnit = organisation != null && organisation.WeightUnit != null ? organisation.WeightUnit.UnitName : string.Empty,
                 Inks = stockItemRepository.GetStockItemOfCategoryInk(),
-                Machines = machineRepository.GetAll()
+                Machines = machineRepository.GetAll(),
+                A4PaperStockItem = stockItemRepository.GetA4PaperStock()
             };
         }
 
@@ -2383,6 +2426,13 @@ namespace MPC.Implementation.MISServices
         public IEnumerable<ProductCategory> GetProductCategoriesForCompany(long? companyId)
         {
             return productCategoryRepository.GetParentCategories(companyId);
+        }
+        /// <summary>
+        /// Get Product Categories for Company Including Archived once also
+        /// </summary>
+        public IEnumerable<ProductCategory> GetProductCategoriesIncludingArchived(long? companyId)
+        {
+            return productCategoryRepository.GetParentCategoriesIncludingArchived(companyId);
         }
 
         /// <summary>

@@ -20,5 +20,9 @@ namespace MPC.MIS.Areas.Api.Models
 
         public string Signature { get; set; }
 
+        public long ContactId { get; set; }
+        public Guid SignedBy { get; set; }
+       
+
     }
 }

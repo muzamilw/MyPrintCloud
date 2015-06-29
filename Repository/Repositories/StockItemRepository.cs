@@ -62,6 +62,16 @@ namespace MPC.Repository.Repositories
         }
 
         /// <summary>
+        /// Will Return Stock with name A4 of type Paper
+        /// </summary>
+        public StockItem GetA4PaperStock()
+        {
+            return
+                DbSet.FirstOrDefault(stock => stock.ItemName.Contains("A4") && stock.OrganisationId == OrganisationId &&
+                                              stock.CategoryId == (int) StockCategoryEnum.Paper);
+        }
+
+        /// <summary>
         /// Search Company
         /// </summary>
         public InventorySearchResponse GetStockItems(InventorySearchRequestModel request)
@@ -71,7 +81,7 @@ namespace MPC.Repository.Repositories
             bool isImperical = db.Organisations.Where(o => o.OrganisationId == OrganisationId).Select(c => c.IsImperical ?? false).FirstOrDefault();
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
-            Expression<Func<StockItem, bool>> query =
+            Expression<Func<StockItem,bool>> query =
                 stockItem =>
                     (string.IsNullOrEmpty(request.SearchString) || (stockItem.ItemName.Contains(request.SearchString)) ||
                      (stockItem.AlternateName.Contains(request.SearchString))) && (

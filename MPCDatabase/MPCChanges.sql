@@ -5500,13 +5500,6 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
-=======
-/****** Object:  Table [dbo].[VariableExtension]    Script Date: 11/06/2015 11:20:58 AM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
 
 CREATE TABLE [dbo].[VariableExtension](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
@@ -5621,3 +5614,197 @@ add constraint FK_VariableExtension_FieldVariable
 foreign key (FieldVariableId)
 references FieldVariable (VariableId)
 on delete cascade
+
+/* Execution Date: 16/06/2015 */
+
+alter table goodsreceivednote
+alter column createdby nvarchar(max) null
+
+alter table goodsreceivednote
+alter column createdby uniqueidentifier null
+
+/* Execution Date: 17/06/2015 */
+
+/****** Object:  StoredProcedure [dbo].[usp_DeleteCRMCompanyByID]    Script Date: 06/17/2015 5:30:56 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[usp_DeleteCRMCompanyByID] 
+    @CompanyID int
+AS 
+    SET NOCOUNT ON;
+    declare @IsCustomer int
+	declare @EstimateID bigint = 0
+	declare @itemID bigint = 0
+	declare @invoiceId bigint = 0
+	declare @DeliveryNoteId bigint = 0
+	declare @PurchaseId bigint = 0
+	declare @GoodsReceivedId bigint = 0
+
+	select @IsCustomer = iscustomer from company where companyid = @CompanyID
+	--delete nls
+	--from NewsLetterSubscriber nls
+	--inner join CompanyContact c on c.ContactID = nls.ContactID
+	--where c.CompanyId = @CompanyID
+
+	--deleting the tbl_Inquiry Attachments
+	delete  IA
+		from InquiryAttachment IA
+		inner join Inquiry I on IA.InquiryID = I.InquiryID
+		inner join Company CC on CC.CompanyId = I.CompanyId
+		where CC.CompanyId = @CompanyID
+
+	--deleting the tbl_Inquiry_Items
+	delete  II
+	from InquiryItem II
+	inner join dbo.Inquiry I on II.InquiryID = I.InquiryID
+	inner join Company CC on CC.CompanyID = I.CompanyId
+	where CC.CompanyID = @CompanyID
+
+	--deleting the Inquiries
+	delete  I
+	from dbo.Inquiry I
+	--inner join CompanyContact CC on CC.ContactId = I.ContactId
+	where I.CompanyId = @CompanyID
+
+	-- checking if is supplier
+if (@IsCustomer = 2) 
+begin
+	/* Delete Purchase. First delete purchase details*/ 
+	select @PurchaseId = PurchaseId from Purchase where SupplierId = @CompanyID
+	delete from PurchaseDetail where PurchaseId = @PurchaseId
+	delete from Purchase where SupplierId = @CompanyID
+
+	/* Delete Goods Received Note. First delete Goods Received Note Details */ 
+	select @GoodsReceivedId = GoodsReceivedId from GoodsReceivedNote where SupplierId = @CompanyID
+	delete from GoodsReceivedNoteDetail where GoodsreceivedId = @GoodsReceivedId 
+	delete from GoodsReceivedNote where SupplierId = @CompanyID
+end
+
+else
+begin
+	/* Delete Invoice. Items from items table against that invoice, invoice detail table */ 
+	select @invoiceId = invoiceId from invoice where companyid = @CompanyId
+	delete from InvoiceDetail where invoiceId = @invoiceId
+	delete from items where invoiceId = @invoiceId 
+	delete from invoice where companyid = @CompanyId
+
+	/* Delete Delivery Note. First delete delivery note detail */ 
+	select @DeliveryNoteId = DeliveryNoteId from DeliveryNote where companyid = @CompanyID
+	delete from DeliveryNoteDetail where DeliveryNoteId =  @DeliveryNoteId
+	delete from DeliveryNote where companyid = @CompanyID
+end
+
+	delete from CompanyContact where companyid = @CompanyID
+	delete from Address where companyid = @CompanyID
+	delete from CompanyTerritory where companyid = @CompanyID
+	-- to delete ordered items and order
+	declare @TVP table 
+	( 
+	id INT IDENTITY NOT NULL PRIMARY KEY,
+	OrderID bigint
+	)
+	declare @OP table 
+	( 
+	id INT IDENTITY NOT NULL PRIMARY KEY,
+	ItemID bigint
+	)
+	declare @temp table(
+	id INT IDENTITY NOT NULL PRIMARY KEY,
+	CompanyID bigint
+	)
+
+	INSERT INTO @TVP (OrderID)
+		select  EstimateID from estimate
+		where companyID = @CompanyID
+	
+	declare @Totalrec int
+	select @Totalrec = COUNT(*) from @TVP
+ 
+	declare @currentrec int
+
+	set @currentrec = 1
+
+	WHILE (@currentrec <=@Totalrec)
+		 BEGIN
+			 select @EstimateID = OrderID from @TVP
+			 where ID = @currentrec
+
+			 INSERT INTO @OP (ItemID)
+			 select ItemID from Items where estimateid = @EstimateID
+
+			-- loop for ordered items	
+			 declare @TotalItems int
+			 select @TotalItems = COUNT(*) from @OP
+ 
+			 declare @currentItemRec int
+			 set @currentItemRec = 1
+			  WHILE (@currentItemRec <= @TotalItems)
+				 BEGIN
+				  select @ItemID = ItemID from @OP
+						 where ID = @currentItemRec
+
+						Exec usp_DeleteProduct  @ItemID
+
+						set @currentItemRec = @currentItemRec + 1
+				 end
+				 	delete 
+				from PrePayment where orderid = @EstimateID
+
+			 delete from estimate where estimateid = @EstimateID
+		 SET @currentrec = @currentrec + 1
+		 end
+
+	delete from company where companyid = @CompanyID
+
+/* Execution Date: 18/06/2015 */
+
+alter table ItemStockUpdateHistory
+drop column LastOrderedQty
+
+alter table ItemStockUpdateHistory
+drop column LastAvailableQty
+
+alter table ItemStockUpdateHistory
+add StockItemId bigint null
+
+ALTER TABLE ItemStockUpdateHistory  
+WITH CHECK ADD  CONSTRAINT [FK_ItemStockUpdateHistory_StockItem] FOREIGN KEY([StockItemID])
+REFERENCES [StockItem] ([StockItemId])
+on delete cascade
+
+ALTER TABLE ItemStockUpdateHistory CHECK CONSTRAINT [FK_ItemStockUpdateHistory_StockItem]
+GO
+
+alter table ItemAddonCostCentre
+drop constraint FK_ItemStockOption_ItemAddonCostCentre
+
+
+alter table ItemAddonCostCentre
+add constraint FK_ItemAddonCostCentre_ItemStockOption
+foreign key (ItemStockOptionId)
+references ItemStockOption (ItemStockOptionId)
+on delete cascade
+
+-----Executed on All servers on 20150618------------
+/* Execution Date: 19/06/2015 */
+
+alter table ItemStockUpdateHistory
+alter column LastModifiedBy nvarchar(max) null
+
+update ItemStockUpdateHistory
+set LastModifiedBy = null
+
+alter table ItemStockUpdateHistory
+alter column LastModifiedBy uniqueidentifier null
+
+alter table ItemStockUpdateHistory
+add constraint FK_ItemStockUpdateHistory_SystemUser
+foreign key (LastModifiedBy)
+references SystemUser (SystemUserId)
+
+
+-----Executed on All servers on 20150622------------
+
+update FieldVariable set CriteriaFieldName = 'SecondaryEmail' where VariableTag like '{{Email}}'

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using MPC.Models.DomainModels;
 
@@ -63,6 +64,16 @@ namespace MPC.Models.ResponseModels
         /// Weight Unit
         /// </summary>
         public string WeightUnit { get; set; }
+
+        /// <summary>
+        /// Logged In User Id
+        /// </summary>
+        public Guid LoggedInUserId { get; set; }
+
+        /// <summary>
+        /// Logged In User Identity
+        /// </summary>
+        public string LoggedInUserIdentity { get; set; }
 
         public bool IsImperical { get; set; }
 

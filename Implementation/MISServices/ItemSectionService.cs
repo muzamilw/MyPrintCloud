@@ -4059,8 +4059,9 @@ namespace MPC.Implementation.MISServices
                     oItemSection.SectionSizeHeight = size.Height;
                 }
             }
+            double gutterValue = oItemSection.ItemGutterHorizontal ?? 0;
             PtvDTO oPTV = CalculatePTV(0, 0, false, false, false, Convert.ToInt32(oItemSection.SectionSizeHeight), Convert.ToInt32(oItemSection.SectionSizeWidth), Convert.ToInt32(OrderSheetHeight), Convert.ToInt32(OrderSheetWidth), 0,
-            (int)GripSide.LongSide, 0, 0, 0, 0, 0, (bool)oItemSection.isWorknTurn, false);
+            (int)GripSide.LongSide, 0, 0, gutterValue, gutterValue, gutterValue, (bool)oItemSection.isWorknTurn, false);
 
             if (oPTV.LandscapePTV > oPTV.PortraitPTV)
             {
@@ -4708,8 +4709,9 @@ namespace MPC.Implementation.MISServices
                         oItemSection.SectionSizeHeight = size.Height;
                     }
                 }
+                double dblGutterValue = oItemSection.ItemGutterHorizontal ?? 0;
                 PtvDTO oPTV = CalculatePTV(0, 0, false, false, false, Convert.ToInt32(oItemSection.SectionSizeHeight), Convert.ToInt32(oItemSection.SectionSizeWidth), Convert.ToInt32(intOrderSheetHeight), Convert.ToInt32(intOrderSheetWidth), 0,
-                (int)GripSide.LongSide, 0, 0, 0, 0, 0, oItemSection.isWorknTurn?? false, oItemSection.isWorkntumble?? false);
+                (int)GripSide.LongSide, 0, 0, dblGutterValue, dblGutterValue, dblGutterValue, oItemSection.isWorknTurn ?? false, oItemSection.isWorkntumble ?? false);
 
                 if (oPTV.LandscapePTV > oPTV.PortraitPTV)
                 {

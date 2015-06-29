@@ -15,7 +15,10 @@ namespace MPC.Interfaces.MISServices
         /// Delete
         /// </summary>
         bool Delete(long companyContactId);
-
+        /// <summary>
+        /// Get Contacts for order screen
+        /// </summary>
+        ContactsResponseForOrder GetContactsForOrder(CompanyRequestModelForCalendar request);
         CrmContactResponse SearchAddressesAndTerritories(CompanyContactRequestModel request);
         CompanyBaseResponse GetContactDetail(short companyId);
         /// <summary>
@@ -34,6 +37,8 @@ namespace MPC.Interfaces.MISServices
         CompanyBaseResponse GetBaseData();
 
         bool SaveImportedContact(IEnumerable<CompanyContact> companyContacts);
+
+        CompanyContact GetContactByContactId(long ContactId);
 
     }
 }

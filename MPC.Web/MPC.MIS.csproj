@@ -341,6 +341,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\ProductChildCategoryController.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyContactForOrderController.cs" />
+    <Compile Include="Areas\Api\Controllers\SectionFlagsController.cs" />
+    <Compile Include="Areas\Api\Controllers\DeleteCrmCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\DeliveryNoteBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\DeliveryNotesController.cs" />
     <Compile Include="Areas\Api\Controllers\EstimateBaseController.cs" />
@@ -430,6 +434,7 @@
     <Compile Include="Areas\Api\Controllers\SmartFormController.cs" />
     <Compile Include="Areas\Api\Controllers\StockCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\SystemUserController.cs" />
+    <Compile Include="Areas\Api\Controllers\SystemVariableController.cs" />
     <Compile Include="Areas\Api\ModelMappers\ActivityMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ActivityTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\BestPressMapper.cs" />
@@ -463,6 +468,7 @@
     <Compile Include="Areas\Api\ModelMappers\InvoiceDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemAttachmentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemImageMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemStockUpdateHistoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductMarketBriefAnswerMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductMarketBriefQuestionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\LiveJobItemMapper.cs" />
@@ -478,6 +484,7 @@
     <Compile Include="Areas\Api\ModelMappers\InkPlateSideMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PurchaseBaseResponse.cs" />
     <Compile Include="Areas\Api\ModelMappers\PurchaseDetailMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ReportEmailResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ReportNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ReportparamMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ShippingInformationMapper.cs" />
@@ -548,11 +555,13 @@
     <Compile Include="Areas\Api\Models\CmsOffer.cs" />
     <Compile Include="Areas\Api\Models\ColorPallete.cs" />
     <Compile Include="Areas\Api\Models\CompanyAddressDeleteModel.cs" />
+    <Compile Include="Areas\Api\Models\CompanyContactForOrder.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDownForOrder.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactForCalendar.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactResponseForCalendar.cs" />
+    <Compile Include="Areas\Api\Models\ContactResponseForOrder.cs" />
     <Compile Include="Areas\Api\Models\CostCenterFixedVariable.cs" />
     <Compile Include="Areas\Api\Models\CostCenterVariablesResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreAnswer.cs" />
@@ -593,6 +602,7 @@
     <Compile Include="Areas\Api\Models\ItemDetailBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
     <Compile Include="Areas\Api\Models\ItemJobStatusResponse.cs" />
+    <Compile Include="Areas\Api\Models\ItemStockUpdateHistory.cs" />
     <Compile Include="Areas\Api\Models\LiveJobItem.cs" />
     <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodListResponse.cs" />
@@ -813,6 +823,7 @@
     <Compile Include="Areas\Api\Models\SectionCostCentreDetail.cs" />
     <Compile Include="Areas\Api\Models\SectionCostCentreResource.cs" />
     <Compile Include="Areas\Api\Models\SectionFlag.cs" />
+    <Compile Include="Areas\Api\Models\SectionFlagUpdateModel.cs" />
     <Compile Include="Areas\Api\Models\SectionForPhraseLibrary.cs" />
     <Compile Include="Areas\Api\Models\SectionInkCoverage.cs" />
     <Compile Include="Areas\Api\Models\ShippingInformation.cs" />
@@ -823,6 +834,7 @@
     <Compile Include="Areas\Api\Models\SmartFormResponse.cs" />
     <Compile Include="Areas\Api\Models\State.cs" />
     <Compile Include="Areas\Api\Models\StateDropDown.cs" />
+    <Compile Include="Areas\Api\Models\StockItemDropDownForProduct.cs" />
     <Compile Include="Areas\Api\Models\StockItemForDropDown.cs" />
     <Compile Include="Areas\Api\Models\StockItemResponse.cs" />
     <Compile Include="Areas\Api\Models\StoresListDropDown.cs" />
@@ -836,6 +848,8 @@
     <Compile Include="Areas\Api\Models\LengthUnitDropDown.cs" />
     <Compile Include="Areas\Api\Models\PaperBasisAreaDropDown.cs" />
     <Compile Include="Areas\Api\Models\RegistrationQuestionDropDown.cs" />
+    <Compile Include="Areas\Api\Models\SystemVariableForListView.cs" />
+    <Compile Include="Areas\Api\Models\SystemVariablesResponse.cs" />
     <Compile Include="Areas\Api\Models\Template.cs" />
     <Compile Include="Areas\Api\Models\TemplateColorStyle.cs" />
     <Compile Include="Areas\Api\Models\TemplatePage.cs" />
@@ -1118,6 +1132,13 @@
     <Content Include="Content\CSS\supr-theme\jquery.ui.theme.css" />
     <Content Include="Content\CSS\toastr.css" />
     <Content Include="Content\Images\arrow-right.jpg" />
+    <Content Include="Content\Images\chart_01.png" />
+    <Content Include="Content\Images\chart_02.png" />
+    <Content Include="Content\Images\chart_03.png" />
+    <Content Include="Content\Images\chart_04.png" />
+    <Content Include="Content\Images\chart_05.png" />
+    <Content Include="Content\Images\chart_06.png" />
+    <Content Include="Content\Images\chart_07.png" />
     <Content Include="Content\Images\colorpicker_background.png" />
     <Content Include="Content\Images\colorpicker_hex.png" />
     <Content Include="Content\Images\colorpicker_hsb_b.png" />
@@ -1134,6 +1155,10 @@
     <Content Include="Content\Images\colorpicker_submit - Copy.png" />
     <Content Include="Content\Images\colorpicker_submit.png" />
     <Content Include="Content\Images\coming.jpg" />
+    <Content Include="Content\Images\Company_Default.png" />
+    <Content Include="Content\Images\ImageAttach.png" />
+    <Content Include="Content\Images\company_contact.jpg" />
+    <Content Include="Content\Images\company_contact.jpg" />
     <Content Include="Content\Images\imageplaceholder.png" />
     <Content Include="Content\Images\loaders\3d\015.gif" />
     <Content Include="Content\Images\loaders\3d\019.gif" />
@@ -2220,6 +2245,8 @@
     <Content Include="Areas\Orders\Views\Home\_PurchaseDetailDialog.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_ReportViaEmail.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_GRNDetailDialog.cshtml" />
+    <Content Include="Areas\Settings\Views\Shared\_AddStockQty.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_ViewMediaLibImage.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
@@ -3424,6 +3451,7 @@
     <Folder Include="Areas\Api\Views\CrmBase\" />
     <Folder Include="Areas\Api\Views\CrmContact\" />
     <Folder Include="Areas\Api\Views\Customer\" />
+    <Folder Include="Areas\Api\Views\DeleteCrmCompany\" />
     <Folder Include="Areas\Api\Views\Deliverycarrier\" />
     <Folder Include="Areas\Api\Views\DeliveryNoteBase\" />
     <Folder Include="Areas\Api\Views\EstimateApi\" />
@@ -3443,6 +3471,7 @@
     <Folder Include="Areas\Api\Views\OrderRetailStore\" />
     <Folder Include="Areas\Api\Views\OrdersForCrm\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
+    <Folder Include="Areas\Api\Views\ProductChildCategory\" />
     <Folder Include="Areas\Api\Views\ProductCostCenter\" />
     <Folder Include="Areas\Api\Views\ProgressEstimate\" />
     <Folder Include="Areas\Api\Views\PTVCalculation\" />

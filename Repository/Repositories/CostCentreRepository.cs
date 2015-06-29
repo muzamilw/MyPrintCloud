@@ -81,6 +81,7 @@ namespace MPC.Repository.Repositories
                     (isSearchFilterSpecified && (s.Name.Contains(request.SearchString)) ||
                      (s.HeaderCode.Contains(request.SearchString)) ||
                      !isSearchFilterSpecified && (s.Type != 1) && (s.Type != 11) && (s.Type != 29)) &&
+                     (!request.Type.HasValue || s.Type == request.Type.Value) &&
                      s.OrganisationId == OrganisationId;
 
             int rowCount = DbSet.Count(query);
@@ -873,7 +874,7 @@ namespace MPC.Repository.Repositories
             var types = db.CostCentreTypes.Where(c => c.TypeId == 2 || c.TypeId ==3).ToList();
             var resources = db.SystemUsers.Where(u => u.OrganizationId == this.OrganisationId).ToList();
             var nominalCodes = db.ChartOfAccounts.Where(u => u.SystemSiteId == this.OrganisationId).ToList();
-            var ccVariables = db.CostCentreVariables.ToList();   //Where(c => c.SystemSiteId == this.OrganisationId)   Commented by Muzzammil on 12th may 2015 as this is not needed.
+            var ccVariables = db.CostCentreVariables.OrderBy(v => v.Name).ToList();   //Where(c => c.SystemSiteId == this.OrganisationId)   Commented by Muzzammil on 12th may 2015 as this is not needed.
             var carriers = db.DeliveryCarriers.ToList();
             var markups = db.Markups.Where(m => m.OrganisationId == this.OrganisationId).ToList();
             return new CostCenterBaseResponse

@@ -379,7 +379,10 @@ function c2_01(OPT) {
 
             }
             if (OPT.type == "path-group") {
+                //console.log(OPT.toSVG());
+               // IT.originalContentString = OPT.toSVG();
                 //IT.textStyles = OPT.toDataURL(); 
+
                 
             } 
             if (OPT.textAlign == "left")
@@ -4321,21 +4324,23 @@ function pcl40_showUserList(userList)
 }
 function pcl40_addDropDown(title, varId,options,def,tabindex) {
     var html = "";
-
     html += '<div class="QtextData"><label class="lblQData" id="lblQName">' + title + '</label><br>'
     + '<select id="txtSmart' + varId + '"  class="qTextInput" style=""  tabindex= "' + tabindex + '" >';
-    $.each(options, function (i, IT) {
-        var selected = "";
-        html += '<option  id = "option' + IT.VariableOptionId + '" value="' + IT.Value + '" '+selected+' >' + IT.Value + '</option>';;
-    });
+    if (options != null) {
 
+        $.each(options, function (i, IT) {
+            var selected = "";
+            html += '<option  id = "option' + IT.VariableOptionId + '" value="' + IT.Value + '" ' + selected + ' >' + IT.Value + '</option>';;
+        });
+    }
     html+=    '</select></div>';
     return html;
 }
 function pcl40_addTxtControl(title, varId, placeHolder, Value, IsRequired, InputMask,tabindex,variableTag) {
     var required = "";
     if (variableTag != null) {
-        if (variableTag.toLowerCase() == "{{webaccesscode}}" || variableTag.toLowerCase() == "{{email}}") {
+        //  if (variableTag.toLowerCase() == "{{webaccesscode}}" || variableTag.toLowerCase() == "{{email}}") {
+        if (variableTag.toLowerCase() == "{{webaccesscode}}") {
             required += 'disabled=disabled';
         }
     }
@@ -4348,7 +4353,7 @@ function pcl40_addTxtControl(title, varId, placeHolder, Value, IsRequired, Input
         Value = ""; 
     }
     var html = '<div class="QtextData"><label class="lblQData" id="lblQName">' + title + '</label><br>' +
-        '<textarea id="txtSmart' + varId + '" maxlength="500" class="qTextInput" style="" placeholder="' + placeHolder + '" ' + required + ' tabindex= "' + tabindex + '" onClick="" >' + Value + '</textarea></div>';
+        '<textarea id="txtSmart' + varId + '" maxlength="1500" class="qTextInput" style="" placeholder="' + placeHolder + '" ' + required + ' tabindex= "' + tabindex + '" onClick="" >' + Value + '</textarea></div>';
     return html;
 }
 function pcl40_addCaption(caption) {

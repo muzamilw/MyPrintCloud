@@ -3,9 +3,11 @@
 */
 define("order/order.viewModel",
     ["jquery", "amplify", "ko", "order/order.dataservice", "order/order.model", "common/pagination", "common/confirmation.viewModel",
-        "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/stockItem.viewModel", "common/reportManager.viewModel", "common/addCostCenter.viewModel", "common/addProduct.viewModel", "common/itemDetail.viewModel", "common/itemDetail.model"],
+        "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/stockItem.viewModel", "common/reportManager.viewModel",
+        "common/addCostCenter.viewModel", "common/addProduct.viewModel", "common/itemDetail.viewModel", "common/itemDetail.model", "common/phraseLibrary.viewModel"],
 // ReSharper disable InconsistentNaming
-    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, stockDialog, reportManager, addCostCenterVM, addProductVm, itemDetailVm, itemModel) {
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, stockDialog, reportManager, addCostCenterVM,
+        addProductVm, itemDetailVm, itemModel, phraseLibrary) {
         // ReSharper restore InconsistentNaming
         var ist = window.ist || {};
         ist.order = {
@@ -51,6 +53,7 @@ define("order/order.viewModel",
                     counterForSection = -1000,
                     //
                     selectedCompanyTaxRate = ko.observable(),
+                    selectedCompanyJobManagerUser = ko.observable(),
                     // selected Company
                     selectedCompany = ko.observable(),
                     //inquiries
@@ -107,10 +110,10 @@ define("order/order.viewModel",
                         { name: "Direct  Order", value: "0" },
                         { name: "Online Order", value: "1" }
                     ]),
-                    flagItem = function (state) {
+                    flagItem = function(state) {
                         return "<div style=\"height:20px;margin-right:10px;width:25px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
                     },
-                    flagSelection = function (state) {
+                    flagSelection = function(state) {
                         return "<span style=\"height:20px;width:25px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
                     },
                     orderTypeFilter = ko.observable(),
@@ -133,11 +136,12 @@ define("order/order.viewModel",
                     isCompanyBaseDataLoaded = ko.observable(false),
                     // #endregion
                     // #region Observables
+                    // Selected Estimate Phrase Container
+                    selectedEstimatePhraseContainer = ko.observable(),
                     // filter
                     filterText = ko.observable(),
                     // Selected Product
                     selectedProduct = ko.observable(itemModel.Item.Create({})),
-
                     // Selected Markup 1
                     selectedMarkup1 = ko.observable(0),
                     // Selected Markup 2
@@ -157,7 +161,8 @@ define("order/order.viewModel",
                     sectionHeader = ko.observable(''),
                     currencySymbol = ko.observable(''),
                     loggedInUser = ko.observable(),
-                     inquiryDetailEditorViewModel = new ist.ViewModel(model.InquiryItem),
+                    itemIdFromDashboard = ko.observable(),
+                    inquiryDetailEditorViewModel = new ist.ViewModel(model.InquiryItem),
                     selectedInquiryItem = inquiryDetailEditorViewModel.itemForEditing,
                     //On Order Status change to progress to job that will open wizard
                     selectedItemForProgressToJobWizard = ko.observable(itemModel.Item()),
@@ -170,7 +175,7 @@ define("order/order.viewModel",
                     //Estimate To Be Progressed
                     estimateToBeProgressed = ko.observable(undefined),
                     // Page Header 
-                    pageHeader = ko.computed(function () {
+                    pageHeader = ko.computed(function() {
                         return selectedOrder() && selectedOrder().name() ? selectedOrder().name() : 'Orders';
                     }),
                     // Sort On
@@ -196,14 +201,43 @@ define("order/order.viewModel",
                     isNewinquiryDetailItem = ko.observable(false),
                     // #endregion
                     // #region Utility Functions
+                    // Select Estimate Phrase Container
+                    selectEstimatePhraseContainer = function (data, e) {
+                        selectedEstimatePhraseContainer(e.currentTarget.id);
+                    },
+                    // Open Phrase Library
+                    openPhraseLibrary = function() {
+                        phraseLibrary.isOpenFromPhraseLibrary(false);
+                        phraseLibrary.show(function(phrase) {
+                            updateEstimatePhraseContainer(phrase);
+                        });
+                    },
+                    formatSelection = function(state) {
+                        return "<span style=\"height:20px;width:20px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
+                    },
+                    formatResult = function(state) {
+                        return "<div style=\"height:20px;margin-right:10px;width:20px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
+                    },
+                    // update Estimate Phrase Container
+                    updateEstimatePhraseContainer = function(phrase) {
+                        if (!phrase) {
+                            return;
+                        }
 
+                        // Set Phrase to selected Estimate Phrase Container
+                        if (selectedEstimatePhraseContainer() === 'EstimateHeader') {
+                            selectedOrder().headNotes(selectedOrder().headNotes() ? selectedOrder().headNotes() + ' ' + phrase : phrase);
+                        } else if (selectedEstimatePhraseContainer() === 'EstimateFootNotesTextBox') {
+                            selectedOrder().footNotes(selectedOrder().footNotes() ? selectedOrder().footNotes() + ' ' + phrase : phrase);
+                        }
+                    },
                     // Selected Address
-                    selectedAddress = ko.computed(function () {
+                    selectedAddress = ko.computed(function() {
                         if (!selectedOrder() || !selectedOrder().addressId() || companyAddresses().length === 0) {
                             return defaultAddress();
                         }
 
-                        var addressResult = companyAddresses.find(function (address) {
+                        var addressResult = companyAddresses.find(function(address) {
                             return address.id === selectedOrder().addressId();
                         });
 
@@ -211,12 +245,12 @@ define("order/order.viewModel",
                     }),
 
                     // Selected Company Contact
-                    selectedCompanyContact = ko.computed(function () {
+                    selectedCompanyContact = ko.computed(function() {
                         if (!selectedOrder() || !selectedOrder().contactId() || companyContacts().length === 0) {
                             return defaultCompanyContact();
                         }
 
-                        var contactResult = companyContacts.find(function (contact) {
+                        var contactResult = companyContacts.find(function(contact) {
                             return contact.id === selectedOrder().contactId();
                         });
 
@@ -242,7 +276,7 @@ define("order/order.viewModel",
                     isAddProductFromInventory = ko.observable(false),
                     //Is Inventory Dialog is opening for Section Cost Center
                     isAddProductForSectionCostCenter = ko.observable(false),
-                    orderHasChanges = ko.computed(function () {
+                    orderHasChanges = ko.computed(function() {
                         var hasChanges = false;
                         if (selectedOrder()) {
                             hasChanges = selectedOrder().hasChanges();
@@ -251,7 +285,7 @@ define("order/order.viewModel",
                         return hasChanges;
                     }),
                     // Create New Order
-                    createOrder = function () {
+                    createOrder = function() {
                         selectedOrder(model.Estimate.Create({}, { SystemUsers: systemUsers() }));
                         selectedOrder().setOrderReportSignedBy(loggedInUser());
                         selectedOrder().setCreditiLimitSetBy(loggedInUser());
@@ -263,6 +297,14 @@ define("order/order.viewModel",
                         $('#orderDetailTabs a[href="#tab-EstimateHeader"]').tab('show');
                         openOrderEditor();
                     },
+                    //method to set credit approval fields
+                    // ReSharper disable once UnusedLocals
+                    updateCreditApprovalFields = ko.computed(function() {
+                        if (selectedOrder().isJobAllowedWoCreditCheck()) {
+                            selectedOrder().setAllowJobWoCreditCheckSetBy(loggedInUser());
+                            selectedOrder().allowJobWoCreditCheckSetOnDateTime(moment().toDate());
+                        }
+                    }),
                     // Edit Order
                     editOrder = function (data) {
                         getOrderById(data.id(), openOrderEditor);
@@ -275,6 +317,15 @@ define("order/order.viewModel",
                             isDisplayInquiryDetailScreen(true);
                         } else {
                             isOrderDetailsVisible(true);
+                            if (itemIdFromDashboard() !== 0 && itemIdFromDashboard() !== '') { //here
+                                $('#orderDetailTabs a[href="#tab-EstimateHeader"]').tab('show');
+                                var product = _.find(selectedOrder().nonDeliveryItems(), function (obj) {
+                                    return obj.id() == itemIdFromDashboard();
+                                });
+                                if (product) {
+                                    editItem(product);
+                                }
+                            }
                         }
 
                     },
@@ -335,6 +386,7 @@ define("order/order.viewModel",
                     // Close Editor
                     closeOrderEditor = function () {
                         selectedOrder(model.Estimate.Create({}, { SystemUsers: systemUsers() }));
+                        selectedOrder().flagColor(getSectionFlagColor(selectedOrder().sectionFlagId()));
                         if (isEstimateScreen() && currentScreen() == 8) {
                             isDisplayInquiryDetailScreen(false);
                         } else {
@@ -483,24 +535,14 @@ define("order/order.viewModel",
                         if (selectedOrder().id() > 0) {
                             return;
                         }
-                        var defaultCompanyAddress = companyAddresses.find(function (address) {
-                            return address.isDefault;
-                        });
-                        if (defaultCompanyAddress) {
-                            selectedOrder().addressId(defaultCompanyAddress.id);
-                        }
+                        selectedOrder().addressId(selectedCompany().addressId || undefined);
                     },
                     // Select Default Contact For Company in case of new order
                     setDefaultContactForCompany = function () {
                         if (selectedOrder().id() > 0) {
                             return;
                         }
-                        var defaultContact = companyContacts.find(function (contact) {
-                            return contact.isDefault;
-                        });
-                        if (defaultContact) {
-                            selectedOrder().contactId(defaultContact.id);
-                        }
+                        selectedOrder().contactId(selectedCompany().contactId || undefined);
                     },
                     // Map Orders 
                     mapOrders = function (data) {
@@ -757,6 +799,9 @@ define("order/order.viewModel",
                         if (selectedOrder().nonDeliveryItems().length > 0) {
                             selectedItemForProgressToJobWizard(selectedOrder().nonDeliveryItems()[progressToJobItemCounter]);
                             selectedItemForProgressToJobWizard().jobStatusId(jobStatuses()[0].StatusId);
+                            selectedItemForProgressToJobWizard().jobEstimatedStartDateTime(moment().toDate());
+                            selectedItemForProgressToJobWizard().jobEstimatedCompletionDateTime(moment().add('days', 2).toDate());
+                            selectedItemForProgressToJobWizard().jobManagerUser(selectedCompanyJobManagerUser());
                             if (selectedItemForProgressToJobWizard().systemUsers().length === 0) {
                                 selectedItemForProgressToJobWizard().systemUsers(systemUsers());
                             }
@@ -851,7 +896,7 @@ define("order/order.viewModel",
                     },
 
                     deleteOrderButtonHandler = function () {
-                        confirmation.messageText("Are you sure you want to delete order?");
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(deleteOrder);
                         confirmation.afterCancel(function () {
 
@@ -908,10 +953,20 @@ define("order/order.viewModel",
                             view.showCostCentersQuantityDialog();
                         }
                     },
+                    // On Create New Cost Center Product
+                    onCreateNewCostCenterProduct = function () {
+                        view.hideCostCentersQuantityDialog();
+                        if (isCostCenterDialogForShipping()) {
+                            createNewCostCenterProduct();
+                            return;
+                        }
+                        addCostCenterVM.executeCostCenter(function (costCenter) {
+                            selectedCostCentre(costCenter);
+                            createNewCostCenterProduct();
+                        });
+                    },
                     //Product From Cost Center
                     createNewCostCenterProduct = function () {
-                        view.hideCostCentersQuantityDialog();
-                        //selectedCostCentre(costCenter);
                         var item = itemModel.Item.Create({ EstimateId: selectedOrder().id(), RefItemId: selectedCostCentre().id() });
                         applyProductTax(item);
                         selectedProduct(item);
@@ -945,8 +1000,8 @@ define("order/order.viewModel",
                         sectionCostCenter.costCentreName(selectedCostCentre().name());
                         sectionCostCenter.name(selectedCostCentre().name());
 
-                        //sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
                         sectionCostCenter.qty1Charge(selectedCostCentre().setupCost());
+                        sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
 
                         selectedSectionCostCenter(sectionCostCenter);
                         selectedQty(1);
@@ -1199,7 +1254,7 @@ define("order/order.viewModel",
                         dataservice.saveOrder(order, {
                             success: function (data) {
                                 var orderFlag = _.find(sectionFlags(), function (item) {
-                                    return item.id === selectedOrder().sectionFlagId();
+                                    return item.id == selectedOrder().sectionFlagId();
                                 });
 
                                 if (!selectedOrder().id()) {
@@ -1428,6 +1483,7 @@ define("order/order.viewModel",
                                         setDefaultContactForCompany();
                                     }
                                     selectedCompanyTaxRate(data.TaxRate);
+                                    selectedCompanyJobManagerUser(data.JobManagerId);
                                 }
                                 isCompanyBaseDataLoaded(true);
                             },
@@ -1481,11 +1537,28 @@ define("order/order.viewModel",
                             } else {
                                 companyId = selectedOrder().companyId();
                             }
-                            addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id(), saveSectionCostCenter, createitemForRetailStoreProduct, selectedCompanyTaxRate(), pageHeader(), isEstimateScreen() === true ? 'Estimate' : "Order", selectedOrder().companyName());
+                            addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id(), saveSectionCostCenter, createitemForRetailStoreProduct, selectedCompanyTaxRate(), pageHeader(), isEstimateScreen() === true ? 'Estimate' : "Order", selectedOrder().companyName(), 2);
                         }
                         //addProductVm.show(addItemFromRetailStore, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id(), saveSectionCostCenter, createitemForRetailStoreProduct);
                     },
+                    // Add Finished Goods
+                     onAddFinishedGoods = function () {
 
+                         if (selectedOrder().companyId() === undefined) {
+                             toastr.error("Please select customer.");
+                         } else {
+                             // ReSharper disable AssignedValueIsNeverUsed
+                             var companyId = 0;
+                             // ReSharper restore AssignedValueIsNeverUsed
+                             if (selectedOrder().storeId()) {
+                                 companyId = selectedOrder().storeId();
+                             } else {
+                                 companyId = selectedOrder().companyId();
+                             }
+                             addProductVm.show(addItemFromFinishedGoods, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id(), saveSectionCostCenter, createitemForRetailStoreProduct, selectedCompanyTaxRate(), pageHeader(), isEstimateScreen() === true ? 'Estimate' : "Order", selectedOrder().companyName(), 3);
+                         }
+                     },
+                     
                     //},
                     //addItemFromRetailStore = function (newItem) {
                     //    selectedProduct(newItem);
@@ -1497,6 +1570,19 @@ define("order/order.viewModel",
                         itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
                         // Set Default Section to be used as a default for new sections in this item
                         itemDetailVm.defaultSection(newItem.itemSections()[0].convertToServerData());
+                        //Req: Open Edit dialog of product on adding product
+                        editItem(newItem);
+                    },
+                    addItemFromFinishedGoods = function (newItem) {
+                        selectedProduct(newItem);
+                        selectedOrder().items.splice(0, 0, newItem);
+                        itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
+                        selectedProduct().productType(3);
+                        newItem.itemSections()[0].productType(3);
+                        // Set Default Section to be used as a default for new sections in this item
+                        itemDetailVm.defaultSection(newItem.itemSections()[0].convertToServerData());
+
+                        //itemDetailVm.defaultSection().productType(3);
                         //Req: Open Edit dialog of product on adding product
                         editItem(newItem);
                     },
@@ -1594,7 +1680,7 @@ define("order/order.viewModel",
                         return costCentreId;
                     },
                     //Method to make by default quantities fields 0 if they are undefined
-                    updateQuantitiesValues = function() {
+                    updateQuantitiesValues = function () {
                         var qty1 = selectedCostCentre().quantity1();
                         var qty2 = selectedCostCentre().quantity2();
                         if (qty1 == undefined) {
@@ -1841,6 +1927,17 @@ define("order/order.viewModel",
                             hideOrderPrePaymentModal();
                         }
                     },
+                    onDeletePrePayment = function (prePayment) {
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.afterProceed(function() {
+                            var index = selectedOrder().prePayments().indexOf(prePayment);
+                            selectedOrder().prePayments.remove(selectedOrder().prePayments()[index]);
+                            toastr.success("Deleted Successfully");
+                            hideOrderPrePaymentModal();
+                        });
+                        confirmation.show();
+                        return;
+                    },
                     // Do Before Save
                     dobeforeSavePrePayment = function () {
                         var flag = true;
@@ -2042,7 +2139,7 @@ define("order/order.viewModel",
 
 
 
-                    
+
                     // Template Chooser For Delivery Schedule
                     templateToUseDeliverySchedule = function (deliverySchedule) {
                         return (deliverySchedule === selectedDeliverySchedule() ? 'ediDeliverScheduleTemplate' : 'itemDeliverScheduleTemplate');
@@ -2054,7 +2151,7 @@ define("order/order.viewModel",
                         if (selectedDeliverySchedule().deliveryNoteRaised()) {
                             toastr.error("Raised item cannot be deleted.");
                         } else {
-                            confirmation.messageText("Are you sure you want to delete Delivery Schedule?");
+                            confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                             confirmation.afterProceed(deleteDeliverySchedule);
                             confirmation.afterCancel(function () {
 
@@ -2112,10 +2209,31 @@ define("order/order.viewModel",
                         //OrderId(oOrderId);
                         //CriteriaParam(oCriteriaParam);
 
-                        
-                        reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
-                        reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
+                        reportManager.outputTo("preview");
 
+                        if (selectedOrder().isEstimate() == true) {
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Estimate, 1, selectedOrder().id());
+                        }
+                        else {
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Orders, 1, selectedOrder().id());
+                        }
+
+
+                        //reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
+                        //reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
+
+
+                    },
+
+                    openExternalEmailOrderReport = function () {
+                        reportManager.outputTo("email");
+                        if (selectedOrder().isEstimate() == true) {
+                            reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 3, selectedOrder().id(), "");
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Estimate, 1, selectedOrder().id());
+                        } else {
+                            reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 2, selectedOrder().id(), "");
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Orders, 1, selectedOrder().id());
+                        }
 
                     },
                     //#endregion
@@ -2522,6 +2640,8 @@ define("order/order.viewModel",
                             // Get Base Data
                             getBaseData();
                             var orderIdFromDashboard = $('#OrderId').val();
+                            var itemIdFromOrderScreen = $('#ItemId').val();
+                            itemIdFromDashboard(itemIdFromOrderScreen);
                             if (orderIdFromDashboard != 0) {
                                 editOrder({ id: function () { return orderIdFromDashboard; } });
                             } else {
@@ -2537,6 +2657,7 @@ define("order/order.viewModel",
                             if (estimateIdFromOrderScreen != 0) {
                                 editOrder({ id: function () { return estimateIdFromOrderScreen; } });
                             }
+
                             getEstimates();
                             // Get Base Data For Estimate
                             getBaseDataForEstimate();
@@ -2717,7 +2838,17 @@ define("order/order.viewModel",
                     saveSectionCostCenter: saveSectionCostCenter,
                     createitemForRetailStoreProduct: createitemForRetailStoreProduct,
                     editSection: editSection,
-                    createNewCostCenterProduct: createNewCostCenterProduct
+                    createNewCostCenterProduct: createNewCostCenterProduct,
+                    openExternalEmailOrderReport: openExternalEmailOrderReport,
+                    selectedEstimatePhraseContainer: selectedEstimatePhraseContainer,
+                    selectEstimatePhraseContainer: selectEstimatePhraseContainer,
+                    openPhraseLibrary: openPhraseLibrary,
+                    formatSelection: formatSelection,
+                    formatResult: formatResult,
+                    onDeletePrePayment: onDeletePrePayment,
+                    onAddFinishedGoods: onAddFinishedGoods,
+                    onCreateNewCostCenterProduct: onCreateNewCostCenterProduct
+
                     //#endregion
                 };
             })()

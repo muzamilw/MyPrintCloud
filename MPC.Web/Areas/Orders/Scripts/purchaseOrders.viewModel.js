@@ -143,6 +143,12 @@ define("purchaseOrders/purchaseOrders.viewModel",
                             }
                         });
                     },
+                      formatSelection = function (state) {
+                          return "<span style=\"height:20px;width:20px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
+                      },
+                    formatResult = function (state) {
+                        return "<div style=\"height:20px;margin-right:10px;width:20px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
+                    },
                     // Get Purchase Order By Id
                     getPurchaseOrderById = function (id) {
                         isCompanyBaseDataLoaded(false);
@@ -168,9 +174,11 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                         getBaseForCompany(data.SupplierId, storeId);
                                     }
                                 }
+                                view.initializeLabelPopovers();
                             },
                             error: function () {
-                                toastr.error("Failed to Items.");
+                                toastr.error("Failed to load Purchase Order Detail.");
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
@@ -198,9 +206,11 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                         getBaseForCompany(data.SupplierId, storeId);
                                     }
                                 }
+                                view.initializeLabelPopovers();
                             },
                             error: function () {
-                                toastr.error("Failed to Items.");
+                                toastr.error("Failed to load GRN Detail.");
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
@@ -222,6 +232,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                             isEditorVisible(false);
                             isGRNEditorVisible(true);
                         }
+                        view.initializeLabelPopovers();
                     },
                     // Close PO editor
                     onCloseEditor = function () {
@@ -240,7 +251,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     },
                     // Open Company Dialog
                     openCompanyDialog = function () {
-                        companySelector.show(onSelectCompany, [2], true);
+                        companySelector.show(onSelectCompany, [2]);
                     },
                     // On Select Company
                     onSelectCompany = function (company) {
@@ -293,10 +304,12 @@ define("purchaseOrders/purchaseOrders.viewModel",
 
                                 }
                                 isCompanyBaseDataLoaded(true);
+                                view.initializeLabelPopovers();
                             },
                             error: function (response) {
                                 isCompanyBaseDataLoaded(true);
                                 toastr.error("Failed to load details for selected company" + response);
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
@@ -351,9 +364,11 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                 }
 
                                 currencySymbol(data.CurrencySymbol);
+                                view.initializeLabelPopovers();
                             },
                             error: function (response) {
                                 toastr.error("Failed to load base data" + response);
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
@@ -364,6 +379,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         purchase.status(31);
                         selectedPurchaseOrder(purchase);
                         isEditorVisible(true);
+                        view.initializeLabelPopovers();
                     },
                     // Save Purchase Order
                     onSavePurchaseOrder = function (purchase) {
@@ -404,6 +420,31 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         confirmation.show();
                         return;
                     },
+
+                    //  report preview
+                      // report preview
+                    openExternalReportsPurchase = function () {
+
+                        reportManager.outputTo("preview");
+
+                        reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, selectedPurchaseOrder().id());
+
+
+
+                        //reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
+                        //reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
+
+
+                    },
+
+                    openExternalEmailPurchaseReport = function () {
+                        reportManager.outputTo("email");
+
+                        reportManager.SetOrderData(selectedPurchaseOrder().createdBy(), selectedPurchaseOrder().contactId(), selectedPurchaseOrder().id(), 6, selectedPurchaseOrder().id(), "");
+                        reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, selectedPurchaseOrder().id());
+
+
+                    }
 
                     // Cancel purchase Order
                     onCancelPurchaseOrder = function (purchase) {
@@ -474,6 +515,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
 
                                 isEditorVisible(false);
                                 toastr.success("Saved Successfully.");
+                                view.initializeLabelPopovers();
                             },
                             error: function (exceptionMessage, exceptionType) {
                                 if (exceptionType === ist.exceptionType.MPCGeneralException) {
@@ -481,6 +523,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                 } else {
                                     toastr.error("Failed to save.");
                                 }
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
@@ -521,6 +564,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         selectedPurchaseOrderDetail().packqty(stockItem.packageQty);
                         selectedPurchaseOrderDetail().refItemId(stockItem.id);
                         view.showPurchaseDetailDialog();
+                        view.initializeLabelPopovers();
 
                     },
                     // Add Purchase Detail
@@ -536,6 +580,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
 
                             } else {
                                 view.showPurchaseDetailDialog();
+                                view.initializeLabelPopovers();
                             }
                         } else {
                             toastr.error("Please select customer");
@@ -583,7 +628,10 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         if (selectedPurchaseOrder().status() === 31) {
                             selectedPurchaseOrderDetail(item);
                             view.showPurchaseDetailDialog();
+                            view.initializeLabelPopovers();
+                            view.initializeLabelPopovers();
                         }
+
                     },
                     // 
                     setTaxValue = ko.computed(function () {
@@ -745,7 +793,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                     isGRNEditorVisible(false);
                                 }
                                 isEditorVisible(false);
-
+                                view.initializeLabelPopovers();
                                 toastr.success("Saved Successfully.");
                             },
                             error: function (exceptionMessage, exceptionType) {
@@ -754,6 +802,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                 } else {
                                     toastr.error("Failed to save.");
                                 }
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
@@ -807,6 +856,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         if (selectedGRN().status() === 31) {
                             selectedGRNDetail(item);
                             view.showGRNDetailDialog();
+                            view.initializeLabelPopovers();
                         }
                     },
                     // Save GRN Detail
@@ -895,7 +945,11 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     editGRNDetail: editGRNDetail,
                     deliveryCarriers: deliveryCarriers,
                     saveGRNDetail: saveGRNDetail,
-                    onDeleteGRNDetail: onDeleteGRNDetail
+                    onDeleteGRNDetail: onDeleteGRNDetail,
+                    openExternalReportsPurchase: openExternalReportsPurchase,
+                    openExternalEmailPurchaseReport: openExternalEmailPurchaseReport,
+                    formatSelection: formatSelection,
+                    formatResult: formatResult
                 };
             })()
         };

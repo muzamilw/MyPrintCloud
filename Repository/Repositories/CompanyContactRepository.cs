@@ -1,19 +1,17 @@
 ﻿
-using System;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Security.Cryptography;
-using System.Text;
 using Microsoft.Practices.Unity;
-using MPC.Models.DomainModels;
+using MPC.Common;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
+using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
-using System.Data.Entity;
-using MPC.Models.Common;
+using System;
 using System.Collections.Generic;
-using MPC.Common;
+using System.Data.Entity;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace MPC.Repository.Repositories
 {
@@ -56,6 +54,66 @@ namespace MPC.Repository.Repositories
             return DbSet.Where(cc => cc.CompanyId == companyId).ToList();
         }
 
+        /// <summary>
+        /// Get Contacts for order screen
+        /// </summary>
+        public ContactsResponseForOrder GetContactsForOrder(CompanyRequestModelForCalendar request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            var query = (from contact in db.CompanyContacts
+                from cmp in db.Companies.Where(c => c.CompanyId == contact.Company.StoreId).DefaultIfEmpty()
+                where (string.IsNullOrEmpty(request.SearchString)
+                       ||
+                       (contact.FirstName.Contains(request.SearchString)) ||
+                       (contact.MiddleName.Contains(request.SearchString)) ||
+                       (contact.LastName.Contains(request.SearchString)) ||
+                       (contact.Email.Contains(request.SearchString)) ||
+                       cmp.Name.Contains(request.SearchString) ||
+                       contact.Company.Name.Contains(request.SearchString)) &&
+                      (request.CustomerTypes.Any(obj => contact.Company.IsCustomer == obj)) &&
+                      (!contact.isArchived.HasValue || contact.isArchived.Value == false) &&
+                      contact.OrganisationId == OrganisationId
+
+                select new 
+                {
+                    contact.FirstName,
+                    contact.LastName,
+                    contact.ContactId,
+                    contact.AddressId,
+                    contact.CompanyId,
+                    Company = new
+                    {
+                        contact.CompanyId, 
+                        contact.Company.Name,
+                        contact.Company.StoreId,
+                        StoreName = cmp != null ? cmp.Name : string.Empty,
+                        contact.Company.IsCustomer
+                    }
+                });
+            var que = query.Distinct().OrderBy(contact => contact.FirstName).Skip(fromRow).Take(toRow).ToList();
+            int rowCount = query.Distinct().Count();
+            return new ContactsResponseForOrder
+            {
+                RowCount = rowCount,
+                CompanyContacts = que.Select(contact => new CompanyContact
+                {
+                    FirstName = contact.FirstName,
+                    LastName = contact.LastName,
+                    ContactId = contact.ContactId,
+                    AddressId = contact.AddressId,
+                    CompanyId = contact.CompanyId,
+                    Company = new Company
+                    {
+                        CompanyId = contact.Company.CompanyId,
+                        Name = contact.Company.Name,
+                        StoreId = contact.Company.StoreId,
+                        StoreName = contact.Company.StoreName,
+                        IsCustomer = contact.Company.IsCustomer
+                    }
+                }).ToList()
+            };
+        }
         /// <summary>
         /// Get Company Contact By search string and Customer Type
         /// </summary>
@@ -1087,7 +1145,7 @@ namespace MPC.Repository.Repositories
         {
             var qury = from contacts in db.CompanyContacts
                        join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
-                       where contactCompany.IsCustomer == (int)CustomerTypes.Customers && string.Compare(contacts.Email, email, true) == 0
+                       where (contactCompany.IsCustomer == (int)CustomerTypes.Customers || contactCompany.IsCustomer == (int)CustomerTypes.Prospects) && string.Compare(contacts.Email, email, true) == 0
                        && contacts.OrganisationId == OrganisationId && contactCompany.StoreId == StoreId
                        select contacts;
             if (qury != null)
@@ -1418,6 +1476,17 @@ namespace MPC.Repository.Repositories
         public CompanyContact GetCorporateContactForAutoLogin(string emailAddress, long organistionId, long companyId)
         {
             return db.CompanyContacts.Where(c => c.CompanyId == companyId && c.OrganisationId == organistionId && c.Email == emailAddress && c.isWebAccess == true && (c.isArchived == false || c.isArchived == null)).SingleOrDefault();
+        }
+
+
+
+        public CompanyContact GetContactByContactId(long ContactId)
+        {
+
+            db.Configuration.LazyLoadingEnabled = false;
+            return db.CompanyContacts.Where(c => c.ContactId == ContactId).FirstOrDefault();
+
+            
         }
         }
 

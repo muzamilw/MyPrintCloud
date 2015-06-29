@@ -1,8 +1,7 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "User Profile ";
 }
- 
+
 <div class="modal fade my-modal" id="myContactProfileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" aria-hidden="true">
     <div style="width: 838px;" class="modal-dialog" data-bind="with: $root.selectedCompanyContact">
         <div class="modal-content">
@@ -19,7 +18,7 @@
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#tab-UserProfileinfoForContact" data-toggle="tab">Profile</a></li>
                                     <li><a href="#tab-UserAddressInfoForContact" data-toggle="tab">Address Info</a></li>
-                                    
+
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane fade in active" id="tab-UserProfileinfoForContact">
@@ -29,18 +28,10 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group ">
                                                             <div class="col-lg-5 text-right">
-                                                                <label for="txtEmail" class="control-label text-right tooltip-float">Secondary Email</label>
-                                                            </div>
-                                                            <div class="col-lg-7" style="padding-right:4px;">
-                                                                <input type="text" class="form-control" id="txtEmail" data-bind="value: secondaryEmail">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group ">
-                                                            <div class="col-lg-5 text-right">
                                                                 <label for="txtFName" class="control-label text-right tooltip-float">First Name</label>
                                                             </div>
                                                             <div class="col-lg-7" style="padding-right:4px;">
-                                                                <input type="text" class="form-control" id="txtFName" data-bind="value: firstName">
+                                                                <input type="text" class="form-control" id="txtFName" data-bind="value: firstName,validationTooltip: firstName">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -85,6 +76,14 @@
                                                         </div>
                                                         <div class="form-group ">
                                                             <div class="col-lg-5 text-right">
+                                                                <label for="txtEmail" class="control-label text-right tooltip-float">Email</label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-right:4px;">
+                                                                <input type="text" class="form-control" id="txtEmail" data-bind="value: secondaryEmail">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
                                                                 <label for="switchNewsLetter" class="control-label text-right tooltip-float">Newsletter Subscription</label>
                                                             </div>
                                                             <div class="col-lg-7">
@@ -112,30 +111,32 @@
                                                             </div>
                                                         </div>
                                                         @*<div class="form-group ">
-                    <div class="col-lg-5 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Role" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-                        </div>
-                        <label for="ddUserRole" class="control-label text-right tooltip-float">Role</label>
-                    </div>
-                    <div class="col-lg-7">
-                        <select class="form-control col-lg-4" data-bind="options:$root.roles,optionsText:'roleName',optionsValue:'roleId', value: contactRoleId"></select>
-                    </div>
-                </div>*@
+                                                                <div class="col-lg-5 text-right">
+                                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Role" data-original-title="" title="">
+                                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                        </a>
+                                                                    </div>
+                                                                    <label for="ddUserRole" class="control-label text-right tooltip-float">Role</label>
+                                                                </div>
+                                                                <div class="col-lg-7">
+                                                                    <select class="form-control col-lg-4" data-bind="options:$root.roles,optionsText:'roleName',optionsValue:'roleId', value: contactRoleId"></select>
+                                                                </div>
+                                                            </div>*@
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <div class="form-group">
+                                                        <div class="form-group" style="margin-bottom: 0px">
                                                             <div class="col-lg-5 text-right">
 
                                                             </div>
                                                             <div class="col-lg-6" style="text-align: center;">
                                                                 <!-- ko ifnot: image() -->
-                                                                <img style="height:180px;width:200px;" src="/mis/Content/Images/imageplaceholder.png">
+                                                                <img style="margin-left:17%" src="/mis/Content/Images/Company_Default.png">
                                                                 <!--/ko-->
                                                                 <!--ko if: image()-->
-                                                                <img style="height:130px;width:220px; border:1px solid rgb(238, 238, 238)" data-bind="attr: { src: image }" />
+                                                                <div style="min-height: 130px; width: 220px;">
+                                                                    <img style="max-height: 130px;max-width: 220px; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: image }" />  @*height: 130px; width: 220px;*@
+                                                                </div>
                                                                 <!--/ko-->
                                                                 <div style="width:220px;">
                                                                     <div class="fileUpload btn btn-primary marginT5">
@@ -146,15 +147,15 @@
                                                                 <div style="width:220px;text-align:center;">
                                                                     <span class="help-block">Upload an image (PNG,JPG,GIF) for contact profile. This image is also used in Designer tool where contact image placeholder is used</span>
                                                                 </div>
-                                                                  </div>
+                                                            </div>
                                                         </div>
                                                         <br />
                                                         <div class="form-group ">
                                                             <div class="col-lg-5 text-right">
-                                                                <label for="txtEmail" class="control-label text-right tooltip-float">UserName/Email</label>
+                                                                <label for="txtEmail" class="control-label text-right tooltip-float">UserName</label>
                                                             </div>
                                                             <div class="col-lg-7" style="padding-right:4px;">
-                                                                <input type="text" class="form-control" id="txtEmail" data-bind="value: email">
+                                                                <input type="text" class="form-control" id="txtEmail" data-bind="value: email,validationTooltip: email">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
@@ -193,9 +194,9 @@
                                                     </div>
                                                     <div class="form-group ">
                                                     </div>
-                                                 </div>
-                                                    @*<h3 class="group-header">Smart form CRM variables that can be auto populated on templates</h3>*@
-                                                    @*<div class="col-lg-12 clearfix">
+                                                </div>
+                                                @*<h3 class="group-header">Smart form CRM variables that can be auto populated on templates</h3>*@
+                                                @*<div class="col-lg-12 clearfix">
                                                         <div class="col-lg-6">
                                                             <div class="form-group ">
                                                                 <div class="col-lg-5 text-right">
@@ -315,165 +316,166 @@
                                                         <div class="form-group ">
                                                         </div>
                                                     </div>*@
-                                                    <h3 class="group-header">Additional Information</h3>
-                                                    <div class="col-lg-12 clearfix">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group ">
-                                                                <div class="col-lg-5 text-right">
-                                                                    <label for="txtLinkUrl" class="control-label text-right tooltip-float">Linked In URL</label>
-                                                                </div>
-                                                                <div class="col-lg-7" style="padding-right:4px;">
-                                                                    <input type="text" class="form-control" id="txtLinkUrl" data-bind="value:linkedinURL">
-                                                                </div>
+                                                <h3 class="group-header">Additional Information</h3>
+                                                <p style="font-size: 12px; padding-bottom: 5px; margin-left: 5px; margin-top: -14px;">Additional Fields that can be used on Smart Forms & VDP templates</p>
+                                                <div class="col-lg-12 clearfix">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+                                                                <label for="txtLinkUrl" class="control-label text-right tooltip-float">Linked In URL</label>
                                                             </div>
-                                                            <div class="form-group ">
-                                                                <div class="col-lg-5 text-right">
-                                                                    <label for="txtSkypId" class="control-label text-right tooltip-float">Skype ID</label>
-                                                                </div>
-                                                                <div class="col-lg-7" style="padding-right:4px;">
-                                                                    <input type="text" class="form-control" id="txtSkypId" data-bind="value:skypeId">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group ">
-                                                                <div class="col-lg-5 text-right">
-                                                                    <label for="txtFbID" class="control-label text-right tooltip-float">Facebook URL</label>
-                                                                </div>
-                                                                <div class="col-lg-7" style="padding-right:4px;">
-                                                                    <input type="text" class="form-control" id="txtFbID" data-bind="value:facebookURL">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group ">
-                                                                <div class="col-lg-5 text-right">
-                                                                    <label for="txtTwitterID" class="control-label text-right tooltip-float">Twitter URL</label>
-                                                                </div>
-                                                                <div class="col-lg-7" style="padding-right:4px;">
-                                                                    <input type="text" class="form-control" id="txtTwitterID" data-bind="value:twitterURL">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group ">
-                                                                <div class="col-lg-5 text-right">
-                                                                    <label for="txtAddIn1" class="control-label text-right tooltip-float">Additional Info 1</label>
-                                                                </div>
-                                                                <div class="col-lg-7" style="padding-right:4px;">
-                                                                    <input type="text" class="form-control" id="txtAddIn1" data-bind="value:additionalField1">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group ">
-                                                                <div class="col-lg-5 text-right">
-                                                                    <label for="txtAddIn2" class="control-label text-right tooltip-float">Additional Info 2</label>
-                                                                </div>
-                                                                <div class="col-lg-7" style="padding-right:4px;">
-                                                                    <input type="text" class="form-control" id="txtAddIn2" data-bind="value:additionalField2">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group ">
-                                                                <div class="col-lg-5 text-right">
-                                                                    <label for="txtAddIn3" class="control-label text-right tooltip-float">Additional Info 3</label>
-                                                                </div>
-                                                                <div class="col-lg-7" style="padding-right:4px;">
-                                                                    <input type="text" class="form-control" id="txtAddIn3" data-bind="value:additionalField3">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group ">
-                                                                <div class="col-lg-5 text-right">
-                                                                    <label for="txtAddIn4" class="control-label text-right tooltip-float">Additional Info 4</label>
-                                                                </div>
-                                                                <div class="col-lg-7" style="padding-right:4px;">
-                                                                    <input type="text" class="form-control" id="txtAddIn4" data-bind="value:additionalField4">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group ">
-                                                                <div class="col-lg-5 text-right">
-                                                                    <label for="txtAddIn5" class="control-label text-right tooltip-float">Additional Info 5</label>
-                                                                </div>
-                                                                <div class="col-lg-7" style="padding-right:4px;">
-                                                                    <input type="text" class="form-control" id="txtAddIn5" data-bind="value:additionalField5">
-                                                                </div>
-                                                            </div>
-
-
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group ">
-                                                                <div class="col-lg-5 text-right">
-                                                                    <label for="txtPoBoxAdd" class="control-label text-right tooltip-float">PO Box Address</label>
-                                                                </div>
-                                                                <div class="col-lg-7" style="padding-right:4px;">
-                                                                    <input type="text" class="form-control" id="txtPoBoxAdd" data-bind="value:pOBoxAddress">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group ">
-                                                                <div class="col-lg-5 text-right">
-                                                                    <label for="txtCorpUnit" class="control-label text-right tooltip-float">Corporate Unit</label>
-                                                                </div>
-                                                                <div class="col-lg-7" style="padding-right:4px;">
-                                                                    <input type="text" class="form-control" id="txtCorpUnit" data-bind="value:corporateUnit">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group ">
-                                                                <div class="col-lg-5 text-right">
-                                                                    <label for="txtOfficeTradName" class="control-label text-right tooltip-float">Trading Name</label>
-                                                                </div>
-                                                                <div class="col-lg-7" style="padding-right:4px;">
-                                                                    <input type="text" class="form-control" id="txtOfficeTradName" data-bind="value:officeTradingName">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group ">
-                                                                <div class="col-lg-5 text-right">
-                                                                    <label for="txtBPay" class="control-label text-right tooltip-float">BPay CRN</label>
-                                                                </div>
-                                                                <div class="col-lg-7" style="padding-right:4px;">
-                                                                    <input type="text" class="form-control" id="txtBPay" data-bind="value: bPayCRN">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group ">
-                                                                <div class="col-lg-5 text-right">
-                                                                    <label for="txtACN" class="control-label text-right tooltip-float">ACN</label>
-                                                                </div>
-                                                                <div class="col-lg-7" style="padding-right:4px;">
-                                                                    <input type="text" class="form-control" id="txtACN" data-bind="value:aCN">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group ">
-                                                                <div class="col-lg-5 text-right">
-                                                                    <label for="txtContractorName" class="control-label text-right tooltip-float">Contractor Name</label>
-                                                                </div>
-                                                                <div class="col-lg-7" style="padding-right:4px;">
-                                                                    <input type="text" class="form-control" id="txtContractorName" data-bind="value:contractorName">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group ">
-                                                                <div class="col-lg-5 text-right">
-                                                                    <label for="txtABN" class="control-label text-right tooltip-float">ABN</label>
-                                                                </div>
-                                                                <div class="col-lg-7" style="padding-right:4px;">
-                                                                    <input type="text" class="form-control" id="txtABN" data-bind="value: aBN">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group ">
-                                                                <div class="col-lg-5 text-right">
-                                                                    <label for="txtNotes" class="control-label text-right tooltip-float">Notes</label>
-                                                                </div>
-                                                                <div class="col-lg-7" style="padding-right:4px;">
-                                                                    <textarea rows="3" class="form-control bkg-color" id="txtNotes" data-bind="value: notes"></textarea>
-                                                                </div>
+                                                            <div class="col-lg-7" style="padding-right:4px;">
+                                                                <input type="text" class="form-control" id="txtLinkUrl" data-bind="value:linkedinURL">
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+                                                                <label for="txtSkypId" class="control-label text-right tooltip-float">Skype ID</label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-right:4px;">
+                                                                <input type="text" class="form-control" id="txtSkypId" data-bind="value:skypeId">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+                                                                <label for="txtFbID" class="control-label text-right tooltip-float">Facebook URL</label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-right:4px;">
+                                                                <input type="text" class="form-control" id="txtFbID" data-bind="value:facebookURL">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+                                                                <label for="txtTwitterID" class="control-label text-right tooltip-float">Twitter URL</label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-right:4px;">
+                                                                <input type="text" class="form-control" id="txtTwitterID" data-bind="value:twitterURL">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+                                                                <label for="txtAddIn1" class="control-label text-right tooltip-float">Additional Info 1</label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-right:4px;">
+                                                                <input type="text" class="form-control" id="txtAddIn1" data-bind="value:additionalField1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+                                                                <label for="txtAddIn2" class="control-label text-right tooltip-float">Additional Info 2</label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-right:4px;">
+                                                                <input type="text" class="form-control" id="txtAddIn2" data-bind="value:additionalField2">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+                                                                <label for="txtAddIn3" class="control-label text-right tooltip-float">Additional Info 3</label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-right:4px;">
+                                                                <input type="text" class="form-control" id="txtAddIn3" data-bind="value:additionalField3">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+                                                                <label for="txtAddIn4" class="control-label text-right tooltip-float">Additional Info 4</label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-right:4px;">
+                                                                <input type="text" class="form-control" id="txtAddIn4" data-bind="value:additionalField4">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+                                                                <label for="txtAddIn5" class="control-label text-right tooltip-float">Additional Info 5</label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-right:4px;">
+                                                                <input type="text" class="form-control" id="txtAddIn5" data-bind="value:additionalField5">
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+                                                                <label for="txtPoBoxAdd" class="control-label text-right tooltip-float">PO Box Address</label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-right:4px;">
+                                                                <input type="text" class="form-control" id="txtPoBoxAdd" data-bind="value:pOBoxAddress">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+                                                                <label for="txtCorpUnit" class="control-label text-right tooltip-float">Corporate Unit</label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-right:4px;">
+                                                                <input type="text" class="form-control" id="txtCorpUnit" data-bind="value:corporateUnit">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+                                                                <label for="txtOfficeTradName" class="control-label text-right tooltip-float">Trading Name</label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-right:4px;">
+                                                                <input type="text" class="form-control" id="txtOfficeTradName" data-bind="value:officeTradingName">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+                                                                <label for="txtBPay" class="control-label text-right tooltip-float">BPay CRN</label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-right:4px;">
+                                                                <input type="text" class="form-control" id="txtBPay" data-bind="value: bPayCRN">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+                                                                <label for="txtACN" class="control-label text-right tooltip-float">ACN</label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-right:4px;">
+                                                                <input type="text" class="form-control" id="txtACN" data-bind="value:aCN">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+                                                                <label for="txtContractorName" class="control-label text-right tooltip-float">Contractor Name</label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-right:4px;">
+                                                                <input type="text" class="form-control" id="txtContractorName" data-bind="value:contractorName">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+                                                                <label for="txtABN" class="control-label text-right tooltip-float">ABN</label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-right:4px;">
+                                                                <input type="text" class="form-control" id="txtABN" data-bind="value: aBN">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-5 text-right">
+                                                                <label for="txtNotes" class="control-label text-right tooltip-float">Notes</label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-right:4px;">
+                                                                <textarea rows="3" class="form-control bkg-color" id="txtNotes" data-bind="value: notes"></textarea>
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                    <div class="form-group ">
+                                                    </div>
                                                 </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="tab-UserAddressInfoForContact">
                                         <div class="col-lg-12">
                                             <div class=" form-horizontal clearfix">
-                                               
-                                                 <div class="col-lg-6">
-                                                   
+
+                                                <div class="col-lg-6">
+
                                                     <div class="form-group ">
                                                         <div class="col-lg-4 text-right">
-                                                            <label for="ddbussinessAddress" class="control-label">Business Address</label>      
+                                                            <label for="ddbussinessAddress" class="control-label">Business Address</label>
                                                         </div>
                                                         <div class="col-lg-7">
                                                             <select class="form-control " id="ddTerritory" data-bind="options:$root.bussinessAddresses,optionsText:'addressName',optionsValue:'addressId',value: bussinessAddressId, validationToolTip: bussinessAddressId"></select>
@@ -504,7 +506,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                               
+
                                                 <div class="col-lg-6">
                                                     <div class="form-group ">
                                                         <div class="col-lg-4 text-right">
@@ -542,7 +544,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>

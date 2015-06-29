@@ -1,6 +1,8 @@
-﻿using MPC.Common;
+﻿using AutoMapper;
+using MPC.Common;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -71,7 +73,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         public HttpResponseMessage GetSmartFormData(long parameter1,long parameter2,long parameter3)
         {
             List<SmartFormUserList> usersListData = null;
-            SmartForm objSmartform = smartFormService.GetSmartForm(parameter2);
+            SmartFormWebstoreResponse objSmartform = smartFormService.GetSmartForm(parameter2);
             List<SmartFormDetail> smartFormObjs = smartFormService.GetSmartFormObjects(parameter2);
             bool hasContactVariables = false;
             Dictionary<long, List<ScopeVariable>> AllUserScopeVariables = null;
@@ -90,7 +92,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             }
             foreach(var item in allTemplateVariables)
             {
-                var sVariable = scopeVariable.Where(g => g.VariableId == item.VariableId).SingleOrDefault();
+                var sVariable = scopeVariable.Where(g => g.VariableId == item.VariableId).FirstOrDefault();
                 if(sVariable == null)
                 {
                     scopeVariable.Add(item);
@@ -107,7 +109,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
 
                 }
             }
-            List<VariableExtension> extension = smartFormService.getVariableExtensions(scopeVariable,parameter1);
+            List<VariableExtensionWebstoreResposne> extension = smartFormService.getVariableExtensions(scopeVariable, parameter1);
             SmartFormUserData result = new SmartFormUserData(usersListData, objSmartform, smartFormObjs, scopeVariable, AllUserScopeVariables,extension);
 
 
@@ -139,7 +141,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         public HttpResponseMessage GetUserVariableData(long parameter1, long parameter2)
         {
             var listVar = smartFormService.GetUserTemplateVariables(parameter1, parameter2);
-            List<VariableExtension> extension = smartFormService.getVariableExtensions(listVar, parameter2);
+            List<VariableExtensionWebstoreResposne> extension = smartFormService.getVariableExtensions(listVar, parameter2);
             UserVariableData result = new UserVariableData(listVar, extension);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
@@ -159,28 +161,54 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
     public class SmartFormUserData
     {
         public List<SmartFormUserList> usersList { get; set; }
-        public SmartForm smartForm { get; set; }
+        public SmartFormWebstoreResponse smartForm { get; set; }
         public List<SmartFormDetail> smartFormObjs { get; set; }
 
         public List<ScopeVariable> scopeVariables { get; set; }
         public Dictionary<long, List<ScopeVariable>> AllUserScopeVariables;
 
-        public List<VariableExtension> variableExtensions { get; set; }
-        public SmartFormUserData(List<SmartFormUserList> usersList, SmartForm smartForm, List<SmartFormDetail> smartFormObjs, List<ScopeVariable> scopeVariables, Dictionary<long, List<ScopeVariable>> AllUserScopeVariables, List<VariableExtension> variableExtensions)
+        public List<VariableExtensionWebstoreResposne> variableExtensions { get; set; }
+        public SmartFormUserData(List<SmartFormUserList> usersList, SmartFormWebstoreResponse smartForm, List<SmartFormDetail> smartFormObjs, List<ScopeVariable> scopeVariables, Dictionary<long, List<ScopeVariable>> AllUserScopeVariables, List<VariableExtensionWebstoreResposne> variableExtensions)
         {
             this.usersList = usersList;
             this.smartForm = smartForm;
             this.smartFormObjs = smartFormObjs;
             this.scopeVariables = scopeVariables;
-            this.AllUserScopeVariables = AllUserScopeVariables;
+
+            if (AllUserScopeVariables != null)
+            {
+              foreach (var item in AllUserScopeVariables)
+              {
+                  foreach(var scope in item.Value)
+                  {
+                      if(scope.FieldVariable != null)
+                      {
+                          if(scope.FieldVariable.Company != null)
+                          {
+                              scope.FieldVariable.Company = null;
+                          }
+                      }
+                  }
+              }
+              this.AllUserScopeVariables = AllUserScopeVariables;
+            }
+            else
+            {
+                this.AllUserScopeVariables = AllUserScopeVariables;
+            }
+         
+
+          
+
+            
             this.variableExtensions = variableExtensions;
         }
     }
     public class UserVariableData
     {
         public List<ScopeVariable> scopeVariables { get; set; }
-        public List<VariableExtension> variableExtensions { get; set; }
-        public UserVariableData( List<ScopeVariable> scopeVariables,List<VariableExtension> variableExtensions)
+        public List<VariableExtensionWebstoreResposne> variableExtensions { get; set; }
+        public UserVariableData(List<ScopeVariable> scopeVariables, List<VariableExtensionWebstoreResposne> variableExtensions)
         {
             this.scopeVariables = scopeVariables;
             this.variableExtensions = variableExtensions;

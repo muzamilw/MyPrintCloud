@@ -36,7 +36,8 @@
                 <div class="main-box no-header clearfix">
                     <div class="main-box-body clearfix">
                         <div class="table-responsive">
-                            <p class="group-header-description">Create and set sheets sizes widths and lengths</p>
+                            <h3>Create and set sheets sizes widths and lengths</h3>
+                            <p class="group-header-description">Create and Manage sheet sizes for use within estimates and products.Enter width and length as well as unit of preferred measurement</p>
                            
                             <br />
                             <table class="table table-striped table-hover">
@@ -110,7 +111,7 @@
                 <div class=" filter-block pull-right">
                     <div class="form-group pull-right">
                         <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
-                        <i class="fa fa-search search-icon"></i>
+                        <i class="fa fa-search search-icon" data-bind="click:$root.getPaperSheetsByFilter"></i>
                     </div>
                 </div>
             </form>

@@ -467,6 +467,7 @@
     <Compile Include="ResponseModels\CompanySearchResponseForCalendar.cs" />
     <Compile Include="ResponseModels\CompanyTerritoryResponse.cs" />
     <Compile Include="ResponseModels\CompanyContactResponse.cs" />
+    <Compile Include="ResponseModels\ContactsResponseForOrder.cs" />
     <Compile Include="ResponseModels\CostCenterBaseResponse.cs" />
     <Compile Include="ResponseModels\CostCenterExecutionResponse.cs" />
     <Compile Include="ResponseModels\CostCenterVariablesResponseModel.cs" />
@@ -513,10 +514,12 @@
     <Compile Include="ResponseModels\PaymentGatewayResponse.cs" />
     <Compile Include="ResponseModels\PurchaseBaseResponse.cs" />
     <Compile Include="ResponseModels\PurchaseResponseModel.cs" />
+    <Compile Include="ResponseModels\ReportEmailResponse.cs" />
     <Compile Include="ResponseModels\ReportEmailResponseModel.cs" />
     <Compile Include="ResponseModels\ReportparamResponse.cs" />
     <Compile Include="ResponseModels\SecondaryPageResponse.cs" />
     <Compile Include="ResponseModels\SmartFormResponse.cs" />
+    <Compile Include="ResponseModels\SmartFormWebstoreResponse.cs" />
     <Compile Include="ResponseModels\StockCategoryResponse.cs" />
     <Compile Include="ResponseModels\StoresListResponse.cs" />
     <Compile Include="ResponseModels\SupplierBaseResponse.cs" />

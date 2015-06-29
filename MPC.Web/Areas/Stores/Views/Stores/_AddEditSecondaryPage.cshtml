@@ -47,7 +47,7 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="ddPageCat" class="control-label text-right tooltip-float">Page Category</label>
+                                                        <label for="ddPageCat" class="control-label text-right tooltip-float">Footer Column</label>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <select class="form-control" id="ddPageCat" data-bind="options: $root.pageCategories, optionsText: 'name', optionsValue: 'id',value:categoryId, validationTooltip: categoryId"> </select>
@@ -56,57 +56,6 @@
                                                         <div data-bind="click:$root.onAddSecondryPageCategory" class="btn btn-primary">
                                                             <i class="fa fa-lg"></i>&nbsp;....
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-5 text-right">
-                                                        @*<div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Banner from Media Library" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload new sprite image" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>
-                                                        <label class="control-label text-right tooltip-float">Upload banner (PNG 1000 pixels)</label>*@
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        @*<img width="290" height="217" data-bind="attr: { src: imageSrc }" />*@
-
-
-                                                        <div class="clearfix">
-
-
-                                                            <img style="width:240px;height:130px;" data-bind="visible:imageSrc()===undefined,attr: { src: '@Url.Content("~/")' + pageBannerWithCacheRemoveTechnique() }" />
-                                                            <img style="width:240px;height:130px;" data-bind="visible:imageSrc()!==undefined,attr: { src: imageSrc }" />
-                                                            <div class="col-lg-12">
-                                                                <div class="col-lg-6" style="margin-top: 5px;text-align:center;">
-                                                                    <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromSecondaryPage">
-                                                                        <span>Change Banner </span>
-
-                                                                    </div>
-                                                                </div>
-                                                              </div>
-                                                            <div class="col-lg-12">
-                                                                <div class="col-lg-6 ThoumbnailCostCenter" style="margin-top:10px !important;text-align:center">Select a page banner for the user defined page from media files. Considering using page banners with correct dimensions according to selected Store theme.</div>
-                                                            </div>
-                                                                
-
-
-
-                                                                </div>
-                                                              
-
-
-                                                            </div>
-
-
-
-                                                        @*<img width="290" height="217" data-bind="visible:imageSrc()===undefined,attr: { src: '@Url.Content("~/")' + pageBannerWithCacheRemoveTechnique() }" />
-                                                        <img width="290" height="217" data-bind="visible:imageSrc()!==undefined,attr: { src: imageSrc }" />*@
-                                                    @*</div>*@
-                                                    <div class="col-lg-1">
-                                                        @*<div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromSecondaryPage">
-                                                            <span>....</span>
-                                                           
-                                                        </div>*@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -130,8 +79,68 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            </div>
+                                      </div>
+                                    <div class="col-lg-12">
+                                                <div class=" form-horizontal clearfix">
+                                                    <h3 class="group-header">Upload Page Banner</h3>
+                                                    <div class="col-lg-9">
+                                                        <div class="form-group">
+                                                            <div class="col-lg-5 text-right">
+                                                                @*<div class="bs-example-tooltips tooltip-float-width">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Banner from Media Library" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload new sprite image" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label class="control-label text-right tooltip-float">Upload banner (PNG 1000 pixels)</label>*@
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                @*<img width="290" height="217" data-bind="attr: { src: imageSrc }" />*@
+
+
+                                                                <div class="clearfix">
+
+
+                                                                    <img style="width:240px;height:130px;-o-object-fit: contain; object-fit: contain;" data-bind="visible:imageSrc()===undefined,attr: { src: '@Url.Content("~/")' + pageBannerWithCacheRemoveTechnique() }" />
+                                                                    <img style="width:240px;height:130px;-o-object-fit: contain; object-fit: contain;" data-bind="visible:imageSrc()!==undefined,attr: { src: imageSrc }" />
+                                                                    <div class="col-lg-12">
+                                                                        <div class="col-lg-6" style="margin-top: 5px;text-align:center;">
+                                                                            <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromSecondaryPage">
+                                                                                <span>Change Banner </span>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-12">
+                                                                        <div class="col-lg-6 ThoumbnailCostCenter" style="margin-top:10px !important;text-align:center">Select a page banner for the user defined page from media files. Considering using page banners with correct dimensions according to selected Store theme.</div>
+                                                                    </div>
+
+
+
+
+                                                                </div>
+
+
+
+                                                            </div>
+
+
+
+                                                            @*<img width="290" height="217" data-bind="visible:imageSrc()===undefined,attr: { src: '@Url.Content("~/")' + pageBannerWithCacheRemoveTechnique() }" />
+                    <img width="290" height="217" data-bind="visible:imageSrc()!==undefined,attr: { src: imageSrc }" />*@
+                                                            @*</div>*@
+                                                            <div class="col-lg-1">
+                                                                @*<div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromSecondaryPage">
+                            <span>....</span>
+
+                        </div>*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                         </div>
-                                    </div>
+                                    
                                 </div>
                                 <!-- /ko -->
 

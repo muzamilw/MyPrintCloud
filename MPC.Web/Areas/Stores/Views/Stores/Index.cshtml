@@ -97,7 +97,12 @@
         <script id="itemStoreTemplate" type="text/html">
             <tr data-bind="click : $root.onEditItem, css: { selectedRow: $data === $root.selectedStore}" style="cursor: pointer">
                 <td>
-                    <img style="width: 30%; max-width: 30%;" data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
+                    <!-- ko if: storeImageFileBinary()==='' -->
+                    <img style="margin-bottom: -12px; margin-top: -12px; margin-left: -8%; -o-object-fit: contain; object-fit: contain; " data-bind="attr: { src: storeImageFileBinary()==='' ? '/mis/Content/Images/Company_Default.png':'' }" alt="">
+                    <!--/ko-->
+                    <!-- ko if: storeImageFileBinary()!=='' -->
+                    <img style="width: 27%; max-width: 43%; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
+                    <!--/ko-->
                 </td>
                 <td>
                     <a href="#" class="store-user-link" data-bind="text: name"></a>
@@ -107,7 +112,7 @@
                 <td data-bind="text: type"></td>
 
                 <td>
-                    <a class="btn btn-success" data-bind="text: 'Open Live Store', attr: {href: domain }, click: function(){$root.openDomainInTab($data, event);}" target="_new"></a>
+                    <a class="btn btn-success" data-bind="text: 'Preview Web Store', attr: {href: domain }, click: function(){$root.openDomainInTab($data, event);}" target="_new"></a>
                 </td>
                 @*<td id="actionColumn">
                         <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->

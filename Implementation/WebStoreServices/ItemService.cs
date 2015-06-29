@@ -1889,7 +1889,10 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     List<Item> esxistingOrderItems = _OrderRepository.GetAllOrderItems(ExistingOrderId);
                     //Clone items related to this order
-                    esxistingOrderItems.Where(i => i.ItemType != Convert.ToInt32(ItemTypes.Delivery)).ToList().ForEach(orderITem =>
+
+                    esxistingOrderItems = esxistingOrderItems.Where(i => i.StatusId != (int)OrderStatus.ShoppingCart && i.ItemType != Convert.ToInt32(ItemTypes.Delivery)).ToList();
+
+                    esxistingOrderItems.ForEach(orderITem =>
                     {
                         Item item = _ItemRepository.CloneReOrderItem(OrderIdOfReorderItems, orderITem.ItemId, loggedInContactID, shopCartOrder.Order_Code, OrganisationId);
                         ClonedItems.Add(item);

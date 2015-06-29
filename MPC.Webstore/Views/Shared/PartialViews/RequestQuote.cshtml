@@ -313,7 +313,7 @@
         </div>
         <div class="float_left_simple colorBlack">
 
-            <a id="AddNewInquiryItemList" class="colorBlack"><input id="btnSend" class="add-inquiry-btn rounded_corners5" value="Add new item" type="button" /></a>
+            <a id="AddNewInquiryItemList" class="colorBlack"><input id="btnSend" class="add-inquiry-btn rounded_corners5" value="Add item" type="button" /></a>
         </div>
         <div class="quote_control_sec_btnsDiv float_left">
 
@@ -322,8 +322,10 @@
                 <input id="btnSend" class="start_creating_btn rounded_corners5 background-green" type="button" value="Send" onclick="Submit();" />
             </div>
             <div class="quote_cancel_button">
+               <a href="/">
+                   <input id="btnCancel" class="start_creating_btn rounded_corners5" type="button" value="Cancel" />
+               </a>
                
-                <input id="btnCancel" class="start_creating_btn rounded_corners5" type="button" value="Cancel" onclick="CancelBtn()" />
             </div>
            
             <div class="clearBoth">
@@ -658,12 +660,19 @@
             async: true,
             processData: false,
             success: function (response) {
-                $("#MessgeToDisply").css('visibility', 'visible');
-                $("#MessgeToDisply").html('Profile Updated Sucessfuly!');
+                HideLoader();
+                $("#txtBoxUserName").val(''); $("#LastName").val(''); $("#UserEmail").val(''); $("#Phone").val('');
+                $("#txtInquiryTitle").val(''); $("#txtTitle1").val(''); $("#txtItemNote1").val(''); $("#txtInquiryDate1").val('');
+                $("#txtTitle2").val(''); $("#itemnotes2").val(''); $("#txtInquiryDate2").val('');
+                $("#txtTitle3").val(''); $("#txtItemNote3").val(''); $("#txtInquiryDate3").val('');
+                $("#hfNoOfRec").val(1);
+                ShowPopUp("Message", "Inquiry submitted successfully!");
+               
             },
             error: function (error) {
-                $("#MessgeToDisply").css('visibility', 'visible');
-                $("#MessgeToDisply").html('Error Occured While Updating Profile!');
+                HideLoader();
+                ShowPopUp("Message", "Error occured while processing!");
+
             }
         });
     }
@@ -671,15 +680,13 @@
     function ValidateEmail(email) {
         var isValid = true;
         if (email == '') {
-           // var emailxreq = "<%= Resources.MyResource.emailxreq %>";
-          //  ShowPopup('Message', emailxreq);
+         
             isValid = false;
         }
         else {
             var re = new RegExp("^[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$");
             if (!re.test(email)) {
-               // var PlxenterVEmail = "<%= Resources.MyResource.PlxenterVEmail %>";
-               // ShowPopup('Message', PlxenterVEmail);
+              
                 isValid = false;
             }
         }
@@ -688,7 +695,7 @@
     function CancelBtn()
     {
         ShowLoader();
-        window.location.href = "/Dashboard";
+        window.location.href = "/";
     }
 </script>
 }

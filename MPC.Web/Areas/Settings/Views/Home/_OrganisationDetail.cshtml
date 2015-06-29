@@ -260,11 +260,11 @@
                     <div style="padding-left:0px;text-align:right;">
                         <div>
                             <!-- ko if: orgnizationImage() -->
-                            <img id="orgImage" alt="" src="" style="width:220px;height:130px;" data-bind="attr:{ src: orgnizationImage() }" />
+                            <img id="orgImage" alt="" src="" style="width:220px;height:130px;-o-object-fit: contain; object-fit: contain;" data-bind="attr:{ src: orgnizationImage() }" />
                             <!-- /ko -->
                             <!-- ko ifnot: orgnizationImage() -->
                            
-                            <img id="orgImage" alt="" src="/mis/Content/Images/imageplaceholder.png" style="width:200px;height:180px;" />
+                            <img id="orgImage" alt="" src="/mis/Content/Images/imageplaceholder.png" style="width:200px;height:180px;-o-object-fit: contain; object-fit: contain;" />
                             <!-- /ko -->
                         </div>
                     </div>

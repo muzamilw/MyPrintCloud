@@ -197,14 +197,25 @@ define("product/product.view",
                     var inputElement = category.isSelected() ?
                         '<input class="bigcheckbox" style="float: right;" type="checkbox" checked="checked" data-bind="click: $root.updateCheckedStateForCategory"  />' :
                         '<input class="bigcheckbox" style="float: right;" type="checkbox" data-bind="click: $root.updateCheckedStateForCategory" />';
+                    var childCategoryHtml;
+                    if (category.isArchived) {
+                        childCategoryHtml = '<ol class="dd-list"> ' +
+                            '<li class="dd-item dd-item-list" id="liElement-' + category.id + '"> ' +
+                            '<div class="dd-handle-list" ><i class="fa fa-chevron-circle-right cursorShape" data-bind="click: $root.toggleChildCategories"></i></div>' +
+                            '<div class="dd-handle">' +
+                            '<span>' + category.name + '</span>' + '<span style="color:red; font-weight: 700;"> (Archive) </span>'+
+                            inputElement
+                            + '</div></li></ol>';
+                    } else {
+                        childCategoryHtml = '<ol class="dd-list"> ' +
+                            '<li class="dd-item dd-item-list" id="liElement-' + category.id + '"> ' +
+                            '<div class="dd-handle-list" ><i class="fa fa-chevron-circle-right cursorShape" data-bind="click: $root.toggleChildCategories"></i></div>' +
+                            '<div class="dd-handle">' +
+                            '<span>' + category.name + '</span>' +
+                            inputElement
+                            + '</div></li></ol>';
+                    }
 
-                    var childCategoryHtml = '<ol class="dd-list"> ' +
-                        '<li class="dd-item dd-item-list" id="liElement-' + category.id + '"> ' +
-                        '<div class="dd-handle-list" ><i class="fa fa-chevron-circle-right cursorShape" data-bind="click: $root.toggleChildCategories"></i></div>' +
-                        '<div class="dd-handle">' +
-                        '<span>' + category.name + '</span>' +
-                        inputElement
-                        + '</div></li></ol>';
 
                     targetElement.append(childCategoryHtml);
 
@@ -452,6 +463,17 @@ define("product/product.view",
                 productCategorySelectedEventHandler = function (event) {
                     viewModel.categorySelectedEventHandler(event.category);
                 },
+                // SubCategories Loaded
+                subCategoriesLoadedEventHandler = function (event) {
+                    viewModel.subCategoriesLoadedEventHandler(event.categories);
+                },
+                // Sub Category Selected Event
+                subCategorySelectedEvent = function(category) {
+                    $.event.trigger({
+                        type: "SubCategorySelectedFromProduct",
+                        category: category
+                    });
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -460,7 +482,7 @@ define("product/product.view",
 
                     // subscribe to events
                     $(document).on("ProductCategorySelected", productCategorySelectedEventHandler);
-
+                    $(document).on("SubCategoriesLoaded", subCategoriesLoadedEventHandler);
                 };
             initialize();
             
@@ -496,7 +518,8 @@ define("product/product.view",
                 showSheetPlanImageDialog: showSheetPlanImageDialog,
                 hideSheetPlanImageDialog: hideSheetPlanImageDialog,
                 showInksDialog: showInksDialog,
-                hideInksDialog: hideInksDialog
+                hideInksDialog: hideInksDialog,
+                subCategorySelectedEvent: subCategorySelectedEvent
             };
         })(productViewModel);
 
