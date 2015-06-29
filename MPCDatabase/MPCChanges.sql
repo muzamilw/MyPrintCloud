@@ -5808,3 +5808,12 @@ references SystemUser (SystemUserId)
 -----Executed on All servers on 20150622------------
 
 update FieldVariable set CriteriaFieldName = 'SecondaryEmail' where VariableTag like '{{Email}}'
+
+/* Execution Date: 29/06/2015 */
+
+alter table templateBackgroundImage add hasClippingPath bit null
+
+
+alter table templateBackgroundImage add clippingFileName nvarchar(max) null
+
+alter table templateObject add hasClippingPath bit null
