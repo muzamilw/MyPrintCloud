@@ -6,6 +6,7 @@ using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
 using Newtonsoft.Json;
+using PDFlib_dotnet;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -1905,6 +1906,53 @@ namespace MPC.Implementation.WebStoreServices
             }
 
         }
+        private string generatePagePreview(string PDFDoc, string savePath, string PreviewFileName, double CuttingMargin, int DPI, bool RoundCorners)
+        {
+            CuttingMargin = DesignerUtils.PixelToPoint(CuttingMargin);
+            using (Doc theDoc = new Doc())
+            {
+                Stream str = null;
+                try
+                {
+                    theDoc.Read(PDFDoc);
+                    theDoc.PageNumber = 1;
+                    theDoc.Rect.String = theDoc.CropBox.String;
+                    theDoc.Rect.Inset(CuttingMargin, CuttingMargin);
+
+                    if (System.IO.Directory.Exists(savePath) == false)
+                    {
+                        System.IO.Directory.CreateDirectory(savePath);
+                    }
+                    string filePath = savePath + PreviewFileName + ".png";
+                    theDoc.Rendering.DotsPerInch = DPI;
+                    theDoc.Rendering.Save(filePath);
+                    theDoc.Dispose();
+                    //if (RoundCorners)
+                    //{
+                    //    generateRoundCorners(filePath, filePath,str);
+                    //}
+
+
+
+                    return PreviewFileName + ".png";
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("generatePagePreview", ex);
+                }
+                finally
+                {
+                    if (theDoc != null)
+                        theDoc.Dispose();
+                    if (str != null)
+                        str.Dispose();
+                }
+            }
+
+        }
         public bool generatePagePreviewMultiplage(byte[] PDFDoc, string savePath, double CuttingMargin, int DPI, bool RoundCorners)
         {
 
@@ -2290,6 +2338,28 @@ namespace MPC.Implementation.WebStoreServices
                         System.IO.File.WriteAllBytes(drURL + productID + "/p" + objPage.PageNo + ".pdf", PDFFile);
                         //generate and write overlay image to FS 
                         generatePagePreview(PDFFile, drURL, productID + "/p" + objPage.PageNo, objProduct.CuttingMargin.Value, 150, isroundCorners);
+                        //List<TemplateObject> clippingPaths = oTemplateObjects.Where(g => g.ProductPageId == objPage.ProductPageId && g.hasClippingPath == true && g.IsOverlayObject != true).ToList();
+                        //if (clippingPaths.Count > 0)
+                        //{
+                        //   // ClippingPathService objService = new ClippingPathService();
+                        //    double height, width = 0;
+                        //    if (objPage.Orientation == 1) //standard 
+                        //    {
+                        //        height = objProduct.PDFTemplateHeight.Value;
+                        //        width = objProduct.PDFTemplateWidth.Value;
+
+                        //    }
+                        //    else
+                        //    {
+                        //        height = objProduct.PDFTemplateWidth.Value;
+                        //        width = objProduct.PDFTemplateHeight.Value;
+
+                        //    }
+                        //    generateClippingPaths(drURL + productID + "/p" + objPage.PageNo + ".pdf", clippingPaths, drURL + productID + "/p" + objPage.PageNo + "clip.pdf", width, height);
+                        //    File.Copy(drURL + productID + "/p" + objPage.PageNo + "clip.pdf", drURL + productID + "/p" + objPage.PageNo + ".pdf", true);
+                        //    File.Delete(drURL + productID + "/p" + objPage.PageNo + "clip.pdf");
+                        //    generatePagePreview(drURL + productID + "/p" + objPage.PageNo + ".pdf", drURL, productID + "/p" + objPage.PageNo, objProduct.CuttingMargin.Value, 150, isroundCorners);
+                        //}
                         if (hasOverlayObject)
                         {
                             // generate overlay PDF 
@@ -2298,6 +2368,27 @@ namespace MPC.Implementation.WebStoreServices
                             System.IO.File.WriteAllBytes(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", overlayPDFFile);
                             // generate and write overlay image to FS 
                             generatePagePreview(overlayPDFFile, drURL, productID + "/p" + objPage.PageNo + "overlay", objProduct.CuttingMargin.Value, 150, isroundCorners);
+                            //List<TemplateObject> overlayClippingPaths = oTemplateObjects.Where(g => g.ProductPageId == objPage.ProductPageId && g.hasClippingPath == true && g.IsOverlayObject == true).ToList();
+                            //if (clippingPaths.Count > 0)
+                            //{
+                            //    double height, width = 0;
+                            //    if (objPage.Orientation == 1) //standard 
+                            //    {
+                            //        height = objProduct.PDFTemplateHeight.Value;
+                            //        width = objProduct.PDFTemplateWidth.Value;
+
+                            //    }
+                            //    else
+                            //    {
+                            //        height = objProduct.PDFTemplateWidth.Value;
+                            //        width = objProduct.PDFTemplateHeight.Value;
+
+                            //    }
+                            //    generateClippingPaths(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", overlayClippingPaths, drURL + productID + "/p" + objPage.PageNo + "clipoverlay.pdf", width, height);
+                            //    File.Copy(drURL + productID + "/p" + objPage.PageNo + "clipoverlay.pdf", drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", true);
+                            //    File.Delete(drURL + productID + "/p" + objPage.PageNo + "clipoverlay.pdf");
+                            //    generatePagePreview(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", drURL, productID + "/p" + objPage.PageNo + "overlay", objProduct.CuttingMargin.Value, 150, isroundCorners);
+                            //}
                         }
                     }
                     result = true;
@@ -2309,7 +2400,71 @@ namespace MPC.Implementation.WebStoreServices
             }
             return result;
         }
+        public void generateClippingPaths(string path, List<TemplateObject> lstObjs, string outputPath, double width, double height)
+        {
+            PDFlib p;
+            int image;
 
+
+            p = new PDFlib();
+
+            try
+            {
+                p.set_option("errorpolicy=return");
+                p.set_parameter("license", "W900202-010530-800852-ZTBG52-RBSR22");
+
+                if (p.begin_document(outputPath, "") == -1)
+                {
+                    Console.WriteLine("Error: {0}\n", p.get_errmsg());
+                    return;
+                }
+                var oldDoc = p.open_pdi_document(path, "");
+                var oldPage = p.open_pdi_page(oldDoc, 1, "");
+
+                p.begin_page_ext(width, height, "");
+                p.fit_pdi_page(oldPage, 0, 0, "");
+                p.close_pdi_page(oldPage);
+
+                foreach (var obj in lstObjs)
+                {
+                    string imgName = obj.ContentString.Replace("__clip_mpc.png", ".jpg");
+                    string imagefile = System.Web.Hosting.HostingEnvironment.MapPath("~/") + "/" + imgName;
+                    image = p.load_image("auto", imagefile, "");
+
+                    if (image == -1)
+                    {
+                        Console.WriteLine("Error: {0}\n", p.get_errmsg());
+                        return;
+                    }
+                    var posY = height - obj.PositionY - obj.MaxHeight;
+                    p.fit_image(image, (float)obj.PositionX, (float)posY, "boxsize={" + obj.MaxWidth + " " + obj.MaxHeight + "} " +"fitmethod=entire");
+
+                    p.close_image(image);
+                }
+
+
+                p.end_page_ext("");
+
+                p.end_document("");
+                p.close_pdi_document(oldDoc);
+            }
+
+            catch (PDFlibException e)
+            {
+                // caught exception thrown by PDFlib
+                Console.WriteLine("PDFlib exception occurred in image sample:");
+                Console.WriteLine("[{0}] {1}: {2}\n", e.get_errnum(),
+                        e.get_apiname(), e.get_errmsg());
+            }
+            finally
+            {
+                if (p != null)
+                {
+                    p.Dispose();
+                }
+            }
+        }
+ 
         
         #endregion
         #region constructor
@@ -2733,6 +2888,17 @@ namespace MPC.Implementation.WebStoreServices
                             if (oObject.CharSpacing != null)
                             {
                                 oObject.CharSpacing = Convert.ToDouble(DesignerUtils.PixelToPoint(Convert.ToDouble(oObject.CharSpacing.Value)));
+                            }
+                            if (oObject.ObjectType == 3)
+                            {
+                                if (oObject.ContentString.Contains("__clip_mpc"))
+                                {
+                                  //  oObject.hasClippingPath = true;
+                                }
+                                else
+                                {
+                                   // oObject.hasClippingPath = false;
+                                }
                             }
 
                             oObject.ProductId = productID;
