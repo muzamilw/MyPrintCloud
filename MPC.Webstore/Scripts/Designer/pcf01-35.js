@@ -3342,18 +3342,14 @@ function updateTOWithStyles(obTO, vTag, vVal) {
             var prePend = objs[i];
             if (vVal == "")
             {
-                
                 if(postPend[0] == " ")
                 {
                     shifts= 1;
                 }else if(postPend[0] == "\n")
                 {
-                 
-                   
                     if (prePend[prePend.length - 1] == "\n" )
                     {
-                     //   shifts = 1;
-                   //     console.log(obTO.ContentString + ""); // already working strangely
+                        shifts = 1;
                     } else if( prePend == "")
                     {
                         shifts = 2;
@@ -3361,7 +3357,7 @@ function updateTOWithStyles(obTO, vTag, vVal) {
                 }
                 if(shifts == 1)
                 {
-                    objs[i + 1] = objs[i + 1].substring(1, objs[i + 1].length - 1);
+                    objs[i + 1] = objs[i + 1].substring(1, objs[i + 1].length);
                     variableLength += 1;
                 }else if(shifts  == 2)
                 {
