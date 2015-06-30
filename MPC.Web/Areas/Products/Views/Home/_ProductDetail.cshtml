@@ -42,7 +42,6 @@
                             <!-- ko if: isFinishedGoodsUi() != '2' && itemProductDetail().isInternalActivity() -->
                             <li><a href="#tab-supplierPrice" data-toggle="tab">Supplier Prices</a></li>
                             <!-- /ko -->
-
                             <!-- ko if: isFinishedGoodsUi() != '2' -->
                             <li><a href="#tab-internalDescription" data-toggle="tab">Internal Descriptions</a></li>
                             <!-- /ko -->
@@ -54,7 +53,7 @@
                             <li><a href="#tab-ProductMarketBrief" id="tabProductMarketBrief" data-toggle="tab">Marketing Brief</a></li>
                             <!-- /ko -->
                             <li><a href="#tab-imageManagment" data-toggle="tab">Image Management</a></li>
-                           
+
                         </ul>
                         <div class="tab-content" id="itemProductTabListItemDetails">
                             <div class="tab-pane fade in active" id="tab-ProdNameAndImages" data-bind="with: selectedProduct">
@@ -1637,7 +1636,7 @@
                                                     <li><a href="#tab-MoreIdeas" data-toggle="tab">More Ideas</a></li>
                                                     <li><a href="#tab-ProductVideos" data-toggle="tab">Product Videos</a></li>
                                                     <li><a href="#tab-metaDescription" data-toggle="tab">Meta Description</a></li>
-                                                    
+
                                                 </ul>
                                                 <div class="tab-content">
                                                     <div class="tab-pane fade in active" id="tab-ProdSpec">
@@ -2429,7 +2428,7 @@
                                             </div>
 
                                             <div class="col-lg-6 text-center">
-                                                <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: thumbnail }" />
+                                                <img style="min-height: 200px; width: 270px; object-fit: contain" data-bind="attr: { src: thumbnail }" />
 
                                                 <div class="col-lg-10" style="padding-left:75px;">
                                                     <div>
@@ -2458,13 +2457,13 @@
                                             <div class="col-lg-4 text-right">
                                                 @*<div class="bs-example-tooltips tooltip-float-width">
 
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Product Page Banner" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Product Page Banner" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
 
-                            </div>
+                                                    </div>
 
-                            <label for="txtCompanyName" class="control-label text-right tooltip-float">Product Page Banner</label>*@
+                                                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Product Page Banner</label>*@
 
                                             </div>
 
@@ -2530,17 +2529,17 @@
                                             <div class="col-lg-4 text-right">
                                                 @*<div class="bs-example-tooltips tooltip-float-width">
 
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Grid Image Layout" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Grid Image Layout" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
 
-                        </div>
-                        <label class="control-label text-right tooltip-float">Upload artwork instructions banner</label>*@
+                                                    </div>
+                                                    <label class="control-label text-right tooltip-float">Upload artwork instructions banner</label>*@
 
                                             </div>
 
                                             <div class="col-lg-6 text-center">
-                                                <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: gridImage }" />
+                                                <img style="min-height: 200px; width: 270px; object-fit: contain" data-bind="attr: { src: gridImage }" />
                                                 <div class="col-lg-10" style="padding-left:75px;">
                                                     <div>
                                                         <div class="fileUpload btn btn-primary marginT5">
@@ -2570,41 +2569,56 @@
                                             </div>
 
                                             <div class="col-lg-8" style="background: gainsboro; border: 4px solid rgba(0, 0, 0, 0.30); ">
-                                                <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file1 }" />
-                                                <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(1, 1), visible: file1() || file1FileSource()">
-                                                    <span class="fa-stack">
-                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                    </span>
-                                                </a>
-                                                <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file2 }" />
-                                                <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(2, 2), visible: file2() || file2FileSource()">
-                                                    <span class="fa-stack">
-                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                    </span>
-                                                </a>
-                                                <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file3 }" />
-                                                <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(3, 3), visible: file3() || file3FileSource()">
-                                                    <span class="fa-stack">
-                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                    </span>
-                                                </a>
-                                                <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file4 }" />
-                                                <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(4, 4), visible: file4() || file4FileSource()">
-                                                    <span class="fa-stack">
-                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                    </span>
-                                                </a>
-                                                <img style="min-height: 170px; width: 170px;" data-bind="attr: { src: file5 }" />
-                                                <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(5, 5), visible: file5() || file5FileSource()">
-                                                    <span class="fa-stack">
-                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                    </span>
-                                                </a>
+                                                <div class="col-lg-6">
+                                                    <img style=" width: 170px; object-fit: contain" data-bind="attr: { src: file1 }" />
+                                                    <br />
+                                                    <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(1, 1), visible: file1() || file1FileSource()">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <img style=" width: 170px; object-fit: contain" data-bind="attr: { src: file2 }" />
+                                                    <br />
+                                                    <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(2, 2), visible: file2() || file2FileSource()">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <img style=" width: 170px; object-fit: contain" data-bind="attr: { src: file3 }" />
+                                                    <br />
+                                                    <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(3, 3), visible: file3() || file3FileSource()">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <img style="width: 170px; object-fit: contain" data-bind="attr: { src: file4 }" />
+                                                    <br />
+                                                    <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(4, 4), visible: file4() || file4FileSource()">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <img style=" width: 170px; object-fit: contain" data-bind="attr: { src: file5 }" />
+                                                    <br />
+                                                    <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(5, 5), visible: file5() || file5FileSource()">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -2632,94 +2646,94 @@
                                 <!-- /ko -->
 
 
-                                
+
 
                                 <div class="form-group">
                                     <div class="col-lg-4 text-right">
                                         @*<div class="bs-example-tooltips tooltip-float-width">
 
-                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload Files" data-original-title="" title="">
-                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                        </a>
+                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload Files" data-original-title="" title="">
+                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                </a>
 
-                    </div>
+                                            </div>
 
-                    <label class="control-label text-right tooltip-float">Upload downloadable product stencils file format</label>*@
+                                            <label class="control-label text-right tooltip-float">Upload downloadable product stencils file format</label>*@
 
                                     </div>
 
 
                                 </div>
 
-                                
 
-                                    </div>
-                                    <!-- ko with: selectedProduct -->
-                                    <!-- ko if: isFinishedGoodsUi() === '2' -->
-                                    <div class="tab-pane fade" id="tab-ProductMarketBrief">
-                                        <div class="col-lg-12 form-horizontal">
-                                            <h3 class="group-header">RFQ/Marketing Brief form creation</h3>
-                                            <p class="group-header-description">
-                                                A Retail or Private store product can have to option to request a quote (RFQ).<br />
-                                                If this option is selected by the end user then an email will be sent to your Sales Manager (as defined in Settings, My Organisation, Manager and Departments)
-                                            </p>
-                                            <div class="col-lg-12">
-                                                <div class="form-group" data-bind="with: itemProductDetail">
-                                                    <div class="col-lg-2 text-right" style="padding-right:20px;">
-                                                        <label class="control-label">Submitted RFQ Message to display</label>
-                                                    </div>
-                                                    <div class="col-lg-3">
-                                                        <textarea class="form-control" data-bind="value: marketBriefSuccessMessage"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group" data-bind="with: itemProductDetail">
-                                                    <div class="col-lg-2 text-right" style="padding-right:19px;">
-                                                        <label class="control-label">Allow Upload Attachment</label>
-                                                    </div>
-                                                    <div class="col-lg-3">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchAllowUploadForMarketBrief" data-bind="checked: isAllowMarketBriefAttachment">
-                                                            <label class="onoffswitch-label" for="switchAllowUploadForMarketBrief">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
-                                                        </div>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="clearfix">
-                                                    <header class="main-box-header clearfix" style="padding-right:0px;">
-                                                        <div class="filter-block pull-right">
 
-                                                            <a href="#" class="btn btn-primary pull-right" data-bind="click: onAddProductMarketBriefQuestion">
-                                                                Add New RFQ Question
-                                                            </a>
-                                                        </div>
-                                                    </header>
-                                                    <div class="table-responsive">
-                                                        <table class="table table-striped table-hover">
-                                                            <thead>
-                                                                <tr>
-                                                                    @*<th style="width:175px;"><span>#</span></th>*@
-                                                                    <th><span>Question</span></th>
-                                                                    <th><span>Multiple Selection</span> </th>
-                                                                    <th style="text-align:center;"><span>Order</span></th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <!-- ko template: { name: 'marketingBriefQuestionTemplate', foreach: productMarketBriefQuestions } -->
-                                                                <!-- /ko -->
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+                            </div>
+                            <!-- ko with: selectedProduct -->
+                            <!-- ko if: isFinishedGoodsUi() === '2' -->
+                            <div class="tab-pane fade" id="tab-ProductMarketBrief">
+                                <div class="col-lg-12 form-horizontal">
+                                    <h3 class="group-header">RFQ/Marketing Brief form creation</h3>
+                                    <p class="group-header-description">
+                                        A Retail or Private store product can have to option to request a quote (RFQ).<br />
+                                        If this option is selected by the end user then an email will be sent to your Sales Manager (as defined in Settings, My Organisation, Manager and Departments)
+                                    </p>
+                                    <div class="col-lg-12">
+                                        <div class="form-group" data-bind="with: itemProductDetail">
+                                            <div class="col-lg-2 text-right" style="padding-right:20px;">
+                                                <label class="control-label">Submitted RFQ Message to display</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <textarea class="form-control" data-bind="value: marketBriefSuccessMessage"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" data-bind="with: itemProductDetail">
+                                            <div class="col-lg-2 text-right" style="padding-right:19px;">
+                                                <label class="control-label">Allow Upload Attachment</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchAllowUploadForMarketBrief" data-bind="checked: isAllowMarketBriefAttachment">
+                                                    <label class="onoffswitch-label" for="switchAllowUploadForMarketBrief">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
                                                 </div>
+                                                <span class="help-block text-right"></span>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix">
+                                            <header class="main-box-header clearfix" style="padding-right:0px;">
+                                                <div class="filter-block pull-right">
+
+                                                    <a href="#" class="btn btn-primary pull-right" data-bind="click: onAddProductMarketBriefQuestion">
+                                                        Add New RFQ Question
+                                                    </a>
+                                                </div>
+                                            </header>
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            @*<th style="width:175px;"><span>#</span></th>*@
+                                                            <th><span>Question</span></th>
+                                                            <th><span>Multiple Selection</span> </th>
+                                                            <th style="text-align:center;"><span>Order</span></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- ko template: { name: 'marketingBriefQuestionTemplate', foreach: productMarketBriefQuestions } -->
+                                                        <!-- /ko -->
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- /ko -->
-                                    <!-- /ko -->
                                 </div>
                             </div>
+                            <!-- /ko -->
+                            <!-- /ko -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -3309,8 +3323,8 @@
     <script id="marketingBriefQuestionTemplate" type="text/html">
         <tr>
             @*<td>
-                <span data-bind="text: $index() + 1"></span>
-            </td>*@
+                    <span data-bind="text: $index() + 1"></span>
+                </td>*@
             <td>
                 <a data-bind="text: questionDetail, click: $parent.onEditProductMarketBriefQuestion.bind($data)" class="user-link" style="cursor: pointer"></a>
             </td>
