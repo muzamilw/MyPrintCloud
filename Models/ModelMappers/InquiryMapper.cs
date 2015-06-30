@@ -43,9 +43,9 @@ namespace MPC.Models.ModelMappers
             target.Status = source.Status;
             target.IsDirectInquiry = source.IsDirectInquiry;
             target.FlagId = source.FlagId;
-            target.InquiryCode = source.InquiryCode;
+            //target.InquiryCode = source.InquiryCode;
             target.CreatedBy = source.CreatedBy;
-            target.OrganisationId = source.OrganisationId;
+            //target.OrganisationId = source.OrganisationId;
         }
 
         private static void UpdateInquiryItems(DomainModels.Inquiry source, DomainModels.Inquiry target, InquiryMapperActions actions)

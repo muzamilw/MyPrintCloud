@@ -239,9 +239,7 @@
                                     <h2>Top Performing Stores</h2>
                                     <div class="form-group">
                                         <div class="graph-box emerald-bg">
-                                            @*<img src="~/Content/Images/chart_01.png" style="width: 100%;" />*@
-                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Bar', data: $root.line1, ykeys: 'month', xkey:['a', 'b'],barGap:1, labels: ['Series A', 'Series B'],gridTextColor: '#ffffff',resize: true,setAxisReversed:true}"></div>
-
+                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Bar', data: $root.line1, xkey: 'month', ykeys:['a', 'b'], labels: ['Series A', 'Series B'],gridTextColor: '#ffffff',horizontal: true}"></div>
                                         </div>
                                     </div>
                                     <h2>Monthly Earnings by store</h2>
@@ -577,6 +575,7 @@
 @section Scripts {
     @*<script src="~/Scripts/Script/jquery.foggy.js"></script>
         <script src="~/Scripts/Script/jquery.foggy.min.js"></script>*@
+
     <script>
         $(document).ready(function () {
 
@@ -760,6 +759,10 @@
             //    gridLineColor: 'rgba(255, 255, 255, 0.3)',
             //    resize: true
             //});
+
+
+
+
 
             //WORLD MAP
             $('#world-map').vectorMap({

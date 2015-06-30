@@ -23,6 +23,7 @@ define("order/order.viewModel",
                     costCentresBaseData = ko.observableArray([]),
                     // flag colors
                     sectionFlags = ko.observableArray([]),
+                    sectionFlagsForListView = ko.observableArray([]),
                     // Markups
                     markups = ko.observableArray([]),
                     // Categories
@@ -110,10 +111,10 @@ define("order/order.viewModel",
                         { name: "Direct  Order", value: "0" },
                         { name: "Online Order", value: "1" }
                     ]),
-                    flagItem = function(state) {
+                    flagItem = function (state) {
                         return "<div style=\"height:20px;margin-right:10px;width:25px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
                     },
-                    flagSelection = function(state) {
+                    flagSelection = function (state) {
                         return "<span style=\"height:20px;width:25px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
                     },
                     orderTypeFilter = ko.observable(),
@@ -175,7 +176,7 @@ define("order/order.viewModel",
                     //Estimate To Be Progressed
                     estimateToBeProgressed = ko.observable(undefined),
                     // Page Header 
-                    pageHeader = ko.computed(function() {
+                    pageHeader = ko.computed(function () {
                         return selectedOrder() && selectedOrder().name() ? selectedOrder().name() : 'Orders';
                     }),
                     // Sort On
@@ -206,20 +207,21 @@ define("order/order.viewModel",
                         selectedEstimatePhraseContainer(e.currentTarget.id);
                     },
                     // Open Phrase Library
-                    openPhraseLibrary = function() {
+                    openPhraseLibrary = function () {
                         phraseLibrary.isOpenFromPhraseLibrary(false);
-                        phraseLibrary.show(function(phrase) {
+                        phraseLibrary.defaultOpenSectionId(ist.sectionsEnum[7].id);
+                        phraseLibrary.show(function (phrase) {
                             updateEstimatePhraseContainer(phrase);
                         });
                     },
-                    formatSelection = function(state) {
-                        return "<span style=\"height:20px;width:20px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
+                    formatSelection = function (state, event) {
+                        return state && state.id === undefined ? "" : "<span style=\"height:20px;width:20px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
                     },
-                    formatResult = function(state) {
+                    formatResult = function (state) {
                         return "<div style=\"height:20px;margin-right:10px;width:20px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
                     },
                     // update Estimate Phrase Container
-                    updateEstimatePhraseContainer = function(phrase) {
+                    updateEstimatePhraseContainer = function (phrase) {
                         if (!phrase) {
                             return;
                         }
@@ -232,12 +234,12 @@ define("order/order.viewModel",
                         }
                     },
                     // Selected Address
-                    selectedAddress = ko.computed(function() {
+                    selectedAddress = ko.computed(function () {
                         if (!selectedOrder() || !selectedOrder().addressId() || companyAddresses().length === 0) {
                             return defaultAddress();
                         }
 
-                        var addressResult = companyAddresses.find(function(address) {
+                        var addressResult = companyAddresses.find(function (address) {
                             return address.id === selectedOrder().addressId();
                         });
 
@@ -245,12 +247,12 @@ define("order/order.viewModel",
                     }),
 
                     // Selected Company Contact
-                    selectedCompanyContact = ko.computed(function() {
+                    selectedCompanyContact = ko.computed(function () {
                         if (!selectedOrder() || !selectedOrder().contactId() || companyContacts().length === 0) {
                             return defaultCompanyContact();
                         }
 
-                        var contactResult = companyContacts.find(function(contact) {
+                        var contactResult = companyContacts.find(function (contact) {
                             return contact.id === selectedOrder().contactId();
                         });
 
@@ -276,7 +278,7 @@ define("order/order.viewModel",
                     isAddProductFromInventory = ko.observable(false),
                     //Is Inventory Dialog is opening for Section Cost Center
                     isAddProductForSectionCostCenter = ko.observable(false),
-                    orderHasChanges = ko.computed(function() {
+                    orderHasChanges = ko.computed(function () {
                         var hasChanges = false;
                         if (selectedOrder()) {
                             hasChanges = selectedOrder().hasChanges();
@@ -285,12 +287,15 @@ define("order/order.viewModel",
                         return hasChanges;
                     }),
                     // Create New Order
-                    createOrder = function() {
+                    createOrder = function () {
                         selectedOrder(model.Estimate.Create({}, { SystemUsers: systemUsers() }));
                         selectedOrder().setOrderReportSignedBy(loggedInUser());
                         selectedOrder().setCreditiLimitSetBy(loggedInUser());
                         selectedOrder().setAllowJobWoCreditCheckSetBy(loggedInUser());
                         selectedOrder().setOfficialOrderSetBy(loggedInUser());
+                        if (isEstimateScreen()) {
+                            selectedOrder().reportSignedBy(loggedInUser());
+                        }
                         view.setOrderState(4); // Pending Order
                         selectedOrder().statusId(4);
                         selectedOrder().status("Open/Draft Estimate");
@@ -299,7 +304,7 @@ define("order/order.viewModel",
                     },
                     //method to set credit approval fields
                     // ReSharper disable once UnusedLocals
-                    updateCreditApprovalFields = ko.computed(function() {
+                    updateCreditApprovalFields = ko.computed(function () {
                         if (selectedOrder().isJobAllowedWoCreditCheck()) {
                             selectedOrder().setAllowJobWoCreditCheckSetBy(loggedInUser());
                             selectedOrder().allowJobWoCreditCheckSetOnDateTime(moment().toDate());
@@ -519,6 +524,19 @@ define("order/order.viewModel",
                     deleteProduct = function (item) {
                         selectedOrder().items.remove(item);
                     },
+
+                    sectionFlagMapList = function (observableList, data, factory) {
+                        var list = [];
+                        _.each(data, function (item) {
+                            list.push(factory.Create(item));
+                            sectionFlagsForListView.push(factory.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(observableList(), list);
+                        observableList.valueHasMutated();
+                    },
+
                     // Map List
                     mapList = function (observableList, data, factory) {
                         var list = [];
@@ -646,11 +664,17 @@ define("order/order.viewModel",
                     },
                     // Subscribe Dropdown Filter Changes to search on selection change
                     subscribeDropdownFilterChange = function () {
-                        orderTypeFilter.subscribe(function () {
+                        orderTypeFilter.subscribe(function (value) {
+                            if (value === undefined || value === 0) {
+                                return;
+                            }
                             getOrdersOfCurrentScreen(currentScreen());
                         });
 
-                        selectedFilterFlag.subscribe(function () {
+                        selectedFilterFlag.subscribe(function (value) {
+                            if (value === undefined || value === 0) {
+                                return;
+                            }
                             getOrdersOfCurrentScreen(currentScreen());
                         });
                     },
@@ -1161,9 +1185,8 @@ define("order/order.viewModel",
                             success: function (data) {
                                 paperSizes.removeAll();
                                 inkPlateSides.removeAll();
-
                                 if (data.SectionFlags) {
-                                    mapList(sectionFlags, data.SectionFlags, model.SectionFlag);
+                                    sectionFlagMapList(sectionFlags, data.SectionFlags, model.SectionFlag);
                                 }
                                 if (data.SystemUsers) {
                                     mapList(systemUsers, data.SystemUsers, model.SystemUser);
@@ -1371,6 +1394,14 @@ define("order/order.viewModel",
 
                             pager(new pagination.Pagination({ PageSize: 5 }, orders, getEstimates));
                             pager().reset();
+                            //selectedFilterFlag(0);
+
+                            // Push to Original Array
+                            //  inquiriesSectionFlags.removeAll();
+                            // sectionFlags.removeAll();
+                            selectedFilterFlag(0);
+                            // ko.utils.arrayPushAll(sectionFlags(), sectionFlagsForListView());
+                            // sectionFlags.valueHasMutated();
                             getEstimates(currentTab);
                         } else {
                             pager().reset();
@@ -1443,9 +1474,15 @@ define("order/order.viewModel",
                                         getBaseForCompany(data.CompanyId, storeId);
                                     }
                                     // If Signed by is not set in case of online order then set it
-                                    if (!selectedOrder().orderReportSignedBy()) {
+                                    if (!isEstimateScreen() && !selectedOrder().orderReportSignedBy()) {
                                         selectedOrder().setOrderReportSignedBy(loggedInUser());
                                     }
+                                    if (isEstimateScreen() && !selectedOrder().reportSignedBy()) {
+                                        selectedOrder().reportSignedBy(loggedInUser());
+                                    }
+                                    
+                                    // Reset Order Dirty State
+                                    selectedOrder().reset();
 
                                     if (callback && typeof callback === "function") {
                                         callback();
@@ -1558,7 +1595,7 @@ define("order/order.viewModel",
                              addProductVm.show(addItemFromFinishedGoods, companyId, costCentresBaseData(), currencySymbol(), selectedOrder().id(), saveSectionCostCenter, createitemForRetailStoreProduct, selectedCompanyTaxRate(), pageHeader(), isEstimateScreen() === true ? 'Estimate' : "Order", selectedOrder().companyName(), 3);
                          }
                      },
-                     
+
                     //},
                     //addItemFromRetailStore = function (newItem) {
                     //    selectedProduct(newItem);
@@ -1929,7 +1966,7 @@ define("order/order.viewModel",
                     },
                     onDeletePrePayment = function (prePayment) {
                         confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
-                        confirmation.afterProceed(function() {
+                        confirmation.afterProceed(function () {
                             var index = selectedOrder().prePayments().indexOf(prePayment);
                             selectedOrder().prePayments.remove(selectedOrder().prePayments()[index]);
                             toastr.success("Deleted Successfully");
@@ -2377,7 +2414,7 @@ define("order/order.viewModel",
                                 closeOrderEditor();
                             },
                             error: function (response) {
-                                toastr.error("Failed to Save Order. Error: " + response);
+                                toastr.error("Failed to Save Inquiry. Error: " + response);
                             }
                         });
                     },
@@ -2847,8 +2884,8 @@ define("order/order.viewModel",
                     formatResult: formatResult,
                     onDeletePrePayment: onDeletePrePayment,
                     onAddFinishedGoods: onAddFinishedGoods,
-                    onCreateNewCostCenterProduct: onCreateNewCostCenterProduct
-
+                    onCreateNewCostCenterProduct: onCreateNewCostCenterProduct,
+                    sectionFlagsForListView: sectionFlagsForListView
                     //#endregion
                 };
             })()
