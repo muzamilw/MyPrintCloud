@@ -416,7 +416,7 @@
                                 </div>
                                 @* Item Template *@
                                 <script id="itemTemplate" type="text/html">
-                                    <tr data-bind=" click:  $root.editItem" style="cursor: pointer">
+                                    <tr data-bind=" click:  $root.editItem, css: { errorFillRow: !isValid() }" style="cursor: pointer">
                                         <td style=" padding-top: 10px;">
                                             <a href="#" style="font-size: 24px" data-bind="text: productName, click: $root.editItem"><span></span></a>
                                         </td>
