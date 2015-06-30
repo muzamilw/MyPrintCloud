@@ -1690,6 +1690,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 buttonURL: buttonURL,
                 companySetId: companySetId,
                 setName: setName,
+                filePath: filePath,
+                filePathWithCacheRemoveTechnique: filePathWithCacheRemoveTechnique
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
