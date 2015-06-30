@@ -947,6 +947,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }
                 }, 500);
             },
+            // Only Allow 11 stock labels
+            canAddItemStockOption = ko.computed(function() {
+                return itemStockOptions().length < 11;
+            }),
             // Add Item Stock Option
             addItemStockOption = function () {
                 var stockOption = ItemStockOption.Create({ ItemId: id() }, callbacks, self);
@@ -1994,6 +1998,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemPriceMatricesForCurrentFlag: itemPriceMatricesForCurrentFlag,
             itemPriceMatricesForSupplierId1: itemPriceMatricesForSupplierId1,
             itemPriceMatricesForSupplierId2: itemPriceMatricesForSupplierId2,
+            canAddItemStockOption: canAddItemStockOption,
             addItemStockOption: addItemStockOption,
             removeItemStockOption: removeItemStockOption,
             wireupItemStockOptionTabEvents: wireupItemStockOptionTabEvents,

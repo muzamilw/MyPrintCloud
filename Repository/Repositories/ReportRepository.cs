@@ -14,6 +14,7 @@ using System.Data;
 using MPC.Models.ResponseModels;
 using MPC.Models.RequestModels;
 using MPC.Models.Common;
+using System.Web;
 
 namespace MPC.Repository.Repositories
 {
@@ -317,12 +318,17 @@ namespace MPC.Repository.Repositories
         public List<ReportNote> CreateDummyReportNotesRecord(long CompanyId)
         {
             List<ReportNote> lstReportNotes = new List<ReportNote>();
+
+            string PathFull = "http://" + HttpContext.Current.Request.Url.Host + "/mis/";
+
+
             ReportNote objReportNoteEstimate = new ReportNote();
 
             objReportNoteEstimate.CompanyId = CompanyId;
             objReportNoteEstimate.isDefault = true;
             objReportNoteEstimate.OrganisationId = OrganisationId;
-            objReportNoteEstimate.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
+            //objReportNoteEstimate.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
+            objReportNoteEstimate.BannerAbsolutePath = PathFull;
             objReportNoteEstimate.ReportCategoryId = 3;
             objReportNoteEstimate.SystemSiteId = 1;
             objReportNoteEstimate.UserId = 1;
@@ -335,7 +341,8 @@ namespace MPC.Repository.Repositories
             objReportNoteOrder.CompanyId = CompanyId;
             objReportNoteOrder.isDefault = true;
             objReportNoteOrder.OrganisationId = OrganisationId;
-            objReportNoteOrder.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
+           // objReportNoteOrder.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
+            objReportNoteOrder.BannerAbsolutePath = PathFull;
             objReportNoteOrder.ReportCategoryId = 12;
             objReportNoteOrder.SystemSiteId = 1;
             objReportNoteOrder.UserId = 1;
@@ -346,7 +353,8 @@ namespace MPC.Repository.Repositories
             objReportNoteInvoice.CompanyId = CompanyId;
             objReportNoteInvoice.isDefault = true;
             objReportNoteInvoice.OrganisationId = OrganisationId;
-            objReportNoteInvoice.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
+            //objReportNoteInvoice.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
+            objReportNoteInvoice.BannerAbsolutePath = PathFull;
             objReportNoteInvoice.ReportCategoryId = 13;
             objReportNoteInvoice.SystemSiteId = 1;
             objReportNoteInvoice.UserId = 1;
@@ -359,7 +367,8 @@ namespace MPC.Repository.Repositories
             objReportNotePurchase.CompanyId = CompanyId;
             objReportNotePurchase.isDefault = true;
             objReportNotePurchase.OrganisationId = OrganisationId;
-            objReportNotePurchase.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
+           // objReportNotePurchase.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
+            objReportNotePurchase.BannerAbsolutePath = PathFull;
             objReportNotePurchase.ReportCategoryId = 5;
             objReportNotePurchase.SystemSiteId = 1;
             objReportNotePurchase.UserId = 1;
@@ -372,7 +381,8 @@ namespace MPC.Repository.Repositories
             objReportNoteDelivery.CompanyId = CompanyId;
             objReportNoteDelivery.isDefault = true;
             objReportNoteDelivery.OrganisationId = OrganisationId;
-            objReportNoteDelivery.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
+            //objReportNoteDelivery.ReportBanner = "MPC_Content/Reports/Banners/Report-Banner.png";
+            objReportNoteDelivery.BannerAbsolutePath = PathFull;
             objReportNoteDelivery.ReportCategoryId = 6;
             objReportNoteDelivery.SystemSiteId = 1;
             objReportNoteDelivery.UserId = 1;

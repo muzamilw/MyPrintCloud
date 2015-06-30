@@ -73,7 +73,8 @@ namespace MPC.Repository.Repositories
                        contact.Company.Name.Contains(request.SearchString)) &&
                       (request.CustomerTypes.Any(obj => contact.Company.IsCustomer == obj)) &&
                       (!contact.isArchived.HasValue || contact.isArchived.Value == false) &&
-                      contact.OrganisationId == OrganisationId
+                      contact.OrganisationId == OrganisationId && contact.Company.TypeId != (int)CompanyTypes.TemporaryCustomer 
+            
 
                 select new 
                 {

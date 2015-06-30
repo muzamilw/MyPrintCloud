@@ -47,6 +47,11 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     isEditorVisible = ko.observable(false),
                     // GRN Editor visiblek
                     isGRNEditorVisible = ko.observable(false),
+                     // is open report
+                     isOpenReport = ko.observable(false),
+                      // is open report Email
+                     isOpenReportEmail = ko.observable(false),
+
                     // selected Cimpnay
                     selectedCompany = ko.observable(),
                     // Default Status of first tab i-e All Purchased Orders
@@ -387,20 +392,25 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         if (!dobeforeSave()) {
                             return;
                         }
+                        if (isOpenReport() == true) {
 
-                        if (selectedPurchaseOrder().id() !== undefined && selectedPurchaseOrder().status() === 31) {
-                            confirmation.messageText("Do you want to Post the Purchase Order?");
-                            confirmation.afterProceed(function () {
-                                selectedPurchaseOrder().status(32);
-
-                            });
-                            confirmation.afterCancel(function () {
-                                savePurchaseOrder();
-                            });
-                            confirmation.show();
-                            return;
-                        } else {
                             savePurchaseOrder();
+                        }
+                        else {
+                            if (selectedPurchaseOrder().id() !== undefined && selectedPurchaseOrder().status() === 31) {
+                                confirmation.messageText("Do you want to Post the Purchase Order?");
+                                confirmation.afterProceed(function () {
+                                    selectedPurchaseOrder().status(32);
+
+                                });
+                                confirmation.afterCancel(function () {
+                                    savePurchaseOrder();
+                                });
+                                confirmation.show();
+                                return;
+                            } else {
+                                savePurchaseOrder();
+                            }
                         }
                     },
                     // Post PO
@@ -427,9 +437,17 @@ define("purchaseOrders/purchaseOrders.viewModel",
 
                         reportManager.outputTo("preview");
 
-                        reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, selectedPurchaseOrder().id());
+                        
 
 
+                        if (selectedPurchaseOrder().hasChanges()) {
+                            isOpenReport(true);
+                            isOpenReportEmail(false);
+                            onSavePurchaseOrder();
+                        }
+                        else {
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, selectedPurchaseOrder().id());
+                        }
 
                         //reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
                         //reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
@@ -440,8 +458,21 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     openExternalEmailPurchaseReport = function () {
                         reportManager.outputTo("email");
 
-                        reportManager.SetOrderData(selectedPurchaseOrder().createdBy(), selectedPurchaseOrder().contactId(), selectedPurchaseOrder().id(), 6, selectedPurchaseOrder().id(), "");
-                        reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, selectedPurchaseOrder().id());
+
+                        
+                        if (selectedPurchaseOrder().hasChanges()) {
+                            isOpenReport(true);
+                            isOpenReportEmail(true);
+                            onSavePurchaseOrder();
+                        }
+                        else {
+                            reportManager.SetOrderData(selectedPurchaseOrder().createdBy(), selectedPurchaseOrder().contactId(), selectedPurchaseOrder().id(), 6, selectedPurchaseOrder().id(), "");
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, selectedPurchaseOrder().id());
+
+                        }
+
+
+                       
 
 
                     }
@@ -498,24 +529,45 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         });
                         dataservice.savePurchase(purchaseOrder, {
                             success: function (data) {
-                                //For Add New and selected category PO and tab must be ALL or Open
-                                if (purchaseOrderTypeFilter() === 1 && (currentTab() === 0 || currentTab() === 31)) {
-                                    if (selectedPurchaseOrder().id() === undefined || selectedPurchaseOrder().id() === 0) {
-                                        purchaseOrders.splice(0, 0, model.PurchaseListView.Create(data));
-                                    } else {
-                                        selectedPurchaseOrderForListView().purchaseOrderDate(data.DatePurchase !== null ? moment(data.DatePurchase).toDate() : undefined);
-                                        selectedPurchaseOrderForListView().flagColor(data.FlagColor);
-                                        selectedPurchaseOrderForListView().refNo(data.RefNo);
 
-                                        if (currentTab() !== 0 && currentTab() !== data.Status) {
-                                            purchaseOrders.remove(selectedPurchaseOrderForListView());
+                                if (isOpenReport() == true) {
+                                    if (isOpenReportEmail() == true) {
+                                       
+                                        reportManager.SetOrderData(selectedPurchaseOrder().createdBy(), selectedPurchaseOrder().contactId(), selectedPurchaseOrder().id(), 6, selectedPurchaseOrder().id(), "");
+                                        reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, selectedPurchaseOrder().id());
+                                       
+                                       
+                                    }
+                                    else {
+
+                                        reportManager.OpenExternalReport(ist.reportCategoryEnums.PurchaseOrders, 1, selectedPurchaseOrder().id());
+                                      
+                                    }
+                                    getPurchaseOrderById(selectedPurchaseOrder().id());
+                                    isOpenReport(false);
+                                }
+                                else {
+
+                                    //For Add New and selected category PO and tab must be ALL or Open
+                                    if (purchaseOrderTypeFilter() === 1 && (currentTab() === 0 || currentTab() === 31)) {
+                                        if (selectedPurchaseOrder().id() === undefined || selectedPurchaseOrder().id() === 0) {
+                                            purchaseOrders.splice(0, 0, model.PurchaseListView.Create(data));
+                                        } else {
+                                            selectedPurchaseOrderForListView().purchaseOrderDate(data.DatePurchase !== null ? moment(data.DatePurchase).toDate() : undefined);
+                                            selectedPurchaseOrderForListView().flagColor(data.FlagColor);
+                                            selectedPurchaseOrderForListView().refNo(data.RefNo);
+
+                                            if (currentTab() !== 0 && currentTab() !== data.Status) {
+                                                purchaseOrders.remove(selectedPurchaseOrderForListView());
+                                            }
                                         }
                                     }
-                                }
 
-                                isEditorVisible(false);
-                                toastr.success("Saved Successfully.");
-                                view.initializeLabelPopovers();
+                                    isEditorVisible(false);
+                                    toastr.success("Saved Successfully.");
+                                    view.initializeLabelPopovers();
+                                }
+                               
                             },
                             error: function (exceptionMessage, exceptionType) {
                                 if (exceptionType === ist.exceptionType.MPCGeneralException) {
