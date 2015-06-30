@@ -265,8 +265,13 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
         // called from designer to download an image in a template // added by saqib
-        public string DownloadImageLocally(string ImgName, long TemplateID, string imgType,long organisationID)
+        public string DownloadImageLocally(string ImgName, long TemplateID, string imgType,long organisationID,bool addRecord)
         {
+            if (ImgName.Contains("__clip_mpc.png"))
+            {
+                string imgName = ImgName.Replace("__clip_mpc.png", ".jpg");
+                DownloadImageLocally(imgName, TemplateID, imgType, organisationID,false);
+            }
             int imageType = Convert.ToInt32(imgType);
             System.Drawing.Image objImage = null;
             ImgName = ImgName.Replace("___", "/");
@@ -332,7 +337,8 @@ namespace MPC.Implementation.WebStoreServices
                             objImage.Dispose();
                    }
                  }
-                _templateImagesRepository.DownloadImageLocally(TemplateID, ImgName, imageType, ImageWidth, ImageHeight);
+                if (addRecord)
+                 _templateImagesRepository.DownloadImageLocally(TemplateID, ImgName, imageType, ImageWidth, ImageHeight);
             }
             catch (Exception ex)
             {
@@ -570,7 +576,7 @@ namespace MPC.Implementation.WebStoreServices
                             }
                             if (System.IO.Path.GetExtension(uploadPath).Contains("jpg"))
                             {
-                                ClippingPath += "/" + clipName + "__clip_mpc.png";// +System.IO.Path.GetExtension(fileID);
+                                ClippingPath = "~/MPC_Content/Designer/"+ ClippingPath + "/"  + clipName + "__clip_mpc.png";// +System.IO.Path.GetExtension(fileID);
                                 //  imgpath += "/" + fileID;
                                 string uploadedClippingPath = HttpContext.Current.Server.MapPath(ClippingPath);
                                 using (var reader = new JpegReader(uploadPath))
@@ -611,12 +617,10 @@ namespace MPC.Implementation.WebStoreServices
 
                             if (containsClippingPath)
                             {
-                               // bgImg.hasClippingPath = true;
-
-                                
+                                bgImg.hasClippingPath = true;
                                 bgImg.Name = ImClippedName;
                                 bgImg.ImageName = ImClippedName;
-                             //   bgImg.clippingFileName = Imname;
+                                bgImg.clippingFileName = Imname;
                             }
                             else
                             {
