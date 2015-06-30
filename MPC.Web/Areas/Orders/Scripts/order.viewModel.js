@@ -291,6 +291,9 @@ define("order/order.viewModel",
                         selectedOrder().setCreditiLimitSetBy(loggedInUser());
                         selectedOrder().setAllowJobWoCreditCheckSetBy(loggedInUser());
                         selectedOrder().setOfficialOrderSetBy(loggedInUser());
+                        if (isEstimateScreen()) {
+                            selectedOrder().reportSignedBy(loggedInUser());
+                        }
                         view.setOrderState(4); // Pending Order
                         selectedOrder().statusId(4);
                         selectedOrder().status("Open/Draft Estimate");

@@ -28,6 +28,7 @@ namespace MPC.Models.ModelMappers
             target.Estimate_Name = source.Estimate_Name;
             target.CompanyId = source.CompanyId;
             target.AddressId = source.AddressId;
+            target.BillingAddressId = source.AddressId;
             target.ContactId = source.ContactId;
             target.isDirectSale = source.isDirectSale;
             target.StatusId = source.StatusId;
@@ -91,6 +92,7 @@ namespace MPC.Models.ModelMappers
             target.SalesPersonId = source.SalesPersonId;
             target.SourceId = source.SourceId;
             target.OrderReportSignedBy = source.OrderReportSignedBy;
+            target.ReportSignedBy = source.ReportSignedBy;
         }
 
         #endregion Order Schedule
