@@ -72,10 +72,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                         (cache.Get(CacheKeyName) as
                             Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>);
                     string orgName = string.Empty;
-                    if (companyBaseResponse != null)
+                    if (companyBaseResponse != null && UserCookieManager.WBStoreId != 0)
                     {
-                        MPC.Models.ResponseModels.MyCompanyDomainBaseReponse myCompanyBaseResponseFromCache =
-                        companyBaseResponse[UserCookieManager.WBStoreId];    
+                        MPC.Models.ResponseModels.MyCompanyDomainBaseReponse myCompanyBaseResponseFromCache = companyBaseResponse[UserCookieManager.WBStoreId];    
                         if (myCompanyBaseResponseFromCache != null && myCompanyBaseResponseFromCache.Organisation != null)
                         {
                             orgName = myCompanyBaseResponseFromCache.Organisation.OrganisationName;
