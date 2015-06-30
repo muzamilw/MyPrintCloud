@@ -91,10 +91,10 @@
                                             <select class="form-control col-sm-4" data-bind="options:$root.orderType,optionsText:'name',optionsValue:'value', value: $root.orderTypeFilter"></select>
                                         </div>
                                         <div class="form-group pull-left">
-                                            <select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: selectedFilterFlag, foreach: $root.sectionFlags">
+                                            @*<select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: selectedFilterFlag, foreach: $root.sectionFlags">
                                                 <option style="width: 258px !important;" data-bind="text: FlagName, attr: { 'data-color': FlagColor, value: SectionFlagId }"></option>
-                                            </select>
-                                            @*<select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag"></select>*@
+                                            </select>*@
+                                            <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag"></select>
                                         </div>
                                         <div class="form-group pull-left">
                                             <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
