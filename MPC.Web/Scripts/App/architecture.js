@@ -71,16 +71,15 @@ var ist = {
     lengthFormat: "0.000",
     // Sections enumeration
     sectionsEnum: [
-{ indx: 0, id: 1, name: "Estimates" },
-{ indx: 1, id: 2, name: "Estimate Details" },
-{ indx: 2, id: 3, name: "Template Library" },
-{ indx: 3, id: 4, name: "Job Production" },
-{ indx: 4, id: 5, name: "Job Activity List" },
-{ indx: 5, id: 6, name: "Add Job Activity" },
-{ indx: 6, id: 7, name: "Purchases" },
-{ indx: 7, id: 54, name: "Orders" }
-    ],
-
+        { indx: 0, id: 1, name: "Estimates" },
+        { indx: 1, id: 2, name: "Estimate Details" },
+        { indx: 2, id: 3, name: "Template Library" },
+        { indx: 3, id: 4, name: "Job Production" },
+        { indx: 4, id: 5, name: "Job Activity List" },
+        { indx: 5, id: 6, name: "Add Job Activity" },
+        { indx: 6, id: 7, name: "Purchases" },
+        { indx: 7, id: 54, name: "Orders" }
+    ]
 };
 
 // Busy Indicator
