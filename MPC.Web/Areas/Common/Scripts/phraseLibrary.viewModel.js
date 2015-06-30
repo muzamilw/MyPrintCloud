@@ -14,6 +14,8 @@ define("common/phraseLibrary.viewModel",
                     selectedPhraseField = ko.observable(),
                     //Flag for open from Phrase Library
                     isOpenFromPhraseLibrary = ko.observable(true),
+                    // Open default section according to 
+                    defaultOpenSectionId = ko.observable(),
                     //selected Phrase
                     selectedPhrase = ko.observable(false),
                     //Sections
@@ -22,6 +24,7 @@ define("common/phraseLibrary.viewModel",
                     phrases = ko.observableArray([]),
                     //job Titles List
                     jobTitles = ko.observableArray([]),
+                    
                     //#endregion
                     //get All Sections
                     getAllSections = function () {
@@ -313,18 +316,18 @@ define("common/phraseLibrary.viewModel",
                  afterSelectPhrase = null,
                 // select default section for product
                  selectDefaultSectionForProduct = function () {
-                     if (!isOpenFromPhraseLibrary()) {
-                         // Select Job Production by default
-                         var jobProductionSection = sections.find(function (section) {
-                             return section.sectionId() === 4;
+                     if (!isOpenFromPhraseLibrary() && defaultOpenSectionId() !== undefined) {
+                         // Select defailt sections
+                         var defaultOpenSection = sections.find(function (section) {
+                             return section.sectionId() === defaultOpenSectionId();
                          });
 
-                         if (jobProductionSection) {
-                             selectedSection(jobProductionSection);
-                             selectSection(jobProductionSection);
-                             if (selectedSection() && selectedSection().phrasesFields().length > 0) {
-                                 selectPhraseField(selectedSection().phrasesFields()[0]);
-                             }
+                         if (defaultOpenSection) {
+                             selectedSection(defaultOpenSection);
+                             selectSection(defaultOpenSection);
+                             //if (selectedSection() && selectedSection().phrasesFields().length > 0) {
+                             //    selectPhraseField(selectedSection().phrasesFields()[0]);
+                             //}
                          }
                      }
                  },
@@ -373,7 +376,8 @@ define("common/phraseLibrary.viewModel",
                     templateToUse: templateToUse,
                     selectPhrase: selectPhrase,
                     jobTitles: jobTitles,
-                    show: show
+                    show: show,
+                    defaultOpenSectionId: defaultOpenSectionId
                 };
             })()
         };
