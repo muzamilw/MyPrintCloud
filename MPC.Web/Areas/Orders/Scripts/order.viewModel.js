@@ -293,6 +293,9 @@ define("order/order.viewModel",
                         selectedOrder().setCreditiLimitSetBy(loggedInUser());
                         selectedOrder().setAllowJobWoCreditCheckSetBy(loggedInUser());
                         selectedOrder().setOfficialOrderSetBy(loggedInUser());
+                        if (isEstimateScreen()) {
+                            selectedOrder().reportSignedBy(loggedInUser());
+                        }
                         view.setOrderState(4); // Pending Order
                         selectedOrder().statusId(4);
                         selectedOrder().status("Open/Draft Estimate");
@@ -1471,9 +1474,15 @@ define("order/order.viewModel",
                                         getBaseForCompany(data.CompanyId, storeId);
                                     }
                                     // If Signed by is not set in case of online order then set it
-                                    if (!selectedOrder().orderReportSignedBy()) {
+                                    if (!isEstimateScreen() && !selectedOrder().orderReportSignedBy()) {
                                         selectedOrder().setOrderReportSignedBy(loggedInUser());
                                     }
+                                    if (isEstimateScreen() && !selectedOrder().reportSignedBy()) {
+                                        selectedOrder().reportSignedBy(loggedInUser());
+                                    }
+                                    
+                                    // Reset Order Dirty State
+                                    selectedOrder().reset();
 
                                     if (callback && typeof callback === "function") {
                                         callback();
