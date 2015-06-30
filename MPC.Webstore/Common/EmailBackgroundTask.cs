@@ -16,7 +16,7 @@ public class EmailBackgroundTask : Registry
 
 
         Schedule(() => _campaignService.SendEmailFromQueue(context))
-       .ToRunNow().AndEvery(5).Minutes();
+       .ToRunNow().AndEvery(1).Minutes();
 
         Schedule(() => _campaignService.MonitorScheduledEmails())
        .ToRunNow().AndEvery(5).Minutes();

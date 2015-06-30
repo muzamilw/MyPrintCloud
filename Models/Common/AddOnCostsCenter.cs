@@ -83,5 +83,6 @@ namespace MPC.Models.Common
         public int IsMandatory { get; set; }
         public int QuantitySourceType { get; set; }
         public int TimeSourceType { get; set; }
+        public long ItemStockOptionId { get; set; }
     }
 }
