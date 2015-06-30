@@ -966,6 +966,19 @@ define("product/product.viewModel",
                             // Set Section Ink Coverage For Side 1
                             setSide1SectionInkCoverages(press);
                         });
+                        
+                        // Set Gutter Value
+                        selectedProduct().activeItemSection().itemGutterHorizontal.subscribe(function (value) {
+                            if (value !== selectedProduct().activeItemSection().itemGutterHorizontal()) {
+                                selectedProduct().activeItemSection().itemGutterHorizontal(value);
+                            }
+
+                            if (selectedProduct().activeItemSection().printingTypeUi() === '2') {
+                                return;
+                            }
+
+                            getPtvCalculation();
+                        });
 
                         // On Press Side 2 Change set Section Size Width to Press Max Width
                         selectedProduct().activeItemSection().pressIdSide2.subscribe(function (value) {
@@ -1798,6 +1811,7 @@ define("product/product.viewModel",
 // ReSharper restore DuplicatingLocalDeclaration
                         if (selectedSection.itemSizeHeight() == null || selectedSection.itemSizeWidth() == null || selectedSection.sectionSizeHeight() == null ||
                             selectedSection.sectionSizeWidth() == null) {
+                            isPtvCalculationInProgress(false);
                             return;
                         }
                         var orient;
@@ -1825,9 +1839,9 @@ define("product/product.viewModel",
                             grip: 1,
                             gripDepth: 0,
                             headDepth: 0,
-                            printGutter: 5,
-                            horizentalGutter: 5,
-                            verticalGutter: 5
+                            printGutter: selectedSection.itemGutterHorizontal(),
+                            itemHorizentalGutter: selectedSection.itemGutterHorizontal(),
+                            itemVerticalGutter: selectedSection.itemGutterHorizontal()
                         }, {
                             success: function (data) {
                                 if (data != null) {
@@ -1869,9 +1883,9 @@ define("product/product.viewModel",
                             grip: 1,
                             gripDepth: 0,
                             headDepth: 0,
-                            printGutter: 5,
-                            horizentalGutter: 5,
-                            verticalGutter: 5
+                            printGutter: selectedProduct().activeItemSection().itemGutterHorizontal(),
+                            itemHorizentalGutter: selectedProduct().activeItemSection().itemGutterHorizontal(),
+                            itemVerticalGutter: selectedProduct().activeItemSection().itemGutterHorizontal()
                         }, {
                             success: function (data) {
                                 if (data != null) {
