@@ -1015,6 +1015,11 @@ define("product/product.viewModel",
                     onSelectSubCategory = function (category) {
                         view.subCategorySelectedEvent(category);
                     },
+                    // Edit Sub Category
+                    editSubCategory = function(category, event) {
+                        view.subCategoryEditEvent(category);
+                        event.stopImmediatePropagation();
+                    },
                     // Is Product Section Initialized
                     isProductSectionInitialized = false,
                     // Initialize the view model from Store
@@ -2017,7 +2022,8 @@ define("product/product.viewModel",
                     isSide1InkButtonClicked: isSide1InkButtonClicked,
                     selectedSection: selectedSection,
                     subCategories: subCategories,
-                    onSelectSubCategory: onSelectSubCategory
+                    onSelectSubCategory: onSelectSubCategory,
+                    editSubCategory: editSubCategory
                     // For Store
                     // Utility Methods
                 };

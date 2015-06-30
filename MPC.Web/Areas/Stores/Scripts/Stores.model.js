@@ -1239,7 +1239,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 territoryName: territoryName,
                 companyId: companyId,
                 territoryCode: territoryCode,
-                isDefault: isDefault
+                isDefault: isDefault,
+                isSelected: isSelected
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -1689,6 +1690,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 buttonURL: buttonURL,
                 companySetId: companySetId,
                 setName: setName,
+                filePath: filePath,
+                filePathWithCacheRemoveTechnique: filePathWithCacheRemoveTechnique
             }),
             // Has Changes
             hasChanges = ko.computed(function () {

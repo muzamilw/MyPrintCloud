@@ -15,8 +15,8 @@
 
                         <div class="clearfix">
 
-                            <img style="width:240px;height:130px;" data-bind="visible:imageSource()===undefined,attr: { src: '@Url.Content("~/")' + filePathWithCacheRemoveTechnique() }" />
-                            <img style="width:220px;height:130px;" data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />
+                            <img style="width: 220px; object-fit: contain;height: 130px;" data-bind="visible:imageSource()===undefined,attr: { src: '@Url.Content("~/")' + filePathWithCacheRemoveTechnique() }" />
+                            <img style="width: 220px; object-fit: contain; height: 130px; " data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />
 
                             <div class="col-lg-11" style="margin-top:5px;text-align:center;width:220px;">
 

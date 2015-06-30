@@ -136,7 +136,7 @@
                                                     <div class="profile-status">
 
                                                     </div>
-                                                    <img style="width:240px;height:130px;-o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: productCategoryThumbnailFileBinary }" class="categoryImage profile-img img-responsive " /> @*center-block*@
+                                                    <img style="height:130px;-o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: productCategoryThumbnailFileBinary }" class="categoryImage profile-img img-responsive " /> @*center-block*@
                                                     @*<div class="profile-label">
                                                         <span class="label label-danger">Active</span>
                                                     </div>*@
@@ -721,7 +721,7 @@
 
                                                 </div>
                                                 <div class="col-lg-5">
-                                                    <img style="height:130px; width: 220px;" data-bind="attr: { src: productCategoryImageFileBinary }">
+                                                    <img style="height:130px; width: 220px; object-fit: contain" data-bind="attr: { src: productCategoryImageFileBinary }">
                                                     <div style="width:220px;margin-top:10px; text-align:center;">
                                                         @*data-bind="visible :!$root.selectedStore().hasChanges()"*@
                                                         <div class="fileUpload btn btn-primary">
@@ -768,7 +768,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-danger pull-left" data-bind="click: $root.onArchiveCategory, visible: $root.selectedProductCategoryForEditting()!=undefined && $root.selectedProductCategoryForEditting().productCategoryId() > 0">Archive</button>
-                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveProductCategory, css: { 'btn-warning': hasChanges() }, enable: hasChanges()">Save</button>
+                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveProductCategory, css: { 'btn-warning': $root.productCategoryHasChanges() }, enable: $root.productCategoryHasChanges()">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.onCloseProductCategory" style="margin-left:0px;">Close</button>
             </div>
         </div>

@@ -18,7 +18,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             specifiedTargetPrintDate, specifiedOrderCreationDateTime, specifiedOrderManagerId, specifiedSalesPersonId, specifiedSourceId,
             specifiedCreditLimitForJob, specifiedCreditLimitSetBy, specifiedCreditLimitSetOnDateTime, specifiedIsJobAllowedWOCreditCheck,
             specifiedAllowJobWOCreditCheckSetOnDateTime, specifiedAllowJobWOCreditCheckSetBy, specifiedCustomerPo, specifiedOfficialOrderSetBy,
-            specifiedOfficialOrderSetOnDateTime, specifiedFootNotes, specifiedEnquiryId, specifiedRefEstimateId, specifiedOrderReportSignedBy) {
+            specifiedOfficialOrderSetOnDateTime, specifiedFootNotes, specifiedEnquiryId, specifiedRefEstimateId, specifiedOrderReportSignedBy, specifiedReportSignedBy) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -254,9 +254,10 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 statusId = ko.observable(undefined),
                 // Status
                 status = ko.observable(undefined),
-                // Order signed by
-                //orderReportSignedBy = ko.observable(undefined),
-                orderReportSignedBy = ko.observable(specifiedOrderReportSignedBy),
+                // Estimate signed by
+                reportSignedBy = ko.observable(specifiedReportSignedBy || undefined),
+                // Order Report Signed By
+                orderReportSignedBy = ko.observable(specifiedOrderReportSignedBy || undefined),
                 // Set Credit Limit Set By
                 setOrderReportSignedBy = function (userId) {
                     if (!userId) {
@@ -353,6 +354,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     addressId: addressId,
                     isDirectSale: isDirectSale,
                     orderReportSignedBy: orderReportSignedBy,
+                    reportSignedBy: reportSignedBy,
                     isOfficialOrder: isOfficialOrder,
                     isCreditApproved: isCreditApproved,
                     orderDate: orderDate,
@@ -462,6 +464,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                         OfficialOrderSetBy: officialOrderSetBy(),
                         OfficialOrderSetOnDateTime: officialOrderSetOnDateTime() ? moment(officialOrderSetOnDateTime()).format(ist.utcFormat) + 'Z' : undefined,
                         OrderReportSignedBy: orderReportSignedBy(),
+                        ReportSignedBy: reportSignedBy(),
                         IsEstimate: isEstimate(),
                         PrePayments: [],
                         ShippingInformations: [],
@@ -483,6 +486,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 companyName: companyName,
                 estimateTotal: estimateTotal,
                 orderReportSignedBy: orderReportSignedBy,
+                reportSignedBy: reportSignedBy,
                 contactId: contactId,
                 addressId: addressId,
                 sectionFlagId: sectionFlagId,
@@ -795,7 +799,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         source.ArtworkByDate, source.DataByDate, source.PaperByDate, source.TargetBindDate, source.XeroAccessCode, source.TargetPrintDate,
         source.OrderCreationDateTime, source.OrderManagerId, source.SalesPersonId, source.SourceId, source.CreditLimitForJob, source.CreditLimitSetBy,
         source.CreditLimitSetOnDateTime, source.IsJobAllowedWOCreditCheck, source.AllowJobWOCreditCheckSetOnDateTime, source.AllowJobWOCreditCheckSetBy,
-        source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime, source.FootNotes, source.EnquiryId, source.RefEstimateId, source.OrderReportSignedBy);
+        source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime, source.FootNotes, source.EnquiryId, source.RefEstimateId,
+        source.OrderReportSignedBy, source.ReportSignedBy);
 
         estimate.statusId(source.StatusId);
         estimate.status(source.Status);

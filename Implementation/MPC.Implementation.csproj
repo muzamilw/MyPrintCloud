@@ -38,6 +38,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MPC.Common\ExternalDlls\ABCpdf.dll</HintPath>
     </Reference>
+    <Reference Include="Aurigma.GraphicsMill">
+      <HintPath>..\MPC.Common\Externaldlls\Aurigma.GraphicsMill.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
     </Reference>
@@ -141,6 +144,10 @@
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="PDFlib_dotnet, Version=9.0.4.0, Culture=neutral, PublicKeyToken=af0805f2b25bb299, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPC.Common\Externaldlls\PDFlib_dotnet.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.103.4\lib\net4\RestSharp.dll</HintPath>

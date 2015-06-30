@@ -68,7 +68,19 @@ var ist = {
     },
     numberFormat: "0,0.00",
     ordinalFormat: "0",
-    lengthFormat: "0.000"
+    lengthFormat: "0.000",
+    // Sections enumeration
+    sectionsEnum: [
+{ indx: 0, id: 1, name: "Estimates" },
+{ indx: 1, id: 2, name: "Estimate Details" },
+{ indx: 2, id: 3, name: "Template Library" },
+{ indx: 3, id: 4, name: "Job Production" },
+{ indx: 4, id: 5, name: "Job Activity List" },
+{ indx: 5, id: 6, name: "Add Job Activity" },
+{ indx: 6, id: 7, name: "Purchases" },
+{ indx: 7, id: 54, name: "Orders" }
+    ],
+
 };
 
 // Busy Indicator
@@ -1586,7 +1598,7 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
         success: function (response) {
 
             var updatedAddOns = itemAddOns;
-            
+
             if (updatedAddOns() !== null) {
 
                 for (var i = 0; i < updatedAddOns().length; i++) {
@@ -1606,7 +1618,7 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
                 }
 
                 UpdateQuestionAndInputQueue(updatedGlobalQueueArray);
-                
+
                 var jsonToReSubmit = [];
 
                 var totalVal = 0;
@@ -1629,10 +1641,10 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
             }
             else if (costCenter() !== null) {
                 costCenter().setupCost(response);
-                
+
                 // Sets Cost Center Queue Object to save in db
                 SetCostCenterQueueObjectToSaveInDb(costCentreType, updatedGlobalQueueArray, costCentreQueueObjectToSaveInDb, costCentreId);
-                
+
                 UpdateQuestionAndInputQueue(updatedGlobalQueueArray);
             }
             HideLoader();
