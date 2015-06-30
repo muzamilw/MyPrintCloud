@@ -47,17 +47,17 @@
                                 if (ViewBag.SelectedStockItemId != null)
                                 {
                                     string stockClassName = "rbStockType" + StockCount;
-                                    if (ViewBag.SelectedStockItemId == stock.StockId)
+                                    if (ViewBag.SelectedStockItemId == stock.ItemStockOptionId)
                                     {
                                         <div class=float_left_simple style="height:55px;">
-                                            <input type=radio name=StockPaper checked data-id="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
+                                            <input type=radio name=StockPaper checked data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
                                             <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
                                         </div>
                                     }
                                     else
                                     {
                                         <div class=float_left_simple style="height:55px;">
-                                            <input type=radio name=StockPaper data-id="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
+                                            <input type=radio name=StockPaper data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
                                             <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
                                         </div>
                                     }
@@ -69,14 +69,14 @@
                                     {
 
                                         <div class=float_left_simple style="height:55px;">
-                                            <input type=radio name=StockPaper checked data-id="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
+                                            <input type=radio name=StockPaper checked data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
                                             <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
                                         </div>
                                     }
                                     else
                                     {
                                         <div class=float_left_simple style="height:55px;">
-                                            <input type=radio name=StockPaper data-id="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
+                                            <input type=radio name=StockPaper data-id="@stock.ItemStockOptionId" data-stockid="@stock.StockId" class="@stockClassName" style="position:absolute;opacity:0;" />
                                             <label for=radio1 class=grayRadiantbtn onclick=SelectStockOption('@stockClassName');> @stock.StockLabel </label>
                                         </div>
                                     }
@@ -98,7 +98,7 @@
                             <div class="width365pxM250p">
                                 @foreach (var costcenter in ViewData["CostCenters"] as List<MPC.Models.Common.AddOnCostsCenter>)
                                 {
-                                        <div class="CostCenterItems" data-ismandatory="@costcenter.IsMandatory" data-stockid="@costcenter.ItemStockId" style="display:none; margin:10px;">
+                                        <div class="CostCenterItems" data-ismandatory="@costcenter.IsMandatory" data-stockid="@costcenter.ItemStockOptionId" style="display:none; margin:10px;">
                                             <div class="float_left_simple spacerbottom CcImageContainer">
                                                 <img class="RfgImgCs" src=/@costcenter.AddOnImage />
                                             </div>
@@ -369,6 +369,7 @@
                             @Html.HiddenFor(m => m.ModifiedQueueItem, new { id = "ModifiedQueueItem" })
                             @Html.HiddenFor(m => m.JsonAllQuestionQueue, new { id = "VMJsonAddOnsQuestionQueue" })
                             @Html.HiddenFor(m => m.JsonAllInputQueue, new { id = "VMJsonAddOnsInputQueue" })
+                            @Html.HiddenFor(m => m.ItemStockOptionId, new { id = "VMItemStockOptionId" })
                             <input type="submit" value="Add to cart" id="AddTOCart" class="add_to_cart_btn rounded_corners5 MTopM10 background-green" onclick="return ConfirmCart();" />
                         }
 
@@ -949,10 +950,11 @@
 
 
 
-            var stockID = $('input:radio[class=' + classname + ']').attr("data-Id");
-
+            var stockID = $('input:radio[class=' + classname + ']').attr("data-stockid");
+            var ItemstockOptionID = $('input:radio[class=' + classname + ']').attr("data-Id");
+            
             $("#VMStockId").val(stockID);
-
+            $("#VMItemStockOptionId").val(ItemstockOptionID);
             hideShowPriceColumns(classname);
 
         }
@@ -967,7 +969,7 @@
             CalculatePriceBaseOnSelectedQuantity($(".dropdownQtyListClass").find(":selected").index());
         }
 
-        LoadCostCentersByStockId(stockID);
+        LoadCostCentersByStockId(ItemstockOptionID);
     }
 
 

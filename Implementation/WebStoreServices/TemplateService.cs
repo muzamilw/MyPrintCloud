@@ -1334,22 +1334,22 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     if (isoverLayMode == true)
                     {
-                        oParentObjects = listTemplateObjects.Where(g => g.ProductId == objProduct.ProductId && g.ProductPageId == objProductPage.ProductPageId && (g.IsOverlayObject == true)).OrderBy(g => g.DisplayOrderPdf).ToList();
+                        oParentObjects = listTemplateObjects.Where(g => g.ProductId == objProduct.ProductId && g.ProductPageId == objProductPage.ProductPageId && (g.IsOverlayObject == true) && (g.hasClippingPath == false || g.hasClippingPath == null)).OrderBy(g => g.DisplayOrderPdf).ToList();
                     }
                     else
                     {
-                        oParentObjects = listTemplateObjects.Where(g => g.ProductId == objProduct.ProductId && g.ProductPageId == objProductPage.ProductPageId && (g.IsOverlayObject == false || g.IsOverlayObject == null)).OrderBy(g => g.DisplayOrderPdf).ToList();
+                        oParentObjects = listTemplateObjects.Where(g => g.ProductId == objProduct.ProductId && g.ProductPageId == objProductPage.ProductPageId && (g.IsOverlayObject == false || g.IsOverlayObject == null) && (g.hasClippingPath == false || g.hasClippingPath == null)).OrderBy(g => g.DisplayOrderPdf).ToList();
                     }
                 }
                 else
                 {
                     if (isoverLayMode == true)
                     {
-                        oParentObjects = listTemplateObjects.Where(g => g.ProductId == objProduct.ProductId && g.ProductPageId == objProductPage.ProductPageId && g.IsHidden == IsDrawHiddenObjects && (g.IsOverlayObject == true)).OrderBy(g => g.DisplayOrderPdf).ToList();
+                        oParentObjects = listTemplateObjects.Where(g => g.ProductId == objProduct.ProductId && g.ProductPageId == objProductPage.ProductPageId && g.IsHidden == IsDrawHiddenObjects && (g.IsOverlayObject == true) && (g.hasClippingPath == false || g.hasClippingPath == null)).OrderBy(g => g.DisplayOrderPdf).ToList();
                     }
                     else
                     {
-                        oParentObjects = listTemplateObjects.Where(g => g.ProductId == objProduct.ProductId && g.ProductPageId == objProductPage.ProductPageId && g.IsHidden == IsDrawHiddenObjects && (g.IsOverlayObject == false || g.IsOverlayObject == null)).OrderBy(g => g.DisplayOrderPdf).ToList();
+                        oParentObjects = listTemplateObjects.Where(g => g.ProductId == objProduct.ProductId && g.ProductPageId == objProductPage.ProductPageId && g.IsHidden == IsDrawHiddenObjects && (g.IsOverlayObject == false || g.IsOverlayObject == null) && (g.hasClippingPath == false || g.hasClippingPath == null)).OrderBy(g => g.DisplayOrderPdf).ToList();
                     }
                 }
                 int count = listTemplateObjects.Where(g => g.ProductId == objProduct.ProductId && g.ProductPageId == objProductPage.ProductPageId && (g.IsOverlayObject == true)).Count();
@@ -2338,28 +2338,32 @@ namespace MPC.Implementation.WebStoreServices
                         System.IO.File.WriteAllBytes(drURL + productID + "/p" + objPage.PageNo + ".pdf", PDFFile);
                         //generate and write overlay image to FS 
                         generatePagePreview(PDFFile, drURL, productID + "/p" + objPage.PageNo, objProduct.CuttingMargin.Value, 150, isroundCorners);
-                        //List<TemplateObject> clippingPaths = oTemplateObjects.Where(g => g.ProductPageId == objPage.ProductPageId && g.hasClippingPath == true && g.IsOverlayObject != true).ToList();
-                        //if (clippingPaths.Count > 0)
-                        //{
-                        //   // ClippingPathService objService = new ClippingPathService();
-                        //    double height, width = 0;
-                        //    if (objPage.Orientation == 1) //standard 
-                        //    {
-                        //        height = objProduct.PDFTemplateHeight.Value;
-                        //        width = objProduct.PDFTemplateWidth.Value;
-
-                        //    }
-                        //    else
-                        //    {
-                        //        height = objProduct.PDFTemplateWidth.Value;
-                        //        width = objProduct.PDFTemplateHeight.Value;
-
-                        //    }
-                        //    generateClippingPaths(drURL + productID + "/p" + objPage.PageNo + ".pdf", clippingPaths, drURL + productID + "/p" + objPage.PageNo + "clip.pdf", width, height);
-                        //    File.Copy(drURL + productID + "/p" + objPage.PageNo + "clip.pdf", drURL + productID + "/p" + objPage.PageNo + ".pdf", true);
-                        //    File.Delete(drURL + productID + "/p" + objPage.PageNo + "clip.pdf");
-                        //    generatePagePreview(drURL + productID + "/p" + objPage.PageNo + ".pdf", drURL, productID + "/p" + objPage.PageNo, objProduct.CuttingMargin.Value, 150, isroundCorners);
-                        //}
+                        List<TemplateObject> clippingPaths = oTemplateObjects.Where(g => g.ProductPageId == objPage.ProductPageId && g.hasClippingPath == true && g.IsOverlayObject != true).ToList();
+                        if (clippingPaths.Count > 0)
+                        {
+                            // ClippingPathService objService = new ClippingPathService();
+                            double height, width = 0;
+                            if (objPage.Height.HasValue)
+                            {
+                                height = objPage.Height.Value;
+                            }
+                            else
+                            {
+                                height = objProduct.PDFTemplateHeight.Value;
+                            }
+                            if (objPage.Width.HasValue)
+                            {
+                                width = objPage.Width.Value;
+                            }
+                            else
+                            {
+                                width = objProduct.PDFTemplateWidth.Value;
+                            }
+                            generateClippingPaths(drURL + productID + "/p" + objPage.PageNo + ".pdf", clippingPaths, drURL + productID + "/p" + objPage.PageNo + "clip.pdf", width, height);
+                            File.Copy(drURL + productID + "/p" + objPage.PageNo + "clip.pdf", drURL + productID + "/p" + objPage.PageNo + ".pdf", true);
+                            File.Delete(drURL + productID + "/p" + objPage.PageNo + "clip.pdf");
+                            generatePagePreview(drURL + productID + "/p" + objPage.PageNo + ".pdf", drURL, productID + "/p" + objPage.PageNo, objProduct.CuttingMargin.Value, 150, isroundCorners);
+                        }
                         if (hasOverlayObject)
                         {
                             // generate overlay PDF 
@@ -2368,27 +2372,31 @@ namespace MPC.Implementation.WebStoreServices
                             System.IO.File.WriteAllBytes(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", overlayPDFFile);
                             // generate and write overlay image to FS 
                             generatePagePreview(overlayPDFFile, drURL, productID + "/p" + objPage.PageNo + "overlay", objProduct.CuttingMargin.Value, 150, isroundCorners);
-                            //List<TemplateObject> overlayClippingPaths = oTemplateObjects.Where(g => g.ProductPageId == objPage.ProductPageId && g.hasClippingPath == true && g.IsOverlayObject == true).ToList();
-                            //if (clippingPaths.Count > 0)
-                            //{
-                            //    double height, width = 0;
-                            //    if (objPage.Orientation == 1) //standard 
-                            //    {
-                            //        height = objProduct.PDFTemplateHeight.Value;
-                            //        width = objProduct.PDFTemplateWidth.Value;
-
-                            //    }
-                            //    else
-                            //    {
-                            //        height = objProduct.PDFTemplateWidth.Value;
-                            //        width = objProduct.PDFTemplateHeight.Value;
-
-                            //    }
-                            //    generateClippingPaths(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", overlayClippingPaths, drURL + productID + "/p" + objPage.PageNo + "clipoverlay.pdf", width, height);
-                            //    File.Copy(drURL + productID + "/p" + objPage.PageNo + "clipoverlay.pdf", drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", true);
-                            //    File.Delete(drURL + productID + "/p" + objPage.PageNo + "clipoverlay.pdf");
-                            //    generatePagePreview(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", drURL, productID + "/p" + objPage.PageNo + "overlay", objProduct.CuttingMargin.Value, 150, isroundCorners);
-                            //}
+                            List<TemplateObject> overlayClippingPaths = oTemplateObjects.Where(g => g.ProductPageId == objPage.ProductPageId && g.hasClippingPath == true && g.IsOverlayObject == true).ToList();
+                            if (clippingPaths.Count > 0)
+                            {
+                                double height, width = 0;
+                                if (objPage.Height.HasValue)
+                                {
+                                    height = objPage.Height.Value;
+                                }
+                                else
+                                {
+                                    height = objProduct.PDFTemplateHeight.Value;
+                                }
+                                if (objPage.Width.HasValue)
+                                {
+                                    width = objPage.Width.Value;
+                                }
+                                else
+                                {
+                                    width = objProduct.PDFTemplateWidth.Value;
+                                }
+                                generateClippingPaths(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", overlayClippingPaths, drURL + productID + "/p" + objPage.PageNo + "clipoverlay.pdf", width, height);
+                                File.Copy(drURL + productID + "/p" + objPage.PageNo + "clipoverlay.pdf", drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", true);
+                                File.Delete(drURL + productID + "/p" + objPage.PageNo + "clipoverlay.pdf");
+                                generatePagePreview(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", drURL, productID + "/p" + objPage.PageNo + "overlay", objProduct.CuttingMargin.Value, 150, isroundCorners);
+                            }
                         }
                     }
                     result = true;
@@ -2428,7 +2436,7 @@ namespace MPC.Implementation.WebStoreServices
                 foreach (var obj in lstObjs)
                 {
                     string imgName = obj.ContentString.Replace("__clip_mpc.png", ".jpg");
-                    string imagefile = System.Web.Hosting.HostingEnvironment.MapPath("~/") + "/" + imgName;
+                    string imagefile = System.Web.Hosting.HostingEnvironment.MapPath("~/Mpc_Content") + "/" + imgName;
                     image = p.load_image("auto", imagefile, "");
 
                     if (image == -1)
@@ -2893,11 +2901,11 @@ namespace MPC.Implementation.WebStoreServices
                             {
                                 if (oObject.ContentString.Contains("__clip_mpc"))
                                 {
-                                  //  oObject.hasClippingPath = true;
+                                    oObject.hasClippingPath = true;
                                 }
                                 else
                                 {
-                                   // oObject.hasClippingPath = false;
+                                    oObject.hasClippingPath = false;
                                 }
                             }
 
