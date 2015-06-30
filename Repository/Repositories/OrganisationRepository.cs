@@ -150,6 +150,7 @@ namespace MPC.Repository.Repositories
                      objOrg.TaxServiceUrl = objExpOrg.TaxServiceUrl;
                     objOrg.TaxServiceKey = objExpOrg.TaxServiceKey;
                     objOrg.SystemLengthUnit = objExpOrg.SystemLengthUnit;
+                    objOrg.IsImperical = objExpOrg.IsImperical;
 
                     db.SaveChanges();
                     ImportIDs.NewOrganisationID = OID;

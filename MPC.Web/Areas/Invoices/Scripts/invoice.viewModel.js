@@ -59,6 +59,12 @@ define("invoice/invoice.viewModel",
                     isSectionDetailVisible = ko.observable(false),
                     // Is Company Base Data Loaded
                     isCompanyBaseDataLoaded = ko.observable(false),
+
+                    // is open report
+                     isOpenReport = ko.observable(false),
+                      // is open report Email
+                     isOpenReportEmail = ko.observable(false),
+
                     currentScreen = ko.observable(),
                     // True, show status column in list view
                     isShowStatusCloumn = ko.observable(true),
@@ -222,11 +228,15 @@ define("invoice/invoice.viewModel",
 
 
                         reportManager.outputTo("preview");
-
-
-                        reportManager.OpenExternalReport(ist.reportCategoryEnums.Invoice, 1, selectedInvoice().id());
-
-
+                        
+                        if (selectedInvoice().hasChanges()) {
+                            isOpenReport(true);
+                            isOpenReportEmail(false);
+                            onSaveInvoice();
+                        }
+                        else {
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Invoice, 1, selectedInvoice().id());
+                        }
 
                         //reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
                         //reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
@@ -238,9 +248,17 @@ define("invoice/invoice.viewModel",
                     openExternalEmailInvoiceReport = function () {
                         reportManager.outputTo("email");
 
-                        reportManager.SetOrderData(selectedInvoice().invoiceReportSignedBy(), selectedInvoice().contactId(), selectedInvoice().id(), 4, selectedInvoice().id(), "");
-                        reportManager.OpenExternalReport(ist.reportCategoryEnums.Invoice, 1, selectedInvoice().id());
+                       
+                        if (selectedInvoice().hasChanges()) {
+                            isOpenReport(true);
+                            isOpenReportEmail(true);
+                            onSaveInvoice();
+                        }
+                        else {
+                            reportManager.SetOrderData(selectedInvoice().invoiceReportSignedBy(), selectedInvoice().contactId(), selectedInvoice().id(), 4, selectedInvoice().id(), "");
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Invoice, 1, selectedInvoice().id());
 
+                        }
 
                     }
 
@@ -328,25 +346,35 @@ define("invoice/invoice.viewModel",
                     if (!doBeforeSave()) {
                         return;
                     }
-
-                    var istatus = selectedInvoice().invoiceStatus();
-                    if (istatus == 19 && selectedInvoice().id() !== 0 && selectedInvoice().id() !== undefined) //Awaiting Invoice
+                    if (isOpenReport() == true)
                     {
-                        confirmation.messageText("Do you want to post the invoice.");
 
-                        confirmation.afterProceed(function () {
-                            selectedInvoice().invoiceStatus(20); //Posted Invoice                              
-                            selectedInvoice().invoicePostedBy(loggedInUserId); //Current user Id                             
-                            saveInvoice(closeInvoiceEditor, navigateCallback);
-                        });
-                        confirmation.afterCancel(function () {
-                            saveInvoice(closeInvoiceEditor, navigateCallback);
-                        });
-                        confirmation.show();
-                        return;
-                    } else {
                         saveInvoice(closeInvoiceEditor, navigateCallback);
                     }
+                    else
+                    {
+                        var istatus = selectedInvoice().invoiceStatus();
+                        if (istatus == 19 && selectedInvoice().id() !== 0 && selectedInvoice().id() !== undefined) //Awaiting Invoice
+                        {
+                            confirmation.messageText("Do you want to post the invoice.");
+
+                            confirmation.afterProceed(function () {
+                                selectedInvoice().invoiceStatus(20); //Posted Invoice                              
+                                selectedInvoice().invoicePostedBy(loggedInUserId); //Current user Id                             
+                                saveInvoice(closeInvoiceEditor, navigateCallback);
+                            });
+                            confirmation.afterCancel(function () {
+                                saveInvoice(closeInvoiceEditor, navigateCallback);
+                            });
+                            confirmation.show();
+                            return;
+                        } else {
+                            saveInvoice(closeInvoiceEditor, navigateCallback);
+                        }
+
+                    }
+
+                    
 
 
                 },
@@ -666,38 +694,62 @@ define("invoice/invoice.viewModel",
                     invoice.Items = itemsArray;
                     dataservice.saveInvoice(invoice, {
                         success: function (data) {
-                            if (!selectedInvoice().id()) {
-                                // Update Id
-                                selectedInvoice().id(data.InvoiceId);
-                                selectedInvoice().code(data.InvoiceCode);
-                                var invoiceListViewItem = model.InvoicesListView();
-                                invoiceListViewItem.code(data.InvoiceCode);
-                                invoiceListViewItem.id(selectedInvoice().id());
-                                updateInvoiceLitViewItem(invoiceListViewItem);
-                                // Add to top of list
-                                invoices.splice(0, 0, invoiceListViewItem);
-                            } else {
-                                // Get Order
-                                var invoiceUpdated = getInvoiceFromList(selectedInvoice().id());
-                                if (invoiceUpdated) {
-                                    // invoiceUpdated.code(data.InvoiceCode);
-                                    //invoiceUpdated.name(data.InvoiceName);
-                                    updateInvoiceLitViewItem(invoiceUpdated);
+
+                            if (isOpenReport() == true) {
+                                if (isOpenReportEmail() == true) {
+                                    reportManager.SetOrderData(selectedInvoice().invoiceReportSignedBy(), selectedInvoice().contactId(), selectedInvoice().id(), 4, selectedInvoice().id(), "");
+                                    reportManager.OpenExternalReport(ist.reportCategoryEnums.Invoice, 1, selectedInvoice().id());
+
+                                    getInvoiceById(selectedInvoice().id());
                                 }
-                            }
-                            isDetailsVisible(false);
-                            isItemDetailVisible(true);
+                                else {
+                                   
+                                    reportManager.OpenExternalReport(ist.reportCategoryEnums.Invoice, 1, selectedInvoice().id());
+                                    getInvoiceById(selectedInvoice().id());
+                                }
 
-                            toastr.success("Saved Successfully.");
+                                isOpenReport(false);
+                            }
+                            else {
 
-                            if (callback && typeof callback === "function") {
-                                callback();
+
+                                if (!selectedInvoice().id()) {
+                                    // Update Id
+                                    selectedInvoice().id(data.InvoiceId);
+                                    selectedInvoice().code(data.InvoiceCode);
+                                    var invoiceListViewItem = model.InvoicesListView();
+                                    invoiceListViewItem.code(data.InvoiceCode);
+                                    invoiceListViewItem.id(selectedInvoice().id());
+                                    updateInvoiceLitViewItem(invoiceListViewItem);
+                                    // Add to top of list
+                                    invoices.splice(0, 0, invoiceListViewItem);
+                                } else {
+                                    // Get Order
+                                    var invoiceUpdated = getInvoiceFromList(selectedInvoice().id());
+                                    if (invoiceUpdated) {
+                                        // invoiceUpdated.code(data.InvoiceCode);
+                                        //invoiceUpdated.name(data.InvoiceName);
+                                        updateInvoiceLitViewItem(invoiceUpdated);
+                                    }
+                                }
+                                isDetailsVisible(false);
+                                isItemDetailVisible(true);
+
+                                toastr.success("Saved Successfully.");
+
+                                if (callback && typeof callback === "function") {
+                                    callback();
+                                }
+
+                                if (navigateCallback && typeof navigateCallback === "function") {
+                                    navigateCallback();
+                                }
+                                invoiceCodeHeader('');
                             }
 
-                            if (navigateCallback && typeof navigateCallback === "function") {
-                                navigateCallback();
-                            }
-                            invoiceCodeHeader('');
+
+
+
                         },
                         error: function (response) {
                             toastr.error("Failed to Save Order. Error: " + response);

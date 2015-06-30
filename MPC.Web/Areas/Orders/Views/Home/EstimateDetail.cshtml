@@ -409,14 +409,14 @@
                                                 </label>
                                             </div>
                                             <div class="col-sm-3">
-                                                <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsCaption: 'Select a system user', optionsValue: 'id', value: orderReportSignedBy"></select>
+                                                <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsCaption: 'Select a system user', optionsValue: 'id', value: reportSignedBy"></select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 @* Item Template *@
                                 <script id="itemTemplate" type="text/html">
-                                    <tr data-bind=" click:  $root.editItem" style="cursor: pointer">
+                                    <tr data-bind=" click:  $root.editItem, css: { errorFillRow: !isValid() }" style="cursor: pointer">
                                         <td style=" padding-top: 10px;">
                                             <a href="#" style="font-size: 24px" data-bind="text: productName, click: $root.editItem"><span></span></a>
                                         </td>
