@@ -784,6 +784,18 @@ define("common/itemDetail.viewModel",
 
                             getPtvCalculation();
                         });
+                        // Set Gutter Value
+                        selectedSection().itemGutterHorizontal.subscribe(function (value) {
+                            if (value !== selectedSection().itemGutterHorizontal()) {
+                                selectedSection().itemGutterHorizontal(value);
+                            }
+
+                            if (selectedSection().printingTypeUi() === '2') {
+                                return;
+                            }
+
+                            getPtvCalculation(getSectionSystemCostCenters);
+                        });
 
                         // On Press Change set Section Size Width to Press Max Width
                         selectedSection().pressId.subscribe(function (value) {
@@ -1253,9 +1265,9 @@ define("common/itemDetail.viewModel",
                             grip: 1,
                             gripDepth: 0,
                             headDepth: 0,
-                            printGutter: 5,
-                            horizentalGutter: 5,
-                            verticalGutter: 5
+                            printGutter: selectedSection().itemGutterHorizontal(),
+                            itemHorizentalGutter: selectedSection().itemGutterHorizontal(),
+                            itemVerticalGutter: selectedSection().itemGutterHorizontal()
                         }, {
                             success: function (data) {
                                 if (data != null) {
@@ -1617,7 +1629,7 @@ define("common/itemDetail.viewModel",
                     },
                     // Remove Item Section
                     deleteSection = function (section) {
-                        confirmation.messageText("Are you sure you want to remove section?");
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().itemSections.remove(section);
                             showSectionDetail(false);
@@ -1685,6 +1697,7 @@ define("common/itemDetail.viewModel",
                     // Delete Section Cost Center
                     onDeleteSectionCostCenter = function (costCenter) {
                         // Ask for confirmation
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             view.hideSectionCostCenterDialogModel();
                             selectedSection().sectionCostCentres.remove(costCenter);
@@ -1707,6 +1720,9 @@ define("common/itemDetail.viewModel",
                     // Add Pre Press Cost Center
                     onAddPrePressCostCenter = function () {
                         addCostCenterVm.show(addCostCenter, selectedOrder().companyId(), false, currencySymbol(), null, costCenterType.prePress);
+                    },
+                    openJobCardsTab = function () {
+                        $("#sectionTabTabs a[href=#tab-jobs]").tab('show');
                     },
                     // Add Post Press Cost Center
                     onAddPostPressCostCenter = function () {
@@ -1808,6 +1824,7 @@ define("common/itemDetail.viewModel",
                     }),
                     // Delete Item attachment
                     deleteItemAttachment = function (attachment) {
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().itemAttachments.remove(attachment);
 
@@ -1818,6 +1835,7 @@ define("common/itemDetail.viewModel",
                         return;
                     },
                     deleteItem = function (item) {
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedOrder().items.remove(selectedProduct());
                             closeItemDetail();
@@ -1940,6 +1958,7 @@ define("common/itemDetail.viewModel",
                     deleteItem: deleteItem,
                     defaultSection: defaultSection,
                     onAddPrePressCostCenter: onAddPrePressCostCenter,
+                    openJobCardsTab: openJobCardsTab,
                     onAddPostPressCostCenter: onAddPostPressCostCenter
                     //#endregion
                 };

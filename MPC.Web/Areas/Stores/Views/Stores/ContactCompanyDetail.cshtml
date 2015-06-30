@@ -256,10 +256,10 @@
 
                                             <div class="clearfix">
                                                 <div class="col-lg-12">
-                                                    <!-- ko ifnot: storeImageFileBinary() -->
+                                                    <!-- ko if: !storeImageFileBinary() && !storeImagePath() -->
                                                     <img style="margin-left:27%" src="/mis/Content/Images/Company_Default.png">
                                                     <!--/ko-->
-                                                    <!-- ko if: storeImageFileBinary() -->
+                                                    <!-- ko if: storeImageFileBinary() || storeImagePath() -->
                                                     <img id="idCostcenterimage" style="width: 240px; height: 130px; -o-object-fit: contain; object-fit: contain;" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
                                                     <img style="width: 240px; height: 130px; -o-object-fit: contain; object-fit: contain;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
 
@@ -1238,7 +1238,7 @@
                                                 <div style="padding-left:0px;">
                                                     <div class="fileUpload btn btn-primary">
                                                         <span>Upload Multiple Files</span>
-                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.mediaLibraryFileLoadedCallback, fileFilter: 'image.*'}" />
+                                                        <input type="file" class="upload" id="image_files" multiple="" data-bind="files: { onLoaded: $root.mediaLibraryFileLoadedCallback, fileFilter: 'image.*'}" />
                                                     </div>
                                                 </div>
 
@@ -2011,8 +2011,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                     <div class="col-lg-6">
                                                         <div class="clearfix" style="margin-left:10px;">
 
-                                                            <img style="width:240px;height:130px;" data-bind="visible:storeWorkflowImage()==undefined,attr: { src: '@Url.Content("~/")' + $root.selectedStore().storeWorkflowImageBinary() }" />
-                                                            <img style="width:240px;height:130px;" data-bind="visible:storeWorkflowImage()!==undefined,attr: { src: storeWorkflowImage }" />
+                                                            <img style="width: 240px; height: 130px; object-fit: contain;" data-bind="visible:storeWorkflowImage()==undefined,attr: { src: '@Url.Content("~/")' + $root.selectedStore().storeWorkflowImageBinary() }" />
+                                                            <img style="width: 240px; height: 130px; object-fit: contain;" data-bind="visible:storeWorkflowImage()!==undefined,attr: { src: storeWorkflowImage }" />
                                                             <div class="col-lg-12" style="margin-top: 5px;text-align:center;width:240px;">
                                                                 <div class="fileUpload btn btn-primary">
                                                                     <span>Upload </span>
@@ -3237,8 +3237,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
     <script id="bannerItemTemplate" type="text/html">
         <tr data-bind="click: $root.onEditCompanyBanner" style="cursor: pointer">
             <td>
-                <img id="companyImage" src="#" alt="" style="height: 110px; width: 410px;" data-bind="visible:imageSource()===undefined,attr: { src: '@Url.Content("~/")' + filePathWithCacheRemoveTechnique() }" />
-                <img id="companyImage" src="#" alt="" style="height: 110px; width: 410px;" data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />
+                <img id="companyImage" src="#" alt="" style="height: 110px; object-fit: contain" data-bind="visible:imageSource()===undefined,attr: { src: '@Url.Content("~/")' + filePathWithCacheRemoveTechnique() }" />
+                <img id="companyImage" src="#" alt="" style="height: 110px; object-fit: contain" data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />
             </td>
             <td><a href="#" class="store-user-link" data-bind="text: setName,click : undefined"></a></td>
             @*<td data-bind="text:heading"></td>*@
@@ -3573,6 +3573,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
 @Html.Partial("~/Areas/Stores/Views/Shared/_ProductsFilter.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Shared/_ChooseUsIcon.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Shared/_ProductCategoryDetail.cshtml")
+@Html.Partial("~/Areas/Stores/Views/Shared/_ViewMediaLibImage.cshtml")
+
 <script id="workflowEmailItemTemplate" type="text/html">
     <!-- ko if: campaignType() === 1 -->
     <tr data-bind=" click: $root.onEditEmail" style="cursor: pointer">
@@ -3686,9 +3688,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
 </script>
 <script id="mediaLibraryItemTemplate" type="text/html">
     <li class="col-md-3 col-sm-3 col-xs-6">
-        <div class="photo-box image-link" style="padding-top: 0">
-            <img class="photo-box image-link" style="padding-top: 0;height:127px !important" data-bind="visible:fileSource()===undefined,attr: { src: '@Url.Content("~/")' + imageSourcePath() }" alt="" />
-            <img class="photo-box image-link" style="padding-top: 0;height:127px !important" data-bind="visible:fileSource()!==undefined,attr: { src: fileSource }" />
+        <div class="photo-box image-link" style="padding-top: 0" data-bind="event:{click:$root.openMediaLibImage}">
+            <img class="photo-box image-link" style="object-fit: contain; padding-top: 0; height: 127px !important; background-color: white;" data-bind="visible:fileSource()===undefined,attr: { src: '@Url.Content("~/")' + imageSourcePath() }" alt="" />
+            <img class="photo-box image-link" style="object-fit: contain; padding-top: 0; height: 127px !important; background-color: white;" data-bind="visible:fileSource()!==undefined,attr: { src: fileSource }" />
         </div>
         @*<span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>*@
         <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click : $root.onDeleteMedia">

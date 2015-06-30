@@ -82,6 +82,7 @@
   <ItemGroup>
     <Content Include="Externaldlls\ABCGecko.dll" />
     <Content Include="Externaldlls\ABCpdf.dll" />
+    <Content Include="Externaldlls\Aurigma.GraphicsMill.dll" />
     <Content Include="Externaldlls\GrapeCity.ActiveReports.Document.v7.dll" />
     <Content Include="Externaldlls\GrapeCity.ActiveReports.Export.Excel.v7.dll" />
     <Content Include="Externaldlls\GrapeCity.ActiveReports.Export.Pdf.v7.dll" />
@@ -89,6 +90,7 @@
     <Content Include="Externaldlls\GrapeCity.ActiveReports.Web.v7.dll" />
     <Content Include="Externaldlls\GrapeCity.LicenseService.ActiveReports.v7.dll" />
     <Content Include="Externaldlls\Ionic.Zip.dll" />
+    <Content Include="Externaldlls\PDFlib_dotnet.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

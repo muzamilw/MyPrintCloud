@@ -153,7 +153,7 @@ namespace MPC.Webstore.Controllers
                 }
 
 
-                ViewBag.SelectedStockItemId = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1;
+                ViewBag.SelectedStockItemId = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID2; // This is a ItemStockOption id
                 ViewBag.SelectedQuantity = clonedItem.Qty1;
 
                 referenceItemId = clonedItem.RefItemId ?? 0;
@@ -207,7 +207,7 @@ namespace MPC.Webstore.Controllers
                 {
                     if (clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 != null && clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 > 0)
                     {
-                        ViewBag.SelectedStockItemId = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1;
+                        ViewBag.SelectedStockItemId = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID2;
                         ViewBag.SelectedQuantity = clonedItem.Qty1;
 
                     }
@@ -238,7 +238,7 @@ namespace MPC.Webstore.Controllers
             string QuestionJsonQueue = cartObject.JsonAllQuestionQueue;
             string InputJsonQueue = cartObject.JsonAllInputQueue;
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-            if (!string.IsNullOrEmpty(cartObject.ItemPrice) || !string.IsNullOrEmpty(cartObject.JsonPriceMatrix) || !string.IsNullOrEmpty(cartObject.StockId))
+            if (!string.IsNullOrEmpty(cartObject.ItemPrice) || !string.IsNullOrEmpty(cartObject.JsonPriceMatrix) || !string.IsNullOrEmpty(cartObject.StockId) || !string.IsNullOrEmpty(cartObject.ItemStockOptionId))
             {
 
                 List<AddOnCostsCenter> ccObjectList = null;
@@ -259,6 +259,7 @@ namespace MPC.Webstore.Controllers
                        
                         ccObject.Qty1NetTotal = addOn.ActualPrice;
 
+
                         AddOnPrices += addOn.ActualPrice;
                       
                         ccObjectList.Add(ccObject);
@@ -271,17 +272,17 @@ namespace MPC.Webstore.Controllers
                 if (StoreBaseResopnse.Company.isCalculateTaxByService == true) // calculate tax by service
                 {
 
-                    _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), 0, Convert.ToString(ITemMode), false, 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue); // set files count
+                    _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), 0, Convert.ToString(ITemMode), false, Convert.ToInt64(cartObject.ItemStockOptionId), 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue); // set files count
                 }
                 else
                 {
                     if (Convert.ToDouble(StoreBaseResopnse.Company.TaxRate) > 0)
                     {
-                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), Convert.ToString(ITemMode), true, 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue); // set files count
+                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), Convert.ToString(ITemMode), true, Convert.ToInt64(cartObject.ItemStockOptionId), 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue); // set files count
                     }
                     else
                     {
-                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), 0, Convert.ToString(ITemMode), false, 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue); // set files count
+                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), 0, Convert.ToString(ITemMode), false, Convert.ToInt64(cartObject.ItemStockOptionId),0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue); // set files count
                     }
                 }
 
@@ -383,7 +384,7 @@ namespace MPC.Webstore.Controllers
 
             foreach (var addOn in listOfCostCentres)
             {
-                if (clonedSectionCostCentres != null)// this will run in case of modify mode and cost centres selected
+                if (clonedSectionCostCentres != null && clonedSectionCostCentres.Count > 0)// this will run in case of modify mode and cost centres selected
                 {
                     //List<QuestionQueueItem> objSettings = JsonConvert.DeserializeObject<List<QuestionQueueItem>>(QueueItem);
                     bool isAddedToList = false;

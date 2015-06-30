@@ -1,9 +1,11 @@
 ﻿function ShowPopUp(Type,Message) {
    
-    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '</div></div>';
+    var container = '<div class="md-modal md-effect-7" id="modal-7" style="border-radius:8px;"><div class="md-content" style="border-radius:8px;border-style: solid;border-width: 5px;border-radius: 8px;border-color: darkgray;"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '</div></div>';
    
     var bws = getBrowserHeight();
     var shadow = document.getElementById("innerLayer");
+    $("#innerLayer").css('border-radius', '10px');
+             
     document.getElementById("layer").style.width = bws.width + "px";
     document.getElementById("layer").style.height = bws.height + "px";
     
@@ -217,19 +219,19 @@ function ShowArtWorkPopup(Type, panelHtml) {
     if (bws.width < 700 && bws.width > 640) {
         //left = parseInt((bws.width) / 2);
         document.getElementById("innerLayer").style.width = (bws.width) + "px";
-        container = '<div class="md-modal md-effect-7 col-xs-12" id="modal-7" ><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="">' + panelHtml + '</div></div>';
+        container = '<div class="md-modal md-effect-7 col-xs-12" id="modal-7" ><div class=""><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="height: 500px; overflow: scroll; overflow-x: hidden;">' + panelHtml + '</div></div>';
 
     }
     else if (bws.width == 640) {
         //left = parseInt((bws.width) / 2);
         document.getElementById("innerLayer").style.width = (bws.width) + "px";
-        container = '<div class="md-modal md-effect-7 col-xs-12" id="modal-7" ><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="overflow-y:scroll;height:350px;">' + panelHtml + '</div></div>';
+        container = '<div class="md-modal md-effect-7 col-xs-12" id="modal-7" ><div class=""><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="overflow-y:scroll;height:350px;">' + panelHtml + '</div></div>';
 
     }
     else if (bws.width < 640 && bws.width > 600) {
         //left = parseInt((bws.width) / 2);
         document.getElementById("innerLayer").style.width = (bws.width) + "px";
-        container = '<div class="md-modal md-effect-7 col-xs-12" id="modal-7" ><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="overflow-y:scroll;height:550px;">' + panelHtml + '</div></div>';
+        container = '<div class="md-modal md-effect-7 col-xs-12" id="modal-7" ><div class=""><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="overflow-y:scroll;height:550px;">' + panelHtml + '</div></div>';
 
     }
     else if (bws.width < 600 && bws.width > 500) {
@@ -259,7 +261,7 @@ function ShowArtWorkPopup(Type, panelHtml) {
 
     document.getElementById("innerLayer").style.left = left + "px";
     document.getElementById("innerLayer").style.top = "0px";
-
+    document.getElementById("innerLayer").style.border = "6px solid darkgray";
     
     document.getElementById("innerLayer").style.position = "fixed";
     document.getElementById("innerLayer").style.zIndex = "9999";
@@ -756,18 +758,21 @@ function ViewOrderPopUp(Type, panelHtml) {
 
     var left = 0;
     var container = "";
-    if (bws.width >= 481 && bws.width <= 558)
+    if (bws.width >= 481 && bws.width < 641)
     {
         document.getElementById("innerLayer").style.width = (bws.width) + "px";
         container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="ScrollBarOnOrderHistory ">' + panelHtml + '</div></div>';
+        document.getElementById("innerLayer").style.height = "536px";
     }
     else if (bws.width <= 481) {
         document.getElementById("innerLayer").style.width = (bws.width) + "px";
         container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="ScrollBarOnOrderHistory ">' + panelHtml + '</div></div>';
+        document.getElementById("innerLayer").style.height = "536px";
 
     } else {
         left = parseInt((bws.width - 730) / 2);
         document.getElementById("innerLayer").style.width = "730px";
+        document.getElementById("innerLayer").style.height = "536px";
         container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="ScrollBarOnOrderHistory ">' + panelHtml + '</div></div>';
 
     }

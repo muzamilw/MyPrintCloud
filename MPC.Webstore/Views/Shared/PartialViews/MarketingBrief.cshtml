@@ -93,7 +93,7 @@
                                 string className = "Q" + QNo + "RadioBtn" + Anscount;
 
 
-                                <div class=float_left_simple style="height:inherit;"> <input type=checkbox id="@i.MarketBriefAnswerId" class=@className name=@groupName style="position:absolute;opacity:0;" /><label for="@i.MarketBriefAnswerId" class="grayRadiantbtn" onclick=TickCheckBox('@radiobtnID');> @i.AnswerDetail </label> </div>
+                                <div class=float_left_simple style="height:inherit;" > <input type=checkbox id="@i.MarketBriefAnswerId" class=@className name=@groupName style="position:absolute;opacity:0;"  /><label for="@i.MarketBriefAnswerId" class="grayRadiantbtn" onclick=TickCheckBox('@radiobtnID');> @i.AnswerDetail </label> </div>
                                 Anscount += 1;
                             }
                                     }
@@ -114,7 +114,7 @@
                                 string className = "Q" + QNo + "RadioBtn" + Anscount;
 
 
-                                <div class=float_left_simple style="height:inherit;"> <input type=radio id="@i.MarketBriefAnswerId" class=@className name=@groupName style=" position:absolute;opacity:0;" /><label for="@i.MarketBriefAnswerId" class="grayRadiantbtn" onclick=TickRadio('@radiobtnID');>@i.AnswerDetail</label> </div>
+                                <div class=float_left_simple style="height:inherit;" onclick=TickRadio('@radiobtnID');> <input type=radio id="@i.MarketBriefAnswerId" class=@className name=@groupName style=" position:absolute;opacity:0;" onchange=TickRadio('@radiobtnID'); /><label for="@i.MarketBriefAnswerId" class="grayRadiantbtn" onclick=TickRadio('@radiobtnID');>@i.AnswerDetail</label> </div>
                                 Anscount += 1;
                             }
                                     }
@@ -393,8 +393,10 @@
         }
 
         function TickCheckBox(CheckBoxClassName) {
-
-            if ($('input:checkbox[class=' + CheckBoxClassName + ']').is(':checked')) {
+    
+            var idOfBtn = $('input:checkbox[class=' + CheckBoxClassName + ']').attr('id');
+            console.log($('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked'));
+            if ($('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked')) {
 
                 $('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked', false);
                 $('input:checkbox[class=' + CheckBoxClassName + ']').next().removeClass('OrangeGradiantbtn').addClass('grayRadiantbtn');
@@ -402,9 +404,9 @@
             } else {
 
                 $('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked', true);
-                $('input:checkbox[class=' + CheckBoxClassName + ']').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
-                $('input:checkbox[class=' + CheckBoxClassName + ']').parent().parent().parent().parent().addClass('white_background');
-                $('input:checkbox[class=' + CheckBoxClassName + ']').parent().parent().parent().parent().css("background-color", "white");
+                $("#" + idOfBtn).next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
+                $("#" + idOfBtn).parent().parent().parent().parent().addClass('white_background');
+                $("#" + idOfBtn).parent().parent().parent().parent().css("background-color", "white");
 
             }
         }

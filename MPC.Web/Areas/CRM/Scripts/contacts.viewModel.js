@@ -152,6 +152,7 @@ define("crm/contacts.viewModel",
                         toastr.error("Default Contact Cannot be deleted", "", ist.toastrOptions);
                         return;
                     }
+                    confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                     // Ask for confirmation
                     confirmation.afterProceed(function () {
                         //#region Db Saved Record Id > 0

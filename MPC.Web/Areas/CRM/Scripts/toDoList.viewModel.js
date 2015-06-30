@@ -2,8 +2,8 @@
     Module with the view model for the To Do List.
 */
 define("toDoList/toDoList.viewModel",
-    ["jquery", "amplify", "ko", "calendar/calendar.dataservice", "calendar/calendar.model", "common/pagination", "common/companySelector.viewModel", "crm/contacts.viewModel"],
-    function ($, amplify, ko, dataservice, model, pagination, companySelector, contactVM) {
+    ["jquery", "amplify", "ko", "common/confirmation.viewModel", "calendar/calendar.dataservice", "calendar/calendar.model", "common/pagination", "common/companySelector.viewModel", "crm/contacts.viewModel"],
+    function ($, amplify, ko, confirmation, dataservice, model, pagination, companySelector, contactVM) {
         var ist = window.ist || {};
         ist.toDoList = {
             viewModel: (function () {
@@ -36,7 +36,7 @@ define("toDoList/toDoList.viewModel",
                 day = date.getDate(),
                 year = date.getFullYear(),
                  month = date.getMonth(),
-                montharray = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+                montharray = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"),
 
                 //Call click on activity for edit
                 onEditActivity = function (activity) {
@@ -79,16 +79,21 @@ define("toDoList/toDoList.viewModel",
                 },
                 //delete Activity
                 onDeleteActivity = function (activity) {
-                    dataservice.deleteActivity(selectedActivity().convertToServerData(), {
-                        success: function () {
-                            items.remove(selectedActivityForRemove());
-                            view.hideCalendarActivityDialog();
-                            toastr.success("Successfully remove.");
-                        },
-                        error: function () {
-                            toastr.error("Failed to remove.");
-                        }
+                    confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                    confirmation.afterProceed(function() {
+                        dataservice.deleteActivity(selectedActivity().convertToServerData(), {
+                            success: function () {
+                                items.remove(selectedActivityForRemove());
+                                view.hideCalendarActivityDialog();
+                                toastr.success("Successfully remove.");
+                            },
+                            error: function () {
+                                toastr.error("Failed to remove.");
+                            }
+                        });
                     });
+                    confirmation.show();
+                    return;
                 },
                 // Get Base
                 getBase = function () {
@@ -154,7 +159,7 @@ define("toDoList/toDoList.viewModel",
                             toastr.error("Failed to load Detail . Error: ");
                         }
                     });
-                }
+                },
                 //On Save Acivity
                 onSaveActivity = function (activity) {
                     if (dobeforesave()) {
@@ -264,12 +269,12 @@ define("toDoList/toDoList.viewModel",
                         }
                     });
                 },
-                // On Select Contact
+                // On Select ContactonSavePrePayment
                 onSelectContact = function (contact) {
                     view.hideContactSelectorDialog();
                     selectedActivity().companyName(contact.name() + " , " + contact.companyName());
                     selectedActivity().contactId(contact.id());
-                },
+                }
                 isCustomerType.subscribe(function (value) {
                     if (selectedActivity() !== undefined) {
                         getCompanyContactByName();

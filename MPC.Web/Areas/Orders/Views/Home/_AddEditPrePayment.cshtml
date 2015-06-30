@@ -78,6 +78,8 @@
             </div>
             <div class="modal-footer">
                 <hr />
+                @*<button type="button" class="btn btn-danger" data-bind="click: $root.onDeletePrePayment">Delete</button>*@
+                <button type="button" class="btn btn-danger archiveButton" style="margin-left:0px;" data-bind="click:$root.onDeletePrePayment">Archive</button>
                 <button type="button" class="btn btn-primary" data-bind="click:$root.onSavePrePayment">Save</button>
                 <button type="button" class="btn btn-default" style="margin-left: 0px;" data-bind="click:$root.onCancelOrderPrePayment">Close</button>
             </div>

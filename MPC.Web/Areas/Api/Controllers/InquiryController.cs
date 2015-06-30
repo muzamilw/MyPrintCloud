@@ -75,7 +75,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
             if (request.InquiryId == 0)
             {
-                return inquiryService.Add(request.CreateFrom()).CreateFrom();
+                return inquiryService.Update(request.CreateFrom()).CreateFrom();
             }
             return inquiryService.Update(request.CreateFrom()).CreateFrom();
         }

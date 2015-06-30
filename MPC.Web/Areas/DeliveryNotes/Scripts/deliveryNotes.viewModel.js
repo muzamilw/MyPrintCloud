@@ -175,6 +175,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         selectedDeliveryNoteForListView(item);
                         getDetaildeliveryNote(item.deliveryNoteId());
                         isEditorVisible(true);
+                        errorList.removeAll();
                     },
                     onCloseEditor = function () {
                         if (selectedDeliveryNote().hasChanges() && selectedDeliveryNote().isStatus() !== 20) {
@@ -213,7 +214,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                         reportManager.OpenExternalReport(ist.reportCategoryEnums.Delivery, 1, selectedDeliveryNote().deliveryNoteId());
 
 
-                    }
+                    },
 
 
                      // Open Company Dialog
@@ -331,6 +332,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                          deliveryNotes.isStatus(19);
                          selectedDeliveryNote(deliveryNotes);
                          isEditorVisible(true);
+                         errorList.removeAll();
                      },
                      // add Delivery Note Detail
                      addDeliveryNoteDetail = function () {
@@ -382,6 +384,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     },
                     // Delete Delivry Notes
                 onDeleteDeliveryNote = function () {
+                    confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         deleteDeliveryNote(selectedDeliveryNote().convertToServerData());
                     });
@@ -406,7 +409,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                             }
                         }
                     });
-                }
+                },
                 // Save Delivery Notes
                 saveDeliveryNote = function (deliveryNote) {
                     dataservice.saveDeliveryNote(deliveryNote, {

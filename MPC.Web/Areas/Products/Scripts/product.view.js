@@ -463,6 +463,24 @@ define("product/product.view",
                 productCategorySelectedEventHandler = function (event) {
                     viewModel.categorySelectedEventHandler(event.category);
                 },
+                // SubCategories Loaded
+                subCategoriesLoadedEventHandler = function (event) {
+                    viewModel.subCategoriesLoadedEventHandler(event.categories);
+                },
+                // Sub Category Selected Event
+                subCategorySelectedEvent = function(category) {
+                    $.event.trigger({
+                        type: "SubCategorySelectedFromProduct",
+                        category: category
+                    });
+                },
+                // Sub Category Edit Event
+                subCategoryEditEvent = function (category) {
+                    $.event.trigger({
+                        type: "SubCategoryEdit",
+                        category: category
+                    });
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -471,7 +489,7 @@ define("product/product.view",
 
                     // subscribe to events
                     $(document).on("ProductCategorySelected", productCategorySelectedEventHandler);
-
+                    $(document).on("SubCategoriesLoaded", subCategoriesLoadedEventHandler);
                 };
             initialize();
             
@@ -507,7 +525,9 @@ define("product/product.view",
                 showSheetPlanImageDialog: showSheetPlanImageDialog,
                 hideSheetPlanImageDialog: hideSheetPlanImageDialog,
                 showInksDialog: showInksDialog,
-                hideInksDialog: hideInksDialog
+                hideInksDialog: hideInksDialog,
+                subCategorySelectedEvent: subCategorySelectedEvent,
+                subCategoryEditEvent: subCategoryEditEvent
             };
         })(productViewModel);
 
