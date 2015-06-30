@@ -12,6 +12,8 @@ namespace MPC.Models.Common
 
             // ReSharper disable once SuggestUseVarKeywordEvident
             StringBuilder sb = new StringBuilder();
+            // Set as Empty string in case of null
+            stringWithSpecialChars = stringWithSpecialChars ?? string.Empty;
             foreach (char c in stringWithSpecialChars)
             {
                 if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '.' || c == '_' || c == '-')

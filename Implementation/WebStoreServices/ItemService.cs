@@ -48,6 +48,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICostCentreRepository _CostCentreRepository;
         private readonly IOrderRepository _OrderRepository;
         private readonly IPrefixRepository _prefixRepository;
+        private readonly IItemVideoRepository _videoRepository;
         #region Constructor
 
         /// <summary>
@@ -61,7 +62,7 @@ namespace MPC.Implementation.WebStoreServices
             , IItemSectionRepository ItemSectionRepository, ISectionCostCentreRepository ItemSectionCostCentreRepository
             , ITemplateRepository TemplateRepository, ITemplatePageRepository TemplatePageRepository, ITemplateBackgroundImagesRepository TemplateBackgroundImagesRepository
             , ITemplateObjectRepository TemplateObjectRepository, ICostCentreRepository CostCentreRepository
-            , IOrderRepository OrderRepository, IPrefixRepository prefixRepository)
+            , IOrderRepository OrderRepository, IPrefixRepository prefixRepository, IItemVideoRepository videoRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -89,6 +90,7 @@ namespace MPC.Implementation.WebStoreServices
             this._CostCentreRepository = CostCentreRepository;
             this._OrderRepository = OrderRepository;
             this._prefixRepository = prefixRepository;
+            this._videoRepository = videoRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -499,9 +501,9 @@ namespace MPC.Implementation.WebStoreServices
             }
          
         }
-        public bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, bool isInculdeTax, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "") 
+        public bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, bool isInculdeTax, long ItemstockOptionID, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "") 
         {
-            return _ItemRepository.UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, ItemMode, isInculdeTax, CountOfUploads, QuestionQueue, CostCentreQueue, InputQueue);
+            return _ItemRepository.UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, ItemMode, isInculdeTax, ItemstockOptionID, CountOfUploads, QuestionQueue, CostCentreQueue, InputQueue);
         }
         public ProductCategoriesView GetMappedCategory(string CatName, int CID)
         {
@@ -1926,7 +1928,10 @@ namespace MPC.Implementation.WebStoreServices
             return shopCartOrder.EstimateId;
 
         }
-
+        public List<ItemVideo> GetProductVideos(long ItemID)
+        {
+            return _videoRepository.GetProductVideos(ItemID);
+        }
       
         #endregion
     }

@@ -37,7 +37,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedIsMultiPagePdf, specifiedAllowImageDownload, specifiedItemLength, specifiedItemWidth, specifiedItemHeight, specifiedItemWeight,
         specifiedTemplateId, specifiedSmartFormId, callbacks, constructorParams) {
         // ReSharper restore InconsistentNaming
-        var // Unique key
+        var
+            // Unique key
             id = ko.observable(specifiedId || 0),
             // Name
             name = ko.observable(specifiedName || undefined),
@@ -465,6 +466,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             smartFormId = ko.observable(specifiedSmartFormId || undefined),
             // Item Product Detail
             itemProductDetail = ko.observable(ItemProductDetail.Create(specifiedItemProductDetail || { ItemId: id() })),
+            // Self Reference
+            self = {
+                productType: isFinishedGoodsUi
+            },
             // Item Vdp Prices
             itemVdpPrices = ko.observableArray([]),
             // Item Videos
@@ -529,7 +534,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 if (itemProductDetail().isPrintItemUi() === '1') {
                     if (itemSections().length === 0 && !id()) {
                         // There shouldn be atleast one section in case of print
-                        itemSections.push(ItemSection.Create({ ItemId: id(), SectionName: "Cover Sheet" }));
+                        itemSections.push(ItemSection.Create({ ItemId: id(), SectionName: "Cover Sheet" }, self));
                     }
                 }
 
@@ -808,7 +813,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Select Stock Item For Stock Option
             selectStockItemForStockOption = function (stockItem) {
                 activeStockOption().selectStock(stockItem);
-                activeStockOption(ItemStockOption.Create({}, callbacks));
+                activeStockOption(ItemStockOption.Create({}, callbacks, self));
             },
             // Choose Stock Item For Section
             chooseStockItemForSection = function () {
@@ -817,7 +822,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }
             },
             // Active Item Section
-            activeItemSection = ko.observable(ItemSection.Create({})),
+            activeItemSection = ko.observable(ItemSection.Create({}, self)),
             // Select Item Section
             selectItemSection = function (itemSection) {
                 if (activeItemSection() !== itemSection) {
@@ -944,7 +949,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             // Add Item Stock Option
             addItemStockOption = function () {
-                var stockOption = ItemStockOption.Create({ ItemId: id() }, callbacks);
+                var stockOption = ItemStockOption.Create({ ItemId: id() }, callbacks, self);
                 itemStockOptions.push(stockOption);
                 wireupItemStockOptionTabEvents(stockOption);
             },
@@ -1195,7 +1200,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             // Add Item Section
             addItemSection = function () {
-                itemSections.push(ItemSection.Create({ ItemId: id(), SectionName: "Text Sheet" }));
+                itemSections.push(ItemSection.Create({ ItemId: id(), SectionName: "Text Sheet" }, self));
             },
             // Get Available slot for Template Layout File
             getAvailableSlotForTemplateLayoutFile = function () {
@@ -2032,6 +2037,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             resetFiles: resetFiles,
             removeTemplateLayoutFile: removeTemplateLayoutFile,
             removeItemImage: removeItemImage,
+            self: self,
             errors: errors,
             isValid: isValid,
             showAllErrors: showAllErrors,
@@ -2467,13 +2473,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Stock Option Entity
     ItemStockOption = function (specifiedId, specifiedStockLabel, specifiedStockId, specifiedStockItemName, specifiedStockItemDescription, specifiedImage,
-        specifiedOptionSequence, specifiedItemId, callbacks, specifiedInStock, specifiedAllocated) {
+        specifiedOptionSequence, specifiedItemId, callbacks, specifiedInStock, specifiedAllocated, specifiedItem) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
             // Label
-            label = ko.observable(specifiedStockLabel || undefined).extend({ required: true }),
-
+            label = ko.observable(specifiedStockLabel || undefined).extend({
+                required: {
+                    onlyIf: function () {
+                        return (specifiedItem && parseInt(specifiedItem.productType()) !== 2);
+                    }
+                }
+            }),
             // in stock
             inStock = ko.observable(specifiedInStock || undefined),
             // allocated
@@ -2715,14 +2726,27 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedPressId, specifiedStockItemId, specifiedStockItemName, specifiedPressName, specifiedItemId, specifiedIsDoubleSided, specifiedIsWorknTurn,
         specifiedPrintViewLayoutPortrait, specifiedPrintViewLayoutLandscape, specifiedIsPortrait, specifiedPressIdSide2, specifiedImpressionCoverageSide1,
         specifiedImpressionCoverageSide2, specifiedPrintingType, specifiedPressSide1ColourHeads, specifiedPressSide1IsSpotColor,
-        specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty, specifiedItemGutterHorizontal) {
+        specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty, specifiedItemGutterHorizontal, specifiedItem) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
             // name
-            name = ko.observable(specifiedSectionName || undefined).extend({ required: true }),
+            name = ko.observable(specifiedSectionName || undefined).extend({
+                required:
+                {
+                    onlyIf: function () {
+                        return (specifiedItem && (parseInt(specifiedItem.productType()) !== 2 && parseInt(specifiedItem.productType()) !== 3));
+                    }
+                }
+            }),
             // Stock Item Id
-            stockItemId = ko.observable(specifiedStockItemId || undefined).extend({ required: true }),
+            stockItemId = ko.observable(specifiedStockItemId || undefined).extend({
+                required: {
+                    onlyIf: function () {
+                        return (specifiedItem && (parseInt(specifiedItem.productType()) !== 2 && parseInt(specifiedItem.productType()) !== 3));
+                    }
+                }
+            }),
             // Stock Item Name
             stockItemName = ko.observable(specifiedStockItemName || undefined),
             // Stock Item Package Qty
@@ -4059,9 +4083,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
 
     // Item Stock Option Factory
-    ItemStockOption.Create = function (source, callbacks) {
+    ItemStockOption.Create = function (source, callbacks, parent) {
         var itemStockOption = new ItemStockOption(source.ItemStockOptionId, source.StockLabel, source.StockId, source.StockItemName, source.StockItemDescription,
-            source.ImageUrlSource, source.OptionSequence, source.ItemId, callbacks, source.inStock, source.Allocated);
+            source.ImageUrlSource, source.OptionSequence, source.ItemId, callbacks, source.inStock, source.Allocated, parent);
 
         // If Item Addon CostCentres exists then add
         if (source.ItemAddOnCostCentres) {
@@ -4120,14 +4144,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
 
     // Item Section Factory
-    ItemSection.Create = function (source) {
+    ItemSection.Create = function (source, parent) {
         var itemSection = new ItemSection(source.ItemSectionId, source.SectionNo, source.SectionName, source.SectionSizeId, source.ItemSizeId,
             source.IsSectionSizeCustom, source.SectionSizeHeight, source.SectionSizeWidth, source.IsItemSizeCustom, source.ItemSizeHeight,
             source.ItemSizeWidth, source.PressId, source.StockItemId1, source.StockItem1Name, source.PressName, source.ItemId, source.IsDoubleSided, source.IsWorknTurn,
             source.PrintViewLayoutPortrait, source.PrintViewLayoutLandScape, source.IsPortrait,
             source.PressIdSide2, source.ImpressionCoverageSide1, source.ImpressionCoverageSide2, source.PrintingType,
             source.PressSide1ColourHeads, source.PressSide1IsSpotColor, source.PressSide2ColourHeads, source.PressSide2IsSpotColor, source.StockItemPackageQty,
-            source.ItemGutterHorizontal);
+            source.ItemGutterHorizontal, parent);
 
         // Map Section Ink Coverage if Any
         if (source.SectionInkCoverages && source.SectionInkCoverages.length > 0) {
@@ -4235,7 +4259,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Map Item Stock Options if any
         if (source.ItemStockOptions && source.ItemStockOptions.length > 0) {
             _.each(source.ItemStockOptions, function (itemStockOption) {
-                var stockOption = ItemStockOption.Create(itemStockOption, callbacks);
+                var stockOption = ItemStockOption.Create(itemStockOption, callbacks, item.self);
                 item.itemStockOptions.push(stockOption);
                 item.wireupItemStockOptionTabEvents(stockOption);
             });
@@ -4292,7 +4316,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             var itemSections = [];
 
             _.each(source.ItemSections, function (itemSection) {
-                itemSections.push(ItemSection.Create(itemSection));
+                itemSections.push(ItemSection.Create(itemSection, item.self));
             });
 
             // Push to Original Item

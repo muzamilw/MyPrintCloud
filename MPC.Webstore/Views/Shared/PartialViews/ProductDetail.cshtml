@@ -190,7 +190,7 @@
                             else
                             {
                                 <a onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@Model.ProductName','@Model.ItemId','@ViewBag.hfCategoryId');">
-                                    
+
                                     <input id="btnBrief" value="Submit Inquiry" type="button"
                                            class="MB_SendINqBtn rounded_corners5 padding0imp" />
                                 </a>
@@ -658,7 +658,7 @@
                     }
 
 
-                    @if (!string.IsNullOrEmpty(Model.LayoutGridContent))
+                    @if (!string.IsNullOrEmpty(Model.GridImage) || !string.IsNullOrEmpty(Model.File1) || !string.IsNullOrEmpty(Model.File2) || !string.IsNullOrEmpty(Model.File3) || !string.IsNullOrEmpty(Model.File4))
                     {
                         <div id="LyoutGridCont"
                              class="cntProductDetailWidth handyInfocnt float_left_simple cntwidthProductDetailDesc rounded_corners">
@@ -667,10 +667,10 @@
 
                                 <label id="lbl_KeyFeatures" text="" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnLayoutGrid", UserCookieManager.WBStoreId))</label>
                                 <div class="rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
-                                    <br />
-                                    <label id="lblDescriptionOfLayout" class="show_as_it_is">@Model.LayoutGridContent.Replace("\r\n", "</br>").Replace("\n", "</br>").Replace("\r", "</br>");</label>
-                                    <br />
-                                    <br />
+                                    @*<br />
+                                        <label id="lblDescriptionOfLayout" class="show_as_it_is">@Model.LayoutGridContent.Replace("\r\n", "</br>").Replace("\n", "</br>").Replace("\r", "</br>");</label>
+                                        <br />
+                                        <br />*@
                                     <div class="float_left_simple">
                                         @if (!string.IsNullOrEmpty(Model.GridImage))
                                         {
@@ -681,25 +681,44 @@
                                     <div class="float_left_simple MLftTop">
                                         @if (!string.IsNullOrEmpty(Model.File1))
                                         {
-                                            string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
-                                            <a id="ImgIconPs" href="@Model.File1" target="_blank"><img id="ImgIconPss" class="ImageHW" src="@path" /></a>
+                                            @*string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
+                                                <a id="ImgIconPs" href="@Model.File1" target="_blank"><img id="ImgIconPss" class="ImageHW" src="@path" /></a>*@
+                                            <a id="IcoPhotoshop" href="/@Model.File1" target="_blank" class="DownloadImages">
+                                                <img src="/@Model.File1" />
+                                            </a>
                                         }
                                         @if (!string.IsNullOrEmpty(Model.File2))
                                         {
-                                            string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
-                                            <a id="ImgIconAi" href="@Model.File2" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>
+                                            @*string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
+                                                <a id="ImgIconAi" href="@Model.File2" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>*@
+                                            <a id="IcoIllustrator" href="@Model.File2" target="_blank" class="DownloadImages">
+                                                <img src="/@Model.File2" />
+                                            </a>
                                         }
                                         @if (!string.IsNullOrEmpty(Model.File3))
                                         {
-                                            string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
-                                            <a id="ImgIconId" href="@Model.File3" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>
+                                            @*string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
+                                                <a id="ImgIconId" href="@Model.File3" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>*@
+                                            <a id="Icoindesign" href="@Model.File3" target="_blank" class="DownloadImages">
+                                                <img src="/@Model.File3" />
+                                            </a>
                                         }
                                         @if (!string.IsNullOrEmpty(Model.File4))
                                         {
-                                            string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
-                                            <a id="ImgIconPdf" href="@Model.File4" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>
+                                            @*string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
+                                                <a id="ImgIconPdf" href="@Model.File4" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>*@
+                                            <a id="IcoPdf" href="@Model.File4" target="_blank" class="DownloadImages">
+                                                <img src="/@Model.File4" />
+                                            </a>
                                         }
-
+                                        @if (!string.IsNullOrEmpty(Model.File5))
+                                        {
+                                            @*string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
+                                                <a id="ImgIconPdf" href="@Model.File4" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>*@
+                                            <a id="IcoPdf" href="@Model.File5" target="_blank" class="DownloadImages">
+                                                <img src="/@Model.File5" />
+                                            </a>
+                                        }
 
 
                                     </div>
@@ -710,7 +729,29 @@
                             </div>
                         </div>
                     }
+                    @if (ViewData["ItemVideo"] != null)
+                    {
+                        <div id="LyoutGridCont"
+                             class="cntProductDetailWidth handyInfocnt float_left_simple cntwidthProductDetailDesc rounded_corners">
 
+                            <div class="whitebackground">
+
+                                <label id="lbl_KeyFeatures" class="ProductDetailH2">Video(s)</label>
+                                @foreach (var videoLink in ViewData["ItemVideo"] as MPC.Models.DomainModels.ItemVideo)
+                                {
+                                    
+                                }
+                                <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 paddingLeft10px paddingBottom10px ">
+
+                                    <iframe width="100%"
+                                            height="315"
+                                            src="@videoLink.VideoLink"
+                                            frameborder="0"
+                                            allowfullscreen></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    }
 
                 </div>
                 <div class="clearBoth">
@@ -1279,7 +1320,7 @@
                 //                tabify("tabs5", "MainContent_btnMatchingSets");
                 $(".width93per").css("width", "98%");
             } else if (type == "FinishedGood") {
-            
+
                 $(".width93per").css("width", "98%");
             }
 
@@ -1305,7 +1346,7 @@
         }
 
         function UploadDesign(path) {
-   
+
             window.location.href = path;
             return true;
         }
