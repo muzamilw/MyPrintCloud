@@ -2414,7 +2414,7 @@ define("order/order.viewModel",
                                 closeOrderEditor();
                             },
                             error: function (response) {
-                                toastr.error("Failed to Save Order. Error: " + response);
+                                toastr.error("Failed to Save Inquiry. Error: " + response);
                             }
                         });
                     },
