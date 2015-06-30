@@ -3712,6 +3712,7 @@ define("stores/stores.viewModel",
                                 selectedProductCategoryForEditting().parentCategoryId(data.ParentCategoryId);
                                 selectedProductCategoryForEditting().reset();
                                 view.showStoreProductCategoryDialog();
+                                resetAddressTerritoryList();
                             }
                             isLoadingStores(false);
                             $("#categoryTabItems li a").first().trigger("click");
@@ -3725,6 +3726,11 @@ define("stores/stores.viewModel",
                     selectProductCategory(result);
                     editNewAddedProductCategory();
                 }
+            },
+            resetAddressTerritoryList = function() {
+                _.each(addressTerritoryList(), function(address) {
+                    address.reset();
+                });
             },
             //On Edit Product Category(Parent)
             onEditProductCategory = function (productCategory) {
