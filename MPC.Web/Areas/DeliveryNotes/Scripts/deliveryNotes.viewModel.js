@@ -48,6 +48,11 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     sortIsAsc = ko.observable(true),
                      // Is Company Base Data Loaded
                     isCompanyBaseDataLoaded = ko.observable(false),
+
+                      // is open report
+                     isOpenReport = ko.observable(false),
+                      // is open report Email
+                     isOpenReportEmail = ko.observable(false),
                      // Tax Rate
                     selectedCompanyTaxRate = ko.observable(),
                       // Default Address
@@ -197,7 +202,20 @@ define("deliveryNotes/deliveryNotes.viewModel",
 
                         reportManager.outputTo("preview");
 
-                        reportManager.OpenExternalReport(ist.reportCategoryEnums.Delivery, 1, selectedDeliveryNote().deliveryNoteId());
+
+
+                       
+                        if (selectedDeliveryNote().hasChanges()) {
+                            isOpenReport(true);
+                            isOpenReportEmail(false);
+                            onSaveDeliveryNotes();
+                        }
+                        else {
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Delivery, 1, selectedDeliveryNote().deliveryNoteId());
+                        }
+
+
+                        
 
 
 
@@ -210,8 +228,19 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     openExternalEmailDeliveryReport = function () {
                         reportManager.outputTo("email");
 
-                        reportManager.SetOrderData(selectedDeliveryNote().raisedBy(), selectedDeliveryNote().contactId(), selectedDeliveryNote().deliveryNoteId(), 5, selectedDeliveryNote().deliveryNoteId(), "");
-                        reportManager.OpenExternalReport(ist.reportCategoryEnums.Delivery, 1, selectedDeliveryNote().deliveryNoteId());
+                        if (selectedDeliveryNote().hasChanges()) {
+
+                            isOpenReport(true);
+                            isOpenReportEmail(true);
+                            onSaveDeliveryNotes();
+                        }
+                        else {
+                            reportManager.SetOrderData(selectedDeliveryNote().raisedBy(), selectedDeliveryNote().contactId(), selectedDeliveryNote().deliveryNoteId(), 5, selectedDeliveryNote().deliveryNoteId(), "");
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Delivery, 1, selectedDeliveryNote().deliveryNoteId());
+
+                        }
+
+                       
 
 
                     },
@@ -414,23 +443,45 @@ define("deliveryNotes/deliveryNotes.viewModel",
                 saveDeliveryNote = function (deliveryNote) {
                     dataservice.saveDeliveryNote(deliveryNote, {
                         success: function (data) {
-                            //For Add New
-                            if (selectedDeliveryNote().deliveryNoteId() === undefined || selectedDeliveryNote().deliveryNoteId() === 0) {
-                                deliverNoteListView.splice(0, 0, model.deliverNoteListView.Create(data));
-                            } else {
-                                selectedDeliveryNoteForListView().deliveryDate(data.DeliveryDate !== null ? moment(data.DeliveryDate).toDate() : undefined);
-                                selectedDeliveryNoteForListView().flagId(data.FlagId);
-                                selectedDeliveryNoteForListView().contactCompany(data.ContactCompany);
-                                selectedDeliveryNoteForListView().companyName(data.CompanyName);
-                                selectedDeliveryNoteForListView().flagColor(data.FlagColor);
-                                selectedDeliveryNoteForListView().orderReff(data.OrderReff);
-                                selectedDeliveryNoteForListView().creationDateTime(data.CreationDateTime !== null ? moment(data.CreationDateTime).toDate() : undefined);
-                                if (currentTab() !== data.IsStatus) {
-                                    deliverNoteListView.remove(selectedDeliveryNoteForListView());
+
+                            if (isOpenReport() == true) {
+                                if (isOpenReportEmail() == true) {
+                                    reportManager.SetOrderData(selectedDeliveryNote().raisedBy(), selectedDeliveryNote().contactId(), selectedDeliveryNote().deliveryNoteId(), 5, selectedDeliveryNote().deliveryNoteId(), "");
+                                    reportManager.OpenExternalReport(ist.reportCategoryEnums.Delivery, 1, selectedDeliveryNote().deliveryNoteId());
+                                    getDetaildeliveryNote(selectedDeliveryNote().deliveryNoteId());
                                 }
+                                else {
+                                    reportManager.OpenExternalReport(ist.reportCategoryEnums.Delivery, 1, selectedDeliveryNote().deliveryNoteId());
+                                    getDetaildeliveryNote(selectedDeliveryNote().deliveryNoteId());
+                                    
+                                }
+
+                                isOpenReport(false);
                             }
-                            isEditorVisible(false);
-                            toastr.success("Saved Successfully.");
+                            else {
+                                //For Add New
+
+                                if (selectedDeliveryNote().deliveryNoteId() === undefined || selectedDeliveryNote().deliveryNoteId() === 0) {
+                                    deliverNoteListView.splice(0, 0, model.deliverNoteListView.Create(data));
+                                } else {
+                                    selectedDeliveryNoteForListView().deliveryDate(data.DeliveryDate !== null ? moment(data.DeliveryDate).toDate() : undefined);
+                                    selectedDeliveryNoteForListView().flagId(data.FlagId);
+                                    selectedDeliveryNoteForListView().contactCompany(data.ContactCompany);
+                                    selectedDeliveryNoteForListView().companyName(data.CompanyName);
+                                    selectedDeliveryNoteForListView().flagColor(data.FlagColor);
+                                    selectedDeliveryNoteForListView().orderReff(data.OrderReff);
+                                    selectedDeliveryNoteForListView().creationDateTime(data.CreationDateTime !== null ? moment(data.CreationDateTime).toDate() : undefined);
+                                    if (currentTab() !== data.IsStatus) {
+                                        deliverNoteListView.remove(selectedDeliveryNoteForListView());
+                                    }
+                                }
+                                isEditorVisible(false);
+                                toastr.success("Saved Successfully.");
+                            }
+
+
+
+                           
                         },
                         error: function (exceptionMessage, exceptionType) {
                             if (exceptionType === ist.exceptionType.MPCGeneralException) {
