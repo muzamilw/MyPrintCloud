@@ -98,6 +98,11 @@ define("common/addProduct.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                     },
+                    // Search Items
+                    searchItems = function() {
+                        pager().reset();
+                        getItemsByCompanyId();
+                    },
                     //Get Items By CompanyId
                     getItemsByCompanyId = function () {
                         dataservice.getItemsByCompanyId({
@@ -486,7 +491,8 @@ define("common/addProduct.viewModel",
                     storeName: storeName,
                     callerNaMe: callerNaMe,
                     isQuantitySelected: isQuantitySelected,
-                    pager: pager
+                    pager: pager,
+                    searchItems: searchItems
                 };
             })()
         };
