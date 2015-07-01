@@ -68,12 +68,15 @@
                 </div>
             </div>
         </div>
-
+        <div id="layer" class="opaqueLayer"></div>
+        <div id="innerLayer">
+        </div>
+        <div id="FormulaMatrixLayer">
+        </div>
     </div>
-
-
     <script id="relatedProductDialogItemTemplate" type="text/html">
         <tr data-bind="click: $root.onSelectCostCenter, css: { selectedRow: $root.selectedCostCentre() === $data }, attr: { id:  'costCenterCheckBox' + $index() }, validationOnElement: isSelected" style="cursor: pointer">
+            <td style="display: none"></td>
             <td data-bind="css: { selectedRow: $root.selectedCostCentre() === $data }">
                 <span style="font-size: 1.105em; color: black;" data-bind="text: name"></span>
                 <br />
