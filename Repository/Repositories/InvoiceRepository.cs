@@ -44,13 +44,15 @@ namespace MPC.Repository.Repositories
                         {InvoiceByColumn.InvoiceName, d => d.InvoiceName}
                     };
         #endregion
+
         #region Constructor
         public InvoiceRepository(IUnityContainer container)
             : base(container)
         {
-     
+
         }
         #endregion
+
         #region Pubilc
 
         /// <summary>
@@ -120,12 +122,21 @@ namespace MPC.Repository.Repositories
             };
         }
 
+        /// <summary>
+        /// Get Invoice By Id
+        /// </summary>
         public Invoice GetInvoiceById(long Id)
         {
-            return DbSet.Where(i => i.InvoiceId == Id).ToList().FirstOrDefault();
+            return DbSet.FirstOrDefault(i => i.InvoiceId == Id);
         }
 
-        
+        /// <summary>
+        /// Get Invoice By Estimate Id
+        /// </summary>
+        public Invoice GetInvoiceByEstimateId(long Id)
+        {
+            return DbSet.FirstOrDefault(i => i.EstimateId == Id);
+        }
         #endregion
     }
 }
