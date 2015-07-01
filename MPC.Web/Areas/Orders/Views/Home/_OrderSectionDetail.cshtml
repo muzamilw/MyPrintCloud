@@ -26,13 +26,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="radio col-sm-2" style="width: 15.3%;margin-left: 2%">
+                                <div class="radio col-sm-3 col-lg-2" style="margin-left: 2%">
                                     <input type="radio" name="optionsRadiosFirst" id="optionsRadiosFirst_1" value="1" data-bind="checked: printingTypeUi">
                                     <label for="optionsRadiosFirst_1">
                                         Sheet Fed
                                     </label>
                                 </div>
-                                <div class="radio col-sm-2" style="width: 12%;">
+                                <div class="radio col-sm-2" style="">
                                     <input type="radio" name="optionsRadiosFirst" id="optionsRadiosFirst_2" value="2" data-bind="checked: printingTypeUi">
                                     <label for="optionsRadiosFirst_2">
                                         Roll Fed
@@ -40,7 +40,7 @@
                                 </div>
                             </div>
                             <div class="form-group" style="margin-bottom: 0;">
-                                <div class="col-sm-2 col-sm-2 text-left" style="padding-left: 2.5%;">
+                                <div class="col-sm-3 col-lg-2 col-md-3 text-left" style="padding-left: 2.5%;">
                                     <label for="switchPrintOnBothSides" data-bind="visible: printingTypeUi() !== '2'" style="float:left" class="control-label text-left tooltip-float">Print on both sides</label>
                                     <!-- ko if: printingTypeUi() === '2' -->
                                     &nbsp;
@@ -58,7 +58,7 @@
                                     &nbsp;
                                     <!-- /ko -->
                                 </div>
-                                <div class="col-sm-3" style="padding-left: 0.1%;">
+                                <div class="col-sm-2 col-md-2 col-lg-3" style="padding-left: 0.1%;">
                                     <div class="col-sm-6">
                                         <label for="switchworknturn" data-bind="visible:isDoubleSidedUi() && printingTypeUi() !== '2'" style="float:left" class="control-label text-left tooltip-float">Work 'n' Turn</label>
                                     </div>
@@ -74,11 +74,11 @@
 
 
                                     @*<div class="checkbox-nice" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'">
-                                           <input type="checkbox" id="checkbox-work_turn" data-bind="checked: isWorknTurn" />
-                                            <label for="checkbox-work_turn">
-                                                Work 'n' Turn
-                                            </label>
-                                        </div>*@
+               <input type="checkbox" id="checkbox-work_turn" data-bind="checked: isWorknTurn" />
+                <label for="checkbox-work_turn">
+                    Work 'n' Turn
+                </label>
+            </div>*@
                                     <!-- ko if: !isDoubleSided() || (printingTypeUi() === '2') -->
                                     &nbsp;
                                     <!-- /ko -->
@@ -89,8 +89,8 @@
                                         <label style="float:left;margin-left: 0px;" class="control-label text-left tooltip-float">Gutter</label>
                                     </div>
                                     <div class="col-sm-3">&nbsp;</div>
-                                    <div class="col-sm-5" style="padding-left: 5px;">
-                                        <input type="text" id="itemGutterTextBox" class="form-control font20px" data-bind="value: itemGutterHorizontal, validationOnElement: itemGutterHorizontal" min="0" max="99" style="">
+                                    <div class="col-sm-4 col-md-4 col-lg-4" style="padding-left: 5px;">
+                                        <input style=" width: 130%;" type="text" id="itemGutterTextBox" class="form-control font20px" data-bind="value: itemGutterHorizontal, validationOnElement: itemGutterHorizontal" min="0" max="99" style="">
                                     </div>
                                 </div>
                             </div>
