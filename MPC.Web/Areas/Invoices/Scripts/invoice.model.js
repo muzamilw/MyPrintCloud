@@ -76,6 +76,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
               isPostedInvoice = ko.observable(invoiceStatus() === 20 ? true : false),
               taxRate = ko.observable(),
+              statusId = ko.observable(),
               deliveryItems = ko.computed(function () {
                   if (items().length === 0) {
                       return [];
@@ -247,6 +248,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
               statusName: statusName,
               storeId: storeId,
               estimateTotal: estimateTotal,
+              statusId: statusId,
               errors: errors,
               isValid: isValid,
               showAllErrors: showAllErrors,

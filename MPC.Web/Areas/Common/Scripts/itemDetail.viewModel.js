@@ -1719,41 +1719,33 @@ define("common/itemDetail.viewModel",
                     // #region Pre Press / Post Press Cost Center
                     // Add Pre Press Cost Center
                     onAddPrePressCostCenter = function () {
-                        addCostCenterVm.show(addCostCenter, selectedOrder().companyId(), false, currencySymbol(), null, costCenterType.prePress);
+                        addCostCenterVm.show(addCostCenter, selectedOrder().companyId(), false, currencySymbol(), null, costCenterType.prePress, true);
                     },
                     openJobCardsTab = function () {
                         $("#sectionTabTabs a[href=#tab-jobs]").tab('show');
                     },
                     // Add Post Press Cost Center
                     onAddPostPressCostCenter = function () {
-                        addCostCenterVm.show(addCostCenter, selectedOrder().companyId(), false, currencySymbol(), null, costCenterType.postPress);
+                        addCostCenterVm.show(addCostCenter, selectedOrder().companyId(), false, currencySymbol(), null, costCenterType.postPress, true);
                     },
                     // After adding cost center
                     addCostCenter = function(costCenter) {
                         if (costCenter) {
                             selectedCostCentre(costCenter);
+                            // Set Section Quantities to Selected Cost Center quantities
+                            selectedCostCentre().quantity1(selectedSection().qty1() || 0);
+                            selectedCostCentre().quantity2(selectedSection().qty2() || 0);
                         }
                         isAddProductFromInventory(false);
                         isAddProductForSectionCostCenter(false);
-                        view.showCostCentersQuantityDialog();
+                        addCostCenterVm.executeCostCenter(function (costCenterCalculated) {
+                            selectedCostCentre(costCenterCalculated);
+                            createNewCostCenterProduct();
+                        });
                     },
                     // #endregion Pre Press / Post Press Cost Center
                     //#endregion
                     itemAttachmentFileLoadedCallback = function (file, data) {
-                        ////Flag check, whether file is already exist in media libray
-                        //var flag = true;
-
-                        //_.each(selectedProduct().itemAttachments(), function (item) {
-                        //    if (item.fileSourcePath() === data && item.fileName() === file.name) {
-                        //        flag = false;
-                        //    }
-                        //});
-
-                        //if (flag) {
-
-
-                        //}
-
                         selectedAttachment().fileSourcePath(data);
                         selectedAttachment().fileName(file.name);
                         if (file.name.indexOf(".") > -1) {
