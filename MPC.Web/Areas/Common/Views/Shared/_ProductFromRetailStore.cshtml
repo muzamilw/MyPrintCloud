@@ -1,4 +1,4 @@
-﻿<div class="modal fade" id="productFromRetailStoreModal" style="margin-top: -14px;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" aria-hidden="true">
+﻿<div class="modal fade" id="productFromRetailStoreModal" style="margin-top: -14px" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" aria-hidden="true">
     <div class="modal-dialog" id="productFromRetailStoreModalDialog">
         <div class="modal-content">
             <div class="modal-header" id="dialgHeaderPadding">
@@ -12,7 +12,7 @@
                     <div class="filter-body" id="filter">
                         <div class="filter-block pull-right">
                             <div class="pull-left spanfilterlbl">
-                               &nbsp;
+                                &nbsp;
                             </div>
                             <div class="form-group pull-right">
                                 <form data-bind="submit: $root.getItemsByCompanyId">
@@ -190,7 +190,7 @@
                 <div class="col-sm-9">
                     <div class="col-sm-5" style="margin-top: 5px;">
                         <div id="pagerDivForStore" style="  float: left;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         margin-left: 12px;">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             margin-left: 12px;">
                             <!-- ko with: $root.pager -->
                             @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                             <!-- /ko -->
@@ -216,6 +216,11 @@
             </div>
         </div>
     </div>
+    <div id="layer" class="opaqueLayer"></div>
+    <div id="innerLayer">
+    </div>
+    <div id="FormulaMatrixLayer">
+    </div>
 </div>
 <script id="itemsTemplate" type="text/html">
     <tr data-bind="click : $root.selectedProductFromStore() !== $data ? $root.updateItemsDataOnItemSelection:'', css: { selectedRow: $root.selectedProductFromStore() === $data }" style="cursor: pointer; word-break: break-all">
@@ -229,11 +234,12 @@
     <tr>
         <td style=" padding-bottom: 0;">
             <div class="col-xs-1">
-                <div class="checkbox-nice">
-                    <input type="checkbox"  data-bind="checked: isSelected,attr: { id:  $index() }, validationOnElement: isSelected" />
+                <div class="checkbox-nice" data-bind="attr: { id:  'addonCheckbox' + $index() }, validationOnElement: isSelected">
+                    <input type="checkbox" data-bind="checked: isSelected, attr: { id:  $index() }" />
                     <label data-bind="attr: { for:  $index() }">
                     </label>
                 </div>
+                <span data-bind="text: costCentreName" style="display: none"></span>
             </div>
 
         </td>

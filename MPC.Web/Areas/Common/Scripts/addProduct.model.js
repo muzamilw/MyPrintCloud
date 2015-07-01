@@ -1283,7 +1283,7 @@
         // Item Addon Cost Centre Entity
         ItemAddonCostCentre = function(specifiedId, specifiedIsMandatory, specifiedItemStockOptionId, specifiedCostCentreId, specifiedCostCentreName,
             specifiedCostCentreType, specifiedTotalPrice, callbacks, specifiedProductItemTax, specifiedCompanyTaxRate, specifiedCostCentreQuantitySourceType,
-            specifiedCostCentreTimeSourceType, specifiedCostCentreTypeId) {
+            specifiedCostCentreTimeSourceType, specifiedCostCentreTypeId, specifiedCalculationMethodType) {
             // ReSharper restore InconsistentNaming
             var // self reference
                 self,
@@ -1335,6 +1335,8 @@
                 itemStockOptionId = ko.observable(specifiedItemStockOptionId || 0),
                 //Is Selected 
                 isSelected = ko.observable(false),
+                // Calculation Method Type
+                calculationMethodType = ko.observable(specifiedCalculationMethodType || undefined),
                 // Errors
                 errors = ko.validation.group({                    
                     
@@ -1380,6 +1382,7 @@
                 totalPriceWithTax: totalPriceWithTax,
                 isMandatory: isMandatory,
                 isSelected: isSelected,
+                calculationMethodType: calculationMethodType,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -1782,7 +1785,7 @@
    ItemAddonCostCentre.Create = function (source, callbacks) {
        return new ItemAddonCostCentre(source.ProductAddOnId, source.IsMandatory, source.ItemStockOptionId, source.CostCentreId, source.CostCentreName,
            source.CostCentreTypeName, source.TotalPrice, callbacks, source.ProductItemTax, source.CompanyTaxRate, source.CostCentreQuantitySourceType, 
-           source.CostCentreTimeSourceType, source.CostCentreType);
+           source.CostCentreTimeSourceType, source.CostCentreType, source.CalculationMethodType);
    };
     // Section Cost Centre Factory
    SectionCostCenterDetail.Create = function (source) {
