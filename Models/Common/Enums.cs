@@ -15,6 +15,12 @@ namespace MPC.Models.Common
         BackOrder = 4
     }
 
+    public enum InvoiceStatuses : int
+    {
+        Awaiting = 19,
+        Posted = 20,
+    }
+
     public enum FieldVariableScopeType : int
     {
         Store = 1,
@@ -202,6 +208,7 @@ namespace MPC.Models.Common
 
 
         CancelledOrder = 9,
+        Invoice = 10,
 
 
         ArchivedOrder = 23,
