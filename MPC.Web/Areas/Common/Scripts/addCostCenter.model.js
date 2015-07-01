@@ -3,7 +3,7 @@
 
     CostCentre = function (specifiedId, specifiedname,
           specifiedDes, specifiedSetupcost, specifiedPpq, specifiedCompanyTax, specifiedDeliveryCharges, specifiedquantity1, specifiedquantity2, specifiedquantity3,
-        specifiedCostCentreType, specifiedCostCentreQuantitySourceType, specifiedCostCentreTimeSourceType) {
+        specifiedCostCentreType, specifiedCostCentreQuantitySourceType, specifiedCostCentreTimeSourceType, specifiedCalculationMethodType) {
 
         var self,
             id = ko.observable(specifiedId),
@@ -35,6 +35,8 @@
             costCentreQuantitySourceType = ko.observable(specifiedCostCentreQuantitySourceType || undefined),
             // Cost Centre Time Source Type
             costCentreTimeSourceType = ko.observable(specifiedCostCentreTimeSourceType || undefined),
+            // Calculation Method Type
+            calculationMethodType = ko.observable(specifiedCalculationMethodType || undefined),
             errors = ko.validation.group({
 
             }),
@@ -65,7 +67,8 @@
                     Description: description(),
                     SetupCost: setupCost(),
                     PricePerUnitQuantity: pricePerUnitQuantity(),
-                    DeliveryCharges: deliveryCharges()
+                    DeliveryCharges: deliveryCharges(),
+                    CalculationMethodType: calculationMethodType()
                 };
             },
             // Reset
@@ -88,6 +91,7 @@
             costCentreTypeId: costCentreTypeId,
             costCentreQuantitySourceType: costCentreQuantitySourceType,
             costCentreTimeSourceType: costCentreTimeSourceType,
+            calculationMethodType: calculationMethodType,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -112,7 +116,8 @@
             0,
             source.Type,
             source.QuantitySourceType,
-            source.TimeSourceType
+            source.TimeSourceType,
+            source.CalculationMethodType
             );
         return cost;
     };

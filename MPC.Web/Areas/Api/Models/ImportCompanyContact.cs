@@ -1,8 +1,10 @@
-﻿using FileHelpers;
+﻿using System;
+using FileHelpers;
 
 namespace MPC.MIS.Areas.Api.Models
 {
-    [DelimitedRecord(",")] 
+    [DelimitedRecord("|")]
+    [IgnoreFirst()]
     public class ImportCompanyContact
     {
         public string AddressName { get; set; }
@@ -39,4 +41,6 @@ namespace MPC.MIS.Areas.Api.Models
         public string HasWebAccess { get; set; }
         public string CanPlaceOrder { get; set; }
     }
+
+   
 }

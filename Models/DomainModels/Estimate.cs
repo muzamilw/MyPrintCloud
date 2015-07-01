@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -92,6 +93,8 @@ namespace MPC.Models.DomainModels
         public long? RefEstimateId { get; set; }
         public string XeroAccessCode { get; set; }
         public long? OrganisationId { get; set; }
+        [NotMapped]
+        public int? InvoiceStatus { get; set; }
 
         public virtual Company Company { get; set; }
         public virtual CompanyContact CompanyContact { get; set; }
@@ -108,7 +111,7 @@ namespace MPC.Models.DomainModels
             {
                 throw new ArgumentException(LanguageResources.ProductCategoryItemClone_InvalidItem, "target");
             }
-            
+
             target.CompanyId = CompanyId;
             target.Estimate_Code = Estimate_Code;
             target.Estimate_Name = Estimate_Name;

@@ -65,7 +65,7 @@
                                                 </a>
                                                 <!--/ko-->
                                                 <!--ko if:$root.selectedOrder() &&   $root.selectedOrder().statusId() !==6 -->
-                                                <a style="margin-top: 33px;" href="#"  data-bind="">
+                                                <a style="margin-top: 33px;" href="#" data-bind="">
                                                 </a>
                                                 <!--/ko-->
                                             </div>
@@ -84,12 +84,12 @@
                                             </div>
                                             <div class="col-sm-1">
                                                 <div>
-                                                   
+
                                                     <!--ko if:$root.selectedOrder() && ($root.selectedOrder().statusId === undefined || $root.selectedOrder().statusId() !== 6)-->
                                                     <div style="height: 35px;">&nbsp;</div>
-                                                <!--/ko-->
+                                                    <!--/ko-->
                                                     <div style="float: left" data-bind="visible:$root.selectedProduct().productType()!==3">
-                                                        <img style="width: 115%; cursor: pointer" alt="Click to Add New Section/Signature/Component" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.createNewItemSection" />  @*position: absolute;*@ 
+                                                        <img style="width: 115%; cursor: pointer" alt="Click to Add New Section/Signature/Component" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.createNewItemSection" />  @*position: absolute;*@
                                                         <span data-bind="click:$root.createNewItemSection" style=" margin-left: 22%; margin-top: -19%;" class="label label-circle-addsection">&nbsp;+&nbsp;</span>
                                                     </div>
                                                 </div>
@@ -575,11 +575,21 @@
 </div>
 <script id="orderItemAttachmentTemplate" type="text/html">
     <tr>
+
         <td>
             <!-- ko if: fileType()=== ".pdf" -->
             <img width="32" height="32" src="@Url.Content("~/Content//Attachments/Page_pdf.png")" alt="" />
             <!-- /ko -->
             <!-- ko if: fileType()=== ".doc" -->
+            <img src="@Url.Content("~/Content//Attachments/Page_word.png")" alt="" />
+            <!-- /ko -->
+            <!-- ko if: fileType()=== ".docx" -->
+            <img src="@Url.Content("~/Content//Attachments/Page_word.png")" alt="" />
+            <!-- /ko -->
+            <!-- ko if: fileType()=== ".rtf" -->
+            <img src="@Url.Content("~/Content//Attachments/Page_word.png")" alt="" />
+            <!-- /ko -->
+            <!-- ko if: fileType()=== ".txt" -->
             <img src="@Url.Content("~/Content//Attachments/Page_word.png")" alt="" />
             <!-- /ko -->
             <!-- ko if: fileType()=== ".png" -->
@@ -591,14 +601,17 @@
             <!-- ko if: fileType()=== ".xlsx" -->
             <img width="32" height="32" src="@Url.Content("~/Content//Attachments/Page_excel.png")" alt="" />
             <!-- /ko
-                <!-- ko if: fileType()=== ".gif" -->
+            <!-- ko if: fileType()=== ".xls" -->
+            <img width="32" height="32" src="@Url.Content("~/Content//Attachments/Page_excel.png")" alt="" />
+            <!-- /ko
+            <!-- ko if: fileType()=== ".gif" -->
             <img width="32" height="32" src="@Url.Content("~/Content//Attachments/icoGif.png")" alt="" />
             <!-- /ko -->
 
         </td>
 
         <td>
-            <a data-bind="text: fileTitle" class="user-link"></a>
+            <span data-bind="text: fileTitle" class="user-link"></span>
             <span class="user-subhead">
                 <span>Uploaded on :</span>
                 <span data-bind="dateString: uploadDate, datePattern: 'DD/MM/YYYY'"></span>

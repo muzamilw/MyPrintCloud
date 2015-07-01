@@ -34,7 +34,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Description = source.Description,
                 SetupCost = source.SetupCost,
                 PricePerUnitQuantity = source.PricePerUnitQuantity,
-                Type = source.CalculationMethodType,
+                Type = source.Type,
+                CalculationMethodType = source.CalculationMethodType,
                 QuantitySourceType = source.QuantitySourceType,
                 TimeSourceType = source.TimeSourceType
             };

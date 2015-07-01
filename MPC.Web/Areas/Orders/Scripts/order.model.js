@@ -18,7 +18,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             specifiedTargetPrintDate, specifiedOrderCreationDateTime, specifiedOrderManagerId, specifiedSalesPersonId, specifiedSourceId,
             specifiedCreditLimitForJob, specifiedCreditLimitSetBy, specifiedCreditLimitSetOnDateTime, specifiedIsJobAllowedWOCreditCheck,
             specifiedAllowJobWOCreditCheckSetOnDateTime, specifiedAllowJobWOCreditCheckSetBy, specifiedCustomerPo, specifiedOfficialOrderSetBy,
-            specifiedOfficialOrderSetOnDateTime, specifiedFootNotes, specifiedEnquiryId, specifiedRefEstimateId, specifiedOrderReportSignedBy, specifiedReportSignedBy) {
+            specifiedOfficialOrderSetOnDateTime, specifiedFootNotes, specifiedEnquiryId, specifiedRefEstimateId, specifiedOrderReportSignedBy, specifiedReportSignedBy,
+            specifiedInvoiceStatus) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -290,6 +291,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 }),
                 // Store Id
                 storeId = ko.observable(undefined),
+                // invoice Status
+                invoiceStatus = ko.observable(specifiedInvoiceStatus),
                 // Errors
                 errors = ko.validation.group({
                     name: name,
@@ -382,11 +385,12 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     officialOrderSetOnDateTime: officialOrderSetOnDateTime,
                     footNotes: footNotes,
                     sectionFlagId: sectionFlagId,
+                    invoiceStatus:invoiceStatus,
                     statusId: statusId
                 }),
                 // Item Has Changes
-                itemHasChanges = function() {
-                    var itemChanges = items.find(function(item) {
+                itemHasChanges = function () {
+                    var itemChanges = items.find(function (item) {
                         return item.hasChanges();
                     });
                     return itemChanges !== null && itemChanges !== undefined;
@@ -548,7 +552,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 orderReportSignedByUser: orderReportSignedByUser,
                 inquiryItems: inquiryItems,
                 isInquiryItemLoaded: isInquiryItemLoaded,
-                systemUsers: systemUsers
+                systemUsers: systemUsers,
+                invoiceStatus:invoiceStatus
             };
         },
 
@@ -800,7 +805,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         source.OrderCreationDateTime, source.OrderManagerId, source.SalesPersonId, source.SourceId, source.CreditLimitForJob, source.CreditLimitSetBy,
         source.CreditLimitSetOnDateTime, source.IsJobAllowedWOCreditCheck, source.AllowJobWOCreditCheckSetOnDateTime, source.AllowJobWOCreditCheckSetBy,
         source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime, source.FootNotes, source.EnquiryId, source.RefEstimateId,
-        source.OrderReportSignedBy, source.ReportSignedBy);
+        source.OrderReportSignedBy, source.ReportSignedBy, source.InvoiceStatus);
 
         estimate.statusId(source.StatusId);
         estimate.status(source.Status);
@@ -951,7 +956,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
     //#region INQUIRIES
 
     var Inquiry = function (
-        specifiedInquiryId, specifiedTitle, specifiedContactId, specifiedCreatedDate, specifiedSourceId, specifiedCompanyId, specifiedCompanyName,specifiedRequireByDate,
+        specifiedInquiryId, specifiedTitle, specifiedContactId, specifiedCreatedDate, specifiedSourceId, specifiedCompanyId, specifiedCompanyName, specifiedRequireByDate,
         specifiedSystemUserId, specifiedStatus, specifiedIsDirectInquiry, specifiedFlagId, specifiedInquiryCode, specifiedCreatedBy, specifiedOrganisationId, specifiedFlagColor, specifiedEstimateId, specifiedInquiryItemsCount
     ) {
         var self,
@@ -1108,7 +1113,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         reset = function () {
             dirtyFlag.reset();
         };
-        
+
         self = {
             inquiryId: inquiryId,
             title: title,
@@ -1180,7 +1185,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             inquiry.inquiryAttachments.valueHasMutated();
         }
         if (source.InquiryItems && source.InquiryItems.length > 0) {
-             items = [];
+            items = [];
             _.each(source.InquiryItems, function (item) {
                 items.push(InquiryItem.Create(item));
             });
@@ -1193,7 +1198,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             inquiry.systemUsers(constructorParams.SystemUsers);
             inquiry.pipelineSources(constructorParams.PipelineSources);
         }
-        
+
         return inquiry;
     };
     //#endregion
@@ -1372,7 +1377,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         return inquiryItem;
     };
 
-    
+
     //#endregion 
 
     // Section Flag Factory

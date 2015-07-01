@@ -363,7 +363,7 @@ define("order/order.viewModel",
                         //$("#dialog-confirm").removeData("modal").modal({ backdrop: 'true' });
                         // $("#dialog-confirm").removeData("modal").modal({ backdrop: 'true' });
                         // $("#dismiss")[0].style.display = 'block';
-                        if (selectedOrder().hasChanges()) {
+                        if (selectedOrder().hasChanges() && !(selectedOrder().invoiceStatus() === 20)) {
                             confirmation.messageText("Do you want to save changes?");
                             confirmation.afterProceed(onSaveOrder);
                             confirmation.afterCancel(function () {
