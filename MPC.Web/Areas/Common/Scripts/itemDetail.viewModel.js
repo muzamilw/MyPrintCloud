@@ -599,9 +599,9 @@ define("common/itemDetail.viewModel",
                             grip: 1,
                             gripDepth: 0,
                             headDepth: 0,
-                            printGutter: 5,
-                            horizentalGutter: 5,
-                            verticalGutter: 5
+                            printGutter: selectedSection().itemGutterHorizontal(),
+                            itemHorizentalGutter: selectedSection().itemGutterHorizontal(),
+                            itemVerticalGutter: selectedSection().itemGutterHorizontal()
                         }, {
                             success: function (data) {
                                 if (data != null) {
