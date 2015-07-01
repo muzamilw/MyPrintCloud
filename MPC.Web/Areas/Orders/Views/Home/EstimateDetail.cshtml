@@ -343,7 +343,10 @@
                                                 &nbsp;
                                             </div>
                                             <div class="col-sm-9">
-                                                <div style="background-color:gainsboro; border-radius:3px">
+                                                <div data-bind="visible: deliveryItems().length === 0">
+                                                    <span class="control-label" data-bind="text: 'No Shipping Charge Added'"></span>
+                                                </div>
+                                                <div style="background-color:gainsboro; border-radius:3px" data-bind="visible: deliveryItems().length > 0">
                                                     <header class="main-box-header clearfix">
                                                         <div style="float:left;"><span style="font-size: 16px;margin-top: 8px;">Shipping Charge</span></div>
                                                     </header>
