@@ -1567,7 +1567,7 @@ define("order/order.viewModel",
                         });
                     },
                     //Get Inquiry Items 
-                    getInquiryItems = function (id) {
+                    getInquiryItems = function () {
                         if ((selectedOrder() == undefined && selectedOrder().enquiryId() == undefined) || selectedOrder().isInquiryItemLoaded()) {
                             return;
                         } else {
@@ -2005,7 +2005,7 @@ define("order/order.viewModel",
                         confirmation.afterProceed(function () {
                             var index = selectedOrder().prePayments().indexOf(prePayment);
                             selectedOrder().prePayments.remove(selectedOrder().prePayments()[index]);
-                            toastr.success("Deleted Successfully");
+                            selectedOrder().hasDeletedPrepayments(true);
                             hideOrderPrePaymentModal();
                         });
                         confirmation.show();
@@ -2226,9 +2226,6 @@ define("order/order.viewModel",
                         } else {
                             confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                             confirmation.afterProceed(deleteDeliverySchedule);
-                            confirmation.afterCancel(function () {
-
-                            });
                             confirmation.show();
                             return;
                         }
@@ -2236,6 +2233,7 @@ define("order/order.viewModel",
                     },
                     deleteDeliverySchedule = function () {
                         selectedOrder().deliverySchedules.remove(selectedDeliverySchedule());
+                        selectedOrder().hasDeletedDeliverySchedules(true);
                         selectedDeliverySchedule(undefined);
                     },
                     //#endregion
