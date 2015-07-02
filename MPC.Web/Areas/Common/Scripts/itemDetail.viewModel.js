@@ -671,6 +671,10 @@ define("common/itemDetail.viewModel",
                             if (selectedSection().printingTypeUi() === '2') {
                                 return;
                             }
+                            // If is Work n Turn then set Press 2 as it is in Press 1
+                            if (value) {
+                                selectedSection().pressIdSide2(selectedSection().pressId());
+                            }
                             getPtvCalculation();
                         });
 
@@ -858,6 +862,10 @@ define("common/itemDetail.viewModel",
                             if (qty1Value !== parseInt(selectedProduct().qty1())) {
                                 selectedProduct().qty1(qty1Value);
                             }
+                            // If Product is of type Finished Goods then don't get cost centres
+                            if (selectedProduct().productType() === 3) {
+                                return;
+                            }
                             getSectionSystemCostCenters();
                         });
 
@@ -868,6 +876,10 @@ define("common/itemDetail.viewModel",
                             var qty2Value = parseInt(value);
                             if (qty2Value !== parseInt(selectedProduct().qty2())) {
                                 selectedProduct().qty2(qty2Value);
+                            }
+                            // If Product is of type Finished Goods then don't get cost centres
+                            if (selectedProduct().productType() === 3) {
+                                return;
                             }
                             getSectionSystemCostCenters();
 
