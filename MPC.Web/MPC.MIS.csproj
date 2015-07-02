@@ -1132,13 +1132,6 @@
     <Content Include="Content\CSS\supr-theme\jquery.ui.theme.css" />
     <Content Include="Content\CSS\toastr.css" />
     <Content Include="Content\Images\arrow-right.jpg" />
-    <Content Include="Content\Images\chart_01.png" />
-    <Content Include="Content\Images\chart_02.png" />
-    <Content Include="Content\Images\chart_03.png" />
-    <Content Include="Content\Images\chart_04.png" />
-    <Content Include="Content\Images\chart_05.png" />
-    <Content Include="Content\Images\chart_06.png" />
-    <Content Include="Content\Images\chart_07.png" />
     <Content Include="Content\Images\colorpicker_background.png" />
     <Content Include="Content\Images\colorpicker_hex.png" />
     <Content Include="Content\Images\colorpicker_hsb_b.png" />
@@ -2246,7 +2239,6 @@
     <Content Include="Areas\Common\Views\Shared\_ReportViaEmail.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_GRNDetailDialog.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\_AddStockQty.cshtml" />
-    <Content Include="Areas\Stores\Views\Shared\_ViewMediaLibImage.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
