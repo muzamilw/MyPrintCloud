@@ -1647,10 +1647,12 @@ define("common/itemDetail.viewModel",
                     // Open Phrase Library
                     openPhraseLibrary = function () {
                         phraseLibrary.isOpenFromPhraseLibrary(false);
+                        phraseLibrary.defaultOpenSectionId(ist.sectionsEnum[1].id);
                         phraseLibrary.show(function (phrase) {
                             updateJobDescription(phrase);
                         });
                     },
+                    
 
                     // Update Job Description
                     updateJobDescription = function (phrase) {

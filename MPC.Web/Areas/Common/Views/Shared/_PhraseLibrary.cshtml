@@ -124,10 +124,9 @@
 
 <script id="phraseItemTemplate" type="text/html">
     <tr data-bind="visible:!isDeleted(),css: { selectedRow: $data === $root.selectedPhrase() }">
-        <td style="width:50px;" data-bind="click :$root.selectPhrase">
-            @*<input type=" checkbox" style="width:50px;" data-bind="checked:isPhraseChecked" />*@
+        @*<td style="width:50px;" data-bind="click :$root.selectPhrase">
             <span>&nbsp;&nbsp;</span>
-        </td>
+        </td>*@
         <td>
             <input type="text" class="form-control" placeholder="Enter Phrase Name" data-bind="value:phraseText">
         </td>
@@ -138,6 +137,9 @@
                     <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
                 </span>
             </a>
+        </td>
+        <td style="width:50px;" data-bind="click :$root.selectPhrase">
+            <button class="btn btn-primary">Apply</button>
         </td>
     </tr>
 </script>

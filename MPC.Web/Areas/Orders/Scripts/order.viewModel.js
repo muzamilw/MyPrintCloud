@@ -214,11 +214,12 @@ define("order/order.viewModel",
                     // Open Phrase Library
                     openPhraseLibrary = function () {
                         phraseLibrary.isOpenFromPhraseLibrary(false);
-                        phraseLibrary.defaultOpenSectionId(ist.sectionsEnum[7].id);
+                        phraseLibrary.defaultOpenSectionId(ist.sectionsEnum[0].id);
                         phraseLibrary.show(function (phrase) {
                             updateEstimatePhraseContainer(phrase);
                         });
                     },
+                   
                     formatSelection = function (state, event) {
                         return state && state.id === undefined ? "" : "<span style=\"height:20px;width:20px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
                     },
@@ -1285,10 +1286,8 @@ define("order/order.viewModel",
                                     return item.id == selectedOrder().sectionFlagId();
                                 });
 
-                                if (isOpenReport() == true)
-                                {
-                                    if (isOpenReportEmail() == true)
-                                    {
+                                if (isOpenReport() == true) {
+                                    if (isOpenReportEmail() == true) {
                                         if (selectedOrder().isEstimate() == true) {
                                             reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 3, selectedOrder().id(), "");
                                             reportManager.OpenExternalReport(ist.reportCategoryEnums.Estimate, 1, selectedOrder().id());
@@ -1298,8 +1297,7 @@ define("order/order.viewModel",
                                         }
                                         getOrderById(selectedOrder().id());
                                     }
-                                    else
-                                    {
+                                    else {
                                         if (selectedOrder().isEstimate() == true) {
                                             reportManager.OpenExternalReport(ist.reportCategoryEnums.Estimate, 1, selectedOrder().id());
                                             // toastr.success("Saved Successfully.");
@@ -1311,11 +1309,10 @@ define("order/order.viewModel",
                                             getOrderById(selectedOrder().id());
                                         }
                                     }
-                                    
+
                                     isOpenReport(false);
                                 }
-                                else
-                                {
+                                else {
 
                                     if (!selectedOrder().id()) {
                                         // Update Id
@@ -1368,7 +1365,7 @@ define("order/order.viewModel",
                                         getOrders();
                                     }
                                 }
-                              
+
                             },
                             error: function (response) {
                                 toastr.error("Failed to Save Order. Error: " + response);
@@ -1519,7 +1516,7 @@ define("order/order.viewModel",
                                     if (isEstimateScreen() && !selectedOrder().reportSignedBy()) {
                                         selectedOrder().reportSignedBy(loggedInUser());
                                     }
-                                    
+
                                     // Reset Order Dirty State
                                     selectedOrder().reset();
 
@@ -2287,15 +2284,13 @@ define("order/order.viewModel",
 
                         reportManager.outputTo("preview");
 
-                        if (orderHasChanges)
-                        {
+                        if (orderHasChanges) {
 
                             isOpenReport(true);
                             isOpenReportEmail(false);
                             onSaveOrder();
                         }
-                        else
-                        {
+                        else {
                             if (selectedOrder().isEstimate() == true) {
                                 reportManager.OpenExternalReport(ist.reportCategoryEnums.Estimate, 1, selectedOrder().id());
                             }
@@ -2303,10 +2298,10 @@ define("order/order.viewModel",
                                 reportManager.OpenExternalReport(ist.reportCategoryEnums.Orders, 1, selectedOrder().id());
                             }
                         }
-                     
 
 
-                      
+
+
 
 
                         //reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
@@ -2318,7 +2313,7 @@ define("order/order.viewModel",
                     openExternalEmailOrderReport = function () {
                         reportManager.outputTo("email");
 
-                      
+
                         if (orderHasChanges) {
                             isOpenReport(true);
                             isOpenReportEmail(true);
@@ -2333,7 +2328,7 @@ define("order/order.viewModel",
                                 reportManager.OpenExternalReport(ist.reportCategoryEnums.Orders, 1, selectedOrder().id());
                             }
                         }
-    
+
 
                     },
                     //#endregion
@@ -2719,7 +2714,7 @@ define("order/order.viewModel",
                         });
                     },
                     //#endregion
-                        myVal= ko.observable(),
+                        myVal = ko.observable(),
                     //#region INITIALIZE
 
                     //Initialize method to call in every screen
@@ -2944,14 +2939,14 @@ define("order/order.viewModel",
                     selectedEstimatePhraseContainer: selectedEstimatePhraseContainer,
                     selectEstimatePhraseContainer: selectEstimatePhraseContainer,
                     openPhraseLibrary: openPhraseLibrary,
-                    formatSelection: formatSelection,
+                      formatSelection: formatSelection,
                     formatResult: formatResult,
                     onDeletePrePayment: onDeletePrePayment,
                     onAddFinishedGoods: onAddFinishedGoods,
                     onCreateNewCostCenterProduct: onCreateNewCostCenterProduct,
                     sectionFlagsForListView: sectionFlagsForListView,
                     //#endregion
-                    myVal:myVal
+                    myVal: myVal
                 };
             })()
         };
