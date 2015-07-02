@@ -3517,6 +3517,9 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="IsSystemUser" Type="int" />
           <Property Name="UserAuthToken" Type="nvarchar" MaxLength="500" />
           <Property Name="Email" Type="varchar" MaxLength="200" />
+          <Property Name="EmailSignature" Type="nvarchar(max)" />
+          <Property Name="EstimateHeadNotes" Type="nvarchar(max)" />
+          <Property Name="EstimateFootNotes" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Template">
           <Key>
@@ -6058,6 +6061,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
         <Function Name="usp_DeletePurchaseOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="OrderID" Type="int" Mode="In" />
         </Function>
+        <Function Name="usp_DeleteStagingImportCompanyContactAddress" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="usp_DeliveryReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="OrganisationID" Type="bigint" Mode="In" />
           <Parameter Name="DeliveryID" Type="bigint" Mode="In" />
@@ -8082,6 +8086,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="SystemUser" EntitySet="SystemUsers" />
             <End Role="ItemStockUpdateHistory" EntitySet="ItemStockUpdateHistories" />
           </AssociationSet>
+          <FunctionImport Name="usp_DeleteStagingImportCompanyContactAddress" />
         </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -13471,6 +13476,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="UserAuthToken" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ItemStockUpdateHistories" Relationship="DomainModels.FK_ItemStockUpdateHistory_SystemUser" FromRole="SystemUser" ToRole="ItemStockUpdateHistory" />
+          <Property Name="EmailSignature" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EstimateHeadNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EstimateFootNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_CategoryTerritory_ProductCategory">
           <End Type="DomainModels.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
@@ -18564,6 +18572,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="SystemUsers">
             <EntityTypeMapping TypeName="DomainModels.SystemUser">
               <MappingFragment StoreEntitySet="SystemUser">
+                <ScalarProperty Name="EstimateFootNotes" ColumnName="EstimateFootNotes" />
+                <ScalarProperty Name="EstimateHeadNotes" ColumnName="EstimateHeadNotes" />
+                <ScalarProperty Name="EmailSignature" ColumnName="EmailSignature" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="UserAuthToken" ColumnName="UserAuthToken" />
                 <ScalarProperty Name="IsSystemUser" ColumnName="IsSystemUser" />
@@ -19450,6 +19461,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="usp_DeleteCRMCompanyByID" FunctionName="DomainModels.Store.usp_DeleteCRMCompanyByID" />
+          <FunctionImportMapping FunctionImportName="usp_DeleteStagingImportCompanyContactAddress" FunctionName="DomainModels.Store.usp_DeleteStagingImportCompanyContactAddress" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
