@@ -16,7 +16,7 @@ namespace MPC.Implementation.MISServices
             this.systemUserRepository = systemUserRepository;
         }
 
-        public bool Update(System.Guid Id, string Email, string FullName, int OrganizationId)
+        public bool Update(System.Guid Id, string Email, string FullName, int OrganizationId, int status, string EmailSignature, string EstimateHeadNotes, string EstimateFootNotes)
         {
 
             if (systemUserRepository.GetUserrById(Id) != null)
