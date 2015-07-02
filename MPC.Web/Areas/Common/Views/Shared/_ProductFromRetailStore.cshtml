@@ -225,9 +225,9 @@
 <script id="itemsTemplate" type="text/html">
     <tr data-bind="click : $root.selectedProductFromStore() !== $data ? $root.updateItemsDataOnItemSelection:'', css: { selectedRow: $root.selectedProductFromStore() === $data }" style="cursor: pointer; word-break: break-all">
         <td data-bind=" css: { selectedRow: $root.selectedProductFromStore() === $data }, attr: {  title: productCode }">
-            <span data-bind="text:productName()"></span>
+            <span class="store-user-link" data-bind="text: productName"></span>
+            <span class="user-subhead" data-bind="text: companyName"></span>
         </td>
-
     </tr>
 </script>
 <script id="addOnTemplate" type="text/html">

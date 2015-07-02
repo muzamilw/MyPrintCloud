@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Http;
 using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
@@ -7,7 +6,6 @@ using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
 using MPC.WebBase.Mvc;
-using Item = MPC.Models.DomainModels.Item;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -34,10 +32,12 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Public
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
         [CompressFilterAttribute]
-        public ItemSearchResponse Get([FromUri]ItemSearchRequestModel request)
+        public ItemSearchResponseForOrder Get([FromUri]ItemSearchRequestModel request)
         {
             var response = itemService.GetItemsByCompanyId(request);
-            ItemSearchResponse itemSearchResponse = new ItemSearchResponse
+// ReSharper disable SuggestUseVarKeywordEvident
+            ItemSearchResponseForOrder itemSearchResponse = new ItemSearchResponseForOrder
+// ReSharper restore SuggestUseVarKeywordEvident
             {
                 TotalCount = response.TotalCount,
                 Items = response.Items.Select(x => x.CreateFromForOrderAddProduct())

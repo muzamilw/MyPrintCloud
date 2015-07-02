@@ -602,6 +602,8 @@
     <Compile Include="Areas\Api\Models\ItemDetailBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
     <Compile Include="Areas\Api\Models\ItemJobStatusResponse.cs" />
+    <Compile Include="Areas\Api\Models\ItemListViewForOrder.cs" />
+    <Compile Include="Areas\Api\Models\ItemSearchResponseForOrder.cs" />
     <Compile Include="Areas\Api\Models\ItemStockUpdateHistory.cs" />
     <Compile Include="Areas\Api\Models\LiveJobItem.cs" />
     <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
