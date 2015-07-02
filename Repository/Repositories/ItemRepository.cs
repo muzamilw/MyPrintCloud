@@ -182,7 +182,7 @@ namespace MPC.Repository.Repositories
             {
                 List<GetCategoryProduct> recordds =
               db.GetCategoryProducts.Where(
-                  g => g.IsPublished == true && g.EstimateId == null && g.ProductCategoryId == ProductCategoryID)
+                  g => g.IsPublished == true && g.EstimateId == null && g.ProductCategoryId == ProductCategoryID && (g.IsArchived == null || g.IsArchived == false))
                   .OrderBy(g => g.ProductName)
                   .ToList();
                 recordds = recordds.OrderBy(s => s.SortOrder).ToList();

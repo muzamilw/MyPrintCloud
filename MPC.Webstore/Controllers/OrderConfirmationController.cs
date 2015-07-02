@@ -389,7 +389,9 @@ namespace MPC.Webstore.Controllers
             catch (Exception e)
             {
                 //   LoggingManager.LogBLLException(e);
-                return null;
+               // string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/exe.txt" );
+               // System.IO.File.WriteAllText(FilePath, e.InnerException.ToString() + "\n" + e.StackTrace.ToString());
+               throw e;
             }
         }
 
