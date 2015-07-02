@@ -6158,3 +6158,17 @@ END
 GO
 
 
+/* Execution Date: 02/07/2015 */
+
+--Stored Procedure to delete all StagingImportCompanyContactAddress table records
+--Procedure is using while uploading company contacts from csv file
+
+Create PROCEDURE [dbo].[usp_DeleteStagingImportCompanyContactAddress]
+AS
+BEGIN
+delete from StagingImportCompanyContactAddress
+end
+
+alter table SystemUser add EmailSignature nvarchar(max) null
+alter table SystemUser add EstimateHeadNotes nvarchar(max) null
+alter table SystemUser add EstimateFootNotes nvarchar(max) null 
