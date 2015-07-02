@@ -1570,7 +1570,7 @@ define("order/order.viewModel",
                         });
                     },
                     //Get Inquiry Items 
-                    getInquiryItems = function (id) {
+                    getInquiryItems = function () {
                         if ((selectedOrder() == undefined && selectedOrder().enquiryId() == undefined) || selectedOrder().isInquiryItemLoaded()) {
                             return;
                         } else {
