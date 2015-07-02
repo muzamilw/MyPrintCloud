@@ -188,15 +188,16 @@ namespace MPC.Repository.Repositories
         {
             string connectionString = string.Empty;
             SqlConnection oConn = new SqlConnection();
-            if (System.Web.HttpContext.Current.Request.Url.Authority == "mpc" || System.Web.HttpContext.Current.Request.Url.Authority == "localhost")
-            {
-                connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=192.168.1.22; user id=sa; password=p@ssw0rd;";
-                oConn = new SqlConnection(connectionString);   
-            }
-            else
-            {
-                oConn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["BaseDbContext"].ConnectionString);
-            }
+            //if (System.Web.HttpContext.Current.Request.Url.Authority == "mpc" || System.Web.HttpContext.Current.Request.Url.Authority == "localhost")
+            //{
+            //    connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=192.168.1.22; user id=sa; password=p@ssw0rd;";
+            //   // connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
+            //    oConn = new SqlConnection(connectionString);   
+            //}
+            //else
+            //{
+            oConn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ReportConnectiontring"].ConnectionString);
+            //}
              
           
             oConn.Open();
