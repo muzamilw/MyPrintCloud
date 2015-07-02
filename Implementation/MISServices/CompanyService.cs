@@ -3598,6 +3598,9 @@ namespace MPC.Implementation.MISServices
         /// <returns></returns>
         public bool SaveImportedCompanyContact(IEnumerable<StagingImportCompanyContactAddress> stagingImportCompanyContact)
         {
+            //Calling Stored Procedure to delete all records in staging company contact table
+            stagingImportCompanyContactRepository.RunProcedureToDeleteAllStagingCompanyContact();
+
             foreach (var companyContact in stagingImportCompanyContact)
             {
                 companyContact.OrganisationId = stagingImportCompanyContactRepository.OrganisationId;
