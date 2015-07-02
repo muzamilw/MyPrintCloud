@@ -432,8 +432,8 @@ define("common/addProduct.viewModel",
                             _.each(selecteditem().itemPriceMatrices(), function (priceMatrix) {
                                 counter = counter + 1;
                                 if (priceMatrix.qtyRangedFrom() <= parseInt(selectedProductQuanity()) && priceMatrix.qtyRangedTo() >= parseInt(selectedProductQuanity())) {
-                                    totalPrice = getPrice(counter - 1, selectedStockOptionSequenceNumber());
-                                    selectedProductQuanityPrice(getPrice(counter - 1, selectedStockOptionSequenceNumber()));
+                                    totalPrice = (parseInt(selectedProductQuanity()) * getPrice(counter - 1, selectedStockOptionSequenceNumber()));
+                                    selectedProductQuanityPrice(parseInt(selectedProductQuanity())*(getPrice(counter - 1, selectedStockOptionSequenceNumber())));
                                     selectedProductQuanityPriceWithoutTax(getPriceWithoutTax(counter - 1, selectedStockOptionSequenceNumber()));
                                     totalPriceWithoutTax = getPriceWithoutTax(counter - 1, selectedStockOptionSequenceNumber());
                                     isQuantitySelected(true);
