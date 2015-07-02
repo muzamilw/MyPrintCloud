@@ -127,6 +127,11 @@ define("order/order.viewModel",
 
                     // Is Order Editor Visible
                     isOrderDetailsVisible = ko.observable(false),
+
+                    // is open report
+                     isOpenReport = ko.observable(false),
+                      // is open report Email
+                     isOpenReportEmail = ko.observable(false),
                     //is Display Inquiry Detail Screen
                     isDisplayInquiryDetailScreen = ko.observable(false),
                     // Is Item Detail Visible
@@ -209,11 +214,12 @@ define("order/order.viewModel",
                     // Open Phrase Library
                     openPhraseLibrary = function () {
                         phraseLibrary.isOpenFromPhraseLibrary(false);
-                        phraseLibrary.defaultOpenSectionId(ist.sectionsEnum[7].id);
+                        phraseLibrary.defaultOpenSectionId(ist.sectionsEnum[0].id);
                         phraseLibrary.show(function (phrase) {
                             updateEstimatePhraseContainer(phrase);
                         });
                     },
+                   
                     formatSelection = function (state, event) {
                         return state && state.id === undefined ? "" : "<span style=\"height:20px;width:20px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
                     },
@@ -263,7 +269,7 @@ define("order/order.viewModel",
                     // Selected Job Description
                     selectedJobDescription = ko.observable(),
                     //Current Screen
-                    currentScreen = ko.observable(),
+                    currentScreen = ko.observable(4),
                     //Selected Filter Flag on List View
                     selectedFilterFlag = ko.observable(0),
                     // Active Pre Payment
@@ -358,7 +364,7 @@ define("order/order.viewModel",
                         //$("#dialog-confirm").removeData("modal").modal({ backdrop: 'true' });
                         // $("#dialog-confirm").removeData("modal").modal({ backdrop: 'true' });
                         // $("#dismiss")[0].style.display = 'block';
-                        if (selectedOrder().hasChanges()) {
+                        if (selectedOrder().hasChanges() && !(selectedOrder().invoiceStatus() === 20)) {
                             confirmation.messageText("Do you want to save changes?");
                             confirmation.afterProceed(onSaveOrder);
                             confirmation.afterCancel(function () {
@@ -1280,56 +1286,86 @@ define("order/order.viewModel",
                                     return item.id == selectedOrder().sectionFlagId();
                                 });
 
-                                if (!selectedOrder().id()) {
-                                    // Update Id
-                                    selectedOrder().id(data.EstimateId);
-                                    selectedOrder().orderCode(data.OrderCode);
-                                    if (isEstimateScreen()) {
-                                        selectedOrder().code(data.EstimateCode);
-                                    } else {
-                                        selectedOrder().orderCode(data.OrderCode);
-                                    }
-                                    var total1 = (parseFloat((data.EstimateTotal === undefined || data.EstimateTotal === null) ? 0 : data.EstimateTotal)).toFixed(2);
-                                    selectedOrder().estimateTotal(total1);
-                                    selectedOrder().creationDate(data.CreationDate !== null ? moment(data.CreationDate).toDate() : undefined);
-                                    selectedOrder().numberOfItems(data.ItemsCount || 0);
-                                    selectedOrder().status(data.Status || '');
-                                    if (orderFlag) {
-                                        selectedOrder().flagColor(orderFlag.color);
-                                    }
-                                    // Add to top of list
-                                    orders.splice(0, 0, selectedOrder());
-                                } else {
-                                    // Get Order
-                                    var orderUpdated = getOrderFromList(selectedOrder().id());
-                                    if (orderUpdated) {
-                                        orderUpdated.creationDate(data.CreationDate !== null ? moment(data.CreationDate).toDate() : undefined);
-                                        var total = (parseFloat((data.EstimateTotal === undefined || data.EstimateTotal === null) ? 0 : data.EstimateTotal)).toFixed(2);
-                                        orderUpdated.estimateTotal(total);
-                                        orderUpdated.name(data.EstimateName);
-                                        orderUpdated.numberOfItems(data.ItemsCount || 0);
-                                        orderUpdated.status(data.Status || '');
-                                        if (orderFlag) {
-                                            orderUpdated.flagColor(orderFlag.color);
+                                if (isOpenReport() == true) {
+                                    if (isOpenReportEmail() == true) {
+                                        if (selectedOrder().isEstimate() == true) {
+                                            reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 3, selectedOrder().id(), "");
+                                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Estimate, 1, selectedOrder().id());
+                                        } else {
+                                            reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 2, selectedOrder().id(), "");
+                                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Orders, 1, selectedOrder().id());
                                         }
+                                        getOrderById(selectedOrder().id());
+                                    }
+                                    else {
+                                        if (selectedOrder().isEstimate() == true) {
+                                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Estimate, 1, selectedOrder().id());
+                                            // toastr.success("Saved Successfully.");
+                                            getOrderById(selectedOrder().id());
+                                        }
+                                        else {
+                                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Orders, 1, selectedOrder().id());
+                                            // toastr.success("Saved Successfully.");
+                                            getOrderById(selectedOrder().id());
+                                        }
+                                    }
 
+                                    isOpenReport(false);
+                                }
+                                else {
+
+                                    if (!selectedOrder().id()) {
+                                        // Update Id
+                                        selectedOrder().id(data.EstimateId);
+                                        selectedOrder().orderCode(data.OrderCode);
+                                        if (isEstimateScreen()) {
+                                            selectedOrder().code(data.EstimateCode);
+                                        } else {
+                                            selectedOrder().orderCode(data.OrderCode);
+                                        }
+                                        var total1 = (parseFloat((data.EstimateTotal === undefined || data.EstimateTotal === null) ? 0 : data.EstimateTotal)).toFixed(2);
+                                        selectedOrder().estimateTotal(total1);
+                                        selectedOrder().creationDate(data.CreationDate !== null ? moment(data.CreationDate).toDate() : undefined);
+                                        selectedOrder().numberOfItems(data.ItemsCount || 0);
+                                        selectedOrder().status(data.Status || '');
+                                        if (orderFlag) {
+                                            selectedOrder().flagColor(orderFlag.color);
+                                        }
+                                        // Add to top of list
+                                        orders.splice(0, 0, selectedOrder());
+                                    } else {
+                                        // Get Order
+                                        var orderUpdated = getOrderFromList(selectedOrder().id());
+                                        if (orderUpdated) {
+                                            orderUpdated.creationDate(data.CreationDate !== null ? moment(data.CreationDate).toDate() : undefined);
+                                            var total = (parseFloat((data.EstimateTotal === undefined || data.EstimateTotal === null) ? 0 : data.EstimateTotal)).toFixed(2);
+                                            orderUpdated.estimateTotal(total);
+                                            orderUpdated.name(data.EstimateName);
+                                            orderUpdated.numberOfItems(data.ItemsCount || 0);
+                                            orderUpdated.status(data.Status || '');
+                                            if (orderFlag) {
+                                                orderUpdated.flagColor(orderFlag.color);
+                                            }
+
+                                        }
+                                    }
+
+                                    toastr.success("Saved Successfully.");
+
+                                    if (callback && typeof callback === "function") {
+                                        callback();
+                                    }
+
+                                    if (navigateCallback && typeof navigateCallback === "function") {
+                                        navigateCallback();
+                                    }
+                                    orderCodeHeader('');
+                                    var orderIdFromDashboard = $('#OrderId').val();
+                                    if (orderIdFromDashboard != 0) {
+                                        getOrders();
                                     }
                                 }
 
-                                toastr.success("Saved Successfully.");
-
-                                if (callback && typeof callback === "function") {
-                                    callback();
-                                }
-
-                                if (navigateCallback && typeof navigateCallback === "function") {
-                                    navigateCallback();
-                                }
-                                orderCodeHeader('');
-                                var orderIdFromDashboard = $('#OrderId').val();
-                                if (orderIdFromDashboard != 0) {
-                                    getOrders();
-                                }
                             },
                             error: function (response) {
                                 toastr.error("Failed to Save Order. Error: " + response);
@@ -1480,7 +1516,7 @@ define("order/order.viewModel",
                                     if (isEstimateScreen() && !selectedOrder().reportSignedBy()) {
                                         selectedOrder().reportSignedBy(loggedInUser());
                                     }
-                                    
+
                                     // Reset Order Dirty State
                                     selectedOrder().reset();
 
@@ -1531,7 +1567,7 @@ define("order/order.viewModel",
                         });
                     },
                     //Get Inquiry Items 
-                    getInquiryItems = function (id) {
+                    getInquiryItems = function () {
                         if ((selectedOrder() == undefined && selectedOrder().enquiryId() == undefined) || selectedOrder().isInquiryItemLoaded()) {
                             return;
                         } else {
@@ -1969,7 +2005,7 @@ define("order/order.viewModel",
                         confirmation.afterProceed(function () {
                             var index = selectedOrder().prePayments().indexOf(prePayment);
                             selectedOrder().prePayments.remove(selectedOrder().prePayments()[index]);
-                            toastr.success("Deleted Successfully");
+                            selectedOrder().hasDeletedPrepayments(true);
                             hideOrderPrePaymentModal();
                         });
                         confirmation.show();
@@ -2190,9 +2226,6 @@ define("order/order.viewModel",
                         } else {
                             confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                             confirmation.afterProceed(deleteDeliverySchedule);
-                            confirmation.afterCancel(function () {
-
-                            });
                             confirmation.show();
                             return;
                         }
@@ -2200,6 +2233,7 @@ define("order/order.viewModel",
                     },
                     deleteDeliverySchedule = function () {
                         selectedOrder().deliverySchedules.remove(selectedDeliverySchedule());
+                        selectedOrder().hasDeletedDeliverySchedules(true);
                         selectedDeliverySchedule(undefined);
                     },
                     //#endregion
@@ -2248,12 +2282,24 @@ define("order/order.viewModel",
 
                         reportManager.outputTo("preview");
 
-                        if (selectedOrder().isEstimate() == true) {
-                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Estimate, 1, selectedOrder().id());
+                        if (orderHasChanges) {
+
+                            isOpenReport(true);
+                            isOpenReportEmail(false);
+                            onSaveOrder();
                         }
                         else {
-                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Orders, 1, selectedOrder().id());
+                            if (selectedOrder().isEstimate() == true) {
+                                reportManager.OpenExternalReport(ist.reportCategoryEnums.Estimate, 1, selectedOrder().id());
+                            }
+                            else {
+                                reportManager.OpenExternalReport(ist.reportCategoryEnums.Orders, 1, selectedOrder().id());
+                            }
                         }
+
+
+
+
 
 
                         //reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
@@ -2264,13 +2310,23 @@ define("order/order.viewModel",
 
                     openExternalEmailOrderReport = function () {
                         reportManager.outputTo("email");
-                        if (selectedOrder().isEstimate() == true) {
-                            reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 3, selectedOrder().id(), "");
-                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Estimate, 1, selectedOrder().id());
-                        } else {
-                            reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 2, selectedOrder().id(), "");
-                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Orders, 1, selectedOrder().id());
+
+
+                        if (orderHasChanges) {
+                            isOpenReport(true);
+                            isOpenReportEmail(true);
+                            onSaveOrder();
                         }
+                        else {
+                            if (selectedOrder().isEstimate() == true) {
+                                reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 3, selectedOrder().id(), "");
+                                reportManager.OpenExternalReport(ist.reportCategoryEnums.Estimate, 1, selectedOrder().id());
+                            } else {
+                                reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 2, selectedOrder().id(), "");
+                                reportManager.OpenExternalReport(ist.reportCategoryEnums.Orders, 1, selectedOrder().id());
+                            }
+                        }
+
 
                     },
                     //#endregion
@@ -2537,12 +2593,12 @@ define("order/order.viewModel",
                         });
                     },
                     viewEstimateFromInquiry = function () {
-                        currentScreen(0);
+                        currentScreen(1);
                         isDisplayInquiryDetailScreen(false);
                         var id = selectedInquiry().estimateId();
                         getOrderById(id, openOrderEditor);
                         $('#estimateListTabs a[href="#tab-All"]').tab('show');
-                        getOrdersOnTabChange(0);
+                        getOrdersOnTabChange(1);
                     },
                     showEstimateNotes = function () {
                         toastr.success('wow');
@@ -2656,6 +2712,7 @@ define("order/order.viewModel",
                         });
                     },
                     //#endregion
+                        myVal = ko.observable(),
                     //#region INITIALIZE
 
                     //Initialize method to call in every screen
@@ -2682,7 +2739,7 @@ define("order/order.viewModel",
                             if (orderIdFromDashboard != 0) {
                                 editOrder({ id: function () { return orderIdFromDashboard; } });
                             } else {
-                                getOrders();
+                                getOrders(4);
                             }
                         },
                     //Initialize Estimate
@@ -2880,13 +2937,14 @@ define("order/order.viewModel",
                     selectedEstimatePhraseContainer: selectedEstimatePhraseContainer,
                     selectEstimatePhraseContainer: selectEstimatePhraseContainer,
                     openPhraseLibrary: openPhraseLibrary,
-                    formatSelection: formatSelection,
+                      formatSelection: formatSelection,
                     formatResult: formatResult,
                     onDeletePrePayment: onDeletePrePayment,
                     onAddFinishedGoods: onAddFinishedGoods,
                     onCreateNewCostCenterProduct: onCreateNewCostCenterProduct,
-                    sectionFlagsForListView: sectionFlagsForListView
+                    sectionFlagsForListView: sectionFlagsForListView,
                     //#endregion
+                    myVal: myVal
                 };
             })()
         };

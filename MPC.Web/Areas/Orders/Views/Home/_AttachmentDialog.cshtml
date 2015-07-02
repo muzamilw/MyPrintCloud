@@ -7,7 +7,7 @@
                 <h4 class="modal-title">Attachment</h4>
             </div>
             <div class="col-sm-12 form-horizontal outerDiv-Padding">
-                <div class="form-group">
+                <div class="form-group" data-bind="visible:$root.parentFilterFileList().length > 0">
                     <div class="col-sm-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
                         </div>
@@ -21,7 +21,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" data-bind="visible:$root.parentFilterFileList().length > 0">
                     <div class="col-sm-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
                         </div>

@@ -123,7 +123,7 @@ namespace MPC.Interfaces.Repository
 
         Estimate GetOrderByIdforXml(long RecordID);
 
-        void regeneratePDFs(long productID, long OrganisationID, bool printCuttingMargins, bool isMultipageProduct, bool drawBleedArea, double bleedAreaSize);
+       // void regeneratePDFs(long productID, long OrganisationID, bool printCuttingMargins, bool isMultipageProduct, bool drawBleedArea, double bleedAreaSize);
 
         /// <summary>
         /// Search Estimates For Live Jobs

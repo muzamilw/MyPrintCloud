@@ -68,6 +68,7 @@ namespace MPC.Implementation.MISServices
         private readonly IExportReportHelper exportReportHelper;
         private readonly IPurchaseRepository purchaseRepository;
         private readonly ICampaignRepository campaignRepository;
+        private readonly IInvoiceRepository invoiceRepository;
         /// <summary>
         /// Creates New Order and assigns new generated code
         /// </summary>
@@ -349,7 +350,7 @@ namespace MPC.Implementation.MISServices
         {
             //if (dbOrder.StatusId != 4 && newOrder.StatusId == 4)
             //{
-                GeneratePO(newOrder.EstimateId, newOrder.ContactId ?? new long(), newOrder.CompanyId, newOrder.Created_by ?? new Guid());
+            GeneratePO(newOrder.EstimateId, newOrder.ContactId ?? new long(), newOrder.CompanyId, newOrder.Created_by ?? new Guid());
             //}
         }
 
@@ -433,11 +434,15 @@ namespace MPC.Implementation.MISServices
             IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository,
             ISectionInkCoverageRepository sectionInkCoverageRepository, IShippingInformationRepository shippingInformationRepository,
             ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IPipeLineProductRepository pipeLineProductRepository, IItemStockOptionRepository itemStockOptionRepository, IItemSectionRepository itemSectionRepository, IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, IExportReportHelper exportReportHelper
-            , IPurchaseRepository purchaseRepository, ICampaignRepository campaignRepository)
+            , IPurchaseRepository purchaseRepository, ICampaignRepository campaignRepository, IInvoiceRepository invoiceRepository)
         {
             if (estimateRepository == null)
             {
                 throw new ArgumentNullException("estimateRepository");
+            }
+            if (invoiceRepository == null)
+            {
+                throw new ArgumentNullException("invoiceRepository");
             }
             if (companyContactRepository == null)
             {
@@ -512,6 +517,7 @@ namespace MPC.Implementation.MISServices
                 throw new ArgumentNullException("sectionCostCentreDetailRepository");
             }
             this.estimateRepository = estimateRepository;
+            this.invoiceRepository = invoiceRepository;
             this.companyRepository = companyRepository;
             this.prefixRepository = prefixRepository;
             this.prePaymentRepository = prePaymentRepository;
@@ -561,7 +567,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public GetOrdersResponse GetAll(GetOrdersRequest request)
         {
-          
+
             return estimateRepository.GetOrders(request);
 
 
@@ -579,7 +585,17 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public Estimate GetById(long orderId)
         {
-            return estimateRepository.Find(orderId);
+            Estimate estimate = estimateRepository.Find(orderId);
+            if (estimate != null)
+            {
+                Invoice invoice = invoiceRepository.GetInvoiceByEstimateId(estimate.EstimateId);
+                if (invoice != null)
+                {
+                    estimate.InvoiceStatus = invoice.InvoiceStatus;
+                }  
+            }
+          
+            return estimate;
         }
 
         /// <summary>
@@ -599,7 +615,7 @@ namespace MPC.Implementation.MISServices
             Estimate order = GetById(estimate.EstimateId) ?? CreateNewOrder(estimate.isEstimate == true);
 
             var orderStatusId = order.StatusId;
-            
+
             // Update Order
             estimate.UpdateTo(order, new OrderMapperActions
                                      {
@@ -630,6 +646,7 @@ namespace MPC.Implementation.MISServices
             // Save Changes
             estimateRepository.SaveChanges();
 
+
             //Update Purchase Orders
             //Req. Whenever Its Status is inProduction Update Purchase Orders
             if (orderStatusId != (int)OrderStatus.InProduction && estimate.StatusId == (int)OrderStatus.InProduction)
@@ -659,6 +676,29 @@ namespace MPC.Implementation.MISServices
                 }
             }
 
+
+            //Create Invoice
+            //Req. Whenever Its Status is Shipped and Invoiced 
+            if (orderStatusId != (int)OrderStatus.Invoice && estimate.StatusId == (int)OrderStatus.Invoice)
+            {
+                try
+                {
+                    Invoice invoice = invoiceRepository.GetInvoiceByEstimateId(order.EstimateId);
+                    if (invoice == null)
+                    {
+                        CreateInvoice(order);
+                        // Save Changes
+                        estimateRepository.SaveChanges();
+                    }
+
+                }
+                catch (Exception exp)
+                {
+                    throw new MPCException("Saved Sucessfully but failed to create Invoice. Error: " + exp.Message, estimateRepository.OrganisationId);
+                }
+            }
+
+
             // Load Status
             estimateRepository.LoadProperty(order, () => order.Status);
 
@@ -666,12 +706,32 @@ namespace MPC.Implementation.MISServices
             return order;
         }
 
+        private void CreateInvoice(Estimate order)
+        {
+            Invoice itemTarget = CreateNewInvoice();
+            order.AddInvoice(itemTarget);
+        }
+
+        /// <summary>
+        /// Creates New Invoice
+        /// </summary>
+        private Invoice CreateNewInvoice()
+        {
+            Invoice itemTarget = invoiceRepository.Create();
+            string invoiceCode = prefixRepository.GetNextInvoiceCodePrefix();
+            itemTarget.InvoiceCode = invoiceCode;
+            itemTarget.OrganisationId = estimateRepository.OrganisationId;
+            itemTarget.InvoiceStatus = (int)InvoiceStatuses.Awaiting;
+            invoiceRepository.Add(itemTarget);
+            return itemTarget;
+        }
+
         /// <summary>
         /// Get base data for order
         /// </summary>
         public OrderBaseResponse GetBaseData()
         {
-            
+
             return new OrderBaseResponse
                    {
                        SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Order),
@@ -1089,7 +1149,7 @@ namespace MPC.Implementation.MISServices
 
         #region Download Artwork
 
-      
+
 
         public string DownloadOrderArtwork(int OrderID, string sZipName)
         {
@@ -1372,7 +1432,9 @@ namespace MPC.Implementation.MISServices
                                 isaddcropMark = true;
                             }
 
-                            orderRepository.regeneratePDFs(TemplateID, OrganisationId, isaddcropMark, mutlipageMode, drawBleedArea, bleedsize);
+                            templateService.regeneratePDFs(TemplateID, OrganisationId, isaddcropMark, mutlipageMode, drawBleedArea, bleedsize);
+
+                            //orderRepository.regeneratePDFs(TemplateID, OrganisationId, isaddcropMark, mutlipageMode, drawBleedArea, bleedsize);
                             //LocalTemplateDesigner.TemplateSvcSPClient oLocSvc = new LocalTemplateDesigner.TemplateSvcSPClient();b
                             //oLocSvc.regeneratePDFs(TemplateID, isaddcropMark, drawBleedArea, mutlipageMode);
 
@@ -1789,7 +1851,7 @@ namespace MPC.Implementation.MISServices
             return FileName;
         }
 
-     
+
 
 
         #endregion

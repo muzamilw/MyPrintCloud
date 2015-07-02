@@ -17,6 +17,7 @@
         public string CostCentreTypeName { get; set; }
         public int? CostCentreQuantitySourceType { get; set; }
         public int? CostCentreTimeSourceType { get; set; }
+        public int? CalculationMethodType { get; set; }
         public double? TotalPrice { get; set; }
     }
 }

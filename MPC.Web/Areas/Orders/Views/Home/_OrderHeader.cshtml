@@ -93,7 +93,7 @@
                 <div class="col-sm-4 text-right">
                     &nbsp;
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-8">
                     <div>
                         <input type="text" style="height: 60px;" data-bind="value: name, validationTooltip: name, validationOnElement: name" placeholder="Enter Order Title" class="form-control font24px" id="EstimateTitle" />
                     </div>
@@ -115,10 +115,10 @@
                 </div>
                 <div class="col-sm-6">
 
-                    <select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: sectionFlagId, foreach: $root.sectionFlags">
-                        <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
+                    <select style="width: 100% !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: sectionFlagId, foreach: $root.sectionFlags">
+                        <option style="width: 100% !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
                     </select>
-
+                    <i class="fa fa-sort-desc" style="float: right;padding-right: 9px;position: relative;bottom: 25px;"></i>
                 </div>
             </div>
             <div>
@@ -179,7 +179,7 @@
                     </div>
                 </div>
                 <div class="col-sm-1">
-                    <a id="estimateHeaderPhraseLibraryBtn" data-bind="visible: $root.selectedEstimatePhraseContainer() === 'EstimateHeader', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary">
+                    <a id="416"  data-bind="visible: $root.selectedEstimatePhraseContainer() === 'EstimateHeader', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary">
                         <i class="fa fa-lg"></i>&nbsp;....
                     </a>
                 </div>
@@ -231,11 +231,11 @@
                             <button type="button" class="btn btn-primary" data-bind="click : $root.onAddFinishedGoods"> Add Finished Goods</button>
                         </div>
                         @*<div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
-                            <button type="button" class="btn btn-primary" data-bind="click: $root.openStockItemDialogForAddingProduct">Add Inventory Item</button>
-                        </div>
-                        <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
-                            <button type="button" class="btn btn-primary" data-bind="click: $root.onCostCenterClick">Add a Cost Center</button>
-                        </div>*@
+                                <button type="button" class="btn btn-primary" data-bind="click: $root.openStockItemDialogForAddingProduct">Add Inventory Item</button>
+                            </div>
+                            <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
+                                <button type="button" class="btn btn-primary" data-bind="click: $root.onCostCenterClick">Add a Cost Center</button>
+                            </div>*@
                     </div>
                 </div>
             </div>
@@ -248,7 +248,10 @@
                     &nbsp;
                 </div>
                 <div class="col-sm-9">
-                    <div id="orderHeaderShippingContainer">
+                    <div data-bind="visible: deliveryItems().length === 0">
+                        <span class="control-label" data-bind="text: 'No Shipping Charge Added'"></span>
+                    </div>
+                    <div id="orderHeaderShippingContainer" data-bind="visible: deliveryItems().length > 0">
                         <header class="main-box-header clearfix">
                             <div style="float:left;"><span style="font-size:24px">Shipping Charge</span></div>
                         </header>
@@ -305,7 +308,7 @@
                     <textarea class="form-control" id="EstimateFootNotesTextBox" placeholder="Enter order closing paragraph as it would appear on reports" rows="3" data-bind="value: footNotes, click: $root.selectEstimatePhraseContainer"></textarea>
                 </div>
                 <div class="col-sm-1">
-                    <a id="estimateFooterPhraseLibraryBtn" data-bind="visible: $root.selectedEstimatePhraseContainer() === 'EstimateFootNotesTextBox', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary">
+                    <a id= "417" data-bind="visible: $root.selectedEstimatePhraseContainer() === 'EstimateFootNotesTextBox', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary">
                         <i class="fa fa-lg"></i>&nbsp;....
                     </a>
                 </div>

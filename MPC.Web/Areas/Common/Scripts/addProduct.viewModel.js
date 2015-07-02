@@ -98,6 +98,11 @@ define("common/addProduct.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                     },
+                    // Search Items
+                    searchItems = function() {
+                        pager().reset();
+                        getItemsByCompanyId();
+                    },
                     //Get Items By CompanyId
                     getItemsByCompanyId = function () {
                         dataservice.getItemsByCompanyId({
@@ -316,35 +321,35 @@ define("common/addProduct.viewModel",
                                 questionQueueObject = data[2];
                                 inputQueueObject = data[7];
                                 workInstructions = data[3][0].WorkInstructions;
-                                if (refiningOption.costCentreTypeId() === 4) { // cost centres of calculation methode type 4 are formula based
+                                if (refiningOption.calculationMethodType() === 4) { // cost centres of calculation methode type 4 are formula based
                                     if (questionQueueObject != null) { // process the question queue and prompt for values
                                         if (questionQueueObject.length > 0) {
                                             isQueueExist = true;
-                                            ShowCostCentrePopup(questionQueueObject, refiningOption.costCentreId(), selecteditem().id(), "", "New", currencySymbol(),
-                                                totalProductPrice(), inputQueueObject.Items, refiningOption.costCentreTypeId(), companyTaxRate, workInstructions,
+                                            ShowCostCentrePopup(questionQueueObject, refiningOption.costCentreId(), selecteditem().id(), refiningOption.isSelected.domElement, "New", currencySymbol(),
+                                                totalProductPrice(), inputQueueObject.Items, refiningOption.calculationMethodType(), companyTaxRate, workInstructions,
                                                 selectedProductQuanity(), selectedStockOption().itemAddonCostCentres);
                                         }
-                                        if (inputQueueObject.Items.length === 3) { // do not process the queue for prompting values
+                                        if (inputQueueObject.Items && inputQueueObject.Items.length === 3) { // do not process the queue for prompting values
                                             isQueueExist = true;
                                         }
                                     }
-                                } else if (refiningOption.costCentreTypeId() === 3) { // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+                                } else if (refiningOption.calculationMethodType() === 3) { // if method type is not 4 then it will be 3 : per quantity or 4: per hour
                                     if (refiningOption.costCentreQuantitySourceType() === 1) { // do not process the queue for prompting values else execute it as it is of variable type
                                         isQueueExist = true;
-                                        SetGlobalCostCentreQueue(questionQueueObject, inputQueueObject.Items, refiningOption.costCentreId(), refiningOption.costCentreTypeId(),
-                                            selecteditem().id(), "", "", totalProductPrice(), currencySymbol(), false, companyTaxRate, selectedProductQuanity(),
+                                        SetGlobalCostCentreQueue(questionQueueObject, inputQueueObject.Items, refiningOption.costCentreId(), refiningOption.calculationMethodType(),
+                                            selecteditem().id(), refiningOption.isSelected.domElement, "", totalProductPrice(), currencySymbol(), false, companyTaxRate, selectedProductQuanity(),
                                             selectedStockOption().itemAddonCostCentres);
                                     } else { // process the input queue and prompt for values
                                         isQueueExist = true;
-                                        ShowInputCostCentrePopup(inputQueueObject.Items, refiningOption.costCentreId(), selecteditem().id(), "", "New", currencySymbol(),
-                                            totalProductPrice(), questionQueueObject, refiningOption.costCentreTypeId(), companyTaxRate, workInstructions,
+                                        ShowInputCostCentrePopup(inputQueueObject.Items, refiningOption.costCentreId(), selecteditem().id(), refiningOption.isSelected.domElement, "New", currencySymbol(),
+                                            totalProductPrice(), questionQueueObject, refiningOption.calculationMethodType(), companyTaxRate, workInstructions,
                                             selectedProductQuanity(), selectedStockOption().itemAddonCostCentres);
                                     }
-                                } else if (refiningOption.costCentreTypeId() === 2) { // if method type is not 4 then it will be 3 : per quantity or 4: per hour
+                                } else if (refiningOption.calculationMethodType() === 2) { // if method type is not 4 then it will be 3 : per quantity or 4: per hour
 
                                     if (refiningOption.costCentreTimeSourceType() === 1) { // do not process the queue for prompting values else execute it as it is of variable type
                                         isQueueExist = true;
-                                        SetGlobalCostCentreQueue(questionQueueObject, inputQueueObject.Items, refiningOption.costCentreId(), refiningOption.costCentreTypeId(),
+                                        SetGlobalCostCentreQueue(questionQueueObject, inputQueueObject.Items, refiningOption.costCentreId(), refiningOption.calculationMethodType(),
                                             selecteditem().id(), refiningOption.isSelected.domElement, "", totalProductPrice(), currencySymbol(),
                                             false, companyTaxRate, selectedProductQuanity(),
                                             selectedStockOption().itemAddonCostCentres);
@@ -352,7 +357,7 @@ define("common/addProduct.viewModel",
                                         isQueueExist = true;
                                         ShowInputCostCentrePopup(inputQueueObject.Items, refiningOption.costCentreId(), selecteditem().id(),
                                             refiningOption.isSelected.domElement, "New", currencySymbol(),
-                                            totalProductPrice(), questionQueueObject, refiningOption.costCentreTypeId(), companyTaxRate, workInstructions,
+                                            totalProductPrice(), questionQueueObject, refiningOption.calculationMethodType(), companyTaxRate, workInstructions,
                                             selectedProductQuanity(), selectedStockOption().itemAddonCostCentres);
                                     }
                                 }
@@ -427,8 +432,8 @@ define("common/addProduct.viewModel",
                             _.each(selecteditem().itemPriceMatrices(), function (priceMatrix) {
                                 counter = counter + 1;
                                 if (priceMatrix.qtyRangedFrom() <= parseInt(selectedProductQuanity()) && priceMatrix.qtyRangedTo() >= parseInt(selectedProductQuanity())) {
-                                    totalPrice = getPrice(counter - 1, selectedStockOptionSequenceNumber());
-                                    selectedProductQuanityPrice(getPrice(counter - 1, selectedStockOptionSequenceNumber()));
+                                    totalPrice = (parseInt(selectedProductQuanity()) * getPrice(counter - 1, selectedStockOptionSequenceNumber()));
+                                    selectedProductQuanityPrice(parseInt(selectedProductQuanity())*(getPrice(counter - 1, selectedStockOptionSequenceNumber())));
                                     selectedProductQuanityPriceWithoutTax(getPriceWithoutTax(counter - 1, selectedStockOptionSequenceNumber()));
                                     totalPriceWithoutTax = getPriceWithoutTax(counter - 1, selectedStockOptionSequenceNumber());
                                     isQuantitySelected(true);
@@ -486,7 +491,8 @@ define("common/addProduct.viewModel",
                     storeName: storeName,
                     callerNaMe: callerNaMe,
                     isQuantitySelected: isQuantitySelected,
-                    pager: pager
+                    pager: pager,
+                    searchItems: searchItems
                 };
             })()
         };

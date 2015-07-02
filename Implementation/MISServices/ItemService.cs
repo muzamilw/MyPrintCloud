@@ -2417,7 +2417,7 @@ namespace MPC.Implementation.MISServices
         /// <returns></returns>
         public ItemSearchResponse GetItemsByCompanyId(ItemSearchRequestModel request)
         {
-            return itemRepository.GetItemsByCompanyId(request);
+            return itemRepository.GetAllStoreProducts(request);
         }
 
         /// <summary>

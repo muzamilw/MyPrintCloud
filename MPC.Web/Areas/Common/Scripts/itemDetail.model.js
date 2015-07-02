@@ -284,6 +284,10 @@
                 refItemId = ko.observable(specifiedRefItemId || undefined),
                 //Item Attachments
                 itemAttachments = ko.observableArray([]),
+                // Has Deleted Sections
+                hasDeletedSections = ko.observable(false),
+                // Has Deleted Attachments
+                hasDeletedAttachments = ko.observable(false),
                 // Errors
                 errors = ko.validation.group({
                     productName: productName
@@ -373,14 +377,14 @@
                     var itemSectionChange = itemSections.find(function (itemSection) {
                         return itemSection.hasChanges();
                     });
-                    return itemSectionChange !== null && itemSectionChange !== undefined;
+                    return (itemSectionChange !== null && itemSectionChange !== undefined) || hasDeletedSections();
                 }),
                 // Item Attachment Changes
                 itemAttachmentHasChanges = ko.computed(function () {
                     var attachmentChange = itemAttachments.find(function (itemAttachment) {
                         return itemAttachment.hasChanges();
                     });
-                    return attachmentChange !== null && attachmentChange !== undefined;
+                    return (attachmentChange !== null && attachmentChange !== undefined) || hasDeletedAttachments();
                 }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -394,6 +398,8 @@
                     itemAttachments.each(function (itemAttachment) {
                         return itemAttachment.reset();
                     });
+                    hasDeletedSections(false);
+                    hasDeletedAttachments(false);
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
@@ -528,6 +534,8 @@
                 setJobProgressedBy: setJobProgressedBy,
                 jobSignedByUser: jobSignedByUser,
                 refItemId: refItemId,
+                hasDeletedSections: hasDeletedSections,
+                hasDeletedAttachments: hasDeletedAttachments,
                 errors: errors,
                 isValid: isValid,
                 showAllErrors: showAllErrors,
@@ -791,6 +799,8 @@
                 }),
                 // Add Section icon to show also in list of sections, For Add Section Item set to True
                 flagForAdd = ko.observable(false),
+                // Has Deleted Section Cost Center
+                hasDeletedSectionCostCentres = ko.observable(false),
                 // Errors
                 errors = ko.validation.group({
                     name: name,
@@ -845,7 +855,7 @@
                     var sectionCostCentresChange = sectionCostCentres.find(function (item) {
                         return item.hasChanges();
                     });
-                    return sectionCostCentresChange !== null && sectionCostCentresChange !== undefined;
+                    return (sectionCostCentresChange !== null && sectionCostCentresChange !== undefined) || hasDeletedSectionCostCentres();
                 },
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -856,6 +866,7 @@
                     sectionCostCentres.find(function (item) {
                         return item.reset();
                     });
+                    hasDeletedSectionCostCentres(false);
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
@@ -1010,6 +1021,7 @@
                 sectionInkCoveragesSide1: sectionInkCoveragesSide1,
                 sectionInkCoveragesSide2: sectionInkCoveragesSide2,
                 sectionsMultiplier: sectionsMultiplier,
+                hasDeletedSectionCostCentres: hasDeletedSectionCostCentres,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,

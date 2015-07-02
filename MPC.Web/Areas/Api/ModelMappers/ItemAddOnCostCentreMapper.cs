@@ -43,6 +43,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
             itemAddOnCostCentre.CostCentreName = source.CostCentre.Name;
             itemAddOnCostCentre.CostCentreType = source.CostCentre.Type;
+            itemAddOnCostCentre.CalculationMethodType = source.CostCentre.CalculationMethodType;
             itemAddOnCostCentre.CostCentreTypeName = source.CostCentre.CostCentreType != null ? source.CostCentre.CostCentreType.TypeName : string.Empty;
             itemAddOnCostCentre.CostCentreQuantitySourceType = source.CostCentre.QuantitySourceType;
             itemAddOnCostCentre.CostCentreTimeSourceType = source.CostCentre.TimeSourceType;

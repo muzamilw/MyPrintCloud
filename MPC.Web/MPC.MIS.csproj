@@ -602,6 +602,8 @@
     <Compile Include="Areas\Api\Models\ItemDetailBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
     <Compile Include="Areas\Api\Models\ItemJobStatusResponse.cs" />
+    <Compile Include="Areas\Api\Models\ItemListViewForOrder.cs" />
+    <Compile Include="Areas\Api\Models\ItemSearchResponseForOrder.cs" />
     <Compile Include="Areas\Api\Models\ItemStockUpdateHistory.cs" />
     <Compile Include="Areas\Api\Models\LiveJobItem.cs" />
     <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
@@ -1132,13 +1134,6 @@
     <Content Include="Content\CSS\supr-theme\jquery.ui.theme.css" />
     <Content Include="Content\CSS\toastr.css" />
     <Content Include="Content\Images\arrow-right.jpg" />
-    <Content Include="Content\Images\chart_01.png" />
-    <Content Include="Content\Images\chart_02.png" />
-    <Content Include="Content\Images\chart_03.png" />
-    <Content Include="Content\Images\chart_04.png" />
-    <Content Include="Content\Images\chart_05.png" />
-    <Content Include="Content\Images\chart_06.png" />
-    <Content Include="Content\Images\chart_07.png" />
     <Content Include="Content\Images\colorpicker_background.png" />
     <Content Include="Content\Images\colorpicker_hex.png" />
     <Content Include="Content\Images\colorpicker_hsb_b.png" />
@@ -2246,7 +2241,6 @@
     <Content Include="Areas\Common\Views\Shared\_ReportViaEmail.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_GRNDetailDialog.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\_AddStockQty.cshtml" />
-    <Content Include="Areas\Stores\Views\Shared\_ViewMediaLibImage.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
@@ -2814,7 +2808,6 @@
     <Content Include="Scripts\Plugins\forms\maskedinput\jquery.maskedinput-1.3.min.js" />
     <Content Include="Scripts\Plugins\forms\select\select2.css" />
     <Content Include="Scripts\Plugins\forms\select\select2.js" />
-    <Content Include="Scripts\Plugins\forms\select\select2.min.js" />
     <Content Include="Scripts\Plugins\forms\select\select2.png" />
     <Content Include="Scripts\Plugins\forms\select\spinner.gif" />
     <Content Include="Scripts\Plugins\forms\smartWizzard\jquery.smartWizard-2.0.js" />
@@ -3301,7 +3294,6 @@
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\RGraph.bar.js" />
     <Content Include="Scripts\sammy-0.7.5.js" />
     <Content Include="Scripts\sammy-0.7.5.min.js" />
     <Content Include="Scripts\Script\bootstrap\bootstrap.js" />

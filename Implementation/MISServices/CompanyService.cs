@@ -102,7 +102,7 @@ namespace MPC.Implementation.MISServices
         private readonly ICampaignRepository campaignRepository;
         private readonly ITemplateFontsRepository templatefonts;
         private readonly IStagingImportCompanyContactAddressRepository stagingImportCompanyContactRepository;
-
+        private readonly ICostCentersService CostCentreService;
         #endregion
 
         private bool CheckDuplicateExistenceOfCompanyDomains(CompanySavingModel companySaving)
@@ -2970,7 +2970,7 @@ namespace MPC.Implementation.MISServices
             IEstimateRepository estimateRepository, IMediaLibraryRepository mediaLibraryRepository, ICompanyCostCenterRepository companyCostCenterRepository,
             ICmsTagReporistory cmsTagReporistory, ICompanyBannerSetRepository bannerSetRepository, ICampaignRepository campaignRepository,
             MPC.Interfaces.WebStoreServices.ITemplateService templateService, ITemplateFontsRepository templateFontRepository, IMarkupRepository markupRepository,
-            ITemplateColorStylesRepository templateColorStylesRepository, IStagingImportCompanyContactAddressRepository stagingImportCompanyContactRepository)
+            ITemplateColorStylesRepository templateColorStylesRepository, IStagingImportCompanyContactAddressRepository stagingImportCompanyContactRepository, ICostCentersService CostCentreService)
         {
             if (bannerSetRepository == null)
             {
@@ -3042,6 +3042,7 @@ namespace MPC.Implementation.MISServices
             this.markupRepository = markupRepository;
             this.templateColorStylesRepository = templateColorStylesRepository;
             this.stagingImportCompanyContactRepository = stagingImportCompanyContactRepository;
+            this.CostCentreService = CostCentreService;
 
         }
         #endregion
@@ -3598,6 +3599,9 @@ namespace MPC.Implementation.MISServices
         /// <returns></returns>
         public bool SaveImportedCompanyContact(IEnumerable<StagingImportCompanyContactAddress> stagingImportCompanyContact)
         {
+            //Calling Stored Procedure to delete all records in staging company contact table
+            stagingImportCompanyContactRepository.RunProcedureToDeleteAllStagingCompanyContact();
+
             foreach (var companyContact in stagingImportCompanyContact)
             {
                 companyContact.OrganisationId = stagingImportCompanyContactRepository.OrganisationId;
@@ -6281,6 +6285,8 @@ namespace MPC.Implementation.MISServices
 
                     timelog = organisationRepository.InsertOrganisation(OrganisationId, objExpCorp, objExpRetail, isCorpStore, exportSets, SubDomain, timelog);
 
+                    CostCentre objCostCentre = costCentreRepository.GetFirstCostCentreByOrganisationId(OrganisationId);
+                    CostCentreService.CostCentreDLL(objCostCentre, OrganisationId);
 
                     string StoreName = ConfigurationManager.AppSettings["RetailStoreName"];
                     end = DateTime.Now;

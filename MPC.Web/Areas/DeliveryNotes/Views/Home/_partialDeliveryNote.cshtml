@@ -205,6 +205,7 @@
                                 <select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: flagId, foreach: $root.sectionFlags">
                                     <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
                                 </select>
+                                <i class="fa fa-sort-desc" style="float: right;padding-right: 15px;padding-top: 2px;position: relative;bottom: 25px;"></i>
                                 @*<select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag',value:flagId"></select>
                                 <span class="help-block text-right"></span>*@
                             </div>
