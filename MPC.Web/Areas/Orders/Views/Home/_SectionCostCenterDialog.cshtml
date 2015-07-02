@@ -75,13 +75,10 @@
                             <div class="col-lg-4 text-right"><label class="control-label text-right">Quantity</label></div>
                             <div class="col-lg-8">
                                 <!--ko if:  $root.selectedQty() == 1-->
-                                <input type="text" class="text-right form-control" data-bind="value: qty1, enable: costCentreType() != 1 ? true: false " />
+                                <input type="text" class="text-right form-control" data-bind="value: $root.sectionCostCenterQty1Ui, enable: costCentreType() != 1 ? true: false " />
                                 <!--/ko-->
                                 <!--ko if:  $root.selectedQty() == 2-->
-                                <input type="text" class="text-right form-control" data-bind="value: qty2, enable: costCentreType() != 1 ? true: false " />
-                                <!--/ko-->
-                                <!--ko if:  $root.selectedQty() == 3-->
-                                <input type="text" class="text-right form-control" data-bind="value: qty3, enable: costCentreType() != 1 ? true: false " />
+                                <input type="text" class="text-right form-control" data-bind="value: $root.sectionCostCenterQty2Ui, enable: costCentreType() != 1 ? true: false " />
                                 <!--/ko-->
 
                             </div>
@@ -180,19 +177,19 @@
                         <tr>
                             <th class="col-lg-5"><span>Item</span></th>
                             <th class="col-lg-4"><span>Unit Price</span></th>
-                            <th class="col-lg-3"><span>Quantity</span></th>
+                            @*<th class="col-lg-3"><span>Quantity</span></th>*@
                         </tr>
                     </thead>
                     <tbody data-bind="foreach: $root.selectedSectionCostCenter().sectionCostCentreDetails">
                         <tr>
                             <td data-bind="text: stockName"></td>
                             <td data-bind="text: $root.currencySymbol() + costPrice()"></td>
-                            <!--ko if:  $root.selectedQty() == 1-->
+                            @*<!--ko if:  $root.selectedQty() == 1-->
                             <td data-bind="text: qty1"></td>
                             <!--/ko-->
                             <!--ko if:  $root.selectedQty() == 2-->
                             <td data-bind="text: qty2"></td>
-                            <!--/ko-->
+                            <!--/ko-->*@
                         </tr>
                     </tbody>
                 </table>
