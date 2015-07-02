@@ -120,7 +120,11 @@ namespace MPC.Interfaces.Repository
         /// <returns></returns>
         ItemSection UpdateItemFirstSectionByItemId(long ItemId, int Quantity);
         Item CloneReOrderItem(long orderID, long ExistingItemId, long loggedInContactID, string order_code, long OrganisationId);
-
+        
+        /// <summary>
+        /// Get All Corporate and Retail Products
+        /// </summary>
+        ItemSearchResponse GetAllStoreProducts(ItemSearchRequestModel requestModel);
 
         /// <summary>
         /// Get Items By Company Id

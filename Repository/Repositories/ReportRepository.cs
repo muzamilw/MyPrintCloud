@@ -478,7 +478,7 @@ namespace MPC.Repository.Repositories
 
                 To = Email;
 
-
+              
             
                 return new ReportEmailResponseModel
                 {
