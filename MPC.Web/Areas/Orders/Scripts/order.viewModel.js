@@ -2719,6 +2719,7 @@ define("order/order.viewModel",
                         });
                     },
                     //#endregion
+                        myVal= ko.observable(),
                     //#region INITIALIZE
 
                     //Initialize method to call in every screen
@@ -2948,8 +2949,9 @@ define("order/order.viewModel",
                     onDeletePrePayment: onDeletePrePayment,
                     onAddFinishedGoods: onAddFinishedGoods,
                     onCreateNewCostCenterProduct: onCreateNewCostCenterProduct,
-                    sectionFlagsForListView: sectionFlagsForListView
+                    sectionFlagsForListView: sectionFlagsForListView,
                     //#endregion
+                    myVal:myVal
                 };
             })()
         };

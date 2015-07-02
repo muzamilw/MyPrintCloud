@@ -170,15 +170,70 @@ require(["ko", "knockout-validation"], function (ko) {
         init: function (element, valueAccessor, allBindingsAccessor) {
             var obj = valueAccessor(),
                 allBindings = allBindingsAccessor();
-            $(element).select2(obj);
+            //var options1 = allBindings.get('select2Options') || {};
+            // $(element).select2(allBindings);
+            // $(element).select2(obj, allBindings);
+            $(element).select2({
+                //data: ['a', 'b', 'c'],
+                allowClear: true,
+                placeholder: "Select flag"
+            });
             ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                $(element).select2('destroy');
+                //$(element).select2('destroy');
             });
         },
         update: function (element) {
-            $(element).trigger('change');
+           // $(element).trigger('change');
         }
     };
+
+    ko.bindingHandlers.valueSelect2 = {
+        'after': ['options'],
+        'init': function (element, valueAccessor, allBindings) {
+            // kind of extend value binding
+            //ko.bindingHandlers.value.init(element, valueAccessor, allBindings);
+
+            var options1 = allBindings.get('select2Options') || {};
+            $(element).select2(options1);
+
+            var value = valueAccessor();
+            // init val
+            $(element).val(ko.unwrap(value)).trigger("change");
+
+            var changeListener;
+            if (ko.isObservable(value)) {
+                var shouldIgnore = false;
+                changeListener = value.subscribe(function (newVal) {
+                    if (!shouldIgnore) {
+                        shouldIgnore = true;
+                        $(element).val(newVal).trigger("change");
+                        shouldIgnore = false;
+                    }
+                });
+
+                // this demo only works on single select.
+                $(element).on("change", function (e) {
+                    if (!shouldIgnore) {
+                        shouldIgnore = true;
+                        if (e.val == '') {
+                            // select2 use empty string for unselected value
+                            // it could cause problem when you really want '' as a valid option
+                            value(undefined);
+                        } else {
+                            value(e.val);
+                        }
+                        shouldIgnore = false;
+                    }
+                });
+            }
+
+            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                if (changeListener) changeListener.dispose();
+              //  $(element).select2("destory");
+            });
+        }
+    };
+
 
     function colorHelper(col) {
         if (col.length === 4) {
