@@ -18,5 +18,7 @@ namespace MPC.Interfaces.MISServices
         IEnumerable<CostCentreVariable> GetVariableList();
         CostCentreResponse GetAllForOrderProduct(GetCostCentresRequest requestModel);
 
+        void CostCentreDLL(CostCentre costcenter, long organisationId);
+
     }
 }

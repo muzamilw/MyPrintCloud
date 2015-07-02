@@ -71,14 +71,18 @@ var ist = {
     lengthFormat: "0.000",
     // Sections enumeration
     sectionsEnum: [
-        { indx: 0, id: 1, name: "Estimates" },
-        { indx: 1, id: 2, name: "Estimate Details" },
-        { indx: 2, id: 3, name: "Template Library" },
-        { indx: 3, id: 4, name: "Job Production" },
-        { indx: 4, id: 5, name: "Job Activity List" },
-        { indx: 5, id: 6, name: "Add Job Activity" },
-        { indx: 6, id: 7, name: "Purchases" },
-        { indx: 7, id: 54, name: "Orders" }
+        { id: 1, name: "Estimates" },
+            { id: 4, name: "Job Production" },
+            { id: 13, name: "Invoices" },
+            { id: 7, name: "Purchases" },
+            { id: 10, name: "Delivery" }
+    ],
+
+    //Phrase Fields enumeration
+    phraseFieldsEnum: [
+        { id: 416, sectionId: 1, name: "Header" },
+        { id: 417, sectionId: 1, name: "Footer" }
+       // { id: , sectionId:1,name: "" },
     ]
 };
 
@@ -170,15 +174,70 @@ require(["ko", "knockout-validation"], function (ko) {
         init: function (element, valueAccessor, allBindingsAccessor) {
             var obj = valueAccessor(),
                 allBindings = allBindingsAccessor();
-            $(element).select2(obj);
+            //var options1 = allBindings.get('select2Options') || {};
+            // $(element).select2(allBindings);
+            // $(element).select2(obj, allBindings);
+            $(element).select2({
+                //data: ['a', 'b', 'c'],
+                allowClear: true,
+                placeholder: "Select flag"
+            });
             ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                $(element).select2('destroy');
+                //$(element).select2('destroy');
             });
         },
         update: function (element) {
-            $(element).trigger('change');
+            // $(element).trigger('change');
         }
     };
+
+    ko.bindingHandlers.valueSelect2 = {
+        'after': ['options'],
+        'init': function (element, valueAccessor, allBindings) {
+            // kind of extend value binding
+            //ko.bindingHandlers.value.init(element, valueAccessor, allBindings);
+
+            var options1 = allBindings.get('select2Options') || {};
+            $(element).select2(options1);
+
+            var value = valueAccessor();
+            // init val
+            $(element).val(ko.unwrap(value)).trigger("change");
+
+            var changeListener;
+            if (ko.isObservable(value)) {
+                var shouldIgnore = false;
+                changeListener = value.subscribe(function (newVal) {
+                    if (!shouldIgnore) {
+                        shouldIgnore = true;
+                        $(element).val(newVal).trigger("change");
+                        shouldIgnore = false;
+                    }
+                });
+
+                // this demo only works on single select.
+                $(element).on("change", function (e) {
+                    if (!shouldIgnore) {
+                        shouldIgnore = true;
+                        if (e.val == '') {
+                            // select2 use empty string for unselected value
+                            // it could cause problem when you really want '' as a valid option
+                            value(undefined);
+                        } else {
+                            value(e.val);
+                        }
+                        shouldIgnore = false;
+                    }
+                });
+            }
+
+            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                if (changeListener) changeListener.dispose();
+                //  $(element).select2("destory");
+            });
+        }
+    };
+
 
     function colorHelper(col) {
         if (col.length === 4) {
