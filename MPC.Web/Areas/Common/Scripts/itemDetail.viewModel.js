@@ -697,6 +697,10 @@ define("common/itemDetail.viewModel",
                             if (selectedSection().printingTypeUi() === '2') {
                                 return;
                             }
+                            // If is Work n Turn then set Press 2 as it is in Press 1
+                            if (value) {
+                                selectedSection().pressIdSide2(selectedSection().pressId());
+                            }
                             getPtvCalculation();
                         });
 
@@ -884,6 +888,10 @@ define("common/itemDetail.viewModel",
                             if (qty1Value !== parseInt(selectedProduct().qty1())) {
                                 selectedProduct().qty1(qty1Value);
                             }
+                            // If Product is of type Finished Goods then don't get cost centres
+                            if (selectedProduct().productType() === 3) {
+                                return;
+                            }
                             getSectionSystemCostCenters();
                         });
 
@@ -894,6 +902,10 @@ define("common/itemDetail.viewModel",
                             var qty2Value = parseInt(value);
                             if (qty2Value !== parseInt(selectedProduct().qty2())) {
                                 selectedProduct().qty2(qty2Value);
+                            }
+                            // If Product is of type Finished Goods then don't get cost centres
+                            if (selectedProduct().productType() === 3) {
+                                return;
                             }
                             getSectionSystemCostCenters();
 
@@ -1658,14 +1670,12 @@ define("common/itemDetail.viewModel",
                         confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().itemSections.remove(section);
+                            selectedProduct().hasDeletedSections(true);
                             showSectionDetail(false);
                             selectedSection(undefined);
                             qty1NetTotalForItem();
                             qty2NetTotalForItem();
                             qty3NetTotalForItem();
-                        });
-                        confirmation.afterCancel(function () {
-
                         });
                         confirmation.show();
 
@@ -1673,10 +1683,12 @@ define("common/itemDetail.viewModel",
                     // Open Phrase Library
                     openPhraseLibrary = function () {
                         phraseLibrary.isOpenFromPhraseLibrary(false);
+                        phraseLibrary.defaultOpenSectionId(ist.sectionsEnum[1].id);
                         phraseLibrary.show(function (phrase) {
                             updateJobDescription(phrase);
                         });
                     },
+                    
 
                     // Update Job Description
                     updateJobDescription = function (phrase) {
@@ -1727,6 +1739,7 @@ define("common/itemDetail.viewModel",
                         confirmation.afterProceed(function () {
                             view.hideSectionCostCenterDialogModel();
                             selectedSection().sectionCostCentres.remove(costCenter);
+                            selectedSection().hasDeletedSectionCostCentres(true);
                             isSectionCostCenterDialogOpen(false);
                             calculateSectionBaseCharge1();
                             calculateSectionBaseCharge2();
@@ -1845,17 +1858,16 @@ define("common/itemDetail.viewModel",
                         confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().itemAttachments.remove(attachment);
-
-                        });
-                        confirmation.afterCancel(function () {
+                            selectedProduct().hasDeletedAttachments(true);
                         });
                         confirmation.show();
                         return;
                     },
-                    deleteItem = function (item) {
+                    deleteItem = function () {
                         confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedOrder().items.remove(selectedProduct());
+                            selectedOrder().hasDeletedItems(true);
                             closeItemDetail();
                         });
                         confirmation.afterCancel(function () {

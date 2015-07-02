@@ -20,7 +20,7 @@
                                             <input type="text" class="form-control" data-bind="value: $root.selectedCostCentre()!=undefined  ? $root.selectedCostCentre().quantity1:''">
                                         </div>
                                     </div>
-                                    <!--ko if: $root.isEstimateScreen != undefined && $root.isEstimateScreen()-->
+                                    <!--ko if: $root.isEstimateScreen != undefined && $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                     <div class="form-group">
                                         <div class="col-sm-5 text-right">
                                            

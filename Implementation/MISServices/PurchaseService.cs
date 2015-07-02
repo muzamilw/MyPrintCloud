@@ -94,7 +94,7 @@ namespace MPC.Implementation.MISServices
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
             return new PurchaseBaseResponse
             {
-                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Order),
+                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Purchase),
                 SystemUsers = systemUserRepository.GetAll(),
                 DeliveryCarriers = deliveryCarrierRepository.GetAll(),
                 CurrencySymbol = organisation != null ? (organisation.Currency != null ? organisation.Currency.CurrencySymbol : string.Empty) : string.Empty

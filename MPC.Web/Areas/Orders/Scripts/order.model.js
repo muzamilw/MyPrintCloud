@@ -293,6 +293,12 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 storeId = ko.observable(undefined),
                 // invoice Status
                 invoiceStatus = ko.observable(specifiedInvoiceStatus),
+                // Has Deleted Items
+                hasDeletedItems = ko.observable(false),
+                // Has Deleted PrePayments
+                hasDeletedPrepayments = ko.observable(false),
+                // Has Deleted Delivery Schedules
+                hasDeletedDeliverySchedules = ko.observable(false),
                 // Errors
                 errors = ko.validation.group({
                     name: name,
@@ -393,21 +399,21 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     var itemChanges = items.find(function (item) {
                         return item.hasChanges();
                     });
-                    return itemChanges !== null && itemChanges !== undefined;
+                    return (itemChanges !== null && itemChanges !== undefined) || hasDeletedItems();
                 },
                 // Pre payment Has Changes
                 prepaymentHasChanges = function () {
                     var prepaymentChanges = prePayments.find(function (item) {
                         return item.hasChanges();
                     });
-                    return prepaymentChanges !== null && prepaymentChanges !== undefined;
+                    return (prepaymentChanges !== null && prepaymentChanges !== undefined) || hasDeletedPrepayments();
                 },
                 // Delivery Schedule Has Changes
                 deliveryScheduleHasChanges = function () {
                     var deliveryScheduleChange = deliverySchedules.find(function (item) {
                         return item.hasChanges();
                     });
-                    return deliveryScheduleChange !== null && deliveryScheduleChange !== undefined;
+                    return (deliveryScheduleChange !== null && deliveryScheduleChange !== undefined) || hasDeletedDeliverySchedules();
                 },
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -424,6 +430,9 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     deliverySchedules.each(function (item) {
                         return item.reset();
                     });
+                    hasDeletedItems(false);
+                    hasDeletedDeliverySchedules(false);
+                    hasDeletedPrepayments(false);
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
@@ -553,7 +562,10 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 inquiryItems: inquiryItems,
                 isInquiryItemLoaded: isInquiryItemLoaded,
                 systemUsers: systemUsers,
-                invoiceStatus:invoiceStatus
+                invoiceStatus: invoiceStatus,
+                hasDeletedItems: hasDeletedItems,
+                hasDeletedPrepayments: hasDeletedPrepayments,
+                hasDeletedDeliverySchedules: hasDeletedDeliverySchedules
             };
         },
 
