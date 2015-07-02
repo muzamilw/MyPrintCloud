@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets382C838093F5DC73A95870B09CB2BF776405789463B4925544BB989247F27469))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets814BFFF0EA6DC24F21464373461001AF84695D92877D17BBED458B6981061E9F))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets382C838093F5DC73A95870B09CB2BF776405789463B4925544BB989247F27469 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets814BFFF0EA6DC24F21464373461001AF84695D92877D17BBED458B6981061E9F : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets382C838093F5DC73A95870B09CB2BF776405789463B4925544BB989247F27469()
+        public ViewsForBaseEntitySets814BFFF0EA6DC24F21464373461001AF84695D92877D17BBED458B6981061E9F()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "2c739f97bd4533d9fe5d5e4ceaf907cdfe4c8e487b57756cec30dfd5de6aad14";
-            this.HashOverAllExtentViews = "e39e9a2a7cb35a2c70bf59ce590fe20bf663aabcb4bbcb120ad9d711294d59f0";
+            this.HashOverMappingClosure = "d9fd61f3d348c029665ecd1ec1ff0d1d33a52bfcc709b663d345040c728c193e";
+            this.HashOverAllExtentViews = "87b80952ba0282f3f909c9d1661d8d3311fa9cb03587b2384d5b2cf9bb9249cc";
             this.ViewCount = 340;
         }
         
@@ -5385,28 +5385,27 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView108()
         {
-            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.SystemUser", @"
-    SELECT VALUE -- Constructing SystemUser
-        [DomainModels.Store.SystemUser](T1.SystemUser_SystemUserId, T1.SystemUser_UserName, T1.SystemUser_Description, T1.SystemUser_OrganizationId, T1.SystemUser_DepartmentId, T1.SystemUser_FullName, T1.SystemUser_UserType, T1.SystemUser_RoleId, T1.SystemUser_IsAccountDisabled, T1.SystemUser_CostPerHour, T1.SystemUser_IsScheduleable, T1.SystemUser_IsSystemUser, T1.SystemUser_UserAuthToken, T1.SystemUser_Email)
-    FROM (
-        SELECT 
-            T.SystemUserId AS SystemUser_SystemUserId, 
-            T.UserName AS SystemUser_UserName, 
-            T.Description AS SystemUser_Description, 
-            T.OrganizationId AS SystemUser_OrganizationId, 
-            T.DepartmentId AS SystemUser_DepartmentId, 
-            T.FullName AS SystemUser_FullName, 
-            T.UserType AS SystemUser_UserType, 
-            T.RoleId AS SystemUser_RoleId, 
-            T.IsAccountDisabled AS SystemUser_IsAccountDisabled, 
-            T.CostPerHour AS SystemUser_CostPerHour, 
-            T.IsScheduleable AS SystemUser_IsScheduleable, 
-            T.IsSystemUser AS SystemUser_IsSystemUser, 
-            T.UserAuthToken AS SystemUser_UserAuthToken, 
-            T.Email AS SystemUser_Email, 
-            True AS _from0
-        FROM BaseDbContext.SystemUsers AS T
-    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.SystemUser", "\r\n    SELECT VALUE -- Constructing SystemUser\r\n        [DomainModels.Store.System" +
+                    "User](T1.SystemUser_SystemUserId, T1.SystemUser_UserName, T1.SystemUser_Descript" +
+                    "ion, T1.SystemUser_OrganizationId, T1.SystemUser_DepartmentId, T1.SystemUser_Ful" +
+                    "lName, T1.SystemUser_UserType, T1.SystemUser_RoleId, T1.SystemUser_IsAccountDisa" +
+                    "bled, T1.SystemUser_CostPerHour, T1.SystemUser_IsScheduleable, T1.SystemUser_IsS" +
+                    "ystemUser, T1.SystemUser_UserAuthToken, T1.SystemUser_Email, T1.SystemUser_Email" +
+                    "Signature, T1.SystemUser_EstimateHeadNotes, T1.SystemUser_EstimateFootNotes)\r\n  " +
+                    "  FROM (\r\n        SELECT \r\n            T.SystemUserId AS SystemUser_SystemUserId" +
+                    ", \r\n            T.UserName AS SystemUser_UserName, \r\n            T.Description A" +
+                    "S SystemUser_Description, \r\n            T.OrganizationId AS SystemUser_Organizat" +
+                    "ionId, \r\n            T.DepartmentId AS SystemUser_DepartmentId, \r\n            T." +
+                    "FullName AS SystemUser_FullName, \r\n            T.UserType AS SystemUser_UserType" +
+                    ", \r\n            T.RoleId AS SystemUser_RoleId, \r\n            T.IsAccountDisabled" +
+                    " AS SystemUser_IsAccountDisabled, \r\n            T.CostPerHour AS SystemUser_Cost" +
+                    "PerHour, \r\n            T.IsScheduleable AS SystemUser_IsScheduleable, \r\n        " +
+                    "    T.IsSystemUser AS SystemUser_IsSystemUser, \r\n            T.UserAuthToken AS " +
+                    "SystemUser_UserAuthToken, \r\n            T.Email AS SystemUser_Email, \r\n         " +
+                    "   T.EmailSignature AS SystemUser_EmailSignature, \r\n            T.EstimateHeadNo" +
+                    "tes AS SystemUser_EstimateHeadNotes, \r\n            T.EstimateFootNotes AS System" +
+                    "User_EstimateFootNotes, \r\n            True AS _from0\r\n        FROM BaseDbContext" +
+                    ".SystemUsers AS T\r\n    ) AS T1");
         }
         
         /// <Summary>
@@ -9635,28 +9634,27 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView225()
         {
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.SystemUsers", @"
-    SELECT VALUE -- Constructing SystemUsers
-        [DomainModels.SystemUser](T1.SystemUser_SystemUserId, T1.SystemUser_UserName, T1.SystemUser_Description, T1.SystemUser_OrganizationId, T1.SystemUser_DepartmentId, T1.SystemUser_FullName, T1.SystemUser_UserType, T1.SystemUser_RoleId, T1.SystemUser_IsAccountDisabled, T1.SystemUser_CostPerHour, T1.SystemUser_IsScheduleable, T1.SystemUser_IsSystemUser, T1.SystemUser_UserAuthToken, T1.SystemUser_Email)
-    FROM (
-        SELECT 
-            T.SystemUserId AS SystemUser_SystemUserId, 
-            T.UserName AS SystemUser_UserName, 
-            T.Description AS SystemUser_Description, 
-            T.OrganizationId AS SystemUser_OrganizationId, 
-            T.DepartmentId AS SystemUser_DepartmentId, 
-            T.FullName AS SystemUser_FullName, 
-            T.UserType AS SystemUser_UserType, 
-            T.RoleId AS SystemUser_RoleId, 
-            T.IsAccountDisabled AS SystemUser_IsAccountDisabled, 
-            T.CostPerHour AS SystemUser_CostPerHour, 
-            T.IsScheduleable AS SystemUser_IsScheduleable, 
-            T.IsSystemUser AS SystemUser_IsSystemUser, 
-            T.UserAuthToken AS SystemUser_UserAuthToken, 
-            T.Email AS SystemUser_Email, 
-            True AS _from0
-        FROM DomainModelsStoreContainer.SystemUser AS T
-    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.SystemUsers", "\r\n    SELECT VALUE -- Constructing SystemUsers\r\n        [DomainModels.SystemUser]" +
+                    "(T1.SystemUser_SystemUserId, T1.SystemUser_UserName, T1.SystemUser_Description, " +
+                    "T1.SystemUser_OrganizationId, T1.SystemUser_DepartmentId, T1.SystemUser_FullName" +
+                    ", T1.SystemUser_UserType, T1.SystemUser_RoleId, T1.SystemUser_IsAccountDisabled," +
+                    " T1.SystemUser_CostPerHour, T1.SystemUser_IsScheduleable, T1.SystemUser_IsSystem" +
+                    "User, T1.SystemUser_UserAuthToken, T1.SystemUser_Email, T1.SystemUser_EmailSigna" +
+                    "ture, T1.SystemUser_EstimateHeadNotes, T1.SystemUser_EstimateFootNotes)\r\n    FRO" +
+                    "M (\r\n        SELECT \r\n            T.SystemUserId AS SystemUser_SystemUserId, \r\n " +
+                    "           T.UserName AS SystemUser_UserName, \r\n            T.Description AS Sys" +
+                    "temUser_Description, \r\n            T.OrganizationId AS SystemUser_OrganizationId" +
+                    ", \r\n            T.DepartmentId AS SystemUser_DepartmentId, \r\n            T.FullN" +
+                    "ame AS SystemUser_FullName, \r\n            T.UserType AS SystemUser_UserType, \r\n " +
+                    "           T.RoleId AS SystemUser_RoleId, \r\n            T.IsAccountDisabled AS S" +
+                    "ystemUser_IsAccountDisabled, \r\n            T.CostPerHour AS SystemUser_CostPerHo" +
+                    "ur, \r\n            T.IsScheduleable AS SystemUser_IsScheduleable, \r\n            T" +
+                    ".IsSystemUser AS SystemUser_IsSystemUser, \r\n            T.UserAuthToken AS Syste" +
+                    "mUser_UserAuthToken, \r\n            T.Email AS SystemUser_Email, \r\n            T." +
+                    "EmailSignature AS SystemUser_EmailSignature, \r\n            T.EstimateHeadNotes A" +
+                    "S SystemUser_EstimateHeadNotes, \r\n            T.EstimateFootNotes AS SystemUser_" +
+                    "EstimateFootNotes, \r\n            True AS _from0\r\n        FROM DomainModelsStoreC" +
+                    "ontainer.SystemUser AS T\r\n    ) AS T1");
         }
         
         /// <Summary>

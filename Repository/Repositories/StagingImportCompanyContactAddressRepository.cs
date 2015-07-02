@@ -27,5 +27,10 @@ namespace MPC.Repository.Repositories
             var result = db.usp_importTerritoryContactAddressByStore(organisationId, storeId);
             return true;
         }
+        public bool RunProcedureToDeleteAllStagingCompanyContact()
+        {
+            //var result = db.usp_importTerritoryContactAddressByStore();
+            return true;
+        }
     }
 }
