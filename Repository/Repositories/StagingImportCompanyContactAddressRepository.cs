@@ -29,7 +29,7 @@ namespace MPC.Repository.Repositories
         }
         public bool RunProcedureToDeleteAllStagingCompanyContact()
         {
-            //var result = db.usp_importTerritoryContactAddressByStore();
+            var result = db.usp_DeleteStagingImportCompanyContactAddress();
             return true;
         }
     }

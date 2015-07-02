@@ -34,14 +34,26 @@
                    
                 </tr>
                 <tr style="height: 5px;"></tr>
-                <tr id="ErrorDisplyMes" style="display: none; width: 100%;">
-                    <td  width="1000px">
-                        <div style="background-color: red; border: 1px solid red; padding: 10px;" class="rounded_corners">
-                            <label id="ErrorMEsSummry" style="color: White; font-size: 16px; font-weight: bold;"></label>
-                        </div>
-                    </td>
+                @if (ViewBag.CancelPaymentMessage != null)
+                {
+                    <tr id="ErrorDisplyMes" style=" width: 100%;">
+                        <td width="1000px">
+                            <div style="background-color: red; border: 1px solid red; padding: 10px;" class="rounded_corners">
+                                <label id="ErrorMEsSummry" style="color: White; font-size: 16px; font-weight: bold;">The Order payment processing has been cancelled</label>
+                            </div>
+                        </td>
 
-                </tr>
+                    </tr>
+                }
+                else
+                {
+                    <tr id="ErrorDisplyMes" style="display: none; width: 100%;">
+                        <td width="1000px">
+                           &nbsp;
+                        </td>
+
+                    </tr>
+                }
             </table>
         </div>
         @if (Model != null)

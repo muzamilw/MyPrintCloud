@@ -71,14 +71,18 @@ var ist = {
     lengthFormat: "0.000",
     // Sections enumeration
     sectionsEnum: [
-        { indx: 0, id: 1, name: "Estimates" },
-        { indx: 1, id: 2, name: "Estimate Details" },
-        { indx: 2, id: 3, name: "Template Library" },
-        { indx: 3, id: 4, name: "Job Production" },
-        { indx: 4, id: 5, name: "Job Activity List" },
-        { indx: 5, id: 6, name: "Add Job Activity" },
-        { indx: 6, id: 7, name: "Purchases" },
-        { indx: 7, id: 54, name: "Orders" }
+        { id: 1, name: "Estimates" },
+            { id: 4, name: "Job Production" },
+            { id: 13, name: "Invoices" },
+            { id: 7, name: "Purchases" },
+            { id: 10, name: "Delivery" }
+    ],
+
+    //Phrase Fields enumeration
+    phraseFieldsEnum: [
+        { id: 416, sectionId: 1, name: "Header" },
+        { id: 417, sectionId: 1, name: "Footer" }
+       // { id: , sectionId:1,name: "" },
     ]
 };
 
@@ -170,16 +174,16 @@ require(["ko", "knockout-validation"], function (ko) {
         init: function (element, valueAccessor, allBindingsAccessor) {
             var obj = valueAccessor(),
                 allBindings = allBindingsAccessor();
-            $(element).select2(obj);
+            $(element).select2(obj, allBindings);
             ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
                 $(element).select2('destroy');
             });
         },
         update: function (element) {
-            $(element).trigger('change');
+           $(element).trigger('change');
         }
     };
-
+    
     function colorHelper(col) {
         if (col.length === 4) {
             var first = col[1] + col[1];
