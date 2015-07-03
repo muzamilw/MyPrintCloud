@@ -2241,6 +2241,7 @@
     <Content Include="Areas\Common\Views\Shared\_ReportViaEmail.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_GRNDetailDialog.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\_AddStockQty.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_ViewMediaLibImage.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
