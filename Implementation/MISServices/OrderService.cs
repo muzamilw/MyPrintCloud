@@ -1873,5 +1873,20 @@ namespace MPC.Implementation.MISServices
             string attachmentMapPath = mapPath + attachment.FileName + attachment.FileType;
             return attachmentMapPath;
         }
+
+        public Estimate CloneEstimate(long estimateId)
+        {
+            var source = GetById(estimateId);
+            Estimate target = CreateNewOrder(true);
+            var code = target.Estimate_Code;
+            target.isEstimate = true;
+            target.StatusId = source.StatusId;
+
+            target = UpdateEstimeteOnCloning(source, target, source);
+            target.Estimate_Code = code;
+            estimateRepository.SaveChanges();
+
+            return GetById(target.EstimateId);
+        }
     }
 }
