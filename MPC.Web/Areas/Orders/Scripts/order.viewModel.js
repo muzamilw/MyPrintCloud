@@ -405,7 +405,7 @@ define("order/order.viewModel",
                             isOrderDetailsVisible(false);
                         }
                         errorList.removeAll();
-                        isCustomerEdittable(false);
+                        isCopyiedEstimate(false);
                         selectedCompany(undefined);
                     },
                     // On Archive
