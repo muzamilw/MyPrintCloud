@@ -137,6 +137,8 @@ namespace MPC.Interfaces.Repository
         /// <returns></returns>
         List<Item> GetAllOrderItems(long OrderId);
         long GetStoreIdByOrderId(long OrderId);
+
+        bool UpdateItemAttachmentPath(List<Item> items);
     }
 }
 

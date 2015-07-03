@@ -6956,6 +6956,40 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+
+        public bool UpdateItemAttachmentPath(List<Item> items)
+        {
+            try
+            {
+                string ProductionPath = "MPC_Content/Artworks/" + OrganisationId + "/Production";
+                if(items != null)
+                {
+                    foreach(var itm in items)
+                    {
+                        if(itm.ItemAttachments != null)
+                        {
+                            foreach(var iAttchm in itm.ItemAttachments)
+                            {
+                                iAttchm.FolderPath = ProductionPath;
+                            }
+                        }
+                    }
+                    db.SaveChanges();
+                   
+                }
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+                throw ex;
+               
+            }
+
+        }
+
+
     }
 }
 
