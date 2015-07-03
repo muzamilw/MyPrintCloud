@@ -53,7 +53,9 @@ namespace MPC.Repository.Repositories
                 bool isTerritoryInSearch = request.TerritoryId != 0;
                 Expression<Func<Address, bool>> query =
                     s =>
-                        (isSearchFilterSpecified && ((s.Email.Contains(request.SearchFilter)) ||
+                        (isSearchFilterSpecified && ((s.Email.Contains(request.SearchFilter))
+                        ||
+                         (s.City.Contains(request.SearchFilter)) ||
                          (s.AddressName.Contains(request.SearchFilter))) ||
                          !isSearchFilterSpecified)
                          && ((isTerritoryInSearch && (s.TerritoryId == request.TerritoryId)) || !isTerritoryInSearch) && (s.CompanyId == request.CompanyId) &&//&& (s.CompanyId == request.CompanyId)

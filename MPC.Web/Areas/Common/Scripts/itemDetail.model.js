@@ -2053,13 +2053,14 @@
         },
         //#endregion
         //#region Paper Size Entity
-        PaperSize = function (specifiedId, specifiedName, specifiedHeight, specifiedWidth) {
+        PaperSize = function (specifiedId, specifiedName, specifiedHeight, specifiedWidth, specifiedArea) {
             // ReSharper restore InconsistentNaming
             return {
                 id: specifiedId,
                 name: specifiedName,
                 height: specifiedHeight,
-                width: specifiedWidth
+                width: specifiedWidth,
+                area: specifiedArea
             };
         },
         //#endregion
@@ -2364,7 +2365,7 @@
     //#endregion
     //#region Paper Size Factory
     PaperSize.Create = function (source) {
-        return new PaperSize(source.PaperSizeId, source.Name, source.Height, source.Width);
+        return new PaperSize(source.PaperSizeId, source.Name, source.Height, source.Width, source.Area);
     };
     //#endregion
     //#region Ink Plate Side Factory

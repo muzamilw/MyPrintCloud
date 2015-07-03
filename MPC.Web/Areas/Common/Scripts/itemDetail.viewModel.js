@@ -37,6 +37,8 @@ define("common/itemDetail.viewModel",
                     inkCoverageGroup = ko.observableArray([]),
                     // paper sizes Methods
                     paperSizes = ko.observableArray([]),
+                    // Section Paper Sizes - Sort Largest Area to lowest
+                    sectionPaperSizes = ko.observableArray([]),
                     // Ink Plate Sides Methods
                     inkPlateSides = ko.observableArray([]),
                     // Markups
@@ -1166,6 +1168,11 @@ define("common/itemDetail.viewModel",
                                 paperSizes.removeAll();
                                 if (data.PaperSizes) {
                                     mapList(paperSizes, data.PaperSizes, model.PaperSize);
+                                    mapList(sectionPaperSizes, data.PaperSizes, model.PaperSize);
+                                    // Sort Descending For Section 
+                                    sectionPaperSizes.sort(function(paperA, paperB) {
+                                        return paperA.area < paperB.area ? 1 : -1;
+                                    });
                                 }
                                 // Ink Plate Sides
                                 inkPlateSides.removeAll();
@@ -1892,6 +1899,7 @@ define("common/itemDetail.viewModel",
                     selectedSection: selectedSection,
                     selectedJobDescription: selectedJobDescription,
                     paperSizes: paperSizes,
+                    sectionPaperSizes: sectionPaperSizes,
                     inkPlateSides: inkPlateSides,
                     markups: markups,
                     inkCoverageGroup: inkCoverageGroup,
@@ -1913,7 +1921,6 @@ define("common/itemDetail.viewModel",
                     currencySymbol: currencySymbol,
                     isSectionVisible: isSectionVisible,
                     //#endregion
-
                     //#region Utility Functions
                     showItemDetail: showItemDetail,
                     closeItemDetail: closeItemDetail,

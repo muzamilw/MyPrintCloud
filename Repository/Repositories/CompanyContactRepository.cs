@@ -846,18 +846,21 @@ namespace MPC.Repository.Repositories
                 s =>
                     (isSearchFilterSpecified && (s.Email.Contains(request.SearchFilter)) ||
                      (s.quickCompanyName.Contains(request.SearchFilter)) ||
+                      (s.FirstName.Contains(request.SearchFilter)) ||
+                       (s.LastName.Contains(request.SearchFilter)) ||
+                     (s.quickFullName.Contains(request.SearchFilter)) ||
                      !isSearchFilterSpecified) && s.CompanyId == request.CompanyId && s.isArchived != true && ((isTerritoryFilterSpecified && s.TerritoryId == request.TerritoryId) || !isTerritoryFilterSpecified);//&& s.OrganisationId == OrganisationId
 
             int rowCount = DbSet.Count(query);
             // ReSharper disable once ConditionalTernaryEqualBranch
             IEnumerable<CompanyContact> companyContacts = request.IsAsc
                 ? DbSet.Where(query)
-                    .OrderByDescending(x => x.CompanyId)
+                    .OrderByDescending(x => x.FirstName)
                     .Skip(fromRow)
                     .Take(toRow)
                     .ToList()
                 : DbSet.Where(query)
-                    .OrderByDescending(x => x.CompanyId)
+                    .OrderByDescending(x => x.FirstName)
                     .Skip(fromRow)
                     .Take(toRow)
                     .ToList();
@@ -878,6 +881,11 @@ namespace MPC.Repository.Repositories
                     (contact.FirstName.Contains(request.SearchFilter)) ||
                     (contact.MiddleName.Contains(request.SearchFilter)) ||
                     (contact.LastName.Contains(request.SearchFilter)) ||
+                    (contact.quickFullName.Contains(request.SearchFilter))
+                    ||
+                    (contact.FirstName.Contains(request.SearchFilter)) ||
+                    (contact.LastName.Contains(request.SearchFilter))
+                    ||
                     (contact.Email.Contains(request.SearchFilter))||
                     contact.Company.Name.Contains(request.SearchFilter)) &&
                     (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 1) &&
