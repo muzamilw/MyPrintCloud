@@ -478,7 +478,7 @@ function c7(PageID) {
             }
         }
     });
-
+    designerFirstLoad = false;
     d2();
 }
 function c8(cCanvas, CO) {
@@ -1029,6 +1029,7 @@ function d5_sub(pageID, isloading) {
                 $(".QuickTxt").click();
             }
             canvas.calcOffset();
+            
         }
     });
 }
@@ -3825,6 +3826,7 @@ function k31(cCanvas, IO) {
     if (IO.MaxHeight == 0) {
         IO.MaxHeight = 50;
     }
+  
     fabric.Image.fromURL(IO.ContentString, function (IOL) {
         IOL.set({
             left: (IO.PositionX + IO.MaxWidth / 2) * dfZ1l,
@@ -3889,6 +3891,13 @@ function k31(cCanvas, IO) {
         cCanvas.insertAt(IOL, IO.DisplayOrderPdf);
         TotalImgLoaded += 1;
         d2();
+        if (IO.ObjectType == 8)
+        {
+
+        } else if (IO.ObjectType == 12)
+        {
+
+        }
     });
 }
 function k32(imID, Tid, eleID) {
