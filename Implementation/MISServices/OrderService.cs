@@ -1337,6 +1337,8 @@ namespace MPC.Implementation.MISServices
                     }
                     ReturnRelativePath = sCreateDirectory;
                     ReturnPhysicalPath = "/MPC_Content/Artworks/" + OrganisationId + "/" + sZipFileName;
+
+                    orderRepository.UpdateItemAttachmentPath(ItemsList);
                     //UpdateAttachmentsPath(oOrder)
                     return ReturnPhysicalPath;
                 }
@@ -1886,7 +1888,11 @@ namespace MPC.Implementation.MISServices
             target.Estimate_Code = code;
             estimateRepository.SaveChanges();
 
-            return GetById(target.EstimateId);
+            Estimate estimate = GetById(target.EstimateId);
+            // Load Properties
+            estimateRepository.LoadProperty(estimate, () => estimate.Status);
+            estimateRepository.LoadProperty(estimate, () => estimate.Company);
+            return estimate;
         }
     }
 }

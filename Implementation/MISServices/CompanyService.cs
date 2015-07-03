@@ -2780,6 +2780,7 @@ namespace MPC.Implementation.MISServices
                     foreach (CmsSkinPageWidget cmsSkinPageWidgetItem in cmsSkinPageWidgetRemoveItems)
                     {
                         cmsPageDbVersionItem.CmsSkinPageWidgets.Remove(cmsSkinPageWidgetItem);
+                       cmsSkinPageWidgetRepository.Delete(cmsSkinPageWidgetItem);
                     }
                     //Add new Widget of applied theme to Page
                     foreach (WidgetForTheme widgetTheme in group)
