@@ -16,14 +16,34 @@ namespace MPC.MIS.Areas.Api.Controllers
             this._ISystemUserService = ISystemUserServic;
         }
         // GET: Api/SystemUser
-        public bool Get(System.Guid Id, string Email, string FullName,int OrganizationId)
+        public bool Get(System.Guid Id, string Email, string FullName,int OrganizationId,int status, string EmailSignature, string EstimateHeadNotes, string EstimateFootNotes)
         {
             try
             {
                 
 
-                return _ISystemUserService.Update(Id, Email, FullName, OrganizationId);
+                return _ISystemUserService.Update(Id, Email, FullName, OrganizationId, status, EmailSignature, EstimateHeadNotes, EstimateFootNotes);
                
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
+
+
+        public bool Post(System.Guid Id, string Email, string FullName, int OrganizationId, int status, string EmailSignature, string EstimateHeadNotes, string EstimateFootNotes)
+        {
+            try
+            {
+
+
+                return _ISystemUserService.Update(Id, Email, FullName, OrganizationId, status, EmailSignature, EstimateHeadNotes, EstimateFootNotes);
+
 
 
             }
