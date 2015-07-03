@@ -465,33 +465,18 @@ define("common/itemDetail.viewModel",
                         isSectionVisible(!isSectionVisible());
                     },
                     onSaveStockitemForSectionCostCenter = function () {
-                        var containsStockItem = false;
-                        _.each(selectedSection().sectionCostCentres(), function (costCenter) {
-                            if (costCenter.costCentreType() == '139') {
-                                containsStockItem = true;
-                                selectedSectionCostCenter(costCenter);
-                            }
-                        });
-
                         var sectionCostCenter = model.SectionCostCentre.Create({ ItemSectionId: selectedSection().id() });
-                        if (!containsStockItem) {
-                            selectedSectionCostCenter(sectionCostCenter);
-                            selectedQty(1);
-                        }
+                        selectedSectionCostCenter(sectionCostCenter);
+                        selectedQty(1);
 
                         sectionCostCenter.name('Stock(s)');
                         sectionCostCenter.costCentreType('139');
                         sectionCostCenter.qty1EstimatedStockCost(0);
                         sectionCostCenter.qty2EstimatedStockCost(0);
                         sectionCostCenter.qty3EstimatedStockCost(0);
+                        sectionCostCenter.qty1(selectedCostCentre().quantity1());
+                        sectionCostCenter.qty2(selectedCostCentre().quantity2());
                         setWorkInstructionsForStockCostCenter(sectionCostCenter);
-                        sectionCostCenter.qty1Charge(stockItemToCreate().price);
-                        sectionCostCenter.qty1NetTotal(stockItemToCreate().price);
-                        //if (isEstimateScreen()) {
-                        //    selectedQty(2);
-                        //}
-                        sectionCostCenter.qty2Charge(stockItemToCreate().price);
-                        sectionCostCenter.qty2NetTotal(stockItemToCreate().price);
                         sectionCostCenter.qty3Charge(0);
                         view.hideCostCentersQuantityDialog();
 
@@ -501,20 +486,9 @@ define("common/itemDetail.viewModel",
                         sectionCostCenterDetail.costPrice(stockItemToCreate().price);
                         sectionCostCenterDetail.qty1(selectedCostCentre().quantity1());
                         sectionCostCenterDetail.qty2(selectedCostCentre().quantity2());
-
                         sectionCostCenter.sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
-                        if (!containsStockItem) {
-                            updateSectionCostCenter(sectionCostCenterDetail);
-                            selectedSection().sectionCostCentres.splice(0, 0, sectionCostCenter);
-
-                        } else {
-
-                            updateSectionCostCenter(sectionCostCenterDetail);
-                            
-                            setWorkInstructionsForStockCostCenter(selectedSectionCostCenter());
-                            selectedSectionCostCenter().sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
-                        }
-
+                        updateSectionCostCenter(sectionCostCenterDetail);
+                        selectedSection().sectionCostCentres.splice(0, 0, sectionCostCenter);
                         calculateSectionBaseCharge1();
                         calculateSectionBaseCharge2();
                         calculateSectionBaseCharge3();
@@ -531,6 +505,47 @@ define("common/itemDetail.viewModel",
                             selectedSectionCostCenter().qty2NetTotal(newCost2);
                         }
                     },
+                    // ReSharper disable once UnusedLocals
+                    sectionCostCenterQty1Ui = ko.computed({
+                        read: function () {
+                            if (!selectedSectionCostCenter() || !selectedSectionCostCenter().qty1()) {
+                                return 0;
+                            }
+                            return selectedSectionCostCenter().qty1();
+                        },
+                        write: function (value) {
+                            if (selectedSectionCostCenter() != undefined) {
+                                selectedSectionCostCenter().qty1(!value ? 0 : value);
+                                if (selectedSectionCostCenter().sectionCostCentreDetails().length > 0) {
+                                    var newCost = (selectedSectionCostCenter().sectionCostCentreDetails()[0].costPrice() * selectedSectionCostCenter().qty1());//selectedSectionCostCenter().qty1Charge() + 
+                                    selectedSectionCostCenter().qty1Charge(newCost);
+                                    selectedSectionCostCenter().qty1NetTotal(newCost);
+                                    var name = selectedSectionCostCenter().sectionCostCentreDetails()[0].stockName();
+                                    updateWorkInstruction(selectedSectionCostCenter(), name, selectedSectionCostCenter().qty1(), selectedSectionCostCenter().qty2());
+                                }
+                            }
+                        }
+                    }),
+                    sectionCostCenterQty2Ui = ko.computed({
+                        read: function () {
+                            if (!selectedSectionCostCenter() || !selectedSectionCostCenter().qty2()) {
+                                return 0;
+                            }
+                            return selectedSectionCostCenter().qty2();
+                        },
+                        write: function (value) {
+                            if (selectedSectionCostCenter() != undefined) {
+                                selectedSectionCostCenter().qty2(!value ? 0 : value);
+                                if (selectedSectionCostCenter().sectionCostCentreDetails().length > 0) {
+                                    var newCost = (selectedSectionCostCenter().sectionCostCentreDetails()[0].costPrice() * selectedSectionCostCenter().qty2());//selectedSectionCostCenter().qty2Charge() + 
+                                    selectedSectionCostCenter().qty2Charge(newCost);
+                                    selectedSectionCostCenter().qty2NetTotal(newCost);
+                                    var name = selectedSectionCostCenter().sectionCostCentreDetails()[0].stockName();
+                                    updateWorkInstruction(selectedSectionCostCenter(), name, selectedSectionCostCenter().qty1(), selectedSectionCostCenter().qty2());
+                                }
+                            }
+                        }
+                    }),
                     // Set Work Instructions in case of Stock Cost Center
                     setWorkInstructionsForStockCostCenter = function (sectionCostCenter) {
                         if (!isEstimateScreen()) {
@@ -541,6 +556,17 @@ define("common/itemDetail.viewModel",
                             sectionCostCenter.qty1WorkInstructions(stockItemToCreate().name + " (Quantity = " + selectedCostCentre().quantity1() + ")");
                             sectionCostCenter.qty2WorkInstructions(stockItemToCreate().name + " (Quantity = " + selectedCostCentre().quantity2() + ")");
                             sectionCostCenter.qty3WorkInstructions(stockItemToCreate().name + " (Quantity = " + selectedCostCentre().quantity3() + ")");
+                        }
+                    },
+                    // Set Work Instructions in case of Stock Cost Center
+                    updateWorkInstruction = function (sectionCostCenter, name, qty1, qty2) {
+                        if (!isEstimateScreen()) {
+                            sectionCostCenter.qty1WorkInstructions(name + " (Quantity = " + qty1 + ")");
+                            sectionCostCenter.qty2WorkInstructions(name + " (Quantity = " + qty1 + ")");
+                            sectionCostCenter.qty3WorkInstructions(name + " (Quantity = " + qty1 + ")");
+                        } else {
+                            sectionCostCenter.qty1WorkInstructions(name + " (Quantity = " + qty1 + ")");
+                            sectionCostCenter.qty2WorkInstructions(name + " (Quantity = " + qty2 + ")");
                         }
                     },
                     //Show Item Detail
@@ -670,6 +696,10 @@ define("common/itemDetail.viewModel",
                             }
                             if (selectedSection().printingTypeUi() === '2') {
                                 return;
+                            }
+                            // If is Work n Turn then set Press 2 as it is in Press 1
+                            if (value) {
+                                selectedSection().pressIdSide2(selectedSection().pressId());
                             }
                             getPtvCalculation();
                         });
@@ -858,6 +888,10 @@ define("common/itemDetail.viewModel",
                             if (qty1Value !== parseInt(selectedProduct().qty1())) {
                                 selectedProduct().qty1(qty1Value);
                             }
+                            // If Product is of type Finished Goods then don't get cost centres
+                            if (selectedProduct().productType() === 3) {
+                                return;
+                            }
                             getSectionSystemCostCenters();
                         });
 
@@ -869,10 +903,14 @@ define("common/itemDetail.viewModel",
                             if (qty2Value !== parseInt(selectedProduct().qty2())) {
                                 selectedProduct().qty2(qty2Value);
                             }
+                            // If Product is of type Finished Goods then don't get cost centres
+                            if (selectedProduct().productType() === 3) {
+                                return;
+                            }
                             getSectionSystemCostCenters();
 
                         });
-                        
+
                         selectedSection().isSecondTrim.subscribe(function (value) {
                             if (value !== selectedSection().isSecondTrim()) {
                                 selectedSection().isSecondTrim(value);
@@ -880,7 +918,7 @@ define("common/itemDetail.viewModel",
                             getSectionSystemCostCenters();
 
                         });
-                        
+
                         selectedSection().isPaperSupplied.subscribe(function (value) {
                             if (value !== selectedSection().isPaperSupplied()) {
                                 selectedSection().isPaperSupplied(value);
@@ -902,9 +940,9 @@ define("common/itemDetail.viewModel",
                             getSectionSystemCostCenters();
 
                         });
-                        
-                        
-                        
+
+
+
                     },
                     // Get Press By Id
                     getPressById = function (pressId) {
@@ -1632,14 +1670,12 @@ define("common/itemDetail.viewModel",
                         confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().itemSections.remove(section);
+                            selectedProduct().hasDeletedSections(true);
                             showSectionDetail(false);
                             selectedSection(undefined);
                             qty1NetTotalForItem();
                             qty2NetTotalForItem();
                             qty3NetTotalForItem();
-                        });
-                        confirmation.afterCancel(function () {
-
                         });
                         confirmation.show();
 
@@ -1647,10 +1683,12 @@ define("common/itemDetail.viewModel",
                     // Open Phrase Library
                     openPhraseLibrary = function () {
                         phraseLibrary.isOpenFromPhraseLibrary(false);
+                        phraseLibrary.defaultOpenSectionId(ist.sectionsEnum[1].id);
                         phraseLibrary.show(function (phrase) {
                             updateJobDescription(phrase);
                         });
                     },
+                    
 
                     // Update Job Description
                     updateJobDescription = function (phrase) {
@@ -1701,6 +1739,7 @@ define("common/itemDetail.viewModel",
                         confirmation.afterProceed(function () {
                             view.hideSectionCostCenterDialogModel();
                             selectedSection().sectionCostCentres.remove(costCenter);
+                            selectedSection().hasDeletedSectionCostCentres(true);
                             isSectionCostCenterDialogOpen(false);
                             calculateSectionBaseCharge1();
                             calculateSectionBaseCharge2();
@@ -1729,7 +1768,7 @@ define("common/itemDetail.viewModel",
                         addCostCenterVm.show(addCostCenter, selectedOrder().companyId(), false, currencySymbol(), null, costCenterType.postPress, true);
                     },
                     // After adding cost center
-                    addCostCenter = function(costCenter) {
+                    addCostCenter = function (costCenter) {
                         if (costCenter) {
                             selectedCostCentre(costCenter);
                             // Set Section Quantities to Selected Cost Center quantities
@@ -1819,17 +1858,16 @@ define("common/itemDetail.viewModel",
                         confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().itemAttachments.remove(attachment);
-
-                        });
-                        confirmation.afterCancel(function () {
+                            selectedProduct().hasDeletedAttachments(true);
                         });
                         confirmation.show();
                         return;
                     },
-                    deleteItem = function (item) {
+                    deleteItem = function () {
                         confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedOrder().items.remove(selectedProduct());
+                            selectedOrder().hasDeletedItems(true);
                             closeItemDetail();
                         });
                         confirmation.afterCancel(function () {
@@ -1951,7 +1989,9 @@ define("common/itemDetail.viewModel",
                     defaultSection: defaultSection,
                     onAddPrePressCostCenter: onAddPrePressCostCenter,
                     openJobCardsTab: openJobCardsTab,
-                    onAddPostPressCostCenter: onAddPostPressCostCenter
+                    onAddPostPressCostCenter: onAddPostPressCostCenter,
+                    sectionCostCenterQty1Ui: sectionCostCenterQty1Ui,
+                    sectionCostCenterQty2Ui: sectionCostCenterQty2Ui
                     //#endregion
                 };
             })()

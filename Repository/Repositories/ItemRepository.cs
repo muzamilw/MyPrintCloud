@@ -3792,6 +3792,38 @@ namespace MPC.Repository.Repositories
 
         }
 
+        /// <summary>
+        /// Get All Corporate and Retail Products
+        /// Used in Order in Add From Retail Store
+        /// </summary>
+        public ItemSearchResponse GetAllStoreProducts(ItemSearchRequestModel request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            bool isNonPrintProductSpecified = request.ProductType == 3;
+            int toRow = request.PageSize;
+            Expression<Func<Item, bool>> query =
+                item =>
+                    (string.IsNullOrEmpty(request.SearchString) || (item.ProductName.Contains(request.SearchString)) ||
+                     (item.ProductCode.Contains(request.SearchString)))
+                    && item.OrganisationId == OrganisationId
+                    && item.IsPublished == true
+                    && item.EstimateId == null
+              && ((!isNonPrintProductSpecified && item.ProductType == (int)ProductType.PrintProduct) ||
+              (isNonPrintProductSpecified && item.ProductType == (int)ProductType.NonPrintProduct));
+
+            List<Item> totalItems = DbSet.Where(query).ToList();
+
+            List<Item> items = totalItems.OrderBy(item => item.ProductCode)
+           .Skip(fromRow)
+            .Take(toRow)
+            .ToList();
+            return new ItemSearchResponse
+            {
+                Items = items,
+                TotalCount = totalItems.Count
+            };
+        }
+
         public ItemSearchResponse GetItemsByCompanyId(ItemSearchRequestModel request)
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
@@ -3805,8 +3837,8 @@ namespace MPC.Repository.Repositories
                     && item.OrganisationId == OrganisationId
                     && item.IsPublished == true
                     && item.EstimateId == null
-                    //&& item.ProductType != (int)ProductType.MarketingBrief;
-              && ((!isNonPrintProductSpecified && item.ProductType != (int)ProductType.MarketingBrief) || (isNonPrintProductSpecified && item.ProductType == (int)ProductType.NonPrintProduct));
+              && ((!isNonPrintProductSpecified && item.ProductType != (int)ProductType.MarketingBrief) || 
+              (isNonPrintProductSpecified && item.ProductType == (int)ProductType.NonPrintProduct));
 
             List<Item> totalItems = DbSet.Where(query).ToList();
 

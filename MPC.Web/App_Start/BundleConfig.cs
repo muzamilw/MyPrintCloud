@@ -50,13 +50,13 @@ namespace MPC.MIS
                 .Include("~/Content/themes/Centaurus/js/scripts.js")
                 .Include("~/Content/themes/Centaurus/js/jquery.nestable.js")
                 .Include("~/Content/themes/Centaurus/js/jquery.nouislider.js")
-                .Include("~/Content/themes/Centaurus/js/jquerySlider.js"));
+                .Include("~/Content/themes/Centaurus/js/jquerySlider.js")
+                .Include("~/Content/themes/Centaurus/js/select2.min.js"));
 
             /* ============================================================== */
 
             bundles.Add(new ScriptBundle("~/Bundle/BaseLibs")
                 .Include("~/Scripts/jquery-ui-1.10.4.js")
-                .Include("~/Scripts/Plugins/forms/select/select2.js")
                 .Include("~/Scripts/jquery-ui-timepicker-addon.js")
                 .Include("~/Scripts/jquery.blockUI.js")
                 .Include("~/Scripts/spectrum.js")
@@ -104,7 +104,6 @@ namespace MPC.MIS
                 "~/Content/themes/base/jquery.ui.tabs.css",
                 "~/Content/themes/base/jquery.ui.datepicker.css",
                 "~/Content/themes/base/jquery.ui.progressbar.css",
-                "~/Content/themes/Centaurus/css/libs/select2.css",
                 "~/Content/themes/base/jquery.ui.theme.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/dropzonescripts").Include(

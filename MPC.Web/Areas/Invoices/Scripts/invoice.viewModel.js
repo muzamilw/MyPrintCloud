@@ -149,6 +149,7 @@ define("invoice/invoice.viewModel",
                     // Open Phrase Library
                     openPhraseLibrary = function () {
                         phraseLibrary.isOpenFromPhraseLibrary(false);
+                        phraseLibrary.defaultOpenSectionId(ist.sectionsEnum[2].id);
                         phraseLibrary.show(function (phrase) {
                             updateEstimatePhraseContainer(phrase);
                         });

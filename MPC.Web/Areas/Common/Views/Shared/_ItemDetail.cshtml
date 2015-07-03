@@ -115,7 +115,7 @@
                                                         <div class="col-sm-3" style="text-align: right; margin-top: 7px;">
                                                             <span data-bind="text:qty1" style="margin-right: 2px;" class="font20px" />
                                                         </div>
-                                                        <!--ko if: $root.isEstimateScreen()-->
+                                                        <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                                         <div class="col-sm-3" style="text-align: right; margin-top: 7px;">
                                                             <span data-bind="text:qty2" style="margin-right: 12px;" class="font20px" />
                                                         </div>
@@ -137,7 +137,7 @@
                                                             <input type="text" class="form-control txtBox-contentAlignRight PaddingL5 font20px" style="margin-left:5px;" id="txtQty1" data-bind="numberValue:$root.calculateQty1NetTotalForItem" />
                                                         </div>
                                                     </div>
-                                                    <!--ko if: $root.isEstimateScreen -->
+                                                    <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                                     <div class="col-lg-3 col-sm-2" style="padding-right: 0;">
                                                         <div class="col-lg-1 col-sm-2" style="padding-left: 0;">
                                                             <label class="control-label" data-bind=" text:$root.currencySymbol"></label>
@@ -174,7 +174,7 @@
                                             <div class="col-xs-3 txtBox-contentAlignRight">
                                                 <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty1Tax1Value"></span></label>
                                             </div>
-                                            <!--ko if: $root.isEstimateScreen-->
+                                            <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                             <div class="col-sm-3  txtBox-contentAlignRight">
                                                 <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty2Tax1Value"></span></label>
                                             </div>
@@ -193,7 +193,7 @@
                                             <div class="col-xs-3 txtBox-contentAlignRight">
                                                 <label class="control-label font20px"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty1GrossTotal"></span></label>
                                             </div>
-                                            <!--ko if: $root.isEstimateScreen()-->
+                                            <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                             <div class="col-sm-3 txtBox-contentAlignRight">
                                                 <label class="control-label font20px"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty2GrossTotal"></span></label>
                                             </div>
@@ -224,11 +224,12 @@
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" style="height:34px;" rows="1" data-bind="value: jobDescription1, click: $root.selectJobDescription" id="txtDescription1" placeholder="Enter Description 1"></textarea>
                                             </div>
-                                            <div class="col-sm-2">
-                                                <a id="P1" data-bind="visible: $root.selectedJobDescription() === 'txtDescription1', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
-                                                    <i class="fa fa-lg"></i>&nbsp;....
-                                                </a>
-                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-sm-1" style="width:47px;">
+                                            <a id="P1" data-bind="visible: $root.selectedJobDescription() === 'txtDescription1', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
+                                                <i class="fa fa-lg"></i>&nbsp;....
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -243,11 +244,12 @@
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" style="height:34px;" rows="1" data-bind="value: jobDescription2, click: $root.selectJobDescription" id="txtDescription2" placeholder="Enter Description 2"></textarea>
                                             </div>
-                                            <div class="col-sm-2">
-                                                <a id="P2" data-bind="visible: $root.selectedJobDescription() === 'txtDescription2', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
-                                                    <i class="fa fa-lg"></i>&nbsp;....
-                                                </a>
-                                            </div>
+                                           
+                                        </div>
+                                        <div class="col-sm-1" style="width:47px;">
+                                            <a id="P2" data-bind="visible: $root.selectedJobDescription() === 'txtDescription2', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
+                                                <i class="fa fa-lg"></i>&nbsp;....
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -262,11 +264,12 @@
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription3, click: $root.selectJobDescription" id="txtDescription3" placeholder="Enter Description 3"></textarea>
                                             </div>
-                                            <div class="col-sm-2">
-                                                <a id="P3" data-bind="visible: $root.selectedJobDescription() === 'txtDescription3', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
-                                                    <i class="fa fa-lg"></i>&nbsp;....
-                                                </a>
-                                            </div>
+                                           
+                                        </div>
+                                        <div class="col-sm-1" style="width:47px;">
+                                            <a id="P3" data-bind="visible: $root.selectedJobDescription() === 'txtDescription3', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
+                                                <i class="fa fa-lg"></i>&nbsp;....
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -281,11 +284,12 @@
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription4, click: $root.selectJobDescription" id="txtDescription4" placeholder="Enter Description 4"></textarea>
                                             </div>
-                                            <div class="col-sm-2">
-                                                <a id="P4" data-bind="visible: $root.selectedJobDescription() === 'txtDescription4', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
-                                                    <i class="fa fa-lg"></i>&nbsp;....
-                                                </a>
-                                            </div>
+                                         
+                                        </div>
+                                        <div class="col-sm-1" style="width:47px;">
+                                            <a id="P4" data-bind="visible: $root.selectedJobDescription() === 'txtDescription4', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
+                                                <i class="fa fa-lg"></i>&nbsp;....
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -300,11 +304,12 @@
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription5, click: $root.selectJobDescription" id="txtDescription5" placeholder="Enter Description 5"></textarea>
                                             </div>
-                                            <div class="col-sm-2">
-                                                <a id="P5" data-bind="visible: $root.selectedJobDescription() === 'txtDescription5', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
-                                                    <i class="fa fa-lg"></i>&nbsp;....
-                                                </a>
-                                            </div>
+                                           
+                                        </div>
+                                        <div class="col-sm-1" style="width:47px;">
+                                            <a id="P5" data-bind="visible: $root.selectedJobDescription() === 'txtDescription5', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
+                                                <i class="fa fa-lg"></i>&nbsp;....
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -319,11 +324,12 @@
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription6, click: $root.selectJobDescription" id="txtDescription6" placeholder="Enter Description 6"></textarea>
                                             </div>
-                                            <div class="col-sm-2">
-                                                <a id="P6" data-bind="visible: $root.selectedJobDescription() === 'txtDescription6', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
-                                                    <i class="fa fa-lg"></i>&nbsp;....
-                                                </a>
-                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-sm-1" style="width:47px;">
+                                            <a id="P6" data-bind="visible: $root.selectedJobDescription() === 'txtDescription6', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
+                                                <i class="fa fa-lg"></i>&nbsp;....
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -338,11 +344,12 @@
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription7, click: $root.selectJobDescription" id="txtDescription7" placeholder="Enter Description 7"></textarea>
                                             </div>
-                                            <div class="col-sm-2">
-                                                <a id="P7" data-bind="visible: $root.selectedJobDescription() === 'txtDescription7', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
-                                                    <i class="fa fa-lg"></i>&nbsp;....
-                                                </a>
-                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-sm-1" style="width:47px;">
+                                            <a id="P7" data-bind="visible: $root.selectedJobDescription() === 'txtDescription7', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
+                                                <i class="fa fa-lg"></i>&nbsp;....
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="form-group">

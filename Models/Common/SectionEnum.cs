@@ -43,6 +43,16 @@
         /// <summary>
         /// Inquiries
         /// </summary>
-        Inquiries = 58
+        Inquiries = 58,
+
+           /// <summary>
+        /// Delivery
+        /// </summary>
+        Delivery = 10,
+
+        /// <summary>
+        /// Purchases
+        /// </summary>
+        Purchase = 7
     }
 }
