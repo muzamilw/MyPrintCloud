@@ -22,7 +22,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 
 
-                return _ISystemUserService.Update(Id, Email, FullName, OrganizationId);
+                return _ISystemUserService.Update(Id, Email, FullName, OrganizationId, status, EmailSignature, EstimateHeadNotes, EstimateFootNotes);
                
 
 
@@ -42,7 +42,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
 
 
-                return _ISystemUserService.Update(Id, Email, FullName, OrganizationId);
+                return _ISystemUserService.Update(Id, Email, FullName, OrganizationId, status, EmailSignature, EstimateHeadNotes, EstimateFootNotes);
 
 
 

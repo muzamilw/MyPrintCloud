@@ -21,7 +21,7 @@ namespace MPC.Implementation.MISServices
 
             if (systemUserRepository.GetUserrById(Id) != null)
             {
-                return systemUserRepository.Update(Id, Email, FullName);
+                return systemUserRepository.Update(Id, Email, FullName, status, EmailSignature, EstimateHeadNotes, EstimateFootNotes);
             }
             else
             {
