@@ -855,12 +855,12 @@ namespace MPC.Repository.Repositories
             // ReSharper disable once ConditionalTernaryEqualBranch
             IEnumerable<CompanyContact> companyContacts = request.IsAsc
                 ? DbSet.Where(query)
-                    .OrderByDescending(x => x.CompanyId)
+                    .OrderByDescending(x => x.FirstName)
                     .Skip(fromRow)
                     .Take(toRow)
                     .ToList()
                 : DbSet.Where(query)
-                    .OrderByDescending(x => x.CompanyId)
+                    .OrderByDescending(x => x.FirstName)
                     .Skip(fromRow)
                     .Take(toRow)
                     .ToList();
