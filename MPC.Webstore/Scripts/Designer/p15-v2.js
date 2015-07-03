@@ -239,14 +239,35 @@ function fu04_01() {
               IT.ObjectID = IT.ObjectId;
               IT.ProductPageId = IT.ProductPageId;
               if (item != null) {
-
                   if (IT.ObjectType == 8) {
                       if (item.companyImage != "") {
                           IT.ContentString = item.companyImage;
                       }
+                      if (item.companyImageHeight != 0 && item.companyImageWidth != 0) {
+                          var obj = {
+                              BackgroundImageRelativePath: item.userImage,
+                              ImageName: item.userImage,
+                              Name: item.userImage,
+                              ImageWidth: item.companyImageWidth,
+                              ImageHeight: item.companyImageHeight
+                          }
+                          LiImgs.push(obj);
+                      }
+                      
                   } else if (IT.ObjectType == 12) {
                       if (item.userImage != "") {
                           IT.ContentString = item.userImage;
+                      }
+                      if (item.contactImageHeight != 0 && item.contactImageWidth != 0)
+                      {
+                          var obj = {
+                              BackgroundImageRelativePath: item.userImage,
+                              ImageName: item.userImage,
+                              Name: item.userImage,
+                              ImageWidth: item.contactImageWidth,
+                              ImageHeight: item.contactImageHeight
+                          }
+                          LiImgs.push(obj);
                       }
                   }
               }
