@@ -72,5 +72,11 @@ namespace MPC.Interfaces.MISServices
         string DownloadAttachment(long id, out string fileName, out string fileType);
 
         bool MakeOrderArtworkProductionReady(Estimate oOrder);
+        /// <summary>
+        /// Clone Estimate
+        /// </summary>
+        /// <param name="estimateId"></param>
+        /// <returns></returns>
+        Estimate CloneEstimate(long estimateId);
     }
 }
