@@ -115,7 +115,7 @@
                                                         <div class="col-sm-3" style="text-align: right; margin-top: 7px;">
                                                             <span data-bind="text:qty1" style="margin-right: 2px;" class="font20px" />
                                                         </div>
-                                                        <!--ko if: $root.isEstimateScreen()-->
+                                                        <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                                         <div class="col-sm-3" style="text-align: right; margin-top: 7px;">
                                                             <span data-bind="text:qty2" style="margin-right: 12px;" class="font20px" />
                                                         </div>
@@ -137,7 +137,7 @@
                                                             <input type="text" class="form-control txtBox-contentAlignRight PaddingL5 font20px" style="margin-left:5px;" id="txtQty1" data-bind="numberValue:$root.calculateQty1NetTotalForItem" />
                                                         </div>
                                                     </div>
-                                                    <!--ko if: $root.isEstimateScreen -->
+                                                    <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                                     <div class="col-lg-3 col-sm-2" style="padding-right: 0;">
                                                         <div class="col-lg-1 col-sm-2" style="padding-left: 0;">
                                                             <label class="control-label" data-bind=" text:$root.currencySymbol"></label>
@@ -174,7 +174,7 @@
                                             <div class="col-xs-3 txtBox-contentAlignRight">
                                                 <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty1Tax1Value"></span></label>
                                             </div>
-                                            <!--ko if: $root.isEstimateScreen-->
+                                            <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                             <div class="col-sm-3  txtBox-contentAlignRight">
                                                 <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty2Tax1Value"></span></label>
                                             </div>
@@ -193,7 +193,7 @@
                                             <div class="col-xs-3 txtBox-contentAlignRight">
                                                 <label class="control-label font20px"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty1GrossTotal"></span></label>
                                             </div>
-                                            <!--ko if: $root.isEstimateScreen()-->
+                                            <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                             <div class="col-sm-3 txtBox-contentAlignRight">
                                                 <label class="control-label font20px"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty2GrossTotal"></span></label>
                                             </div>

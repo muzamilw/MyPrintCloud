@@ -37,7 +37,7 @@ namespace MPC.Webstore.Controllers
         }
 
         // GET: ShopCart
-        public ActionResult Index(string optionalOrderId)
+        public ActionResult Index(string optionalOrderId, string Message)
         {
             long OrderId = 0;
             ShoppingCart shopCart = null;
@@ -162,7 +162,14 @@ namespace MPC.Webstore.Controllers
                     ViewBag.isIncludeVAT = true;
                 }
             }
-
+            if (!string.IsNullOrEmpty(Message))
+            {
+                ViewBag.CancelPaymentMessage = "";
+            }
+            else 
+            {
+                ViewBag.CancelPaymentMessage = null;
+            }
             StoreBaseResopnse = null;
             return View("PartialViews/ShopCart", shopCart);
         }

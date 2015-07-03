@@ -269,7 +269,7 @@ define("order/order.viewModel",
                     // Selected Job Description
                     selectedJobDescription = ko.observable(),
                     //Current Screen
-                    currentScreen = ko.observable(),
+                    currentScreen = ko.observable(4),
                     //Selected Filter Flag on List View
                     selectedFilterFlag = ko.observable(0),
                     // Active Pre Payment
@@ -2593,12 +2593,12 @@ define("order/order.viewModel",
                         });
                     },
                     viewEstimateFromInquiry = function () {
-                        currentScreen(0);
+                        currentScreen(1);
                         isDisplayInquiryDetailScreen(false);
                         var id = selectedInquiry().estimateId();
                         getOrderById(id, openOrderEditor);
                         $('#estimateListTabs a[href="#tab-All"]').tab('show');
-                        getOrdersOnTabChange(0);
+                        getOrdersOnTabChange(1);
                     },
                     showEstimateNotes = function () {
                         toastr.success('wow');
@@ -2739,7 +2739,7 @@ define("order/order.viewModel",
                             if (orderIdFromDashboard != 0) {
                                 editOrder({ id: function () { return orderIdFromDashboard; } });
                             } else {
-                                getOrders();
+                                getOrders(4);
                             }
                         },
                     //Initialize Estimate

@@ -1,8 +1,4 @@
-﻿@*<head>*@
-   
-    @*<link href="@Href("~/Content/NewBootstrapClass.css")" rel="stylesheet" type="text/css" />*@
-@*</head>*@
-
+﻿
 @model MPC.Webstore.ViewModels.SearchOrderViewModel
 @using MPC.Webstore.WebGridExtension;
 @using MPC.Webstore.Common;
@@ -16,14 +12,12 @@
 }
 @{
 
-
-    // bool PAgeheader=Convert.ToBoolean(TempData["HeaderStatus"]);
     string Result = ViewBag.res;
 
 }
 @section headerScripts{
 
-
+<link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
 <link href="/LightBox/Css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="Screen" />
 }
 <div class="content_area container" id="Orderhistory">
