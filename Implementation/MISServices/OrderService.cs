@@ -1337,6 +1337,8 @@ namespace MPC.Implementation.MISServices
                     }
                     ReturnRelativePath = sCreateDirectory;
                     ReturnPhysicalPath = "/MPC_Content/Artworks/" + OrganisationId + "/" + sZipFileName;
+
+                    orderRepository.UpdateItemAttachmentPath(ItemsList);
                     //UpdateAttachmentsPath(oOrder)
                     return ReturnPhysicalPath;
                 }
@@ -1872,6 +1874,25 @@ namespace MPC.Implementation.MISServices
             string mapPath = server.MapPath("~/" + attachment.FolderPath + "/");
             string attachmentMapPath = mapPath + attachment.FileName + attachment.FileType;
             return attachmentMapPath;
+        }
+
+        public Estimate CloneEstimate(long estimateId)
+        {
+            var source = GetById(estimateId);
+            Estimate target = CreateNewOrder(true);
+            var code = target.Estimate_Code;
+            target.isEstimate = true;
+            target.StatusId = source.StatusId;
+
+            target = UpdateEstimeteOnCloning(source, target, source);
+            target.Estimate_Code = code;
+            estimateRepository.SaveChanges();
+
+            Estimate estimate = GetById(target.EstimateId);
+            // Load Properties
+            estimateRepository.LoadProperty(estimate, () => estimate.Status);
+            estimateRepository.LoadProperty(estimate, () => estimate.Company);
+            return estimate;
         }
     }
 }

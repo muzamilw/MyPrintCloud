@@ -277,6 +277,8 @@ namespace MPC.Models.ModelMappers
             if (IsNewTemplatePage(sourceTemplatePage))
             {
                 targetLine = actions.CreateTemplatePage();
+                // Used this to Set the Default BackgroundFileName - that is to be set only for new ones
+                targetLine.IsNewlyAdded = true;
                 target.Template.TemplatePages.Add(targetLine);
             }
             else

@@ -205,6 +205,7 @@ define("order/order.viewModel",
                     isInquiryBaseDataLoaded = ko.observable(false),
                     inquiryDetailItemCounter = -1,
                     isNewinquiryDetailItem = ko.observable(false),
+                    isCopyiedEstimate = ko.observable(false),
                     // #endregion
                     // #region Utility Functions
                     // Select Estimate Phrase Container
@@ -404,6 +405,7 @@ define("order/order.viewModel",
                             isOrderDetailsVisible(false);
                         }
                         errorList.removeAll();
+                        isCopyiedEstimate(false);
                         selectedCompany(undefined);
                     },
                     // On Archive
@@ -1493,36 +1495,7 @@ define("order/order.viewModel",
                         }, {
                             success: function (data) {
                                 if (data) {
-                                    selectedOrder(model.Estimate.Create(data, { SystemUsers: systemUsers() }));
-                                    view.setOrderState(selectedOrder().statusId(), selectedOrder().isFromEstimate());
-                                    // Get Base Data For Company
-                                    if (data.CompanyId) {
-                                        // ReSharper disable AssignedValueIsNeverUsed
-                                        var storeId = 0;
-                                        // ReSharper restore AssignedValueIsNeverUsed
-                                        if (data.IsCustomer !== 3 && data.StoreId) {
-                                            storeId = data.StoreId;
-                                            selectedOrder().storeId(storeId);
-                                        } else {
-                                            storeId = data.CompanyId;
-                                            selectedOrder().storeId(undefined);
-                                        }
-                                        getBaseForCompany(data.CompanyId, storeId);
-                                    }
-                                    // If Signed by is not set in case of online order then set it
-                                    if (!isEstimateScreen() && !selectedOrder().orderReportSignedBy()) {
-                                        selectedOrder().setOrderReportSignedBy(loggedInUser());
-                                    }
-                                    if (isEstimateScreen() && !selectedOrder().reportSignedBy()) {
-                                        selectedOrder().reportSignedBy(loggedInUser());
-                                    }
-
-                                    // Reset Order Dirty State
-                                    selectedOrder().reset();
-
-                                    if (callback && typeof callback === "function") {
-                                        callback();
-                                    }
+                                    setSelectedOrder(data, callback);
                                 }
                                 isLoadingOrders(false);
                                 var code = !selectedOrder().orderCode() ? "ORDER CODE" : selectedOrder().orderCode();
@@ -1535,6 +1508,39 @@ define("order/order.viewModel",
                                 view.initializeLabelPopovers();
                             }
                         });
+                    },
+                    //Set Selected Order
+                    setSelectedOrder = function (data, callback) {
+                        selectedOrder(model.Estimate.Create(data, { SystemUsers: systemUsers() }));
+                        view.setOrderState(selectedOrder().statusId(), selectedOrder().isFromEstimate());
+                        // Get Base Data For Company
+                        if (data.CompanyId) {
+                            // ReSharper disable AssignedValueIsNeverUsed
+                            var storeId = 0;
+                            // ReSharper restore AssignedValueIsNeverUsed
+                            if (data.IsCustomer !== 3 && data.StoreId) {
+                                storeId = data.StoreId;
+                                selectedOrder().storeId(storeId);
+                            } else {
+                                storeId = data.CompanyId;
+                                selectedOrder().storeId(undefined);
+                            }
+                            getBaseForCompany(data.CompanyId, storeId);
+                        }
+                        // If Signed by is not set in case of online order then set it
+                        if (!isEstimateScreen() && !selectedOrder().orderReportSignedBy()) {
+                            selectedOrder().setOrderReportSignedBy(loggedInUser());
+                        }
+                        if (isEstimateScreen() && !selectedOrder().reportSignedBy()) {
+                            selectedOrder().reportSignedBy(loggedInUser());
+                        }
+
+                        // Reset Order Dirty State
+                        selectedOrder().reset();
+
+                        if (callback && typeof callback === "function") {
+                            callback();
+                        }
                     },
                     // Get Company Base Data
                     getBaseForCompany = function (id, storeId) {
@@ -2307,7 +2313,6 @@ define("order/order.viewModel",
 
 
                     },
-
                     openExternalEmailOrderReport = function () {
                         reportManager.outputTo("email");
 
@@ -2329,6 +2334,39 @@ define("order/order.viewModel",
 
 
                     },
+                    copyEstimate = function() {
+                        confirmation.messageText("Proceed To Copy Estimate ?");
+                        confirmation.afterProceed(function () {
+                            dataservice.copyEstimate({
+                                id: selectedOrder().id()
+                            }, {
+                                success: function (data) {
+                                    if (data) {
+                                        setSelectedOrder(data);
+                                        addItemInListViewOnCopying();
+                                        toastr.success("Estimate Copied Successfully");
+                                        isCopyiedEstimate(true);
+                                    }
+                                },
+                                error: function (response) {
+                                    toastr.error("Failed to Copy Estimate " + response);
+                                }
+                            });
+                        });
+                        confirmation.show();
+                    },
+                    addItemInListViewOnCopying = function () {
+                        selectedOrder().flagColor(getSectionFlagColor(selectedOrder().sectionFlagId()));
+                        orders.splice(0, 0, selectedOrder());
+                    },
+
+                    isCustomerEdittable = ko.computed(function() {
+                        if (selectedOrder() !== undefined && (isCopyiedEstimate() || selectedOrder().id() === 0 || selectedOrder().id() === undefined)) {
+                            return true;
+                        }
+                        return false;
+                    }),
+
                     //#endregion
                     //#region Inquiries tab
                     inqiriesTabClick = function () {
@@ -2836,10 +2874,12 @@ define("order/order.viewModel",
                     pipelineProducts: pipelineProducts,
                     isInquiryBaseDataLoaded: isInquiryBaseDataLoaded,
                     inquiriesSectionFlags: inquiriesSectionFlags,
+                    isCustomerEdittable: isCustomerEdittable,
                     //#endregion Utility Methods
                     //#region Estimate Screen
                     initializeEstimate: initializeEstimate,
                     isEstimateScreen: isEstimateScreen,
+                    copyEstimate: copyEstimate,
                     //#endregion
                     //#region Dialog Product Section
                     orderProductItems: orderProductItems,
