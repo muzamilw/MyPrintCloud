@@ -1689,7 +1689,6 @@ define("crm/crm.viewModel",
                                });
                             }
                             newUploadedMediaFile(model.MediaLibrary());
-                            getBaseData(id);  // base data for store 
                             selectedStore().reset();
                             isLoadingStores(false);
                         },
@@ -1706,11 +1705,11 @@ define("crm/crm.viewModel",
                     resetObservableArrays();
                     if (isProspectOrCustomerScreen()) {
                         getStoreForEditting(item.id());
-                   //     getBaseData(item.id() || item);
+                        getBaseData(item.id() || item);
                     }
                     else {
                         getStoreForEditting(item.companyId());
-                      //  getBaseData(item.companyId());
+                        getBaseData(item.companyId());
                     }
                     isUserAndAddressesTabOpened(true);
                 },
@@ -1725,7 +1724,7 @@ define("crm/crm.viewModel",
                 },
 
                 //Get Base Data For New Company
-                getBaseDataFornewCompany = function () {
+                getBaseDataFornewCompany = function (callback) {
                     dataservice.getBaseDataFornewCompany({
 
                     }, {
@@ -1770,6 +1769,9 @@ define("crm/crm.viewModel",
                                 storesListForDropDown.removeAll();
                                 ko.utils.arrayPushAll(storesListForDropDown(), data.StoresListDropDown);
                                 storesListForDropDown.valueHasMutated();
+                                if (callback && typeof callback === "function") {
+                                    callback();
+                                }
                             }
                             isLoadingStores(false);
                         },
@@ -2395,11 +2397,14 @@ define("crm/crm.viewModel",
                    view = specifiedView;
 
                    ko.applyBindings(view.viewModel, view.bindingRoot);
+                   var callback = null;
                    if (isProspectOrCustomerScreen()) {
                        prospectPager(new pagination.Pagination({ PageSize: 5 }, customersForListView, getCustomers));
                        var companyIdFromDashboard = $('#CompanyId').val();
                        if (companyIdFromDashboard != 0) {
-                           openEditDialog({ id: function () { return companyIdFromDashboard; } });
+                           callback = function() {
+                               openEditDialog({ id: function() { return companyIdFromDashboard; } });
+                           };
                        }
                        else
                        {
@@ -2416,7 +2421,7 @@ define("crm/crm.viewModel",
                    purchaseOrderPager(new pagination.Pagination({ PageSize: 5 }, purchasesList, getDataForPurchaseOrderTab));
                    goodsReceivedNotePager(new pagination.Pagination({ PageSize: 5 }, goodRecievedNotesList, getDataForGoodsReceivedNoteTab));
                    invoicePager(new pagination.Pagination({ PageSize: 5 }, invoicesList, getsDataForInvoiceTab));
-                   getBaseDataFornewCompany();
+                   getBaseDataFornewCompany(callback);
                };
                 //#endregion
 
