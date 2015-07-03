@@ -418,6 +418,7 @@ namespace MPC.Implementation.MISServices
                     foreach (TemplatePage templatePage in newlyAddedTemplatePages)
                     {
                         templatePage.BackgroundFileName = itemTarget.Template.ProductId + "/Side" + templatePage.PageNo + ".pdf";
+                        templatePage.BackGroundType = 1;
                     }
                 }
 
