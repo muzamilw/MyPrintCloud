@@ -1,0 +1,939 @@
+[
+
+  {
+    "PageId": 31470,
+    "PageName": "BillingShippingAddressManager",
+    "WidgetId": 15,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 31470,
+    "PageName": "BillingShippingAddressManager",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 31470,
+    "PageName": "BillingShippingAddressManager",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 31470,
+    "PageName": "BillingShippingAddressManager",
+    "WidgetId": 41,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 31470,
+    "PageName": "BillingShippingAddressManager",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 3,
+    "ParamValue": null
+  },
+  {
+    "PageId": 44891,
+    "PageName": "SavedDesigns",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 44891,
+    "PageName": "SavedDesigns",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 44891,
+    "PageName": "SavedDesigns",
+    "WidgetId": 41,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 44891,
+    "PageName": "SavedDesigns",
+    "WidgetId": 50099,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 44891,
+    "PageName": "SavedDesigns",
+    "WidgetId": 28,
+    "SkinId": 6,
+    "Sequence": 3,
+    "ParamValue": null
+  },
+  {
+    "PageId": 44891,
+    "PageName": "SavedDesigns",
+    "WidgetId": 78,
+    "SkinId": 6,
+    "Sequence": 4,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30335,
+    "PageName": "SecondaryPageController.aspx",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30335,
+    "PageName": "SecondaryPageController.aspx",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30335,
+    "PageName": "SecondaryPageController.aspx",
+    "WidgetId": 41,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30335,
+    "PageName": "SecondaryPageController.aspx",
+    "WidgetId": 50084,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30335,
+    "PageName": "SecondaryPageController.aspx",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 3,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30355,
+    "PageName": "ContactUs",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30355,
+    "PageName": "ContactUs",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30355,
+    "PageName": "ContactUs",
+    "WidgetId": 20077,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30355,
+    "PageName": "ContactUs",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 3,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30356,
+    "PageName": "SignUp",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30356,
+    "PageName": "SignUp",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30356,
+    "PageName": "SignUp",
+    "WidgetId": 41,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30356,
+    "PageName": "SignUp",
+    "WidgetId": 77,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30356,
+    "PageName": "SignUp",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 3,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30357,
+    "PageName": "ForgotPassword",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30357,
+    "PageName": "ForgotPassword",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30357,
+    "PageName": "ForgotPassword",
+    "WidgetId": 10077,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30357,
+    "PageName": "ForgotPassword",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 5,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30358,
+    "PageName": "Category",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30358,
+    "PageName": "Category",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30358,
+    "PageName": "Category",
+    "WidgetId": 30077,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30358,
+    "PageName": "Category",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30359,
+    "PageName": "ProductDetail",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30359,
+    "PageName": "ProductDetail",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30359,
+    "PageName": "ProductDetail",
+    "WidgetId": 41,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30359,
+    "PageName": "ProductDetail",
+    "WidgetId": 50080,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30359,
+    "PageName": "ProductDetail",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 3,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30360,
+    "PageName": "pages",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30360,
+    "PageName": "pages",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30360,
+    "PageName": "pages",
+    "WidgetId": 41,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30360,
+    "PageName": "pages",
+    "WidgetId": 50084,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30360,
+    "PageName": "pages",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 3,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30361,
+    "PageName": "ShopCartAddressSelect",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30361,
+    "PageName": "ShopCartAddressSelect",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30361,
+    "PageName": "ShopCartAddressSelect",
+    "WidgetId": 41,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30361,
+    "PageName": "ShopCartAddressSelect",
+    "WidgetId": 50086,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30361,
+    "PageName": "ShopCartAddressSelect",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 3,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30362,
+    "PageName": "Receipt",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30362,
+    "PageName": "Receipt",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30362,
+    "PageName": "Receipt",
+    "WidgetId": 41,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30362,
+    "PageName": "Receipt",
+    "WidgetId": 50092,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30362,
+    "PageName": "Receipt",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 3,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30363,
+    "PageName": "ProductOptions",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30363,
+    "PageName": "ProductOptions",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30363,
+    "PageName": "ProductOptions",
+    "WidgetId": 41,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30363,
+    "PageName": "ProductOptions",
+    "WidgetId": 30078,
+    "SkinId": 6,
+    "Sequence": 3,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30363,
+    "PageName": "ProductOptions",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 4,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30364,
+    "PageName": "ShopCart",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30364,
+    "PageName": "ShopCart",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30364,
+    "PageName": "ShopCart",
+    "WidgetId": 41,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30364,
+    "PageName": "ShopCart",
+    "WidgetId": 30080,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30364,
+    "PageName": "ShopCart",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30365,
+    "PageName": "OrderConfirmation",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30365,
+    "PageName": "OrderConfirmation",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30365,
+    "PageName": "OrderConfirmation",
+    "WidgetId": 41,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30365,
+    "PageName": "OrderConfirmation",
+    "WidgetId": 50091,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30365,
+    "PageName": "OrderConfirmation",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 3,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30366,
+    "PageName": "MarketingBrief",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30366,
+    "PageName": "MarketingBrief",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30366,
+    "PageName": "MarketingBrief",
+    "WidgetId": 41,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30366,
+    "PageName": "MarketingBrief",
+    "WidgetId": 30079,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30366,
+    "PageName": "MarketingBrief",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 3,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30367,
+    "PageName": "Login",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30367,
+    "PageName": "Login",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30367,
+    "PageName": "Login",
+    "WidgetId": 76,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30367,
+    "PageName": "Login",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 5,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30369,
+    "PageName": "AllProducts",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30369,
+    "PageName": "AllProducts",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30369,
+    "PageName": "AllProducts",
+    "WidgetId": 40079,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30369,
+    "PageName": "AllProducts",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 3,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30370,
+    "PageName": "Dashboard",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30370,
+    "PageName": "Dashboard",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30370,
+    "PageName": "Dashboard",
+    "WidgetId": 41,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30370,
+    "PageName": "Dashboard",
+    "WidgetId": 50085,
+    "SkinId": 6,
+    "Sequence": 3,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30370,
+    "PageName": "Dashboard",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 4,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30374,
+    "PageName": "Designer",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30374,
+    "PageName": "Designer",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30374,
+    "PageName": "Designer",
+    "WidgetId": 41,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30374,
+    "PageName": "Designer",
+    "WidgetId": 50090,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30375,
+    "PageName": "RequestQuote",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30375,
+    "PageName": "RequestQuote",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30375,
+    "PageName": "RequestQuote",
+    "WidgetId": 41,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30375,
+    "PageName": "RequestQuote",
+    "WidgetId": 50093,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30375,
+    "PageName": "RequestQuote",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 3,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30376,
+    "PageName": "ContactDetail",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30376,
+    "PageName": "ContactDetail",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30376,
+    "PageName": "ContactDetail",
+    "WidgetId": 41,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30376,
+    "PageName": "ContactDetail",
+    "WidgetId": 50096,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30376,
+    "PageName": "ContactDetail",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 3,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30377,
+    "PageName": "ProductOrderHistory",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30377,
+    "PageName": "ProductOrderHistory",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30377,
+    "PageName": "ProductOrderHistory",
+    "WidgetId": 41,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30377,
+    "PageName": "ProductOrderHistory",
+    "WidgetId": 50097,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30377,
+    "PageName": "ProductOrderHistory",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 3,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30378,
+    "PageName": "NabSubmit",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 0,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30378,
+    "PageName": "NabSubmit",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30378,
+    "PageName": "NabSubmit",
+    "WidgetId": 41,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30378,
+    "PageName": "NabSubmit",
+    "WidgetId": 50098,
+    "SkinId": 6,
+    "Sequence": 3,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30378,
+    "PageName": "NabSubmit",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 4,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30379,
+    "PageName": "home",
+    "WidgetId": 14,
+    "SkinId": 6,
+    "Sequence": 6,
+    "ParamValue": "<div class=\"container\"><div class=\"middle-footer-content\"><p><div class=\"page-header\"><h1>Why Us</h1></div><div class=\"row\"><div class=\"col-xs-12 col-sm-6 spacer-top\"><p>We offer quick and reliable printing services to the customers using an advanced online print store. You can select a product, personalize it and use to fulfill your business goals. We also allow customers to utilize their creativity and design their product by their own. You can also upload conceptual ready to use images for product designing that helps you in achieving your business objectives.</p><ul><li>Wide range of products to select from and to design</li><li>Highly personalized product designing</li><li>Create designs online and place orders 24×7</li><li>Design products with multiple color and shape options</li><li>Attractive product printing with glossy and matt finish</li><li>Quick designing in advanced designer studio</li><li>Online price calculator to calculate the ultimate price of your order</li><li>On-time order delivery</li></l><a href=\"javascript:void(0)\">Read More <i class=\"fa fa-angle-right\"></i></a></div><div class=\"hidden-xs col-sm-6\"><img alt=\"\" src=\"/Content/Images/SeaBluefeature.png\" class=\"img-responsive\" /></div></div></p></div></div>"
+  },
+  {
+    "PageId": 30379,
+    "PageName": "home",
+    "WidgetId": 14,
+    "SkinId": 6,
+    "Sequence": 4,
+    "ParamValue": "<div class=\"header-content\"><div class=\"block_text\"><div class=\"container\"><div class=\"col-xs-12 col-md-9\"><h2>We Are A Printing Products Supermarket </h2><p>Personalize your business stationery, marketing materials, promotional items, apparels and more - from anywhere. You can be completely assured of the best print quality and fast shipping.</p></div><div class=\"col-xs-12 col-md-3 text-right\"><a href=\"javascript:void(0)\" class=\"btn btn-watch\"><i class=\"fa fa-bolt\"></i>Create now</a></div></div></div><div class=\"container\"><div class=\"col-xs-12 col-md-4\"><div class=\"media\"><span class=\"pull-left\"><i class=\"fa fa-check-square-o fa-3x pull-left\"></i></span><div class=\"media-body\"><h3>Select</h3><p>Choose which print product you want to personalize. We have several professionally designed, ready-to-use templates for almost every requirement.<br /><a href=\"javascript:void(0)\">Read More</a></p></div></div></div><div class=\"col-xs-12 col-md-4\"><div class=\"media\"><span class=\"pull-left\"><i class=\"fa fa-gears fa-3x pull-left\"></i></span><div class=\"media-body\"><h3>Personalize</h3><p>Upload your image from your device or from your social network account, adjust the placement, add text, and you are done! See how it looks in the preview, and order.<br /><a href=\"javascript:void(0)\">Read More</a></p></div></div></div><div class=\"col-xs-12 col-md-4\"><div class=\"media\"><span class=\"pull-left\"><i class=\"fa fa-rocket fa-3x pull-left\"></i></span><div class=\"media-body\"><h3>Shipped!!</h3><p>Once you approve the order, our professional designers quality checks it and sends it to the print press. We use advance systems which gets your products shipped fast.<br /><a href=\"javascript:void(0)\">Read More</a></p></div></div></div></div></div>"
+  },
+  {
+    "PageId": 30379,
+    "PageName": "home",
+    "WidgetId": 69,
+    "SkinId": 6,
+    "Sequence": 7,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30379,
+    "PageName": "home",
+    "WidgetId": 45,
+    "SkinId": 6,
+    "Sequence": 1,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30379,
+    "PageName": "home",
+    "WidgetId": 27,
+    "SkinId": 6,
+    "Sequence": 2,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30379,
+    "PageName": "home",
+    "WidgetId": 75,
+    "SkinId": 6,
+    "Sequence": 3,
+    "ParamValue": null
+  },
+  {
+    "PageId": 30379,
+    "PageName": "home",
+    "WidgetId": 70,
+    "SkinId": 6,
+    "Sequence": 5,
+    "ParamValue": null
+  }
+]

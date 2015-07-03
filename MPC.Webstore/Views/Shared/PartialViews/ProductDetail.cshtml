@@ -674,7 +674,7 @@
                                     <div class="float_left_simple">
                                         @if (!string.IsNullOrEmpty(Model.GridImage))
                                         {
-                                            <img id="GridImg" class="ImageHW" src="@Model.GridImage" />
+                                            <img id="GridImg" class="ImageHW" src="/@Model.GridImage" />
                                         }
 
                                     </div>
@@ -691,7 +691,7 @@
                                         {
                                             @*string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
                                                 <a id="ImgIconAi" href="@Model.File2" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>*@
-                                            <a id="IcoIllustrator" href="@Model.File2" target="_blank" class="DownloadImages">
+                                            <a id="IcoIllustrator" href="/@Model.File2" target="_blank" class="DownloadImages">
                                                 <img src="/@Model.File2" />
                                             </a>
                                         }
@@ -699,7 +699,7 @@
                                         {
                                             @*string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
                                                 <a id="ImgIconId" href="@Model.File3" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>*@
-                                            <a id="Icoindesign" href="@Model.File3" target="_blank" class="DownloadImages">
+                                            <a id="Icoindesign" href="/@Model.File3" target="_blank" class="DownloadImages">
                                                 <img src="/@Model.File3" />
                                             </a>
                                         }
@@ -707,7 +707,7 @@
                                         {
                                             @*string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
                                                 <a id="ImgIconPdf" href="@Model.File4" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>*@
-                                            <a id="IcoPdf" href="@Model.File4" target="_blank" class="DownloadImages">
+                                            <a id="IcoPdf" href="/@Model.File4" target="_blank" class="DownloadImages">
                                                 <img src="/@Model.File4" />
                                             </a>
                                         }
@@ -715,7 +715,7 @@
                                         {
                                             @*string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
                                                 <a id="ImgIconPdf" href="@Model.File4" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>*@
-                                            <a id="IcoPdf" href="@Model.File5" target="_blank" class="DownloadImages">
+                                            <a id="IcoPdf" href="/@Model.File5" target="_blank" class="DownloadImages">
                                                 <img src="/@Model.File5" />
                                             </a>
                                         }
@@ -737,18 +737,18 @@
                             <div class="whitebackground">
 
                                 <label id="lbl_KeyFeatures" class="ProductDetailH2">Video(s)</label>
-                                @foreach (var videoLink in ViewData["ItemVideo"] as MPC.Models.DomainModels.ItemVideo)
+                                @foreach (var videoLink in ViewData["ItemVideo"] as List<MPC.Models.DomainModels.ItemVideo>)
                                 {
-                                    
-                                }
-                                <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 paddingLeft10px paddingBottom10px ">
+                                    <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 paddingLeft10px paddingBottom10px ">
 
-                                    <iframe width="100%"
-                                            height="315"
-                                            src="@videoLink.VideoLink"
-                                            frameborder="0"
-                                            allowfullscreen></iframe>
-                                </div>
+                                        <iframe width="100%"
+                                                height="315"
+                                                src="@videoLink.VideoLink"
+                                                frameborder="0"
+                                                allowfullscreen></iframe>
+                                    </div>
+                                }
+         
                             </div>
                         </div>
                     }

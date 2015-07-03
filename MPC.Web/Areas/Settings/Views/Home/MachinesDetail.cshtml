@@ -10,6 +10,7 @@
             <div class="col-lg-12">
                 <ol class="breadcrumb">
                     <li><a href="~/Dashboard/Index">Home</a></li>
+                    <li><a href="/mis/Settings" class="my-navigator">Settings</a></li>
                     <li><a href="/Settings/Home/MachinesList">Machine List</a></li>
                     <li class="active"><span>Machine Detail</span></li>
                 </ol>
@@ -247,7 +248,7 @@
                                                 <label class="control-label tooltip-float">Mode of Print</label>
 
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6" style="padding-left:0px;">
                                                 <div class="col-lg-5">
 
                                                     <div class="radio">
@@ -373,7 +374,7 @@
                                     <div class="col-lg-9">
 
 
-                                        <div class="form-group">
+                                        <div class="form-group" style="margin-bottom:0px;">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
@@ -426,8 +427,9 @@
                                             <div class="col-lg-6">
                                                 <div class="col-lg-5">
                                                     <input type="text" value="350" placeholder="Enter Maximum Sheet Weight" class="form-control txtBox-contentAlignRight" id="Estimateitle" data-bind="autoNumeric:maximumsheetweight, settings:{mDec:3}" />
-
-                                                    <span data-bind="text:WeightUnit" class="help-block text-right"></span>
+                                                </div>
+                                                <div class="col-lg-1 pull-left" style="padding-left:0px;padding-top:2px;">
+                                                    <span data-bind="text:WeightUnit" class="help-block"></span>
                                                 </div>
 
                                             </div>
@@ -456,7 +458,7 @@
 
                                         </div>
 
-                                        <div class="form-group PressControls" data-bind="visible:!$root.isGuillotineList()">
+                                        <div class="form-group PressControls" style="margin-bottom:20px;" data-bind="visible:!$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
@@ -474,59 +476,52 @@
                                             <div class="col-lg-6">
                                                 <div class="col-lg-5">
                                                     <input type="text" placeholder="Enter Grip Depth" class="form-control txtBox-contentAlignRight" data-bind="autoNumeric:gripdepth, settings:{mDec:3}" />
-                                                    <span data-bind="text:LengthUnit" class="help-block text-right"></span>
+                                                    
+                                                </div>
+                                                <div class="col-lg-1" style="padding-left:0px;padding-top:4px;">
+                                                    <span data-bind="text:LengthUnit" class="help-block"></span>
                                                 </div>
 
                                             </div>
                                         </div>
 
-                                        <div class="form-group PressControls" data-bind="visible:!$root.isGuillotineList()">
+                                        <div class="form-group PressControls" style="margin-bottom:20px;" data-bind="visible:!$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-
                                                     <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This is the Non Printable area by the press on the Head or Tail edge.  This area is removed from the Number Up count thus providing a more accurate calculation on press runs and stock used." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
-
                                                 </div>
 
-
-
                                                 <label class="control-label tooltip-float">Head Depth</label>
-
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="col-lg-5">
                                                     <input type="text" placeholder="Enter Head Depth" class="form-control txtBox-contentAlignRight" data-bind="autoNumeric:headdepth, settings:{mDec:3}" />
-                                                    <span data-bind="text:LengthUnit" class="help-block text-right"></span>
-
                                                 </div>
-
+                                                <div class="col-lg-1" style="padding-left:0px;padding-top:4px;">
+                                                    <span data-bind="text:LengthUnit" class="help-block"></span>
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="form-group PressControls" data-bind="visible:!$root.isGuillotineList()">
+                                        <div class="form-group PressControls" style="margin-bottom:20px;" data-bind="visible:!$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-
                                                     <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This is the Non Printable area by the press on either side of the paper perpendicular to the grip side. This area is removed from the Number Up count thus providing a more accurate calculation on press runs and stock used" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
-
                                                 </div>
 
-
-
                                                 <label class="control-label tooltip-float">Side Gutter Depth</label>
-
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="col-lg-5">
                                                     <input type="text" placeholder="Enter Side Gutter Depth" class="form-control txtBox-contentAlignRight" data-bind="autoNumeric:gutterdepth, settings:{mDec:3}" />
-                                                    <span data-bind="text:LengthUnit" class="help-block text-right"></span>
-
                                                 </div>
-
+                                                <div class="col-lg-1" style="padding-left:0px;padding-top:4px;">
+                                                    <span data-bind="text:LengthUnit" class="help-block"></span>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -965,7 +960,7 @@
                                                         <div class="col-lg-6">
                                                             <div class="col-lg-3" style="padding-left:0px;">
                                                                 <input type="text" class="form-control" style="text-align:right;" data-bind="numberValue:RunningSpoilage">
-                                                                <span class=" help-block text-right"></span>
+                                                                
                                                             </div>
                                                             <div class="col-lg-1  help-block text-left">%</div>
                                                         </div>

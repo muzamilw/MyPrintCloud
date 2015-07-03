@@ -63,7 +63,7 @@ namespace MPC.Repository.Repositories
                 return false;
             }
         }
-        public bool Update(System.Guid Id, string Email, string FullName)
+        public bool Update(System.Guid Id, string Email, string FullName, int status, string EmailSignature, string EstimateHeadNotes, string EstimateFootNotes)
         {
             //System.Guid SystemId = Id;
 
@@ -71,6 +71,13 @@ namespace MPC.Repository.Repositories
             user.Email = Email;
             user.FullName = FullName;
             user.UserName = Email;
+            user.EmailSignature = EmailSignature;
+            user.EstimateHeadNotes = EstimateHeadNotes;
+            user.EstimateFootNotes = EstimateFootNotes;
+
+
+
+
                 if(db.SaveChanges()>0){
                     return true;
                 }else{

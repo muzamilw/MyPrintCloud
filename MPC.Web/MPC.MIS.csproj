@@ -341,6 +341,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\CopyEstimateController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductChildCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionFlagsController.cs" />
@@ -2241,6 +2242,7 @@
     <Content Include="Areas\Common\Views\Shared\_ReportViaEmail.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_GRNDetailDialog.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\_AddStockQty.cshtml" />
+    <Content Include="Areas\Stores\Views\Shared\_ViewMediaLibImage.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
@@ -3440,6 +3442,7 @@
     <Folder Include="Areas\Api\Views\CompanyContactForCrm\" />
     <Folder Include="Areas\Api\Views\CompanyContact\" />
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
+    <Folder Include="Areas\Api\Views\CopyEstimate\" />
     <Folder Include="Areas\Api\Views\CostCentreMatrix\" />
     <Folder Include="Areas\Api\Views\CrmBase\" />
     <Folder Include="Areas\Api\Views\CrmContact\" />

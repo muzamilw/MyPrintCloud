@@ -117,7 +117,7 @@
                                 <div class="col-sm-12 text-right" style=" ">
                                     <div class="col-sm-6" style="width: 45%">
                                         <div class="col-sm-8" data-bind="visible: !isSectionSizeCustom()  && printingTypeUi() !== '2'">
-                                            <select style=" padding-right: 0px; width: 101%;" class="form-control font20px" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: sectionSizeId, enable: !isSectionSizeCustom(), validationOnElement: sectionSizeId, validationTooltip: sectionSizeId"></select>
+                                            <select style=" padding-right: 0px; width: 101%;" class="form-control font20px" data-bind="options: $root.sectionPaperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: sectionSizeId, enable: !isSectionSizeCustom(), validationOnElement: sectionSizeId, validationTooltip: sectionSizeId"></select>
                                         </div>
                                         <div class="col-sm-8" data-bind="visible: isSectionSizeCustom() || printingTypeUi() === '2'" style="padding-right: 1.2%">
                                             <div class="col-sm-5" style="padding-left: 0px;">
@@ -158,7 +158,7 @@
                                     </div>
                                     <div class="col-sm-6" data-bind="visible: printingTypeUi() !== '2'">
                                         <div class="col-sm-6" style=" padding-right: 0px; " data-bind="visible:!isItemSizeCustom()">
-                                            <select style=" width: 99%; margin-left: -4%; padding-right: 0px;" class="form-control font20px" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: itemSizeId, enable: !isItemSizeCustom(), validationOnElement: itemSizeId, validationTooltip: itemSizeId" style="width: 100%"></select>
+                                            <select style=" width: 99%; margin-left: -4%; padding-right: 0px;" class="form-control font20px" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select trimed Item Size', value: itemSizeId, enable: !isItemSizeCustom(), validationOnElement: itemSizeId, validationTooltip: itemSizeId" style="width: 100%"></select>
                                         </div>
                                         <div class="col-sm-6" data-bind="visible:isItemSizeCustom" style="padding-left: 0px;  ">
                                             <div class="col-sm-5" style="padding-left: 0px; padding-right: 0px; width: 37%; ">
@@ -340,7 +340,7 @@
                                                     <div class="col-sm-6">
                                                         <input type="text" class="form-control font20px" style="text-align: right; margin-left: 30% " data-bind="value: qty1, validationOnElement: qty1" id="qty1" />
                                                     </div>
-                                                    <!--ko if: $root.isEstimateScreen()-->
+                                                    <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                                     <div class="col-sm-6">
 
                                                         <input type="text" class="form-control font20px" style="text-align:right;margin-left: 35%" data-bind="value: qty2, validationOnElement: qty2" id="qty2" />       
@@ -349,7 +349,7 @@
                                                     <!--/ko-->
 
                                                 </div>
-                                                <!--ko if: $root.isEstimateScreen()-->
+                                                <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                                 <div class="col-sm-2">
 
                                                     @*<div class="form-group" >
@@ -445,7 +445,7 @@
                                                 <div class="col-sm-6">
                                                     <select class="form-control" style="  width:70%; padding-left: 0;padding-right: 0; margin-top: 10px; float:right;  margin-right: 12px;" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty1MarkUpId,event:{ change: $root.onChangeQty1MarkUpId}"></select>
                                                 </div>
-                                                <!--ko if: $root.isEstimateScreen()-->
+                                                <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                                 <div class="col-sm-6" >
                                                     <select class="form-control" style=" width: 70%; padding-left: 0; padding-right: 0; margin-top: 10px; " data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty2MarkUpId,event:{ change: $root.onChangeQty2MarkUpId}"></select>
                                                 </div>
@@ -490,7 +490,7 @@
 
                                     <label class="control-label font20px" style="float: right"><span data-bind="text:$root.currencySymbol"></span><span class="font20px" data-bind="numberInput:baseCharge1"></span></label>
                                 </div>
-                                <!--ko if: $root.isEstimateScreen()-->
+                                <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                 <div class="col-sm-6" style="  margin-top: 1%;">
                                     <label class="control-label font20px" style="  float: right; margin-right: 10px;"><span data-bind="text:$root.currencySymbol"></span><span class="font20px" data-bind="numberInput:baseCharge2"></span></label>
                                 </div>
@@ -546,7 +546,7 @@
                     <span class="font20px" data-bind="text:$root.currencySymbol" style="color: #3498db"></span><a href="#" class="font20px" style="margin-left: 0px" data-bind="numberInput: qty1NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 1)}"></a>
                 </div>
             </td>
-            <!--ko if: $root.isEstimateScreen()-->
+            <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
             <td style="text-align: right">
 
                 <div>  @*style="padding-right: 10%;"*@
@@ -556,7 +556,7 @@
             </td>
 
             <!--/ko-->
-            <!--ko if: !$root.isEstimateScreen()-->
+            <!--ko if: !$root.isEstimateScreen() || $root.selectedProduct().productType() === 3 -->
             <td></td>
             <!--/ko-->
         </tr>

@@ -6,7 +6,7 @@
                     <div style="float:left;margin-bottom: 3px; margin-left:14px">
                         <button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0, click:$root.openExternalReportsOrder">Print</button>
                         <button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0, click:$root.openExternalEmailOrderReport">Email</button>
-                        <button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0">Copy Estimate</button>
+                        <button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0, click:$root.copyEstimate">Copy Estimate</button>
 
                         @*<button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0">Actions</button>
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" data-bind="enable: $root.selectedOrder().id() > 0">
@@ -85,7 +85,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div>
-                                                    <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId, click: !$root.selectedOrder().id() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
+                                                    <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId, click: $root.isCustomerEdittable() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
                                                 </div>
                                             </div>
                                             <div class="col-sm-1" style="padding-top:10px;">
@@ -205,7 +205,7 @@
                                                 <select style="width: 100% !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: sectionFlagId, foreach: $root.sectionFlags">
                                                     <option style="width: 100% !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
                                                 </select>
-                                                <i class="fa fa-sort-desc" style="float: right;padding-right: 15px;padding-top: 2px;position: relative;bottom: 25px;"></i>
+                                                <i class="fa fa-sort-desc" style="float: right;padding-right: 9px;position: relative;bottom: 25px;"></i>
                                                 
                                             </div>
                                         </div>
