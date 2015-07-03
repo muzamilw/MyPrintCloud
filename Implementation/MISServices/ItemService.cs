@@ -413,7 +413,9 @@ namespace MPC.Implementation.MISServices
             {
                 if (itemTarget.Template.TemplatePages != null)
                 {
-                    foreach (TemplatePage templatePage in itemTarget.Template.TemplatePages)
+                    List<TemplatePage> newlyAddedTemplatePages = 
+                        itemTarget.Template.TemplatePages.Where(tmp => tmp.IsNewlyAdded.HasValue && tmp.IsNewlyAdded.Value).ToList();
+                    foreach (TemplatePage templatePage in newlyAddedTemplatePages)
                     {
                         templatePage.BackgroundFileName = itemTarget.Template.ProductId + "/Side" + templatePage.PageNo + ".pdf";
                     }
