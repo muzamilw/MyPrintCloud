@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Template Page
@@ -25,5 +27,15 @@
         public double? Height { get; set; }
 
         public virtual Template Template { get; set; }
+
+        #region Additional Properties
+
+        /// <summary>
+        /// True if Template Page is Newly Added
+        /// </summary>
+        [NotMapped]
+        public bool? IsNewlyAdded { get; set; }
+
+        #endregion
     }
 }
