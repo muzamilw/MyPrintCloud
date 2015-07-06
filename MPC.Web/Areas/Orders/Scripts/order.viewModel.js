@@ -1268,7 +1268,12 @@ define("order/order.viewModel",
                         });
                         order.Items = itemsArray;
                     },
-
+                    // Get List View Order by id
+                    getListViewOrderById = function(id) {
+                        return orders.find(function(order) {
+                            return order.id() === id;
+                        });
+                    },
                     // Save Order
                     saveOrder = function (callback, navigateCallback) {
                         // selectedOrder().statusId(view.orderstate());
@@ -1353,6 +1358,17 @@ define("order/order.viewModel",
                                     }
 
                                     toastr.success("Saved Successfully.");
+                                    
+                                    // If Status of Order is changed then remove it from current tab if it is not "All Orders"
+                                    if (selectedOrder().statusId() !== selectedOrder().originalStatusId()) {
+                                        var activeOrderTab = $("#orderTabs li.active");
+                                        if (activeOrderTab && activeOrderTab[0] && activeOrderTab[0].id !== "all-orders") {
+                                            var listViewOrder = getListViewOrderById(selectedOrder().id());
+                                            if (listViewOrder) {
+                                                orders.remove(listViewOrder);
+                                            }
+                                        }    
+                                    }
 
                                     if (callback && typeof callback === "function") {
                                         callback();
@@ -2013,6 +2029,15 @@ define("order/order.viewModel",
                             selectedOrder().prePayments.remove(selectedOrder().prePayments()[index]);
                             selectedOrder().hasDeletedPrepayments(true);
                             hideOrderPrePaymentModal();
+                        });
+                        confirmation.show();
+                        return;
+                    },
+                    onDeleteShippingItem = function (shippingItem) {
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.afterProceed(function () {
+                            selectedOrder().items.remove(shippingItem);
+                            selectedOrder().hasDeletedItems(true);
                         });
                         confirmation.show();
                         return;
@@ -2750,7 +2775,6 @@ define("order/order.viewModel",
                         });
                     },
                     //#endregion
-                        myVal = ko.observable(),
                     //#region INITIALIZE
 
                     //Initialize method to call in every screen
@@ -2977,14 +3001,14 @@ define("order/order.viewModel",
                     selectedEstimatePhraseContainer: selectedEstimatePhraseContainer,
                     selectEstimatePhraseContainer: selectEstimatePhraseContainer,
                     openPhraseLibrary: openPhraseLibrary,
-                      formatSelection: formatSelection,
+                    formatSelection: formatSelection,
                     formatResult: formatResult,
                     onDeletePrePayment: onDeletePrePayment,
                     onAddFinishedGoods: onAddFinishedGoods,
                     onCreateNewCostCenterProduct: onCreateNewCostCenterProduct,
                     sectionFlagsForListView: sectionFlagsForListView,
+                    onDeleteShippingItem: onDeleteShippingItem
                     //#endregion
-                    myVal: myVal
                 };
             })()
         };
