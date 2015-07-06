@@ -62,36 +62,36 @@ namespace MPC.Repository.Repositories
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
             var query = (from contact in db.CompanyContacts
-                from cmp in db.Companies.Where(c => c.CompanyId == contact.Company.StoreId).DefaultIfEmpty()
-                where (string.IsNullOrEmpty(request.SearchString)
-                       ||
-                       (contact.FirstName.Contains(request.SearchString)) ||
-                       (contact.MiddleName.Contains(request.SearchString)) ||
-                       (contact.LastName.Contains(request.SearchString)) ||
-                       (contact.Email.Contains(request.SearchString)) ||
-                       cmp.Name.Contains(request.SearchString) ||
-                       contact.Company.Name.Contains(request.SearchString)) &&
-                      (request.CustomerTypes.Any(obj => contact.Company.IsCustomer == obj)) &&
-                      (!contact.isArchived.HasValue || contact.isArchived.Value == false) &&
-                      contact.OrganisationId == OrganisationId && contact.Company.TypeId != (int)CompanyTypes.TemporaryCustomer 
-            
+                         from cmp in db.Companies.Where(c => c.CompanyId == contact.Company.StoreId).DefaultIfEmpty()
+                         where (string.IsNullOrEmpty(request.SearchString)
+                                ||
+                                (contact.FirstName.Contains(request.SearchString)) ||
+                                (contact.MiddleName.Contains(request.SearchString)) ||
+                                (contact.LastName.Contains(request.SearchString)) ||
+                                (contact.Email.Contains(request.SearchString)) ||
+                                cmp.Name.Contains(request.SearchString) ||
+                                contact.Company.Name.Contains(request.SearchString)) &&
+                               (request.CustomerTypes.Any(obj => contact.Company.IsCustomer == obj)) &&
+                               (!contact.isArchived.HasValue || contact.isArchived.Value == false) &&
+                               contact.OrganisationId == OrganisationId && contact.Company.TypeId != (int)CompanyTypes.TemporaryCustomer
 
-                select new 
-                {
-                    contact.FirstName,
-                    contact.LastName,
-                    contact.ContactId,
-                    contact.AddressId,
-                    contact.CompanyId,
-                    Company = new
-                    {
-                        contact.CompanyId, 
-                        contact.Company.Name,
-                        contact.Company.StoreId,
-                        StoreName = cmp != null ? cmp.Name : string.Empty,
-                        contact.Company.IsCustomer
-                    }
-                });
+
+                         select new
+                         {
+                             contact.FirstName,
+                             contact.LastName,
+                             contact.ContactId,
+                             contact.AddressId,
+                             contact.CompanyId,
+                             Company = new
+                             {
+                                 contact.CompanyId,
+                                 contact.Company.Name,
+                                 contact.Company.StoreId,
+                                 StoreName = cmp != null ? cmp.Name : string.Empty,
+                                 contact.Company.IsCustomer
+                             }
+                         });
             var que = query.Distinct().OrderBy(contact => contact.FirstName).Skip(fromRow).Take(toRow).ToList();
             int rowCount = query.Distinct().Count();
             return new ContactsResponseForOrder
@@ -739,11 +739,11 @@ namespace MPC.Repository.Repositories
                     {
                         Contact.isWebAccess = true;
                     }
-                    else 
+                    else
                     {
                         Contact.isWebAccess = false;
                     }
-                   
+
                     Contact.ContactRoleId = Convert.ToInt32(Roles.User);
                     Contact.OrganisationId = OrganisationId;
                     Contact.isPlaceOrder = true;
@@ -886,10 +886,10 @@ namespace MPC.Repository.Repositories
                     (contact.FirstName.Contains(request.SearchFilter)) ||
                     (contact.LastName.Contains(request.SearchFilter))
                     ||
-                    (contact.Email.Contains(request.SearchFilter))||
+                    (contact.Email.Contains(request.SearchFilter)) ||
                     contact.Company.Name.Contains(request.SearchFilter)) &&
                     (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 1) &&
-                    (contact.isArchived == false || contact.isArchived == null) && contact.OrganisationId==OrganisationId;
+                    (contact.isArchived == false || contact.isArchived == null) && contact.OrganisationId == OrganisationId;
 
             int rowCount = DbSet.Count(query);
             IEnumerable<CompanyContact> companyContacts = request.IsAsc
@@ -1377,8 +1377,8 @@ namespace MPC.Repository.Repositories
         {
             return db.CompanyContacts.Where(u => u.Email == Email).FirstOrDefault();
         }
-         public  bool ValidatEmail(string email)
-         {
+        public bool ValidatEmail(string email)
+        {
             if (System.Text.RegularExpressions.Regex.IsMatch(email, "^[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$"))
             {
                 return true;
@@ -1387,7 +1387,7 @@ namespace MPC.Repository.Repositories
             {
                 return false;
             }
-         }
+        }
         public bool CheckDuplicatesOfContactEmailInStore(string email, long companyId, long companyContactId)
         {
             return DbSet.Any(x => x.Email == email && x.CompanyId == companyId && x.ContactId != companyContactId);
@@ -1395,7 +1395,7 @@ namespace MPC.Repository.Repositories
         public CompanyContact createContact(int CCompanyId, string E, string F, string L, string AccountNumber = "", int questionID = 0, string Answer = "", string Password = "")
         {
             CompanyContact tblContacts = new CompanyContact();
-            
+
             tblContacts.isArchived = false;
             tblContacts.CompanyId = CCompanyId;
             tblContacts.FirstName = F;
@@ -1438,11 +1438,11 @@ namespace MPC.Repository.Repositories
             tblContacts.quickTitle = "";
             tblContacts.quickWebsite = "";
             tblContacts.Notes = AccountNumber;
-         
+
 
             // get default territory Id
 
-            CompanyTerritory oTerritory =  db.CompanyTerritories.Where(t => t.isDefault == true && t.CompanyId == CCompanyId).FirstOrDefault();
+            CompanyTerritory oTerritory = db.CompanyTerritories.Where(t => t.isDefault == true && t.CompanyId == CCompanyId).FirstOrDefault();
 
             if (oTerritory != null)
             {
@@ -1453,7 +1453,7 @@ namespace MPC.Repository.Repositories
                     tblContacts.AddressId = oAddress.AddressId;
                     tblContacts.ShippingAddressId = oAddress.AddressId;
                 }
-                else 
+                else
                 {
                     Address oCompanyAddress = db.Addesses.Where(t => t.CompanyId == CCompanyId).FirstOrDefault();
                     if (oAddress != null)
@@ -1462,7 +1462,7 @@ namespace MPC.Repository.Repositories
                         tblContacts.ShippingAddressId = oCompanyAddress.AddressId;
                     }
                 }
-                
+
             }
 
             db.CompanyContacts.Add(tblContacts);
@@ -1495,10 +1495,21 @@ namespace MPC.Repository.Repositories
             db.Configuration.LazyLoadingEnabled = false;
             return db.CompanyContacts.Where(c => c.ContactId == ContactId).FirstOrDefault();
 
-            
-        }
+
         }
 
+        public List<CompanyContact> GetCompanyAdminByCompanyId(long CompanyId) 
+        {
+            int admin = Convert.ToInt32(Roles.Adminstrator);
+            var listOfApprovers = (from c in db.CompanyContacts
+                                   join cc in db.Companies on c.CompanyId equals cc.CompanyId
+
+                                   where c.ContactRoleId == admin && cc.IsCustomer == (int)CustomerTypes.Corporate && c.CompanyId == CompanyId
+                               select c).ToList();
+            return listOfApprovers.ToList<CompanyContact>();
+        }
     }
+
+}
 
 

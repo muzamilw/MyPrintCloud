@@ -3549,13 +3549,16 @@ define("stores/stores.viewModel",
             newProductCategories = ko.observableArray([]),
             //Select Product Category
             selectProductCategory = function (category, event) {
+                var categoryId = ko.isObservable(category.productCategoryId) ?
+                    category.productCategoryId() : category.productCategoryId;
                 if (selectedProductCategory() != category) {
                     selectedProductCategory(category);
-                    //selectedCategoryName(event.target.innerText);
                     // Notify the event subscribers
-                    view.productCategorySelectedEvent(ko.isObservable(category.productCategoryId) ?
-                        category.productCategoryId() : category.productCategoryId);
+                    view.productCategorySelectedEvent(categoryId);
                 }
+                // Expand tree and get childs 
+                event.category = category;
+                view.expandCategory(event, categoryId, true);
             },
             //Select Child Product Category
             selectChildProductCategory = function (categoryId, event) {
@@ -3564,6 +3567,8 @@ define("stores/stores.viewModel",
                 var id = $(event.target).closest('li')[0].id;
                 selectedCategoryName(event.target.innerText);
                 if (id) {
+                    // Expand tree and get childs 
+                    view.expandCategory(event, parseInt(id), true);
                     // Notify the event subscribers
                     view.productCategorySelectedEvent(id);
                 }
@@ -3596,6 +3601,7 @@ define("stores/stores.viewModel",
                     }
                     // Notify the Event Subscribers
                     view.subCategoriesLoadedEvent(getChildCategories(id));
+                    event.stopImmediatePropagation();
                     return;
                 }
                 dataservice.getProductCategoryChilds({
@@ -3626,6 +3632,7 @@ define("stores/stores.viewModel",
                         toastr.error("Error: Failed To load Categories " + response, "", ist.toastrOptions);
                     }
                 });
+                event.stopImmediatePropagation();
             },
             //Open Product Category Detail
             // ReSharper disable UnusedParameter
