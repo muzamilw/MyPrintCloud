@@ -251,6 +251,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 inquiryItems = ko.observableArray([]),
                 //Is Inquiry Item Loaded Flag
                 isInquiryItemLoaded = ko.observable(false),
+                // original Status Id
+                originalStatusId = ko.observable(undefined),
                 // Status Id
                 statusId = ko.observable(undefined),
                 // Status
@@ -548,6 +550,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 setValidationSummary: setValidationSummary,
                 convertToServerData: convertToServerData,
                 statusId: statusId,
+                originalStatusId: originalStatusId,
                 refEstimateId: refEstimateId,
                 status: status,
                 storeId: storeId,
@@ -820,6 +823,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         source.OrderReportSignedBy, source.ReportSignedBy, source.InvoiceStatus);
 
         estimate.statusId(source.StatusId);
+        estimate.originalStatusId(source.StatusId);
         estimate.status(source.Status);
         estimate.systemUsers(constructorParams.SystemUsers);
         var total = (parseFloat((source.EstimateTotal === undefined || source.EstimateTotal === null) ? 0 : source.EstimateTotal)).toFixed(2);

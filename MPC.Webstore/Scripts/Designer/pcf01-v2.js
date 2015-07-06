@@ -3826,7 +3826,6 @@ function k31(cCanvas, IO) {
     if (IO.MaxHeight == 0) {
         IO.MaxHeight = 50;
     }
-  
     fabric.Image.fromURL(IO.ContentString, function (IOL) {
         IOL.set({
             left: (IO.PositionX + IO.MaxWidth / 2) * dfZ1l,
@@ -3891,12 +3890,65 @@ function k31(cCanvas, IO) {
         cCanvas.insertAt(IOL, IO.DisplayOrderPdf);
         TotalImgLoaded += 1;
         d2();
+        IW = IOL.getWidth();// IT.ImageWidth;
+        IH = IOL.getHeight();// IT.ImageHeight;
+       
+        
         if (IO.ObjectType == 8)
         {
-
+            IW = item.companyImageWidth;
+            IH = item.companyImageHeight;
         } else if (IO.ObjectType == 12)
         {
-
+            IW = item.contactImageWidth;
+            IH = item.contactImageHeight;
+        }
+        var originalWidth = IW;
+        var originalHeight = IH;
+        var wd = IOL.getWidth();
+        var he = IOL.getHeight();
+        var bestPer = 1;
+        if (IO.ObjectType == 8 || IO.ObjectType == 12) {
+            if (IW >= IOL.getWidth() && IH >= IOL.getHeight())
+            {
+                while (originalWidth > IOL.getWidth() && originalHeight > IOL.getHeight()) {
+                    bestPer -= 0.10;
+                    originalHeight =IH * bestPer;
+                    originalWidth =IW *  bestPer;
+                }
+                bestPer += 0.10;
+            }else 
+            {
+                while (originalWidth <= IOL.getWidth() || originalHeight <= IOL.getHeight()) {
+                    bestPer += 0.10;
+                    originalHeight = IH * bestPer;
+                    originalWidth = IW * bestPer;
+                }
+                bestPer -= 0.10;
+            }
+            var wdth = parseInt(IOL.getWidth() / bestPer);
+            var hght = parseInt(IOL.getHeight() / bestPer);
+            var XML = new XMLWriter();
+            XML.BeginNode("Cropped");
+            XML.Node("sx", "0");
+            XML.Node("sy", "0");
+            XML.Node("swidth", wdth.toString());
+            XML.Node("sheight", hght.toString());
+            XML.Node("crv1", bestPer.toString()); 
+            XML.Node("crv2", (IW * bestPer).toString());
+            XML.Node("crv3", (IH * bestPer).toString());
+            XML.Node("crv4", "0");
+            XML.Node("crv5", "0");
+            XML.EndNode();
+            XML.Close();
+            IOL.ImageClippedInfo = XML.ToString().replace(/</g, "\n<");
+            IOL.height = (IOL.getHeight());
+            IOL.width = (IOL.getWidth());
+            IOL.maxHeight = (IOL.getHeight());
+            IOL.maxWidth = (IOL.getWidth());
+            IOL.scaleX = 1;
+            IOL.scaleY = 1;
+            canvas.renderAll();
         }
     });
 }
