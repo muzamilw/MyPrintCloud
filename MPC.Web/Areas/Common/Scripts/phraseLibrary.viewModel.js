@@ -26,7 +26,8 @@ define("common/phraseLibrary.viewModel",
                     phrases = ko.observableArray([]),
                     //job Titles List
                     jobTitles = ko.observableArray([]),
-
+                    // True, if new 
+                    AddEditDeleteFlag = ko.observable(false);
                     //#endregion
                     //get All Sections
                     getAllSections = function () {
@@ -190,7 +191,7 @@ define("common/phraseLibrary.viewModel",
 
                 },
                 //Save Phrase Library
-                savePhraseLibrary = function (phraseLibrary) {
+                savePhraseLibrary = function (phraseLibrary,applyFlag) {
                     var flagForSave = false;
                     var phraseLibrarySaveModel = model.PhraseLibrarySaveModel();
                     var severModel = phraseLibrarySaveModel.convertToServerData(phraseLibrarySaveModel);
@@ -203,10 +204,11 @@ define("common/phraseLibrary.viewModel",
                                     _.each(phraseFiledItem.phrases(), function (phraseItem) {
                                         if (phraseItem.hasChanges()) {
                                             phraseField.Phrases.push(phraseItem.convertToServerData(phraseItem));
+                                            flagForSave = true;
                                         }
                                     });
                                 }
-                                flagForSave = true;
+                               
                                 section.PhrasesFields.push(phraseField);
                             });
                             severModel.Sections.push(section);
@@ -215,7 +217,10 @@ define("common/phraseLibrary.viewModel",
                     if (flagForSave) {
                         saveLibrary(severModel);
                     } else {
-                        toastr.error("There is no phrase for save.");
+                        if (applyFlag!==true) {
+                           // toastr.error("There is no phrase for save.");
+                        }
+                       
                     }
 
                 },
@@ -275,14 +280,18 @@ define("common/phraseLibrary.viewModel",
                 //Select Phrase
                  selectPhrase = function (phrase) {
                      if (afterSelectPhrase && typeof afterSelectPhrase === "function") {
-                         if (phrase.phraseId() === undefined || phrase.phraseId() === 0) {
-                             toastr.error("Please First save the phrase.");
-                             //phrase.isPhraseChecked(false);
-                         } else {
-                             afterSelectPhrase(phrase.phraseText());
-                             afterSelectPhrase = null;
-                             view.hidePhraseLibraryDialog();
-                         }
+                         //if (phrase.phraseId() === undefined || phrase.phraseId() === 0) {
+                         //    toastr.error("Please First save the phrase.");
+                         //    //phrase.isPhraseChecked(false);
+                         //} else {
+                         //    afterSelectPhrase(phrase.phraseText());
+                         //    afterSelectPhrase = null;
+                         //    view.hidePhraseLibraryDialog();
+                         //}
+                         savePhraseLibrary(null,true);
+                         afterSelectPhrase(phrase.phraseText());
+                         afterSelectPhrase = null;
+                         view.hidePhraseLibraryDialog();
                      }
                      //va
                      //if (phrase.isPhraseChecked()) {

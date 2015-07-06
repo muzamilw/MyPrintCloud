@@ -59,5 +59,10 @@ namespace MPC.Models.ResponseModels
         /// Machines
         /// </summary>
         public IEnumerable<Machine> Machines { get; set; }
+
+        /// <summary>
+        /// Markup id
+        /// </summary>
+        public long DefaultMarkUpId { get; set; }
     }
 }
