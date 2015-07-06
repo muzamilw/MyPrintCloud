@@ -120,7 +120,8 @@
                             jobManagerId(undefined);
                             return;
                         }
-                        var userId = value.id;
+                        //var userId = value.id;
+                        var userId = value;
                         if (userId === jobManagerId()) {
                             return;
                         }

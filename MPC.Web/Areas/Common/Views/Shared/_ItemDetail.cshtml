@@ -482,7 +482,7 @@
                                             </label>
                                         </div>
                                         <div class="col-sm-6">
-                                            <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsCaption: 'Select job manager', value: jobManagerUser"></select>
+                                            <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsCaption: 'Select job manager',optionsValue: 'id', value: jobManagerId"></select>@*jobManagerUser*@
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -512,7 +512,7 @@
                                             </label>
                                         </div>
                                         <div class="col-sm-6">
-                                            <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsCaption: 'Select job signed by', value: jobSignedByUser"></select>
+                                            <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsCaption: 'Select job signed by',optionsValue: 'id', value: jobSignedBy"></select>@*jobSignedByUser*@
                                         </div>
                                     </div>
                                 </div>
