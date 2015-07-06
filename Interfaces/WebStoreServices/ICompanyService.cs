@@ -228,5 +228,6 @@ namespace MPC.Interfaces.WebStoreServices
         List<ProductCategory> GetAllRetailPublishedCat();
         List<ProductCategory> GetAllCategories();
         string GetCurrencyCodeById(long currencyId);
+        List<CompanyContact> GetCompanyAdminByCompanyId(long CompanyId);
     }
 }

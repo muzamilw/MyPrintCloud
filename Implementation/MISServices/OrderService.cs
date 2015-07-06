@@ -1344,6 +1344,8 @@ namespace MPC.Implementation.MISServices
                     }
                     ReturnRelativePath = sCreateDirectory;
                     ReturnPhysicalPath = "/MPC_Content/Artworks/" + OrganisationId + "/" + sZipFileName;
+
+                    orderRepository.UpdateItemAttachmentPath(ItemsList);
                     //UpdateAttachmentsPath(oOrder)
                     return ReturnPhysicalPath;
                 }

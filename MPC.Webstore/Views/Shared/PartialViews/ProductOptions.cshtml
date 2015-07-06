@@ -1556,7 +1556,8 @@
 
             } else {//This condition executes when first time a cost centre is selected from landing page
                 ShowLoader();
-
+                
+                console.log($("#costCentreQueueItems").val());
                 if ($("#costCentreQueueItems").val() == 'null' || $("#costCentreQueueItems").val() == null) { // This condition will execute when cost centre queue is empty means we are adding cost centre at very first time
                     var isQueueExist = false;
                     var QuestionQueueObject = null;
@@ -1564,14 +1565,12 @@
                     var WorkInstructions = null;
                     $.getJSON("/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + CostCentreId + "&ClonedItemId=" + @ViewBag.ClonedItem.ItemId + "&OrderedQuantity=" + quantityOrdered + "&CallMode=New",
                         function(DT) {
-
                             QuestionQueueObject = DT[2];
                             InputQueueObject = DT[7];
 
                             WorkInstructions = DT[3][0].WorkInstructions;
-
                             if(CostCentreType == 4){ // cost centres of calculation methode type 4 are formula based
-                                if(QuestionQueueObject != null){ // process the question queue and prompt for values
+                                if(QuestionQueueObject != null && QuestionQueueObject != ""){ // process the question queue and prompt for values
                                     if(QuestionQueueObject.length > 0){
                                         isQueueExist = true;
                                         ShowCostCentrePopup(QuestionQueueObject, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice, InputQueueObject.Items, CostCentreType, @ViewBag.TaxRate, WorkInstructions);
@@ -1600,6 +1599,7 @@
                             }
                             if(isQueueExist == false){// queue is not populating
                                 alert("Error:Queue is not populating.");
+                                HideLoader();
                             }
                         });
 
