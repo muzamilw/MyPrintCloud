@@ -436,7 +436,7 @@ namespace MPC.Repository.Repositories
                                                 {
                                                     if (propertyInfo.Name == "ApprovarID")
                                                     {
-                                                        tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, "ContactID", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
+                                                        tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, "ContactId", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
                                                     }
                                                     else if (Tag.Contains("StoreName"))
                                                     {

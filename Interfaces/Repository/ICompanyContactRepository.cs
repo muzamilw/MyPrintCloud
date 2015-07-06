@@ -131,6 +131,6 @@ namespace MPC.Interfaces.Repository
         CompanyContact GetCorporateContactForAutoLogin(string emailAddress, long organistionId, long companyId);
 
         CompanyContact GetContactByContactId(long ContactId);
-        
+        List<CompanyContact> GetCompanyAdminByCompanyId(long CompanyId);
     }
 }
