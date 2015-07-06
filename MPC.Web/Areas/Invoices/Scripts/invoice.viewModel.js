@@ -261,7 +261,7 @@ define("invoice/invoice.viewModel",
 
                         }
 
-                    }
+                    },
 
                 // Close Editor
                 closeInvoiceEditor = function () {
@@ -766,8 +766,9 @@ define("invoice/invoice.viewModel",
                     invoiceListViewItem.invoiceDate(selectedInvoice().invoiceDate());
                     invoiceListViewItem.status(selectedInvoice().invoiceStatusText());
                     invoiceListViewItem.itemsCount(selectedInvoice().items().length + selectedInvoice().invoiceDetailItems().length);
+                    invoiceListViewItem.status(selectedInvoice().statusName() || '');
                     var sectionFlagItem = _.find(sectionFlags(), function (sFlag) {
-                        return sFlag.SectionFlagId === selectedInvoice().sectionFlagId();
+                        return sFlag.SectionFlagId === parseInt(selectedInvoice().sectionFlagId());
                     });
                     if (sectionFlagItem !== undefined && sectionFlagItem !== null) {
                         invoiceListViewItem.flagColor(sectionFlagItem.FlagColor);
@@ -1128,6 +1129,10 @@ define("invoice/invoice.viewModel",
               },
                 afterSelectCostCenter = function (costCenter) {
                     selectedCostCentre(costCenter);
+                    if (isCostCenterDialogForShipping()) {
+                        createNewCostCenterProduct();
+                        return;
+                    }
                     view.showCostCentersQuantityDialog();
                 },
                 //#endregion
@@ -1241,19 +1246,27 @@ define("invoice/invoice.viewModel",
                             createNewCostCenterProduct();
                         });
                     },
-                //Initialize method to call in every screen
-            initializeScreen = function (specifiedView) {
-                view = specifiedView;
-                ko.applyBindings(view.viewModel, view.bindingRoot);
-                // Get Base Data
-                getBaseData();
-            },
-                // Initialize the view model
-            initialize = function (specifiedView) {
-                initializeScreen(specifiedView);
-                pager(new pagination.Pagination({ PageSize: 10 }, invoices, getInvoices));
-                getInvoices();
-            };
+                    onDeleteShippingItem = function (shippingItem) {
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.afterProceed(function () {
+                            selectedInvoice().items.remove(shippingItem);
+                        });
+                        confirmation.show();
+                        return;
+                    },
+                    //Initialize method to call in every screen
+                    initializeScreen = function (specifiedView) {
+                        view = specifiedView;
+                        ko.applyBindings(view.viewModel, view.bindingRoot);
+                        // Get Base Data
+                        getBaseData();
+                    },
+                        // Initialize the view model
+                    initialize = function (specifiedView) {
+                        initializeScreen(specifiedView);
+                        pager(new pagination.Pagination({ PageSize: 10 }, invoices, getInvoices));
+                        getInvoices();
+                    };
 
                 //#endregion
 
@@ -1330,7 +1343,8 @@ define("invoice/invoice.viewModel",
                     calculateGrossTotal: calculateGrossTotal,
                     calculateTaxValue: calculateTaxValue,
                     onCreateNewCostCenterProduct: onCreateNewCostCenterProduct,
-                    onAddFinishedGoods:onAddFinishedGoods
+                    onAddFinishedGoods: onAddFinishedGoods,
+                    onDeleteShippingItem: onDeleteShippingItem
                     //#endregion
                 };
             })()
