@@ -218,7 +218,7 @@ define("common/phraseLibrary.viewModel",
                         saveLibrary(severModel);
                     } else {
                         if (applyFlag!==true) {
-                            toastr.error("There is no phrase for save.");
+                           // toastr.error("There is no phrase for save.");
                         }
                        
                     }
