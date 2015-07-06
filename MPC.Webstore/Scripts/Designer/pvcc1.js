@@ -138,7 +138,7 @@ var crv4 = 0;
 var crv5 = 0;
 var showEBtn = true;
 var panelMode = 1;
-var firstLoad = true, loaderLoading = false;
+var firstLoad = true, loaderLoading = false,designerFirstLoad = true;
 var lAObj = 0;
 var spPanel = "";
 var spBkPanel = "";
