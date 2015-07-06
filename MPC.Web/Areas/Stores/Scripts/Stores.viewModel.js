@@ -2036,6 +2036,7 @@ define("stores/stores.viewModel",
                                 selectedCompanyContact().shippingAddressId(item.addressId());
                                 selectedShippingAddress().stateName(item.stateName());
                                 selectedShippingAddress().stateCode(item.stateCode());
+                                //Update Selected Store Company Contact
                                 if (!contactHasChanges) {
                                     selectedCompanyContact().reset();
                                 }
