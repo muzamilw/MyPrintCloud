@@ -132,10 +132,10 @@ namespace MPC.Interfaces.Repository
         CompanyContact GetCorporateContactForAutoLogin(string emailAddress, long organistionId, long companyId);
 
         CompanyContact GetContactByContactId(long ContactId);
+        List<CompanyContact> GetCompanyAdminByCompanyId(long CompanyId);
         /// <summary>
         /// Load Property
         /// </summary>
         void LoadProperty<T>(object entity, Expression<Func<T>> propertyExpression, bool isCollection = false);
-        
     }
 }

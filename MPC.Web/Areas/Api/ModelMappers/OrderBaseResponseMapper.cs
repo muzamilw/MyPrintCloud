@@ -31,7 +31,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ChartOfAccounts = source.ChartOfAccounts != null ? source.ChartOfAccounts.Select(s => s.CreateFrom()).ToList() : new List<ChartOfAccount>(),
                 CostCenters = source.CostCenters != null ? source.CostCenters.Select(x=>x.CreateFrom()).ToList(): new List<CostCentre>(),
                 PipeLineProducts = source.PipeLineProducts != null ? source.PipeLineProducts.Select(x=>x.CreateFrom()).ToList(): new List<PipeLineProduct>(),
-                LoggedInUser = source.LoggedInUser
+                LoggedInUser = source.LoggedInUser,
+                HeadNotes = source.HeadNotes,
+                FootNotes = source.FootNotes,
             };
         }
 
@@ -50,6 +52,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 LengthUnit = source.LengthUnit,
                 WeightUnit = source.WeightUnit,
                 LoggedInUser = source.LoggedInUser,
+                DefaultMarkUpId = source.DefaultMarkUpId,
                 Machines = source.Machines != null ? source.Machines.Select(cc => cc.CreateFromForOrder()) : new List<Machine>()
             };
         }
