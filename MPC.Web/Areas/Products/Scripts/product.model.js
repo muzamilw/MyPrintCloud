@@ -393,10 +393,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (template()) {
                         if (tempType === 1) {
                             template().isCreatedManualUi(true);
+                            designerCategoryId(0);
                         }
                         else if (tempType === 2) {
                             template().isCreatedManualUi(false);
                             template().fileSource(undefined);
+                            designerCategoryId(0);
                         }
                         else {
                             template().isCreatedManualUi(undefined);
