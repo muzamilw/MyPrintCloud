@@ -255,9 +255,17 @@
                                                                         <th class="col-sm-8"><span></span></th>
                                                                         <th class="col-sm-2"><span>Qty</span></th>
                                                                         <th class="col-sm-2 text-right"><span>Price inc. Tax</span></th>
+                                                                        <th class="col-sm-1" style="width: 2%"></th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
+                                                                    <!--ko if: nonDeliveryItems().length===0-->
+                                                                    <tr>
+                                                                        <td colspan="4">
+                                                                            <span data-bind="text: 'No Items found!'"></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <!-- /ko -->
                                                                     <!-- ko template: { name: 'itemTemplate', foreach: nonDeliveryItems } -->
                                                                     <!-- /ko -->
                                                                 </tbody>
@@ -311,9 +319,17 @@
                                                                         <th class="col-sm-5"><span></span></th>
                                                                         <th class="col-sm-3"><span></span></th>
                                                                         <th class="col-sm-3 text-right"><span>Price inc. Tax</span></th>
+                                                                        <th class="col-sm-1" style="width: 2%"></th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
+                                                                    <!--ko if: deliveryItems().length==0-->
+                                                                    <tr>
+                                                                        <td colspan="4">
+                                                                            <span data-bind="text: 'No Items found!'"></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <!-- /ko -->
                                                                     <!-- ko template: { name: 'deliveryItemTemplate', foreach: deliveryItems } -->
                                                                     <!-- /ko -->
                                                                 </tbody>
@@ -381,6 +397,14 @@
                                             <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
                                             <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
                                         </td>
+                                        <td>
+                                            <a href="#" class="table-link danger pull-right" style="visibility: hidden" title="Delete">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                        </td>
                                     </tr>
                                 </script>
                                 <script id="deliveryItemTemplate" type="text/html">
@@ -392,6 +416,14 @@
                                         <td style=" text-align: right;">
                                             <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
                                             <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="table-link danger pull-right" data-bind="click: $root.onDeleteShippingItem" title="Delete">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
                                         </td>
                                     </tr>
                                 </script>

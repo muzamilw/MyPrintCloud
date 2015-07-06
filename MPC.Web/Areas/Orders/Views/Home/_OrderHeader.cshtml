@@ -179,7 +179,7 @@
                     </div>
                 </div>
                 <div class="col-sm-1">
-                    <a id="416"  data-bind="visible: $root.selectedEstimatePhraseContainer() === 'EstimateHeader', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary">
+                    <a id="416" data-bind="visible: $root.selectedEstimatePhraseContainer() === 'EstimateHeader', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary">
                         <i class="fa fa-lg"></i>&nbsp;....
                     </a>
                 </div>
@@ -205,16 +205,15 @@
                                             <th class="col-sm-8"><span></span></th>
                                             <th class="col-sm-2"><span>Qty</span></th>
                                             <th class="col-sm-2 text-right"><span>Price inc. Tax</span></th>
+                                            <th class="col-sm-1" style="width: 2%"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <!--ko if: nonDeliveryItems().length==0-->
                                         <tr>
-                                            <td>
+                                            <td colspan="4">
                                                 <span data-bind="text: 'No Items found!'"></span>
                                             </td>
-                                            <td></td>
-                                            <td></td>
                                         </tr>
                                         <!-- /ko -->
                                         <!-- ko template: { name: 'itemTemplate', foreach: nonDeliveryItems } -->
@@ -263,16 +262,15 @@
                                             <th class="col-sm-5"><span></span></th>
                                             <th class="col-sm-3"><span></span></th>
                                             <th class="col-sm-3 text-right"><span>Price inc. Tax</span></th>
+                                            <th class="col-sm-1" style="width: 2%"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <!--ko if: deliveryItems().length==0-->
                                         <tr>
-                                            <td>
+                                            <td colspan="4">
                                                 <span data-bind="text: 'No Items found!'"></span>
                                             </td>
-                                            <td></td>
-                                            <td></td>
                                         </tr>
                                         <!-- /ko -->
                                         <!-- ko template: { name: 'deliveryItemTemplate', foreach: deliveryItems } -->
@@ -308,7 +306,7 @@
                     <textarea class="form-control" id="EstimateFootNotesTextBox" placeholder="Enter order closing paragraph as it would appear on reports" rows="3" data-bind="value: footNotes, click: $root.selectEstimatePhraseContainer"></textarea>
                 </div>
                 <div class="col-sm-1">
-                    <a id= "417" data-bind="visible: $root.selectedEstimatePhraseContainer() === 'EstimateFootNotesTextBox', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary">
+                    <a id="417" data-bind="visible: $root.selectedEstimatePhraseContainer() === 'EstimateFootNotesTextBox', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary">
                         <i class="fa fa-lg"></i>&nbsp;....
                     </a>
                 </div>
@@ -338,6 +336,14 @@
                 <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
                 <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
             </td>
+            <td>
+                <a href="#" class="table-link danger pull-right" style="visibility: hidden" title="Delete">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </td>
         </tr>
     </script>
     <script id="deliveryItemTemplate" type="text/html">
@@ -345,10 +351,18 @@
             <td>
                 <span style="font-size:20px;" data-bind="text: productName"></span>
             </td>
-            <td></td>
+            <td>&nbsp;</td>
             <td style=" text-align: right;">
                 <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
                 <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
+            </td>
+            <td>
+                <a href="#" class="table-link danger pull-right" data-bind="click: $root.onDeleteShippingItem" title="Delete">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
             </td>
         </tr>
     </script>
