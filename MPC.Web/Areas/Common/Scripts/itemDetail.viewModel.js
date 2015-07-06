@@ -134,6 +134,8 @@ define("common/itemDetail.viewModel",
                     closeItemDetailSection = null,
                     //Is Estimate Screen
                     isEstimateScreen = ko.observable(false),
+                    // Default MarkUp Id
+                    defaultMarkUpId = ko.observable(),
                     //#endregion  
                     isSectionCostCenterDialogOpen = ko.observable(false),
                     isSectionVisible = ko.observable(false),
@@ -288,7 +290,7 @@ define("common/itemDetail.viewModel",
                             return selectedSectionCostCenter().qty3MarkUpId();
                         },
                         write: function (value) {
-                            if (!value || value === selectedSectionCostCenter().qty3MarkUpId()) {
+                            if (!value || (selectedSectionCostCenter().qty3MarkUpId() !== undefined && value === selectedSectionCostCenter().qty3MarkUpId())) {
                                 return;
                             }
                             selectedSectionCostCenter().qty3MarkUpId(value);
@@ -334,7 +336,7 @@ define("common/itemDetail.viewModel",
                             return selectedSectionCostCenter().qty2MarkUpId();
                         },
                         write: function (value) {
-                            if (!value || value === selectedSectionCostCenter().qty2MarkUpId()) {
+                            if (!value || (selectedSectionCostCenter().qty2MarkUpId() !== undefined && value === selectedSectionCostCenter().qty2MarkUpId())) {
                                 return;
                             }
                             selectedSectionCostCenter().qty2MarkUpId(value);
@@ -380,7 +382,7 @@ define("common/itemDetail.viewModel",
                             return selectedSectionCostCenter().qty1MarkUpId();
                         },
                         write: function (value) {
-                            if (!value || value === selectedSectionCostCenter().qty1MarkUpId()) {
+                            if (!value || (selectedSectionCostCenter().qty1MarkUpId() !== undefined && value === selectedSectionCostCenter().qty1MarkUpId())) {
                                 return;
                             }
                             selectedSectionCostCenter().qty1MarkUpId(value);
@@ -418,6 +420,39 @@ define("common/itemDetail.viewModel",
                             calculateSectionBaseCharge1();
                         }
                     }),
+
+
+                    applySectionCostCenterMarkup = function () {
+                        _.each(markups(), function (markup) {
+
+                            if (markup.MarkUpId == selectedSectionCostCenter().qty1MarkUpId()) {
+                                markupValue = markup.MarkUpRate;
+                                selectedSectionCostCenter().qty1MarkUpValue(markupValue);
+                                var total3 = parseFloat(selectedSectionCostCenter().qty1Charge()) + (selectedSectionCostCenter().qty1Charge() * (markupValue / 100));
+                                selectedSectionCostCenter().qty1NetTotal(total3);
+                            }
+
+
+                            if (markup.MarkUpId == selectedSectionCostCenter().qty2MarkUpId()) {
+                                markupValue = markup.MarkUpRate;
+                                selectedSectionCostCenter().qty2MarkUpValue(markupValue);
+                                var total2 = parseFloat(selectedSectionCostCenter().qty2Charge()) + (selectedSectionCostCenter().qty2Charge() * (markupValue / 100));
+                                selectedSectionCostCenter().qty2NetTotal(total2);
+                            }
+
+                            if (markup.MarkUpId == selectedSectionCostCenter().qty3MarkUpId()) {
+                                markupValue = markup.MarkUpRate;
+                                selectedSectionCostCenter().qty3MarkUpValue(markupValue);
+                                var total = parseFloat(selectedSectionCostCenter().qty3Charge()) + (selectedSectionCostCenter().qty3Charge() * (markupValue / 100));
+                                selectedSectionCostCenter().qty3NetTotal(total);
+                            }
+
+                        });
+
+                        calculateSectionBaseCharge1();
+                        calculateSectionBaseCharge2();
+                        calculateSectionBaseCharge3();
+                    },
                     sectionCostCenterQty1NetTotal = ko.computed({
                         read: function () {
                             if (!selectedSectionCostCenter()) {
@@ -491,6 +526,10 @@ define("common/itemDetail.viewModel",
                         sectionCostCenter.sectionCostCentreDetails.splice(0, 0, sectionCostCenterDetail);
                         updateSectionCostCenter(sectionCostCenterDetail);
                         selectedSection().sectionCostCentres.splice(0, 0, sectionCostCenter);
+                        sectionCostCenterQty2MarkUpId(defaultMarkUpId());
+                        sectionCostCenterQty1MarkUpId(defaultMarkUpId());
+                        sectionCostCenterQty3MarkUpId(defaultMarkUpId());
+
                         calculateSectionBaseCharge1();
                         calculateSectionBaseCharge2();
                         calculateSectionBaseCharge3();
@@ -1170,7 +1209,7 @@ define("common/itemDetail.viewModel",
                                     mapList(paperSizes, data.PaperSizes, model.PaperSize);
                                     mapList(sectionPaperSizes, data.PaperSizes, model.PaperSize);
                                     // Sort Descending For Section 
-                                    sectionPaperSizes.sort(function(paperA, paperB) {
+                                    sectionPaperSizes.sort(function (paperA, paperB) {
                                         return paperA.area < paperB.area ? 1 : -1;
                                     });
                                 }
@@ -1189,6 +1228,7 @@ define("common/itemDetail.viewModel",
                                 if (data.Machines) {
                                     mapList(presses, data.Machines, model.Machine);
                                 }
+                                defaultMarkUpId(data.DefaultMarkUpId);
                                 currencySymbol(data.CurrencySymbol);
                                 lengthUnit(data.LengthUnit || '');
                                 weightUnit(data.WeightUnit || '');
@@ -1594,6 +1634,10 @@ define("common/itemDetail.viewModel",
                         selectedSectionCostCenter(sectionCostCenter);
                         selectedQty(1);
                         selectedSection().sectionCostCentres.push(sectionCostCenter);
+                        sectionCostCenterQty2MarkUpId(defaultMarkUpId());
+                        sectionCostCenterQty1MarkUpId(defaultMarkUpId());
+                        sectionCostCenterQty3MarkUpId(defaultMarkUpId());
+
                     },
                     // Copy job Cards
                     copyJobCards = function () {
@@ -1695,7 +1739,7 @@ define("common/itemDetail.viewModel",
                             updateJobDescription(phrase);
                         });
                     },
-                    
+
 
                     // Update Job Description
                     updateJobDescription = function (phrase) {
@@ -1736,6 +1780,8 @@ define("common/itemDetail.viewModel",
                         }
 
                         selectedSection(itemSection);
+                        selectedSection().qty1MarkUpId(defaultMarkUpId());
+                        selectedSection().qty2MarkUpId(defaultMarkUpId());
                         subscribeSectionChanges();
                         showSectionDetail(true);
                     },
@@ -1998,7 +2044,9 @@ define("common/itemDetail.viewModel",
                     openJobCardsTab: openJobCardsTab,
                     onAddPostPressCostCenter: onAddPostPressCostCenter,
                     sectionCostCenterQty1Ui: sectionCostCenterQty1Ui,
-                    sectionCostCenterQty2Ui: sectionCostCenterQty2Ui
+                    sectionCostCenterQty2Ui: sectionCostCenterQty2Ui,
+                    defaultMarkUpId: defaultMarkUpId,
+                    applySectionCostCenterMarkup: applySectionCostCenterMarkup
                     //#endregion
                 };
             })()

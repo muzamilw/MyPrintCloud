@@ -140,6 +140,10 @@ define("order/order.viewModel",
                     isSectionDetailVisible = ko.observable(false),
                     // Is Company Base Data Loaded
                     isCompanyBaseDataLoaded = ko.observable(false),
+                    // Head Notes
+                    headNotes = ko.observable(),
+                    // Foot Notes
+                    footNotes = ko.observable(),
                     // #endregion
                     // #region Observables
                     // Selected Estimate Phrase Container
@@ -220,7 +224,7 @@ define("order/order.viewModel",
                             updateEstimatePhraseContainer(phrase);
                         });
                     },
-                   
+
                     formatSelection = function (state, event) {
                         return state && state.id === undefined ? "" : "<span style=\"height:20px;width:20px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
                     },
@@ -303,6 +307,8 @@ define("order/order.viewModel",
                         if (isEstimateScreen()) {
                             selectedOrder().reportSignedBy(loggedInUser());
                         }
+                        selectedOrder().footNotes(footNotes());
+                        selectedOrder().headNotes(headNotes());
                         view.setOrderState(4); // Pending Order
                         selectedOrder().statusId(4);
                         selectedOrder().status("Open/Draft Estimate");
@@ -1149,6 +1155,7 @@ define("order/order.viewModel",
                                 if (data.SectionFlags) {
                                     mapList(sectionFlags, data.SectionFlags, model.SectionFlag);
                                 }
+
                                 if (data.SystemUsers) {
                                     mapList(systemUsers, data.SystemUsers, model.SystemUser);
                                 }
@@ -1223,7 +1230,8 @@ define("order/order.viewModel",
                                     ko.utils.arrayPushAll(costCentresBaseData(), data.CostCenters);
                                     costCentresBaseData.valueHasMutated();
                                 }
-
+                                headNotes(data.HeadNotes);
+                                footNotes(data.FootNotes);
                                 currencySymbol(data.CurrencySymbol);
                                 loggedInUser(data.LoggedInUser || '');
                                 view.initializeLabelPopovers();
@@ -1648,6 +1656,15 @@ define("order/order.viewModel",
                         selectedOrder().items.splice(0, 0, newItem);
                         itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
                         // Set Default Section to be used as a default for new sections in this item
+                        newItem.itemSections()[0].qty1MarkUpId(itemDetailVm.defaultMarkUpId());
+                        newItem.itemSections()[0].qty2MarkUpId(itemDetailVm.defaultMarkUpId());
+                        _.each(newItem.itemSections()[0].sectionCostCentres(), function (item) {
+                            item.qty1MarkUpId(itemDetailVm.defaultMarkUpId());
+                            item.qty2MarkUpId(itemDetailVm.defaultMarkUpId());
+                            item.qty3MarkUpId(itemDetailVm.defaultMarkUpId());
+                            itemDetailVm.selectedSectionCostCenter(item);
+                            itemDetailVm.applySectionCostCenterMarkup();
+                        });
                         itemDetailVm.defaultSection(newItem.itemSections()[0].convertToServerData());
                         //Req: Open Edit dialog of product on adding product
                         editItem(newItem);
@@ -1658,6 +1675,17 @@ define("order/order.viewModel",
                         itemDetailVm.updateOrderData(selectedOrder(), selectedProduct(), selectedSectionCostCenter(), selectedQty(), selectedSection());
                         selectedProduct().productType(3);
                         newItem.itemSections()[0].productType(3);
+                        newItem.itemSections()[0].qty1MarkUpId(itemDetailVm.defaultMarkUpId());
+                        newItem.itemSections()[0].qty2MarkUpId(itemDetailVm.defaultMarkUpId());
+
+                        _.each(newItem.itemSections()[0].sectionCostCentres(), function (item) {
+                            item.qty1MarkUpId(itemDetailVm.defaultMarkUpId());
+                            item.qty2MarkUpId(itemDetailVm.defaultMarkUpId());
+                            item.qty3MarkUpId(itemDetailVm.defaultMarkUpId());
+                            itemDetailVm.selectedSectionCostCenter(item);
+                            itemDetailVm.applySectionCostCenterMarkup();
+
+                        });
                         // Set Default Section to be used as a default for new sections in this item
                         itemDetailVm.defaultSection(newItem.itemSections()[0].convertToServerData());
 
@@ -2334,7 +2362,7 @@ define("order/order.viewModel",
 
 
                     },
-                    copyEstimate = function() {
+                    copyEstimate = function () {
                         confirmation.messageText("Proceed To Copy Estimate ?");
                         confirmation.afterProceed(function () {
                             dataservice.copyEstimate({
@@ -2360,7 +2388,7 @@ define("order/order.viewModel",
                         orders.splice(0, 0, selectedOrder());
                     },
 
-                    isCustomerEdittable = ko.computed(function() {
+                    isCustomerEdittable = ko.computed(function () {
                         if (selectedOrder() !== undefined && (isCopyiedEstimate() || selectedOrder().id() === 0 || selectedOrder().id() === undefined)) {
                             return true;
                         }
@@ -2977,7 +3005,7 @@ define("order/order.viewModel",
                     selectedEstimatePhraseContainer: selectedEstimatePhraseContainer,
                     selectEstimatePhraseContainer: selectEstimatePhraseContainer,
                     openPhraseLibrary: openPhraseLibrary,
-                      formatSelection: formatSelection,
+                    formatSelection: formatSelection,
                     formatResult: formatResult,
                     onDeletePrePayment: onDeletePrePayment,
                     onAddFinishedGoods: onAddFinishedGoods,

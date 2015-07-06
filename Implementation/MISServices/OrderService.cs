@@ -592,9 +592,9 @@ namespace MPC.Implementation.MISServices
                 if (invoice != null)
                 {
                     estimate.InvoiceStatus = invoice.InvoiceStatus;
-                }  
+                }
             }
-          
+
             return estimate;
         }
 
@@ -732,6 +732,7 @@ namespace MPC.Implementation.MISServices
         public OrderBaseResponse GetBaseData()
         {
 
+
             return new OrderBaseResponse
                    {
                        SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Order),
@@ -742,7 +743,8 @@ namespace MPC.Implementation.MISServices
                        // ChartOfAccounts = chartOfAccountRepository.GetAll(),
                        CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem(),
                        PipeLineProducts = pipeLineProductRepository.GetAll(),
-                       LoggedInUser = organisationRepository.LoggedInUserId
+                       LoggedInUser = organisationRepository.LoggedInUserId,
+
                    };
         }
 
@@ -752,6 +754,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public OrderBaseResponse GetBaseDataForEstimate()
         {
+            SystemUser systemUser = systemUserRepository.GetUserrById(systemUserRepository.LoggedInUserId);
             return new OrderBaseResponse
             {
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Estimate),
@@ -762,7 +765,9 @@ namespace MPC.Implementation.MISServices
                 // ChartOfAccounts = chartOfAccountRepository.GetAll(),
                 CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem(),
                 PipeLineProducts = pipeLineProductRepository.GetAll(),
-                LoggedInUser = organisationRepository.LoggedInUserId
+                LoggedInUser = organisationRepository.LoggedInUserId,
+                HeadNotes = systemUser != null ? systemUser.EstimateHeadNotes : string.Empty,
+                FootNotes = systemUser != null ? systemUser.EstimateFootNotes : string.Empty,
             };
         }
 
@@ -780,10 +785,11 @@ namespace MPC.Implementation.MISServices
         public ItemDetailBaseResponse GetBaseDataForItemDetails()
         {
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
-
+            List<Markup> markups = _markupRepository.GetAll().ToList();
+            Markup defaultMarkup = markups.FirstOrDefault(x => x.IsDefault == true);
             return new ItemDetailBaseResponse
             {
-                Markups = _markupRepository.GetAll(),
+                Markups = markups,
                 PaperSizes = paperSizeRepository.GetAll(),
                 InkPlateSides = inkPlateSideRepository.GetAll(),
                 Inks = stockItemRepository.GetStockItemOfCategoryInk(),
@@ -793,7 +799,8 @@ namespace MPC.Implementation.MISServices
                 LengthUnit = organisation != null && organisation.LengthUnit != null ? organisation.LengthUnit.UnitName : string.Empty,
                 WeightUnit = organisation != null && organisation.WeightUnit != null ? organisation.WeightUnit.UnitName : string.Empty,
                 LoggedInUser = organisationRepository.LoggedInUserId,
-                Machines = MachineRepository.GetAll()
+                Machines = MachineRepository.GetAll(),
+                DefaultMarkUpId = defaultMarkup != null ? defaultMarkup.MarkUpId : 0
             };
 
         }
