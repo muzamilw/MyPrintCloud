@@ -323,12 +323,12 @@ define("common/addProduct.viewModel",
                                 workInstructions = data[3][0].WorkInstructions;
                                 if (refiningOption.calculationMethodType() === 4) { // cost centres of calculation methode type 4 are formula based
                                     if (questionQueueObject != null) { // process the question queue and prompt for values
-                                        if (questionQueueObject.length > 0) {
+                                        //if (questionQueueObject.length > 0) {
                                             isQueueExist = true;
                                             ShowCostCentrePopup(questionQueueObject, refiningOption.costCentreId(), selecteditem().id(), refiningOption.isSelected.domElement, "New", currencySymbol(),
                                                 totalProductPrice(), inputQueueObject.Items, refiningOption.calculationMethodType(), companyTaxRate, workInstructions,
                                                 selectedProductQuanity(), selectedStockOption().itemAddonCostCentres);
-                                        }
+                                        //}
                                         if (inputQueueObject.Items && inputQueueObject.Items.length === 3) { // do not process the queue for prompting values
                                             isQueueExist = true;
                                         }
@@ -361,9 +361,9 @@ define("common/addProduct.viewModel",
                                             selectedProductQuanity(), selectedStockOption().itemAddonCostCentres);
                                     }
                                 }
-                                if (isQueueExist === false) {// queue is not populating
-                                    toastr.error("Queue is not populating.");
-                                }
+                                //if (isQueueExist === false) {// queue is not populating
+                                //    toastr.error("Queue is not populating.");
+                                //}
                             },
                             error: function (response) {
                                 toastr.error("Failed to execute cost center. Error: " + response);

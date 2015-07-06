@@ -1278,6 +1278,15 @@ function ShowCostCentrePopup(questionQueueItems, costCentreId, clonedItemId, sel
 
     $(parentContainer + " #layer")[0].style.display = "block";
     $(parentContainer + " #innerLayer")[0].style.display = "block";
+
+    if (questionQueueItems.length == 0 && workInstructions.length == 0 )
+    {
+        //alert('lengths zero, skip validation and go to to next step');
+        var desriptionOfCostCentre = "";
+        SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, costCentreId, costCentreType, clonedItemId,
+         selectedCostCentreCheckBoxElement, desriptionOfCostCentre, itemPrice, currency, true, taxRate, orderedQty, selectedStockOptionItemAddOns,
+         globalSelectedCostCenter, null, true);
+    }
 }
 
 // Show Input Cost Center Popup
