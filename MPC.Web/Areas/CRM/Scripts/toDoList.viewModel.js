@@ -333,7 +333,7 @@ define("toDoList/toDoList.viewModel",
                     if (!company) {
                         return;
                     }
-                    //selectedActivity().contactCompanyId(company.id);
+                    selectedActivity().contactCompanyId(company.id);
                     selectedCompany(company);
                     contactVM.addContact(onSaveContact, company.id);
                 },
