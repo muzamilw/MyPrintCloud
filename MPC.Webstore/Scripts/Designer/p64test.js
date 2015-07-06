@@ -20106,28 +20106,6 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
         wrapText: function (context, text, x, y, maxWidth, lineHeight, BoxHeight, charSpacing, textAlign, fontSize, appliedStyles, objThis) {
             var formattedText = [];
             charSpacing = parseFloat(charSpacing);
-            //if (this.textCase == 1) {
-            //   text = text.toLowerCase();
-            //} else if (this.textCase == 2) {
-            //    text = text.toUpperCase();
-            //} else if (this.textCase == 3) {
-
-            //    text = text.toLowerCase();
-            //    var sntncForSentncCase = text.split(".");
-            //    var TextTemp = '';
-            //    for (var sen = 0; sen < sntncForSentncCase.length; sen++) {
-            //        if (sntncForSentncCase.length == 1) {
-            //            TextTemp = TextTemp + sntncForSentncCase[sen].substr(0, 1).toUpperCase() + sntncForSentncCase[sen].substr(1);
-            //        } else {
-            //            sntncForSentncCase[sen] = sntncForSentncCase[sen].trim();
-            //            TextTemp = TextTemp + sntncForSentncCase[sen].substr(0, 1).toUpperCase() + sntncForSentncCase[sen].substr(1) + '. ';
-            //        }
-
-            //    }
-
-            //    text = TextTemp;
-            //}
-
             var sentence = text.split(/\r\n|\r|\n/);
             var MaxHeight = 0;
             var chars = "";
@@ -20196,11 +20174,6 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                         chars += nLine + "\n";
                         y += lineHeight;
                     }
-                    //if (Math.floor(MaxHeight + (fontSize / 3)) > Math.floor(BoxHeight)) {
-                    //    if (isLoading == false) {
-                    //     //   pcL24("Text box is too small and may not appear in full on proof.Increase the text box frame");
-                    //    }
-                    //}
                 } else {
                     //if (isLoading == false) {
                     //    //  pcL23("Increase frame size to show missing content.");
