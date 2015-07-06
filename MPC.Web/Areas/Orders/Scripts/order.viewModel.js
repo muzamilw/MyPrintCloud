@@ -839,8 +839,19 @@ define("order/order.viewModel",
                             }
                             selectedItemForProgressToJobWizard().setJobProgressedBy(loggedInUser());
                             progressToJobItemCounter = progressToJobItemCounter + 1;
+                            //Update Order Items On Progress to order
+                            //setting job manager and signed by of items on progress to order
+                            updateOrderItemsOnProgressToOrder();
                             view.showOrderStatusProgressToJobDialog();
                         }
+                    },
+                    //Update Order Items On Progress to order
+                    //setting job manager and signed by of items on progress to order
+                    updateOrderItemsOnProgressToOrder = function() {
+                        _.each(selectedOrder().nonDeliveryItems(), function(item) {
+                            item.jobManagerId(selectedCompanyJobManagerUser());
+                            item.jobSignedBy(loggedInUser());
+                        });
                     },
                     clickOnJobToProgressWizard = function () {
                         if (selectedOrder().nonDeliveryItems().length === progressToJobItemCounter) {
