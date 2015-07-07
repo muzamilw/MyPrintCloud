@@ -15,6 +15,11 @@ define("common/companySelector.view",
                 showDialog = function () {
                     $("#companySelectorDialog").modal("show");
                 },
+                focusFilter = function() {
+                    setTimeout(function () {
+                        $("#companySelectorDialog input").first().focus();
+                    }, 500);
+                },
                 // Hide companySelector the dialog
                 hideDialog = function () {
                     $("#companySelectorDialog").modal("hide");
@@ -24,7 +29,8 @@ define("common/companySelector.view",
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
                 showDialog: showDialog,
-                hideDialog: hideDialog
+                hideDialog: hideDialog,
+                focusFilter: focusFilter
             };
             
         })(ist.companySelector.viewModel);

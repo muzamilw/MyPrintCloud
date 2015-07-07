@@ -1954,7 +1954,13 @@ function fu07() {
         if (i == 0) {
             classes = "menuItemContainer selectedItem " + ite.ProductPageID + " ";
         }
-        pHtml += '  <li  class="' + classes + '"><a class="plain" onClick="d5(' + ite.ProductPageID + ')">Page ' + (i + 1) + '</a></li>';
+        if (IsCalledFrom == 3) {
+            pHtml += '  <li  class="' + classes + '"><a class="plain" onClick="d5(' + ite.ProductPageID + ')">Page ' + (i + 1) + '</a></li>';
+        } else
+        {
+            pHtml += '  <li  class="' + classes + '"><a class="plain" onClick="d5(' + ite.ProductPageID + ')">' + ite.PageName + '</a></li>';
+        }
+        
     });
     $("#documentMenu").append(pHtml);
     $("#documentMenu li").hover(function () {
@@ -4338,7 +4344,8 @@ function pcl41(xdata) {
                 if(IT.FieldVariable.VariableType == 1 )
                 {
                     //dropDown 
-                    html += pcl40_addDropDown(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.VariableOptions, IT.FieldVariable.DefaultValue, tabIndex);
+
+                    html += pcl40_addDropDown(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, smartFormData.smartFormOptions, IT.FieldVariable.DefaultValue, tabIndex);
 
                 } else if (IT.FieldVariable.VariableType == 2) {
                     html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask, tabIndex, IT.FieldVariable.VariableTag);
@@ -4399,8 +4406,10 @@ function pcl40_addDropDown(title, varId,options,def,tabindex) {
     if (options != null) {
 
         $.each(options, function (i, IT) {
-            var selected = "";
-            html += '<option  id = "option' + IT.VariableOptionId + '" value="' + IT.Value + '" ' + selected + ' >' + IT.Value + '</option>';;
+            if (IT.VariableId == varId) {
+                var selected = "";
+                html += '<option  id = "option' + IT.VariableOptionId + '" value="' + IT.Value + '" ' + selected + ' >' + IT.Value + '</option>';;
+            }
         });
     }
     html+=    '</select></div>';
@@ -4443,7 +4452,7 @@ function pcl40_InsertDefaultValues(scope) {
 }
 function pcl40_InsertUserData(scope) {
     $.each(scope, function (i, IT) {
-        if (IT.Value != null && IT.Value != "" && IT.Value != undefined) {
+        if (IT.Value != null  && IT.Value != undefined) {
             $("#txtSmart" + IT.VariableId).val(IT.Value);
         } else {
             //if (IT.DefaultValue != null || IT.DefaultValue != "" || IT.DefaultValue != "undefined" || IT.DefaultValue != undefined)

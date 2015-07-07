@@ -1357,6 +1357,11 @@ namespace MPC.Models.ModelMappers
         /// </summary>
         private static void UpdateTemplatePropertiesHeader(Item source, Item target)
         {
+            // If Template Type changed to Custom
+            if (target.TemplateType != 1 && source.TemplateType == 1)
+            {
+                target.HasTemplateChangedToCustom = true;
+            }
             target.TemplateType = source.TemplateType;
             target.IsCmyk = source.IsCmyk;
             target.IsTemplateDesignMode = source.IsTemplateDesignMode;
