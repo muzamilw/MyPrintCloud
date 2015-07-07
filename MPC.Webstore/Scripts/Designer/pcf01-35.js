@@ -3453,7 +3453,6 @@ function pcl43_bullet() {
     var D1AO = canvas.getActiveObject();
     if (!D1AO) return;
 
-    alert(D1AO.isBulletPoint);
     if (D1AO.isBulletPoint == true)
         D1AO.isBulletPoint = false;
     else

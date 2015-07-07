@@ -271,6 +271,7 @@ function c0(cCanvas, TOC) {
     TOL.IsEditable = TOC.IsEditable;
     TOL.IsTextEditable = TOC.IsTextEditable;
     TOL.AutoShrinkText = TOC.AutoShrinkText;
+    TOL.isBulletPoint = TOC.isBulletPoint;
     TOL.hasInlineFontStyle = TOC.hasInlineFontStyle;
     TOL.setAngle(TOC.RotationAngle);
     TOL.textCase = TOC.textCase;
@@ -429,6 +430,7 @@ function c2_01(OPT) {
             IT.IsOverlayObject = OPT.IsOverlayObject;
             IT.IsTextEditable = OPT.IsTextEditable;
             IT.AutoShrinkText = OPT.AutoShrinkText;
+            IT.isBulletPoint = OPT.isBulletPoint
             IT.hasInlineFontStyle = OPT.hasInlineFontStyle;
             IT.IsHidden = OPT.IsHidden;
             IT.IsEditable = OPT.IsEditable;
@@ -501,6 +503,7 @@ function c8(cCanvas, CO) {
     COL.IsOverlayObject = CO.IsOverlayObject;
     COL.IsTextEditable = CO.IsTextEditable;
     COL.AutoShrinkText = CO.AutoShrinkText;
+    COL.isBulletPoint = CO.isBulletPoint;
     COL.hasInlineFontStyle = CO.hasInlineFontStyle;
     COL.IsHidden = CO.IsHidden;
     COL.IsEditable = CO.IsEditable;
@@ -546,6 +549,7 @@ function c9(cCanvas, RO) {
     ROL.IsOverlayObject = RO.IsOverlayObject;
     ROL.IsTextEditable = RO.IsTextEditable;
     ROL.AutoShrinkText = RO.AutoShrinkText;
+    ROL.isBulletPoint = RO.isBulletPoint;
     ROL.hasInlineFontStyle = RO.hasInlineFontStyle;
     ROL.IsHidden = RO.IsHidden;
     ROL.IsEditable = RO.IsEditable;
@@ -597,6 +601,7 @@ function d1SvgOl(cCanvas, IO) {
         loadedObject.IsEditable = IO.IsEditable;
         loadedObject.IsTextEditable = IO.IsTextEditable;
         loadedObject.AutoShrinkText = IO.AutoShrinkText;
+        loadedObject.isBulletPoint = IO.isBulletPoint;
         loadedObject.hasInlineFontStyle = IO.hasInlineFontStyle;
         loadedObject.setOpacity(IO.Opacity);
         loadedObject.selectable = objectsSelectable;
@@ -703,6 +708,7 @@ function d1Svg(cCanvas, IO, isCenter) {
         loadedObject.IsEditable = IO.IsEditable;
         loadedObject.IsTextEditable = IO.IsTextEditable;
         loadedObject.AutoShrinkText = IO.AutoShrinkText;
+        loadedObject.isBulletPoint = IO.isBulletPoint;
         loadedObject.hasInlineFontStyle = IO.hasInlineFontStyle;
         if (IO.IsPositionLocked == true) {
             loadedObject.lockMovementX = true;
@@ -789,6 +795,7 @@ function d1(cCanvas, IO, isCenter) {
         IOL.IsEditable = IO.IsEditable;
         IOL.IsTextEditable = IO.IsTextEditable;
         IOL.AutoShrinkText = IO.AutoShrinkText;
+        IOL.isBulletPoint = IO.isBulletPoint;
         IOL.hasInlineFontStyle = IO.hasInlineFontStyle;
         IOL.ImageClippedInfo = IO.ClippedInfo;
         IOL.selectable = objectsSelectable;
@@ -3869,6 +3876,7 @@ function k31(cCanvas, IO) {
         IOL.IsOverlayObject = IO.IsOverlayObject;
         IOL.IsTextEditable = IO.IsTextEditable;
         IOL.AutoShrinkText = IO.AutoShrinkText;
+        IOL.isBulletPoint = IO.isBulletPoint;
         IOL.hasInlineFontStyle = IO.hasInlineFontStyle;
         IOL.IsHidden = IO.IsHidden;
         IOL.IsEditable = IO.IsEditable;
