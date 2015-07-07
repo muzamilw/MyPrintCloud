@@ -506,7 +506,7 @@ define("common/itemDetail.viewModel",
                         selectedSectionCostCenter(sectionCostCenter);
                         selectedQty(1);
 
-                        sectionCostCenter.name('Stock(s)');
+                        sectionCostCenter.name(stockItemToCreate().name);
                         sectionCostCenter.costCentreType('139');
                         sectionCostCenter.qty1EstimatedStockCost(0);
                         sectionCostCenter.qty2EstimatedStockCost(0);
