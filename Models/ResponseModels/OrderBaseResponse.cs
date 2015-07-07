@@ -54,5 +54,15 @@ namespace MPC.Models.ResponseModels
         /// Logged In User
         /// </summary>
         public Guid LoggedInUser { get; set; }
+
+        /// <summary>
+        /// Head Notes
+        /// </summary>
+        public string HeadNotes { get; set; }
+
+        /// <summary>
+        /// Foot Notes
+        /// </summary>
+        public string FootNotes { get; set; }
     }
 }

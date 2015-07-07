@@ -53,5 +53,15 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public Guid LoggedInUser { get; set; }
 
+        /// <summary>
+        /// Head Notes
+        /// </summary>
+        public string HeadNotes { get; set; }
+
+        /// <summary>
+        /// Foot Notes
+        /// </summary>
+        public string FootNotes { get; set; }
+
     }
 }
