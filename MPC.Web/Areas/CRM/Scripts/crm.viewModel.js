@@ -601,7 +601,7 @@ define("crm/crm.viewModel",
                                     selectedCompanyContact().bussinessAddressId(item.addressId());
                                     selectedCompanyContact().addressId(item.addressId());
                                     selectedBussinessAddress().stateName(item.stateName());
-                                    selectedBussinessAddress().stateCode(item.stateCode());
+                                    //selectedBussinessAddress().stateCode(item.stateCode());
                                 }
                             }
                         });
