@@ -5944,7 +5944,7 @@ define("stores/stores.viewModel",
                 fieldvariableOfSmartForm.defaultValue(fieldVariable.variableType() === 1 ? fieldVariable.defaultValue() : fieldVariable.defaultValueForInput());
                 fieldvariableOfSmartForm.title(fieldVariable.variableTitle());
             },
-            //Add to Smart Form Variable List
+            //Add to Smart Form Variable List (R)
             addToSmartFormVariableList = function (fieldVariable) {
                 //Field Variable For Smart Form
                 var fieldVariableForSmartForm = model.FieldVariableForSmartForm();
@@ -6000,7 +6000,7 @@ define("stores/stores.viewModel",
 
             },
 
-            //Update Field variable
+            //Update Field variable (R)
             updateFieldVariable = function () {
                 var updatedFieldVariable = _.find(fieldVariables(), function (field) {
                     return field.id() === selectedFieldVariable().id();
