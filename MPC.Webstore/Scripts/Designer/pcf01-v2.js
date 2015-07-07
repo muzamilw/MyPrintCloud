@@ -274,6 +274,7 @@ function c0(cCanvas, TOC) {
     TOL.hasInlineFontStyle = TOC.hasInlineFontStyle;
     TOL.setAngle(TOC.RotationAngle);
     TOL.textCase = TOC.textCase;
+    TOL.isBulletPoint = TOC.isBulletPoint;
     TOL.IsUnderlinedText = TOC.IsUnderlinedText;
     if (TOC.IsPositionLocked) {
         TOL.lockMovementX = true;

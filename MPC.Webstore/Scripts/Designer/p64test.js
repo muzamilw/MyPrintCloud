@@ -19547,7 +19547,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
 	'maxWidth', 'customStyles',
 		'maxHeight',
 		'charSpacing', 'clippedText', 'IsPositionLocked', 'IsEditable', 'autoCollapseText',
-    'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'hasInlineFontStyle', 'IsOverlayObject', 'IsQuickText', 'textCase', 'IsUnderlinedText'
+    'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'hasInlineFontStyle', 'IsOverlayObject', 'IsQuickText', 'textCase', 'IsUnderlinedText', 'isBulletPoint'
   );
 
     /**
@@ -19836,6 +19836,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
         _charWidthsCache: {},
         _cachedObject: null,
         textCase: 0,
+        isBulletPoint : false,
         IsUnderlinedText: false,
         /**
         * Constructor
@@ -20721,6 +20722,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                 useNative: this.useNative,
                 maxWidth: this.maxWidth,
                 textCase: this.textCase,
+                isBulletPoint : this.isBulletPoint,
                 IsUnderlinedText: this.IsUnderlinedText,
                 maxHeight: this.maxHeight
             });
