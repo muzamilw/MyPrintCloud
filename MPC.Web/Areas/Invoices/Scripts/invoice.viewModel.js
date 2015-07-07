@@ -766,7 +766,7 @@ define("invoice/invoice.viewModel",
                     invoiceListViewItem.invoiceDate(selectedInvoice().invoiceDate());
                     invoiceListViewItem.status(selectedInvoice().invoiceStatusText());
                     invoiceListViewItem.itemsCount(selectedInvoice().items().length + selectedInvoice().invoiceDetailItems().length);
-                    invoiceListViewItem.status(selectedInvoice().statusName() || '');
+                    //invoiceListViewItem.status(selectedInvoice().statusName() || '');
                     var sectionFlagItem = _.find(sectionFlags(), function (sFlag) {
                         return sFlag.SectionFlagId === parseInt(selectedInvoice().sectionFlagId());
                     });
