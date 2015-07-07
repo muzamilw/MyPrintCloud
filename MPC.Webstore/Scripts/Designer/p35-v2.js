@@ -2260,3 +2260,6 @@ $("#btnImagePlaceHolderUser").click(function () {
 $("#Homebtn2").click(function () {
     window.location.href = "/";
 });
+$("#BtnBulletedLstTxt").click(function () {
+    pcl43_bullet();
+});

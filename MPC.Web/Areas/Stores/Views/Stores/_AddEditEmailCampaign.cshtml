@@ -21,8 +21,8 @@
                                         <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>*@
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>*@
                                             </div>
                                             <label for="txtBannerHead" class="control-label text-right tooltip-float">Email Name</label>
                                         </div>
@@ -34,8 +34,8 @@
                                         <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>*@
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>*@
                                             </div>
                                             <label for="description" class="control-label text-right tooltip-float">Description</label>
                                         </div>
@@ -47,8 +47,8 @@
                                         <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="sort order in category" data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>*@
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>*@
                                             </div>
                                             <label class="control-label text-right tooltip-float" style="padding-top:2px;">Enable Email</label>
                                         </div>
@@ -98,7 +98,7 @@
                                             <label class="control-label text-right tooltip-float"></label>
                                         </div>
                                         <div class="col-lg-5" data-bind="visible:(campaignType() === 2 ||campaignType() === 1)">
-                                            <select class="form-control" data-bind="options: $root.emailEvents, optionsText: 'EventName', optionsValue: 'EmailEventId',value:emailEventId, validationTooltip: emailEventId"></select>
+                                            <select class="form-control" data-bind="enable:!(id()>0),options: $root.emailEvents, optionsText: 'EventName', optionsValue: 'EmailEventId',value:emailEventId, validationTooltip: emailEventId"></select>
                                         </div>
                                     </div>
                                     <div class="form-group" data-bind="visible:campaignType() === 3">
@@ -247,10 +247,10 @@
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 @*<div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>*@
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>*@
                                                 <label for="txtBannerHead" class="control-label text-right tooltip-float">Email Subject</label>
                                             </div>
                                             <div class="col-lg-9">
@@ -272,7 +272,7 @@
                                                     <input type="file" class="upload" multiple id="campaignImages" data-bind="files: { onLoaded: $root.campaignEmailImagesLoadedCallback, fileFilter: 'image.*'}" />
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                         <div>
                                             <h3 class="group-header">Drag Variables to Email</h3>
@@ -307,10 +307,10 @@
                                     <div class="form-group">
                                         <div class="col-lg-3 text-right">
                                             @*<div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
-                                            </div>*@
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>*@
                                             <label for="txtBannerHead" class="control-label text-right tooltip-float">From Name</label>
                                         </div>
                                         <div class="col-lg-5">
@@ -320,10 +320,10 @@
                                     <div class="form-group">
                                         <div class="col-lg-3 text-right">
                                             @*<div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
-                                            </div>*@
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>*@
                                             <label for="txtBannerHead" class="control-label text-right tooltip-float">From Email Address</label>
                                         </div>
                                         <div class="col-lg-5">
@@ -333,10 +333,10 @@
                                     <div class="form-group">
                                         <div class="col-lg-3 text-right">
                                             @*<div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
-                                            </div>*@
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>*@
                                             <label for="txtBannerHead" class="control-label text-right tooltip-float">Return Path Email Address</label>
                                         </div>
                                         <div class="col-lg-5">
@@ -346,10 +346,10 @@
                                     <div class="form-group">
                                         <div class="col-lg-3 text-right">
                                             @*<div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
-                                            </div>*@
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>*@
                                             <label for="txtBannerHead" class="control-label text-right tooltip-float">Reply to Email Address</label>
                                         </div>
                                         <div class="col-lg-5">
@@ -357,21 +357,21 @@
                                         </div>
                                     </div>
                                     @*<div class="form-group">
-                                        <div class="col-lg-3 text-right">
-                                            <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label for="txtBannerHead" class="control-label text-right tooltip-float">Email Summary Report To</label>
                                             </div>
-                                            <label for="txtBannerHead" class="control-label text-right tooltip-float">Email Summary Report To</label>
-                                        </div>
-                                        <div class="col-lg-7">
-                                            <div class="col-lg-5 checkbox-nice">
-                                                <input type="checkbox" id="emailSummary" data-bind="checked:enableLogFiles">
-                                                <label for="emailSummary">&nbsp;</label>
+                                            <div class="col-lg-7">
+                                                <div class="col-lg-5 checkbox-nice">
+                                                    <input type="checkbox" id="emailSummary" data-bind="checked:enableLogFiles">
+                                                    <label for="emailSummary">&nbsp;</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>*@
+                                        </div>*@
                                     <div class="form-group" data-bind="visible:enableLogFiles()">
                                         <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
@@ -404,7 +404,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer" style="padding-right: 8px; padding-bottom: 20px;" >
+            <div class="modal-footer" style="padding-right: 8px; padding-bottom: 20px;">
                 <hr />
                 <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveEmail, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>

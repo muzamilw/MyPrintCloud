@@ -6172,3 +6172,16 @@ end
 alter table SystemUser add EmailSignature nvarchar(max) null
 alter table SystemUser add EstimateHeadNotes nvarchar(max) null
 alter table SystemUser add EstimateFootNotes nvarchar(max) null 
+
+/* Execution Date: 06/07/2015 */
+
+Alter table templateObject
+Add isBulletPoint bit null
+
+/* Execution Date: 07/07/2015 */
+
+alter table GoodsReceivedNote
+alter Column CreatedBy nvarchar null
+
+alter table GoodsReceivedNote
+alter Column CreatedBy uniqueidentifier null

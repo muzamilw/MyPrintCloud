@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using MPC.Models.DomainModels;
@@ -132,5 +133,9 @@ namespace MPC.Interfaces.Repository
 
         CompanyContact GetContactByContactId(long ContactId);
         List<CompanyContact> GetCompanyAdminByCompanyId(long CompanyId);
+        /// <summary>
+        /// Load Property
+        /// </summary>
+        void LoadProperty<T>(object entity, Expression<Func<T>> propertyExpression, bool isCollection = false);
     }
 }
