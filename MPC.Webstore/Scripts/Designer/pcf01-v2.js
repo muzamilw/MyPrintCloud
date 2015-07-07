@@ -271,9 +271,11 @@ function c0(cCanvas, TOC) {
     TOL.IsEditable = TOC.IsEditable;
     TOL.IsTextEditable = TOC.IsTextEditable;
     TOL.AutoShrinkText = TOC.AutoShrinkText;
+    TOL.isBulletPoint = TOC.isBulletPoint;
     TOL.hasInlineFontStyle = TOC.hasInlineFontStyle;
     TOL.setAngle(TOC.RotationAngle);
     TOL.textCase = TOC.textCase;
+    TOL.isBulletPoint = TOC.isBulletPoint;
     TOL.IsUnderlinedText = TOC.IsUnderlinedText;
     if (TOC.IsPositionLocked) {
         TOL.lockMovementX = true;
@@ -428,6 +430,7 @@ function c2_01(OPT) {
             IT.IsOverlayObject = OPT.IsOverlayObject;
             IT.IsTextEditable = OPT.IsTextEditable;
             IT.AutoShrinkText = OPT.AutoShrinkText;
+            IT.isBulletPoint = OPT.isBulletPoint
             IT.hasInlineFontStyle = OPT.hasInlineFontStyle;
             IT.IsHidden = OPT.IsHidden;
             IT.IsEditable = OPT.IsEditable;
@@ -500,6 +503,7 @@ function c8(cCanvas, CO) {
     COL.IsOverlayObject = CO.IsOverlayObject;
     COL.IsTextEditable = CO.IsTextEditable;
     COL.AutoShrinkText = CO.AutoShrinkText;
+    COL.isBulletPoint = CO.isBulletPoint;
     COL.hasInlineFontStyle = CO.hasInlineFontStyle;
     COL.IsHidden = CO.IsHidden;
     COL.IsEditable = CO.IsEditable;
@@ -545,6 +549,7 @@ function c9(cCanvas, RO) {
     ROL.IsOverlayObject = RO.IsOverlayObject;
     ROL.IsTextEditable = RO.IsTextEditable;
     ROL.AutoShrinkText = RO.AutoShrinkText;
+    ROL.isBulletPoint = RO.isBulletPoint;
     ROL.hasInlineFontStyle = RO.hasInlineFontStyle;
     ROL.IsHidden = RO.IsHidden;
     ROL.IsEditable = RO.IsEditable;
@@ -596,6 +601,7 @@ function d1SvgOl(cCanvas, IO) {
         loadedObject.IsEditable = IO.IsEditable;
         loadedObject.IsTextEditable = IO.IsTextEditable;
         loadedObject.AutoShrinkText = IO.AutoShrinkText;
+        loadedObject.isBulletPoint = IO.isBulletPoint;
         loadedObject.hasInlineFontStyle = IO.hasInlineFontStyle;
         loadedObject.setOpacity(IO.Opacity);
         loadedObject.selectable = objectsSelectable;
@@ -702,6 +708,7 @@ function d1Svg(cCanvas, IO, isCenter) {
         loadedObject.IsEditable = IO.IsEditable;
         loadedObject.IsTextEditable = IO.IsTextEditable;
         loadedObject.AutoShrinkText = IO.AutoShrinkText;
+        loadedObject.isBulletPoint = IO.isBulletPoint;
         loadedObject.hasInlineFontStyle = IO.hasInlineFontStyle;
         if (IO.IsPositionLocked == true) {
             loadedObject.lockMovementX = true;
@@ -788,6 +795,7 @@ function d1(cCanvas, IO, isCenter) {
         IOL.IsEditable = IO.IsEditable;
         IOL.IsTextEditable = IO.IsTextEditable;
         IOL.AutoShrinkText = IO.AutoShrinkText;
+        IOL.isBulletPoint = IO.isBulletPoint;
         IOL.hasInlineFontStyle = IO.hasInlineFontStyle;
         IOL.ImageClippedInfo = IO.ClippedInfo;
         IOL.selectable = objectsSelectable;
@@ -3826,7 +3834,6 @@ function k31(cCanvas, IO) {
     if (IO.MaxHeight == 0) {
         IO.MaxHeight = 50;
     }
-  
     fabric.Image.fromURL(IO.ContentString, function (IOL) {
         IOL.set({
             left: (IO.PositionX + IO.MaxWidth / 2) * dfZ1l,
@@ -3869,6 +3876,7 @@ function k31(cCanvas, IO) {
         IOL.IsOverlayObject = IO.IsOverlayObject;
         IOL.IsTextEditable = IO.IsTextEditable;
         IOL.AutoShrinkText = IO.AutoShrinkText;
+        IOL.isBulletPoint = IO.isBulletPoint;
         IOL.hasInlineFontStyle = IO.hasInlineFontStyle;
         IOL.IsHidden = IO.IsHidden;
         IOL.IsEditable = IO.IsEditable;
@@ -3891,12 +3899,65 @@ function k31(cCanvas, IO) {
         cCanvas.insertAt(IOL, IO.DisplayOrderPdf);
         TotalImgLoaded += 1;
         d2();
+        IW = IOL.getWidth();// IT.ImageWidth;
+        IH = IOL.getHeight();// IT.ImageHeight;
+       
+        
         if (IO.ObjectType == 8)
         {
-
+            IW = item.companyImageWidth;
+            IH = item.companyImageHeight;
         } else if (IO.ObjectType == 12)
         {
-
+            IW = item.contactImageWidth;
+            IH = item.contactImageHeight;
+        }
+        var originalWidth = IW;
+        var originalHeight = IH;
+        var wd = IOL.getWidth();
+        var he = IOL.getHeight();
+        var bestPer = 1;
+        if (IO.ObjectType == 8 || IO.ObjectType == 12) {
+            if (IW >= IOL.getWidth() && IH >= IOL.getHeight())
+            {
+                while (originalWidth > IOL.getWidth() && originalHeight > IOL.getHeight()) {
+                    bestPer -= 0.10;
+                    originalHeight =IH * bestPer;
+                    originalWidth =IW *  bestPer;
+                }
+                bestPer += 0.10;
+            }else 
+            {
+                while (originalWidth <= IOL.getWidth() || originalHeight <= IOL.getHeight()) {
+                    bestPer += 0.10;
+                    originalHeight = IH * bestPer;
+                    originalWidth = IW * bestPer;
+                }
+                bestPer -= 0.10;
+            }
+            var wdth = parseInt(IOL.getWidth() / bestPer);
+            var hght = parseInt(IOL.getHeight() / bestPer);
+            var XML = new XMLWriter();
+            XML.BeginNode("Cropped");
+            XML.Node("sx", "0");
+            XML.Node("sy", "0");
+            XML.Node("swidth", wdth.toString());
+            XML.Node("sheight", hght.toString());
+            XML.Node("crv1", bestPer.toString()); 
+            XML.Node("crv2", (IW * bestPer).toString());
+            XML.Node("crv3", (IH * bestPer).toString());
+            XML.Node("crv4", "0");
+            XML.Node("crv5", "0");
+            XML.EndNode();
+            XML.Close();
+            IOL.ImageClippedInfo = XML.ToString().replace(/</g, "\n<");
+            IOL.height = (IOL.getHeight());
+            IOL.width = (IOL.getWidth());
+            IOL.maxHeight = (IOL.getHeight());
+            IOL.maxWidth = (IOL.getWidth());
+            IOL.scaleX = 1;
+            IOL.scaleY = 1;
+            canvas.renderAll();
         }
     });
 }

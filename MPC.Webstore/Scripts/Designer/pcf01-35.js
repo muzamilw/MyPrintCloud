@@ -2750,7 +2750,6 @@ function pcL20_newCrop() {
         D1AO.ImageClippedInfo = XML.ToString().replace(/</g, "\n<");
         canvas.renderAll();
     }
-    console.log(XML);
     pcl20_newCropCls();
 }
 function pcl20_newCropCls() {
@@ -3448,4 +3447,16 @@ function pcl42_Validate() {
         }
     });
     return result;
+}
+
+function pcl43_bullet() {
+    var D1AO = canvas.getActiveObject();
+    if (!D1AO) return;
+
+    if (D1AO.isBulletPoint == true)
+        D1AO.isBulletPoint = false;
+    else
+        D1AO.isBulletPoint = true;
+
+    canvas.renderAll();
 }
