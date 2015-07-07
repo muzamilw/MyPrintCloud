@@ -128,6 +128,7 @@ define("common/companySelector.viewModel",
                                     mapCompanyContacts(data.CompanyContacts);
                                     companyContactDialogPager().totalCount(data.RowCount);
                                 }
+                                view.focusFilter();
                             },
                             error: function (response) {
                                 toastr.error("Failed to load company items" + response);
@@ -149,6 +150,7 @@ define("common/companySelector.viewModel",
                                     mapCompanies(data.Companies);
                                     companyDialogPager().totalCount(data.TotalCount);
                                 }
+                                view.focusFilter();
                             },
                             error: function (response) {
                                 toastr.error("Failed to load company items" + response);

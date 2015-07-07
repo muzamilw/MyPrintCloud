@@ -1531,6 +1531,7 @@ define("order/order.viewModel",
                             success: function (data) {
                                 if (data) {
                                     setSelectedOrder(data, callback);
+                                    setSelectedOrder(data, callback);
                                 }
                                 isLoadingOrders(false);
                                 var code = !selectedOrder().orderCode() ? "ORDER CODE" : selectedOrder().orderCode();

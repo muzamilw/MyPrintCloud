@@ -9,7 +9,6 @@ CKEDITOR.editorConfig = function (config) {
     // config.uiColor = '#AADC6E';
 
    // config.toolbar = 'Full';
-
     //config.toolbar_Full =
     //[
     //    { name: 'document', items: ['Source', '-', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', '-', 'Templates'] },
