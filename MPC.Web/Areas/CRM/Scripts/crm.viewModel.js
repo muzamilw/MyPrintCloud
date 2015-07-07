@@ -583,7 +583,7 @@ define("crm/crm.viewModel",
                     }
                 }),
                 selectBussinessAddress = ko.computed(function () {
-                    if (selectedCompanyContact() != undefined && selectedCompanyContact().addressId() != undefined) {
+                    if (selectedCompanyContact() != undefined && selectedCompanyContact().bussinessAddressId() != undefined) {
                     }
 
                     if (selectedCompanyContact() != undefined && selectedCompanyContact().bussinessAddressId() != undefined) {
@@ -601,6 +601,7 @@ define("crm/crm.viewModel",
                                     selectedCompanyContact().bussinessAddressId(item.addressId());
                                     selectedCompanyContact().addressId(item.addressId());
                                     selectedBussinessAddress().stateName(item.stateName());
+                                    //selectedBussinessAddress().stateCode(item.stateCode());
                                 }
                             }
                         });

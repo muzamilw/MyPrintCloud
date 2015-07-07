@@ -2036,6 +2036,7 @@ define("stores/stores.viewModel",
                                 selectedCompanyContact().shippingAddressId(item.addressId());
                                 selectedShippingAddress().stateName(item.stateName());
                                 selectedShippingAddress().stateCode(item.stateCode());
+                                //Update Selected Store Company Contact
                                 if (!contactHasChanges) {
                                     selectedCompanyContact().reset();
                                 }
@@ -3048,6 +3049,7 @@ define("stores/stores.viewModel",
                 selectedCompanyContactEmail(undefined);
                 isSavingNewCompanyContact(true);
                 selectedCompanyContact(user);
+                selectedCompanyContact().contactRoleId(3);
                 selectedCompanyContact().isWebAccess(true);
                 selectedCompanyContact().isPlaceOrder(true);
                 selectedCompanyContact().contactId(newSavingCompanyContactIdCount);
@@ -3755,7 +3757,7 @@ define("stores/stores.viewModel",
                             if (data != null) {
                                 selectedProductCategoryForEditting(model.ProductCategory.Create(data));
                                 updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
-                                productCategoryStatus("Modify Category Details");
+                                productCategoryStatus("Add/Edit Category");
                                 isSavingNewProductCategory(false);
                                 //Update Product category Territories
                                 UpdateProductCategoryTerritories(data.CategoryTerritories);

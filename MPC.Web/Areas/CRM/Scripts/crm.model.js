@@ -1081,7 +1081,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.canPlaceDirectOrder,
             source.organisationId,
             source.secondaryEmail,
-            source.BussinessAddressId,
+            source.addressId,
             source.FileName,
             source.StoreName
         );
