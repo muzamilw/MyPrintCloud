@@ -21,6 +21,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemType = source.ItemType,
                 TaxId = source.TaxId,
                 DetailType = source.DetailType,
+                FlagId = source.FlagId,
                 ItemGrossTotal = source.ItemGrossTotal,
                 TaxValue = source.TaxValue
 
@@ -34,6 +35,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 InvoiceDetailId = source.InvoiceDetailId,
                 InvoiceId = source.InvoiceId,
                 InvoiceTitle = source.InvoiceTitle,
+                FlagId = source.FlagId,
                 ItemId = source.ItemId,
                 ItemCharge = source.ItemCharge,
                 Quantity = source.Quantity,
