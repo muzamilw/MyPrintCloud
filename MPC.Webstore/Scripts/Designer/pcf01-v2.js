@@ -1954,7 +1954,13 @@ function fu07() {
         if (i == 0) {
             classes = "menuItemContainer selectedItem " + ite.ProductPageID + " ";
         }
-        pHtml += '  <li  class="' + classes + '"><a class="plain" onClick="d5(' + ite.ProductPageID + ')">Page ' + (i + 1) + '</a></li>';
+        if (IsCalledFrom == 3) {
+            pHtml += '  <li  class="' + classes + '"><a class="plain" onClick="d5(' + ite.ProductPageID + ')">Page ' + (i + 1) + '</a></li>';
+        } else
+        {
+            pHtml += '  <li  class="' + classes + '"><a class="plain" onClick="d5(' + ite.ProductPageID + ')">' + ite.PageName + '</a></li>';
+        }
+        
     });
     $("#documentMenu").append(pHtml);
     $("#documentMenu li").hover(function () {
