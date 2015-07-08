@@ -78,9 +78,9 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _CampaignRepository.AddMsgToTblQueue(Toemail,CC,ToName,msgbody,fromName,fromEmail,smtpUserName,ServerPass,ServerName,subject,AttachmentList,CampaignReportID);
         }
-        public void EmailsToCorpUser(long orderID, long contactID, StoreMode ModeOfStore, long loggedinTerritoryId, Organisation serverSettings, long StoreId)
+        public void EmailsToCorpUser(long orderID, long contactID, StoreMode ModeOfStore, long loggedinTerritoryId, Organisation serverSettings, long StoreId, string SalesManagerEmail)
         {
-            _CampaignRepository.EmailsToCorpUser(orderID,contactID,ModeOfStore, loggedinTerritoryId, serverSettings, StoreId);
+            _CampaignRepository.EmailsToCorpUser(orderID, contactID, ModeOfStore, loggedinTerritoryId, serverSettings, StoreId, SalesManagerEmail);
         }
     }
 
