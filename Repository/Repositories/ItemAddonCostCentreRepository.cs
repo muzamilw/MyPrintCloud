@@ -67,7 +67,8 @@ namespace MPC.Repository.Repositories
                             ItemStockId = options.StockId ?? 0,
                             IsMandatory = addOns.IsMandatory == true ? 1 : 0,
                             QuantitySourceType = costcenter.QuantitySourceType ?? 0,
-                            TimeSourceType = costcenter.TimeSourceType ?? 0
+                            TimeSourceType = costcenter.TimeSourceType ?? 0,
+                            ItemStockOptionId = options.ItemStockOptionId
                         };
             return query.ToList<AddOnCostsCenter>();
         }

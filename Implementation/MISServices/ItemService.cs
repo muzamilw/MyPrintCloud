@@ -413,9 +413,12 @@ namespace MPC.Implementation.MISServices
             {
                 if (itemTarget.Template.TemplatePages != null)
                 {
-                    foreach (TemplatePage templatePage in itemTarget.Template.TemplatePages)
+                    List<TemplatePage> newlyAddedTemplatePages = 
+                        itemTarget.Template.TemplatePages.Where(tmp => tmp.IsNewlyAdded.HasValue && tmp.IsNewlyAdded.Value).ToList();
+                    foreach (TemplatePage templatePage in newlyAddedTemplatePages)
                     {
                         templatePage.BackgroundFileName = itemTarget.Template.ProductId + "/Side" + templatePage.PageNo + ".pdf";
+                        templatePage.BackGroundType = 1;
                     }
                 }
 
@@ -829,7 +832,7 @@ namespace MPC.Implementation.MISServices
                     if (itemTarget.TemplateType.Value == 1)
                     {
                         // Generates Pdf from Template Pages
-                        GeneratePdfFromTemplatePages(template, organisationId);
+                        GeneratePdfFromTemplatePages(itemTarget, template, organisationId);
                     }
                     else if (itemTarget.TemplateType.Value == 2)
                     {
@@ -878,16 +881,20 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Genereate Pdf From Template Pages
         /// </summary>
-        private void GeneratePdfFromTemplatePages(Template template, long organisationId)
+        private void GeneratePdfFromTemplatePages(Item itemTarget, Template template, long organisationId)
         {
             try
             {
                 List<TemplatePage> templatePagesWithSameDimensions = template.TemplatePages.Where(tempPage =>
-                    (tempPage.Height == template.PDFTemplateHeight) && (tempPage.Width == template.PDFTemplateWidth))
+                    (tempPage.Height == template.PDFTemplateHeight) && (tempPage.Width == template.PDFTemplateWidth) &&
+                    ((tempPage.IsNewlyAdded.HasValue && tempPage.IsNewlyAdded.Value) || 
+                    (itemTarget.HasTemplateChangedToCustom.HasValue && itemTarget.HasTemplateChangedToCustom.Value)))
                     .ToList();
 
                 List<TemplatePage> templatePagesWithCustomDimensions = template.TemplatePages.Where(tempPage =>
-                    (tempPage.Height != template.PDFTemplateHeight) || (tempPage.Width != template.PDFTemplateWidth))
+                    (tempPage.Height != template.PDFTemplateHeight) || (tempPage.Width != template.PDFTemplateWidth) &&
+                    ((tempPage.IsNewlyAdded.HasValue && tempPage.IsNewlyAdded.Value) ||
+                    (itemTarget.HasTemplateChangedToCustom.HasValue && itemTarget.HasTemplateChangedToCustom.Value)))
                     .ToList();
 
                 templatePageService.CreateBlankBackgroundPDFsByPages(template.ProductId,
@@ -2417,7 +2424,7 @@ namespace MPC.Implementation.MISServices
         /// <returns></returns>
         public ItemSearchResponse GetItemsByCompanyId(ItemSearchRequestModel request)
         {
-            return itemRepository.GetItemsByCompanyId(request);
+            return itemRepository.GetAllStoreProducts(request);
         }
 
         /// <summary>

@@ -2,7 +2,8 @@
     Module with the view model for Phrase Library
 */
 define("common/phraseLibrary.viewModel",
-    ["jquery", "amplify", "ko", "common/phraseLibrary.dataservice", "common/phraseLibrary.model"], function ($, amplify, ko, dataservice, model) {
+    ["jquery", "amplify", "ko", "common/phraseLibrary.dataservice", "common/phraseLibrary.model", "common/confirmation.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation) {
         var ist = window.ist || {};
         ist.phraseLibrary = {
             viewModel: (function () {
@@ -14,6 +15,9 @@ define("common/phraseLibrary.viewModel",
                     selectedPhraseField = ko.observable(),
                     //Flag for open from Phrase Library
                     isOpenFromPhraseLibrary = ko.observable(true),
+                    // Open default section according to 
+                    defaultOpenSectionId = ko.observable(),
+                    defaultOpenPhraseFieldId = ko.observable(),
                     //selected Phrase
                     selectedPhrase = ko.observable(false),
                     //Sections
@@ -22,6 +26,8 @@ define("common/phraseLibrary.viewModel",
                     phrases = ko.observableArray([]),
                     //job Titles List
                     jobTitles = ko.observableArray([]),
+                    // True, if new 
+                    AddEditDeleteFlag = ko.observable(false);
                     //#endregion
                     //get All Sections
                     getAllSections = function () {
@@ -126,7 +132,13 @@ define("common/phraseLibrary.viewModel",
                        selectedSection(section);
                        selectedPhraseField(undefined);
                        phrases.removeAll();
+
+                       if (section.phrasesFields().length > 0) {
+                           selectedPhraseField(section.phrasesFields()[0]);
+                           getPhrasesByPhraseFieldId(selectedPhraseField().fieldId(), true);
+                       }
                    },
+
                 //select Phrase Field
                 selectPhraseField = function (phraseField) {
                     phrases.removeAll();
@@ -172,10 +184,14 @@ define("common/phraseLibrary.viewModel",
                 },
                 //Delete Phrase
                 deletePhrase = function (phrase) {
-                    phrase.isDeleted(true);
+                    confirmation.afterProceed(function () {
+                        phrase.isDeleted(true);
+                    });
+                    confirmation.show();
+
                 },
                 //Save Phrase Library
-                savePhraseLibrary = function (phraseLibrary) {
+                savePhraseLibrary = function (phraseLibrary,applyFlag) {
                     var flagForSave = false;
                     var phraseLibrarySaveModel = model.PhraseLibrarySaveModel();
                     var severModel = phraseLibrarySaveModel.convertToServerData(phraseLibrarySaveModel);
@@ -188,10 +204,11 @@ define("common/phraseLibrary.viewModel",
                                     _.each(phraseFiledItem.phrases(), function (phraseItem) {
                                         if (phraseItem.hasChanges()) {
                                             phraseField.Phrases.push(phraseItem.convertToServerData(phraseItem));
+                                            flagForSave = true;
                                         }
                                     });
                                 }
-                                flagForSave = true;
+                               
                                 section.PhrasesFields.push(phraseField);
                             });
                             severModel.Sections.push(section);
@@ -200,7 +217,10 @@ define("common/phraseLibrary.viewModel",
                     if (flagForSave) {
                         saveLibrary(severModel);
                     } else {
-                        toastr.error("There is no phrase for save.");
+                        if (applyFlag!==true) {
+                           // toastr.error("There is no phrase for save.");
+                        }
+                       
                     }
 
                 },
@@ -260,14 +280,18 @@ define("common/phraseLibrary.viewModel",
                 //Select Phrase
                  selectPhrase = function (phrase) {
                      if (afterSelectPhrase && typeof afterSelectPhrase === "function") {
-                         if (phrase.phraseId() === undefined || phrase.phraseId() === 0) {
-                             toastr.error("Please First save the phrase.");
-                             //phrase.isPhraseChecked(false);
-                         } else {
-                             afterSelectPhrase(phrase.phraseText());
-                             afterSelectPhrase = null;
-                             view.hidePhraseLibraryDialog();
-                         }
+                         //if (phrase.phraseId() === undefined || phrase.phraseId() === 0) {
+                         //    toastr.error("Please First save the phrase.");
+                         //    //phrase.isPhraseChecked(false);
+                         //} else {
+                         //    afterSelectPhrase(phrase.phraseText());
+                         //    afterSelectPhrase = null;
+                         //    view.hidePhraseLibraryDialog();
+                         //}
+                         savePhraseLibrary(null,true);
+                         afterSelectPhrase(phrase.phraseText());
+                         afterSelectPhrase = null;
+                         view.hidePhraseLibraryDialog();
                      }
                      //va
                      //if (phrase.isPhraseChecked()) {
@@ -313,15 +337,15 @@ define("common/phraseLibrary.viewModel",
                  afterSelectPhrase = null,
                 // select default section for product
                  selectDefaultSectionForProduct = function () {
-                     if (!isOpenFromPhraseLibrary()) {
-                         // Select Job Production by default
-                         var jobProductionSection = sections.find(function (section) {
-                             return section.sectionId() === 4;
+                     if (!isOpenFromPhraseLibrary() && defaultOpenSectionId() !== undefined) {
+                         // Select defailt sections
+                         var defaultOpenSection = sections.find(function (section) {
+                             return section.sectionId() === defaultOpenSectionId();
                          });
 
-                         if (jobProductionSection) {
-                             selectedSection(jobProductionSection);
-                             selectSection(jobProductionSection);
+                         if (defaultOpenSection) {
+                             selectedSection(defaultOpenSection);
+                             selectSection(defaultOpenSection);
                              if (selectedSection() && selectedSection().phrasesFields().length > 0) {
                                  selectPhraseField(selectedSection().phrasesFields()[0]);
                              }
@@ -373,7 +397,9 @@ define("common/phraseLibrary.viewModel",
                     templateToUse: templateToUse,
                     selectPhrase: selectPhrase,
                     jobTitles: jobTitles,
-                    show: show
+                    show: show,
+                    defaultOpenSectionId: defaultOpenSectionId,
+                    defaultOpenPhraseFieldId: defaultOpenPhraseFieldId
                 };
             })()
         };

@@ -345,9 +345,11 @@ define("crm/contacts.viewModel",
                                          var count = 0;
                                          _.each(companyContactsForListView(), function (user) {
                                              if (user.contactId() == savedCompanyContact.contactId()) {
-                                                 user.firstName(savedCompanyContact.firstName());
-                                                 user.email(savedCompanyContact.email());
-                                                 user.image(savedCompanyContact.image());
+                                                 //user.firstName(savedCompanyContact.firstName());
+                                                 //user.email(savedCompanyContact.email());
+                                                 //user.image(savedCompanyContact.image());
+                                                 companyContactsForListView.remove(user);
+                                                 companyContactsForListView.splice(count, 0, savedCompanyContact);
                                              }
                                              count = count + 1;
                                          });

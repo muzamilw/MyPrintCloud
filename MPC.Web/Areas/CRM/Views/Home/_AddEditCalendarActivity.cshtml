@@ -32,7 +32,7 @@
                             <select style="width: 271px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: flagId, foreach: $root.sectionFlags">
                                 <option style="width: 271px !important;" data-bind="text: FlagName, attr: { 'data-color': FlagColor, value: SectionFlagId }"></option>
                             </select>
-                          
+                            <i class="fa fa-sort-desc" style="float: right;padding-right: 15px;padding-top: 2px;position: relative;bottom: 25px;"></i>
                         </div>
                     </div>
                     <div class="form-group">
@@ -153,7 +153,7 @@
             </div>
             <div class="modal-footer">
                 <hr />
-                <button type="button" class="btn btn-danger pull-left" data-bind="click:$root.onDeleteActivity,visible:id()!==undefined">Remove</button>
+                <button type="button" class="btn btn-danger pull-left" data-bind="click:$root.onDeleteActivity,enable:id()!==undefined">Delete</button>
                 <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveActivity">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
             </div>

@@ -93,7 +93,7 @@ namespace MPC.Implementation.MISServices
         {
             return new DeliveryNoteBaseResponse
             {
-                SectionFlags = _sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Order),
+                SectionFlags = _sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Delivery),
                 SystemUsers = _systemUserRepository.GetAll(),
                 DeliveryCarriers = deliveryCarrierRepository.GetAll(),
             };

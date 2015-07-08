@@ -19,7 +19,7 @@
                         <label for="customer" class="control-label text-right tooltip-float">Title</label>
                     </div>
                     <div class="col-lg-5">
-                        <input type="text" class="form-control" id="ref" data-bind="value:productName">
+                        <input type="text" class="form-control" id="ref" data-bind="value:productName,validationTooltip:productName">
                     </div>
                 </div>
                 <div class="form-group">
@@ -31,12 +31,13 @@
                             </a>
 
                         </div>
-                        <label class="control-label text-right tooltip-float">Change Flag</label>
+                        <label class="control-label text-right tooltip-float">Invoice Flag</label>
                     </div>
                     <div class="col-lg-5">
-                        <select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: flagId, foreach: $root.sectionFlags">
-                            <option style="width: 258px !important;" data-bind="text: FlagName, attr: { 'data-color': FlagColor, value: SectionFlagId }"></option>
+                        <select style="width: 100% !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: flagId, foreach: $root.sectionFlags">
+                            <option style="width: 100% !important;" data-bind="text: FlagName, attr: { 'data-color': FlagColor, value: SectionFlagId }"></option>
                         </select>
+                        <i class="fa fa-sort-desc" style="float: right;padding-right: 9px;position: relative;bottom: 25px;"></i>
                         @*<select class="form-control" id="ddPageCat" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId',value:flagId, validationTooltip: flagId"> </select>*@
                     </div>
                 </div>
@@ -93,24 +94,24 @@
 
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-lg-5 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Tax Value" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
+                @*<div class="form-group">
+                        <div class="col-lg-5 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Tax Value" data-original-title="" title="">
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+
+                            </div>
+                            <label for="amount" class="control-label text-right tooltip-float">Tax value</label>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="input-group">
+                                <span class="input-group-addon" data-bind="text:$root.currencySymbol"></span>
+                                <span class="form-control  text-right" id="amount" data-bind="numberInput:itemTaxValue"></span>
+                            </div>
 
                         </div>
-                        <label for="amount" class="control-label text-right tooltip-float">Tax value</label>
-                    </div>
-                    <div class="col-lg-5">
-                        <div class="input-group">
-                            <span class="input-group-addon" data-bind="text:$root.currencySymbol"></span>
-                            <span class="form-control  text-right" id="amount" data-bind="numberInput:itemTaxValue"></span>
-                        </div>
-
-                    </div>
-                </div>
+                    </div>*@
                 <div class="form-group">
                     <div class="col-lg-5 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">

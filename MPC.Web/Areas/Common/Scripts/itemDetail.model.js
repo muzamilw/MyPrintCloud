@@ -120,7 +120,8 @@
                             jobManagerId(undefined);
                             return;
                         }
-                        var userId = value.id;
+                        //var userId = value.id;
+                        var userId = value;
                         if (userId === jobManagerId()) {
                             return;
                         }
@@ -284,6 +285,10 @@
                 refItemId = ko.observable(specifiedRefItemId || undefined),
                 //Item Attachments
                 itemAttachments = ko.observableArray([]),
+                // Has Deleted Sections
+                hasDeletedSections = ko.observable(false),
+                // Has Deleted Attachments
+                hasDeletedAttachments = ko.observable(false),
                 // Errors
                 errors = ko.validation.group({
                     productName: productName
@@ -323,11 +328,11 @@
                         if (itemSectionInvalid.stockItemId.error) {
                             validationSummaryList.push({ name: "Section Paper / Board / Substrate", element: itemSectionInvalid.stockItemId.domElement });
                         }
-                        if (itemSectionInvalid.itemSizeId.error) {
-                            validationSummaryList.push({ name: "Section Press Feed Sheet Size", element: itemSectionInvalid.itemSizeId.domElement });
-                        }
                         if (itemSectionInvalid.sectionSizeId.error) {
-                            validationSummaryList.push({ name: "Section Trimed Item Size (flat)", element: itemSectionInvalid.sectionSizeId.domElement });
+                            validationSummaryList.push({ name: "Section Press Feed Sheet Size", element: itemSectionInvalid.sectionSizeId.domElement });
+                        }
+                        if (itemSectionInvalid.itemSizeId.error) {
+                            validationSummaryList.push({ name: "Section Trimed Item Size (flat)", element: itemSectionInvalid.itemSizeId.domElement });
                         }
                         if (itemSectionInvalid.pressId.error) {
                             validationSummaryList.push({ name: "Section Side 1 Press", element: itemSectionInvalid.pressId.domElement });
@@ -336,6 +341,30 @@
                             validationSummaryList.push({
                                 name: "Gutter value must be a number from 0 to 99",
                                 element: itemSectionInvalid.itemGutterHorizontal.domElement
+                            });
+                        }
+                        if (itemSectionInvalid.sectionSizeHeight.error) {
+                            validationSummaryList.push({
+                                name: "Press Feed Size Height",
+                                element: itemSectionInvalid.sectionSizeHeight.domElement
+                            });
+                        }
+                        if (itemSectionInvalid.sectionSizeWidth.error) {
+                            validationSummaryList.push({
+                                name: "Press Feed Size Width",
+                                element: itemSectionInvalid.sectionSizeWidth.domElement
+                            });
+                        }
+                        if (itemSectionInvalid.itemSizeHeight.error) {
+                            validationSummaryList.push({
+                                name: "Trimmed Size Height",
+                                element: itemSectionInvalid.itemSizeHeight.domElement
+                            });
+                        }
+                        if (itemSectionInvalid.itemSizeWidth.error) {
+                            validationSummaryList.push({
+                                name: "Trimmed Size Width",
+                                element: itemSectionInvalid.itemSizeWidth.domElement
                             });
                         }
                     }
@@ -373,14 +402,14 @@
                     var itemSectionChange = itemSections.find(function (itemSection) {
                         return itemSection.hasChanges();
                     });
-                    return itemSectionChange !== null && itemSectionChange !== undefined;
+                    return (itemSectionChange !== null && itemSectionChange !== undefined) || hasDeletedSections();
                 }),
                 // Item Attachment Changes
                 itemAttachmentHasChanges = ko.computed(function () {
                     var attachmentChange = itemAttachments.find(function (itemAttachment) {
                         return itemAttachment.hasChanges();
                     });
-                    return attachmentChange !== null && attachmentChange !== undefined;
+                    return (attachmentChange !== null && attachmentChange !== undefined) || hasDeletedAttachments();
                 }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -394,6 +423,8 @@
                     itemAttachments.each(function (itemAttachment) {
                         return itemAttachment.reset();
                     });
+                    hasDeletedSections(false);
+                    hasDeletedAttachments(false);
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
@@ -528,6 +559,8 @@
                 setJobProgressedBy: setJobProgressedBy,
                 jobSignedByUser: jobSignedByUser,
                 refItemId: refItemId,
+                hasDeletedSections: hasDeletedSections,
+                hasDeletedAttachments: hasDeletedAttachments,
                 errors: errors,
                 isValid: isValid,
                 showAllErrors: showAllErrors,
@@ -595,11 +628,49 @@
                         }
                     }
                 }),
+                // Is Section Size Custom
+                isSectionSizeCustom = ko.observable(specifiedIsSectionSizeCustom || undefined),
+                // Is Item Size Custom
+                isItemSizeCustom = ko.observable(specifiedIsItemSizeCustom || undefined),
+                // Section Size Height
+                sectionSizeHeight = ko.observable(specifiedSectionSizeHeight || undefined).extend({
+                    required: {
+                        onlyIf: function () {
+                            return (productType() != 2 && productType() != 3) &&
+                                ((isSectionSizeCustom() && printingTypeUi() !== '2') || (!isSectionSizeCustom() && printingTypeUi() === '2'));
+                        }
+                    }
+                }),
+                // Section Size Width
+                sectionSizeWidth = ko.observable(specifiedSectionSizeWidth || undefined).extend({
+                    required: {
+                        onlyIf: function () {
+                            return (productType() != 2 && productType() != 3) &&
+                                ((isSectionSizeCustom() && printingTypeUi() !== '2') || (!isSectionSizeCustom() && printingTypeUi() === '2'));
+                        }
+                    }
+                }),
+                // Item Size Height
+                itemSizeHeight = ko.observable(specifiedItemSizeHeight || undefined).extend({
+                    required: {
+                        onlyIf: function () {
+                            return (productType() != 2 && productType() != 3) && isItemSizeCustom() && printingTypeUi() !== '2';
+                        }
+                    }
+                }),
+                // Item Size Width
+                itemSizeWidth = ko.observable(specifiedItemSizeWidth || undefined).extend({
+                    required: {
+                        onlyIf: function () {
+                            return (productType() != 2 && productType() != 3) && isItemSizeCustom() && printingTypeUi() !== '2';
+                        }
+                    }
+                }),
                 // section size id
                 sectionSizeId = ko.observable(specifiedSectionSizeId || undefined).extend({
                     required: {
                         onlyIf: function () {
-                            return (productType() != 2 && productType() != 3) && printingType() !== 2;
+                            return (productType() != 2 && productType() != 3) && !isSectionSizeCustom() && printingTypeUi() === '1';
                         }
                     }
                 }),
@@ -607,24 +678,12 @@
                 itemSizeId = ko.observable(specifiedItemSizeId || undefined).extend({
                     required: {
                         onlyIf: function () {
-                            return (productType() != 2 && productType() != 3) && printingType() !== 2;
+                            return (productType() != 2 && productType() != 3) && !isItemSizeCustom() && printingTypeUi() === '1';
                         }
                     }
                 }),
                 // Section No
                 sectionNo = ko.observable(specifiedSectionNo || undefined),
-                // Is Section Size Custom
-                isSectionSizeCustom = ko.observable(specifiedIsSectionSizeCustom || undefined),
-                // Is Item Size Custom
-                isItemSizeCustom = ko.observable(specifiedIsItemSizeCustom || undefined),
-                // Section Size Height
-                sectionSizeHeight = ko.observable(specifiedSectionSizeHeight || undefined),
-                // Section Size Width
-                sectionSizeWidth = ko.observable(specifiedSectionSizeWidth || undefined),
-                // Item Size Height
-                itemSizeHeight = ko.observable(specifiedItemSizeHeight || undefined),
-                // Item Size Width
-                itemSizeWidth = ko.observable(specifiedItemSizeWidth || undefined),
                 // Guillotine Id
                 guillotineId = ko.observable(specifiedGuillotineId || undefined),
                 // Qty1
@@ -791,6 +850,8 @@
                 }),
                 // Add Section icon to show also in list of sections, For Add Section Item set to True
                 flagForAdd = ko.observable(false),
+                // Has Deleted Section Cost Center
+                hasDeletedSectionCostCentres = ko.observable(false),
                 // Errors
                 errors = ko.validation.group({
                     name: name,
@@ -798,7 +859,11 @@
                     sectionSizeId: sectionSizeId,
                     itemSizeId: itemSizeId,
                     pressId: pressId,
-                    itemGutterHorizontal: itemGutterHorizontal
+                    itemGutterHorizontal: itemGutterHorizontal,
+                    sectionSizeHeight: sectionSizeHeight,
+                    sectionSizeWidth: sectionSizeWidth,
+                    itemSizeHeight: itemSizeHeight,
+                    itemSizeWidth: itemSizeWidth
                 }),
                 // Is Valid
                 isValid = ko.computed(function () {
@@ -845,7 +910,7 @@
                     var sectionCostCentresChange = sectionCostCentres.find(function (item) {
                         return item.hasChanges();
                     });
-                    return sectionCostCentresChange !== null && sectionCostCentresChange !== undefined;
+                    return (sectionCostCentresChange !== null && sectionCostCentresChange !== undefined) || hasDeletedSectionCostCentres();
                 },
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -856,6 +921,7 @@
                     sectionCostCentres.find(function (item) {
                         return item.reset();
                     });
+                    hasDeletedSectionCostCentres(false);
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
@@ -1010,6 +1076,7 @@
                 sectionInkCoveragesSide1: sectionInkCoveragesSide1,
                 sectionInkCoveragesSide2: sectionInkCoveragesSide2,
                 sectionsMultiplier: sectionsMultiplier,
+                hasDeletedSectionCostCentres: hasDeletedSectionCostCentres,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -2041,13 +2108,14 @@
         },
         //#endregion
         //#region Paper Size Entity
-        PaperSize = function (specifiedId, specifiedName, specifiedHeight, specifiedWidth) {
+        PaperSize = function (specifiedId, specifiedName, specifiedHeight, specifiedWidth, specifiedArea) {
             // ReSharper restore InconsistentNaming
             return {
                 id: specifiedId,
                 name: specifiedName,
                 height: specifiedHeight,
-                width: specifiedWidth
+                width: specifiedWidth,
+                area: specifiedArea
             };
         },
         //#endregion
@@ -2352,7 +2420,7 @@
     //#endregion
     //#region Paper Size Factory
     PaperSize.Create = function (source) {
-        return new PaperSize(source.PaperSizeId, source.Name, source.Height, source.Width);
+        return new PaperSize(source.PaperSizeId, source.Name, source.Height, source.Width, source.Area);
     };
     //#endregion
     //#region Ink Plate Side Factory

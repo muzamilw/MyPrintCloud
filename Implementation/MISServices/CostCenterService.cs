@@ -137,6 +137,15 @@ namespace MPC.Implementation.MISServices
                       
             return costcenter;
         }
+
+        public void CostCentreDLL(CostCentre costcenter,long organisationId)
+        {
+            Organisation org = _organisationRepository.GetOrganizatiobByOrganisationID(organisationId);
+            string sOrgName = specialCharactersEncoderCostCentre(org.OrganisationName);
+            SaveCostCentre(costcenter, org.OrganisationId, sOrgName, false);  
+
+
+        }
         public bool Delete(long costcenterId)
         {
           //  _costCenterRepository.Delete(GetCostCentreById(costcenterId));

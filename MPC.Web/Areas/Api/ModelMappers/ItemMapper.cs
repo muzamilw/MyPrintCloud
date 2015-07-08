@@ -606,21 +606,17 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         }
 
 
-        public static ItemListView CreateFromForOrderAddProduct(this DomainModels.Item source)
+        public static ItemListViewForOrder CreateFromForOrderAddProduct(this DomainModels.Item source)
         {
             // ReSharper disable SuggestUseVarKeywordEvident
-            ItemListView item = new ItemListView
+            ItemListViewForOrder item = new ItemListViewForOrder
             // ReSharper restore SuggestUseVarKeywordEvident
             {
                 ItemId = source.ItemId,
                 ItemCode = source.ItemCode,
                 ProductCode = source.ProductCode,
                 ProductName = source.ProductName,
-                ProductSpecification = source.ProductSpecification,
-                IsArchived = source.IsArchived,
-                IsEnabled = source.IsEnabled,
-                IsPublished = source.IsPublished,
-                MinPrice = source.MinPrice,
+                ProductType = source.ProductType,
                 IsQtyRanged = source.IsQtyRanged,
                 DefaultItemTax = source.DefaultItemTax,
                 JobDescriptionTitle1 = source.JobDescriptionTitle1,
@@ -636,7 +632,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 JobDescriptionTitle6 = source.JobDescriptionTitle6,
                 JobDescription6 = source.JobDescription6,
                 JobDescriptionTitle7 = source.JobDescriptionTitle7,
-                JobDescription7 = source.JobDescription7
+                JobDescription7 = source.JobDescription7,
+                CompanyId = source.CompanyId,
+                CompanyName = source.Company != null ? source.Company.Name : string.Empty
             };
             return item;
         }

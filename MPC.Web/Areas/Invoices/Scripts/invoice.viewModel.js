@@ -59,6 +59,12 @@ define("invoice/invoice.viewModel",
                     isSectionDetailVisible = ko.observable(false),
                     // Is Company Base Data Loaded
                     isCompanyBaseDataLoaded = ko.observable(false),
+
+                    // is open report
+                     isOpenReport = ko.observable(false),
+                      // is open report Email
+                     isOpenReportEmail = ko.observable(false),
+
                     currentScreen = ko.observable(),
                     // True, show status column in list view
                     isShowStatusCloumn = ko.observable(true),
@@ -143,6 +149,7 @@ define("invoice/invoice.viewModel",
                     // Open Phrase Library
                     openPhraseLibrary = function () {
                         phraseLibrary.isOpenFromPhraseLibrary(false);
+                        phraseLibrary.defaultOpenSectionId(ist.sectionsEnum[2].id);
                         phraseLibrary.show(function (phrase) {
                             updateEstimatePhraseContainer(phrase);
                         });
@@ -222,11 +229,15 @@ define("invoice/invoice.viewModel",
 
 
                         reportManager.outputTo("preview");
-
-
-                        reportManager.OpenExternalReport(ist.reportCategoryEnums.Invoice, 1, selectedInvoice().id());
-
-
+                        
+                        if (selectedInvoice().hasChanges()) {
+                            isOpenReport(true);
+                            isOpenReportEmail(false);
+                            onSaveInvoice();
+                        }
+                        else {
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Invoice, 1, selectedInvoice().id());
+                        }
 
                         //reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(),"");
                         //reportManager.show(ist.reportCategoryEnums.Orders, 1, selectedOrder().id(), selectedOrder().companyName(), selectedOrder().orderCode(), selectedOrder().name());
@@ -238,11 +249,19 @@ define("invoice/invoice.viewModel",
                     openExternalEmailInvoiceReport = function () {
                         reportManager.outputTo("email");
 
-                        reportManager.SetOrderData(selectedInvoice().invoiceReportSignedBy(), selectedInvoice().contactId(), selectedInvoice().id(), 4, selectedInvoice().id(), "");
-                        reportManager.OpenExternalReport(ist.reportCategoryEnums.Invoice, 1, selectedInvoice().id());
+                       
+                        if (selectedInvoice().hasChanges()) {
+                            isOpenReport(true);
+                            isOpenReportEmail(true);
+                            onSaveInvoice();
+                        }
+                        else {
+                            reportManager.SetOrderData(selectedInvoice().invoiceReportSignedBy(), selectedInvoice().contactId(), selectedInvoice().id(), 4, selectedInvoice().id(), "");
+                            reportManager.OpenExternalReport(ist.reportCategoryEnums.Invoice, 1, selectedInvoice().id());
 
+                        }
 
-                    }
+                    },
 
                 // Close Editor
                 closeInvoiceEditor = function () {
@@ -328,25 +347,35 @@ define("invoice/invoice.viewModel",
                     if (!doBeforeSave()) {
                         return;
                     }
-
-                    var istatus = selectedInvoice().invoiceStatus();
-                    if (istatus == 19 && selectedInvoice().id() !== 0 && selectedInvoice().id() !== undefined) //Awaiting Invoice
+                    if (isOpenReport() == true)
                     {
-                        confirmation.messageText("Do you want to post the invoice.");
 
-                        confirmation.afterProceed(function () {
-                            selectedInvoice().invoiceStatus(20); //Posted Invoice                              
-                            selectedInvoice().invoicePostedBy(loggedInUserId); //Current user Id                             
-                            saveInvoice(closeInvoiceEditor, navigateCallback);
-                        });
-                        confirmation.afterCancel(function () {
-                            saveInvoice(closeInvoiceEditor, navigateCallback);
-                        });
-                        confirmation.show();
-                        return;
-                    } else {
                         saveInvoice(closeInvoiceEditor, navigateCallback);
                     }
+                    else
+                    {
+                        var istatus = selectedInvoice().invoiceStatus();
+                        if (istatus == 19 && selectedInvoice().id() !== 0 && selectedInvoice().id() !== undefined) //Awaiting Invoice
+                        {
+                            confirmation.messageText("Do you want to post the invoice.");
+
+                            confirmation.afterProceed(function () {
+                                selectedInvoice().invoiceStatus(20); //Posted Invoice                              
+                                selectedInvoice().invoicePostedBy(loggedInUserId); //Current user Id                             
+                                saveInvoice(closeInvoiceEditor, navigateCallback);
+                            });
+                            confirmation.afterCancel(function () {
+                                saveInvoice(closeInvoiceEditor, navigateCallback);
+                            });
+                            confirmation.show();
+                            return;
+                        } else {
+                            saveInvoice(closeInvoiceEditor, navigateCallback);
+                        }
+
+                    }
+
+                    
 
 
                 },
@@ -666,38 +695,62 @@ define("invoice/invoice.viewModel",
                     invoice.Items = itemsArray;
                     dataservice.saveInvoice(invoice, {
                         success: function (data) {
-                            if (!selectedInvoice().id()) {
-                                // Update Id
-                                selectedInvoice().id(data.InvoiceId);
-                                selectedInvoice().code(data.InvoiceCode);
-                                var invoiceListViewItem = model.InvoicesListView();
-                                invoiceListViewItem.code(data.InvoiceCode);
-                                invoiceListViewItem.id(selectedInvoice().id());
-                                updateInvoiceLitViewItem(invoiceListViewItem);
-                                // Add to top of list
-                                invoices.splice(0, 0, invoiceListViewItem);
-                            } else {
-                                // Get Order
-                                var invoiceUpdated = getInvoiceFromList(selectedInvoice().id());
-                                if (invoiceUpdated) {
-                                    // invoiceUpdated.code(data.InvoiceCode);
-                                    //invoiceUpdated.name(data.InvoiceName);
-                                    updateInvoiceLitViewItem(invoiceUpdated);
+
+                            if (isOpenReport() == true) {
+                                if (isOpenReportEmail() == true) {
+                                    reportManager.SetOrderData(selectedInvoice().invoiceReportSignedBy(), selectedInvoice().contactId(), selectedInvoice().id(), 4, selectedInvoice().id(), "");
+                                    reportManager.OpenExternalReport(ist.reportCategoryEnums.Invoice, 1, selectedInvoice().id());
+
+                                    getInvoiceById(selectedInvoice().id());
                                 }
-                            }
-                            isDetailsVisible(false);
-                            isItemDetailVisible(true);
+                                else {
+                                   
+                                    reportManager.OpenExternalReport(ist.reportCategoryEnums.Invoice, 1, selectedInvoice().id());
+                                    getInvoiceById(selectedInvoice().id());
+                                }
 
-                            toastr.success("Saved Successfully.");
+                                isOpenReport(false);
+                            }
+                            else {
 
-                            if (callback && typeof callback === "function") {
-                                callback();
+
+                                if (!selectedInvoice().id()) {
+                                    // Update Id
+                                    selectedInvoice().id(data.InvoiceId);
+                                    selectedInvoice().code(data.InvoiceCode);
+                                    var invoiceListViewItem = model.InvoicesListView();
+                                    invoiceListViewItem.code(data.InvoiceCode);
+                                    invoiceListViewItem.id(selectedInvoice().id());
+                                    updateInvoiceLitViewItem(invoiceListViewItem);
+                                    // Add to top of list
+                                    invoices.splice(0, 0, invoiceListViewItem);
+                                } else {
+                                    // Get Order
+                                    var invoiceUpdated = getInvoiceFromList(selectedInvoice().id());
+                                    if (invoiceUpdated) {
+                                        // invoiceUpdated.code(data.InvoiceCode);
+                                        //invoiceUpdated.name(data.InvoiceName);
+                                        updateInvoiceLitViewItem(invoiceUpdated);
+                                    }
+                                }
+                                isDetailsVisible(false);
+                                isItemDetailVisible(true);
+
+                                toastr.success("Saved Successfully.");
+
+                                if (callback && typeof callback === "function") {
+                                    callback();
+                                }
+
+                                if (navigateCallback && typeof navigateCallback === "function") {
+                                    navigateCallback();
+                                }
+                                invoiceCodeHeader('');
                             }
 
-                            if (navigateCallback && typeof navigateCallback === "function") {
-                                navigateCallback();
-                            }
-                            invoiceCodeHeader('');
+
+
+
                         },
                         error: function (response) {
                             toastr.error("Failed to Save Order. Error: " + response);
@@ -711,9 +764,11 @@ define("invoice/invoice.viewModel",
                     invoiceListViewItem.type(selectedInvoice().type());
                     invoiceListViewItem.companyName(selectedInvoice().companyName());
                     invoiceListViewItem.invoiceDate(selectedInvoice().invoiceDate());
+                    invoiceListViewItem.status(selectedInvoice().invoiceStatusText());
                     invoiceListViewItem.itemsCount(selectedInvoice().items().length + selectedInvoice().invoiceDetailItems().length);
+                    //invoiceListViewItem.status(selectedInvoice().statusName() || '');
                     var sectionFlagItem = _.find(sectionFlags(), function (sFlag) {
-                        return sFlag.SectionFlagId === selectedInvoice().sectionFlagId();
+                        return sFlag.SectionFlagId === parseInt(selectedInvoice().sectionFlagId());
                     });
                     if (sectionFlagItem !== undefined && sectionFlagItem !== null) {
                         invoiceListViewItem.flagColor(sectionFlagItem.FlagColor);
@@ -788,35 +843,41 @@ define("invoice/invoice.viewModel",
                 // Get Invoice By Id
                 getInvoiceById = function (id, callback) {
                     isLoading(true);
-                    //isCompanyBaseDataLoaded(false);
+                    isCompanyBaseDataLoaded(false);
                     dataservice.getInvoice({
                         id: id
                     }, {
                         success: function (data) {
                             if (data) {
                                 selectedInvoice(model.Invoice.Create(data));
-
+                                selectedInvoice().addressId(data.AddressId);
+                                selectedInvoice().contactId(data.ContactId);
                                 // Get Base Data For Company
                                 if (data.CompanyId) {
+                                    // ReSharper disable AssignedValueIsNeverUsed
                                     var storeId = 0;
+                                    // ReSharper restore AssignedValueIsNeverUsed
                                     if (data.IsCustomer !== 3 && data.StoreId) {
                                         storeId = data.StoreId;
                                         selectedInvoice().storeId(storeId);
                                     } else {
                                         storeId = data.CompanyId;
+                                        selectedInvoice().storeId(undefined);
                                     }
                                     getBaseForCompany(data.CompanyId, storeId);
                                 }
+                                isLoading(false);
+                               // var code = !selectedInvoice().code() ? "INVOICE CODE" : selectedInvoice().code();
+                                //invoiceCodeHeader(code);
+                                //view.initializeLabelPopovers();
+                                selectedInvoice().reset();
+
 
                                 if (callback && typeof callback === "function") {
                                     callback();
                                 }
                             }
-                            isLoading(false);
-                            var code = !selectedInvoice().code() ? "INVOICE CODE" : selectedInvoice().code();
-                            //invoiceCodeHeader(code);
-                            //view.initializeLabelPopovers();
-                            selectedInvoice().reset();
+                           
                         },
                         error: function (response) {
                             isLoading(false);
@@ -859,14 +920,14 @@ define("invoice/invoice.viewModel",
                     if (selectedInvoice().id() > 0) {
                         return;
                     }
-                    selectedInvoice().addressId(selectedCompany().addressId);
+                    selectedInvoice().addressId(selectedCompany().addressId || undefined);
                 },
                 // Select Default Contact For Company in case of new Invoice
                 setDefaultContactForCompany = function () {
                     if (selectedInvoice().id() > 0) {
                         return;
                     }
-                    selectedInvoice().contactId(selectedCompany().contactId);
+                    selectedInvoice().contactId(selectedCompany().contactId || undefined);
                 },
                 createInvoice = function () {
                     selectedInvoice(model.Invoice.Create({}));
@@ -1074,6 +1135,10 @@ define("invoice/invoice.viewModel",
               },
                 afterSelectCostCenter = function (costCenter) {
                     selectedCostCentre(costCenter);
+                    if (isCostCenterDialogForShipping()) {
+                        createNewCostCenterProduct();
+                        return;
+                    }
                     view.showCostCentersQuantityDialog();
                 },
                 //#endregion
@@ -1187,19 +1252,27 @@ define("invoice/invoice.viewModel",
                             createNewCostCenterProduct();
                         });
                     },
-                //Initialize method to call in every screen
-            initializeScreen = function (specifiedView) {
-                view = specifiedView;
-                ko.applyBindings(view.viewModel, view.bindingRoot);
-                // Get Base Data
-                getBaseData();
-            },
-                // Initialize the view model
-            initialize = function (specifiedView) {
-                initializeScreen(specifiedView);
-                pager(new pagination.Pagination({ PageSize: 10 }, invoices, getInvoices));
-                getInvoices();
-            };
+                    onDeleteShippingItem = function (shippingItem) {
+                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.afterProceed(function () {
+                            selectedInvoice().items.remove(shippingItem);
+                        });
+                        confirmation.show();
+                        return;
+                    },
+                    //Initialize method to call in every screen
+                    initializeScreen = function (specifiedView) {
+                        view = specifiedView;
+                        ko.applyBindings(view.viewModel, view.bindingRoot);
+                        // Get Base Data
+                        getBaseData();
+                    },
+                        // Initialize the view model
+                    initialize = function (specifiedView) {
+                        initializeScreen(specifiedView);
+                        pager(new pagination.Pagination({ PageSize: 10 }, invoices, getInvoices));
+                        getInvoices();
+                    };
 
                 //#endregion
 
@@ -1276,7 +1349,8 @@ define("invoice/invoice.viewModel",
                     calculateGrossTotal: calculateGrossTotal,
                     calculateTaxValue: calculateTaxValue,
                     onCreateNewCostCenterProduct: onCreateNewCostCenterProduct,
-                    onAddFinishedGoods:onAddFinishedGoods
+                    onAddFinishedGoods: onAddFinishedGoods,
+                    onDeleteShippingItem: onDeleteShippingItem
                     //#endregion
                 };
             })()

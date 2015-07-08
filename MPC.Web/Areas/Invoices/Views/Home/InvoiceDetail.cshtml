@@ -149,7 +149,7 @@
                                             <div class="col-sm-4 text-right">
                                                 <label>&nbsp;</label>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-8">
                                                 <div>
                                                     <input type="text" style="height: 60px;" data-bind="value: name, validationTooltip: name, validationOnElement: name" placeholder="Enter Invoice Title" class="form-control font24px" id="EstimateTitle" />
                                                 </div>
@@ -172,9 +172,10 @@
                                             <div class="col-sm-6">
                                                 @*<select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId', optionsCaption: 'Select a flag', value: sectionFlagId, validationOnElement: sectionFlagId"></select>
                                                 <span class="help-block text-right"></span>*@
-                                                <select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: sectionFlagId, foreach: $root.sectionFlags">
-                                                    <option style="width: 258px !important;" data-bind="text: FlagName, attr: { 'data-color': FlagColor, value: SectionFlagId }"></option>
+                                                <select style="width: 100% !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: sectionFlagId, foreach: $root.sectionFlags">
+                                                    <option style="width: 100% !important;" data-bind="text: FlagName, attr: { 'data-color': FlagColor, value: SectionFlagId }"></option>
                                                 </select>
+                                                <i class="fa fa-sort-desc" style="float: right;padding-right: 9px;position: relative;bottom: 25px;"></i>
                                             </div>
                                         </div>
                                        <div>
@@ -254,9 +255,17 @@
                                                                         <th class="col-sm-8"><span></span></th>
                                                                         <th class="col-sm-2"><span>Qty</span></th>
                                                                         <th class="col-sm-2 text-right"><span>Price inc. Tax</span></th>
+                                                                        <th class="col-sm-1" style="width: 2%"></th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
+                                                                    <!--ko if: nonDeliveryItems().length===0-->
+                                                                    <tr>
+                                                                        <td colspan="4">
+                                                                            <span data-bind="text: 'No Items found!'"></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <!-- /ko -->
                                                                     <!-- ko template: { name: 'itemTemplate', foreach: nonDeliveryItems } -->
                                                                     <!-- /ko -->
                                                                 </tbody>
@@ -295,7 +304,10 @@
                                                 &nbsp;
                                             </div>
                                             <div class="col-sm-9">
-                                                <div style="background-color:gainsboro; border-radius:3px">
+                                                <div data-bind="visible: deliveryItems().length === 0">
+                                                    <span class="control-label" data-bind="text: 'No Shipping Charge Added'"></span>
+                                                </div>
+                                                <div style="background-color:gainsboro; border-radius:3px" data-bind="visible: deliveryItems().length > 0">
                                                     <header class="main-box-header clearfix">
                                                         <div style="float:left;"><span style="font-size:24px">Shipping Charge</span></div>
                                                     </header>
@@ -307,9 +319,17 @@
                                                                         <th class="col-sm-5"><span></span></th>
                                                                         <th class="col-sm-3"><span></span></th>
                                                                         <th class="col-sm-3 text-right"><span>Price inc. Tax</span></th>
+                                                                        <th class="col-sm-1" style="width: 2%"></th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
+                                                                    <!--ko if: deliveryItems().length==0-->
+                                                                    <tr>
+                                                                        <td colspan="4">
+                                                                            <span data-bind="text: 'No Items found!'"></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <!-- /ko -->
                                                                     <!-- ko template: { name: 'deliveryItemTemplate', foreach: deliveryItems } -->
                                                                     <!-- /ko -->
                                                                 </tbody>
@@ -377,6 +397,14 @@
                                             <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
                                             <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
                                         </td>
+                                        <td>
+                                            <a href="#" class="table-link danger pull-right" style="visibility: hidden" title="Delete">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                        </td>
                                     </tr>
                                 </script>
                                 <script id="deliveryItemTemplate" type="text/html">
@@ -388,6 +416,14 @@
                                         <td style=" text-align: right;">
                                             <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
                                             <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="table-link danger pull-right" data-bind="click: $root.onDeleteShippingItem" title="Delete">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
                                         </td>
                                     </tr>
                                 </script>

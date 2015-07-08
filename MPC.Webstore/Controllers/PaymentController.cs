@@ -61,7 +61,7 @@ namespace MPC.Webstore.Controllers
                     {
                         opaypal.return_url = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/Receipt/" + OrderId;
                         opaypal.notify_url = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/PaypalIPN";
-                        opaypal.cancel_url = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/ShopCart/" + OrderId;
+                        opaypal.cancel_url = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/ShopCart/" + OrderId + "/UserCancelled";
 
                        // opaypal.return_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/Receipt/" + OrderId;//oGateWay.ReturnUrl;
                        // opaypal.notify_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/PaypalIPN"; //oGateWay.NotifyUrl;
@@ -73,9 +73,9 @@ namespace MPC.Webstore.Controllers
                         opaypal.currency_code = _myCompanyService.GetCurrencyCodeById(Convert.ToInt64(StoreBaseResopnse.Organisation.CurrencyId));
                         opaypal.no_shipping = "1";
                         opaypal.handling_cart = "0";
+                        opaypal.custom = OrderId.ToString();
 
-
-                        opaypal.pageOrderID = OrderId.ToString();
+                        //opaypal.pageOrderID = OrderId.ToString();
                         // determining the URL to work with depending on whether sandbox or a real PayPal account should be used
                         if (oGateWay.UseSandbox.HasValue && oGateWay.UseSandbox.Value)
                             opaypal.URL = "https://www.sandbox.paypal.com/cgi-bin/webscr"; //oGateWay.TestApiUrl;//

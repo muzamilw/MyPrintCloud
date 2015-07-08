@@ -19,6 +19,9 @@ namespace MPC.Models.DomainModels
         public int? IsSystemUser { get; set; }
         public string UserAuthToken { get; set; }
         public string Email { get; set; }
+        public string EmailSignature { get; set; }
+        public string EstimateHeadNotes { get; set; }
+        public string EstimateFootNotes { get; set; }
 
         public virtual ICollection<ItemStockUpdateHistory> ItemStockUpdateHistories { get; set; } 
     }

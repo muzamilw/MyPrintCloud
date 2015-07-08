@@ -37,7 +37,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedIsMultiPagePdf, specifiedAllowImageDownload, specifiedItemLength, specifiedItemWidth, specifiedItemHeight, specifiedItemWeight,
         specifiedTemplateId, specifiedSmartFormId, callbacks, constructorParams) {
         // ReSharper restore InconsistentNaming
-        var // Unique key
+        var
+            // Unique key
             id = ko.observable(specifiedId || 0),
             // Name
             name = ko.observable(specifiedName || undefined),
@@ -392,10 +393,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (template()) {
                         if (tempType === 1) {
                             template().isCreatedManualUi(true);
+                            designerCategoryId(0);
                         }
                         else if (tempType === 2) {
                             template().isCreatedManualUi(false);
                             template().fileSource(undefined);
+                            designerCategoryId(0);
                         }
                         else {
                             template().isCreatedManualUi(undefined);
@@ -465,6 +468,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             smartFormId = ko.observable(specifiedSmartFormId || undefined),
             // Item Product Detail
             itemProductDetail = ko.observable(ItemProductDetail.Create(specifiedItemProductDetail || { ItemId: id() })),
+            // Self Reference
+            self = {
+                productType: isFinishedGoodsUi
+            },
             // Item Vdp Prices
             itemVdpPrices = ko.observableArray([]),
             // Item Videos
@@ -529,7 +536,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 if (itemProductDetail().isPrintItemUi() === '1') {
                     if (itemSections().length === 0 && !id()) {
                         // There shouldn be atleast one section in case of print
-                        itemSections.push(ItemSection.Create({ ItemId: id(), SectionName: "Cover Sheet" }));
+                        itemSections.push(ItemSection.Create({ ItemId: id(), SectionName: "Cover Sheet" }, self));
                     }
                 }
 
@@ -808,7 +815,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Select Stock Item For Stock Option
             selectStockItemForStockOption = function (stockItem) {
                 activeStockOption().selectStock(stockItem);
-                activeStockOption(ItemStockOption.Create({}, callbacks));
+                activeStockOption(ItemStockOption.Create({}, callbacks, self));
             },
             // Choose Stock Item For Section
             chooseStockItemForSection = function () {
@@ -817,11 +824,19 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }
             },
             // Active Item Section
-            activeItemSection = ko.observable(ItemSection.Create({})),
+            activeItemSection = ko.observable(ItemSection.Create({}, self)),
             // Select Item Section
             selectItemSection = function (itemSection) {
+                var productHasChanges = hasChanges();
+                var sectionHasChanges = itemSection.hasChanges();
                 if (activeItemSection() !== itemSection) {
                     activeItemSection(itemSection);
+                    if (!sectionHasChanges) {
+                        activeItemSection().reset();
+                    }
+                    if (!productHasChanges) {
+                        reset();
+                    }
                 }
 
                 // Set Stock Item Selection Callback
@@ -942,9 +957,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }
                 }, 500);
             },
+            // Only Allow 11 stock labels
+            canAddItemStockOption = ko.computed(function() {
+                return itemStockOptions().length < 11;
+            }),
             // Add Item Stock Option
             addItemStockOption = function () {
-                var stockOption = ItemStockOption.Create({ ItemId: id() }, callbacks);
+                var stockOption = ItemStockOption.Create({ ItemId: id() }, callbacks, self);
                 itemStockOptions.push(stockOption);
                 wireupItemStockOptionTabEvents(stockOption);
             },
@@ -967,9 +986,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             // On Edit Item Cost Centre
             onEditItemCostCentre = function (itemStockOption, itemAddonCostCentre) {
+                var productHasChanges = hasChanges();
                 selectItemStockOption(itemStockOption);
                 activeStockOption().onEditItemAddonCostCentre(itemAddonCostCentre);
-
+                if (!productHasChanges) {
+                    reset();
+                }
                 if (callbacks && callbacks.onUpdateItemAddonCostCentre && typeof callbacks.onUpdateItemAddonCostCentre === "function") {
                     callbacks.onUpdateItemAddonCostCentre();
                 }
@@ -1195,7 +1217,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             // Add Item Section
             addItemSection = function () {
-                itemSections.push(ItemSection.Create({ ItemId: id(), SectionName: "Text Sheet" }));
+                itemSections.push(ItemSection.Create({ ItemId: id(), SectionName: "Text Sheet" }, self));
             },
             // Get Available slot for Template Layout File
             getAvailableSlotForTemplateLayoutFile = function () {
@@ -1520,22 +1542,53 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 });
                 if (itemSectionInvalid) {
                     if (itemSectionInvalid.name.error || itemSectionInvalid.pressId.error || itemSectionInvalid.stockItemId.error ||
-                        itemSectionInvalid.itemGutterHorizontal.error) {
+                        itemSectionInvalid.itemGutterHorizontal.error || itemSectionInvalid.sectionSizeId.error || itemSectionInvalid.itemSizeId.error ||
+                        itemSectionInvalid.sectionSizeHeight.error || itemSectionInvalid.sectionSizeWidth.error || itemSectionInvalid.itemSizeHeight.error ||
+                        itemSectionInvalid.itemSizeWidth.error) {
                         var nameElement = itemSectionInvalid.name.domElement;
-                        var errorName = "";
+                        var sectionNo = " for Section No. " + itemSections.indexOf(itemSectionInvalid) + 1;
                         if (itemSectionInvalid.name.error) {
-                            errorName = "Section Name";
+                            validationSummaryList.push({ name: "Section Name" + sectionNo, element: nameElement });
                         }
-                        else if (itemSectionInvalid.pressId.error) {
-                            errorName = "Section Press";
+                        if (itemSectionInvalid.pressId.error) {
+                            validationSummaryList.push({ name: "Section Side 1 Press" + sectionNo, element: nameElement });
                         }
-                        else if (itemSectionInvalid.stockItemId.error) {
-                            errorName = "Section Stock Item";
+                        if (itemSectionInvalid.stockItemId.error) {
+                            validationSummaryList.push({ name: "Section Paper / Board / Substrate" + sectionNo, element: nameElement });
                         }
-                        else if (itemSectionInvalid.itemGutterHorizontal.error) {
-                            errorName = "Gutter value must be a number from 0 to 99";
+                        if (itemSectionInvalid.itemGutterHorizontal.error) {
+                            validationSummaryList.push({ name: "Gutter value must be a number from 0 to 99" + sectionNo, element: nameElement });
                         }
-                        validationSummaryList.push({ name: errorName, element: nameElement });
+                        if (itemSectionInvalid.sectionSizeId.error) {
+                            validationSummaryList.push({ name: "Section Press Feed Sheet Size" + sectionNo, element: nameElement });
+                        }
+                        if (itemSectionInvalid.itemSizeId.error) {
+                            validationSummaryList.push({ name: "Section Trimed Item Size (flat)" + sectionNo, element: nameElement });
+                        }
+                        if (itemSectionInvalid.sectionSizeHeight.error) {
+                            validationSummaryList.push({
+                                name: "Press Feed Size Height" + sectionNo,
+                                element: nameElement
+                            });
+                        }
+                        if (itemSectionInvalid.sectionSizeWidth.error) {
+                            validationSummaryList.push({
+                                name: "Press Feed Size Width" + sectionNo,
+                                element: nameElement
+                            });
+                        }
+                        if (itemSectionInvalid.itemSizeHeight.error) {
+                            validationSummaryList.push({
+                                name: "Trimmed Size Height" + sectionNo,
+                                element: nameElement
+                            });
+                        }
+                        if (itemSectionInvalid.itemSizeWidth.error) {
+                            validationSummaryList.push({
+                                name: "Trimmed Size Width" + sectionNo,
+                                element: nameElement
+                            });
+                        }
                     }
                 }
                 // Check if a category is selected
@@ -1989,6 +2042,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemPriceMatricesForCurrentFlag: itemPriceMatricesForCurrentFlag,
             itemPriceMatricesForSupplierId1: itemPriceMatricesForSupplierId1,
             itemPriceMatricesForSupplierId2: itemPriceMatricesForSupplierId2,
+            canAddItemStockOption: canAddItemStockOption,
             addItemStockOption: addItemStockOption,
             removeItemStockOption: removeItemStockOption,
             wireupItemStockOptionTabEvents: wireupItemStockOptionTabEvents,
@@ -2032,6 +2086,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             resetFiles: resetFiles,
             removeTemplateLayoutFile: removeTemplateLayoutFile,
             removeItemImage: removeItemImage,
+            self: self,
             errors: errors,
             isValid: isValid,
             showAllErrors: showAllErrors,
@@ -2467,13 +2522,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Stock Option Entity
     ItemStockOption = function (specifiedId, specifiedStockLabel, specifiedStockId, specifiedStockItemName, specifiedStockItemDescription, specifiedImage,
-        specifiedOptionSequence, specifiedItemId, callbacks, specifiedInStock, specifiedAllocated) {
+        specifiedOptionSequence, specifiedItemId, callbacks, specifiedInStock, specifiedAllocated, specifiedItem) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
             // Label
-            label = ko.observable(specifiedStockLabel || undefined).extend({ required: true }),
-
+            label = ko.observable(specifiedStockLabel || undefined).extend({
+                required: {
+                    onlyIf: function () {
+                        return (specifiedItem && parseInt(specifiedItem.productType()) !== 2);
+                    }
+                }
+            }),
             // in stock
             inStock = ko.observable(specifiedInStock || undefined),
             // allocated
@@ -2507,8 +2567,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 activeItemAddonCostCentre().isMandatory(false);
             },
             onEditItemAddonCostCentre = function (itemAddonCostCentre) {
+                var itemStockHasChanges = itemAddonCostCentre.hasChanges();
                 activeItemAddonCostCentre(itemAddonCostCentre);
                 activeItemAddonCostCentre().reset();
+                if (!itemStockHasChanges) {
+                    reset();
+                }
             },
             // Save ItemAddonCostCentre
             saveItemAddonCostCentre = function () {
@@ -2715,42 +2779,44 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedPressId, specifiedStockItemId, specifiedStockItemName, specifiedPressName, specifiedItemId, specifiedIsDoubleSided, specifiedIsWorknTurn,
         specifiedPrintViewLayoutPortrait, specifiedPrintViewLayoutLandscape, specifiedIsPortrait, specifiedPressIdSide2, specifiedImpressionCoverageSide1,
         specifiedImpressionCoverageSide2, specifiedPrintingType, specifiedPressSide1ColourHeads, specifiedPressSide1IsSpotColor,
-        specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty, specifiedItemGutterHorizontal) {
+        specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty, specifiedItemGutterHorizontal, specifiedItem) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
             // name
-            name = ko.observable(specifiedSectionName || undefined).extend({ required: true }),
+            name = ko.observable(specifiedSectionName || undefined).extend({
+                required:
+                {
+                    onlyIf: function () {
+                        return (specifiedItem && (parseInt(specifiedItem.productType()) !== 2));
+                    }
+                }
+            }),
             // Stock Item Id
-            stockItemId = ko.observable(specifiedStockItemId || undefined).extend({ required: true }),
+            stockItemId = ko.observable(specifiedStockItemId || undefined).extend({
+                required: {
+                    onlyIf: function () {
+                        return (specifiedItem && (parseInt(specifiedItem.productType()) !== 2 && parseInt(specifiedItem.productType()) !== 3));
+                    }
+                }
+            }),
             // Stock Item Name
             stockItemName = ko.observable(specifiedStockItemName || undefined),
             // Stock Item Package Qty
             stockItemPackageQty = ko.observable(specifiedStockItemPackageQty || undefined),
             // Press Id
-            pressId = ko.observable(specifiedPressId || undefined),
+            pressId = ko.observable(specifiedPressId || undefined).extend({
+                required: {
+                    onlyIf: function () {
+                        return (specifiedItem && (parseInt(specifiedItem.productType()) !== 2 &&
+                            parseInt(specifiedItem.productType()) !== 3));
+                    }
+                }
+            }),
             // Press Name
             pressName = ko.observable(specifiedPressName || undefined),
             // Press Id Side 2
             pressIdSide2 = ko.observable(specifiedPressIdSide2 || undefined),
-            // section size id
-            sectionSizeId = ko.observable(specifiedSectionSizeId || undefined),
-            // Item size id
-            itemSizeId = ko.observable(specifiedItemSizeId || undefined),
-            // Section No
-            sectionNo = ko.observable(specifiedSectionNo || undefined),
-            // Is Section Size Custom
-            isSectionSizeCustom = ko.observable(specifiedIsSectionSizeCustom || undefined),
-            // Is Item Size Custom
-            isItemSizeCustom = ko.observable(specifiedIsItemSizeCustom || undefined),
-            // Section Size Height
-            sectionSizeHeight = ko.observable(specifiedSectionSizeHeight || undefined),
-            // Section Size Width
-            sectionSizeWidth = ko.observable(specifiedSectionSizeWidth || undefined),
-            // Item Size Height
-            itemSizeHeight = ko.observable(specifiedItemSizeHeight || undefined),
-            // Item Size Width
-            itemSizeWidth = ko.observable(specifiedItemSizeWidth || undefined),
             // Item Id
             itemId = ko.observable(specifiedItemId || undefined),
             // Is Double Sided
@@ -2816,6 +2882,66 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         if (isDoubleSidedUi) {
                             isDoubleSidedUi(false);
                         }
+                    }
+                }
+            }),
+            // Is Section Size Custom
+            isSectionSizeCustom = ko.observable(specifiedIsSectionSizeCustom || undefined),
+            // Is Item Size Custom
+            isItemSizeCustom = ko.observable(specifiedIsItemSizeCustom || undefined),
+            // section size id
+            sectionSizeId = ko.observable(specifiedSectionSizeId || undefined).extend({
+                required: {
+                    onlyIf: function () {
+                        return (specifiedItem && (parseInt(specifiedItem.productType()) !== 2 &&
+                            parseInt(specifiedItem.productType()) !== 3)) && !isSectionSizeCustom() && printingTypeUi() === '1';
+                    }
+                }
+            }),
+            // Item size id
+            itemSizeId = ko.observable(specifiedItemSizeId || undefined).extend({
+                required: {
+                    onlyIf: function () {
+                        return (specifiedItem && (parseInt(specifiedItem.productType()) !== 2 &&
+                            parseInt(specifiedItem.productType()) !== 3)) && !isItemSizeCustom() && printingTypeUi() === '1';
+                    }
+                }
+            }),
+            // Section No
+            sectionNo = ko.observable(specifiedSectionNo || undefined),
+            // Section Size Height
+            sectionSizeHeight = ko.observable(specifiedSectionSizeHeight || undefined).extend({
+                required: {
+                    onlyIf: function () {
+                        return (specifiedItem && (parseInt(specifiedItem.productType()) !== 2 &&
+                            parseInt(specifiedItem.productType()) !== 3)) && isSectionSizeCustom() && printingTypeUi() !== '2';
+                    }
+                }
+            }),
+            // Section Size Width
+            sectionSizeWidth = ko.observable(specifiedSectionSizeWidth || undefined).extend({
+                required: {
+                    onlyIf: function () {
+                        return (specifiedItem && (parseInt(specifiedItem.productType()) !== 2 &&
+                            parseInt(specifiedItem.productType()) !== 3)) && isSectionSizeCustom() && printingTypeUi() !== '2';
+                    }
+                }
+            }),
+            // Item Size Height
+            itemSizeHeight = ko.observable(specifiedItemSizeHeight || undefined).extend({
+                required: {
+                    onlyIf: function () {
+                        return (specifiedItem && (parseInt(specifiedItem.productType()) !== 2 &&
+                            parseInt(specifiedItem.productType()) !== 3)) && isItemSizeCustom() && printingTypeUi() !== '2';
+                    }
+                }
+            }),
+            // Item Size Width
+            itemSizeWidth = ko.observable(specifiedItemSizeWidth || undefined).extend({
+                required: {
+                    onlyIf: function () {
+                        return (specifiedItem && (parseInt(specifiedItem.productType()) !== 2 &&
+                            parseInt(specifiedItem.productType()) !== 3)) && isItemSizeCustom() && printingTypeUi() !== '2';
                     }
                 }
             }),
@@ -2888,7 +3014,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             errors = ko.validation.group({
                 name: name,
                 stockItemId: stockItemId,
-                itemGutterHorizontal: itemGutterHorizontal
+                itemGutterHorizontal: itemGutterHorizontal,
+                pressId: pressId,
+                sectionSizeId: sectionSizeId,
+                itemSizeId: itemSizeId,
+                sectionSizeHeight: sectionSizeHeight,
+                sectionSizeWidth: sectionSizeWidth,
+                itemSizeHeight: itemSizeHeight,
+                itemSizeWidth: itemSizeWidth
             }),
             // Is Valid
             isValid = ko.computed(function () {
@@ -4059,9 +4192,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
 
     // Item Stock Option Factory
-    ItemStockOption.Create = function (source, callbacks) {
+    ItemStockOption.Create = function (source, callbacks, parent) {
         var itemStockOption = new ItemStockOption(source.ItemStockOptionId, source.StockLabel, source.StockId, source.StockItemName, source.StockItemDescription,
-            source.ImageUrlSource, source.OptionSequence, source.ItemId, callbacks, source.inStock, source.Allocated);
+            source.ImageUrlSource, source.OptionSequence, source.ItemId, callbacks, source.inStock, source.Allocated, parent);
 
         // If Item Addon CostCentres exists then add
         if (source.ItemAddOnCostCentres) {
@@ -4120,14 +4253,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
 
     // Item Section Factory
-    ItemSection.Create = function (source) {
+    ItemSection.Create = function (source, parent) {
         var itemSection = new ItemSection(source.ItemSectionId, source.SectionNo, source.SectionName, source.SectionSizeId, source.ItemSizeId,
             source.IsSectionSizeCustom, source.SectionSizeHeight, source.SectionSizeWidth, source.IsItemSizeCustom, source.ItemSizeHeight,
             source.ItemSizeWidth, source.PressId, source.StockItemId1, source.StockItem1Name, source.PressName, source.ItemId, source.IsDoubleSided, source.IsWorknTurn,
             source.PrintViewLayoutPortrait, source.PrintViewLayoutLandScape, source.IsPortrait,
             source.PressIdSide2, source.ImpressionCoverageSide1, source.ImpressionCoverageSide2, source.PrintingType,
             source.PressSide1ColourHeads, source.PressSide1IsSpotColor, source.PressSide2ColourHeads, source.PressSide2IsSpotColor, source.StockItemPackageQty,
-            source.ItemGutterHorizontal);
+            source.ItemGutterHorizontal, parent);
 
         // Map Section Ink Coverage if Any
         if (source.SectionInkCoverages && source.SectionInkCoverages.length > 0) {
@@ -4235,7 +4368,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Map Item Stock Options if any
         if (source.ItemStockOptions && source.ItemStockOptions.length > 0) {
             _.each(source.ItemStockOptions, function (itemStockOption) {
-                var stockOption = ItemStockOption.Create(itemStockOption, callbacks);
+                var stockOption = ItemStockOption.Create(itemStockOption, callbacks, item.self);
                 item.itemStockOptions.push(stockOption);
                 item.wireupItemStockOptionTabEvents(stockOption);
             });
@@ -4292,7 +4425,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             var itemSections = [];
 
             _.each(source.ItemSections, function (itemSection) {
-                itemSections.push(ItemSection.Create(itemSection));
+                itemSections.push(ItemSection.Create(itemSection, item.self));
             });
 
             // Push to Original Item

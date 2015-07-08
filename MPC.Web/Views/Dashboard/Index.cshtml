@@ -239,9 +239,7 @@
                                     <h2>Top Performing Stores</h2>
                                     <div class="form-group">
                                         <div class="graph-box emerald-bg">
-                                            @*<img src="~/Content/Images/chart_01.png" style="width: 100%;" />*@
-                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Bar', data: $root.line1, xkey: 'month', ykeys:['a', 'b'],barGap:1, labels: ['Series A', 'Series B'],gridTextColor: '#ffffff',resize: true, grid: false}"></div>
-
+                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Bar', data: $root.line1, xkey: 'month', ykeys:['a', 'b'], labels: ['Series A', 'Series B'],gridTextColor: '#ffffff',horizontal: true}"></div>
                                         </div>
                                     </div>
                                     <h2>Monthly Earnings by store</h2>
@@ -577,6 +575,7 @@
 @section Scripts {
     @*<script src="~/Scripts/Script/jquery.foggy.js"></script>
         <script src="~/Scripts/Script/jquery.foggy.min.js"></script>*@
+
     <script>
         $(document).ready(function () {
 
@@ -760,6 +759,10 @@
             //    gridLineColor: 'rgba(255, 255, 255, 0.3)',
             //    resize: true
             //});
+
+
+
+
 
             //WORLD MAP
             $('#world-map').vectorMap({
@@ -1245,6 +1248,21 @@
         });
 
     </script>
+
+<!-- ClickDesk Live Chat Service for websites -->
+<script type='text/javascript'>
+    var _glc = _glc || []; _glc.push('all_ag9zfmNsaWNrZGVza2NoYXRyDwsSBXVzZXJzGJD1qYkMDA');
+    var glcpath = (('https:' == document.location.protocol) ? 'https://my.clickdesk.com/clickdesk-ui/browser/' :
+    'http://my.clickdesk.com/clickdesk-ui/browser/');
+    var glcp = (('https:' == document.location.protocol) ? 'https://' : 'http://');
+    var glcspt = document.createElement('script'); glcspt.type = 'text/javascript';
+    glcspt.async = true; glcspt.src = glcpath + 'livechat-new.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(glcspt, s);
+</script>
+<!-- End of ClickDesk -->
+
+
+
 }
 
 

@@ -104,6 +104,11 @@ namespace MPC.Repository.Repositories
             };
 		}
 
+        public CostCentre GetFirstCostCentreByOrganisationId(long organisationId)
+        {
+            return db.CostCentres.Where(c => c.OrganisationId == organisationId & c.Type != (int)CostCenterTypes.Delivery).FirstOrDefault();
+
+        }
 		public bool Delete(long CostCentreID)
 		{
 			try
@@ -1133,5 +1138,8 @@ namespace MPC.Repository.Repositories
         }
 		
 		#endregion
+
+
+
 	}
 }

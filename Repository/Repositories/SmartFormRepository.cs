@@ -238,14 +238,28 @@ namespace MPC.Repository.Repositories
             return res;
         }
 
-        public List<SmartFormDetail> GetSmartFormObjects(long smartFormId)
+        public List<SmartFormDetail> GetSmartFormObjects(long smartFormId,out List<VariableOption> listVariables)
         {
+            List<VariableOption> listOptions = new List<VariableOption>();
             db.Configuration.LazyLoadingEnabled = false;
             db.Configuration.ProxyCreationEnabled = false;
 
             List<SmartFormDetail> objs = db.SmartFormDetails.Include("FieldVariable.VariableOptions").Where(g => g.SmartFormId == smartFormId).OrderBy(g => g.SortOrder).ToList();
-            foreach (var obj in objs) { obj.SmartForm = null; };
-            
+            foreach (var obj in objs) { 
+                obj.SmartForm = null;
+                if (obj.FieldVariable != null)
+                {
+                    if (obj.FieldVariable.VariableOptions != null)
+                    {
+                        listOptions.AddRange(obj.FieldVariable.VariableOptions);
+                    }
+                }
+            };
+            foreach(var option in listOptions)
+            {
+                option.FieldVariable = null;
+            }
+            listVariables = listOptions;
             return objs;
         }
 
@@ -1087,22 +1101,76 @@ namespace MPC.Repository.Repositories
         }
         public string[] GetContactImageAndCompanyLogo(long contactID)
         {
-            string[] array = new string[2];
+            string[] array = new string[6];
             string CompanyLogo = "";
             string ContactLogo = "";
+            int contactLogoHeight = 0, contactLogoWidth = 0, companyLogoHeight = 0, companyLogoWidth = 0;
             CompanyContact contact = db.CompanyContacts.Where(g => g.ContactId == contactID).SingleOrDefault();
             if(contact != null)
             {
+                System.Drawing.Image objCompanyLogo = null;
+                System.Drawing.Image objImage = null;
                 Company company = db.Companies.Where(g => g.CompanyId == contact.CompanyId).SingleOrDefault();
-                if(contact.image != null && contact.image != "")
+                if(contact.image != null && contact.image != ""){
                     ContactLogo = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/" + contact.image;
+                    try
+                    {
+                        using (objImage = System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath( "~/" + contact.image)))
+                        {
+                            contactLogoWidth = objImage.Width;
+                            contactLogoHeight = objImage.Height;
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+                    finally
+                    {
+                        if (objImage != null)
+                        {
+                            objImage.Dispose();
+                        }
+                    }
+                }
+                    
                 if(company!= null)
                 {
-                   CompanyLogo = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority +  "/" +  company.Image;
+                    if (company.Image != null && company.Image != "")
+                    {
+                        CompanyLogo = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/" + company.Image;
+                        try
+                        {
+                            using (objCompanyLogo = System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath( "~/" + company.Image)))
+                            {
+                                companyLogoWidth = objCompanyLogo.Width;
+                                companyLogoHeight = objCompanyLogo.Height;
+                            }
+
+                        }
+                        catch
+                        {
+
+                        }
+                        finally
+                        {
+                            if (objCompanyLogo != null)
+                            {
+                                objCompanyLogo.Dispose();
+                            }
+                        }
+                    }
                 }
+            
+              
             }
+
             array[0] = CompanyLogo;
             array[1] = ContactLogo;
+            array[2] = companyLogoHeight.ToString();
+            array[3] = companyLogoWidth.ToString();
+            array[4] = contactLogoHeight.ToString();
+            array[5] = contactLogoWidth.ToString();
             return array;
         }
         public List<ScopeVariable> GetUserTemplateVariables(long itemId, long contactID)

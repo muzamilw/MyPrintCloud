@@ -245,6 +245,17 @@ namespace MPC.Webstore.Controllers
                 {
                     ViewBag.IsUserLogin = 0;
                 }
+
+                List<ItemVideo> itemVideos = _IItemService.GetProductVideos(ItemID);
+                if (itemVideos.Count > 0)
+                {
+                    ViewData["ItemVideo"] = itemVideos.ToList();
+                }
+                else 
+                {
+                    ViewData["ItemVideo"] = null;
+                }
+
                 return View("PartialViews/ProductDetail", ItemRecord);
             }
             catch(Exception ex)

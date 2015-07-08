@@ -17,13 +17,13 @@
 
                 </div>
                 <div class="pull-right top-page-ui">
-                    <button class="btn btn-primary" data-bind="click: $root.openReport" style="margin-right:5px">
+                    <button class="btn btn-primary" data-bind="click: $root.openReport" style="margin-right:2px">
                         Reports
                     </button>
                     <button class="btn btn-primary" data-bind="click:createInventory">
                         Add New Inventory
                     </button>
-                    <a href="/mis/Settings" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-left:10px;">Close</a> 
+                    <a href="/mis/Settings" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-left:5px;">Close</a> 
 
                 </div>
                 <div id="addInventory">
@@ -68,7 +68,7 @@
         <script id="filterTemplate" type="text/html">
             <div class="filter-body" id="filter" style="margin-bottom:10px;">
                 <form data-bind="submit: $root.filterInventories">
-                    <div class="filter-block pull-right">
+                    <div class="filter-block pull-right" style="margin-top:3px;">
 
                         <div class="form-group pull-left">
                             <select id="category" class="form-control" data-bind="options: $root.categories,optionsCaption:'Select Category', optionsText: 'Name', optionsValue: 'CategoryId',value:categoryFilter"></select>

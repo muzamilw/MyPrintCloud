@@ -26,13 +26,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="radio col-sm-2" style="width: 15.3%;margin-left: 2%">
+                                <div class="radio col-sm-3 col-lg-2" style="margin-left: 2%">
                                     <input type="radio" name="optionsRadiosFirst" id="optionsRadiosFirst_1" value="1" data-bind="checked: printingTypeUi">
                                     <label for="optionsRadiosFirst_1">
                                         Sheet Fed
                                     </label>
                                 </div>
-                                <div class="radio col-sm-2" style="width: 12%;">
+                                <div class="radio col-sm-2" style="">
                                     <input type="radio" name="optionsRadiosFirst" id="optionsRadiosFirst_2" value="2" data-bind="checked: printingTypeUi">
                                     <label for="optionsRadiosFirst_2">
                                         Roll Fed
@@ -40,7 +40,7 @@
                                 </div>
                             </div>
                             <div class="form-group" style="margin-bottom: 0;">
-                                <div class="col-sm-2 col-sm-2 text-left" style="padding-left: 2.5%;">
+                                <div class="col-sm-3 col-lg-2 col-md-3 text-left" style="padding-left: 2.5%;">
                                     <label for="switchPrintOnBothSides" data-bind="visible: printingTypeUi() !== '2'" style="float:left" class="control-label text-left tooltip-float">Print on both sides</label>
                                     <!-- ko if: printingTypeUi() === '2' -->
                                     &nbsp;
@@ -58,7 +58,7 @@
                                     &nbsp;
                                     <!-- /ko -->
                                 </div>
-                                <div class="col-sm-3" style="padding-left: 0.1%;">
+                                <div class="col-sm-2 col-md-2 col-lg-3" style="padding-left: 0.1%;">
                                     <div class="col-sm-6">
                                         <label for="switchworknturn" data-bind="visible:isDoubleSidedUi() && printingTypeUi() !== '2'" style="float:left" class="control-label text-left tooltip-float">Work 'n' Turn</label>
                                     </div>
@@ -74,11 +74,11 @@
 
 
                                     @*<div class="checkbox-nice" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'">
-                                           <input type="checkbox" id="checkbox-work_turn" data-bind="checked: isWorknTurn" />
-                                            <label for="checkbox-work_turn">
-                                                Work 'n' Turn
-                                            </label>
-                                        </div>*@
+               <input type="checkbox" id="checkbox-work_turn" data-bind="checked: isWorknTurn" />
+                <label for="checkbox-work_turn">
+                    Work 'n' Turn
+                </label>
+            </div>*@
                                     <!-- ko if: !isDoubleSided() || (printingTypeUi() === '2') -->
                                     &nbsp;
                                     <!-- /ko -->
@@ -89,8 +89,8 @@
                                         <label style="float:left;margin-left: 0px;" class="control-label text-left tooltip-float">Gutter</label>
                                     </div>
                                     <div class="col-sm-3">&nbsp;</div>
-                                    <div class="col-sm-5" style="padding-left: 5px;">
-                                        <input type="text" id="itemGutterTextBox" class="form-control font20px" data-bind="value: itemGutterHorizontal, validationOnElement: itemGutterHorizontal" min="0" max="99" style="">
+                                    <div class="col-sm-4 col-md-4 col-lg-4" style="padding-left: 5px;">
+                                        <input style=" width: 130%;" type="text" id="itemGutterTextBox" class="form-control font20px" data-bind="value: itemGutterHorizontal, validationOnElement: itemGutterHorizontal" min="0" max="99" style="">
                                     </div>
                                 </div>
                             </div>
@@ -117,11 +117,11 @@
                                 <div class="col-sm-12 text-right" style=" ">
                                     <div class="col-sm-6" style="width: 45%">
                                         <div class="col-sm-8" data-bind="visible: !isSectionSizeCustom()  && printingTypeUi() !== '2'">
-                                            <select style=" padding-right: 0px; width: 101%;" class="form-control font20px" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: sectionSizeId, enable: !isSectionSizeCustom(), validationOnElement: sectionSizeId, validationTooltip: sectionSizeId"></select>
+                                            <select style=" padding-right: 0px; width: 101%;" class="form-control font20px" data-bind="options: $root.sectionPaperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: sectionSizeId, enable: !isSectionSizeCustom(), validationOnElement: sectionSizeId, validationTooltip: sectionSizeId"></select>
                                         </div>
                                         <div class="col-sm-8" data-bind="visible: isSectionSizeCustom() || printingTypeUi() === '2'" style="padding-right: 1.2%">
                                             <div class="col-sm-5" style="padding-left: 0px;">
-                                                <input type="text" class="form-control" data-bind="numberValue: sectionSizeHeight,numberFormat: ist.lengthFormat " />
+                                                <input type="text" id="sectionSizeHeightTextbox" class="form-control" data-bind="numberValue: sectionSizeHeight,numberFormat: ist.lengthFormat, validationTooltip: sectionSizeHeight, validationDependsOn: sectionSizeHeight, validationOnElement: sectionSizeHeight" />
                                                 <label class="help-block">
                                                     <span data-bind="text: printingTypeUi() !== '2' ? 'Height ' : 'Length '"></span>
                                                     (
@@ -136,7 +136,7 @@
                                                 </button>
                                             </div>
                                             <div class="col-sm-5" style="padding-right: 0px;">
-                                                <input type="text" class="form-control" data-bind="numberValue: sectionSizeWidth,numberFormat: ist.lengthFormat, enable: printingTypeUi() !== '2' " />
+                                                <input type="text" id="sectionSizeWidthTextbox" class="form-control" data-bind="numberValue: sectionSizeWidth,numberFormat: ist.lengthFormat, enable: printingTypeUi() !== '2', validationTooltip: sectionSizeWidth, validationDependsOn: sectionSizeWidth, validationOnElement: sectionSizeWidth" />
                                                 <label class="help-block">
                                                     Width
                                                     (
@@ -158,12 +158,12 @@
                                     </div>
                                     <div class="col-sm-6" data-bind="visible: printingTypeUi() !== '2'">
                                         <div class="col-sm-6" style=" padding-right: 0px; " data-bind="visible:!isItemSizeCustom()">
-                                            <select style=" width: 99%; margin-left: -4%; padding-right: 0px;" class="form-control font20px" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: itemSizeId, enable: !isItemSizeCustom(), validationOnElement: itemSizeId, validationTooltip: itemSizeId" style="width: 100%"></select>
+                                            <select style=" width: 99%; margin-left: -4%; padding-right: 0px;" class="form-control font20px" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select trimed Item Size', value: itemSizeId, enable: !isItemSizeCustom(), validationOnElement: itemSizeId, validationTooltip: itemSizeId" style="width: 100%"></select>
                                         </div>
                                         <div class="col-sm-6" data-bind="visible:isItemSizeCustom" style="padding-left: 0px;  ">
                                             <div class="col-sm-5" style="padding-left: 0px; padding-right: 0px; width: 37%; ">
 
-                                                <input type="text" style="  width: 97%;" class="form-control" data-bind="numberValue: itemSizeHeight,numberFormat: ist.lengthFormat, enable:isItemSizeCustom" id="qty11" />
+                                                <input type="text" id="itemSizeHeightTextbox" style="width: 97%;" class="form-control" data-bind="numberValue: itemSizeHeight,numberFormat: ist.lengthFormat, enable:isItemSizeCustom, validationTooltip: itemSizeHeight, validationDependsOn: itemSizeHeight, validationOnElement: itemSizeHeight" />
                                                 <label class="help-block">Height(<span data-bind="text:$root.lengthUnit"></span>)</label>
                                             </div>
                                             <div class="col-sm-2 text-center" style="padding-left: 1.5%; ">
@@ -172,9 +172,8 @@
                                                 </button>
                                             </div>
                                             <div class="col-sm-5" style="padding-right: 0px; width: 39%; padding-left: 0px; margin-left: 15px; ">
-                                                <input type="text" style=" margin-left: 2px; width: 77.5px;" class="form-control" data-bind="numberValue: itemSizeWidth,numberFormat: ist.lengthFormat, enable:isItemSizeCustom" id="qty31" />
+                                                <input type="text" id="itemSizeWidthTextbox" style=" margin-left: 2px; width: 77.5px;" class="form-control" data-bind="numberValue: itemSizeWidth,numberFormat: ist.lengthFormat, enable:isItemSizeCustom, validationTooltip: itemSizeWidth, validationDependsOn: itemSizeWidth, validationOnElement: itemSizeWidth" />
                                                 <label class="help-block">Width(<span data-bind="text:$root.lengthUnit"></span>)</label>
-
                                             </div>
                                         </div>
 
@@ -340,7 +339,7 @@
                                                     <div class="col-sm-6">
                                                         <input type="text" class="form-control font20px" style="text-align: right; margin-left: 30% " data-bind="value: qty1, validationOnElement: qty1" id="qty1" />
                                                     </div>
-                                                    <!--ko if: $root.isEstimateScreen()-->
+                                                    <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                                     <div class="col-sm-6">
 
                                                         <input type="text" class="form-control font20px" style="text-align:right;margin-left: 35%" data-bind="value: qty2, validationOnElement: qty2" id="qty2" />       
@@ -349,7 +348,7 @@
                                                     <!--/ko-->
 
                                                 </div>
-                                                <!--ko if: $root.isEstimateScreen()-->
+                                                <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                                 <div class="col-sm-2">
 
                                                     @*<div class="form-group" >
@@ -445,7 +444,7 @@
                                                 <div class="col-sm-6">
                                                     <select class="form-control" style="  width:70%; padding-left: 0;padding-right: 0; margin-top: 10px; float:right;  margin-right: 12px;" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty1MarkUpId,event:{ change: $root.onChangeQty1MarkUpId}"></select>
                                                 </div>
-                                                <!--ko if: $root.isEstimateScreen()-->
+                                                <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                                 <div class="col-sm-6" >
                                                     <select class="form-control" style=" width: 70%; padding-left: 0; padding-right: 0; margin-top: 10px; " data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty2MarkUpId,event:{ change: $root.onChangeQty2MarkUpId}"></select>
                                                 </div>
@@ -480,7 +479,7 @@
                                     <input type="text" style="width:70%" class="form-control font20px" data-bind="value: $root.calculateBaseChargeBasedOnSimilarSectionsValue" />
                                 </div>
                                 <div class="col-sm-3" style="padding-right: 5%; margin-top: 1%;">
-                                    <label style=" float: right; " class="control-label">Total</label>
+                                    <label style=" float: right; " class="control-label">Total Ex. Tax</label>
                                 </div>
                             </div>
 
@@ -490,7 +489,7 @@
 
                                     <label class="control-label font20px" style="float: right"><span data-bind="text:$root.currencySymbol"></span><span class="font20px" data-bind="numberInput:baseCharge1"></span></label>
                                 </div>
-                                <!--ko if: $root.isEstimateScreen()-->
+                                <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                 <div class="col-sm-6" style="  margin-top: 1%;">
                                     <label class="control-label font20px" style="  float: right; margin-right: 10px;"><span data-bind="text:$root.currencySymbol"></span><span class="font20px" data-bind="numberInput:baseCharge2"></span></label>
                                 </div>
@@ -546,7 +545,7 @@
                     <span class="font20px" data-bind="text:$root.currencySymbol" style="color: #3498db"></span><a href="#" class="font20px" style="margin-left: 0px" data-bind="numberInput: qty1NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 1)}"></a>
                 </div>
             </td>
-            <!--ko if: $root.isEstimateScreen()-->
+            <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
             <td style="text-align: right">
 
                 <div>  @*style="padding-right: 10%;"*@
@@ -556,7 +555,7 @@
             </td>
 
             <!--/ko-->
-            <!--ko if: !$root.isEstimateScreen()-->
+            <!--ko if: !$root.isEstimateScreen() || $root.selectedProduct().productType() === 3 -->
             <td></td>
             <!--/ko-->
         </tr>

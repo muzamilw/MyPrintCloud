@@ -13,6 +13,7 @@ using System.Runtime.Caching;
 using System.Net;
 using System.IO;
 using WebSupergoo.ABCpdf8;
+using System.Configuration;
 namespace MPC.Webstore.Controllers
 {
     public class OrderConfirmationController : Controller
@@ -270,7 +271,7 @@ namespace MPC.Webstore.Controllers
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
                             _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
-                            _campaignService.EmailsToCorpUser(OrderId, _myClaimHelper.loginContactID(), StoreMode.Corp, _myClaimHelper.loginContactTerritoryID(), baseResponse.Organisation, UserCookieManager.WBStoreId);
+                            _campaignService.EmailsToCorpUser(OrderId, _myClaimHelper.loginContactID(), StoreMode.Corp, _myClaimHelper.loginContactTerritoryID(), baseResponse.Organisation, UserCookieManager.WBStoreId, EmailOFSM.Email);
                             UserCookieManager.WEBOrderId = 0;
                         }
                         catch (Exception ex)
@@ -362,7 +363,12 @@ namespace MPC.Webstore.Controllers
                 string AttachmentPath = "/mpc_content/EmailAttachments/" + FileName;
                 using (Doc theDoc = new Doc())
                 {
-                    //theDoc.HtmlOptions.Engine = EngineType.Gecko;
+                    string AddGeckoKey = ConfigurationManager.AppSettings["AddEngineTypeGecko"];
+                    if (AddGeckoKey == "1")
+                    {
+                        theDoc.HtmlOptions.Engine = EngineType.Gecko;
+                    }
+                   
                     theDoc.FontSize = 22;
                     int objid = theDoc.AddImageUrl(URl);
 
@@ -388,8 +394,12 @@ namespace MPC.Webstore.Controllers
             }
             catch (Exception e)
             {
+              
                 //   LoggingManager.LogBLLException(e);
-                return null;
+               // string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/exe.txt" );
+               // System.IO.File.WriteAllText(FilePath, e.InnerException.ToString() + "\n" + e.StackTrace.ToString());
+              throw e;
+              return null;
             }
         }
 

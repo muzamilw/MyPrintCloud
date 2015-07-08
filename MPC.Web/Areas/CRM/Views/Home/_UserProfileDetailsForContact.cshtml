@@ -134,7 +134,7 @@
                                                                 <img style="margin-left:17%" src="/mis/Content/Images/Company_Default.png">
                                                                 <!--/ko-->
                                                                 <!--ko if: image()-->
-                                                                <div style="min-height: 130px; width: 220px;">
+                                                                <div style="min-height: 130px; width: 220px; max-width: 95%">
                                                                     <img style="max-height: 130px;max-width: 220px; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: image }" />  @*height: 130px; width: 220px;*@
                                                                 </div>
                                                                 <!--/ko-->
@@ -317,7 +317,7 @@
                                                         </div>
                                                     </div>*@
                                                 <h3 class="group-header">Additional Information</h3>
-                                                <p style="font-size: 12px; padding-bottom: 5px; margin-left: 5px; margin-top: -14px;">Additional Fields that can be used on Smart Forms & VDP templates</p>
+                                                <p style="font-size: 12px; padding-bottom: 5px; margin-left: 5px; margin-top: 0px;">Additional Fields that can be used on Smart Forms & VDP templates</p>
                                                 <div class="col-lg-12 clearfix">
                                                     <div class="col-lg-6">
                                                         <div class="form-group ">
@@ -502,7 +502,7 @@
                                                             <label for="txtBAddState" class="control-label text-right tooltip-float">State</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtBAddState" disabled="disabled" data-bind="value: $root.selectedBussinessAddress()!= undefined && $root.selectedBussinessAddress().stateName() != undefined ? $root.selectedBussinessAddress().stateName():''">
+                                                            <input type="text" class="form-control" id="txtBAddState" disabled="disabled" data-bind="value: $root.selectedBussinessAddress()!= undefined && $root.selectedBussinessAddress().stateName() != undefined ? $root.selectedBussinessAddress().stateNamenCode():''">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -537,7 +537,7 @@
                                                             <label for="txtShippAddState" class="control-label text-right tooltip-float">State</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtShippAddState" disabled="disabled" data-bind="value: $root.selectedShippingAddress()!= undefined && $root.selectedShippingAddress().stateName() != undefined ? $root.selectedShippingAddress().stateName():''">
+                                                            <input type="text" class="form-control" id="txtShippAddState" disabled="disabled" data-bind="value: $root.selectedShippingAddress()!= undefined && $root.selectedShippingAddress().stateName() != undefined ? $root.selectedShippingAddress().stateNamenCode():''">
                                                         </div>
                                                     </div>
                                                 </div>

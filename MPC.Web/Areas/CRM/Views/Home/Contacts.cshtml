@@ -74,12 +74,12 @@
                                                                     <img style="-o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: image()==='' ? '/mis/Content/Images/company_contact.jpg':image() }" alt="" />
                                                                     <!--/ko-->
                                                                     <!-- ko if: image()!=='' -->
-                                                                    <img style="width: 70%; max-width: 70%; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: image()==='' ? '/mis/Content/Images/company_contact.jpg':image() }" alt="" />
+                                                                    <img style="width: 37%; max-width: 37%; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: image()==='' ? '/mis/Content/Images/company_contact.jpg':image() }" alt="" />
                                                                     <!--/ko-->
 
                                                                 </td>
                                                                 <td>
-                                                                    <a class="user-link" href="#" data-bind="text: firstName "></a>
+                                                                    <a class="user-link" href="#" data-bind="text: firstName()+' '+lastName() "></a>
                                                                     @*<span data-bind="text: email"></span>*@
                                                                 </td>
                                                                 <td>

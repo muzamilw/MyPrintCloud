@@ -1055,6 +1055,16 @@ namespace MPC.Repository.BaseRepository
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteCRMCompanyByID", companyIdParameter);
         }
 
+        /// <summary>
+        /// Delete Staging Import table data
+        /// </summary>
+// ReSharper disable InconsistentNaming
+        public int usp_DeleteStagingImportCompanyContactAddress()
+// ReSharper restore InconsistentNaming
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteStagingImportCompanyContactAddress");
+        }
+
         #endregion
     }
 }

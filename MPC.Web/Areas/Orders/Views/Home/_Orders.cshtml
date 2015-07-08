@@ -23,57 +23,17 @@
             </div>
             <div class="main-box-body clearfix">
                 <div class="tabs-wrapper profile-tabs">
-                    <ul class="nav nav-tabs" style="margin-left: 10px;margin-right: 9px;">
-                        <li id="all-orders" class="active"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(0);}">All Orders</a></li>
-                        <li id="pending-orders"><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(4);}">Pending Orders</a></li>
+                    <ul id="orderTabs" class="nav nav-tabs" style="margin-left: 10px;margin-right: 9px;">
+                        <li id="pending-orders" class="active"><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(4);}">Pending Orders</a></li>
                         <li id="confirmed-starts"><a href="#tab-ConfirmedStarts" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(5);}">Confirmed Starts</a></li>
                         <li id="in-production"><a href="#tab-InProduction" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(6);}">In Production</a></li>
                         <li id="ready-shipping"><a href="#tab-ReadyForShipping" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(7);}">Ready For Shipping</a></li>
                         <li id="invoiced"><a href="#tab-Invoiced" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(10);}">Invoiced</a></li>
                         <li id="cancelled-orders"><a href="#tab-CancelledOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(9);}">Cancelled Orders</a></li>
+                        <li id="all-orders"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(0);}">All Orders</a></li>
                     </ul>
                     <div class="tab-content" style="  margin-top: -15px;">
-                        <div class="tab-pane fade in active" id="tab-All">
-                            <div class="main-box-body main-box clearfix">
-
-                                <div style="margin-bottom:15px;padding-top:15px;padding-left:20px;">
-                                    <p class="group-header-description">Process orders through to completion, orders that are progressed from pending to in progress will appear on the production board</p>
-                                </div>
-
-                                <div class="table-responsive" style="padding-left: 22px; padding-right: 22px;">
-                                    <table id="OrderListtbl" class="table user-list table-striped table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th class="col-sm-1"><span>&nbsp;</span></th>
-                                                <th class="col-sm-4"><span>Customer</span></th>
-                                                <th class="col-sm-2"><span>Order Code</span></th>
-                                                <th class="col-sm-2"><span>Order Date</span></th>
-                                                <th class="col-sm-1"><span>Flag</span></th>
-                                                <th class="col-sm-1"><span>Status</span></th>
-                                                <th class="col-sm-2" style="text-align: right"><span>Order Total</span></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <!-- ko if: orders().length === 0 -->
-                                            <tr>
-                                                <td colspan="7">
-                                                    <span style="font-size: 14px;">No Items found!</span>
-                                                </td>
-                                            </tr>
-                                            <!-- /ko -->
-                                            <!-- ko template: { name: 'allOrderListViewTemplate', foreach: orders } -->
-                                            <!-- /ko -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div id="pagerDiv" class="pull-right">
-                                <!-- ko with: pager -->
-                                @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                                <!-- /ko -->
-                            </div>
-                        </div>
-                        <div class="tab-pane fade in" id="tab-PendingOrders" style="background-color:white;">
+                        <div class="tab-pane fade in active" id="tab-PendingOrders" style="background-color:white;">
                             <div style="margin-bottom:15px;padding-top:15px;padding-left:20px;">
                                 <p class="group-header-description">Pending orders are orders manually progressed or from a web store and waiting for confirmation by the production manager before progressing into production</p>
                             </div>
@@ -115,6 +75,46 @@
                             <!-- ko template: { name: 'tabItemsList' } -->
                             <!-- /ko -->
                         </div>
+                        <div class="tab-pane fade in" id="tab-All">
+                            <div class="main-box-body main-box clearfix">
+
+                                <div style="margin-bottom:15px;padding-top:15px;padding-left:20px;">
+                                    <p class="group-header-description">Process orders through to completion, orders that are progressed from pending to in progress will appear on the production board</p>
+                                </div>
+
+                                <div class="table-responsive" style="padding-left: 22px; padding-right: 22px;">
+                                    <table id="OrderListtbl" class="table user-list table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-sm-1"><span>&nbsp;</span></th>
+                                                <th class="col-sm-4"><span>Customer</span></th>
+                                                <th class="col-sm-2"><span>Order Code</span></th>
+                                                <th class="col-sm-2"><span>Order Date</span></th>
+                                                <th class="col-sm-1"><span>Flag</span></th>
+                                                <th class="col-sm-1"><span>Status</span></th>
+                                                <th class="col-sm-2" style="text-align: right"><span>Order Total</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- ko if: orders().length === 0 -->
+                                            <tr>
+                                                <td colspan="7">
+                                                    <span style="font-size: 14px;">No Items found!</span>
+                                                </td>
+                                            </tr>
+                                            <!-- /ko -->
+                                            <!-- ko template: { name: 'allOrderListViewTemplate', foreach: orders } -->
+                                            <!-- /ko -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="pagerDiv" class="pull-right">
+                                <!-- ko with: pager -->
+                                @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                <!-- /ko -->
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="clearfix">
@@ -132,11 +132,11 @@
                         <select class="form-control col-sm-4" data-bind="options:$root.orderType,optionsText:'name',optionsValue:'value', value: $root.orderTypeFilter"></select>
                     </div>
                     <div class="form-group pull-left">
-                        <select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: selectedFilterFlag, foreach: $root.sectionFlags">
+                        @*<select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: selectedFilterFlag, foreach: $root.sectionFlags">
                             <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
-                        </select>
+                        </select>*@
 
-                        @*<select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag"></select>*@
+                        <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag"></select>
                     </div>
                     <div class="form-group pull-left from-group-filterText">
                         <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">

@@ -75,5 +75,7 @@ namespace MPC.Interfaces.Repository
         /// Get web order cost centre
         /// </summary>
         CostCentre GetWebOrderCostCentre(long OrganisationId);
+
+        CostCentre GetFirstCostCentreByOrganisationId(long organisationId);
     }
 }

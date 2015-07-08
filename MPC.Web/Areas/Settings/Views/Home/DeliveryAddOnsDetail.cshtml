@@ -9,8 +9,9 @@
             <div class="col-lg-12">
                 <ol class="breadcrumb">
                     <li><a href="~/Dashboard/Index">Home</a></li>
+                    <li><a href="/mis/Settings" class="my-navigator">Settings</a></li>
                     <li><a href="~/Settings/Home/DeliveryCostCentres">Delivery Cost Centers</a></li>
-                    <li class="active"><span>Edit Shipping Cost Center</span></li>
+                    <li class="active"><span>Shipping Cost Center</span></li>
                 </ol>
 
             </div>
@@ -20,10 +21,10 @@
                 <h1 class="pull-left" style="min-height: 30px;" data-bind="text: name()"></h1>
                 <div class="pull-right top-page-ui" style="margin-right:8px;">
                     <button type="button" class="btn btn-primary" data-bind="click: $root.saveCostCenter, enable: hasChanges, css: { 'btn-warning': hasChanges }">
-                        <span class="fa fa-save"></span>&nbsp;Save
+                        &nbsp;Save
                     </button>
                     <button type="button" class="btn btn-primary" data-bind="click: $root.closeCostCenterDetail">
-                        <span class="fa fa-power-off"></span>&nbsp;Close
+                        &nbsp;Close
                     </button>
                 </div>
             </div>
@@ -243,12 +244,12 @@
                                             <div class="form-group ">
                                                 <div class="col-lg-4 text-right">
 
-                                                    <label for="txtInternalDesc" class="control-label text-right tooltip-float">Notes</label>
+
 
                                                 </div>
 
                                                 <div class="col-lg-8">
-                                                    <textarea class="form-control notes" id="txtInternalDesc" style="position: relative; width: 220px;" placeholder="Notes" rows="5" data-bind="value: description"></textarea>
+                                                    <textarea class="form-control notes" id="txtInternalDesc" style="position: relative; width: 220px;" placeholder="Enter Notes" rows="5" data-bind="value: description"></textarea>
 
                                                 </div>
                                             </div>

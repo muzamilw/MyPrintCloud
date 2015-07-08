@@ -46,9 +46,9 @@ namespace MPC.Implementation.WebStoreServices
             return _smartFormRepository.GetSmartForm(smartFormId);
         }
 
-        public List<SmartFormDetail> GetSmartFormObjects(long smartFormId)
+        public List<SmartFormDetail> GetSmartFormObjects(long smartFormId, out List<VariableOption> listVariables)
         {
-            return _smartFormRepository.GetSmartFormObjects(smartFormId);
+            return _smartFormRepository.GetSmartFormObjects(smartFormId, out listVariables);
         }
         public List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables, long contactId)
         {
@@ -76,6 +76,7 @@ namespace MPC.Implementation.WebStoreServices
         public string[] GetContactImageAndCompanyLogo(long contactID)
         {
            return _smartFormRepository.GetContactImageAndCompanyLogo(contactID);
+
         }
         public List<ScopeVariable> GetUserTemplateVariables(long itemId, long contactID)
         {

@@ -246,6 +246,7 @@ namespace MPC.Webstore.Controllers
                     cep.SalesManagerContactID = loginUser.ContactId; // this is only dummy data these variables replaced with organization values 
                     cep.StoreId = UserCookieManager.WBStoreId;
                     cep.CompanyId = UserCookieManager.WBStoreId;
+
                     Address CompanyDefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.WBStoreId);
                     if (CompanyDefaultAddress != null)
                     {
@@ -329,7 +330,11 @@ namespace MPC.Webstore.Controllers
                 {
                     cep.AddressId = 0;
                 }
-
+                List<CompanyContact> listOfApprovers = _myCompanyService.GetCompanyAdminByCompanyId(UserCookieManager.WBStoreId);
+                if (listOfApprovers != null && listOfApprovers.Count > 0)
+                {
+                    cep.ApprovarID = listOfApprovers.FirstOrDefault().ContactId;
+                }
                 Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.CorpUserRegistration, StoreBaseResopnse.Company.OrganisationId ?? 0 , UserCookieManager.WBStoreId);
 
                 SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);

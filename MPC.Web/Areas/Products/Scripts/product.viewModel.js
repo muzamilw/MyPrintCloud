@@ -113,6 +113,8 @@ define("product/product.viewModel",
                     isProductDetailsVisible = ko.observable(false),
                     // Is Designer Category Base Data Loaded
                     isDesignerCategoryBaseDataLoaded = ko.observable(false),
+                    // Is Template Tab Shown Event wired
+                    isTemplateTabShownEventWired = false,
                     // #endregion Busy Indicators
                     // #region Observables
                     // Item File Types
@@ -217,13 +219,13 @@ define("product/product.viewModel",
                         isGridViewVisible(true);
                     },
                     // Get Paper by Name
-                    getPaperByName = function(name) {
-                        return paperSizes.find(function(paperSize) {
+                    getPaperByName = function (name) {
+                        return paperSizes.find(function (paperSize) {
                             return paperSize.name.indexOf(name) > -1;
                         });
                     },
                     // Set Defaults to New Product
-                    setDefaultsToNewProduct = function() {
+                    setDefaultsToNewProduct = function () {
                         // Set First Section Flag to Item
                         if (sectionFlags() && sectionFlags().length > 0) {
                             selectedProduct().flagId(sectionFlags()[0].id);
@@ -289,8 +291,11 @@ define("product/product.viewModel",
                         // Show Details
                         isProductDetailsVisible(true);
 
-                        // WIre up tab shown event
-                        view.wireUpTabShownEvent();
+                        if (selectedProduct().isFinishedGoodsUi() === '1') {
+                            // WIre up tab shown event
+                            view.wireUpTabShownEvent();
+                            isTemplateTabShownEventWired = true;
+                        }
 
                         // Wire Up Navigation Control - If has Changes and user navigates to another page
                         shared.initialize(selectedProduct, function (navigateCallback) {
@@ -299,6 +304,15 @@ define("product/product.viewModel",
 
                         // Initialize Label Popovers
                         view.initializeLabelPopovers();
+
+                        // Subscribe to Product Type Change
+                        selectedProduct().isFinishedGoods.subscribe(function (value) {
+                            // If Changing to Print Product
+                            if (value === 1 && !isTemplateTabShownEventWired) {
+                                // WIre up tab shown event
+                                view.wireUpTabShownEvent();
+                            }
+                        });
                     },
                     // Initialize Product Category Dialog
                     initializeProductCategoryDialog = function () {
@@ -344,6 +358,7 @@ define("product/product.viewModel",
                         selectedCategoryTypeId(undefined);
                         errorList.removeAll();
                         shared.reset();
+                        isTemplateTabShownEventWired = false;
                     },
                     // On Archive
                     onArchiveProduct = function (item) {
@@ -797,7 +812,7 @@ define("product/product.viewModel",
                         });
                     },
                     // Set Section Size Of Section
-                    setSectionSizeForSection = function(paperSize, dontCalculatePtv) {
+                    setSectionSizeForSection = function (paperSize, dontCalculatePtv) {
                         selectedProduct().activeItemSection().sectionSizeHeight(paperSize.height);
                         selectedProduct().activeItemSection().sectionSizeWidth(paperSize.width);
 
@@ -813,14 +828,14 @@ define("product/product.viewModel",
                         getPtvCalculation();
                     },
                     // Set Item Size of Section
-                    setItemSizeForSection = function(paperSize, dontCalculatePtv) {
+                    setItemSizeForSection = function (paperSize, dontCalculatePtv) {
                         selectedProduct().activeItemSection().itemSizeHeight(paperSize.height);
                         selectedProduct().activeItemSection().itemSizeWidth(paperSize.width);
 
                         if (selectedProduct().activeItemSection().printingTypeUi() === '2') {
                             return;
                         }
-                        
+
                         if (dontCalculatePtv) {
                             return;
                         }
@@ -967,6 +982,19 @@ define("product/product.viewModel",
                             setSide1SectionInkCoverages(press);
                         });
 
+                        // Set Gutter Value
+                        selectedProduct().activeItemSection().itemGutterHorizontal.subscribe(function (value) {
+                            if (value !== selectedProduct().activeItemSection().itemGutterHorizontal()) {
+                                selectedProduct().activeItemSection().itemGutterHorizontal(value);
+                            }
+
+                            if (selectedProduct().activeItemSection().printingTypeUi() === '2') {
+                                return;
+                            }
+
+                            getPtvCalculation();
+                        });
+
                         // On Press Side 2 Change set Section Size Width to Press Max Width
                         selectedProduct().activeItemSection().pressIdSide2.subscribe(function (value) {
                             if (value !== selectedProduct().activeItemSection().pressIdSide2()) {
@@ -1014,6 +1042,11 @@ define("product/product.viewModel",
                     // On Select Sub Category
                     onSelectSubCategory = function (category) {
                         view.subCategorySelectedEvent(category);
+                    },
+                    // Edit Sub Category
+                    editSubCategory = function (category, event) {
+                        view.subCategoryEditEvent(category);
+                        event.stopImmediatePropagation();
                     },
                     // Is Product Section Initialized
                     isProductSectionInitialized = false,
@@ -1464,12 +1497,12 @@ define("product/product.viewModel",
                                     lengthUnit(data.LengthUnit || undefined);
                                     currencyUnit(data.CurrencyUnit || undefined);
                                     weightUnit(data.WeightUnit || undefined);
-                                    
+
                                     // Set A4 Paper Stock Item if exists
                                     if (data.A4PaperStockItem) {
                                         a4PaperStockItem(model.StockItem.Create(data.A4PaperStockItem));
                                     }
-                                    
+
                                     // Assign countries & states to StateTaxConstructorParam
                                     itemStateTaxConstructorParams.countries = countries();
                                     itemStateTaxConstructorParams.states = states();
@@ -1788,11 +1821,12 @@ define("product/product.viewModel",
                         if (isPtvCalculationInProgress()) {
                             return;
                         }
-// ReSharper disable DuplicatingLocalDeclaration
+                        // ReSharper disable DuplicatingLocalDeclaration
                         var selectedSection = selectedProduct().activeItemSection();
-// ReSharper restore DuplicatingLocalDeclaration
+                        // ReSharper restore DuplicatingLocalDeclaration
                         if (selectedSection.itemSizeHeight() == null || selectedSection.itemSizeWidth() == null || selectedSection.sectionSizeHeight() == null ||
                             selectedSection.sectionSizeWidth() == null) {
+                            isPtvCalculationInProgress(false);
                             return;
                         }
                         var orient;
@@ -1820,9 +1854,9 @@ define("product/product.viewModel",
                             grip: 1,
                             gripDepth: 0,
                             headDepth: 0,
-                            printGutter: 5,
-                            horizentalGutter: 5,
-                            verticalGutter: 5
+                            printGutter: selectedSection.itemGutterHorizontal(),
+                            itemHorizentalGutter: selectedSection.itemGutterHorizontal(),
+                            itemVerticalGutter: selectedSection.itemGutterHorizontal()
                         }, {
                             success: function (data) {
                                 if (data != null) {
@@ -1864,9 +1898,9 @@ define("product/product.viewModel",
                             grip: 1,
                             gripDepth: 0,
                             headDepth: 0,
-                            printGutter: 5,
-                            horizentalGutter: 5,
-                            verticalGutter: 5
+                            printGutter: selectedProduct().activeItemSection().itemGutterHorizontal(),
+                            itemHorizentalGutter: selectedProduct().activeItemSection().itemGutterHorizontal(),
+                            itemVerticalGutter: selectedProduct().activeItemSection().itemGutterHorizontal()
                         }, {
                             success: function (data) {
                                 if (data != null) {
@@ -2017,7 +2051,8 @@ define("product/product.viewModel",
                     isSide1InkButtonClicked: isSide1InkButtonClicked,
                     selectedSection: selectedSection,
                     subCategories: subCategories,
-                    onSelectSubCategory: onSelectSubCategory
+                    onSelectSubCategory: onSelectSubCategory,
+                    editSubCategory: editSubCategory
                     // For Store
                     // Utility Methods
                 };

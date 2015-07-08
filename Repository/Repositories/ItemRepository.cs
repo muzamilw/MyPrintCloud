@@ -182,7 +182,7 @@ namespace MPC.Repository.Repositories
             {
                 List<GetCategoryProduct> recordds =
               db.GetCategoryProducts.Where(
-                  g => g.IsPublished == true && g.EstimateId == null && g.ProductCategoryId == ProductCategoryID)
+                  g => g.IsPublished == true && g.EstimateId == null && g.ProductCategoryId == ProductCategoryID && (g.IsArchived == null || g.IsArchived == false))
                   .OrderBy(g => g.ProductName)
                   .ToList();
                 recordds = recordds.OrderBy(s => s.SortOrder).ToList();
@@ -388,7 +388,7 @@ namespace MPC.Repository.Repositories
                     CopyTemplatePaths(clonedTemplate, OrganisationID);
                 }
 
-                SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, newItem.ItemId, StockID, isCopyProduct, "");
+                SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, newItem.ItemId, StockID, isCopyProduct, "", 0);
                 // additional addon required the newly inserted cloneditem
                 newItem.ItemCode = "ITM-0-001-" + newItem.ItemId;
                 db.SaveChanges();
@@ -1220,7 +1220,7 @@ namespace MPC.Repository.Repositories
         }
 
         private bool SaveAdditionalAddonsOrUpdateStockItemType(List<AddOnCostsCenter> selectedAddonsList, long newItemID,
-            long stockID, bool isCopyProduct, string updateMode)
+            long stockID, bool isCopyProduct, string updateMode, long ItemStockOptionId)
         {
             try
             {
@@ -1236,12 +1236,12 @@ namespace MPC.Repository.Repositories
                 if (isCopyProduct == true)
                 {
                     result = this.SaveAdditionalAddonsOrUpdateStockItemType(selectedAddonsList,
-                        Convert.ToInt64(SelectedtblItemSectionOne.StockItemID1), SelectedtblItemSectionOne, updateMode);
+                        Convert.ToInt64(SelectedtblItemSectionOne.StockItemID1), SelectedtblItemSectionOne, updateMode, ItemStockOptionId);
                 }
                 else
                 {
                     result = this.SaveAdditionalAddonsOrUpdateStockItemType(selectedAddonsList, stockID,
-                        SelectedtblItemSectionOne, updateMode);
+                        SelectedtblItemSectionOne, updateMode, ItemStockOptionId);
                 }
 
                 return result;
@@ -1255,7 +1255,7 @@ namespace MPC.Repository.Repositories
         }
 
         private bool SaveAdditionalAddonsOrUpdateStockItemType(List<AddOnCostsCenter> selectedAddonsList, long stockID,
-            ItemSection SelectedtblItemSectionOne, string updateMode)
+            ItemSection SelectedtblItemSectionOne, string updateMode, long ItemstockOptionID)
         {
             try
             {
@@ -1265,7 +1265,7 @@ namespace MPC.Repository.Repositories
                 {
                     //Set or Update the paper Type stockid in the section #1
                     if (stockID > 0)
-                        this.UpdateStockItemType(SelectedtblItemSectionOne, stockID);
+                        this.UpdateStockItemType(SelectedtblItemSectionOne, stockID, ItemstockOptionID);
 
                     if (selectedAddonsList != null)
                     {
@@ -1333,12 +1333,12 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public void UpdateStockItemType(ItemSection itemSection, long stockID)
+        public void UpdateStockItemType(ItemSection itemSection, long stockID, long ItemstockOptionID)
         {
             try
             {
                 itemSection.StockItemID1 = (int)stockID; //always set into the first column
-                itemSection.StockItemID2 = null;
+                itemSection.StockItemID2 = (int)ItemstockOptionID;
                 itemSection.StockItemID3 = null;
             }
             catch (Exception ex)
@@ -1452,7 +1452,7 @@ namespace MPC.Repository.Repositories
                  ProductName = item.ProductName,
                  ThumbnailPath = item.ThumbnailPath,
                  ProductCategoryName = category.CategoryName,
-                 ProductSpecification = item.ProductSpecification,
+                 ProductSpecification = item.WebDescription,
                  AllowBriefAttachments = ItemDetail.isAllowMarketBriefAttachment ?? false,
                  BriefSuccessMessage = ItemDetail.MarketBriefSuccessMessage
 
@@ -2102,7 +2102,7 @@ namespace MPC.Repository.Repositories
 
         public bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice,
             long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId,
-            double TaxRate, string ItemMode, bool isInculdeTax, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "")
+            double TaxRate, string ItemMode, bool isInculdeTax, long ItemstockOptionID, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "")
         {
             try
             {
@@ -2204,7 +2204,7 @@ namespace MPC.Repository.Repositories
                             .FirstOrDefault();
 
                     result = SaveAdditionalAddonsOrUpdateStockItemType(newlyAddedCostCenters, stockItemID, FirstItemSection,
-                        ItemMode); // additional addon required the newly inserted cloneditem
+                        ItemMode, ItemstockOptionID); // additional addon required the newly inserted cloneditem
 
                     FirstItemSection.Qty1 = clonedItem.Qty1;
 
@@ -3792,6 +3792,38 @@ namespace MPC.Repository.Repositories
 
         }
 
+        /// <summary>
+        /// Get All Corporate and Retail Products
+        /// Used in Order in Add From Retail Store
+        /// </summary>
+        public ItemSearchResponse GetAllStoreProducts(ItemSearchRequestModel request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            bool isNonPrintProductSpecified = request.ProductType == 3;
+            int toRow = request.PageSize;
+            Expression<Func<Item, bool>> query =
+                item =>
+                    (string.IsNullOrEmpty(request.SearchString) || (item.ProductName.Contains(request.SearchString)) ||
+                     (item.ProductCode.Contains(request.SearchString)) || (item.Company.Name.Contains(request.SearchString)))
+                    && item.OrganisationId == OrganisationId
+                    && item.IsPublished == true
+                    && item.EstimateId == null
+              && ((!isNonPrintProductSpecified && item.ProductType == (int)ProductType.PrintProduct) ||
+              (isNonPrintProductSpecified && item.ProductType == (int)ProductType.NonPrintProduct));
+
+            List<Item> totalItems = DbSet.Where(query).ToList();
+
+            List<Item> items = totalItems.OrderBy(item => item.ProductCode)
+           .Skip(fromRow)
+            .Take(toRow)
+            .ToList();
+            return new ItemSearchResponse
+            {
+                Items = items,
+                TotalCount = totalItems.Count
+            };
+        }
+
         public ItemSearchResponse GetItemsByCompanyId(ItemSearchRequestModel request)
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
@@ -3805,8 +3837,8 @@ namespace MPC.Repository.Repositories
                     && item.OrganisationId == OrganisationId
                     && item.IsPublished == true
                     && item.EstimateId == null
-                    //&& item.ProductType != (int)ProductType.MarketingBrief;
-              && ((!isNonPrintProductSpecified && item.ProductType != (int)ProductType.MarketingBrief) || (isNonPrintProductSpecified && item.ProductType == (int)ProductType.NonPrintProduct));
+              && ((!isNonPrintProductSpecified && item.ProductType != (int)ProductType.MarketingBrief) || 
+              (isNonPrintProductSpecified && item.ProductType == (int)ProductType.NonPrintProduct));
 
             List<Item> totalItems = DbSet.Where(query).ToList();
 
