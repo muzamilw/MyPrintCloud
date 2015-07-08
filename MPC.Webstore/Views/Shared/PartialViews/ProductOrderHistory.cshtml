@@ -530,6 +530,8 @@
                 data: JSON.stringify(d),
                 success: function (response) {
 
+                    console.log(response);
+                    window.open(response,'_blank');
                 }
             });
         }
