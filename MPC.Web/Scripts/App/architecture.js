@@ -332,7 +332,6 @@ require(["ko", "knockout-validation"], function (ko) {
             } else {
                 CKEDITOR.config.toolbar = 'Full';
             }
-
             CKEDITOR.replace(element).setData(valueUnwrapped || $element.html());
             var instance = CKEDITOR.instances['content'];
             //CKEDITOR.instances
@@ -364,12 +363,13 @@ require(["ko", "knockout-validation"], function (ko) {
                         }
                     });
                 });
-
+               
+             
                 function handleAfterCommandExec(event) {
                     if (ist.stores.viewModel.selectedSecondaryPage() !== undefined && ist.stores.viewModel.selectedSecondaryPage() !== null) {
                         ist.stores.viewModel.selectedSecondaryPage().pageHTML(instance.getData());
                     }
-                    else if (ist.stores.viewModel.selectedEmail() !== undefined && ist.stores.viewModel.selectedEmail() !== null) {
+                    if (ist.stores.viewModel.selectedEmail() !== undefined && ist.stores.viewModel.selectedEmail() !== null) {
                         ist.stores.viewModel.selectedEmail().hTMLMessageA(instance.getData());
                     }
                 }
@@ -1278,6 +1278,15 @@ function ShowCostCentrePopup(questionQueueItems, costCentreId, clonedItemId, sel
 
     $(parentContainer + " #layer")[0].style.display = "block";
     $(parentContainer + " #innerLayer")[0].style.display = "block";
+
+    if (questionQueueItems.length == 0 && workInstructions.length == 0 )
+    {
+        //alert('lengths zero, skip validation and go to to next step');
+        var desriptionOfCostCentre = "";
+        SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, costCentreId, costCentreType, clonedItemId,
+         selectedCostCentreCheckBoxElement, desriptionOfCostCentre, itemPrice, currency, true, taxRate, orderedQty, selectedStockOptionItemAddOns,
+         globalSelectedCostCenter, null, true);
+    }
 }
 
 // Show Input Cost Center Popup

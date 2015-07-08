@@ -832,7 +832,7 @@ namespace MPC.Implementation.MISServices
                     if (itemTarget.TemplateType.Value == 1)
                     {
                         // Generates Pdf from Template Pages
-                        GeneratePdfFromTemplatePages(template, organisationId);
+                        GeneratePdfFromTemplatePages(itemTarget, template, organisationId);
                     }
                     else if (itemTarget.TemplateType.Value == 2)
                     {
@@ -881,16 +881,20 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Genereate Pdf From Template Pages
         /// </summary>
-        private void GeneratePdfFromTemplatePages(Template template, long organisationId)
+        private void GeneratePdfFromTemplatePages(Item itemTarget, Template template, long organisationId)
         {
             try
             {
                 List<TemplatePage> templatePagesWithSameDimensions = template.TemplatePages.Where(tempPage =>
-                    (tempPage.Height == template.PDFTemplateHeight) && (tempPage.Width == template.PDFTemplateWidth))
+                    (tempPage.Height == template.PDFTemplateHeight) && (tempPage.Width == template.PDFTemplateWidth) &&
+                    ((tempPage.IsNewlyAdded.HasValue && tempPage.IsNewlyAdded.Value) || 
+                    (itemTarget.HasTemplateChangedToCustom.HasValue && itemTarget.HasTemplateChangedToCustom.Value)))
                     .ToList();
 
                 List<TemplatePage> templatePagesWithCustomDimensions = template.TemplatePages.Where(tempPage =>
-                    (tempPage.Height != template.PDFTemplateHeight) || (tempPage.Width != template.PDFTemplateWidth))
+                    (tempPage.Height != template.PDFTemplateHeight) || (tempPage.Width != template.PDFTemplateWidth) &&
+                    ((tempPage.IsNewlyAdded.HasValue && tempPage.IsNewlyAdded.Value) ||
+                    (itemTarget.HasTemplateChangedToCustom.HasValue && itemTarget.HasTemplateChangedToCustom.Value)))
                     .ToList();
 
                 templatePageService.CreateBlankBackgroundPDFsByPages(template.ProductId,

@@ -19,7 +19,7 @@ namespace MPC.Interfaces.Repository
         bool SaveTemplateVariables(List<TemplateVariablesObj> obj);
         List<SmartFormUserList> GetUsersList(long contactId);
         SmartFormWebstoreResponse GetSmartForm(long smartFormId);
-        List<SmartFormDetail> GetSmartFormObjects(long smartFormId);
+        List<SmartFormDetail> GetSmartFormObjects(long smartFormId, out List<VariableOption> listVariables);
 
         /// <summary>
         /// Get Smart Form By Company Id
