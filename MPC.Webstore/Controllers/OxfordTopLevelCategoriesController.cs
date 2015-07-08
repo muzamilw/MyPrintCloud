@@ -49,10 +49,15 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
+
+                List<ProductCategory> AllCategroies = new List<ProductCategory>();
+                //List<ProductCategory> ChildCategories = new List<ProductCategory>();
+                AllCategroies = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
                 //SeablueToCategories
               ViewBag.lstParentCategories = _myCompanyService.GetStoreParentCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID).OrderBy(i=>i.DisplayOrder).ToList();
                 //rptRetroPCats
-              ViewBag.AllRetailCat = _myCompanyService.GetAllRetailPublishedCat().Where(i => i.ParentCategoryId == null || i.ParentCategoryId == 0).OrderBy(g => g.DisplayOrder).ToList();
+             // ViewBag.AllRetailCat = _myCompanyService.GetAllRetailPublishedCat().Where(i => i.ParentCategoryId == null || i.ParentCategoryId == 0).OrderBy(g => g.DisplayOrder).ToList();
+              ViewBag.AllRetailCat = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID).ToList();
             }
              string  State = _myCompanyService.GetStateNameById(StoreBaseResopnse.StoreDetaultAddress.StateId ?? 0);
              string  Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.StoreDetaultAddress.CountryId ?? 0);

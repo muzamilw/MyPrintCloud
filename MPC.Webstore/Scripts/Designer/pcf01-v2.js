@@ -3846,8 +3846,14 @@ function k31(cCanvas, IO) {
     }
     if (IO.MaxHeight == 0) {
         IO.MaxHeight = 50;
-    }
-    fabric.Image.fromURL(IO.ContentString, function (IOL) {
+    } 
+    if (IO.ContentString.indexOf("MPC_Content"))
+        IO.ContentString = IO.ContentString.replace("/MPC_Content/", "");
+    
+    var url = "/MPC_Content/" + IO.ContentString;
+    if (IO.ContentString.indexOf("Imageplaceholder_sim") != -1)
+        url = IO.ContentString;
+    fabric.Image.fromURL(url, function (IOL) {
         IOL.set({
             left: (IO.PositionX + IO.MaxWidth / 2) * dfZ1l,
             top: (IO.PositionY + IO.MaxHeight / 2) * dfZ1l,
