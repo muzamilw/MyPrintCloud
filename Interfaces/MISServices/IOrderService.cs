@@ -52,7 +52,7 @@ namespace MPC.Interfaces.MISServices
         /// <returns></returns>
         OrderMenuCount GetOrderScreenMenuItemCount();
 
-        string DownloadOrderArtwork(int OrderID, string sZipName);
+        string DownloadOrderArtwork(int OrderID, string sZipName, long WebStoreOrganisationId = 0);
         GetOrdersResponse GetOrdersForEstimates(GetOrdersRequest request);
 
         //string ExportPDF(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam);
@@ -71,7 +71,7 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         string DownloadAttachment(long id, out string fileName, out string fileType);
 
-        bool MakeOrderArtworkProductionReady(Estimate oOrder);
+        bool MakeOrderArtworkProductionReady(Estimate oOrder, long WebStoreOrganisationId = 0);
         /// <summary>
         /// Clone Estimate
         /// </summary>

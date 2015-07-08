@@ -11,7 +11,6 @@ using System.Net.Http.Formatting;
 using System.Web;
 using System.Web.Mvc;
 
-
 namespace MPC.Webstore.Controllers
 {
     public class ProductOrderHistoryController : Controller
@@ -22,14 +21,17 @@ namespace MPC.Webstore.Controllers
         private readonly IOrderService _orderService;
         private readonly ICompanyService _CompanyService;
         private readonly IItemService _itemService;
+        private readonly MPC.Interfaces.MISServices.IOrderService _MISOrderService;
         public ProductOrderHistoryController(IWebstoreClaimsHelperService _myClaimHelper, IStatusService _StatusService,
-            IOrderService _orderService, ICompanyService _CompanyService, IItemService itemService)
+            IOrderService _orderService, ICompanyService _CompanyService, IItemService itemService,
+            MPC.Interfaces.MISServices.IOrderService MISOrderService)
         {
             this._myClaimHelper = _myClaimHelper;
             this._StatusService =_StatusService;
             this._orderService = _orderService;
             this._CompanyService = _CompanyService;
             this._itemService = itemService;
+            this._MISOrderService = MISOrderService;
         }
         public ActionResult Index()
         {
@@ -202,27 +204,30 @@ namespace MPC.Webstore.Controllers
         //       // return PartialView("~/Views/Shared/PartialViews/ViewOrder");
         //}
         [HttpPost]
-        public JsonResult OrderResult(long OrderId)
+        public JsonResult OrderResult(long OrderId, string OrderType)
         {
-            long UpdatedOrder = _itemService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
-              UserCookieManager.WEBOrderId = UpdatedOrder;
-          
-              return Json(UpdatedOrder, JsonRequestBehavior.DenyGet);
-        }
-        [HttpPost]
-        public JsonResult DownLoadArtWork(long OrderId)
-        {
-            return Json(true, JsonRequestBehavior.DenyGet);
-        }
+            if (OrderType == "ReOrder") 
+            {
+                long UpdatedOrder = _itemService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+                UserCookieManager.WEBOrderId = UpdatedOrder;
 
-        //public   ShowPartialView(long OrderId)
+                return Json(UpdatedOrder, JsonRequestBehavior.DenyGet);
+            }
+
+            if (OrderType == "Download")
+            {
+                _MISOrderService.DownloadOrderArtwork((int)OrderId, "", UserCookieManager.WEBOrganisationID);
+            }
+            return Json(true, JsonRequestBehavior.DenyGet);
+           
+        }
+        //[HttpPost]
+        //public JsonResult DownLoadArtWork(long OrderId)
         //{
-        //    Order order = _orderService.GetOrderAndDetails(OrderId);
-        //    CalculateProductDescription(order);
-        //    ViewBag.order = order;
-        //    ViewBag.BillingAddress = _orderService.GetBillingAddress(order.BillingAddressID);
-        //    ViewBag.DeliveryAddress = _orderService.GetdeliveryAddress(order.DeliveryAddressID);
+           
         //}
+
+   
 
         private ShoppingCart LoadShoppingCart(long orderID)
         {

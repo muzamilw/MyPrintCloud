@@ -2482,6 +2482,7 @@ namespace MPC.Implementation.MISServices
 
                 foreach (var sVar in scopeVariablesDeleteList)
                 {
+                    fieldVariable.ScopeVariables.Remove(sVar);
                     scopeVariableRepository.Delete(sVar);
                 }
             }
@@ -2495,11 +2496,14 @@ namespace MPC.Implementation.MISServices
                 fieldVariableDbVersion.ScopeVariables = new List<ScopeVariable>();
             }
 
+            List<ScopeVariable> scopeVariables = new List<ScopeVariable>();
             foreach (var sVar in fieldVariable.ScopeVariables)
             {
                 fieldVariableDbVersion.ScopeVariables.Add(sVar);
+                scopeVariables.Add(sVar);
             }
-
+            // Reset the list
+            scopeVariables.ForEach(sc => fieldVariable.ScopeVariables.Remove(sc));
         }
         /// <summary>
         /// Update Field Variable
@@ -2650,7 +2654,6 @@ namespace MPC.Implementation.MISServices
                     }
                 }
             }
-            smartFormRepository.SaveChanges();
             #endregion
 
             #region Delete SmartForm Detail
@@ -2672,13 +2675,14 @@ namespace MPC.Implementation.MISServices
 
                 foreach (var missingItem in missingSmartFormDetails)
                 {
+                    smartFormDbVersion.SmartFormDetails.Remove(missingItem);
                     smartFormDetailRepository.Delete(missingItem);
                 }
-                smartFormDetailRepository.SaveChanges();
             }
 
             #endregion
-
+            
+            smartFormRepository.SaveChanges();
             return smartForm.SmartFormId;
         }
 
