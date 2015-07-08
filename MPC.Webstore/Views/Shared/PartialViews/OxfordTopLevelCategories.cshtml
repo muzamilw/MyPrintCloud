@@ -29,7 +29,7 @@
                            { 
                                 <div id="parentCatsContainer"  class="panel panel-default">
                                     <div class="panel-heading">
-                                        <a id="ltrlParentCatName"  data-toggle="collapse" data-parent="#accordionmenu">
+                                        <a  id="ltrlParentCatName" data-toggle="collapse" data-parent="#accordionmenu" onclick="sideBarClick(@count)">
                                             @AllRetailCa.CategoryName
                                         </a>
                                     </div>
@@ -187,7 +187,7 @@
     });
 
     function sideBarClick(dataid) {
-        $('.sideMenuItems').each(function () {
+        $('.sideMenuItems').each(function() {
 
             $(this).removeClass('in');
         });
@@ -197,5 +197,7 @@
         } else {
             $("#" + idOfCatPro + "").parent().next().addClass('in');
         }
+
     }
+
 </script>
