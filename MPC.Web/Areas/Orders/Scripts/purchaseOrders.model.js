@@ -78,6 +78,17 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 footnote = ko.observable(spcFootnote),
                 comments = ko.observable(spcComments),
                 status = ko.observable(spcStatus),
+                 statusName = ko.computed(function () {
+                     if (status() === 31) {
+                         return "Open";
+                     }
+                     else if (status() === 32) {
+                         return "Posted";
+                     }
+                     else if (status() === 33) {
+                         return "Cancelled";
+                     }
+                 }),
                 contactId = ko.observable(spcContactId).extend({ required: true }),
                 supplierContactCompany = ko.observable(spcSupplierContactCompany),
                 // Store Id
@@ -205,6 +216,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 supplierId: supplierId,
                 discount: discount,
                 companyName: companyName,
+                statusName:statusName,
                 supplierContactCompany: supplierContactCompany,
                 setValidationSummary: setValidationSummary,
                 purchaseDetails: purchaseDetails,

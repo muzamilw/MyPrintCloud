@@ -123,13 +123,13 @@ define("common/addCostCenter.viewModel",
                                 var selectedElement = $(selectedCostCentre().isSelected.domElement).find("td")[0];
                                 if (selectedCostCentre().calculationMethodType() === 4) { // cost centres of calculation methode type 4 are formula based
                                     if (questionQueueObject != null) { // process the question queue and prompt for values
-                                        if (questionQueueObject.length > 0) {
+                                        //if (questionQueueObject.length > 0) {
                                             isQueueExist = true;
                                             
                                             ShowCostCentrePopup(questionQueueObject, selectedCostCentre().id(), 0, selectedElement, "New", currencySmb(),
                                                 0, inputQueueObject.Items, selectedCostCentre().calculationMethodType(), companyTaxRate, workInstructions,
                                                 selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback);
-                                        }
+                                        //}
                                         if (inputQueueObject.Items && inputQueueObject.Items.length === 3) { // do not process the queue for prompting values
                                             isQueueExist = true;
                                         }
@@ -162,9 +162,9 @@ define("common/addCostCenter.viewModel",
                                             selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback);
                                     }
                                 }
-                                if (isQueueExist === false) {// queue is not populating
-                                    toastr.error("Queue is not populating.");
-                                }
+                                //if (isQueueExist === false) {// queue is not populating
+                                //    toastr.error("Queue is not populating.");
+                                //}
                             },
                             error: function (response) {
                                 toastr.error("Failed to execute cost center. Error: " + response);
