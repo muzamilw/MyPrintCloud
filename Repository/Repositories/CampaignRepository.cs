@@ -1182,7 +1182,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public void EmailsToCorpUser(long orderID, long contactID, StoreMode ModeOfStore, long loggedinTerritoryId, Organisation serverSettings, long StoreId)
+        public void EmailsToCorpUser(long orderID, long contactID, StoreMode ModeOfStore, long loggedinTerritoryId, Organisation serverSettings, long StoreId, string SalesManagerEmail)
         {
             try
             {
@@ -1213,7 +1213,7 @@ namespace MPC.Repository.Repositories
                             obj.AddressId = ContactCompnyID;
                             obj.CompanyId = ContactCompnyID;
                             obj.OrganisationId = serverSettings.OrganisationId;
-                            emailBodyGenerator(CorporateOrderForApprovalCampaign, serverSettings, obj, corpRec, ModeOfStore,"","", "", "", "", corpRec.Email);
+                            emailBodyGenerator(CorporateOrderForApprovalCampaign, serverSettings, obj, corpRec, ModeOfStore, "", "", "", SalesManagerEmail, "", corpRec.Email);
                         }
                     }
                 
