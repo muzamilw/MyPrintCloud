@@ -1158,14 +1158,14 @@ namespace MPC.Implementation.MISServices
 
 
 
-        public string DownloadOrderArtwork(int OrderID, string sZipName)
+        public string DownloadOrderArtwork(int OrderID, string sZipName, long WebStoreOrganisationId = 0)
         {
             //return orderRepository.GenerateOrderArtworkArchive(OrderID, sZipName);
-            return GenerateOrderArtworkArchive(OrderID, sZipName);
+            return GenerateOrderArtworkArchive(OrderID, sZipName, WebStoreOrganisationId);
             // return ExportPDF(105, 0, ReportType.Invoice, 814, string.Empty);
         }
 
-        public string GenerateOrderArtworkArchive(int OrderID, string sZipName)
+        public string GenerateOrderArtworkArchive(int OrderID, string sZipName, long WebStoreOrganisationId)
         {
 
             string ReturnRelativePath = string.Empty;
@@ -1179,7 +1179,13 @@ namespace MPC.Implementation.MISServices
             Organisation Organisation = organisationRepository.GetOrganizatiobByID();
             long OrganisationId = 0;
             if (Organisation != null)
+            {
                 OrganisationId = Organisation.OrganisationId;
+            }
+            else 
+            {
+                OrganisationId = WebStoreOrganisationId;
+            }
 
             string sCreateDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationId);
             bool ArtworkProductionReadyResult = false;
@@ -1243,7 +1249,7 @@ namespace MPC.Implementation.MISServices
                 if (MakeArtWorkProductionReady)
                 {
 
-                    ArtworkProductionReadyResult = MakeOrderArtworkProductionReady(oOrder);
+                    ArtworkProductionReadyResult = MakeOrderArtworkProductionReady(oOrder, WebStoreOrganisationId);
 
                 }
 
@@ -1383,11 +1389,20 @@ namespace MPC.Implementation.MISServices
             return builder.ToString();
         }
 
-        public bool MakeOrderArtworkProductionReady(Estimate oOrder)
+        public bool MakeOrderArtworkProductionReady(Estimate oOrder, long WebStoreOrganisationId = 0)
         {
             try
             {
-                long sOrganisationId = organisationRepository.GetOrganizatiobByID().OrganisationId;
+                long sOrganisationId = 0;
+                if (WebStoreOrganisationId > 0)
+                {
+                    sOrganisationId = WebStoreOrganisationId;
+                }
+                else 
+                {
+                    sOrganisationId = organisationRepository.GetOrganizatiobByID().OrganisationId;
+                }
+               
                 string sOrderID = oOrder.EstimateId.ToString();
                 string sProductionFolderPath = "MPC_Content/Artworks/" + sOrganisationId + "/Production";
                 string sCustomerID = oOrder.CompanyId.ToString();
