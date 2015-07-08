@@ -598,8 +598,17 @@ function f2(c, m, y, k, ColorHex, Sname) {
             var hexStr = D1AO.fill;
             var hex = parseInt(hexStr.substring(1), 16);
             pcL22_Sub(D1AO); $(".BtnChngeClr").css("background-color", ColorHex);
+            if (IsCalledFrom == 2 || IsCalledFrom == 4) {
+                $.each(TO, function (i, IT) {
+                    if (IT.ObjectID == D1AO.ObjectID) {
+                        IT.IsSpotColor = true;
+                        IT.SpotColorName = Sname;
+                        return;
+                    }
+                });
+            }
         } else if (D1AO.type == 'i-text') {
-            setActiveStyle("color", ColorHex, c, m, y, k);
+            setActiveStyle("color", ColorHex, c, m, y, k,Sname);
             pcL22_Sub(D1AO); $(".BtnChngeClr").css("background-color", ColorHex);
         } else if (D1AO.type == 'ellipse' || D1AO.type == 'rect' ) {
             D1AO.set('fill', ColorHex);
@@ -644,15 +653,7 @@ function f2(c, m, y, k, ColorHex, Sname) {
         }
 
         canvas.renderAll();
-        if (IsCalledFrom == 2 || IsCalledFrom == 4) {
-            $.each(TO, function (i, IT) {
-                if (IT.ObjectID == D1AO.ObjectID) {
-                    IT.IsSpotColor = true;
-                    IT.SpotColorName = Sname;
-                    return;
-                }
-            });
-        }
+      
         
 
     } else {
@@ -2917,12 +2918,16 @@ function save_rs() {
     };
     var returnText = $.ajax(options).responseText;
 }
-function setActiveStyle(styleName, value, c, m, y, k) {
+function setActiveStyle(styleName, value, c, m, y, k,Sname) {
     object = canvas.getActiveObject();
     if (!object) return;
     if (object.setSelectionStyles && object.isEditing) {
         var style = {};
         style[styleName] = value;
+        if (styleName == "color" && (parseInt(c) || parseInt(c) == 0)) {
+            style['textCMYK'] = c + " " + m + " " + y + " " + k;
+            style['spotColorName'] = Sname;
+        }
         object.setSelectionStyles(style);
         object.setCoords();
         if(styleName = "font-Size")
@@ -2938,6 +2943,16 @@ function setActiveStyle(styleName, value, c, m, y, k) {
             object.M = m;
             object.Y = y;
             object.K = k;
+            if (IsCalledFrom == 2 || IsCalledFrom == 4) {
+                var D1AO = canvas.getActiveObject();
+                $.each(TO, function (i, IT) {
+                    if (IT.ObjectID == D1AO.ObjectID) {
+                        IT.IsSpotColor = true;
+                        IT.SpotColorName = Sname;
+                        return;
+                    }
+                });
+            }
         } else if (styleName == "font-Size") {
             styleName = "fontSize";
             object.fontSize = value;
@@ -3413,6 +3428,7 @@ function updateTOWithStyles(obTO, vTag, vVal) {
                         fontWeight: StyleToCopy.fontWeight,
                         textColor: StyleToCopy.textColor,
                         textCMYK: StyleToCopy.textCMYK,
+                        spotColorName: StyleToCopy.spotColorName,
                         characterIndex: (lengthCount + z).toString()
 
                     }

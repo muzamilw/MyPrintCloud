@@ -414,7 +414,8 @@ namespace MPC.Implementation.MISServices
                 if (itemTarget.Template.TemplatePages != null)
                 {
                     List<TemplatePage> newlyAddedTemplatePages = 
-                        itemTarget.Template.TemplatePages.Where(tmp => tmp.IsNewlyAdded.HasValue && tmp.IsNewlyAdded.Value).ToList();
+                        itemTarget.Template.TemplatePages.Where(tmp => ((tmp.IsNewlyAdded.HasValue && tmp.IsNewlyAdded.Value) || 
+                            (tmp.OldPageNo != tmp.PageNo))).ToList();
                     foreach (TemplatePage templatePage in newlyAddedTemplatePages)
                     {
                         templatePage.BackgroundFileName = itemTarget.Template.ProductId + "/Side" + templatePage.PageNo + ".pdf";
@@ -464,9 +465,19 @@ namespace MPC.Implementation.MISServices
                     templatePage.Height = lengthConversionService.ConvertLengthFromSystemUnitToPoints(templatePage.Height.Value, organisation.LengthUnit);
                 }
 
+                if (templatePage.OldHeight.HasValue && templatePage.OldHeight.Value > 0)
+                {
+                    templatePage.OldHeight = lengthConversionService.ConvertLengthFromSystemUnitToPoints(templatePage.OldHeight.Value, organisation.LengthUnit);
+                }
+
                 if (templatePage.Width.HasValue && templatePage.Width.Value > 0)
                 {
                     templatePage.Width = lengthConversionService.ConvertLengthFromSystemUnitToPoints(templatePage.Width.Value, organisation.LengthUnit);
+                }
+
+                if (templatePage.OldWidth.HasValue && templatePage.OldWidth.Value > 0)
+                {
+                    templatePage.OldWidth = lengthConversionService.ConvertLengthFromSystemUnitToPoints(templatePage.OldWidth.Value, organisation.LengthUnit);
                 }
             }
         }
@@ -888,13 +899,19 @@ namespace MPC.Implementation.MISServices
                 List<TemplatePage> templatePagesWithSameDimensions = template.TemplatePages.Where(tempPage =>
                     (tempPage.Height == template.PDFTemplateHeight) && (tempPage.Width == template.PDFTemplateWidth) &&
                     ((tempPage.IsNewlyAdded.HasValue && tempPage.IsNewlyAdded.Value) || 
-                    (itemTarget.HasTemplateChangedToCustom.HasValue && itemTarget.HasTemplateChangedToCustom.Value)))
+                    (itemTarget.HasTemplateChangedToCustom.HasValue && itemTarget.HasTemplateChangedToCustom.Value) ||
+                    (tempPage.OldPageNo != tempPage.PageNo) ||
+                    (template.HasDeletedTemplatePages.HasValue && template.HasDeletedTemplatePages.Value)))
                     .ToList();
 
+                // Pages with different dimensions - Added New Or have Updated the dimensions
                 List<TemplatePage> templatePagesWithCustomDimensions = template.TemplatePages.Where(tempPage =>
-                    (tempPage.Height != template.PDFTemplateHeight) || (tempPage.Width != template.PDFTemplateWidth) &&
+                    ((tempPage.Height != template.PDFTemplateHeight) || (tempPage.Width != template.PDFTemplateWidth)) &&
                     ((tempPage.IsNewlyAdded.HasValue && tempPage.IsNewlyAdded.Value) ||
-                    (itemTarget.HasTemplateChangedToCustom.HasValue && itemTarget.HasTemplateChangedToCustom.Value)))
+                    (itemTarget.HasTemplateChangedToCustom.HasValue && itemTarget.HasTemplateChangedToCustom.Value) || 
+                    (tempPage.OldHeight != tempPage.Height || tempPage.OldWidth != tempPage.Width) ||
+                    (tempPage.OldPageNo != tempPage.PageNo) ||
+                    (template.HasDeletedTemplatePages.HasValue && template.HasDeletedTemplatePages.Value)))
                     .ToList();
 
                 templatePageService.CreateBlankBackgroundPDFsByPages(template.ProductId,
