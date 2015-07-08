@@ -129,7 +129,9 @@
     grid.Column("SOrderDeliveryDate","Estimated Delivery",style:"hidden-xs "),
     grid.Column("StatusName","Status",style:"hidden-xs "),
       grid.Column("Download",header:Result, format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-      {<button id="Download" value="Download" style="height: 28px; width: 28px; background-image: url('Content/Images/Glass.png');" class="rounded_corners" onclick="DownLoad(@item.OrderID)" />
+      {
+        <button id="Download" value="Download" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
+  background-color: transparent;" class="rounded_corners" onclick="DownLoadArtworkFile(@item.OrderID)" />
 
       }</text>),
      grid.Column("View", format:@<text><button id="view" value="View" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" />
@@ -504,7 +506,7 @@
         }
         function ReOrder(orderId) {
             ShowLoader();
-            var d = { OrderId: orderId }
+            var d = { OrderId: orderId, OrderType: "ReOrder" }
             $.ajax({
                 type: "POST",
                 url: "/ProductOrderHistory/OrderResult",
@@ -518,18 +520,18 @@
             });
         }
 
-        function DownLoad(orderId) {
+        function DownLoadArtworkFile(orderId) {
+            ShowLoader();
+            var d = { OrderId: orderId, OrderType: "Download" }
             $.ajax({
                 type: "POST",
-                url: "/ProductOrderHistory/DownLoadArtWork",
-                contentType: "application/json",
-                data: { OrderId: orderId },
-                async: true,
+                url: "/ProductOrderHistory/OrderResult",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(d),
                 success: function (response) {
+
                 }
             });
-
-
         }
 
         function ViewOrder(orderId) {

@@ -5,7 +5,7 @@
     
     var lstParentCategories = ViewBag.lstParentCategories as List<MPC.Models.DomainModels.ProductCategory>;
     var AllRetailCAt = ViewBag.AllRetailCat as List<MPC.Models.DomainModels.ProductCategory>;
-    
+    string Addressline1 = ViewBag.addressline1InnerHtml;
 }
 <div class="container body-container spacer-top ">
     <!--Main Content-->
@@ -42,11 +42,7 @@
                                             <ul class="submenu list-unstyled">
                                                 @foreach(var ccategories in childCats)
                                                 { 
-                                                <asp:Repeater ID="rptSubMenuCats" runat="server" OnItemDataBound="rptSubMenuCats_ItemDataBound">
-                                                    <itemtemplate>
-                                                        <li><a id="ltrlSubCatName" runat="server" href="../en/standard-business-cards/index.htm"><i class="fa fa-play-circle"></i><span>Standard Business Cards</span></a></li>
-                                                    </itemtemplate>
-                                                </asp:Repeater>
+                                                   <li><a id="ltrlSubCatName"  href="../en/standard-business-cards/index.htm"><i class="fa fa-play-circle"></i><span>Standard Business Cards</span></a></li>
                                                 }
                                             </ul>
                                         </div>
@@ -69,25 +65,27 @@
                 <div class="col-xs-12">
                     <div class="middle_inner_section">
                         <div class="row" id="home_page">
-                            <asp:Repeater ID="seaBlueTopCategories" runat="server" OnItemDataBound="seaBlueTopCategories_ItemDataBound">
-                                <itemtemplate>
+                            @{
+                                var SeaBlueTopCategories = lstParentCategories.OrderBy(i => i.DisplayOrder).ToList();
+                            }
+                            @foreach( var seabluectg in SeaBlueTopCategories)
+                            { 
+                           
                                     <div class="col-sm-12 col-md-6 product-box" itemscope itemtype="http://schema.org/Product">
                                         <div class="hover-box-shadow">
                                             <p class="text-center">
-                                                <a id="ProductUrl" runat="server" href="../en/standard-business-cards/index.htm" class='thumbnail'>
-                                                    <img id="productImge" runat="server" src="../themes/seablue//images/product/business-card_thumb.jpg" alt="Standard Business Cards" title="Standard Business Cards" class="img-responsive" itemprop="image" />
+                                                <a id="ProductUrl"  href="../en/standard-business-cards/index.htm" class='thumbnail'>
+                                                    <img id="productImge" src="@seabluectg.ThumbnailPath" alt="Standard Business Cards" title="Standard Business Cards" class="img-responsive" itemprop="image" />
                                                 </a>
                                             </p>
-                                            <h3 itemprop="name" id="productName" runat="server">Standard Business Cards</h3>
+                                            <h3 itemprop="name" id="productName" >@seabluectg.CategoryName</h3>
                                             <div class="product-desc" itemprop="description">
-                                                <p id="productDesc" runat="server">Create cards that make the first impression</p>
+                                                <p id="productDesc">@seabluectg.Description1</p>
                                             </div>
-                                            <p class="text-center"><a id="prductlinkUrl" runat="server" href="../en/standard-business-cards/index.htm" class='btn btn-info' itemprop="url">View details <i class="fa fa-angle-double-right"></i></a></p>
+                                            <p class="text-center"><a id="prductlinkUrl"  href="../en/standard-business-cards/index.htm" class='btn btn-info' itemprop="url">View details <i class="fa fa-angle-double-right"></i></a></p>
                                         </div>
                                     </div>
-                                </itemtemplate>
-
-                            </asp:Repeater>
+                            }
 
                         </div>
                     </div>
@@ -110,20 +108,18 @@
                     </div>
                     <div class="panel-body">
                         <div itemscope="" itemtype="http://schema.org/Organization">
-                            <h2 itemprop="name" id="companyname" runat="server">Company</h2>
+                            <h2 itemprop="name" id="companyname">@ViewBag.companynameInnerText</h2>
                             <div itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress">
                                 <b>Main address</b>:<br>
-                                <span itemprop="streetAddress" id="addressline1" runat="server">
-                                    Address 1..<br>
-                                    Address 2..
-                                </span><br>
-                                <span itemprop="postalCode" id="cityandCode" runat="server">City and Zip Code</span><br>
-                                <span itemprop="addressLocality" id="stateandCountry" runat="server">state &amp; Country</span>
+                                <span itemprop="streetAddress" id="addressline1">
+                                   @Html.ResolveString(Addressline1);
+                                </span>
+                                <span itemprop="postalCode" id="cityandCode">@ViewBag.cityandCodeInnerText</span><br>
+                                <span itemprop="addressLocality" id="stateandCountry">@ViewBag.stateandCountryInnerText</span>
                             </div>
-                            Tel:<span itemprop="telephone" id="telno" runat="server">(xxx) xxx-xxxx </span>
+                            Tel:<span itemprop="telephone" id="telno">@ViewBag.telnoInnerText</span>
                             <br>
-                            E-mail: <span itemprop="email" id="emailadd" runat="server">john_doe@company.com</span>
-                            </span>
+                            E-mail: <span itemprop="email" id="emailadd">@ViewBag.emailaddInnerText</span>
                         </div>
                     </div>
                 </div>
@@ -138,13 +134,12 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="fa fa-envelope"></span></span>
-                                    <asp:TextBox id="txtEmailbox" runat="server" CssClass="form-control btn-rounded" Width="100"></asp:TextBox>
-
+                                    <input type="text" id="txtEmailbox" class="form-control btn-rounded" width="100" />
                                 </div>
-                                <span id="errorMsg" runat="server" class="error-block text-danger"></span>
+                                <span id="errorMsg"  class="error-block text-danger"></span>
                                 <p class="help-block">Subscribe Here to receive promotional offers.</p>
                             </div>
-                            <asp:Button ID="GoSubscribe" runat="server" CssClass="btn btn-primary btn-rounded" Text="Subscribe" OnClick="GoSubscribe_Click" />
+                            <input type="button" id="GoSubscribe" class="btn btn-primary btn-rounded" value="Subscribe"/>
                         </form>
                     </div>
                 </div>
@@ -159,14 +154,10 @@
                             <div class="carousel-inner">
                                 <div class="item">
                                     <blockquote>
-                                        <p>
-                                            <br>
-                                            I used Company services for my business cards and I must tell that I am much&nbsp; pleased with the quality of printed cards their prompt and professional service. Good luck to your business.<br>
-                                            <br>
-                                            Best regards,<br>
-                                            &nbsp;
+                                        <p id="lblRaveReview">
+                                            @(new HtmlString(ViewBag.lblRaveReview.ToString()))
                                         </p>
-                                        <small>Henry Roberts</small>
+                                        <small id="lblReviewBy">@ViewBag.lblReviewBy</small>
                                     </blockquote>
                                 </div>
                                 <div class="item active">
