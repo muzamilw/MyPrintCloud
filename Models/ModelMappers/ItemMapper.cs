@@ -297,6 +297,12 @@ namespace MPC.Models.ModelMappers
                 vdp => !IsNewTemplatePage(vdp) && source.Template.TemplatePages.All(sourceVdp => sourceVdp.ProductPageId != vdp.ProductPageId))
                   .ToList();
             
+            // If template pages are deleted then regenerate pdf
+            if (linesToBeRemoved.Count > 0)
+            {
+                target.Template.HasDeletedTemplatePages = true;
+            }
+
             // Remove Template Object related to Template Pages going to be deleted
             actions.DeleteTemplateObject(linesToBeRemoved);
             
