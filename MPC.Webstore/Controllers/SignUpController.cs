@@ -330,7 +330,11 @@ namespace MPC.Webstore.Controllers
                 {
                     cep.AddressId = 0;
                 }
-
+                List<CompanyContact> listOfApprovers = _myCompanyService.GetCompanyAdminByCompanyId(UserCookieManager.WBStoreId);
+                if (listOfApprovers != null && listOfApprovers.Count > 0)
+                {
+                    cep.ApprovarID = listOfApprovers.FirstOrDefault().ContactId;
+                }
                 Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.CorpUserRegistration, StoreBaseResopnse.Company.OrganisationId ?? 0 , UserCookieManager.WBStoreId);
 
                 SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);

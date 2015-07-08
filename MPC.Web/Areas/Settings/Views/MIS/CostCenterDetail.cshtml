@@ -593,12 +593,12 @@
                                             <h3 class="group-header">Multiply the "Unit Charge" by the Quantity used from : </h3>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <div class="col-lg-4 text-right">
-                                                        <label for="rdioVariableInputQty" style="margin-top: 9px;">
+                                                    <div class="col-lg-4 text-right" style="padding-right:0px !important;">
+                                                        <label for="rdioVariableInputQty">
                                                             A run-time variable
                                                         </label>
                                                     </div>
-                                                    <div class="col-lg-1 text-right radio">
+                                                    <div class="col-lg-1 text-right radio" style="padding-left:0px;">
                                                         <input type="radio" name="optionsinputQty" id="rdioVariableInputQty" value="1" style="margin:0px" data-bind="checked: isQtyVariable">
                                                       
                                                          
@@ -615,7 +615,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="col-lg-4 text-right">
+                                                    <div class="col-lg-4 text-right" style="padding-right:0px;">
                                                         <label for="rdioPromptInputQty" style="margin-top: 9px;">
                                                             Prompting a Question
                                                         </label>
@@ -749,34 +749,34 @@
                                             <h3 class="group-header">Multiply the "Per Hour Charge" by the number of hours used from: </h3>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <div class="col-lg-4 text-right">
+                                                    <div class="col-lg-4 text-right" style="padding-right:0px;">
                                                         <label for="optionsinput" style="margin-top: 9px;">
                                                             A run-time variable
                                                         </label>
                                                     </div>
                                                    
-                                                    <div class="col-lg-1 text-right radio">
+                                                    <div class="col-lg-1 text-right radio" style="padding-left:18px;">
                                                         <input type="radio" name="optionsinputTime" id="rdioVariableInputTime" value="1" style="margin:0px" data-bind="checked: isTimeVariable">
                                                         <label for="rdioVariableInputTime">
                                                             &nbsp;
                                                         </label>
                                                     </div>
-                                                    <div class="col-md-7">
+                                                    <div class="col-md-7" style="padding-left:0px;">
                                                         <select id="ddlbVariablesList" class="form-control" data-bind="options: $root.costCenterVariables, optionsText: 'Name', optionsValue: 'VarId',value:timeVariableId, visible: isTimeVariable() === '1'"></select>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <div class="col-lg-4 text-right">
+                                                    <div class="col-lg-4 text-right" style="padding-right:0px;">
                                                         <label for="optionsinput" style="margin-top: 9px;">
                                                             Prompting a Question
                                                         </label>
                                                     </div>
-                                                  <div class="col-md-1 text-left radio">
-                                                        <input  type="radio" name="optionsinputTime" id="rdioPromptInputTime" value="2" style="margin:0px" data-bind="checked: isTimeVariable">
-                                                      <label for="rdioPromptInputTime">
-                                                          &nbsp;
-                                                      </label>
+                                                    <div class="col-md-1 text-left radio" style="padding-left:18px;">
+                                                        <input type="radio" name="optionsinputTime" id="rdioPromptInputTime" value="2" style="margin:0px" data-bind="checked: isTimeVariable">
+                                                        <label for="rdioPromptInputTime">
+                                                            &nbsp;
+                                                        </label>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <input type="text" style="width: 321px;  margin-left: -7px;" class="form-control" id="txtInputPrompt" placeholder="Type the question you want to ask the Estimator." data-bind="value: timeQuestionString, validationOnElement: timeQuestionString, validationTooltip: timeQuestionString, visible: isTimeVariable() === '2'">

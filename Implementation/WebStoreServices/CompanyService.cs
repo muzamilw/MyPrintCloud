@@ -1449,7 +1449,13 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _currencyRepository.GetCurrencyCodeById(currencyId);
         }
-
-
+        public List<CompanyContact> GetCompanyAdminByCompanyId(long CompanyId)
+        {
+            return _CompanyContactRepository.GetCompanyAdminByCompanyId(CompanyId);
+        }
+        public CompanyContact GetCorporateContactByEmail(string Email, long OID, long StoreId)
+        {
+            return _CompanyContactRepository.GetCorporateContactByEmail(Email, OID, StoreId);
+        }
     }
 }

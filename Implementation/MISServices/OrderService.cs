@@ -592,9 +592,9 @@ namespace MPC.Implementation.MISServices
                 if (invoice != null)
                 {
                     estimate.InvoiceStatus = invoice.InvoiceStatus;
-                }  
+                }
             }
-          
+
             return estimate;
         }
 
@@ -732,6 +732,7 @@ namespace MPC.Implementation.MISServices
         public OrderBaseResponse GetBaseData()
         {
 
+
             return new OrderBaseResponse
                    {
                        SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Order),
@@ -742,7 +743,8 @@ namespace MPC.Implementation.MISServices
                        // ChartOfAccounts = chartOfAccountRepository.GetAll(),
                        CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem(),
                        PipeLineProducts = pipeLineProductRepository.GetAll(),
-                       LoggedInUser = organisationRepository.LoggedInUserId
+                       LoggedInUser = organisationRepository.LoggedInUserId,
+
                    };
         }
 
@@ -752,6 +754,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public OrderBaseResponse GetBaseDataForEstimate()
         {
+            SystemUser systemUser = systemUserRepository.GetUserrById(systemUserRepository.LoggedInUserId);
             return new OrderBaseResponse
             {
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Estimate),
@@ -762,7 +765,9 @@ namespace MPC.Implementation.MISServices
                 // ChartOfAccounts = chartOfAccountRepository.GetAll(),
                 CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem(),
                 PipeLineProducts = pipeLineProductRepository.GetAll(),
-                LoggedInUser = organisationRepository.LoggedInUserId
+                LoggedInUser = organisationRepository.LoggedInUserId,
+                HeadNotes = systemUser != null ? systemUser.EstimateHeadNotes : string.Empty,
+                FootNotes = systemUser != null ? systemUser.EstimateFootNotes : string.Empty,
             };
         }
 
@@ -780,10 +785,11 @@ namespace MPC.Implementation.MISServices
         public ItemDetailBaseResponse GetBaseDataForItemDetails()
         {
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
-
+            List<Markup> markups = _markupRepository.GetAll().ToList();
+            Markup defaultMarkup = markups.FirstOrDefault(x => x.IsDefault == true);
             return new ItemDetailBaseResponse
             {
-                Markups = _markupRepository.GetAll(),
+                Markups = markups,
                 PaperSizes = paperSizeRepository.GetAll(),
                 InkPlateSides = inkPlateSideRepository.GetAll(),
                 Inks = stockItemRepository.GetStockItemOfCategoryInk(),
@@ -793,7 +799,8 @@ namespace MPC.Implementation.MISServices
                 LengthUnit = organisation != null && organisation.LengthUnit != null ? organisation.LengthUnit.UnitName : string.Empty,
                 WeightUnit = organisation != null && organisation.WeightUnit != null ? organisation.WeightUnit.UnitName : string.Empty,
                 LoggedInUser = organisationRepository.LoggedInUserId,
-                Machines = MachineRepository.GetAll()
+                Machines = MachineRepository.GetAll(),
+                DefaultMarkUpId = defaultMarkup != null ? defaultMarkup.MarkUpId : 0
             };
 
         }
@@ -1151,14 +1158,14 @@ namespace MPC.Implementation.MISServices
 
 
 
-        public string DownloadOrderArtwork(int OrderID, string sZipName)
+        public string DownloadOrderArtwork(int OrderID, string sZipName, long WebStoreOrganisationId = 0)
         {
             //return orderRepository.GenerateOrderArtworkArchive(OrderID, sZipName);
-            return GenerateOrderArtworkArchive(OrderID, sZipName);
+            return GenerateOrderArtworkArchive(OrderID, sZipName, WebStoreOrganisationId);
             // return ExportPDF(105, 0, ReportType.Invoice, 814, string.Empty);
         }
 
-        public string GenerateOrderArtworkArchive(int OrderID, string sZipName)
+        public string GenerateOrderArtworkArchive(int OrderID, string sZipName, long WebStoreOrganisationId)
         {
 
             string ReturnRelativePath = string.Empty;
@@ -1172,7 +1179,13 @@ namespace MPC.Implementation.MISServices
             Organisation Organisation = organisationRepository.GetOrganizatiobByID();
             long OrganisationId = 0;
             if (Organisation != null)
+            {
                 OrganisationId = Organisation.OrganisationId;
+            }
+            else 
+            {
+                OrganisationId = WebStoreOrganisationId;
+            }
 
             string sCreateDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationId);
             bool ArtworkProductionReadyResult = false;
@@ -1236,7 +1249,7 @@ namespace MPC.Implementation.MISServices
                 if (MakeArtWorkProductionReady)
                 {
 
-                    ArtworkProductionReadyResult = MakeOrderArtworkProductionReady(oOrder);
+                    ArtworkProductionReadyResult = MakeOrderArtworkProductionReady(oOrder, WebStoreOrganisationId);
 
                 }
 
@@ -1295,7 +1308,7 @@ namespace MPC.Implementation.MISServices
                             //job card report
                             if (IncludeJobCardReport)
                             {
-                                string sJCReportPath = exportReportHelper.ExportPDF(165, item.ItemId, ReportType.JobCard, OrderID, string.Empty);
+                                string sJCReportPath = exportReportHelper.ExportPDF(165, item.ItemId, ReportType.JobCard, OrderID, string.Empty, WebStoreOrganisationId);
                                 if (System.IO.File.Exists(sJCReportPath))
                                 {
                                     ZipEntry jcr = zip.AddFile(sJCReportPath, ZipfolderName);
@@ -1310,7 +1323,7 @@ namespace MPC.Implementation.MISServices
                         //order report
                         if (IncludeOrderReport)
                         {
-                            string sOrderReportPath = exportReportHelper.ExportPDF(103, Convert.ToInt64(OrderID), ReportType.Order, OrderID, string.Empty);
+                            string sOrderReportPath = exportReportHelper.ExportPDF(103, Convert.ToInt64(OrderID), ReportType.Order, OrderID, string.Empty, WebStoreOrganisationId);
                             if (System.IO.File.Exists(sOrderReportPath))
                             {
                                 ZipEntry r = zip.AddFile(sOrderReportPath, "");
@@ -1320,7 +1333,7 @@ namespace MPC.Implementation.MISServices
                         // here xml comes
                         if (IncludeOrderXML)
                         {
-                            string sOrderXMLReportPath = exportReportHelper.ExportOrderReportXML(OrderID, "", "0");
+                            string sOrderXMLReportPath = exportReportHelper.ExportOrderReportXML(OrderID, "", "0", WebStoreOrganisationId);
                             if (System.IO.File.Exists(sOrderXMLReportPath))
                             {
                                 ZipEntry r = zip.AddFile(sOrderXMLReportPath, "");
@@ -1376,11 +1389,20 @@ namespace MPC.Implementation.MISServices
             return builder.ToString();
         }
 
-        public bool MakeOrderArtworkProductionReady(Estimate oOrder)
+        public bool MakeOrderArtworkProductionReady(Estimate oOrder, long WebStoreOrganisationId = 0)
         {
             try
             {
-                long sOrganisationId = organisationRepository.GetOrganizatiobByID().OrganisationId;
+                long sOrganisationId = 0;
+                if (WebStoreOrganisationId > 0)
+                {
+                    sOrganisationId = WebStoreOrganisationId;
+                }
+                else 
+                {
+                    sOrganisationId = organisationRepository.GetOrganizatiobByID().OrganisationId;
+                }
+               
                 string sOrderID = oOrder.EstimateId.ToString();
                 string sProductionFolderPath = "MPC_Content/Artworks/" + sOrganisationId + "/Production";
                 string sCustomerID = oOrder.CompanyId.ToString();

@@ -69,6 +69,7 @@
         public bool? hasInlineFontStyle { get; set; }
         public bool? autoCollapseText { get; set; }
         public bool? hasClippingPath { get; set; }
+        public bool? isBulletPoint { get; set; }
         public virtual Template Template { get; set; }
     }
 }

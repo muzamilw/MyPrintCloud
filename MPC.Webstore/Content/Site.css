@@ -47,7 +47,7 @@ html, body {
 
 .bodycolor {
     background-color: #ffffff !important;
-    background-image: url('_background.jpg') !important;
+    background-image: url('background.png') !important;
     background-repeat: no-repeat;
 }
 
@@ -416,8 +416,8 @@ ul.nav li.selectedLava a {
     /* display: block;
     float: right;
     padding-top: 5px;
-	min-width:400px;
-	padding-right: 0px;*/
+    min-width:400px;
+    padding-right: 0px;*/
 }
 
 .heading_h7 /* h7*/ {
@@ -1792,13 +1792,12 @@ ul.nav li.selectedLava a {
 
 .product_detail_image_heading_IRI {
     /* font-weight: bold; padding: 20px 10px 5px 10px;*/
-    font-size: 16px;
-    color: black;
-    padding-top: 15px;
+    font-size: 14px;
+    color: #E66053;
+    padding-top: 30px;
     padding-bottom: 15px;
     text-align: center;
     height: 15px;
-    display: none;
 }
 
 .product_detail_image_Pricing {
@@ -9287,7 +9286,7 @@ a.PinkRegBack:active {
 }
 
 #MainContent_lblCategoryMainHeading {
-    visibility: hidden;
+    visibility: visible;
 }
 
 #MainContent_lblProductName {
@@ -12675,6 +12674,23 @@ ul.LogBar li a {
 }
 
 @media (min-width:320px) { /* smartphones, iPhone, portrait 480x320 phones */
+    .cnttotalPayablesAS {
+        float: none;
+        width: 100%;
+    }
+
+    .cntsubHeadingsAS {
+        width: 40% !important;
+        float: left;
+    }
+
+    .cnttotalsAS {
+        width: 55%;
+        float: right;
+        text-align: right;
+        line-height: 1.5;
+    }
+
     .upload-panel-margin {
         margin-left: 0px;
     }
@@ -14041,7 +14057,7 @@ ul.LogBar li a {
         margin-bottom: 50px;
         padding: 20px;
         background-color: #d6d6d6 !important;
-        min-height: 315px;
+        min-height: 180px;
     }
 
     .cntParentCategDesc {
@@ -14267,7 +14283,7 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
-        min-height: 470px;
+        min-height: 350px;
     }
 
     .FI_TL {
@@ -14578,6 +14594,23 @@ ul.LogBar li a {
 }
 
 @media (min-width:481px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+    .cnttotalPayablesAS {
+        float: right;
+        width: 45%;
+    }
+
+    .cntsubHeadingsAS {
+        width: 60% !important;
+        float: left;
+    }
+
+    .cnttotalsAS {
+        width: 30%;
+        float: right;
+        text-align: right;
+        line-height: 1.5;
+    }
+
     .upload-panel-margin {
         margin-left: 0px;
     }
@@ -15562,7 +15595,7 @@ ul.LogBar li a {
         -webkit-border-radius: 10px !important;
         -khtml-border-radius: 10px !important;
         border-radius: 10px !important;
-        min-height: 315px;
+        min-height: 180px;
     }
 
     .CAT_ThumbnailPath {
@@ -15744,7 +15777,7 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
-        min-height: 470px;
+        min-height: 350px;
     }
 
     .FI_TL {
@@ -15973,6 +16006,23 @@ ul.LogBar li a {
 }
 
 @media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+    .cnttotalPayablesAS {
+        float: right;
+        width: 32%;
+    }
+
+    .cntsubHeadingsAS {
+        width: 33% !important;
+        float: left;
+    }
+
+    .cnttotalsAS {
+        width: 30%;
+        float: right;
+        text-align: right;
+        line-height: 1.5;
+    }
+
     .upload-panel-margin {
         margin-left: 0px;
     }
@@ -17279,7 +17329,7 @@ ul.LogBar li a {
         -webkit-border-radius: 10px !important;
         -khtml-border-radius: 10px !important;
         border-radius: 10px !important;
-        min-height: 315px;
+        min-height: 180px;
     }
 
     .CAT_ThumbnailPath {
@@ -17450,7 +17500,7 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
-        min-height: 470px;
+        min-height: 350px;
     }
 
     .FI_TL {
@@ -17658,6 +17708,25 @@ ul.LogBar li a {
 
 
 @media (min-width:992px) {
+    .cntsubHeadingsAS {
+        margin-left: 0px;
+        width: 40% !important;
+        float: left;
+    }
+
+    .cnttotalPayablesAS {
+        float: right;
+        width: 19%;
+    }
+
+    .cnttotalsAS {
+        width: 30%;
+        float: right;
+        text-align: right;
+        line-height: 1.5;
+        margin-right: 1px;
+    }
+
     .upload-panel-margin {
         margin-left: 10px;
     }
@@ -17921,7 +17990,7 @@ ul.LogBar li a {
     }
 
     .BreadCrumbMenu h1 {
-        font-size: 25px !important;
+        font-size: 13px !important;
         color: #E83e48;
     }
 
@@ -19240,7 +19309,7 @@ ul.LogBar li a {
         padding: 20px;
         border-radius: 5px;
         background-color: #d6d6d6 !important;
-        height: 440px;
+        height: 525px;
     }
 
     .CAT_Body {
@@ -19254,7 +19323,7 @@ ul.LogBar li a {
         padding: 20px;
         border-radius: 10px !important;
         background-color: #d6d6d6 !important;
-        min-height: 315px;
+        min-height: 260px;
     }
 
     .CAT_ThumbnailPath {
@@ -19439,7 +19508,7 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
-        min-height: 470px;
+        min-height: 350px;
     }
 
 
@@ -19614,6 +19683,25 @@ ul.LogBar li a {
 }
 
 @media (min-width:1025px) {
+    .cntsubHeadingsAS {
+        margin-left: 0px;
+        width: 40% !important;
+        float: left;
+    }
+
+    .cnttotalPayablesAS {
+        float: right;
+        width: 19%;
+    }
+
+    .cnttotalsAS {
+        width: 30%;
+        float: right;
+        text-align: right;
+        line-height: 1.5;
+        margin-right: 1px;
+    }
+
     .upload-panel-margin {
         margin-left: 10px;
     }
@@ -21196,7 +21284,7 @@ ul.LogBar li a {
         padding: 20px;
         border-radius: 5px;
         background-color: #d6d6d6 !important;
-        height: 440px;
+        height: 525px;
     }
 
     .CAT_Body {
@@ -21210,7 +21298,7 @@ ul.LogBar li a {
         padding: 20px;
         border-radius: 10px !important;
         background-color: #d6d6d6 !important;
-        min-height: 315px;
+        min-height: 260px;
     }
 
     .CAT_ThumbnailPath {
@@ -21395,7 +21483,7 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
-        min-height: 470px;
+        min-height: 350px;
     }
 
 
@@ -24004,8 +24092,8 @@ gridfontStyle {
 
 #designFormateimg {
     width: 100%;
-  margin-bottom: 10px;
-  height: 200px;
+    margin-bottom: 10px;
+    height: 200px;
 }
 
 .btn_upload_design_Prod_details:hover {
