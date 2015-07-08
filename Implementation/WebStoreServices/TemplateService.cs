@@ -32,6 +32,7 @@ namespace MPC.Implementation.WebStoreServices
 
         public string characterIndex { get; set; }
         public string textCMYK { get; set; }
+        public string spotColorName { get; set; }
     }
     class TemplateService : ITemplateService
     {
@@ -437,7 +438,16 @@ namespace MPC.Implementation.WebStoreServices
                                         // int csInlineID = oPdf.AddColorSpaceSpot("InlineStyle" + i.ToString(), objStyle.textCMYK);
                                         //oPdf.Color.Gray = 255;
                                         // fontTag += " color='#FF' csid=" + csInlineID;
-                                        fontTag += " color='" + hex + "' ";
+                                        if(isTemplateSpot)
+                                        {
+                                            int csInlineID = oPdf.AddColorSpaceSpot(objStyle.spotColorName, objStyle.textCMYK);
+                                            oPdf.Color.Gray = 255;
+                                            fontTag += " color='#FF' csid=" + csInlineID;
+                                        }else
+                                        {
+                                            fontTag += " color='" + hex + "' ";
+                                        }
+                                       
                                     }
                                     else
                                     {
@@ -1691,7 +1701,10 @@ namespace MPC.Implementation.WebStoreServices
                                 YFactor = objObjects.PositionY.Value - 7;
                             else
                                 YFactor = 0;
-                            XFactor = objObjects.PositionX.Value;
+                            if (objObjects.PositionX.HasValue)
+                                XFactor = objObjects.PositionX.Value;
+                            else
+                                XFactor = 0;
                         }
 
 
@@ -2886,7 +2899,8 @@ namespace MPC.Implementation.WebStoreServices
                         {
                             if(oObject.PositionX.HasValue)
                                 oObject.PositionX = Math.Round(DesignerUtils.PixelToPoint(oObject.PositionX.Value), 6);
-                            oObject.PositionY = Math.Round(DesignerUtils.PixelToPoint(oObject.PositionY.Value), 6);
+                            if(oObject.PositionY.HasValue)
+                                oObject.PositionY = Math.Round(DesignerUtils.PixelToPoint(oObject.PositionY.Value), 6);
                             if(oObject.FontSize.HasValue)
                               oObject.FontSize = Math.Round(DesignerUtils.PixelToPoint(oObject.FontSize.Value), 6);
                             if(oObject.MaxWidth.HasValue)
