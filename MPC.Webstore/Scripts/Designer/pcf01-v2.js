@@ -211,6 +211,12 @@ function c0(cCanvas, TOC) {
                 value = IT.textCMYK;
                 style[styleName] = value;
             }
+            if (IT.spotColorName) {
+                styleName = 'spotColorName';
+                value = IT.spotColorName;
+                style[styleName] = value;
+            }
+
             if (IT.fontName) {
                 styleName = 'font-family';
                 value = IT.fontName;
@@ -338,6 +344,7 @@ function c2_01(OPT) {
                     if (objStyle != undefined) {
                         var obj = {
                             textCMYK: objStyle['textCMYK'],
+                            spotColorName: objStyle['spotColorName'],
                             textColor: objStyle['color'],
                             fontName: objStyle['font-family'],
                             fontSize: objStyle['font-Size'],
