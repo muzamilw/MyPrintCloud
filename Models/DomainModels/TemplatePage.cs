@@ -36,6 +36,24 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public bool? IsNewlyAdded { get; set; }
 
+        /// <summary>
+        /// If width gets changed in case of custom
+        /// </summary>
+        [NotMapped]
+        public double? OldWidth { get; set; }
+
+        /// <summary>
+        /// If height gets changed in case of custom
+        /// </summary>
+        [NotMapped]
+        public double? OldHeight { get; set; }
+
+        /// <summary>
+        /// If page no changed in case of custom
+        /// </summary>
+        [NotMapped]
+        public int? OldPageNo { get; set; }
+
         #endregion
     }
 }

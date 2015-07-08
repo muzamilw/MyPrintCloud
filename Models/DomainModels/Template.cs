@@ -115,6 +115,12 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public byte[] FileOriginalBytes { get; set; }
 
+        /// <summary>
+        /// True if page has been deleted
+        /// </summary>
+        [NotMapped]
+        public bool? HasDeletedTemplatePages { get; set; }
+
         #endregion
 
     }
