@@ -3551,14 +3551,15 @@ define("stores/stores.viewModel",
             //Select Product Category
             selectProductCategory = function (category, event) {
                 var categoryId = ko.isObservable(category.productCategoryId) ?
-                    category.productCategoryId() : category.productCategoryId;
+                    category.productCategoryId() : $(event.target).closest('li')[0].id;
+                //var categoryId = $(event.target).closest('li')[0].id;
                 if (selectedProductCategory() != category) {
                     selectedProductCategory(category);
                     // Notify the event subscribers
                     view.productCategorySelectedEvent(categoryId);
                 }
                 // Expand tree and get childs 
-                event.category = category;
+                //event.category = category;
                 view.expandCategory(event, categoryId, true);
             },
             //Select Child Product Category
@@ -3700,6 +3701,7 @@ define("stores/stores.viewModel",
             },
             //On Edit Child Product Category    
             onEditChildProductCategory = function (dataRecieved, event) {
+                event.stopImmediatePropagation();
                 var id = $(event.target).closest('li')[0].id;
                 var result = _.find(newProductCategories(), function (productCategory) {
                     return productCategory.productCategoryId() == parseInt(id);
@@ -3934,11 +3936,18 @@ define("stores/stores.viewModel",
                         });
                         resetCategoryTree();
                     }
-                    //$("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
-                    $("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"  style="position: initial;"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-chevron-circle-right "></i></div><div class="dd-handle col-sm-12"><span class="col-sm-10 cursorShape">' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link cursorShape" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
+                    resetCategoryTree();
+                    
+                    if ($("#" + selectedProductCategoryForEditting().parentCategoryId()).children('ol').length > 0) {
+                        $("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"  style="position: initial;"> <li class="dd-item dd-item-list" data-bind="click: $root.selectChildProductCategory, css: { selectedRow: $data === $root.selectChildProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-chevron-circle-right "></i></div><div class="dd-handle col-sm-12"><span class="col-sm-10 cursorShape">' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link cursorShape" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
+                        ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
+                    }
+                    $("#" + selectedProductCategoryForEditting().parentCategoryId())[0].click();
+                    //$("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"  style="position: initial;"> <li class="dd-item dd-item-list" data-bind="click: $root.selectChildProductCategory, css: { selectedRow: $data === $root.selectChildProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-chevron-circle-right "></i></div><div class="dd-handle col-sm-12"><span class="col-sm-10 cursorShape">' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link cursorShape" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
                     //if (!flagAlreadyExist) {
-                    ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
+                    //ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
                     //}
+                    
                     toastr.success("Category Updated Successfully");
                 }
                 //#endregion

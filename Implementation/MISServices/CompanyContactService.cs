@@ -185,13 +185,10 @@ namespace MPC.Implementation.MISServices
                 {
                     companyContact.Password = HashingManager.ComputeHashSHA1(companyContact.Password);
                     contact = Create(companyContact);
-                    //contactToReturn = companyContactRepository.GetContactByContactId(contact.ContactId);
-                    //companyContactRepository.LoadProperty(contactToReturn, () => contactToReturn.Company);
                     return contact;
                 }
                 contact = Update(companyContact);
                 contactToReturn = companyContactRepository.GetContactByContactId(contact.ContactId);
-                //companyContactRepository.LoadProperty(contactToReturn, () => contactToReturn.Company);
                 return contactToReturn;
             }
             throw new MPCException("Duplicate Email/Username are not allowed", companyContactRepository.OrganisationId);
