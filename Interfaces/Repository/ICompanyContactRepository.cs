@@ -132,5 +132,6 @@ namespace MPC.Interfaces.Repository
 
         CompanyContact GetContactByContactId(long ContactId);
         List<CompanyContact> GetCompanyAdminByCompanyId(long CompanyId);
+        CompanyContact GetCorporateContactByEmail(string Email, long OID, long StoreId);
     }
 }

@@ -1508,6 +1508,25 @@ namespace MPC.Repository.Repositories
                                select c).ToList();
             return listOfApprovers.ToList<CompanyContact>();
         }
+        public CompanyContact GetCorporateContactByEmail(string Email, long OID, long StoreId)
+        {
+            try
+            {
+                var qry = from contacts in db.CompanyContacts
+                          join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
+                          where string.Compare(contacts.Email, Email, true) == 0 && contacts.OrganisationId == OID
+                          && contactCompany.CompanyId == StoreId && contactCompany.IsCustomer == (int)CustomerTypes.Corporate
+                          select contacts;
+
+                return qry.ToList().FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+        }
     }
 
 }
