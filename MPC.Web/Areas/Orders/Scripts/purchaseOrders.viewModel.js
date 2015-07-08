@@ -302,9 +302,9 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                         setDefaultContactForCompany();
                                     }
                                     if (purchaseOrderTypeFilter() === 1) {
-                                        selectedPurchaseOrder().reset();
+                                        //selectedPurchaseOrder().reset();
                                     } else {
-                                        selectedGRN().reset();
+                                       // selectedGRN().reset();
                                     }
 
                                 }
@@ -556,6 +556,8 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                             selectedPurchaseOrderForListView().purchaseOrderDate(data.DatePurchase !== null ? moment(data.DatePurchase).toDate() : undefined);
                                             selectedPurchaseOrderForListView().flagColor(data.FlagColor);
                                             selectedPurchaseOrderForListView().refNo(data.RefNo);
+                                            selectedPurchaseOrderForListView().refNo(data.RefNo);
+                                            selectedPurchaseOrderForListView().status(data.Status);
 
                                             if (currentTab() !== 0 && currentTab() !== data.Status) {
                                                 purchaseOrders.remove(selectedPurchaseOrderForListView());

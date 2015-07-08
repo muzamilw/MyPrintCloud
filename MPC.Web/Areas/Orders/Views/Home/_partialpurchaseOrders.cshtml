@@ -205,7 +205,7 @@
                                 @*<label class="control-label text-right tooltip-float">Status</label>*@
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" style="height: 60px;" data-bind="value: status()===31 ? 'Open' :'Posted'" readonly class="form-control font24px" id="code" />
+                                <input type="text" style="height: 60px;" data-bind="value: statusName" readonly class="form-control font24px" id="code" />
                             </div>
                         </div>
 
@@ -216,10 +216,10 @@
                             <div class="col-sm-6">
                                 @*<select class="form-control" data-bind="enable:$root.selectedPurchaseOrder().status()===31,options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag',value:flagId,validationOptions:flagId, validationOnElement:flagId"></select>
                                 <span class="help-block text-right"></span>*@
-                                <select style="width: 258px !important;" id="flag" data-bind="enable:$root.selectedPurchaseOrder().status()===31,select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: flagId, foreach: $root.sectionFlags">
-                                    <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
+                                <select style="width: 100% !important;" id="flag" data-bind="enable:$root.selectedPurchaseOrder().status()===31,select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: flagId, foreach: $root.sectionFlags">
+                                    <option style="width: 100% !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
                                 </select>
-                                <i class="fa fa-sort-desc" style="float: right;padding-right: 15px;padding-top: 2px;position: relative;bottom: 25px;"></i>
+                                <i class="fa fa-sort-desc" style="float: right;padding-right: 9px;position: relative;bottom: 25px;"></i>
                             </div>
                         </div>
 
