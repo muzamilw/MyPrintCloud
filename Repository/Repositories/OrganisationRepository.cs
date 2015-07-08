@@ -1167,6 +1167,7 @@ namespace MPC.Repository.Repositories
                                 
                                  item.OrganisationId = OrganisationID;
                                  item.CompanyId = oCID;
+                                 item.FlagId = FlagID;
                                  if(comp != null)
                                  {
                                      if(comp.SmartForms != null && comp.SmartForms.Count > 0)
