@@ -916,5 +916,14 @@ namespace MPC.Models.DomainModels
 
         #endregion
 
+        #region Additional Properties
+
+        /// <summary>
+        /// If Template Type changes to blank
+        /// </summary>
+        [NotMapped]
+        public bool? HasTemplateChangedToCustom { get; set; }
+
+        #endregion
     }
 }

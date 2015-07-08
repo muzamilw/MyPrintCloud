@@ -270,7 +270,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         var self,
             id = ko.observable(specifiedInvoiceDetailId),
             // Invoice Title 
-            productName = ko.observable(specifiedInvoiceTitle),
+            productName = ko.observable(specifiedInvoiceTitle).extend({ required: true }),
             itemCharge = ko.observable(specifiedItemCharge).extend({ required: true, numberInput: ist.numberFormat }),
             // Quantity
             qty1 = ko.observable(specifiedQuantity).extend({
@@ -285,13 +285,14 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             description = ko.observable(specifiedDescription),
            // itemGrossTotal = ko.observable(specifiedItemGrossTotal),
             // For List View
-            qty1GrossTotal = ko.observable(specifiedItemGrossTotal).extend({ numberInput: ist.numberFormat }),
+            qty1GrossTotal = ko.observable(specifiedItemGrossTotal || 0).extend({ numberInput: ist.numberFormat }),
 
         // Errors
     errors = ko.validation.group({
         itemCharge: itemCharge,
         qty1: qty1,
-        tax: tax
+        tax: tax,
+        productName: productName
     }),
         // Is Valid 
     isValid = ko.computed(function () {

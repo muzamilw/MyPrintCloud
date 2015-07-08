@@ -282,26 +282,41 @@ define("stores/stores.view",
                 closeThemeList = function() {
                     $("#ops_theme_dropdown #ops_theme_list ul").hide();
                 },
-                // Sub Category Selected Event Handler
-                subCategorySelectedEventHandler = function (event) {
-                    if (event.category && event.category.productCategoryId) {
+                // Expand Category to get childs
+                expandCategory = function (categoryTreeNode, productCategoryId, isCategorySelectedFromViewModel) {
+                    if (isCategorySelectedFromViewModel) {
                         // Get the Sub Category Tree Node Element
-                        var categoryTreeNode = $("#" + event.category.productCategoryId);
+                        categoryTreeNode = $("#" + productCategoryId);
                         if (!categoryTreeNode) {
                             return;
                         }
-                        var categoryTreeNodeExpander = categoryTreeNode.find("i.fa-chevron-circle-right");
+                    }
+                    var categoryNodeExpandOptions = categoryTreeNode.children(".dd-handle-list");
+                    var categoryTreeNodeExpander = categoryNodeExpandOptions.children("i.fa-chevron-circle-right");
+                    if (categoryTreeNodeExpander && categoryTreeNodeExpander[0]) {
+                        // Get Child Categories
+                        categoryTreeNodeExpander[0].click();
+                    }
+                    else {
+                        categoryTreeNodeExpander = categoryNodeExpandOptions.children("i.fa-chevron-circle-down");
                         if (categoryTreeNodeExpander && categoryTreeNodeExpander[0]) {
                             // Get Child Categories
                             categoryTreeNodeExpander[0].click();
                         }
-                        else {
-                            categoryTreeNodeExpander = categoryTreeNode.find("i.fa-chevron-circle-down");
-                            if (categoryTreeNodeExpander && categoryTreeNodeExpander[0]) {
-                                // Get Child Categories
-                                categoryTreeNodeExpander[0].click();
-                            }
+                    }
+                },
+                // Sub Category Selected Event Handler
+                subCategorySelectedEventHandler = function (event) {
+                    if (event.category && event.category.productCategoryId) {
+                        var productCategoryId = ko.isObservable(event.category.productCategoryId) ?
+                            event.category.productCategoryId() : event.category.productCategoryId;
+                        // Get the Sub Category Tree Node Element
+                        var categoryTreeNode = $("#" + productCategoryId);
+                        if (!categoryTreeNode) {
+                            return;
                         }
+                        // Expand Category and get childs
+                        expandCategory(categoryTreeNode);
                         // Get Products of Category
                         categoryTreeNode.click();
                     }
@@ -309,8 +324,10 @@ define("stores/stores.view",
                 // Sub Category Edit Event Handler
                 subCategoryEditEventHandler = function (event) {
                     if (event.category && event.category.productCategoryId) {
+                        var productCategoryId = ko.isObservable(event.category.productCategoryId) ?
+                            event.category.productCategoryId() : event.category.productCategoryId;
                         // Get the Sub Category Tree Node Element
-                        var categoryTreeNode = $("#" + event.category.productCategoryId);
+                        var categoryTreeNode = $("#" + productCategoryId);
                         if (!categoryTreeNode) {
                             return;
                         }
@@ -377,7 +394,9 @@ define("stores/stores.view",
                 wireupThemeListClick: wireupThemeListClick,
                 closeThemeList: closeThemeList,
                 showMediaLibImageDialog: showMediaLibImageDialog,
-                hideMediaLibImageDialog: hideMediaLibImageDialog
+                hideMediaLibImageDialog: hideMediaLibImageDialog,
+                subCategorySelectedEventHandler: subCategorySelectedEventHandler,
+                expandCategory: expandCategory
             };
         })(storesViewModel);
 

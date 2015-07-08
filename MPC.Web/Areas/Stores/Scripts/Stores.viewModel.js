@@ -2036,6 +2036,7 @@ define("stores/stores.viewModel",
                                 selectedCompanyContact().shippingAddressId(item.addressId());
                                 selectedShippingAddress().stateName(item.stateName());
                                 selectedShippingAddress().stateCode(item.stateCode());
+                                //Update Selected Store Company Contact
                                 if (!contactHasChanges) {
                                     selectedCompanyContact().reset();
                                 }
@@ -3048,6 +3049,7 @@ define("stores/stores.viewModel",
                 selectedCompanyContactEmail(undefined);
                 isSavingNewCompanyContact(true);
                 selectedCompanyContact(user);
+                selectedCompanyContact().contactRoleId(3);
                 selectedCompanyContact().isWebAccess(true);
                 selectedCompanyContact().isPlaceOrder(true);
                 selectedCompanyContact().contactId(newSavingCompanyContactIdCount);
@@ -3548,13 +3550,16 @@ define("stores/stores.viewModel",
             newProductCategories = ko.observableArray([]),
             //Select Product Category
             selectProductCategory = function (category, event) {
+                var categoryId = ko.isObservable(category.productCategoryId) ?
+                    category.productCategoryId() : category.productCategoryId;
                 if (selectedProductCategory() != category) {
                     selectedProductCategory(category);
-                    //selectedCategoryName(event.target.innerText);
                     // Notify the event subscribers
-                    view.productCategorySelectedEvent(ko.isObservable(category.productCategoryId) ?
-                        category.productCategoryId() : category.productCategoryId);
+                    view.productCategorySelectedEvent(categoryId);
                 }
+                // Expand tree and get childs 
+                event.category = category;
+                view.expandCategory(event, categoryId, true);
             },
             //Select Child Product Category
             selectChildProductCategory = function (categoryId, event) {
@@ -3563,6 +3568,8 @@ define("stores/stores.viewModel",
                 var id = $(event.target).closest('li')[0].id;
                 selectedCategoryName(event.target.innerText);
                 if (id) {
+                    // Expand tree and get childs 
+                    view.expandCategory(event, parseInt(id), true);
                     // Notify the event subscribers
                     view.productCategorySelectedEvent(id);
                 }
@@ -3595,6 +3602,7 @@ define("stores/stores.viewModel",
                     }
                     // Notify the Event Subscribers
                     view.subCategoriesLoadedEvent(getChildCategories(id));
+                    event.stopImmediatePropagation();
                     return;
                 }
                 dataservice.getProductCategoryChilds({
@@ -3625,6 +3633,7 @@ define("stores/stores.viewModel",
                         toastr.error("Error: Failed To load Categories " + response, "", ist.toastrOptions);
                     }
                 });
+                event.stopImmediatePropagation();
             },
             //Open Product Category Detail
             // ReSharper disable UnusedParameter
@@ -3748,7 +3757,7 @@ define("stores/stores.viewModel",
                             if (data != null) {
                                 selectedProductCategoryForEditting(model.ProductCategory.Create(data));
                                 updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
-                                productCategoryStatus("Modify Category Details");
+                                productCategoryStatus("Add/Edit Category");
                                 isSavingNewProductCategory(false);
                                 //Update Product category Territories
                                 UpdateProductCategoryTerritories(data.CategoryTerritories);
@@ -5937,7 +5946,7 @@ define("stores/stores.viewModel",
                 fieldvariableOfSmartForm.defaultValue(fieldVariable.variableType() === 1 ? fieldVariable.defaultValue() : fieldVariable.defaultValueForInput());
                 fieldvariableOfSmartForm.title(fieldVariable.variableTitle());
             },
-            //Add to Smart Form Variable List
+            //Add to Smart Form Variable List (R)
             addToSmartFormVariableList = function (fieldVariable) {
                 //Field Variable For Smart Form
                 var fieldVariableForSmartForm = model.FieldVariableForSmartForm();
@@ -5993,7 +6002,7 @@ define("stores/stores.viewModel",
 
             },
 
-            //Update Field variable
+            //Update Field variable (R)
             updateFieldVariable = function () {
                 var updatedFieldVariable = _.find(fieldVariables(), function (field) {
                     return field.id() === selectedFieldVariable().id();

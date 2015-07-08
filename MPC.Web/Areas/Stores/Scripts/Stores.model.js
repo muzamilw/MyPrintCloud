@@ -3021,7 +3021,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.canPlaceDirectOrder,
             source.organisationId,
             source.secondaryEmail,
-            source.BussinessAddressId,
+            source.addressId,
             source.FileName
 
         );

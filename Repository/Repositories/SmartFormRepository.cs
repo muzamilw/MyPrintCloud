@@ -238,14 +238,28 @@ namespace MPC.Repository.Repositories
             return res;
         }
 
-        public List<SmartFormDetail> GetSmartFormObjects(long smartFormId)
+        public List<SmartFormDetail> GetSmartFormObjects(long smartFormId,out List<VariableOption> listVariables)
         {
+            List<VariableOption> listOptions = new List<VariableOption>();
             db.Configuration.LazyLoadingEnabled = false;
             db.Configuration.ProxyCreationEnabled = false;
 
             List<SmartFormDetail> objs = db.SmartFormDetails.Include("FieldVariable.VariableOptions").Where(g => g.SmartFormId == smartFormId).OrderBy(g => g.SortOrder).ToList();
-            foreach (var obj in objs) { obj.SmartForm = null; };
-            
+            foreach (var obj in objs) { 
+                obj.SmartForm = null;
+                if (obj.FieldVariable != null)
+                {
+                    if (obj.FieldVariable.VariableOptions != null)
+                    {
+                        listOptions.AddRange(obj.FieldVariable.VariableOptions);
+                    }
+                }
+            };
+            foreach(var option in listOptions)
+            {
+                option.FieldVariable = null;
+            }
+            listVariables = listOptions;
             return objs;
         }
 
