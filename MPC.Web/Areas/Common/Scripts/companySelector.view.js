@@ -18,7 +18,7 @@ define("common/companySelector.view",
                 focusFilter = function() {
                     setTimeout(function () {
                         $("#companySelectorDialog input").first().focus();
-                    }, 500);
+                    }, 2500);
                 },
                 // Hide companySelector the dialog
                 hideDialog = function () {
