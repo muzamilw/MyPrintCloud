@@ -3516,11 +3516,11 @@ Public  - allows users to see other users addresses and orders." data-original-t
     </script>
     <script id="itemProductCategoriesTemplate" type="text/html">
         <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}, attr: {id: productCategoryId}">
-            <div class="dd-handle-list cursorShape" style="height:32px !important;margin-top:5px;">
+            <div class="dd-handle-list cursorShape" style="height:32px !important;margin-top:5px;" >
                 <i class="fa fa-chevron-circle-right" data-bind="click: $root.getCategoryChildListItems"></i>
             </div>
             <div class="dd-handle col-sm-12">
-                <span data-bind="text: categoryName" class="col-sm-10 cursorShape"></span>
+                <span data-bind="text: categoryName,click: $root.getCategoryChildListItemsOnNameClick" class="col-sm-10 cursorShape"></span>
                 <div class="nested-links">
                     <a data-bind="click: $root.onEditProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil cursorShape"></i></a>
                 </div>
