@@ -20,5 +20,7 @@ namespace MPC.Interfaces.MISServices
 
         void CostCentreDLL(CostCentre costcenter, long organisationId);
 
+        bool ReCompileAllCostCentres(long OrganisationId);
+
     }
 }
