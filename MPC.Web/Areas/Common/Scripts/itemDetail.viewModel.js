@@ -144,6 +144,24 @@ define("common/itemDetail.viewModel",
                     // Default Section - From the Item Added from Retail Store
                     defaultSection = ko.observable(),
                     //#region Utility Functions
+                    // Update Section Cost Center Qty3 Net total on Qty3 Markup change
+                    updateSectionCostCenterQty3NetTotalOnQty3MarkupChange = function (markupValue) {
+                        selectedSectionCostCenter().qty3MarkUpValue(markupValue);
+                        var total = parseFloat(selectedSectionCostCenter().qty3Charge()) + (selectedSectionCostCenter().qty3Charge() * (markupValue / 100));
+                        selectedSectionCostCenter().qty3NetTotal(total);
+                    },
+                    // Update Section Cost Center Qty2 Net total on Qty2 Markup change
+                    updateSectionCostCenterQty2NetTotalOnQty2MarkupChange = function (markupValue) {
+                        selectedSectionCostCenter().qty2MarkUpValue(markupValue);
+                        var total = parseFloat(selectedSectionCostCenter().qty2Charge()) + (selectedSectionCostCenter().qty2Charge() * (markupValue / 100));
+                        selectedSectionCostCenter().qty2NetTotal(total);
+                    },
+                    // Update Section Cost Center Qty1 Net total on Qty1 Markup change
+                    updateSectionCostCenterQty1NetTotalOnQty1MarkupChange = function (markupValue) {
+                        selectedSectionCostCenter().qty1MarkUpValue(markupValue);
+                        var total = parseFloat(selectedSectionCostCenter().qty1Charge()) + (selectedSectionCostCenter().qty1Charge() * (markupValue / 100));
+                        selectedSectionCostCenter().qty1NetTotal(total);
+                    },
                     sectionCostCenterQty1Charge = ko.computed({
                         read: function () {
                             if (!selectedSectionCostCenter()) {
@@ -152,40 +170,23 @@ define("common/itemDetail.viewModel",
                             return selectedSectionCostCenter().qty1Charge() || 0;
                         },
                         write: function (value) {
-                            if (!value || value === selectedSectionCostCenter().qty1Charge()) {
+                            if (!selectedSectionCostCenter() || value === selectedSectionCostCenter().qty1Charge()) {
                                 return;
                             }
-                            selectedSectionCostCenter().qty1Charge(value);
+                            selectedSectionCostCenter().qty1Charge(value || 0);
                             var markupValue = 0;
                             if (selectedQty() == 1) {
-                                _.each(markups(), function (markup) {
-                                    if (markup.MarkUpId == selectedSectionCostCenter().qty1MarkUpId()) {
-                                        markupValue = markup.MarkUpRate;
-                                        selectedSectionCostCenter().qty1MarkUpValue(markupValue);
-                                        var total = parseFloat(selectedSectionCostCenter().qty1Charge()) + (selectedSectionCostCenter().qty1Charge() * (markupValue / 100));
-                                        selectedSectionCostCenter().qty1NetTotal(total);
-                                    }
-                                });
-                            }
-                            if (selectedQty() == 2) {
-                                _.each(markups(), function (markup) {
-                                    if (markup.MarkUpId == selectedSectionCostCenter().qty2MarkUpId()) {
-                                        markupValue = markup.MarkUpRate;
-                                        selectedSectionCostCenter().qty2MarkUpValue(markupValue);
-                                        var total = parseFloat(selectedSectionCostCenter().qty2Charge()) + (selectedSectionCostCenter().qty2Charge() * (markupValue / 100));
-                                        selectedSectionCostCenter().qty2NetTotal(total);
-                                    }
-                                });
-                            }
-                            if (selectedQty() == 3) {
-                                _.each(markups(), function (markup) {
-                                    if (markup.MarkUpId == selectedSectionCostCenter().qty3MarkUpId()) {
-                                        markupValue = markup.MarkUpRate;
-                                        selectedSectionCostCenter().qty3MarkUpValue(markupValue);
-                                        var total = parseFloat(selectedSectionCostCenter().qty3Charge()) + (selectedSectionCostCenter().qty3Charge() * (markupValue / 100));
-                                        selectedSectionCostCenter().qty3NetTotal(total);
-                                    }
-                                });
+                                if (!selectedSectionCostCenter().qty1MarkUpId()) {
+                                    updateSectionCostCenterQty1NetTotalOnQty1MarkupChange(markupValue);
+                                }
+                                else {
+                                    _.each(markups(), function (markup) {
+                                        if (markup.MarkUpId == selectedSectionCostCenter().qty1MarkUpId()) {
+                                            markupValue = markup.MarkUpRate || 0;
+                                            updateSectionCostCenterQty1NetTotalOnQty1MarkupChange(markupValue);
+                                        }
+                                    });
+                                }
                             }
                             calculateSectionBaseCharge1();
                         }
@@ -198,40 +199,23 @@ define("common/itemDetail.viewModel",
                             return selectedSectionCostCenter().qty2Charge() || 0;
                         },
                         write: function (value) {
-                            if (!value || value === selectedSectionCostCenter().qty2Charge()) {
+                            if (!selectedSectionCostCenter() || value === selectedSectionCostCenter().qty2Charge()) {
                                 return;
                             }
-                            selectedSectionCostCenter().qty2Charge(value);
+                            selectedSectionCostCenter().qty2Charge(value || 0);
                             var markupValue = 0;
-                            if (selectedQty() == 1) {
-                                _.each(markups(), function (markup) {
-                                    if (markup.MarkUpId == selectedSectionCostCenter().qty1MarkUpId()) {
-                                        markupValue = markup.MarkUpRate;
-                                        selectedSectionCostCenter().qty1MarkUpValue(markupValue);
-                                        var total = parseFloat(selectedSectionCostCenter().qty1Charge()) + (selectedSectionCostCenter().qty1Charge() * (markupValue / 100));
-                                        selectedSectionCostCenter().qty1NetTotal(total);
-                                    }
-                                });
-                            }
                             if (selectedQty() == 2) {
-                                _.each(markups(), function (markup) {
-                                    if (markup.MarkUpId == selectedSectionCostCenter().qty2MarkUpId()) {
-                                        markupValue = markup.MarkUpRate;
-                                        selectedSectionCostCenter().qty2MarkUpValue(markupValue);
-                                        var total = parseFloat(selectedSectionCostCenter().qty2Charge()) + (selectedSectionCostCenter().qty2Charge() * (markupValue / 100));
-                                        selectedSectionCostCenter().qty2NetTotal(total);
-                                    }
-                                });
-                            }
-                            if (selectedQty() == 3) {
-                                _.each(markups(), function (markup) {
-                                    if (markup.MarkUpId == selectedSectionCostCenter().qty3MarkUpId()) {
-                                        markupValue = markup.MarkUpRate;
-                                        selectedSectionCostCenter().qty3MarkUpValue(markupValue);
-                                        var total = parseFloat(selectedSectionCostCenter().qty3Charge()) + (selectedSectionCostCenter().qty3Charge() * (markupValue / 100));
-                                        selectedSectionCostCenter().qty3NetTotal(total);
-                                    }
-                                });
+                                if (!selectedSectionCostCenter().qty2MarkUpId()) {
+                                    updateSectionCostCenterQty2NetTotalOnQty2MarkupChange(markupValue);
+                                }
+                                else {
+                                    _.each(markups(), function (markup) {
+                                        if (markup.MarkUpId == selectedSectionCostCenter().qty2MarkUpId()) {
+                                            markupValue = markup.MarkUpRate || 0;
+                                            updateSectionCostCenterQty2NetTotalOnQty2MarkupChange(markupValue);
+                                        }
+                                    });
+                                }
                             }
                             calculateSectionBaseCharge2();
                         }
@@ -244,40 +228,24 @@ define("common/itemDetail.viewModel",
                             return selectedSectionCostCenter().qty3Charge() || 0;
                         },
                         write: function (value) {
-                            if (!value || value === selectedSectionCostCenter().qty3Charge()) {
+                            if (!selectedSectionCostCenter() || value === selectedSectionCostCenter().qty3Charge()) {
                                 return;
                             }
-                            selectedSectionCostCenter().qty3Charge(value);
+                            selectedSectionCostCenter().qty3Charge(value || 0);
                             var markupValue = 0;
-                            if (selectedQty() == 1) {
-                                _.each(markups(), function (markup) {
-                                    if (markup.MarkUpId == selectedSectionCostCenter().qty1MarkUpId()) {
-                                        markupValue = markup.MarkUpRate;
-                                        selectedSectionCostCenter().qty1MarkUpValue(markupValue);
-                                        var total = parseFloat(selectedSectionCostCenter().qty1Charge()) + (selectedSectionCostCenter().qty1Charge() * (markupValue / 100));
-                                        selectedSectionCostCenter().qty1NetTotal(total);
-                                    }
-                                });
-                            }
-                            if (selectedQty() == 2) {
-                                _.each(markups(), function (markup) {
-                                    if (markup.MarkUpId == selectedSectionCostCenter().qty2MarkUpId()) {
-                                        markupValue = markup.MarkUpRate;
-                                        selectedSectionCostCenter().qty2MarkUpValue(markupValue);
-                                        var total = parseFloat(selectedSectionCostCenter().qty2Charge()) + (selectedSectionCostCenter().qty2Charge() * (markupValue / 100));
-                                        selectedSectionCostCenter().qty2NetTotal(total);
-                                    }
-                                });
-                            }
                             if (selectedQty() == 3) {
-                                _.each(markups(), function (markup) {
-                                    if (markup.MarkUpId == selectedSectionCostCenter().qty3MarkUpId()) {
-                                        markupValue = markup.MarkUpRate;
-                                        selectedSectionCostCenter().qty3MarkUpValue(markupValue);
-                                        var total = parseFloat(selectedSectionCostCenter().qty3Charge()) + (selectedSectionCostCenter().qty3Charge() * (markupValue / 100));
-                                        selectedSectionCostCenter().qty3NetTotal(total);
-                                    }
-                                });
+                                if (!selectedSectionCostCenter().qty3MarkUpId()) {
+                                    updateSectionCostCenterQty3NetTotalOnQty3MarkupChange(markupValue);
+                                }
+                                else {
+                                    _.each(markups(), function (markup) {
+                                        if (markup.MarkUpId == selectedSectionCostCenter().qty3MarkUpId()) {
+                                            markupValue = markup.MarkUpRate || 0;
+                                            updateSectionCostCenterQty3NetTotalOnQty3MarkupChange(markupValue);
+                                        }
+                                    });
+                                }
+                                
                             }
                             calculateSectionBaseCharge3();
                         }
@@ -290,40 +258,25 @@ define("common/itemDetail.viewModel",
                             return selectedSectionCostCenter().qty3MarkUpId();
                         },
                         write: function (value) {
-                            if (!value || (selectedSectionCostCenter().qty3MarkUpId() !== undefined && value === selectedSectionCostCenter().qty3MarkUpId())) {
+                            if (!selectedSectionCostCenter() ||
+                                    (selectedSectionCostCenter().qty3MarkUpId() !== undefined && value === selectedSectionCostCenter().qty3MarkUpId())) {
                                 return;
                             }
                             selectedSectionCostCenter().qty3MarkUpId(value);
                             var markupValue = 0;
-                            if (selectedQty() == 1) {
-                                _.each(markups(), function (markup) {
-                                    if (markup.MarkUpId == selectedSectionCostCenter().qty1MarkUpId()) {
-                                        markupValue = markup.MarkUpRate;
-                                        selectedSectionCostCenter().qty1MarkUpValue(markupValue);
-                                        var total = parseFloat(selectedSectionCostCenter().qty1Charge()) + (selectedSectionCostCenter().qty1Charge() * (markupValue / 100));
-                                        selectedSectionCostCenter().qty1NetTotal(total);
-                                    }
-                                });
-                            }
-                            if (selectedQty() == 2) {
-                                _.each(markups(), function (markup) {
-                                    if (markup.MarkUpId == selectedSectionCostCenter().qty2MarkUpId()) {
-                                        markupValue = markup.MarkUpRate;
-                                        selectedSectionCostCenter().qty2MarkUpValue(markupValue);
-                                        var total = parseFloat(selectedSectionCostCenter().qty2Charge()) + (selectedSectionCostCenter().qty2Charge() * (markupValue / 100));
-                                        selectedSectionCostCenter().qty2NetTotal(total);
-                                    }
-                                });
-                            }
                             if (selectedQty() == 3) {
-                                _.each(markups(), function (markup) {
-                                    if (markup.MarkUpId == selectedSectionCostCenter().qty3MarkUpId()) {
-                                        markupValue = markup.MarkUpRate;
-                                        selectedSectionCostCenter().qty3MarkUpValue(markupValue);
-                                        var total = parseFloat(selectedSectionCostCenter().qty3Charge()) + (selectedSectionCostCenter().qty3Charge() * (markupValue / 100));
-                                        selectedSectionCostCenter().qty3NetTotal(total);
-                                    }
-                                });
+                                if (!selectedSectionCostCenter().qty3MarkUpId()) {
+                                    updateSectionCostCenterQty3NetTotalOnQty3MarkupChange(0);
+                                }
+                                else {
+                                    _.each(markups(), function (markup) {
+                                        if (markup.MarkUpId == selectedSectionCostCenter().qty3MarkUpId()) {
+                                            markupValue = markup.MarkUpRate;
+                                            updateSectionCostCenterQty3NetTotalOnQty3MarkupChange(markupValue);
+                                        }
+                                    });
+                                }
+                                
                             }
                             calculateSectionBaseCharge3();
                         }
@@ -336,40 +289,24 @@ define("common/itemDetail.viewModel",
                             return selectedSectionCostCenter().qty2MarkUpId();
                         },
                         write: function (value) {
-                            if (!value || (selectedSectionCostCenter().qty2MarkUpId() !== undefined && value === selectedSectionCostCenter().qty2MarkUpId())) {
+                            if (!selectedSectionCostCenter() ||
+                                    (selectedSectionCostCenter().qty2MarkUpId() !== undefined && value === selectedSectionCostCenter().qty2MarkUpId())) {
                                 return;
                             }
                             selectedSectionCostCenter().qty2MarkUpId(value);
                             var markupValue = 0;
-                            if (selectedQty() == 1) {
-                                _.each(markups(), function (markup) {
-                                    if (markup.MarkUpId == selectedSectionCostCenter().qty1MarkUpId()) {
-                                        markupValue = markup.MarkUpRate;
-                                        selectedSectionCostCenter().qty1MarkUpValue(markupValue);
-                                        var total = parseFloat(selectedSectionCostCenter().qty1Charge()) + (selectedSectionCostCenter().qty1Charge() * (markupValue / 100));
-                                        selectedSectionCostCenter().qty1NetTotal(total);
-                                    }
-                                });
-                            }
                             if (selectedQty() == 2) {
-                                _.each(markups(), function (markup) {
-                                    if (markup.MarkUpId == selectedSectionCostCenter().qty2MarkUpId()) {
-                                        markupValue = markup.MarkUpRate;
-                                        selectedSectionCostCenter().qty2MarkUpValue(markupValue);
-                                        var total = parseFloat(selectedSectionCostCenter().qty2Charge()) + (selectedSectionCostCenter().qty2Charge() * (markupValue / 100));
-                                        selectedSectionCostCenter().qty2NetTotal(total);
-                                    }
-                                });
-                            }
-                            if (selectedQty() == 3) {
-                                _.each(markups(), function (markup) {
-                                    if (markup.MarkUpId == selectedSectionCostCenter().qty3MarkUpId()) {
-                                        markupValue = markup.MarkUpRate;
-                                        selectedSectionCostCenter().qty3MarkUpValue(markupValue);
-                                        var total = parseFloat(selectedSectionCostCenter().qty3Charge()) + (selectedSectionCostCenter().qty3Charge() * (markupValue / 100));
-                                        selectedSectionCostCenter().qty3NetTotal(total);
-                                    }
-                                });
+                                if (!selectedSectionCostCenter().qty2MarkUpId()) {
+                                    updateSectionCostCenterQty2NetTotalOnQty2MarkupChange(0);
+                                }
+                                else {
+                                    _.each(markups(), function (markup) {
+                                        if (markup.MarkUpId == selectedSectionCostCenter().qty2MarkUpId()) {
+                                            markupValue = markup.MarkUpRate;
+                                            updateSectionCostCenterQty2NetTotalOnQty2MarkupChange(markupValue);
+                                        }
+                                    });
+                                }
                             }
                             calculateSectionBaseCharge2();
                         }
@@ -382,40 +319,24 @@ define("common/itemDetail.viewModel",
                             return selectedSectionCostCenter().qty1MarkUpId();
                         },
                         write: function (value) {
-                            if (!value || (selectedSectionCostCenter().qty1MarkUpId() !== undefined && value === selectedSectionCostCenter().qty1MarkUpId())) {
+                            if (!selectedSectionCostCenter() ||
+                                (selectedSectionCostCenter().qty1MarkUpId() !== undefined && value === selectedSectionCostCenter().qty1MarkUpId())) {
                                 return;
                             }
                             selectedSectionCostCenter().qty1MarkUpId(value);
-                            var markupValue = 0;
+                            var markupValue;
                             if (selectedQty() == 1) {
-                                _.each(markups(), function (markup) {
-                                    if (markup.MarkUpId == selectedSectionCostCenter().qty1MarkUpId()) {
-                                        markupValue = markup.MarkUpRate;
-                                        selectedSectionCostCenter().qty1MarkUpValue(markupValue);
-                                        var total = parseFloat(selectedSectionCostCenter().qty1Charge()) + (selectedSectionCostCenter().qty1Charge() * (markupValue / 100));
-                                        selectedSectionCostCenter().qty1NetTotal(total);
-                                    }
-                                });
-                            }
-                            if (selectedQty() == 2) {
-                                _.each(markups(), function (markup) {
-                                    if (markup.MarkUpId == selectedSectionCostCenter().qty2MarkUpId()) {
-                                        markupValue = markup.MarkUpRate;
-                                        selectedSectionCostCenter().qty2MarkUpValue(markupValue);
-                                        var total = parseFloat(selectedSectionCostCenter().qty2Charge()) + (selectedSectionCostCenter().qty2Charge() * (markupValue / 100));
-                                        selectedSectionCostCenter().qty2NetTotal(total);
-                                    }
-                                });
-                            }
-                            if (selectedQty() == 3) {
-                                _.each(markups(), function (markup) {
-                                    if (markup.MarkUpId == selectedSectionCostCenter().qty3MarkUpId()) {
-                                        markupValue = markup.MarkUpRate;
-                                        selectedSectionCostCenter().qty3MarkUpValue(markupValue);
-                                        var total = parseFloat(selectedSectionCostCenter().qty3Charge()) + (selectedSectionCostCenter().qty3Charge() * (markupValue / 100));
-                                        selectedSectionCostCenter().qty3NetTotal(total);
-                                    }
-                                });
+                                if (!selectedSectionCostCenter().qty1MarkUpId()) {
+                                    updateSectionCostCenterQty1NetTotalOnQty1MarkupChange(0);
+                                }
+                                else {
+                                    _.each(markups(), function (markup) {
+                                        if (markup.MarkUpId == selectedSectionCostCenter().qty1MarkUpId()) {
+                                            markupValue = markup.MarkUpRate || 0;
+                                            updateSectionCostCenterQty1NetTotalOnQty1MarkupChange(markupValue);
+                                        }
+                                    });
+                                }
                             }
                             calculateSectionBaseCharge1();
                         }
@@ -423,28 +344,21 @@ define("common/itemDetail.viewModel",
 
 
                     applySectionCostCenterMarkup = function () {
+                        var markupValue;
                         _.each(markups(), function (markup) {
 
                             if (markup.MarkUpId == selectedSectionCostCenter().qty1MarkUpId()) {
-                                markupValue = markup.MarkUpRate;
-                                selectedSectionCostCenter().qty1MarkUpValue(markupValue);
-                                var total3 = parseFloat(selectedSectionCostCenter().qty1Charge()) + (selectedSectionCostCenter().qty1Charge() * (markupValue / 100));
-                                selectedSectionCostCenter().qty1NetTotal(total3);
+                                markupValue = markup.MarkUpRate || 0;
+                                updateSectionCostCenterQty1NetTotalOnQty1MarkupChange(markupValue);
                             }
-
-
                             if (markup.MarkUpId == selectedSectionCostCenter().qty2MarkUpId()) {
-                                markupValue = markup.MarkUpRate;
-                                selectedSectionCostCenter().qty2MarkUpValue(markupValue);
-                                var total2 = parseFloat(selectedSectionCostCenter().qty2Charge()) + (selectedSectionCostCenter().qty2Charge() * (markupValue / 100));
-                                selectedSectionCostCenter().qty2NetTotal(total2);
+                                markupValue = markup.MarkUpRate || 0;
+                                updateSectionCostCenterQty2NetTotalOnQty2MarkupChange(markupValue);
                             }
 
                             if (markup.MarkUpId == selectedSectionCostCenter().qty3MarkUpId()) {
-                                markupValue = markup.MarkUpRate;
-                                selectedSectionCostCenter().qty3MarkUpValue(markupValue);
-                                var total = parseFloat(selectedSectionCostCenter().qty3Charge()) + (selectedSectionCostCenter().qty3Charge() * (markupValue / 100));
-                                selectedSectionCostCenter().qty3NetTotal(total);
+                                markupValue = markup.MarkUpRate || 0;
+                                updateSectionCostCenterQty3NetTotalOnQty3MarkupChange(markupValue);
                             }
 
                         });
