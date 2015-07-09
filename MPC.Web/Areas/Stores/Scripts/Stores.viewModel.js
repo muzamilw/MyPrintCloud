@@ -3592,28 +3592,14 @@ define("stores/stores.viewModel",
                 });
             },
 
-            //Change Icon new Methid for req change
-            //
-            changeIconOfCategory = function(classList) {
-                if (classList.contains("fa-chevron-circle-right")) {
-                    classList.remove("fa-chevron-circle-right");
-                    classList.add("fa-chevron-circle-down");
-                } else {
-                    classList.remove("fa-chevron-circle-down");
-                    classList.add("fa-chevron-circle-right");
-                }
-            },
             //Change request populate drop down on category name 
             getCategoryChildListItemsOnNameClick = function(dataRecieved, event) {
-                //getCategoryChildListItems(dataRecieved, $($(event.currentTarget).parent().parent().children()[0]).children()[0].click());
                 $($(event.currentTarget).parent().parent().children()[0]).children()[0].click();
             },
 
             //Get Category Child List Items
             getCategoryChildListItems = function (dataRecieved, event) {
                 changeIcon(event);
-                //changeIconOfCategory($($(event.currentTarget).parent().children()[0]).children()[0].classList);
-                //changeIconOfCategory($($($($(event.currentTarget).parent()).parent()).children()[0]).children()[0].classList);
                 var id = $(event.target).closest('li')[0].id;
                 if ($(event.target).closest('li').children('ol').length > 0) {
                     if ($(event.target).closest('li').children('ol').is(':hidden')) {
