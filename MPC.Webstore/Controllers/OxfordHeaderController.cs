@@ -30,7 +30,7 @@ namespace MPC.Webstore.Controllers
              ObjectCache cache = MemoryCache.Default;
          //   MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
              MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-             return PartialView("PartialViews/OxfordHeader"); 
+             return PartialView("PartialViews/OxfordHeader", StoreBaseResopnse.Company); 
         
         }
     }

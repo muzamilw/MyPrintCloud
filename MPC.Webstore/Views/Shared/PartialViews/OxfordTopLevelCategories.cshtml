@@ -6,6 +6,7 @@
     var lstParentCategories = ViewBag.lstParentCategories as List<MPC.Models.DomainModels.ProductCategory>;
     var AllRetailCAt = ViewBag.AllRetailCat as List<MPC.Models.DomainModels.ProductCategory>;
     string Addressline1 = ViewBag.addressline1InnerHtml;
+    string CatName = "ParentCat";
 }
 <div class="container body-container spacer-top ">
     <!--Main Content-->
@@ -29,7 +30,7 @@
                            { 
                                 <div id="parentCatsContainer"  class="panel panel-default">
                                     <div class="panel-heading">
-                                        <a id="ltrlParentCatName"  data-toggle="collapse" data-parent="#accordionmenu">
+                                        <a id="@CatName@count" data-toggle="collapse" data-parent="#accordionmenu" data-id="@count" onclick="sideBarClick(@count)">
                                             @AllRetailCa.CategoryName
                                         </a>
                                     </div>
@@ -187,7 +188,7 @@
     });
 
     function sideBarClick(dataid) {
-        $('.sideMenuItems').each(function () {
+        $('.sideMenuItems').each(function() {
 
             $(this).removeClass('in');
         });
@@ -197,5 +198,7 @@
         } else {
             $("#" + idOfCatPro + "").parent().next().addClass('in');
         }
+
     }
+
 </script>

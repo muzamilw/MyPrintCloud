@@ -134,7 +134,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.usp_JobCardReport(OrganisationId, OrderID, ItemID).ToList();
+                return db.usp_JobCardReport(OrganisationID, OrderID, ItemID).ToList();
 
             }
             catch (Exception ex)
@@ -147,7 +147,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.usp_OrderReport(OrganisationId, OrderID).ToList();
+                return db.usp_OrderReport(OrganisationID, OrderID).ToList();
                // return null;
             }
             catch (Exception ex)
@@ -160,7 +160,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.usp_EstimateReport(OrganisationId, EstimateID).ToList();
+                return db.usp_EstimateReport(OrganisationID, EstimateID).ToList();
                 
 
             }
@@ -174,7 +174,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-               return db.usp_InvoiceReport(OrganisationId, InvoiceID).ToList();
+                return db.usp_InvoiceReport(OrganisationID, InvoiceID).ToList();
                
 
             }
@@ -320,7 +320,7 @@ namespace MPC.Repository.Repositories
         {
             List<ReportNote> lstReportNotes = new List<ReportNote>();
 
-            string PathFull = "http://" + HttpContext.Current.Request.Url.Host + "/mis/";
+            string PathFull = "http://" + HttpContext.Current.Request.Url.Host + "/";
 
 
             ReportNote objReportNoteEstimate = new ReportNote();

@@ -529,7 +529,15 @@
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(d),
                 success: function (response) {
-
+                    HideLoader();
+                    console.log(response);
+                    window.open(response,'_blank');
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    //alert("Error while invoking the Web API");
+                 
+                    alert(thrownError);
+                    HideLoader();
                 }
             });
         }
