@@ -94,7 +94,6 @@
                         <input type="hidden" id="item7" name="item7" value=null />
                         <input type="hidden" id="item8" name="item8" value=null />
                         <input type="hidden" id="item9" name="item9" value=null />
-
                         <button id="open-wizard" class="btn btn-primary pull-right" data-bind="enable:$root.enableDownloadArtwork()">
                             Download Artwork for selected Items
                         </button>
@@ -104,7 +103,7 @@
             <div class="form-group pull-left">
                 <form data-bind="submit: $root.getItems">
                     <input type="text" class="form-control" placeholder="Search..." data-bind="value:$root.searchFilter">
-                    <i class="fa fa-search search-icon"></i>
+                    <i class="fa fa-search search-icon" data-bind="click: $root.getItems"></i>
                 </form>
             </div>
 
