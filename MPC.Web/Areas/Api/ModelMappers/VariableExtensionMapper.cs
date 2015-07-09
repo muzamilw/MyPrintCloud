@@ -21,6 +21,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CollapsePostfix = source.CollapsePostfix,
                 CollapsePrefix = source.CollapsePrefix,
                 CompanyId = source.CompanyId,
+                OrganisationId = source.OrganisationId,
                 VariablePostfix = source.VariablePostfix,
                 VariablePrefix = source.VariablePrefix,
             };
