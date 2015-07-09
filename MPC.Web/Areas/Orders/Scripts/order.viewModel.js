@@ -1674,11 +1674,6 @@ define("order/order.viewModel",
                          }
                      },
 
-                    //},
-                    //addItemFromRetailStore = function (newItem) {
-                    //    selectedProduct(newItem);
-                    //    selectedOrder().items.splice(0, 0, newItem);
-                    //},
                     addItemFromRetailStore = function (newItem) {
                         selectedProduct(newItem);
                         selectedOrder().items.splice(0, 0, newItem);
@@ -1691,11 +1686,11 @@ define("order/order.viewModel",
                             item.qty2MarkUpId(itemDetailVm.defaultMarkUpId());
                             item.qty3MarkUpId(itemDetailVm.defaultMarkUpId());
                             itemDetailVm.selectedSectionCostCenter(item);
-                            itemDetailVm.applySectionCostCenterMarkup();
                         });
                         itemDetailVm.defaultSection(newItem.itemSections()[0].convertToServerData());
                         //Req: Open Edit dialog of product on adding product
                         editItem(newItem);
+                        itemDetailVm.applySectionCostCenterMarkup();
                     },
                     addItemFromFinishedGoods = function (newItem) {
                         selectedProduct(newItem);
@@ -1705,21 +1700,19 @@ define("order/order.viewModel",
                         newItem.itemSections()[0].productType(3);
                         newItem.itemSections()[0].qty1MarkUpId(itemDetailVm.defaultMarkUpId());
                         newItem.itemSections()[0].qty2MarkUpId(itemDetailVm.defaultMarkUpId());
-
                         _.each(newItem.itemSections()[0].sectionCostCentres(), function (item) {
                             item.qty1MarkUpId(itemDetailVm.defaultMarkUpId());
                             item.qty2MarkUpId(itemDetailVm.defaultMarkUpId());
                             item.qty3MarkUpId(itemDetailVm.defaultMarkUpId());
                             itemDetailVm.selectedSectionCostCenter(item);
-                            itemDetailVm.applySectionCostCenterMarkup();
 
                         });
                         // Set Default Section to be used as a default for new sections in this item
                         itemDetailVm.defaultSection(newItem.itemSections()[0].convertToServerData());
-
-                        //itemDetailVm.defaultSection().productType(3);
                         //Req: Open Edit dialog of product on adding product
                         editItem(newItem);
+
+                        itemDetailVm.applySectionCostCenterMarkup();
                     },
                     onAddCostCenter = function () {
                         // ReSharper disable AssignedValueIsNeverUsed

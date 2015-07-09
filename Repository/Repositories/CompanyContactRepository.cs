@@ -990,7 +990,7 @@ namespace MPC.Repository.Repositories
                              }
                          });
 
-            var que = query.Distinct().OrderByDescending(x => x.CompanyId).Skip(fromRow).Take(toRow).ToList();
+            var que = query.Distinct().OrderBy(x => x.FirstName).Skip(fromRow).Take(toRow).ToList();
             int rowCount = query.Distinct().Count();
             return new CompanyContactResponse
             {

@@ -3560,7 +3560,7 @@ define("stores/stores.viewModel",
                 }
                 // Expand tree and get childs 
                 //event.category = category;
-                view.expandCategory(event, categoryId, true);
+                //view.expandCategory(event, categoryId, true);
             },
             //Select Child Product Category
             selectChildProductCategory = function (categoryId, event) {
@@ -3591,6 +3591,12 @@ define("stores/stores.viewModel",
                     return category.parentCategoryId === parseInt(parentCategoryId);
                 });
             },
+
+            //Change request populate drop down on category name 
+            getCategoryChildListItemsOnNameClick = function(dataRecieved, event) {
+                $($(event.currentTarget).parent().parent().children()[0]).children()[0].click();
+            },
+
             //Get Category Child List Items
             getCategoryChildListItems = function (dataRecieved, event) {
                 changeIcon(event);
@@ -3613,7 +3619,7 @@ define("stores/stores.viewModel",
                         var childCategories = [];
                         if (data.ProductCategories != null) {
                             _.each(data.ProductCategories, function (productCategory) {
-                                $("#" + id).append('<ol class="dd-list" style="position: initial;"> <li class="dd-item dd-item-list" data-bind="click: $root.selectChildProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + productCategory.ProductCategoryId + '> <div class="dd-handle-list cursorShape" ><i class="fa fa-chevron-circle-right " data-bind="click: $root.getCategoryChildListItems"></i></div><div class="dd-handle col-sm-12"><span class="col-sm-10 cursorShape">' + productCategory.CategoryName + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link cursorShape" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');
+                                $("#" + id).append('<ol class="dd-list" style="position: initial;"> <li class="dd-item dd-item-list" data-bind="click: $root.selectChildProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + productCategory.ProductCategoryId + '> <div class="dd-handle-list cursorShape"  data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-chevron-circle-right "></i></div><div class="dd-handle col-sm-12"><span class="col-sm-10 cursorShape">' + productCategory.CategoryName + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link cursorShape" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');
                                 ko.applyBindings(view.viewModel, $("#" + productCategory.ProductCategoryId)[0]);
                                 var category = {
                                     productCategoryId: productCategory.ProductCategoryId,
@@ -3937,7 +3943,7 @@ define("stores/stores.viewModel",
                         resetCategoryTree();
                     }
                     resetCategoryTree();
-                    
+
                     if ($("#" + selectedProductCategoryForEditting().parentCategoryId()).children('ol').length > 0) {
                         $("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"  style="position: initial;"> <li class="dd-item dd-item-list" data-bind="click: $root.selectChildProductCategory, css: { selectedRow: $data === $root.selectChildProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-chevron-circle-right "></i></div><div class="dd-handle col-sm-12"><span class="col-sm-10 cursorShape">' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link cursorShape" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
                         ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
@@ -3947,7 +3953,7 @@ define("stores/stores.viewModel",
                     //if (!flagAlreadyExist) {
                     //ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
                     //}
-                    
+
                     toastr.success("Category Updated Successfully");
                 }
                 //#endregion
@@ -5873,34 +5879,35 @@ define("stores/stores.viewModel",
             },
            //Get System Field Variables        
            getSystemVariables = function () {
-                    dataservice.getSystemFieldVariables({
-                        PageSize: systemVariablePager().pageSize(),
-                        PageNo: systemVariablePager().currentPage(),
-                        SortBy: sortOn(),
-                        IsAsc: sortIsAsc()
-                    }, {
-                        success: function (data) {
-                            systemVariables.removeAll();
+               dataservice.getSystemFieldVariables({
+                   PageSize: systemVariablePager().pageSize(),
+                   PageNo: systemVariablePager().currentPage(),
+                   SortBy: sortOn(),
+                   IsAsc: sortIsAsc()
+               }, {
+                   success: function (data) {
+                       systemVariables.removeAll();
 
-                            if (data != null) {
-                                // System Variables
-                                _.each(data.SystemVariables, function (item) {
-                                    systemVariables.push(model.FieldVariableForSmartForm.Create(item));
-                                });
-                                systemVariablePager().totalCount(data.RowCount);
-                            }
+                       if (data != null) {
+                           // System Variables
+                           _.each(data.SystemVariables, function (item) {
+                               systemVariables.push(model.FieldVariableForSmartForm.Create(item));
+                           });
+                           systemVariablePager().totalCount(data.RowCount);
+                       }
 
-                        },
-                        error: function (response) {
-                            toastr.error("Failed to load System Variables." + response, "", ist.toastrOptions);
-                        }
-                    });
-                },
+                   },
+                   error: function (response) {
+                       toastr.error("Failed to load System Variables." + response, "", ist.toastrOptions);
+                   }
+               });
+           },
 
             //Get Field Variable Detail
             getFieldVariableDetail = function (field) {
                 dataservice.getFieldVariableDetailById({
                     fieldVariableId: field.id(),
+                    companyId: selectedStore().companyId(),
                 }, {
                     success: function (data) {
                         if (data != null) {
@@ -6611,6 +6618,7 @@ define("stores/stores.viewModel",
                     selectedPaymentGateway: selectedPaymentGateway,
                     //#endregion Payment Gateway
                     //#region Product Category
+                    getCategoryChildListItemsOnNameClick:getCategoryChildListItemsOnNameClick,
                     selectedProductCategory: selectedProductCategory,
                     selectProductCategory: selectProductCategory,
                     deletedProductCategories: deletedProductCategories,

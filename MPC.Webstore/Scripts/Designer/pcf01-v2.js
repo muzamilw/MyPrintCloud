@@ -3847,7 +3847,10 @@ function k31(cCanvas, IO) {
     if (IO.MaxHeight == 0) {
         IO.MaxHeight = 50;
     }
-    fabric.Image.fromURL(IO.ContentString, function (IOL) {
+    var url = "/MPC_Content/" + IO.ContentString;
+    if (IO.ContentString.indexOf("Imageplaceholder_sim") != -1 || IO.ContentString.indexOf("http") != -1)
+        url = IO.ContentString;
+    fabric.Image.fromURL(url, function (IOL) {
         IOL.set({
             left: (IO.PositionX + IO.MaxWidth / 2) * dfZ1l,
             top: (IO.PositionY + IO.MaxHeight / 2) * dfZ1l,
@@ -3914,14 +3917,12 @@ function k31(cCanvas, IO) {
         d2();
         IW = IOL.getWidth();// IT.ImageWidth;
         IH = IOL.getHeight();// IT.ImageHeight;
-       
-        
-        if (IO.ObjectType == 8)
-        {
+
+
+        if (IO.ObjectType == 8) {
             IW = item.companyImageWidth;
             IH = item.companyImageHeight;
-        } else if (IO.ObjectType == 12)
-        {
+        } else if (IO.ObjectType == 12) {
             IW = item.contactImageWidth;
             IH = item.contactImageHeight;
         }
@@ -3929,8 +3930,8 @@ function k31(cCanvas, IO) {
         var originalHeight = IH;
         var wd = IOL.getWidth();
         var he = IOL.getHeight();
-        var bestPer = 1; 
-        if (IO.ContentString.indexOf("Imageplaceholder_sim") == -1 && IsCalledFrom == 4) {
+        var bestPer = 1;
+        if (IO.ContentString.indexOf("Imageplaceholder_sim") == -1 && IsCalledFrom == 4 && IO.ContentString.indexOf("http") != -1) {
 
             if (IO.ObjectType == 8 || IO.ObjectType == 12) {
                 if (IW >= IOL.getWidth() && IH >= IOL.getHeight()) {
