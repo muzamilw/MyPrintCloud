@@ -2498,9 +2498,9 @@
 
 
                                         <div class="form-group" data-bind="visible: productDisplayOptionsUi() === '2'" style="display: none">
-                                            <div class="col-lg-4 text-right"></div>
+                                            <div class="col-lg-3 text-right"></div>
                                             <div class="col-lg-8">
-                                                <div class="main-box-body">
+                                                <div class="main-box-body" style="padding-left: 0">
                                                     <div id="gallery-photos-lightbox">
                                                         <ul class="clearfix gallery-photos">
                                                             <!-- ko template: { name: 'itemImageItemTemplate' , foreach: itemImages  } -->
@@ -2558,14 +2558,14 @@
                                     </div>
                                     <div class="col-lg-9">
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
+                                            <div class="col-lg-3 text-right">
                                                 <label class="control-label text-right tooltip-float">&nbsp;</label>
 
                                             </div>
 
                                             <div class="col-lg-8" style="background: gainsboro; border: 4px solid rgba(0, 0, 0, 0.30); ">
-                                                <div class="col-lg-6">
-                                                    <img style=" width: 170px; object-fit: contain" data-bind="attr: { src: file1 }" />
+                                                <div class="col-lg-4">
+                                                    <img style="height: 170px; width: 170px; object-fit: contain" data-bind="attr: { src: file1 }" />
                                                     <br />
                                                     <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(1, 1), visible: file1() || file1FileSource()">
                                                         <span class="fa-stack">
@@ -2573,9 +2573,15 @@
                                                             <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
                                                         </span>
                                                     </a>
+                                                    <a style="visibility: hidden;" data-bind="visible: !file1() && !file1FileSource()">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <img style=" width: 170px; object-fit: contain" data-bind="attr: { src: file2 }" />
+                                                <div class="col-lg-4">
+                                                    <img style="height: 170px; width: 170px; object-fit: contain" data-bind="attr: { src: file2 }" />
                                                     <br />
                                                     <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(2, 2), visible: file2() || file2FileSource()">
                                                         <span class="fa-stack">
@@ -2583,9 +2589,15 @@
                                                             <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
                                                         </span>
                                                     </a>
+                                                    <a style="visibility: hidden;" data-bind="visible: !file2() && !file2FileSource()">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <img style=" width: 170px; object-fit: contain" data-bind="attr: { src: file3 }" />
+                                                <div class="col-lg-4">
+                                                    <img style="height: 170px; width: 170px; object-fit: contain" data-bind="attr: { src: file3 }" />
                                                     <br />
                                                     <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(3, 3), visible: file3() || file3FileSource()">
                                                         <span class="fa-stack">
@@ -2593,9 +2605,15 @@
                                                             <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
                                                         </span>
                                                     </a>
+                                                    <a style="visibility: hidden;" data-bind="visible: !file3() && !file3FileSource()">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <img style="width: 170px; object-fit: contain" data-bind="attr: { src: file4 }" />
+                                                <div class="col-lg-4">
+                                                    <img style="height: 170px; width: 170px; object-fit: contain" data-bind="attr: { src: file4 }" />
                                                     <br />
                                                     <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(4, 4), visible: file4() || file4FileSource()">
                                                         <span class="fa-stack">
@@ -2603,11 +2621,23 @@
                                                             <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
                                                         </span>
                                                     </a>
+                                                    <a style="visibility: hidden;" data-bind="visible: !file4() && !file4FileSource()">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <img style=" width: 170px; object-fit: contain" data-bind="attr: { src: file5 }" />
+                                                <div class="col-lg-4">
+                                                    <img style="height: 170px; width: 170px; object-fit: contain" data-bind="attr: { src: file5 }" />
                                                     <br />
                                                     <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click: $root.onDeleteTemplateLayoutFile.bind(5, 5), visible: file5() || file5FileSource()">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                    <a style="visibility: hidden;" data-bind="visible: !file5() && !file5FileSource()">
                                                         <span class="fa-stack">
                                                             <i class="fa fa-square fa-stack-2x"></i>
                                                             <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
@@ -2617,12 +2647,12 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
+                                            <div class="col-lg-3 text-right">
                                                 <label class="control-label text-right tooltip-float">&nbsp;</label>
 
                                             </div>
-                                            <div class="col-lg-6 text-center">
-                                                <div class="col-lg-10" style="padding-left:75px;">
+                                            <div class="col-lg-7 text-center">
+                                                <div class="col-lg-12" style="padding-left:75px;">
                                                     <div>
                                                         <div class="fileUpload btn btn-primary">
                                                             <span>Upload</span>
