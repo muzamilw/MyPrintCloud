@@ -216,9 +216,18 @@ namespace MPC.Webstore.Controllers
 
             if (OrderType == "Download")
             {
-               string DownloadFileLink = _MISOrderService.DownloadOrderArtwork((int)OrderId, "", UserCookieManager.WEBOrganisationID);
-               DownloadFileLink = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + DownloadFileLink;
-               return Json(DownloadFileLink, JsonRequestBehavior.DenyGet);
+                string Exception = "";
+                try
+                {
+                    string DownloadFileLink = _MISOrderService.DownloadOrderArtwork((int)OrderId, "", UserCookieManager.WEBOrganisationID);
+                    DownloadFileLink = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + DownloadFileLink;
+                    return Json(DownloadFileLink, JsonRequestBehavior.DenyGet);
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                
             }
             return Json(true, JsonRequestBehavior.DenyGet);
            
