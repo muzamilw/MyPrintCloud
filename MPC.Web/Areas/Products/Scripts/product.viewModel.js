@@ -68,6 +68,14 @@ define("product/product.viewModel",
                     ]),
                     // Inks
                     inks = ko.observableArray([]),
+                    // Black C stock Item
+                    blackCStockItem = ko.observable(),
+                    // Yellow C stock Item
+                    yellowCStockItem = ko.observable(),
+                    // Cyan C stock Item
+                    cyanCStockItem = ko.observable(),
+                    // Magneta C stock Item
+                    magnetaCStockItem = ko.observable(),
                     // Presses
                     presses = ko.observableArray([]),
                     itemPlan = ko.observable(),
@@ -843,6 +851,28 @@ define("product/product.viewModel",
                         // Get Ptv Calculation
                         getPtvCalculation();
                     },
+                    // Get Color For Specified Sequence
+                    getInkColorForSpecifiedSequence = function (sequence) {
+                        var defaultInkId;
+                        switch (sequence) {
+                            case 0:
+                                defaultInkId = blackCStockItem() ? blackCStockItem().StockItemId : undefined;
+                                break;
+                            case 1:
+                                defaultInkId = yellowCStockItem() ? yellowCStockItem().StockItemId : undefined;
+                                break;
+                            case 2:
+                                defaultInkId = magnetaCStockItem() ? magnetaCStockItem().StockItemId : undefined;
+                                break;
+                            case 3:
+                                defaultInkId = cyanCStockItem() ? cyanCStockItem().StockItemId : undefined;
+                                break;
+                            default:
+                                defaultInkId = undefined;
+                                break;
+                        }
+                        return defaultInkId;
+                    },
                     // Set Side 1 Press Section Ink Coverages
                     setSide1SectionInkCoverages = function (press) {
                         selectedProduct().activeItemSection().sectionSizeWidth(press.maxSheetWidth || 0);
@@ -850,11 +880,14 @@ define("product/product.viewModel",
                         selectedProduct().activeItemSection().pressIdSide1IsSpotColor(press.isSpotColor || false);
                         // Update Section Ink Coverage
                         selectedProduct().activeItemSection().sectionInkCoverageList.removeAll(selectedProduct().activeItemSection().sectionInkCoveragesSide1());
+                        var defaultInkId;
                         for (var i = 0; i < press.colourHeads; i++) {
+                            defaultInkId = getInkColorForSpecifiedSequence(i);
                             selectedProduct().activeItemSection().sectionInkCoverageList.push(model.SectionInkCoverage.Create({
                                 SectionId: selectedProduct().activeItemSection().id(),
                                 Side: 1,
-                                InkOrder: i + 1
+                                InkOrder: i + 1,
+                                InkId: defaultInkId
                             }));
                         }
                     },
@@ -1010,11 +1043,14 @@ define("product/product.viewModel",
                             selectedProduct().activeItemSection().pressIdSide2IsSpotColor(press.isSpotColor || false);
                             // Update Section Ink Coverage
                             selectedProduct().activeItemSection().sectionInkCoverageList.removeAll(selectedProduct().activeItemSection().sectionInkCoveragesSide2());
+                            var defaultInkId;
                             for (var i = 0; i < press.colourHeads; i++) {
+                                defaultInkId = getInkColorForSpecifiedSequence(i);
                                 selectedProduct().activeItemSection().sectionInkCoverageList.push(model.SectionInkCoverage.Create({
                                     SectionId: selectedProduct().activeItemSection().id(),
                                     Side: 2,
-                                    InkOrder: i + 1
+                                    InkOrder: i + 1,
+                                    InkId: defaultInkId
                                 }));
                             }
                         });
@@ -1431,6 +1467,12 @@ define("product/product.viewModel",
                         // Return Callback
                         return callback;
                     },
+                    // Get Ink by name
+                    getInkByName = function(name) {
+                        return inks.find(function(ink) {
+                            return ink.ItemName.toLowerCase() === name.toLowerCase();
+                        });
+                    },
                     // Is Base Data Loaded
                     isBaseDataLoaded = false,
                     // Get Base Data
@@ -1486,6 +1528,23 @@ define("product/product.viewModel",
                                     // Map Inks
                                     if (data.Inks) {
                                         mapInks(data.Inks);
+                                        // Set 4C colors - to be set as default in Ink Coverage Dialog
+                                        var blackColor = getInkByName("Black C");
+                                        if (blackColor) {
+                                            blackCStockItem(blackColor);
+                                        }
+                                        var yellowColor = getInkByName("Yellow C");
+                                        if (yellowColor) {
+                                            yellowCStockItem(yellowColor);
+                                        }
+                                        var magnetaColor = getInkByName("Magenta C");
+                                        if (magnetaColor) {
+                                            magnetaCStockItem(magnetaColor);
+                                        }
+                                        var cyanColor = getInkByName("Cyan C");
+                                        if (cyanColor) {
+                                            cyanCStockItem(cyanColor);
+                                        }
                                     }
 
                                     // Map Presses
