@@ -1965,7 +1965,10 @@
                             <div class="tab-pane fade" id="tab-tempProperties">
                                 <div class="col-lg-12 form-horizontal">
 
-                                    <p class="group-header-description">Define how this product will link to a designer template ( in case of print product ) and also control the behavior of template designer and output.</p>
+                                    <span>Define how this product will link to a designer template ( in case of print product ) and also control the behavior of template designer and output.</span>
+                                    <div style="height:20px;">
+                                        &nbsp;
+                                    </div>
                                     <h3 class="group-header">Template type</h3>
                                     <div class="col-lg-9" data-bind="with: template">
 
@@ -2352,7 +2355,10 @@
                             <div class="tab-pane fade" id="tab-tempPages" data-bind="visible: template().canAddTemplatePages">
                                 <div class="col-lg-12 form-horizontal">
 
-                                    <p class="group-header-description">Design template pages are displayed below in case of blank template or PDF based template. Pages can be added, removed, assigned name, sorted and each page can have different dimensions in case of blank template. </p>
+                                    <span>Design template pages are displayed below in case of blank template or PDF based template. Pages can be added, removed, assigned name, sorted and each page can have different dimensions in case of blank template. </span>
+                                    <div style="height:20px;">
+                                        &nbsp;
+                                    </div>
                                     <div class="col-lg-12" data-bind="with: template">
                                         <div class="clearfix">
                                             <header class="main-box-header clearfix" style="padding-right:0px;">
@@ -2422,15 +2428,15 @@
                                     <h3 class="group-header">Product Thumbnail</h3>
                                     <div class="col-lg-9">
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
+                                            <div class="col-lg-3 text-right">
 
 
                                             </div>
 
-                                            <div class="col-lg-6 text-center">
-                                                <img style="min-height: 200px; width: 270px; object-fit: contain" data-bind="attr: { src: thumbnail }" />
+                                            <div class="col-lg-6">
+                                                <img style="height: 180px; width: 270px; object-fit: contain" data-bind="attr: { src: thumbnail }" />
 
-                                                <div class="col-lg-10" style="padding-left:75px;">
+                                                <div style="width:270px;text-align:center;">
                                                     <div>
                                                         <div class="fileUpload btn btn-primary marginT5">
                                                             <span>Upload</span>
@@ -2441,9 +2447,6 @@
                                                     <div class="help-block">Product Thumbnail (PNG,GIF,JPG) is displayed on Featured products widget, related products and on Category page. Dimensions depend upon the selected theme. </div>
                                                 </div>
                                                 <div class="col-lg-2"></div>
-
-
-
                                             </div>
 
                                         </div>
@@ -2454,24 +2457,14 @@
                                     <div class="col-lg-9">
                                         <div class="form-group">
 
-                                            <div class="col-lg-4 text-right">
-                                                @*<div class="bs-example-tooltips tooltip-float-width">
-
-                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Product Page Banner" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
-
-                                                    </div>
-
-                                                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Product Page Banner</label>*@
-
+                                            <div class="col-lg-3 text-right">
                                             </div>
 
-                                            <div class="col-lg-6 text-center">
+                                            <div class="col-lg-6">
                                                 <!-- ko if: productDisplayOptionsUi() === '1' -->
-                                                <img style="min-height: 200px; width: 270px;" data-bind="attr: { src: imagePath }" />
+                                                <img style="height: 200px; width: 270px;" data-bind="attr: { src: imagePath }" />
 
-                                                <div class="col-lg-10" style="padding-left:75px;">
+                                                <div style="width:270px;text-align:center;">
                                                     <div>
                                                         <div class="fileUpload btn btn-primary marginT5">
                                                             <span>Upload</span>
@@ -2483,7 +2476,7 @@
 
                                                 <!-- /ko -->
                                                 <!-- ko if: productDisplayOptionsUi() === '2' -->
-                                                <div class="col-lg-10" style="padding-left:75px;">
+                                                <div style="width:270px;text-align:center;">
                                                     <div>
                                                         <div class="fileUpload btn btn-primary marginT5">
                                                             <span>Upload</span>
@@ -2526,7 +2519,7 @@
                                     <h3 class="group-header">Upload artwork recommendation Image</h3>
                                     <div class="col-lg-9">
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
+                                            <div class="col-lg-3 text-right">
                                                 @*<div class="bs-example-tooltips tooltip-float-width">
 
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Grid Image Layout" data-original-title="" title="">
@@ -2538,9 +2531,9 @@
 
                                             </div>
 
-                                            <div class="col-lg-6 text-center">
+                                            <div class="col-lg-6">
                                                 <img style="min-height: 200px; width: 270px; object-fit: contain" data-bind="attr: { src: gridImage }" />
-                                                <div class="col-lg-10" style="padding-left:75px;">
+                                                <div style="width:270px; text-align:center;">
                                                     <div>
                                                         <div class="fileUpload btn btn-primary marginT5">
                                                             <span>Upload</span>
@@ -2560,6 +2553,8 @@
                                     <h3 class="group-header">Downloadable file formats for Template layouts</h3>
                                     <div class="row" style="margin-left:3px;margin-bottom: 25px;">
                                         <span>These source files can be downloaded by end user on a webstore and used as an accurate template to modify and upload for this product. e.g illustrator format.</span>
+                                    </div>
+                                    <div>
                                     </div>
                                     <div class="col-lg-9">
                                         <div class="form-group">

@@ -37,16 +37,19 @@
                     <div class="main-box-body clearfix">
                         <div class="table-responsive">
                             <h3>Create and set sheets sizes widths and lengths</h3>
-                            <p class="group-header-description">Create and Manage sheet sizes for use within estimates and products.Enter width and length as well as unit of preferred measurement</p>
+                            <span>Create and Manage sheet sizes for use within estimates and products.Enter width and length as well as unit of preferred measurement</span>
+                            <div style="height:20px;">
+                                &nbsp;
+                            </div>
                            
                             <br />
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr class="">
                                         <th class="col-lg-6"><span id="0">Sheet Size</span></th>
-                                        <th class="col-lg-2"><span id="1">Sheet Height</span></th>
-                                        <th class="col-lg-2"><span id="2">Sheet Width</span></th>
-                                        <th class="col-lg-2"><span id="3">Unit</span></th>
+                                        <th class="col-lg-2" style="text-align:right;"><span id="1">Sheet Height</span></th>
+                                        <th class="col-lg-2" style="text-align:right;"><span id="2">Sheet Width</span></th>
+                                        <th class="col-lg-2" style="text-align:center;"><span id="3">Unit</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -88,13 +91,13 @@
     <script id="itemPaperSheet" type="text/html">
         <tr data-bind=" click: $root.onEditItem" style="cursor: pointer">
             <td class="col-lg-6"><a href="#" class="store-user-link" data-bind="text: name, click : $root.onEditItem"></a></td>
-            <td class="col-lg-2" data-bind="text: height"></td>
-            <td class="col-lg-2" data-bind="text: width"></td>
+            <td class="col-lg-2" data-bind="text: height" style="text-align:right;"></td>
+            <td class="col-lg-2" data-bind="text: width" style="text-align:right;"></td>
             <!-- ko if: IsImperical() -->
-            <td>inch</td>
+            <td style="text-align:center;">inch</td>
             <!-- /ko -->
             <!-- ko ifnot: IsImperical() -->
-            <td>mm</td>
+            <td style="text-align:center;">mm</td>
             <!-- /ko -->
       
            

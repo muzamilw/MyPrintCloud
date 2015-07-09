@@ -24,6 +24,7 @@ namespace MPC.Webstore.Controllers
         // GET: OxfordTopLevelCategories
         public ActionResult Index()
         {
+            GetRaReview();
             List<ProductCategory> lstParentCategories = new List<ProductCategory>();
             List<ProductCategory> AllRetailCat = new List<ProductCategory>();
             MPC.Models.DomainModels.Company model = null;
@@ -48,10 +49,15 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
+
+                List<ProductCategory> AllCategroies = new List<ProductCategory>();
+                //List<ProductCategory> ChildCategories = new List<ProductCategory>();
+                AllCategroies = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
                 //SeablueToCategories
               ViewBag.lstParentCategories = _myCompanyService.GetStoreParentCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID).OrderBy(i=>i.DisplayOrder).ToList();
                 //rptRetroPCats
-              ViewBag.AllRetailCat = _myCompanyService.GetAllRetailPublishedCat().Where(i => i.ParentCategoryId == null || i.ParentCategoryId == 0).OrderBy(g => g.DisplayOrder).ToList();
+             // ViewBag.AllRetailCat = _myCompanyService.GetAllRetailPublishedCat().Where(i => i.ParentCategoryId == null || i.ParentCategoryId == 0).OrderBy(g => g.DisplayOrder).ToList();
+              ViewBag.AllRetailCat = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID).ToList();
             }
              string  State = _myCompanyService.GetStateNameById(StoreBaseResopnse.StoreDetaultAddress.StateId ?? 0);
              string  Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.StoreDetaultAddress.CountryId ?? 0);
@@ -61,7 +67,22 @@ namespace MPC.Webstore.Controllers
             ViewBag.stateandCountryInnerText = State + " " +Country;
             ViewBag.telnoInnerText = StoreBaseResopnse.StoreDetaultAddress.Tel1;
             ViewBag.emailaddInnerText = StoreBaseResopnse.StoreDetaultAddress.Email;
-            return View();
+            return PartialView("PartialViews/OxfordTopLevelCategories");
+        }
+
+        public void GetRaReview()
+        {
+            RaveReview resultOfReviews = _myCompanyService.GetRaveReview();
+            if (resultOfReviews != null)
+            {
+                ViewBag.lblRaveReview = "<br /> " + resultOfReviews.Review + "<br /> Best regards,<br /> &nbsp;";
+                ViewBag.lblReviewBy = resultOfReviews.ReviewBy;
+            }
+            else
+            {
+                ViewBag.lblRaveReview = "I used Company services for my business cards and I must tell that I am much&nbsp; pleased with the quality of printed cards their prompt and professional service. Good luck to your business.<br />Best regards,<br />&nbsp;";
+                ViewBag.lblReviewBy = "Henry Roberts";
+            }
         }
     }
 }

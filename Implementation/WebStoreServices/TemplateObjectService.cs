@@ -37,11 +37,16 @@ namespace MPC.Implementation.WebStoreServices
             var list = _templateObjectRepository.GetProductObjects(productId);
             foreach (var item in list)
             {
-                item.PositionX = DesignerUtils.PointToPixel(item.PositionX.Value);
+                if(item.PositionX.HasValue)
+                    item.PositionX = DesignerUtils.PointToPixel(item.PositionX.Value);
+                if(item.PositionY.HasValue)
                 item.PositionY = DesignerUtils.PointToPixel(item.PositionY.Value);
-                item.FontSize = DesignerUtils.PointToPixel(item.FontSize.Value);
-                item.MaxWidth = DesignerUtils.PointToPixel(item.MaxWidth.Value);
-                item.MaxHeight = DesignerUtils.PointToPixel(item.MaxHeight.Value);
+                if(item.FontSize.HasValue)
+                    item.FontSize = DesignerUtils.PointToPixel(item.FontSize.Value);
+                if(item.MaxWidth.HasValue)
+                    item.MaxWidth = DesignerUtils.PointToPixel(item.MaxWidth.Value);
+                if(item.MaxHeight.HasValue)
+                    item.MaxHeight = DesignerUtils.PointToPixel(item.MaxHeight.Value);
                 if (item.CharSpacing != null)
                 {
                     item.CharSpacing = Convert.ToDouble(DesignerUtils.PointToPixel(Convert.ToDouble(item.CharSpacing.Value)));

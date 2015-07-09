@@ -2333,6 +2333,61 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             fileName = ko.observable(),
             // Template Pages
             templatePages = ko.observableArray([]),
+            // Update Template Page Dimensions having 0 or null values
+            updateTemplatePageDimensions = function() {
+                // Update All Template Pages having 0 or Null values
+                var tempPagesToUpdate = templatePages.filter(function (tempPage) {
+                    return !tempPage.height() || !tempPage.width();
+                });
+                _.each(tempPagesToUpdate, function (tempPage) {
+                    if (!tempPage.height()) {
+                        tempPage.height(pdfTemplateHeight());
+                    }
+                    if (!tempPage.width()) {
+                        tempPage.width(pdfTemplateWidth());
+                    }
+                });
+            },
+            // Pdf Template Height 
+            pdfTemplateHeightUi = ko.computed({
+               read: function() {
+                   return pdfTemplateHeight();
+               },
+               write: function(value) {
+                   if ((!value || value < 0) || value === pdfTemplateHeight()) {
+                       if ((!value || value < 0)) {
+                           var height = pdfTemplateHeight();
+                           pdfTemplateHeight(0);
+                           pdfTemplateHeight(height);
+                       }
+                       return;
+                   }
+
+                   pdfTemplateHeight(value);
+                   // Update Template Page dimensions
+                   updateTemplatePageDimensions();
+               }
+            }),
+            // Pdf Template Width 
+            pdfTemplateWidthUi = ko.computed({
+                read: function () {
+                    return pdfTemplateWidth();
+                },
+                write: function (value) {
+                    if ((!value || value < 0) || value === pdfTemplateWidth()) {
+                        if ((!value || value < 0)) {
+                            var weight = pdfTemplateWidth();
+                            pdfTemplateWidth(0);
+                            pdfTemplateWidth(weight);
+                        }
+                        return;
+                    }
+
+                    pdfTemplateWidth(value);
+                    // Update Template Page dimensions
+                    updateTemplatePageDimensions();
+                }
+            }),
             // Can add Template Pages
             canAddTemplatePages = ko.computed(function () {
                 return isCreatedManual() || (specifiedIsCreatedManual !== false && isCreatedManual() === false && !fileSource());
@@ -2427,6 +2482,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             id: id,
             pdfTemplateWidth: pdfTemplateWidth,
             pdfTemplateHeight: pdfTemplateHeight,
+            pdfTemplateWidthUi: pdfTemplateWidthUi,
+            pdfTemplateHeightUi: pdfTemplateHeightUi,
             isCreatedManual: isCreatedManual,
             isCreatedManualUi: isCreatedManualUi,
             isSpotTemplate: isSpotTemplate,

@@ -246,10 +246,13 @@ namespace MPC.Repository.Repositories
 
             List<SmartFormDetail> objs = db.SmartFormDetails.Include("FieldVariable.VariableOptions").Where(g => g.SmartFormId == smartFormId).OrderBy(g => g.SortOrder).ToList();
             foreach (var obj in objs) { 
-                obj.SmartForm = null; 
-                if(obj.FieldVariable.VariableOptions != null)
+                obj.SmartForm = null;
+                if (obj.FieldVariable != null)
                 {
-                    listOptions.AddRange(obj.FieldVariable.VariableOptions);
+                    if (obj.FieldVariable.VariableOptions != null)
+                    {
+                        listOptions.AddRange(obj.FieldVariable.VariableOptions);
+                    }
                 }
             };
             foreach(var option in listOptions)
