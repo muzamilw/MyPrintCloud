@@ -334,8 +334,6 @@ require(["ko", "knockout-validation"], function (ko) {
             }
             CKEDITOR.replace(element).setData(valueUnwrapped || $element.html());
             var instance = CKEDITOR.instances['content'];
-            //CKEDITOR.instances
-            //CKEDITOR.appendTo(element).setData(valueUnwrapped || $element.html());
             if (ko.isObservable(value)) {
                 var isSubscriberChange = false;
                 var isEditorChange = true;
@@ -355,22 +353,23 @@ require(["ko", "knockout-validation"], function (ko) {
                 // Handles typing changes 
                 instance.on('contentDom', function () {
                     instance.document.on('keyup', function (event) {
-                        if (ist.stores.viewModel.selectedSecondaryPage() !== undefined && ist.stores.viewModel.selectedSecondaryPage() !== null) {
-                            ist.stores.viewModel.selectedSecondaryPage().pageHTML(instance.getData());
-                        }
-                        else if (ist.stores.viewModel.selectedEmail() !== undefined && ist.stores.viewModel.selectedEmail() !== null) {
-                            ist.stores.viewModel.selectedEmail().hTMLMessageA(instance.getData());
-                        }
+                        handleAfterCommandExec(event);
                     });
                 });
                
              
                 function handleAfterCommandExec(event) {
                     if (ist.stores.viewModel.selectedSecondaryPage() !== undefined && ist.stores.viewModel.selectedSecondaryPage() !== null) {
-                        ist.stores.viewModel.selectedSecondaryPage().pageHTML(instance.getData());
+                        if (instance.getData() === ist.stores.viewModel.selectedSecondaryPage().pageHTML()) {
+                            return;
+                        }
+                        ist.stores.viewModel.selectedSecondaryPage().isEditorDirty(new Date());
                     }
                     if (ist.stores.viewModel.selectedEmail() !== undefined && ist.stores.viewModel.selectedEmail() !== null) {
-                        ist.stores.viewModel.selectedEmail().hTMLMessageA(instance.getData());
+                        if (instance.getData() === ist.stores.viewModel.selectedEmail().hTMLMessageA()) {
+                            return;
+                        }
+                        ist.stores.viewModel.selectedEmail().isEditorDirty(new Date());
                     }
                 }
 
