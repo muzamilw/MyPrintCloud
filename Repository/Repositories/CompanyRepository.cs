@@ -2423,30 +2423,7 @@ namespace MPC.Repository.Repositories
                                     db.SaveChanges();
 
 
-                                    ////  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
-                                    //if (comp.Items != null && comp.Items.Count > 0)
-                                    //{
-                                    //    foreach (var itm in comp.Items)
-                                    //    {
-                                    //        if (itm.ProductCategoryItems != null)
-                                    //        {
-                                    //            List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == OldCatIds).ToList();
-
-                                    //            if (pcis != null && pcis.Count > 0)
-                                    //            {
-                                    //                foreach (var pc in pcis)
-                                    //                {
-                                    //                    pc.CategoryId = cat.ProductCategoryId;
-                                    //                }
-                                    //            }
-                                    //        }
-
-
-
-                                    //    }
-                                    //    db.SaveChanges();
-                                    //}
-
+                                  
 
 
                                 }
@@ -2488,7 +2465,7 @@ namespace MPC.Repository.Repositories
 
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oRetailCID;
-
+                                    item.FlagId = FlagID;
                                     if (comp != null)
                                     {
                                         if (comp.SmartForms != null && comp.SmartForms.Count > 0)
@@ -2822,31 +2799,7 @@ namespace MPC.Repository.Repositories
                                     }
                                     db.ProductCategories.Add(cat);
                                     db.SaveChanges();
-                                    //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
-                                    //if (comp.Items != null && comp.Items.Count > 0)
-                                    //{
-                                    //    foreach (var itm in comp.Items)
-                                    //    {
-                                    //        if (itm.ProductCategoryItems != null)
-                                    //        {
-                                    //            List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == OldCatIds).ToList();
-                                    //            if (pcis != null && pcis.Count > 0)
-                                    //            {
-                                    //                if (pcis != null && pcis.Count > 0)
-                                    //                {
-                                    //                    foreach (var pc in pcis)
-                                    //                    {
-                                    //                        pc.CategoryId = cat.ProductCategoryId;
-                                    //                    }
-                                    //                }
-                                    //            }
-                                    //        }
-
-
-
-                                    //    }
-                                    //    db.SaveChanges();
-                                    //}
+                                  
 
 
                                 }
@@ -2885,6 +2838,7 @@ namespace MPC.Repository.Repositories
 
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oRetailCIDWOP;
+                                    item.FlagId = FlagID;
                                     if (comp != null)
                                     {
                                         if (comp.SmartForms != null && comp.SmartForms.Count > 0)
@@ -2944,21 +2898,7 @@ namespace MPC.Repository.Repositories
 
 
                                             }
-                                            //if (machines != null && machines.Count > 0)
-                                            //{
-                                            //    long MID = machines.Where(c => c.SystemSiteId == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
-                                            //    if (MID > 0)
-                                            //    {
-                                            //        itm.PressId = (int)MID;
-                                            //    }
-                                            //    else
-                                            //    {
-                                            //        MID = machines.Select(s => s.MachineId).FirstOrDefault();
-                                            //       // itm.PressId = (int)MID;
-                                            //        itm.PressId = null;
-
-                                            //    }
-                                            //}
+                                           
 
                                         }
                                     }
@@ -3277,6 +3217,7 @@ namespace MPC.Repository.Repositories
 
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oCID;
+                                    item.FlagId = FlagID;
                                     if (comp != null)
                                     {
                                         if (comp.SmartForms != null && comp.SmartForms.Count > 0)
@@ -3685,6 +3626,7 @@ namespace MPC.Repository.Repositories
 
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oCIDWOP;
+                                    item.FlagId = FlagID;
                                     if (comp != null)
                                     {
                                         if (comp.SmartForms != null && comp.SmartForms.Count > 0)
@@ -3745,22 +3687,7 @@ namespace MPC.Repository.Repositories
 
 
                                             }
-                                            //if (machines != null && machines.Count > 0)
-                                            //{
-                                            //    long MID = machines.Where(c => c.SystemSiteId == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
-                                            //    if (MID > 0)
-                                            //    {
-                                            //        itm.PressId = (int)MID;
-                                            //    }
-                                            //    else
-                                            //    {
-                                            //        MID = machines.Select(s => s.MachineId).FirstOrDefault();
-                                            //        //itm.PressId = (int)MID;
-                                            //        itm.PressId = null;
-
-
-                                            //    }
-                                            //}
+                                          
 
                                         }
                                     }

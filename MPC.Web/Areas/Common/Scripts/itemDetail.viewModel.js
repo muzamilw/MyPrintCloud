@@ -1725,14 +1725,16 @@ define("common/itemDetail.viewModel",
                     // #region Pre Press / Post Press Cost Center
                     // Add Pre Press Cost Center
                     onAddPrePressCostCenter = function () {
-                        addCostCenterVm.show(addCostCenter, selectedOrder().companyId(), false, currencySymbol(), null, costCenterType.prePress, true);
+                        addCostCenterVm.show(addCostCenter, selectedOrder().companyId(), false, currencySymbol(), null, costCenterType.prePress, true, 
+                        selectedProduct().id());
                     },
                     openJobCardsTab = function () {
                         $("#sectionTabTabs a[href=#tab-jobs]").tab('show');
                     },
                     // Add Post Press Cost Center
                     onAddPostPressCostCenter = function () {
-                        addCostCenterVm.show(addCostCenter, selectedOrder().companyId(), false, currencySymbol(), null, costCenterType.postPress, true);
+                        addCostCenterVm.show(addCostCenter, selectedOrder().companyId(), false, currencySymbol(), null, costCenterType.postPress, true,
+                        selectedProduct().id());
                     },
                     // After adding cost center
                     addCostCenter = function (costCenter) {
