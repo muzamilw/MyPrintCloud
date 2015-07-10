@@ -51,8 +51,8 @@ define("toDoList/toDoList.viewModel",
                     //if (Createdbysystemuser.length > 0) {
                     //    createdByUserName(Createdbysystemuser[0].FullName);
                     //}
-
                     view.showCalendarActivityDialog();
+                    
 
                 },
                 //Add new Activity
@@ -68,6 +68,7 @@ define("toDoList/toDoList.viewModel",
                     newAddActivity.createdBy(loggedInUserId());
                     //newAddActivity.systemUserId("7e20d462-c881-4d05-9e91-4c619385333b");
                     selectedActivity(newAddActivity);
+                    selectedActivity().reset();
                     selectedSystemUser(loggedInUserId());
                     view.showCalendarActivityDialog();
                 },
@@ -227,6 +228,7 @@ define("toDoList/toDoList.viewModel",
                                 if (Createdbysystemuser.length > 0) {
                                     createdByUserName(Createdbysystemuser[0].FullName);
                                 }
+                                selectedActivity().reset();
                             }
                         },
                         error: function (response) {
@@ -274,6 +276,7 @@ define("toDoList/toDoList.viewModel",
                     view.hideContactSelectorDialog();
                     selectedActivity().companyName(contact.name() + " , " + contact.companyName());
                     selectedActivity().contactId(contact.id());
+                    selectedActivity().contactCompanyId(contact.companyId());
                 }
                 isCustomerType.subscribe(function (value) {
                     if (selectedActivity() !== undefined) {
