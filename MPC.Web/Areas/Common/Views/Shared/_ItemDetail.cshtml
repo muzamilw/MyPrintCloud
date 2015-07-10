@@ -89,8 +89,11 @@
                                                     <div style="height: 35px;">&nbsp;</div>
                                                     <!--/ko-->
                                                     <div style="float: left" data-bind="visible:$root.selectedProduct().productType()!==3">
-                                                        <img style="width: 115%; cursor: pointer" alt="Click to Add New Section/Signature/Component" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.createNewItemSection" />  @*position: absolute;*@
-                                                        <span data-bind="click:$root.createNewItemSection" style=" margin-left: 22%; margin-top: -19%;" class="label label-circle-addsection">&nbsp;+&nbsp;</span>
+                                                        @*<img style="width: 115%; cursor: pointer" alt="Click to Add New Section/Signature/Component" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.createNewItemSection" /> 
+                                                        <span data-bind="click:$root.createNewItemSection" style=" margin-left: 22%; margin-top: -19%;" class="label label-circle-addsection">&nbsp;+&nbsp;</span>*@
+                                                        <div class="btn btn-success" data-bind="click:$root.createNewItemSection">
+                                                            Add New Section
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 @*<div class="btn btn-success" style="font-size: x-small;margin-left: 10%;" data-bind="click:$root.createNewItemSection">
