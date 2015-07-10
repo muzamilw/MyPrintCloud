@@ -89,7 +89,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-1" style="padding-top:10px;">
-                                                <button data-bind="click: $root.openCompanyDialog, enable: ($root.selectedOrder().id() <= 0) || ($root.selectedOrder().id()===undefined)" class="btn btn-primary pull-right">
+                                                <button data-bind="click: $root.isCustomerEdittable() ? $root.openCompanyDialog : undefined" class="btn btn-primary pull-right">
                                                     <i class="fa fa-user"></i>
                                                 </button>
                                             </div>
