@@ -133,6 +133,15 @@ namespace MPC.Implementation {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete template..
+        /// </summary>
+        internal static string ItemService_TemplateDeleteFailed {
+            get {
+                return ResourceManager.GetString("ItemService_TemplateDeleteFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Template with Id {0} not found..
         /// </summary>
         internal static string ItemService_TemplateNotFound {

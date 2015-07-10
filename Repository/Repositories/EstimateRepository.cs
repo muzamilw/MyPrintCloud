@@ -27,7 +27,7 @@ namespace MPC.Repository.Repositories
             new Dictionary<OrderByColumn, Func<Estimate, object>>
                     {
                          { OrderByColumn.CompanyName, c => c.Company != null ? c.Company.Name : string.Empty },
-                         { OrderByColumn.CreationDate, c => c.CreationDate },
+                         { OrderByColumn.CreationDate, c => c.Order_Date },
                          { OrderByColumn.SectionFlag, c => c.SectionFlagId },
                          { OrderByColumn.OrderCode, c => c.Order_Code }
                     };
@@ -101,12 +101,14 @@ namespace MPC.Repository.Repositories
 
             IEnumerable<Estimate> items = request.IsAsc
                ? DbSet.Where(query)
-                   .OrderBy(orderByClause[request.ItemOrderBy])
+                   .OrderBy(orderByClause[OrderByColumn.CompanyName])
+                   .ThenByDescending(orderByClause[OrderByColumn.CreationDate])
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList()
                : DbSet.Where(query)
-                   .OrderByDescending(orderByClause[request.ItemOrderBy])
+                   .OrderByDescending(orderByClause[OrderByColumn.CompanyName])
+                   .ThenByDescending(orderByClause[OrderByColumn.CreationDate])
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList();

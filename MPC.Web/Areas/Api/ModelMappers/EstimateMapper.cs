@@ -97,7 +97,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyId = source.CompanyId,
                 CompanyName = source.Company != null ? source.Company.Name : string.Empty,
                 CreatedBy = source.Created_by,
-                CreationDate = source.CreationDate,
+                CreationDate = source.Order_Date,
                 CreationTime = source.CreationTime,
                 SectionFlagId = source.SectionFlagId,
                 OrderCode = source.Order_Code,
