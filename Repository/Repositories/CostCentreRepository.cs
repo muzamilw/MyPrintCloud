@@ -691,6 +691,32 @@ namespace MPC.Repository.Repositories
 		}
 
 
+        /// <summary>
+        /// Get Code for CostCentre For a Company
+        /// </summary>
+        /// <returns></returns>
+        public List<CostCentre> GetAllCostCentresForRecompiling(long OrganisationId)
+        {
+            try
+            {
+                var query = (from ccType in db.CostCentreTypes
+                             join cc in db.CostCentres on ccType.TypeId equals cc.Type
+                             join Org in db.Organisations on cc.OrganisationId equals Org.OrganisationId
+                             where ((ccType.IsExternal == 1 && ccType.IsSystem == 0)
+                             && Org.OrganisationId == OrganisationId)
+                             select cc);
+
+                return query.ToList<CostCentre>();
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
 		public bool ChangeFlag(int FlagID, long CostCentreID)
 		{
 			try

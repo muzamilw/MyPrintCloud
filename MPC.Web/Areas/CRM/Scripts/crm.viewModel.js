@@ -1784,9 +1784,13 @@ define("crm/crm.viewModel",
                 },
                 // Set Validation Summary
                 setValidationSummary = function (selectedItem) {
+
                     errorList.removeAll();
                     if (selectedItem.name.error) {
                         errorList.push({ name: selectedItem.name.domElement.name, element: selectedItem.name.domElement });
+                    }
+                    if (selectedItem.storeId.error) {
+                        errorList.push({ name: selectedItem.storeId.domElement.name, element: selectedItem.storeId.domElement });
                     }
                     if (selectedItem.webAccessCode.error) {
                         errorList.push({ name: selectedItem.webAccessCode.domElement.name, element: selectedItem.webAccessCode.domElement });
@@ -1864,6 +1868,12 @@ define("crm/crm.viewModel",
                             }
                             if (!haveIsDefaultUser) {
                                 errorList.push({ name: "At least one Default Company Contact required.", element: searchCompanyContactFilter.domElement });
+                                flag = false;
+                            }
+                            if (selectedStore().storeId() === undefined || selectedStore().storeId() === '') {
+                                var labelElement = selectedStore.storeId.domElement;
+                              //  validationSummaryList.push({ name: 'Section Flag Name', element: labelElement });
+                               // errorList.push({ name: "Store is required.", element: searchCompanyContactFilter.domElement });
                                 flag = false;
                             }
                         }
