@@ -23,7 +23,8 @@ var ist = {
         Estimate: 3,
         Invoice: 13,
         GRN: 15,
-        Inventory: 7
+        Inventory: 7,
+        JobCards: 9
     },
     //server exceptions enumeration 
     exceptionType: {

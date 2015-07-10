@@ -147,7 +147,7 @@
             <span data-bind="text: jobManagerName"></span>
         </td>
         <td>
-            <img src="@Url.Content("~/Content//Attachments/Page_pdf.png")" alt="" />
+            <a href="#" style="cursor:pointer;" data-bind="click: $root.openExternalReportsJob"><img src="@Url.Content("~/Content//Attachments/Page_pdf.png")" alt="" /></a> 
         </td>
         <td>
             <div data-bind="foreach: itemAttachments">
@@ -180,10 +180,11 @@
         </td>
     </tr>
 </script>
-
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportViaEmail.cshtml")
 @section Scripts{
     <script>
-        require(["liveJobs/liveJobs.view"]);
+        require(["liveJobs/liveJobs.view", "common/reportManager.view"]);
         $(function () {
             $('#liproduction').addClass('active');
         });
