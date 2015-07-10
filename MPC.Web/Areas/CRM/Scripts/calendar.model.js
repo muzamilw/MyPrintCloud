@@ -43,6 +43,23 @@
         // True if the booking has been changed
         // ReSharper disable InconsistentNaming
         dirtyFlag = new ko.dirtyFlag({
+            systemUserId: systemUserId,
+            subject: subject,
+            activityTypeId: activityTypeId,
+            contactCompanyId: contactCompanyId,
+            contactId: contactId,
+            productTypeId: productTypeId,
+            sourceId: sourceId,
+            flagId: flagId,
+            startDateTime: startDateTime,
+            endDateTime: endDateTime,
+            isCustomerActivity: isCustomerActivity,
+            isPrivate: isPrivate,
+            companyName: companyName,
+            activityNotes: activityNotes,
+            isInvalidPeriod: isInvalidPeriod,
+            createdBy: createdBy,
+            isCustomerType: isCustomerType,
         }),
         // Has Changes
         hasChanges = ko.computed(function () {
@@ -123,21 +140,23 @@
     Company.Create = function (source) {
         return new Company(source.CompanyId, source.Name, source.URL, source.CreationDate);
     };
-    CompanyContact = function (specifiedContactId, specifiedName, specifiedCompanyName) {
+    CompanyContact = function (specifiedContactId, specifiedName, specifiedCompanyName, spcCmpId) {
         var self,
             id = ko.observable(specifiedContactId),
             name = ko.observable(specifiedName),
-            companyName = ko.observable(specifiedCompanyName);
+            companyName = ko.observable(specifiedCompanyName),
+        companyId = ko.observable(spcCmpId);
         self = {
             id: id,
             name: name,
-            companyName: companyName
+            companyName: companyName,
+            companyId: companyId
         };
         return self;
     };
     //Company Contact Item For Client Factory
     CompanyContact.Create = function (source) {
-        return new CompanyContact(source.ContactId, source.Name, source.CompanyName);
+        return new CompanyContact(source.ContactId, source.Name, source.CompanyName, source.CompanyId);
     };
 
     ActivityList = function (specifiedActivityId, specifiedActivityNotes, specifiedActivityStartTime, specifiedActivityEndTime, specifiedactionby) {
