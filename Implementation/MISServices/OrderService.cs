@@ -1908,6 +1908,8 @@ namespace MPC.Implementation.MISServices
 
             target = UpdateEstimeteOnCloning(source, target, source);
             target.Estimate_Code = code;
+            target.CreationDate = DateTime.Now;
+            target.EstimateDate = DateTime.Now;
             estimateRepository.SaveChanges();
 
             Estimate estimate = GetById(target.EstimateId);
