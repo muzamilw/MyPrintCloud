@@ -191,7 +191,7 @@ define("order/order.viewModel",
                     // Sort On
                     sortOn = ko.observable(2),
                     // Sort Order -  true means asc, false means desc
-                    sortIsAsc = ko.observable(false),
+                    sortIsAsc = ko.observable(true),
                     // Pagination
                     pager = ko.observable(new pagination.Pagination({ PageSize: 5 }, orders)),
                     // Pagination for Categories
