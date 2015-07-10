@@ -2243,6 +2243,7 @@
     <Content Include="Areas\Orders\Views\Home\_GRNDetailDialog.cshtml" />
     <Content Include="Areas\Settings\Views\Shared\_AddStockQty.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_ViewMediaLibImage.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\_AgileApiDetail.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
@@ -3565,7 +3566,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>43063</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
