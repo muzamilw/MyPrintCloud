@@ -331,15 +331,24 @@ namespace MPC.Models.ModelMappers
         /// </summary>
         private static void UpdateTemplate(Item source, Item target, ItemMapperActions actions)
         {
+            // Initialize Template
             if (target.Template == null)
             {
-                // Start Template with designer empty
-                if (source.Template == null || (source.TemplateType.HasValue && source.TemplateType.Value == 3))
+                if (source.TemplateType.HasValue && source.TemplateType.Value != 3)
                 {
-                    return;
+                    target.Template = actions.CreateTemplate();    
                 }
+            }
 
-                target.Template = actions.CreateTemplate();
+            // Start Template with designer empty
+            if ((source.Template == null || target.Template == null) || (source.TemplateType.HasValue && source.TemplateType.Value == 3))
+            {
+                if (target.TemplateId.HasValue && target.TemplateId.Value > 0)
+                {
+                    target.OldTemplateId = target.TemplateId;
+                    target.TemplateId = null;
+                }
+                return;
             }
 
             // Update Template

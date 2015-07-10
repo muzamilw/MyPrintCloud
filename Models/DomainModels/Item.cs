@@ -924,6 +924,12 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public bool? HasTemplateChangedToCustom { get; set; }
 
+        /// <summary>
+        /// TemplateId - used to keep track of Current Template before deleting it for desinger type
+        /// </summary>
+        [NotMapped]
+        public long? OldTemplateId { get; set; }
+
         #endregion
     }
 }

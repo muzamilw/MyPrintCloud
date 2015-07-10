@@ -6185,3 +6185,46 @@ alter Column CreatedBy nvarchar null
 
 alter table GoodsReceivedNote
 alter Column CreatedBy uniqueidentifier null
+
+/* Execution Date: 10/07/2015 */
+
+GO
+/****** Object:  StoredProcedure [dbo].[usp_DeleteTemplate]    Script Date: 7/10/2015 10:02:09 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[usp_DeleteTemplate]
+	-- Add the parameters for the stored procedure here
+	
+	@TemplateID bigint
+
+AS
+BEGIN
+
+ -- delete template objects
+
+delete from TemplateObject where productid = @TemplateID
+
+
+ -- delete template pages
+ delete from TemplatePage where productid = @TemplateID
+
+  -- delete image permisssions
+
+ DELETE imgPer
+				FROM ImagePermissions imgPer
+				inner join TemplateBackgroundImage tbi on tbi.Id = imgPer.ImageID
+				where tbi.ProductID = @TemplateID
+
+
+ -- delete template background images
+  delete from TemplateBackgroundImage where productid = @TemplateID
+
+
+delete from TemplateVariable where templateid = @TemplateID
+-- delete template 
+DELETE from template where ProductId = @TemplateID
+
+end
