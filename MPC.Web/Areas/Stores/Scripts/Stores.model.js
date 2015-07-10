@@ -1872,6 +1872,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         includeType = ko.observable(specifiedIncludeType),
         includeCorporateCustomers = ko.observable(specifiedIncludeCorporateCustomers),
         enableLogFiles = ko.observable(specifiedEnableLogFiles),
+        isEditorDirty = ko.observable(),
         emailLogFileAddress3 = ko.observable(specifiedEmailLogFileAddress3).extend({ email: true }),
 
         // Errors
@@ -1913,6 +1914,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             sendEmailAfterDays: sendEmailAfterDays,
             campaignImages: campaignImages,
             includeType: includeType,
+            isEditorDirty:isEditorDirty,
             includeCorporateCustomers: includeCorporateCustomers,
             enableLogFiles: enableLogFiles,
             emailLogFileAddress3: emailLogFileAddress3,
@@ -1989,6 +1991,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             includeCorporateCustomers: includeCorporateCustomers,
             enableLogFiles: enableLogFiles,
             emailLogFileAddress3: emailLogFileAddress3,
+            isEditorDirty: isEditorDirty,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -2202,6 +2205,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
         pageBanner = ko.observable(specifiedPageBanner),
         companyId = ko.observable(specifiedCompanyId),
+        // Change in editor, enable save button
+        isEditorDirty = ko.observable(),
 
         pageBannerWithCacheRemoveTechnique = ko.computed(function () {
             if (pageBanner() !== undefined && pageBanner() !== null) {
@@ -2235,7 +2240,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             fileName: fileName,
             defaultPageKeyWords: defaultPageKeyWords,
             pageBanner: pageBanner,
-            isEnabled: isEnabled
+            isEnabled: isEnabled,
+            isEditorDirty:isEditorDirty
         }),
         // Has Changes
         hasChanges = ko.computed(function () {
@@ -2291,6 +2297,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             companyId: companyId,
             errors: errors,
             isEnabled: isEnabled,
+            isEditorDirty: isEditorDirty,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,

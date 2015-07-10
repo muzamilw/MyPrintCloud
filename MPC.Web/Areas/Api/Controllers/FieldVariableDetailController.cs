@@ -12,7 +12,7 @@ namespace MPC.MIS.Areas.Api.Controllers
     /// </summary>
     public class FieldVariableDetailController : ApiController
     {
-         #region Private
+        #region Private
 
         private readonly ICompanyService companyService;
 
@@ -37,9 +37,9 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         [CompressFilterAttribute]
-        public FieldVariable Get([FromUri]long fieldVariableId)
+        public FieldVariable Get([FromUri]long fieldVariableId, long companyId)
         {
-            return companyService.GetFieldVariableDetail(fieldVariableId).CreateFrom();
+            return companyService.GetFieldVariableDetail(fieldVariableId).CreateFrom(companyId);
         }
         #endregion
     }

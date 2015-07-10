@@ -113,7 +113,7 @@
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" style="height:60px;" name="Store Name" class="form-control height60 font24px" id="txtCompanyName" placeholder="Enter Company Name" data-bind="value: name, validationTooltip: name, validationOnElement: name">
+                                                <input type="text" style="height:60px;" name="Company Name" class="form-control height60 font24px" id="txtCompanyName" placeholder="Enter Company Name" data-bind="value: name, validationTooltip: name, validationOnElement: name">
 
 
 
@@ -154,7 +154,7 @@
                                                 <label for="selectStore" class="control-label text-right tooltip-float">Select Store</label>
                                             </div>
                                             <div class="col-lg-6">
-                                                <select id="selectStore" class="form-control" data-bind="options: $root.storesListForDropDown , optionsText: 'Name', optionsValue: 'CompanyId', optionsCaption: ' --- Select Store --- ',value: storeId "></select>  @*,,value: stateId  value:country,validationtooltip:country*@
+                                                <select id="selectStoreCrm" name="Store" class="form-control" data-bind="options: $root.storesListForDropDown , optionsText: 'Name', optionsValue: 'CompanyId', optionsCaption: ' --- Select Store --- ',value: storeId,validationOnElement:storeId,validationTooltip: storeId, "></select>  @*,,value: stateId  value:country,validationtooltip:country*@
                                             </div>
                                         </div>
                                         <!-- /ko -->

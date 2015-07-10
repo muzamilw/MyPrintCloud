@@ -29,6 +29,8 @@ define("common/addCostCenter.viewModel",
                     isCostCenterDialogForShipping = ko.observable(false),
                     //Is Opened from Section Detail
                     isOpenedFromSectionDetail = ko.observable(false),
+                    // Item Id - To be passed to Execution Api
+                    itemId = ko.observable(),
                     // Pagination For Press Dialog
                     costCentreDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, costCentres)),
                     // Cost Center Type
@@ -66,7 +68,7 @@ define("common/addCostCenter.viewModel",
                     },
                     // Show
                     show = function (afterAddCostCenterCallback, companyId, isCostCenterDialogForShippingFlag, currency, companyTaxRateParam, costCenterType,
-                    isOpenedFromSection) {
+                    isOpenedFromSection, productId) {
                         currencySmb(currency);
                         isAddProductForSectionCostCenter(false);
                         isAddProductFromInventory(false);
@@ -80,6 +82,7 @@ define("common/addCostCenter.viewModel",
                         selectedCompanyId(companyId);
                         costCenterTypeFilter(costCenterType || undefined);
                         isOpenedFromSectionDetail(isOpenedFromSection || false);
+                        itemId(productId || "");
                         if (isCostCenterDialogForShipping()) {
                             getCostCenters();
                         } else {
@@ -112,7 +115,7 @@ define("common/addCostCenter.viewModel",
                         dataservice.executeCostCenterForCostCenter({
                             CostCentreId: selectedCostCentre().id(),
                             QuantityOrdered: selectedCostCentre().quantity1(),
-                            ClonedItemId: "",
+                            ClonedItemId: itemId(),
                             CallMode: 'New'
                         }, {
                             success: function (data) {

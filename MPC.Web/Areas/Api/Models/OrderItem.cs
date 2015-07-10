@@ -47,6 +47,11 @@ namespace MPC.MIS.Areas.Api.Models
         public int? Qty1 { get; set; }
 
         /// <summary>
+        /// Qty2
+        /// </summary>
+        public int? Qty2 { get; set; }
+
+        /// <summary>
         /// Qty1 Cost Center Profit
         /// </summary>
         public double? Qty1CostCentreProfit { get; set; }
