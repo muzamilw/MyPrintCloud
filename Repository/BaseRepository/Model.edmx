@@ -6063,6 +6063,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Parameter Name="OrderID" Type="int" Mode="In" />
         </Function>
         <Function Name="usp_DeleteStagingImportCompanyContactAddress" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="usp_DeleteTemplate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TemplateID" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="usp_DeliveryReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="OrganisationID" Type="bigint" Mode="In" />
           <Parameter Name="DeliveryID" Type="bigint" Mode="In" />
@@ -8088,6 +8091,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="ItemStockUpdateHistory" EntitySet="ItemStockUpdateHistories" />
           </AssociationSet>
           <FunctionImport Name="usp_DeleteStagingImportCompanyContactAddress" />
+          <FunctionImport Name="usp_DeleteTemplate">
+            <Parameter Name="TemplateID" Mode="In" Type="Int64" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -19465,6 +19471,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="usp_DeleteCRMCompanyByID" FunctionName="DomainModels.Store.usp_DeleteCRMCompanyByID" />
           <FunctionImportMapping FunctionImportName="usp_DeleteStagingImportCompanyContactAddress" FunctionName="DomainModels.Store.usp_DeleteStagingImportCompanyContactAddress" />
+          <FunctionImportMapping FunctionImportName="usp_DeleteTemplate" FunctionName="DomainModels.Store.usp_DeleteTemplate" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -395,7 +395,14 @@
                     defaultItemTax: defaultItemTax,
                     jobEstimatedStartDateTime: jobEstimatedStartDateTime,
                     jobEstimatedCompletionDateTime: jobEstimatedCompletionDateTime,
-                    jobManagerId: jobManagerId
+                    jobManagerId: jobManagerId,
+                    jobStatusId: jobStatusId,
+                    jobSignedBy: jobSignedBy,
+                    qty1NetTotal: qty1NetTotal,
+                    qty2NetTotal: qty2NetTotal,
+                    qty1Tax1Value: qty1Tax1Value,
+                    qty2Tax1Value: qty2Tax1Value,
+                    tax1: tax1
                 }),
                 // Item Section Changes
                 itemSectionHasChanges = ko.computed(function () {
