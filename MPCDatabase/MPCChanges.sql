@@ -6228,3 +6228,6 @@ delete from TemplateVariable where templateid = @TemplateID
 DELETE from template where ProductId = @TemplateID
 
 end
+
+alter table organisation add AgileApiKey nvarchar(255) null
+alter table organisation add AgileApiUrl nvarchar(255) null
