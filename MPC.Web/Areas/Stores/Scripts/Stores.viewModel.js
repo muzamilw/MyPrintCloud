@@ -2332,9 +2332,21 @@ define("stores/stores.viewModel",
                                                 //        addressCompanyTerritoriesFilter.remove(item);
                                                 //    }
                                                 //});
-                                                bussinessAddresses.remove(address);
-                                                shippingAddresses.remove(address);
-                                                allCompanyAddressesList.remove(address);
+                                                _.each(bussinessAddresses(), function(addressToBeDeleted) {
+                                                    if (addressToBeDeleted.addressId() == address.addressId()) {
+                                                        bussinessAddresses.remove(addressToBeDeleted);
+                                                    }
+                                                });
+                                                _.each(shippingAddresses(), function (addressToBeDeleted) {
+                                                    if (addressToBeDeleted.addressId() == address.addressId()) {
+                                                        shippingAddresses.remove(addressToBeDeleted);
+                                                    }
+                                                });
+                                                _.each(allCompanyAddressesList(), function (addressToBeDeleted) {
+                                                    if (addressToBeDeleted.addressId() == address.addressId()) {
+                                                        allCompanyAddressesList.remove(addressToBeDeleted);
+                                                    }
+                                                });
                                             } else {
                                                 toastr.error("Address can not be deleted. It might exist in Contact", "", ist.toastrOptions);
                                             }
