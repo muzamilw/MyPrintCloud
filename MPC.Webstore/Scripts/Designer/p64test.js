@@ -20117,7 +20117,8 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
 
                 var words = sentence[nz].split(" ");
                 var line = "";
-
+                if (this.isBulletPoint)
+                    line = "  •   ";
                 for (var n = 0; n < words.length; n++) {
                     var spacingWidth = 0;
                     var testLine = line + words[n];
@@ -20149,8 +20150,12 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                                 var nLine = line.substring(0, line.length - 1);
                                 formattedText.push(nLine);
                                 chars += nLine + "\n";
+    //                            if (this.isBulletPoint)
+//                                    chars += "      ";
                             }
                             line = words[n] + " ";
+                            if (this.isBulletPoint)
+                                line = "      "+ words[n] + " ";
                             CalcWidthChars = "";
                             y += lineHeight; // -( fontSize * 0.21);
                         } else {
@@ -20234,7 +20239,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
             this.clipTo && fabric.util.clipContext(this, ctx);
             var textLines = "";
             if (this._cachedObject != null && this.AutoShrinkText != true) {
-                if (this._cachedObject.maxWidth == this.maxWidth && this._cachedObject.maxHeight == this.maxHeight && this._cachedObject.customStyles == this.customStyles && this._cachedObject.fontFamily == this.fontFamily && this._cachedObject.fontSize == this.fontSize && this._cachedObject.fontStyle == this.fontStyle && this._cachedObject.fontWeight == this.fontWeight && this._cachedObject.lineHeight == this.lineHeight && this._cachedObject.charSpacing == this.charSpacing && this.text == this._cachedObject.text) {
+                if (this._cachedObject.maxWidth == this.maxWidth && this._cachedObject.maxHeight == this.maxHeight && this._cachedObject.customStyles == this.customStyles && this._cachedObject.fontFamily == this.fontFamily && this._cachedObject.fontSize == this.fontSize && this._cachedObject.fontStyle == this.fontStyle && this._cachedObject.fontWeight == this.fontWeight && this._cachedObject.lineHeight == this.lineHeight && this._cachedObject.charSpacing == this.charSpacing && this.text == this._cachedObject.text && this.isBulletPoint == this._cachedObject.isBulletPoint) {
                     textLines = this.clippedText.split(this._reNewline);
                 } else {
                     textLines = this._performClipping(ctx, this.text, this);
@@ -22584,6 +22589,13 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
         enterEditing: function () {
             if (this.isEditing || !this.editable) return;
 
+            console.log(this.selectionStart);
+            if (this.isBulletPoint)
+            {
+                console.log("a bullet point");
+                if (this.selectionStart < 6)
+                    this.selectionStart = 6;
+            }
             this.exitEditingOnOthers();
 
             this.isEditing = true;

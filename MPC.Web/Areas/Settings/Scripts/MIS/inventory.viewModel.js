@@ -66,6 +66,8 @@ define("inventory/inventory.viewModel",
                     weightUnits = ko.observableArray([]),
                     //Length Units
                     lengthUnits = ko.observableArray([]),
+                    // is imperical for new Stock
+                    OrganisationImpirical = ko.observable(),
                     //Paper Basis Areas
                     paperBasisAreas = ko.observableArray([]),
                     itemStockUpdateHistoryActions = ko.observableArray([
@@ -182,6 +184,8 @@ define("inventory/inventory.viewModel",
                                     else {
                                         weightLabel("gsm");
                                     }
+
+                                    
                                     selectedInventory().reset();
 
                                     inventoryHasChanges.reset();
@@ -268,9 +272,11 @@ define("inventory/inventory.viewModel",
 
                                 if (data.IsImperical == true) {
                                     weightLabel("lbs");
+                                    OrganisationImpirical(true);
                                 }
                                 else {
                                     weightLabel("kg");
+                                    OrganisationImpirical(false);
                                 }
                             },
                             error: function () {
@@ -361,7 +367,7 @@ define("inventory/inventory.viewModel",
                             selectedInventory().headerComputedValue("Sq Feet");
                         }
                         if (selectedInventory().perQtyType() === 6) {
-                            selectedInventory().headerComputedValue("Items)");
+                            selectedInventory().headerComputedValue("Item)");
                         }
                     }
                 }, this),
@@ -516,6 +522,16 @@ define("inventory/inventory.viewModel",
                     costPriceList.removeAll();
                     errorList.removeAll();
                     selectedInventory(model.StockItem.Create());
+
+
+                    if (OrganisationImpirical() == true) {
+                        selectedInventory().IsImperical(true);
+                    }
+                    else {
+                        selectedInventory().IsImperical(false);
+                    }
+
+
                     //Add default cost and price rows
                     var cost = model.StockCostAndPrice.Create();
                     selectCostItem(cost);
@@ -524,8 +540,9 @@ define("inventory/inventory.viewModel",
                     price.costOrPriceIdentifier(-1);
                     selectedPriceItem(price);
                     costPriceList.splice(0, 0, price);
-                    // selectedInventory().reset();
+                     //selectedInventory().reset();
                     showInventoryEditor();
+                    
                     sharedNavigationVM.initialize(selectedInventory, function (saveCallback) { onSaveInventory(saveCallback); });
                 },
                 // close Inventory Editor

@@ -126,7 +126,7 @@
         </td>
 
         <td>
-            <span style=" display: block; font-size: 1.25em; color: #3498db; outline: none !important;"data-bind="text: companyName" class="user-link"></span>
+            <span style=" display: block; font-size: 1.25em; color: #3498db; outline: none !important;" data-bind="text: companyName" class="user-link"></span>
             <span class="user-subhead">
                 <span data-bind="text: jobCode"></span>
                 <span data-bind="text: '  '"></span>
@@ -158,6 +158,15 @@
                 <!-- ko if: fileType()=== ".doc" -->
                 <img src="@Url.Content("~/Content//Attachments/Page_word.png")" alt="" />
                 <!-- /ko -->
+                <!-- ko if: fileType()=== ".docx" -->
+                <img src="@Url.Content("~/Content//Attachments/Page_word.png")" alt="" />
+                <!-- /ko -->
+                <!-- ko if: fileType()=== ".rtf" -->
+                <img src="@Url.Content("~/Content//Attachments/Page_word.png")" alt="" />
+                <!-- /ko -->
+                <!-- ko if: fileType()=== ".txt" -->
+                <img src="@Url.Content("~/Content//Attachments/Page_word.png")" alt="" />
+                <!-- /ko -->
                 <!-- ko if: fileType()=== ".png" -->
                 <img width="32" height="32" src="@Url.Content("~/Content//Attachments/icoPNG.png")" alt="" />
                 <!-- /ko -->
@@ -165,6 +174,9 @@
                 <img width="32" height="32" src="@Url.Content("~/Content//Attachments/icoJPG.png")" alt="" />
                 <!-- /ko -->
                 <!-- ko if: fileType()=== ".xlsx" -->
+                <img width="32" height="32" src="@Url.Content("~/Content//Attachments/Page_excel.png")" alt="" />
+                <!-- /ko
+                <!-- ko if: fileType()=== ".xls" -->
                 <img width="32" height="32" src="@Url.Content("~/Content//Attachments/Page_excel.png")" alt="" />
                 <!-- /ko
                 <!-- ko if: fileType()=== ".gif" -->
