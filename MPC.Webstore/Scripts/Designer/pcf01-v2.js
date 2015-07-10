@@ -278,6 +278,7 @@ function c0(cCanvas, TOC) {
     TOL.IsTextEditable = TOC.IsTextEditable;
     TOL.AutoShrinkText = TOC.AutoShrinkText;
     TOL.isBulletPoint = TOC.isBulletPoint;
+
     TOL.hasInlineFontStyle = TOC.hasInlineFontStyle;
     TOL.setAngle(TOC.RotationAngle);
     TOL.textCase = TOC.textCase;
@@ -4460,6 +4461,7 @@ function pcl40_InsertDefaultValues(scope) {
     });
 }
 function pcl40_InsertUserData(scope) {
+    $(".qTextInput").val("");
     $.each(scope, function (i, IT) {
         if (IT.Value != null  && IT.Value != undefined) {
             $("#txtSmart" + IT.VariableId).val(IT.Value);
