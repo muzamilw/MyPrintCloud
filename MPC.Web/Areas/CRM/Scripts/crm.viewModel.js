@@ -1789,9 +1789,11 @@ define("crm/crm.viewModel",
                     if (selectedItem.name.error) {
                         errorList.push({ name: selectedItem.name.domElement.name, element: selectedItem.name.domElement });
                     }
-                    if (selectedItem.storeId.error) {
+
+                    if (isProspectOrCustomerScreen() && selectedItem.storeId.error) {
                         errorList.push({ name: selectedItem.storeId.domElement.name, element: selectedItem.storeId.domElement });
                     }
+                   
                     if (selectedItem.webAccessCode.error) {
                         errorList.push({ name: selectedItem.webAccessCode.domElement.name, element: selectedItem.webAccessCode.domElement });
                     }
@@ -1817,6 +1819,10 @@ define("crm/crm.viewModel",
                     doBeforeSave = function () {
                         var flag = true;
                         errorList.removeAll();
+                        // to avoid validation summery in case of supplier screen 
+                        if (!isProspectOrCustomerScreen()) {
+                            selectedStore().storeId(-1);
+                        }
                         if (!selectedStore().isValid()) {
                             selectedStore().errors.showAllMessages();
                             setValidationSummary(selectedStore());
