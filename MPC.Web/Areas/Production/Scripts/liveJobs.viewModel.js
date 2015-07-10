@@ -28,7 +28,37 @@ define("liveJobs/liveJobs.viewModel",
                     sortOn = ko.observable(1),
                     //Sort In Ascending
                     sortIsAsc = ko.observable(true),
-
+                     // Job Statuses
+                    jobStatuses = ko.observableArray([
+                        {
+                            StatusId: 11,
+                            StatusName: "Need Assigning"
+                        },
+                        {
+                            StatusId: 12,
+                            StatusName: "In Studio"
+                        },
+                        {
+                            StatusId: 13,
+                            StatusName: "In Print/Press"
+                        },
+                        {
+                            StatusId: 14,
+                            StatusName: "In Post Press/Bindery"
+                        },
+                        {
+                            StatusId: 15,
+                            StatusName: "Ready for Shipping"
+                        },
+                        {
+                            StatusId: 16,
+                            StatusName: "Shipped, Not Invoiced"
+                        },
+                        {
+                            StatusId: 17,
+                            StatusName: "Not Progressed to Job"
+                        }
+                    ]),
                     // #endregion
 
                     // Get Items
@@ -52,6 +82,13 @@ define("liveJobs/liveJobs.viewModel",
                                         });
                                         if (user !== null && user !== undefined) {
                                             itemModel.jobManagerName(user.FullName);
+                                        }
+                                     var newItem=   jobStatuses.find(function(obj) {
+                                         if (itemModel.statusId() === obj.StatusId)
+                                                return obj;
+                                     });
+                                     if (newItem) {
+                                         itemModel.statusName(newItem.StatusName);
                                         }
                                         itemList.push(itemModel);
 

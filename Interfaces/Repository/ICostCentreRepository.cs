@@ -77,5 +77,9 @@ namespace MPC.Interfaces.Repository
         CostCentre GetWebOrderCostCentre(long OrganisationId);
 
         CostCentre GetFirstCostCentreByOrganisationId(long organisationId);
+
+
+        List<CostCentre> GetAllCostCentresForRecompiling(long OrganisationId);
+        
     }
 }
