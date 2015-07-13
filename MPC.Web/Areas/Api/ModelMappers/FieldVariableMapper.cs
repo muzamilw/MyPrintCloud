@@ -15,7 +15,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Create From Domain Model
         /// </summary>
-        public static FieldVariable CreateFrom(this DomainModels.FieldVariable source)
+        public static FieldVariable CreateFrom(this DomainModels.FieldVariable source, long companyId)
         {
             return new FieldVariable
             {
@@ -31,7 +31,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 WaterMark = source.WaterMark,
                 IsSystem = source.IsSystem,
                 VariableOptions = source.VariableOptions != null ? source.VariableOptions.Select(vo => vo.CreateFrom()).ToList() : null,
-                VariableExtensions = source.VariableExtensions != null ? source.VariableExtensions.Select(vo => vo.CreateFrom()).ToList() : new List<VariableExtension>()
+                VariableExtensions = source.VariableExtensions != null ? source.VariableExtensions.Select(vo => vo.CreateFrom()).Where(x => x.CompanyId != null && x.CompanyId == companyId).ToList() : new List<VariableExtension>()
             };
         }
 

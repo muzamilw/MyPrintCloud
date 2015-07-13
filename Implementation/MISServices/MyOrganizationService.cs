@@ -237,6 +237,8 @@ namespace MPC.Implementation.MISServices
             organisationDbVersion.URL = organisation.URL;
             organisationDbVersion.Mobile = organisation.Mobile;
             organisationDbVersion.IsImperical = organisation.IsImperical;
+            organisationDbVersion.AgileApiKey = organisation.AgileApiKey;
+            organisationDbVersion.AgileApiUrl = organisation.AgileApiUrl;
             if(organisation.IsImperical == true)
             {
                 organisationDbVersion.SystemLengthUnit = 3;

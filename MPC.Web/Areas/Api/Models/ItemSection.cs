@@ -28,6 +28,9 @@ namespace MPC.MIS.Areas.Api.Models
         public int? Qty1 { get; set; }
         public int? Qty2 { get; set; }
         public int? Qty3 { get; set; }
+        public int? Qty1MarkUpID { get; set; }
+        public int? Qty2MarkUpID { get; set; }
+        public int? Qty3MarkUpID { get; set; }
         public double? Qty1Profit { get; set; }
         public double? Qty2Profit { get; set; }
         public double? Qty3Profit { get; set; }

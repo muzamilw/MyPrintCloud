@@ -191,7 +191,7 @@ define("order/order.viewModel",
                     // Sort On
                     sortOn = ko.observable(2),
                     // Sort Order -  true means asc, false means desc
-                    sortIsAsc = ko.observable(false),
+                    sortIsAsc = ko.observable(true),
                     // Pagination
                     pager = ko.observable(new pagination.Pagination({ PageSize: 5 }, orders)),
                     // Pagination for Categories
@@ -1674,11 +1674,6 @@ define("order/order.viewModel",
                          }
                      },
 
-                    //},
-                    //addItemFromRetailStore = function (newItem) {
-                    //    selectedProduct(newItem);
-                    //    selectedOrder().items.splice(0, 0, newItem);
-                    //},
                     addItemFromRetailStore = function (newItem) {
                         selectedProduct(newItem);
                         selectedOrder().items.splice(0, 0, newItem);
@@ -1691,11 +1686,11 @@ define("order/order.viewModel",
                             item.qty2MarkUpId(itemDetailVm.defaultMarkUpId());
                             item.qty3MarkUpId(itemDetailVm.defaultMarkUpId());
                             itemDetailVm.selectedSectionCostCenter(item);
-                            itemDetailVm.applySectionCostCenterMarkup();
                         });
                         itemDetailVm.defaultSection(newItem.itemSections()[0].convertToServerData());
                         //Req: Open Edit dialog of product on adding product
                         editItem(newItem);
+                        itemDetailVm.applySectionCostCenterMarkup();
                     },
                     addItemFromFinishedGoods = function (newItem) {
                         selectedProduct(newItem);
@@ -1705,21 +1700,19 @@ define("order/order.viewModel",
                         newItem.itemSections()[0].productType(3);
                         newItem.itemSections()[0].qty1MarkUpId(itemDetailVm.defaultMarkUpId());
                         newItem.itemSections()[0].qty2MarkUpId(itemDetailVm.defaultMarkUpId());
-
                         _.each(newItem.itemSections()[0].sectionCostCentres(), function (item) {
                             item.qty1MarkUpId(itemDetailVm.defaultMarkUpId());
                             item.qty2MarkUpId(itemDetailVm.defaultMarkUpId());
                             item.qty3MarkUpId(itemDetailVm.defaultMarkUpId());
                             itemDetailVm.selectedSectionCostCenter(item);
-                            itemDetailVm.applySectionCostCenterMarkup();
 
                         });
                         // Set Default Section to be used as a default for new sections in this item
                         itemDetailVm.defaultSection(newItem.itemSections()[0].convertToServerData());
-
-                        //itemDetailVm.defaultSection().productType(3);
                         //Req: Open Edit dialog of product on adding product
                         editItem(newItem);
+
+                        itemDetailVm.applySectionCostCenterMarkup();
                     },
                     onAddCostCenter = function () {
                         // ReSharper disable AssignedValueIsNeverUsed
@@ -2420,6 +2413,27 @@ define("order/order.viewModel",
                         });
                         confirmation.show();
                     },
+                    copyOrder = function () {
+                        confirmation.messageText("Proceed To Copy Order ?");
+                        confirmation.afterProceed(function () {
+                            dataservice.copyOrder({
+                                id: selectedOrder().id()
+                            }, {
+                                success: function (data) {
+                                    if (data) {
+                                        setSelectedOrder(data);
+                                        addItemInListViewOnCopying();
+                                        toastr.success("Order Copied Successfully");
+                                        isCopyiedEstimate(true);
+                                    }
+                                },
+                                error: function (response) {
+                                    toastr.error("Failed to Copy Order" + response);
+                                }
+                            });
+                        });
+                        confirmation.show();
+                    },
                     addItemInListViewOnCopying = function () {
                         selectedOrder().flagColor(getSectionFlagColor(selectedOrder().sectionFlagId()));
                         orders.splice(0, 0, selectedOrder());
@@ -3047,7 +3061,8 @@ define("order/order.viewModel",
                     onAddFinishedGoods: onAddFinishedGoods,
                     onCreateNewCostCenterProduct: onCreateNewCostCenterProduct,
                     sectionFlagsForListView: sectionFlagsForListView,
-                    onDeleteShippingItem: onDeleteShippingItem
+                    onDeleteShippingItem: onDeleteShippingItem,
+                    copyOrder:copyOrder
                     //#endregion
                 };
             })()

@@ -13,6 +13,7 @@ namespace MPC.MIS.Areas.Api.Models
         public int? Qty1 { get; set; }
         public string ProductName { get; set; }
         public string CategoryName { get; set; }
+        public int? JobStatusId { get; set; }
         public long CompanyId { get; set; }
         public short StatusId { get; set; }
         public string StatusName { get; set; }
