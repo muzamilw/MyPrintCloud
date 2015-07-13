@@ -284,10 +284,10 @@
     <script id="editMarkupTemplate" type="text/html">
         <tr data-bind="css: { selectedRow: $data === $root.selectedMarkup() }">
             <td>
-                <input type="text" name="Name" data-bind="value: name, validationTooltip: name, attr: { id: 'markupName' + $index() }, validationOnElement:name" />
+                <input class="form-control" type="text" name="Name" data-bind="value: name, validationTooltip: name, attr: { id: 'markupName' + $index() }, validationOnElement:name" />
             </td>
             <td>
-                <input style="width: 70px;" name="Rate" type="text" data-bind="value: rate, validationTooltip: rate, validationOnElement:rate" />
+                <input class="form-control" style="width: 70px;" name="Rate" type="text" data-bind="value: rateUi, validationTooltip: rate, validationDependsOn: rate, validationOnElement:rate" />
             </td>
             <td>
                 <!-- ko template: { name: 'editActionMarkupTemplate' } -->

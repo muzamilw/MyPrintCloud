@@ -258,7 +258,23 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             name = ko.observable().extend({ required: true }),
             //Rate
             rate = ko.observable().extend({ required: true, number: true }),
-               // Errors
+            // Rate Ui
+            rateUi = ko.computed({
+                read: function() {
+                    return rate();
+                },
+                write: function(value) {
+                    if (value < 0 || value === rate()) {
+                        if (value < 0) {
+                            rate(value);
+                            rate(0);
+                        }
+                        return;
+                    }
+                    rate(value);
+                }
+            }),
+            // Errors
             errors = ko.validation.group({
                 name: name,
                 rate: rate
@@ -283,11 +299,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             id: id,
             name: name,
             rate: rate,
+            rateUi: rateUi,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
-            reset: reset,
+            reset: reset
         };
         return self;
     };
