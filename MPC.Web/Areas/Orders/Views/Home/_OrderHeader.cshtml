@@ -284,13 +284,14 @@
                         <button type="button" class="btn btn-primary" data-bind="click: $root.onShippingChargesClick">Add Shipping Charge</button>
                     </div>
                     <div class="col-sm-6" style="margin-top:10px">
-                        <div class="col-sm-8 text-right">
+                        <div class="col-sm-6 text-right">
                             <label class="control-label text-right">Gross Total:</label>
                         </div>
-                        <div class="col-sm-4 text-right" style="margin-top:5px">
+                        <div class="col-sm-5 text-right" style="margin-top:5px;padding-right: 24px">
                             <span data-bind="text: $root.currencySymbol() " style="font-weight: bold; font-size:20px;"></span>
                             <span data-bind="numberInput: $root.grossTotal" style="font-weight: bold; font-size:20px;"></span>
                         </div>
+                        <div class="col-sm-1">&nbsp;</div>
                     </div>
                 </div>
             </div>
