@@ -672,7 +672,7 @@
 
         </div>
         <div class="float_left_simple UploadsGuidLineContainer">
-            <input type="file" name="imageUploader" id="imageUploader" />
+            <input type="file" name="imageUploader" id="imageUploader" class="imageUploader" />
             <input type="button" value="Upload" class="Uplod_PCS rounded_corners5 background-green" id="btnOpenUploadDailog" onclick="openDailog();" />
 
             <div id="lbl_PremittedFormat" class="float_left_simple Fsize12" style="width: 175px; text-align: left; margin-bottom: 5px; margin-top: 10px;">
@@ -1341,12 +1341,12 @@
         selectedCheckBox = null;
     }
 
-    function ShowArtworkPanel() {
+        function ShowArtworkPanel() {
         var panelHtml = $("#pnlArtworkUploader").html();
         ShowArtWorkPopup("Upload Artwork", panelHtml);
-        $('#imageUploader').change(function () {
+        $('.imageUploader').change(function () {
             data = new FormData();
-            var files = $('#imageUploader')[0].files;
+            var files = $(this)[0].files;
 
             var name1 = files[0].name.replace(/C:\\fakepath\\/i, '');
             fileExtension = name1.substr(name1.lastIndexOf('.') + 1);

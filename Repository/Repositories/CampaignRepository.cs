@@ -969,9 +969,15 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
+                                db.CampaignEmailQueues.Remove(record);
+                                db.SaveChanges();
                             }
-                            db.CampaignEmailQueues.Remove(record);
-                            db.SaveChanges();
+                            else
+                            {
+                                record.ErrorResponse = ErrorMsg;
+                                record.AttemptCount++;
+                                db.SaveChanges();
+                            }
                         }
                         else
                         {
@@ -985,8 +991,7 @@ namespace MPC.Repository.Repositories
             }
             catch (Exception ex)
             {
-                throw ex;
-
+               throw ex;
             }
         }
 
@@ -996,6 +1001,8 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                bool isFileExists = true;
+
                 if (string.IsNullOrEmpty(oEmailBody.EmailFrom))
                 {
                     ErrorMsg = "";
@@ -1035,47 +1042,62 @@ namespace MPC.Repository.Repositories
                             }
 
                             string FilePath = context.Server.MapPath(temp);
-                            data = new Attachment(FilePath, MediaTypeNames.Application.Octet);
-                            ContentDisposition disposition = data.ContentDisposition;
-                            disposition.CreationDate = System.IO.File.GetCreationTime(FilePath);
-                            disposition.ModificationDate = System.IO.File.GetLastWriteTime(FilePath);
-                            disposition.ReadDate = System.IO.File.GetLastAccessTime(FilePath);
-                            disposition.FileName = fname;
-                            objMail.Attachments.Add(data);
+                            if (File.Exists(FilePath))
+                            {
+                                data = new Attachment(FilePath, MediaTypeNames.Application.Octet);
+                                ContentDisposition disposition = data.ContentDisposition;
+                                disposition.CreationDate = System.IO.File.GetCreationTime(FilePath);
+                                disposition.ModificationDate = System.IO.File.GetLastWriteTime(FilePath);
+                                disposition.ReadDate = System.IO.File.GetLastAccessTime(FilePath);
+                                disposition.FileName = fname;
+                                objMail.Attachments.Add(data);
+                            }
+                            else 
+                            {
+                                isFileExists = false;
+                            }
                         }
                     }
                 }
-
-                SmtpClient objSmtpClient = new SmtpClient(smtp);
-                objSmtpClient.Credentials = new NetworkCredential(SmtpUserName, SenderPassword);
-                objMail.From = new MailAddress(FromEmail, FromName);
-                objMail.To.Add(new MailAddress(MailTo, ToName));
-                if (!string.IsNullOrEmpty(CC))
+                if (isFileExists == true)
                 {
-                    if (!string.IsNullOrWhiteSpace(CC))
-                        objMail.CC.Add(new MailAddress(CC));
+                    SmtpClient objSmtpClient = new SmtpClient(smtp);
+                    objSmtpClient.Credentials = new NetworkCredential(SmtpUserName, SenderPassword);
+                    objMail.From = new MailAddress(FromEmail, FromName);
+                    objMail.To.Add(new MailAddress(MailTo, ToName));
+                    if (!string.IsNullOrEmpty(CC))
+                    {
+                        if (!string.IsNullOrWhiteSpace(CC))
+                            objMail.CC.Add(new MailAddress(CC));
+                    }
+
+                    objMail.IsBodyHtml = true;
+                    objMail.Body = oEmailBody.Body;
+                    objMail.Subject = oEmailBody.Subject;
+
+                    objSmtpClient.Send(objMail);
+
+                    if (data != null)
+                    {
+                        objMail.Attachments.Remove(data);
+                        data.Dispose();
+                    }
+                    retVal = true;
+                    ErrorMsg = "";
+
+
+                    objMail.Dispose();
+                    if (objMail != null)
+                        objMail = null;
+
+                    return retVal;
                 }
-
-                objMail.IsBodyHtml = true;
-                objMail.Body = oEmailBody.Body;
-                objMail.Subject = oEmailBody.Subject;
-
-                objSmtpClient.Send(objMail);
-
-                if (data != null)
+                else 
                 {
-                    objMail.Attachments.Remove(data);
-                    data.Dispose();
+                    ErrorMsg = "Attachment not found.";
+                    return false;
                 }
-                retVal = true;
-                ErrorMsg = "";
-
-
-                objMail.Dispose();
-                if (objMail != null)
-                    objMail = null;
-
-                return retVal;
+             
 
             }
             catch (Exception ex)

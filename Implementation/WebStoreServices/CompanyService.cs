@@ -561,7 +561,7 @@ namespace MPC.Implementation.WebStoreServices
         }
 
 
-        public string[] CreatePageMetaTags(string MetaTitle, string metaDesc, string metaKeyword, StoreMode mode, string StoreName, Address address = null)
+        public string[] CreatePageMetaTags(string MetaTitle, string metaDesc, string metaKeyword, string StoreName, Address address = null)
         {
             try
             {
