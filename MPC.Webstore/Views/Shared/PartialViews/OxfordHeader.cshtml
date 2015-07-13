@@ -29,87 +29,10 @@
          }
     </div>
 </header>
-<a onclick="LoginPopUP();" class="demoButton">
-    Ask for demo
-</a>
-<div id="jqwin" class="FileUploaderPopup_Mesgbox" style="position: fixed; z-index:1000;">
 
-    <div onclick="closeBOX();" class="exit_page_CP MesgBoxBtnsDisplay rounded_corners5" style="">Close</div>
-    <iframe id="ifrm" style="height:610px; padding:5px; padding-bottom:0px; border: none; z-index:99999999 !important;" class="rounded_corners LCLB" src="../AskForDemo.aspx"></iframe>
-</div>
 <script>
-    $(document).ready(function () {
 
-        var shadow = document.getElementById("divShd");
-        var bws = getBrowserHeight();
-        shadow.style.width = bws.width + "px";
-        shadow.style.height = bws.height + "px";
-        var left = parseInt(($(window).width() - 809) / 2);
-        var top = parseInt(($(window).height() - 610) / 2);
 
-        $('#jqwin').css("left", left);
-        $('#jqwin').css("top", top);
-        $('#ifrm').css("width", "809px");
-        if ($(window).width() < 360) {
-            var left = parseInt(($(window).width() - $(window).width()) / 2);
-            var top = parseInt(($(window).height() - 610) / 2);
-            $('#jqwin').css("left", left);
-            $('#jqwin').css("top", top);
-            $('#ifrm').css("width", "320px");
-        } else if ($(window).width() < 481) {
-
-            var left = parseInt(($(window).width() - $(window).width()) / 2);
-            var top = parseInt(($(window).height() - 610) / 2);
-            $('#jqwin').css("left", left);
-            $('#jqwin').css("top", top);
-            $('#ifrm').css("width", "400px");
-        } else if ($(window).width() < 641) {
-
-            var left = parseInt(($(window).width() - $(window).width()) / 2);
-            var top = parseInt(($(window).height() - 610) / 2);
-            $('#jqwin').css("left", left);
-            $('#jqwin').css("top", top);
-            $('#ifrm').css("width", "460px");
-        } else {
-
-        }
-
-    });
-
-    $(window).resize(function () {
-        var shadow = document.getElementById("divShd");
-        var bws = getBrowserHeight();
-        shadow.style.width = bws.width + "px";
-        shadow.style.height = bws.height + "px";
-        var left = parseInt(($(window).width() - 809) / 2);
-        var top = parseInt(($(window).height() - 610) / 2);
-        $('#jqwin').css("left", left);
-        $('#jqwin').css("top", top);
-        $('#ifrm').css("width", "809px");
-        if ($(window).width() < 360) {
-            var left = parseInt(($(window).width() - $(window).width()) / 2);
-            var top = parseInt(($(window).height() - 610) / 2);
-            $('#jqwin').css("left", left);
-            $('#jqwin').css("top", top);
-            $('#ifrm').css("width", "320px");
-        } else if ($(window).width() < 481) {
-
-            var left = parseInt(($(window).width() - $(window).width()) / 2);
-            var top = parseInt(($(window).height() - 610) / 2);
-            $('#jqwin').css("left", left);
-            $('#jqwin').css("top", top);
-            $('#ifrm').css("width", "400px");
-        } else if ($(window).width() < 641) {
-
-            var left = parseInt(($(window).width() - $(window).width()) / 2);
-            var top = parseInt(($(window).height() - 610) / 2);
-            $('#jqwin').css("left", left);
-            $('#jqwin').css("top", top);
-            $('#ifrm').css("width", "460px");
-        } else {
-
-        }
-    });
 
     $("#darkCollapseBtn").click(function () {
 
@@ -125,10 +48,5 @@
         return false;
     }
 
-    function closeBOX() {
-        $(".closeBtn_CP").css("display", "none");
-        $('#divShd').css("display", "none");
-        $('#jqwin').css("display", "none");
-    }
 </script>
 
