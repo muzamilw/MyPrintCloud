@@ -65,7 +65,7 @@ namespace MPC.Interfaces.MISServices
         InquiryBaseResponse GetBaseDataForInquiries();
 
         OrderBaseResponse GetBaseDataForEstimate();
-        
+
         /// <summary>
         /// Download Attachment
         /// </summary>
@@ -78,5 +78,11 @@ namespace MPC.Interfaces.MISServices
         /// <param name="estimateId"></param>
         /// <returns></returns>
         Estimate CloneEstimate(long estimateId);
+
+        /// <summary>
+        /// Clone Order
+        /// </summary>
+        Estimate CloneOrder(long estimateId);
+
     }
 }

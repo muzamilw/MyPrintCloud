@@ -112,7 +112,7 @@
                 </div>
             </div>
 
-            <div class="modal-footer" data-bind="with: $root.selectedPaperSheet">
+            <div class="modal-footer" data-bind="with: $root.selectedPaperSheet" style="padding-left:8px !important;">
                 <button type="button" class="btn btn-primary" data-bind="click: $root.savePaperSheet, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
                 <button type="button" class="btn btn-default removeLeftMargin" data-bind="click: $root.onClosePaperSheet">Close</button>
                 <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeletePaperSheet, enable:$root.selectedPaperSheet().paperSizeId() != undefined">Archive</button>

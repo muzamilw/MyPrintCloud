@@ -2413,6 +2413,27 @@ define("order/order.viewModel",
                         });
                         confirmation.show();
                     },
+                    copyOrder = function () {
+                        confirmation.messageText("Proceed To Copy Order ?");
+                        confirmation.afterProceed(function () {
+                            dataservice.copyOrder({
+                                id: selectedOrder().id()
+                            }, {
+                                success: function (data) {
+                                    if (data) {
+                                        setSelectedOrder(data);
+                                        addItemInListViewOnCopying();
+                                        toastr.success("Order Copied Successfully");
+                                        isCopyiedEstimate(true);
+                                    }
+                                },
+                                error: function (response) {
+                                    toastr.error("Failed to Copy Order" + response);
+                                }
+                            });
+                        });
+                        confirmation.show();
+                    },
                     addItemInListViewOnCopying = function () {
                         selectedOrder().flagColor(getSectionFlagColor(selectedOrder().sectionFlagId()));
                         orders.splice(0, 0, selectedOrder());
@@ -3040,7 +3061,8 @@ define("order/order.viewModel",
                     onAddFinishedGoods: onAddFinishedGoods,
                     onCreateNewCostCenterProduct: onCreateNewCostCenterProduct,
                     sectionFlagsForListView: sectionFlagsForListView,
-                    onDeleteShippingItem: onDeleteShippingItem
+                    onDeleteShippingItem: onDeleteShippingItem,
+                    copyOrder:copyOrder
                     //#endregion
                 };
             })()
