@@ -70,6 +70,15 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Find(id);
         }
+
+        /// <summary>
+        /// Delete Template using Stored Procedure
+        /// </summary>
+        public int DeleteTemplate(long templateId)
+        {
+            return db.usp_DeleteTemplate(templateId);
+        }
+
         /// <summary>
         ///  Get template object by template id // added by saqib ali
         /// </summary>

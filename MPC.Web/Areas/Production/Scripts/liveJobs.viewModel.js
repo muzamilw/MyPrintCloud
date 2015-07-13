@@ -2,8 +2,8 @@
     Module with the view model for the live Jobs.
 */
 define("liveJobs/liveJobs.viewModel",
-    ["jquery", "amplify", "ko", "liveJobs/liveJobs.dataservice", "liveJobs/liveJobs.model", "common/pagination"],
-    function ($, amplify, ko, dataservice, model, pagination) {
+    ["jquery", "amplify", "ko", "liveJobs/liveJobs.dataservice", "liveJobs/liveJobs.model", "common/pagination", "common/reportManager.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, reportManager) {
         var ist = window.ist || {};
         ist.liveJobs = {
             viewModel: (function () {
@@ -28,7 +28,37 @@ define("liveJobs/liveJobs.viewModel",
                     sortOn = ko.observable(1),
                     //Sort In Ascending
                     sortIsAsc = ko.observable(true),
-
+                     // Job Statuses
+                    jobStatuses = ko.observableArray([
+                        {
+                            StatusId: 11,
+                            StatusName: "Need Assigning"
+                        },
+                        {
+                            StatusId: 12,
+                            StatusName: "In Studio"
+                        },
+                        {
+                            StatusId: 13,
+                            StatusName: "In Print/Press"
+                        },
+                        {
+                            StatusId: 14,
+                            StatusName: "In Post Press/Bindery"
+                        },
+                        {
+                            StatusId: 15,
+                            StatusName: "Ready for Shipping"
+                        },
+                        {
+                            StatusId: 16,
+                            StatusName: "Shipped, Not Invoiced"
+                        },
+                        {
+                            StatusId: 17,
+                            StatusName: "Not Progressed to Job"
+                        }
+                    ]),
                     // #endregion
 
                     // Get Items
@@ -53,6 +83,13 @@ define("liveJobs/liveJobs.viewModel",
                                         if (user !== null && user !== undefined) {
                                             itemModel.jobManagerName(user.FullName);
                                         }
+                                     var newItem=   jobStatuses.find(function(obj) {
+                                         if (itemModel.statusId() === obj.StatusId)
+                                                return obj;
+                                     });
+                                     if (newItem) {
+                                         itemModel.statusName(newItem.StatusName);
+                                        }
                                         itemList.push(itemModel);
 
                                     });
@@ -67,6 +104,23 @@ define("liveJobs/liveJobs.viewModel",
                             }
                         });
                     },
+                    // open job card report
+                    openExternalReportsJob = function (item) {
+
+                        reportManager.outputTo("preview");
+
+                        
+                        reportManager.OpenExternalReport(ist.reportCategoryEnums.JobCards, 1, item.id());
+                           
+                        
+
+
+
+                    },
+
+               
+
+
                     // Get Items
                     getBaseData = function () {
                         dataservice.getBaseData({
@@ -141,7 +195,8 @@ define("liveJobs/liveJobs.viewModel",
                     getItems: getItems,
                     downloadArtwork: downloadArtwork,
                     selectItem: selectItem,
-                    enableDownloadArtwork:enableDownloadArtwork
+                    enableDownloadArtwork: enableDownloadArtwork,
+                    openExternalReportsJob: openExternalReportsJob
 
                 };
             })()

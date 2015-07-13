@@ -395,7 +395,14 @@
                     defaultItemTax: defaultItemTax,
                     jobEstimatedStartDateTime: jobEstimatedStartDateTime,
                     jobEstimatedCompletionDateTime: jobEstimatedCompletionDateTime,
-                    jobManagerId: jobManagerId
+                    jobManagerId: jobManagerId,
+                    jobStatusId: jobStatusId,
+                    jobSignedBy: jobSignedBy,
+                    qty1NetTotal: qty1NetTotal,
+                    qty2NetTotal: qty2NetTotal,
+                    qty1Tax1Value: qty1Tax1Value,
+                    qty2Tax1Value: qty2Tax1Value,
+                    tax1: tax1
                 }),
                 // Item Section Changes
                 itemSectionHasChanges = ko.computed(function () {
@@ -467,6 +474,12 @@
                         Qty1Tax1Value: qty1Tax1Value(),
                         Qty1GrossTotal: qty1GrossTotal(),
                         Qty1NetTotal: qty1NetTotal(),
+                        Qty2Tax1Value: qty2Tax1Value(),
+                        Qty2GrossTotal: qty2GrossTotal(),
+                        Qty2NetTotal: qty2NetTotal(),
+                        Qty3Tax1Value: qty3Tax1Value(),
+                        Qty3GrossTotal: qty3GrossTotal(),
+                        Qty3NetTotal: qty3NetTotal(),
                         Qty1: qty1(),
                         Qty2: qty2(),
                         Qty3: qty3(),
@@ -1193,8 +1206,7 @@
                     qty3WorkInstructions: qty3WorkInstructions,
                     isDirectCost: isDirectCost,
                     isPurchaseOrderRaised: isPurchaseOrderRaised,
-                    qty1EstimatedStockCost: qty1EstimatedStockCost,
-                    sectionCostCentreDetails: sectionCostCentreDetails
+                    qty1EstimatedStockCost: qty1EstimatedStockCost
                 }),
                 // SectionCostCentreDetails Has Changes
                 sectionCostCentreDetailsHasChanges = function () {
@@ -1230,9 +1242,9 @@
                         Qty1NetTotal: qty1NetTotal(),
                         Qty2NetTotal: qty2NetTotal(),
                         Qty3NetTotal: qty3NetTotal(),
-                        Qty1MarkUpId: qty1MarkUpId(),
-                        Qty2MarkUpId: qty2MarkUpId(),
-                        Qty3MarkUpId: qty3MarkUpId(),
+                        Qty1MarkUpID: qty1MarkUpId(),
+                        Qty2MarkUpID: qty2MarkUpId(),
+                        Qty3MarkUpID: qty3MarkUpId(),
                         Qty1MarkUpValue: qty1MarkUpValue(),
                         Qty2MarkUpValue: qty2MarkUpValue(),
                         Qty3MarkUpValue: qty3MarkUpValue(),

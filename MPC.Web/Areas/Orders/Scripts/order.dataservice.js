@@ -66,6 +66,13 @@ define("order/order.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'Get'
                     });
+                    // Define request to Order Deep Copy
+                    amplify.request.define('copyOrder', 'ajax', {
+                        url: ist.siteUrl + '/Api/CopyOrder',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'Get'
+                    });
                     // Define request to get inquiry by id
                     amplify.request.define('getInquiry', 'ajax', {
                         url: ist.siteUrl + '/Api/Inquiry',
@@ -213,6 +220,16 @@ define("order/order.dataservice", function () {
                 initialize();
                 return amplify.request({
                     resourceId: 'copyEstimate',
+                    data: params,
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
+            // copy Order
+            copyOrder= function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'copyOrder',
                     data: params,
                     success: callbacks.success,
                     error: callbacks.error,
@@ -412,7 +429,8 @@ define("order/order.dataservice", function () {
             getInquiryItems: getInquiryItems,
             getBaseDataForInquiry: getBaseDataForInquiry,
             getBaseDataForEstimate: getBaseDataForEstimate,
-            downloadOrderArtwork: downloadOrderArtwork
+            downloadOrderArtwork: downloadOrderArtwork,
+            copyOrder:copyOrder
 
 
         };

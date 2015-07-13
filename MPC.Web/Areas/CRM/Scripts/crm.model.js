@@ -1275,7 +1275,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     ) {
         var self,
             //storeId is used for select store dropdown on crm prospect/customer screen
-            storeId = ko.observable(specifiedStoreId),
+            storeId = ko.observable(specifiedStoreId).extend({ required: true }),
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
             name = ko.observable(specifiedName).extend({ required: true }),
             status = ko.observable(specifiedStatus),
@@ -1394,6 +1394,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             errors = ko.validation.group({
                 companyId: companyId,
                 name: name,
+                storeId:storeId,
                 //webAccessCode: webAccessCode,
                 url: url,
             }),

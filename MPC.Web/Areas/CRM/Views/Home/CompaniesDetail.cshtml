@@ -113,7 +113,7 @@
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" style="height:60px;" name="Store Name" class="form-control height60 font24px" id="txtCompanyName" placeholder="Enter Company Name" data-bind="value: name, validationTooltip: name, validationOnElement: name">
+                                                <input type="text" style="height:60px;" name="Company Name" class="form-control height60 font24px" id="txtCompanyName" placeholder="Enter Company Name" data-bind="value: name, validationTooltip: name, validationOnElement: name">
 
 
 
@@ -154,7 +154,7 @@
                                                 <label for="selectStore" class="control-label text-right tooltip-float">Select Store</label>
                                             </div>
                                             <div class="col-lg-6">
-                                                <select id="selectStore" class="form-control" data-bind="options: $root.storesListForDropDown , optionsText: 'Name', optionsValue: 'CompanyId', optionsCaption: ' --- Select Store --- ',value: storeId "></select>  @*,,value: stateId  value:country,validationtooltip:country*@
+                                                <select id="selectStoreCrm" name="Store" class="form-control" data-bind="options: $root.storesListForDropDown , optionsText: 'Name', optionsValue: 'CompanyId', optionsCaption: ' --- Select Store --- ',value: storeId,validationOnElement:storeId,validationTooltip: storeId, "></select>  @*,,value: stateId  value:country,validationtooltip:country*@
                                             </div>
                                         </div>
                                         <!-- /ko -->
@@ -535,8 +535,8 @@
                                                             <table class="table table-striped table-hover">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th class="col-lg-3"><span>Name</span></th>
-                                                                        <th class="col-lg-3">Is Primary</th>
+                                                                        <th class="col-lg-4"><span>Name</span></th>
+                                                                        <th class="col-lg-2">Is Primary</th>
                                                                         <th class="col-lg-3">Email</th>
                                                                         <th class="col-lg-3">Cell Number</th>
 
@@ -1188,10 +1188,10 @@
         <tr data-bind="click: $root.onEditCompanyContact, css: { selectedRow: $data === $root.selectedCompanyContact}" style="cursor: pointer">
             <td>
                 @*style="width: 20%; max-width: 20%;"*@
-                <div class="img col-xs-2" style="padding-left:2px;">
+                <div class="img col-xs-12" style="padding-left:2px;">
                     @*<img style="min-height: 20px; width: 20px;" data-bind="attr:{src: image}" alt="" />*@
                     <div class="name">
-                        <a href="#" class="store-user-link" data-bind="text: firstName,click : undefined"></a>
+                        <a href="#" class="store-user-link" data-bind="text: firstName()+' '+lastName(),click : undefined"></a>
                     </div>
                 </div>
 

@@ -117,7 +117,7 @@ namespace MPC.Repository.Repositories
         }
         public IEnumerable<Address> GetAllAddressByStoreId(long storeId)
         {
-            return db.Addesses.Where(s => s.CompanyId == storeId );
+            return db.Addesses.Where(s => s.CompanyId == storeId && s.isArchived != true);
         }
         public Address GetAddressByID(long AddressID)
         {

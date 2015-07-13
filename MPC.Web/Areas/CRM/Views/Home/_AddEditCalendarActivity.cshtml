@@ -154,7 +154,7 @@
             <div class="modal-footer">
                 <hr />
                 <button type="button" class="btn btn-danger pull-left" data-bind="click:$root.onDeleteActivity,enable:id()!==undefined">Delete</button>
-                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveActivity">Save</button>
+                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveActivity,css: { 'btn-warning': hasChanges}, enable:hasChanges ">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
             </div>
         </div>
