@@ -216,7 +216,7 @@ namespace MPC.Webstore.Controllers
 
             if (OrderType == "Download")
             {
-                string Exception = "";
+                string Exception = "Exception ";
                 try
                 {
                     string DownloadFileLink = _MISOrderService.DownloadOrderArtwork((int)OrderId, "", UserCookieManager.WEBOrganisationID);
@@ -225,9 +225,9 @@ namespace MPC.Webstore.Controllers
                 }
                 catch (Exception e)
                 {
-                    throw e;
+                    Exception = Exception + e.InnerException.ToString() + " " + e.StackTrace.ToString();
                 }
-                
+                return Json(Exception, JsonRequestBehavior.DenyGet);
             }
             return Json(true, JsonRequestBehavior.DenyGet);
            

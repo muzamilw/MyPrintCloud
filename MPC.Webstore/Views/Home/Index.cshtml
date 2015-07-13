@@ -2,18 +2,27 @@
 
 @section metatags
 {
-    @if (ViewBag.MetaTitle != null)
+    
+    @if (TempData["MetaTitle"] != null)
     {
-        <meta name="title" content="@ViewBag.MetaTitle" />
+        <meta name="title" content="@TempData["MetaTitle"]" />
     }
-    @if (ViewBag.MetaDescription != null)
+    @if (TempData["MetaDescription"] != null)
     {
-        <meta name="description" content="@ViewBag.MetaDescription" />
-
+        <meta name="description" content="@TempData["MetaDescription"]" />
     }
-    @if (ViewBag.MetaKeywords != null)
+    @if (TempData["MetaKeywords"] != null)
     {
-        <meta name="keywords" content="@ViewBag.MetaKeywords" />
+        <meta name="keywords" content="@TempData["MetaKeywords"]"/>
+    }
+   
+    @if (ViewBag.WebAnalyticCode != null)
+    {
+        @Html.Raw(ViewBag.WebAnalyticCode)
+    }
+    @if (ViewBag.WebMasterTag != null)
+    {
+        @Html.Raw(ViewBag.WebMasterTag)
     }
 }
 

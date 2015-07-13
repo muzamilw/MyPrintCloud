@@ -26,18 +26,18 @@
     @RenderSection("metatags", false)
 
 </head>
-<body class="bodycolor">
+<body class="bodycolor" id="@ViewBag.pageName">
     <div class="body-content">
         @RenderBody()
     </div>
     <div id="layer" class="opaqueLayer"></div>
     <div id="innerLayer">
     </div>
-   
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
-    
-   
+
+
     @*@Scripts.Render("~/pageSpecific")*@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/Slider")
