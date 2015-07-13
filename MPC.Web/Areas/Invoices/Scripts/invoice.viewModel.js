@@ -34,8 +34,8 @@ define("invoice/invoice.viewModel",
                     //Filter 
                     orderType = ko.observableArray([
                         { name: "ALL", value: "2" },
-                        { name: "Direct  Order", value: "0" },
-                        { name: "Online Order", value: "1" }
+                        { name: "Direct Invoice", value: "0" },
+                        { name: "Online Invoice", value: "1" }
                     ]),
                     flagItem = function (state) {
                         return "<div style=\"height:20px;margin-right:10px;width:25px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
@@ -635,14 +635,14 @@ define("invoice/invoice.viewModel",
                 // Get Section flag color
                 getSectionFlagColor = function (sectionFlagId) {
                     var sectionFlg = sectionFlags.find(function (sectionFlag) {
-                        return sectionFlag.id == sectionFlagId;
+                        return sectionFlag.SectionFlagId == sectionFlagId;
                     });
 
                     if (!sectionFlg) {
                         return undefined;
                     }
 
-                    return sectionFlg.color;
+                    return sectionFlg.FlagColor;
                 },
                 // Get Invoice From list
                 getInvoiceFromList = function (id) {
@@ -795,7 +795,7 @@ define("invoice/invoice.viewModel",
                 mapInvoices = function (data) {
                     var invoicesList = [];
                     _.each(data, function (invoice) {
-                        //invoice.FlagColor = getSectionFlagColor(invoice.SectionFlagId);
+                        invoice.FlagColor = getSectionFlagColor(invoice.FlagId);
                         invoicesList.push(model.InvoicesListView.Create(invoice));
                     });
                     // Push to Original Array
@@ -810,7 +810,7 @@ define("invoice/invoice.viewModel",
                         SearchString: filterText(),
                         PageSize: pager().pageSize(),
                         PageNo: pager().currentPage(),
-                        Status: currentScreen(),
+                        Status: currentScreen(), 
                         FilterFlag: selectedFilterFlag(),
                         OrderTypeFilter: orderTypeFilter(),
                         SortBy: sortOn(),
@@ -1350,7 +1350,8 @@ define("invoice/invoice.viewModel",
                     calculateTaxValue: calculateTaxValue,
                     onCreateNewCostCenterProduct: onCreateNewCostCenterProduct,
                     onAddFinishedGoods: onAddFinishedGoods,
-                    onDeleteShippingItem: onDeleteShippingItem
+                    onDeleteShippingItem: onDeleteShippingItem,
+                    getInvoices: getInvoices
                     //#endregion
                 };
             })()

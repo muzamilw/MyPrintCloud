@@ -71,7 +71,7 @@ namespace MPC.Webstore.Controllers
 
             if (Category != null)
             {
-
+                SetCategoryMEtaTitle(Category, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse);
                 List<ProductCategory> subCategoryList = new List<ProductCategory>();
 
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp) // corporate case
@@ -289,6 +289,21 @@ namespace MPC.Webstore.Controllers
             ViewBag.ContactId = _webstoreAuthorizationChecker.loginContactID();
 
             return View("PartialViews/Category", Category);
+        }
+
+        private void SetCategoryMEtaTitle(ProductCategory productParentCategory, MPC.Models.DomainModels.Address DefaultAddress, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse CompanyObject)
+        {
+            string[] MetaTags = _myCompanyService.CreatePageMetaTags(productParentCategory.MetaTitle == null ? "" : productParentCategory.MetaTitle, productParentCategory.MetaDescription == null ? "" : productParentCategory.MetaDescription, productParentCategory.MetaKeywords == null ? "" : productParentCategory.MetaKeywords, CompanyObject.Company.Name, DefaultAddress);
+            TempData.Remove("MetaTitle");
+            TempData["MetaTitle"] = MetaTags[0];
+            TempData.Remove("MetaKeywords");
+            //ViewBag.MetaTitle  = MetaTags[0];
+            TempData["MetaKeywords"] = MetaTags[1];
+            TempData.Remove("MetaDescription");
+            //ViewBag.MetaKeywords = MetaTags[1];
+            TempData["MetaDescription"] = MetaTags[2];
+           
+            //ViewBag.MetaDescription = MetaTags[2];
         }
 
         public ActionResult CloneItem(long id)

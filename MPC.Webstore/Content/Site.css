@@ -2,7 +2,7 @@
 @font-face {
     font-family: 'Poiret One';
     font-style: normal;
-    font-weight: 400;
+    font-weight: 400; 
     src: local('Poiret One'), local('PoiretOne-Regular'), url(http://themes.googleusercontent.com/static/fonts/poiretone/v1/HrI4ZJpJ3Fh0wa5ofYMK8RsxEYwM7FgeyaSgU71cLG0.woff) format('woff');
 }
 
@@ -47,7 +47,7 @@ html, body {
 
 .bodycolor {
     background-color: #ffffff !important;
-    background-image: url('background.png') !important;
+    background-image: url('_background.jpg') !important;
     background-repeat: no-repeat;
 }
 
@@ -340,7 +340,7 @@ ul.nav li.selectedLava a {
 }
 
 .top_header {
-    background-color: transparent !important;
+    background-color: #fff !important;
     margin-bottom: 0px;
 }
 
@@ -461,6 +461,7 @@ ul.nav li.selectedLava a {
     height: 40px;
     /*-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
+
 	-khtml-border-radius: 5px;
 	border-radius: 5px;*/
 }
@@ -1424,6 +1425,8 @@ ul.nav li.selectedLava a {
     height: 75px;
     width: 75px;
     top: -260px;
+
+
     left: 390px;
     color: White;
 }
@@ -1742,7 +1745,7 @@ ul.nav li.selectedLava a {
 
 .sign_in_heading {
     font-size: 25px;
-    color: #E83e48;
+    color: #20557b;
     text-shadow: none;
     font-weight: bold;
 }
@@ -1765,7 +1768,7 @@ ul.nav li.selectedLava a {
     padding: 20px 0px 0px 0px;
     text-align: center;
     font-size: 25px;
-    color: #E83e48;
+    color: #20557b;
     text-shadow: none;
     font-weight: bold;
 }
@@ -1793,11 +1796,12 @@ ul.nav li.selectedLava a {
 .product_detail_image_heading_IRI {
     /* font-weight: bold; padding: 20px 10px 5px 10px;*/
     font-size: 14px;
-    color: #E66053;
-    padding-top: 30px;
-    padding-bottom: 15px;
+    color: black;
+    padding-top: 15px;
+    padding-bottom: 30px;
     text-align: center;
     height: 15px;
+
 }
 
 .product_detail_image_Pricing {
@@ -1810,7 +1814,7 @@ ul.nav li.selectedLava a {
     /* font-weight: bold;*/
     font-size: 18px;
     line-height: 16px;
-    color: #E83e48;
+    color: #20557b;
     /*padding-left: 5px;*/
     text-align: left;
     margin-bottom: 20px;
@@ -2539,6 +2543,8 @@ width: 520px*/
         text-decoration: none;
         cursor: pointer;
         color: #003366;
+
+
     }
 
     .link16 a:hover {
@@ -2706,7 +2712,7 @@ width: 520px*/
         font-size: 12px !important;
         font-style: normal;
         font-weight: normal;
-        color: #E83e48 !important;
+        color: #20557b !important;
         margin-left: 10px;
         line-height: 0;
     }
@@ -3184,6 +3190,7 @@ width: 520px*/
     color: #cccccc;
     margin-top: 15px;
 }
+
 
 .darkFooter {
     margin-top: 15px;
@@ -3740,7 +3747,7 @@ width: 520px*/
 }
 
 .start_creating_btn_Login {
-    background: #E83e48;
+    background: #20557b;
     background-repeat: no-repeat;
     height: 34px;
     border: 0px;
@@ -3757,7 +3764,7 @@ width: 520px*/
 }
 
 .start_creating_btn_CretAcc {
-    background: #E83e48;
+    background: #20557b;
     background-repeat: no-repeat;
     height: 34px;
     border: 0px;
@@ -3785,7 +3792,7 @@ width: 520px*/
     -moz-transition: all 200ms ease-out;
     cursor: pointer;
     /* margin-right: 10px; */
-    background-color: #E83e48;
+    background-color: #20557b;
     font-size: 16px;
     line-height: inherit;
 }
@@ -4590,6 +4597,7 @@ width: 520px*/
 }
 
 #OrderStepsContainer {
+
     margin-left: 55px;
 }
 
@@ -5316,7 +5324,7 @@ width: 520px*/
 }
 
     .exit_popup4:hover {
-        background: #E83e48;
+        background: #20557b;
     }
 
 .font22px {
@@ -6138,6 +6146,7 @@ width: 520px*/
     margin-left: 10px;
 }
 
+
 .marginBtom {
     margin-bottom: 3px;
 }
@@ -6298,6 +6307,7 @@ width: 520px*/
                 display: block;
                 padding: 0;
                 /* font-weight: bold;*/
+
                 text-decoration: none;
                 z-index: 1001;
                 color: White;
@@ -7205,7 +7215,7 @@ div.wrapper {
 
 /***All Products control***/
 .allprodHead {
-    color: #E83e48;
+    color: #20557b;
     text-shadow: none;
     font-weight: bold;
     font-size: 25px;
@@ -7273,7 +7283,7 @@ div.wrapper {
         }
 
             .allproducts_col_cat_ul li a:hover {
-                color: #E83e48;
+                color: #20557b;
             }
 
 .SubCatLink {
@@ -7284,7 +7294,7 @@ div.wrapper {
 }
 
     .SubCatLink:hover {
-        color: #E83e48;
+        color: #20557b;
         font-size: 12px !important;
     }
 
@@ -7298,12 +7308,12 @@ div.wrapper {
     text-align: left !important;
     font-size: 22px !important;
     /*margin-left: 15px;*/
-    color: #E83e48;
+    color: #20557b;
     font-weight: normal;
 }
 
     .width_allPro a {
-        color: #E83e48;
+        color: #20557b;
     }
 
         .width_allPro a:hover {
@@ -8645,7 +8655,7 @@ a.PinkRegBack:active {
 }
 
     .designNowCS_TS:hover {
-        background: #E83e48;
+        background: #20557b;
     }
 
 .clsTemplateDesignings {
@@ -9151,7 +9161,7 @@ a.PinkRegBack:active {
     text-align: center;
     margin-left: 10px;
     font-size: 14px;
-    background: #E83e48;
+    background: #20557b;
     border-radius: 30px;
     height: 20px;
 }
@@ -9286,7 +9296,7 @@ a.PinkRegBack:active {
 }
 
 #MainContent_lblCategoryMainHeading {
-    visibility: visible;
+    visibility: hidden;
 }
 
 #MainContent_lblProductName {
@@ -9548,7 +9558,7 @@ a.PinkRegBack:active {
 .ProductDetailH2 {
     font-size: 15px;
     font-weight: bold;
-    color: #E83e48;
+    color: #20557b;
 }
 
 .ProductDetailRefOptions {
@@ -9673,7 +9683,7 @@ a.PinkRegBack:active {
 }
 
     .MesgBoxBtnsDisplay:hover {
-        background-color: #E83e48;
+        background-color: #20557b;
     }
 
 .MesgBoxBtnsDisplay_subscriber {
@@ -9970,13 +9980,7 @@ a.PinkRegBack:active {
     margin-top: 0px;
 }
 
-.boxCatDes {
-    min-height: 78px;
-    display: inline;
-    float: left;
-    width: 100%;
-    font-size: 12px;
-}
+
 
 .SP_transparent {
     background-color: white !important;
@@ -10100,7 +10104,7 @@ a.PinkRegBack:active {
 }
 
 .Uplod_PCS {
-    background-color: #E83e48;
+    background-color: #20557b;
     background-repeat: no-repeat;
     height: 34px;
     border: 0px;
@@ -10224,6 +10228,7 @@ a.PinkRegBack:active {
 .PaymentMethodQL {
 }
 
+
 /*  TS- Get Touch box   */
 
 
@@ -10282,7 +10287,7 @@ a.PinkRegBack:active {
 
 
 .btn_upload_files_TS:hover {
-    background: #E83e48;
+    background: #20557b;
 }
 
 .btn_inquiry_TS {
@@ -10398,14 +10403,7 @@ a.PinkRegBack:active {
     width: 35px;
 }
 
-.UplodArkworkContainer {
-    min-height: 150px;
-    width: 100%;
-    padding: 5px;
-    margin-top: 0px;
-    padding-top: 0px !important;
-    padding-bottom: 0px;
-}
+
 
 .InnerContainerUP {
     min-height: 150px;
@@ -10457,6 +10455,7 @@ a.PinkRegBack:active {
     color: #333333;
     font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
     font-style: normal;
+
     font-weight: bold;
     font-size: 13px;
     line-height: 16px;
@@ -10515,7 +10514,7 @@ a.PinkRegBack:active {
 }
 
 .GLHeading {
-    color: #E83e48;
+    color: #20557b;
     margin-right: 5px;
 }
 
@@ -10751,10 +10750,10 @@ border-bottom: 3px solid #cacaca;*/
     .grayRadiantbtn:hover {
         color: White;
         margin: 10px;
-        background: -webkit-linear-gradient(#FFC6C9, #E83e48); /* For Safari */
-        background: -o-linear-gradient(#FFC6C9, #E83e48); /* For Opera 11.1 to 12.0 */
-        background: -moz-linear-gradient(#FFC6C9, #E83e48); /* For Firefox 3.6 to 15 */
-        background: linear-gradient(#FFC6C9, #E83e48); /* Standard syntax (must be last) */
+        background: -webkit-linear-gradient(#FFC6C9, #20557b); /* For Safari */
+        background: -o-linear-gradient(#FFC6C9, #20557b); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#FFC6C9, #20557b); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#FFC6C9, #20557b); /* Standard syntax (must be last) */
         padding: .55em 2em .55em;
         text-shadow: 0 1px 1px rgba(0,0,0,.3);
         -webkit-border-radius: 1.5em;
@@ -10770,10 +10769,10 @@ border-bottom: 3px solid #cacaca;*/
 .OrangeGradiantbtn {
     color: White;
     margin: 10px;
-    background: -webkit-linear-gradient(#FFC6C9, #E83e48); /* For Safari */
-    background: -o-linear-gradient(#FFC6C9, #E83e48); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#FFC6C9, #E83e48); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#FFC6C9, #E83e48); /* Standard syntax (must be last) */
+    background: -webkit-linear-gradient(#FFC6C9, #20557b); /* For Safari */
+    background: -o-linear-gradient(#FFC6C9, #20557b); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#FFC6C9, #20557b); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#FFC6C9, #20557b); /* Standard syntax (must be last) */
     padding: .5em 2em .55em;
     text-shadow: 0 1px 1px rgba(0,0,0,.3);
     -webkit-border-radius: 1.5em;
@@ -11480,6 +11479,7 @@ ul.LogBar li a {
 
 
 .clear_button {
+
     background-color: #428bca;
     padding: 3px;
     background-repeat: no-repeat;
@@ -11961,6 +11961,7 @@ ul.LogBar li a {
 }
 
 
+
 .cntPLOrderDetails {
     overflow: auto;
     height: 160px;
@@ -12112,7 +12113,7 @@ ul.LogBar li a {
     margin-bottom: 20px;
     text-shadow: none;
     font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
-    color: #E83e48;
+    color: #20557b;
     font-size: 17px !important;
 }
 
@@ -12245,7 +12246,7 @@ ul.LogBar li a {
 }
 
 .sign_in_catheading {
-    color: #E83e48;
+    color: #20557b;
     font-size: inherit;
     /* font-weight: bold;*/
 }
@@ -12405,7 +12406,7 @@ ul.LogBar li a {
     border-top-color: rgb(102, 97, 91);
     border-top-style: none;
     border-top-width: 0px;
-    color: #E83e48;
+    color: #20557b;
     display: block;
     font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;
     font-size: 20px;
@@ -12619,7 +12620,7 @@ ul.LogBar li a {
 
 .divRowAnalytics {
     width: 100%;
-    background-color: #E83e48;
+    background-color: #20557b;
     padding: 5px;
     color: White;
     margin-left: -5px;
@@ -12672,59 +12673,57 @@ ul.LogBar li a {
     border: 1px solid white;
     text-align: center;
 }
+.UplodArkworkContainer {
+    min-height: 150px;
+    width: 100%;
+    padding: 5px;
+    margin-top: 0px;
+    padding-top: 0px !important;
+    padding-bottom: 0px;
+}
+.rptContainers {
+        width: 100% !important;   float: none;
+        height: auto;}
 
+.boxCatDes {
+    min-height: 78px;
+    display: inline;
+    float: left;
+    width: 100%;
+    font-size:12px;
+}
 @media (min-width:320px) { /* smartphones, iPhone, portrait 480x320 phones */
-    .cnttotalPayablesAS {
-        float: none;
-        width: 100%;
+                            .upload-panel-margin {
+        margin-left:0px;
     }
-
-    .cntsubHeadingsAS {
-        width: 40% !important;
-        float: left;
-    }
-
-    .cnttotalsAS {
-        width: 55%;
-        float: right;
-        text-align: right;
-        line-height: 1.5;
-    }
-
-    .upload-panel-margin {
-        margin-left: 0px;
-    }
-
-    .btn_brown_small {
-        font-size: 11px;
-        clear: both;
-        height: 27px;
-        background: #cfcfcd;
-        text-align: center;
-        cursor: pointer;
-        color: black;
-        width: 117px;
-        border: none;
-    }
-
-    .profile-menu {
-        width: 167px;
-        left: -65px;
-        background-color: #FFFFFF;
-        border: none;
-        -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.176);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.176);
-        top: 50px;
-        position: absolute;
-        padding: 5px 0;
-        margin: 2px 0 0;
-        font-size: 14px;
-        text-align: left;
-        list-style: none;
-        z-index: 1000;
-    }
-
-    .product-detail-banner-slider {
+   .btn_brown_small {
+    font-size: 11px;
+    clear: both;
+    height: 27px;
+    background: #cfcfcd;
+    text-align: center;
+    cursor: pointer;
+    color: black;
+    width: 117px;
+    border: none;
+}
+                           .profile-menu {
+    width: 167px;
+    left: -65px;
+    background-color: #FFFFFF;
+    border: none;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.176);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.176);
+    top: 50px;
+    position: absolute;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    z-index: 1000;
+}
+                            .product-detail-banner-slider {
         width: 100%;
         height: 420px;
     }
@@ -12762,7 +12761,7 @@ ul.LogBar li a {
         box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
         background: white;
         border-radius: 33px;
-        color: #E83e48;
+        color: #20557b;
         font-size: 25px;
         text-align: center;
     }
@@ -12808,7 +12807,7 @@ ul.LogBar li a {
     }
 
     .top_header {
-        background-color: #E83e48 !important;
+        background-color: #fff !important;
         margin-bottom: 0px;
     }
 
@@ -12941,7 +12940,7 @@ ul.LogBar li a {
 
     .BreadCrumbMenu h1 {
         font-size: 20px !important;
-        color: #E83e48;
+        color: #20557b;
     }
 
     .BlackBtnCS {
@@ -13140,7 +13139,7 @@ ul.LogBar li a {
         #CollapseBtn:hover {
             display: block;
             margin-top: 0px;
-            color: #E83e48;
+            color: #20557b;
         }
 
     .cnttemporary {
@@ -13250,10 +13249,8 @@ ul.LogBar li a {
         -webkit-transition: all 200ms ease-out;
         -o-transition: all 200ms ease-out;
         -moz-transition: all 200ms ease-out;
-        color: #E83e48;
-        padding-left: 0px;
-        position: absolute;
-        margin-top: -20px;
+        color: #20557b;
+        padding-left: 0px;position:absolute;margin-top: -20px;
     }
 
     .silver_back_button_remove {
@@ -13272,11 +13269,10 @@ ul.LogBar li a {
         -o-transition: all 200ms ease-out;
         -moz-transition: all 200ms ease-out;
         padding-left: 0px;
-        color: #E83e48;
-        position: absolute;
-        margin-top: -20px;
+        color: #20557b;position:absolute;margin-top: -20px;
+       
     }
-
+       
     .fntQtyPrice {
         font-size: 11px !important;
     }
@@ -13314,9 +13310,10 @@ ul.LogBar li a {
         font-size: 10px !important;
     }
 
-    .BtnTemplateModifyContainer {
-        padding-top: 9px;
+      .BtnTemplateModifyContainer {
+         padding-top: 9px;
         margin-left: 0px !important;
+        text-align:center;
     }
 
     .cart_grid_image_container {
@@ -13435,13 +13432,13 @@ ul.LogBar li a {
     }
 
     .height40_LP {
-        width: 100% !important;
+        width: 250px !important;
         margin-top: -25px;
         font-size: 12px;
     }
 
     .DeleteIconPP {
-        margin-left: 195px !important;
+        margin-left: 205px !important;
         margin-top: -15px;
         clear: both;
         width: 18px;
@@ -13748,11 +13745,7 @@ ul.LogBar li a {
         margin-top: 25px;
     }
 
-    .rptContainers {
-        width: auto !important;
-        float: none;
-        height: auto;
-    }
+   
 
     .PriceTableCs {
         margin-top: 5px !important;
@@ -13838,7 +13831,7 @@ ul.LogBar li a {
         height: 35px;
         width: 198px !important;
         border: 0px;
-        background-color: #E83e48;
+        background-color: #20557b;
         cursor: pointer;
         font-size: 13px;
         text-align: center;
@@ -13847,13 +13840,13 @@ ul.LogBar li a {
     }
 
     .start_creating_btn_prodDetail_orng {
-        background-color: #ffdd0c;
+        background-color: #EEA518;
         height: 35px;
         width: 198px !important;
         border: 0px;
         font-size: 13px;
         font-weight: bold;
-        color: black;
+        color: White;
         text-align: center;
         text-transform: uppercase;
         cursor: pointer;
@@ -14038,7 +14031,7 @@ ul.LogBar li a {
         margin-bottom: 50px;
         padding: 20px;
         background-color: #d6d6d6;
-        height: 440px;
+        height: 490px;
     }
 
     .CAT_ThumbnailPath {
@@ -14057,7 +14050,7 @@ ul.LogBar li a {
         margin-bottom: 50px;
         padding: 20px;
         background-color: #d6d6d6 !important;
-        min-height: 180px;
+        min-height: 315px;
     }
 
     .cntParentCategDesc {
@@ -14283,7 +14276,7 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
-        min-height: 350px;
+        min-height: 470px;
     }
 
     .FI_TL {
@@ -14570,7 +14563,7 @@ ul.LogBar li a {
         width: 145px;
         cursor: pointer;
         background-position: -298px -663px;
-        background-color: #E83e48;
+        background-color: #20557b;
         height: 34px;
         border: 0px;
         color: White;
@@ -14594,57 +14587,37 @@ ul.LogBar li a {
 }
 
 @media (min-width:481px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
-    .cnttotalPayablesAS {
-        float: right;
-        width: 45%;
+                            .upload-panel-margin {
+        margin-left:00px;
     }
-
-    .cntsubHeadingsAS {
-        width: 60% !important;
-        float: left;
-    }
-
-    .cnttotalsAS {
-        width: 30%;
-        float: right;
-        text-align: right;
-        line-height: 1.5;
-    }
-
-    .upload-panel-margin {
-        margin-left: 0px;
-    }
-
-    .btn_brown_small {
-        font-size: 11px;
-        clear: both;
-        height: 27px;
-        background: #cfcfcd;
-        text-align: center;
-        cursor: pointer;
-        color: black;
-        width: 160px;
-        border: none;
-    }
-
-    .profile-menu {
-        width: 167px;
-        left: -65px;
-        background-color: #FFFFFF;
-        border: none;
-        -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.176);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.176);
-        top: 50px;
-        position: absolute;
-        padding: 5px 0;
-        margin: 2px 0 0;
-        font-size: 14px;
-        text-align: left;
-        list-style: none;
-        z-index: 1000;
-    }
-
-    .product-detail-banner-slider {
+   .btn_brown_small {
+    font-size: 11px;
+    clear: both;
+    height: 27px;
+    background: #cfcfcd;
+    text-align: center;
+    cursor: pointer;
+    color: black;
+    width: 160px;
+    border: none;
+}
+                            .profile-menu {
+    width: 167px;
+    left: -65px;
+    background-color: #FFFFFF;
+    border: none;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.176);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.176);
+    top: 50px;
+    position: absolute;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    z-index: 1000;
+}
+                           .product-detail-banner-slider {
         width: 100%;
         height: 420px;
     }
@@ -14677,7 +14650,7 @@ ul.LogBar li a {
         color: white;
         width: 62px;
         cursor: pointer;
-        background-color: #E83e48;
+        background-color: #20557b;
         font-size: 16px;
         line-height: inherit;
     }
@@ -14697,7 +14670,7 @@ ul.LogBar li a {
         box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
         background: white;
         border-radius: 33px;
-        color: #E83e48;
+        color: #20557b;
         font-size: 25px;
         text-align: center;
     }
@@ -14743,7 +14716,7 @@ ul.LogBar li a {
     }
 
     .top_header {
-        background-color: #E83e48 !important;
+        background-color: #fff !important;
         margin-bottom: 0px;
     }
 
@@ -15054,7 +15027,7 @@ ul.LogBar li a {
     }
 
     .height40_LP {
-        width: 155px !important;
+        width: 160px !important;
         margin-top: -25px;
         font-size: 12px;
     }
@@ -15073,7 +15046,7 @@ ul.LogBar li a {
         width: 145px;
         cursor: pointer;
         background-position: -298px -663px;
-        background-color: #E83e48;
+        background-color: #20557b;
         height: 34px;
         border: 0px;
         color: white;
@@ -15100,11 +15073,7 @@ ul.LogBar li a {
         overflow: scroll;
     }
 
-    .rptContainers {
-        width: 100% !important;
-        float: none;
-        height: auto;
-    }
+    
 
     .cntuploadfilebtns {
         width: 100% !important;
@@ -15222,7 +15191,7 @@ ul.LogBar li a {
         width: 222px;
         cursor: pointer;
         margin-bottom: 10px;
-        color: #E83e48;
+        color: #20557b;
         background: none;
         text-decoration: underline;
         text-align: left;
@@ -15230,9 +15199,7 @@ ul.LogBar li a {
         font-weight: bold;
         -webkit-transition: all 200ms ease-out;
         -o-transition: all 200ms ease-out;
-        -moz-transition: all 200ms ease-out;
-        position: absolute;
-        margin-top: -10px;
+        -moz-transition: all 200ms ease-out;position:absolute;margin-top: -10px;
     }
 
     .silver_back_button_remove {
@@ -15241,7 +15208,7 @@ ul.LogBar li a {
         width: 188px;
         cursor: pointer;
         margin-bottom: 10px;
-        color: #E83e48;
+        color: #20557b;
         background: none;
         text-decoration: underline;
         text-align: left;
@@ -15249,9 +15216,7 @@ ul.LogBar li a {
         font-weight: bold;
         -webkit-transition: all 200ms ease-out;
         -o-transition: all 200ms ease-out;
-        -moz-transition: all 200ms ease-out;
-        position: absolute;
-        margin-top: -20px;
+        -moz-transition: all 200ms ease-out;position:absolute;margin-top: -20px;
     }
 
     .fntQtyPrice {
@@ -15291,7 +15256,7 @@ ul.LogBar li a {
         font-size: 16px !important;
     }
 
-    .BtnTemplateModifyContainer {
+ .BtnTemplateModifyContainer {
         padding-top: 9px;
         margin-left: 20px !important;
     }
@@ -15362,6 +15327,7 @@ ul.LogBar li a {
         -moz-border-bottom-left-radius: 0px !important;
         -webkit-border-bottom-left-radius: 0px !important;
         -khtml-border-bottom-left-radius: 0px !important;
+
         -moz-border-top-left-radius: 0px !important;
         -webkit-border-top-left-radius: 0px !important;
         -khtml-border-top-left-radius: 0px !important;
@@ -15410,7 +15376,7 @@ ul.LogBar li a {
         height: 35px;
         width: 198px !important;
         border: 0px;
-        background-color: #E83e48;
+        background-color: #20557b;
         cursor: pointer;
         font-size: 13px;
         text-align: center;
@@ -15419,13 +15385,13 @@ ul.LogBar li a {
     }
 
     .start_creating_btn_prodDetail_orng {
-        background-color: #ffdd0c;
+        background-color: #EEA518;
         height: 35px;
         width: 198px !important;
         border: 0px;
         font-size: 13px;
         font-weight: bold;
-        color: black;
+        color: White;
         text-align: center;
         text-transform: uppercase;
         cursor: pointer;
@@ -15514,6 +15480,7 @@ ul.LogBar li a {
         text-align: left !important;
         background-color: #f3f3f3;
         /*width: 1000px;*/
+
         /*min-height: 60px;
     padding-top: 10px;*/
         padding-bottom: 5px;
@@ -15577,7 +15544,7 @@ ul.LogBar li a {
         -webkit-border-radius: 10px !important;
         -khtml-border-radius: 10px !important;
         border-radius: 10px !important;
-        height: 440px;
+        height: 490px;
     }
 
     .CAT_Body {
@@ -15595,7 +15562,7 @@ ul.LogBar li a {
         -webkit-border-radius: 10px !important;
         -khtml-border-radius: 10px !important;
         border-radius: 10px !important;
-        min-height: 180px;
+        min-height: 315px;
     }
 
     .CAT_ThumbnailPath {
@@ -15777,7 +15744,7 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
-        min-height: 350px;
+        min-height: 470px;
     }
 
     .FI_TL {
@@ -16006,40 +15973,21 @@ ul.LogBar li a {
 }
 
 @media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
-    .cnttotalPayablesAS {
-        float: right;
-        width: 32%;
+                            .upload-panel-margin {
+        margin-left:0px;
     }
-
-    .cntsubHeadingsAS {
-        width: 33% !important;
-        float: left;
-    }
-
-    .cnttotalsAS {
-        width: 30%;
-        float: right;
-        text-align: right;
-        line-height: 1.5;
-    }
-
-    .upload-panel-margin {
-        margin-left: 0px;
-    }
-
-    .btn_brown_small {
-        font-size: 11px;
-        clear: both;
-        height: 27px;
-        background: #cfcfcd;
-        text-align: center;
-        cursor: pointer;
-        color: black;
-        width: 160px;
-        border: none;
-    }
-
-    .product-detail-banner-slider {
+   .btn_brown_small {
+    font-size: 11px;
+    clear: both;
+    height: 27px;
+    background: #cfcfcd;
+    text-align: center;
+    cursor: pointer;
+    color: black;
+    width: 160px;
+    border: none;
+}
+                            .product-detail-banner-slider {
         width: 670px;
         height: 420px;
     }
@@ -16072,7 +16020,7 @@ ul.LogBar li a {
         color: white;
         width: 62px;
         cursor: pointer;
-        background-color: #E83e48;
+        background-color: #20557b;
         font-size: 16px;
         line-height: inherit;
     }
@@ -16092,7 +16040,7 @@ ul.LogBar li a {
         box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
         background: white;
         border-radius: 33px;
-        color: #E83e48;
+        color: #20557b;
         font-size: 25px;
         text-align: center;
     }
@@ -16138,7 +16086,7 @@ ul.LogBar li a {
     }
 
     .top_header {
-        background-color: #E83e48 !important;
+        background-color: #fff !important;
         margin-bottom: 0px;
     }
 
@@ -16183,7 +16131,7 @@ ul.LogBar li a {
         box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
         background: white;
         border-radius: 33px;
-        color: #E83e48;
+        color: #20557b;
         font-size: 25px;
         text-align: center;
     }
@@ -16418,7 +16366,7 @@ ul.LogBar li a {
 
     .divRowAnalytics {
         width: 100%;
-        background-color: #E83e48;
+        background-color: #20557b;
         padding: 5px;
         color: White;
         margin-left: 0px;
@@ -16538,12 +16486,11 @@ ul.LogBar li a {
         display: block;
         margin-top: 10px;
     }
-
-        #CollapseBtn:hover {
-            display: block;
-            margin-top: 10px;
-        }
-
+    
+    #CollapseBtn:hover {
+        display: block;
+        margin-top: 10px;
+    }
     .cnttemporary {
         display: block;
     }
@@ -16718,7 +16665,7 @@ ul.LogBar li a {
         width: 145px;
         cursor: pointer;
         background-position: -298px -663px;
-        background-color: #E83e48;
+        background-color: #20557b;
         height: 34px;
         border: 0px;
         color: White;
@@ -16751,7 +16698,7 @@ ul.LogBar li a {
     }
 
     .height40_LP {
-        width: 155px !important;
+        width: 160px !important;
         margin-top: -25px;
         font-size: 12px;
     }
@@ -16801,15 +16748,11 @@ ul.LogBar li a {
     }
 
     .cntuploadfilebtns {
-        width: 100% !important;
-        text-align: center !important;
+        width: 144px !important;
+        text-align: left !important;
     }
 
-    .rptContainers {
-        width: 100% !important;
-        float: none;
-        height: auto;
-    }
+  
 
     .UploadContainerCs {
         color: #042F42;
@@ -16922,7 +16865,7 @@ ul.LogBar li a {
         width: 173px;
         cursor: pointer;
         margin-bottom: 10px;
-        color: #E83e48;
+        color: #20557b;
         background: none;
         text-decoration: none;
         text-align: center;
@@ -16935,9 +16878,7 @@ ul.LogBar li a {
         padding-left: 0px;
         -webkit-transition: all 200ms ease-out;
         -o-transition: all 200ms ease-out;
-        -moz-transition: all 200ms ease-out;
-        position: relative;
-        margin-top: 0px;
+        -moz-transition: all 200ms ease-out;position:relative;margin-top: 0px;
     }
 
     .silver_back_button {
@@ -16950,7 +16891,7 @@ ul.LogBar li a {
         width: 170px;
         cursor: pointer;
         margin-bottom: 10px;
-        color: #E83e48;
+        color: #20557b;
         background: none;
         text-decoration: none;
         text-align: center;
@@ -16962,9 +16903,7 @@ ul.LogBar li a {
         padding-left: 0px;
         -webkit-transition: all 200ms ease-out;
         -o-transition: all 200ms ease-out;
-        -moz-transition: all 200ms ease-out;
-        position: relative;
-        margin-top: 0px;
+        -moz-transition: all 200ms ease-out;position:relative;margin-top: 0px;
     }
 
     .silver_back_button_remove {
@@ -17008,16 +16947,17 @@ ul.LogBar li a {
         font-size: 16px !important;
     }
 
-    .BtnTemplateModifyContainer {
-        padding-top: 9px;
-        margin-left: 20px !important;
+       .BtnTemplateModifyContainer {
+         padding-top: 9px;
+        margin-left: 0px !important;
+        text-align:center;
     }
 
     .cart_grid_image_container {
-        /*width: 140px;*/
-        width: 50%;
-        margin-left: 25px !important;
-        margin-bottom: 10px;
+      width: 100%;
+      margin-left: 0px !important;
+      margin-bottom: 10px;
+      text-align: center;
     }
 
     .MLeft17 {
@@ -17135,7 +17075,7 @@ ul.LogBar li a {
         height: 35px;
         width: 182px !important;
         border: 0px;
-        background-color: #E83e48;
+        background-color: #20557b;
         cursor: pointer;
         font-size: 13px;
         text-align: center;
@@ -17144,13 +17084,13 @@ ul.LogBar li a {
     }
 
     .start_creating_btn_prodDetail_orng {
-        background-color: #ffdd0c;
+        background-color: #EEA518;
         height: 35px;
         width: 182px !important;
         border: 0px;
         font-size: 13px;
         font-weight: bold;
-        color: black;
+        color: White;
         text-align: center;
         text-transform: uppercase;
         cursor: pointer;
@@ -17311,7 +17251,7 @@ ul.LogBar li a {
         -webkit-border-radius: 10px !important;
         -khtml-border-radius: 10px !important;
         border-radius: 10px !important;
-        height: 440px;
+        height: 490px;
     }
 
     .CAT_Body {
@@ -17329,7 +17269,7 @@ ul.LogBar li a {
         -webkit-border-radius: 10px !important;
         -khtml-border-radius: 10px !important;
         border-radius: 10px !important;
-        min-height: 180px;
+        min-height: 315px;
     }
 
     .CAT_ThumbnailPath {
@@ -17500,7 +17440,7 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
-        min-height: 350px;
+        min-height: 470px;
     }
 
     .FI_TL {
@@ -17708,42 +17648,51 @@ ul.LogBar li a {
 
 
 @media (min-width:992px) {
-    .cntsubHeadingsAS {
-        margin-left: 0px;
-        width: 40% !important;
-        float: left;
+     .upload-panel-margin {
+        margin-left:10px;
     }
-
-    .cnttotalPayablesAS {
-        float: right;
-        width: 19%;
-    }
-
-    .cnttotalsAS {
-        width: 30%;
-        float: right;
-        text-align: right;
-        line-height: 1.5;
-        margin-right: 1px;
-    }
-
-    .upload-panel-margin {
-        margin-left: 10px;
-    }
-
-    .btn_brown_small {
-        font-size: 11px;
-        clear: both;
-        height: 27px;
-        background: #cfcfcd;
+       .BD_PCS {
+        float: none;
         text-align: center;
-        cursor: pointer;
-        color: black;
-        width: 310px;
-        border: none;
+        width: 100% !important;
+        margin-right: 1px;
+        margin-left: 5px;
+        margin-bottom: 10px;
+        padding: 0px;
     }
+ .DeleteIconPP {
+        margin-left: 265px !important;
+        margin-top: -15px;
+        clear: both;
+        width: 18px;
+        position: absolute;
+    }
+ .height40_LP {
+        width: 100% !important;
+        margin-top: -25px;
+        font-size: 12px;
+    }
+    .UploadContainerCs {
+        color: #042F42;
+        font-size: 23px;
+        width: 49% !important;}
 
-    .product-detail-banner-slider {
+ .cntuploadfilebtns {
+        width: 100% !important;
+        text-align: center !important;
+    }
+   .btn_brown_small {
+    font-size: 11px;
+    clear: both;
+    height: 27px;
+    background: #cfcfcd;
+    text-align: center;
+    cursor: pointer;
+    color: black;
+    width: 160px;
+    border: none;
+}
+     .product-detail-banner-slider {
         width: 670px;
         height: 420px;
     }
@@ -17776,7 +17725,7 @@ ul.LogBar li a {
         color: white;
         width: 100px;
         cursor: pointer;
-        background-color: #E83e48;
+        background-color: #20557b;
         font-size: 16px;
         line-height: inherit;
     }
@@ -17796,7 +17745,7 @@ ul.LogBar li a {
         box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
         background: white;
         border-radius: 33px;
-        color: #E83e48;
+        color: #20557b;
         font-size: 30px;
         text-align: center;
     }
@@ -17853,7 +17802,7 @@ ul.LogBar li a {
     }
 
     .top_header {
-        background-color: transparent !important;
+        background-color: #fff !important;
         margin-bottom: 0px;
     }
 
@@ -17990,8 +17939,8 @@ ul.LogBar li a {
     }
 
     .BreadCrumbMenu h1 {
-        font-size: 13px !important;
-        color: #E83e48;
+        font-size: 25px !important;
+        color: #20557b;
     }
 
     .BlackBtnCS {
@@ -18320,7 +18269,7 @@ ul.LogBar li a {
     .TopHeaderMenu {
         position: relative;
         z-index: 1;
-        color: #428bca;
+        color: #20557b;
         font-size: 18px;
         margin-top: 0px;
         /*margin-right: 48px;*/
@@ -18330,7 +18279,7 @@ ul.LogBar li a {
     }
 
         .TopHeaderMenu:hover {
-            color: #428bca;
+            color: #000;
         }
 
     .BD_Featured {
@@ -18369,7 +18318,7 @@ ul.LogBar li a {
         width: 145px;
         cursor: pointer;
         background-position: -298px -663px;
-        background-color: #E83e48;
+        background-color: #20557b;
         height: 34px;
         border: 0px;
         color: White;
@@ -18482,9 +18431,7 @@ ul.LogBar li a {
         padding-left: 5px;
         -webkit-transition: all 200ms ease-out;
         -o-transition: all 200ms ease-out;
-        -moz-transition: all 200ms ease-out;
-        position: relative;
-        margin-top: 0px;
+        -moz-transition: all 200ms ease-out;position:relative;margin-top:0px;
     }
 
         .silver_back_button:hover {
@@ -18492,7 +18439,7 @@ ul.LogBar li a {
         }
 
     .silver_back_button_remove {
-        background-color: #E83e48;
+        background-color: #20557b;
         height: 34px;
         border: 0px;
         text-align: center;
@@ -18507,9 +18454,7 @@ ul.LogBar li a {
         padding-left: 5px;
         -webkit-transition: all 200ms ease-out;
         -o-transition: all 200ms ease-out;
-        -moz-transition: all 200ms ease-out;
-        position: relative;
-        margin-top: 0px;
+        -moz-transition: all 200ms ease-out;position:relative;margin-top:0px;
     }
 
         .silver_back_button_remove:hover {
@@ -18554,16 +18499,17 @@ ul.LogBar li a {
         font-size: 16px !important;
     }
 
-    .BtnTemplateModifyContainer {
-        padding-top: 9px;
-        margin-left: 20px !important;
+   .BtnTemplateModifyContainer {
+         padding-top: 9px;
+        margin-left: 0px !important;
+        text-align:center;
     }
 
     .cart_grid_image_container {
-        /*width: 140px;*/
-        width: 50%;
-        margin-left: 25px !important;
-        margin-bottom: 10px;
+       width: 100%;
+      margin-left: 0px !important;
+      margin-bottom: 10px;
+      text-align: center;
     }
 
     .MLeft17 {
@@ -18764,34 +18710,10 @@ ul.LogBar li a {
         width: 500px !important;
     }
 
-    .height40_LP {
-        width: 100% !important;
-        margin-top: -25px;
-        font-size: 12px;
-    }
-
-    .DeleteIconPP {
-        margin-left: 265px !important;
-        margin-top: -15px;
-        clear: both;
-        width: 18px;
-        position: absolute;
-    }
-
-    .BD_PCS {
-        float: left;
-        text-align: center;
-        width: 100% !important;
-        margin-right: 1px;
-        margin-left: 5px;
-        margin-bottom: 10px;
-        padding: 0px;
-    }
-
-    .cntuploadfilebtns {
-        width: 100% !important;
-        text-align: center !important;
-    }
+    
+   
+   
+    
 
     .UploadsGuidLineContainer {
         /*margin-top: -2px;
@@ -18812,13 +18734,7 @@ ul.LogBar li a {
     }
     /* big landscape tablets, laptops, and desktops */
 
-    .UploadContainerCs {
-        color: #042F42;
-        font-size: 23px;
-        width: 49% !important;
-        text-align: left;
-        margin-top: 10px;
-    }
+   
 
     .RfgImgCs {
         margin-top: 10px;
@@ -19030,6 +18946,7 @@ ul.LogBar li a {
         margin-right: 0px !important;
     }
 
+
     .liMarginRight {
         margin-right: 20px !important;
     }
@@ -19058,11 +18975,7 @@ ul.LogBar li a {
         margin-top: 25px;
     }
 
-    .rptContainers {
-        width: 100% !important;
-        float: none;
-        height: auto;
-    }
+    
 
     .PriceTableCs {
         margin-top: 0px !important;
@@ -19113,7 +19026,7 @@ ul.LogBar li a {
         height: 35px;
         width: 180px !important;
         border: 0px;
-        background-color: #E83e48;
+        background-color: #20557b;
         cursor: pointer;
         font-size: 13px;
         text-align: center;
@@ -19122,13 +19035,13 @@ ul.LogBar li a {
     }
 
     .start_creating_btn_prodDetail_orng {
-        background-color: #ffdd0c;
+        background-color: #EEA518;
         height: 35px;
         width: 180px !important;
         border: 0px;
         font-size: 13px;
         font-weight: bold;
-        color: black;
+        color: White;
         text-align: center;
         text-transform: uppercase;
         cursor: pointer;
@@ -19309,7 +19222,7 @@ ul.LogBar li a {
         padding: 20px;
         border-radius: 5px;
         background-color: #d6d6d6 !important;
-        height: 525px;
+        height: 490px;
     }
 
     .CAT_Body {
@@ -19323,7 +19236,7 @@ ul.LogBar li a {
         padding: 20px;
         border-radius: 10px !important;
         background-color: #d6d6d6 !important;
-        min-height: 260px;
+        min-height: 315px;
     }
 
     .CAT_ThumbnailPath {
@@ -19508,7 +19421,7 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
-        min-height: 350px;
+        min-height: 470px;
     }
 
 
@@ -19540,6 +19453,7 @@ ul.LogBar li a {
         width: 400px !important;
         float: left;
     }
+
 
     .connectWithfb {
         cursor: pointer;
@@ -19683,42 +19597,51 @@ ul.LogBar li a {
 }
 
 @media (min-width:1025px) {
-    .cntsubHeadingsAS {
-        margin-left: 0px;
-        width: 40% !important;
-        float: left;
-    }
-
-    .cnttotalPayablesAS {
-        float: right;
-        width: 19%;
-    }
-
-    .cnttotalsAS {
-        width: 30%;
-        float: right;
-        text-align: right;
-        line-height: 1.5;
-        margin-right: 1px;
-    }
-
     .upload-panel-margin {
-        margin-left: 10px;
+        margin-left:10px;
     }
-
-    .btn_brown_small {
-        font-size: 11px;
-        clear: both;
-        height: 27px;
-        background: #cfcfcd;
+       .BD_PCS {
+        float: none;
         text-align: center;
-        cursor: pointer;
-        color: black;
-        width: 310px;
-        border: none;
+        width: 100% !important;
+        margin-right: 1px;
+        margin-left: 5px;
+        margin-bottom: 10px;
+        padding: 0px;
     }
+ .DeleteIconPP {
+        margin-left: 265px !important;
+        margin-top: -15px;
+        clear: both;
+        width: 18px;
+        position: absolute;
+    }
+ .height40_LP {
+        width: 100% !important;
+        margin-top: -25px;
+        font-size: 12px;
+    }
+    .UploadContainerCs {
+        color: #042F42;
+        font-size: 23px;
+        width: 49% !important;}
 
-    .product-detail-banner-slider {
+ .cntuploadfilebtns {
+        width: 100% !important;
+        text-align: center !important;
+    }
+   .btn_brown_small {
+    font-size: 11px;
+    clear: both;
+    height: 27px;
+    background: #cfcfcd;
+    text-align: center;
+    cursor: pointer;
+    color: black;
+    width: 160px;
+    border: none;
+}
+     .product-detail-banner-slider {
         width: 670px;
         height: 420px;
     }
@@ -19751,7 +19674,7 @@ ul.LogBar li a {
         color: white;
         width: 100px;
         cursor: pointer;
-        background-color: #E83e48;
+        background-color: #20557b;
         font-size: 16px;
         line-height: inherit;
     }
@@ -19771,7 +19694,7 @@ ul.LogBar li a {
         box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
         background: white;
         border-radius: 33px;
-        color: #E83e48;
+        color: #20557b;
         font-size: 30px;
         text-align: center;
     }
@@ -19828,7 +19751,7 @@ ul.LogBar li a {
     }
 
     .top_header {
-        background-color: transparent !important;
+        background-color: #fff !important;
         margin-bottom: 0px;
     }
 
@@ -19966,7 +19889,7 @@ ul.LogBar li a {
 
     .BreadCrumbMenu h1 {
         font-size: 25px !important;
-        color: #E83e48;
+        color: #20557b;
     }
 
     .BlackBtnCS {
@@ -20295,7 +20218,7 @@ ul.LogBar li a {
     .TopHeaderMenu {
         position: relative;
         z-index: 1;
-        color: #428bca;
+        color: #20557b;
         font-size: 18px;
         margin-top: 0px;
         /*margin-right: 48px;*/
@@ -20305,7 +20228,7 @@ ul.LogBar li a {
     }
 
         .TopHeaderMenu:hover {
-            color: #428bca;
+            color: #000;
         }
 
     .BD_Featured {
@@ -20344,7 +20267,7 @@ ul.LogBar li a {
         width: 145px;
         cursor: pointer;
         background-position: -298px -663px;
-        background-color: #E83e48;
+        background-color: #20557b;
         height: 34px;
         border: 0px;
         color: White;
@@ -20457,9 +20380,7 @@ ul.LogBar li a {
         padding-left: initial;
         -webkit-transition: all 200ms ease-out;
         -o-transition: all 200ms ease-out;
-        -moz-transition: all 200ms ease-out;
-        position: relative;
-        margin-top: 0px;
+        -moz-transition: all 200ms ease-out;position:relative;margin-top:0px;
     }
 
         .silver_back_button:hover {
@@ -20467,7 +20388,7 @@ ul.LogBar li a {
         }
 
     .silver_back_button_remove {
-        background-color: #E83e48;
+        background-color: #20557b;
         height: 34px;
         border: 0px;
         text-align: center;
@@ -20482,9 +20403,7 @@ ul.LogBar li a {
         padding-left: initial;
         -webkit-transition: all 200ms ease-out;
         -o-transition: all 200ms ease-out;
-        -moz-transition: all 200ms ease-out;
-        position: relative;
-        margin-top: 0px;
+        -moz-transition: all 200ms ease-out;position:relative;margin-top:0px;
     }
 
         .silver_back_button_remove:hover {
@@ -20529,17 +20448,19 @@ ul.LogBar li a {
         font-size: 16px !important;
     }
 
-    .BtnTemplateModifyContainer {
-        padding-top: 9px;
-        margin-left: 20px !important;
+     .BtnTemplateModifyContainer {
+         padding-top: 9px;
+        margin-left: 0px !important;
+        text-align:center;
     }
 
     .cart_grid_image_container {
-        /*width: 140px;*/
-        width: 50%;
-        margin-left: 25px !important;
-        margin-bottom: 10px;
+       width: 100%;
+      margin-left: 0px !important;
+      margin-bottom: 10px;
+      text-align: center;
     }
+
 
     .MLeft17 {
         margin-left: 17px !important;
@@ -20739,34 +20660,7 @@ ul.LogBar li a {
         width: 500px !important;
     }
 
-    .height40_LP {
-        width: 100% !important;
-        margin-top: -25px;
-        font-size: 12px;
-    }
-
-    .DeleteIconPP {
-        margin-left: 265px !important;
-        margin-top: -15px;
-        clear: both;
-        width: 18px;
-        position: absolute;
-    }
-
-    .BD_PCS {
-        float: none;
-        text-align: center;
-        width: 100% !important;
-        margin-right: 1px;
-        margin-left: 5px;
-        margin-bottom: 10px;
-        padding: 0px;
-    }
-
-    .cntuploadfilebtns {
-        width: 100% !important;
-        text-align: center !important;
-    }
+    
 
     .UploadsGuidLineContainer {
         /*margin-top: -2px;
@@ -20787,13 +20681,7 @@ ul.LogBar li a {
     }
     /* big landscape tablets, laptops, and desktops */
 
-    .UploadContainerCs {
-        color: #042F42;
-        font-size: 23px;
-        width: 49% !important;
-        text-align: left;
-        margin-top: 10px;
-    }
+    
 
     .RfgImgCs {
         margin-top: 10px;
@@ -21033,11 +20921,7 @@ ul.LogBar li a {
         margin-top: 25px;
     }
 
-    .rptContainers {
-        width: 100% !important;
-        float: none;
-        height: auto;
-    }
+    
 
     .PriceTableCs {
         margin-top: 0px !important;
@@ -21088,7 +20972,7 @@ ul.LogBar li a {
         height: 35px;
         width: 180px !important;
         border: 0px;
-        background-color: #E83e48;
+        background-color: #20557b;
         cursor: pointer;
         font-size: 13px;
         text-align: center;
@@ -21097,13 +20981,13 @@ ul.LogBar li a {
     }
 
     .start_creating_btn_prodDetail_orng {
-        background-color: #ffdd0c;
+        background-color: #EEA518;
         height: 35px;
         width: 180px !important;
         border: 0px;
         font-size: 13px;
         font-weight: bold;
-        color: black;
+        color: White;
         text-align: center;
         text-transform: uppercase;
         cursor: pointer;
@@ -21284,7 +21168,7 @@ ul.LogBar li a {
         padding: 20px;
         border-radius: 5px;
         background-color: #d6d6d6 !important;
-        height: 525px;
+        height: 492px;
     }
 
     .CAT_Body {
@@ -21298,7 +21182,7 @@ ul.LogBar li a {
         padding: 20px;
         border-radius: 10px !important;
         background-color: #d6d6d6 !important;
-        min-height: 260px;
+        min-height: 315px;
     }
 
     .CAT_ThumbnailPath {
@@ -21483,7 +21367,7 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
-        min-height: 350px;
+        min-height: 470px;
     }
 
 
@@ -22249,6 +22133,7 @@ border: 8px solid rgb(237, 239, 240);
     -webkit-border-radius: 5px;
     -khtml-border-radius: 5px;
     border-radius: 5px;
+
 }
 
     #Previewer .turn-page {
@@ -22528,7 +22413,7 @@ gridViewCheckoutRowStyle td {
 }
 
     .usercolorSize:hover {
-        color: #E83e48 !important;
+        color: #20557b !important;
         font-size: 15px !important;
     }
 
@@ -22561,7 +22446,7 @@ gridViewCheckoutRowStyle td {
 
 .carttxtcolorSize:hover {
     margin-left: 5px;
-    color: #E83e48 !important;
+    color: #20557b !important;
     font-size: 15px;
     text-decoration: none;
 }
@@ -22575,7 +22460,7 @@ gridViewCheckoutRowStyle td {
 }
 
 #lnkAllProducts {
-    color: #E83e48;
+    color: #20557b;
 }
 
     #lnkAllProducts:hover {
@@ -22583,7 +22468,7 @@ gridViewCheckoutRowStyle td {
     }
 
 #lnkRequestQuote {
-    color: #E83e48;
+    color: #20557b;
 }
 
     #lnkRequestQuote:hover {
@@ -22591,7 +22476,7 @@ gridViewCheckoutRowStyle td {
     }
 
 #lnkContactUs {
-    color: #E83e48;
+    color: #20557b;
 }
 
     #lnkContactUs:hover {
@@ -22813,7 +22698,7 @@ gridViewCheckoutRowStyle td {
 }
 
 a:hover.btn-watch {
-    background: #E83e48;
+    background: #20557b;
     color: #fff;
 }
 
@@ -22863,7 +22748,7 @@ a.btn-watch span:after {
 }
 
 .btnSubscribe:hover {
-    background: #E83e48;
+    background: #20557b;
     color: #fff;
 }
 
@@ -23014,7 +22899,7 @@ a.btn-watch span:after {
 
 
 .loginusercolorSize:hover {
-    color: #E83e48 !important;
+    color: #20557b !important;
     /* Un-prefixed. Prefix `transform` for all target browsers. */
     /*transform: scale(1.2);
     transition: transform .4s linear;
@@ -23070,7 +22955,7 @@ a.btn-watch span:after {
     animation-iteration-count: infinite;
     -webkit-animation-direction: alternate;
     animation-direction: alternate;
-    color: #E83e48;
+    color: #20557b;
     font-size: 32px;
 }
 
@@ -23090,7 +22975,7 @@ a.btn-watch span:after {
     animation-iteration-count: infinite;
     -webkit-animation-direction: alternate;
     animation-direction: alternate;
-    color: #E83e48;
+    color: #20557b;
     font-size: 32px;
 }
 
@@ -23110,7 +22995,7 @@ a.btn-watch span:after {
     animation-iteration-count: infinite;
     -webkit-animation-direction: alternate;
     animation-direction: alternate;
-    color: #E83e48;
+    color: #20557b;
     font-size: 32px;
 }
 
@@ -23141,7 +23026,7 @@ a.btn-watch span:after {
 
 #FooterContainer {
     border-top: 1px solid #a8a8a8;
-    background-color: rgb(0,0,0) !important;
+    background-color: rgb(183,216,241) !important;
 }
 
 
@@ -23177,11 +23062,11 @@ a.btn-watch span:after {
 #ulCollapseMenu {
     padding-left: 0px !important;
     border-top: 1px solid #ffffff;
-    background-color: #E83e48;
+    background-color: #20557b;
     margin-top: 1px;
     color: white;
     list-style: none;
-    color: #E83e48;
+    color: #20557b;
     position: absolute;
     right: 0px;
     /* border: 1px solid; */
@@ -23213,9 +23098,9 @@ a.btn-watch span:after {
     }
 
     .icon-align-justify:hover {
-        /*background: #E83e48;*/
+        /*background: #20557b;*/
         padding: 10px;
-        /*border: 1px solid #E83e48;*/
+        /*border: 1px solid #20557b;*/
         border-radius: 5px;
         padding-top: 16px;
         color: #ffffff;
@@ -23565,13 +23450,13 @@ label {
     /*margin: 20px 0 0;*/
     color: #ffffff;
     font-size: 20px;
-    background: #E83e48;
+    background: #20557b;
     border-radius: 0px;
     padding: 10px 10px;
 }
 
 a:hover.btn-watch {
-    background: #E83e48;
+    background: #20557b;
     color: #fff;
 }
 
@@ -23581,7 +23466,7 @@ a:hover.btn-watch {
 }
 
 .btn-watch {
-    background: none repeat scroll 0 0 #E83e48;
+    background: none repeat scroll 0 0 #20557b;
     display: block;
     margin-top: 20px;
     overflow: hidden;
@@ -23590,7 +23475,7 @@ a:hover.btn-watch {
 }
 
 #lnkPRoductdetail {
-    color: #E83e48;
+    color: #20557b;
 }
 
 .bonhamsOption {
@@ -23603,7 +23488,7 @@ a:hover.btn-watch {
 }
 
 .morelink {
-    color: #E83e48;
+    color: #20557b;
 }
 
 .topcat_desc_CAT > label {
@@ -23907,7 +23792,7 @@ gridfontStyle {
     }
 
         .profile-menu > li > a:hover {
-            color: #E83e48;
+            color: #20557b;
         }
 
     .profile-menu > li:hover {
@@ -23920,7 +23805,7 @@ gridfontStyle {
 }
 
 .BreadCrumbMenu h1 a {
-    color: #E83e48;
+    color: #20557b;
     font-weight: normal;
     text-shadow: none;
     font-weight: bold;
@@ -24048,7 +23933,7 @@ gridfontStyle {
     }
 
 .dashboard-main-heading {
-    color: #E83e48;
+    color: #20557b;
     text-shadow: none;
     font-weight: bold;
     font-size: 30px;
@@ -24059,7 +23944,7 @@ gridfontStyle {
 }
 
 .dashboard_item_main_heading > label:hover {
-    color: #E83e48;
+    color: #20557b;
 }
 
 .modal-header {
@@ -24092,16 +23977,16 @@ gridfontStyle {
 
 #designFormateimg {
     width: 100%;
-    margin-bottom: 10px;
-    height: 200px;
+    margin-bottom: 10px;  max-height: 150px;
 }
 
 .btn_upload_design_Prod_details:hover {
     background-color: #A5262E;
+
 }
 
 .start_creating_btn_prodDetail_orng:hover {
-    background-color: #DFC003;
+    background-color: #D69519;
 }
 
 .btn_upload_files_Prod_Land:hover {
@@ -24136,7 +24021,7 @@ gridfontStyle {
 }
 
 .order_history_btn:hover {
-    background-color: #E83e48;
+    background-color: #20557b;
 }
 
 .search-order-Go {
@@ -24168,7 +24053,7 @@ gridfontStyle {
 .modal-title {
     text-align: center;
     font-size: 25px;
-    color: #E83e48;
+    color: #20557b;
     text-shadow: none;
     font-weight: bold;
 }
@@ -24176,7 +24061,7 @@ gridfontStyle {
 .orderReceiptTitle {
     text-align: center;
     font-size: 25px;
-    color: #E83e48;
+    color: #20557b;
     text-shadow: none;
     font-weight: bold;
 }
@@ -24196,7 +24081,7 @@ gridfontStyle {
 }
 
 .place-inquiry-button {
-    background: #E83e48;
+    background: #20557b;
     background-repeat: no-repeat;
     height: 34px;
     border: 0px;
@@ -24259,39 +24144,9 @@ gridfontStyle {
     font-size: 30px !important;
     margin-top: 5px !important;
 }
-
 .link-sign-up:hover {
     margin-left: 58px;
 }
-
-.CCModifyLink {
-    cursor: pointer;
-    color: red;
-    margin-left: 10px;
-    text-decoration: underline;
-    font-size: 12px;
-}
-
-    .CCModifyLink:hover {
-        cursor: pointer;
-        color: red;
-        margin-left: 10px;
-        text-decoration: underline;
-        font-size: 12px;
-    }
-
-.CcImageContainer {
-    width: 80px;
-}
-
-#Addressline2 {
-    font-weight: normal !important;
-}
-
-.receiptbillingShippingcnt > label {
-    font-weight: normal !important;
-}
-
-#shippingAddressline2 {
-    font-weight: normal !important;
+#ProductrightContainter {
+display:none;
 }

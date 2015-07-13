@@ -67,7 +67,23 @@ namespace MPC.Implementation.WebStoreServices
 
         public void SendEmailFromQueue(HttpContext context)
         {
-            _CampaignRepository.SendEmailFromQueue(context);
+            try 
+            {
+                _CampaignRepository.SendEmailFromQueue(context);
+            }
+            catch(Exception ex)
+            {
+                string virtualFolderPth = context.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
+                
+                using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
+                {
+                    writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
+                
+            }
+            
         }
         
         public void MonitorScheduledEmails()

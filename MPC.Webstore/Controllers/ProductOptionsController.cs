@@ -147,6 +147,8 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
+                   
+
                     ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? new List<MPC.Models.DomainModels.ItemAttachment>() : clonedItem.ItemAttachments.ToList();
                     ViewData["Templates"] = null;
 
@@ -221,7 +223,15 @@ namespace MPC.Webstore.Controllers
 
             ViewBag.AttachmentCount = clonedItem.ItemAttachments == null ? 0 : clonedItem.ItemAttachments.Count;
 
-            DefaultSettings(referenceItemId, ItemMode, clonedItem.ItemId, OrderID, StoreBaseResopnse);
+            if (!string.IsNullOrEmpty(TemplateId))
+            {
+                DefaultSettings(referenceItemId, ItemMode, clonedItem.ItemId, OrderID, StoreBaseResopnse, true);
+            }
+            else 
+            {
+                DefaultSettings(referenceItemId, ItemMode, clonedItem.ItemId, OrderID, StoreBaseResopnse, false);
+            }
+           
 
             StoreBaseResopnse = null;
             TempData["ItemMode"] = ItemMode;
@@ -294,7 +304,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                DefaultSettings(Convert.ToInt64(ReferenceItemId), "", Convert.ToInt64(cartObject.ItemId), Convert.ToInt64(cartObject.OrderId), StoreBaseResopnse);
+                DefaultSettings(Convert.ToInt64(ReferenceItemId), "", Convert.ToInt64(cartObject.ItemId), Convert.ToInt64(cartObject.OrderId), StoreBaseResopnse, false);
 
                 return View("PartialViews/ProductOptions");
             }
@@ -302,7 +312,7 @@ namespace MPC.Webstore.Controllers
 
         }
 
-        private void DefaultSettings(long ReferenceItemId, string mode, long ClonedItemId, long OrderId, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse)
+        private void DefaultSettings(long ReferenceItemId, string mode, long ClonedItemId, long OrderId, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse, bool isTemplateProduct)
         {
 
             List<ProductPriceMatrixViewModel> PriceMatrixObjectList = null;
@@ -320,16 +330,23 @@ namespace MPC.Webstore.Controllers
             if (mode == "Modify")
             {
                 ViewBag.Mode = "Modify";
-
-                if (referenceItem.IsUploadImage == true)
+                if (isTemplateProduct == true)
                 {
                     ViewBag.ShowUploadArkworkPanel = true;
                 }
-                else
+                else 
                 {
-                    ViewBag.ShowUploadArkworkPanel = false;
-                }
+                    if (referenceItem.IsUploadImage == true)
+                    {
+                        ViewBag.ShowUploadArkworkPanel = true;
+                    }
+                    else
+                    {
+                        ViewBag.ShowUploadArkworkPanel = false;
+                    }
 
+                }
+            
             }
             else
             {
@@ -619,6 +636,9 @@ namespace MPC.Webstore.Controllers
             ViewBag.ItemModel = ItemModel;
             ViewBag.CategoryName = _myItemService.GetCategoryNameById(0, ReferenceItemId);
             ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(ViewBag.CategoryName) + "/" + _myItemService.GetCategoryIdByItemId(ReferenceItemId);
+
+            SetPageMEtaTitle(referenceItem.ProductName, referenceItem.MetaDescription, referenceItem.MetaKeywords, referenceItem.MetaTitle, StoreBaseResopnse);
+
             referenceItem = null;
         }
         private void BindTemplatesList(long TemplateId, List<ItemAttachment> attachmentList, long ItemId, int DesignerCategoryId, string ProductName)
@@ -689,7 +709,28 @@ namespace MPC.Webstore.Controllers
 
         }
 
+        /// <summary>
+        /// to dispaly the meta titles of page
+        /// </summary>
+        /// <param name="CatName"></param>
+        /// <param name="CatDes"></param>
+        /// <param name="Keywords"></param>
+        /// <param name="Title"></param>
+        /// <param name="baseResponse"></param>
+        private void SetPageMEtaTitle(string CatName, string CatDes, string Keywords, string Title, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse)
+        {
+            string[] MetaTags = _myCompanyService.CreatePageMetaTags(Title == null ? "" : Title, CatDes == null ? "" : CatDes, Keywords == null ? "" : Keywords, baseResponse.Company.Name, baseResponse.StoreDetaultAddress);
 
+            TempData["MetaTitle"] = MetaTags[0];
+            TempData.Keep("MetaTitle");
+            //ViewBag.MetaTitle  = MetaTags[0];
+            TempData["MetaKeywords"] = MetaTags[1];
+            TempData.Keep("MetaKeywords");
+            //ViewBag.MetaKeywords = MetaTags[1];
+            TempData["MetaDescription"] = MetaTags[2];
+            TempData.Keep("MetaDescription");
+
+        }
 
     }
 
