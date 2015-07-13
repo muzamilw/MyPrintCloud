@@ -58,11 +58,6 @@
                                 @Html.ActionLink("Calendar", "Calendar", "Home")
                                 @*<a href="#tab-Calendar" data-toggle="tab">Calendar</a>*@
                             </li>
-
-                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.EMarketing) { <text>active</text> }">
-                                @Html.ActionLink("E-Marketing", "EMarketing", "Home")
-                            </li>
-
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-Customers">
@@ -70,7 +65,10 @@
                                     
                                     <!-- ko template: { name: 'filterTemplate' } -->
                                     <!-- /ko -->
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12" style="margin-top:20px;">
+                                        <div style="margin-bottom:15px;">
+                                            <span>dumy text here Public Store Registered Users</span>
+                                        </div>
                                         <div>
                                             <div>
                                                 <div class="table-responsive">
@@ -78,7 +76,7 @@
                                                         <thead>
                                                             <tr>
                                                                 <th class="col-lg-1"></th>
-                                                                <th class="col-lg-3"><span>Company</span></th>
+                                                                <th class="col-lg-3" style="padding-left:17px;"><span>Company</span></th>
                                                                 <th class="col-lg-3"><span>Store</span></th>
                                                                 <th class="col-lg-1"><span>Created</span></th>
                                                                 <th class="col-lg-2"><span>Email</span></th>
@@ -94,10 +92,10 @@
                                                                     <img style="margin-bottom: -12px; margin-top: -12px; margin-left: -18%; -o-object-fit: contain; object-fit: contain; " data-bind="attr: { src: storeImageFileBinary()==='' ? '/mis/Content/Images/Company_Default.png':'' }" alt="">
                                                                     <!--/ko-->
                                                                     <!-- ko if: storeImageFileBinary()!=='' -->
-                                                                    <img style="width: 43%; max-width: 43%; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
+                                                                    <img style="width:50px; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
                                                                     <!--/ko-->
                                                                 </td>
-                                                                <td>
+                                                                <td style="padding-left:17px;">
                                                                     <a href="#" class="store-user-link" data-bind="text:name"></a>
                                                                     <span class="user-subhead" data-bind="text:defaultContact"></span>
                                                                 </td>
@@ -108,9 +106,7 @@
                                                                 <td>
                                                                     <p data-bind="dateString: creationdate, datePattern: 'DD/MM/YYYY'"></p>
                                                                 </td>
-                                                                @*<td>
-                        <span data-bind="text:status, css:statusClass"></span>
-                    </td>*@
+                                                                
                                                                 <td>
                                                                     <a>
                                                                         <p data-bind="text:defaultContactEmail"></p>

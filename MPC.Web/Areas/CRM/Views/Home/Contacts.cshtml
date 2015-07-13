@@ -13,7 +13,7 @@
                 </ol>
                 <h1 style="padding-left:0px;">Public Store Registered Users</h1>
                 <div class="clearfix pull-left" style="padding-bottom: 1%">
-                    <h5>Create Contacts, Customers and Suppliers. Add to-do items and update shared calendars. Increase your pipeline by creating e-marketing emails and scheduling them for future release.</h5>
+                    <h5>Create Contacts, Customers and Suppliers. Add to-do items and update shared calendars.</h5>
                 </div>
             </div>
         </div>
@@ -40,19 +40,16 @@
                                 @Html.ActionLink("Calendar", "Calendar", "Home")
                                 @*<a href="#tab-Calendar" data-toggle="tab">Calendar</a>*@
                             </li>
-
-                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.EMarketing) { <text>active</text> }">
-                                @Html.ActionLink("E-Marketing", "EMarketing", "Home")
-                            </li>
-
-
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-Contacts">
                                 <div class="row">
                                     <!-- ko template: { name: 'filterTemplate' } -->
                                     <!-- /ko -->
-                                    <div class="col-lg-12" style="margin-top:15px">
+                                    <div class="col-lg-12" style="margin-top:20px">
+                                        <div style="margin-bottom:15px;">
+                                            <span>dumy text here Public Store Registered Users</span> 
+                                        </div>
                                         <div>
                                             <div>
                                                 <div class="table-responsive">
@@ -74,7 +71,7 @@
                                                                     <img style="-o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: image()==='' ? '/mis/Content/Images/company_contact.jpg':image() }" alt="" />
                                                                     <!--/ko-->
                                                                     <!-- ko if: image()!=='' -->
-                                                                    <img style="width: 37%; max-width: 37%; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: image()==='' ? '/mis/Content/Images/company_contact.jpg':image() }" alt="" />
+                                                                    <img style="width:50px; -o-object-fit: contain; object-fit: contain;" data-bind="attr: { src: image()==='' ? '/mis/Content/Images/company_contact.jpg':image() }" alt="" />
                                                                     <!--/ko-->
 
                                                                 </td>
