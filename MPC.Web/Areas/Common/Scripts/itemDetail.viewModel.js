@@ -126,6 +126,7 @@ define("common/itemDetail.viewModel",
                     selectedCostCentre = ko.observable(),
                     selectedSectionCostCenter = ko.observable(),
                     selectedQty = ko.observable(),
+                    selectedQtyForItem = ko.observable(),
                     selectedOrder = ko.observable(),
                     currencySymbol = ko.observable(''),
                     lengthUnit = ko.observable(),
@@ -524,9 +525,16 @@ define("common/itemDetail.viewModel",
                             sectionCostCenter.qty2WorkInstructions(name + " (Quantity = " + qty2 + ")");
                         }
                     },
+                    // Select Quantity Sequence for Item
+                    selectQuantityForItem = function(qtySequence) {
+                        if (selectedQtyForItem() === qtySequence) {
+                            return;
+                        }
+                        selectedQtyForItem(qtySequence);
+                    },
                     //Show Item Detail
                     showItemDetail = function (selectedProductParam, selectedOrderParam, closeItemDetailParam, isEstimateScreenFlag) {
-
+                        selectedQtyForItem(1);
                         showSectionDetail(false);
                         selectedProduct(selectedProductParam);
                         showItemDetailsSection(true);
@@ -1962,7 +1970,9 @@ define("common/itemDetail.viewModel",
                     sectionCostCenterQty1Ui: sectionCostCenterQty1Ui,
                     sectionCostCenterQty2Ui: sectionCostCenterQty2Ui,
                     defaultMarkUpId: defaultMarkUpId,
-                    applySectionCostCenterMarkup: applySectionCostCenterMarkup
+                    applySectionCostCenterMarkup: applySectionCostCenterMarkup,
+                    selectQuantityForItem: selectQuantityForItem,
+                    selectedQtyForItem: selectedQtyForItem
                     //#endregion
                 };
             })()

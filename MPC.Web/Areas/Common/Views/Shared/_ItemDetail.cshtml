@@ -74,7 +74,7 @@
                                         <div class="form-group">
 
                                             <div class="col-sm-2 text-right"><label class="control-label">Sections</label></div>
-                                            <div class="col-sm-8">
+                                            <div class="col-sm-4">
                                                 <div>
                                                     <ul class="gallery-photos">
                                                         <!-- ko template: { name: 'sectionItemTemplate' , foreach: itemSections  } -->
@@ -82,131 +82,118 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-1">
-                                                <div>
-
-                                                    <!--ko if:$root.selectedOrder() && ($root.selectedOrder().statusId === undefined || $root.selectedOrder().statusId() !== 6)-->
-                                                    <div style="height: 35px;">&nbsp;</div>
-                                                    <!--/ko-->
-                                                    <div style="float: left" data-bind="visible:$root.selectedProduct().productType()!==3">
-                                                        @*<img style="width: 115%; cursor: pointer" alt="Click to Add New Section/Signature/Component" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.createNewItemSection" /> 
-                                                        <span data-bind="click:$root.createNewItemSection" style=" margin-left: 22%; margin-top: -19%;" class="label label-circle-addsection">&nbsp;+&nbsp;</span>*@
-                                                        <div class="btn btn-success" data-bind="click:$root.createNewItemSection">
-                                                            Add New Section
+                                            <div class="col-sm-4 form-horizontal" style="background-color:gainsboro;margin-left: 4px;padding-top:20px;border-radius:3px">
+                                                <div style="background-color:gainsboro; border-radius:3px">
+                                                    <div style="background-color:gainsboro; border-radius:3px">
+                                                        <div class="form-group">
+                                                            <div class="col-sm-4">
+                                                                <label class="control-label tooltip-float" style="cursor: pointer" data-bind="click: $root.selectQuantityForItem.bind(1, 1), css: { font20px: $root.selectedQtyForItem() === 1 }, style: { 'margin-top': $root.selectedQtyForItem() !== 1 ? '5px' : '0', 'text-decoration': $root.selectedQtyForItem() !== 1 ? 'underline' : 'none', 'color': $root.selectedQtyForItem() !== 1 ? 'blue' : '' }">Qty1</label>
+                                                            </div>
+                                                            <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
+                                                            <div class="col-sm-3">
+                                                                <label class="control-label tooltip-float" style="cursor: pointer" data-bind="click: $root.selectQuantityForItem.bind(2, 2), css: { font20px: $root.selectedQtyForItem() === 2 }, style: { 'margin-top': $root.selectedQtyForItem() !== 2 ? '5px' : '0', 'text-decoration': $root.selectedQtyForItem() !== 2 ? 'underline' : 'none', 'color': $root.selectedQtyForItem() !== 2 ? 'blue' : '' }">Qty2</label>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <label class="control-label tooltip-float" style="cursor: pointer" data-bind="click: $root.selectQuantityForItem.bind(3, 3), css: { font20px: $root.selectedQtyForItem() === 3 }, style: { 'margin-top': $root.selectedQtyForItem() !== 3 ? '5px' : '0', 'text-decoration': $root.selectedQtyForItem() !== 3 ? 'underline' : 'none', 'color': $root.selectedQtyForItem() !== 3 ? 'blue' : '' }">Qty3</label>
+                                                            </div>
+                                                            <!--/ko-->
                                                         </div>
                                                     </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-5" style="text-align: right">
+                                                            <label class="control-label">
+                                                                Qty
+                                                                <span data-bind="text: $root.selectedQtyForItem"></span>
+                                                                <span class="control-label">Summary</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-4" style="text-align: right;">
+                                                            <div class="col-sm-12" style="padding-right: 0;margin-bottom: 5px">
+                                                                <label class="control-label">Net Total</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-2 pull-right" style="padding-right: 0; margin-right: 25px">
+                                                            <div class="col-lg-1 col-sm-2" style="padding-left: 0; margin-top: 5px">
+                                                                <label class="control-label" data-bind=" text:$root.currencySymbol"></label>
+                                                            </div>
+                                                            <div class="col-lg-11 col-sm-10">
+                                                                <input type="text" class="form-control txtBox-contentAlignRight PaddingL5 font20px" style="margin-left:5px;" id="txtQty1" data-bind="numberValue: $root.calculateQty1NetTotalForItem, visible: $root.selectedQtyForItem() === 1" />
+                                                                <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
+                                                                <input type="text" class="form-control txtBox-contentAlignRight PaddingL5 font20px" id="txtQty2" data-bind="numberValue:$root.calculateQty2NetTotalForItem, visible: $root.selectedQtyForItem() === 2" />
+                                                                <input type="text" class="form-control txtBox-contentAlignRight PaddingL5 font20px" id="txtQty3" data-bind="numberValue:$root.calculateQty3NetTotalForItem, visible: $root.selectedQtyForItem() === 3" />
+                                                                <!-- /ko -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-4">
+                                                            <div class="col-sm-3">
+                                                                <label class="control-label tooltip-float">Tax </label>
+                                                            </div>
+                                                            <div class="col-sm-7">
+                                                                <input type="text" style="margin-left: 30%" class="form-control text-right" name="Tax Rate should be a valid number" id="txtTax" data-bind="disable:taxRateIsDisabled,value:tax1">
+                                                            </div>
+                                                            <div class="col-sm-2 help-block text-right">%</div>
+                                                        </div>
+
+                                                        <div class="col-sm-4 pull-right">
+                                                            <div class="txtBox-contentAlignRight" style="margin-right: 34px">
+                                                                <label class="control-label">
+                                                                    <span data-bind="text:$root.currencySymbol"></span>
+                                                                    <span data-bind="numberInput:qty1Tax1Value, visible: $root.selectedQtyForItem() === 1"></span>
+                                                                    <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
+                                                                    <span data-bind="numberInput:qty2Tax1Value, visible: $root.selectedQtyForItem() === 2"></span>
+                                                                    <span data-bind="numberInput:qty3Tax1Value, visible: $root.selectedQtyForItem() === 3"></span>
+                                                                    <!-- /ko -->
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-4">
+                                                            <label class="control-label tooltip-float" style="margin-top: 5px">Inc Tax</label>
+                                                        </div>
+                                                        <div class="col-sm-4 pull-right">
+                                                            <div class="txtBox-contentAlignRight" style="margin-right: 34px">
+                                                                <label class="control-label font20px">
+                                                                    <span data-bind="text:$root.currencySymbol"></span>
+                                                                    <span data-bind="numberInput:qty1GrossTotal, visible: $root.selectedQtyForItem() === 1"></span>
+                                                                    <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
+                                                                    <span data-bind="numberInput:qty2GrossTotal, visible: $root.selectedQtyForItem() === 2"></span>
+                                                                    <span data-bind="numberInput:qty3GrossTotal, visible: $root.selectedQtyForItem() === 3"></span>
+                                                                    <!-- /ko -->
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
                                                 </div>
-                                                @*<div class="btn btn-success" style="font-size: x-small;margin-left: 10%;" data-bind="click:$root.createNewItemSection">
-                                                        Add Sheets
-                                                    </div>*@
+
                                             </div>
                                         </div>
 
 
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-2" style="margin-top: -100px">
+                                            <div>
+                                                <!--ko if:$root.selectedOrder() && ($root.selectedOrder().statusId === undefined || $root.selectedOrder().statusId() !== 6)-->
+                                                <div style="height: 35px;">&nbsp;</div>
+                                                <!--/ko-->
+                                                <div style="float: left" data-bind="visible:$root.selectedProduct().productType()!==3">
+                                                    <div class="btn btn-success" data-bind="click:$root.createNewItemSection">
+                                                        Add New Section
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8 form-horizontal">
                                             &nbsp;
                                         </div>
-                                        <div class="col-sm-8 form-horizontal" style="background-color:gainsboro;margin-left: 4px;padding-top:20px;border-radius:3px">
-                                            <div style="background-color:gainsboro; border-radius:3px">
-                                                <div style="background-color:gainsboro; border-radius:3px">
-                                                    <div class="form-group">
-                                                        <div class="col-sm-3">
-                                                            <label class="control-label tooltip-float font20px">Qty</label>
-                                                        </div>
-                                                        <div class="col-sm-3" style="text-align: right; margin-top: 7px;">
-                                                            <span data-bind="text:qty1" style="margin-right: 2px;" class="font20px" />
-                                                        </div>
-                                                        <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
-                                                        <div class="col-sm-3" style="text-align: right; margin-top: 7px;">
-                                                            <span data-bind="text:qty2" style="margin-right: 12px;" class="font20px" />
-                                                        </div>
-
-                                                        <!--/ko-->
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-sm-3" style="text-align: right;">
-                                                        <div class="col-sm-12" style="padding-right: 0px;">
-                                                            <label class="control-label font20px">Net Total</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-3 col-sm-2" style="padding-right: 0px;">
-                                                        <div class="col-lg-1 col-sm-2" style="padding-left: 0px;">
-                                                            <label class="control-label" data-bind=" text:$root.currencySymbol"></label>
-                                                        </div>
-                                                        <div class="col-lg-11 col-sm-10">
-                                                            <input type="text" class="form-control txtBox-contentAlignRight PaddingL5 font20px" style="margin-left:5px;" id="txtQty1" data-bind="numberValue:$root.calculateQty1NetTotalForItem" />
-                                                        </div>
-                                                    </div>
-                                                    <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
-                                                    <div class="col-lg-3 col-sm-2" style="padding-right: 0;">
-                                                        <div class="col-lg-1 col-sm-2" style="padding-left: 0;">
-                                                            <label class="control-label" data-bind=" text:$root.currencySymbol"></label>
-                                                        </div>
-                                                        <div class="col-lg-11 col-sm-10">
-                                                            <input type="text" class="form-control txtBox-contentAlignRight PaddingL5 font20px" id="txtQty2" data-bind="numberValue:$root.calculateQty2NetTotalForItem" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-2 col-sm-2" style="padding-right: 0;">
-                                                        <div class="col-lg-1 col-sm-2" style="padding-left: 0;">
-                                                            @*<label class="control-label" data-bind=" text:$root.currencySymbol"></label>*@
-                                                        </div>
-                                                        <div class="col-lg-11 col-sm-10">
-                                                            @*<input type="text" class="form-control txtBox-contentAlignRight PaddingL5" style="font-weight:bolder;margin-right:2px;" id="txtQty3" data-bind="numberValue:$root.calculateQty3NetTotalForItem" />*@
-                                                        </div>
-                                                    </div>
-                                                    <!--/ko-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-4">
-                                            <div class="col-sm-9">
-                                                <label class="control-label tooltip-float">Tax </label>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <input type="text" style="margin-left: 30%" class="form-control text-right" name="Tax Rate should be a valid number" id="txtTax" data-bind="disable:taxRateIsDisabled,value:tax1">
-                                            </div>
-                                            <div class="col-sm-1 help-block text-right">%</div>
-                                        </div>
-
-                                        <div class="col-sm-8">
-                                            <div class="col-xs-3 txtBox-contentAlignRight">
-                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty1Tax1Value"></span></label>
-                                            </div>
-                                            <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
-                                            <div class="col-sm-3  txtBox-contentAlignRight">
-                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty2Tax1Value"></span></label>
-                                            </div>
-                                            <div class="col-sm-3 txtBox-contentAlignRight" style="padding-right:2%">
-                                                @*<label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty3Tax1Value"></span></label>*@
-                                            </div>
-                                            <!--/ko-->
-                                        </div>
-
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-4">
-                                            <label class="control-label tooltip-float font20px">Gross</label>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <div class="col-xs-3 txtBox-contentAlignRight">
-                                                <label class="control-label font20px"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty1GrossTotal"></span></label>
-                                            </div>
-                                            <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
-                                            <div class="col-sm-3 txtBox-contentAlignRight">
-                                                <label class="control-label font20px"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty2GrossTotal"></span></label>
-                                            </div>
-                                            <div class="col-sm-2 txtBox-contentAlignRight" style="padding-right: 1.3%;">
-                                                @*<label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="numberInput:qty3GrossTotal"></span></label>*@
-                                            </div>
-                                            <!--/ko-->
-                                        </div>
-
-
                                     </div>
                                     <div class="form-group">
 
@@ -227,7 +214,7 @@
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" style="height:34px;" rows="1" data-bind="value: jobDescription1, click: $root.selectJobDescription" id="txtDescription1" placeholder="Enter Description 1"></textarea>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="col-sm-1" style="width:47px;">
                                             <a id="P1" data-bind="visible: $root.selectedJobDescription() === 'txtDescription1', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
@@ -247,7 +234,7 @@
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" style="height:34px;" rows="1" data-bind="value: jobDescription2, click: $root.selectJobDescription" id="txtDescription2" placeholder="Enter Description 2"></textarea>
                                             </div>
-                                           
+
                                         </div>
                                         <div class="col-sm-1" style="width:47px;">
                                             <a id="P2" data-bind="visible: $root.selectedJobDescription() === 'txtDescription2', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
@@ -267,7 +254,7 @@
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription3, click: $root.selectJobDescription" id="txtDescription3" placeholder="Enter Description 3"></textarea>
                                             </div>
-                                           
+
                                         </div>
                                         <div class="col-sm-1" style="width:47px;">
                                             <a id="P3" data-bind="visible: $root.selectedJobDescription() === 'txtDescription3', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
@@ -287,7 +274,7 @@
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription4, click: $root.selectJobDescription" id="txtDescription4" placeholder="Enter Description 4"></textarea>
                                             </div>
-                                         
+
                                         </div>
                                         <div class="col-sm-1" style="width:47px;">
                                             <a id="P4" data-bind="visible: $root.selectedJobDescription() === 'txtDescription4', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
@@ -307,7 +294,7 @@
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription5, click: $root.selectJobDescription" id="txtDescription5" placeholder="Enter Description 5"></textarea>
                                             </div>
-                                           
+
                                         </div>
                                         <div class="col-sm-1" style="width:47px;">
                                             <a id="P5" data-bind="visible: $root.selectedJobDescription() === 'txtDescription5', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
@@ -327,7 +314,7 @@
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription6, click: $root.selectJobDescription" id="txtDescription6" placeholder="Enter Description 6"></textarea>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="col-sm-1" style="width:47px;">
                                             <a id="P6" data-bind="visible: $root.selectedJobDescription() === 'txtDescription6', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
@@ -347,7 +334,7 @@
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription7, click: $root.selectJobDescription" id="txtDescription7" placeholder="Enter Description 7"></textarea>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="col-sm-1" style="width:47px;">
                                             <a id="P7" data-bind="visible: $root.selectedJobDescription() === 'txtDescription7', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
@@ -384,7 +371,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <div class="col-sm-2">&nbsp;</div>
                                         <div class="col-sm-2 text-right">
@@ -396,7 +383,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="tab-jobs">
@@ -659,7 +646,7 @@
 
 <script id="sectionItemTemplate" type="text/html">
     <!--ko if: !flagForAdd() -->
-    <li class="col-lg-2 col-sm-3">
+    <li class="col-lg-4 col-sm-5" style="margin-left: 5px">
         <div>
             <div style="float: left">
                 <span data-bind="text:sectionsMultiplier, css: { 'sectionmultiplierindex':  $index() === 0,  'sectionmultiplier':  $index() !== 0 }" class="font20px"></span>
