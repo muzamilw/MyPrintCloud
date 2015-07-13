@@ -636,8 +636,20 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 JobDescriptionTitle7 = source.JobDescriptionTitle7,
                 JobDescription7 = source.JobDescription7,
                 CompanyId = source.CompanyId,
-                CompanyName = source.Company != null ? source.Company.Name : string.Empty
+                CompanyName = source.Company != null ? source.Company.Name : string.Empty,
+                ProductSpecification = source.ProductSpecification
             };
+            // Load Thumbnail Image
+            if (!string.IsNullOrEmpty(source.ThumbnailPath))
+            {
+                string thumbnailPath = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
+                if (File.Exists(thumbnailPath))
+                {
+
+                    item.ThumbnailImage = File.ReadAllBytes(thumbnailPath);
+                    item.ThumbnailPath = thumbnailPath;
+                }
+            }
             return item;
         }
     }

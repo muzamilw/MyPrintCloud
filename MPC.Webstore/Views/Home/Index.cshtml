@@ -14,6 +14,7 @@
     @if (TempData["MetaKeywords"] != null)
     {
         <meta name="keywords" content="@TempData["MetaKeywords"]"/>
+<<<<<<< HEAD
     }
    
     @if (ViewBag.WebAnalyticCode != null)
@@ -22,6 +23,16 @@
     }
     @if (ViewBag.WebMasterTag != null)
     {
+=======
+    }
+   
+    @if (ViewBag.WebAnalyticCode != null)
+    {
+        @Html.Raw(ViewBag.WebAnalyticCode)
+    }
+    @if (ViewBag.WebMasterTag != null)
+    {
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         @Html.Raw(ViewBag.WebMasterTag)
     }
 }

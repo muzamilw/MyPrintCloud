@@ -4,7 +4,7 @@
 @font-face {
     font-family: 'Poiret One';
     font-style: normal;
-    font-weight: 400;
+    font-weight: 400; 
     src: local('Poiret One'), local('PoiretOne-Regular'), url(http://themes.googleusercontent.com/static/fonts/poiretone/v1/HrI4ZJpJ3Fh0wa5ofYMK8RsxEYwM7FgeyaSgU71cLG0.woff) format('woff');
 }
 
@@ -47,7 +47,11 @@ html, body {
 
 .bodycolor {
     background-color: #ffffff !important;
+<<<<<<< HEAD
     background-image: url('/mpc_content/Assets/1/32857/background.png') !important;
+=======
+    background-image: url('_background.jpg') !important;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     background-repeat: no-repeat;
 }
 
@@ -336,6 +340,13 @@ ul.nav li.selectedLava a {
     font-size: 16px !important;
 }
 
+<<<<<<< HEAD
+=======
+.top_header {
+    background-color: #fff !important;
+    margin-bottom: 0px;
+}
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 
 
 
@@ -454,6 +465,7 @@ ul.nav li.selectedLava a {
     height: 40px;
     /*-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
+
 	-khtml-border-radius: 5px;
 	border-radius: 5px;*/
 }
@@ -1425,6 +1437,8 @@ ul.nav li.selectedLava a {
     height: 75px;
     width: 75px;
     top: -260px;
+
+
     left: 390px;
     color: White;
 }
@@ -1738,9 +1752,15 @@ ul.nav li.selectedLava a {
 
 .sign_in_heading {
     font-size: 25px;
+<<<<<<< HEAD
     color: black;
     text-align: center;
     /* font-weight: bold;*/
+=======
+    color: #20557b;
+    text-shadow: none;
+    font-weight: bold;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 }
 
 .headingTempDesigner {
@@ -1758,7 +1778,15 @@ ul.nav li.selectedLava a {
 
 
 .contact_us_heading {
+<<<<<<< HEAD
     padding: 20px 0px 20px 0px;
+=======
+    padding: 20px 0px 0px 0px;
+    text-align: center;
+    font-size: 25px;
+    color: #20557b;
+    text-shadow: none;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     font-weight: bold;
     font-size: 25px;
     text-align: center;
@@ -1785,6 +1813,7 @@ ul.nav li.selectedLava a {
 }
 
 .product_detail_image_heading_IRI {
+<<<<<<< HEAD
     font-size: 13px;
     color: black;
     padding-top: 15px;
@@ -1795,6 +1824,16 @@ ul.nav li.selectedLava a {
     font-weight: bold;
     padding: 12px;
     text-align: center;
+=======
+    /* font-weight: bold; padding: 20px 10px 5px 10px;*/
+    font-size: 14px;
+    color: black;
+    padding-top: 15px;
+    padding-bottom: 30px;
+    text-align: center;
+    height: 15px;
+
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 }
 
     .product_detail_image_heading_IRI > span {
@@ -1815,7 +1854,11 @@ ul.nav li.selectedLava a {
     /* font-weight: bold;*/
     font-size: 16px;
     line-height: 16px;
+<<<<<<< HEAD
     color: black;
+=======
+    color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     /*padding-left: 5px;*/
     text-align: left;
     margin-bottom: 60px;
@@ -2542,6 +2585,8 @@ width: 520px*/
         text-decoration: none;
         cursor: pointer;
         color: #003366;
+
+
     }
 
     .link16 a:hover {
@@ -2696,6 +2741,17 @@ width: 520px*/
 	color: #0066D3;*/
 }
 
+<<<<<<< HEAD
+=======
+    .forgetPassLink:hover {
+        font-size: 12px !important;
+        font-style: normal;
+        font-weight: normal;
+        color: #20557b !important;
+        margin-left: 10px;
+        line-height: 0;
+    }
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 
 .imgBorder {
     border: 0px;
@@ -3138,6 +3194,7 @@ width: 520px*/
     color: #cccccc;
     margin-top: 15px;
 }
+
 
 .darkFooter {
     margin-top: 15px;
@@ -3693,8 +3750,13 @@ width: 520px*/
 }
 
 .start_creating_btn_Login {
+<<<<<<< HEAD
     /*background: url('sprite.png') -341px -674px;
   background-repeat: no-repeat;*/
+=======
+    background: #20557b;
+    background-repeat: no-repeat;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     height: 34px;
     border: 0px;
     text-align: center;
@@ -3712,7 +3774,11 @@ width: 520px*/
     }
 
 .start_creating_btn_CretAcc {
+<<<<<<< HEAD
     background: url('sprite.png') -341px -674px;
+=======
+    background: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     background-repeat: no-repeat;
     height: 34px;
     border: 0px;
@@ -3734,6 +3800,10 @@ width: 520px*/
     /* border: 1px solid #1A567E; */
     cursor: pointer;
     /* margin-right: 10px; */
+<<<<<<< HEAD
+=======
+    background-color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     font-size: 16px;
 }
 
@@ -4509,6 +4579,7 @@ width: 520px*/
 }
 
 #OrderStepsContainer {
+
     margin-left: 55px;
 }
 
@@ -5236,7 +5307,11 @@ width: 520px*/
 }
 
     .exit_popup4:hover {
+<<<<<<< HEAD
         background: #146c81;
+=======
+        background: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
 .font22px {
@@ -6059,6 +6134,7 @@ width: 520px*/
     margin-left: 10px;
 }
 
+
 .marginBtom {
     margin-bottom: 3px;
 }
@@ -6219,6 +6295,7 @@ width: 520px*/
                 display: block;
                 padding: 0;
                 /* font-weight: bold;*/
+
                 text-decoration: none;
                 z-index: 1001;
                 color: White;
@@ -7136,6 +7213,7 @@ div.wrapper {
 
 /***All Products control***/
 .allprodHead {
+<<<<<<< HEAD
     text-shadow: 0 -1px 0 rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.4);
     padding: 10px 0px 10px 0px;
     color: #2493ad;
@@ -7143,6 +7221,15 @@ div.wrapper {
     margin-bottom: 15px;
     /*font-family: AvenirNextLTW01-Regular;*/
     text-align: left;
+=======
+    color: #20557b;
+    text-shadow: none;
+    font-weight: bold;
+    font-size: 25px;
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 0px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 }
 
 
@@ -7194,9 +7281,15 @@ div.wrapper {
     padding-bottom: 5px;
 }
 
+<<<<<<< HEAD
 .allproducts_col_cat_ul li a {
     color: #black;
 }
+=======
+            .allproducts_col_cat_ul li a:hover {
+                color: #20557b;
+            }
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 
 .SubCatLink {
     font-weight: normal;
@@ -7204,7 +7297,12 @@ div.wrapper {
     padding-bottom: 5px;
 }
 
+<<<<<<< HEAD
     .SubCatLink:link {
+=======
+    .SubCatLink:hover {
+        color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         font-size: 12px !important;
         font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;
     }
@@ -7217,11 +7315,28 @@ div.wrapper {
 
 .width_allPro {
     text-align: left !important;
+<<<<<<< HEAD
     font-size: medium !important;
     margin-left: 15px;
     /*font-family: 'Avenir Next LT W01 Bold';*/
     font-weight: normal;
 }
+=======
+    font-size: 22px !important;
+    /*margin-left: 15px;*/
+    color: #20557b;
+    font-weight: normal;
+}
+
+    .width_allPro a {
+        color: #20557b;
+    }
+
+        .width_allPro a:hover {
+            color: black;
+        }
+
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 /* Category Products**/
 
 
@@ -8554,7 +8669,11 @@ a.PinkRegBack:active {
 }
 
     .designNowCS_TS:hover {
+<<<<<<< HEAD
         background: #146c81;
+=======
+        background: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
 .clsTemplateDesignings {
@@ -9060,7 +9179,11 @@ a.PinkRegBack:active {
     text-align: center;
     margin-left: 10px;
     font-size: 14px;
+<<<<<<< HEAD
     background: black;
+=======
+    background: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     border-radius: 30px;
 }
 
@@ -9471,7 +9594,11 @@ a.PinkRegBack:active {
 .ProductDetailH2 {
     font-size: 15px;
     font-weight: bold;
+<<<<<<< HEAD
     color: #black;
+=======
+    color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 }
 
 .ProductDetailRefOptions {
@@ -9597,7 +9724,11 @@ a.PinkRegBack:active {
 }
 
     .MesgBoxBtnsDisplay:hover {
+<<<<<<< HEAD
         background-color: #2493ad;
+=======
+        background-color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
 .MesgBoxBtnsDisplay_subscriber {
@@ -9895,12 +10026,16 @@ a.PinkRegBack:active {
     margin-top: 0px;
 }
 
+<<<<<<< HEAD
 .boxCatDes {
     min-height: 78px;
     display: inline;
     float: left;
     width: 223px;
 }
+=======
+
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 
 .SP_transparent {
     background-color: white !important;
@@ -10024,7 +10159,11 @@ a.PinkRegBack:active {
 }
 
 .Uplod_PCS {
+<<<<<<< HEAD
     background-color: #f0c700;
+=======
+    background-color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     background-repeat: no-repeat;
     height: 34px;
     border: 0px;
@@ -10146,6 +10285,7 @@ a.PinkRegBack:active {
 .PaymentMethodQL {
 }
 
+
 /*  TS- Get Touch box   */
 
 
@@ -10203,7 +10343,11 @@ a.PinkRegBack:active {
 
 
 .btn_upload_files_TS:hover {
+<<<<<<< HEAD
     background: #146c81;
+=======
+    background: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 }
 
 .btn_inquiry_TS {
@@ -10319,6 +10463,7 @@ a.PinkRegBack:active {
     width: 35px;
 }
 
+<<<<<<< HEAD
 .UplodArkworkContainer {
     min-height: 150px;
     width: 100%;
@@ -10328,6 +10473,9 @@ a.PinkRegBack:active {
     padding-bottom: 0px;
     border-radius: 5px;
 }
+=======
+
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 
 .InnerContainerUP {
     min-height: 150px;
@@ -10378,6 +10526,7 @@ a.PinkRegBack:active {
     color: #333333;
     font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
     font-style: normal;
+
     font-weight: bold;
     font-size: 13px;
     line-height: 16px;
@@ -10436,7 +10585,11 @@ a.PinkRegBack:active {
 }
 
 .GLHeading {
+<<<<<<< HEAD
     color: #black;
+=======
+    color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     margin-right: 5px;
 }
 
@@ -10671,6 +10824,46 @@ border-bottom: 3px solid #cacaca;*/
     cursor: pointer;
 }
 
+<<<<<<< HEAD
+=======
+    .grayRadiantbtn:hover {
+        color: White;
+        margin: 10px;
+        background: -webkit-linear-gradient(#FFC6C9, #20557b); /* For Safari */
+        background: -o-linear-gradient(#FFC6C9, #20557b); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#FFC6C9, #20557b); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#FFC6C9, #20557b); /* Standard syntax (must be last) */
+        padding: .55em 2em .55em;
+        text-shadow: 0 1px 1px rgba(0,0,0,.3);
+        -webkit-border-radius: 1.5em;
+        -moz-border-radius: 1.5em;
+        border-radius: 1.5em;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+        -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+        box-shadow: 0 1px 2px rgba(0,0,0,.2);
+        cursor: pointer;
+        border: 1px solid transparent;
+    }
+
+.OrangeGradiantbtn {
+    color: White;
+    margin: 10px;
+    background: -webkit-linear-gradient(#FFC6C9, #20557b); /* For Safari */
+    background: -o-linear-gradient(#FFC6C9, #20557b); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#FFC6C9, #20557b); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#FFC6C9, #20557b); /* Standard syntax (must be last) */
+    padding: .5em 2em .55em;
+    text-shadow: 0 1px 1px rgba(0,0,0,.3);
+    -webkit-border-radius: 1.5em;
+    -moz-border-radius: 1.5em;
+    border-radius: 1.5em;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 
 @font-face {
     font-family: "AvantGardeGothicITCBook";
@@ -11391,7 +11584,12 @@ ul.LogBar li a {
 
 
 .clear_button {
+<<<<<<< HEAD
     background-color: #2493ad;
+=======
+
+    background-color: #428bca;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     padding: 3px;
     background-repeat: no-repeat;
     border-width: 0px;
@@ -11871,6 +12069,7 @@ ul.LogBar li a {
 }
 
 
+
 .cntPLOrderDetails {
     overflow: auto;
     height: 160px;
@@ -11994,7 +12193,11 @@ ul.LogBar li a {
     margin-bottom: 20px;
     text-shadow: none;
     font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
+<<<<<<< HEAD
     color: #2493ad;
+=======
+    color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     font-size: 17px !important;
 }
 
@@ -12112,7 +12315,11 @@ ul.LogBar li a {
 }
 
 .sign_in_catheading {
+<<<<<<< HEAD
     color: black;
+=======
+    color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     font-size: inherit;
     /* font-weight: bold;*/
 }
@@ -12272,7 +12479,11 @@ ul.LogBar li a {
     border-top-color: rgb(102, 97, 91);
     border-top-style: none;
     border-top-width: 0px;
+<<<<<<< HEAD
     color: #black;
+=======
+    color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     display: block;
     font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;
     font-size: 22px;
@@ -12487,7 +12698,11 @@ ul.LogBar li a {
 
 .divRowAnalytics {
     width: 100%;
+<<<<<<< HEAD
     background-color: #2493ad;
+=======
+    background-color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     padding: 5px;
     color: White;
     margin-left: -5px;
@@ -12531,8 +12746,39 @@ ul.LogBar li a {
     border-radius: 0px !important;
 }
 
+<<<<<<< HEAD
+=======
+.artworkarrow {
+    display: block;
+    width: 260px !important;
+    margin-top: 13px;
+    float: left;
+    margin-left: 20px;
+    border: 1px solid white;
+    text-align: center;
+}
+.UplodArkworkContainer {
+    min-height: 150px;
+    width: 100%;
+    padding: 5px;
+    margin-top: 0px;
+    padding-top: 0px !important;
+    padding-bottom: 0px;
+}
+.rptContainers {
+        width: 100% !important;   float: none;
+        height: auto;}
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 
+.boxCatDes {
+    min-height: 78px;
+    display: inline;
+    float: left;
+    width: 100%;
+    font-size:12px;
+}
 @media (min-width:320px) { /* smartphones, iPhone, portrait 480x320 phones */
+<<<<<<< HEAD
     .cnttotalPayablesAS {
         float: none;
         width: 100%;
@@ -12572,6 +12818,41 @@ ul.LogBar li a {
 
     .powerPrivacy {
         padding-left: 15px;
+=======
+                            .upload-panel-margin {
+        margin-left:0px;
+    }
+   .btn_brown_small {
+    font-size: 11px;
+    clear: both;
+    height: 27px;
+    background: #cfcfcd;
+    text-align: center;
+    cursor: pointer;
+    color: black;
+    width: 117px;
+    border: none;
+}
+                           .profile-menu {
+    width: 167px;
+    left: -65px;
+    background-color: #FFFFFF;
+    border: none;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.176);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.176);
+    top: 50px;
+    position: absolute;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    z-index: 1000;
+}
+                            .product-detail-banner-slider {
+        width: 100%;
+        height: 420px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .top_header {
@@ -12595,7 +12876,11 @@ ul.LogBar li a {
         box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
         background: white;
         border-radius: 33px;
+<<<<<<< HEAD
         color: #10a8bd;
+=======
+        color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         font-size: 25px;
         text-align: center;
     }
@@ -12646,8 +12931,14 @@ ul.LogBar li a {
         margin-left: 5px;
     }
 
+<<<<<<< HEAD
     .hover-box-shadow .thumbnail {
         height: auto;
+=======
+    .top_header {
+        background-color: #fff !important;
+        margin-bottom: 0px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .hover-box-shadow a.thumbnail img {
@@ -12752,8 +13043,13 @@ ul.LogBar li a {
     }
 
     .BreadCrumbMenu h1 {
+<<<<<<< HEAD
         font-size: 25px !important;
         color: black;
+=======
+        font-size: 20px !important;
+        color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .BlackBtnCS {
@@ -12947,6 +13243,15 @@ ul.LogBar li a {
         display: block;
     }
 
+<<<<<<< HEAD
+=======
+        #CollapseBtn:hover {
+            display: block;
+            margin-top: 0px;
+            color: #20557b;
+        }
+
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     .cnttemporary {
         display: none;
     }
@@ -13048,10 +13353,15 @@ ul.LogBar li a {
         -webkit-transition: all 200ms ease-out;
         -o-transition: all 200ms ease-out;
         -moz-transition: all 200ms ease-out;
+<<<<<<< HEAD
         color: rgb(102,102,102);
         padding-left: 0px;
         position: absolute;
         margin-top: -20px;
+=======
+        color: #20557b;
+        padding-left: 0px;position:absolute;margin-top: -20px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .silver_back_button_remove {
@@ -13070,11 +13380,16 @@ ul.LogBar li a {
         -o-transition: all 200ms ease-out;
         -moz-transition: all 200ms ease-out;
         padding-left: 0px;
+<<<<<<< HEAD
         color: rgb(102,102,102);
         position: absolute;
         margin-top: -20px;
+=======
+        color: #20557b;position:absolute;margin-top: -20px;
+       
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
-
+       
     .fntQtyPrice {
         font-size: 11px !important;
     }
@@ -13112,9 +13427,10 @@ ul.LogBar li a {
         font-size: 10px !important;
     }
 
-    .BtnTemplateModifyContainer {
-        padding-top: 9px;
+      .BtnTemplateModifyContainer {
+         padding-top: 9px;
         margin-left: 0px !important;
+        text-align:center;
     }
 
     .cart_grid_image_container {
@@ -13538,11 +13854,7 @@ ul.LogBar li a {
         margin-top: 25px;
     }
 
-    .rptContainers {
-        width: auto !important;
-        float: none;
-        height: auto;
-    }
+   
 
     .PriceTableCs {
         margin-top: 5px !important;
@@ -13630,7 +13942,11 @@ ul.LogBar li a {
         height: 35px;
         width: 198px !important;
         border: 0px;
+<<<<<<< HEAD
         background-color: #2493ad;
+=======
+        background-color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         cursor: pointer;
         font-size: 13px;
         text-align: center;
@@ -13639,12 +13955,20 @@ ul.LogBar li a {
     }
 
     .start_creating_btn_prodDetail_orng {
+<<<<<<< HEAD
         background-color: #2493ad;
+=======
+        background-color: #EEA518;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         height: 35px;
         width: 198px !important;
         border: 0px;
         font-size: 13px;
+<<<<<<< HEAD
         /* font-weight: bold; padding: 0px 30px 0px 11px;*/
+=======
+        font-weight: bold;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         color: White;
         text-align: center;
         text-transform: uppercase;
@@ -13818,6 +14142,11 @@ ul.LogBar li a {
         /*margin-left: 5px; border: 10px;*/
         margin-bottom: 50px;
         padding: 20px;
+<<<<<<< HEAD
+=======
+        background-color: #d6d6d6;
+        height: 490px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .CAT_ThumbnailPath {
@@ -13835,6 +14164,11 @@ ul.LogBar li a {
         margin-right: 8px;
         margin-bottom: 50px;
         padding: 20px;
+<<<<<<< HEAD
+=======
+        background-color: #d6d6d6 !important;
+        min-height: 315px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .cntParentCategDesc {
@@ -14065,6 +14399,10 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
+<<<<<<< HEAD
+=======
+        min-height: 470px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .FI_TL {
@@ -14341,8 +14679,13 @@ ul.LogBar li a {
         height: 35px;
         width: 145px;
         cursor: pointer;
+<<<<<<< HEAD
         background: url('sprite.png') -341px -674px;
         background-repeat: no-repeat;
+=======
+        background-position: -298px -663px;
+        background-color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         height: 34px;
         border: 0px;
         color: White;
@@ -14365,6 +14708,7 @@ ul.LogBar li a {
 }
 
 @media (min-width:481px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+<<<<<<< HEAD
     .cnttotalPayablesAS {
         float: right;
         width: 45%;
@@ -14400,6 +14744,54 @@ ul.LogBar li a {
 
     .BillShipAddressesControl {
         width: 350px;
+=======
+                            .upload-panel-margin {
+        margin-left:00px;
+    }
+   .btn_brown_small {
+    font-size: 11px;
+    clear: both;
+    height: 27px;
+    background: #cfcfcd;
+    text-align: center;
+    cursor: pointer;
+    color: black;
+    width: 160px;
+    border: none;
+}
+                            .profile-menu {
+    width: 167px;
+    left: -65px;
+    background-color: #FFFFFF;
+    border: none;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.176);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.176);
+    top: 50px;
+    position: absolute;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    z-index: 1000;
+}
+                           .product-detail-banner-slider {
+        width: 100%;
+        height: 420px;
+    }
+
+    .product-detail-slider {
+        width: 100% !important;
+        height: 380px !important;
+    }
+
+    .cntDesignGuidLines {
+        width: 100%;
+    }
+
+    .artworkarrow {
+        margin-left: 0px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .BreadCrumbMenu {
@@ -14423,7 +14815,7 @@ ul.LogBar li a {
         color: white;
         width: 62px;
         cursor: pointer;
-        background-color: #E83e48;
+        background-color: #20557b;
         font-size: 16px;
         line-height: inherit;
     }
@@ -14443,7 +14835,11 @@ ul.LogBar li a {
         box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
         background: white;
         border-radius: 33px;
+<<<<<<< HEAD
         color: #10a8bd;
+=======
+        color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         font-size: 25px;
         text-align: center;
     }
@@ -14494,6 +14890,7 @@ ul.LogBar li a {
         margin-left: 5px;
     }
 
+<<<<<<< HEAD
     .loader {
         position: fixed;
         z-index: 999;
@@ -14501,6 +14898,11 @@ ul.LogBar li a {
         left: 20%;
         z-index: 10000;
         width: 290px;
+=======
+    .top_header {
+        background-color: #fff !important;
+        margin-bottom: 0px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .hover-box-shadow .thumbnail {
@@ -14777,8 +15179,13 @@ ul.LogBar li a {
     }
 
     .height40_LP {
+<<<<<<< HEAD
         width: 155px !important;
         margin-top: 0px;
+=======
+        width: 160px !important;
+        margin-top: -25px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         font-size: 12px;
     }
 
@@ -14798,8 +15205,13 @@ ul.LogBar li a {
         height: 35px;
         width: 145px;
         cursor: pointer;
+<<<<<<< HEAD
         background: url('sprite.png') -341px -674px;
         background-repeat: no-repeat;
+=======
+        background-position: -298px -663px;
+        background-color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         height: 34px;
         border: 0px;
         color: white;
@@ -14825,11 +15237,7 @@ ul.LogBar li a {
         overflow: scroll;
     }
 
-    .rptContainers {
-        width: 100% !important;
-        float: none;
-        height: auto;
-    }
+    
 
     .cntuploadfilebtns {
         width: 150px !important;
@@ -14945,7 +15353,11 @@ ul.LogBar li a {
         width: 222px;
         cursor: pointer;
         margin-bottom: 10px;
+<<<<<<< HEAD
         color: rgb(102,102,102);
+=======
+        color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         background: none;
         text-decoration: underline;
         text-align: left;
@@ -14953,9 +15365,7 @@ ul.LogBar li a {
         font-weight: bold;
         -webkit-transition: all 200ms ease-out;
         -o-transition: all 200ms ease-out;
-        -moz-transition: all 200ms ease-out;
-        position: absolute;
-        margin-top: -10px;
+        -moz-transition: all 200ms ease-out;position:absolute;margin-top: -10px;
     }
 
     .silver_back_button_remove {
@@ -14964,7 +15374,11 @@ ul.LogBar li a {
         width: 188px;
         cursor: pointer;
         margin-bottom: 10px;
+<<<<<<< HEAD
         color: rgb(102,102,102);
+=======
+        color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         background: none;
         text-decoration: underline;
         text-align: left;
@@ -14972,9 +15386,7 @@ ul.LogBar li a {
         font-weight: bold;
         -webkit-transition: all 200ms ease-out;
         -o-transition: all 200ms ease-out;
-        -moz-transition: all 200ms ease-out;
-        position: absolute;
-        margin-top: -20px;
+        -moz-transition: all 200ms ease-out;position:absolute;margin-top: -20px;
     }
 
     .fntQtyPrice {
@@ -15014,7 +15426,7 @@ ul.LogBar li a {
         font-size: 16px !important;
     }
 
-    .BtnTemplateModifyContainer {
+ .BtnTemplateModifyContainer {
         padding-top: 9px;
         margin-left: 20px !important;
     }
@@ -15082,6 +15494,7 @@ ul.LogBar li a {
         -moz-border-bottom-left-radius: 0px !important;
         -webkit-border-bottom-left-radius: 0px !important;
         -khtml-border-bottom-left-radius: 0px !important;
+
         -moz-border-top-left-radius: 0px !important;
         -webkit-border-top-left-radius: 0px !important;
         -khtml-border-top-left-radius: 0px !important;
@@ -15130,7 +15543,11 @@ ul.LogBar li a {
         height: 35px;
         width: 198px !important;
         border: 0px;
+<<<<<<< HEAD
         background-color: #2493ad;
+=======
+        background-color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         cursor: pointer;
         font-size: 13px;
         text-align: center;
@@ -15139,12 +15556,20 @@ ul.LogBar li a {
     }
 
     .start_creating_btn_prodDetail_orng {
+<<<<<<< HEAD
         background-color: #2493ad;
+=======
+        background-color: #EEA518;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         height: 35px;
         width: 198px !important;
         border: 0px;
         font-size: 13px;
+<<<<<<< HEAD
         /* font-weight: bold; padding: 0px 30px 0px 11px;*/
+=======
+        font-weight: bold;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         color: White;
         text-align: center;
         text-transform: uppercase;
@@ -15227,6 +15652,7 @@ ul.LogBar li a {
         text-align: left !important;
         background-color: #f3f3f3;
         /*width: 1000px;*/
+
         /*min-height: 60px;
     padding-top: 10px;*/
         padding-bottom: 5px;
@@ -15284,6 +15710,15 @@ ul.LogBar li a {
         margin-right: 12px;
         /*margin-left: 5px; border: 10px;*/
         margin-bottom: 50px;
+<<<<<<< HEAD
+=======
+        background-color: #d6d6d6 !important;
+        -moz-border-radius: 10px !important;
+        -webkit-border-radius: 10px !important;
+        -khtml-border-radius: 10px !important;
+        border-radius: 10px !important;
+        height: 490px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .CAT_Body {
@@ -15296,6 +15731,15 @@ ul.LogBar li a {
         /*margin-left: 5px;*/
         margin-bottom: 50px;
         background-color: transparent;
+<<<<<<< HEAD
+=======
+        background-color: #d6d6d6 !important;
+        -moz-border-radius: 10px !important;
+        -webkit-border-radius: 10px !important;
+        -khtml-border-radius: 10px !important;
+        border-radius: 10px !important;
+        min-height: 315px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .CAT_ThumbnailPath {
@@ -15483,6 +15927,10 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
+<<<<<<< HEAD
+=======
+        min-height: 470px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .FI_TL {
@@ -15707,6 +16155,7 @@ ul.LogBar li a {
 }
 
 @media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+<<<<<<< HEAD
     .cnttotalPayablesAS {
         float: right;
         width: 32%;
@@ -15742,6 +16191,38 @@ ul.LogBar li a {
 
     .BillShipAddressesControl {
         width: 350px;
+=======
+                            .upload-panel-margin {
+        margin-left:0px;
+    }
+   .btn_brown_small {
+    font-size: 11px;
+    clear: both;
+    height: 27px;
+    background: #cfcfcd;
+    text-align: center;
+    cursor: pointer;
+    color: black;
+    width: 160px;
+    border: none;
+}
+                            .product-detail-banner-slider {
+        width: 670px;
+        height: 420px;
+    }
+
+    .product-detail-slider {
+        width: 650px !important;
+        height: 380px !important;
+    }
+
+    .cntDesignGuidLines {
+        width: 66%;
+    }
+
+    .artworkarrow {
+        margin-left: 20px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .BreadCrumbMenu {
@@ -15765,7 +16246,7 @@ ul.LogBar li a {
         color: white;
         width: 62px;
         cursor: pointer;
-        background-color: #E83e48;
+        background-color: #20557b;
         font-size: 16px;
         line-height: inherit;
     }
@@ -15785,7 +16266,11 @@ ul.LogBar li a {
         box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
         background: white;
         border-radius: 33px;
+<<<<<<< HEAD
         color: #10a8bd;
+=======
+        color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         font-size: 25px;
         text-align: center;
     }
@@ -15836,6 +16321,93 @@ ul.LogBar li a {
         margin-left: 5px;
     }
 
+<<<<<<< HEAD
+=======
+    .top_header {
+        background-color: #fff !important;
+        margin-bottom: 0px;
+    }
+
+    ul.LogBar {
+        /* font-weight: bold;*/
+        float: left;
+        list-style: none;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        width: inherit;
+    }
+
+    .tooltipCheckoutAvenior {
+        margin-top: 0px;
+        font-size: 11px;
+    }
+
+    .checkoutNoteslbl {
+        margin-top: 22px;
+        padding-left: 0px !important;
+    }
+
+    .smallCheckoutAvenior {
+        padding-left: 0px !important;
+        margin-bottom: 10px;
+    }
+
+    .TTL_Checkout {
+        text-align: left;
+        margin-left: 3px;
+        float: left;
+        padding: 0px !important;
+    }
+
+    .hyperlinkCart {
+        width: 145px;
+        height: 40px;
+    }
+
+    .dashboardIcons {
+        padding-top: 7px;
+        box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
+        background: white;
+        border-radius: 33px;
+        color: #20557b;
+        font-size: 25px;
+        text-align: center;
+    }
+
+    .copyTerms {
+        color: white;
+        margin-left: 10px;
+        font-size: 12px;
+    }
+
+        .copyTerms label {
+            font-weight: normal;
+        }
+
+    .btn-watch span {
+        -moz-box-sizing: border-box;
+        background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+        display: block;
+        left: 23px;
+        opacity: 1;
+        padding: 0;
+        position: absolute;
+        text-align: center;
+        top: 9px;
+        transition: all 0.3s linear 0s;
+        z-index: 99999;
+    }
+
+    .company_logo {
+        float: left;
+        /* height: 0px; */
+        padding-left: 0px;
+        margin-bottom: 0px;
+        text-align: center;
+        margin-top: 12px;
+    }
+
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     .loader {
         position: fixed;
         z-index: 999;
@@ -16050,7 +16622,11 @@ ul.LogBar li a {
 
     .divRowAnalytics {
         width: 100%;
+<<<<<<< HEAD
         background-color: #2493ad;
+=======
+        background-color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         padding: 5px;
         color: White;
         margin-left: 0px;
@@ -16170,7 +16746,15 @@ ul.LogBar li a {
     #CollapseBtn {
         display: block;
     }
+<<<<<<< HEAD
 
+=======
+    
+    #CollapseBtn:hover {
+        display: block;
+        margin-top: 10px;
+    }
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     .cnttemporary {
         display: block;
     }
@@ -16344,8 +16928,13 @@ ul.LogBar li a {
         height: 35px;
         width: 145px;
         cursor: pointer;
+<<<<<<< HEAD
         background: url('sprite.png') -341px -674px;
         background-repeat: no-repeat;
+=======
+        background-position: -298px -663px;
+        background-color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         height: 34px;
         border: 0px;
         color: White;
@@ -16379,8 +16968,13 @@ ul.LogBar li a {
     }
 
     .height40_LP {
+<<<<<<< HEAD
         width: 155px !important;
         margin-top: 0px;
+=======
+        width: 160px !important;
+        margin-top: -25px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         font-size: 12px;
     }
 
@@ -16432,11 +17026,7 @@ ul.LogBar li a {
         text-align: left !important;
     }
 
-    .rptContainers {
-        width: 100% !important;
-        float: none;
-        height: auto;
-    }
+  
 
     .UploadContainerCs {
         color: #042F42;
@@ -16547,7 +17137,11 @@ ul.LogBar li a {
         width: 173px;
         cursor: pointer;
         margin-bottom: 10px;
+<<<<<<< HEAD
         color: rgb(102,102,102);
+=======
+        color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         background: none;
         text-decoration: none;
         text-align: center;
@@ -16560,9 +17154,7 @@ ul.LogBar li a {
         padding-left: 0px;
         -webkit-transition: all 200ms ease-out;
         -o-transition: all 200ms ease-out;
-        -moz-transition: all 200ms ease-out;
-        position: relative;
-        margin-top: 0px;
+        -moz-transition: all 200ms ease-out;position:relative;margin-top: 0px;
     }
 
     .silver_back_button {
@@ -16575,7 +17167,11 @@ ul.LogBar li a {
         width: 170px;
         cursor: pointer;
         margin-bottom: 10px;
+<<<<<<< HEAD
         color: rgb(102,102,102);
+=======
+        color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         background: none;
         text-decoration: none;
         text-align: center;
@@ -16587,9 +17183,7 @@ ul.LogBar li a {
         padding-left: 0px;
         -webkit-transition: all 200ms ease-out;
         -o-transition: all 200ms ease-out;
-        -moz-transition: all 200ms ease-out;
-        position: relative;
-        margin-top: 0px;
+        -moz-transition: all 200ms ease-out;position:relative;margin-top: 0px;
     }
 
     .silver_back_button_remove {
@@ -16634,16 +17228,17 @@ ul.LogBar li a {
         font-size: 16px !important;
     }
 
-    .BtnTemplateModifyContainer {
-        padding-top: 9px;
-        margin-left: 20px !important;
+       .BtnTemplateModifyContainer {
+         padding-top: 9px;
+        margin-left: 0px !important;
+        text-align:center;
     }
 
     .cart_grid_image_container {
-        /*width: 140px;*/
-        width: 50%;
-        margin-left: 25px !important;
-        margin-bottom: 10px;
+      width: 100%;
+      margin-left: 0px !important;
+      margin-bottom: 10px;
+      text-align: center;
     }
 
     .MLeft17 {
@@ -16761,7 +17356,11 @@ ul.LogBar li a {
         height: 35px;
         width: 182px !important;
         border: 0px;
+<<<<<<< HEAD
         background-color: #2493ad;
+=======
+        background-color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         cursor: pointer;
         font-size: 13px;
         text-align: center;
@@ -16770,12 +17369,20 @@ ul.LogBar li a {
     }
 
     .start_creating_btn_prodDetail_orng {
+<<<<<<< HEAD
         background-color: #2493ad;
+=======
+        background-color: #EEA518;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         height: 35px;
         width: 182px !important;
         border: 0px;
         font-size: 13px;
+<<<<<<< HEAD
         /* font-weight: bold; padding: 0px 30px 0px 11px;*/
+=======
+        font-weight: bold;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         color: White;
         text-align: center;
         text-transform: uppercase;
@@ -16925,6 +17532,15 @@ ul.LogBar li a {
         margin-right: 12px;
         /*margin-left: 5px; border: 10px;*/
         margin-bottom: 50px;
+<<<<<<< HEAD
+=======
+        background-color: #d6d6d6 !important;
+        -moz-border-radius: 10px !important;
+        -webkit-border-radius: 10px !important;
+        -khtml-border-radius: 10px !important;
+        border-radius: 10px !important;
+        height: 490px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .CAT_Body {
@@ -16937,6 +17553,15 @@ ul.LogBar li a {
         /*margin-left: 5px;*/
         margin-bottom: 50px;
         background-color: transparent;
+<<<<<<< HEAD
+=======
+        background-color: #d6d6d6 !important;
+        -moz-border-radius: 10px !important;
+        -webkit-border-radius: 10px !important;
+        -khtml-border-radius: 10px !important;
+        border-radius: 10px !important;
+        min-height: 315px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .CAT_ThumbnailPath {
@@ -17111,6 +17736,10 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
+<<<<<<< HEAD
+=======
+        min-height: 470px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .FI_TL {
@@ -17310,32 +17939,23 @@ ul.LogBar li a {
 
 
 @media (min-width:992px) {
-    .cntsubHeadingsAS {
-        margin-left: 0px;
-        width: 40% !important;
-        float: left;
+     .upload-panel-margin {
+        margin-left:10px;
     }
-
-    .cnttotalPayablesAS {
-        float: right;
-        width: 19%;
-    }
-
-    .cnttotalsAS {
-        width: 30%;
-        float: right;
-        text-align: right;
-        line-height: 1.5;
+       .BD_PCS {
+        float: none;
+        text-align: center;
+        width: 100% !important;
         margin-right: 1px;
+        margin-left: 5px;
+        margin-bottom: 10px;
+        padding: 0px;
     }
-
-    .upload-panel-margin {
-        margin-left: 10px;
-    }
-
-    .btn_brown_small {
-        font-size: 11px;
+ .DeleteIconPP {
+        margin-left: 265px !important;
+        margin-top: -15px;
         clear: both;
+<<<<<<< HEAD
         height: 27px;
         background: #cfcfcd;
         text-align: center;
@@ -17343,10 +17963,57 @@ ul.LogBar li a {
         color: black;
         width: 297px;
         border: none;
+=======
+        width: 18px;
+        position: absolute;
     }
+ .height40_LP {
+        width: 100% !important;
+        margin-top: -25px;
+        font-size: 12px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
+    }
+    .UploadContainerCs {
+        color: #042F42;
+        font-size: 23px;
+        width: 49% !important;}
 
+<<<<<<< HEAD
     .BillShipAddressesControl {
         width: 350px;
+=======
+ .cntuploadfilebtns {
+        width: 100% !important;
+        text-align: center !important;
+    }
+   .btn_brown_small {
+    font-size: 11px;
+    clear: both;
+    height: 27px;
+    background: #cfcfcd;
+    text-align: center;
+    cursor: pointer;
+    color: black;
+    width: 160px;
+    border: none;
+}
+     .product-detail-banner-slider {
+        width: 670px;
+        height: 420px;
+    }
+
+    .product-detail-slider {
+        width: 650px !important;
+        height: 380px !important;
+    }
+
+    .cntDesignGuidLines {
+        width: 66%;
+    }
+
+    .artworkarrow {
+        margin-left: 20px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .BreadCrumbMenu {
@@ -17370,7 +18037,7 @@ ul.LogBar li a {
         color: white;
         width: 100px;
         cursor: pointer;
-        background-color: #E83e48;
+        background-color: #20557b;
         font-size: 16px;
         line-height: inherit;
     }
@@ -17385,11 +18052,28 @@ ul.LogBar li a {
         color: black;
     }
 
+<<<<<<< HEAD
     .TTL_Checkout {
         text-align: left;
         margin-left: 3px;
         float: none;
         padding: inherit !important;
+=======
+    .dashboardIcons {
+        padding-top: 7px;
+        box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
+        background: white;
+        border-radius: 33px;
+        color: #20557b;
+        font-size: 30px;
+        text-align: center;
+    }
+
+    .exit_container_RQ {
+        margin-top: -65px;
+        margin-right: -65px;
+        float: right;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     #USerInfoContainer {
@@ -17437,8 +18121,26 @@ ul.LogBar li a {
         margin-left: 0px;
     }
 
+<<<<<<< HEAD
     .hover-box-shadow .thumbnail {
         height: 186px;
+=======
+    .top_header {
+        background-color: #fff !important;
+        margin-bottom: 0px;
+    }
+
+    .smallCheckoutAvenior {
+        padding-left: inherit !important;
+        margin-bottom: 0px;
+    }
+
+    .TTL_Checkout {
+        text-align: left;
+        margin-left: 3px;
+        float: none;
+        padding: inherit !important;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .hover-box-shadow a.thumbnail img {
@@ -17556,7 +18258,11 @@ ul.LogBar li a {
 
     .BreadCrumbMenu h1 {
         font-size: 25px !important;
+<<<<<<< HEAD
         color: #2493ad;
+=======
+        color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .BlackBtnCS {
@@ -17879,15 +18585,28 @@ ul.LogBar li a {
     .TopHeaderMenu {
         position: relative;
         z-index: 1;
+<<<<<<< HEAD
         color: black;
         font-size: 15px;
         margin-top: 5px;
         /* margin-right: 48px; */
+=======
+        color: #20557b;
+        font-size: 18px;
+        margin-top: 0px;
+        /*margin-right: 48px;*/
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         vertical-align: middle;
         display: block;
         margin-left: 60px;
     }
 
+<<<<<<< HEAD
+=======
+        .TopHeaderMenu:hover {
+            color: #000;
+        }
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 
     .BD_Featured {
         float: left;
@@ -17924,8 +18643,13 @@ ul.LogBar li a {
         height: 35px;
         width: 145px;
         cursor: pointer;
+<<<<<<< HEAD
         background: url('sprite.png') -341px -674px;
         background-repeat: no-repeat;
+=======
+        background-position: -298px -663px;
+        background-color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         height: 34px;
         border: 0px;
         color: White;
@@ -18032,9 +18756,7 @@ ul.LogBar li a {
         padding-left: 5px;
         -webkit-transition: all 200ms ease-out;
         -o-transition: all 200ms ease-out;
-        -moz-transition: all 200ms ease-out;
-        position: relative;
-        margin-top: 0px;
+        -moz-transition: all 200ms ease-out;position:relative;margin-top:0px;
     }
 
         .silver_back_button:hover {
@@ -18042,7 +18764,7 @@ ul.LogBar li a {
         }
 
     .silver_back_button_remove {
-        background-color: #E83e48;
+        background-color: #20557b;
         height: 34px;
         border: 0px;
         text-align: center;
@@ -18057,9 +18779,7 @@ ul.LogBar li a {
         padding-left: 5px;
         -webkit-transition: all 200ms ease-out;
         -o-transition: all 200ms ease-out;
-        -moz-transition: all 200ms ease-out;
-        position: relative;
-        margin-top: 0px;
+        -moz-transition: all 200ms ease-out;position:relative;margin-top:0px;
     }
 
 
@@ -18108,16 +18828,23 @@ ul.LogBar li a {
         font-size: 16px !important;
     }
 
+<<<<<<< HEAD
     .BtnTemplateModifyContainer {
         padding-top: 9px;
         margin-left: 30px !important;
+=======
+   .BtnTemplateModifyContainer {
+         padding-top: 9px;
+        margin-left: 0px !important;
+        text-align:center;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .cart_grid_image_container {
-        /*width: 140px;*/
-        width: 50%;
-        margin-left: 25px !important;
-        margin-bottom: 10px;
+       width: 100%;
+      margin-left: 0px !important;
+      margin-bottom: 10px;
+      text-align: center;
     }
 
     .MLeft17 {
@@ -18315,6 +19042,7 @@ ul.LogBar li a {
         width: 500px !important;
     }
 
+<<<<<<< HEAD
 
     .height40_LP {
         width: 100% !important;
@@ -18344,6 +19072,12 @@ ul.LogBar li a {
         width: auto !important;
         text-align: left !important;
     }
+=======
+    
+   
+   
+    
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 
     .UploadsGuidLineContainer {
         margin-top: -2px;
@@ -18365,6 +19099,7 @@ ul.LogBar li a {
     }
     /* big landscape tablets, laptops, and desktops */
 
+<<<<<<< HEAD
     .UploadContainerCs {
         color: #042F42;
         font-size: 23px;
@@ -18373,6 +19108,9 @@ ul.LogBar li a {
         margin-top: 10px;
         border: 1px solid #c7c7c7;
     }
+=======
+   
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 
     .RfgImgCs {
         margin-top: 10px;
@@ -18582,6 +19320,7 @@ ul.LogBar li a {
         margin-right: 0px !important;
     }
 
+
     .liMarginRight {
         margin-right: 20px !important;
     }
@@ -18611,11 +19350,7 @@ ul.LogBar li a {
         margin-top: 25px;
     }
 
-    .rptContainers {
-        width: 100% !important;
-        float: none;
-        height: auto;
-    }
+    
 
     .PriceTableCs {
         margin-top: 0px !important;
@@ -18668,7 +19403,11 @@ ul.LogBar li a {
         height: 35px;
         width: 180px !important;
         border: 0px;
+<<<<<<< HEAD
         background-color: #2493ad;
+=======
+        background-color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         cursor: pointer;
         font-size: 13px;
         text-align: center;
@@ -18677,12 +19416,20 @@ ul.LogBar li a {
     }
 
     .start_creating_btn_prodDetail_orng {
+<<<<<<< HEAD
         background-color: #2493ad;
+=======
+        background-color: #EEA518;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         height: 35px;
         width: 180px !important;
         border: 0px;
         font-size: 13px;
+<<<<<<< HEAD
         /* font-weight: bold; padding: 0px 30px 0px 11px;*/
+=======
+        font-weight: bold;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         color: White;
         text-align: center;
         text-transform: uppercase;
@@ -18852,8 +19599,15 @@ ul.LogBar li a {
         margin-right: 13px !important;
         margin-bottom: 20px !important;
         background-color: transparent;
+<<<<<<< HEAD
         padding: 0px;
         border-radius: 10px;
+=======
+        padding: 20px;
+        border-radius: 5px;
+        background-color: #d6d6d6 !important;
+        height: 490px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .CAT_Body {
@@ -18864,6 +19618,11 @@ ul.LogBar li a {
         margin-bottom: 20px !important;
         padding: 0px;
         border-radius: 10px !important;
+<<<<<<< HEAD
+=======
+        background-color: #d6d6d6 !important;
+        min-height: 315px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .CAT_ThumbnailPath {
@@ -19040,6 +19799,10 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
+<<<<<<< HEAD
+=======
+        min-height: 470px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
 
@@ -19071,6 +19834,7 @@ ul.LogBar li a {
         width: 400px !important;
         float: left;
     }
+
 
     .connectWithfb {
         cursor: pointer;
@@ -19212,32 +19976,23 @@ ul.LogBar li a {
 }
 
 @media (min-width:1025px) {
-    .cntsubHeadingsAS {
-        margin-left: 0px;
-        width: 40% !important;
-        float: left;
-    }
-
-    .cnttotalPayablesAS {
-        float: right;
-        width: 19%;
-    }
-
-    .cnttotalsAS {
-        width: 30%;
-        float: right;
-        text-align: right;
-        line-height: 1.5;
-        margin-right: 1px;
-    }
-
     .upload-panel-margin {
-        margin-left: 10px;
+        margin-left:10px;
     }
-
-    .btn_brown_small {
-        font-size: 11px;
+       .BD_PCS {
+        float: none;
+        text-align: center;
+        width: 100% !important;
+        margin-right: 1px;
+        margin-left: 5px;
+        margin-bottom: 10px;
+        padding: 0px;
+    }
+ .DeleteIconPP {
+        margin-left: 265px !important;
+        margin-top: -15px;
         clear: both;
+<<<<<<< HEAD
         height: 27px;
         background: #cfcfcd;
         text-align: center;
@@ -19245,10 +20000,57 @@ ul.LogBar li a {
         color: black;
         width: 297px;
         border: none;
+=======
+        width: 18px;
+        position: absolute;
     }
+ .height40_LP {
+        width: 100% !important;
+        margin-top: -25px;
+        font-size: 12px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
+    }
+    .UploadContainerCs {
+        color: #042F42;
+        font-size: 23px;
+        width: 49% !important;}
 
+<<<<<<< HEAD
     .BillShipAddressesControl {
         width: 350px;
+=======
+ .cntuploadfilebtns {
+        width: 100% !important;
+        text-align: center !important;
+    }
+   .btn_brown_small {
+    font-size: 11px;
+    clear: both;
+    height: 27px;
+    background: #cfcfcd;
+    text-align: center;
+    cursor: pointer;
+    color: black;
+    width: 160px;
+    border: none;
+}
+     .product-detail-banner-slider {
+        width: 670px;
+        height: 420px;
+    }
+
+    .product-detail-slider {
+        width: 650px !important;
+        height: 380px !important;
+    }
+
+    .cntDesignGuidLines {
+        width: 66%;
+    }
+
+    .artworkarrow {
+        margin-left: 20px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .BreadCrumbMenu {
@@ -19272,7 +20074,7 @@ ul.LogBar li a {
         color: white;
         width: 100px;
         cursor: pointer;
-        background-color: #E83e48;
+        background-color: #20557b;
         font-size: 16px;
         line-height: inherit;
     }
@@ -19287,11 +20089,28 @@ ul.LogBar li a {
         color: black;
     }
 
+<<<<<<< HEAD
     .TTL_Checkout {
         text-align: left;
         margin-left: 3px;
         float: none;
         padding: inherit !important;
+=======
+    .dashboardIcons {
+        padding-top: 7px;
+        box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
+        background: white;
+        border-radius: 33px;
+        color: #20557b;
+        font-size: 30px;
+        text-align: center;
+    }
+
+    .exit_container_RQ {
+        margin-top: -65px;
+        margin-right: -65px;
+        float: right;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     #USerInfoContainer {
@@ -19339,8 +20158,26 @@ ul.LogBar li a {
         margin-left: 0px;
     }
 
+<<<<<<< HEAD
     .hover-box-shadow .thumbnail {
         height: 186px;
+=======
+    .top_header {
+        background-color: #fff !important;
+        margin-bottom: 0px;
+    }
+
+    .smallCheckoutAvenior {
+        padding-left: inherit !important;
+        margin-bottom: 0px;
+    }
+
+    .TTL_Checkout {
+        text-align: left;
+        margin-left: 3px;
+        float: none;
+        padding: inherit !important;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .hover-box-shadow a.thumbnail img {
@@ -19458,7 +20295,11 @@ ul.LogBar li a {
 
     .BreadCrumbMenu h1 {
         font-size: 25px !important;
+<<<<<<< HEAD
         color: #2493ad;
+=======
+        color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .BlackBtnCS {
@@ -19781,15 +20622,28 @@ ul.LogBar li a {
     .TopHeaderMenu {
         position: relative;
         z-index: 1;
+<<<<<<< HEAD
         color: black;
         font-size: 15px;
         margin-top: 5px;
         /* margin-right: 48px; */
+=======
+        color: #20557b;
+        font-size: 18px;
+        margin-top: 0px;
+        /*margin-right: 48px;*/
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         vertical-align: middle;
         display: block;
         margin-left: 60px;
     }
 
+<<<<<<< HEAD
+=======
+        .TopHeaderMenu:hover {
+            color: #000;
+        }
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 
     .BD_Featured {
         float: left;
@@ -19826,8 +20680,13 @@ ul.LogBar li a {
         height: 35px;
         width: 145px;
         cursor: pointer;
+<<<<<<< HEAD
         background: url('sprite.png') -341px -674px;
         background-repeat: no-repeat;
+=======
+        background-position: -298px -663px;
+        background-color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         height: 34px;
         border: 0px;
         color: White;
@@ -19934,9 +20793,7 @@ ul.LogBar li a {
         padding-left: initial;
         -webkit-transition: all 200ms ease-out;
         -o-transition: all 200ms ease-out;
-        -moz-transition: all 200ms ease-out;
-        position: relative;
-        margin-top: 0px;
+        -moz-transition: all 200ms ease-out;position:relative;margin-top:0px;
     }
 
         .silver_back_button:hover {
@@ -19944,7 +20801,7 @@ ul.LogBar li a {
         }
 
     .silver_back_button_remove {
-        background-color: #E83e48;
+        background-color: #20557b;
         height: 34px;
         border: 0px;
         text-align: center;
@@ -19959,9 +20816,7 @@ ul.LogBar li a {
         padding-left: initial;
         -webkit-transition: all 200ms ease-out;
         -o-transition: all 200ms ease-out;
-        -moz-transition: all 200ms ease-out;
-        position: relative;
-        margin-top: 0px;
+        -moz-transition: all 200ms ease-out;position:relative;margin-top:0px;
     }
 
         .silver_back_button_remove:hover {
@@ -20006,17 +20861,25 @@ ul.LogBar li a {
         font-size: 16px !important;
     }
 
+<<<<<<< HEAD
     .BtnTemplateModifyContainer {
         padding-top: 9px;
         margin-left: 30px !important;
+=======
+     .BtnTemplateModifyContainer {
+         padding-top: 9px;
+        margin-left: 0px !important;
+        text-align:center;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .cart_grid_image_container {
-        /*width: 140px;*/
-        width: 50%;
-        margin-left: 25px !important;
-        margin-bottom: 10px;
+       width: 100%;
+      margin-left: 0px !important;
+      margin-bottom: 10px;
+      text-align: center;
     }
+
 
     .MLeft17 {
         margin-left: 17px !important;
@@ -20213,6 +21076,7 @@ ul.LogBar li a {
         width: 500px !important;
     }
 
+<<<<<<< HEAD
     .height40_LP {
         width: 100% !important;
         margin-top: 0px;
@@ -20242,6 +21106,9 @@ ul.LogBar li a {
         width: auto !important;
         text-align: left !important;
     }
+=======
+    
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 
     .UploadsGuidLineContainer {
         margin-top: -2px;
@@ -20263,6 +21130,7 @@ ul.LogBar li a {
     }
     /* big landscape tablets, laptops, and desktops */
 
+<<<<<<< HEAD
     .UploadContainerCs {
         color: #042F42;
         font-size: 23px;
@@ -20271,6 +21139,9 @@ ul.LogBar li a {
         margin-top: 10px;
         border: 1px solid #c7c7c7;
     }
+=======
+    
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 
     .RfgImgCs {
         margin-top: 10px;
@@ -20508,11 +21379,7 @@ ul.LogBar li a {
         margin-top: 25px;
     }
 
-    .rptContainers {
-        width: 100% !important;
-        float: none;
-        height: auto;
-    }
+    
 
     .PriceTableCs {
         margin-top: 0px !important;
@@ -20565,7 +21432,11 @@ ul.LogBar li a {
         height: 35px;
         width: 180px !important;
         border: 0px;
+<<<<<<< HEAD
         background-color: #2493ad;
+=======
+        background-color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         cursor: pointer;
         font-size: 13px;
         text-align: center;
@@ -20574,12 +21445,20 @@ ul.LogBar li a {
     }
 
     .start_creating_btn_prodDetail_orng {
+<<<<<<< HEAD
         background-color: #2493ad;
+=======
+        background-color: #EEA518;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         height: 35px;
         width: 180px !important;
         border: 0px;
         font-size: 13px;
+<<<<<<< HEAD
         /* font-weight: bold; padding: 0px 30px 0px 11px;*/
+=======
+        font-weight: bold;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         color: White;
         text-align: center;
         text-transform: uppercase;
@@ -20749,8 +21628,15 @@ ul.LogBar li a {
         margin-right: 13px !important;
         margin-bottom: 20px !important;
         background-color: transparent;
+<<<<<<< HEAD
         padding: 0px;
         border-radius: 10px;
+=======
+        padding: 20px;
+        border-radius: 5px;
+        background-color: #d6d6d6 !important;
+        height: 492px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .CAT_Body {
@@ -20761,6 +21647,11 @@ ul.LogBar li a {
         margin-bottom: 20px !important;
         padding: 0px;
         border-radius: 10px !important;
+<<<<<<< HEAD
+=======
+        background-color: #d6d6d6 !important;
+        min-height: 315px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
     .CAT_ThumbnailPath {
@@ -20937,6 +21828,10 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
+<<<<<<< HEAD
+=======
+        min-height: 470px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     }
 
 
@@ -21707,6 +22602,7 @@ border: 8px solid rgb(237, 239, 240);
     -webkit-border-radius: 5px;
     -khtml-border-radius: 5px;
     border-radius: 5px;
+
 }
 
     #Previewer .turn-page {
@@ -21983,7 +22879,11 @@ gridViewCheckoutRowStyle td {
 }
 
     .usercolorSize:hover {
+<<<<<<< HEAD
         color: #10a8bd !important;
+=======
+        color: #20557b !important;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         font-size: 15px !important;
     }
 
@@ -22016,7 +22916,11 @@ gridViewCheckoutRowStyle td {
 
 .carttxtcolorSize:hover {
     margin-left: 5px;
+<<<<<<< HEAD
     color: #10a8bd !important;
+=======
+    color: #20557b !important;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     font-size: 15px;
     text-decoration: none;
 }
@@ -22030,6 +22934,33 @@ gridViewCheckoutRowStyle td {
     color: black;
 }
 
+<<<<<<< HEAD
+=======
+#lnkAllProducts {
+    color: #20557b;
+}
+
+    #lnkAllProducts:hover {
+        color: black;
+    }
+
+#lnkRequestQuote {
+    color: #20557b;
+}
+
+    #lnkRequestQuote:hover {
+        color: black;
+    }
+
+#lnkContactUs {
+    color: #20557b;
+}
+
+    #lnkContactUs:hover {
+        color: black;
+    }
+
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 #lnkAllProducts:hover::after {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
     text-decoration: none;
@@ -22179,14 +23110,42 @@ gridViewCheckoutRowStyle td {
     font-size: 14px;
     display: inline-block;
     position: absolute;
+<<<<<<< HEAD
     left: 65.5%;
     margin-top: -1px;
+=======
+    left: 62.5%;
+    margin-top: 1px;
+}
+
+a:hover.btn-watch {
+    background: #20557b;
+    color: #fff;
+}
+
+.btn-watch {
+    background: none repeat scroll 0 0 #E5E5E7;
+    display: block;
+    margin-top: 20px;
+    overflow: hidden;
+    width: 144px;
+    text-align: right;
+    color: #428bca;
+    font-size: 20px;
+    background: #e5e5e7;
+    border-radius: 0px;
+    padding: 10px 10px;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 }
 
 
 
 .btnSubscribe:hover {
+<<<<<<< HEAD
     background: #2493ad;
+=======
+    background: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     color: #fff;
 }
 
@@ -22346,7 +23305,11 @@ gridViewCheckoutRowStyle td {
 
 
 .loginusercolorSize:hover {
+<<<<<<< HEAD
     color: #2493ad !important;
+=======
+    color: #20557b !important;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     /* Un-prefixed. Prefix `transform` for all target browsers. */
     /*transform: scale(1.2);
     transition: transform .4s linear;
@@ -22402,7 +23365,11 @@ gridViewCheckoutRowStyle td {
     animation-iteration-count: infinite;
     -webkit-animation-direction: alternate;
     animation-direction: alternate;
+<<<<<<< HEAD
     color: #2493ad;
+=======
+    color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     font-size: 32px;
 }
 
@@ -22422,7 +23389,11 @@ gridViewCheckoutRowStyle td {
     animation-iteration-count: infinite;
     -webkit-animation-direction: alternate;
     animation-direction: alternate;
+<<<<<<< HEAD
     color: #2493ad;
+=======
+    color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     font-size: 32px;
 }
 
@@ -22442,7 +23413,11 @@ gridViewCheckoutRowStyle td {
     animation-iteration-count: infinite;
     -webkit-animation-direction: alternate;
     animation-direction: alternate;
+<<<<<<< HEAD
     color: #2493ad;
+=======
+    color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     font-size: 32px;
 }
 
@@ -22473,9 +23448,16 @@ gridViewCheckoutRowStyle td {
     background-color: #2493ad !important;
 }
 
+<<<<<<< HEAD
 #cphFooter_Footer1_FooterContainer {
     background: url('Images/black-block.jpg') repeat left top;
     border-top: 1px dashed #9E9E9E;
+=======
+
+#FooterContainer {
+    border-top: 1px solid #a8a8a8;
+    background-color: rgb(183,216,241) !important;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 }
 
 
@@ -22510,11 +23492,20 @@ gridViewCheckoutRowStyle td {
 
 #ulCollapseMenu {
     padding-left: 0px !important;
+<<<<<<< HEAD
     border-top: 1px solid #187C89;
     background-color: #187C89;
     margin-top: 1px;
     color: white;
     list-style: none;
+=======
+    border-top: 1px solid #ffffff;
+    background-color: #20557b;
+    margin-top: 1px;
+    color: white;
+    list-style: none;
+    color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     position: absolute;
     right: 0px;
     /* border: 1px solid; */
@@ -22546,9 +23537,9 @@ gridViewCheckoutRowStyle td {
     }
 
     .icon-align-justify:hover {
-        /*background: #E83e48;*/
+        /*background: #20557b;*/
         padding: 10px;
-        /*border: 1px solid #E83e48;*/
+        /*border: 1px solid #20557b;*/
         border-radius: 5px;
         padding-top: 16px;
         color: #000000;
@@ -23368,12 +24359,28 @@ label {
     border-top: none;
 }
 
+<<<<<<< HEAD
 #cphFooter_Footer1_FooterContainer {
     background: none !important;
 }
 
 .payment_sec {
     color: #000;
+=======
+.btn-watch {
+    text-align: right;
+    /*margin: 20px 0 0;*/
+    color: #ffffff;
+    font-size: 20px;
+    background: #20557b;
+    border-radius: 0px;
+    padding: 10px 10px;
+}
+
+a:hover.btn-watch {
+    background: #20557b;
+    color: #fff;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 }
 
 .page_border_div {
@@ -23382,6 +24389,7 @@ label {
     text-align: left;
 }
 
+<<<<<<< HEAD
 
 /*home*/
 .top_sub_section {
@@ -23390,6 +24398,19 @@ label {
 
 .top_header_ex {
     padding: 30px 0 20px;
+=======
+.btn-watch {
+    background: none repeat scroll 0 0 #20557b;
+    display: block;
+    margin-top: 20px;
+    overflow: hidden;
+    width: 137px;
+    height: 47px;
+}
+
+#lnkPRoductdetail {
+    color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 }
 
 #divTopHeaderMenu a {
@@ -23401,12 +24422,17 @@ label {
     color: #FFF;
 }
 
+<<<<<<< HEAD
     #divTopHeaderMenu a:hover, #menu-main-menu li a:hover, .top_sub_section_links:hover {
         color: #b32a38;
     }
 
 .nav a.top_sub_section_links {
     display: none;
+=======
+.morelink {
+    color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 }
 
 .Corp_Cat_Body {
@@ -23655,7 +24681,11 @@ label {
     }
 
         .profile-menu > li > a:hover {
+<<<<<<< HEAD
             color: #10a5b5;
+=======
+            color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
         }
 
     .profile-menu > li:hover {
@@ -23668,7 +24698,11 @@ label {
 }
 
 .BreadCrumbMenu h1 a {
+<<<<<<< HEAD
     color: black;
+=======
+    color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     font-weight: normal;
     text-shadow: none;
     font-weight: bold;
@@ -23769,16 +24803,29 @@ label {
     }
 
 .dashboard-main-heading {
+<<<<<<< HEAD
     color: #000000;
+=======
+    color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     text-shadow: none;
     font-weight: bold;
     font-size: 30px;
 }
 
+<<<<<<< HEAD
 .ScrollBarOnOrderHistory {
     height: 500px;
     overflow-y: scroll;
     background: #f6f6f7;
+=======
+.height-140 {
+    height: 140px;
+}
+
+.dashboard_item_main_heading > label:hover {
+    color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 }
 
 .modal-header {
@@ -23810,8 +24857,28 @@ label {
 }
 
 #designFormateimg {
+<<<<<<< HEAD
     width: 685px;
     margin-bottom: 10px;
+=======
+    width: 100%;
+    margin-bottom: 10px;  max-height: 150px;
+}
+
+.btn_upload_design_Prod_details:hover {
+    background-color: #A5262E;
+
+}
+
+.start_creating_btn_prodDetail_orng:hover {
+    background-color: #D69519;
+}
+
+.btn_upload_files_Prod_Land:hover {
+    color: #ffffff;
+    background-color: #009DE0;
+    border-color: #009DE0;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 }
 
 .silver_back_button_modify:hover {
@@ -23837,7 +24904,7 @@ label {
 }
 
 .order_history_btn:hover {
-    background-color: #E83e48;
+    background-color: #20557b;
 }
 
 .search-order-Go {
@@ -23855,13 +24922,37 @@ label {
     width: 100%;
 }
 
+<<<<<<< HEAD
 #header-navbar {
     margin-bottom: 0px;
+=======
+.background-green {
+    background: green !important;
+    -webkit-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
+}
+
+    .background-green:hover {
+        background: rgb(5, 82, 5) !important;
+    }
+
+.modal-title {
+    text-align: center;
+    font-size: 25px;
+    color: #20557b;
+    text-shadow: none;
+    font-weight: bold;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
 }
 
 .orderReceiptTitle {
     text-align: center;
     font-size: 25px;
+<<<<<<< HEAD
+=======
+    color: #20557b;
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
     text-shadow: none;
     font-weight: bold;
 }
@@ -23881,7 +24972,7 @@ label {
 }
 
 .place-inquiry-button {
-    background: #E83e48;
+    background: #20557b;
     background-repeat: no-repeat;
     height: 34px;
     border: 0px;
@@ -23926,6 +25017,27 @@ label {
         background: #DFC003;
     }
 
+<<<<<<< HEAD
 .height-140 {
     height: 140px;
 }
+=======
+.create-design-button:hover {
+    background: #292929;
+}
+
+.link-sign-up {
+    margin-left: 58px;
+}
+
+.close {
+    font-size: 30px !important;
+    margin-top: 5px !important;
+}
+.link-sign-up:hover {
+    margin-left: 58px;
+}
+#ProductrightContainter {
+display:none;
+}
+>>>>>>> 74566ec9587977cb8f1b022fa3127d4e1d89cbc7
