@@ -570,13 +570,12 @@
                            
                             <div class="tab-pane fade" id="tab-products">
                                 
-                                <div>
+                                <div style="margin-left:7px;">
                                     <span>add categories and products to your store, retail stores come populated with a default database while private stores are blank in order to allow for you to add your customers products and categories</span>
-                                    <div style="height:20px;">
-                                        &nbsp;
-                                    </div>
                                 </div>
-
+                                <div style="height:20px;">
+                                    &nbsp;
+                                </div>
                                 <div class="col-lg-4" data-bind="with: $root.selectedStore">
                                    
                                     <div class="clearfix">
@@ -630,12 +629,15 @@
                             </div>
                             <div class="tab-pane fade" id="tab-territory" data-bind="with: $root.selectedStore">
                                 <div class="col-lg-12">
-                                    <h3 class="group-header">Store Users and Visitors</h3>
-                                    <span>Here you can add your customer information either import the store contacts and addresses or add manually.  Download the import document from blog.myprintcloud.com/tutorials</span>
+                                    <div>
+                                        <span>Here you can add your customer information either import the store contacts and addresses or add manually.  Download the import document from blog.myprintcloud.com/tutorials</span>
+                                    </div>
                                     <div style="height:20px;">
                                         &nbsp;
                                     </div>
 
+                                    <h3 class="group-header">Store Users and Visitors</h3>
+                                    
 
                                     <div class="col-lg-12 clearfix" style="padding-right:3px;">
 
@@ -1886,8 +1888,12 @@
                                 </div>
                             </div>
                             <div class="tab-pane clearfix fade" id="tab-mailseries" data-bind="with: $root.selectedStore">
+                                <div style="margin-left:5px;"><span>System emails are used to automatically communicate with your clients, remember when designing to use mobile friendly editor we like https://www.klaviyo.com</span></div>
+                                <div style="height:20px;">
+
+                                </div>
                                 <h3 class="group-header">Store Workflow Emails (Event/trigger based)</h3>
-                                <span>System emails are used to automatically communicate with your clients, remember when designing to use mobile friendly editor we like https://www.klaviyo.com</span>
+                                
                                 <div style="height:25px;">
                                     &nbsp;
                                 </div>
@@ -2594,7 +2600,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                 </div>
                             </div>
                             <div class="tab-pane clearfix fade" id="tab-pageeditor" data-bind="with: $root.selectedStore">
-                                <span>The store layout editor allows you to change widgets within a page, some widgets allow editing of the HTML, if changes don’t take effect remember to clear your browser cache</span>
+                                <div style="margin-left:7px;"><span>The store layout editor allows you to change widgets within a page, some widgets allow editing of the HTML, if changes don’t take effect remember to clear your browser cache</span></div>
                                 <div style="height:20px;">
                                     &nbsp;
                                 </div>
@@ -2678,9 +2684,14 @@ Public  - allows users to see other users addresses and orders." data-original-t
                             </div>
                             <div class="tab-pane clearfix fade" id="tab-DelvAddOns" data-bind="with: $root.selectedStore">
                                 <div class="col-lg-12">
-                                    <h3 class="group-header">Store Delivery Methods/Cost Centers</h3>
+                                    <div>
+                                        <span>Add shipping options for each store, shipping prices can be different for each store and is integrated with UPS and FedEx</span>
+                                    </div>
+                                    <div style="height:20px;">
 
-                                    <span>Add shipping options for each store, shipping prices can be different for each store and is integrated with UPS and FedEx</span>
+                                    </div>
+                                    <h3 class="group-header">Store Delivery Methods/Cost Centers</h3>
+                                    
                                     <div style="height:20px;">
                                         &nbsp;
                                     </div>
@@ -2792,7 +2803,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                             </div>
                             <div class="tab-pane clearfix fade" id="tab-CMYKColors" data-bind="with: $root.selectedStore">
                                 @*<h3 class="group-header"></h3>*@
-                                <span>Add spot colours inside the MIS this will ensure consistency inside the editor, spot colours are displayed as part of the available color pallet within the colour selection tool</span>
+                                <div style="margin-left:7px;"><span>Add spot colours inside the MIS this will ensure consistency inside the editor, spot colours are displayed as part of the available color pallet within the colour selection tool</span></div>
                                 <div style="height:20px;">
                                     &nbsp;
                                 </div>
