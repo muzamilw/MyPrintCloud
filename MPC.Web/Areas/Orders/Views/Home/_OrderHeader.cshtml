@@ -19,11 +19,11 @@
                 </div>
                 <div class="col-sm-6">
                     <div>
-                        <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId, click: !$root.selectedOrder().id() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
+                        <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId, click: $root.isCustomerEdittable() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
                     </div>
                 </div>
                 <div class="col-sm-1" style="padding-top:10px;margin-left: 10px">
-                    <button data-bind="click: $root.openCompanyDialog, enable: ($root.selectedOrder().id() <= 0) || ($root.selectedOrder().id()===undefined)" class="btn btn-primary pull-right">
+                    <button data-bind="click: $root.isCustomerEdittable() ? $root.openCompanyDialog : undefined" class="btn btn-primary pull-right">
                         <i class="fa fa-user"></i>
                     </button>
                 </div>
