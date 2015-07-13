@@ -744,7 +744,6 @@ namespace MPC.Implementation.MISServices
                        CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem(),
                        PipeLineProducts = pipeLineProductRepository.GetAll(),
                        LoggedInUser = organisationRepository.LoggedInUserId,
-
                    };
         }
 
