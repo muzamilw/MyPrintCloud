@@ -2300,9 +2300,9 @@ namespace MPC.Repository.Repositories
         public Item GetClonedItemByOrderId(long OrderId, long ReferenceItemId)
         {
             try
-            {
+            { 
                 return
-               db.Items.Where(
+               db.Items.Include("ItemAttachments").Where(
                    i => i.EstimateId == OrderId && i.RefItemId == ReferenceItemId && i.IsOrderedItem == false)
                    .FirstOrDefault();
             }

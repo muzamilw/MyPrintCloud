@@ -530,8 +530,15 @@
                 data: JSON.stringify(d),
                 success: function (response) {
                     HideLoader();
-                    console.log(response);
-                    window.open(response,'_blank');
+                    var indexOfException = response.indexOf("Exception");
+                    if(indexOfException != -1){
+                        console.log(response);
+                        ShowPopUp("Error", response);
+                    }else{
+                        window.location.href = response;
+                        //window.open(response,'_blank');
+                    }
+                   
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
                     //alert("Error while invoking the Web API");
