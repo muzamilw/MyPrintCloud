@@ -16,7 +16,7 @@ define("common/addProduct.viewModel",
                     productQuantitiesList = ko.observableArray([]),
                     //Selected item
                     selecteditem = ko.observable(),
-                   //Selected item Name
+                    //Selected item Name
                     selecteditemName = ko.observable(),
                     // Show/Hide Cost center section
                     costCenterVisibility = ko.observable(false),
@@ -30,7 +30,7 @@ define("common/addProduct.viewModel",
                     productType = ko.observable(0),
                     //Adds on total 
                     addsOnTotal = ko.observable(0),
-                     //Adds on total 
+                    //Adds on total 
                     isQuantitySelected = ko.observable(false),
                     //Selected Product
                     selectedProductFromStore = ko.observable(),
@@ -42,6 +42,8 @@ define("common/addProduct.viewModel",
                     selectedProductQuanity = ko.observable(),
                     selectedProductQuanityPrice = ko.observable(0),
                     selectedProductQuanityPriceWithoutTax = ko.observable(0),
+                    //Is Product progressed 
+                    isProductprogressed = ko.observable(false),
                     //Selected Stock Option Name
                     selectedStockOptionName = ko.observable(),
                     //Total Product Price
@@ -85,8 +87,15 @@ define("common/addProduct.viewModel",
                     },
                     resetFields = function () {
                         searchFilter(undefined);
+                        resetProgressProduct();
                         addsOnTotal(0);
                         orderProductItems.removeAll();
+                    },
+                    progressProduct = function() {
+                        isProductprogressed(true);
+                    },
+                    resetProgressProduct= function() {
+                        isProductprogressed(false);
                     },
                     // On Select fcosCost Center
                     onSelectCostCenter = function (costCenter) {
@@ -492,6 +501,9 @@ define("common/addProduct.viewModel",
                     callerNaMe: callerNaMe,
                     isQuantitySelected: isQuantitySelected,
                     pager: pager,
+                    isProductprogressed: isProductprogressed,
+                    progressProduct: progressProduct,
+                    resetProgressProduct: resetProgressProduct,
                     searchItems: searchItems
                 };
             })()

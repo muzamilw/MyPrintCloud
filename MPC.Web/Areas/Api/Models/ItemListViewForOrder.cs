@@ -1,4 +1,6 @@
-﻿namespace MPC.MIS.Areas.Api.Models
+﻿using System;
+
+namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
     /// Item Webapi Model
@@ -45,6 +47,25 @@
         public string JobDescription6 { get; set; }
         public string JobDescription7 { get; set; }
         public string CompanyName { get; set; }
+        public string ProductSpecification { get; set; }
+        public string ThumbnailPath { get; set; }
+        public byte[] ThumbnailImage { get; set; }
+        /// <summary>
+        /// Image Source
+        /// </summary>
+        public string ThumbnailImageSource
+        {
+            get
+            {
+                if (ThumbnailImage == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(ThumbnailImage);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
 
         #endregion
     }
