@@ -1094,7 +1094,7 @@ namespace MPC.Repository.Repositories
                 }
                 else 
                 {
-                    ErrorMsg = "";
+                    ErrorMsg = "Attachment not found.";
                     return false;
                 }
              
