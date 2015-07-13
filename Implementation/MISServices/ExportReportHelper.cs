@@ -112,16 +112,23 @@ namespace MPC.Implementation.MISServices
             this.PayPalRepsoitory = PayPalRepsoitory;
         }
 
-        public string ExportPDF(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam)
+        public string ExportPDF(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam, long WebStoreOrganisationId = 0)
         {
             string sFilePath = string.Empty;
             try
             {
                 long OrganisationID = 0;
-                Organisation org = organisationRepository.GetOrganizatiobByID();
-                if (org != null)
+                if (WebStoreOrganisationId > 0)
                 {
-                    OrganisationID = org.OrganisationId;
+                    OrganisationID = WebStoreOrganisationId;
+                }
+                else 
+                {
+                    Organisation org = organisationRepository.GetOrganizatiobByID();
+                    if (org != null)
+                    {
+                        OrganisationID = org.OrganisationId;
+                    }
                 }
                 Report currentReport = ReportRepository.GetReportByReportID(iReportID);
                 if (currentReport.ReportId > 0)
@@ -208,7 +215,7 @@ namespace MPC.Implementation.MISServices
             return sFilePath;
         }
 
-        public string ExportOrderReportXML(long iRecordID, string OrderCode, string XMLFormat)
+        public string ExportOrderReportXML(long iRecordID, string OrderCode, string XMLFormat, long WebStoreOrganisationId = 0)
         {
             string sFilePath = string.Empty;
             bool isCorporate = false;
@@ -218,11 +225,19 @@ namespace MPC.Implementation.MISServices
             {
 
                 long OrganisationID = 0;
-                Organisation org = organisationRepository.GetOrganizatiobByID();
-                if (org != null)
+                if (WebStoreOrganisationId > 0)
                 {
-                    OrganisationID = org.OrganisationId;
+                    OrganisationID = WebStoreOrganisationId;
                 }
+                else
+                {
+                    Organisation org = organisationRepository.GetOrganizatiobByID();
+                    if (org != null)
+                    {
+                        OrganisationID = org.OrganisationId;
+                    }
+                }
+                
                 Estimate orderEntity = new Estimate();
                 if (iRecordID > 0)
                     orderEntity = orderRepository.GetOrderByIdforXml(iRecordID);
@@ -1541,17 +1556,25 @@ namespace MPC.Implementation.MISServices
         }
 
 
-        public string ExportExcel(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam)
+        public string ExportExcel(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam , long WebStoreOrganisationId = 0)
         {
             string sFilePath = string.Empty;
             try
             {
                 long OrganisationID = 0;
-                Organisation org = organisationRepository.GetOrganizatiobByID();
-                if (org != null)
+                if (WebStoreOrganisationId > 0)
                 {
-                    OrganisationID = org.OrganisationId;
+                    OrganisationID = WebStoreOrganisationId;
                 }
+                else 
+                {
+                    Organisation org = organisationRepository.GetOrganizatiobByID();
+                    if (org != null)
+                    {
+                        OrganisationID = org.OrganisationId;
+                    }
+                }
+               
                 Report currentReport = ReportRepository.GetReportByReportID(iReportID);
                 if (currentReport.ReportId > 0)
                 {
