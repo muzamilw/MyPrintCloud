@@ -2276,6 +2276,19 @@ namespace MPC.Implementation.MISServices
             // Save Changes
             itemRepository.SaveChanges();
 
+            // If Template Type is Designer then delete the template & all its related objects
+            if (itemTarget.TemplateType == 3 && itemTarget.OldTemplateId.HasValue && itemTarget.OldTemplateId.Value > 0)
+            {
+                try
+                {
+                    templateRepository.DeleteTemplate(itemTarget.OldTemplateId.Value);
+                }
+                catch (Exception)
+                {
+                    throw new MPCException("Saved Successfully but " + LanguageResources.ItemService_TemplateDeleteFailed, itemRepository.OrganisationId);
+                }
+            }
+
             // Load Properties if Any
             itemTarget = itemRepository.Find(itemTarget.ItemId);
 

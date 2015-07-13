@@ -9,6 +9,8 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface ITemplateRepository : IBaseRepository<Template, int>
     {
+        int DeleteTemplate(long templateId);
+
         Template GetTemplate(long productID, bool loadPages);
 
         List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview);

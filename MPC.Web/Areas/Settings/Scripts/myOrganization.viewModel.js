@@ -81,6 +81,7 @@ define("myOrganization/myOrganization.viewModel",
                     isRegionalSettingVisible = ko.observable(false),
 
                     isLanguageEditorVisible = ko.observable(false),
+                    isApiDetailVisible = ko.observable(false),
 
                     // for specifice name of screan
                     HeadingName = ko.observable()
@@ -115,7 +116,12 @@ define("myOrganization/myOrganization.viewModel",
                             HeadingName("Markups");
                             isMarkupVisible(true);
                         }
-                       
+                        else if (page == "api") {
+                            //getMarkupsList();
+                            HeadingName("Agile API");
+                            isApiDetailVisible(true);
+                        }
+                        
                         getBase();
                         view.initializeForm();
                     },
@@ -766,7 +772,7 @@ define("myOrganization/myOrganization.viewModel",
                     pager: pager,
                     isOrganisationVisible: isOrganisationVisible,
                     isMarkupVisible: isMarkupVisible,
-
+                    isApiDetailVisible:isApiDetailVisible,
                     isRegionalSettingVisible: isRegionalSettingVisible,
 
                     isLanguageEditorVisible: isLanguageEditorVisible,

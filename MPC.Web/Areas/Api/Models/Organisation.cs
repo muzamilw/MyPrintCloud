@@ -226,6 +226,16 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsImperical { get; set; }
 
         /// <summary>
+        /// Agile Api Key
+        /// </summary>
+        public string AgileApiKey { get; set; }
+
+        /// <summary>
+        /// Agile Api Url
+        /// </summary>
+        public string AgileApiUrl { get; set; }
+
+        /// <summary>
         /// Image Source
         /// </summary>
         public string ImageSource

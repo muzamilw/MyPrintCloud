@@ -317,6 +317,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new CompanyContactForCalendar
             {
                 ContactId = source.ContactId,
+                CompanyId = source.CompanyId,
                 Name = source.FirstName,
                 CompanyName = source.Company != null ? source.Company.Name : string.Empty
             };
