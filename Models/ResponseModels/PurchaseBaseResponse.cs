@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MPC.Models.DomainModels;
 
 namespace MPC.Models.ResponseModels
@@ -27,5 +28,10 @@ namespace MPC.Models.ResponseModels
         /// Currency Symbol
         /// </summary>
         public string CurrencySymbol { get; set; }
+
+        /// <summary>
+        /// Logged In User
+        /// </summary>
+        public Guid LoggedInUser { get; set; }
     }
 }
