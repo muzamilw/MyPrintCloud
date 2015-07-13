@@ -535,8 +535,8 @@
                         console.log(response);
                         ShowPopUp("Error", response);
                     }else{
-                        console.log(response);
-                        window.open(response,'_blank');
+                        window.location.href = response;
+                        //window.open(response,'_blank');
                     }
                    
                 },
