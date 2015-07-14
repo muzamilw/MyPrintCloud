@@ -63,6 +63,8 @@ define("stores/stores.viewModel",
                     sortIsAsc = ko.observable(true),
                     //Pager
                     pager = ko.observable(),
+                     //Pager
+                    discountVoucherpager = ko.observable(),
                     //Search Filter
                     searchFilter = ko.observable(),
                     //selectedStore
@@ -161,8 +163,11 @@ define("stores/stores.viewModel",
                     //Filtered States
                     filteredStates = ko.observableArray([]),
                     priceFlags = ko.observableArray([]),
-
-                    //#endregion
+                     // List
+                    discountVouuchers = ko.observableArray([]),
+                    discountTypes = [{ id: 1, type: "Dollar amount off a PRODUCT" }, { id: 2, type: "Dollar amount off ENTIRE ORDER " }, { id: 3, type: "Percent off a PRODUCT" }, { id: 4, type: "Percent off ENTIRE ORDER" }, { id: 5, type: "Free Shipping on ENTIRE ORDER" }],
+                    couponUseType = [{ id: 1, type: "Unlimited Use" }, { id: 2, type: "One-Time Use Per Customer" }, { id: 3, type: "One-Time Use Coupon" }],
+                //#endregion
 
                     //#region _________E D I T O R I AL   V I E W    M O D E L_______
 
@@ -6421,6 +6426,7 @@ define("stores/stores.viewModel",
                 ko.applyBindings(view.viewModel, view.bindingRoot);
                 //ko.applyBindings(view.viewModel, document.getElementById('singleArea'));
                 pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
+                discountVoucherpager(new pagination.Pagination({ PageSize: 5 }, discountVouuchers, getDiscountVouchers));
                 getStores();
                 getBaseDataFornewCompany();
                 view.initializeForm();
@@ -6439,6 +6445,7 @@ define("stores/stores.viewModel",
                     return store.companyId() === id;
                 });
             },
+           
                 // Delete Company Permanently
             deleteCompanyPermanently = function (id) {
                 dataservice.deleteCompanyPermanent({ CompanyId: id }, {
@@ -6455,6 +6462,43 @@ define("stores/stores.viewModel",
                     },
                     error: function (response) {
                         toastr.error("Failed to delete store. Error: " + response, "", ist.toastrOptions);
+                    }
+                });
+            },
+                         // Delete Company Permanently
+            getDiscountVouchers = function () {
+                dataservice.getDiscountVouchers({
+                    PageSize: discountVoucherpager().pageSize(),
+                    PageNo: discountVoucherpager().currentPage(),
+                }, {
+                    success: function (data) {
+                        discountVouuchers.removeAll();
+                        if (data != null) {
+                            _.each(data.DiscountVoucherListView, function (voucher) {
+                                var module = model.discountVoucherListView.Create(voucher);
+                                var dType = _.find(discountTypes,function (item) {
+                                    if (module.discountType() === item.id)
+                                        return item;
+                              });
+                                var useType = _.find(couponUseType,function (item) {
+                                  if (module.couponUseType() === item.id)
+                                      return item;
+                                });
+                                if (dType) {
+                                    module.discountType(dType.type);
+                                }
+                                if (useType) {
+                                    module.couponUseType(useType.type);
+                                }
+                                discountVouuchers.push(module);
+                            });
+                            discountVoucherpager().totalCount(data.RowCount);
+                        }
+                        isLoadingStores(false);
+                    },
+                    error: function (response) {
+                        isLoadingStores(false);
+                        toastr.error("Error: Failed To load Stores " + response, "", ist.toastrOptions);
                     }
                 });
             };
@@ -6844,7 +6888,10 @@ define("stores/stores.viewModel",
                     getSystemVariables: getSystemVariables,
                     selectedMediaLibImage: selectedMediaLibImage,
                     productCategoryHasChanges: productCategoryHasChanges,
-                    openDiscountVoucherDetailDilog: openDiscountVoucherDetailDilog
+                    openDiscountVoucherDetailDilog: openDiscountVoucherDetailDilog,
+                    getDiscountVouchers: getDiscountVouchers,
+                    discountVouuchers: discountVouuchers,
+                    discountVoucherpager: discountVoucherpager
 
                 };
                 //#endregion
