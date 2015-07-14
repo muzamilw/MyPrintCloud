@@ -84,7 +84,7 @@ define("myOrganization/myOrganization.viewModel",
                     isApiDetailVisible = ko.observable(false),
 
                     // for specifice name of screan
-                    HeadingName = ko.observable()
+                    HeadingName = ko.observable(),
                     // #region Utility Functions
                     // Initialize the view model
                     initialize = function (specifiedView) {
