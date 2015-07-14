@@ -2332,7 +2332,7 @@ define("stores/stores.viewModel",
                                                 //        addressCompanyTerritoriesFilter.remove(item);
                                                 //    }
                                                 //});
-                                                _.each(bussinessAddresses(), function(addressToBeDeleted) {
+                                                _.each(bussinessAddresses(), function (addressToBeDeleted) {
                                                     if (addressToBeDeleted.addressId() == address.addressId()) {
                                                         bussinessAddresses.remove(addressToBeDeleted);
                                                     }
@@ -3605,7 +3605,7 @@ define("stores/stores.viewModel",
             },
 
             //Change request populate drop down on category name 
-            getCategoryChildListItemsOnNameClick = function(dataRecieved, event) {
+            getCategoryChildListItemsOnNameClick = function (dataRecieved, event) {
                 $($(event.currentTarget).parent().parent().children()[0]).children()[0].click();
             },
 
@@ -6378,6 +6378,11 @@ define("stores/stores.viewModel",
             },
                 //#endregion ________ Smart Form___________
 
+                  //#region ________ Discount Voucher Detail___________
+                  openDiscountVoucherDetailDilog = function () {
+                      view.showDiscountVoucherDetailDialog();
+                  },
+                   //#endregion ________ Discount Voucher Detail___________
                 // Store Has Changes
                 // ReSharper disable InconsistentNaming
             storeHasChanges = new ko.dirtyFlag({
@@ -6630,7 +6635,7 @@ define("stores/stores.viewModel",
                     selectedPaymentGateway: selectedPaymentGateway,
                     //#endregion Payment Gateway
                     //#region Product Category
-                    getCategoryChildListItemsOnNameClick:getCategoryChildListItemsOnNameClick,
+                    getCategoryChildListItemsOnNameClick: getCategoryChildListItemsOnNameClick,
                     selectedProductCategory: selectedProductCategory,
                     selectProductCategory: selectProductCategory,
                     deletedProductCategories: deletedProductCategories,
@@ -6838,8 +6843,8 @@ define("stores/stores.viewModel",
                     systemVariablePager: systemVariablePager,
                     getSystemVariables: getSystemVariables,
                     selectedMediaLibImage: selectedMediaLibImage,
-                    productCategoryHasChanges: productCategoryHasChanges
-
+                    productCategoryHasChanges: productCategoryHasChanges,
+                    openDiscountVoucherDetailDilog: openDiscountVoucherDetailDilog
 
                 };
                 //#endregion
