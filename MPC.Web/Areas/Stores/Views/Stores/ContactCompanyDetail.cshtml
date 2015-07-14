@@ -79,7 +79,7 @@
                             <li><a href="#tab-SmartFormDef" data-toggle="tab">Smart Form</a></li>
                             <li><a href="#tab-StoreVariables" data-toggle="tab" data-bind=click:$root.getScopeVariables>Custom Store Defaults</a></li>
                             <li><a href="#tab-featuredProducts" data-toggle="tab">Featured Products</a></li>
-                            <li><a href="#tab-DiscountVoucher" data-toggle="tab"> Discount Voucher</a></li>
+                            <li><a href="#tab-DiscountVoucher" data-bind="click:$root.getDiscountVouchers"data-toggle="tab"> Discount Voucher</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" data-bind="with: $root.selectedStore" id="tab-generalinfo">

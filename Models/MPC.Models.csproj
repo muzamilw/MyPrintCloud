@@ -413,6 +413,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="RequestModels\DiscountVoucherRequestModel.cs" />
     <Compile Include="RequestModels\ActivityRequestModel.cs" />
     <Compile Include="RequestModels\AddressRequestModel.cs" />
     <Compile Include="RequestModels\CompanyContactForCalendarRequestModel.cs" />
@@ -459,6 +460,7 @@
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SupplierRequestModelForInventory.cs" />
     <Compile Include="RequestModels\UpdateSectionCostCentersRequest.cs" />
+    <Compile Include="ResponseModels\DiscountVoucherListViewResponse.cs" />
     <Compile Include="ResponseModels\AddressResponse.cs" />
     <Compile Include="ResponseModels\BestPressResponse.cs" />
     <Compile Include="ResponseModels\CalendarBaseResponse.cs" />
