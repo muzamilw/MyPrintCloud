@@ -610,6 +610,7 @@ define("myOrganization/myOrganization.viewModel",
                                 } else {
                                     selectedMyOrganization(), id(orgId);
                                 }
+                                selectedMyOrganization().flagForChanges(undefined);
                                 selectedMyOrganization().reset();
                                 toastr.success("Successfully save.");
                                 if (callback && typeof callback === "function") {
