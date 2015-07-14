@@ -831,12 +831,12 @@ namespace MPC.Repository.Repositories
                 int rowCount = DbSet.Count(query);
                 IEnumerable<Company> companies = request.IsAsc
                     ? DbSet.Where(query)
-                        .OrderBy(companyOrderByClause[request.CompanyByColumn])
+                        .OrderBy(supplier => supplier.Name).ThenByDescending(supp=> supp.CreationDate)
                         .Skip(fromRow)
                         .Take(toRow)
                         .ToList()
                     : DbSet.Where(query)
-                        .OrderByDescending(companyOrderByClause[request.CompanyByColumn])
+                       .OrderBy(supplier => supplier.Name).ThenByDescending(supp => supp.CreationDate)
                         .Skip(fromRow)
                         .Take(toRow)
                         .ToList();

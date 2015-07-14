@@ -46,6 +46,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new PurchaseBaseResponse
             {
+                LoggedInUser = source.LoggedInUser,
                 SectionFlags = source.SectionFlags != null ? source.SectionFlags.Select(flag => flag.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
                 DeliveryCarriers = source.DeliveryCarriers != null ? source.DeliveryCarriers.Select(flag => flag.CreateFromDropDown()) : new List<DeliveryCarrier>(),
                 SystemUsers = source.SystemUsers != null ? source.SystemUsers.Select(cc => cc.CreateFrom()) :

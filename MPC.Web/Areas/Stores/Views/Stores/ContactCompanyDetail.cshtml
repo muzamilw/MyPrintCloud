@@ -79,6 +79,7 @@
                             <li><a href="#tab-SmartFormDef" data-toggle="tab">Smart Form</a></li>
                             <li><a href="#tab-StoreVariables" data-toggle="tab" data-bind=click:$root.getScopeVariables>Custom Store Defaults</a></li>
                             <li><a href="#tab-featuredProducts" data-toggle="tab">Featured Products</a></li>
+                            <li><a href="#tab-DiscountVoucher" data-toggle="tab"> Discount Voucher</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" data-bind="with: $root.selectedStore" id="tab-generalinfo">
@@ -567,8 +568,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
                             <div class="tab-pane fade" id="tab-products">
 
                                 <div>
@@ -1695,7 +1694,6 @@
                                     &nbsp;
                                 </div>
                             </div>
-
                             <div class="tab-pane fade" data-bind="with: $root.selectedStore" id="tab-featuredProducts">
                                 <div class="col-lg-12 form-horizontal">
                                     @*<h3 class="group-header">Featured Products</h3>*@
@@ -3144,6 +3142,10 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                         </div>*@
                                 </div>
+                            </div>
+                            <div class="tab-pane clearfix fade" id="tab-DiscountVoucher">
+                                @Html.Partial("~/Areas/Stores/Views/Stores/_DiscountVoucher.cshtml")
+
                             </div>
                         </div>
                     </div>

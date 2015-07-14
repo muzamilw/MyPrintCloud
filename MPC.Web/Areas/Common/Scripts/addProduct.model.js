@@ -9,7 +9,7 @@
         specifiedJobActualCompletionDateTime, specifiedJobProgressedBy, specifiedJobSignedBy, specifiedNominalCodeId, specifiedJobStatusId,
         specifiedInvoiceDescription, specifiedQty1MarkUpId1, specifiedQty2MarkUpId2, specifiedQty3MarkUpId3, specifiedQty2NetTotal, specifiedQty3NetTotal,
         specifiedQty1Tax1Value, specifiedQty2Tax1Value, specifiedQty3Tax1Value, specifiedQty1GrossTotal, specifiedQty2GrossTotal, specifiedQty3GrossTotal,
-        specifiedTax1, specifiedItemType, specifiedEstimateId, specifiedCompanyName) {
+        specifiedTax1, specifiedItemType, specifiedEstimateId, specifiedCompanyName, specifiedProductSpecification, specifiedThumbnail) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -177,6 +177,10 @@
             jobEstimatedCompletionDateTime = ko.observable(),
             // Company Name
             companyName = ko.observable(specifiedCompanyName || undefined),
+            //Product Specification
+            productSpecification = ko.observable(specifiedProductSpecification || undefined),
+            // thumbnail
+            thumbnail = ko.observable(specifiedThumbnail || undefined),
             // Convert To Server Data
             convertToServerData = function() {
                 return {
@@ -285,6 +289,8 @@
             itemStockOptions: itemStockOptions,
             itemPriceMatrices: itemPriceMatrices,
             companyName: companyName,
+            productSpecification: productSpecification,
+            thumbnail: thumbnail,
             convertToServerData: convertToServerData
         };
     },
@@ -1551,7 +1557,7 @@
            source.JobActualCompletionDateTime, source.JobProgressedBy, source.JobCardPrintedBy, source.NominalCodeId, source.JobStatusId, source.InvoiceDescription,
            source.Qty1MarkUpId1, source.Qty2MarkUpId2, source.Qty3MarkUpId3, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1Tax1Value, source.Qty2Tax1Value,
            source.Qty3Tax1Value, source.Qty1GrossTotal, source.Qty2GrossTotal, source.Qty3GrossTotal, source.Tax1, source.ItemType, source.EstimateId,
-           source.CompanyName);
+           source.CompanyName,source.ProductSpecification, source.ThumbnailImageSource);
 
        // Map Item Sections if any
        if (source.ItemSections && source.ItemSections.length > 0) {

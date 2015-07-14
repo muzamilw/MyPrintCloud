@@ -123,7 +123,7 @@ namespace MPC.Webstore.Controllers
                     }
 
                     ViewBag.hfCategoryId = CategoryID;
-                   // SetPageMEtaTitle(ItemRecord.ProductName, ItemRecord.MetaDescription, ItemRecord.MetaKeywords, ItemRecord.MetaTitle,StoreBaseResopnse);
+                    SetPageMEtaTitle(ItemRecord.ProductName, ItemRecord.MetaDescription, ItemRecord.MetaKeywords, ItemRecord.MetaTitle,StoreBaseResopnse);
 
                     string CurrentProductCategoryName = string.Empty;
                     //Findout the minimum price
@@ -551,16 +551,19 @@ namespace MPC.Webstore.Controllers
         /// <param name="Keywords"></param>
         /// <param name="Title"></param>
         /// <param name="baseResponse"></param>
-        private void SetPageMEtaTitle(string CatName, string CatDes, string Keywords, string Title, MyCompanyDomainBaseResponse baseResponse)
+        private void SetPageMEtaTitle(string CatName, string CatDes, string Keywords, string Title, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse)
         {
+            string[] MetaTags = _myCompanyService.CreatePageMetaTags(Title == null ? "" : Title, CatDes == null ? "" : CatDes, Keywords == null ? "" : Keywords, baseResponse.Company.Name, baseResponse.StoreDetaultAddress);
 
-            Address DefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.WBStoreId);
+            TempData["MetaTitle"] = MetaTags[0];
+            TempData.Keep("MetaTitle");
+            //ViewBag.MetaTitle  = MetaTags[0];
+            TempData["MetaKeywords"] = MetaTags[1];
+            TempData.Keep("MetaKeywords");
+            //ViewBag.MetaKeywords = MetaTags[1];
+            TempData["MetaDescription"] = MetaTags[2];
+            TempData.Keep("MetaDescription");
 
-            string[] MetaTags = _myCompanyService.CreatePageMetaTags(Title, CatDes, Keywords, StoreMode.Retail, baseResponse.Company.Name, DefaultAddress);
-
-            ViewBag.MetaTitle = MetaTags[0];
-            ViewBag.MetaKeywords = MetaTags[1];
-            ViewBag.MetaDescription = MetaTags[2];
         }
         /// <summary>
         /// set heading of product
