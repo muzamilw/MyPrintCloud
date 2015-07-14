@@ -59,7 +59,9 @@
                                                                 <th class="col-lg-1"></th>
                                                                 <th class="col-lg-3"><span>Name</span></th>
                                                                 <th class="col-lg-3"><span>Email</span></th>
-                                                                <th class="col-lg-3"><span>Store</span></th>
+                                                                <th class="col-lg-1"><span>Store</span></th>
+                                                                <th class="col-lg-2"><span>&nbsp;</span></th>
+                                                                <th class="col-lg-1"><span>&nbsp;</span></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -85,6 +87,12 @@
                                                                
                                                                 <td>
                                                                     <span data-bind="text:StoreName"></span>
+                                                                </td>
+                                                                <td>
+                                                                    &nbsp;
+                                                                </td>
+                                                                <td>
+                                                                    &nbsp;
                                                                 </td>
                                                             </tr>
                                                             <!-- /ko -->
@@ -120,7 +128,7 @@
 </div>
 
 <script id="filterTemplate" type="text/html">
-    <div class="filter-body" id="filter" style=" margin-left: 6px;   margin-right: 8px; margin-bottom: 4px;">
+    <div class="filter-body" id="filter" style=" margin-left:14px;margin-right:16px; margin-bottom: 4px;">
         <form data-bind="submit: $root.searchButtonHandler">
             <div class="filter-block pull-right">
                 <div class="form-group pull-left" style="margin-right: 2px;">

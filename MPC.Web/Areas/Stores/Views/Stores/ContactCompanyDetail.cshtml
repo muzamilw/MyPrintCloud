@@ -24,7 +24,7 @@
                     <li class="active"><span data-bind="text:$root.productStatus"></span></li>
                     <!-- /ko -->
                 </ol>
-                <div class="tab-content dynamicNameHeading" data-bind="with: $root.selectedStore()">
+                <div class="tab-content dynamicNameHeading" data-bind="with: $root.selectedStore()" style="height:41px;">
                     <h1 data-bind="text:$root.storeHeading()!='undefined-undefined' ?$root.storeHeading():'' "></h1>
                 </div>
             </div>
@@ -44,9 +44,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-2">
-                    </div>
-                    <div class="col-xs-4" style="text-align: right; padding-right: 0;">
+                    
+                    <div class="col-xs-12" style="text-align: right; padding-right:0;margin-bottom:10px;">
                         <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="">
                             Print
                         </button>
@@ -2980,7 +2979,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                 @*<h3 class="group-header">Create user defined fields that can be used in smart forms of this store.</h3>*@
                                 <div class="col-lg-12 clearfix">
                                     <div style="margin-bottom:15px;">
-                                        <span>dumy text system variables</span>
+                                        <span>System CRM fields can be modified to add a prefix or postfix field if the field contains data, as an example this is used to remove or display the word "Mobile" in front of a mobile number or remove the word "Mobile" if no number is present</span>
                                     </div>
                                     <div style="background-color:gainsboro; border-radius:3px">
                                         <header class="main-box-header clearfix">
