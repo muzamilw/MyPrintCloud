@@ -4798,7 +4798,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     };
     //Smart Form Create Factory
     discountVoucherListView.Create = function (source) {
-        return new discountVoucherListView(source.DiscountVoucherId,
+        return new discountVoucherListView(source.DiscountVoucherId, source.VoucherName,
             source.CouponCode,
             source.DiscountType,
             source.DiscountRate,
