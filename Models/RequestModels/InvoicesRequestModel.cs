@@ -19,6 +19,8 @@ namespace MPC.Models.RequestModels
         /// List View Filter For Status Flag
         /// </summary>
         public int FilterFlag { get; set; }
+
+        public string SearchString { get; set; }
         /// <summary>
         /// List View Filter For Order Type
         /// </summary>

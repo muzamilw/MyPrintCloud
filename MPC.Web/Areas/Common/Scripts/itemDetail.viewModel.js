@@ -125,7 +125,8 @@ define("common/itemDetail.viewModel",
                     isAddProductForSectionCostCenter = ko.observable(false),
                     selectedCostCentre = ko.observable(),
                     selectedSectionCostCenter = ko.observable(),
-                    selectedQty = ko.observable(),
+                    selectedQty = ko.observable(1),
+                    selectedQtyForItem = ko.observable(),
                     selectedOrder = ko.observable(),
                     currencySymbol = ko.observable(''),
                     lengthUnit = ko.observable(),
@@ -524,9 +525,16 @@ define("common/itemDetail.viewModel",
                             sectionCostCenter.qty2WorkInstructions(name + " (Quantity = " + qty2 + ")");
                         }
                     },
+                    // Select Quantity Sequence for Item
+                    selectQuantityForItem = function(qtySequence) {
+                        if (selectedQtyForItem() === qtySequence) {
+                            return;
+                        }
+                        selectedQtyForItem(qtySequence);
+                    },
                     //Show Item Detail
                     showItemDetail = function (selectedProductParam, selectedOrderParam, closeItemDetailParam, isEstimateScreenFlag) {
-
+                        selectedQtyForItem(1);
                         showSectionDetail(false);
                         selectedProduct(selectedProductParam);
                         showItemDetailsSection(true);
@@ -857,6 +865,22 @@ define("common/itemDetail.viewModel",
                             var qty2Value = parseInt(value);
                             if (qty2Value !== parseInt(selectedProduct().qty2())) {
                                 selectedProduct().qty2(qty2Value);
+                            }
+                            // If Product is of type Finished Goods then don't get cost centres
+                            if (selectedProduct().productType() === 3) {
+                                return;
+                            }
+                            getSectionSystemCostCenters();
+
+                        });
+
+                        selectedSection().qty3.subscribe(function (value) {
+                            if (isNaN(value)) {
+                                return;
+                            }
+                            var qty3Value = parseInt(value);
+                            if (qty3Value !== parseInt(selectedProduct().qty3())) {
+                                selectedProduct().qty3(qty3Value);
                             }
                             // If Product is of type Finished Goods then don't get cost centres
                             if (selectedProduct().productType() === 3) {
@@ -1557,49 +1581,56 @@ define("common/itemDetail.viewModel",
                     copyJobCards = function () {
                         selectedProduct();
                         var conCatJobCards = "";
-                        if (selectedProduct().jobDescription1() !== undefined && selectedProduct().jobDescription1().trim() !== "") {
+                        if (selectedProduct().jobDescription1() !== null &&
+                            selectedProduct().jobDescription1() !== undefined && selectedProduct().jobDescription1().trim() !== "") {
                             conCatJobCards = selectedProduct().jobDescription1();
                         }
-                        if (selectedProduct().jobDescription2() !== undefined && selectedProduct().jobDescription2().trim() !== "") {
+                        if (selectedProduct().jobDescription2() !== null &&
+                            selectedProduct().jobDescription2() !== undefined && selectedProduct().jobDescription2().trim() !== "") {
                             if (conCatJobCards === "") {
                                 conCatJobCards = selectedProduct().jobDescription2();
                             } else {
-                                conCatJobCards = conCatJobCards + "," + selectedProduct().jobDescription2();
+                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription2();
                             }
                         }
-                        if (selectedProduct().jobDescription3() !== undefined && selectedProduct().jobDescription3().trim() !== "") {
+                        if (selectedProduct().jobDescription3() !== null &&
+                            selectedProduct().jobDescription3() !== undefined && selectedProduct().jobDescription3().trim() !== "") {
                             if (conCatJobCards === "") {
                                 conCatJobCards = selectedProduct().jobDescription3();
                             } else {
-                                conCatJobCards = conCatJobCards + "," + selectedProduct().jobDescription3();
+                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription3();
                             }
                         }
-                        if (selectedProduct().jobDescription4() !== undefined && selectedProduct().jobDescription4().trim() !== "") {
+                        if (selectedProduct().jobDescription4() !== null &&
+                            selectedProduct().jobDescription4() !== undefined && selectedProduct().jobDescription4().trim() !== "") {
                             if (conCatJobCards === "") {
                                 conCatJobCards = selectedProduct().jobDescription4();
                             } else {
-                                conCatJobCards = conCatJobCards + "," + selectedProduct().jobDescription4();
+                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription4();
                             }
                         }
-                        if (selectedProduct().jobDescription5() !== undefined && selectedProduct().jobDescription5().trim() !== "") {
+                        if (selectedProduct().jobDescription5() !== null &&
+                            selectedProduct().jobDescription5() !== undefined && selectedProduct().jobDescription5().trim() !== "") {
                             if (conCatJobCards === "") {
                                 conCatJobCards = selectedProduct().jobDescription5();
                             } else {
-                                conCatJobCards = conCatJobCards + "," + selectedProduct().jobDescription5();
+                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription5();
                             }
                         }
-                        if (selectedProduct().jobDescription6() !== undefined && selectedProduct().jobDescription6().trim() !== "") {
+                        if (selectedProduct().jobDescription6() !== null &&
+                            selectedProduct().jobDescription6() !== undefined && selectedProduct().jobDescription6().trim() !== "") {
                             if (conCatJobCards === "") {
                                 conCatJobCards = selectedProduct().jobDescription6();
                             } else {
-                                conCatJobCards = conCatJobCards + "," + selectedProduct().jobDescription6();
+                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription6();
                             }
                         }
-                        if (selectedProduct().jobDescription7() !== undefined && selectedProduct().jobDescription7().trim() !== "") {
+                        if (selectedProduct().jobDescription7() !== null &&
+                            selectedProduct().jobDescription7() !== undefined && selectedProduct().jobDescription7().trim() !== "") {
                             if (conCatJobCards === "") {
                                 conCatJobCards = selectedProduct().jobDescription7();
                             } else {
-                                conCatJobCards = conCatJobCards + "," + selectedProduct().jobDescription7();
+                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription7();
                             }
                         }
                         selectedProduct().invoiceDescription(conCatJobCards);
@@ -1619,6 +1650,7 @@ define("common/itemDetail.viewModel",
                         selectedSection(section);
                         subscribeSectionChanges();
                         showSectionDetail(true);
+                        selectedQty(1);
                     },
                     closeSectionDetailEditor = function () {
                         if (!selectedSection().isValid()) {
@@ -1721,6 +1753,10 @@ define("common/itemDetail.viewModel",
                         });
                         confirmation.show();
                         return;
+                    },
+                    //Select Quantity
+                    selectQuantity = function(qty) {
+                        selectedQty(qty);
                     },
                     // #region Pre Press / Post Press Cost Center
                     // Add Pre Press Cost Center
@@ -1962,7 +1998,10 @@ define("common/itemDetail.viewModel",
                     sectionCostCenterQty1Ui: sectionCostCenterQty1Ui,
                     sectionCostCenterQty2Ui: sectionCostCenterQty2Ui,
                     defaultMarkUpId: defaultMarkUpId,
-                    applySectionCostCenterMarkup: applySectionCostCenterMarkup
+                    applySectionCostCenterMarkup: applySectionCostCenterMarkup,
+                    selectQuantityForItem: selectQuantityForItem,
+                    selectQuantity: selectQuantity,
+                    selectedQtyForItem: selectedQtyForItem
                     //#endregion
                 };
             })()

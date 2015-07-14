@@ -523,6 +523,7 @@ namespace MPC.Repository.BaseRepository
         /// </summary>
         public DbSet<Activity> Activities { get; set; }
 
+
         /// <summary>
         /// Activity Type DbSet
         /// </summary>
