@@ -5003,6 +5003,7 @@ define("stores/stores.viewModel",
                 fieldVariablesOfAddressType.removeAll();
                 fieldVariablesOfTerritoryType.removeAll();
                 fieldVariablesOfStoreType.removeAll();
+                discountVouuchers.removeAll();
                 newAddedCampaigns.removeAll();
                 filteredCompanyBanners.removeAll();
                 editedCampaigns.removeAll();
@@ -6467,6 +6468,9 @@ define("stores/stores.viewModel",
             },
                          // Delete Company Permanently
             getDiscountVouchers = function () {
+                if (discountVouuchers() && discountVouuchers().length > 0) {
+                    return;
+                }
                 dataservice.getDiscountVouchers({
                     PageSize: discountVoucherpager().pageSize(),
                     PageNo: discountVoucherpager().currentPage(),
