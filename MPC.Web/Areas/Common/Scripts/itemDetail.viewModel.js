@@ -1581,49 +1581,56 @@ define("common/itemDetail.viewModel",
                     copyJobCards = function () {
                         selectedProduct();
                         var conCatJobCards = "";
-                        if (selectedProduct().jobDescription1() !== undefined && selectedProduct().jobDescription1().trim() !== "") {
+                        if (selectedProduct().jobDescription1() !== null &&
+                            selectedProduct().jobDescription1() !== undefined && selectedProduct().jobDescription1().trim() !== "") {
                             conCatJobCards = selectedProduct().jobDescription1();
                         }
-                        if (selectedProduct().jobDescription2() !== undefined && selectedProduct().jobDescription2().trim() !== "") {
+                        if (selectedProduct().jobDescription2() !== null &&
+                            selectedProduct().jobDescription2() !== undefined && selectedProduct().jobDescription2().trim() !== "") {
                             if (conCatJobCards === "") {
                                 conCatJobCards = selectedProduct().jobDescription2();
                             } else {
-                                conCatJobCards = conCatJobCards + "," + selectedProduct().jobDescription2();
+                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription2();
                             }
                         }
-                        if (selectedProduct().jobDescription3() !== undefined && selectedProduct().jobDescription3().trim() !== "") {
+                        if (selectedProduct().jobDescription3() !== null &&
+                            selectedProduct().jobDescription3() !== undefined && selectedProduct().jobDescription3().trim() !== "") {
                             if (conCatJobCards === "") {
                                 conCatJobCards = selectedProduct().jobDescription3();
                             } else {
-                                conCatJobCards = conCatJobCards + "," + selectedProduct().jobDescription3();
+                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription3();
                             }
                         }
-                        if (selectedProduct().jobDescription4() !== undefined && selectedProduct().jobDescription4().trim() !== "") {
+                        if (selectedProduct().jobDescription4() !== null &&
+                            selectedProduct().jobDescription4() !== undefined && selectedProduct().jobDescription4().trim() !== "") {
                             if (conCatJobCards === "") {
                                 conCatJobCards = selectedProduct().jobDescription4();
                             } else {
-                                conCatJobCards = conCatJobCards + "," + selectedProduct().jobDescription4();
+                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription4();
                             }
                         }
-                        if (selectedProduct().jobDescription5() !== undefined && selectedProduct().jobDescription5().trim() !== "") {
+                        if (selectedProduct().jobDescription5() !== null &&
+                            selectedProduct().jobDescription5() !== undefined && selectedProduct().jobDescription5().trim() !== "") {
                             if (conCatJobCards === "") {
                                 conCatJobCards = selectedProduct().jobDescription5();
                             } else {
-                                conCatJobCards = conCatJobCards + "," + selectedProduct().jobDescription5();
+                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription5();
                             }
                         }
-                        if (selectedProduct().jobDescription6() !== undefined && selectedProduct().jobDescription6().trim() !== "") {
+                        if (selectedProduct().jobDescription6() !== null &&
+                            selectedProduct().jobDescription6() !== undefined && selectedProduct().jobDescription6().trim() !== "") {
                             if (conCatJobCards === "") {
                                 conCatJobCards = selectedProduct().jobDescription6();
                             } else {
-                                conCatJobCards = conCatJobCards + "," + selectedProduct().jobDescription6();
+                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription6();
                             }
                         }
-                        if (selectedProduct().jobDescription7() !== undefined && selectedProduct().jobDescription7().trim() !== "") {
+                        if (selectedProduct().jobDescription7() !== null &&
+                            selectedProduct().jobDescription7() !== undefined && selectedProduct().jobDescription7().trim() !== "") {
                             if (conCatJobCards === "") {
                                 conCatJobCards = selectedProduct().jobDescription7();
                             } else {
-                                conCatJobCards = conCatJobCards + "," + selectedProduct().jobDescription7();
+                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription7();
                             }
                         }
                         selectedProduct().invoiceDescription(conCatJobCards);
