@@ -1,0 +1,289 @@
+
+<div class="modal fade my-modal" id="discountVoucherDetailDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width: 838px;" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Discount Voucher Detail</h4>
+
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class=" form-horizontal clearfix">
+                        <div class="col-sm-12">
+                            <h3 class="group-header" style="margin-top:20px;">
+                                Basic Discount Info
+                            </h3>
+                            <div class="form-group ">
+                                <div class="col-sm-4 col-lg-4 text-right">
+                                    <div class="bs-example-tooltips tooltip-float-width">
+                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Discount Name" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                        </a>
+                                    </div>
+                                    <label for="txtSPTitle" class="control-label text-right tooltip-float">Discount Name</label>
+                                </div>
+                                <div class="col-sm-4 col-lg-4">
+                                    <input type="text" class="form-control" id="txtSPTitle">
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div class="col-sm-4 col-lg-4text-right">
+                                    <div class="bs-example-tooltips tooltip-float-width">
+                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Discount Type" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                        </a>
+                                    </div>
+                                    <label for="ddPageCat" class="control-label text-right tooltip-float">Discount Type</label>
+                                </div>
+                                <div class="col-sm-4 col-lg-4">
+                                    <select class="form-control" id="ddPageCat" data-bind="options: $root.pageCategories, optionsText: 'name', optionsValue: 'id'"> </select>
+                                </div>
+                                <div class="col-sm-1">
+
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div class="col-sm-4 text-right">
+                                    <div class="bs-example-tooltips tooltip-float-width">
+                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Discount Rate" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                        </a>
+                                    </div>
+                                    <label for="txtSPTitle" class="control-label text-right tooltip-float">Discount Rate</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="txtSPTitle">
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div class="col-sm-4 text-right">
+                                    <div class="bs-example-tooltips tooltip-float-width">
+                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Coupon" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                        </a>
+                                    </div>
+                                    <label for="txtSPTitle" class="control-label text-right tooltip-float">Coupon</label>
+                                </div>
+                                <div class="col-sm-4" style="margin-top: 5px;">
+                                    <div class="checkbox-nice">
+                                        <input type="checkbox" id="cupon">
+                                        <label for="cupon">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 text-right" style="margin-right: 8px;">
+
+                                </div>
+                                <div class="col-sm-6" style="background-color: gainsboro">
+                                    <div class="form-group " style="margin-top: 15px;">
+                                        <div class="col-sm-4 text-right">
+                                            <label for="txtSPTitle" class="control-label text-right tooltip-float">Coupon Code</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="txtSPTitle">
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <div class="col-sm-4 text-right">
+                                            <label for="txtSPTitle" class="control-label text-right tooltip-float">Coupon Usage</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="txtSPTitle">
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <div class="col-sm-4 text-right">
+                                            <label for="txtSPTitle" class="control-label text-right tooltip-float">Cannot Be Used With Another Coupon</label>
+                                        </div>
+                                        <div class="col-sm-4" style="margin-top: 5px;">
+                                            <div class="checkbox-nice">
+                                                <input type="checkbox" id="withOtherCoupon">
+                                                <label for="withOtherCoupon" class="control-label">
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group ">
+                                <div class="col-sm-4 text-right">
+                                    <div class="bs-example-tooltips tooltip-float-width">
+                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Categories" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                        </a>
+                                    </div>
+                                    <label for="txtSPTitle" class="control-label text-right tooltip-float">Categories</label>
+                                </div>
+                                <div class="col-sm-4" style="margin-top: 8px;">
+                                    <a href="#" class="control-label user-link">Select Categories</a>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div class="col-sm-4 text-right">
+                                    <div class="bs-example-tooltips tooltip-float-width">
+                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Products" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                        </a>
+                                    </div>
+                                    <label for="txtSPTitle" class="control-label text-right tooltip-float">Products </label>
+                                </div>
+                                <div class="col-sm-4" style="margin-top: 8px;">
+                                    <a href="#" class="control-label user-link">Select Products</a>
+                                </div>
+                            </div>
+                            <h3 class="group-header" style="margin-top:20px;">
+                                Advance Info
+                            </h3>
+                            <div class="form-group ">
+                                <div class="col-sm-4 text-right">
+                                    <div class="bs-example-tooltips tooltip-float-width">
+                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Set Time Limit" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                        </a>
+                                    </div>
+                                    <label for="txtSPTitle" class="control-label text-right tooltip-float">Set Time Limit</label>
+                                </div>
+                                <div class="col-sm-4" style="margin-top: 5px;">
+                                    <div class="checkbox-nice">
+                                        <input type="checkbox" id="timeLimit">
+                                        <label for="timeLimit" class="control-label">
+
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 text-right" style="margin-right: 8px;">
+
+                                </div>
+                                <div class="col-sm-6" style="background-color: gainsboro">
+                                    <div class="form-group " style="margin-top: 15px;">
+                                        <div class="col-sm-4 text-right">
+                                            <label for="txtSPTitle" class="control-label text-right tooltip-float">Begin Date</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="txtSPTitle">
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <div class="col-sm-4 text-right">
+                                            <label for="txtSPTitle" class="control-label text-right tooltip-float">End Date</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="txtSPTitle">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="form-group ">
+                                <div class="col-sm-4 text-right">
+                                    <div class="bs-example-tooltips tooltip-float-width">
+                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Define Quantity Requirements" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                        </a>
+                                    </div>
+                                    <label for="txtSPTitle" class="control-label text-right tooltip-float">Define Quantity Requirements</label>
+                                </div>
+                                <div class="col-sm-4" style="margin-top: 5px;">
+                                    <div class="checkbox-nice">
+                                        <input type="checkbox" id="qty">
+                                        <label for="qty">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 text-right" style="margin-right: 8px;">
+
+                                </div>
+                                <div class="col-sm-6" style="background-color: gainsboro">
+                                    <div class="form-group " style="margin-top: 15px;">
+                                        <div class="col-sm-4 text-right">
+                                            <label for="txtSPTitle" class="control-label text-right tooltip-float">Minimum Quantity</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="txtSPTitle">
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <div class="col-sm-4 text-right">
+                                            <label for="txtSPTitle" class="control-label text-right tooltip-float">Maximum Quantity</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="txtSPTitle">
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <div class="col-sm-4 text-right">
+                                            <label for="txtSPTitle" class="control-label text-right tooltip-float">Span (ie Buy 10 of any product)</label>
+                                        </div>
+                                        <div class="col-sm-4" style="margin-top: 5px;">
+                                            <div class="checkbox-nice">
+                                                <input type="checkbox" id="spanProduct">
+                                                <label for="spanProduct" class="control-label">
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group ">
+                                <div class="col-sm-4 text-right">
+                                    <div class="bs-example-tooltips tooltip-float-width">
+                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Define Order Price Requirements" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                        </a>
+                                    </div>
+                                    <label for="txtSPTitle" class="control-label text-right tooltip-float">Define Order Price Requirements</label>
+                                </div>
+                                <div class="col-sm-4" style="margin-top: 5px;">
+                                    <div class="checkbox-nice">
+                                        <input type="checkbox" id="price">
+                                        <label for="price">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 text-right" style="margin-right: 8px;">
+
+                                </div>
+                                <div class="col-sm-6" style="background-color: gainsboro">
+                                    <div class="form-group " style="margin-top: 15px;">
+                                        <div class="col-sm-4 text-right">
+                                            <label for="txtSPTitle" class="control-label text-right tooltip-float">Min Order Price</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="txtSPTitle">
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <div class="col-sm-4 text-right">
+                                            <label for="txtSPTitle" class="control-label text-right tooltip-float">Max Order Price</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="txtSPTitle">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left:0px;">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>

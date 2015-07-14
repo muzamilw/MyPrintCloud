@@ -24,7 +24,7 @@
                     <li class="active"><span data-bind="text:$root.productStatus"></span></li>
                     <!-- /ko -->
                 </ol>
-                <div class="tab-content dynamicNameHeading" data-bind="with: $root.selectedStore()">
+                <div class="tab-content dynamicNameHeading" data-bind="with: $root.selectedStore()" style="height:41px;">
                     <h1 data-bind="text:$root.storeHeading()!='undefined-undefined' ?$root.storeHeading():'' "></h1>
                 </div>
             </div>
@@ -44,9 +44,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-2">
-                    </div>
-                    <div class="col-xs-4" style="text-align: right; padding-right: 0;">
+                    
+                    <div class="col-xs-12" style="text-align: right; padding-right:0;margin-bottom:10px;">
                         <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="">
                             Print
                         </button>
@@ -79,7 +78,7 @@
                             <li><a href="#tab-SmartFormDef" data-toggle="tab">Smart Form</a></li>
                             <li><a href="#tab-StoreVariables" data-toggle="tab" data-bind=click:$root.getScopeVariables>Custom Store Defaults</a></li>
                             <li><a href="#tab-featuredProducts" data-toggle="tab">Featured Products</a></li>
-                            <li><a href="#tab-DiscountVoucher" data-toggle="tab"> Discount Voucher</a></li>
+                            <li><a href="#tab-DiscountVoucher" data-bind="click:$root.getDiscountVouchers"data-toggle="tab"> Discount Voucher</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" data-bind="with: $root.selectedStore" id="tab-generalinfo">
@@ -267,7 +266,8 @@
                                                     <img id="idCostcenterimage" style="width: 240px; height: 130px; -o-object-fit: contain; object-fit: contain;" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
                                                     <img style="width: 240px; height: 130px; -o-object-fit: contain; object-fit: contain;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
 
-                                                    <!--/ko--></div>
+                                                    <!--/ko-->
+                                                </div>
 
                                                 <div class="col-lg-12" style="margin-top: 10px;text-align:center;width:220px;padding-right:0px;">
                                                     <div class="col-lg-8">
@@ -568,16 +568,15 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="tab-products">
-                                
-                                <div>
-                                    <span>add categories and products to your store, retail stores come populated with a default database while private stores are blank in order to allow for you to add your customers products and categories</span>
-                                    <div style="height:20px;">
-                                        &nbsp;
-                                    </div>
-                                </div>
 
+                                <div style="margin-left:7px;">
+                                    <span>add categories and products to your store, retail stores come populated with a default database while private stores are blank in order to allow for you to add your customers products and categories</span>
+                                </div>
+                                <div style="height:20px;">
+                                    &nbsp;
+                                </div>
                                 <div class="col-lg-4" data-bind="with: $root.selectedStore">
-                                   
+
                                     <div class="clearfix">
                                         <header>
                                             <h2 style="padding-right:5px;">
@@ -607,10 +606,10 @@
                                 <div class="col-lg-8">
                                     <div class="clearfix">
                                         @*<header>
-                                            <div class="text-left">
-                                                <h2 data-bind="text: $root.selectedCategoryName">Products</h2>
-                                            </div>
-                                        </header>*@
+                                                <div class="text-left">
+                                                    <h2 data-bind="text: $root.selectedCategoryName">Products</h2>
+                                                </div>
+                                            </header>*@
                                         <!-- ko stopBinding: true -->
                                         <div id="productBindingSection" style="padding-right:0px;padding-left:0px;" class="main-box-body clearfix">
                                             @{
@@ -629,12 +628,15 @@
                             </div>
                             <div class="tab-pane fade" id="tab-territory" data-bind="with: $root.selectedStore">
                                 <div class="col-lg-12">
-                                    <h3 class="group-header">Store Users and Visitors</h3>
-                                    <span>Here you can add your customer information either import the store contacts and addresses or add manually.  Download the import document from blog.myprintcloud.com/tutorials</span>
+                                    <div>
+                                        <span>Here you can add your customer information either import the store contacts and addresses or add manually.  Download the import document from blog.myprintcloud.com/tutorials</span>
+                                    </div>
                                     <div style="height:20px;">
                                         &nbsp;
                                     </div>
 
+                                    <h3 class="group-header">Store Users and Visitors</h3>
+                                    
 
                                     <div class="col-lg-12 clearfix" style="padding-right:3px;">
 
@@ -1766,7 +1768,7 @@
                             </div>
                             <div class="tab-pane fade" id="tab-SEO" data-bind="with: $root.selectedStore">
                                 <div class="col-lg-12 form-horizontal">
-                                    
+
                                     <span>add Google analytics to your store and put your happiest customers quotes online for other customers to see</span>
                                     <div style="height:20px;">
                                         &nbsp;
@@ -1884,8 +1886,12 @@
                                 </div>
                             </div>
                             <div class="tab-pane clearfix fade" id="tab-mailseries" data-bind="with: $root.selectedStore">
+                                <div style="margin-left:5px;"><span>System emails are used to automatically communicate with your clients, remember when designing to use mobile friendly editor we like https://www.klaviyo.com</span></div>
+                                <div style="height:20px;">
+
+                                </div>
                                 <h3 class="group-header">Store Workflow Emails (Event/trigger based)</h3>
-                                <span>System emails are used to automatically communicate with your clients, remember when designing to use mobile friendly editor we like https://www.klaviyo.com</span>
+                                
                                 <div style="height:25px;">
                                     &nbsp;
                                 </div>
@@ -2592,7 +2598,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                 </div>
                             </div>
                             <div class="tab-pane clearfix fade" id="tab-pageeditor" data-bind="with: $root.selectedStore">
-                                <span>The store layout editor allows you to change widgets within a page, some widgets allow editing of the HTML, if changes don’t take effect remember to clear your browser cache</span>
+                                <div style="margin-left:7px;"><span>The store layout editor allows you to change widgets within a page, some widgets allow editing of the HTML, if changes don’t take effect remember to clear your browser cache</span></div>
                                 <div style="height:20px;">
                                     &nbsp;
                                 </div>
@@ -2676,9 +2682,14 @@ Public  - allows users to see other users addresses and orders." data-original-t
                             </div>
                             <div class="tab-pane clearfix fade" id="tab-DelvAddOns" data-bind="with: $root.selectedStore">
                                 <div class="col-lg-12">
-                                    <h3 class="group-header">Store Delivery Methods/Cost Centers</h3>
+                                    <div>
+                                        <span>Add shipping options for each store, shipping prices can be different for each store and is integrated with UPS and FedEx</span>
+                                    </div>
+                                    <div style="height:20px;">
 
-                                    <span>Add shipping options for each store, shipping prices can be different for each store and is integrated with UPS and FedEx</span>
+                                    </div>
+                                    <h3 class="group-header">Store Delivery Methods/Cost Centers</h3>
+                                    
                                     <div style="height:20px;">
                                         &nbsp;
                                     </div>
@@ -2790,7 +2801,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                             </div>
                             <div class="tab-pane clearfix fade" id="tab-CMYKColors" data-bind="with: $root.selectedStore">
                                 @*<h3 class="group-header"></h3>*@
-                                <span>Add spot colours inside the MIS this will ensure consistency inside the editor, spot colours are displayed as part of the available color pallet within the colour selection tool</span>
+                                <div style="margin-left:7px;"><span>Add spot colours inside the MIS this will ensure consistency inside the editor, spot colours are displayed as part of the available color pallet within the colour selection tool</span></div>
                                 <div style="height:20px;">
                                     &nbsp;
                                 </div>
@@ -2968,12 +2979,15 @@ Public  - allows users to see other users addresses and orders." data-original-t
                             <div class="tab-pane clearfix fade" id="tab-SystemCRMField">
                                 @*<h3 class="group-header">Create user defined fields that can be used in smart forms of this store.</h3>*@
                                 <div class="col-lg-12 clearfix">
-
+                                    <div style="margin-bottom:15px;">
+                                        <span>System CRM fields can be modified to add a prefix or postfix field if the field contains data, as an example this is used to remove or display the word "Mobile" in front of a mobile number or remove the word "Mobile" if no number is present</span>
+                                    </div>
                                     <div style="background-color:gainsboro; border-radius:3px">
                                         <header class="main-box-header clearfix">
                                             <div style="float:left;margin-left: 2px;"><span style="font-size:24px">System Variables</span></div>
                                         </header>
-                                        <div class="main-box-body clearfix">
+                                        <div class="main-box-body clearfix" style="margin-top:15px;">
+                                            
                                             <div class="table-responsive">
                                                 <table class="table table-striped table-hover">
                                                     <thead>
@@ -3220,22 +3234,22 @@ Public  - allows users to see other users addresses and orders." data-original-t
             <td>
                 <div>
                     <span data-bind="text: colorC"></span><span> %</span>
-                </div>                
+                </div>
             </td>
             <td>
                 <div>
                     <span data-bind="text: colorM"></span><span> %</span>
-                </div> 
+                </div>
             </td>
             <td>
                 <div>
                     <span data-bind="text: colorY"></span><span> %</span>
-                </div> 
+                </div>
             </td>
             <td>
                 <div>
                     <span data-bind="text: colorK"></span><span> %</span>
-                </div> 
+                </div>
             </td>
             <td>
                 <div class="type">
@@ -3518,7 +3532,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
     </script>
     <script id="itemProductCategoriesTemplate" type="text/html">
         <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}, attr: {id: productCategoryId}">
-            <div class="dd-handle-list cursorShape" style="height:32px !important;margin-top:5px;" >
+            <div class="dd-handle-list cursorShape" style="height:32px !important;margin-top:5px;">
                 <i class="fa fa-chevron-circle-right" data-bind="click: $root.getCategoryChildListItems"></i>
             </div>
             <div class="dd-handle col-sm-12">
@@ -3598,6 +3612,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 </style>
 @Html.Partial("~/Areas/Stores/Views/Stores/_AddEditAddress.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/_EditBanner.cshtml")
+@Html.Partial("~/Areas/Stores/Views/Stores/_DiscountVoucherDetail.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/_AddEditSmartFormDialog.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/_ItemsForWidgetDialog.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/_AddSet.cshtml")

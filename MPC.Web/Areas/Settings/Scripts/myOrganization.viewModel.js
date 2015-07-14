@@ -84,7 +84,7 @@ define("myOrganization/myOrganization.viewModel",
                     isApiDetailVisible = ko.observable(false),
 
                     // for specifice name of screan
-                    HeadingName = ko.observable()
+                    HeadingName = ko.observable(),
                     // #region Utility Functions
                     // Initialize the view model
                     initialize = function (specifiedView) {
@@ -380,19 +380,23 @@ define("myOrganization/myOrganization.viewModel",
                         if (selectedMyOrganization().markupId() === markup.id()) {
                             toastr.error("Default Markup cannot be deleted.");
                         } else {
-                            filteredMarkups.remove(markup);
-                            _.each(markups(), function (item) {
-                                if ((item.id() === markup.id())) {
-                                    markups.remove(item);
+                            confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                            confirmation.afterProceed(function() {
+                                filteredMarkups.remove(markup);
+                                _.each(markups(), function (item) {
+                                    if ((item.id() === markup.id())) {
+                                        markups.remove(item);
+                                    }
+                                });
+                                selectedMyOrganization().flagForChanges("Changes occur");
+                                var markupForDelete = _.find(markupsForDropDown(), function (item) {
+                                    return item.MarkUpId === markup.id();
+                                });
+                                if (markupForDelete) {
+                                    markupsForDropDown.remove(markupForDelete);
                                 }
                             });
-                            selectedMyOrganization().flagForChanges("Changes occur");
-                            var markupForDelete = _.find(markupsForDropDown(), function (item) {
-                                return item.MarkUpId === markup.id();
-                            });
-                            if (markupForDelete) {
-                                markupsForDropDown.remove(markupForDelete);
-                            }
+                            confirmation.show();
                         }
                     },
                     //Get Organization By Id

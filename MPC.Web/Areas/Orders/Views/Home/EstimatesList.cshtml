@@ -197,6 +197,21 @@
                         @* Tab Items Lists*@
                         <script id="tabItemsList" type="text/html">
                             <div>
+                                <!--ko if: $root.currentScreen() == undefined-->
+                                <div style="margin-bottom:15px;">
+                                    <span>Review all outstanding estimates, find, copy & edit estimates quickly with the inbuilt search function. </span>
+                                </div>
+                                <!--/ko-->
+                                <!--ko if: $root.currentScreen() == 0 -->
+                                <div style="margin-bottom:15px;">
+                                    <span>View all open, pending and closed estimates, produce sales reports for pipiline and conversion rates.  </span>
+                                </div>
+                                <!--/ko-->
+                                <!--ko if: $root.currentScreen() == 1 -->
+                                <div style="margin-bottom:15px;">
+                                    <span>Review all outstanding estimates, find, copy & edit estimates quickly with the inbuilt search function. </span>
+                                </div>
+                                <!--/ko-->
                                 <div class="table-responsive">
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
@@ -230,6 +245,9 @@
                         @* Inquiry Items List*@
                         <script id="inquiryItemsList" type="text/html">
                             <div>
+                                <div style="margin-bottom:15px;">
+                                    Quickly Respond to quote requests from webstore by opening the request and converting it to an estimate.
+                                </div>
                                 <div class="table-responsive">
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
