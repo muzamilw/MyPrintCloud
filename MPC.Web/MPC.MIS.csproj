@@ -2245,6 +2245,7 @@
     <Content Include="Areas\Settings\Views\Shared\_AddStockQty.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_ViewMediaLibImage.cshtml" />
     <Content Include="Areas\Settings\Views\Home\_AgileApiDetail.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_DiscountVoucherDetail.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_DiscountVoucher.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
