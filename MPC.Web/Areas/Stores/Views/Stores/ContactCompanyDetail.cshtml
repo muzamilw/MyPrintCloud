@@ -266,7 +266,8 @@
                                                     <img id="idCostcenterimage" style="width: 240px; height: 130px; -o-object-fit: contain; object-fit: contain;" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
                                                     <img style="width: 240px; height: 130px; -o-object-fit: contain; object-fit: contain;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
 
-                                                    <!--/ko--></div>
+                                                    <!--/ko-->
+                                                </div>
 
                                                 <div class="col-lg-12" style="margin-top: 10px;text-align:center;width:220px;padding-right:0px;">
                                                     <div class="col-lg-8">
@@ -567,9 +568,9 @@
                                 </div>
                             </div>
 
-                           
+
                             <div class="tab-pane fade" id="tab-products">
-                                
+
                                 <div>
                                     <span>add categories and products to your store, retail stores come populated with a default database while private stores are blank in order to allow for you to add your customers products and categories</span>
                                     <div style="height:20px;">
@@ -578,7 +579,7 @@
                                 </div>
 
                                 <div class="col-lg-4" data-bind="with: $root.selectedStore">
-                                   
+
                                     <div class="clearfix">
                                         <header>
                                             <h2 style="padding-right:5px;">
@@ -608,10 +609,10 @@
                                 <div class="col-lg-8">
                                     <div class="clearfix">
                                         @*<header>
-                                            <div class="text-left">
-                                                <h2 data-bind="text: $root.selectedCategoryName">Products</h2>
-                                            </div>
-                                        </header>*@
+                                                <div class="text-left">
+                                                    <h2 data-bind="text: $root.selectedCategoryName">Products</h2>
+                                                </div>
+                                            </header>*@
                                         <!-- ko stopBinding: true -->
                                         <div id="productBindingSection" style="padding-right:0px;padding-left:0px;" class="main-box-body clearfix">
                                             @{
@@ -1768,7 +1769,7 @@
                             </div>
                             <div class="tab-pane fade" id="tab-SEO" data-bind="with: $root.selectedStore">
                                 <div class="col-lg-12 form-horizontal">
-                                    
+
                                     <span>add Google analytics to your store and put your happiest customers quotes online for other customers to see</span>
                                     <div style="height:20px;">
                                         &nbsp;
@@ -3218,22 +3219,22 @@ Public  - allows users to see other users addresses and orders." data-original-t
             <td>
                 <div>
                     <span data-bind="text: colorC"></span><span> %</span>
-                </div>                
+                </div>
             </td>
             <td>
                 <div>
                     <span data-bind="text: colorM"></span><span> %</span>
-                </div> 
+                </div>
             </td>
             <td>
                 <div>
                     <span data-bind="text: colorY"></span><span> %</span>
-                </div> 
+                </div>
             </td>
             <td>
                 <div>
                     <span data-bind="text: colorK"></span><span> %</span>
-                </div> 
+                </div>
             </td>
             <td>
                 <div class="type">
@@ -3516,7 +3517,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
     </script>
     <script id="itemProductCategoriesTemplate" type="text/html">
         <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}, attr: {id: productCategoryId}">
-            <div class="dd-handle-list cursorShape" style="height:32px !important;margin-top:5px;" >
+            <div class="dd-handle-list cursorShape" style="height:32px !important;margin-top:5px;">
                 <i class="fa fa-chevron-circle-right" data-bind="click: $root.getCategoryChildListItems"></i>
             </div>
             <div class="dd-handle col-sm-12">
@@ -3596,6 +3597,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 </style>
 @Html.Partial("~/Areas/Stores/Views/Stores/_AddEditAddress.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/_EditBanner.cshtml")
+@Html.Partial("~/Areas/Stores/Views/Stores/_DiscountVoucherDetail.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/_AddEditSmartFormDialog.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/_ItemsForWidgetDialog.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/_AddSet.cshtml")
