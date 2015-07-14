@@ -125,7 +125,7 @@ define("common/itemDetail.viewModel",
                     isAddProductForSectionCostCenter = ko.observable(false),
                     selectedCostCentre = ko.observable(),
                     selectedSectionCostCenter = ko.observable(),
-                    selectedQty = ko.observable(),
+                    selectedQty = ko.observable(1),
                     selectedQtyForItem = ko.observable(),
                     selectedOrder = ko.observable(),
                     currencySymbol = ko.observable(''),
@@ -865,6 +865,22 @@ define("common/itemDetail.viewModel",
                             var qty2Value = parseInt(value);
                             if (qty2Value !== parseInt(selectedProduct().qty2())) {
                                 selectedProduct().qty2(qty2Value);
+                            }
+                            // If Product is of type Finished Goods then don't get cost centres
+                            if (selectedProduct().productType() === 3) {
+                                return;
+                            }
+                            getSectionSystemCostCenters();
+
+                        });
+
+                        selectedSection().qty3.subscribe(function (value) {
+                            if (isNaN(value)) {
+                                return;
+                            }
+                            var qty3Value = parseInt(value);
+                            if (qty3Value !== parseInt(selectedProduct().qty3())) {
+                                selectedProduct().qty3(qty3Value);
                             }
                             // If Product is of type Finished Goods then don't get cost centres
                             if (selectedProduct().productType() === 3) {
@@ -1627,6 +1643,7 @@ define("common/itemDetail.viewModel",
                         selectedSection(section);
                         subscribeSectionChanges();
                         showSectionDetail(true);
+                        selectedQty(1);
                     },
                     closeSectionDetailEditor = function () {
                         if (!selectedSection().isValid()) {
@@ -1729,6 +1746,10 @@ define("common/itemDetail.viewModel",
                         });
                         confirmation.show();
                         return;
+                    },
+                    //Select Quantity
+                    selectQuantity = function(qty) {
+                        selectedQty(qty);
                     },
                     // #region Pre Press / Post Press Cost Center
                     // Add Pre Press Cost Center
@@ -1972,6 +1993,7 @@ define("common/itemDetail.viewModel",
                     defaultMarkUpId: defaultMarkUpId,
                     applySectionCostCenterMarkup: applySectionCostCenterMarkup,
                     selectQuantityForItem: selectQuantityForItem,
+                    selectQuantity: selectQuantity,
                     selectedQtyForItem: selectedQtyForItem
                     //#endregion
                 };
