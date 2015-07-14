@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsDF652DAAAB666EAE8F6ACA8DA5A0D7C205596F1342AAFDDB21B42D50361AF8D7))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets7D6DC73C8236A43853159EEB777044B417244EBBF2DE80119A8CE729D0D0DEBE))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsDF652DAAAB666EAE8F6ACA8DA5A0D7C205596F1342AAFDDB21B42D50361AF8D7 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets7D6DC73C8236A43853159EEB777044B417244EBBF2DE80119A8CE729D0D0DEBE : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsDF652DAAAB666EAE8F6ACA8DA5A0D7C205596F1342AAFDDB21B42D50361AF8D7()
+        public ViewsForBaseEntitySets7D6DC73C8236A43853159EEB777044B417244EBBF2DE80119A8CE729D0D0DEBE()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "b569f4c4bbdbbab151c13339afe9d1f30d7e4a524db6eac613bc7c7795110849";
-            this.HashOverAllExtentViews = "85090a47fa07e8598d688a005fb096d03c7ca3feddaa981af22ded868bf4a2d6";
-            this.ViewCount = 340;
+            this.HashOverMappingClosure = "08c960902c9673cedd79d4ec22726130c9656f5ad39603996ed62fc671003c59";
+            this.HashOverAllExtentViews = "ee13ee631ec60889ea890b1aa6f951c31dc72e50ae49372baa94eb267643eb73";
+            this.ViewCount = 344;
         }
         
         /// <Summary>
@@ -1396,6 +1396,22 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 339))
             {
                 return GetView339();
+            }
+            if ((index == 340))
+            {
+                return GetView340();
+            }
+            if ((index == 341))
+            {
+                return GetView341();
+            }
+            if ((index == 342))
+            {
+                return GetView342();
+            }
+            if ((index == 343))
+            {
+                return GetView343();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -10414,24 +10430,43 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView248()
         {
-            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.DiscountVoucher", @"
-    SELECT VALUE -- Constructing DiscountVoucher
-        [DomainModels.Store.DiscountVoucher](T1.DiscountVoucher_DiscountVoucherId, T1.DiscountVoucher_VoucherCode, T1.DiscountVoucher_ValidFromDate, T1.DiscountVoucher_ValidUptoDate, T1.DiscountVoucher_OrderId, T1.DiscountVoucher_DiscountRate, T1.DiscountVoucher_ConsumedDate, T1.DiscountVoucher_IsEnabled, T1.DiscountVoucher_CreatedDate, T1.DiscountVoucher_CompanyId)
-    FROM (
-        SELECT 
-            T.DiscountVoucherId AS DiscountVoucher_DiscountVoucherId, 
-            T.VoucherCode AS DiscountVoucher_VoucherCode, 
-            T.ValidFromDate AS DiscountVoucher_ValidFromDate, 
-            T.ValidUptoDate AS DiscountVoucher_ValidUptoDate, 
-            T.OrderId AS DiscountVoucher_OrderId, 
-            T.DiscountRate AS DiscountVoucher_DiscountRate, 
-            T.ConsumedDate AS DiscountVoucher_ConsumedDate, 
-            T.IsEnabled AS DiscountVoucher_IsEnabled, 
-            T.CreatedDate AS DiscountVoucher_CreatedDate, 
-            T.CompanyId AS DiscountVoucher_CompanyId, 
-            True AS _from0
-        FROM BaseDbContext.DiscountVouchers AS T
-    ) AS T1");
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2791);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing DiscountVoucher\r\n        [DomainModels.Store.");
+            viewString.Append("DiscountVoucher](T1.DiscountVoucher_DiscountVoucherId, T1.DiscountVoucher_Vouche");
+            viewString.Append("rCode, T1.DiscountVoucher_ValidFromDate, T1.DiscountVoucher_ValidUptoDate, T1.Di");
+            viewString.Append("scountVoucher_OrderId, T1.DiscountVoucher_DiscountRate, T1.DiscountVoucher_Consu");
+            viewString.Append("medDate, T1.DiscountVoucher_IsEnabled, T1.DiscountVoucher_CreatedDate, T1.Discou");
+            viewString.Append("ntVoucher_CompanyId, T1.DiscountVoucher_VoucherName, T1.DiscountVoucher_Discount");
+            viewString.Append("Type, T1.DiscountVoucher_HasCoupon, T1.DiscountVoucher_CouponCode, T1.DiscountVo");
+            viewString.Append("ucher_CouponUseType, T1.DiscountVoucher_IsUseWithOtherCoupon, T1.DiscountVoucher");
+            viewString.Append("_IsTimeLimit, T1.DiscountVoucher_IsQtyRequirement, T1.DiscountVoucher_MinRequire");
+            viewString.Append("dQty, T1.DiscountVoucher_MaxRequiredQty, T1.DiscountVoucher_IsOrderPriceRequirem");
+            viewString.Append("ent, T1.DiscountVoucher_MinRequiredOrderPrice, T1.DiscountVoucher_MaxRequiredOrd");
+            viewString.Append("erPrice, T1.DiscountVoucher_CustomerId, T1.DiscountVoucher_IsSingleUseRedeemed, ");
+            viewString.Append("T1.DiscountVoucher_IsQtySpan)\r\n    FROM (\r\n        SELECT \r\n            T.Discou");
+            viewString.Append("ntVoucherId AS DiscountVoucher_DiscountVoucherId, \r\n            T.VoucherCode AS");
+            viewString.Append(" DiscountVoucher_VoucherCode, \r\n            T.ValidFromDate AS DiscountVoucher_V");
+            viewString.Append("alidFromDate, \r\n            T.ValidUptoDate AS DiscountVoucher_ValidUptoDate, \r\n");
+            viewString.Append("            T.OrderId AS DiscountVoucher_OrderId, \r\n            T.DiscountRate A");
+            viewString.Append("S DiscountVoucher_DiscountRate, \r\n            T.ConsumedDate AS DiscountVoucher_");
+            viewString.Append("ConsumedDate, \r\n            T.IsEnabled AS DiscountVoucher_IsEnabled, \r\n        ");
+            viewString.Append("    T.CreatedDate AS DiscountVoucher_CreatedDate, \r\n            T.CompanyId AS D");
+            viewString.Append("iscountVoucher_CompanyId, \r\n            T.VoucherName AS DiscountVoucher_Voucher");
+            viewString.Append("Name, \r\n            T.DiscountType AS DiscountVoucher_DiscountType, \r\n          ");
+            viewString.Append("  T.HasCoupon AS DiscountVoucher_HasCoupon, \r\n            T.CouponCode AS Discou");
+            viewString.Append("ntVoucher_CouponCode, \r\n            T.CouponUseType AS DiscountVoucher_CouponUse");
+            viewString.Append("Type, \r\n            T.IsUseWithOtherCoupon AS DiscountVoucher_IsUseWithOtherCoup");
+            viewString.Append("on, \r\n            T.IsTimeLimit AS DiscountVoucher_IsTimeLimit, \r\n            T.");
+            viewString.Append("IsQtyRequirement AS DiscountVoucher_IsQtyRequirement, \r\n            T.MinRequire");
+            viewString.Append("dQty AS DiscountVoucher_MinRequiredQty, \r\n            T.MaxRequiredQty AS Discou");
+            viewString.Append("ntVoucher_MaxRequiredQty, \r\n            T.IsOrderPriceRequirement AS DiscountVou");
+            viewString.Append("cher_IsOrderPriceRequirement, \r\n            T.MinRequiredOrderPrice AS DiscountV");
+            viewString.Append("oucher_MinRequiredOrderPrice, \r\n            T.MaxRequiredOrderPrice AS DiscountV");
+            viewString.Append("oucher_MaxRequiredOrderPrice, \r\n            T.CustomerId AS DiscountVoucher_Cust");
+            viewString.Append("omerId, \r\n            T.IsSingleUseRedeemed AS DiscountVoucher_IsSingleUseRedeem");
+            viewString.Append("ed, \r\n            T.IsQtySpan AS DiscountVoucher_IsQtySpan, \r\n            True A");
+            viewString.Append("S _from0\r\n        FROM BaseDbContext.DiscountVouchers AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.DiscountVoucher", viewString.ToString());
         }
         
         /// <Summary>
@@ -10439,24 +10474,43 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView249()
         {
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.DiscountVouchers", @"
-    SELECT VALUE -- Constructing DiscountVouchers
-        [DomainModels.DiscountVoucher](T1.DiscountVoucher_DiscountVoucherId, T1.DiscountVoucher_VoucherCode, T1.DiscountVoucher_ValidFromDate, T1.DiscountVoucher_ValidUptoDate, T1.DiscountVoucher_OrderId, T1.DiscountVoucher_DiscountRate, T1.DiscountVoucher_ConsumedDate, T1.DiscountVoucher_IsEnabled, T1.DiscountVoucher_CreatedDate, T1.DiscountVoucher_CompanyId)
-    FROM (
-        SELECT 
-            T.DiscountVoucherId AS DiscountVoucher_DiscountVoucherId, 
-            T.VoucherCode AS DiscountVoucher_VoucherCode, 
-            T.ValidFromDate AS DiscountVoucher_ValidFromDate, 
-            T.ValidUptoDate AS DiscountVoucher_ValidUptoDate, 
-            T.OrderId AS DiscountVoucher_OrderId, 
-            T.DiscountRate AS DiscountVoucher_DiscountRate, 
-            T.ConsumedDate AS DiscountVoucher_ConsumedDate, 
-            T.IsEnabled AS DiscountVoucher_IsEnabled, 
-            T.CreatedDate AS DiscountVoucher_CreatedDate, 
-            T.CompanyId AS DiscountVoucher_CompanyId, 
-            True AS _from0
-        FROM DomainModelsStoreContainer.DiscountVoucher AS T
-    ) AS T1");
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2798);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing DiscountVouchers\r\n        [DomainModels.Disco");
+            viewString.Append("untVoucher](T1.DiscountVoucher_DiscountVoucherId, T1.DiscountVoucher_VoucherCode");
+            viewString.Append(", T1.DiscountVoucher_ValidFromDate, T1.DiscountVoucher_ValidUptoDate, T1.Discoun");
+            viewString.Append("tVoucher_OrderId, T1.DiscountVoucher_DiscountRate, T1.DiscountVoucher_ConsumedDa");
+            viewString.Append("te, T1.DiscountVoucher_IsEnabled, T1.DiscountVoucher_CreatedDate, T1.DiscountVou");
+            viewString.Append("cher_CompanyId, T1.DiscountVoucher_VoucherName, T1.DiscountVoucher_DiscountType,");
+            viewString.Append(" T1.DiscountVoucher_HasCoupon, T1.DiscountVoucher_CouponCode, T1.DiscountVoucher");
+            viewString.Append("_CouponUseType, T1.DiscountVoucher_IsUseWithOtherCoupon, T1.DiscountVoucher_IsTi");
+            viewString.Append("meLimit, T1.DiscountVoucher_IsQtyRequirement, T1.DiscountVoucher_MinRequiredQty,");
+            viewString.Append(" T1.DiscountVoucher_MaxRequiredQty, T1.DiscountVoucher_IsOrderPriceRequirement, ");
+            viewString.Append("T1.DiscountVoucher_MinRequiredOrderPrice, T1.DiscountVoucher_MaxRequiredOrderPri");
+            viewString.Append("ce, T1.DiscountVoucher_CustomerId, T1.DiscountVoucher_IsSingleUseRedeemed, T1.Di");
+            viewString.Append("scountVoucher_IsQtySpan)\r\n    FROM (\r\n        SELECT \r\n            T.DiscountVou");
+            viewString.Append("cherId AS DiscountVoucher_DiscountVoucherId, \r\n            T.VoucherCode AS Disc");
+            viewString.Append("ountVoucher_VoucherCode, \r\n            T.ValidFromDate AS DiscountVoucher_ValidF");
+            viewString.Append("romDate, \r\n            T.ValidUptoDate AS DiscountVoucher_ValidUptoDate, \r\n     ");
+            viewString.Append("       T.OrderId AS DiscountVoucher_OrderId, \r\n            T.DiscountRate AS Dis");
+            viewString.Append("countVoucher_DiscountRate, \r\n            T.ConsumedDate AS DiscountVoucher_Consu");
+            viewString.Append("medDate, \r\n            T.IsEnabled AS DiscountVoucher_IsEnabled, \r\n            T");
+            viewString.Append(".CreatedDate AS DiscountVoucher_CreatedDate, \r\n            T.CompanyId AS Discou");
+            viewString.Append("ntVoucher_CompanyId, \r\n            T.VoucherName AS DiscountVoucher_VoucherName,");
+            viewString.Append(" \r\n            T.DiscountType AS DiscountVoucher_DiscountType, \r\n            T.H");
+            viewString.Append("asCoupon AS DiscountVoucher_HasCoupon, \r\n            T.CouponCode AS DiscountVou");
+            viewString.Append("cher_CouponCode, \r\n            T.CouponUseType AS DiscountVoucher_CouponUseType,");
+            viewString.Append(" \r\n            T.IsUseWithOtherCoupon AS DiscountVoucher_IsUseWithOtherCoupon, \r");
+            viewString.Append("\n            T.IsTimeLimit AS DiscountVoucher_IsTimeLimit, \r\n            T.IsQty");
+            viewString.Append("Requirement AS DiscountVoucher_IsQtyRequirement, \r\n            T.MinRequiredQty ");
+            viewString.Append("AS DiscountVoucher_MinRequiredQty, \r\n            T.MaxRequiredQty AS DiscountVou");
+            viewString.Append("cher_MaxRequiredQty, \r\n            T.IsOrderPriceRequirement AS DiscountVoucher_");
+            viewString.Append("IsOrderPriceRequirement, \r\n            T.MinRequiredOrderPrice AS DiscountVouche");
+            viewString.Append("r_MinRequiredOrderPrice, \r\n            T.MaxRequiredOrderPrice AS DiscountVouche");
+            viewString.Append("r_MaxRequiredOrderPrice, \r\n            T.CustomerId AS DiscountVoucher_CustomerI");
+            viewString.Append("d, \r\n            T.IsSingleUseRedeemed AS DiscountVoucher_IsSingleUseRedeemed, \r");
+            viewString.Append("\n            T.IsQtySpan AS DiscountVoucher_IsQtySpan, \r\n            True AS _fr");
+            viewString.Append("om0\r\n        FROM DomainModelsStoreContainer.DiscountVoucher AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.DiscountVouchers", viewString.ToString());
         }
         
         /// <Summary>
@@ -13228,6 +13282,78 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("s_CanPlaceOrder, \r\n            True AS _from0\r\n        FROM DomainModelsStoreCon");
             viewString.Append("tainer.StagingImportCompanyContactAddress AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.StagingImportCompanyContactAddresses", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.ItemsVoucher
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView340()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ItemsVoucher", @"
+    SELECT VALUE -- Constructing ItemsVoucher
+        [DomainModels.Store.ItemsVoucher](T1.ItemsVoucher_ItemVoucherId, T1.ItemsVoucher_ItemId, T1.ItemsVoucher_VoucherId)
+    FROM (
+        SELECT 
+            T.ItemVoucherId AS ItemsVoucher_ItemVoucherId, 
+            T.ItemId AS ItemsVoucher_ItemId, 
+            T.VoucherId AS ItemsVoucher_VoucherId, 
+            True AS _from0
+        FROM BaseDbContext.ItemsVouchers AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.ItemsVouchers
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView341()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ItemsVouchers", @"
+    SELECT VALUE -- Constructing ItemsVouchers
+        [DomainModels.ItemsVoucher](T1.ItemsVoucher_ItemVoucherId, T1.ItemsVoucher_ItemId, T1.ItemsVoucher_VoucherId)
+    FROM (
+        SELECT 
+            T.ItemVoucherId AS ItemsVoucher_ItemVoucherId, 
+            T.ItemId AS ItemsVoucher_ItemId, 
+            T.VoucherId AS ItemsVoucher_VoucherId, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.ItemsVoucher AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.ProductCategoryVoucher
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView342()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ProductCategoryVoucher", @"
+    SELECT VALUE -- Constructing ProductCategoryVoucher
+        [DomainModels.Store.ProductCategoryVoucher](T1.ProductCategoryVoucher_CategoryVoucherId, T1.ProductCategoryVoucher_ProductCategoryId, T1.ProductCategoryVoucher_VoucherId)
+    FROM (
+        SELECT 
+            T.CategoryVoucherId AS ProductCategoryVoucher_CategoryVoucherId, 
+            T.ProductCategoryId AS ProductCategoryVoucher_ProductCategoryId, 
+            T.VoucherId AS ProductCategoryVoucher_VoucherId, 
+            True AS _from0
+        FROM BaseDbContext.ProductCategoryVouchers AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.ProductCategoryVouchers
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView343()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ProductCategoryVouchers", @"
+    SELECT VALUE -- Constructing ProductCategoryVouchers
+        [DomainModels.ProductCategoryVoucher](T1.ProductCategoryVoucher_CategoryVoucherId, T1.ProductCategoryVoucher_ProductCategoryId, T1.ProductCategoryVoucher_VoucherId)
+    FROM (
+        SELECT 
+            T.CategoryVoucherId AS ProductCategoryVoucher_CategoryVoucherId, 
+            T.ProductCategoryId AS ProductCategoryVoucher_ProductCategoryId, 
+            T.VoucherId AS ProductCategoryVoucher_VoucherId, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.ProductCategoryVoucher AS T
+    ) AS T1");
         }
     }
 }
