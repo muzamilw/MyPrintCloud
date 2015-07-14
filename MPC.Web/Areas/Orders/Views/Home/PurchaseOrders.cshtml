@@ -98,22 +98,35 @@
                     </div>
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="tab-Open">
+                            <div style="margin-bottom:15px;margin-top:15px;margin-left:15px;">
+                                <span>Review all open Purchase Orders waiting for external suppliers to deliver the goods.</span>
+                            </div>
                             <!-- ko template: { name: 'tabTemplate' } -->
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane" id="tab-Posted">
+                            <div style="margin-bottom:15px;margin-top:15px;margin-left:15px;">
+                                <span>Review completed purchase orders.</span>
+                            </div>
                             <!-- ko template: { name: 'tabTemplate' } -->
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane" id="tab-ShowAll">
+                            <div style="margin-bottom:15px;margin-top:15px;margin-left:15px;">
+                                <span>Review all open, posted & cancelled purchase orders to outside suppliers.</span>
+                            </div>
                             <!-- ko template: { name: 'tabTemplate' } -->
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane" id="tab-Cancelled">
+                            <div style="margin-bottom:15px;margin-top:15px;margin-left:15px;">
+                                <span>Review all cancelled purchase orders to outside suppliers, review the notes section for orders that have been cancelled and for what reason. </span>
+                            </div>
                             <!-- ko template: { name: 'tabTemplate' } -->
                             <!-- /ko -->
                         </div>
                         <div id="pagerDiv" class="pull-right" style="padding-right: 2%;">
+                           
                             <!-- ko with: pager -->
                             @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                             <!-- /ko -->
