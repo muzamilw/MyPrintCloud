@@ -185,6 +185,7 @@
     <Compile Include="DomainModels\GoodsReceivedNote.cs" />
     <Compile Include="DomainModels\GoodsReceivedNoteDetail.cs" />
     <Compile Include="DomainModels\InkPlateSide.cs" />
+    <Compile Include="DomainModels\ItemsVoucher.cs" />
     <Compile Include="DomainModels\JobCardReportView.cs" />
     <Compile Include="DomainModels\JobPreference.cs" />
     <Compile Include="DomainModels\MachineClickChargeLookup.cs" />
@@ -197,6 +198,7 @@
     <Compile Include="DomainModels\MachineSpeedWeightLookup.cs" />
     <Compile Include="DomainModels\NewsLetterSubscriber.cs" />
     <Compile Include="DomainModels\OrderReportView.cs" />
+    <Compile Include="DomainModels\ProductCategoryVoucher.cs" />
     <Compile Include="DomainModels\Purchase.cs" />
     <Compile Include="DomainModels\PurchaseDetail.cs" />
     <Compile Include="DomainModels\ReportCategory.cs" />
