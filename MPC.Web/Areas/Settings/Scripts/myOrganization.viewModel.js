@@ -469,7 +469,7 @@ define("myOrganization/myOrganization.viewModel",
                             });
                         }
 
-                        if (doBeforeSave() & doBeforeSaveMarkups() & doBeforeSaveChartOfAccounts()) {
+                        if (doBeforeSave() & doBeforeSaveMarkups()) {
                             //Markup List
                             if (selectedMyOrganization().markupsInMyOrganization.length !== 0) {
                                 selectedMyOrganization().markupsInMyOrganization.removeAll();
@@ -491,10 +491,12 @@ define("myOrganization/myOrganization.viewModel",
                             if (selectedMyOrganization().email.error != null) {
                                 errorList.push({ name: selectedMyOrganization().email.domElement.name, element: selectedMyOrganization().email.domElement });
                             }
-
-                            if (selectedMyOrganization().markupId.error != null) {
-                                errorList.push({ name: "Markup", element: selectedMyOrganization().markupId.domElement });
+                            if (isMarkupVisible) {
+                                if (selectedMyOrganization().markupId.error != null) {
+                                    errorList.push({ name: "Markup", element: selectedMyOrganization().markupId.domElement });
+                                }
                             }
+                           
                             flag = false;
                         }
                         return flag;
@@ -506,20 +508,23 @@ define("myOrganization/myOrganization.viewModel",
                     // Do Before Logic
                     doBeforeSaveMarkups = function () {
                         var flag = true;
-                        // Show Markup Item Errors
-                        var itemMarkupInvalid = markups.find(function (itemMarkup) {
-                            return !itemMarkup.isValid();
-                        });
-                        if (itemMarkupInvalid) {
-                            if (itemMarkupInvalid.name.error) {
-                                errorList.push({ name: "Name", element: itemMarkupInvalid.name.domElement });
-                                flag = false;
-                            }
-                            if (itemMarkupInvalid.rate.error) {
-                                errorList.push({ name: "Rate", element: itemMarkupInvalid.rate.domElement });
-                                flag = false;
+                        if (isMarkupVisible) {
+                            // Show Markup Item Errors
+                            var itemMarkupInvalid = markups.find(function (itemMarkup) {
+                                return !itemMarkup.isValid();
+                            });
+                            if (itemMarkupInvalid) {
+                                if (itemMarkupInvalid.name.error) {
+                                    errorList.push({ name: "Name", element: itemMarkupInvalid.name.domElement });
+                                    flag = false;
+                                }
+                                if (itemMarkupInvalid.rate.error) {
+                                    errorList.push({ name: "Rate", element: itemMarkupInvalid.rate.domElement });
+                                    flag = false;
+                                }
                             }
                         }
+                        
 
                         return flag;
                     },
