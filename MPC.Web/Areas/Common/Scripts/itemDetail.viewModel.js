@@ -3,8 +3,8 @@
 */
 define("common/itemDetail.viewModel",
     ["jquery", "amplify", "ko", "common/itemDetail.dataservice", "common/itemDetail.model", "common/confirmation.viewModel", "common/pagination"
-        , "common/sharedNavigation.viewModel", "common/stockItem.viewModel", "common/addCostCenter.viewModel", "common/phraseLibrary.viewModel"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM, stockDialog, addCostCenterVm, phraseLibrary) {
+        , "common/sharedNavigation.viewModel", "common/stockItem.viewModel", "common/addCostCenter.viewModel", "common/phraseLibrary.viewModel", "common/reportManager.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM, stockDialog, addCostCenterVm, phraseLibrary, reportManager) {
         var ist = window.ist || {};
         ist.itemDetail = {
             viewModel: (function () {
@@ -1677,6 +1677,21 @@ define("common/itemDetail.viewModel",
                         confirmation.show();
 
                     },
+                    // open report
+                       // open job card report
+                    openExternalReportsJob = function () {
+
+                        reportManager.outputTo("preview");
+
+
+                        reportManager.OpenExternalReport(ist.reportCategoryEnums.JobCards, 1, selectedProduct().id());
+
+
+
+
+
+                    },
+
                     // Open Phrase Library
                     openPhraseLibrary = function () {
                         phraseLibrary.isOpenFromPhraseLibrary(false);
@@ -2001,7 +2016,8 @@ define("common/itemDetail.viewModel",
                     applySectionCostCenterMarkup: applySectionCostCenterMarkup,
                     selectQuantityForItem: selectQuantityForItem,
                     selectQuantity: selectQuantity,
-                    selectedQtyForItem: selectedQtyForItem
+                    selectedQtyForItem: selectedQtyForItem,
+                    openExternalReportsJob: openExternalReportsJob
                     //#endregion
                 };
             })()
