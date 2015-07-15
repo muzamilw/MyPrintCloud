@@ -91,6 +91,7 @@ define("crm/contacts.viewModel",
                 // Delete Contact button Handler 
                 deleteContactbuttonHandler = function (contact) {
                     // Ask for confirmation
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         dataservice.deleteContact({
                             CompanyContactId: contact.contactId(),
@@ -152,7 +153,7 @@ define("crm/contacts.viewModel",
                         toastr.error("Default Contact Cannot be deleted", "", ist.toastrOptions);
                         return;
                     }
-                    confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                    confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                     // Ask for confirmation
                     confirmation.afterProceed(function () {
                         //#region Db Saved Record Id > 0

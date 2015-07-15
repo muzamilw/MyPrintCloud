@@ -26,6 +26,7 @@
         <div class="row">
             <div class="col-sm-12 PaddingZero">
                 <div class="col-sm-12 PaddingZero">
+
                     <div style="float: right;text-align: right; padding-right: 7px; ">
                         <button data-bind="visible:!$root.showSectionDetail(),click:$root.closeItemDetail" class="btn btn-default" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Close</button>
                     </div>
@@ -34,8 +35,14 @@
                     </div>
 
                     <div style="text-align: right; padding-right: 7px; ">
+                        <!--ko if:$root.selectedOrder() &&   $root.selectedOrder().statusId !==undefined -->
+                        <button type="button" class="btn btn-primary" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" data-bind="visible:$root.selectedOrder().statusId() === 6 && !$root.showSectionDetail(),click:$root.openExternalReportsJob">Print Job Card</button>
+                        <!--/ko-->
+
                         <button data-bind="visible:$root.showSectionDetail,click:$root.closeSectionDetailEditor" class="btn btn-default" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Close</button>
                     </div>
+
+                  
                 </div>
             </div>
         </div>
@@ -570,6 +577,7 @@
         @Html.Partial("~/Areas/Common/Views/Shared/_CostCenterQuantity.cshtml")
         @Html.Partial("~/Areas/Orders/Views/Home/_EstimationRunWizard.cshtml")
         @Html.Partial("~/Areas/Orders/Views/Home/_SheetPlanImage.cshtml")
+        
     </div>
 </div>
 <script id="orderItemAttachmentTemplate" type="text/html">
@@ -666,3 +674,10 @@
     <!--/ko-->
 
 </script>
+
+@section Scripts{
+    <script>
+        require(["common/reportManager.view"]);
+      
+    </script>
+} 

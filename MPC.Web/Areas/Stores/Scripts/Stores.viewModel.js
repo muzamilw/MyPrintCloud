@@ -211,8 +211,7 @@ define("stores/stores.viewModel",
                             toastr.error("Default Company Domain cannot be deleted", "", ist.toastrOptions);
                             return;
                         }
-                        // Ask for confirmation
-                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedStore().companyDomains.remove(companyDomain);
                         });
@@ -597,8 +596,7 @@ define("stores/stores.viewModel",
             },
             //Delete Media Gallary Item
             onDeleteMedia = function (media) {
-                // Ask for confirmation
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                 confirmation.afterProceed(function () {
                     if (media.fakeId() < 0) {
                         var flag = true;
@@ -705,13 +703,9 @@ define("stores/stores.viewModel",
             // Delete a Rave review
             onDeleteRaveReview = function (raveReview) {
                 // Ask for confirmation
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                 confirmation.afterProceed(function () {
                     _.each(selectedStore().raveReviews(), function (item) {
-                        //if (item.reviewId() === raveReview.reviewId()) {
-                        //    selectedStore().raveReviews.remove(raveReview);
-                        //    view.hideRaveReviewDialog();
-                        //}
                         var raveReviewToDelete = getRaveReviewByIdFromListView(raveReview.reviewId());
                         if (raveReviewToDelete) {
                             selectedStore().raveReviews.remove(raveReviewToDelete);
@@ -904,7 +898,7 @@ define("stores/stores.viewModel",
             // Delete Company Territory
             onDeleteCompanyTerritory = function (companyTerritory) {
                 // Ask for confirmation
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                 confirmation.afterProceed(function () {
                     //#region Db Saved Record Id > 0
                     if (companyTerritory.companyId() > 0 && companyTerritory.territoryId() > 0) {
@@ -1226,7 +1220,7 @@ define("stores/stores.viewModel",
             // Delete a company CMYK Color
             onDeleteCompanyCMYKColors = function (companyCMYKColor) {
                 // Ask for confirmation
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                 confirmation.afterProceed(function () {
                     //selectedStore().companyCMYKColors.remove(companyCMYKColor);
                     var companyCMYKColorToDelete = getCompanyCMYKColorsByIdFromListView(companyCMYKColor.colorId());
@@ -1547,6 +1541,7 @@ define("stores/stores.viewModel",
             //Delete company Banner
             onDeleteCompanyBanner = function (banner) {
                 // Ask for confirmation
+                confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                 confirmation.afterProceed(function () {
                     _.each(companyBanners(), function (item) {
                         if (item.id() === banner.id()) {
@@ -1825,6 +1820,7 @@ define("stores/stores.viewModel",
             // Delete Email
             onDeleteEmail = function (email) {
                 // Ask for confirmation
+                confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                 confirmation.afterProceed(function () {
                     emails.remove(selectedEmailListViewItem());
                     view.hideEmailCamapaignDialog();
@@ -2308,7 +2304,7 @@ define("stores/stores.viewModel",
                     return;
                 } else {
                     // Ask for confirmation
-                    confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                    confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                     confirmation.afterProceed(function () {
                         //#region Db Saved Record Id > 0
                         if (address.addressId() > 0) {
@@ -2723,7 +2719,7 @@ define("stores/stores.viewModel",
                 }
 
                 // Ask for confirmation
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                 confirmation.afterProceed(function () {
                     deleteSecondaryPage(secondaryPage);
                 });
@@ -3153,7 +3149,7 @@ define("stores/stores.viewModel",
                     return;
                 }
                 // Ask for confirmation
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                 confirmation.afterProceed(function () {
                     //#region Db Saved Record Id > 0
                     if (companyContact.contactId() > 0) {
@@ -3461,7 +3457,7 @@ define("stores/stores.viewModel",
             // Delete a Payment Gateway
             onDeletePaymentGateway = function (paymentGateway) {
                 // Ask for confirmation
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                 confirmation.afterProceed(function () {
                     selectedStore().paymentGateway.remove(paymentGateway);
                     view.hidePaymentGatewayDialog();
@@ -6118,7 +6114,7 @@ define("stores/stores.viewModel",
             },
 
             onRemoveFieldVariable = function (variable) {
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo.");
+                confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo.");
                 confirmation.afterProceed(function () {
                     deleteFieldVariable(variable.convertToServerData(variable));
                 });
@@ -6236,8 +6232,8 @@ define("stores/stores.viewModel",
 
                 //Remove Smart Form Item
             deleteSmartFormItem = function (formItem) {
-
                 // Ask for confirmation
+                confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo.");
                 confirmation.afterProceed(function () {
                     selectedSmartForm().smartFormDetails.remove(formItem);
                 });
@@ -6434,7 +6430,7 @@ define("stores/stores.viewModel",
             },
                 // On Delete Store Permanently
             onDeletePermanent = function () {
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                 confirmation.afterProceed(function () {
                     deleteCompanyPermanently(selectedStore().companyId());
                 });
