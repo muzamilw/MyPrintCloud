@@ -8,64 +8,65 @@
     var PopularProductList = Model as List<MPC.Models.DomainModels.Item>;
     var NavigateUrl = "";
 }
-<div class="content_area left_right_padding paddingS4 PopularProducts">
-    <div id="controlBodyDiv"  class="PopularProductsSub">
+<div class="content_area left_right_padding paddingS4 PopularProducts" id="all-popularPro-pg">
+    <div id="controlBodyDiv" class="PopularProductsSub">
         <div class="feature_product_main_heading">
             <label id="ltrlPopularProducts">Popular Products</label>
         </div>
-          @foreach(var Product in PopularProductList)
-          { 
-                <div class="BD rounded_corners">
-                    <div class="pad5">
-                        <div class="LCLB">
-           @{
-              if (Product.ProductType == (int)ProductType.MarketingBrief)
-              {
+        @foreach (var Product in PopularProductList)
+        {
+            <div class="BD rounded_corners">
+                <div class="pad5">
+                    <div class="LCLB">
+                        @{
+            if (Product.ProductType == (int)ProductType.MarketingBrief)
+            {
 
-                  NavigateUrl = "/MarketingBrief/" + Product.ProductName + "/" + Product.ItemId;
+                NavigateUrl = "/MarketingBrief/" + Product.ProductName + "/" + Product.ItemId;
 
-              }
-              else if (Product.ProductType == (int)ProductType.PrintProduct)
-              {
-                  if (Product.IsUploadImage == true)
-                  {
-                      NavigateUrl = "/ProductOptions/" + 0 + "/" + Product.ItemId + "/UploadDesign";
-                  }
-                  else
-                  {
+            }
+            else if (Product.ProductType == (int)ProductType.PrintProduct)
+            {
+                if (Product.IsUploadImage == true)
+                {
+                    NavigateUrl = "/ProductOptions/" + 0 + "/" + Product.ItemId + "/UploadDesign";
+                }
+                else
+                {
 
-                      NavigateUrl = "/CloneFeatureItem/" + Product.ItemId;
-                  }
+                    NavigateUrl = "/CloneFeatureItem/" + Product.ItemId;
+                }
 
-              }
-              else if (Product.ProductType == (int)ProductType.NonPrintProduct) // for non print product
-              {
-                  NavigateUrl = "/ProductOptions/" + 0 + "/" + Product.ItemId + "/UploadDesign";
-              }
-        }
-                            <a id="hlProductDetail" href="@NavigateUrl">
-                                <div class="PDTC FI">
-                                    <img id="imgThumbnail" class="full_img_ThumbnailPath" src=@Product.ThumbnailPath />
-                                </div>
-                            </a>
-                        </div>
-                        <div class="product_detail_image_heading">
-                            <label id="lblProductName">@Product.ProductName</label>
-                        </div>
-                    </div>
-                    <div id="PriceCircle" class="blue_cicle_container">
-                        <div class="BC">
-                            <div class="all_padding3">
-                                <div class="paddingTop2px">
-                                    &nbsp;
-                                </div>
-                                FROM
-                                <br />
-                                <label id="lblFromMinPrice" style="font-size:16px;font-weight:bold;">@Product.MinPrice</label>
+            }
+            else if (Product.ProductType == (int)ProductType.NonPrintProduct) // for non print product
+            {
+                NavigateUrl = "/ProductOptions/" + 0 + "/" + Product.ItemId + "/UploadDesign";
+            }
+                        }
+                        <a id="hlProductDetail" href="@NavigateUrl">
+                            <div class="PDTC FI">
+                                <img id="imgThumbnail" class="full_img_ThumbnailPath" src=@Product.ThumbnailPath />
                             </div>
+                        </a>
+                    </div>
+                    <div class="product_detail_image_heading">
+                        <label id="lblProductName">@Product.ProductName</label>
+                    </div>
+                </div>
+                <div id="PriceCircle" class="blue_cicle_container">
+                    <div class="BC">
+                        <div class="all_padding3">
+                            <div class="paddingTop2px">
+                                &nbsp;
+                            </div>
+                            FROM
+                            <br />
+                            <label id="lblFromMinPrice" style="font-size:16px;font-weight:bold;">@Product.MinPrice</label>
                         </div>
                     </div>
                 </div>
-          }
+            </div>
+        }
     </div>
 </div>
+

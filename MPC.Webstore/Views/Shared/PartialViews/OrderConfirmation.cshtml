@@ -17,19 +17,17 @@
     var ThumnbString = "Thumb.png";
 
 }
-<div class="container content_area">
+<div class="container content_area" id="all-OrderConfirm-pg">
     <div class="left_right_padding">
         @if (ViewBag.Message != "" && ViewBag.Message != null)
         {
-            <div  class="rounded_corners col-md-12 col-lg-12 col-xs-12 WarningMessage">
+            <div class="rounded_corners col-md-12 col-lg-12 col-xs-12 WarningMessage">
                 <label id="ltrlMessge">@ViewBag.Message</label>
             </div>
         }
-       
 
         <div class="contact_us_heading col-md-12 col-lg-12 col-xs-12 ">
             <label>Confirm Your Order</label>
-
         </div>
         <div class="col-md-12 col-lg-12 col-xs-12 ">
             <div class="white-container-lightgrey-border textAlignLeft rounded_corners OrderConfirmationPanel">
@@ -49,7 +47,6 @@
                         {
                             <label id="pickUpAddressState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label>
                         }
-
                         @if (AddressList[2].Country != null)
                         {
                             <label id="pickUPAddressCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[2].Country.CountryName</label><br />
@@ -92,7 +89,6 @@
                         {
                             <label id="lblBCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label><br />
                         }
-
                         <label id="lblBZipCode" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[1].PostCode</label><br />
                         @if (!string.IsNullOrEmpty(AddressList[1].Tel1))
                         {
@@ -101,7 +97,6 @@
                             </span>
                             <label id="lblBTel" style="color: black;  font-style: normal; font-weight: normal; font-size: 12px;">@AddressList[1].Tel1</label>
                         }
-
 
                     </div>
                 }
@@ -117,7 +112,6 @@
                                 <label id="shippingAddressline2" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].Address2</label>
                             </div>
                         }
-
                         <label id="shippingCity" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].City</label>
                         @if (AddressList[0].State != null)
                         {
@@ -135,9 +129,7 @@
                         {
                             <label id="shippingCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@string.Empty</label><br />
                         }
-
                         <label id="shippingZipCode" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@AddressList[0].PostCode</label><br />
-
                         @if (!string.IsNullOrEmpty(AddressList[0].Tel1))
                         {
                             <span>
@@ -145,21 +137,19 @@
                             </span>
                             <label id="shippingTel" style="color: black;  font-style: normal; font-weight: normal; font-size: 12px;">@AddressList[0].Tel1</label>
                         }
-
                     </div>
 
                 }
                 <div class="clearboth">
-
                 </div>
                 <div class="check_out_third_div">
                     <div class="confirm_order_detail_div">
                         <div style="min-height: 290px">
                             <div id="pnlConfirmOrder">
                                 @*<div class="mainHeadingAveniorCheckout" style="clear: both;">
-                                    <label id="ltrlconfirmurorderdetails">Confirm your order details...</label>
-                                </div>
-                                <br />*@
+                                        <label id="ltrlconfirmurorderdetails">Confirm your order details...</label>
+                                    </div>
+                                    <br />*@
                                 <table cellspacing="0" cellpadding="15" id="grdViewShopCart" style="width:100%;border-collapse:collapse;">
                                     <tbody>
                                         <tr class="gridViewHeaderStyle">
@@ -256,7 +246,6 @@
 
                                              EstimateDispatchTime = date.ToString("MMMM dd, yyyy");
                                                     }
-
                                                     <span id="lblselectedAddOnList" class="ItemdetailDesc">@itemAddsOn</span>
                                                     <input type="hidden" id="numberOfDaysAddedTodelivery" name="numberOfDaysAddedTodelivery" value="@numberOfDaysAddedTodelivery">
                                                     <br>
@@ -283,7 +272,6 @@
                                                         <span id="lblItemPrice" class="fntQtyPrice" style="font-weight:bold;text-align: right !important;">@itemPrice</span>
                                                     </td>
                                                 }
-
 
                                             </tr>
 
@@ -357,7 +345,6 @@
                                         </table>
                                     </div>
                                 }
-
                             </div>
                         </div>
                         @using (Html.BeginForm())
@@ -380,7 +367,6 @@
                                     <div class="pad10" id="kkkkk" style="padding-right: 0px !important;">
                                         <div class="float_right marginLeft">
                                             <input id="btnPlaceOrderUsingCreditCard" class="start_creating_btn_SApp rounded_corners5" type="submit" value="Pay by Credit Card" onclick="setButtonType('1'); ShowLoader();" />
-
                                         </div>
                                         <div class="float_right">
                                             <input type="button" value="BACK TO SHOPPING" id="btnShopCart" class="btn_brown rounded_corners5"
@@ -398,7 +384,6 @@
                                     <div class="pad10" id="oo" style="padding-right: 0px !important;">
                                         <div class="float_right marginLeft">
                                             <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="Place Order" onclick="setButtonType('1'); ShowReceiptLoader();" />
-
                                         </div>
                                         <div class="float_right">
                                             <input type="button" value="BACK TO SHOPPING" id="btnShopCart" class="btn_brown rounded_corners5"
@@ -415,7 +400,6 @@
                                     <div class="pad10" id="mine" style="padding-right: 0px !important;">
                                         <div class="float_right marginLeft">
                                             <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="Submit for Approval" onclick="setButtonType('1'); ShowReceiptLoader();" />
-
                                         </div>
                                         <div class="float_right">
                                             <input type="button" value="BACK TO SHOPPING" id="btnShopCart" class="btn_brown rounded_corners5"
@@ -433,7 +417,6 @@
                                 <div class="pad10" style="padding-right: 0px !important;">
                                     <div class="float_right marginLeft">
                                         <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="Place Order" onclick="setButtonType('1'); ShowReceiptLoader();" />
-
                                     </div>
                                     <div class="float_right">
                                         <input type="button" value="BACK TO SHOPPING" id="btnShopCart" class="btn_brown rounded_corners5"
@@ -450,9 +433,9 @@
                 </div>
             </div>
         </div>
-       
-                </div>
-            </div>
+
+    </div>
+</div>
             <script>
                 function setButtonType(Type) {
 
