@@ -263,7 +263,15 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
           };
       };
-
+    //function to attain cancel button functionality 
+    Invoice.CreateFromClientModel = function (source) {
+        return new Invoice(source.invoiceId, source.invoiceCode, source.invoiceType, source.invoiceName, source.companyId, source.companyName, source.contactId, source.orderNo,
+            source.invoiceStatus, source.invoiceTotal, source.invoiceDate, source.accountNumber,
+            source.terms, source.addressId, source.isArchive,
+            source.taxValue, source.grandTotal, source.flagId, source.userNotes, source.estimateId,
+            source.isProformaInvoice, source.isPrinted, source.reportSignedBy, source.headNotes, source.footNotes,
+            source.invoicePostingDate, source.xeroAccessCode, source.status, source.invoicePostedBy);
+    };
     //  Invoice Detail Entity
     var InvoiceDetail = function (specifiedInvoiceDetailId, specifiedInvoiceTitle, specifiedItemCharge, specifiedQuantity, specifiedItemTaxValue,
     specifiedFlagId, specifiedDescription, specifiedDetailType, specifiedItemType, specifiedTaxValue, specifiedItemGrossTotal) {
@@ -357,6 +365,11 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         return new InvoiceDetail(source.InvoiceDetailId, source.InvoiceTitle, source.ItemCharge, source.Quantity, source.ItemTaxValue,
             source.FlagId, source.Description, source.DetailType, source.ItemType, source.TaxValue, source.ItemGrossTotal);
     }
+    //function to attain cancel button functionality 
+    InvoiceDetail.CreateFromClientModel = function (source) {
+        return new InvoiceDetail(source.id, source.productName, source.itemCharge, source.qty1, source.itemTaxValue,
+            source.flagId, source.description, source.detailType, source.itemType, source.tax, source.qty1GrossTotal);
+    };
 
     // Address Entity
     Address = function (specifiedId, specifiedName, specifiedAddress1, specifiedAddress2, specifiedTelephone1, specifiedIsDefaultAddress) {
