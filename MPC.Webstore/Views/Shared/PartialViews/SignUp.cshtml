@@ -1,11 +1,11 @@
 ﻿@model  MPC.Webstore.Models.RegisterViewModel
 @using MPC.Webstore.Common;
 
-<div class="container content_area">
+<div class="container content_area" id="all-signUp-pg">
 
     <div class="row left_right_padding">
 
-       
+
         <div class="page_border_div rounded_corners col-md-12 col-lg-12 col-xs-12">
             <div class="sign_up_page_box">
                 <div class="SignUpLeftPanel col-md-6 col-lg-6 col-xs-12">
@@ -67,8 +67,8 @@
                             <div>@ViewBag.Message</div>
                             <div>@Html.ValidationMessageFor(u => u.Email, string.Empty, new { @style = "color:red;" })</div>
                             <div>@Html.ValidationMessageFor(u => u.FirstName, string.Empty, new { @style = "color:red" })</div>
-                        <div>@Html.ValidationMessageFor(u => u.LastName, string.Empty, new { @style = "color:red" })</div>
-                        <div>@Html.ValidationMessageFor(u => u.Phone, string.Empty, new { @style = "color:red" })</div>
+                            <div>@Html.ValidationMessageFor(u => u.LastName, string.Empty, new { @style = "color:red" })</div>
+                            <div>@Html.ValidationMessageFor(u => u.Phone, string.Empty, new { @style = "color:red" })</div>
                         </div>
                         <br />
 
@@ -87,13 +87,13 @@
 
                         @Html.TextBoxFor(model => model.FirstName, new { id = "txtFirstName", @class = "txtBoxLoginPage", @placeholder = "First Name" })
 
-                      
+
 
                         @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "txtBoxLoginPage", @placeholder = "Last Name" })
 
                         @Html.TextBoxFor(model => model.Phone, new { id = "txtPhone", @class = "txtBoxLoginPage", @placeholder = "Phone" })
 
-                        
+
                         @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "txtBoxLoginPage", @placeholder = "Email" })
 
 

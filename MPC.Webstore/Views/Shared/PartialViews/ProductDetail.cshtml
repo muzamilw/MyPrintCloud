@@ -38,7 +38,7 @@
 <link href="~/Content/jquery.rating.css" rel="stylesheet" />
 @using (Html.BeginForm())
 {
-    <div class="container content_area">
+    <div class="container content_area" id="all-productDetail-pg">
 
 
         <div class="left_right_padding">
@@ -682,41 +682,41 @@
                                     <div class="float_left_simple MLftTop">
                                         @if (!string.IsNullOrEmpty(Model.File1))
                                         {
-                                             
-                                                       
-                                                        <a id="IcoPhotoshop" href="/@Model.File1" target="_blank" class="DownloadImages">
-                                                            <img src="@ViewBag.File1Url" />
-                                                        </a>
+
+
+                                            <a id="IcoPhotoshop" href="/@Model.File1" target="_blank" class="DownloadImages">
+                                                <img src="@ViewBag.File1Url" />
+                                            </a>
                                         }
                                         @if (!string.IsNullOrEmpty(Model.File2))
                                         {
-                                            
-                                                        
+
+
                                             <a id="IcoIllustrator" href="/@Model.File2" target="_blank" class="DownloadImages">
                                                 <img src="@ViewBag.File2Url" />
                                             </a>
                                         }
                                         @if (!string.IsNullOrEmpty(Model.File3))
                                         {
-                                           
-                                          
 
-                                                         
+
+
+
                                             <a id="Icoindesign" href="/@Model.File3" target="_blank" class="DownloadImages">
                                                 <img src="@ViewBag.File3Url" />
                                             </a>
                                         }
                                         @if (!string.IsNullOrEmpty(Model.File4))
                                         {
-                                            
-                                                         
+
+
                                             <a id="IcoPdf" href="/@Model.File4" target="_blank" class="DownloadImages">
                                                 <img src="@ViewBag.File4Url" />
                                             </a>
                                         }
                                         @if (!string.IsNullOrEmpty(Model.File5))
                                         {
-                                             
+
                                             <a id="IcoPdf" href="/@Model.File5" target="_blank" class="DownloadImages">
                                                 <img src="@ViewBag.File4Url" />
                                             </a>

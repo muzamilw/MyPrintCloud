@@ -380,7 +380,7 @@ define("myOrganization/myOrganization.viewModel",
                         if (selectedMyOrganization().markupId() === markup.id()) {
                             toastr.error("Default Markup cannot be deleted.");
                         } else {
-                            confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
+                            confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                             confirmation.afterProceed(function() {
                                 filteredMarkups.remove(markup);
                                 _.each(markups(), function (item) {
