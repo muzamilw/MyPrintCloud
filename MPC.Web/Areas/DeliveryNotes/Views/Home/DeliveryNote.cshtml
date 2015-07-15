@@ -113,7 +113,7 @@
                             <span>View Past Delivery Dockets and Review Con Note Information or Re-Print Delivery Dockets.</span>
                         </div>
                         <div class="table-responsive" style="padding-left:10px;padding-right:10px;">
-                            <table class="table user-list">
+                            <table class="table user-list table-striped table-hover">
                                 <thead>
                                     <tr>
                                         <th class="col-lg-4"><span>Company / Title</span></th>
@@ -199,17 +199,6 @@
         require(["deliveryNotes/deliveryNotes.view", "common/companySelector.view", , "common/confirmation.view", "common/reportManager.view"]);
         $(document).ready(function () {
             $('#lishipping').addClass('active');
-        });
-
-    </script>
-    <script>
-        $(document).ready(function () {
-            setTimeout(function () {
-                var spinner = $("div#spinner");
-                spinner.stop();
-                spinner.fadeOut("fast");
-                $.unblockUI(spinner);
-            }, 1000);
         });
     </script>
 }
