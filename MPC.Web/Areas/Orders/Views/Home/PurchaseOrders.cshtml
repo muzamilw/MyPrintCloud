@@ -74,7 +74,7 @@
                 @*Remove Start from here for Login*@
                 <div class="filter-body">
                     <form data-bind="submit:$root.searchData">
-                        <div class="filter-block pull-right">
+                        <div class="filter-block pull-right" style=" margin-top: 1px;">
                             <div class="form-group pull-left">
                                 <select class="form-control col-sm-4" data-bind="options:$root.purchaseOrderTypes,optionsText:'name',optionsValue:'id', value: $root.purchaseOrderTypeFilter, event:{ change: $root.changePurchaseTypeFilter}"></select>
                             </div>
