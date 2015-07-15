@@ -250,6 +250,14 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    
+
+                    // Define request to Get Discount Vouchers
+                    amplify.request.define('getDiscountVoucher', 'ajax', {
+                        url: ist.siteUrl + '/Api/DiscountVoucher',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to Get Company Territory Validation check
                     amplify.request.define('validateCompanyToDelete', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyTerritory',
@@ -640,6 +648,16 @@
                     data: params
                 });
             },
+               // get Discount Vouchers
+            getDiscountVouchers = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getDiscountVoucher',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
         // validate Company To Delete
         validateCompanyToDelete = function (param, callbacks) {
             initialize();
@@ -873,7 +891,8 @@
             deleteMediaLibraryItemById: deleteMediaLibraryItemById,
             saveSecondaryPage: saveSecondaryPage,
             deleteSecondaryPage: deleteSecondaryPage,
-            getPaymentGateways: getPaymentGateways
+            getPaymentGateways: getPaymentGateways,
+            getDiscountVouchers: getDiscountVouchers
         };
     })();
 

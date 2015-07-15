@@ -9,6 +9,7 @@
     int PriceBackgroundCount = 0;
     string priceMatrixBackground = "";
     string imagePath = "Thumb.png";
+ 
 }
 <script src="~/Scripts/Designer/p55.js"></script>
 <script src="~/Scripts/Designer/p55-ease.js"></script>
@@ -569,28 +570,40 @@
             <div id="PnlUploaderDownloadIcons" style="text-align: left;">
                 @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File1))
                 {
-                    <a id="IcoPhotoshop" href="@ViewBag.ItemModel.File1" target="_blank" class="DownloadImages">
-                        <img src="/@ViewBag.ItemModel.File1" />
+                   
+                    <a id="IcoPhotoshop" href="/@ViewBag.ItemModel.File1" target="_blank" class="DownloadImages">
+                        <img src="@ViewBag.ItemModel.File1Url" />
                     </a>
                 }
                 @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File2))
                 {
-                    <a id="IcoIllustrator" href="@ViewBag.ItemModel.File2" target="_blank" class="DownloadImages">
-                        <img src="/@ViewBag.ItemModel.File2" />
+                   
+                    <a id="IcoIllustrator" href="/@ViewBag.ItemModel.File2" target="_blank" class="DownloadImages">
+                        <img src="@ViewBag.ItemModel.File2Url" />
                     </a>
                 }
                 @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File3))
                 {
-                    <a id="Icoindesign" href="@ViewBag.ItemModel.File3" target="_blank" class="DownloadImages">
-                        <img src="/@ViewBag.ItemModel.File3" />
+                   
+                    <a id="Icoindesign" href="/@ViewBag.ItemModel.File3" target="_blank" class="DownloadImages">
+                        <img src="@ViewBag.ItemModel.File3Url" />
                     </a>
                 }
                 @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File4))
                 {
-                    <a id="IcoPdf" href="@ViewBag.ItemModel.File4" target="_blank" class="DownloadImages">
-                        <img src="/@ViewBag.ItemModel.File4" />
+                   
+                    <a id="IcoPdf" href="/@ViewBag.ItemModel.File4" target="_blank" class="DownloadImages">
+                        <img src="@ViewBag.ItemModel.File4Url" />
                     </a>
                 }
+                @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File5))
+                                        {
+                    
+                                                        <a id="IcoPdf" href="/@ViewBag.ItemModel.File5" target="_blank" class="DownloadImages">
+                                                            <img src="@ViewBag.ItemModel.File5Url" />
+                                                        </a>
+                                        }
+
             </div>
             <div class="clearBoth">&nbsp;</div>
         }

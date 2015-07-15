@@ -95,6 +95,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IDeliveryNotesService, DeliveryNotesService>();
             unityContainer.RegisterType<IExportReportHelper, ExportReportHelper>();
             unityContainer.RegisterType<ISectionService, SectionService>();
+            unityContainer.RegisterType<IDiscountVoucherService, DiscountVoucherService>();
 
         }
     }
