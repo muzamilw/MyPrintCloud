@@ -1900,13 +1900,19 @@ $("#clearBackground").click(function (event) {
     canvas.renderAll(); StopLoader();
     $.each(TP, function (op, IT) {
         if (IT.ProductPageID == SP) {
-            if (Template.isCreatedManual == false) {
-                IT.BackgroundFileName = tID + "//" + "Side" + IT.PageNo + ".pdf";
-                canvas.setBackgroundImage("Designer/Products/" + tID + "//" + "templatImgBk" + IT.PageNo + ".jpg", function (IOL) { canvas.renderAll(); StopLoader(); });
-            } else {
-                IT.BackgroundFileName = tID + "//" + "Side" + IT.PageNo + ".pdf";// IT.BackgroundFileName = tID + "//" + IT.PageName + IT.PageNo + ".pdf";
-            }
-            IT.BackGroundType = 1;
+            //if (Template.isCreatedManual == false) {
+            //    IT.BackgroundFileName = tID + "//" + "Side" + IT.PageNo + ".pdf";
+            //    canvas.setBackgroundImage("Designer/Products/" + tID + "//" + "templatImgBk" + IT.PageNo + ".jpg", function (IOL) { canvas.renderAll(); StopLoader(); });
+            //} else {
+            //    IT.BackgroundFileName = tID + "//" + "Side" + IT.PageNo + ".pdf";// IT.BackgroundFileName = tID + "//" + IT.PageName + IT.PageNo + ".pdf";
+            //}
+            //IT.BackGroundType = 1;
+
+            IT.ColorC = 0;
+            IT.ColorM = 0;
+            IT.ColorY = 0;
+            IT.ColorK = 0;
+            IT.BackGroundType = 2;
             return;
         }
     });

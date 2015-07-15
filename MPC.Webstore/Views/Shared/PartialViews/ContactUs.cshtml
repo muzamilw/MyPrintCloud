@@ -1,6 +1,6 @@
 ﻿@model MPC.Webstore.Models.ContactViewModel
 @using MPC.Webstore.Common;
-<div class="container content_area" style="clear:right;">
+<div class="container content_area" style="clear:right;" id="all-contactus-pg">
     <div class="left_right_padding">
         <div class="contact_us_heading">
             <label id="lbl_ContactUs">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId))</label>
@@ -13,80 +13,80 @@
 
                     @*<table width="100%" cellpadding="5" cellspacing="0">
                         <tr>*@
-                            <div class="col-lg-5 col-md-5 col-sm-12">
-                                @if (ViewBag.DefaultAddress.Tel != null || ViewBag.DefaultAddress.Fax != null)
-                                {
-                                    <div id="ContactImage" class="contact_item_image float_left">
-                                        &nbsp;
-                                    </div>
-                                }
-
-                                <div class="float_left cntContactImagetxt">
-                                    @if (ViewBag.DefaultAddress.Tel != null)
-                                    {
-                                        @*<label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.StoreId))</label>*@
-                                        <label style="  font-weight: normal;">@ViewBag.DefaultAddress.Tel</label><br />
-                                    }
-
-                                    @if (ViewBag.DefaultAddress.Fax != null)
-                                    {
-                                        @*<label id="lblFax">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfax", UserCookieManager.StoreId))</label>*@
-                                        <label style="  font-weight: normal;">@ViewBag.DefaultAddress.Fax</label><br />
-                                    }
-                                </div>
-                                <br />
-                                <div class="dashboard_vertical_item_separator">
-                                    &nbsp;
-                                </div>
-                                <div id="EmailImage" class="email_item_image float_left">
-                                    &nbsp;
-                                </div>
-                                <div class="float_left cntEmailImageCntctUS">
-                                    @*<label id="lbl_Email">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.StoreId)):</label>*@
-                                    <label style="  font-weight: normal;">@ViewBag.DefaultAddress.Email</label><br />
-                                </div>
-                                <div class="dashboard_vertical_item_separator">
-                                    &nbsp;
-                                </div>
-                                <div id="HomeImage" class="home_item_image float_left">
-                                    &nbsp;
-                                </div>
-                                <div class="float_left cntAddressContactUS">
-
-                                    <div>
-                                        <label id="lblAddressLine1">@ViewBag.DefaultAddress.Address1</label>
-                                        <label id="lblAddressLine2">@ViewBag.DefaultAddress.Address2</label>
-                                    </div>
-                                <label id="LblCity">@ViewBag.DefaultAddress.City</label>
-                                <label id="lblState">@ViewBag.DefaultAddress.State</label><br />
-                                <label id="lblCountry">@ViewBag.DefaultAddress.Country</label><br />
-                                <label id="lblZipCode">@ViewBag.DefaultAddress.ZipCode</label>
+                    <div class="col-lg-5 col-md-5 col-sm-12">
+                        @if (ViewBag.DefaultAddress.Tel != null || ViewBag.DefaultAddress.Fax != null)
+                        {
+                            <div id="ContactImage" class="contact_item_image float_left">
+                                &nbsp;
                             </div>
-                                <div class="dashboard_vertical_item_separator">
-                                    &nbsp;
-                                </div>
-                        </div>
-                        <div class="col-lg-7 col-md-7 col-sm-12">
-                            @if (ViewBag.MapImage == null)
-                            {
-                                <div id="gMapContainer" class="rounded_corners cntgMapContactUs">
-                                    <div id="gMap" class="rounded_corners gMapContactUs"></div>
-                                </div>
-                            }
-                            else
-                            {
-                                <div id="imgmapContainer" class="MapPanel rounded_corners">
-                                    <img id="imgGoogleImage" src="@ViewBag.MapImage" />
-                                </div>
-                            }
-                           
-                           
-                        </div>
-    <div class="clearBoth">
+                        }
 
-    </div>
+                        <div class="float_left cntContactImagetxt">
+                            @if (ViewBag.DefaultAddress.Tel != null)
+                            {
+                                @*<label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.StoreId))</label>*@
+                                <label style="  font-weight: normal;">@ViewBag.DefaultAddress.Tel</label><br />
+                            }
+
+                            @if (ViewBag.DefaultAddress.Fax != null)
+                            {
+                                @*<label id="lblFax">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfax", UserCookieManager.StoreId))</label>*@
+                                <label style="  font-weight: normal;">@ViewBag.DefaultAddress.Fax</label><br />
+                            }
+                        </div>
+                        <br />
+                        <div class="dashboard_vertical_item_separator">
+                            &nbsp;
+                        </div>
+                        <div id="EmailImage" class="email_item_image float_left">
+                            &nbsp;
+                        </div>
+                        <div class="float_left cntEmailImageCntctUS">
+                            @*<label id="lbl_Email">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.StoreId)):</label>*@
+                            <label style="  font-weight: normal;">@ViewBag.DefaultAddress.Email</label><br />
+                        </div>
+                        <div class="dashboard_vertical_item_separator">
+                            &nbsp;
+                        </div>
+                        <div id="HomeImage" class="home_item_image float_left">
+                            &nbsp;
+                        </div>
+                        <div class="float_left cntAddressContactUS">
+
+                            <div>
+                                <label id="lblAddressLine1">@ViewBag.DefaultAddress.Address1</label>
+                                <label id="lblAddressLine2">@ViewBag.DefaultAddress.Address2</label>
+                            </div>
+                            <label id="LblCity">@ViewBag.DefaultAddress.City</label>
+                            <label id="lblState">@ViewBag.DefaultAddress.State</label><br />
+                            <label id="lblCountry">@ViewBag.DefaultAddress.Country</label><br />
+                            <label id="lblZipCode">@ViewBag.DefaultAddress.ZipCode</label>
+                        </div>
+                        <div class="dashboard_vertical_item_separator">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-12">
+                        @if (ViewBag.MapImage == null)
+                        {
+                            <div id="gMapContainer" class="rounded_corners cntgMapContactUs">
+                                <div id="gMap" class="rounded_corners gMapContactUs"></div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div id="imgmapContainer" class="MapPanel rounded_corners">
+                                <img id="imgGoogleImage" src="@ViewBag.MapImage" />
+                            </div>
+                        }
+
+
+                    </div>
+                    <div class="clearBoth">
+
+                    </div>
                     @*</tr>
-                </table>*@
+                        </table>*@
                 }
             </div>
             <div class="clearBoth">
@@ -171,6 +171,8 @@
         </div>
     </div>
 </div>
+
+
 
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 @Html.Raw(ViewBag.googleMapScript)
