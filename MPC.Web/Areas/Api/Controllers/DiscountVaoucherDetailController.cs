@@ -5,7 +5,6 @@ using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
-using MPC.Models.RequestModels;
 using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
@@ -13,7 +12,7 @@ namespace MPC.MIS.Areas.Api.Controllers
     /// <summary>
     /// Discount Vaoucher API Controller
     /// </summary>
-    public class DiscountVaoucherController : ApiController
+    public class DiscountVaoucherDetailController : ApiController
     {
         #region Private
 
@@ -26,7 +25,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public DiscountVaoucherController(ICompanyService companyService)
+        public DiscountVaoucherDetailController(ICompanyService companyService)
         {
             this.companyService = companyService;
         }
@@ -40,16 +39,24 @@ namespace MPC.MIS.Areas.Api.Controllers
         [HttpPost]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         [CompressFilterAttribute]
-        public long Post(FieldVariable fieldVariable)
+        public DiscountVoucher Post(DiscountVoucher discountVoucher)
         {
             if (!ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
 
-           // return companyService.SaveDiscountVaoucher(fieldVariable.CreateFrom());
-            return 0;
+            return companyService.SaveDiscountVoucher(discountVoucher.CreateFrom()).CreateFromDetail();
         }
+
+        [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
+        public DiscountVoucher Get(long discountVoucherId)
+        {
+            return companyService.GetDiscountVoucherById(discountVoucherId).CreateFromDetail();
+        }
+
 
         //[ApiException]
         //[ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
