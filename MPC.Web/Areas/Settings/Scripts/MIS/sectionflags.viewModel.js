@@ -96,7 +96,7 @@ define("sectionflags/sectionflags.viewModel",
                     // Delete Section Flag
                     oNdeleteSectionFlag = function (flag) {
                         selectedFlag(flag);
-                            confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                            confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                             confirmation.afterProceed(deleteSectionFlaf);
                             confirmation.afterCancel(function () {
 

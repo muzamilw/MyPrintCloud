@@ -844,7 +844,7 @@ define("crm/crm.viewModel",
                         return;
                     } else {
                         // Ask for confirmation
-                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             //#region Db Saved Record Id > 0
                             if (address.addressId() > 0) {
@@ -1318,7 +1318,7 @@ define("crm/crm.viewModel",
                     return;
                 }
                 // Ask for confirmation
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                 confirmation.afterProceed(function () {
                     //#region Db Saved Record Id > 0
                     if (companyContact.contactId() > 0) {
@@ -1600,7 +1600,7 @@ define("crm/crm.viewModel",
                 },
                 // On Delete Store Permanently
                 onDeletePermanent = function () {
-                    confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                    confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         deleteCompanyPermanently(selectedStore().companyId());
                     });
