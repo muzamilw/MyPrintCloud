@@ -130,7 +130,7 @@ define("inventory/inventory.viewModel",
                             return;
                         }
                         // Ask for confirmation
-                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             deleteInventory(inventory);
                         });
