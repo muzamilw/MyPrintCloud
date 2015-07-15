@@ -13346,6 +13346,43 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
 
         return this;
     },
+    drawBulletsCustom: function (ctx, color,text) {
+      
+        var padding = this.padding,
+		  padding2 = padding * 2,
+		  strokeWidth = ~ ~(this.strokeWidth / 2) * 2; // Round down to even number
+
+        ctx.save();
+
+        ctx.globalAlpha = this.isMoving ? this.borderOpacityWhenMoving : 1;
+        ctx.strokeStyle = '#D3D3D3';
+
+        var scaleX = 1 / this._constrainScale(this.scaleX),
+		  scaleY = 1 / this._constrainScale(this.scaleY);
+
+        ctx.lineWidth = 0.3;
+        ctx.scale(scaleX, scaleY);
+        var w = this.getWidth(), h = this.getHeight();
+
+        var heightOfLine = this.fontSize * this.scaleY * this.lineHeight;
+        var offset = heightOfLine / 2 ;
+        var sentence = this.bullets.split(/\r\n|\r|\n/);
+        for (var i = 0; i < sentence.length; i++) {
+                ctx.fillStyle = this.color;
+                ctx.lineWidth = this.strokeWidth;
+                ctx.font = this._getFontDeclarationcustom(this.fontFamily, this.fontSize * this.scaleY, this.fontStyle, this.fontWeight);
+                ctx.textAlign = 'left';
+
+                ctx.fillText(sentence[i],
+                    ~ ~(-(w / 2) - padding - strokeWidth / 2 * this.scaleX) - 0.5 - (heightOfLine / 2.8) - (this.fontSize * this.scaleY),
+                    ~ ~(-(h / 2) - padding - strokeWidth / 2 * this.scaleY) - 0.5 + offset + (this.fontSize * this.scaleY) / 4 + 5);
+            offset += heightOfLine;
+        }
+
+        ctx.restore();
+
+        return this;
+    },
     /**
      * Draws borders of an object's bounding box.
      * Requires public properties: width, height
@@ -19547,7 +19584,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
 	'maxWidth', 'customStyles',
 		'maxHeight',
 		'charSpacing', 'clippedText', 'IsPositionLocked', 'IsEditable', 'autoCollapseText',
-    'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'hasInlineFontStyle', 'IsOverlayObject', 'IsQuickText', 'textCase', 'IsUnderlinedText', 'isBulletPoint'
+    'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'hasInlineFontStyle', 'IsOverlayObject', 'IsQuickText', 'textCase', 'IsUnderlinedText', 'isBulletPoint','bullets'
   );
 
     /**
@@ -19836,7 +19873,8 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
         _charWidthsCache: {},
         _cachedObject: null,
         textCase: 0,
-        isBulletPoint : false,
+        isBulletPoint: false,
+        bullets : '',
         IsUnderlinedText: false,
         /**
         * Constructor
@@ -20111,14 +20149,14 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
             var MaxHeight = 0;
             var chars = "";
             var txtOverflow = false;
-
+            var bullets = "";
             var CalcWidthChars = "";
             for (var nz = 0; nz < sentence.length; nz++) {
 
                 var words = sentence[nz].split(" ");
                 var line = "";
                 if (this.isBulletPoint)
-                    line = "  •   ";
+                    bullets += "  •   \n";
                 for (var n = 0; n < words.length; n++) {
                     var spacingWidth = 0;
                     var testLine = line + words[n];
@@ -20150,12 +20188,10 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                                 var nLine = line.substring(0, line.length - 1);
                                 formattedText.push(nLine);
                                 chars += nLine + "\n";
-    //                            if (this.isBulletPoint)
-//                                    chars += "      ";
                             }
                             line = words[n] + " ";
                             if (this.isBulletPoint)
-                                line = "      "+ words[n] + " ";
+                                 bullets += "      \n";
                             CalcWidthChars = "";
                             y += lineHeight; // -( fontSize * 0.21);
                         } else {
@@ -20198,23 +20234,19 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
             } //else {
             chars = chars.substring(0, chars.length - 1);
             this.clippedText = chars;
+            if (this.isBulletPoint)
+            {
+                var wrappedBullets = bullets.split(/\r\n|\r|\n/);
+                bullets = "";
+                for(var mn =0;mn<formattedText.length;mn++)
+                {
+                    bullets += wrappedBullets[mn] + "\n";
+                }
+            }
+            this.bullets = bullets;
+          
             this._cachedObject = clone(this);
-
-
-            //if (this.textCase == 3) {
-            //   // formattedText = formattedText.toLowerCase();
-
-            //    var sntncForSentncCase = formattedText.split(/./).trim();
-            //    var formattedTextTemp = [];
-            //    for (var sen = 0; sen < sntncForSentncCase.length;sen++){
-
-            //        formattedTextTemp.push(sntncForSentncCase[sen].substr(0, 1).toUpperCase()+'. ');
-            //    }
-
-            //    formattedText = formattedTextTemp;
-            //}
             return formattedText;
-            // } 
         },
 
         _performClipping: function (ctx, text, objThis) {
@@ -20262,6 +20294,11 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                 if (highlightEditableText) {
                     this.drawBordersCustom(ctx);
                 }
+            }
+            if (this.isBulletPoint)
+            {
+                this.drawBulletsCustom(ctx, this.bullets);
+                
             }
             this._setBoundaries(ctx, textLines);
             this._totalLineHeight = 0;
@@ -20387,7 +20424,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                 for (var i = 0; i < chars.length; i++) {
                     var charWidth = ctx.measureText(chars[i]).width;
                     v3[i] = charWidth; v2 += charWidth;
-                } //console.log( v1 + " " + v2);
+                } 
                 if (v1 != v2) {
                     Cleft = Cleft - (v2 - v1);
                 }
@@ -20727,7 +20764,8 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                 useNative: this.useNative,
                 maxWidth: this.maxWidth,
                 textCase: this.textCase,
-                isBulletPoint : this.isBulletPoint,
+                isBulletPoint: this.isBulletPoint,
+                bullets: this.bullets,
                 IsUnderlinedText: this.IsUnderlinedText,
                 maxHeight: this.maxHeight
             });
@@ -21714,7 +21752,6 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
             for (var i = 0; i < chars.length; i++) {
                 // ctx[method](chars[i], Cleft, top);
                 var width = this._renderCharCustom(method, ctx, lineIndex, i, chars[i], Cleft, top, lineHeight);
-                //      console.log(width);
                 //var charWidth = 0;
                 //if (v3.length == 0) {
                 //    charWidth = ctx.measureText(chars[i]).width;
@@ -22080,7 +22117,6 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
 
                 } else {
                     styleDeclaration.fontWeight = this.fontWeight;
-                    //  console.log(styleDeclaration.fontWeight);
                 }
             } else {
                 styleDeclaration.fontWeight = fontWeight;
@@ -22588,14 +22624,6 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
         */
         enterEditing: function () {
             if (this.isEditing || !this.editable) return;
-
-            console.log(this.selectionStart);
-            if (this.isBulletPoint)
-            {
-                console.log("a bullet point");
-                if (this.selectionStart < 6)
-                    this.selectionStart = 6;
-            }
             this.exitEditingOnOthers();
 
             this.isEditing = true;
@@ -22945,7 +22973,6 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                     if (line > cIndex) {
                         if (line > this.selectionEnd - 1) {
                             allStylesToRestore[parseInt(line) + 1 - displacement] = allStylesCloned[line];
-                            // console.log(parseInt(line) + 1 - displacement);
                         } // delete the selection styles 
                         else {
                             //console.log("deleted " + line);
