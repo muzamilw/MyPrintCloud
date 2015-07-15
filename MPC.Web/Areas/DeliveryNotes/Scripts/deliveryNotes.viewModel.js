@@ -31,6 +31,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     isEditorVisible = ko.observable(false),
                     // selected Cimpnay
                     selectedCompany = ko.observable(),
+                    deliveryNoteEditorHeader = ko.observable(),
                     currentTab = ko.observable(19),
                     // #region Observables
                     selectedDeliveryNote = ko.observable(model.DeliveryNote()),
@@ -179,6 +180,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     onEditDeliverNote = function (item) {
                         selectedDeliveryNoteForListView(item);
                         getDetaildeliveryNote(item.deliveryNoteId());
+                        deliveryNoteEditorHeader('Modify Delivery Notes');
                         isEditorVisible(true);
                         errorList.removeAll();
                     },
@@ -360,6 +362,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                          var deliveryNotes = model.DeliveryNote();
                          deliveryNotes.isStatus(19);
                          selectedDeliveryNote(deliveryNotes);
+                         deliveryNoteEditorHeader('Add Delivery Notes');
                          isEditorVisible(true);
                          errorList.removeAll();
                      },
@@ -378,7 +381,15 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     },
                     // Delete Delivery Notes
                     onDeleteDeliveryNoteDetail = function (deliveryNoteDetail) {
-                        selectedDeliveryNote().deliveryNoteDetails.remove(deliveryNoteDetail);
+                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo!");
+                        confirmation.afterProceed(function () {
+                            selectedDeliveryNote().deliveryNoteDetails.remove(deliveryNoteDetail);
+                        });
+                        confirmation.afterCancel(function () {
+
+                        });
+                        confirmation.show();
+                        return;
                     },
                     // Save Delivery Notes
                     onSaveDeliveryNotes = function (deliveryNote) {
@@ -413,7 +424,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     },
                     // Delete Delivry Notes
                 onDeleteDeliveryNote = function () {
-                    confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         deleteDeliveryNote(selectedDeliveryNote().convertToServerData());
                     });
@@ -462,7 +473,9 @@ define("deliveryNotes/deliveryNotes.viewModel",
                                 //For Add New
 
                                 if (selectedDeliveryNote().deliveryNoteId() === undefined || selectedDeliveryNote().deliveryNoteId() === 0) {
-                                    deliverNoteListView.splice(0, 0, model.deliverNoteListView.Create(data));
+                                    var dNote = model.deliverNoteListView.Create(data);
+                                    dNote.companyName(selectedDeliveryNote().companyName());
+                                    deliverNoteListView.splice(0, 0, dNote);
                                 } else {
                                     selectedDeliveryNoteForListView().deliveryDate(data.DeliveryDate !== null ? moment(data.DeliveryDate).toDate() : undefined);
                                     selectedDeliveryNoteForListView().flagId(data.FlagId);
@@ -557,7 +570,8 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     openExternalReportsDelivery: openExternalReportsDelivery,
                     openExternalEmailDeliveryReport: openExternalEmailDeliveryReport,
                     formatSelection: formatSelection,
-                    formatResult: formatResult
+                    formatResult: formatResult,
+                    deliveryNoteEditorHeader: deliveryNoteEditorHeader
 
                 };
             })()

@@ -20,7 +20,7 @@
 <link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
 <link href="/LightBox/Css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="Screen" />
 }
-<div class="content_area container" id="Orderhistory">
+<div class="content_area container" id="all-orderHistory-pg">
     <div class="left_right_padding">
         <div class="col-md-12 col-lg-12 col-xs-12">
             <div class="signin_heading_div float_left_simple ">
@@ -39,7 +39,7 @@
             <div class="clearBoth">
             </div>
         </div>
-       
+
         <div class="col-md-12 col-lg-12 col-xs-12">
             <div class="Width100Percent">
                 <div class="divSearchBar paddingBottom10px normalTextStyle rounded_corners hidden-xs">
@@ -103,7 +103,7 @@
                 </div>
             </div>
             <div class="white_back_div rounded_corners">
-              
+
                 <div class="Pad1020">
                     <div class="Width100Percent">
                         <div class="paddingBottom10px normalTextStyle">
@@ -145,7 +145,7 @@
 
           }
 
-                                         )
+                                                  )
                         @if (Convert.ToInt32(ViewBag.TotalOrder) > 15)
                         {
                             <div id="footerr" class="pagination pagination-small pagination-right">
@@ -530,8 +530,15 @@
                 data: JSON.stringify(d),
                 success: function (response) {
                     HideLoader();
-                    console.log(response);
-                    window.open(response,'_blank');
+                    var indexOfException = response.indexOf("Exception");
+                    if(indexOfException != -1){
+                        console.log(response);
+                        ShowPopUp("Error", response);
+                    }else{
+                        window.location.href = response;
+                        //window.open(response,'_blank');
+                    }
+                   
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
                     //alert("Error while invoking the Web API");

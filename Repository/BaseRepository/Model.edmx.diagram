@@ -333,6 +333,8 @@
         <AssociationConnector Association="DomainModels.FK_ItemStockUpdateHistory_StockItem" />
         <AssociationConnector Association="DomainModels.FK_ItemAddonCostCentre_ItemStockOption" />
         <AssociationConnector Association="DomainModels.FK_ItemStockUpdateHistory_SystemUser" />
+        <EntityTypeShape EntityType="DomainModels.ItemsVoucher" Width="1.5" PointX="41.375" PointY="11.75" />
+        <EntityTypeShape EntityType="DomainModels.ProductCategoryVoucher" Width="1.5" PointX="41.375" PointY="28.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

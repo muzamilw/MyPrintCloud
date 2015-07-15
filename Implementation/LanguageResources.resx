@@ -147,4 +147,7 @@
   <data name="ItemService_ProductCodeDuplicated" xml:space="preserve">
     <value>Product Code already exists.</value>
   </data>
+  <data name="ItemService_TemplateDeleteFailed" xml:space="preserve">
+    <value>Failed to delete template.</value>
+  </data>
 </root>

@@ -523,6 +523,7 @@ namespace MPC.Repository.BaseRepository
         /// </summary>
         public DbSet<Activity> Activities { get; set; }
 
+
         /// <summary>
         /// Activity Type DbSet
         /// </summary>
@@ -1021,7 +1022,7 @@ namespace MPC.Repository.BaseRepository
 
             var createdByParameter = createdBy.HasValue ?
                 new ObjectParameter("CreatedBy", createdBy) :
-                new ObjectParameter("CreatedBy", typeof(System.Guid));
+                new ObjectParameter("CreatedBy", typeof(Guid));
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_GeneratePurchaseOrders", orderIdParameter, createdByParameter);
         }
@@ -1063,6 +1064,20 @@ namespace MPC.Repository.BaseRepository
 // ReSharper restore InconsistentNaming
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteStagingImportCompanyContactAddress");
+        }
+
+        /// <summary>
+        /// Delete Template
+        /// </summary>
+// ReSharper disable InconsistentNaming
+        public int usp_DeleteTemplate(long? templateId)
+// ReSharper restore InconsistentNaming
+        {
+            var templateIdParameter = templateId.HasValue ?
+                new ObjectParameter("TemplateID", templateId) :
+                new ObjectParameter("TemplateID", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteTemplate", templateIdParameter);
         }
 
         #endregion

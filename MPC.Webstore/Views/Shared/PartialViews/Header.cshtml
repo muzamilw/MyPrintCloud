@@ -1,10 +1,8 @@
 ﻿@model MPC.Models.DomainModels.Company
 @using MPC.Webstore.Common;
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+
 <div class="top_header">
-    <div class="container content_area">
+    <div class="container content_area" id="all-topHEader-pg">
         <div class="left_right_padding">
             <div class="padding_top_bottom_topheader">
                 <div class="company_logo col-md-4 col-lg-4 col-xs-3 col-sm-4 col-xs-12">
@@ -50,40 +48,25 @@
                 </div>
                 <div class="clearBoth">
                 </div>
-@if (Model.IsCustomer != 3)
-{
-    <div id="collapsedMenu" style="display: none;" class="containerCollapsedMenu col-md-12 col-lg-12 col-xs-12 col-sm-12">
-        <ul id="ulCollapseMenu" style="">
-            <li>
-                <a id="lnk_AllProducts" href="/AllProducts">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId))</a>
-            </li>
-            <li>
-                <a id="lnk_RequestQuote" href="/RequestQuote" style="cursor: pointer;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId))</a>
-            </li>
-            <li>
-                <a id="lnk_ContactUs" href="/ContactUs">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId))</a>
+                @if (Model.IsCustomer != 3)
+                {
+                    <div id="collapsedMenu" style="display: none;" class="containerCollapsedMenu col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                        <ul id="ulCollapseMenu" style="">
+                            <li>
+                                <a id="lnk_AllProducts" href="/AllProducts">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId))</a>
+                            </li>
+                            <li>
+                                <a id="lnk_RequestQuote" href="/RequestQuote" style="cursor: pointer;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId))</a>
+                            </li>
+                            <li>
+                                <a id="lnk_ContactUs" href="/ContactUs">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId))</a>
 
-            </li>
-        </ul>
-    </div>
-}
-               
+                            </li>
+                        </ul>
+                    </div>
+                }
+
             </div>
         </div>
     </div>
 </div>
-@section scripts {
-    <script>
-
-        function ToggleMenu() {
-            $("#collapsedMenu").slideToggle();
-
-        }
-
-        function ToggleProfile() {
-            $("#profileMenu").slideToggle();
-
-        }
-
-    </script>
-}

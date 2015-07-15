@@ -12,6 +12,7 @@
     string htmlVal = string.Empty;
     string lblTaxLabel = string.Empty;
     stockOptions = ViewData["Stocks"] as List<ItemStockOption>;
+
 }
 @Styles.Render("~/Content/js-image-slider-detail")
 
@@ -37,7 +38,7 @@
 <link href="~/Content/jquery.rating.css" rel="stylesheet" />
 @using (Html.BeginForm())
 {
-    <div class="container content_area">
+    <div class="container content_area" id="all-productDetail-pg">
 
 
         <div class="left_right_padding">
@@ -665,7 +666,7 @@
 
                             <div class="whitebackground">
 
-                                <label id="lbl_KeyFeatures" text="" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnLayoutGrid", UserCookieManager.WBStoreId))</label>
+                                <label id="lbl_KeyFeatures" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnLayoutGrid", UserCookieManager.WBStoreId))</label>
                                 <div class="rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
                                     @*<br />
                                         <label id="lblDescriptionOfLayout" class="show_as_it_is">@Model.LayoutGridContent.Replace("\r\n", "</br>").Replace("\n", "</br>").Replace("\r", "</br>");</label>
@@ -681,42 +682,43 @@
                                     <div class="float_left_simple MLftTop">
                                         @if (!string.IsNullOrEmpty(Model.File1))
                                         {
-                                            @*string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
-                                                <a id="ImgIconPs" href="@Model.File1" target="_blank"><img id="ImgIconPss" class="ImageHW" src="@path" /></a>*@
+
+
                                             <a id="IcoPhotoshop" href="/@Model.File1" target="_blank" class="DownloadImages">
-                                                <img src="/@Model.File1" />
+                                                <img src="@ViewBag.File1Url" />
                                             </a>
                                         }
                                         @if (!string.IsNullOrEmpty(Model.File2))
                                         {
-                                            @*string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
-                                                <a id="ImgIconAi" href="@Model.File2" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>*@
+
+
                                             <a id="IcoIllustrator" href="/@Model.File2" target="_blank" class="DownloadImages">
-                                                <img src="/@Model.File2" />
+                                                <img src="@ViewBag.File2Url" />
                                             </a>
                                         }
                                         @if (!string.IsNullOrEmpty(Model.File3))
                                         {
-                                            @*string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
-                                                <a id="ImgIconId" href="@Model.File3" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>*@
+
+
+
+
                                             <a id="Icoindesign" href="/@Model.File3" target="_blank" class="DownloadImages">
-                                                <img src="/@Model.File3" />
+                                                <img src="@ViewBag.File3Url" />
                                             </a>
                                         }
                                         @if (!string.IsNullOrEmpty(Model.File4))
                                         {
-                                            @*string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
-                                                <a id="ImgIconPdf" href="@Model.File4" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>*@
+
+
                                             <a id="IcoPdf" href="/@Model.File4" target="_blank" class="DownloadImages">
-                                                <img src="/@Model.File4" />
+                                                <img src="@ViewBag.File4Url" />
                                             </a>
                                         }
                                         @if (!string.IsNullOrEmpty(Model.File5))
                                         {
-                                            @*string path = string.Empty;// designServiceURL +  "/StoredImages/AppImages/IcoPhotoshop.png"
-                                                <a id="ImgIconPdf" href="@Model.File4" target="_blank"><img id="GridImg" class="ImageHW" src="@path" /></a>*@
+
                                             <a id="IcoPdf" href="/@Model.File5" target="_blank" class="DownloadImages">
-                                                <img src="/@Model.File5" />
+                                                <img src="@ViewBag.File4Url" />
                                             </a>
                                         }
 
@@ -748,7 +750,7 @@
                                                 allowfullscreen></iframe>
                                     </div>
                                 }
-         
+
                             </div>
                         </div>
                     }

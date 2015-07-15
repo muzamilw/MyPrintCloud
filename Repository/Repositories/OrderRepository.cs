@@ -6914,7 +6914,7 @@ namespace MPC.Repository.Repositories
                      (estimate.Estimate_Name.Contains(request.SearchString))) && (
                          (estimate.OrganisationId == OrganisationId && estimate.StatusId == (int)OrderStatus.InProduction));
 
-            IQueryable<Item> estimates = DbSet.Where(query).SelectMany(est => est.Items);
+            IQueryable<Item> estimates = DbSet.Where(query).SelectMany(est => est.Items).Where( item => item.ItemType!=2);
 
             List<Item> items = estimates.OrderBy(est => est.EstimateId)
            .Skip(fromRow)

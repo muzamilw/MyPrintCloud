@@ -322,6 +322,7 @@ define("crm/crm.viewModel",
                     // Delete Company Territory
                     onDeleteCompanyTerritory = function (companyTerritory) {
                         // Ask for confirmation
+                        confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                         confirmation.afterProceed(function () {
                             //#region Db Saved Record Id > 0
                             if (companyTerritory.companyId() > 0 && companyTerritory.territoryId() > 0) {
@@ -844,7 +845,7 @@ define("crm/crm.viewModel",
                         return;
                     } else {
                         // Ask for confirmation
-                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                         confirmation.afterProceed(function () {
                             //#region Db Saved Record Id > 0
                             if (address.addressId() > 0) {
@@ -1318,7 +1319,7 @@ define("crm/crm.viewModel",
                     return;
                 }
                 // Ask for confirmation
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                 confirmation.afterProceed(function () {
                     //#region Db Saved Record Id > 0
                     if (companyContact.contactId() > 0) {
@@ -1600,7 +1601,7 @@ define("crm/crm.viewModel",
                 },
                 // On Delete Store Permanently
                 onDeletePermanent = function () {
-                    confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         deleteCompanyPermanently(selectedStore().companyId());
                     });
@@ -1789,9 +1790,11 @@ define("crm/crm.viewModel",
                     if (selectedItem.name.error) {
                         errorList.push({ name: selectedItem.name.domElement.name, element: selectedItem.name.domElement });
                     }
-                    if (selectedItem.storeId.error) {
+
+                    if (isProspectOrCustomerScreen() && selectedItem.storeId.error) {
                         errorList.push({ name: selectedItem.storeId.domElement.name, element: selectedItem.storeId.domElement });
                     }
+                   
                     if (selectedItem.webAccessCode.error) {
                         errorList.push({ name: selectedItem.webAccessCode.domElement.name, element: selectedItem.webAccessCode.domElement });
                     }
@@ -1817,6 +1820,10 @@ define("crm/crm.viewModel",
                     doBeforeSave = function () {
                         var flag = true;
                         errorList.removeAll();
+                        // to avoid validation summery in case of supplier screen 
+                        if (!isProspectOrCustomerScreen()) {
+                            selectedStore().storeId(-1);
+                        }
                         if (!selectedStore().isValid()) {
                             selectedStore().errors.showAllMessages();
                             setValidationSummary(selectedStore());

@@ -20,7 +20,7 @@
                     <div class="row" data-bind="visible: !isDetailsVisible()">
                         <div class="col-sm-12">
                             <div class="pull-left" style="padding-right:3px;">
-                                <h5 style="padding-left: 7px;">Create one-off Invoices quickly or Create Invoices from existing Estimates, Orders or Jobs.  Invoices can be automatically passed to accounting platforms like Xero, MYOB, Sage & Quickbooks</h5>
+                                <h5 style="padding-left: 7px;">Create one-off Invoices quickly or Create Invoices from existing Estimates and Orders.</h5>
                             </div>
                             <div class="pull-right" style="margin-right:9px;">
                                 <button class="btn btn-primary" data-bind="click: $root.openReport" style="margin-right:5px">
@@ -52,26 +52,44 @@
                                         </ul>
                                         <div class="tab-content">
                                             <div class="tab-pane fade in active" id="tab-All">
+                                                <div style="margin-bottom:15px;">
+                                                    <span>Review all proccessed invoices, to find invoices fast, select from the Flag dropdown and then Search for the invoice. </span>
+                                                </div>
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
                                             <div class="tab-pane fade in" id="tab-Awaiting">
+                                                <div style="margin-bottom:15px;">
+                                                    <span>Invoices are awating approval before being sent to the client, review and send as soon as possible.</span>
+                                                </div>
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
                                             <div class="tab-pane fade in" id="tab-Posted">
+                                                <div style="margin-bottom:15px;">
+                                                    <span>Invoices has been sent to the customer, review and search for any outstanding invoices.</span>
+                                                </div>
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
                                             <div class="tab-pane fade in" id="tab-Cancelled">
+                                                <div style="margin-bottom:15px;">
+                                                    <span>Review all cancelled Invoices, refer to the notes for who and why the invoices was cancelled.</span>
+                                                </div>
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
                                             <div class="tab-pane fade in" id="tab-Archived">
+                                                <div style="margin-bottom:15px;">
+                                                    <span>dumy text archived</span>
+                                                </div>
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
                                             <div class="tab-pane fade in" id="tab-Proforma">
+                                                <div style="margin-bottom:15px;">
+                                                    <span>dumy text performa</span>
+                                                </div>
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
@@ -88,13 +106,10 @@
                                 <form data-bind="submit: $root.getInvoicesOfCurrentScreen">
                                     <div class="filter-block pull-right">
                                         <div class="form-group pull-left">
-                                            <select class="form-control col-sm-4" data-bind="options:$root.orderType,optionsText:'name',optionsValue:'value', value: $root.orderTypeFilter"></select>
+                                            <select class="form-control col-sm-4" data-bind="options:$root.orderType,optionsText:'name',optionsValue:'value', value: $root.orderTypeFilter, event:{change:$root.getInvoicesOfCurrentScreen}"></select>
                                         </div>
                                         <div class="form-group pull-left">
-                                            @*<select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: selectedFilterFlag, foreach: $root.sectionFlags">
-                                                <option style="width: 258px !important;" data-bind="text: FlagName, attr: { 'data-color': FlagColor, value: SectionFlagId }"></option>
-                                            </select>*@
-                                            <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag"></select>
+                                            <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag, event:{change:$root.getInvoicesOfCurrentScreen}"></select>
                                         </div>
                                         <div class="form-group pull-left">
                                             <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">

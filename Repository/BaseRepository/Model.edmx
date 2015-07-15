@@ -1044,6 +1044,22 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="IsEnabled" Type="bit" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="CompanyId" Type="bigint" />
+          <Property Name="VoucherName" Type="varchar" MaxLength="200" />
+          <Property Name="DiscountType" Type="int" />
+          <Property Name="HasCoupon" Type="bit" />
+          <Property Name="CouponCode" Type="nvarchar" MaxLength="255" />
+          <Property Name="CouponUseType" Type="int" />
+          <Property Name="IsUseWithOtherCoupon" Type="bit" />
+          <Property Name="IsTimeLimit" Type="bit" />
+          <Property Name="IsQtyRequirement" Type="bit" />
+          <Property Name="MinRequiredQty" Type="int" />
+          <Property Name="MaxRequiredQty" Type="int" />
+          <Property Name="IsOrderPriceRequirement" Type="bit" />
+          <Property Name="MinRequiredOrderPrice" Type="int" />
+          <Property Name="MaxRequiredOrderPrice" Type="int" />
+          <Property Name="CustomerId" Type="bigint" />
+          <Property Name="IsSingleUseRedeemed" Type="bit" />
+          <Property Name="IsQtySpan" Type="bit" />
         </EntityType>
         <EntityType Name="EmailEvent">
           <Key>
@@ -1979,6 +1995,14 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="OrderID" Type="int" />
           <Property Name="StockItemId" Type="bigint" />
         </EntityType>
+        <EntityType Name="ItemsVoucher">
+          <Key>
+            <PropertyRef Name="ItemVoucherId" />
+          </Key>
+          <Property Name="ItemVoucherId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemId" Type="bigint" />
+          <Property Name="VoucherId" Type="bigint" />
+        </EntityType>
         <EntityType Name="ItemVDPPrice">
           <Key>
             <PropertyRef Name="ItemVDPPriceId" />
@@ -2632,6 +2656,8 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="TaxServiceUrl" Type="varchar" MaxLength="255" />
           <Property Name="TaxServiceKey" Type="varchar" MaxLength="255" />
           <Property Name="IsImperical" Type="bit" />
+          <Property Name="AgileApiKey" Type="nvarchar" MaxLength="255" />
+          <Property Name="AgileApiUrl" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -2896,6 +2922,14 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="ProductCategoryItemId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CategoryId" Type="bigint" />
           <Property Name="ItemId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="ProductCategoryVoucher">
+          <Key>
+            <PropertyRef Name="CategoryVoucherId" />
+          </Key>
+          <Property Name="CategoryVoucherId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductCategoryId" Type="bigint" />
+          <Property Name="VoucherId" Type="bigint" />
         </EntityType>
         <EntityType Name="ProductMarketBriefAnswer">
           <Key>
@@ -6063,6 +6097,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Parameter Name="OrderID" Type="int" Mode="In" />
         </Function>
         <Function Name="usp_DeleteStagingImportCompanyContactAddress" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="usp_DeleteTemplate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TemplateID" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="usp_DeliveryReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="OrganisationID" Type="bigint" Mode="In" />
           <Parameter Name="DeliveryID" Type="bigint" Mode="In" />
@@ -6180,6 +6217,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="ItemStockControl" EntityType="Self.ItemStockControl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemStockOption" EntityType="Self.ItemStockOption" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemStockUpdateHistory" EntityType="Self.ItemStockUpdateHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemsVoucher" EntityType="Self.ItemsVoucher" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemVDPPrice" EntityType="Self.ItemVDPPrice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemVideo" EntityType="Self.ItemVideo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobPreference" EntityType="Self.JobPreference" Schema="dbo" store:Type="Tables" />
@@ -6226,6 +6264,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="PrePayment" EntityType="Self.PrePayment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategoryItem" EntityType="Self.ProductCategoryItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductCategoryVoucher" EntityType="Self.ProductCategoryVoucher" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductMarketBriefAnswer" EntityType="Self.ProductMarketBriefAnswer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductMarketBriefQuestion" EntityType="Self.ProductMarketBriefQuestion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Purchase" EntityType="Self.Purchase" Schema="dbo" store:Type="Tables" />
@@ -8088,6 +8127,11 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="ItemStockUpdateHistory" EntitySet="ItemStockUpdateHistories" />
           </AssociationSet>
           <FunctionImport Name="usp_DeleteStagingImportCompanyContactAddress" />
+          <FunctionImport Name="usp_DeleteTemplate">
+          <Parameter Name="TemplateID" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <EntitySet Name="ItemsVouchers" EntityType="DomainModels.ItemsVoucher" />
+          <EntitySet Name="ProductCategoryVouchers" EntityType="DomainModels.ProductCategoryVoucher" />
         </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -8372,6 +8416,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="TaxServiceUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="TaxServiceKey" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="IsImperical" Type="Boolean" />
+          <Property Name="AgileApiKey" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AgileApiUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -10852,6 +10898,22 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="IsEnabled" Type="Boolean" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="CompanyId" Type="Int64" />
+          <Property Name="VoucherName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DiscountType" Type="Int32" />
+          <Property Name="HasCoupon" Type="Boolean" />
+          <Property Name="CouponCode" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CouponUseType" Type="Int32" />
+          <Property Name="IsUseWithOtherCoupon" Type="Boolean" />
+          <Property Name="IsTimeLimit" Type="Boolean" />
+          <Property Name="IsQtyRequirement" Type="Boolean" />
+          <Property Name="MinRequiredQty" Type="Int32" />
+          <Property Name="MaxRequiredQty" Type="Int32" />
+          <Property Name="IsOrderPriceRequirement" Type="Boolean" />
+          <Property Name="MinRequiredOrderPrice" Type="Int32" />
+          <Property Name="MaxRequiredOrderPrice" Type="Int32" />
+          <Property Name="CustomerId" Type="Int64" />
+          <Property Name="IsSingleUseRedeemed" Type="Boolean" />
+          <Property Name="IsQtySpan" Type="Boolean" />
         </EntityType>
         <EntityType Name="GetItemsListView">
           <Key>
@@ -14798,6 +14860,22 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ItemsVoucher">
+          <Key>
+            <PropertyRef Name="ItemVoucherId" />
+          </Key>
+          <Property Name="ItemVoucherId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemId" Type="Int64" />
+          <Property Name="VoucherId" Type="Int64" />
+        </EntityType>
+        <EntityType Name="ProductCategoryVoucher">
+          <Key>
+            <PropertyRef Name="CategoryVoucherId" />
+          </Key>
+          <Property Name="CategoryVoucherId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductCategoryId" Type="Int64" />
+          <Property Name="VoucherId" Type="Int64" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -15012,6 +15090,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="AgileApiUrl" ColumnName="AgileApiUrl" />
+                <ScalarProperty Name="AgileApiKey" ColumnName="AgileApiKey" />
                 <ScalarProperty Name="IsImperical" ColumnName="IsImperical" />
                 <ScalarProperty Name="TaxServiceKey" ColumnName="TaxServiceKey" />
                 <ScalarProperty Name="TaxServiceUrl" ColumnName="TaxServiceUrl" />
@@ -16847,6 +16927,22 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="DiscountVouchers">
             <EntityTypeMapping TypeName="DomainModels.DiscountVoucher">
               <MappingFragment StoreEntitySet="DiscountVoucher">
+                <ScalarProperty Name="IsQtySpan" ColumnName="IsQtySpan" />
+                <ScalarProperty Name="IsSingleUseRedeemed" ColumnName="IsSingleUseRedeemed" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="MaxRequiredOrderPrice" ColumnName="MaxRequiredOrderPrice" />
+                <ScalarProperty Name="MinRequiredOrderPrice" ColumnName="MinRequiredOrderPrice" />
+                <ScalarProperty Name="IsOrderPriceRequirement" ColumnName="IsOrderPriceRequirement" />
+                <ScalarProperty Name="MaxRequiredQty" ColumnName="MaxRequiredQty" />
+                <ScalarProperty Name="MinRequiredQty" ColumnName="MinRequiredQty" />
+                <ScalarProperty Name="IsQtyRequirement" ColumnName="IsQtyRequirement" />
+                <ScalarProperty Name="IsTimeLimit" ColumnName="IsTimeLimit" />
+                <ScalarProperty Name="IsUseWithOtherCoupon" ColumnName="IsUseWithOtherCoupon" />
+                <ScalarProperty Name="CouponUseType" ColumnName="CouponUseType" />
+                <ScalarProperty Name="CouponCode" ColumnName="CouponCode" />
+                <ScalarProperty Name="HasCoupon" ColumnName="HasCoupon" />
+                <ScalarProperty Name="DiscountType" ColumnName="DiscountType" />
+                <ScalarProperty Name="VoucherName" ColumnName="VoucherName" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
@@ -19465,6 +19561,25 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="usp_DeleteCRMCompanyByID" FunctionName="DomainModels.Store.usp_DeleteCRMCompanyByID" />
           <FunctionImportMapping FunctionImportName="usp_DeleteStagingImportCompanyContactAddress" FunctionName="DomainModels.Store.usp_DeleteStagingImportCompanyContactAddress" />
+          <FunctionImportMapping FunctionImportName="usp_DeleteTemplate" FunctionName="DomainModels.Store.usp_DeleteTemplate" />
+          <EntitySetMapping Name="ItemsVouchers">
+            <EntityTypeMapping TypeName="DomainModels.ItemsVoucher">
+              <MappingFragment StoreEntitySet="ItemsVoucher">
+                <ScalarProperty Name="VoucherId" ColumnName="VoucherId" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="ItemVoucherId" ColumnName="ItemVoucherId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductCategoryVouchers">
+            <EntityTypeMapping TypeName="DomainModels.ProductCategoryVoucher">
+              <MappingFragment StoreEntitySet="ProductCategoryVoucher">
+                <ScalarProperty Name="VoucherId" ColumnName="VoucherId" />
+                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
+                <ScalarProperty Name="CategoryVoucherId" ColumnName="CategoryVoucherId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

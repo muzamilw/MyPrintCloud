@@ -18,8 +18,8 @@
                 </div>
                 <div data-bind="with: selectedInvoice" style="text-align: right; padding-right: 16px">
                     @*<button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:0px">
-                        Print
-                    </button>*@
+                            Print
+                        </button>*@
                     <button class="btn btn-primary" id="saveBtn" data-bind="visible:invoiceStatus()===19,click: $root.onSaveInvoice, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
                     <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseInvoiceEditor">Cancel</button>
                 </div>
@@ -159,7 +159,8 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="col-sm-4 text-right" style="padding-top:10px;">
-                                                <label>&nbsp;</label>                                            </div>
+                                                <label>&nbsp;</label>
+                                            </div>
                                             <div class="col-sm-6">
                                                 <input type="text" style="height: 60px;" data-bind="value: code" readonly class="form-control font24px" id="code" />
                                             </div>
@@ -171,14 +172,14 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 @*<select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId', optionsCaption: 'Select a flag', value: sectionFlagId, validationOnElement: sectionFlagId"></select>
-                                                <span class="help-block text-right"></span>*@
+                                                    <span class="help-block text-right"></span>*@
                                                 <select style="width: 100% !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: sectionFlagId, foreach: $root.sectionFlags">
                                                     <option style="width: 100% !important;" data-bind="text: FlagName, attr: { 'data-color': FlagColor, value: SectionFlagId }"></option>
                                                 </select>
                                                 <i class="fa fa-sort-desc" style="float: right;padding-right: 9px;position: relative;bottom: 25px;"></i>
                                             </div>
                                         </div>
-                                       <div>
+                                        <div>
                                             <div class="row" style="">
                                                 <div class=" col-sm-4 text-right">
                                                     <label class="control-label text-right">Invoice Status</label>
@@ -192,20 +193,20 @@
                                                     <label class="control-label text-right">&nbsp;</label>
                                                 </div>
                                                 <div class="col-sm-6 text-left">
-                                                  &nbsp;
+                                                    &nbsp;
                                                 </div>
                                             </div>
                                         </div>
                                         @*<div class="form-group">
-                                            <div>
-                                                <div class=" col-sm-4 text-right">
-                                                    <label class="control-label text-right tooltip-float">Invoice Status</label>
+                                                <div>
+                                                    <div class=" col-sm-4 text-right">
+                                                        <label class="control-label text-right tooltip-float">Invoice Status</label>
+                                                    </div>
+                                                    <div class="col-sm-6 text-left" style="margin-bottom: -8px;">
+                                                        <label class="control-label" data-bind="text:invoiceStatusText"></label>
+                                                    </div>
                                                 </div>
-                                                <div class="col-sm-6 text-left" style="margin-bottom: -8px;">
-                                                    <label class="control-label" data-bind="text:invoiceStatusText"></label>
-                                                </div>
-                                            </div>
-                                        </div>*@
+                                            </div>*@
 
                                         <div class="form-group" style="margin-top:0px">
                                             <div class="col-sm-4 text-right" style="padding-top: 10px;">
@@ -280,15 +281,15 @@
                                                         <button type="button" class="btn btn-primary" data-bind="click : $root.onAddFinishedGoods"> Add Finished Goods</button>
                                                     </div>
                                                     @*<div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
-                                                        <button type="button" class="btn btn-primary" style="padding-left: 11px;padding-right: 11px;" data-bind="click : $root.onCreateNewBlankPrintProduct">Add Blank Print Product</button>
-                                                    </div>
-                                                    <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
-                                                        <button type="button" class="btn btn-primary" style="padding-left: 11px;padding-right: 11px;" data-bind="click: $root.openStockItemDialogForAddingProduct">Add Inventory Item</button>
-                                                    </div>
-                                                    <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
-                                                        <button type="button" class="btn btn-primary" style="padding-left: 10px;padding-right: 10px;" data-bind="click: $root.onCostCenterClick">Add a Cost Center</button>
+                                                            <button type="button" class="btn btn-primary" style="padding-left: 11px;padding-right: 11px;" data-bind="click : $root.onCreateNewBlankPrintProduct">Add Blank Print Product</button>
+                                                        </div>
+                                                        <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
+                                                            <button type="button" class="btn btn-primary" style="padding-left: 11px;padding-right: 11px;" data-bind="click: $root.openStockItemDialogForAddingProduct">Add Inventory Item</button>
+                                                        </div>
+                                                        <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
+                                                            <button type="button" class="btn btn-primary" style="padding-left: 10px;padding-right: 10px;" data-bind="click: $root.onCostCenterClick">Add a Cost Center</button>
 
-                                                    </div>*@
+                                                        </div>*@
                                                     <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
                                                         <button type="button" class="btn btn-primary" style="padding-left: 10px;padding-right: 10px;" data-bind="click: $root.onAddInvoiceDetail">Add Invoice Detail</button>
                                                     </div>
@@ -341,13 +342,14 @@
                                                     <button type="button" class="btn btn-primary" data-bind="click: $root.onShippingChargesClick">Add Shipping Charge</button>
                                                 </div>
                                                 <div class="col-sm-6" style="margin-top:10px">
-                                                    <div class="col-sm-8 text-right">
+                                                    <div class="col-sm-6 text-right">
                                                         <label class="control-label text-right tooltip-float">Invoice Total:</label>
                                                     </div>
-                                                    <div class="col-sm-4 text-right" style="margin-top:5px">
+                                                    <div class="col-sm-5 text-right" style="margin-top:5px;padding-right: 24px">
                                                         <span data-bind="text: $root.currencySymbol() " style="font-weight: bold; font-size:20px;"></span>
                                                         <span data-bind="numberInput: invoiceTotal" style="font-weight: bold; font-size:20px;"></span>
                                                     </div>
+                                                    <div class="col-sm-1">&nbsp;</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -395,7 +397,7 @@
                                         </td>
                                         <td style=" text-align: right;">
                                             <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
-                                            <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
+                                            <span style="font-size:20px;" data-bind="numberInput: (qty1GrossTotal()===undefined || qty1GrossTotal()===null?0:qty1GrossTotal())"></span>
                                         </td>
                                         <td>
                                             <a href="#" class="table-link danger pull-right" style="visibility: hidden" title="Delete">

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsB46912CFB00D9156DAF8AD2A10EEAB851F7674D4A6D5361C16EAF525C93F005D))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets7D6DC73C8236A43853159EEB777044B417244EBBF2DE80119A8CE729D0D0DEBE))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsB46912CFB00D9156DAF8AD2A10EEAB851F7674D4A6D5361C16EAF525C93F005D : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets7D6DC73C8236A43853159EEB777044B417244EBBF2DE80119A8CE729D0D0DEBE : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsB46912CFB00D9156DAF8AD2A10EEAB851F7674D4A6D5361C16EAF525C93F005D()
+        public ViewsForBaseEntitySets7D6DC73C8236A43853159EEB777044B417244EBBF2DE80119A8CE729D0D0DEBE()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "29941bc4d5f50716f1859e299d198a72e6922e788d8b5e22d95ef2fdfc3b9375";
-            this.HashOverAllExtentViews = "9db3def5846bf0cf44b3999045f9a865af0cafe31d958a0b78f648fa60e01776";
-            this.ViewCount = 340;
+            this.HashOverMappingClosure = "08c960902c9673cedd79d4ec22726130c9656f5ad39603996ed62fc671003c59";
+            this.HashOverAllExtentViews = "ee13ee631ec60889ea890b1aa6f951c31dc72e50ae49372baa94eb267643eb73";
+            this.ViewCount = 344;
         }
         
         /// <Summary>
@@ -1397,6 +1397,22 @@ namespace Edm_EntityMappingGeneratedViews
             {
                 return GetView339();
             }
+            if ((index == 340))
+            {
+                return GetView340();
+            }
+            if ((index == 341))
+            {
+                return GetView341();
+            }
+            if ((index == 342))
+            {
+                return GetView342();
+            }
+            if ((index == 343))
+            {
+                return GetView343();
+            }
             throw new System.IndexOutOfRangeException();
         }
         
@@ -1640,7 +1656,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView6()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3184);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3356);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Organisation\r\n        [DomainModels.Store.Org");
             viewString.Append("anisation](T1.Organisation_OrganisationId, T1.Organisation_OrganisationName, T1.");
             viewString.Append("Organisation_Address1, T1.Organisation_Address2, T1.Organisation_Address3, T1.Or");
@@ -1654,33 +1670,35 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("ion_CurrencyId, T1.Organisation_LanguageId, T1.Organisation_BleedAreaSize, T1.Or");
             viewString.Append("ganisation_ShowBleedArea, T1.Organisation_isXeroIntegrationRequired, T1.Organisa");
             viewString.Append("tion_XeroApiId, T1.Organisation_XeroApiKey, T1.Organisation_TaxServiceUrl, T1.Or");
-            viewString.Append("ganisation_TaxServiceKey, T1.Organisation_IsImperical)\r\n    FROM (\r\n        SELE");
-            viewString.Append("CT \r\n            T.OrganisationId AS Organisation_OrganisationId, \r\n            ");
-            viewString.Append("T.OrganisationName AS Organisation_OrganisationName, \r\n            T.Address1 AS");
-            viewString.Append(" Organisation_Address1, \r\n            T.Address2 AS Organisation_Address2, \r\n   ");
-            viewString.Append("         T.Address3 AS Organisation_Address3, \r\n            T.City AS Organisati");
-            viewString.Append("on_City, \r\n            T.StateId AS Organisation_StateId, \r\n            T.Countr");
-            viewString.Append("yId AS Organisation_CountryId, \r\n            T.ZipCode AS Organisation_ZipCode, ");
-            viewString.Append("\r\n            T.Tel AS Organisation_Tel, \r\n            T.Fax AS Organisation_Fax");
-            viewString.Append(", \r\n            T.Mobile AS Organisation_Mobile, \r\n            T.Email AS Organi");
-            viewString.Append("sation_Email, \r\n            T.URL AS Organisation_URL, \r\n            T.WebsiteLo");
-            viewString.Append("go AS Organisation_WebsiteLogo, \r\n            T.MISLogo AS Organisation_MISLogo,");
-            viewString.Append(" \r\n            T.TaxRegistrationNo AS Organisation_TaxRegistrationNo, \r\n        ");
-            viewString.Append("    T.LicenseLevel AS Organisation_LicenseLevel, \r\n            T.CustomerAccount");
-            viewString.Append("Number AS Organisation_CustomerAccountNumber, \r\n            T.SmtpServer AS Orga");
-            viewString.Append("nisation_SmtpServer, \r\n            T.SmtpUserName AS Organisation_SmtpUserName, ");
-            viewString.Append("\r\n            T.SmtpPassword AS Organisation_SmtpPassword, \r\n            T.VATRe");
-            viewString.Append("gNumber AS Organisation_VATRegNumber, \r\n            T.SystemLengthUnit AS Organi");
-            viewString.Append("sation_SystemLengthUnit, \r\n            T.SystemWeightUnit AS Organisation_System");
-            viewString.Append("WeightUnit, \r\n            T.CurrencyId AS Organisation_CurrencyId, \r\n           ");
-            viewString.Append(" T.LanguageId AS Organisation_LanguageId, \r\n            T.BleedAreaSize AS Organ");
-            viewString.Append("isation_BleedAreaSize, \r\n            T.ShowBleedArea AS Organisation_ShowBleedAr");
-            viewString.Append("ea, \r\n            T.isXeroIntegrationRequired AS Organisation_isXeroIntegrationR");
-            viewString.Append("equired, \r\n            T.XeroApiId AS Organisation_XeroApiId, \r\n            T.Xe");
-            viewString.Append("roApiKey AS Organisation_XeroApiKey, \r\n            T.TaxServiceUrl AS Organisati");
-            viewString.Append("on_TaxServiceUrl, \r\n            T.TaxServiceKey AS Organisation_TaxServiceKey, \r");
-            viewString.Append("\n            T.IsImperical AS Organisation_IsImperical, \r\n            True AS _f");
-            viewString.Append("rom0\r\n        FROM BaseDbContext.Organisations AS T\r\n    ) AS T1");
+            viewString.Append("ganisation_TaxServiceKey, T1.Organisation_IsImperical, T1.Organisation_AgileApiK");
+            viewString.Append("ey, T1.Organisation_AgileApiUrl)\r\n    FROM (\r\n        SELECT \r\n            T.Org");
+            viewString.Append("anisationId AS Organisation_OrganisationId, \r\n            T.OrganisationName AS ");
+            viewString.Append("Organisation_OrganisationName, \r\n            T.Address1 AS Organisation_Address1");
+            viewString.Append(", \r\n            T.Address2 AS Organisation_Address2, \r\n            T.Address3 AS");
+            viewString.Append(" Organisation_Address3, \r\n            T.City AS Organisation_City, \r\n           ");
+            viewString.Append(" T.StateId AS Organisation_StateId, \r\n            T.CountryId AS Organisation_Co");
+            viewString.Append("untryId, \r\n            T.ZipCode AS Organisation_ZipCode, \r\n            T.Tel AS");
+            viewString.Append(" Organisation_Tel, \r\n            T.Fax AS Organisation_Fax, \r\n            T.Mobi");
+            viewString.Append("le AS Organisation_Mobile, \r\n            T.Email AS Organisation_Email, \r\n      ");
+            viewString.Append("      T.URL AS Organisation_URL, \r\n            T.WebsiteLogo AS Organisation_Web");
+            viewString.Append("siteLogo, \r\n            T.MISLogo AS Organisation_MISLogo, \r\n            T.TaxRe");
+            viewString.Append("gistrationNo AS Organisation_TaxRegistrationNo, \r\n            T.LicenseLevel AS ");
+            viewString.Append("Organisation_LicenseLevel, \r\n            T.CustomerAccountNumber AS Organisation");
+            viewString.Append("_CustomerAccountNumber, \r\n            T.SmtpServer AS Organisation_SmtpServer, \r");
+            viewString.Append("\n            T.SmtpUserName AS Organisation_SmtpUserName, \r\n            T.SmtpPa");
+            viewString.Append("ssword AS Organisation_SmtpPassword, \r\n            T.VATRegNumber AS Organisatio");
+            viewString.Append("n_VATRegNumber, \r\n            T.SystemLengthUnit AS Organisation_SystemLengthUni");
+            viewString.Append("t, \r\n            T.SystemWeightUnit AS Organisation_SystemWeightUnit, \r\n        ");
+            viewString.Append("    T.CurrencyId AS Organisation_CurrencyId, \r\n            T.LanguageId AS Organ");
+            viewString.Append("isation_LanguageId, \r\n            T.BleedAreaSize AS Organisation_BleedAreaSize,");
+            viewString.Append(" \r\n            T.ShowBleedArea AS Organisation_ShowBleedArea, \r\n            T.is");
+            viewString.Append("XeroIntegrationRequired AS Organisation_isXeroIntegrationRequired, \r\n           ");
+            viewString.Append(" T.XeroApiId AS Organisation_XeroApiId, \r\n            T.XeroApiKey AS Organisati");
+            viewString.Append("on_XeroApiKey, \r\n            T.TaxServiceUrl AS Organisation_TaxServiceUrl, \r\n  ");
+            viewString.Append("          T.TaxServiceKey AS Organisation_TaxServiceKey, \r\n            T.IsImper");
+            viewString.Append("ical AS Organisation_IsImperical, \r\n            T.AgileApiKey AS Organisation_Ag");
+            viewString.Append("ileApiKey, \r\n            T.AgileApiUrl AS Organisation_AgileApiUrl, \r\n          ");
+            viewString.Append("  True AS _from0\r\n        FROM BaseDbContext.Organisations AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Organisation", viewString.ToString());
         }
         
@@ -5893,7 +5911,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView123()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3191);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3363);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Organisations\r\n        [DomainModels.Organisa");
             viewString.Append("tion](T1.Organisation_OrganisationId, T1.Organisation_OrganisationName, T1.Organ");
             viewString.Append("isation_Address1, T1.Organisation_Address2, T1.Organisation_Address3, T1.Organis");
@@ -5907,33 +5925,36 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("on_StateId, T1.Organisation_CountryId, T1.Organisation_BleedAreaSize, T1.Organis");
             viewString.Append("ation_ShowBleedArea, T1.Organisation_isXeroIntegrationRequired, T1.Organisation_");
             viewString.Append("XeroApiId, T1.Organisation_XeroApiKey, T1.Organisation_TaxServiceUrl, T1.Organis");
-            viewString.Append("ation_TaxServiceKey, T1.Organisation_IsImperical)\r\n    FROM (\r\n        SELECT \r\n");
-            viewString.Append("            T.OrganisationId AS Organisation_OrganisationId, \r\n            T.Org");
-            viewString.Append("anisationName AS Organisation_OrganisationName, \r\n            T.Address1 AS Orga");
-            viewString.Append("nisation_Address1, \r\n            T.Address2 AS Organisation_Address2, \r\n        ");
-            viewString.Append("    T.Address3 AS Organisation_Address3, \r\n            T.City AS Organisation_Ci");
-            viewString.Append("ty, \r\n            T.ZipCode AS Organisation_ZipCode, \r\n            T.Tel AS Orga");
-            viewString.Append("nisation_Tel, \r\n            T.Fax AS Organisation_Fax, \r\n            T.Mobile AS");
-            viewString.Append(" Organisation_Mobile, \r\n            T.Email AS Organisation_Email, \r\n           ");
-            viewString.Append(" T.URL AS Organisation_URL, \r\n            T.WebsiteLogo AS Organisation_WebsiteL");
-            viewString.Append("ogo, \r\n            T.MISLogo AS Organisation_MISLogo, \r\n            T.TaxRegistr");
-            viewString.Append("ationNo AS Organisation_TaxRegistrationNo, \r\n            T.LicenseLevel AS Organ");
-            viewString.Append("isation_LicenseLevel, \r\n            T.CustomerAccountNumber AS Organisation_Cust");
-            viewString.Append("omerAccountNumber, \r\n            T.SmtpServer AS Organisation_SmtpServer, \r\n    ");
-            viewString.Append("        T.SmtpUserName AS Organisation_SmtpUserName, \r\n            T.SmtpPasswor");
-            viewString.Append("d AS Organisation_SmtpPassword, \r\n            T.VATRegNumber AS Organisation_VAT");
-            viewString.Append("RegNumber, \r\n            T.SystemLengthUnit AS Organisation_SystemLengthUnit, \r\n");
-            viewString.Append("            T.SystemWeightUnit AS Organisation_SystemWeightUnit, \r\n            T");
-            viewString.Append(".CurrencyId AS Organisation_CurrencyId, \r\n            T.LanguageId AS Organisati");
-            viewString.Append("on_LanguageId, \r\n            T.StateId AS Organisation_StateId, \r\n            T.");
-            viewString.Append("CountryId AS Organisation_CountryId, \r\n            T.BleedAreaSize AS Organisati");
-            viewString.Append("on_BleedAreaSize, \r\n            T.ShowBleedArea AS Organisation_ShowBleedArea, \r");
-            viewString.Append("\n            T.isXeroIntegrationRequired AS Organisation_isXeroIntegrationRequir");
-            viewString.Append("ed, \r\n            T.XeroApiId AS Organisation_XeroApiId, \r\n            T.XeroApi");
-            viewString.Append("Key AS Organisation_XeroApiKey, \r\n            T.TaxServiceUrl AS Organisation_Ta");
-            viewString.Append("xServiceUrl, \r\n            T.TaxServiceKey AS Organisation_TaxServiceKey, \r\n    ");
-            viewString.Append("        T.IsImperical AS Organisation_IsImperical, \r\n            True AS _from0\r");
-            viewString.Append("\n        FROM DomainModelsStoreContainer.Organisation AS T\r\n    ) AS T1");
+            viewString.Append("ation_TaxServiceKey, T1.Organisation_IsImperical, T1.Organisation_AgileApiKey, T");
+            viewString.Append("1.Organisation_AgileApiUrl)\r\n    FROM (\r\n        SELECT \r\n            T.Organisa");
+            viewString.Append("tionId AS Organisation_OrganisationId, \r\n            T.OrganisationName AS Organ");
+            viewString.Append("isation_OrganisationName, \r\n            T.Address1 AS Organisation_Address1, \r\n ");
+            viewString.Append("           T.Address2 AS Organisation_Address2, \r\n            T.Address3 AS Orga");
+            viewString.Append("nisation_Address3, \r\n            T.City AS Organisation_City, \r\n            T.Zi");
+            viewString.Append("pCode AS Organisation_ZipCode, \r\n            T.Tel AS Organisation_Tel, \r\n      ");
+            viewString.Append("      T.Fax AS Organisation_Fax, \r\n            T.Mobile AS Organisation_Mobile, ");
+            viewString.Append("\r\n            T.Email AS Organisation_Email, \r\n            T.URL AS Organisation");
+            viewString.Append("_URL, \r\n            T.WebsiteLogo AS Organisation_WebsiteLogo, \r\n            T.M");
+            viewString.Append("ISLogo AS Organisation_MISLogo, \r\n            T.TaxRegistrationNo AS Organisatio");
+            viewString.Append("n_TaxRegistrationNo, \r\n            T.LicenseLevel AS Organisation_LicenseLevel, ");
+            viewString.Append("\r\n            T.CustomerAccountNumber AS Organisation_CustomerAccountNumber, \r\n ");
+            viewString.Append("           T.SmtpServer AS Organisation_SmtpServer, \r\n            T.SmtpUserName");
+            viewString.Append(" AS Organisation_SmtpUserName, \r\n            T.SmtpPassword AS Organisation_Smtp");
+            viewString.Append("Password, \r\n            T.VATRegNumber AS Organisation_VATRegNumber, \r\n         ");
+            viewString.Append("   T.SystemLengthUnit AS Organisation_SystemLengthUnit, \r\n            T.SystemWe");
+            viewString.Append("ightUnit AS Organisation_SystemWeightUnit, \r\n            T.CurrencyId AS Organis");
+            viewString.Append("ation_CurrencyId, \r\n            T.LanguageId AS Organisation_LanguageId, \r\n     ");
+            viewString.Append("       T.StateId AS Organisation_StateId, \r\n            T.CountryId AS Organisat");
+            viewString.Append("ion_CountryId, \r\n            T.BleedAreaSize AS Organisation_BleedAreaSize, \r\n  ");
+            viewString.Append("          T.ShowBleedArea AS Organisation_ShowBleedArea, \r\n            T.isXeroI");
+            viewString.Append("ntegrationRequired AS Organisation_isXeroIntegrationRequired, \r\n            T.Xe");
+            viewString.Append("roApiId AS Organisation_XeroApiId, \r\n            T.XeroApiKey AS Organisation_Xe");
+            viewString.Append("roApiKey, \r\n            T.TaxServiceUrl AS Organisation_TaxServiceUrl, \r\n       ");
+            viewString.Append("     T.TaxServiceKey AS Organisation_TaxServiceKey, \r\n            T.IsImperical ");
+            viewString.Append("AS Organisation_IsImperical, \r\n            T.AgileApiKey AS Organisation_AgileAp");
+            viewString.Append("iKey, \r\n            T.AgileApiUrl AS Organisation_AgileApiUrl, \r\n            Tru");
+            viewString.Append("e AS _from0\r\n        FROM DomainModelsStoreContainer.Organisation AS T\r\n    ) AS");
+            viewString.Append(" T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Organisations", viewString.ToString());
         }
         
@@ -10409,24 +10430,43 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView248()
         {
-            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.DiscountVoucher", @"
-    SELECT VALUE -- Constructing DiscountVoucher
-        [DomainModels.Store.DiscountVoucher](T1.DiscountVoucher_DiscountVoucherId, T1.DiscountVoucher_VoucherCode, T1.DiscountVoucher_ValidFromDate, T1.DiscountVoucher_ValidUptoDate, T1.DiscountVoucher_OrderId, T1.DiscountVoucher_DiscountRate, T1.DiscountVoucher_ConsumedDate, T1.DiscountVoucher_IsEnabled, T1.DiscountVoucher_CreatedDate, T1.DiscountVoucher_CompanyId)
-    FROM (
-        SELECT 
-            T.DiscountVoucherId AS DiscountVoucher_DiscountVoucherId, 
-            T.VoucherCode AS DiscountVoucher_VoucherCode, 
-            T.ValidFromDate AS DiscountVoucher_ValidFromDate, 
-            T.ValidUptoDate AS DiscountVoucher_ValidUptoDate, 
-            T.OrderId AS DiscountVoucher_OrderId, 
-            T.DiscountRate AS DiscountVoucher_DiscountRate, 
-            T.ConsumedDate AS DiscountVoucher_ConsumedDate, 
-            T.IsEnabled AS DiscountVoucher_IsEnabled, 
-            T.CreatedDate AS DiscountVoucher_CreatedDate, 
-            T.CompanyId AS DiscountVoucher_CompanyId, 
-            True AS _from0
-        FROM BaseDbContext.DiscountVouchers AS T
-    ) AS T1");
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2791);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing DiscountVoucher\r\n        [DomainModels.Store.");
+            viewString.Append("DiscountVoucher](T1.DiscountVoucher_DiscountVoucherId, T1.DiscountVoucher_Vouche");
+            viewString.Append("rCode, T1.DiscountVoucher_ValidFromDate, T1.DiscountVoucher_ValidUptoDate, T1.Di");
+            viewString.Append("scountVoucher_OrderId, T1.DiscountVoucher_DiscountRate, T1.DiscountVoucher_Consu");
+            viewString.Append("medDate, T1.DiscountVoucher_IsEnabled, T1.DiscountVoucher_CreatedDate, T1.Discou");
+            viewString.Append("ntVoucher_CompanyId, T1.DiscountVoucher_VoucherName, T1.DiscountVoucher_Discount");
+            viewString.Append("Type, T1.DiscountVoucher_HasCoupon, T1.DiscountVoucher_CouponCode, T1.DiscountVo");
+            viewString.Append("ucher_CouponUseType, T1.DiscountVoucher_IsUseWithOtherCoupon, T1.DiscountVoucher");
+            viewString.Append("_IsTimeLimit, T1.DiscountVoucher_IsQtyRequirement, T1.DiscountVoucher_MinRequire");
+            viewString.Append("dQty, T1.DiscountVoucher_MaxRequiredQty, T1.DiscountVoucher_IsOrderPriceRequirem");
+            viewString.Append("ent, T1.DiscountVoucher_MinRequiredOrderPrice, T1.DiscountVoucher_MaxRequiredOrd");
+            viewString.Append("erPrice, T1.DiscountVoucher_CustomerId, T1.DiscountVoucher_IsSingleUseRedeemed, ");
+            viewString.Append("T1.DiscountVoucher_IsQtySpan)\r\n    FROM (\r\n        SELECT \r\n            T.Discou");
+            viewString.Append("ntVoucherId AS DiscountVoucher_DiscountVoucherId, \r\n            T.VoucherCode AS");
+            viewString.Append(" DiscountVoucher_VoucherCode, \r\n            T.ValidFromDate AS DiscountVoucher_V");
+            viewString.Append("alidFromDate, \r\n            T.ValidUptoDate AS DiscountVoucher_ValidUptoDate, \r\n");
+            viewString.Append("            T.OrderId AS DiscountVoucher_OrderId, \r\n            T.DiscountRate A");
+            viewString.Append("S DiscountVoucher_DiscountRate, \r\n            T.ConsumedDate AS DiscountVoucher_");
+            viewString.Append("ConsumedDate, \r\n            T.IsEnabled AS DiscountVoucher_IsEnabled, \r\n        ");
+            viewString.Append("    T.CreatedDate AS DiscountVoucher_CreatedDate, \r\n            T.CompanyId AS D");
+            viewString.Append("iscountVoucher_CompanyId, \r\n            T.VoucherName AS DiscountVoucher_Voucher");
+            viewString.Append("Name, \r\n            T.DiscountType AS DiscountVoucher_DiscountType, \r\n          ");
+            viewString.Append("  T.HasCoupon AS DiscountVoucher_HasCoupon, \r\n            T.CouponCode AS Discou");
+            viewString.Append("ntVoucher_CouponCode, \r\n            T.CouponUseType AS DiscountVoucher_CouponUse");
+            viewString.Append("Type, \r\n            T.IsUseWithOtherCoupon AS DiscountVoucher_IsUseWithOtherCoup");
+            viewString.Append("on, \r\n            T.IsTimeLimit AS DiscountVoucher_IsTimeLimit, \r\n            T.");
+            viewString.Append("IsQtyRequirement AS DiscountVoucher_IsQtyRequirement, \r\n            T.MinRequire");
+            viewString.Append("dQty AS DiscountVoucher_MinRequiredQty, \r\n            T.MaxRequiredQty AS Discou");
+            viewString.Append("ntVoucher_MaxRequiredQty, \r\n            T.IsOrderPriceRequirement AS DiscountVou");
+            viewString.Append("cher_IsOrderPriceRequirement, \r\n            T.MinRequiredOrderPrice AS DiscountV");
+            viewString.Append("oucher_MinRequiredOrderPrice, \r\n            T.MaxRequiredOrderPrice AS DiscountV");
+            viewString.Append("oucher_MaxRequiredOrderPrice, \r\n            T.CustomerId AS DiscountVoucher_Cust");
+            viewString.Append("omerId, \r\n            T.IsSingleUseRedeemed AS DiscountVoucher_IsSingleUseRedeem");
+            viewString.Append("ed, \r\n            T.IsQtySpan AS DiscountVoucher_IsQtySpan, \r\n            True A");
+            viewString.Append("S _from0\r\n        FROM BaseDbContext.DiscountVouchers AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.DiscountVoucher", viewString.ToString());
         }
         
         /// <Summary>
@@ -10434,24 +10474,43 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView249()
         {
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.DiscountVouchers", @"
-    SELECT VALUE -- Constructing DiscountVouchers
-        [DomainModels.DiscountVoucher](T1.DiscountVoucher_DiscountVoucherId, T1.DiscountVoucher_VoucherCode, T1.DiscountVoucher_ValidFromDate, T1.DiscountVoucher_ValidUptoDate, T1.DiscountVoucher_OrderId, T1.DiscountVoucher_DiscountRate, T1.DiscountVoucher_ConsumedDate, T1.DiscountVoucher_IsEnabled, T1.DiscountVoucher_CreatedDate, T1.DiscountVoucher_CompanyId)
-    FROM (
-        SELECT 
-            T.DiscountVoucherId AS DiscountVoucher_DiscountVoucherId, 
-            T.VoucherCode AS DiscountVoucher_VoucherCode, 
-            T.ValidFromDate AS DiscountVoucher_ValidFromDate, 
-            T.ValidUptoDate AS DiscountVoucher_ValidUptoDate, 
-            T.OrderId AS DiscountVoucher_OrderId, 
-            T.DiscountRate AS DiscountVoucher_DiscountRate, 
-            T.ConsumedDate AS DiscountVoucher_ConsumedDate, 
-            T.IsEnabled AS DiscountVoucher_IsEnabled, 
-            T.CreatedDate AS DiscountVoucher_CreatedDate, 
-            T.CompanyId AS DiscountVoucher_CompanyId, 
-            True AS _from0
-        FROM DomainModelsStoreContainer.DiscountVoucher AS T
-    ) AS T1");
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2798);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing DiscountVouchers\r\n        [DomainModels.Disco");
+            viewString.Append("untVoucher](T1.DiscountVoucher_DiscountVoucherId, T1.DiscountVoucher_VoucherCode");
+            viewString.Append(", T1.DiscountVoucher_ValidFromDate, T1.DiscountVoucher_ValidUptoDate, T1.Discoun");
+            viewString.Append("tVoucher_OrderId, T1.DiscountVoucher_DiscountRate, T1.DiscountVoucher_ConsumedDa");
+            viewString.Append("te, T1.DiscountVoucher_IsEnabled, T1.DiscountVoucher_CreatedDate, T1.DiscountVou");
+            viewString.Append("cher_CompanyId, T1.DiscountVoucher_VoucherName, T1.DiscountVoucher_DiscountType,");
+            viewString.Append(" T1.DiscountVoucher_HasCoupon, T1.DiscountVoucher_CouponCode, T1.DiscountVoucher");
+            viewString.Append("_CouponUseType, T1.DiscountVoucher_IsUseWithOtherCoupon, T1.DiscountVoucher_IsTi");
+            viewString.Append("meLimit, T1.DiscountVoucher_IsQtyRequirement, T1.DiscountVoucher_MinRequiredQty,");
+            viewString.Append(" T1.DiscountVoucher_MaxRequiredQty, T1.DiscountVoucher_IsOrderPriceRequirement, ");
+            viewString.Append("T1.DiscountVoucher_MinRequiredOrderPrice, T1.DiscountVoucher_MaxRequiredOrderPri");
+            viewString.Append("ce, T1.DiscountVoucher_CustomerId, T1.DiscountVoucher_IsSingleUseRedeemed, T1.Di");
+            viewString.Append("scountVoucher_IsQtySpan)\r\n    FROM (\r\n        SELECT \r\n            T.DiscountVou");
+            viewString.Append("cherId AS DiscountVoucher_DiscountVoucherId, \r\n            T.VoucherCode AS Disc");
+            viewString.Append("ountVoucher_VoucherCode, \r\n            T.ValidFromDate AS DiscountVoucher_ValidF");
+            viewString.Append("romDate, \r\n            T.ValidUptoDate AS DiscountVoucher_ValidUptoDate, \r\n     ");
+            viewString.Append("       T.OrderId AS DiscountVoucher_OrderId, \r\n            T.DiscountRate AS Dis");
+            viewString.Append("countVoucher_DiscountRate, \r\n            T.ConsumedDate AS DiscountVoucher_Consu");
+            viewString.Append("medDate, \r\n            T.IsEnabled AS DiscountVoucher_IsEnabled, \r\n            T");
+            viewString.Append(".CreatedDate AS DiscountVoucher_CreatedDate, \r\n            T.CompanyId AS Discou");
+            viewString.Append("ntVoucher_CompanyId, \r\n            T.VoucherName AS DiscountVoucher_VoucherName,");
+            viewString.Append(" \r\n            T.DiscountType AS DiscountVoucher_DiscountType, \r\n            T.H");
+            viewString.Append("asCoupon AS DiscountVoucher_HasCoupon, \r\n            T.CouponCode AS DiscountVou");
+            viewString.Append("cher_CouponCode, \r\n            T.CouponUseType AS DiscountVoucher_CouponUseType,");
+            viewString.Append(" \r\n            T.IsUseWithOtherCoupon AS DiscountVoucher_IsUseWithOtherCoupon, \r");
+            viewString.Append("\n            T.IsTimeLimit AS DiscountVoucher_IsTimeLimit, \r\n            T.IsQty");
+            viewString.Append("Requirement AS DiscountVoucher_IsQtyRequirement, \r\n            T.MinRequiredQty ");
+            viewString.Append("AS DiscountVoucher_MinRequiredQty, \r\n            T.MaxRequiredQty AS DiscountVou");
+            viewString.Append("cher_MaxRequiredQty, \r\n            T.IsOrderPriceRequirement AS DiscountVoucher_");
+            viewString.Append("IsOrderPriceRequirement, \r\n            T.MinRequiredOrderPrice AS DiscountVouche");
+            viewString.Append("r_MinRequiredOrderPrice, \r\n            T.MaxRequiredOrderPrice AS DiscountVouche");
+            viewString.Append("r_MaxRequiredOrderPrice, \r\n            T.CustomerId AS DiscountVoucher_CustomerI");
+            viewString.Append("d, \r\n            T.IsSingleUseRedeemed AS DiscountVoucher_IsSingleUseRedeemed, \r");
+            viewString.Append("\n            T.IsQtySpan AS DiscountVoucher_IsQtySpan, \r\n            True AS _fr");
+            viewString.Append("om0\r\n        FROM DomainModelsStoreContainer.DiscountVoucher AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.DiscountVouchers", viewString.ToString());
         }
         
         /// <Summary>
@@ -13223,6 +13282,78 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("s_CanPlaceOrder, \r\n            True AS _from0\r\n        FROM DomainModelsStoreCon");
             viewString.Append("tainer.StagingImportCompanyContactAddress AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.StagingImportCompanyContactAddresses", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.ItemsVoucher
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView340()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ItemsVoucher", @"
+    SELECT VALUE -- Constructing ItemsVoucher
+        [DomainModels.Store.ItemsVoucher](T1.ItemsVoucher_ItemVoucherId, T1.ItemsVoucher_ItemId, T1.ItemsVoucher_VoucherId)
+    FROM (
+        SELECT 
+            T.ItemVoucherId AS ItemsVoucher_ItemVoucherId, 
+            T.ItemId AS ItemsVoucher_ItemId, 
+            T.VoucherId AS ItemsVoucher_VoucherId, 
+            True AS _from0
+        FROM BaseDbContext.ItemsVouchers AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.ItemsVouchers
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView341()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ItemsVouchers", @"
+    SELECT VALUE -- Constructing ItemsVouchers
+        [DomainModels.ItemsVoucher](T1.ItemsVoucher_ItemVoucherId, T1.ItemsVoucher_ItemId, T1.ItemsVoucher_VoucherId)
+    FROM (
+        SELECT 
+            T.ItemVoucherId AS ItemsVoucher_ItemVoucherId, 
+            T.ItemId AS ItemsVoucher_ItemId, 
+            T.VoucherId AS ItemsVoucher_VoucherId, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.ItemsVoucher AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.ProductCategoryVoucher
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView342()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ProductCategoryVoucher", @"
+    SELECT VALUE -- Constructing ProductCategoryVoucher
+        [DomainModels.Store.ProductCategoryVoucher](T1.ProductCategoryVoucher_CategoryVoucherId, T1.ProductCategoryVoucher_ProductCategoryId, T1.ProductCategoryVoucher_VoucherId)
+    FROM (
+        SELECT 
+            T.CategoryVoucherId AS ProductCategoryVoucher_CategoryVoucherId, 
+            T.ProductCategoryId AS ProductCategoryVoucher_ProductCategoryId, 
+            T.VoucherId AS ProductCategoryVoucher_VoucherId, 
+            True AS _from0
+        FROM BaseDbContext.ProductCategoryVouchers AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.ProductCategoryVouchers
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView343()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ProductCategoryVouchers", @"
+    SELECT VALUE -- Constructing ProductCategoryVouchers
+        [DomainModels.ProductCategoryVoucher](T1.ProductCategoryVoucher_CategoryVoucherId, T1.ProductCategoryVoucher_ProductCategoryId, T1.ProductCategoryVoucher_VoucherId)
+    FROM (
+        SELECT 
+            T.CategoryVoucherId AS ProductCategoryVoucher_CategoryVoucherId, 
+            T.ProductCategoryId AS ProductCategoryVoucher_ProductCategoryId, 
+            T.VoucherId AS ProductCategoryVoucher_VoucherId, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.ProductCategoryVoucher AS T
+    ) AS T1");
         }
     }
 }

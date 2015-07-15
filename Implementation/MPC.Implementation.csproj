@@ -178,6 +178,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="MISServices\DiscountVoucherService.cs" />
     <Compile Include="MISServices\CompanyCostCentreService.cs" />
     <Compile Include="MISServices\AddressService.cs" />
     <Compile Include="MISServices\AuthorizationChecker.cs" />

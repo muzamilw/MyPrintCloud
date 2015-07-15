@@ -125,23 +125,31 @@ namespace MPC.Webstore.Controllers
                     }
 
                     MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.WBStoreId];
-                    string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
-                    if (!_webstoreAuthorizationChecker.isUserLoggedIn())
+                    if (StoreBaseResopnse != null)
                     {
-                        if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
+                        string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
+                        if (!_webstoreAuthorizationChecker.isUserLoggedIn())
                         {
-                            Response.Redirect("/Login");
+                            if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
+                            {
+                                Response.Redirect("/Login");
+                            }
                         }
+                        else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
+                        {
+                            Response.Redirect("/");
+
+                        }
+
+                        model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse);
+                        StoreBaseResopnse = null;
+
                     }
-                    else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
+                    else 
                     {
-                        Response.Redirect("/");
-
+                        TempData["ErrorMessage"] = "There is some problem while performing the operation.";
+                        return RedirectToAction("Error");
                     }
-
-                    model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse.Company.Name);
-                    StoreBaseResopnse = null;
-
 
                 }
                 else
@@ -162,21 +170,54 @@ namespace MPC.Webstore.Controllers
             }
         }
 
-        public List<MPC.Models.DomainModels.CmsSkinPageWidget> GetWidgetsByPageName(List<MPC.Models.Common.CmsPageModel> pageList, string pageName, List<MPC.Models.DomainModels.CmsSkinPageWidget> allPageWidgets, MPC.Models.DomainModels.Address DefaultAddress, string CompanyName)
+        public List<MPC.Models.DomainModels.CmsSkinPageWidget> GetWidgetsByPageName(List<MPC.Models.Common.CmsPageModel> pageList, string pageName, List<MPC.Models.DomainModels.CmsSkinPageWidget> allPageWidgets, MPC.Models.DomainModels.Address DefaultAddress, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse CompanyObject)
         {
             if (!string.IsNullOrEmpty(pageName))
             {
                 MPC.Models.Common.CmsPageModel Page = pageList.Where(p => p.PageName == pageName).FirstOrDefault();
+                if (Page.isUserDefined == true)
+                {
+                    ViewBag.pageName = Page.PageTitle.Replace(" ", "-");
+                    
+                }
+                else 
+                {
+                    ViewBag.pageName = Page.PageName;
+                }
 
-                SetPageMEtaTitle(Page, DefaultAddress, CompanyName);
-
+                if (Page.PageName == "ProductDetail" || Page.PageName == "Category" || Page.PageName == "ProductOptions")
+                {
+                    ViewBag.MetaTitle = TempData["MetaTitle"];
+                    TempData.Keep("MetaTitle");
+                    ViewBag.MetaKeywords = TempData["MetaKeywords"];
+                    TempData.Keep("MetaKeywords");
+                    ViewBag.MetaDescription = TempData["MetaDescription"];
+                    TempData.Keep("MetaDescription");
+                    ViewBag.WebMasterTag = CompanyObject.Company.WebMasterTag;
+                    ViewBag.WebAnalyticCode = CompanyObject.Company.WebAnalyticCode;
+                }
+                else 
+                {
+                    SetPageMEtaTitle(Page, DefaultAddress, CompanyObject);
+                }
+                  
                 return allPageWidgets.Where(widget => widget.PageId == Page.PageId).OrderBy(s => s.Sequence).ToList();
             }
             else        //this is default page being fired.
             {
+                ViewBag.IsHome = true;
                 MPC.Models.Common.CmsPageModel Page = pageList.Where(p => p.PageName.ToLower() == "home").FirstOrDefault();
+                if (Page.isUserDefined == true)
+                {
+                    ViewBag.pageName = Page.PageTitle.Replace(" ", "-");
 
-                SetPageMEtaTitle(Page, DefaultAddress, CompanyName);
+                }
+                else
+                {
+                    ViewBag.pageName = Page.PageName;
+                }
+                
+                SetPageMEtaTitle(Page, DefaultAddress, CompanyObject);
 
                 return allPageWidgets.Where(widget => widget.PageId == Page.PageId).OrderBy(s => s.Sequence).ToList();
             }
@@ -189,13 +230,19 @@ namespace MPC.Webstore.Controllers
         /// <param name="Keywords"></param>
         /// <param name="Title"></param>
         /// <param name="baseResponse"></param>
-        private void SetPageMEtaTitle(MPC.Models.Common.CmsPageModel oPage, MPC.Models.DomainModels.Address DefaultAddress, string CompanyName)
+        private void SetPageMEtaTitle(MPC.Models.Common.CmsPageModel oPage, MPC.Models.DomainModels.Address DefaultAddress, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse CompanyObject)
         {
-            string[] MetaTags = _myCompanyService.CreatePageMetaTags(oPage.PageTitle == null ? "" : oPage.PageTitle, oPage.Meta_DescriptionContent == null ? "" : oPage.Meta_DescriptionContent, oPage.Meta_KeywordContent == null ? "" : oPage.Meta_KeywordContent, StoreMode.Retail, CompanyName, DefaultAddress);
-
-            ViewBag.MetaTitle = MetaTags[0];
-            ViewBag.MetaKeywords = MetaTags[1];
-            ViewBag.MetaDescription = MetaTags[2];
+            string[] MetaTags = _myCompanyService.CreatePageMetaTags(oPage.PageTitle == null ? "" : oPage.PageTitle, oPage.Meta_DescriptionContent == null ? "" : oPage.Meta_DescriptionContent, oPage.Meta_KeywordContent == null ? "" : oPage.Meta_KeywordContent, CompanyObject.Company.Name, DefaultAddress);
+            
+            TempData.Remove("MetaTitle");
+            TempData["MetaTitle"] = MetaTags[0];
+            TempData.Remove("MetaKeywords");
+            TempData["MetaKeywords"] = MetaTags[1];
+            TempData.Remove("MetaDescription");
+            TempData["MetaDescription"] = MetaTags[2];
+           
+            ViewBag.WebMasterTag = CompanyObject.Company.WebMasterTag;
+            ViewBag.WebAnalyticCode = CompanyObject.Company.WebAnalyticCode;
         }
 
 

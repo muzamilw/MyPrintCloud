@@ -89,7 +89,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-1" style="padding-top:10px;">
-                                                <button data-bind="click: $root.openCompanyDialog, enable: ($root.selectedOrder().id() <= 0) || ($root.selectedOrder().id()===undefined)" class="btn btn-primary pull-right">
+                                                <button data-bind="click: $root.isCustomerEdittable() ? $root.openCompanyDialog : undefined" class="btn btn-primary pull-right">
                                                     <i class="fa fa-user"></i>
                                                 </button>
                                             </div>
@@ -245,11 +245,11 @@
                                             </div>
 
                                         </div>*@
-                                        <div class="form-group" style="margin-top:6.5%">
-
+                                        <div class="form-group">
+                                            &nbsp;
                                         </div>
                                         <div class="form-group" style="margin-top:0">
-                                            <div class="col-sm-4 text-right" style="padding-top: 10px;">
+                                            <div class="col-sm-4 text-right" style="padding-top: 17px;">
                                                 <label class="control-label text-right">Estimate Date</label>
                                             </div>
                                             <div class="col-sm-6">
@@ -262,7 +262,7 @@
                                 </div>
                                 <div class="col-sm-12 form-horizontal">
                                     <div class="col-sm-12">
-                                        <div class="form-group">
+                                        <div class="form-group" style="margin-top: 10px">
                                             <div class="col-sm-2 text-right">
                                                 &nbsp;
                                             </div>
@@ -379,13 +379,14 @@
                                                     <button type="button" class="btn btn-primary" data-bind="click: $root.onShippingChargesClick">Add Shipping Charge</button>
                                                 </div>
                                                 <div class="col-sm-6" style="margin-top:10px">
-                                                    <div class="col-sm-8 text-right">
+                                                    <div class="col-sm-6 text-right">
                                                         <label class="control-label text-right tooltip-float">Gross Total:</label>
                                                     </div>
-                                                    <div class="col-sm-4 text-right" style="margin-top:5px">
+                                                    <div class="col-sm-5 text-right" style="margin-top:5px;padding-right: 24px">
                                                         <span data-bind="text: $root.currencySymbol() " style="font-weight: bold; font-size:20px;"></span>
                                                         <span data-bind="numberInput: $root.grossTotal" style="font-weight: bold; font-size:20px;"></span>
                                                     </div>
+                                                    <div class="col-sm-1">&nbsp;</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -430,8 +431,8 @@
                                             <span style="font-size:20px;" data-bind="text: qty1"></span>
                                         </td>
                                         <td class="text-right">
-                                            <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>
-                                            <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
+                                            <span style="font-size:20px;" data-bind="text: $root.currencySymbol"></span>
+                                            <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal"></span>
                                         </td>
                                         <td>
                                             <a href="#" class="table-link danger pull-right" style="visibility: hidden" title="Delete">
@@ -455,7 +456,8 @@
                                         </td>
                                         <td>&nbsp;</td>
                                         <td class="text-right">
-                                            <span style="font-size:20px;" data-bind="text: $root.currencySymbol() + qty1GrossTotal()"></span>
+                                            <span style="font-size:20px;" data-bind="text: $root.currencySymbol"></span>
+                                            <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal"></span>
                                         </td>
                                         <td>
                                             <a href="#" class="table-link danger pull-right" data-bind="click: $root.onDeleteShippingItem" title="Delete">
