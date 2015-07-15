@@ -2276,6 +2276,7 @@ namespace MPC.Repository.Repositories
 
                         List<CostCentre> CostCentres = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).ToList();
                         List<Machine> machines = db.Machines.Where(c => c.OrganisationId == OrganisationID).ToList();
+                        List<Company> Suppliers = db.Companies.Where(s => s.OrganisationId == OrganisationID && s.IsCustomer == 2).ToList();
                         int FlagID = db.SectionFlags.Where(c => c.OrganisationId == OrganisationID & c.SectionId == 81 && c.isDefault == true).Select(c => c.SectionFlagId).FirstOrDefault();
                         status += "setting webconfig done";
                         if (StoreName == SName)
@@ -2624,6 +2625,12 @@ namespace MPC.Repository.Repositories
                                     {
                                         foreach (var price in item.ItemPriceMatrices)
                                         {
+                                            int OldSupId = price.SupplierId ?? 0;
+                                            if (price.SupplierId != null)
+                                            {
+                                                long SupId = Suppliers.Where(c => c.TaxPercentageId == OldSupId).Select(c => c.CompanyId).FirstOrDefault();
+                                                price.SupplierId = (int)SupId;
+                                            }
                                             price.FlagId = FlagID;
                                         }
                                     }
@@ -2982,6 +2989,12 @@ namespace MPC.Repository.Repositories
                                     {
                                         foreach (var price in item.ItemPriceMatrices)
                                         {
+                                            int OldSupId = price.SupplierId ?? 0;
+                                            if (price.SupplierId != null)
+                                            {
+                                                long SupId = Suppliers.Where(c => c.TaxPercentageId == OldSupId).Select(c => c.CompanyId).FirstOrDefault();
+                                                price.SupplierId = (int)SupId;
+                                            }
                                             price.FlagId = FlagID;
                                         }
                                     }
@@ -3376,6 +3389,12 @@ namespace MPC.Repository.Repositories
                                     {
                                         foreach (var price in item.ItemPriceMatrices)
                                         {
+                                            int OldSupId = price.SupplierId ?? 0;
+                                            if (price.SupplierId != null)
+                                            {
+                                                long SupId = Suppliers.Where(c => c.TaxPercentageId == OldSupId).Select(c => c.CompanyId).FirstOrDefault();
+                                                price.SupplierId = (int)SupId;
+                                            }
                                             price.FlagId = FlagID;
                                         }
                                     }
@@ -3771,6 +3790,13 @@ namespace MPC.Repository.Repositories
                                     {
                                         foreach (var price in item.ItemPriceMatrices)
                                         {
+                                            int OldSupId = price.SupplierId ?? 0;
+                                            if (price.SupplierId != null)
+                                            {
+                                                long SupId = Suppliers.Where(c => c.TaxPercentageId == OldSupId).Select(c => c.CompanyId).FirstOrDefault();
+                                                price.SupplierId = (int)SupId;
+                                            }
+
                                             price.FlagId = FlagID;
                                         }
                                     }

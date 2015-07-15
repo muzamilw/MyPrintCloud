@@ -45,7 +45,7 @@
                                     Reports
                                 </button>
                                 <a class="btn btn-primary" data-bind="click:$root.addDeliveryNotes">
-                                    Add Delivery Note
+                                    Add New Delivery Note
                                 </a>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                 <form data-bind="submit:$root.searchData">
                     <div class="filter-block pull-right">
 
-                        <div class="form-group pull-left">
+                        <div class="form-group pull-left" style="margin-top: -6px;">
                             <input type="text" class="form-control" placeholder="Search..." data-bind="value:$root. searchFilter">
                             <i class="fa fa-search search-icon" data-bind="click:$root.searchData"></i>
                         </div>
@@ -87,18 +87,17 @@
                 </div>
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="tab-DeliveryAwaiting">
-                        <div style="margin-top:15px;margin-left:15px;margin-bottom:10px;">
-                            <span>View Orders that are awating dispatch, add Con Note information and Print Delivery Dockets.</span>
+                        <div class="tabsdescriptions">
+                            <span>View Orders that are awaiting dispatch, add contact information and print delivery dockets.</span>
                         </div>
                         <div class="table-responsive" style="padding-left:10px;padding-right:10px;">
-                            <table class="table user-list">
+                            <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
                                         <th class="col-lg-4"><span>Company / Title</span></th>
                                         <th class="col-lg-2"><span>Creation Date</span></th>
-                                        <th class="col-lg-2 text-center"><span>Flag</span></th>
-                                        <th class="col-lg-2"><span>Delivery Code</span></th>
-                                        <th>&nbsp;</th>
+                                        <th class="col-lg-2" style="  padding-left: 4%;"><span>Flag</span></th>
+                                        <th class="col-lg-1"><span>Delivery Code</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -114,14 +113,13 @@
                             <span>View Past Delivery Dockets and Review Con Note Information or Re-Print Delivery Dockets.</span>
                         </div>
                         <div class="table-responsive" style="padding-left:10px;padding-right:10px;">
-                            <table class="table user-list">
+                            <table class="table user-list table-striped table-hover">
                                 <thead>
                                     <tr>
                                         <th class="col-lg-4"><span>Company / Title</span></th>
                                         <th class="col-lg-2"><span>Creation Date</span></th>
-                                        <th class="col-lg-2 text-center"><span>Flag</span></th>
-                                        <th class="col-lg-2"><span>Delivery Code</span></th>
-                                        <th>&nbsp;</th>
+                                        <th class="col-lg-2" style="  padding-left: 4%;"><span>Flag</span></th>
+                                        <th class="col-lg-1"><span>Delivery Code</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -158,7 +156,7 @@
                 <div class="form-group pull-left">
                     <select class="form-control"></select>
                 </div>
-                <div class="form-group pull-left">
+                <div class="form-group pull-left" >
                     <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
                     <i class="fa fa-search search-icon"></i>
                 </div>
@@ -174,13 +172,13 @@
 <script id="deliveryNotesListViewTemplate" type="text/html">
     <tr data-bind="click:$root.onEditDeliverNote" style="cursor: pointer">
         <td>
-            <a href="#" class="user-link patial-edit" data-bind="text:companyName"></a>
+            <a href="#" class="user-link patial-edit" data-bind="text:companyName"></a> <br />
             <span class="user-subhead" data-bind="text:orderReff"></span>
         </td>
         <td>
             <span data-bind="dateString: creationDateTime, datePattern: 'DD/MM/YYYY'"></span>
         </td>
-        <td class="text-center">
+        <td class="" style="  padding-left: 4%;">
             <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
         </td>
         <td>
@@ -188,7 +186,6 @@
             <br />
             <span class="user-subhead" data-bind="dateString: deliveryDate, datePattern: 'DD/MM/YYYY'"></span>
         </td>
-        <td style="width: 20%;"></td>
     </tr>
 
 </script>
@@ -202,17 +199,6 @@
         require(["deliveryNotes/deliveryNotes.view", "common/companySelector.view", , "common/confirmation.view", "common/reportManager.view"]);
         $(document).ready(function () {
             $('#lishipping').addClass('active');
-        });
-
-    </script>
-    <script>
-        $(document).ready(function () {
-            setTimeout(function () {
-                var spinner = $("div#spinner");
-                spinner.stop();
-                spinner.fadeOut("fast");
-                $.unblockUI(spinner);
-            }, 1000);
         });
     </script>
 }

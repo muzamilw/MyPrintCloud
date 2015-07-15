@@ -22,7 +22,7 @@
     bundle.Include(
                    "~/LightBox/Js/jquery-1.10.1.min.js", "~/LightBox/Js/jquery.fancybox.pack.js", "~/LightBox/Js/jquery.fancybox.js");
 }
-<div class="content_area container" id="PendingOrders">
+<div class="content_area container" id="all-pendingOrder-pg">
     <div class="left_right_padding">
         <div class="col-md-12 col-lg-12 col-xs-12 ">
             <div class="signin_heading_div float_left_simple ">
@@ -41,14 +41,14 @@
             <div class="clearBoth">
             </div>
         </div>
-       
+
         <div class="col-md-12 col-lg-12 col-xs-12 ">
             <div class="Width100Percent">
                 @*<div class="divSearchBar paddingBottom10px normalTextStyle rounded_corners">
-                    <div class="heading_h8 cntFilteringCritariaLeft">
+                        <div class="heading_h8 cntFilteringCritariaLeft">
 
-                    </div>
-                </div>*@
+                        </div>
+                    </div>*@
             </div>
             <div class="white_back_div rounded_corners PddingForGridContent">
                 <div class="PadingTop textAlignLeft">
@@ -85,7 +85,7 @@
 
    }
 
-   )
+            )
 
 
                         @if (Convert.ToInt32(ViewBag.TotalOrders) > 13)

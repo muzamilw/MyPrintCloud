@@ -1734,7 +1734,7 @@ ul.nav li.selectedLava a {
 
 .sign_in_heading {
     font-size: 25px;
-    color: black;
+    color: white;
     text-align: center;
     /* font-weight: bold;*/
 }
@@ -1758,7 +1758,7 @@ ul.nav li.selectedLava a {
     font-weight: bold;
     font-size: 25px;
     text-align: center;
-    color: black;
+    color: white;
 }
 
 .show_as_it_is {
@@ -2202,7 +2202,7 @@ span.radioBtnPaperTypeClass input {
 
 .dropdown {
     border: 1px solid #c1c6cc;
-    padding: 5px;
+    padding: 6px;
     background-image: url('Images/text_box_back.png');
     background-repeat: repeat-x;
     color: black;
@@ -11831,11 +11831,12 @@ ul.LogBar li a {
 
 .matchingTxtclass {
     font-size: 12px;
-    font-weight: bold;
-    float: left;
-    margin-bottom: 10px;
-    margin-left: 3px;
-    color: #CCCCDA;
+  font-weight: bold;
+  float: left;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  color: black;
+  margin-top: 10px;
 }
 
 .imgMagnifyingGlass {
@@ -14072,7 +14073,7 @@ ul.LogBar li a {
         margin: 0px !important;
         width: 100%;
         border: 2px solid white;
-        padding-top: 100px !important;
+        padding-top: 100px !important;  background: #5f5651 !important;
     }
 
     .Top_Cat_Body {
@@ -15552,7 +15553,7 @@ ul.LogBar li a {
         width: 100%;
         border: 2px solid white;
         padding-top: 100px !important;
-        padding-bottom: 20px;
+        padding-bottom: 20px;  background: #5f5651 !important;
     }
 
     .Top_Cat_Body {
@@ -16398,7 +16399,7 @@ ul.LogBar li a {
         width: 100%;
         border: 2px solid white;
         padding-top: 95px !important;
-        padding-bottom: 22px !important;
+        padding-bottom: 22px !important;  background: #5f5651 !important;
     }
 
     .temSelPnlTxtBck {
@@ -17546,11 +17547,11 @@ ul.LogBar li a {
     }
 
     .order_history_btn {
-        height: 33px;
+            height: 33px;
         border: 0px;
         text-align: center;
         color: white;
-        width: 100px;
+        width: 88px;
         cursor: pointer;
         background-color: #E83e48;
         font-size: 16px;
@@ -17563,7 +17564,7 @@ ul.LogBar li a {
         padding: 5px;
         background-image: url('Images/text_box_back.png');
         background-repeat: repeat-x;
-        width: 150px;
+        width: 119px;
         color: black;
     }
 
@@ -18816,7 +18817,7 @@ ul.LogBar li a {
         float: left;
         /*width: 700px;*/
         text-align: left;
-        padding-left: 30px !important;
+        padding-left: 0px !important;
     }
 
     .CkOutBrokerLlogo {
@@ -19223,7 +19224,7 @@ ul.LogBar li a {
         border: 2px solid white;
         padding-left: 83px !important;
         padding-top: 95px !important;
-        padding-bottom: 20px !important;
+        padding-bottom: 20px !important;  background: #5f5651 !important;
     }
 
 
@@ -19477,11 +19478,11 @@ ul.LogBar li a {
     }
 
     .order_history_btn {
-        height: 33px;
+            height: 33px;
         border: 0px;
         text-align: center;
         color: white;
-        width: 100px;
+        width: 88px;
         cursor: pointer;
         background-color: #E83e48;
         font-size: 16px;
@@ -20755,7 +20756,7 @@ ul.LogBar li a {
         float: left;
         /*width: 700px;*/
         text-align: left;
-        padding-left: 30px !important;
+        padding-left: 0px !important;
     }
 
     .CkOutBrokerLlogo {
@@ -21142,7 +21143,7 @@ ul.LogBar li a {
         border: 2px solid white;
         padding-left: 83px !important;
         padding-top: 95px !important;
-        padding-bottom: 20px !important;
+        padding-bottom: 20px !important;  background: #5f5651 !important;
     }
 
 
@@ -24135,6 +24136,24 @@ DIV.LoginBarContainer DIV.content_area {
     padding-right: 0px !important;
 }
 
-#catagory {
+#all-category-pg {
     border: 2px solid white;
+      background: #5f5651 !important;
+}
+#Orderhistory {
+  border: 2px solid white;
+  padding-top: 50px;
+    background: #5f5651 !important;
+}
+DIV#ContactDetail DIV.ContactDetail {
+  border: 2px solid white;
+  padding-top: 50px;
+    background: #5f5651 !important;
+}
+#ContactDetailsMainContainer {
+      background-color: transparent !important;
+}
+DIV#controlBodyDiv DIV.content_area {
+  
+  padding-top: 50px;
 }

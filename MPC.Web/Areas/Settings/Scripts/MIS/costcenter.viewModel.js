@@ -205,11 +205,11 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 SelectedMatrixVariable(model.MatrixVariableClientMapper());
                 view.showCostCentreMatrixDialog();
                 SelectedMatrixVariable().reset();
-            }
+            },
             DeleteMatrixVariable = function (variable, event) {
                 if (event != undefined) {
                     var Id = parseInt($('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id'));
-                    confirmation.messageText("Do you want to Detele this Item?");
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         dataservice.DeleteMatrixVariable({
                             MatrixId: Id
@@ -607,7 +607,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             },
             OnDeleteAnswerStringofQuestionVariable = function (oAnswer) {
                 if (oAnswer.Id() > 0) {
-                    confirmation.messageText("Do you want to Detele this Item?");
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         dataservice.deleteQuestionVariable({
                             MCQsQuestionAnswerId: oAnswer.Id()
@@ -636,11 +636,11 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             addQuestionVariable = function () {
                 SelectedQuestionVariable(model.QuestionVariable());
                 view.showCostCentreQuestionDialog();
-            }
+            },
             DeleteQuestionVariable = function (variable, event) {
                 if (event != undefined) {
                     var Id = parseInt($('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id'));
-                    confirmation.messageText("Do you want to Detele this Item?");
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         dataservice.deleteQuestionVariable({
                             QuestionId: Id
@@ -809,6 +809,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     return;
                 }
                 // Ask for confirmation
+                confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                 confirmation.afterProceed(function () {
                     deleteCostCenter(oCostCenter);
                 });
