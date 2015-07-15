@@ -54,10 +54,10 @@ namespace MPC.Repository.Repositories
                 voucher =>
                     ((!isString || voucher.VoucherName.Contains(request.SearchString) ||
                       voucher.CouponCode.Contains(request.SearchString)
-                      || voucher.DiscountRate.ToString() == request.SearchString)
+                      || voucher.DiscountRate.ToString() == request.SearchString) && voucher.CompanyId == request.CompanyId
 
                         );
-                   
+
             IEnumerable<DiscountVoucher> items = request.IsAsc
                ? DbSet.Where(query)
                    .OrderBy(voucher => voucher.VoucherName)
@@ -70,7 +70,7 @@ namespace MPC.Repository.Repositories
                    .Take(toRow)
                    .ToList();
 
-            return new DiscountVoucherListViewResponse { DiscountVouchers = items, RowCount = DbSet.Count(query) }; 
+            return new DiscountVoucherListViewResponse { DiscountVouchers = items, RowCount = DbSet.Count(query) };
         }
         #endregion
     }
