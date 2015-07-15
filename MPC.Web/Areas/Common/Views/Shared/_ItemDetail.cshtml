@@ -85,21 +85,33 @@
                                             <div class="col-sm-4 form-horizontal" style="background-color:gainsboro;margin-left: 4px;padding-top:20px;border-radius:3px">
                                                 <div style="background-color:gainsboro; border-radius:3px">
                                                     <div style="background-color:gainsboro; border-radius:3px">
-                                                        <div class="form-group">
-                                                            <div class="col-sm-4">
-                                                                <label class="control-label tooltip-float" style="cursor: pointer" data-bind="click: $root.selectQuantityForItem.bind(1, 1), css: { font20px: $root.selectedQtyForItem() === 1 }, style: { 'margin-top': $root.selectedQtyForItem() !== 1 ? '5px' : '0', 'text-decoration': $root.selectedQtyForItem() !== 1 ? 'underline' : 'none', 'color': $root.selectedQtyForItem() !== 1 ? 'blue' : '' }">Qty1</label>
+                                                        <div class="form-group col-lg-12">
+                                                            @*<div class="col-sm-4">
+                                                            <label class="control-label tooltip-float" style="cursor: pointer" data-bind="click: $root.selectQuantityForItem.bind(1, 1), css: { font20px: $root.selectedQtyForItem() === 1 }, style: { 'margin-top': $root.selectedQtyForItem() !== 1 ? '5px' : '0', 'text-decoration': $root.selectedQtyForItem() !== 1 ? 'underline' : 'none', 'color': $root.selectedQtyForItem() !== 1 ? 'blue' : '' }">Qty1</label>
                                                             </div>
                                                             <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                                             <div class="col-sm-3">
-                                                                <label class="control-label tooltip-float" style="cursor: pointer" data-bind="click: $root.selectQuantityForItem.bind(2, 2), css: { font20px: $root.selectedQtyForItem() === 2 }, style: { 'margin-top': $root.selectedQtyForItem() !== 2 ? '5px' : '0', 'text-decoration': $root.selectedQtyForItem() !== 2 ? 'underline' : 'none', 'color': $root.selectedQtyForItem() !== 2 ? 'blue' : '' }">Qty2</label>
+                                                            <label class="control-label tooltip-float" style="cursor: pointer" data-bind="click: $root.selectQuantityForItem.bind(2, 2), css: { font20px: $root.selectedQtyForItem() === 2 }, style: { 'margin-top': $root.selectedQtyForItem() !== 2 ? '5px' : '0', 'text-decoration': $root.selectedQtyForItem() !== 2 ? 'underline' : 'none', 'color': $root.selectedQtyForItem() !== 2 ? 'blue' : '' }">Qty2</label>
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                <label class="control-label tooltip-float" style="cursor: pointer" data-bind="click: $root.selectQuantityForItem.bind(3, 3), css: { font20px: $root.selectedQtyForItem() === 3 }, style: { 'margin-top': $root.selectedQtyForItem() !== 3 ? '5px' : '0', 'text-decoration': $root.selectedQtyForItem() !== 3 ? 'underline' : 'none', 'color': $root.selectedQtyForItem() !== 3 ? 'blue' : '' }">Qty3</label>
+                                                            <label class="control-label tooltip-float" style="cursor: pointer" data-bind="click: $root.selectQuantityForItem.bind(3, 3), css: { font20px: $root.selectedQtyForItem() === 3 }, style: { 'margin-top': $root.selectedQtyForItem() !== 3 ? '5px' : '0', 'text-decoration': $root.selectedQtyForItem() !== 3 ? 'underline' : 'none', 'color': $root.selectedQtyForItem() !== 3 ? 'blue' : '' }">Qty3</label>
+                                                            </div>
+                                                            <!--/ko-->*@
+                                                            <div class="">
+                                                                <input type="button" style="  margin-left: 5px;" class="btn btn-default col-sm-4" data-bind="visible: $root.selectedQtyForItem() == 2 || $root.selectedQtyForItem() == 3, click: $root.selectQuantityForItem.bind(1, 1), value: 'Qty 1      (' + qty1() + ') '">
+                                                            </div>
+                                                            <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
+                                                            <div class="">
+                                                                <input type="button" style="  margin-left: 5px;" class="btn btn-default col-sm-3" data-bind="visible: $root.selectedQtyForItem() == 1 || $root.selectedQtyForItem() == 3, click: $root.selectQuantityForItem.bind(2, 2), value: 'Qty 2      (' + qty2() + ') '">
+                                                            </div>
+                                                            <div class="">
+                                                                <input type="button" style="  margin-left: 5px;" class="btn btn-default col-sm-3" data-bind="visible: $root.selectedQtyForItem() == 1 || $root.selectedQtyForItem() == 2, click: $root.selectQuantityForItem.bind(3, 3), value: 'Qty 3      (' + qty3() + ') '">
                                                             </div>
                                                             <!--/ko-->
+                                                            <input type="button" class="btn btn-primary" style="float: right; padding-right: 5px;" data-bind="value: $root.selectedQtyForItem() == 1 ? 'Qty 1      (' + qty1() + ')' : $root.selectedQtyForItem() == 2? 'Qty 2      (' + qty2() + ')': 'Qty 3      (' + qty3() + ') '" />
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
+                                                    @*<div class="form-group">
                                                         <div class="col-sm-5" style="text-align: right">
                                                             <label class="control-label">
                                                                 Qty
@@ -107,7 +119,7 @@
                                                                 <span class="control-label">Summary</span>
                                                             </label>
                                                         </div>
-                                                    </div>
+                                                    </div>*@
                                                     <div class="form-group">
                                                         <div class="col-sm-5" style="text-align: right;">
                                                             <div class="col-sm-12" style="padding-right: 0;margin-bottom: 5px">
@@ -128,17 +140,20 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <div class="col-sm-6">
-                                                            <div class="col-sm-4">
-                                                                <label class="control-label tooltip-float">Tax </label>
+                                                        <div class="col-sm-5" style="text-align: right;">
+                                                            <div class="col-sm-12" style="padding-right: 0;margin-bottom: 5px">
+                                                                <label class="control-label">Tax</label>
                                                             </div>
-                                                            <div class="col-sm-6">
+                                                        </div>
+                                                        
+                                                        <div class="col-sm-3">
+                                                            <div class="col-sm-10">
                                                                 <input type="text" style="" class="form-control text-right" name="Tax Rate should be a valid number" id="txtTax" data-bind="disable:taxRateIsDisabled,value:tax1">
                                                             </div>
-                                                            <div class="col-sm-1 help-block text-right" style="margin-left: -9%;">%</div>
+                                                            <div class="col-sm-1 help-block text-right" style="margin-left: -9%;  margin-top: 8px;">%</div>
                                                         </div>
 
-                                                        <div class="col-sm-4 pull-right">
+                                                        <div class="col-sm-4">
                                                             <div class="txtBox-contentAlignRight" style="margin-right: 34px">
                                                                 <label class="control-label">
                                                                     <span data-bind="text:$root.currencySymbol"></span>
@@ -622,13 +637,13 @@
             <div style="float: left;">
                 @using (Ajax.BeginForm("FileDownload", "Home", new AjaxOptions { HttpMethod = "POST" }, new { target = "_blank" }))
                 {
-                    <input type="hidden" id="item" name="item" data-bind="value:id" />
-                    <button type="submit" class="table-link" title="Donwload" data-bind="enable:id()>0" style=" padding-left: 0px;border-left-width: 0px;padding-right: 0px;border-right-width: 0px; border-top-width: 0px;padding-bottom: 0px;background-color: transparent;border-bottom: none;height: 31px;">
-                        <span class="fa-stack">
-                            <i class="fa fa-square-o fa-stack-2x"></i>
-                            <i class="fa fa-download fa-stack-1x"></i>
-                        </span>
-                    </button>
+                <input type="hidden" id="item" name="item" data-bind="value:id" />
+                <button type="submit" class="table-link" title="Donwload" data-bind="enable:id()>0" style=" padding-left: 0px;border-left-width: 0px;padding-right: 0px;border-right-width: 0px; border-top-width: 0px;padding-bottom: 0px;background-color: transparent;border-bottom: none;height: 31px;">
+                    <span class="fa-stack">
+                        <i class="fa fa-square-o fa-stack-2x"></i>
+                        <i class="fa fa-download fa-stack-1x"></i>
+                    </span>
+                </button>
                 }
             </div>
             <a href="#" class="table-link danger" style="float: right;" title="Delete" data-bind="click:$root.deleteItemAttachment">
