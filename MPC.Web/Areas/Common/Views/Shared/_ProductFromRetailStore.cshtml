@@ -147,7 +147,7 @@
                         <!--/ko-->
                     </div>
 
-                    <div style="margin-left: 2%; height: 415px; max-height: 415px; width: 30%;" class="col-sm-3 center_align form-horizontal outerDiv-Padding" id="OrderDialogSection1" data-bind="visible: $root.isProductprogressed()">
+                    <div style="margin-left: 2%; height: 415px; max-height: 415px; width: 30%;overflow: hidden" class="col-sm-3 center_align form-horizontal outerDiv-Padding" id="OrderDialogSection1" data-bind="visible: $root.isProductprogressed()">
                         <!--ko if:  $root.selectedProductFromStore() != undefined-->
                         <img src="" alt="image" data-bind="attr: { src:  $root.selectedProductFromStore().thumbnail() }" class="Top_Cat_ThumbnailPath" />
                         <h4 data-bind="text: $root.selectedProductFromStore().productName(), visible: $root.selectedProductFromStore().productName() != undefined" style="  padding-left: 5px; font-weight: 400;font-size: 1.4em;margin-top: 5px;"></h4>
@@ -193,7 +193,7 @@
             <div class="col-sm-12 form-horizontal">
 
                 <div class="col-sm-8" data-bind="visible: !$root.isProductprogressed()">
-                    <div class="col-sm-5" style="margin-top: 5px;float:right;margin-right: 1%;">
+                    <div class="col-sm-6" style="margin-top: 5px;float:right;margin-right: 1%;">
                         <div id="pagerDivForStore" style="  float: left;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              margin-left: 12px;">
                             <!-- ko with: $root.pager -->
@@ -203,7 +203,7 @@
                     </div>
                 </div>
                 <!--ko if: $root.selecteditem()!=undefined && $root.selectedStockOption() != undefined -->
-                <div class="col-sm-3" style="float: right; margin-right: 2%; margin-top: 10px; font-size:16px;" style="display: none" data-bind="visible:$root.costCenterVisibility() && $root.isProductprogressed()">
+                <div class="col-sm-3" style="float: right; margin-right: 4%; margin-top: 10px; font-size:16px;" style="display: none" data-bind="visible:$root.costCenterVisibility() && $root.isProductprogressed()">
                     <label class="col-sm-6" style=" font-size: 17px;">Total(Inc. Tax)</label>
                     <div class="col-sm-5" style="padding-right: 0px; padding-left: 0px;">
                         <span style=" float: right; font-size: 20px; " data-bind="numberInput: totalProductPrice"></span>
