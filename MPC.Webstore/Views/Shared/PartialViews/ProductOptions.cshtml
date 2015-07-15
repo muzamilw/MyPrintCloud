@@ -17,7 +17,7 @@
 
 <div id="FormulaMatrixLayer">
 </div>
-<div class="container content_area">
+<div class="container content_area" id="all-productOption-pg">
     <div class="left_right_padding">
         <div class="BreadCrumbMenu left_align col-xs-12">
             <h1>
@@ -99,6 +99,7 @@
                             <div class="width365pxM250p">
                                 @foreach (var costcenter in ViewData["CostCenters"] as List<MPC.Models.Common.AddOnCostsCenter>)
                                 {
+                                    <mpc.models.common.addoncostscenter>
                                         <div class="CostCenterItems" data-ismandatory="@costcenter.IsMandatory" data-stockid="@costcenter.ItemStockOptionId" style="display:none; margin:10px;">
                                             <div class="float_left_simple spacerbottom CcImageContainer">
                                                 <img class="RfgImgCs" src=/@costcenter.AddOnImage />
@@ -110,8 +111,8 @@
                                                 <label class="margin5 colorBlack">@costcenter.AddOnName</label>
                                                 <div class="extra_pricing float_right">
                                                     @*@if (costcenter.Type != 4)@ViewBag.Currency@costcenter.AddOnPrice
-    {*@
-                                                        <label id="lblAddOnPrice"> </label>
+                                                        {*@
+                                                    <label id="lblAddOnPrice"> </label>
                                                     @*}*@
                                                 </div>
                                                 <label class="checkBoxAdOnDesc marginLeft">@costcenter.WebStoreDesc</label>
@@ -151,26 +152,26 @@
                     </div>
                 </div>
             </div>
-         @if (ViewBag.ShowUploadArkworkPanel == true)
-         {
-            <div class="signin_heading_div float_left_simple UploadContainerCs LGBC rounded_corners upload-panel-margin">
-             
-
-                @if (ViewData["Templates"] == null)
-                {
-                    <div id="lbl_Options" class="SelectQtyContainer textAlignLeft">Upload Artwork </div>
+            @if (ViewBag.ShowUploadArkworkPanel == true)
+            {
+                <div class="signin_heading_div float_left_simple UploadContainerCs LGBC rounded_corners upload-panel-margin">
 
 
-                }
-                else
-                {
-                    <div id="lbl_Options" class="SelectQtyContainer textAlignLeft"> Your approved design(s)</div>
-
-                }
+                    @if (ViewData["Templates"] == null)
+                    {
+                        <div id="lbl_Options" class="SelectQtyContainer textAlignLeft">Upload Artwork </div>
 
 
+                    }
+                    else
+                    {
+                        <div id="lbl_Options" class="SelectQtyContainer textAlignLeft"> Your approved design(s)</div>
 
-               
+                    }
+
+
+
+
                     <div class="float_left_simple white_background paddingLeft5px H4B UplodArkworkContainer">
                         <div class="white_background rounded_corners padding10 SidesContainerCS">
 
@@ -183,6 +184,7 @@
                                     {
                                         Random random = new Random();
                                         string randonNumber = "?r=" + random.Next();
+                                        <mpc.models.domainmodels.itemattachment>
                                             <div id="DivSide1" class="LGBC BD_PCS rounded_corners">
                                                 <div class="DeleteIconPP">
                                                     <button type="button" class="delete_icon_img" onclick="ConfirmDeleteArtWorkPopUP(@artworkFile.ItemAttachmentId);"></button>
@@ -219,6 +221,7 @@
                                     {
                                         Random random = new Random();
                                         string randonNumber = "?r=" + random.Next();
+                                        <mpc.webstore.models.templateviewdata>
                                             <div class="LGBC BD_PCS rounded_corners">
                                                 <a id="hlSide1">
                                                     <div class="PDTC_LP FI_PCS">
@@ -245,10 +248,10 @@
                             }
                         </div>
                     </div>
-               
-                
-            </div>
-}
+
+
+                </div>
+            }
         </div>
         <div class="float_left_simple PriceTableCs col-md-3 col-lg-3 col-xs-12">
             <div class="LGBC rounded_corners Pad5px">
@@ -263,7 +266,7 @@
 
                         </div>
                     }
-                  
+
                     <div>
                         @if (ViewBag.ItemModel.IsQtyRanged == true)
                         {
@@ -288,6 +291,7 @@
                                     {
                                         if (ViewBag.SelectedQuantity == quantity.Quantity)
                                         {
+                                            <mpc.models.domainmodels.itempricematrix>
                                                 <option value="@quantity.PriceMatrixId" selected>@quantity.Quantity</option>
                                         }
                                         else
@@ -440,6 +444,8 @@
                                 priceMatrixBackground = "white";
                             }
 
+                            <mpc.models.domainmodels.itempricematrix>
+
                                 <div class="@priceMatrixBackground">
                                     <div class="divfloat WhtBakg">
                                         <input type="hidden" id="txtHiddenPriceMatrixID" class="AccessPriceInScript" value='@matrixItem.PriceMatrixId' />
@@ -542,7 +548,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
     <div class="clearBoth">
         &nbsp;
