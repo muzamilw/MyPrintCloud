@@ -4743,14 +4743,68 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         );
     };
     //Smart Form Create Factory
-    SmartForm.Create = function (source) {
+    SmartForm.Create = function(source) {
         return new SmartForm(
             source.SmartFormId,
             source.Name,
             source.CompanyId,
             source.Heading);
     };
-    // #endregion ______________  Field Variable   _________________
+    // #endregion ______________ Smart Form   _________________
+    // #region ______________  Discount Voucher _________________
+    var discountVoucherListView = function (specifiedSmartFormId, specifiedName, specifiedCode, specifiedDtype,dRate,dusetype) {
+        var self,
+            id = ko.observable(specifiedSmartFormId),
+            name = ko.observable(specifiedName),
+            couponCode = ko.observable(specifiedCode),
+            discountType = ko.observable(specifiedDtype),
+            discountRate = ko.observable(dRate),
+            couponUseType = ko.observable(dusetype),
+            // Errors
+            errors = ko.validation.group({
+                name: name,
+            }),
+            // Is Valid 
+            isValid = ko.computed(function() {
+                return errors().length === 0 ? true : false;
+            }),
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                
+            }),
+            // True If Has Changes
+            hasChanges = ko.computed(function() {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset Dirty State
+            reset = function() {
+                dirtyFlag.reset();
+            };
+           
+        self = {
+            id: id,
+            name: name,
+            couponCode: couponCode,
+            discountType: discountType,
+            discountRate: discountRate,
+            couponUseType: couponUseType,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset
+        };
+        return self;
+    };
+    //Smart Form Create Factory
+    discountVoucherListView.Create = function (source) {
+        return new discountVoucherListView(source.DiscountVoucherId, source.VoucherName,
+            source.CouponCode,
+            source.DiscountType,
+            source.DiscountRate,
+            source.CouponUseType);
+    };
+    // #endregion ______________ Discount Voucher   _________________
 
     // #region ______________  Smart Form Detail _________________
     var SmartFormDetail = function (specifiedSmartFormDetailId, specifiedSmartFormId, specifiedObjectType,
@@ -4831,6 +4885,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     //#region ______________ R E T U R N ______________
     return {
+        discountVoucherListView:discountVoucherListView,
         StoreListView: StoreListView,
         Store: Store,
         CompanyType: CompanyType,

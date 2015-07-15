@@ -32,7 +32,7 @@
                                         Sheet Fed
                                     </label>
                                 </div>
-                                <div class="radio col-sm-2" style="">
+                                <div class="radio col-sm-2" style="  margin-left: -11px;">
                                     <input type="radio" name="optionsRadiosFirst" id="optionsRadiosFirst_2" value="2" data-bind="checked: printingTypeUi">
                                     <label for="optionsRadiosFirst_2">
                                         Roll Fed
@@ -90,7 +90,7 @@
                                     </div>
                                     <div class="col-sm-3">&nbsp;</div>
                                     <div class="col-sm-4 col-md-4 col-lg-4" style="padding-left: 5px;">
-                                        <input style=" width: 130%;" type="text" id="itemGutterTextBox" class="form-control font20px" data-bind="value: itemGutterHorizontal, validationOnElement: itemGutterHorizontal" min="0" max="99" style="">
+                                        <input style="width: 130%;text-align: right;" type="text" id="itemGutterTextBox" class="form-control font20px" data-bind="value: itemGutterHorizontal, validationOnElement: itemGutterHorizontal" min="0" max="99" >
                                     </div>
                                 </div>
                             </div>
@@ -107,7 +107,7 @@
                                 </div>
 
                                 <div class="col-sm-2" style="padding-left: 12px;">
-                                    <label style=" float: left;" class="control-label text-right tooltip-float" data-bind="visible: printingTypeUi() !== '2'">Number up</label>
+                                    <label style=" float: left; margin-left: 4px;" class="control-label text-right tooltip-float" data-bind="visible: printingTypeUi() !== '2'">Number up</label>
                                     <!-- ko if: printingTypeUi() === '2' -->
                                     &nbsp;
                                     <!-- /ko -->
@@ -199,7 +199,7 @@
                                     <label style="float: left;" for="switchPrintOnBothSides" class="control-label text-right tooltip-float">Side 1 Press Profile</label>
                                 </div>
 
-                                <div class=" col-sm-2" style="padding-left: 12px;">
+                                <div class=" col-sm-2" style="padding-left: 23px;">
                                     <label style="float: left" class="control-label text-right tooltip-float">Color #1</label>
 
                                 </div>
@@ -238,7 +238,7 @@
                                 <div class="col-sm-2 text-right" style="padding-right:0;">
                                     &nbsp;
                                 </div>
-                                <div class=" col-sm-2" style="padding-left: 12px;" data-bind="visible: !isWorknTurn()">
+                                <div class=" col-sm-2" style="padding-left: 23px;" data-bind="visible: !isWorknTurn()">
                                     <label class="control-label">Color #2</label>
 
                                 </div>
@@ -291,7 +291,7 @@
                                 </div>
 
                                 <div class="col-sm-1 text-right" style="padding-left: 0;  width: 12%;">
-                                    <span style="float: left; margin-top: 6px;">
+                                    <span style="float: left; margin-top: 10px;">
                                         Pack size:
                                         <span data-bind="text: stockItemPackageQty"></span>
                                     </span>
@@ -332,7 +332,7 @@
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4" style="width: 42%">
+                                                <div class="col-sm-4" style="width: 45%">
                                                     <input type="button" class="btn btn-success" data-bind="visible: $root.selectedQty() == 2 || $root.selectedQty() == 3, click: $root.selectQuantity(1), value: 'Show Qty 1 (' + qty1() + ')'">
                                                     <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                                     <input type="button" class="btn btn-success" data-bind="visible: $root.selectedQty() == 1 || $root.selectedQty() == 3, click: $root.selectQuantity(2), value: 'Show Qty 2 (' + qty2() + ')'">
@@ -345,17 +345,17 @@
                                                 <div class="col-sm-2">
                                                     <!--ko if: $root.selectedQty() == 1 -->
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control font20px" style="text-align: right; margin-left: 30% " data-bind="value: qty1, validationOnElement: qty1" id="qty1" />
+                                                        <input type="text" class="form-control font20px" style="text-align: right; margin-left: 10% " data-bind="value: qty1, validationOnElement: qty1" id="qty1" />
                                                     </div>
                                                     <!--/ko-->
                                                     <!--ko if: $root.selectedQty() == 2 -->
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control font20px" style="text-align: right; margin-left: 30% " data-bind="value: qty2, validationOnElement: qty2" id="qty2" />
+                                                        <input type="text" class="form-control font20px" style="text-align: right; margin-left: 10% " data-bind="value: qty2, validationOnElement: qty2" id="qty2" />
                                                     </div>
                                                     <!--/ko-->
                                                     <!--ko if: $root.selectedQty() == 3 -->
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control font20px" style="text-align: right; margin-left: 30% " data-bind="value: qty3, validationOnElement: qty3" id="qty3" />
+                                                        <input type="text" class="form-control font20px" style="text-align: right; margin-left: 10% " data-bind="value: qty3, validationOnElement: qty3" id="qty3" />
                                                     </div>
                                                     <!--/ko-->
 
@@ -515,13 +515,13 @@
                             <div class="col-sm-3">
                                 <div class="col-sm-9" style="margin-top: 1%; ">
                                     <!--ko if: $root.selectedQty() ==1 -->
-                                    <label class="control-label font20px" style="float: right;  margin-right: 1%;"><span data-bind="text:$root.currencySymbol"></span><span class="font20px" data-bind="numberInput:baseCharge1"></span></label>
+                                    <label class="control-label font20px" style="float: right;  margin-right: 12%;"><span data-bind="text:$root.currencySymbol"></span><span class="font20px" data-bind="numberInput:baseCharge1"></span></label>
                                     <!--/ko-->
                                     <!--ko if: $root.selectedQty() ==2 -->
-                                    <label class="control-label font20px" style="float: right;  margin-right: 1%;"><span data-bind="text:$root.currencySymbol"></span><span class="font20px" data-bind="numberInput:baseCharge2"></span></label>
+                                    <label class="control-label font20px" style="float: right;  margin-right: 12%;"><span data-bind="text:$root.currencySymbol"></span><span class="font20px" data-bind="numberInput:baseCharge2"></span></label>
                                     <!--/ko-->
                                     <!--ko if: $root.selectedQty() ==3 -->
-                                    <label class="control-label font20px" style="float: right;  margin-right: 1%;"><span data-bind="text:$root.currencySymbol"></span><span class="font20px" data-bind="numberInput:baseCharge3"></span></label>
+                                    <label class="control-label font20px" style="float: right;  margin-right: 12%;"><span data-bind="text:$root.currencySymbol"></span><span class="font20px" data-bind="numberInput:baseCharge3"></span></label>
                                     <!--/ko-->
                                 </div>
                                 @*<!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
@@ -573,7 +573,7 @@
             </td>
 
             <td >
-                <div style="text-align: right; ">
+                <div style="text-align: right; margin-right: 8px;">
                     <!--ko if: $root.selectedQty() == 1-->
                     <span class="font20px" data-bind="text:$root.currencySymbol" style="color: #3498db"></span><a href="#" class="font20px" style="margin-left: 0px" data-bind="numberInput: qty1NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 1)}"></a>
                     <!--/ko-->

@@ -74,6 +74,7 @@
     <Compile Include="Common\ICostCentreLoader.cs" />
     <Compile Include="Data\AuthorizationCheckRequest.cs" />
     <Compile Include="Data\SecurityAccessRight.cs" />
+    <Compile Include="MISServices\IDiscountVoucherService .cs" />
     <Compile Include="MISServices\IAddressService.cs" />
     <Compile Include="MISServices\IAuthorizationChecker.cs" />
     <Compile Include="MISServices\ICalendarService.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="MISServices\ISectionService.cs" />
     <Compile Include="MISServices\ISystemUserService.cs" />
     <Compile Include="MISServices\SectionReport.cs" />
+    <Compile Include="Repository\IDiscountVoucherRepository.cs" />
     <Compile Include="Repository\ICmsTagReporistory.cs" />
     <Compile Include="Repository\ICompanyCostCenterRepository.cs" />
     <Compile Include="Repository\ICostCentreAnswerRepository.cs" />

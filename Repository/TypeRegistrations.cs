@@ -139,6 +139,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IPurchaseDetailRepository, PurchaseDetailRepository>();
             unityContainer.RegisterType<IStagingImportCompanyContactAddressRepository, StagingImportCompanyContactAddressRepository>();
             unityContainer.RegisterType<IGoodsReceivedNoteDetailRepository, GoodsReceivedNoteDetailRepository>();
+            unityContainer.RegisterType<IDiscountVoucherRepository, DiscountVoucherRepository>();
         }
     }
 }
