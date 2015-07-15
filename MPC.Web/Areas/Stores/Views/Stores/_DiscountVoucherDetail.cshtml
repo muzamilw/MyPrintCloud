@@ -291,7 +291,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveDiscountVoucher">Save</button>
+                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveDiscountVoucher, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left:0px;">Close</button>
 
             </div>
