@@ -15,6 +15,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     // #region Arrays
                     //Items
                     purchaseOrders = ko.observableArray([]),
+                                        loggedInUser = ko.observable(),
                     // company contacts
                     companyContacts = ko.observableArray([]),
                     // Company Addresses
@@ -369,6 +370,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                                 }
 
                                 currencySymbol(data.CurrencySymbol);
+                                loggedInUser(data.LoggedInUser || '');
                                 view.initializeLabelPopovers();
                             },
                             error: function (response) {
@@ -383,6 +385,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         var purchase = model.Purchase();
                         purchase.status(31);
                         selectedPurchaseOrder(purchase);
+                        selectedPurchaseOrder().createdBy(loggedInUser());
                         isEditorVisible(true);
                         view.initializeLabelPopovers();
                     },
@@ -1003,7 +1006,8 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     openExternalReportsPurchase: openExternalReportsPurchase,
                     openExternalEmailPurchaseReport: openExternalEmailPurchaseReport,
                     formatSelection: formatSelection,
-                    formatResult: formatResult
+                    formatResult: formatResult,
+                    loggedInUser: loggedInUser
                 };
             })()
         };

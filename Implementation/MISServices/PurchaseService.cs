@@ -18,6 +18,7 @@ namespace MPC.Implementation.MISServices
         #region Private
 
         private readonly IPurchaseRepository purchaseRepository;
+
         private readonly IPurchaseDetailRepository purchaseDetailRepository;
         private readonly ISectionFlagRepository sectionFlagRepository;
         private readonly ISystemUserRepository systemUserRepository;
@@ -97,6 +98,7 @@ namespace MPC.Implementation.MISServices
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Purchase),
                 SystemUsers = systemUserRepository.GetAll(),
                 DeliveryCarriers = deliveryCarrierRepository.GetAll(),
+                LoggedInUser = organisationRepository.LoggedInUserId,
                 CurrencySymbol = organisation != null ? (organisation.Currency != null ? organisation.Currency.CurrencySymbol : string.Empty) : string.Empty
             };
         }
