@@ -633,6 +633,173 @@ namespace MPC.Webstore.Controllers
             ItemModel.WebDescription = referenceItem.WebDescription;
             ItemModel.ItemId = referenceItem.ItemId;
             ItemModel.Mode = ViewData["Templates"] == null ? "UploadDesign" : "Template";
+            if (!string.IsNullOrEmpty(ItemModel.File1))
+            {
+                string FileExtension = System.IO.Path.GetExtension(ItemModel.File1);
+                if (FileExtension == ".ai")
+                {
+
+                    ItemModel.File1Url = "/Content/Images/IcoIllustrator.png";
+                }
+                else if (FileExtension == ".jpg")
+                {
+                    ItemModel.File1Url = "/Content/Images/icoJPG.png";
+                }
+                else if (FileExtension == ".png")
+                {
+                    ItemModel.File1Url = "/Content/Images/icoPNG.png";
+                }
+                else if (FileExtension == ".psd")
+                {
+                    ItemModel.File1Url = "/Content/Images/IcoPhotoshop.png";
+                }
+                else if (FileExtension == ".indd" || FileExtension == ".ind")
+                {
+                    ItemModel.File1Url = "/Content/Images/Icoindesign.png";
+                }
+                else if (FileExtension == ".pdf")
+                {
+                    ItemModel.File1Url = "/Content/Images/Page_pdf.png";
+                }
+                else
+                {
+                    ItemModel.File1Url = "/Content/download.png";
+                }
+
+            }
+            if (!string.IsNullOrEmpty(ItemModel.File2))
+            {
+                string FileExtension = System.IO.Path.GetExtension(ItemModel.File2);
+                if (FileExtension == ".ai")
+                {
+
+                    ItemModel.File2Url = "/Content/Images/IcoIllustrator.png";
+                }
+                else if (FileExtension == ".jpg")
+                {
+                    ItemModel.File2Url = "/Content/Images/icoJPG.png";
+                }
+                else if (FileExtension == ".png")
+                {
+                    ItemModel.File2Url = "/Content/Images/icoPNG.png";
+                }
+                else if (FileExtension == ".psd")
+                {
+                    ItemModel.File2Url = "/Content/Images/IcoPhotoshop.png";
+                }
+                else if (FileExtension == ".indd" || FileExtension == ".ind")
+                {
+                    ItemModel.File2Url = "/Content/Images/Icoindesign.png";
+                }
+                else if (FileExtension == ".pdf")
+                {
+                    ItemModel.File2Url = "/Content/Images/Page_pdf.png";
+                }
+                else
+                {
+                    ItemModel.File2Url = "/Content/download.png";
+                }
+
+            }
+            if (!string.IsNullOrEmpty(ItemModel.File3))
+            {
+                string FileExtension = System.IO.Path.GetExtension(ItemModel.File3);
+                if (FileExtension == ".ai")
+                {
+
+                    ItemModel.File3Url = "/Content/Images/IcoIllustrator.png";
+                }
+                else if (FileExtension == ".jpg")
+                {
+                    ItemModel.File3Url = "/Content/Images/icoJPG.png";
+                }
+                else if (FileExtension == ".png")
+                {
+                    ItemModel.File3Url = "/Content/Images/icoPNG.png";
+                }
+                else if (FileExtension == ".psd")
+                {
+                    ItemModel.File3Url = "/Content/Images/IcoPhotoshop.png";
+                }
+                else if (FileExtension == ".indd" || FileExtension == ".ind")
+                {
+                    ItemModel.File3Url = "/Content/Images/Icoindesign.png";
+                }
+                else if (FileExtension == ".pdf")
+                {
+                    ItemModel.File3Url = "/Content/Images/Page_pdf.png";
+                }
+                else
+                {
+                    ItemModel.File3Url = "/Content/download.png";
+                }
+            }
+            if (!string.IsNullOrEmpty(ItemModel.File4))
+            {
+                string FileExtension = System.IO.Path.GetExtension(ItemModel.File4);
+                if (FileExtension == ".ai")
+                {
+
+                    ItemModel.File4Url = "/Content/Images/IcoIllustrator.png";
+                }
+                else if (FileExtension == ".jpg")
+                {
+                    ItemModel.File4Url = "/Content/Images/icoJPG.png";
+                }
+                else if (FileExtension == ".png")
+                {
+                    ItemModel.File4Url = "/Content/Images/icoPNG.png";
+                }
+                else if (FileExtension == ".psd")
+                {
+                    ItemModel.File4Url = "/Content/Images/IcoPhotoshop.png";
+                }
+                else if (FileExtension == ".indd" || FileExtension == ".ind")
+                {
+                    ItemModel.File4Url = "/Content/Images/Icoindesign.png";
+                }
+                else if (FileExtension == ".pdf")
+                {
+                    ItemModel.File4Url = "/Content/Images/Page_pdf.png";
+                }
+                else
+                {
+                    ItemModel.File4Url = "/Content/download.png";
+                }
+            }
+            if (!string.IsNullOrEmpty(ItemModel.File5))
+            {
+                string FileExtension = System.IO.Path.GetExtension(ItemModel.File5);
+                if (FileExtension == ".ai")
+                {
+
+                    ItemModel.File5Url = "/Content/Images/IcoIllustrator.png";
+                }
+                else if (FileExtension == ".jpg")
+                {
+                    ItemModel.File5Url = "/Content/Images/icoJPG.png";
+                }
+                else if (FileExtension == ".png")
+                {
+                    ItemModel.File5Url = "/Content/Images/icoPNG.png";
+                }
+                else if (FileExtension == ".psd")
+                {
+                    ItemModel.File5Url = "/Content/Images/IcoPhotoshop.png";
+                }
+                else if (FileExtension == ".indd" || FileExtension == ".ind")
+                {
+                    ItemModel.File5Url = "/Content/Images/Icoindesign.png";
+                }
+                else if (FileExtension == ".pdf")
+                {
+                    ItemModel.File5Url = "/Content/Images/Page_pdf.png";
+                }
+                else
+                {
+                    ItemModel.File5Url = "/Content/download.png";
+                }
+            }
             ViewBag.ItemModel = ItemModel;
             ViewBag.CategoryName = _myItemService.GetCategoryNameById(0, ReferenceItemId);
             ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(ViewBag.CategoryName) + "/" + _myItemService.GetCategoryIdByItemId(ReferenceItemId);
