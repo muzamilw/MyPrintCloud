@@ -974,43 +974,7 @@ function d5_sub(pageID, isloading) {
             //$(".page").css("left", (($("#canvasDocument").width() - $(".page").width()) / 2) + "px");
             //$("#addNewPage").css("top", (Template.PDFTemplateHeight + 150) + "px");
             //$("#addNewPage ").css("left", (($("#canvasDocument").width() - $("#addNewPage").width()) / 2) + "px");
-            if (IT.BackgroundFileName != "") {
-
-                if (IT.BackGroundType == 3) {
-                    if (IT.BackgroundFileName.indexOf('MPC_Content/Designer/') == -1) {
-                        IT.BackgroundFileName = "/MPC_Content/Designer/" + productionFolderPath + IT.BackgroundFileName;
-                    }
-                }
-                if (IT.BackGroundType == 1) {
-                    if (IT.BackgroundFileName.indexOf('MPC_Content/Designer/') == -1) {
-                        IT.BackgroundFileName = "/MPC_Content/Designer/" + productionFolderPath + IT.BackgroundFileName;
-                    }
-                }
-                var bk = IT.BackgroundFileName + "?r=" + CzRnd;
-                if (IT.BackgroundFileName != "") {
-                    if (!isloading) {
-                        StartLoader("Loading background files for your design");
-                    }
-                    canvas.setBackgroundImage(bk, canvas.renderAll.bind(canvas), {
-                        left: 0,
-                        top: 0,
-                        height: canvas.getHeight(),
-                        width: canvas.getWidth(),
-                        maxWidth: canvas.getWidth(),
-                        maxHeight: canvas.getHeight(),
-                        originX: 'left',
-                        originY: 'top'
-                    });
-                    //StopLoader();
-                    canvas.renderAll();
-                } else {
-                    canvas.backgroundColor = "#ffffff";
-                    canvas.setBackgroundImage(null, function (IOL) {
-                        canvas.renderAll();
-                        //StopLoader();
-                    });
-                }
-            }
+           
             if (IT.BackGroundType == 2) {
                 canvas.setBackgroundImage(null, function (IOL) {
                     canvas.renderAll();
@@ -1019,7 +983,47 @@ function d5_sub(pageID, isloading) {
                 var colorHex = getColorHex(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK);
                 canvas.backgroundColor = colorHex;
                 canvas.renderAll();
-            } hasObjects = false;
+            } else {
+                if (IT.BackgroundFileName != "") {
+
+                    if (IT.BackGroundType == 3) {
+                        if (IT.BackgroundFileName.indexOf('MPC_Content/Designer/') == -1) {
+                            IT.BackgroundFileName = "/MPC_Content/Designer/" + productionFolderPath + IT.BackgroundFileName;
+                        }
+                    }
+                    if (IT.BackGroundType == 1) {
+                        if (IT.BackgroundFileName.indexOf('MPC_Content/Designer/') == -1) {
+                            IT.BackgroundFileName = "/MPC_Content/Designer/" + productionFolderPath + IT.BackgroundFileName;
+                        }
+                    }
+                    var bk = IT.BackgroundFileName + "?r=" + CzRnd;
+                    if (IT.BackgroundFileName != "") {
+                        if (!isloading) {
+                            StartLoader("Loading background files for your design");
+                        }
+                        canvas.setBackgroundImage(bk, canvas.renderAll.bind(canvas), {
+                            left: 0,
+                            top: 0,
+                            height: canvas.getHeight(),
+                            width: canvas.getWidth(),
+                            maxWidth: canvas.getWidth(),
+                            maxHeight: canvas.getHeight(),
+                            originX: 'left',
+                            originY: 'top'
+                        });
+                        //StopLoader();
+                        canvas.renderAll();
+                    } else {
+                        canvas.backgroundColor = "#ffffff";
+                        canvas.setBackgroundImage(null, function (IOL) {
+                            canvas.renderAll();
+                            //StopLoader();
+                        });
+                    }
+                }
+            }
+
+            hasObjects = false;
             c7(pageID);
             pcl41_ApplyDimensions(SelPagObj);
             if (!objectsSelectable)
@@ -2269,7 +2273,7 @@ function h9() {
             d5(TP[0].ProductPageID, true);
         },
         inactive: function () {
-            alert("error while loading fonts");
+            alert("Error while loading fonts,please refresh the browser window.");
             d5(TP[0].ProductPageID, true);
         }
     };
@@ -2293,7 +2297,7 @@ function h9_newFont() {
             // stop loading and  load page
         },
         inactive: function () {
-            alert("error while loading fonts");
+            alert("Error while loading fonts,please refresh the browser window.");
         }
     };
     var wf = document.createElement('script');

@@ -371,6 +371,7 @@ namespace MPC.Implementation.WebStoreServices
                     styles = JsonConvert.DeserializeObject<List<objTextStyles>>(ooBject.textStyles);
                 }
                 string StyledHtml = "<p>";
+
                 if (styles.Count != 0)
                 {
                     styles = styles.OrderBy(g => g.characterIndex).ToList();
@@ -511,9 +512,27 @@ namespace MPC.Implementation.WebStoreServices
                     StyledHtml += ooBject.ContentString;
                 }
                 StyledHtml += "</p>";
+
                 string sNewLineNormalized = Regex.Replace(StyledHtml, @"\r(?!\n)|(?<!\r)\n", "<BR>");
                 sNewLineNormalized = sNewLineNormalized.Replace("  ", "&nbsp;&nbsp;");
 
+                if (ooBject.isBulletPoint.HasValue && ooBject.isBulletPoint.Value == true)
+                {
+                    string normalizedBulletPoints = "<ul>";
+
+                    string[] textLines = sNewLineNormalized.Split(new string[] { "<BR>" }, StringSplitOptions.None);
+                    foreach(var line in textLines)
+                    {
+                        string nline = line.Replace("<p>", "");  nline = nline.Replace("</p>", "");
+                        normalizedBulletPoints += "<li>" + nline + "</li>";
+                    }
+                    normalizedBulletPoints += "</ul>";
+                    double offset = DesignerUtils.PixelToPoint(4.5) + (ooBject.FontSize.Value * (ooBject.LineSpacing.Value));
+                    OPosX -= offset;
+                    OWidth += offset;
+                    sNewLineNormalized = normalizedBulletPoints;
+
+                }
                 if (ooBject.AutoShrinkText == true)
                 {
                     oPdf.Rect.Position(OPosX, OPosY);
