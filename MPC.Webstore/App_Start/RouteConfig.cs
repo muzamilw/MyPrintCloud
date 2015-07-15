@@ -393,6 +393,13 @@ namespace MPC.Webstore
              "PaypalIPN",
              new { controller = "Payment", action = "PaypalIPN"}
             );
+
+            routes.MapRoute(
+               "oAuth",
+               "oAuth/{LoginWithId}/{isRegistrationProcess}/{StoreId}/{ReturnUrl}",
+               new { controller = "Home", action = "oAuth", LoginWithId = UrlParameter.Optional, isRegistrationProcess = UrlParameter.Optional, StoreId = UrlParameter.Optional, ReturnUrl = UrlParameter.Optional }
+           );
+
             routes.MapRoute(
                "Default", // Route name
                "",        // URL with parameters

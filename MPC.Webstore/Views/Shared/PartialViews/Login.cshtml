@@ -19,28 +19,13 @@
                             <em id="emfacebook" class="emfb"></em>
 
 
-                            <input id="facebookbtn" type="button" value="Sign in with Facebook" class="connectWithfb" onclick="OpenNewWindow(1)" /><br />
+                            <input id="facebookbtn" type="button" value="Sign in with Facebook" class="connectWithfb" onclick="ShowSocialMediaPopUp(1)" /><br />
 
-
-                            <script>
-                                function OpenNewWindow(isFacebook) {
-
-                                    var w = 820;
-                                    var h = 560;
-                                    var left = (screen.width / 2) - (w / 2);
-                                    var top = (screen.height / 2) - (h / 2);
-                                    if (isFacebook == 1)
-                                        window.open("/Home/oAuth?id=1&isRegWithSM=0&MarketBriefReturnURL=@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-                                    else
-                                        window.open("/Home/oAuth?id=0&isRegWithSM=0&MarketBriefReturnURL=@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-                                    return false;
-                                }
-                            </script>
                         }
                         @if (ViewBag.ShowTwitterSignInLink == 1)
                         {
                             <em id="emtwtter" class="emTw"></em>
-                            <input id="twitterBtn" type="button" value="Sign in with Twitter" onclick="OpenNewWindow(0)" class="connectWithtwitter " />
+                            <input id="twitterBtn" type="button" value="Sign in with Twitter" onclick="ShowSocialMediaPopUp(0)" class="connectWithtwitter " />
                             <br />
                         }
                        
@@ -212,5 +197,18 @@
                 $('#txtPassword').attr("type", "password");
             }
         });
+
+        function ShowSocialMediaPopUp(isFacebook) {
+
+            var w = 820;
+            var h = 560;
+            var left = (screen.width / 2) - (w / 2);
+            var top = (screen.height / 2) - (h / 2);
+            if (isFacebook == 1)
+                window.open("/oAuth/1/0/@UserCookieManager.WBStoreId/@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+            else
+                window.open("/oAuth/1/0/@UserCookieManager.WBStoreId/@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+            return false;
+        }
     </script>
 }
