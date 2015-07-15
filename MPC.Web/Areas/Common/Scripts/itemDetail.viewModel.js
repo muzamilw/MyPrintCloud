@@ -3,8 +3,8 @@
 */
 define("common/itemDetail.viewModel",
     ["jquery", "amplify", "ko", "common/itemDetail.dataservice", "common/itemDetail.model", "common/confirmation.viewModel", "common/pagination"
-        , "common/sharedNavigation.viewModel", "common/stockItem.viewModel", "common/addCostCenter.viewModel", "common/phraseLibrary.viewModel"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM, stockDialog, addCostCenterVm, phraseLibrary) {
+        , "common/sharedNavigation.viewModel", "common/stockItem.viewModel", "common/addCostCenter.viewModel", "common/phraseLibrary.viewModel", "common/reportManager.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM, stockDialog, addCostCenterVm, phraseLibrary, reportManager) {
         var ist = window.ist || {};
         ist.itemDetail = {
             viewModel: (function () {
@@ -1664,7 +1664,7 @@ define("common/itemDetail.viewModel",
                     },
                     // Remove Item Section
                     deleteSection = function (section) {
-                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().itemSections.remove(section);
                             selectedProduct().hasDeletedSections(true);
@@ -1677,6 +1677,21 @@ define("common/itemDetail.viewModel",
                         confirmation.show();
 
                     },
+                    // open report
+                       // open job card report
+                    openExternalReportsJob = function () {
+
+                        reportManager.outputTo("preview");
+
+
+                        reportManager.OpenExternalReport(ist.reportCategoryEnums.JobCards, 1, selectedProduct().id());
+
+
+
+
+
+                    },
+
                     // Open Phrase Library
                     openPhraseLibrary = function () {
                         phraseLibrary.isOpenFromPhraseLibrary(false);
@@ -1734,7 +1749,7 @@ define("common/itemDetail.viewModel",
                     // Delete Section Cost Center
                     onDeleteSectionCostCenter = function (costCenter) {
                         // Ask for confirmation
-                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             view.hideSectionCostCenterDialogModel();
                             selectedSection().sectionCostCentres.remove(costCenter);
@@ -1860,7 +1875,7 @@ define("common/itemDetail.viewModel",
                     }),
                     // Delete Item attachment
                     deleteItemAttachment = function (attachment) {
-                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().itemAttachments.remove(attachment);
                             selectedProduct().hasDeletedAttachments(true);
@@ -1869,7 +1884,7 @@ define("common/itemDetail.viewModel",
                         return;
                     },
                     deleteItem = function () {
-                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedOrder().items.remove(selectedProduct());
                             selectedOrder().hasDeletedItems(true);
@@ -2001,7 +2016,8 @@ define("common/itemDetail.viewModel",
                     applySectionCostCenterMarkup: applySectionCostCenterMarkup,
                     selectQuantityForItem: selectQuantityForItem,
                     selectQuantity: selectQuantity,
-                    selectedQtyForItem: selectedQtyForItem
+                    selectedQtyForItem: selectedQtyForItem,
+                    openExternalReportsJob: openExternalReportsJob
                     //#endregion
                 };
             })()

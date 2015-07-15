@@ -6,7 +6,7 @@
                     <ol class="breadcrumb">
                         <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
                         <li><a href="~/DeliveryNotes/Home/DeliveryNote/Index" class="my-navigator">Delivery Notes</a></li>
-                        <li class="active"><span >Modify Delivery Notes</span></li>
+                        <li class="active"><span data-bind="text:$root.deliveryNoteEditorHeader">Modify Delivery Notes</span></li>
                     </ol>
                     <div class="clearfix" style="margin-top: -3.1%;">
                         <h1 class="pull-left" style="padding-left:0px;margin-top:35px;">&nbsp;</h1>
@@ -104,7 +104,7 @@
                                 <span class="help-block text-right"></span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="margin-top: -14px;">
                             <div class="col-sm-4 text-right">
                                 &nbsp;
                             </div>
@@ -158,7 +158,7 @@
                         </div>
 
                         <!--here it ends-->
-                        <div class="form-group">
+                        <div class="form-group" style=" margin-top: -10px;">
                             <div class="col-sm-4 text-right">
                                 <div class="bs-example-tooltips tooltip-float-width">
                                     <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Order Ref. No" data-original-title="" title="">
@@ -205,13 +205,13 @@
                                 <select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: flagId, foreach: $root.sectionFlags">
                                     <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
                                 </select>
-                                <i class="fa fa-sort-desc" style="float: right;padding-right: 15px;padding-top: 2px;position: relative;bottom: 25px;"></i>
+                                <i class="fa fa-sort-desc" style="float: right; padding-right: 10px; position: relative; bottom: 25px;"></i>
                                 @*<select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag',value:flagId"></select>
                                 <span class="help-block text-right"></span>*@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" style=" margin-top: -17px;">
                             <div class="col-sm-4 text-right">
 
                                 <label class="control-label text-right tooltip-float">Carriers</label>
@@ -221,7 +221,7 @@
                                 <span class="help-block text-right"></span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="margin-top: -10px;">
                             <div class="col-sm-4 text-right">
 
                                 <label class="control-label text-right tooltip-float">Carrier Phone</label>
@@ -245,7 +245,7 @@
                         <div class="form-group">
                             <div class="col-sm-4 text-right">
 
-                                <label class="control-label text-right tooltip-float">Delivery Date</label>
+                                <label style="  margin-top: 13px;" class="control-label text-right tooltip-float">Delivery Date</label>
                             </div>
                             <div class="col-sm-6">
                                 <input type="text" style="height:60px;" class="form-control" data-bind="datepicker:deliveryDate">
@@ -294,7 +294,7 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="btn-group" style="float: left; margin-top: 10px;">
+                                    <div class="btn-group" style="float: left; margin-top: 22px;">
                                         <button type="button" class="btn btn-primary" data-bind="click:$root.addDeliveryNoteDetail">Add Product</button>
                                     </div>
                                 </div>
