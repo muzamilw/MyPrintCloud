@@ -6185,3 +6185,108 @@ alter Column CreatedBy nvarchar null
 
 alter table GoodsReceivedNote
 alter Column CreatedBy uniqueidentifier null
+
+/* Execution Date: 10/07/2015 */
+
+GO
+/****** Object:  StoredProcedure [dbo].[usp_DeleteTemplate]    Script Date: 7/10/2015 10:02:09 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[usp_DeleteTemplate]
+	-- Add the parameters for the stored procedure here
+	
+	@TemplateID bigint
+
+AS
+BEGIN
+
+ -- delete template objects
+
+delete from TemplateObject where productid = @TemplateID
+
+
+ -- delete template pages
+ delete from TemplatePage where productid = @TemplateID
+
+  -- delete image permisssions
+
+ DELETE imgPer
+				FROM ImagePermissions imgPer
+				inner join TemplateBackgroundImage tbi on tbi.Id = imgPer.ImageID
+				where tbi.ProductID = @TemplateID
+
+
+ -- delete template background images
+  delete from TemplateBackgroundImage where productid = @TemplateID
+
+
+delete from TemplateVariable where templateid = @TemplateID
+-- delete template 
+DELETE from template where ProductId = @TemplateID
+
+end
+
+alter table organisation add AgileApiKey nvarchar(255) null
+alter table organisation add AgileApiUrl nvarchar(255) null
+
+/* Execution Date: 14/07/2015 */
+
+alter table DiscountVoucher add VoucherName varchar(200)
+alter table DiscountVoucher add DiscountType int 
+alter table DiscountVoucher add HasCoupon bit
+alter table DiscountVoucher add CouponCode nvarchar(255)
+alter table DiscountVoucher add CouponUseType int
+alter table DiscountVoucher add IsUseWithOtherCoupon bit
+alter table DiscountVoucher add IsTimeLimit bit
+alter table DiscountVoucher add IsQtyRequirement bit
+alter table DiscountVoucher add MinRequiredQty int
+alter table DiscountVoucher add MaxRequiredQty int
+alter table DiscountVoucher add IsOrderPriceRequirement bit
+alter table DiscountVoucher add MinRequiredOrderPrice int
+alter table DiscountVoucher add MaxRequiredOrderPrice int
+alter table DiscountVoucher add CustomerId bigint
+alter table DiscountVoucher add IsSingleUseRedeemed bit
+alter table DiscountVoucher add IsQtySpan bit
+
+
+/****** Object:  Table [dbo].[ItemsVoucher]    Script Date: 7/13/2015 2:34:20 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[ItemsVoucher](
+      [ItemVoucherId] [bigint] IDENTITY(1,1) NOT NULL,
+      [ItemId] [bigint] NULL,
+      [VoucherId] [bigint] NULL,
+CONSTRAINT [PK_ItemsVoucher] PRIMARY KEY CLUSTERED 
+(
+      [ItemVoucherId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+
+/****** Object:  Table [dbo].[ProductCategoryVoucher]    Script Date: 7/13/2015 2:34:49 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[ProductCategoryVoucher](
+      [CategoryVoucherId] [bigint] IDENTITY(1,1) NOT NULL,
+      [ProductCategoryId] [bigint] NULL,
+      [VoucherId] [bigint] NULL,
+CONSTRAINT [PK_ProductCategoryVoucher] PRIMARY KEY CLUSTERED 
+(
+      [CategoryVoucherId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO

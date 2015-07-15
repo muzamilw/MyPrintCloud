@@ -269,8 +269,14 @@ namespace MPC.Webstore.Models
         public string File2 { get; set; }
         public string File3 { get; set; }
         public string File4 { get; set; }
+        public string File5 { get; set; }
         public string GridImage { get; set; }
         public string Mode { get; set; }
+        public string File1Url { get; set; }
+        public string File2Url { get; set; }
+        public string File3Url { get; set; }
+        public string File4Url { get; set; }
+        public string File5Url { get; set; }
     }
     
 }

@@ -27,7 +27,7 @@ namespace MPC.Repository.Repositories
             new Dictionary<OrderByColumn, Func<Estimate, object>>
                     {
                          { OrderByColumn.CompanyName, c => c.Company != null ? c.Company.Name : string.Empty },
-                         { OrderByColumn.CreationDate, c => c.CreationDate },
+                         { OrderByColumn.CreationDate, c => c.Order_Date },
                          { OrderByColumn.SectionFlag, c => c.SectionFlagId },
                          { OrderByColumn.OrderCode, c => c.Order_Code }
                     };
@@ -99,14 +99,8 @@ namespace MPC.Repository.Repositories
                     item.OrganisationId == OrganisationId &&
                     (item.StatusId != (int)OrderStatus.ShoppingCart && item.StatusId != (int)OrderStatus.PendingCorporateApprovel));
 
-            IEnumerable<Estimate> items = request.IsAsc
-               ? DbSet.Where(query)
-                   .OrderBy(orderByClause[request.ItemOrderBy])
-                   .Skip(fromRow)
-                   .Take(toRow)
-                   .ToList()
-               : DbSet.Where(query)
-                   .OrderByDescending(orderByClause[request.ItemOrderBy])
+            IEnumerable<Estimate> items = DbSet.Where(query)
+                   .OrderByDescending(orderByClause[OrderByColumn.CreationDate])
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList();
@@ -130,17 +124,10 @@ namespace MPC.Repository.Repositories
                     ((string.IsNullOrEmpty(request.SearchString) || (item.Company != null && item.Company.Name.Contains(request.SearchString))) &&
                     (item.isEstimate.HasValue && item.isEstimate.Value) && ((!isStatusSpecified && item.StatusId == request.Status || isStatusSpecified)) &&
                     ((!filterFlagSpecified && item.SectionFlagId == request.FilterFlag || filterFlagSpecified)) &&
-                    // ((!orderTypeFilterSpecified && item.isDirectSale == (request.OrderTypeFilter == 0) || orderTypeFilterSpecified)) &&
                     item.OrganisationId == OrganisationId);
 
-            IEnumerable<Estimate> items = request.IsAsc
-               ? DbSet.Where(query)
-                   .OrderBy(orderByClause[request.ItemOrderBy])
-                   .Skip(fromRow)
-                   .Take(toRow)
-                   .ToList()
-               : DbSet.Where(query)
-                   .OrderByDescending(orderByClause[request.ItemOrderBy])
+            IEnumerable<Estimate> items = DbSet.Where(query)
+                   .OrderByDescending(orderByClause[OrderByColumn.CreationDate])
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList();

@@ -657,28 +657,28 @@ define("product/product.viewModel",
                     },
                     // On Delete Product
                     onDeleteProduct = function () {
-                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             deleteProduct(selectedProduct().id());
                         });
                         confirmation.show();
                     },
                     onDeleteTemplatePage = function (templatePage) {
-                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().template().removeTemplatePage(templatePage);
                         });
                         confirmation.show();
                     },
                     onDeleteItemAddonCostCentre = function () {
-                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().activeStockOption().removeItemAddonCostCentre();
                         });
                         confirmation.show();
                     },
                     onDeleteItemStockOption = function (itemStockOption) {
-                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().removeItemStockOption(itemStockOption);
                         });
@@ -718,7 +718,7 @@ define("product/product.viewModel",
                     },
                     // On Delete Product Market Brief Question
                     onDeleteProductMarketBriefQuestion = function (onProceed) {
-                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             if (onProceed && typeof onProceed === "function") {
                                 onProceed();
@@ -729,7 +729,7 @@ define("product/product.viewModel",
                     },
                     // On Delete Product Market Brief Answer
                     onDeleteProductMarketBriefAnswer = function (onProceed) {
-                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             if (onProceed && typeof onProceed === "function") {
                                 onProceed();
@@ -739,7 +739,7 @@ define("product/product.viewModel",
                     },
                     // On Delete Item Related Item
                     onDeleteItemRelatedItem = function (onProceed) {
-                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             if (onProceed && typeof onProceed === "function") {
                                 onProceed();

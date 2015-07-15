@@ -831,12 +831,12 @@ namespace MPC.Repository.Repositories
                 int rowCount = DbSet.Count(query);
                 IEnumerable<Company> companies = request.IsAsc
                     ? DbSet.Where(query)
-                        .OrderBy(companyOrderByClause[request.CompanyByColumn])
+                        .OrderBy(supplier => supplier.Name).ThenByDescending(supp=> supp.CreationDate)
                         .Skip(fromRow)
                         .Take(toRow)
                         .ToList()
                     : DbSet.Where(query)
-                        .OrderByDescending(companyOrderByClause[request.CompanyByColumn])
+                       .OrderBy(supplier => supplier.Name).ThenByDescending(supp => supp.CreationDate)
                         .Skip(fromRow)
                         .Take(toRow)
                         .ToList();
@@ -2276,6 +2276,7 @@ namespace MPC.Repository.Repositories
 
                         List<CostCentre> CostCentres = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).ToList();
                         List<Machine> machines = db.Machines.Where(c => c.OrganisationId == OrganisationID).ToList();
+                        List<Company> Suppliers = db.Companies.Where(s => s.OrganisationId == OrganisationID && s.IsCustomer == 2).ToList();
                         int FlagID = db.SectionFlags.Where(c => c.OrganisationId == OrganisationID & c.SectionId == 81 && c.isDefault == true).Select(c => c.SectionFlagId).FirstOrDefault();
                         status += "setting webconfig done";
                         if (StoreName == SName)
@@ -2423,30 +2424,7 @@ namespace MPC.Repository.Repositories
                                     db.SaveChanges();
 
 
-                                    ////  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
-                                    //if (comp.Items != null && comp.Items.Count > 0)
-                                    //{
-                                    //    foreach (var itm in comp.Items)
-                                    //    {
-                                    //        if (itm.ProductCategoryItems != null)
-                                    //        {
-                                    //            List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == OldCatIds).ToList();
-
-                                    //            if (pcis != null && pcis.Count > 0)
-                                    //            {
-                                    //                foreach (var pc in pcis)
-                                    //                {
-                                    //                    pc.CategoryId = cat.ProductCategoryId;
-                                    //                }
-                                    //            }
-                                    //        }
-
-
-
-                                    //    }
-                                    //    db.SaveChanges();
-                                    //}
-
+                                  
 
 
                                 }
@@ -2488,7 +2466,7 @@ namespace MPC.Repository.Repositories
 
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oRetailCID;
-
+                                    item.FlagId = FlagID;
                                     if (comp != null)
                                     {
                                         if (comp.SmartForms != null && comp.SmartForms.Count > 0)
@@ -2647,6 +2625,12 @@ namespace MPC.Repository.Repositories
                                     {
                                         foreach (var price in item.ItemPriceMatrices)
                                         {
+                                            int OldSupId = price.SupplierId ?? 0;
+                                            if (price.SupplierId != null)
+                                            {
+                                                long SupId = Suppliers.Where(c => c.TaxPercentageId == OldSupId).Select(c => c.CompanyId).FirstOrDefault();
+                                                price.SupplierId = (int)SupId;
+                                            }
                                             price.FlagId = FlagID;
                                         }
                                     }
@@ -2822,31 +2806,7 @@ namespace MPC.Repository.Repositories
                                     }
                                     db.ProductCategories.Add(cat);
                                     db.SaveChanges();
-                                    //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
-                                    //if (comp.Items != null && comp.Items.Count > 0)
-                                    //{
-                                    //    foreach (var itm in comp.Items)
-                                    //    {
-                                    //        if (itm.ProductCategoryItems != null)
-                                    //        {
-                                    //            List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == OldCatIds).ToList();
-                                    //            if (pcis != null && pcis.Count > 0)
-                                    //            {
-                                    //                if (pcis != null && pcis.Count > 0)
-                                    //                {
-                                    //                    foreach (var pc in pcis)
-                                    //                    {
-                                    //                        pc.CategoryId = cat.ProductCategoryId;
-                                    //                    }
-                                    //                }
-                                    //            }
-                                    //        }
-
-
-
-                                    //    }
-                                    //    db.SaveChanges();
-                                    //}
+                                  
 
 
                                 }
@@ -2885,6 +2845,7 @@ namespace MPC.Repository.Repositories
 
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oRetailCIDWOP;
+                                    item.FlagId = FlagID;
                                     if (comp != null)
                                     {
                                         if (comp.SmartForms != null && comp.SmartForms.Count > 0)
@@ -2944,21 +2905,7 @@ namespace MPC.Repository.Repositories
 
 
                                             }
-                                            //if (machines != null && machines.Count > 0)
-                                            //{
-                                            //    long MID = machines.Where(c => c.SystemSiteId == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
-                                            //    if (MID > 0)
-                                            //    {
-                                            //        itm.PressId = (int)MID;
-                                            //    }
-                                            //    else
-                                            //    {
-                                            //        MID = machines.Select(s => s.MachineId).FirstOrDefault();
-                                            //       // itm.PressId = (int)MID;
-                                            //        itm.PressId = null;
-
-                                            //    }
-                                            //}
+                                           
 
                                         }
                                     }
@@ -3042,6 +2989,12 @@ namespace MPC.Repository.Repositories
                                     {
                                         foreach (var price in item.ItemPriceMatrices)
                                         {
+                                            int OldSupId = price.SupplierId ?? 0;
+                                            if (price.SupplierId != null)
+                                            {
+                                                long SupId = Suppliers.Where(c => c.TaxPercentageId == OldSupId).Select(c => c.CompanyId).FirstOrDefault();
+                                                price.SupplierId = (int)SupId;
+                                            }
                                             price.FlagId = FlagID;
                                         }
                                     }
@@ -3277,6 +3230,7 @@ namespace MPC.Repository.Repositories
 
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oCID;
+                                    item.FlagId = FlagID;
                                     if (comp != null)
                                     {
                                         if (comp.SmartForms != null && comp.SmartForms.Count > 0)
@@ -3435,6 +3389,12 @@ namespace MPC.Repository.Repositories
                                     {
                                         foreach (var price in item.ItemPriceMatrices)
                                         {
+                                            int OldSupId = price.SupplierId ?? 0;
+                                            if (price.SupplierId != null)
+                                            {
+                                                long SupId = Suppliers.Where(c => c.TaxPercentageId == OldSupId).Select(c => c.CompanyId).FirstOrDefault();
+                                                price.SupplierId = (int)SupId;
+                                            }
                                             price.FlagId = FlagID;
                                         }
                                     }
@@ -3685,6 +3645,7 @@ namespace MPC.Repository.Repositories
 
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oCIDWOP;
+                                    item.FlagId = FlagID;
                                     if (comp != null)
                                     {
                                         if (comp.SmartForms != null && comp.SmartForms.Count > 0)
@@ -3745,22 +3706,7 @@ namespace MPC.Repository.Repositories
 
 
                                             }
-                                            //if (machines != null && machines.Count > 0)
-                                            //{
-                                            //    long MID = machines.Where(c => c.SystemSiteId == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
-                                            //    if (MID > 0)
-                                            //    {
-                                            //        itm.PressId = (int)MID;
-                                            //    }
-                                            //    else
-                                            //    {
-                                            //        MID = machines.Select(s => s.MachineId).FirstOrDefault();
-                                            //        //itm.PressId = (int)MID;
-                                            //        itm.PressId = null;
-
-
-                                            //    }
-                                            //}
+                                          
 
                                         }
                                     }
@@ -3844,6 +3790,13 @@ namespace MPC.Repository.Repositories
                                     {
                                         foreach (var price in item.ItemPriceMatrices)
                                         {
+                                            int OldSupId = price.SupplierId ?? 0;
+                                            if (price.SupplierId != null)
+                                            {
+                                                long SupId = Suppliers.Where(c => c.TaxPercentageId == OldSupId).Select(c => c.CompanyId).FirstOrDefault();
+                                                price.SupplierId = (int)SupId;
+                                            }
+
                                             price.FlagId = FlagID;
                                         }
                                     }

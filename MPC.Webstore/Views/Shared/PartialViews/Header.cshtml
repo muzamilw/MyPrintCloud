@@ -1,8 +1,6 @@
 ﻿@model MPC.Models.DomainModels.Company
 @using MPC.Webstore.Common;
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+
 <div class="top_header">
     <div class="container content_area">
         <div class="left_right_padding">
@@ -72,18 +70,3 @@
         </div>
     </div>
 </div>
-@section scripts {
-    <script>
-
-        function ToggleMenu() {
-            $("#collapsedMenu").slideToggle();
-
-        }
-
-        function ToggleProfile() {
-            $("#profileMenu").slideToggle();
-
-        }
-
-    </script>
-}

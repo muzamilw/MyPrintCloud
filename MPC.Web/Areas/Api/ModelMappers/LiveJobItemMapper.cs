@@ -17,16 +17,17 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 EstimateId = source.EstimateId,
                 ItemId = source.ItemId,
-                EstimateDate = source.Estimate != null ? source.Estimate.EstimateDate : null,
+                EstimateDate = source.Estimate != null ? source.Estimate.Order_Date : null,
                 CompanyName = source.Estimate != null ? source.Estimate.Company != null ? source.Estimate.Company.Name : string.Empty : string.Empty,
                 ProductName = source.ProductName,
                 CompanyId = source.Estimate != null ? source.Estimate.CompanyId : 0,
                 Qty1 = source.Qty1,
                 JobManagerId = source.JobManagerId,
                 JobCode = source.JobCode,
-                StatusName = source.Status != null ? source.Status.StatusName : string.Empty,
+                //StatusName = source.Status != null ? source.Status.StatusName : string.Empty,
                 isDirectSale = source.Estimate != null ? source.Estimate.isDirectSale : false,
                 ItemAttachments = source.ItemAttachments.Select(attch => attch.CreateFromForLiveJobs()).ToList(),
+                JobStatusId = source.JobStatusId
             };
         }
 

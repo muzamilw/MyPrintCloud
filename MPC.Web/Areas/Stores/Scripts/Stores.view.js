@@ -174,6 +174,16 @@ define("stores/stores.view",
                 hideSmartFormDialog = function () {
                     $("#smartFormDialog").modal("hide");
                 },
+                // Show Discount Voucher Detail Dialog
+                showDiscountVoucherDetailDialog = function () {
+                    $("#discountVoucherDetailDialog").modal("show");
+                    initializeLabelPopovers();
+                },
+                // Hide Discount Voucher Detail Dialog
+                hideDiscountVoucherDetailDialog = function () {
+                    $("#discountVoucherDetailDialog").modal("hide");
+                },
+                   
 
                 //#endregion
 
@@ -396,7 +406,9 @@ define("stores/stores.view",
                 showMediaLibImageDialog: showMediaLibImageDialog,
                 hideMediaLibImageDialog: hideMediaLibImageDialog,
                 subCategorySelectedEventHandler: subCategorySelectedEventHandler,
-                expandCategory: expandCategory
+                expandCategory: expandCategory,
+                showDiscountVoucherDetailDialog: showDiscountVoucherDetailDialog,
+                hideDiscountVoucherDetailDialog: hideDiscountVoucherDetailDialog,
             };
         })(storesViewModel);
 

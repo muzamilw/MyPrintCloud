@@ -191,7 +191,7 @@ define("order/order.viewModel",
                     // Sort On
                     sortOn = ko.observable(2),
                     // Sort Order -  true means asc, false means desc
-                    sortIsAsc = ko.observable(false),
+                    sortIsAsc = ko.observable(true),
                     // Pagination
                     pager = ko.observable(new pagination.Pagination({ PageSize: 5 }, orders)),
                     // Pagination for Categories
@@ -945,7 +945,7 @@ define("order/order.viewModel",
                     },
 
                     deleteOrderButtonHandler = function () {
-                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(deleteOrder);
                         confirmation.afterCancel(function () {
 
@@ -2056,7 +2056,7 @@ define("order/order.viewModel",
                         }
                     },
                     onDeletePrePayment = function (prePayment) {
-                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             var index = selectedOrder().prePayments().indexOf(prePayment);
                             selectedOrder().prePayments.remove(selectedOrder().prePayments()[index]);
@@ -2067,7 +2067,7 @@ define("order/order.viewModel",
                         return;
                     },
                     onDeleteShippingItem = function (shippingItem) {
-                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedOrder().items.remove(shippingItem);
                             selectedOrder().hasDeletedItems(true);
@@ -2288,7 +2288,7 @@ define("order/order.viewModel",
                         if (selectedDeliverySchedule().deliveryNoteRaised()) {
                             toastr.error("Raised item cannot be deleted.");
                         } else {
-                            confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                            confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                             confirmation.afterProceed(deleteDeliverySchedule);
                             confirmation.show();
                             return;
@@ -2408,6 +2408,27 @@ define("order/order.viewModel",
                                 },
                                 error: function (response) {
                                     toastr.error("Failed to Copy Estimate " + response);
+                                }
+                            });
+                        });
+                        confirmation.show();
+                    },
+                    copyOrder = function () {
+                        confirmation.messageText("Proceed To Copy Order ?");
+                        confirmation.afterProceed(function () {
+                            dataservice.copyOrder({
+                                id: selectedOrder().id()
+                            }, {
+                                success: function (data) {
+                                    if (data) {
+                                        setSelectedOrder(data);
+                                        addItemInListViewOnCopying();
+                                        toastr.success("Order Copied Successfully");
+                                        isCopyiedEstimate(true);
+                                    }
+                                },
+                                error: function (response) {
+                                    toastr.error("Failed to Copy Order" + response);
                                 }
                             });
                         });
@@ -3040,7 +3061,8 @@ define("order/order.viewModel",
                     onAddFinishedGoods: onAddFinishedGoods,
                     onCreateNewCostCenterProduct: onCreateNewCostCenterProduct,
                     sectionFlagsForListView: sectionFlagsForListView,
-                    onDeleteShippingItem: onDeleteShippingItem
+                    onDeleteShippingItem: onDeleteShippingItem,
+                    copyOrder:copyOrder
                     //#endregion
                 };
             })()

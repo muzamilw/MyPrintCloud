@@ -54,7 +54,7 @@ define("inventoryCategory/inventoryCategory.viewModel",
                     isStockCategoryEditorVisible = ko.observable(false),
                     //Delete Stock Category
                     onDeleteStockCategory = function () {
-                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(deleteStockCategory);
                         confirmation.afterCancel(function () {
 
@@ -250,7 +250,7 @@ define("inventoryCategory/inventoryCategory.viewModel",
                      // Delete a Stock Sub Category
                     onDeleteStockSubCategory = function (stockSubCategory) {
                         // if (stockSubCategory.categoryId() > 0) {
-                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function() {
                             selectedStockCategory().stockSubCategories.remove(stockSubCategory);
                         });

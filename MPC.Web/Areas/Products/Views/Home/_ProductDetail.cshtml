@@ -1,6 +1,6 @@
 ﻿<div class="row" data-bind="visible: isProductDetailsVisible" style="display: none">
     <div class="col-lg-12">
-        <div class="row" data-bind="with: selectedProduct">
+        <div class="row" data-bind="with: selectedProduct" style="margin-bottom:10px;">
             <div class="col-lg-12">
                 <div class="clearfix">
                     <div class="pull-left validationSummaryContainer">
@@ -25,7 +25,7 @@
                 </div>
             </div>
         </div>
-        <div>&nbsp;</div>
+        
         <div class="row" id="user-profile">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="main-box clearfix my-tabsHeader">
@@ -393,7 +393,23 @@
                                             </div>
                                         </div>
 
+                                        <div class="form-group" data-bind="visible: isFinishedGoodsUi() !== '2'">
+                                            <div class="col-lg-7 text-right" style="margin-right:35px;">
 
+                                                <label class="control-label text-right" for="switchIsUploadImage">End User must upload Files or Artwork (pdf,jpg,eps,tiff,csv,xls,xlsx) to order this product? </label>
+
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsUploadImage" data-bind="checked: isUploadImage">
+                                                    <label class="onoffswitch-label" for="switchIsUploadImage">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                                <span class="help-block text-right"></span>
+                                            </div>
+                                        </div>
 
 
 
@@ -655,25 +671,7 @@
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
-
-
-                                        <div class="form-group">
-                                            <div class="col-lg-7 text-right" style="margin-right:35px;">
-
-                                                <label class="control-label text-right" for="switchIsUploadImage">End User must upload Files or Artwork (pdf,jpg,eps,tiff,csv,xls,xlsx) to order this product? </label>
-
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="onoffswitch">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsUploadImage" data-bind="checked: isUploadImage">
-                                                    <label class="onoffswitch-label" for="switchIsUploadImage">
-                                                        <div class="onoffswitch-inner"></div>
-                                                        <div class="onoffswitch-switch"></div>
-                                                    </label>
-                                                </div>
-                                                <span class="help-block text-right"></span>
-                                            </div>
-                                        </div>
+                                        
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 

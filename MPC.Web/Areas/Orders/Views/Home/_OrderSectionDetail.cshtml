@@ -32,7 +32,7 @@
                                         Sheet Fed
                                     </label>
                                 </div>
-                                <div class="radio col-sm-2" style="">
+                                <div class="radio col-sm-2" style="  margin-left: -11px;">
                                     <input type="radio" name="optionsRadiosFirst" id="optionsRadiosFirst_2" value="2" data-bind="checked: printingTypeUi">
                                     <label for="optionsRadiosFirst_2">
                                         Roll Fed
@@ -90,7 +90,7 @@
                                     </div>
                                     <div class="col-sm-3">&nbsp;</div>
                                     <div class="col-sm-4 col-md-4 col-lg-4" style="padding-left: 5px;">
-                                        <input style=" width: 130%;" type="text" id="itemGutterTextBox" class="form-control font20px" data-bind="value: itemGutterHorizontal, validationOnElement: itemGutterHorizontal" min="0" max="99" style="">
+                                        <input style="width: 130%;text-align: right;" type="text" id="itemGutterTextBox" class="form-control font20px" data-bind="value: itemGutterHorizontal, validationOnElement: itemGutterHorizontal" min="0" max="99" >
                                     </div>
                                 </div>
                             </div>
@@ -107,7 +107,7 @@
                                 </div>
 
                                 <div class="col-sm-2" style="padding-left: 12px;">
-                                    <label style=" float: left;" class="control-label text-right tooltip-float" data-bind="visible: printingTypeUi() !== '2'">Number up</label>
+                                    <label style=" float: left; margin-left: 4px;" class="control-label text-right tooltip-float" data-bind="visible: printingTypeUi() !== '2'">Number up</label>
                                     <!-- ko if: printingTypeUi() === '2' -->
                                     &nbsp;
                                     <!-- /ko -->
@@ -199,7 +199,7 @@
                                     <label style="float: left;" for="switchPrintOnBothSides" class="control-label text-right tooltip-float">Side 1 Press Profile</label>
                                 </div>
 
-                                <div class=" col-sm-2" style="padding-left: 12px;">
+                                <div class=" col-sm-2" style="padding-left: 23px;">
                                     <label style="float: left" class="control-label text-right tooltip-float">Color #1</label>
 
                                 </div>
@@ -238,7 +238,7 @@
                                 <div class="col-sm-2 text-right" style="padding-right:0;">
                                     &nbsp;
                                 </div>
-                                <div class=" col-sm-2" style="padding-left: 12px;" data-bind="visible: !isWorknTurn()">
+                                <div class=" col-sm-2" style="padding-left: 23px;" data-bind="visible: !isWorknTurn()">
                                     <label class="control-label">Color #2</label>
 
                                 </div>
@@ -291,7 +291,7 @@
                                 </div>
 
                                 <div class="col-sm-1 text-right" style="padding-left: 0;  width: 12%;">
-                                    <span style="float: left; margin-top: 6px;">
+                                    <span style="float: left; margin-top: 10px;">
                                         Pack size:
                                         <span data-bind="text: stockItemPackageQty"></span>
                                     </span>
@@ -319,7 +319,7 @@
                                                     <div class="checkbox-nice" data-bind="visible:$root.selectedProduct().productType()!==3">
                                                         <input type="checkbox" id="checkbox-2_Trim" data-bind="checked: isSecondTrim" />
                                                         <label for="checkbox-2_Trim">
-                                                            2nd Trim
+                                                            1st & 2nd Trim
                                                         </label>
                                                     </div>
                                                 </div>
@@ -332,24 +332,44 @@
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3" style="width: 25%">
-                                                    <label class="control-label" style="float: right; padding-right: 5px; ">Quantity</label>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <div class="col-sm-6">
-                                                        <input type="text" class="form-control font20px" style="text-align: right; margin-left: 30% " data-bind="value: qty1, validationOnElement: qty1" id="qty1" />
-                                                    </div>
+                                                <div class="col-sm-4" style="width: 45%">
+                                                    <input type="button" class="btn btn-success" data-bind="visible: $root.selectedQty() == 2 || $root.selectedQty() == 3, click: $root.selectQuantity(1), value: 'Show Qty 1 (' + qty1() + ')'">
                                                     <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
+                                                    <input type="button" class="btn btn-success" data-bind="visible: $root.selectedQty() == 1 || $root.selectedQty() == 3, click: $root.selectQuantity(2), value: 'Show Qty 2 (' + qty2() + ')'">
+                                                    <input type="button" class="btn btn-success" data-bind="visible: $root.selectedQty() == 1 || $root.selectedQty() == 2, click: $root.selectQuantity(3), value: 'Show Qty 3 (' + qty3() + ')'">
+                                                    <!--/ko-->
+
+                                                    <label class="control-label" style="float: right; padding-right: 5px;" data-bind="text: $root.selectedQty() == 1 ?' Showing Qty1' : $root.selectedQty() == 2? 'Showing Qty2': 'Showing Qty3'"></label>
+                                                    
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <!--ko if: $root.selectedQty() == 1 -->
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control font20px" style="text-align: right; margin-left: 10% " data-bind="value: qty1, validationOnElement: qty1" id="qty1" />
+                                                    </div>
+                                                    <!--/ko-->
+                                                    <!--ko if: $root.selectedQty() == 2 -->
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control font20px" style="text-align: right; margin-left: 10% " data-bind="value: qty2, validationOnElement: qty2" id="qty2" />
+                                                    </div>
+                                                    <!--/ko-->
+                                                    <!--ko if: $root.selectedQty() == 3 -->
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control font20px" style="text-align: right; margin-left: 10% " data-bind="value: qty3, validationOnElement: qty3" id="qty3" />
+                                                    </div>
+                                                    <!--/ko-->
+
+                                                    @*<!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                                     <div class="col-sm-6">
 
                                                         <input type="text" class="form-control font20px" style="text-align:right;margin-left: 35%" data-bind="value: qty2, validationOnElement: qty2" id="qty2" />       
 
                                                     </div>
-                                                    <!--/ko-->
+                                                    <!--/ko-->*@
 
                                                 </div>
-                                                <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
-                                                <div class="col-sm-2">
+                                                @*<!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->*@
+                                                @*<div class="col-sm-2">*@
 
                                                     @*<div class="form-group" >
                                                             <div class="col-sm-4" style=" margin-left: -1%; padding-right: 0; padding-left: 0;">
@@ -359,7 +379,7 @@
 
                                                             </div>
                                                         </div>*@
-                                                </div>
+                                                @*</div>*@
 
                                                 @*<div class="col-sm-2" style="float: right;">
                                                         <div class="form-group">
@@ -371,7 +391,7 @@
                                                             </div>
                                                         </div>
                                                     </div>*@
-                                                <!--/ko-->
+                                                @*<!--/ko-->*@
                                             </div>
                                         </header>
                                         <div class="clearfix">
@@ -386,13 +406,12 @@
                                                                         <th class="col-sm-8 text-left">
                                                                         </th>
 
-                                                                        <th class="col-sm-2 " >
-
-
+                                                                        <th class="col-sm-4 " >
+                                                                            
                                                                         </th>
-                                                                        <th class="col-sm-2">
+                                                                        @*<th class="col-sm-2">
 
-                                                                        </th>
+                                                                        </th>*@
 
                                                                     </tr>
                                                                 </thead>
@@ -404,7 +423,7 @@
                                                                         </td>
                                                                         <td></td>
                                                                         <td></td>
-                                                                        <td></td>
+                                                                        @*<td></td>*@
 
                                                                     </tr>
                                                                     <!-- /ko -->
@@ -420,8 +439,8 @@
                                         </div>
 
                                         <div class="col-sm-12" style="  padding-left: 1.8%; margin-top: 10px;">
-                                            <div class="col-sm-7">
-                                                <div class="col-sm-6">
+                                            <div class="col-sm-9">
+                                                <div class="col-sm-10">
                                                     <div class="btn-group" style="float: left; margin-top: 10px;">
                                                         <button type="button" class="btn btn-primary" data-bind="click : $root.openStockItemDialogForAddingStock">Stock</button>
 
@@ -433,26 +452,37 @@
                                                     <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
                                                         <button type="button" class="btn btn-primary" data-bind="click : $root.onAddPostPressCostCenter">Post-Press</button>
                                                     </div>
+                                                    <div style="float: left; margin-top: 10px; margin-left: 35px;">
+                                                        <label class="control-label" style="  float: right;"> Sections like this</label>
+                                                    </div>
+                                                    <div class="col-sm-2" style="float: left; margin-top: 10px; margin-left: 5px;">
+                                                        <input type="text" style="width:70%" class="form-control font20px" data-bind="value: $root.calculateBaseChargeBasedOnSimilarSectionsValue" />
+                                                    </div>
                                                 </div>
 
-                                                <div class="col-sm-6">
-                                                    <label class="control-label" style="float: right; padding-right: 5px; margin-top: 2.5% ">Markup</label>
+                                                <div class="col-sm-2">
+                                                    <label class="control-label" style="float: right; padding-right: 8px; margin-top: 13px ">Markup</label>
                                                 </div>
 
                                             </div>
-                                            <div class="col-sm-5">
-                                                <div class="col-sm-6">
-                                                    <select class="form-control" style="  width:70%; padding-left: 0;padding-right: 0; margin-top: 10px; float:right;  margin-right: 12px;" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty1MarkUpId,event:{ change: $root.onChangeQty1MarkUpId}"></select>
+                                            <div class="col-sm-3">
+                                                <div class="col-sm-12">
+                                                    <!--ko if: $root.selectedQty() == 1-->
+                                                    <select class="form-control" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty1MarkUpId,event:{ change: $root.onChangeQty1MarkUpId}" style="  width:60%; padding-left: 0;padding-right: 0; margin-top: 10px; float:right;  margin-right: 23%;"></select>
+                                                    <!--/ko-->
+                                                    <!--ko if: $root.selectedQty() == 2-->
+                                                    <select class="form-control" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty2MarkUpId,event:{ change: $root.onChangeQty2MarkUpId}" style="  width:60%; padding-left: 0;padding-right: 0; margin-top: 10px; float:right;  margin-right: 23%;"></select>
+                                                    <!--/ko-->
+                                                    <!--ko if: $root.selectedQty() == 3-->
+                                                    <select class="form-control" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty3MarkUpId,event:{ change: $root.onChangeQty3MarkUpId}" style="  width:60%; padding-left: 0;padding-right: 0; margin-top: 10px; float:right;  margin-right: 23%;"></select>
+                                                    <!--/ko-->
                                                 </div>
-                                                <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
+                                                @*<!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                                 <div class="col-sm-6" >
                                                     <select class="form-control" style=" width: 70%; padding-left: 0; padding-right: 0; margin-top: 10px; " data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty2MarkUpId,event:{ change: $root.onChangeQty2MarkUpId}"></select>
                                                 </div>
-
-                                                <!--/ko-->
+                                                <!--/ko-->*@
                                             </div>
-
-
                                         </div>
 
                                         @*<div class="form-group" style="padding-bottom: 1%;">
@@ -471,32 +501,35 @@
                     </div>
                     <div class="form-group" style="padding-bottom: 1%;">
                         <div class="col-sm-12" style="padding-left: 5.5%; padding-bottom: 1%; padding-top:2%">
-                            <div class="col-sm-7" style="padding-left: 0px;">
+                            <div class="col-sm-9" style="padding-left: 0px;">
                                 <div class="col-sm-7" style="padding-left: 1.5%; margin-top: 2%; ">
-                                    <label class="control-label" style="  float: right;"> Sections like this</label>
+                                    @*<label class="control-label" style="  float: right;"> Sections like this</label>*@
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" style="width:70%" class="form-control font20px" data-bind="value: $root.calculateBaseChargeBasedOnSimilarSectionsValue" />
+                                    @*<input type="text" style="width:70%" class="form-control font20px" data-bind="value: $root.calculateBaseChargeBasedOnSimilarSectionsValue" />*@
                                 </div>
-                                <div class="col-sm-3" style="padding-right: 5%; margin-top: 1%;">
+                                <div class="col-sm-3" style="padding-right: 0%; margin-top: 1%;">
                                     <label style=" float: right; " class="control-label">Total Ex. Tax</label>
                                 </div>
                             </div>
-
-                            <div class="col-sm-5" style="padding-left: 6.8%;">
-                                
-                                <div class="col-sm-4" style="margin-top: 1%; ">
-
-                                    <label class="control-label font20px" style="float: right"><span data-bind="text:$root.currencySymbol"></span><span class="font20px" data-bind="numberInput:baseCharge1"></span></label>
+                            <div class="col-sm-3">
+                                <div class="col-sm-9" style="margin-top: 1%; ">
+                                    <!--ko if: $root.selectedQty() ==1 -->
+                                    <label class="control-label font20px" style="float: right;  margin-right: 12%;"><span data-bind="text:$root.currencySymbol"></span><span class="font20px" data-bind="numberInput:baseCharge1"></span></label>
+                                    <!--/ko-->
+                                    <!--ko if: $root.selectedQty() ==2 -->
+                                    <label class="control-label font20px" style="float: right;  margin-right: 12%;"><span data-bind="text:$root.currencySymbol"></span><span class="font20px" data-bind="numberInput:baseCharge2"></span></label>
+                                    <!--/ko-->
+                                    <!--ko if: $root.selectedQty() ==3 -->
+                                    <label class="control-label font20px" style="float: right;  margin-right: 12%;"><span data-bind="text:$root.currencySymbol"></span><span class="font20px" data-bind="numberInput:baseCharge3"></span></label>
+                                    <!--/ko-->
                                 </div>
-                                <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
+                                @*<!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                 <div class="col-sm-6" style="  margin-top: 1%;">
                                     <label class="control-label font20px" style="  float: right; margin-right: 10px;"><span data-bind="text:$root.currencySymbol"></span><span class="font20px" data-bind="numberInput:baseCharge2"></span></label>
                                 </div>
-
-                                <!--/ko-->
+                                <!--/ko-->*@
                             </div>
-
                         </div>
                     </div>
 
@@ -540,15 +573,23 @@
             </td>
 
             <td >
-                <div style="text-align: right; ">
-
+                <div style="text-align: right; margin-right: 8px;">
+                    <!--ko if: $root.selectedQty() == 1-->
                     <span class="font20px" data-bind="text:$root.currencySymbol" style="color: #3498db"></span><a href="#" class="font20px" style="margin-left: 0px" data-bind="numberInput: qty1NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 1)}"></a>
+                    <!--/ko-->
+                    <!--ko if: $root.selectedQty() == 2-->
+                    <span class="font20px" data-bind="text:$root.currencySymbol" style="color: #3498db"></span><a href="#" class="font20px" style="margin-left: 0px" data-bind="numberInput: qty2NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 2)}"></a>
+                    <!--/ko-->
+                    <!--ko if: $root.selectedQty() == 3-->
+                    <span class="font20px" data-bind="text:$root.currencySymbol" style="color: #3498db"></span><a href="#" class="font20px" style="margin-left: 0px" data-bind="numberInput: qty3NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 3)}"></a>
+                    <!--/ko-->
+                   
                 </div>
             </td>
-            <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
+            @*<!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
             <td style="text-align: right">
 
-                <div>  @*style="padding-right: 10%;"*@
+                <div>  
                     <span class="font20px" data-bind="text:$root.currencySymbol" style="color: #3498db"></span> <a href="#" class="font20px" data-bind="numberInput: qty2NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 2)}"></a>
                 </div>
 
@@ -557,7 +598,7 @@
             <!--/ko-->
             <!--ko if: !$root.isEstimateScreen() || $root.selectedProduct().productType() === 3 -->
             <td></td>
-            <!--/ko-->
+            <!--/ko-->*@
         </tr>
     </script>
 

@@ -63,6 +63,8 @@ define("stores/stores.viewModel",
                     sortIsAsc = ko.observable(true),
                     //Pager
                     pager = ko.observable(),
+                     //Pager
+                    discountVoucherpager = ko.observable(),
                     //Search Filter
                     searchFilter = ko.observable(),
                     //selectedStore
@@ -161,8 +163,11 @@ define("stores/stores.viewModel",
                     //Filtered States
                     filteredStates = ko.observableArray([]),
                     priceFlags = ko.observableArray([]),
-
-                    //#endregion
+                     // List
+                    discountVouuchers = ko.observableArray([]),
+                    discountTypes = [{ id: 1, type: "Dollar amount off a PRODUCT" }, { id: 2, type: "Dollar amount off ENTIRE ORDER " }, { id: 3, type: "Percent off a PRODUCT" }, { id: 4, type: "Percent off ENTIRE ORDER" }, { id: 5, type: "Free Shipping on ENTIRE ORDER" }],
+                    couponUseType = [{ id: 1, type: "Unlimited Use" }, { id: 2, type: "One-Time Use Per Customer" }, { id: 3, type: "One-Time Use Coupon" }],
+                //#endregion
 
                     //#region _________E D I T O R I AL   V I E W    M O D E L_______
 
@@ -207,7 +212,7 @@ define("stores/stores.viewModel",
                             return;
                         }
                         // Ask for confirmation
-                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedStore().companyDomains.remove(companyDomain);
                         });
@@ -593,7 +598,7 @@ define("stores/stores.viewModel",
             //Delete Media Gallary Item
             onDeleteMedia = function (media) {
                 // Ask for confirmation
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                 confirmation.afterProceed(function () {
                     if (media.fakeId() < 0) {
                         var flag = true;
@@ -700,7 +705,7 @@ define("stores/stores.viewModel",
             // Delete a Rave review
             onDeleteRaveReview = function (raveReview) {
                 // Ask for confirmation
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                 confirmation.afterProceed(function () {
                     _.each(selectedStore().raveReviews(), function (item) {
                         //if (item.reviewId() === raveReview.reviewId()) {
@@ -899,7 +904,7 @@ define("stores/stores.viewModel",
             // Delete Company Territory
             onDeleteCompanyTerritory = function (companyTerritory) {
                 // Ask for confirmation
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                 confirmation.afterProceed(function () {
                     //#region Db Saved Record Id > 0
                     if (companyTerritory.companyId() > 0 && companyTerritory.territoryId() > 0) {
@@ -1221,7 +1226,7 @@ define("stores/stores.viewModel",
             // Delete a company CMYK Color
             onDeleteCompanyCMYKColors = function (companyCMYKColor) {
                 // Ask for confirmation
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                 confirmation.afterProceed(function () {
                     //selectedStore().companyCMYKColors.remove(companyCMYKColor);
                     var companyCMYKColorToDelete = getCompanyCMYKColorsByIdFromListView(companyCMYKColor.colorId());
@@ -2303,7 +2308,7 @@ define("stores/stores.viewModel",
                     return;
                 } else {
                     // Ask for confirmation
-                    confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                    confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         //#region Db Saved Record Id > 0
                         if (address.addressId() > 0) {
@@ -2332,9 +2337,21 @@ define("stores/stores.viewModel",
                                                 //        addressCompanyTerritoriesFilter.remove(item);
                                                 //    }
                                                 //});
-                                                bussinessAddresses.remove(address);
-                                                shippingAddresses.remove(address);
-                                                allCompanyAddressesList.remove(address);
+                                                _.each(bussinessAddresses(), function (addressToBeDeleted) {
+                                                    if (addressToBeDeleted.addressId() == address.addressId()) {
+                                                        bussinessAddresses.remove(addressToBeDeleted);
+                                                    }
+                                                });
+                                                _.each(shippingAddresses(), function (addressToBeDeleted) {
+                                                    if (addressToBeDeleted.addressId() == address.addressId()) {
+                                                        shippingAddresses.remove(addressToBeDeleted);
+                                                    }
+                                                });
+                                                _.each(allCompanyAddressesList(), function (addressToBeDeleted) {
+                                                    if (addressToBeDeleted.addressId() == address.addressId()) {
+                                                        allCompanyAddressesList.remove(addressToBeDeleted);
+                                                    }
+                                                });
                                             } else {
                                                 toastr.error("Address can not be deleted. It might exist in Contact", "", ist.toastrOptions);
                                             }
@@ -2706,7 +2723,7 @@ define("stores/stores.viewModel",
                 }
 
                 // Ask for confirmation
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                 confirmation.afterProceed(function () {
                     deleteSecondaryPage(secondaryPage);
                 });
@@ -3136,7 +3153,7 @@ define("stores/stores.viewModel",
                     return;
                 }
                 // Ask for confirmation
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                 confirmation.afterProceed(function () {
                     //#region Db Saved Record Id > 0
                     if (companyContact.contactId() > 0) {
@@ -3444,7 +3461,7 @@ define("stores/stores.viewModel",
             // Delete a Payment Gateway
             onDeletePaymentGateway = function (paymentGateway) {
                 // Ask for confirmation
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                 confirmation.afterProceed(function () {
                     selectedStore().paymentGateway.remove(paymentGateway);
                     view.hidePaymentGatewayDialog();
@@ -3593,7 +3610,7 @@ define("stores/stores.viewModel",
             },
 
             //Change request populate drop down on category name 
-            getCategoryChildListItemsOnNameClick = function(dataRecieved, event) {
+            getCategoryChildListItemsOnNameClick = function (dataRecieved, event) {
                 $($(event.currentTarget).parent().parent().children()[0]).children()[0].click();
             },
 
@@ -4986,6 +5003,7 @@ define("stores/stores.viewModel",
                 fieldVariablesOfAddressType.removeAll();
                 fieldVariablesOfTerritoryType.removeAll();
                 fieldVariablesOfStoreType.removeAll();
+                discountVouuchers.removeAll();
                 newAddedCampaigns.removeAll();
                 filteredCompanyBanners.removeAll();
                 editedCampaigns.removeAll();
@@ -6100,7 +6118,7 @@ define("stores/stores.viewModel",
             },
 
             onRemoveFieldVariable = function (variable) {
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo.");
+                confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo.");
                 confirmation.afterProceed(function () {
                     deleteFieldVariable(variable.convertToServerData(variable));
                 });
@@ -6366,6 +6384,11 @@ define("stores/stores.viewModel",
             },
                 //#endregion ________ Smart Form___________
 
+                  //#region ________ Discount Voucher Detail___________
+                  openDiscountVoucherDetailDilog = function () {
+                      view.showDiscountVoucherDetailDialog();
+                  },
+                   //#endregion ________ Discount Voucher Detail___________
                 // Store Has Changes
                 // ReSharper disable InconsistentNaming
             storeHasChanges = new ko.dirtyFlag({
@@ -6404,13 +6427,14 @@ define("stores/stores.viewModel",
                 ko.applyBindings(view.viewModel, view.bindingRoot);
                 //ko.applyBindings(view.viewModel, document.getElementById('singleArea'));
                 pager(new pagination.Pagination({ PageSize: 5 }, stores, getStores));
+                discountVoucherpager(new pagination.Pagination({ PageSize: 5 }, discountVouuchers, getDiscountVouchers));
                 getStores();
                 getBaseDataFornewCompany();
                 view.initializeForm();
             },
                 // On Delete Store Permanently
             onDeletePermanent = function () {
-                confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
                 confirmation.afterProceed(function () {
                     deleteCompanyPermanently(selectedStore().companyId());
                 });
@@ -6422,6 +6446,7 @@ define("stores/stores.viewModel",
                     return store.companyId() === id;
                 });
             },
+           
                 // Delete Company Permanently
             deleteCompanyPermanently = function (id) {
                 dataservice.deleteCompanyPermanent({ CompanyId: id }, {
@@ -6438,6 +6463,46 @@ define("stores/stores.viewModel",
                     },
                     error: function (response) {
                         toastr.error("Failed to delete store. Error: " + response, "", ist.toastrOptions);
+                    }
+                });
+            },
+                         // Delete Company Permanently
+            getDiscountVouchers = function () {
+                if (discountVouuchers() && discountVouuchers().length > 0) {
+                    return;
+                }
+                dataservice.getDiscountVouchers({
+                    PageSize: discountVoucherpager().pageSize(),
+                    PageNo: discountVoucherpager().currentPage(),
+                }, {
+                    success: function (data) {
+                        discountVouuchers.removeAll();
+                        if (data != null) {
+                            _.each(data.DiscountVoucherListView, function (voucher) {
+                                var module = model.discountVoucherListView.Create(voucher);
+                                var dType = _.find(discountTypes,function (item) {
+                                    if (module.discountType() === item.id)
+                                        return item;
+                              });
+                                var useType = _.find(couponUseType,function (item) {
+                                  if (module.couponUseType() === item.id)
+                                      return item;
+                                });
+                                if (dType) {
+                                    module.discountType(dType.type);
+                                }
+                                if (useType) {
+                                    module.couponUseType(useType.type);
+                                }
+                                discountVouuchers.push(module);
+                            });
+                            discountVoucherpager().totalCount(data.RowCount);
+                        }
+                        isLoadingStores(false);
+                    },
+                    error: function (response) {
+                        isLoadingStores(false);
+                        toastr.error("Error: Failed To load Stores " + response, "", ist.toastrOptions);
                     }
                 });
             };
@@ -6618,7 +6683,7 @@ define("stores/stores.viewModel",
                     selectedPaymentGateway: selectedPaymentGateway,
                     //#endregion Payment Gateway
                     //#region Product Category
-                    getCategoryChildListItemsOnNameClick:getCategoryChildListItemsOnNameClick,
+                    getCategoryChildListItemsOnNameClick: getCategoryChildListItemsOnNameClick,
                     selectedProductCategory: selectedProductCategory,
                     selectProductCategory: selectProductCategory,
                     deletedProductCategories: deletedProductCategories,
@@ -6826,8 +6891,11 @@ define("stores/stores.viewModel",
                     systemVariablePager: systemVariablePager,
                     getSystemVariables: getSystemVariables,
                     selectedMediaLibImage: selectedMediaLibImage,
-                    productCategoryHasChanges: productCategoryHasChanges
-
+                    productCategoryHasChanges: productCategoryHasChanges,
+                    openDiscountVoucherDetailDilog: openDiscountVoucherDetailDilog,
+                    getDiscountVouchers: getDiscountVouchers,
+                    discountVouuchers: discountVouuchers,
+                    discountVoucherpager: discountVoucherpager
 
                 };
                 //#endregion

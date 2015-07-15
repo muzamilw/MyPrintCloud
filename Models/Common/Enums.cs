@@ -48,6 +48,23 @@ namespace MPC.Models.Common
         LineSeperator = 2,
         VariableField = 3,
     }
+
+    public enum DiscountTypes
+    {
+            DollarAmountOffProduct = 1,
+            DollaramountoffEntireorder=2,
+            PercentoffaProduct= 3,
+            PercentoffEntirorder =4,
+            FreeShippingonEntireorder = 5
+    }
+
+    public enum CouponUseType
+    {
+        UnlimitedUse = 1,
+        OneTimeUsePerCustomer = 2,
+        OneTimeUseCoupon = 3
+    }
+
     public enum CreditCardTypeType
     {
         Visa = 1,
@@ -492,7 +509,8 @@ namespace MPC.Models.Common
         Estimate = 3,
         Invoice = 13,
         GRN = 15,
-        Inventory = 7
+        Inventory = 7,
+        JobCard = 9
 
     }
 

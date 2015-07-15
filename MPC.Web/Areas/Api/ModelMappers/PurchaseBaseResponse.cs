@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MPC.MIS.Areas.Api.Models;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
@@ -27,5 +28,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// Currency Symbol
         /// </summary>
         public string CurrencySymbol { get; set; }
+
+
+        /// <summary>
+        /// Logged In User
+        /// </summary>
+        public Guid LoggedInUser { get; set; }
     }
 }

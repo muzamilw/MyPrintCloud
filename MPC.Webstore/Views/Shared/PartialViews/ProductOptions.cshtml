@@ -9,6 +9,7 @@
     int PriceBackgroundCount = 0;
     string priceMatrixBackground = "";
     string imagePath = "Thumb.png";
+ 
 }
 <script src="~/Scripts/Designer/p55.js"></script>
 <script src="~/Scripts/Designer/p55-ease.js"></script>
@@ -569,28 +570,40 @@
             <div id="PnlUploaderDownloadIcons" style="text-align: left;">
                 @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File1))
                 {
-                    <a id="IcoPhotoshop" href="@ViewBag.ItemModel.File1" target="_blank" class="DownloadImages">
-                        <img src="/@ViewBag.ItemModel.File1" />
+                   
+                    <a id="IcoPhotoshop" href="/@ViewBag.ItemModel.File1" target="_blank" class="DownloadImages">
+                        <img src="@ViewBag.ItemModel.File1Url" />
                     </a>
                 }
                 @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File2))
                 {
-                    <a id="IcoIllustrator" href="@ViewBag.ItemModel.File2" target="_blank" class="DownloadImages">
-                        <img src="/@ViewBag.ItemModel.File2" />
+                   
+                    <a id="IcoIllustrator" href="/@ViewBag.ItemModel.File2" target="_blank" class="DownloadImages">
+                        <img src="@ViewBag.ItemModel.File2Url" />
                     </a>
                 }
                 @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File3))
                 {
-                    <a id="Icoindesign" href="@ViewBag.ItemModel.File3" target="_blank" class="DownloadImages">
-                        <img src="/@ViewBag.ItemModel.File3" />
+                   
+                    <a id="Icoindesign" href="/@ViewBag.ItemModel.File3" target="_blank" class="DownloadImages">
+                        <img src="@ViewBag.ItemModel.File3Url" />
                     </a>
                 }
                 @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File4))
                 {
-                    <a id="IcoPdf" href="@ViewBag.ItemModel.File4" target="_blank" class="DownloadImages">
-                        <img src="/@ViewBag.ItemModel.File4" />
+                   
+                    <a id="IcoPdf" href="/@ViewBag.ItemModel.File4" target="_blank" class="DownloadImages">
+                        <img src="@ViewBag.ItemModel.File4Url" />
                     </a>
                 }
+                @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File5))
+                                        {
+                    
+                                                        <a id="IcoPdf" href="/@ViewBag.ItemModel.File5" target="_blank" class="DownloadImages">
+                                                            <img src="@ViewBag.ItemModel.File5Url" />
+                                                        </a>
+                                        }
+
             </div>
             <div class="clearBoth">&nbsp;</div>
         }
@@ -672,7 +685,7 @@
 
         </div>
         <div class="float_left_simple UploadsGuidLineContainer">
-            <input type="file" name="imageUploader" id="imageUploader" />
+            <input type="file" name="imageUploader" id="imageUploader" class="imageUploader" />
             <input type="button" value="Upload" class="Uplod_PCS rounded_corners5 background-green" id="btnOpenUploadDailog" onclick="openDailog();" />
 
             <div id="lbl_PremittedFormat" class="float_left_simple Fsize12" style="width: 175px; text-align: left; margin-bottom: 5px; margin-top: 10px;">
@@ -1341,12 +1354,12 @@
         selectedCheckBox = null;
     }
 
-    function ShowArtworkPanel() {
+        function ShowArtworkPanel() {
         var panelHtml = $("#pnlArtworkUploader").html();
         ShowArtWorkPopup("Upload Artwork", panelHtml);
-        $('#imageUploader').change(function () {
+        $('.imageUploader').change(function () {
             data = new FormData();
-            var files = $('#imageUploader')[0].files;
+            var files = $(this)[0].files;
 
             var name1 = files[0].name.replace(/C:\\fakepath\\/i, '');
             fileExtension = name1.substr(name1.lastIndexOf('.') + 1);

@@ -186,6 +186,16 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public bool? IsImperical { get; set; }
 
+        /// <summary>
+        /// Agile Api Key
+        /// </summary>
+        public string AgileApiKey { get; set; }
+
+        /// <summary>
+        /// Agile Api Url
+        /// </summary>
+        public string AgileApiUrl { get; set; }
+
         #endregion
         
         #region Reference Properties

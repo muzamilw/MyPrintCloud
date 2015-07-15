@@ -67,7 +67,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         List<ProductCategory> GetAllChildCorporateCatalogByTerritory(long customerId, long ContactId, long ParentCatId);
 
-        string[] CreatePageMetaTags(string MetaTitle, string metaDesc, string metaKeyword, StoreMode mode,string StoreName, Address address = null);
+        string[] CreatePageMetaTags(string MetaTitle, string metaDesc, string metaKeyword,string StoreName, Address address = null);
 
         Address GetDefaultAddressByStoreID(Int64 StoreID);
 
