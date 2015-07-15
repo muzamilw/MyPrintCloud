@@ -1054,9 +1054,9 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void UpdateScopeVariables(CompanySavingModel companySavingModel)
         {
-            
 
-          
+
+
 
 
             //Store Scope Variables
@@ -2681,7 +2681,7 @@ namespace MPC.Implementation.MISServices
             }
 
             #endregion
-            
+
             smartFormRepository.SaveChanges();
             return smartForm.SmartFormId;
         }
@@ -2784,7 +2784,7 @@ namespace MPC.Implementation.MISServices
                     foreach (CmsSkinPageWidget cmsSkinPageWidgetItem in cmsSkinPageWidgetRemoveItems)
                     {
                         cmsPageDbVersionItem.CmsSkinPageWidgets.Remove(cmsSkinPageWidgetItem);
-                       cmsSkinPageWidgetRepository.Delete(cmsSkinPageWidgetItem);
+                        cmsSkinPageWidgetRepository.Delete(cmsSkinPageWidgetItem);
                     }
                     //Add new Widget of applied theme to Page
                     foreach (WidgetForTheme widgetTheme in group)
@@ -3620,6 +3620,21 @@ namespace MPC.Implementation.MISServices
         }
 
 
+        ///// <summary>
+        ///// Add/Update Discount Voucher
+        ///// </summary>
+        //public DiscountVoucher SaveDiscountVoucher(DiscountVoucher discountVoucher)
+        //{
+        //    if (discountVoucher.DiscountVoucherId == 0)
+        //    {
+        //        return AddDiscountVoucher(discountVoucher);
+        //    }
+        //}
+
+        //private DiscountVoucher AddDiscountVoucher(DiscountVoucher discountVoucher)
+        //{
+            
+        //}
         #endregion
 
         #region ExportOrganisation

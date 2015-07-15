@@ -343,6 +343,7 @@
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\CopyOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\CopyEstimateController.cs" />
+    <Compile Include="Areas\Api\Controllers\DiscountVaoucherController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductChildCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionFlagsController.cs" />
