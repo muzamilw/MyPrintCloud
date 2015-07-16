@@ -478,7 +478,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                        
 
 
-                    }
+                    },
 
                     // Cancel purchase Order
                     onCancelPurchaseOrder = function (purchase) {
@@ -499,6 +499,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     },
                     // Delete Purchase Order
                     onDeletePurchase = function () {
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             deletePurchaseOrder(selectedPurchaseOrder().convertToServerData());
                         });
@@ -668,6 +669,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     onDeletePurchaseDetail = function (purchaseDetail) {
                         // Delete only in case Opend PO
                         if (selectedPurchaseOrder().status() === 31) {
+                            confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                             confirmation.afterProceed(function () {
                                 selectedPurchaseOrder().purchaseDetails.remove(purchaseDetail);
                             });
@@ -924,6 +926,7 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     onDeleteGRNDetail = function (grnDetail) {
                         // Delete only in case Opend GRN
                         if (selectedGRN().status() === 31) {
+                            confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                             confirmation.afterProceed(function () {
                                 selectedGRN().goodsReceivedNoteDetails.remove(grnDetail);
                             });

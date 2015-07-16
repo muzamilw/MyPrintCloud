@@ -1914,7 +1914,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             sendEmailAfterDays: sendEmailAfterDays,
             campaignImages: campaignImages,
             includeType: includeType,
-            isEditorDirty:isEditorDirty,
+            isEditorDirty: isEditorDirty,
             includeCorporateCustomers: includeCorporateCustomers,
             enableLogFiles: enableLogFiles,
             emailLogFileAddress3: emailLogFileAddress3,
@@ -2241,7 +2241,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             defaultPageKeyWords: defaultPageKeyWords,
             pageBanner: pageBanner,
             isEnabled: isEnabled,
-            isEditorDirty:isEditorDirty
+            isEditorDirty: isEditorDirty
         }),
         // Has Changes
         hasChanges = ko.computed(function () {
@@ -4743,7 +4743,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         );
     };
     //Smart Form Create Factory
-    SmartForm.Create = function(source) {
+    SmartForm.Create = function (source) {
         return new SmartForm(
             source.SmartFormId,
             source.Name,
@@ -4752,35 +4752,35 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     };
     // #endregion ______________ Smart Form   _________________
     // #region ______________  Discount Voucher _________________
-    var discountVoucherListView = function (specifiedSmartFormId, specifiedName, specifiedCode, specifiedDtype,dRate,dusetype) {
+    var discountVoucherListView = function (specifiedSmartFormId, specifiedName, specifiedCode, specifiedDtype, dRate, dusetype) {
         var self,
             id = ko.observable(specifiedSmartFormId),
             name = ko.observable(specifiedName),
             couponCode = ko.observable(specifiedCode),
             discountType = ko.observable(specifiedDtype),
-            discountRate = ko.observable(dRate),
+            discountRate = ko.observable(dRate || 0),
             couponUseType = ko.observable(dusetype),
             // Errors
             errors = ko.validation.group({
                 name: name,
             }),
             // Is Valid 
-            isValid = ko.computed(function() {
+            isValid = ko.computed(function () {
                 return errors().length === 0 ? true : false;
             }),
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
-                
+
             }),
             // True If Has Changes
-            hasChanges = ko.computed(function() {
+            hasChanges = ko.computed(function () {
                 return dirtyFlag.isDirty();
             }),
             // Reset Dirty State
-            reset = function() {
+            reset = function () {
                 dirtyFlag.reset();
             };
-           
+
         self = {
             id: id,
             name: name,
@@ -4796,13 +4796,139 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         };
         return self;
     };
-    //Smart Form Create Factory
+    //Discount Voucher Create Factory
     discountVoucherListView.Create = function (source) {
-        return new discountVoucherListView(source.DiscountVoucherId,
+        return new discountVoucherListView(source.DiscountVoucherId, source.VoucherName,
             source.CouponCode,
             source.DiscountType,
             source.DiscountRate,
             source.CouponUseType);
+    };
+
+    DiscountVoucher = function (spcDiscountVoucherId, spcVoucherName, spcCouponCode, spcDiscountType, spcDiscountRate, spcCouponUseType, spcHasCoupon,
+        spcIsOrderPriceRequirement, spcIsQtyRequirement, spcIsQtySpan, spcIsTimeLimit, spcIsUseWithOtherCoupon, spcMaxRequiredOrderPrice,
+        spcMaxRequiredQty, spcMinRequiredOrderPrice, spcMinRequiredQty, spcValidFromDate, spcValidUptoDate, spcCompanyId) {
+        var self,
+            id = ko.observable(spcDiscountVoucherId),
+            name = ko.observable(spcVoucherName).extend({ required: true }),
+            couponCode = ko.observable(spcCouponCode),
+            discountType = ko.observable(spcDiscountType),
+            discountRate = ko.observable(spcDiscountRate || 0).extend({ number: true }),
+            couponUseType = ko.observable(spcCouponUseType),
+            hasCoupon = ko.observable(spcHasCoupon || false),
+            isOrderPriceRequirement = ko.observable(spcIsOrderPriceRequirement),
+            isQtyRequirement = ko.observable(spcIsQtyRequirement),
+            isQtySpan = ko.observable(spcIsQtySpan || false),
+            isTimeLimit = ko.observable(spcIsTimeLimit),
+            isUseWithOtherCoupon = ko.observable(spcIsUseWithOtherCoupon || false),
+            maxRequiredOrderPrice = ko.observable(spcMaxRequiredOrderPrice).extend({ numberInput: ist.numberFormat }),
+            maxRequiredQty = ko.observable(spcMaxRequiredQty).extend({ number: true }),
+            minRequiredOrderPrice = ko.observable(spcMinRequiredOrderPrice).extend({ numberInput: ist.numberFormat }),
+            minRequiredQty = ko.observable(spcMinRequiredQty).extend({ number: true }),
+            validFromDate = ko.observable(spcValidFromDate ? moment(spcValidFromDate).toDate() : moment().toDate()),
+            validUptoDate = ko.observable(spcValidUptoDate ? moment(spcValidUptoDate).toDate() : moment().toDate()),
+            companyId = ko.observable(spcCompanyId),
+
+            //Convert To Server
+            convertToServerData = function (source) {
+                var result = {};
+                result.DiscountVoucherId = source.id() === undefined ? 0 : source.id();
+                result.VoucherName = source.name();
+                result.CouponCode = source.couponCode();
+                result.DiscountType = source.discountType();
+                result.DiscountRate = source.discountRate();
+                result.CouponUseType = source.couponUseType();
+                result.HasCoupon = source.hasCoupon();
+                result.IsOrderPriceRequirement = source.isOrderPriceRequirement();
+                result.IsQtyRequirement = source.isQtyRequirement();
+                result.IsQtySpan = source.isQtySpan();
+                result.IsTimeLimit = source.isTimeLimit();
+                result.IsUseWithOtherCoupon = source.isUseWithOtherCoupon();
+                result.MaxRequiredOrderPrice = source.maxRequiredOrderPrice();
+                result.MaxRequiredQty = source.maxRequiredQty();
+                result.MinRequiredOrderPrice = source.minRequiredOrderPrice();
+                result.MinRequiredQty = source.minRequiredQty();
+                result.ValidFromDate = validFromDate() === undefined || validFromDate() === null ? null : moment(validFromDate()).format(ist.utcFormat);
+                result.ValidUptoDate = validUptoDate() === undefined || validUptoDate() === null ? null : moment(validUptoDate()).format(ist.utcFormat);
+                result.CompanyId = source.companyId();
+
+                return result;
+            },
+            // Errors
+            errors = ko.validation.group({
+                name: name,
+                discountRate: discountRate,
+                maxRequiredQty: maxRequiredQty,
+                minRequiredQty: minRequiredQty,
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                name: name,
+                couponCode: couponCode,
+                discountType: discountType,
+                discountRate: discountRate,
+                couponUseType: couponUseType,
+                hasCoupon: hasCoupon,
+                isOrderPriceRequirement: isOrderPriceRequirement,
+                isQtyRequirement: isQtyRequirement,
+                isQtySpan: isQtySpan,
+                isTimeLimit: isTimeLimit,
+                isUseWithOtherCoupon: isUseWithOtherCoupon,
+                maxRequiredOrderPrice: maxRequiredOrderPrice,
+                maxRequiredQty: maxRequiredQty,
+                minRequiredOrderPrice: minRequiredOrderPrice,
+                minRequiredQty: minRequiredQty,
+                validFromDate: validFromDate,
+                validUptoDate: validUptoDate,
+            }),
+            // True If Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset Dirty State
+            reset = function () {
+                dirtyFlag.reset();
+            };
+
+        self = {
+            id: id,
+            name: name,
+            couponCode: couponCode,
+            discountType: discountType,
+            discountRate: discountRate,
+            couponUseType: couponUseType,
+            hasCoupon: hasCoupon,
+            isOrderPriceRequirement: isOrderPriceRequirement,
+            isQtyRequirement: isQtyRequirement,
+            isQtySpan: isQtySpan,
+            isTimeLimit: isTimeLimit,
+            isUseWithOtherCoupon: isUseWithOtherCoupon,
+            maxRequiredOrderPrice: maxRequiredOrderPrice,
+            maxRequiredQty: maxRequiredQty,
+            minRequiredOrderPrice: minRequiredOrderPrice,
+            minRequiredQty: minRequiredQty,
+            validFromDate: validFromDate,
+            validUptoDate: validUptoDate,
+            companyId: companyId,
+            convertToServerData: convertToServerData,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset
+        };
+        return self;
+    };
+
+    //Discount Voucher Create Factory
+    DiscountVoucher.Create = function (source) {
+        return new DiscountVoucher(source.DiscountVoucherId, source.VoucherName, source.CouponCode, source.DiscountType, source.DiscountRate, source.CouponUseType,
+            source.HasCoupon, source.IsOrderPriceRequirement, source.IsQtyRequirement, source.IsQtySpan, source.IsTimeLimit, source.IsUseWithOtherCoupon, source.MaxRequiredOrderPrice,
+            source.MaxRequiredQty, source.MinRequiredOrderPrice, source.MinRequiredQty, source.ValidFromDate, source.ValidUptoDate, source.CompanyId);
     };
     // #endregion ______________ Discount Voucher   _________________
 
@@ -4885,7 +5011,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     //#region ______________ R E T U R N ______________
     return {
-        discountVoucherListView:discountVoucherListView,
+        discountVoucherListView: discountVoucherListView,
         StoreListView: StoreListView,
         Store: Store,
         CompanyType: CompanyType,
@@ -4929,7 +5055,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         FieldVariableForSmartForm: FieldVariableForSmartForm,
         SmartForm: SmartForm,
         SmartFormDetail: SmartFormDetail,
-        VariableExtension: VariableExtension
+        VariableExtension: VariableExtension,
+        DiscountVoucher: DiscountVoucher
     };
     // #endregion 
 });

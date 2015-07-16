@@ -27,7 +27,7 @@
                     <div class="row" data-bind="visible: (!isOrderDetailsVisible() && !isDisplayInquiryDetailScreen())">
                         <div class="col-sm-12">
                             <div class="pull-left">
-                                <h5 style="padding-left: 7px;">Create Estimates for direct Inquiries and progress Estimates to Orders.</h5>
+                                <span style="padding-left: 7px; color: #696969">Create Estimates for direct Inquiries and progress Estimates to Orders.</span>
                             </div>
                             <div class="pull-right" style="margin-right:10px;">
                                 <button id="open-wizard" data-bind="click: createOrder, visible:  $root.currentScreen() != 8" class="btn btn-primary pull-right">
@@ -198,17 +198,17 @@
                         <script id="tabItemsList" type="text/html">
                             <div>
                                 <!--ko if: $root.currentScreen() == undefined-->
-                                <div style="margin-bottom:15px;">
+                                <div class="tabsdescriptions" style="margin-top: 25px !important;">
                                     <span>Review all outstanding estimates, find, copy & edit estimates quickly with the inbuilt search function. </span>
                                 </div>
                                 <!--/ko-->
                                 <!--ko if: $root.currentScreen() == 0 -->
-                                <div style="margin-bottom:15px;">
+                                <div class="tabsdescriptions" style="margin-top: 25px !important;">
                                     <span>View all open, pending and closed estimates, produce sales reports for pipiline and conversion rates.  </span>
                                 </div>
                                 <!--/ko-->
                                 <!--ko if: $root.currentScreen() == 1 -->
-                                <div style="margin-bottom:15px;">
+                                <div class="tabsdescriptions" style="margin-top: 25px !important;">
                                     <span>Review all outstanding estimates, find, copy & edit estimates quickly with the inbuilt search function. </span>
                                 </div>
                                 <!--/ko-->
@@ -245,8 +245,8 @@
                         @* Inquiry Items List*@
                         <script id="inquiryItemsList" type="text/html">
                             <div>
-                                <div style="margin-bottom:15px;">
-                                    Quickly Respond to quote requests from webstore by opening the request and converting it to an estimate.
+                                <div class="tabsdescriptions" style="margin-top: 25px !important;">
+                                   <span>Quickly Respond to quote requests from webstore by opening the request and converting it to an estimate.</span> 
                                 </div>
                                 <div class="table-responsive">
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">

@@ -18,7 +18,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- ko template: { name: 'discountVoucherTemplate' , foreach: $root.discountVoucherpager } -->
+                        <!-- ko  foreach: $root.discountVouuchers() -->
+                        <tr data-bind="click:$root.editDiscountVoucher">
+                            <td><a class="store-user-link" data-bind="text:name"></a></td>
+                            <td data-bind="text:couponCode"></td>
+                            <td data-bind="text:discountType"></td>
+                            <td data-bind="text:discountRate()+'%'"></td>
+                            <td data-bind="text:couponUseType"></td>
+                        </tr>
                         <!-- /ko -->
 
                     </tbody>
@@ -36,21 +43,12 @@
     </div>
     <div class="col-lg-7 btn-group" style="float: left; margin-top: 6px; margin-left: -14px;">
         <div class="filter-block" data-bind="">
-            <a class="btn btn-primary" data-bind="click:$root.openDiscountVoucherDetailDilog">
+            <a class="btn btn-primary" data-bind="click:$root.createDiscountVoucher">
                 Add New Voucher
             </a>
         </div>
     </div>
 
-    <script id="discountVoucherTemplate" type="text/html">
-        <tr>
-            <td><a class="store-user-link" data-bind="text:name"></a></td>
-            <td data-bind="text:couponCode"></td>
-            <td data-bind="text:discountType"></td>
-            <td data-bind="text:discountRate"></td>
-            <td data-bind="text:couponUseType"></td>
-        </tr>
-
-    </script>
+   
 
 </div>

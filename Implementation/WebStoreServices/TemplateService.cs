@@ -370,7 +370,9 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     styles = JsonConvert.DeserializeObject<List<objTextStyles>>(ooBject.textStyles);
                 }
+
                 string StyledHtml = "<p>";
+
                 if (styles.Count != 0)
                 {
                     styles = styles.OrderBy(g => g.characterIndex).ToList();
@@ -381,11 +383,17 @@ namespace MPC.Implementation.WebStoreServices
                         {
                             if (objStyle.fontName == null && objStyle.fontSize == null && objStyle.fontStyle == null && objStyle.fontWeight == null && objStyle.textColor == null)
                             {
-                                StyledHtml += ooBject.ContentString[i];
+                                string content = ooBject.ContentString[i].ToString();
+                                content = content.Replace("<", "&#60;");
+                                content = content.Replace(">", "&#62;");
+                                StyledHtml += content;
                             }
                             else
                             {
-                                string toApplyStyle = ooBject.ContentString[i].ToString();
+                                string content = ooBject.ContentString[i].ToString();
+                                content = content.Replace("<", "&#60;");
+                                content = content.Replace(">", "&#62;");
+                                string toApplyStyle = content;
                                 string fontTag = "<font";
                                 string fontSize = "";
                                 string pid = "";
@@ -501,19 +509,43 @@ namespace MPC.Implementation.WebStoreServices
                         }
                         else
                         {
-                            StyledHtml += ooBject.ContentString[i];
+                            string content = ooBject.ContentString[i].ToString();
+                            content = content.Replace("<", "&#60;");
+                            content = content.Replace(">", "&#62;");
+                            StyledHtml += content;
                         }
                     }
 
                 }
                 else
                 {
+                    ooBject.ContentString = ooBject.ContentString.Replace("<", "&#60;");
+                    ooBject.ContentString = ooBject.ContentString.Replace(">", "&#62;");
+
                     StyledHtml += ooBject.ContentString;
                 }
                 StyledHtml += "</p>";
+
                 string sNewLineNormalized = Regex.Replace(StyledHtml, @"\r(?!\n)|(?<!\r)\n", "<BR>");
                 sNewLineNormalized = sNewLineNormalized.Replace("  ", "&nbsp;&nbsp;");
 
+                if (ooBject.isBulletPoint.HasValue && ooBject.isBulletPoint.Value == true)
+                {
+                    string normalizedBulletPoints = "<ul>";
+
+                    string[] textLines = sNewLineNormalized.Split(new string[] { "<BR>" }, StringSplitOptions.None);
+                    foreach(var line in textLines)
+                    {
+                        string nline = line.Replace("<p>", "");  nline = nline.Replace("</p>", "");
+                        normalizedBulletPoints += "<li>" + nline + "</li>";
+                    }
+                    normalizedBulletPoints += "</ul>";
+                    double offset = DesignerUtils.PixelToPoint(4.5) + (ooBject.FontSize.Value * (ooBject.LineSpacing.Value));
+                    OPosX -= offset;
+                    OWidth += offset;
+                    sNewLineNormalized = normalizedBulletPoints;
+
+                }
                 if (ooBject.AutoShrinkText == true)
                 {
                     oPdf.Rect.Position(OPosX, OPosY);

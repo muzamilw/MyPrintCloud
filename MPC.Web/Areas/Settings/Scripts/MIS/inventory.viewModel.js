@@ -130,7 +130,7 @@ define("inventory/inventory.viewModel",
                             return;
                         }
                         // Ask for confirmation
-                        confirmation.messageText("WARNING - All items will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             deleteInventory(inventory);
                         });
@@ -138,11 +138,21 @@ define("inventory/inventory.viewModel",
                     },
                     //Delete Cost Item
                     onDeleteCostItem = function (costItem) {
-                        costPriceList.remove(costItem);
+                        // Ask for confirmation
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.afterProceed(function () {
+                            costPriceList.remove(costItem);
+                        });
+                        confirmation.show();
                     },
                     //Delete Price Item
                     onDeletePriceItem = function (priceItem) {
-                        costPriceList.remove(priceItem);
+                        // Ask for confirmation
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.afterProceed(function () {
+                            costPriceList.remove(priceItem);
+                        });
+                        confirmation.show();
                     },
                     // Delete Inventory
                     deleteInventory = function (inventory) {
@@ -697,6 +707,7 @@ define("inventory/inventory.viewModel",
                 },
                 onArchiveStock = function () {
                     // Ask for confirmation
+                    confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                     confirmation.afterProceed(function () {
                         var inventory = selectedInventory();
                         inventory.isDisabled(true);

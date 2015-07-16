@@ -30,9 +30,9 @@
                         </div>
                         <div class="pull-right top-page-ui" style="padding-right:10PX;">
                             <button class="btn btn-danger" id="delButton" data-bind="click: $root.onArchiveStock, visible:itemId()!== 0">Archive</button>
-                            <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:-1px">
+                            @*<button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:-1px">
                                 Print
-                            </button>
+                            </button>*@
                             <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveInventory, enable: $root.hasChangesOnInventory, css: { 'btn-warning': $root.hasChangesOnInventory }">Save</button>
                             <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeInventoryEditor">Close</button>
                         </div>
