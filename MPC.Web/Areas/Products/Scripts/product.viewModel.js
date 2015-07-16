@@ -51,6 +51,8 @@ define("product/product.viewModel",
                     smartForms = ko.observableArray([]),
                     // Paper Sizes
                     paperSizes = ko.observableArray([]),
+                    // Section Paper Sizes - Sort Largest Area to lowest
+                    sectionPaperSizes = ko.observableArray([]),
                     // Impression Coverages
                     impressionCoverages = ko.observableArray([
                         {
@@ -1354,6 +1356,17 @@ define("product/product.viewModel",
                         ko.utils.arrayPushAll(paperSizes(), itemsList);
                         paperSizes.valueHasMutated();
                     },
+                    // Map Section Paper Sizes
+                    mapSectionPaperSizes = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.PaperSize.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(sectionPaperSizes(), itemsList);
+                        sectionPaperSizes.valueHasMutated();
+                    },
                     // Map Inks
                     mapInks = function (data) {
                         var itemsList = [];
@@ -1527,6 +1540,11 @@ define("product/product.viewModel",
 
                                     // Map Paper Sizes
                                     mapPaperSizes(data.PaperSizes);
+                                    mapSectionPaperSizes(data.PaperSizes);
+                                    // Sort Descending For Section 
+                                    sectionPaperSizes.sort(function (paperA, paperB) {
+                                        return paperA.area < paperB.area ? 1 : -1;
+                                    });
 
                                     // Map Inks
                                     if (data.Inks) {
@@ -2110,6 +2128,7 @@ define("product/product.viewModel",
                     itemPlan: itemPlan,
                     presses: presses,
                     inks: inks,
+                    sectionPaperSizes: sectionPaperSizes,
                     isSide1InkButtonClicked: isSide1InkButtonClicked,
                     selectedSection: selectedSection,
                     subCategories: subCategories,

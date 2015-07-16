@@ -714,7 +714,6 @@ define("inventory/inventory.viewModel",
                         _.each(inventories(), function (itm) {
                             if (itm.itemId() == inventory.itemId()) {
                                 inventories.remove(itm);
-                                pager().totalCount(inventories().length);
                             }
                         });
 
