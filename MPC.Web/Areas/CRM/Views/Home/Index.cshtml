@@ -6,19 +6,19 @@
 <div class="row" id="crmBindingRoot">
     <div class="col-lg-12" >
         <div class="row">
-            <div class="col-lg-12" data-bind="visible: !$root.isEditorVisible()">
+            <div class="col-lg-12" data-bind="visible: !$root.isEditorVisible()" style="margin-bottom:20px;">
                 <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
                 <input type="hidden" name="CompanyId" id="CompanyId" value="@ViewBag.CompanyId" />
-                <ol class="breadcrumb">
+                <ol class="breadcrumb" style="padding-left:8px;">
                     <li><a href="~/Dashboard/Index">&nbsp;</a></li>
                 </ol>
                 <h1 style="padding-left:0px;">Companies</h1>
-                <div class="clearfix pull-left" style="padding-bottom: 1%">
+                <div class="clearfix pull-left">
                     <span style="color: #696969">Create Contacts, Customers and Suppliers. Add to-do items and update shared calendars.</span>
                 </div>
             </div>
-            <div class="col-lg-12" data-bind="visible: $root.isEditorVisible" style="display: none">
-                <ol class="breadcrumb">
+            <div class="col-lg-12" data-bind="visible: $root.isEditorVisible" style="display: none;">
+                <ol class="breadcrumb" style="padding-left:0px;">
                     <li><a href="~/Dashboard/Index">Home</a></li>
                     <li><a href="~/CRM/Home/Index">Companies</a></li>
                     <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
@@ -30,7 +30,7 @@
 
                 </ol>
                 <!--ko if: $root.selectedStore() != undefined -->
-                <h1 data-bind="text: $root.selectedStore().name()==undefined ? 'Store Name':$root.selectedStore().name()"></h1>
+                <h1 data-bind="text: $root.selectedStore().name()==undefined ? 'Store Name':$root.selectedStore().name()" style="padding-left:0px;"></h1>
                 <!-- /ko -->
 
 

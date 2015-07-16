@@ -3,30 +3,13 @@
 }
 @section leftmenue {
 }
-<div class="row" data-bind="visible: $root.isEditorVisible" style="display: none">
+<div class="row" data-bind="visible: $root.isEditorVisible" style="display: none;">
     <div class="col-lg-12">
         <div class="row">
-            @*<div class="col-lg-12">
-                    <ol class="breadcrumb">
-                        <li><a href="~/Dashboard/Index">Home</a></li>
-                        <li><a href="/CRM/SuppliersList">CRM</a></li>
-                        <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
-                        <li class="active"><span>Supplier</span></li>
-                        <!-- /ko -->
-                        <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() != 2-->
-                        <li class="active"><span>Customers</span></li>
-                        <!-- /ko -->
-
-                    </ol>
-                    <!--ko if: $root.selectedStore() != undefined -->
-                    <h1 data-bind="text: $root.selectedStore().name()"></h1>
-                    <!-- /ko -->
-                    ```````
-
-                </div>*@
+                  
         </div>
         <div class="row" id="user-profile">
-            <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom: 10px;">
+            <div class="col-lg-12 col-md-8 col-sm-8">
                 <div class="clearfix ">
                     <div class="col-xs-4 pull-left validationSummaryContainer">
                         <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopupForStore', popoverId: 'validationSummaryPopoverBodyForStore' }" style="display: none">Validation Errors</a>
@@ -44,24 +27,19 @@
                     </div>
                     <div class="col-xs-4">
                     </div>
-                    <div class="col-xs-12" style="text-align: right; padding-right: 8px;" data-bind="with: $root.selectedStore()">
+                    <div class="col-xs-12" style="text-align: right; padding-right: 8px;margin-bottom:18px;" data-bind="with: $root.selectedStore()">
                         <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:0px">
                             Print
                         </button>
                         <button class="btn btn-danger" data-bind="click: $root.onDeletePermanent, enable: $root.selectedStore().companyId() > 0">Delete</button>
                         <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.saveStore, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                         <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeEditDialog">Close</button>
-                        @*<button type="button" class="btn btn-primary btn-lg" data-bind="click: $root.saveStore">
-                                <span class="fa fa-save"></span>&nbsp;Save
-                            </button>
-                            <button type="button" class="btn btn-primary btn-lg" data-bind="click: $root.closeEditDialog">
-                                <span class="fa fa-save"></span>&nbsp;Close
-                            </button>*@
+                      
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12" style="padding-right:14px;padding-left:14px;">
-                <div class="main-box clearfix" style="border:1px solid silver;">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="main-box clearfix" style="border:1px solid silver;margin-left:5px;margin-right:5px;">
                     <div class="tabs-wrapper profile-tabs">
                         <ul id="crmTabsId" class="nav nav-tabs">
                             <li class="active" id="generalInfoTabForCrm"><a href="#tab-newsfeedForCrm" data-toggle="tab">General Info</a></li>
