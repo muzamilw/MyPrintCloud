@@ -37,8 +37,13 @@ namespace MPC.Webstore.Controllers
         }
 
         // GET: ShopCart
-        public ActionResult Index(string optionalOrderId, string Message)
+        public ActionResult Index()
         {
+
+            string optionalOrderId = Request.QueryString["OrderId"];
+            string PayPalMessage = Request.QueryString["Message"];
+            string ANZError = Request.QueryString["Error"];
+            string ANZErrorMes = Request.QueryString["ErrorMessage"];
             long OrderId = 0;
             ShoppingCart shopCart = null;
             string CacheKeyName = "CompanyBaseResponse";
@@ -162,13 +167,29 @@ namespace MPC.Webstore.Controllers
                     ViewBag.isIncludeVAT = true;
                 }
             }
-            if (!string.IsNullOrEmpty(Message))
+            if (!string.IsNullOrEmpty(PayPalMessage))
             {
-                ViewBag.CancelPaymentMessage = "";
+                ViewBag.CancelPaymentMessage = "The Order payment processing has been cancelled";
             }
             else 
             {
                 ViewBag.CancelPaymentMessage = null;
+            }
+            if (!string.IsNullOrEmpty(ANZError))
+            {
+                ViewBag.ANZError = ANZError;
+            }
+            else 
+            {
+                ViewBag.ANZError = null;
+            } 
+            if (!string.IsNullOrEmpty(ANZErrorMes))
+            {
+                ViewBag.ANZErrorMes = ANZErrorMes;
+            }
+            else 
+            {
+                ViewBag.ANZErrorMes = null;
             }
             StoreBaseResopnse = null;
             return View("PartialViews/ShopCart", shopCart);
@@ -456,7 +477,7 @@ namespace MPC.Webstore.Controllers
             //StoreBaseResopnse = null;
             ViewBag.OrderID = OrderID;
             ViewBag.Currency = StoreBaseResopnse.Currency;
-            Response.Redirect("/ShopCart/" + OrderID);
+            Response.Redirect("/ShopCart?OrderId=" + OrderID);
             return null;
            // return View("PartialViews/ShopCart", shopCart);
         }

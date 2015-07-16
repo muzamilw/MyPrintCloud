@@ -11,6 +11,9 @@ using MPC.Models.ResponseModels;
 using MPC.Models.Common;
 using System.Globalization;
 using MPC.Common;
+using WebSupergoo.ABCpdf8;
+using System.IO;
+using System.Configuration;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -1456,6 +1459,59 @@ namespace MPC.Implementation.WebStoreServices
         public CompanyContact GetCorporateContactByEmail(string Email, long OID, long StoreId)
         {
             return _CompanyContactRepository.GetCorporateContactByEmail(Email, OID, StoreId);
+        }
+
+        public string OrderConfirmationPDF(long OrderId, long StoreId)
+        {
+            try
+            {
+               
+
+                string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ReceiptPlain?OrderId=" + OrderId + "&StoreId=" + StoreId + "&IsPrintReceipt=0";
+
+                string FileName = OrderId + "_OrderReceipt.pdf";
+                string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/" + FileName);
+                string AttachmentPath = "/mpc_content/EmailAttachments/" + FileName;
+                using (Doc theDoc = new Doc())
+                {
+                    string AddGeckoKey = ConfigurationManager.AppSettings["AddEngineTypeGecko"];
+                    if (AddGeckoKey == "1")
+                    {
+                        theDoc.HtmlOptions.Engine = EngineType.Gecko;
+                    }
+
+                    theDoc.FontSize = 22;
+                    int objid = theDoc.AddImageUrl(URl);
+
+
+                    while (true)
+                    {
+                        theDoc.FrameRect();
+                        if (!theDoc.Chainable(objid))
+                            break;
+                        theDoc.Page = theDoc.AddPage();
+                        objid = theDoc.AddImageToChain(objid);
+                    }
+                    string physicalFolderPath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/");
+                    if (!Directory.Exists(physicalFolderPath))
+                        Directory.CreateDirectory(physicalFolderPath);
+                    theDoc.Save(FilePath);
+                    theDoc.Clear();
+                }
+                if (System.IO.File.Exists(FilePath))
+                    return AttachmentPath;
+                else
+                    return null;
+            }
+            catch (Exception e)
+            {
+
+                //   LoggingManager.LogBLLException(e);
+                // string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/exe.txt" );
+                // System.IO.File.WriteAllText(FilePath, e.InnerException.ToString() + "\n" + e.StackTrace.ToString());
+                throw e;
+                return null;
+            }
         }
     }
 }

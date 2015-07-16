@@ -4095,6 +4095,18 @@ input[type="radio"] {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#95a5a6',endColorstr='#7f8c8d',GradientType=0) !important;
 }
 
+
+.theme-blue-gradient .lightgray-bg {
+    background: #95a5a6 !important;
+    background: -moz-linear-gradient(top,#FAFBFF 0%,#e8e8e8 100%) !important;
+    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#FAFBFF),color-stop(100%,#e8e8e8)) !important;
+    background: -webkit-linear-gradient(top,#FAFBFF 0%,#e8e8e8 100%) !important;
+    background: -o-linear-gradient(top,#FAFBFF 0%,#e8e8e8 100%) !important;
+    background: -ms-linear-gradient(top,#FAFBFF 0%,#e8e8e8 100%) !important;
+    background: linear-gradient(to bottom,#FAFBFF 0%,#e8e8e8 100%) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FAFBFF',endColorstr='#e8e8e8',GradientType=0) !important;
+}
+
 @media (max-width: 991px) {
     .theme-blue-gradient #logo.navbar-brand > img.normal-logo.logo-white {
         display: block;
