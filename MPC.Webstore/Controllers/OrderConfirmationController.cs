@@ -139,10 +139,10 @@ namespace MPC.Webstore.Controllers
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
                             SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
-                            // HTMLOfShopReceipt = GetReceiptPage(OrderId);
+                            
                             _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
                             _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
-                            UserCookieManager.WEBOrderId = 0;
+                     
 
                             // For demo mode as enter the pre payment with the known parameters
                             PrePayment tblPrePayment = new PrePayment()
@@ -195,7 +195,7 @@ namespace MPC.Webstore.Controllers
                                     }
                                 case 3:
                                     {
-                                        Response.Redirect("/payments/ANZSubmit/" + OrderId);
+                                        Response.Redirect("/ANZSubmit/" + OrderId);
                                         break;
                                     }
                                 case 4:
@@ -229,7 +229,6 @@ namespace MPC.Webstore.Controllers
                 else if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                 {
                     cep.StoreId = UserCookieManager.WBStoreId;
-
                     cep.AddressId = UserCookieManager.WBStoreId;
                     SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
                     cep.SystemUserId = EmailOFSM.SystemUserId;
@@ -247,7 +246,7 @@ namespace MPC.Webstore.Controllers
                             AttachmentList.Add(AttachmentPath);
                             _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
                             _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, (int)ManagerID, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
-                            UserCookieManager.WEBOrderId = 0;
+                          
                         }
                         catch (Exception ex)
                         {
@@ -272,7 +271,7 @@ namespace MPC.Webstore.Controllers
                             AttachmentList.Add(AttachmentPath);
                             _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
                             _campaignService.EmailsToCorpUser(OrderId, _myClaimHelper.loginContactID(), StoreMode.Corp, _myClaimHelper.loginContactTerritoryID(), baseResponse.Organisation, UserCookieManager.WBStoreId, EmailOFSM.Email);
-                            UserCookieManager.WEBOrderId = 0;
+                            
                         }
                         catch (Exception ex)
                         {
@@ -310,7 +309,7 @@ namespace MPC.Webstore.Controllers
                                     }
                                 case 3:
                                     {
-                                        Response.Redirect("payments/ANZSubmit/" + OrderId);
+                                        Response.Redirect("/ANZSubmit/" + OrderId);
                                         break;
                                     }
                                 case 4:
@@ -356,6 +355,8 @@ namespace MPC.Webstore.Controllers
         {
             try
             {
+                UserCookieManager.WEBOrderId = 0;
+
                 string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ReceiptPlain?OrderId=" + OrderId + "&StoreId=" + StoreId + "&IsPrintReceipt=0";
 
                 string FileName = OrderId + "_OrderReceipt.pdf";

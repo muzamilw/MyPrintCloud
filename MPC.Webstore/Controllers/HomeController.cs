@@ -27,7 +27,10 @@ using System.Runtime.Caching;
 using System.Web.Security;
 using WebSupergoo.ABCpdf8;
 using System.Globalization;
-
+using MPC.Interfaces.Repository;
+using DotNetOpenAuth.ApplicationBlock;
+using DotNetOpenAuth.ApplicationBlock.Facebook;
+using DotNetOpenAuth.OAuth2;
 
 
 namespace MPC.Webstore.Controllers
@@ -44,6 +47,9 @@ namespace MPC.Webstore.Controllers
 
         private readonly IOrderService _OrderService;
 
+        private readonly IOrganisationRepository _organisationRepository;
+
+        private readonly ICurrencyRepository _currencyRepository;
         #endregion
         [Dependency]
         public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
@@ -61,7 +67,7 @@ namespace MPC.Webstore.Controllers
         /// Constructor
         /// </summary>
         public HomeController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker, ICostCentreService CostCentreService
-            , IOrderService OrderService)
+            , IOrderService OrderService, IOrganisationRepository organisationRepository, ICurrencyRepository currencyRepository)
         {
             if (myCompanyService == null)
             {
@@ -83,7 +89,8 @@ namespace MPC.Webstore.Controllers
             this._myCompanyService = myCompanyService;
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
             this._OrderService = OrderService;
-
+            this._organisationRepository = organisationRepository;
+            this._currencyRepository = currencyRepository;
         }
 
         #endregion
@@ -392,103 +399,105 @@ namespace MPC.Webstore.Controllers
             return View();
 
         }
-        public ActionResult oAuth(int id, int isRegWithSM, string MarketBriefReturnURL)
+        public ActionResult oAuth(int LoginWithId, int isRegistrationProcess,long StoreId ,string ReturnUrl)
         {
-            //int isFacebook = id;
-            //if (isFacebook == 1)
-            //{
-            //    DotNetOpenAuth.ApplicationBlock.FacebookClient client = new DotNetOpenAuth.ApplicationBlock.FacebookClient
-            //    {
-            //        ClientIdentifier = "1421343758131537",
-            //        ClientCredentialApplicator = ClientCredentialApplicator.PostParameter("690d1f085e1cea24c61dbad3bdaa0b31"),
-            //    };
-            //    IAuthorizationState authorization = client.ProcessUserAuthorization();
-            //    if (authorization == null)
-            //    {
-            //        // Kick off authorization request
-            //        client.RequestUserAuthorization();
-            //    }
-            //    else
-            //    {
-            //        string webResponse = "";
-            //        string email = "";
-            //        string firstname = "";
-            //        string lastname = "";
-            //        var request = System.Net.WebRequest.Create("https://graph.facebook.com/me?&grant_type=client_credentials&access_token=" + Uri.EscapeDataString(authorization.AccessToken) + "&scope=email");
 
-            //        using (var response = request.GetResponse())
-            //        {
-            //            using (var responseStream = response.GetResponseStream())
-            //            {
-            //                StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
-            //                webResponse = reader.ReadToEnd();
+            MPC.Models.DomainModels.Company oCompany = _myCompanyService.GetCompanyByCompanyID(StoreId);
 
-            //                // ShowMessage(graph.email);
-            //                var definition = new { id = "", email = "", first_name = "", gender = "", last_name = "", link = "", locale = "", name = "" };
-            //                var ResponseJon = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType(webResponse, definition);
-            //                email = ResponseJon.email;
-            //                firstname = ResponseJon.first_name;
-            //                lastname = ResponseJon.last_name;
-            //            }
-            //        }
+            if (LoginWithId == 1)
+            {
+                DotNetOpenAuth.ApplicationBlock.FacebookClient client = new DotNetOpenAuth.ApplicationBlock.FacebookClient
+                {
+                    ClientIdentifier = oCompany.facebookAppId,
+                    ClientCredentialApplicator = ClientCredentialApplicator.PostParameter(oCompany.facebookAppKey),
+                };
+                IAuthorizationState authorization = client.ProcessUserAuthorization();
+                if (authorization == null)
+                {
+                    // Kick off authorization request
+                    client.RequestUserAuthorization();
+                }
+                else
+                {
+                    string webResponse = "";
+                    string email = "";
+                    string firstname = "";
+                    string lastname = "";
+                    var request = System.Net.WebRequest.Create("https://graph.facebook.com/me?&grant_type=client_credentials&access_token=" + Uri.EscapeDataString(authorization.AccessToken) + "&scope=email");
 
-            //        if (isRegWithSM == 1)
-            //        {
-            //            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "&ReturnURL=" + MarketBriefReturnURL + "' </script>";
+                    using (var response = request.GetResponse())
+                    {
+                        using (var responseStream = response.GetResponseStream())
+                        {
+                            StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                            webResponse = reader.ReadToEnd();
 
-            //            return View();
-            //        }
-            //        else
-            //        {
-            //            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "&ReturnURL=" + MarketBriefReturnURL + "' </script>";
-            //            return View();
-            //        }
+                            // ShowMessage(graph.email);
+                            var definition = new { id = "", email = "", first_name = "", gender = "", last_name = "", link = "", locale = "", name = "" };
+                            var ResponseJon = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType(webResponse, definition);
+                            email = ResponseJon.email;
+                            firstname = ResponseJon.first_name;
+                            lastname = ResponseJon.last_name;
+                        }
+                    }
 
-            //    }
-            //}
-            //else if (isFacebook == 0)
-            //{
-            //    string requestToken = "";
-            //    OAuthHelper oauthhelper = new OAuthHelper();
+                    if (isRegistrationProcess == 1)
+                    {
+                        ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "&ReturnURL=" + ReturnUrl + "' </script>";
 
-            //    requestToken = oauthhelper.GetRequestToken("GI61fP2n9JsLVWs5pHNiHCUvg", "6P71TMNHoVMC5RUDkqTqAJMFcvvZvtsSaEDgZtbXCTw572nvlw");
+                        return View();
+                    }
+                    else
+                    {
+                        ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email + "&ReturnURL=" + ReturnUrl + "' </script>";
+                        return View();
+                    }
 
-            //    if (string.IsNullOrEmpty(oauthhelper.oauth_error))
-            //        Response.Redirect(oauthhelper.GetAuthorizeUrl(requestToken));
+                }
+            }
+            else if (LoginWithId == 0)
+            {
+                string requestToken = "";
+                OAuthHelper oauthhelper = new OAuthHelper();
 
-            //}
-            //else if (isFacebook == 2)
-            //{
-            //    if (Request.QueryString["oauth_token"] != null && Request.QueryString["oauth_verifier"] != null)
-            //    {
-            //        string oauth_token = Request.QueryString["oauth_token"];
-            //        string oauth_verifier = Request.QueryString["oauth_verifier"];
+                requestToken = oauthhelper.GetRequestToken("GI61fP2n9JsLVWs5pHNiHCUvg", "6P71TMNHoVMC5RUDkqTqAJMFcvvZvtsSaEDgZtbXCTw572nvlw");
 
-            //        OAuthHelper oauthhelper = new OAuthHelper();
+                if (string.IsNullOrEmpty(oauthhelper.oauth_error))
+                    Response.Redirect(oauthhelper.GetAuthorizeUrl(requestToken));
 
-            //        oauthhelper.GetUserTwAccessToken(oauth_token, oauth_verifier, "GI61fP2n9JsLVWs5pHNiHCUvg", "6P71TMNHoVMC5RUDkqTqAJMFcvvZvtsSaEDgZtbXCTw572nvlw");
+            }
+            else if (LoginWithId == 2)
+            {
+                if (Request.QueryString["oauth_token"] != null && Request.QueryString["oauth_verifier"] != null)
+                {
+                    string oauth_token = Request.QueryString["oauth_token"];
+                    string oauth_verifier = Request.QueryString["oauth_verifier"];
+
+                    OAuthHelper oauthhelper = new OAuthHelper();
+
+                    oauthhelper.GetUserTwAccessToken(oauth_token, oauth_verifier, "GI61fP2n9JsLVWs5pHNiHCUvg", "6P71TMNHoVMC5RUDkqTqAJMFcvvZvtsSaEDgZtbXCTw572nvlw");
 
 
 
 
 
-            //        if (string.IsNullOrEmpty(oauthhelper.oauth_error))
-            //        {
-            //            if (isRegWithSM == 1)
-            //            {
-            //                ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + oauthhelper.screen_name + "&ReturnURL=" + MarketBriefReturnURL + "' </script>";
+                    if (string.IsNullOrEmpty(oauthhelper.oauth_error))
+                    {
+                        if (isRegistrationProcess == 1)
+                        {
+                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/SignUp?Firstname=" + oauthhelper.screen_name + "&ReturnURL=" + ReturnUrl + "' </script>";
 
-            //                return View();
-            //            }
-            //            else
-            //            {
-            //                ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + oauthhelper.screen_name + "&ReturnURL=" + MarketBriefReturnURL + "' </script>";
-            //                return View();
-            //            }
+                            return View();
+                        }
+                        else
+                        {
+                            ViewBag.message = @"<script type='text/javascript' language='javascript'>window.close(); window.opener.location.href='/Login?Firstname=" + oauthhelper.screen_name + "&ReturnURL=" + ReturnUrl + "' </script>";
+                            return View();
+                        }
 
-            //        }
-            //    }
-            //}
+                    }
+                }
+            }
             return View();
         }
 
@@ -585,65 +594,76 @@ namespace MPC.Webstore.Controllers
         public ActionResult ReceiptPlain(string OrderId, string StoreId, string IsPrintReceipt)
         {
 
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            MPC.Models.DomainModels.Company oCompany = _myCompanyService.GetCompanyByCompanyID(Convert.ToInt64(StoreId));
 
-
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[Convert.ToInt32(StoreId)];
-
-
-
-            if (StoreBaseResopnse.Company.ShowPrices ?? true)
+            if(oCompany != null)
             {
-                ViewBag.IsShowPrices = true;
-                //do nothing because pricing are already visible.
-            }
-            else
-            {
-                ViewBag.IsShowPrices = false;
-                //  cntRightPricing1.Visible = false;
-            }
-            if (!string.IsNullOrEmpty(StoreBaseResopnse.Currency))
-            {
-                ViewBag.Currency = StoreBaseResopnse.Currency;
-            }
-            else
-            {
-                ViewBag.Currency = "";
-            }
+                MPC.Models.DomainModels.Organisation oOrganisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
 
-            ViewBag.TaxLabel = StoreBaseResopnse.Company.TaxLabel;
-            OrderDetail order = _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
-
-            ViewBag.Company = StoreBaseResopnse.Company;
-
-            AddressViewModel oStoreDefaultAddress = null;
-
-            if (StoreBaseResopnse.Company.isWhiteLabel == false)
-            {
-                oStoreDefaultAddress = null;
-            }
-            else
-            {
-                if (StoreBaseResopnse.StoreDetaultAddress != null)
+                if (oCompany.ShowPrices ?? true)
                 {
-                    oStoreDefaultAddress = new AddressViewModel();
-                    oStoreDefaultAddress.Address1 = StoreBaseResopnse.StoreDetaultAddress.Address1;
-                    oStoreDefaultAddress.Address2 = StoreBaseResopnse.StoreDetaultAddress.Address2;
+                    ViewBag.IsShowPrices = true;
+                }
+                else
+                {
+                    ViewBag.IsShowPrices = false;
+                }
 
-                    oStoreDefaultAddress.City = StoreBaseResopnse.StoreDetaultAddress.City;
-                    oStoreDefaultAddress.State = _myCompanyService.GetStateNameById(StoreBaseResopnse.StoreDetaultAddress.StateId ?? 0);
-                    oStoreDefaultAddress.Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.StoreDetaultAddress.CountryId ?? 0);
-                    oStoreDefaultAddress.ZipCode = StoreBaseResopnse.StoreDetaultAddress.PostCode;
+                ViewBag.TaxLabel = oCompany.TaxLabel;
 
-                    if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Tel1))
+                ViewBag.Company = oCompany;
+
+                AddressViewModel oStoreDefaultAddress = null;
+                Address StoreAddress = _myCompanyService.GetDefaultAddressByStoreID(Convert.ToInt64(StoreId));
+
+
+                if (oCompany.isWhiteLabel == false)
+                {
+                    oStoreDefaultAddress = null;
+                }
+                else
+                {
+                    if (StoreAddress != null)
                     {
-                        oStoreDefaultAddress.Tel = StoreBaseResopnse.StoreDetaultAddress.Tel1;
+                        oStoreDefaultAddress = new AddressViewModel();
+                        oStoreDefaultAddress.Address1 = StoreAddress.Address1;
+                        oStoreDefaultAddress.Address2 = StoreAddress.Address2;
+
+                        oStoreDefaultAddress.City = StoreAddress.City;
+                        oStoreDefaultAddress.State = _myCompanyService.GetStateNameById(StoreAddress.StateId ?? 0);
+                        oStoreDefaultAddress.Country = _myCompanyService.GetCountryNameById(StoreAddress.CountryId ?? 0);
+                        oStoreDefaultAddress.ZipCode = StoreAddress.PostCode;
+
+                        if (!string.IsNullOrEmpty(StoreAddress.Tel1))
+                        {
+                            oStoreDefaultAddress.Tel = StoreAddress.Tel1;
+                        }
                     }
                 }
+
+                ViewBag.oStoreDefaultAddress = oStoreDefaultAddress;
+
+                string currency = "";
+
+                if (oOrganisation != null)
+                {
+                   currency = _currencyRepository.GetCurrencySymbolById(Convert.ToInt64(oOrganisation.CurrencyId));
+                }
+
+                if (!string.IsNullOrEmpty(currency))
+                {
+                    ViewBag.Currency = currency;
+                }
+                else
+                {
+                    ViewBag.Currency = "";
+                }
             }
-            ViewBag.oStoreDefaultAddress = oStoreDefaultAddress;
+
+            OrderDetail order = _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
+
             ViewBag.StoreId = StoreId;
+
             if (IsPrintReceipt == "1")
             {
                 ViewBag.Print = "<script type='text/javascript'>function MyPrint() {window.print();}</script>";
@@ -652,6 +672,7 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.Print = "";
             }
+
             return View(order);
         }
 
