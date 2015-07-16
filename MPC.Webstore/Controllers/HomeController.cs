@@ -125,39 +125,46 @@ namespace MPC.Webstore.Controllers
                 {
                     Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse> domainResponse = (cache.Get(CacheKeyName)) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>;
 
-                    // if company not found in cache then rebuild the cache
-                    if (!domainResponse.ContainsKey(UserCookieManager.WBStoreId))
+                    if (domainResponse == null)
                     {
-                        _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId);
-                    }
-
-                    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.WBStoreId];
-                    if (StoreBaseResopnse != null)
-                    {
-                        string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
-                        if (!_webstoreAuthorizationChecker.isUserLoggedIn())
-                        {
-                            if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
-                            {
-                                Response.Redirect("/Login");
-                            }
-                        }
-                        else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
-                        {
-                            Response.Redirect("/");
-
-                        }
-
-                        model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse);
-                        StoreBaseResopnse = null;
-
+                        TempData["ErrorMessage"] = "There is some problem while performing the operation. Please enter valid url to proceed.";
+                        return RedirectToAction("Error");
                     }
                     else 
                     {
-                        TempData["ErrorMessage"] = "There is some problem while performing the operation.";
-                        return RedirectToAction("Error");
-                    }
+                        // if company not found in cache then rebuild the cache
+                        if (!domainResponse.ContainsKey(UserCookieManager.WBStoreId))
+                        {
+                            _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId);
+                        }
 
+                        MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.WBStoreId];
+                        if (StoreBaseResopnse != null)
+                        {
+                            string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
+                            if (!_webstoreAuthorizationChecker.isUserLoggedIn())
+                            {
+                                if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
+                                {
+                                    Response.Redirect("/Login");
+                                }
+                            }
+                            else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
+                            {
+                                Response.Redirect("/");
+
+                            }
+
+                            model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse);
+                            StoreBaseResopnse = null;
+
+                        }
+                        else
+                        {
+                            TempData["ErrorMessage"] = "There is some problem while performing the operation.";
+                            return RedirectToAction("Error");
+                        }
+                    }
                 }
                 else
                 {
