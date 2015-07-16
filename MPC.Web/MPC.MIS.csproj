@@ -2254,6 +2254,7 @@
     <Content Include="Areas\Settings\Views\Home\_AgileApiDetail.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_DiscountVoucherDetail.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_DiscountVoucher.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_ProductCategoryDialogForDiscountVoucher.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
