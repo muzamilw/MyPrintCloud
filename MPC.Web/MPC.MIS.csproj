@@ -348,6 +348,7 @@
     <Compile Include="Areas\Api\Controllers\DiscountVoucherController.cs" />
     <Compile Include="Areas\Api\Controllers\CopyOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\CopyEstimateController.cs" />
+    <Compile Include="Areas\Api\Controllers\DiscountVaoucherDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductChildCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionFlagsController.cs" />
@@ -588,6 +589,7 @@
     <Compile Include="Areas\Api\Models\DeliveryNoteBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\DeliveryNoteDetail.cs" />
     <Compile Include="Areas\Api\Models\DeliveryNote.cs" />
+    <Compile Include="Areas\Api\Models\DiscountVoucher.cs" />
     <Compile Include="Areas\Api\Models\DiscountVoucherListViewModel.cs" />
     <Compile Include="Areas\Api\Models\DiscountVoucherListViewResponse.cs" />
     <Compile Include="Areas\Api\Models\GetInquiriesResponse.cs" />
