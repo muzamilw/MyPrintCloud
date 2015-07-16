@@ -28,7 +28,7 @@
                                     Sheet Fed
                                 </label>
                             </div>
-                            <div class="radio col-sm-2" style="">
+                            <div class="radio col-sm-2" style="margin-left: -13px">
                                 <input type="radio" name="optionsRadiosFirst" id="optionsRadiosFirst_2" value="2" data-bind="checked: printingTypeUi">
                                 <label for="optionsRadiosFirst_2">
                                     Roll Fed
@@ -88,7 +88,7 @@
                                 </div>
                                 <div class="col-sm-3">&nbsp;</div>
                                 <div class="col-sm-4 col-md-4 col-lg-4" style="padding-left: 5px;">
-                                    <input style=" width: 130%;" type="text" id="itemGutterTextBox" class="form-control font20px" data-bind="value: itemGutterHorizontal, validationOnElement: itemGutterHorizontal" min="0" max="99" style="">
+                                    <input style=" width: 130%;text-align: right" type="text" id="itemGutterTextBox" class="form-control font20px" data-bind="value: itemGutterHorizontal, validationOnElement: itemGutterHorizontal" min="0" max="99" style="">
                                 </div>
                             </div>
                         </div>
@@ -105,7 +105,7 @@
                             </div>
 
                             <div class="col-sm-2" style="padding-left: 12px;">
-                                <label style=" float: left;" class="control-label text-right tooltip-float" data-bind="visible: printingTypeUi() !== '2'">Number up</label>
+                                <label style=" float: left;margin-left: 10px" class="control-label text-right tooltip-float" data-bind="visible: printingTypeUi() !== '2'">Number up</label>
                                 <!-- ko if: printingTypeUi() === '2' -->
                                 &nbsp;
                                 <!-- /ko -->
@@ -115,7 +115,7 @@
                             <div class="col-sm-12 text-right" style=" ">
                                 <div class="col-sm-6" style="width: 45%">
                                     <div class="col-sm-8" data-bind="visible: !isSectionSizeCustom()  && printingTypeUi() !== '2'">
-                                        <select style=" padding-right: 0px; width: 101%;" class="form-control font20px" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: sectionSizeId, enable: !isSectionSizeCustom(), validationOnElement: sectionSizeId, validationTooltip: sectionSizeId"></select>
+                                        <select style=" padding-right: 0px; width: 101%;" class="form-control font20px" data-bind="options: $root.sectionPaperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: sectionSizeId, enable: !isSectionSizeCustom(), validationOnElement: sectionSizeId, validationTooltip: sectionSizeId"></select>
                                     </div>
                                     <div class="col-sm-8" data-bind="visible: isSectionSizeCustom() || printingTypeUi() === '2'" style="padding-right: 1.2%">
                                         <div class="col-sm-5" style="padding-left: 0px;">
@@ -156,7 +156,7 @@
                                 </div>
                                 <div class="col-sm-6" data-bind="visible: printingTypeUi() !== '2'">
                                     <div class="col-sm-6" style=" padding-right: 0px; " data-bind="visible:!isItemSizeCustom()">
-                                        <select style=" width: 99%; margin-left: -4%; padding-right: 0px;" class="form-control font20px" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: itemSizeId, enable: !isItemSizeCustom(), validationOnElement: itemSizeId, validationTooltip: itemSizeId" style="width: 100%"></select>
+                                        <select style=" width: 99%; margin-left: -4%; padding-right: 0px;" class="form-control font20px" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select trimed Item Size', value: itemSizeId, enable: !isItemSizeCustom(), validationOnElement: itemSizeId, validationTooltip: itemSizeId" style="width: 100%"></select>
                                     </div>
                                     <div class="col-sm-6" data-bind="visible:isItemSizeCustom" style="padding-left: 0px;  ">
                                         <div class="col-sm-5" style="padding-left: 0px; padding-right: 0px; width: 37%; ">
@@ -199,7 +199,7 @@
                             </div>
 
                             <div class=" col-sm-2" style="padding-left: 12px;">
-                                <label style="float: left" class="control-label text-right tooltip-float">Color #1</label>
+                                <label style="float: left;margin-left: 13px" class="control-label text-right tooltip-float">Color #1</label>
 
                             </div>
                         </div>
@@ -238,7 +238,7 @@
                                 &nbsp;
                             </div>
                             <div class=" col-sm-2" style="padding-left: 12px;" data-bind="visible: !isWorknTurn()">
-                                <label class="control-label">Color #2</label>
+                                <label class="control-label" style="margin-left: 13px">Color #2</label>
 
                             </div>
                         </div>
@@ -290,7 +290,7 @@
                             </div>
 
                             <div class="col-lg-1 text-right" style="padding-left: 0; margin-left: -0.6%; width: 12%;">
-                                <span style="float: left;margin-top: 6px">
+                                <span style="float: left;margin-top: 10px">
                                     Pack size:
                                     <span data-bind="text: stockItemPackageQty"></span>
                                 </span>
