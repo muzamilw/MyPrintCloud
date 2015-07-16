@@ -109,7 +109,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Status = source.Status != null ? source.Status.StatusName : string.Empty,
                 FlagId = source.FlagID,
                 OrderNo = source.OrderNo,
-                ItemsCount = itemsTotal
+                ItemsCount = itemsTotal,
+                InvoiceType = source.InvoiceType
             };
         }
 

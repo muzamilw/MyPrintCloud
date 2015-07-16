@@ -415,6 +415,13 @@ namespace MPC.Webstore
               "FBAuth",
               new { controller = "Home", action = "FBAuthentication", token = UrlParameter.Optional }
           );
+            
+        routes.MapRoute(
+          "ANZResponse",
+          "ANZResponse",
+          new { controller = "Payment", action = "ANZResponse" }
+         );
+
 
             routes.MapRoute(
                "Default", // Route name
