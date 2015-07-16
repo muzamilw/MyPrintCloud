@@ -77,6 +77,12 @@ namespace MPC.Repository.Repositories
             user.EstimateFootNotes = EstimateFootNotes;
 
 
+            if (status == 0)
+                user.IsAccountDisabled = 1;
+            else if ( status == 1)
+                user.IsAccountDisabled = 0;
+            else
+                user.IsAccountDisabled = 1;
 
 
                 if(db.SaveChanges()>0){

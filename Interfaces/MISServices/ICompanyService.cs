@@ -155,6 +155,15 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         FieldVariableResponse GetSystemVariables(FieldVariableRequestModel request);
 
+        /// <summary>
+        /// Add/Update Discount Voucher
+        /// </summary>
+        DiscountVoucher SaveDiscountVoucher(DiscountVoucher discountVoucher);
+
+        /// <summary>
+        /// Get Discount Voucher By Id
+        /// </summary>
+        DiscountVoucher GetDiscountVoucherById(long discountVoucherId);
 
         #region exportOrganisation
 

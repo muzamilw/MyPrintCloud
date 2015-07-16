@@ -8,5 +8,6 @@ namespace MPC.Models.RequestModels
     public class DiscountVoucherRequestModel : GetPagedListRequest
     {
         public string SearchString { get; set; }
+        public long CompanyId { get; set; }
     }
 }

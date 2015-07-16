@@ -195,7 +195,7 @@ namespace MPC.Webstore.Controllers
                                     }
                                 case 3:
                                     {
-                                        Response.Redirect("/payments/ANZSubmit/" + OrderId);
+                                        Response.Redirect("/ANZSubmit/" + OrderId);
                                         break;
                                     }
                                 case 4:
@@ -309,7 +309,7 @@ namespace MPC.Webstore.Controllers
                                     }
                                 case 3:
                                     {
-                                        Response.Redirect("payments/ANZSubmit/" + OrderId);
+                                        Response.Redirect("/ANZSubmit/" + OrderId);
                                         break;
                                     }
                                 case 4:
