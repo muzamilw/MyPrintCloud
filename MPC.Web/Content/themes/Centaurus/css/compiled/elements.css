@@ -645,7 +645,7 @@ a.list-group-item.active, a.list-group-item.active:hover, a.list-group-item.acti
 }
 
 .filter-block {
-    margin-top: 7px;
+    margin-top: 2px;
 }
 
     .filter-block .form-group {
