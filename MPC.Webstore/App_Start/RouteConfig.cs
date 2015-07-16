@@ -382,6 +382,9 @@ namespace MPC.Webstore
                 new { controller = "ProductOptions", action = "DeleteArtworkAttachment", AttachmentID = UrlParameter.Optional}
             );
 
+
+
+            /////////////////////////////////////////////////////////////////////////////Payment gateway redirects
             routes.MapRoute(
                "PaypalHandler",
                "SignupPaypal/{OrderId}",
@@ -393,6 +396,21 @@ namespace MPC.Webstore
              "PaypalIPN",
              new { controller = "Payment", action = "PaypalIPN"}
             );
+
+            routes.MapRoute(
+               "oAuth",
+               "oAuth/{LoginWithId}/{isRegistrationProcess}/{StoreId}/{ReturnUrl}",
+               new { controller = "Home", action = "oAuth", LoginWithId = UrlParameter.Optional, isRegistrationProcess = UrlParameter.Optional, StoreId = UrlParameter.Optional, ReturnUrl = UrlParameter.Optional }
+           );
+
+
+            routes.MapRoute(
+             "ANZHandler",
+             "ANZSubmit/{OrderId}",
+             new { controller = "Payment", action = "ANZSubmit", OrderId = UrlParameter.Optional }
+         );
+
+
             routes.MapRoute(
                "Default", // Route name
                "",        // URL with parameters

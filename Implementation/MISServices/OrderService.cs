@@ -402,7 +402,15 @@ namespace MPC.Implementation.MISServices
                     string sourceFile = fileName;
                     string destinationFileSupplier = ImagePathConstants.ReportPath + compOrganisation.OrganisationId + "/" + purchase.Value + "/" + purchase.Key + "_PurchaseOrder.pdf";
 
-                    string destinationPhysicalFileSupplier = HttpContext.Current.Server.MapPath(destinationFileSupplier);
+                    string oDirectory = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + compOrganisation.OrganisationId + "/" + purchase.Value);
+
+                    string destinationPhysicalFileSupplier = HttpContext.Current.Server.MapPath("~/" + destinationFileSupplier);
+
+                    if (!Directory.Exists(oDirectory))
+                    {
+                        Directory.CreateDirectory(oDirectory);
+                    }
+                    
                     if (File.Exists(sourceFile))
                     {
                         File.Copy(sourceFile, destinationPhysicalFileSupplier);

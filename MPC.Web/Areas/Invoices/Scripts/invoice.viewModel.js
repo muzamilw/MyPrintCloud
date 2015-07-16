@@ -1163,6 +1163,7 @@ define("invoice/invoice.viewModel",
                         invoiceDetail.detailType(1);
                         invoiceDetail.itemType(1);
                         selectedInvoiceDetail(invoiceDetail);
+                        selectedInvoiceDetail().reset();
                         view.showInvoiceDetailDialog();
                     },
                     // Close Invoice Detail Dialog

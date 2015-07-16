@@ -17494,13 +17494,44 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
       else {
         elementToDraw = this._element;
       }
-      elementToDraw && ctx.drawImage(elementToDraw,
-                                     x + imageMargins.marginX,
-                                     y + imageMargins.marginY,
-                                     imageMargins.width,
-                                     imageMargins.height
-                                    );
+      if (this.type == "image" && (this.ImageClippedInfo != null && this.ImageClippedInfo != undefined && this.ImageClippedInfo != ''))
+      {
+          var xml = this.ImageClippedInfo;
+          var parser, xmlDoc;
+          if (window.DOMParser) {
+              parser = new DOMParser();
+              xmlDoc = parser.parseFromString(xml, "text/xml");
+          }
+          else // Internet Explorer
+          {
+              xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+              xmlDoc.async = false;
+              xmlDoc.loadXML(xml);
+          }
+          var sx = parseFloat(xmlDoc.getElementsByTagName("sx")[0].childNodes[0].nodeValue);
+          var sy = parseFloat(xmlDoc.getElementsByTagName("sy")[0].childNodes[0].nodeValue);
+          var swidth = parseFloat(xmlDoc.getElementsByTagName("swidth")[0].childNodes[0].nodeValue);
+          var sheight = parseFloat(xmlDoc.getElementsByTagName("sheight")[0].childNodes[0].nodeValue);
 
+          elementToDraw && ctx.drawImage(elementToDraw,sx, sy, swidth, sheight,
+                                   x + imageMargins.marginX,
+                                   y + imageMargins.marginY,
+                                   imageMargins.width,
+                                   imageMargins.height
+                                  );
+          // this._element, sx, sy, swidth, sheight, -this.width / 2, -this.height / 2, this.width, this.height);
+          //this._element, -this.width / 2, -this.height / 2, this.width,          this.height
+      } else
+      {
+          elementToDraw && ctx.drawImage(elementToDraw,
+                                   x + imageMargins.marginX,
+                                   y + imageMargins.marginY,
+                                   imageMargins.width,
+                                   imageMargins.height
+                                  );
+
+      }
+    
       this._renderStroke(ctx);
     },
     /**

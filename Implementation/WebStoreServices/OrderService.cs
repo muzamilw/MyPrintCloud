@@ -603,5 +603,9 @@ namespace MPC.Implementation.WebStoreServices
        {
            return _OrderRepository.GetStoreIdByOrderId(OrderId);
        }
+       public Estimate GetOrderByOrderID(long OrderId)
+       {
+           return _OrderRepository.GetOrderByOrderID(OrderId);
+       }
     }
 }
