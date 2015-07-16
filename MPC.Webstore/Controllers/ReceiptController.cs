@@ -36,6 +36,8 @@ namespace MPC.Webstore.Controllers
         // GET: Receipt
         public ActionResult Index(string OrderId)
         {
+            UserCookieManager.WEBOrderId = 0;
+
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
 

@@ -231,7 +231,7 @@ namespace MPC.Webstore.Controllers
                                 // order code and order creation date
                                 CampaignEmailParams cep = new CampaignEmailParams();
 
-                                string HTMLOfShopReceipt = null;
+                                string AttachmentPath = null;
                                 cep.ContactId = modelOrder.ContactId ?? 0;
                                 cep.CompanyId = modelOrder.CompanyId;
                                 cep.EstimateId = orderID; //PageParameters.OrderID;
@@ -243,13 +243,15 @@ namespace MPC.Webstore.Controllers
 
                                 if (Store.IsCustomer == (int)CustomerTypes.Corporate)
                                 {
-                                    HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(orderID, CustomrContact.ContactId); // corp
+                                    AttachmentPath = _myCompanyService.OrderConfirmationPDF(orderID, StoreId);
                                     ModeOfStore = StoreMode.Corp;
                                 }
                                 else
                                 {
-                                    HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(orderID, 0); // retail
+                                    AttachmentPath = _myCompanyService.OrderConfirmationPDF(orderID, StoreId);
                                 }
+                                List<string> AttachmentList = new List<string>();
+                                AttachmentList.Add(AttachmentPath);
                                 cep.OrganisationId = Store.OrganisationId ?? 0;
                                 Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, Store.OrganisationId ?? 0, Store.CompanyId);
                                 cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
@@ -259,12 +261,12 @@ namespace MPC.Webstore.Controllers
                                 cep.CorporateManagerID = ManagerID;
                                 if (CustomerCompany.IsCustomer == (int)CustomerTypes.Customers) ///Retail Mode
                                 {
-                                    _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(Store.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email);
+                                    _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
                                     _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID, Store.OrganisationId ?? 0, 0, StoreMode.Retail, Store.CompanyId, EmailOFSM);
                                 }
                                 else
                                 {
-                                    _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Corp, Convert.ToInt32(Store.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email);
+                                    _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Corp, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
                                     _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), orderID, Store.OrganisationId ?? 0, Convert.ToInt32(ManagerID), StoreMode.Corp, Store.CompanyId, EmailOFSM);
 
                                 }
@@ -582,7 +584,7 @@ namespace MPC.Webstore.Controllers
                             // order code and order creation date
                             CampaignEmailParams cep = new CampaignEmailParams();
 
-                            string HTMLOfShopReceipt = null;
+                            string AttachmentPath = null;
                             cep.ContactId = modelOrder.ContactId ?? 0;
                             cep.CompanyId = modelOrder.CompanyId;
                             cep.EstimateId = orderID; //PageParameters.OrderID;
@@ -594,13 +596,15 @@ namespace MPC.Webstore.Controllers
 
                             if (Store.IsCustomer == (int)CustomerTypes.Corporate)
                             {
-                                HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(orderID, CustomrContact.ContactId); // corp
+                                AttachmentPath = _myCompanyService.OrderConfirmationPDF(orderID, StoreId); // corp
                                 ModeOfStore = StoreMode.Corp;
                             }
                             else
                             {
-                                HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(orderID, 0); // retail
+                                AttachmentPath = _myCompanyService.OrderConfirmationPDF(orderID, StoreId); // retail
                             }
+                            List<string> AttachmentList = new List<string>();
+                            AttachmentList.Add(AttachmentPath);
                             cep.OrganisationId = Store.OrganisationId ?? 0;
                             Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, Store.OrganisationId ?? 0, Store.CompanyId);
                             cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
@@ -610,12 +614,12 @@ namespace MPC.Webstore.Controllers
                             cep.CorporateManagerID = ManagerID;
                             if (CustomerCompany.IsCustomer == (int)CustomerTypes.Customers) ///Retail Mode
                             {
-                                _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(Store.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email);
+                                _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
                                 _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID, Store.OrganisationId ?? 0, 0, StoreMode.Retail, Store.CompanyId, EmailOFSM);
                             }
                             else
                             {
-                                _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Corp, Convert.ToInt32(Store.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email);
+                                _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Corp, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
                                 _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), orderID, Store.OrganisationId ?? 0, Convert.ToInt32(ManagerID), StoreMode.Corp, Store.CompanyId, EmailOFSM);
 
                             }
