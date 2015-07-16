@@ -277,7 +277,7 @@ namespace MPC.Webstore.Controllers
                     if (OrderId > 0)
                     {
                         UserCookieManager.TemporaryCompanyId = 0;
-                        Response.Redirect("/ShopCart/" + OrderId);
+                        Response.Redirect("/ShopCart?OrderId=" + OrderId);
                     }
                     else
                     {
