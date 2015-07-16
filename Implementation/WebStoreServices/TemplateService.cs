@@ -702,9 +702,9 @@ namespace MPC.Implementation.WebStoreServices
                     logoPath = ""; //since path is already in filenm
                     string[] vals;
                     FilePath = "";
-                    if (oObject.ContentString.ToLower().Contains("/mpc_content/"))
+                    if (oObject.ContentString.ToLower().Contains("mpc_content"))
                     {
-                        vals = oObject.ContentString.ToLower().Split(new string[] { "/mpc_content/" }, StringSplitOptions.None);
+                        vals = oObject.ContentString.ToLower().Split(new string[] { "mpc_content" }, StringSplitOptions.None);
                         FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/" + vals[vals.Length - 1]);
                      //   FilePath = logoPath + oObject.ContentString;
                         bFileExists = System.IO.File.Exists((FilePath));

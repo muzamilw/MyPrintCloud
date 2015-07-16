@@ -134,15 +134,15 @@ namespace MPC.Webstore.Controllers
                         {
                             result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingOrder, StoreMode.Retail, baseResponse.Organisation, StockManagerIds, UserCookieManager.WBStoreId);
                             Estimate updatedOrder = _OrderService.GetOrderByID(OrderId);
-
-                            string AttachmentPath = OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
+                            UserCookieManager.WEBOrderId = 0;
+                            string AttachmentPath = _myCompanyService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
                             SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
-                            // HTMLOfShopReceipt = GetReceiptPage(OrderId);
+                            
                             _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
                             _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
-                            UserCookieManager.WEBOrderId = 0;
+                     
 
                             // For demo mode as enter the pre payment with the known parameters
                             PrePayment tblPrePayment = new PrePayment()
@@ -195,7 +195,7 @@ namespace MPC.Webstore.Controllers
                                     }
                                 case 3:
                                     {
-                                        Response.Redirect("/payments/ANZSubmit/" + OrderId);
+                                        Response.Redirect("/ANZSubmit/" + OrderId);
                                         break;
                                     }
                                 case 4:
@@ -229,7 +229,6 @@ namespace MPC.Webstore.Controllers
                 else if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                 {
                     cep.StoreId = UserCookieManager.WBStoreId;
-
                     cep.AddressId = UserCookieManager.WBStoreId;
                     SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
                     cep.SystemUserId = EmailOFSM.SystemUserId;
@@ -239,15 +238,15 @@ namespace MPC.Webstore.Controllers
                         try
                         {
                             result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingOrder, StoreMode.Corp, baseResponse.Organisation, StockManagerIds, UserCookieManager.WBStoreId);
-
+                            UserCookieManager.WEBOrderId = 0;
                             long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager); //ContactManager.GetBrokerByRole(SessionParameters.BrokerContactCompany.ContactCompanyID, Convert.ToInt32(Roles.Adminstrator));
                             cep.CorporateManagerID = ManagerID;
-                            string AttachmentPath = OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
+                            string AttachmentPath = _myCompanyService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
                             _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
                             _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, (int)ManagerID, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
-                            UserCookieManager.WEBOrderId = 0;
+                          
                         }
                         catch (Exception ex)
                         {
@@ -264,15 +263,15 @@ namespace MPC.Webstore.Controllers
                         try
                         {
                             result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingCorporateApprovel, StoreMode.Corp, baseResponse.Organisation, StockManagerIds, UserCookieManager.WBStoreId);
-
+                            UserCookieManager.WEBOrderId = 0;
                             long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager);
                             cep.CorporateManagerID = ManagerID;
-                            string AttachmentPath = OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
+                            string AttachmentPath = _myCompanyService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
                             _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
                             _campaignService.EmailsToCorpUser(OrderId, _myClaimHelper.loginContactID(), StoreMode.Corp, _myClaimHelper.loginContactTerritoryID(), baseResponse.Organisation, UserCookieManager.WBStoreId, EmailOFSM.Email);
-                            UserCookieManager.WEBOrderId = 0;
+                            
                         }
                         catch (Exception ex)
                         {
@@ -310,7 +309,7 @@ namespace MPC.Webstore.Controllers
                                     }
                                 case 3:
                                     {
-                                        Response.Redirect("payments/ANZSubmit/" + OrderId);
+                                        Response.Redirect("/ANZSubmit/" + OrderId);
                                         break;
                                     }
                                 case 4:
@@ -352,56 +351,58 @@ namespace MPC.Webstore.Controllers
         }
 
 
-        public string OrderConfirmationPDF(long OrderId, long StoreId)
-        {
-            try
-            {
-                string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ReceiptPlain?OrderId=" + OrderId + "&StoreId=" + StoreId + "&IsPrintReceipt=0";
+        //public string OrderConfirmationPDF(long OrderId, long StoreId)
+        //{
+        //    try
+        //    {
+        //        UserCookieManager.WEBOrderId = 0;
 
-                string FileName = OrderId + "_OrderReceipt.pdf";
-                string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/" + FileName);
-                string AttachmentPath = "/mpc_content/EmailAttachments/" + FileName;
-                using (Doc theDoc = new Doc())
-                {
-                    string AddGeckoKey = ConfigurationManager.AppSettings["AddEngineTypeGecko"];
-                    if (AddGeckoKey == "1")
-                    {
-                        theDoc.HtmlOptions.Engine = EngineType.Gecko;
-                    }
+        //        string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ReceiptPlain?OrderId=" + OrderId + "&StoreId=" + StoreId + "&IsPrintReceipt=0";
+
+        //        string FileName = OrderId + "_OrderReceipt.pdf";
+        //        string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/" + FileName);
+        //        string AttachmentPath = "/mpc_content/EmailAttachments/" + FileName;
+        //        using (Doc theDoc = new Doc())
+        //        {
+        //            string AddGeckoKey = ConfigurationManager.AppSettings["AddEngineTypeGecko"];
+        //            if (AddGeckoKey == "1")
+        //            {
+        //                theDoc.HtmlOptions.Engine = EngineType.Gecko;
+        //            }
                    
-                    theDoc.FontSize = 22;
-                    int objid = theDoc.AddImageUrl(URl);
+        //            theDoc.FontSize = 22;
+        //            int objid = theDoc.AddImageUrl(URl);
 
 
-                    while (true)
-                    {
-                        theDoc.FrameRect();
-                        if (!theDoc.Chainable(objid))
-                            break;
-                        theDoc.Page = theDoc.AddPage();
-                        objid = theDoc.AddImageToChain(objid);
-                    }
-                    string physicalFolderPath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/");
-                    if (!Directory.Exists(physicalFolderPath))
-                        Directory.CreateDirectory(physicalFolderPath);
-                    theDoc.Save(FilePath);
-                    theDoc.Clear();
-                }
-                if (System.IO.File.Exists(FilePath))
-                    return AttachmentPath;
-                else
-                    return null;
-            }
-            catch (Exception e)
-            {
+        //            while (true)
+        //            {
+        //                theDoc.FrameRect();
+        //                if (!theDoc.Chainable(objid))
+        //                    break;
+        //                theDoc.Page = theDoc.AddPage();
+        //                objid = theDoc.AddImageToChain(objid);
+        //            }
+        //            string physicalFolderPath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/");
+        //            if (!Directory.Exists(physicalFolderPath))
+        //                Directory.CreateDirectory(physicalFolderPath);
+        //            theDoc.Save(FilePath);
+        //            theDoc.Clear();
+        //        }
+        //        if (System.IO.File.Exists(FilePath))
+        //            return AttachmentPath;
+        //        else
+        //            return null;
+        //    }
+        //    catch (Exception e)
+        //    {
               
-                //   LoggingManager.LogBLLException(e);
-               // string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/exe.txt" );
-               // System.IO.File.WriteAllText(FilePath, e.InnerException.ToString() + "\n" + e.StackTrace.ToString());
-              throw e;
-              return null;
-            }
-        }
+        //        //   LoggingManager.LogBLLException(e);
+        //       // string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/exe.txt" );
+        //       // System.IO.File.WriteAllText(FilePath, e.InnerException.ToString() + "\n" + e.StackTrace.ToString());
+        //      throw e;
+        //      return null;
+        //    }
+        //}
 
         private ShoppingCart LoadOrderDetail(string OrderId)
         {

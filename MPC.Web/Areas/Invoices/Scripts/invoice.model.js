@@ -309,7 +309,10 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
     dirtyFlag = new ko.dirtyFlag({
         productName: productName,
-        itemCharge: itemCharge,
+        qty1: qty1,
+        tax: tax,
+        qty1GrossTotal: qty1GrossTotal,
+        description: description,
     }),
         // Has Changes
     hasChanges = ko.computed(function () {
