@@ -75,10 +75,12 @@ namespace MPC.Webstore.Controllers
 
             if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppKey))
             {
+                ViewBag.FBInitTag = "<script>window.fbAsyncInit = function () {FB.init({appId: '" + StoreBaseResopnse.Company.facebookAppId + "',status: true, cookie: false, xfbml: true});};</script>";
                 ViewBag.ShowFacebookSignInLink = 1;
             }
             else
             {
+                ViewBag.FBInitTag = "";
                 ViewBag.ShowFacebookSignInLink = 0;
             }
             if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppKey))
@@ -216,7 +218,7 @@ namespace MPC.Webstore.Controllers
                             }
                             else 
                             {
-                                Response.Redirect("/ShopCart/" + Orderid);
+                                Response.Redirect("/ShopCart?OrderId=" + Orderid);
                             }
                         }
                     }

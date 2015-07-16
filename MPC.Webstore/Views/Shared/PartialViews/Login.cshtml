@@ -20,7 +20,7 @@
 
 
                             <input id="facebookbtn" type="button" value="Sign in with Facebook" class="connectWithfb" onclick="ShowSocialMediaPopUp(1)" /><br />
-
+  
                         }
                         @if (ViewBag.ShowTwitterSignInLink == 1)
                         {
@@ -156,6 +156,7 @@
     </div>
 </div>
 @section scripts {
+    @Html.Raw(ViewBag.FBInitTag)
     <script>
        
         $(document).ready(function () {
@@ -210,5 +211,25 @@
                 window.open("/oAuth/1/0/@UserCookieManager.WBStoreId/@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
             return false;
         }
+       
+        function afterFacebookConnect() {
+            FB.getLoginStatus(function (response) {
+                if (response.session) {
+                    window.location = "/FacebookLogin/" +
+                           response.session.access_token;
+                } else {
+                    // user clicked Cancel
+                }
+            });
+        };
+        $(document).ready(function () {
+            if (document.getElementById('fb-root') != undefined) {
+                var e = document.createElement('script');
+                e.type = 'text/javascript';
+                e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+                e.async = true;
+                document.getElementById('fb-root').appendChild(e);
+            }
+        });
     </script>
 }
