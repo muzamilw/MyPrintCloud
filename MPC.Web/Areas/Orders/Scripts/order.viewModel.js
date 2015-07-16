@@ -1476,6 +1476,7 @@ define("order/order.viewModel",
                             selectedFilterFlag(0);
                             // ko.utils.arrayPushAll(sectionFlags(), sectionFlagsForListView());
                             // sectionFlags.valueHasMutated();
+                           
                             getEstimates(currentTab);
                         } else {
                             pager().reset();
