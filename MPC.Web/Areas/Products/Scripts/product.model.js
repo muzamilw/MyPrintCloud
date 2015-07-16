@@ -351,12 +351,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     isCmyk(cmyk);
                 }
             }),
-            // Scalar
-            scalar = ko.observable(specifiedScalar || 1).extend({ number: true }),
-            // Zoom Factor
-            zoomFactor = ko.observable(specifiedZoomFactor || undefined).extend({ number: true }),
-            // Designer Category Id
-            designerCategoryId = ko.observable(specifiedDesignerCategoryId || undefined),
             // Template Type
             templateType = ko.observable(specifiedTemplateType || 1),
             // Template Type Mode 
@@ -409,6 +403,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Can Start Designer Empty
             canStartDesignerEmpty = ko.computed(function () {
                 return templateType() === 3;
+            }),
+            // Scalar
+            scalar = ko.observable(specifiedScalar || 1).extend({ number: true }),
+            // Zoom Factor
+            zoomFactor = ko.observable(specifiedZoomFactor || undefined).extend({ number: true }),
+            // Designer Category Id
+            designerCategoryId = ko.observable(specifiedDesignerCategoryId || undefined).extend({
+                required: {
+                    onlyIf: function() {
+                        return templateType() === 3;
+                    }
+                }
             }),
             // Product Display Options
             productDisplayOptions = ko.observable(specifiedProductDisplayOptions || 2),
@@ -1418,7 +1424,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             errors = ko.validation.group({
                 productCode: productCode,
                 productName: productName,
-                internalFlagId: internalFlagId
+                internalFlagId: internalFlagId,
+                designerCategoryId: designerCategoryId
             }),
             // Has Valid Template
             hasTemplatePagesForManual = function () {
@@ -1534,6 +1541,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     validationSummaryList.push({
                         name: "Atleast one Template Page is required in case of Blank Template",
                         element: template().isCreatedManual.domElement
+                    });
+                }
+                // If Start Designer Empty and Category is not selected
+                if (designerCategoryId.error) {
+                    validationSummaryList.push({
+                        name: "Online Template Category",
+                        element: designerCategoryId.domElement
                     });
                 }
                 // Show Item Section Errors
