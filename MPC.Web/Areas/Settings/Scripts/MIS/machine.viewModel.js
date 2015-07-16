@@ -116,7 +116,7 @@ define("machine/machine.viewModel",
                         }
                         // Ask for confirmation
 
-                        confirmation.messageText("Do you want to Archive this Machine?");
+                        confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                         confirmation.afterProceed(function () {
                             dataservice.deleteMachine({
                                 machineId: oMachine.MachineId()

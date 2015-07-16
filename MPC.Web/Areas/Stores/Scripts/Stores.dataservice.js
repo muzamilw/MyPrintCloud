@@ -210,6 +210,19 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to save Discount Voucher
+                    amplify.request.define('saveDiscountVoucher', 'ajax', {
+                        url: ist.siteUrl + '/Api/DiscountVaoucherDetail',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+                    // Define request to get Discount Vaoucher Detail
+                    amplify.request.define('getDiscountVaoucherById', 'ajax', {
+                        url: ist.siteUrl + '/Api/DiscountVaoucherDetail',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to Delete Field Variable
                     amplify.request.define('deleteFieldVariable', 'ajax', {
                         url: ist.siteUrl + '/Api/FieldVariable',
@@ -370,6 +383,15 @@
                     data: params
                 });
             },
+            getDiscountVaoucherById = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getDiscountVaoucherById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            }, 
              // get Product Category By Id
             deleteProductCategoryById = function (params, callbacks) {
                 initialize();
@@ -790,6 +812,16 @@
                 data: param
             });
         },
+        saveDiscountVoucher = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'saveDiscountVoucher',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
+        
         // Delete Field Variable
         deleteFieldVariable = function (param, callbacks) {
             initialize();
@@ -892,7 +924,9 @@
             saveSecondaryPage: saveSecondaryPage,
             deleteSecondaryPage: deleteSecondaryPage,
             getPaymentGateways: getPaymentGateways,
-            getDiscountVouchers: getDiscountVouchers
+            getDiscountVouchers: getDiscountVouchers,
+            saveDiscountVoucher: saveDiscountVoucher,
+            getDiscountVaoucherById: getDiscountVaoucherById
         };
     })();
 

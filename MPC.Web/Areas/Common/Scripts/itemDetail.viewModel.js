@@ -3,8 +3,8 @@
 */
 define("common/itemDetail.viewModel",
     ["jquery", "amplify", "ko", "common/itemDetail.dataservice", "common/itemDetail.model", "common/confirmation.viewModel", "common/pagination"
-        , "common/sharedNavigation.viewModel", "common/stockItem.viewModel", "common/addCostCenter.viewModel", "common/phraseLibrary.viewModel"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM, stockDialog, addCostCenterVm, phraseLibrary) {
+        , "common/sharedNavigation.viewModel", "common/stockItem.viewModel", "common/addCostCenter.viewModel", "common/phraseLibrary.viewModel", "common/reportManager.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM, stockDialog, addCostCenterVm, phraseLibrary, reportManager) {
         var ist = window.ist || {};
         ist.itemDetail = {
             viewModel: (function () {
@@ -1581,56 +1581,64 @@ define("common/itemDetail.viewModel",
                     copyJobCards = function () {
                         selectedProduct();
                         var conCatJobCards = "";
+                        var title = "";
                         if (selectedProduct().jobDescription1() !== null &&
                             selectedProduct().jobDescription1() !== undefined && selectedProduct().jobDescription1().trim() !== "") {
-                            conCatJobCards = selectedProduct().jobDescription1();
+                            title = selectedProduct().jobDescriptionTitle1() ? selectedProduct().jobDescriptionTitle1() + " : " : "";
+                            conCatJobCards = title + selectedProduct().jobDescription1();
                         }
                         if (selectedProduct().jobDescription2() !== null &&
                             selectedProduct().jobDescription2() !== undefined && selectedProduct().jobDescription2().trim() !== "") {
+                            title = selectedProduct().jobDescriptionTitle2() ? selectedProduct().jobDescriptionTitle2() + " : " : "";
                             if (conCatJobCards === "") {
-                                conCatJobCards = selectedProduct().jobDescription2();
+                                conCatJobCards = title + selectedProduct().jobDescription2();
                             } else {
-                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription2();
+                                conCatJobCards = conCatJobCards + "\n" + title + selectedProduct().jobDescription2();
                             }
                         }
                         if (selectedProduct().jobDescription3() !== null &&
                             selectedProduct().jobDescription3() !== undefined && selectedProduct().jobDescription3().trim() !== "") {
+                            title = selectedProduct().jobDescriptionTitle3() ? selectedProduct().jobDescriptionTitle3() + " : " : "";
                             if (conCatJobCards === "") {
-                                conCatJobCards = selectedProduct().jobDescription3();
+                                conCatJobCards = title + selectedProduct().jobDescription3();
                             } else {
-                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription3();
+                                conCatJobCards = conCatJobCards + "\n" + title + selectedProduct().jobDescription3();
                             }
                         }
                         if (selectedProduct().jobDescription4() !== null &&
                             selectedProduct().jobDescription4() !== undefined && selectedProduct().jobDescription4().trim() !== "") {
+                            title = selectedProduct().jobDescriptionTitle4() ? selectedProduct().jobDescriptionTitle4() + " : " : "";
                             if (conCatJobCards === "") {
-                                conCatJobCards = selectedProduct().jobDescription4();
+                                conCatJobCards = title + selectedProduct().jobDescription4();
                             } else {
-                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription4();
+                                conCatJobCards = conCatJobCards + "\n" + title + selectedProduct().jobDescription4();
                             }
                         }
                         if (selectedProduct().jobDescription5() !== null &&
                             selectedProduct().jobDescription5() !== undefined && selectedProduct().jobDescription5().trim() !== "") {
+                            title = selectedProduct().jobDescriptionTitle5() ? selectedProduct().jobDescriptionTitle5() + " : " : "";
                             if (conCatJobCards === "") {
-                                conCatJobCards = selectedProduct().jobDescription5();
+                                conCatJobCards = title + selectedProduct().jobDescription5();
                             } else {
-                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription5();
+                                conCatJobCards = conCatJobCards + "\n" + title + selectedProduct().jobDescription5();
                             }
                         }
                         if (selectedProduct().jobDescription6() !== null &&
                             selectedProduct().jobDescription6() !== undefined && selectedProduct().jobDescription6().trim() !== "") {
+                            title = selectedProduct().jobDescriptionTitle6() ? selectedProduct().jobDescriptionTitle6() + " : " : "";
                             if (conCatJobCards === "") {
-                                conCatJobCards = selectedProduct().jobDescription6();
+                                conCatJobCards = title + selectedProduct().jobDescription6();
                             } else {
-                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription6();
+                                conCatJobCards = conCatJobCards + "\n" + title + selectedProduct().jobDescription6();
                             }
                         }
                         if (selectedProduct().jobDescription7() !== null &&
                             selectedProduct().jobDescription7() !== undefined && selectedProduct().jobDescription7().trim() !== "") {
+                            title = selectedProduct().jobDescriptionTitle7() ? selectedProduct().jobDescriptionTitle7() + " : " : "";
                             if (conCatJobCards === "") {
-                                conCatJobCards = selectedProduct().jobDescription7();
+                                conCatJobCards = title + selectedProduct().jobDescription7();
                             } else {
-                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription7();
+                                conCatJobCards = conCatJobCards + "\n" + title + selectedProduct().jobDescription7();
                             }
                         }
                         selectedProduct().invoiceDescription(conCatJobCards);
@@ -1664,7 +1672,7 @@ define("common/itemDetail.viewModel",
                     },
                     // Remove Item Section
                     deleteSection = function (section) {
-                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().itemSections.remove(section);
                             selectedProduct().hasDeletedSections(true);
@@ -1677,6 +1685,21 @@ define("common/itemDetail.viewModel",
                         confirmation.show();
 
                     },
+                    // open report
+                       // open job card report
+                    openExternalReportsJob = function () {
+
+                        reportManager.outputTo("preview");
+
+
+                        reportManager.OpenExternalReport(ist.reportCategoryEnums.JobCards, 1, selectedProduct().id());
+
+
+
+
+
+                    },
+
                     // Open Phrase Library
                     openPhraseLibrary = function () {
                         phraseLibrary.isOpenFromPhraseLibrary(false);
@@ -1734,7 +1757,7 @@ define("common/itemDetail.viewModel",
                     // Delete Section Cost Center
                     onDeleteSectionCostCenter = function (costCenter) {
                         // Ask for confirmation
-                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             view.hideSectionCostCenterDialogModel();
                             selectedSection().sectionCostCentres.remove(costCenter);
@@ -1860,7 +1883,7 @@ define("common/itemDetail.viewModel",
                     }),
                     // Delete Item attachment
                     deleteItemAttachment = function (attachment) {
-                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().itemAttachments.remove(attachment);
                             selectedProduct().hasDeletedAttachments(true);
@@ -1869,7 +1892,7 @@ define("common/itemDetail.viewModel",
                         return;
                     },
                     deleteItem = function () {
-                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedOrder().items.remove(selectedProduct());
                             selectedOrder().hasDeletedItems(true);
@@ -2001,7 +2024,8 @@ define("common/itemDetail.viewModel",
                     applySectionCostCenterMarkup: applySectionCostCenterMarkup,
                     selectQuantityForItem: selectQuantityForItem,
                     selectQuantity: selectQuantity,
-                    selectedQtyForItem: selectedQtyForItem
+                    selectedQtyForItem: selectedQtyForItem,
+                    openExternalReportsJob: openExternalReportsJob
                     //#endregion
                 };
             })()

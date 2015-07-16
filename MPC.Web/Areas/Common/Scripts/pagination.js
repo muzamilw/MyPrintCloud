@@ -122,11 +122,15 @@
                 var length = list().length;
                 var startIndex = (currentPage() - 1) * pageSize();
                 var total = startIndex + length;
-                if (totalCount() > 0) {
+                if (totalCount() > 0 && length != 0) {
                     startIndex += 1;
                 }
+               
                 var totalCountValue = totalCount() == 0 ? 0 : totalCount();
                 totalCount(totalCountValue);
+                if (total > 0 && length == 0) {
+                    totalCountValue = totalCountValue - 1;
+                }
                 if (total > 0) {
                     return ist.resourceText.showing + startIndex + " - " + total + " " + ist.resourceText.of + " " + +(totalCountValue);
                 } else {
@@ -141,7 +145,11 @@
                 var total = startIndex + length;
                 if (totalPageListCount < length) {
                     incrementTotalCount();
-                } else if (totalPageListCount > length) {
+                }
+                else if (length == 0 && totalPageListCount > 0 && !currentPage() > 1) {
+                    decrementTotalCount();
+                }
+                else if (totalPageListCount > length && (length > 0)) {
                     decrementTotalCount();
                 }
                 totalPageListCount = length;

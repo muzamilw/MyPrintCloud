@@ -51,6 +51,8 @@ define("product/product.viewModel",
                     smartForms = ko.observableArray([]),
                     // Paper Sizes
                     paperSizes = ko.observableArray([]),
+                    // Section Paper Sizes - Sort Largest Area to lowest
+                    sectionPaperSizes = ko.observableArray([]),
                     // Impression Coverages
                     impressionCoverages = ko.observableArray([
                         {
@@ -370,6 +372,7 @@ define("product/product.viewModel",
                     },
                     // On Archive
                     onArchiveProduct = function (item) {
+                        confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                         confirmation.afterProceed(function () {
                             archiveProduct(item.id());
                         });
@@ -657,28 +660,28 @@ define("product/product.viewModel",
                     },
                     // On Delete Product
                     onDeleteProduct = function () {
-                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             deleteProduct(selectedProduct().id());
                         });
                         confirmation.show();
                     },
                     onDeleteTemplatePage = function (templatePage) {
-                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().template().removeTemplatePage(templatePage);
                         });
                         confirmation.show();
                     },
                     onDeleteItemAddonCostCentre = function () {
-                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().activeStockOption().removeItemAddonCostCentre();
                         });
                         confirmation.show();
                     },
                     onDeleteItemStockOption = function (itemStockOption) {
-                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().removeItemStockOption(itemStockOption);
                         });
@@ -718,7 +721,7 @@ define("product/product.viewModel",
                     },
                     // On Delete Product Market Brief Question
                     onDeleteProductMarketBriefQuestion = function (onProceed) {
-                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             if (onProceed && typeof onProceed === "function") {
                                 onProceed();
@@ -729,7 +732,7 @@ define("product/product.viewModel",
                     },
                     // On Delete Product Market Brief Answer
                     onDeleteProductMarketBriefAnswer = function (onProceed) {
-                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             if (onProceed && typeof onProceed === "function") {
                                 onProceed();
@@ -739,7 +742,7 @@ define("product/product.viewModel",
                     },
                     // On Delete Item Related Item
                     onDeleteItemRelatedItem = function (onProceed) {
-                        confirmation.messageText("WARNING - Item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             if (onProceed && typeof onProceed === "function") {
                                 onProceed();
@@ -749,6 +752,7 @@ define("product/product.viewModel",
                     },
                     // On Delete File type 4 for Template Layouts
                     onDeleteTemplateLayoutFile = function (fileSequenceNo) {
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().removeTemplateLayoutFile(fileSequenceNo);
                         });
@@ -756,6 +760,7 @@ define("product/product.viewModel",
                     },
                     // On Delete Product Banner
                     onDeleteProductBanner = function (banner) {
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             selectedProduct().removeItemImage(banner);
                         });
@@ -1351,6 +1356,17 @@ define("product/product.viewModel",
                         ko.utils.arrayPushAll(paperSizes(), itemsList);
                         paperSizes.valueHasMutated();
                     },
+                    // Map Section Paper Sizes
+                    mapSectionPaperSizes = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.PaperSize.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(sectionPaperSizes(), itemsList);
+                        sectionPaperSizes.valueHasMutated();
+                    },
                     // Map Inks
                     mapInks = function (data) {
                         var itemsList = [];
@@ -1524,6 +1540,11 @@ define("product/product.viewModel",
 
                                     // Map Paper Sizes
                                     mapPaperSizes(data.PaperSizes);
+                                    mapSectionPaperSizes(data.PaperSizes);
+                                    // Sort Descending For Section 
+                                    sectionPaperSizes.sort(function (paperA, paperB) {
+                                        return paperA.area < paperB.area ? 1 : -1;
+                                    });
 
                                     // Map Inks
                                     if (data.Inks) {
@@ -2107,6 +2128,7 @@ define("product/product.viewModel",
                     itemPlan: itemPlan,
                     presses: presses,
                     inks: inks,
+                    sectionPaperSizes: sectionPaperSizes,
                     isSide1InkButtonClicked: isSide1InkButtonClicked,
                     selectedSection: selectedSection,
                     subCategories: subCategories,

@@ -27,7 +27,7 @@ define("common/phraseLibrary.viewModel",
                     //job Titles List
                     jobTitles = ko.observableArray([]),
                     // True, if new 
-                    AddEditDeleteFlag = ko.observable(false);
+                    AddEditDeleteFlag = ko.observable(false),
                     //#endregion
                     //get All Sections
                     getAllSections = function () {
@@ -184,6 +184,7 @@ define("common/phraseLibrary.viewModel",
                 },
                 //Delete Phrase
                 deletePhrase = function (phrase) {
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         phrase.isDeleted(true);
                     });

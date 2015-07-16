@@ -6,7 +6,7 @@
     string hfTotalGroups = string.Empty;
 }
 
-<div class="container content_area">
+<div class="container content_area" id="all-marketingB-pg">
     <div class="left_right_padding">
 
         <div class="BreadCrumbMenu left_align col-xs-12">
@@ -21,7 +21,7 @@
             </h1>
             <div class="clearBoth"></div>
         </div>
-        
+
         @if (ViewBag.SuccessMessage != "0")
         {
             <div id="welcomeSummeryMEsg" class="LGBC rounded_corners Mleft10">
@@ -35,7 +35,7 @@
         {
             <div class="MB_MsgSm col-xs-12 col-md-12 col-lg-12">
                 <span id="lblSummeryMesg">
-                   @Html.Raw(Model.ProductWebDescription)
+                    @Html.Raw(Model.ProductWebDescription)
                 </span>
             </div>
             <div class="clearBoth">
@@ -64,7 +64,7 @@
                         QNo++;
 
                         string groupName = QNo + "radioGroup";
-                       
+
 
 
                         divID = "radio" + QNo;
@@ -93,7 +93,7 @@
                                 string className = "Q" + QNo + "RadioBtn" + Anscount;
 
 
-                                <div class=float_left_simple style="height:inherit;" > <input type=checkbox id="@i.MarketBriefAnswerId" class=@className name=@groupName style="position:absolute;opacity:0;"  /><label for="@i.MarketBriefAnswerId" class="grayRadiantbtn" onclick=TickCheckBox('@radiobtnID');> @i.AnswerDetail </label> </div>
+                                <div class=float_left_simple style="height:inherit;"> <input type=checkbox id="@i.MarketBriefAnswerId" class=@className name=@groupName style="position:absolute;opacity:0;" /><label for="@i.MarketBriefAnswerId" class="grayRadiantbtn" onclick=TickCheckBox('@radiobtnID');> @i.AnswerDetail </label> </div>
                                 Anscount += 1;
                             }
                                     }
@@ -129,7 +129,7 @@
 
                             HFGroupCount++;
 
-                           
+
 
                             if (!string.IsNullOrEmpty(hfTotalGroups))
                             {
@@ -139,7 +139,7 @@
                             {
                                 hfTotalGroups = groupName;
                             }
-                           
+
 
                         }
                         if (!string.IsNullOrEmpty(hfHaveNoAns))
@@ -166,8 +166,8 @@
                         </div>
                     }
                     <input type="hidden" id="hfGroupsCount" value="@HFGroupCount" />
-                    <input id="hfHaveNoAns" type="hidden" value="@hfHaveNoAns" />
-                    <input type="hidden" id="hfTotalGroups" value="@hfTotalGroups" />
+                        <input id="hfHaveNoAns" type="hidden" value="@hfHaveNoAns" />
+                        <input type="hidden" id="hfTotalGroups" value="@hfTotalGroups" />
                 }
                 <div class="clearBoth">
                     &nbsp;
@@ -240,6 +240,8 @@
         </div>
     </div>
 </div>
+
+
 
 @section scripts {
     <script src="~/Scripts/PopUp.js"></script>
