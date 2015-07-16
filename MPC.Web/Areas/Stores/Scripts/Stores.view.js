@@ -348,6 +348,130 @@ define("stores/stores.view",
                         }
                     }
                 },
+
+                //#region product
+                appendChildCategory = function(event, category) {
+                    if (!event) {
+                        return;
+                    }
+
+                    var targetElement = $(event.target).closest('li');
+                    if (!targetElement) {
+                        return;
+                    }
+                    
+                    var inputElement = category.isSelected() ?
+                        '<input class="bigcheckbox" style="float: right;" type="checkbox" checked="checked" data-bind="click: $root.updateCheckedStateForCategory"  />' :
+                        '<input class="bigcheckbox" style="float: right;" type="checkbox" data-bind="click: $root.updateCheckedStateForCategory" />';
+                    var childCategoryHtml;
+                    if (category.isArchived) {
+                        childCategoryHtml = '<ol class="dd-list"> ' +
+                            '<li class="dd-item dd-item-list" id="liElement-' + category.id + '"> ' +
+                            '<div class="dd-handle-list" ><i class="fa fa-chevron-circle-right cursorShape" data-bind="click: $root.toggleChildCategories"></i></div>' +
+                            '<div class="dd-handle">' +
+                            '<span>' + category.name + '</span>' + '<span style="color:red; font-weight: 700;"> (Archive) </span>'+
+                            inputElement
+                            + '</div></li></ol>';
+                    } else {
+                        childCategoryHtml = '<ol class="dd-list"> ' +
+                            '<li class="dd-item dd-item-list" id="liElement-' + category.id + '"> ' +
+                            '<div class="dd-handle-list" ><i class="fa fa-chevron-circle-right cursorShape" data-bind="click: $root.toggleChildCategories"></i></div>' +
+                            '<div class="dd-handle">' +
+                            '<span>' + category.name + '</span>' +
+                            inputElement
+                            + '</div></li></ol>';
+                    }
+
+
+                    targetElement.append(childCategoryHtml);
+
+                    ko.applyBindings(viewModel, $("#liElement-" + category.id)[0]);
+                },
+                // Get Category Id From li
+                getCategoryIdFromliElement = function (categoryliElement) {
+                    var categoryliId = categoryliElement.id.split("-");
+                    if (!categoryliId || categoryliId.length < 2) {
+                        return null;
+                    }
+
+                    var categoryId = categoryliId[1];
+                    if (!categoryId) {
+                        return null;
+                    }
+
+                    return parseInt(categoryId);
+                },
+                // Get Category Id from Binding li Element
+                getCategoryIdFromElement = function (event) {
+                    if (!event || !event.target) {
+                        return null;
+                    }
+
+                    var categoryliElement = $(event.target).closest('li')[0];
+                    if (!categoryliElement) {
+                        return null;
+                    }
+
+                    return getCategoryIdFromliElement(categoryliElement);
+                },
+                // Update Input Checked States
+                updateInputCheckedStates = function() {
+                    $.each($("#productCategoryDialogCategories").find("input:checkbox"), function(index, inputElement) {
+                        var categoryliElement = $(inputElement).closest('li')[0];
+                        if (categoryliElement) {
+                            var categoryId = getCategoryIdFromliElement(categoryliElement);
+                            if (categoryId) {
+                                var category = viewModel.productCategories.find(function (productCategory) {
+                                    return productCategory.id === categoryId;
+                                });
+
+                                if (category) {
+                                    if (category.isSelected()) {
+                                        $(inputElement).prop('checked', true);
+                                    }
+                                    else {
+                                        $(inputElement).prop('checked', false);    
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+                toggleChildCategories = function (event) {
+
+                if (!event) {
+                    return false;
+                }
+
+                var targetElement = $(event.target);
+                if (!targetElement) {
+                    return false;
+                }
+
+                var childList = targetElement.closest('li').children('ol');
+                if (childList.length === 0) {
+                    return false;
+                }
+
+                // Toggle Child List
+                if (childList.is(':hidden')) {
+                    childList.show();
+                }
+                else {
+                    childList.hide();
+                }
+
+                return true;
+                },
+                // Show Product Category dialog
+                showProductCategoryDialog = function () {
+                    $("#productCategoryDialogForDiscountVoucher").modal("show");
+                },
+                // Hide Product Category dialog
+                hideProductCategoryDialog = function () {
+                    $("#productCategoryDialogForDiscountVoucher").modal("hide");
+                },
+                //#endregion
             // Initialize
             initialize = function () {
                 if (!bindingRoot) {
@@ -409,6 +533,13 @@ define("stores/stores.view",
                 expandCategory: expandCategory,
                 showDiscountVoucherDetailDialog: showDiscountVoucherDetailDialog,
                 hideDiscountVoucherDetailDialog: hideDiscountVoucherDetailDialog,
+                showProductCategoryDialog: showProductCategoryDialog,
+                hideProductCategoryDialog: hideProductCategoryDialog,
+                updateInputCheckedStates: updateInputCheckedStates,
+                toggleChildCategories: toggleChildCategories,
+                getCategoryIdFromliElement: getCategoryIdFromliElement,
+                getCategoryIdFromElement: getCategoryIdFromElement,
+                appendChildCategory: appendChildCategory
             };
         })(storesViewModel);
 
