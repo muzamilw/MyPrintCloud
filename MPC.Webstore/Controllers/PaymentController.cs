@@ -62,7 +62,7 @@ namespace MPC.Webstore.Controllers
                     {
                         opaypal.return_url = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/Receipt/" + OrderId;
                         opaypal.notify_url = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/PaypalIPN";
-                        opaypal.cancel_url = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/ShopCart/" + OrderId + "/UserCancelled";
+                        opaypal.cancel_url = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/ShopCart?OrderId=" + OrderId + "&Error=UserCancelled";
 
                        // opaypal.return_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/Receipt/" + OrderId;//oGateWay.ReturnUrl;
                        // opaypal.notify_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/PaypalIPN"; //oGateWay.NotifyUrl;
@@ -311,7 +311,7 @@ namespace MPC.Webstore.Controllers
         public ActionResult ANZSubmit(long OrderId)
         {
 
-            string queryString = "";
+            string queryString = "https://migs.mastercard.com.au/vpcpay";
             string seperator = "?";
             try
             {
@@ -387,7 +387,7 @@ namespace MPC.Webstore.Controllers
 
    
 
-        [HttpPost]
+       
         public ActionResult ANZResponse()
         {
             try
@@ -539,15 +539,15 @@ namespace MPC.Webstore.Controllers
 
                         if (!hashValidated)
                         {
-                            Response.Redirect("../PinkCardShopCart.aspx?Error=Failed&ErrorMessage=ANZ Hash validation failed, Query string is tempered. Contact support");
+                            Response.Redirect("/ShopCart?Error=Failed&ErrorMessage=ANZ Hash validation failed, Query string is tempered. Contact support");
                         }
                         else if (txnResponseCode == "C")
                         {
-                            Response.Redirect("../PinkCardShopCart.aspx?Error=UserCancelled");
+                            Response.Redirect("/ShopCart?Error=UserCancelled");
                         }
                         else if (!txnResponseCode.Equals("0"))
                         {
-                            Response.Redirect("../PinkCardShopCart.aspx?Error=Failed&ErrorMessage=" + getANZResponseDescription(txnResponseCode));
+                            Response.Redirect("/ShopCart?Error=Failed&ErrorMessage=" + getANZResponseDescription(txnResponseCode));
                         }
 
                         output += "Response Code : " + txnResponseCode;

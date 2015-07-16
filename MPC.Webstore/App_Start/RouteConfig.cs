@@ -410,6 +410,13 @@ namespace MPC.Webstore
              new { controller = "Payment", action = "ANZSubmit", OrderId = UrlParameter.Optional }
          );
 
+            
+        routes.MapRoute(
+          "ANZResponse",
+          "ANZResponse",
+          new { controller = "Payment", action = "ANZResponse" }
+         );
+
 
             routes.MapRoute(
                "Default", // Route name
