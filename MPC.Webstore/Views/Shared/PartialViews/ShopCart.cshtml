@@ -39,7 +39,19 @@
                     <tr id="ErrorDisplyMes" style=" width: 100%;">
                         <td width="1000px">
                             <div style="background-color: red; border: 1px solid red; padding: 10px;" class="rounded_corners">
-                                <label id="ErrorMEsSummry" style="color: White; font-size: 16px; font-weight: bold;">The Order payment processing has been cancelled</label>
+                                <label id="ErrorMEsSummry" style="color: White; font-size: 16px; font-weight: bold;">@ViewBag.CancelPaymentMessage</label>
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+                else if (ViewBag.ANZError != null || ViewBag.ANZErrorMes != null)
+                {
+                    <tr id="ErrorDisplyMes" style=" width: 100%;">
+                        <td width="1000px">
+                            <div style="background-color: red; border: 1px solid red; padding: 10px;" class="rounded_corners">
+                                <label id="ErrorMEsSummry" style="color: White; font-size: 16px; font-weight: bold;">@ViewBag.ANZError</label><br />
+                                <label id="ErrorMEsSummry" style="color: White; font-size: 16px; font-weight: bold;">@ViewBag.ANZErrorMes</label>
                             </div>
                         </td>
 

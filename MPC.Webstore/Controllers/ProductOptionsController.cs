@@ -291,7 +291,7 @@ namespace MPC.Webstore.Controllers
                 }
 
 
-                Response.Redirect("/ShopCart/" + UserCookieManager.WEBOrderId);
+                Response.Redirect("/ShopCart?OrderId=" + UserCookieManager.WEBOrderId);
 
                 return null;
 

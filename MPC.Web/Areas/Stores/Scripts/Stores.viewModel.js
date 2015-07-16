@@ -3,8 +3,8 @@
 */
 define("stores/stores.viewModel",
     ["jquery", "amplify", "ko", "stores/stores.dataservice", "stores/stores.model", "common/confirmation.viewModel", "common/pagination",
-        "common/sharedNavigation.viewModel", "product/product.viewModel", "p71", "common/reportManager.viewModel"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM, productViewModel, p71, reportManager) {
+        "common/sharedNavigation.viewModel", "product/product.viewModel", "p71", "common/reportManager.viewModel", "product/product.dataservice"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM, productViewModel, p71, reportManager, productDataservice) {
         var ist = window.ist || {};
         ist.stores = {
             viewModel: (function () {
@@ -595,7 +595,7 @@ define("stores/stores.viewModel",
                     },
                     //Delete Media Gallary Item
                     onDeleteMedia = function (media) {
-                confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             if (media.fakeId() < 0) {
                                 var flag = true;
@@ -702,7 +702,7 @@ define("stores/stores.viewModel",
                     // Delete a Rave review
                     onDeleteRaveReview = function (raveReview) {
                         // Ask for confirmation
-                confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             _.each(selectedStore().raveReviews(), function (item) {
                                 var raveReviewToDelete = getRaveReviewByIdFromListView(raveReview.reviewId());
@@ -896,7 +896,7 @@ define("stores/stores.viewModel",
                     // Delete Company Territory
                     onDeleteCompanyTerritory = function (companyTerritory) {
                         // Ask for confirmation
-                confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
+                        confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                         confirmation.afterProceed(function () {
                             //#region Db Saved Record Id > 0
                             if (companyTerritory.companyId() > 0 && companyTerritory.territoryId() > 0) {
@@ -1218,7 +1218,7 @@ define("stores/stores.viewModel",
                     // Delete a company CMYK Color
                     onDeleteCompanyCMYKColors = function (companyCMYKColor) {
                         // Ask for confirmation
-                confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
+                        confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                         confirmation.afterProceed(function () {
                             //selectedStore().companyCMYKColors.remove(companyCMYKColor);
                             var companyCMYKColorToDelete = getCompanyCMYKColorsByIdFromListView(companyCMYKColor.colorId());
@@ -1539,7 +1539,7 @@ define("stores/stores.viewModel",
                     //Delete company Banner
                     onDeleteCompanyBanner = function (banner) {
                         // Ask for confirmation
-                confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
+                        confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                         confirmation.afterProceed(function () {
                             _.each(companyBanners(), function (item) {
                                 if (item.id() === banner.id()) {
@@ -1818,7 +1818,7 @@ define("stores/stores.viewModel",
                     // Delete Email
                     onDeleteEmail = function (email) {
                         // Ask for confirmation
-                confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
+                        confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                         confirmation.afterProceed(function () {
                             emails.remove(selectedEmailListViewItem());
                             view.hideEmailCamapaignDialog();
@@ -2301,7 +2301,7 @@ define("stores/stores.viewModel",
                             return;
                         } else {
                             // Ask for confirmation
-                    confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
+                            confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                             confirmation.afterProceed(function () {
                                 //#region Db Saved Record Id > 0
                                 if (address.addressId() > 0) {
@@ -2716,7 +2716,7 @@ define("stores/stores.viewModel",
                         }
 
                         // Ask for confirmation
-                confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
+                        confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                         confirmation.afterProceed(function () {
                             deleteSecondaryPage(secondaryPage);
                         });
@@ -3145,7 +3145,7 @@ define("stores/stores.viewModel",
                             return;
                         }
                         // Ask for confirmation
-                confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
+                        confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                         confirmation.afterProceed(function () {
                             //#region Db Saved Record Id > 0
                             if (companyContact.contactId() > 0) {
@@ -3452,7 +3452,7 @@ define("stores/stores.viewModel",
                     // Delete a Payment Gateway
                     onDeletePaymentGateway = function (paymentGateway) {
                         // Ask for confirmation
-                confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
+                        confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
                         confirmation.afterProceed(function () {
                             selectedStore().paymentGateway.remove(paymentGateway);
                             view.hidePaymentGatewayDialog();
@@ -6114,7 +6114,7 @@ define("stores/stores.viewModel",
                     },
 
                     onRemoveFieldVariable = function (variable) {
-                confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo.");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo.");
                         confirmation.afterProceed(function () {
                             deleteFieldVariable(variable.convertToServerData(variable));
                         });
@@ -6231,7 +6231,7 @@ define("stores/stores.viewModel",
                     //Remove Smart Form Item
                     deleteSmartFormItem = function (formItem) {
                         // Ask for confirmation
-                confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo.");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo.");
                         confirmation.afterProceed(function () {
                             selectedSmartForm().smartFormDetails.remove(formItem);
                         });
@@ -6527,6 +6527,239 @@ define("stores/stores.viewModel",
                         }
                     });
                 },
+
+                // open Product Category Dialog
+                    openProductCategoryDialog = function () {
+                        getProductCategories(selectedStore().companyId(), function () {
+                            initializeProductCategoryDialog();
+                            view.showProductCategoryDialog();
+                        });
+                    },
+                    // open Product Category Dialog
+                    closeProductCategoryDialog = function () {
+                        view.hideProductCategoryDialog();
+                    },
+                  // Initialize Product Category Dialog
+                    initializeProductCategoryDialog = function () {
+                        // Set Product Category true/false for popup
+                        productCategories.each(function (productCategory) {
+                            var productCategoryItem = selectedDiscountVoucher().productCategoryVouchers.find(function (pci) {
+                                return pci.productCategoryId === productCategory.id;
+                            });
+
+                            if (productCategoryItem) {
+                                productCategory.isSelected(productCategoryItem.isSelected());
+                            }
+                            else {
+                                productCategory.isSelected(false);
+                            }
+                        });
+
+                        // Update Input Checked States in Bindings
+                        view.updateInputCheckedStates();
+                    },
+                    // Get Product Categories
+                    getProductCategories = function (id, callback) {
+                        productDataservice.getProductCategories({
+                            id: id ? id : 0,
+                        }, {
+                            success: function (data) {
+                                productCategories.removeAll();
+                                if (data != null) {
+                                    // Map Product Categories
+                                    mapProductCategories(data);
+                                }
+
+                                if (callback && typeof callback === "function") {
+                                    callback();
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Error: Failed To load Categories " + response);
+                            }
+                        });
+                    },
+                    //changeIcon = function (event) {
+                    //    if (event.target.classList.contains("fa-chevron-circle-right")) {
+                    //        // ReSharper disable Html.TagNotResolved
+                    //        event.target.classList.remove("fa-chevron-circle-right");
+
+                    //        event.target.classList.add("fa-chevron-circle-down");
+                    //    } else {
+                    //        event.target.classList.remove("fa-chevron-circle-down");
+                    //        event.target.classList.add("fa-chevron-circle-right");
+                    //        // ReSharper restore Html.TagNotResolved
+                    //    }
+                    //},
+                    // Toggle Child Categories
+                    toggleChildCategories = function (data, event) {
+                        // If Child Categories exist then don't send call
+                        changeIcon(event);
+                        if (view.toggleChildCategories(event)) {
+                            return;
+                        }
+                        var categoryId = view.getCategoryIdFromElement(event);
+
+                        getChildCategoriesForDiscountVoucher(categoryId, event);
+                    },
+                    // Get Category Child List Items
+                    getChildCategoriesForDiscountVoucher = function (id, event) {
+
+                        productDataservice.getProductCategoryChildsForProduct({
+                            id: id,
+                        }, {
+                            success: function (data) {
+                                if (data.ProductCategories != null) {
+                                    // Update Product Category Items
+                                    //selectedProduct().updateProductCategoryItems(productCategories());
+
+                                    _.each(data.ProductCategories, function (productCategory) {
+                                        productCategory.ParentCategoryId = id;
+                                        var category = model.ProductCategoryForDialog.Create(productCategory);
+                                        if (selectedDiscountVoucher()) {
+                                            var productCategoryItem = selectedDiscountVoucher().productCategoryVouchers.find(function (pCatItem) {
+                                                return pCatItem.productCategoryId === category.id;
+                                            });
+
+                                            if (productCategoryItem) {
+                                                category.isSelected(productCategoryItem.isSelected());
+                                            }
+                                        }
+                                        productCategories.push(category);
+                                        view.appendChildCategory(event, category);
+                                        initializeProductCategoryDialog();
+                                    });
+                                }
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Error: Failed To load Categories " + response);
+                            }
+                        });
+                    },
+                    // Update Product Categories to Selected Product
+                    updateProductCategories = function () {
+                        selectedProduct().updateProductCategoryItems(productCategories());
+                        view.hideProductCategoryDialog();
+                    },
+                    // update Checked state for category
+                    updateCheckedStateForCategory = function (data, event) {
+                        var categoryId = view.getCategoryIdFromElement(event);
+                        // get category by id
+                        var productCategory = productCategories.find(function (pcat) {
+                            return pcat.id === categoryId;
+                        });
+
+                        if (!productCategory) {
+                            return false;
+                        }
+
+                        if ($(event.target).is(':checked')) {
+                            productCategory.isSelected(true);
+                        }
+                        else {
+                            productCategory.isSelected(false);
+                        }
+
+                        return true;
+                    },
+                    // Map Product Categories
+                    mapProductCategories = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.ProductCategoryForDialog.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(productCategories(), itemsList);
+                        productCategories.valueHasMutated();
+                    },
+                    // Product Categories
+                    productCategories = ko.observableArray([]),
+                    // Parent Product Categories
+                    parentProductCategories = ko.computed(function () {
+                        if (!productCategories) {
+                            return [];
+                        }
+
+                        return productCategories.filter(function (productCategory) {
+                            return !productCategory.parentCategoryId;
+                        });
+                    }),
+
+                    // In your Store = function
+                    // Product Category Items
+                    productCategoryItems = ko.observableArray([]),
+                    // Available Product Category items
+                    availableProductCategoryItems = ko.computed(function () {
+                        if (productCategoryItems().length === 0) {
+                            return "";
+                        }
+
+                        var categories = "";
+                        productCategoryItems.each(function (pci, index) {
+                            if (pci.isSelected()) {
+                                var pcname = pci.categoryName();
+                                if (index < productCategoryItems().length - 1) {
+                                    pcname = pcname + "<br/>";
+                                }
+                                categories += pcname;
+                            }
+                        });
+
+                        return categories;
+                    }),
+                    // Update Product Category Items
+                    updateProductCategoryItems = function (productCategories) {
+                        if (productCategories || productCategories.length > 0) {
+                            // Add Selected to Product Category Item List
+                            var selectedCategories = _.filter(productCategories, function (productCategory) {
+                                return productCategory.isSelected();
+                            });
+
+                            // Update UnSelected to Product Category Item List
+                            var unselectedCategories = _.filter(productCategories, function (productCategory) {
+                                return !productCategory.isSelected();
+                            });
+
+                            // Add Selected
+                            if (selectedCategories.length > 0) {
+                                _.each(selectedCategories, function (productCategory) {
+                                    var productCategoryItemObj = productCategoryItems.find(function (productCategoryItem) {
+                                        return productCategoryItem.categoryId() === productCategory.id;
+                                    });
+
+                                    // Exists Already
+                                    if (productCategoryItemObj) {
+                                        if (!productCategoryItemObj.isSelected()) {
+                                            // set it to true
+                                            productCategoryItemObj.isSelected(true);
+                                        }
+                                    }
+                                    });
+                            }
+
+                            // Update Un-Selected
+                            if (unselectedCategories.length > 0) {
+                                _.each(unselectedCategories, function (productCategory) {
+                                    var productCategoryItemObj = productCategoryItems.find(function (productCategoryItem) {
+                                        return productCategoryItem.categoryId() === productCategory.id;
+                                    });
+
+                                    // Exists Already
+                                    if (productCategoryItemObj) {
+                                        if (!productCategoryItemObj.id()) { // If New Product Category Item
+                                            productCategoryItems.remove(productCategoryItemObj);
+                                        }
+                                        else {
+                                            // set it to false
+                                            productCategoryItemObj.isSelected(false);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    },
                 //#endregion ________ Discount Voucher Detail___________
 
 
@@ -6574,7 +6807,7 @@ define("stores/stores.viewModel",
                 },
                 // On Delete Store Permanently
                 onDeletePermanent = function () {
-                confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         deleteCompanyPermanently(selectedStore().companyId());
                     });
@@ -7003,6 +7236,12 @@ define("stores/stores.viewModel",
                     couponUseType: couponUseType,
                     discountTypes: discountTypes,
                     editDiscountVoucher: editDiscountVoucher,
+                    openProductCategoryDialog: openProductCategoryDialog,
+                    closeProductCategoryDialog: closeProductCategoryDialog,
+                    getProductCategories: getProductCategories,
+                    parentProductCategories: parentProductCategories,
+                    updateProductCategories: updateProductCategories,
+                    toggleChildCategories: toggleChildCategories
 
                 };
                 //#endregion
