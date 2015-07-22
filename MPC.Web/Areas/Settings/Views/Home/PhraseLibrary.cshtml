@@ -24,14 +24,14 @@
         @Html.Partial("~/Areas/Common/Views/Shared/_PhraseLibrary.cshtml")
     </div>
 
-    
+@Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")    
 
     @section Scripts{
         <script>
             //require(["common/phraselibrary.view"], function() {
             //    ist.phraselibrary.viewmodel.getallsections();
             //});
-            require(["common/phraseLibrary.view"]);
+            require(["common/phraseLibrary.view", "common/confirmation.view"]);
 
         </script>
     }

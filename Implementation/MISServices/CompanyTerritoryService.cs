@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
@@ -12,6 +13,8 @@ namespace MPC.Implementation.MISServices
         #region Private
         private readonly ICompanyTerritoryRepository companyTerritoryRepository;
         private readonly IScopeVariableRepository scopeVariableRepository;
+        private readonly ICompanyContactRepository companyContactRepository;
+        private readonly IAddressRepository addressRepository;
 
         //#region Private Methods
         private CompanyTerritory Create(CompanyTerritory companyTerritory)
@@ -77,10 +80,21 @@ namespace MPC.Implementation.MISServices
         #endregion
         #region Constructor
 
-        public CompanyTerritoryService(ICompanyTerritoryRepository companyTerritoryRepository, IScopeVariableRepository scopeVariableRepository)
+        public CompanyTerritoryService(ICompanyTerritoryRepository companyTerritoryRepository, IScopeVariableRepository scopeVariableRepository, 
+            ICompanyContactRepository companyContactRepository, IAddressRepository addressRepository)
         {
+            if (companyContactRepository == null)
+            {
+                throw new ArgumentNullException("companyContactRepository");
+            }
+            if (addressRepository == null)
+            {
+                throw new ArgumentNullException("addressRepository");
+            }
             this.companyTerritoryRepository = companyTerritoryRepository;
             this.scopeVariableRepository = scopeVariableRepository;
+            this.companyContactRepository = companyContactRepository;
+            this.addressRepository = addressRepository;
         }
         #endregion
         public CompanyTerritory Save(CompanyTerritory companyTerritory)
@@ -95,8 +109,31 @@ namespace MPC.Implementation.MISServices
         public bool Delete(long companyTerritoryId)
         {
             var dbCompanyTerritory = companyTerritoryRepository.GetTerritoryById(companyTerritoryId);
-            if (dbCompanyTerritory != null && (dbCompanyTerritory.Addresses == null || !dbCompanyTerritory.Addresses.Any()) && (dbCompanyTerritory.CompanyContacts == null || !dbCompanyTerritory.CompanyContacts.Any()))
+            // Only Delete Territory if all of its referencing contacts and addresses have been archived
+            // Before Deleting Territory delete them as well
+            if (dbCompanyTerritory != null && (dbCompanyTerritory.Addresses == null || dbCompanyTerritory.Addresses.All(address => address.isArchived == true)) && 
+                (dbCompanyTerritory.CompanyContacts == null || dbCompanyTerritory.CompanyContacts.All(contact => contact.isArchived == true)))
             {
+                // Remove Archived Contacts
+                if (dbCompanyTerritory.CompanyContacts != null)
+                {
+                    List<CompanyContact> companyContacts = dbCompanyTerritory.CompanyContacts.Where(contact => contact.isArchived == true).ToList();
+                    companyContacts.ForEach(contact =>
+                                            {
+                                                dbCompanyTerritory.CompanyContacts.Remove(contact);
+                                                companyContactRepository.Delete(contact);
+                                            });
+                }
+                // Remove Archived Addresses 
+                if (dbCompanyTerritory.Addresses != null)
+                {
+                    List<Address> addresses = dbCompanyTerritory.Addresses.Where(contact => contact.isArchived == true).ToList();
+                    addresses.ForEach(address =>
+                    {
+                        dbCompanyTerritory.Addresses.Remove(address);
+                        addressRepository.Delete(address);
+                    });
+                }
                 companyTerritoryRepository.Delete(dbCompanyTerritory);
                 companyTerritoryRepository.SaveChanges();
                 return true;

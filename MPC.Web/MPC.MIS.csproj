@@ -17,10 +17,14 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
-    <IISExpressSSLPort>44300</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -341,6 +345,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\DiscountVoucherController.cs" />
     <Compile Include="Areas\Api\Controllers\CopyOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\CopyEstimateController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductChildCategoryController.cs" />
@@ -437,6 +442,7 @@
     <Compile Include="Areas\Api\Controllers\StockCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\SystemUserController.cs" />
     <Compile Include="Areas\Api\Controllers\SystemVariableController.cs" />
+    <Compile Include="Areas\Api\ModelMappers\DiscountVoucherMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ActivityMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ActivityTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\BestPressMapper.cs" />
@@ -582,6 +588,8 @@
     <Compile Include="Areas\Api\Models\DeliveryNoteBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\DeliveryNoteDetail.cs" />
     <Compile Include="Areas\Api\Models\DeliveryNote.cs" />
+    <Compile Include="Areas\Api\Models\DiscountVoucherListViewModel.cs" />
+    <Compile Include="Areas\Api\Models\DiscountVoucherListViewResponse.cs" />
     <Compile Include="Areas\Api\Models\GetInquiriesResponse.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNote.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteDetail.cs" />
@@ -1153,6 +1161,7 @@
     <Content Include="Content\Images\colorpicker_submit.png" />
     <Content Include="Content\Images\coming.jpg" />
     <Content Include="Content\Images\Company_Default.png" />
+    <Content Include="Content\Images\foldericon3.png" />
     <Content Include="Content\Images\ImageAttach.png" />
     <Content Include="Content\Images\company_contact.jpg" />
     <Content Include="Content\Images\company_contact.jpg" />
@@ -2245,6 +2254,7 @@
     <Content Include="Areas\Settings\Views\Shared\_AddStockQty.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_ViewMediaLibImage.cshtml" />
     <Content Include="Areas\Settings\Views\Home\_AgileApiDetail.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_DiscountVoucherDetail.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_DiscountVoucher.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>

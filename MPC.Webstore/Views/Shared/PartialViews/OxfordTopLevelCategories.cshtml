@@ -15,8 +15,7 @@
     string CatName = "ParentCat";
     
 }
-
-<div class="container body-container spacer-top ">
+<div class="container body-container spacer-top " id="all-topLevel-pg">
     <!--Main Content-->
     <div class="row">
         <!--Left Panel-->
@@ -32,13 +31,14 @@
                         @{
                             int items = 0; 
                         }
-                        @foreach(var AllRetailCa in AllRetailCAt)
+                        @foreach (var AllRetailCa in AllRetailCAt)
                         {
                             
                            int count = AllRetailCAt.Where(i => i.ParentCategoryId == AllRetailCa.ProductCategoryId).Count();
-                           if (count>0)
-                           { 
-                                <div id="parentCatsContainer"  class="panel panel-default">
+
+                            if (count > 0)
+                            {
+                                <div id="parentCatsContainer" class="panel panel-default">
                                     <div class="panel-heading">
                                         <a id="@CatName@items" data-toggle="collapse" data-parent="#accordionmenu" data-id="@items" onclick="sideBarClick(@items)" href="/Category/@Html.ResolveString(AllRetailCa.CategoryName)/@AllRetailCa.ProductCategoryId">
                                             @AllRetailCa.CategoryName
@@ -47,13 +47,13 @@
                                     <div id="sidebar_menu_collapse1" class="sideMenuItems panel-collapse collapse ">
                                         <div class="panel-body">
                                             @{
-                                              var childCats = AllRetailCAt.Where(i=>i.ParentCategoryId==AllRetailCa.ProductCategoryId).OrderBy(o => o.DisplayOrder).ToList();
-                                                
+                                var childCats = AllRetailCAt.Where(i => i.ParentCategoryId == AllRetailCa.ProductCategoryId).OrderBy(o => o.DisplayOrder).ToList();
+
                                             }
                                             <ul class="submenu list-unstyled">
-                                                @foreach(var ccategories in childCats)
-                                                { 
-                                                   <li><a id="ltrlSubCatName" href="/Category/@Html.ResolveString(ccategories.CategoryName)/@ccategories.ProductCategoryId"><i class="fa fa-play-circle"></i><span>@ccategories.CategoryName</span></a></li>
+                                                @foreach (var ccategories in childCats)
+                                                {
+                                                    <li><a id="ltrlSubCatName" href="/Category/@Html.ResolveString(ccategories.CategoryName)/@ccategories.ProductCategoryId"><i class="fa fa-play-circle"></i><span>@ccategories.CategoryName</span></a></li>
                                                 }
                                             </ul>
                                         </div>
@@ -79,23 +79,23 @@
                             @{
                                 var SeaBlueTopCategories = lstParentCategories.OrderBy(i => i.DisplayOrder).ToList();
                             }
-                            @foreach( var seabluectg in SeaBlueTopCategories)
-                            { 
-                           
-                                    <div class="col-sm-12 col-md-6 product-box" itemscope itemtype="http://schema.org/Product">
-                                        <div class="hover-box-shadow">
-                                            <p class="text-center">
-                                                <a id="ProductUrl"  href="../en/standard-business-cards/index.htm" class='thumbnail'>
-                                                    <img id="productImge" src="@seabluectg.ThumbnailPath" alt="Standard Business Cards" title="Standard Business Cards" class="img-responsive" itemprop="image" />
-                                                </a>
-                                            </p>
-                                            <h3 itemprop="name" id="productName" >@seabluectg.CategoryName</h3>
-                                            <div class="product-desc" itemprop="description">
-                                                <p id="productDesc">@seabluectg.Description1</p>
-                                            </div>
-                                            <p class="text-center"><a id="prductlinkUrl"  href="../en/standard-business-cards/index.htm" class='btn btn-info' itemprop="url">View details <i class="fa fa-angle-double-right"></i></a></p>
+                            @foreach (var seabluectg in SeaBlueTopCategories)
+                            {
+
+                                <div class="col-sm-12 col-md-6 product-box" itemscope itemtype="http://schema.org/Product">
+                                    <div class="hover-box-shadow">
+                                        <p class="text-center">
+                                            <a id="ProductUrl" href="../en/standard-business-cards/index.htm" class='thumbnail'>
+                                                <img id="productImge" src="@seabluectg.ThumbnailPath" alt="Standard Business Cards" title="Standard Business Cards" class="img-responsive" itemprop="image" />
+                                            </a>
+                                        </p>
+                                        <h3 itemprop="name" id="productName">@seabluectg.CategoryName</h3>
+                                        <div class="product-desc" itemprop="description">
+                                            <p id="productDesc">@seabluectg.Description1</p>
                                         </div>
+                                        <p class="text-center"><a id="prductlinkUrl" href="../en/standard-business-cards/index.htm" class='btn btn-info' itemprop="url">View details <i class="fa fa-angle-double-right"></i></a></p>
                                     </div>
+                                </div>
                             }
 
                         </div>
@@ -123,7 +123,7 @@
                             <div itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress">
                                 <b>Main address</b>:<br>
                                 <span itemprop="streetAddress" id="addressline1">
-                                    @(new HtmlString(Addressline1))
+                                    @Html.ResolveString(Addressline1);
                                 </span>
                                 <span itemprop="postalCode" id="cityandCode">@ViewBag.cityandCodeInnerText</span><br>
                                 <span itemprop="addressLocality" id="stateandCountry">@ViewBag.stateandCountryInnerText</span>
@@ -149,10 +149,10 @@
                                     <span class="input-group-addon"><span class="fa fa-envelope"></span></span>
                                     <input type="text" name="txtEmailbox" id="txtEmailbox" class="form-control btn-rounded" width="100" />
                                 </div>
-                                <span id="errorMsg"  class="error-block text-danger"></span>
+                                <span id="errorMsg" class="error-block text-danger"></span>
                                 <p class="help-block">Subscribe Here to receive promotional offers.</p>
                             </div>
-                            <input type="submit" id="GoSubscribe" class="btn btn-primary btn-rounded" value="Subscribe"/>
+                            <input type="button" id="GoSubscribe" class="btn btn-primary btn-rounded" value="Subscribe" />
                           }
                         </form>
                     </div>
@@ -195,6 +195,7 @@
     </div>
     <!--/Main Content-->
 </div>
+
 <script>
     $(document).ready(function () {
         sideBarClick(0)

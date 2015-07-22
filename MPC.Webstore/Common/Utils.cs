@@ -54,7 +54,8 @@ namespace MPC.Webstore.Common
             return WebConfigurationManager.AppSettings["AppBasePath"];
         }
 
-       
+    
+
         public static string FormatDecimalValueToTwoDecimal(string valueToFormat, string currenctySymbol)
         {
             return string.Format("{0}{1}", currenctySymbol, Utils.FormatDecimalValueToTwoDecimal(valueToFormat));
@@ -269,6 +270,10 @@ namespace MPC.Webstore.Common
             string FileName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") + OrderCreationDate.Day.ToString() + "-" + ProductCode + "-" + OrderCode + "-" + ItemCode + "-" + SideCode + extension;
 
             return FileName;
+        }
+        public static string GetFileExtension(this HtmlHelper htmlHelper, string fileName)
+        {
+            return System.IO.Path.GetExtension(fileName);
         }
     //    static Assembly FindGlobalResAssembly()
     //    {

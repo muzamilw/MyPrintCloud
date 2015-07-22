@@ -20,7 +20,7 @@
                     <div class="row" data-bind="visible: !isDetailsVisible()">
                         <div class="col-sm-12">
                             <div class="pull-left" style="padding-right:3px;">
-                                <h5 style="padding-left: 7px;">Create one-off Invoices quickly or Create Invoices from existing Estimates, Orders or Jobs.  Invoices can be automatically passed to accounting platforms like Xero, MYOB, Sage & Quickbooks</h5>
+                                <h5 style="padding-left: 7px;">Create one-off Invoices quickly or Create Invoices from existing Estimates and Orders.</h5>
                             </div>
                             <div class="pull-right" style="margin-right:9px;">
                                 <button class="btn btn-primary" data-bind="click: $root.openReport" style="margin-right:5px">
@@ -52,26 +52,44 @@
                                         </ul>
                                         <div class="tab-content">
                                             <div class="tab-pane fade in active" id="tab-All">
+                                                <div style="margin-bottom:15px;">
+                                                    <span>Review all proccessed invoices, to find invoices fast, select from the Flag dropdown and then Search for the invoice. </span>
+                                                </div>
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
                                             <div class="tab-pane fade in" id="tab-Awaiting">
+                                                <div style="margin-bottom:15px;">
+                                                    <span>Invoices are awating approval before being sent to the client, review and send as soon as possible.</span>
+                                                </div>
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
                                             <div class="tab-pane fade in" id="tab-Posted">
+                                                <div style="margin-bottom:15px;">
+                                                    <span>Invoices has been sent to the customer, review and search for any outstanding invoices.</span>
+                                                </div>
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
                                             <div class="tab-pane fade in" id="tab-Cancelled">
+                                                <div style="margin-bottom:15px;">
+                                                    <span>Review all cancelled Invoices, refer to the notes for who and why the invoices was cancelled.</span>
+                                                </div>
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
                                             <div class="tab-pane fade in" id="tab-Archived">
+                                                <div style="margin-bottom:15px;">
+                                                    <span>dumy text archived</span>
+                                                </div>
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
                                             <div class="tab-pane fade in" id="tab-Proforma">
+                                                <div style="margin-bottom:15px;">
+                                                    <span>dumy text performa</span>
+                                                </div>
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
@@ -146,7 +164,7 @@
                         <script id="tabItemsList" type="text/html">
                             <div>
                                 <div class="table-responsive">
-                                    <table id="OrderListtbl" class="table user-list">
+                                    <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>
                                                 <th class="col-sm-1"><span>&nbsp;</span></th>

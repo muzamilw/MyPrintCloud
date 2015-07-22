@@ -17,7 +17,7 @@
 
    
 
-    @<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     @Styles.Render("~/Content/ListingPropertiesCarousel.css")
     @Styles.Render("~/Content/js-image-slider.css")
     @Styles.Render("~/Content/CSS")
@@ -57,6 +57,16 @@
                 );
             }
         });
+
+        function ToggleMenu() {
+            $("#collapsedMenu").slideToggle();
+
+        }
+
+        function ToggleProfile() {
+            $("#profileMenu").slideToggle();
+
+        }
 
     </script>
 

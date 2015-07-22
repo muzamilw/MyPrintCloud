@@ -8,13 +8,6 @@
     string SkipDesignerPopUp = "";
 }
 
-   
-
-
-@section scripts {
-    <script src="~/Scripts/PopUp.js"></script>
-
-}
 
 @if (!string.IsNullOrEmpty(Model.ImagePath))
 {
@@ -23,7 +16,7 @@
 <link href="~/Content/Designer/CategoryPageStyles.css" rel="stylesheet" />
 <link href="~/Content/Designer/p103.css" rel="stylesheet" />
 <script src="~/Scripts/Designer/p101.js" type="text/javascript"></script>
-<div class="container content_area" id="catagory">
+<div class="container content_area" id="all-category-pg">
 
     <div class="left_right_padding">
         @{Html.RenderAction("Index", "BreadCrumb");}
@@ -327,7 +320,7 @@
                                             {
                                                 if (item.isTemplateDesignMode == (int)TemplateMode.DoNotLoadDesigner)
                                                 {
-                                                    <a onclick="StartDesignerLoader(); SkipDesignerGenerateProof(@item.ItemId,@item.TemplateId , @ViewBag.ContactId ,@item.ProductName);">
+                                                    <a onclick="StartDesignerLoader(); SkipDesignerGenerateProof(@item.ItemId,@item.TemplateId , @ViewBag.ContactId ,'@item.ProductName');">
                                                         <input type="button" value="Design Now" class="goto-designer-button" />
                                                     </a>
                                                 }
@@ -491,6 +484,8 @@
         </div>
     </div>
 </div>
+@section scripts {
+<script src="~/Scripts/PopUp.js"></script>
 <script>
     var tID = 0;
     var itemId = 0;
@@ -632,3 +627,4 @@
 
     }
 </script>
+}

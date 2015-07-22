@@ -14,31 +14,34 @@
                 <div class="clearfix">
                     <h1 class="pull-left" style="padding-left:0px;">Your Web Stores</h1>
                 </div>
-                <div class="row">
+                <div class="row" style="margin-bottom:10px;">
                     <div class="clearfix pull-left">
-                        <h5 style="margin-left: 7px;">Create unlimited web stores for your customers to self design, order and pay online.</h5>
+                        <span style="margin-left: 7px; color: #696969">Create unlimited web stores for your customers to self design, order and pay online.</span>
                     </div>
-                    <div class="btn-group pull-right top-page-ui">
+                    <div class="pull-right top-page-ui" style="margin-right:5px;">
                         <button class="btn btn-primary" data-bind="click: $root.openReport" style="margin-right: 6px;">
                             Reports
                         </button>
-                        <button class="btn btn-primary">
-                            Add Store
-                        </button>
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#" data-bind="click : $root.onCreatePrivateStore">Private Store</a></li>
-                            <li><a href="#" data-bind="click: $root.onCreatePublicStore">Public Store</a></li>
-                        </ul>
+                        <div class="btn-group">
+                            <button class="btn btn-primary">
+                                Add Store
+                            </button>
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#" data-bind="click : $root.onCreatePrivateStore">Private Store</a></li>
+                                <li><a href="#" data-bind="click: $root.onCreatePublicStore">Public Store</a></li>
+                            </ul>
+                        </div>
+                        
                     </div>
                 </div>
                 
-                <div id="addStore">
-                    &nbsp;
-                </div>
+               
+                
+                
                 <!-- ko template: { name: 'filterTemplate' } -->
                 <!-- /ko -->
             </div>
@@ -47,11 +50,24 @@
             <div class="col-lg-12">
                 <div class="main-box no-header clearfix">
                     <div class="main-box-body clearfix">
+                        
+                        <div class="tabsdescriptions" style="margin-top: 25px !important;">
+                            <div class="row">
+                                <span>Clear your browser history cache regularly.</span>
+                            </div>
+                            <div class="row">
+                                <span>
+                                    Open web stores in different browsers than the MIS when testing and reviewing.
+                                </span>
+                            </div>
+                        </div>
+                        
+
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr id="storesList">
-                                        <th class="col-lg-2"></th>
+                                        <th class="col-lg-1"></th>
                                         <th class="col-lg-4"><span>All Stores</span></th>
                                         <th class="col-lg-4"><span>Type</span></th>
 
@@ -122,17 +138,8 @@
         </script>
         @* Filter Template *@
         <script id="filterTemplate" type="text/html">
-            <div class="filter-body" id="filter" style="margin-bottom:10px; background-color:#ffffff">
-                <div class="pull-left" style="margin-left:18px;">
-                    <div class="row">
-                        <span>Clear your browser history cache regularly.</span>
-                    </div>
-                    <div class="row">
-                        <span>
-                            Open web stores in different browsers than the MIS when testing and reviewing.
-                        </span>
-                    </div>
-                </div>
+            <div class="filter-body" id="filter" style="margin-bottom:10px;">
+               
                 <form data-bind="submit: $root.getStoresByFilter">
                     <div class="filter-block pull-right" style="margin-right: -10px">
                         <div class="form-group pull-left">

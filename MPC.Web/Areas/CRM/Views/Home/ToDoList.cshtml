@@ -13,7 +13,7 @@
                 </ol>
                 <h1 style="padding-left:0px;">To Do Lists</h1>
                 <div class="clearfix pull-left" style="padding-bottom: 1%">
-                    <h5>Create Contacts, Customers and Suppliers. View system users calendars.  Create marketing emails.</h5>
+                    <span style="color: #696969">Create Contacts, Customers and Suppliers. Add to-do items and update shared calendars.</span>
                 </div>
             </div>
         </div>
@@ -39,24 +39,21 @@
                                 @Html.ActionLink("Calendar", "Calendar", "Home")
                                 @*<a href="#tab-Calendar" data-toggle="tab">Calendar</a>*@
                             </li>
-
-                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.EMarketing) { <text>active</text> }">
-                                @Html.ActionLink("E-Marketing", "EMarketing", "Home")
-                            </li>
-
-
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-ToDoList">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" style="margin-top:10px;">
+                                        <div class="tabsdescriptions">
+                                            <span>Stay organized with to do items for each member of your team, assign follow up events that appear in your group calendar.</span>
+                                        </div>
                                         <div>
-                                            <div class="main-box-body clearfix">
+                                            <div class="main-box-body clearfix" style="padding-left:12px;padding-right:12px;">
                                                 <div class="col-md-12 form-horizontal">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <div class="col-lg-4 text-right">
-                                                                <label for="owner" class="control-label text-right tooltip-float">Show Calendar Events for</label>
+                                                            <div class="col-lg-4 text-right" style=" margin-left: -9px; padding-left: 4px">
+                                                                <label for="owner" style="float:left"class="control-label text-right tooltip-float">Show Calendar Events</label>
                                                             </div>
                                                             <div class="col-lg-8">
                                                                 <select style="width: 65%;"class="form-control" id="owner" data-bind="options: $root.systemUsers, optionsCaption: 'All', optionsText: 'FullName', optionsValue: 'SystemUserId',value:$root.selectedSystemUser,event:{ change: $root.onChangeSystemUser}"></select>

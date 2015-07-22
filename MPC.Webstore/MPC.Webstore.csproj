@@ -490,6 +490,7 @@
     <Content Include="Content\Designer\assets-v2\vert-line.png" />
     <Content Include="Content\Designer\CategoryPageStyles.css" />
     <Content Include="Content\Designer\jquery.cropbox.css" />
+    <Content Include="Content\download.png" />
     <Content Include="Content\ErrorPage.css" />
     <Content Include="Content\FancyBoxStyless.css" />
     <Content Include="Content\HomeBannerS4.js" />
@@ -631,8 +632,14 @@
     <Content Include="Content\Designer\assets-v2\white.jpg" />
     <Content Include="Content\Designer\p103.css" />
     <Content Include="Content\Designer\DSv2.css" />
+    <Content Include="Content\Images\footer_bg.jpg" />
     <Content Include="Content\Images\Glass.png" />
     <Content Include="Content\Images\GoogPluss.PNG" />
+    <Content Include="Content\Images\IcoIllustrator.png" />
+    <Content Include="Content\Images\Icoindesign.png" />
+    <Content Include="Content\Images\icoJPG.png" />
+    <Content Include="Content\Images\IcoPhotoshop.png" />
+    <Content Include="Content\Images\icoPNG.png" />
     <Content Include="Content\Images\linkedin.png" />
     <Content Include="Content\Images\linkInShare.PNG" />
     <Content Include="Content\Images\Listing-next-horizoltal.png" />
@@ -644,6 +651,7 @@
     <Content Include="Content\Images\my-jobs.png" />
     <Content Include="Content\Images\next-horizontal.png" />
     <Content Include="Content\Images\olsonReviewImg.PNG" />
+    <Content Include="Content\Images\Page_pdf.png" />
     <Content Include="Content\Images\prev-horizontal.png" />
     <Content Include="Content\Images\ProfileImage.png" />
     <Content Include="Content\Images\re-order.png" />
@@ -690,6 +698,7 @@
     <Content Include="Content\smoothslide.css" />
     <Content Include="Content\smoothslides.theme.css" />
     <Content Include="Content\style.css" />
+    <Content Include="Content\TFEHotels.css" />
     <Content Include="Content\zoomslider.css" />
     <Content Include="LightBox\Css\jquery.fancybox.css" />
     <Content Include="LightBox\Images\blank.gif" />
