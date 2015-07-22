@@ -333,12 +333,12 @@
                                                     </div>
                                                 </div>
                                                 
-                                                <div class="col-sm-4" style="width: 41%">
-                                                    <label style="margin-right: 3px;">Switch To </label>
-                                                    <input type="button" class="btn btn-default" data-bind="visible: $root.selectedQty() == 2 || $root.selectedQty() == 3, click: $root.selectQuantity(1), value: 'Show Qty 1 (' + qty1() + ')'">
+                                                <div class="col-sm-5">
+                                                    <label class="col-sm-2" style="margin-right: 5px; padding-top: 10px;">Switch To </label>
+                                                    <input type="button" style="margin-left: 15px;"  class="btn btn-default col-sm-3" data-bind="visible: $root.selectedQty() == 2 || $root.selectedQty() == 3, click: $root.selectQuantity(1), value: 'Qty 1 (' + qty1() + ')'">
                                                     <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
-                                                    <input type="button" class="btn btn-default" data-bind="visible: $root.selectedQty() == 1 || $root.selectedQty() == 3, click: $root.selectQuantity(2), value: 'Show Qty 2 (' + qty2() + ')'">
-                                                    <input type="button" class="btn btn-default" data-bind="visible: $root.selectedQty() == 1 || $root.selectedQty() == 2, click: $root.selectQuantity(3), value: 'Show Qty 3 (' + qty3() + ')'">
+                                                    <input type="button" style="margin-left: 15px;" class="btn btn-default col-sm-3" data-bind="visible: $root.selectedQty() == 1 || $root.selectedQty() == 3, click: $root.selectQuantity(2), value: 'Qty 2 (' + qty2() + ')'">
+                                                    <input type="button" style="margin-left: 15px;" class="btn btn-default col-sm-3" data-bind="visible: $root.selectedQty() == 1 || $root.selectedQty() == 2, click: $root.selectQuantity(3), value: 'Qty 3 (' + qty3() + ')'">
                                                     <!--/ko-->
 
                                                     @*<label class="control-label" style="float: right; padding-right: 5px;" data-bind="text: $root.selectedQty() == 1 ?' Showing Qty1' : $root.selectedQty() == 2? 'Showing Qty2': 'Showing Qty3'"></label>*@

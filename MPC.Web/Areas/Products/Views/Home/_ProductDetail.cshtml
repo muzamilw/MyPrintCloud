@@ -2158,7 +2158,7 @@
                                                     <label for="txtCompanyName" class="control-label text-right tooltip-float">Online Template Category</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select class="form-control" data-bind="options: $root.availableCategoriesForTemplate, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: $root.selectedDesignerCategory"></select>
+                                                    <select class="form-control" id="designerCategoryDropdown" data-bind="options: $root.availableCategoriesForTemplate, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: $root.selectedDesignerCategory, validationTooltip: $parent.designerCategoryId, validationDependsOn: $parent.designerCategoryId, validationOnElement: $parent.designerCategoryId"></select>
                                                 </div>
                                             </div>
 

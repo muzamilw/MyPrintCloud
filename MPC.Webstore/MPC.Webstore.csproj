@@ -50,6 +50,9 @@
     <Reference Include="AutoMapper.Net4">
       <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetOpenAuth.ApplicationBlock">
+      <HintPath>C:\Users\IQRA\Desktop\DotNetOpenAuth.ApplicationBlock.dll</HintPath>
+    </Reference>
     <Reference Include="DotNetOpenAuth.Core">
       <HintPath>..\packages\DotNetOpenAuth.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
     </Reference>
@@ -355,6 +358,7 @@
     <Compile Include="Areas\Designer\DesignerAreaRegistration.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\CostCenterController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\FileAttachmentsController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\OrganisationCacheController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\StoreCacheController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RealEstateController.cs" />
     <Compile Include="Areas\WebstoreApi\WebstoreApiAreaRegistration.cs" />

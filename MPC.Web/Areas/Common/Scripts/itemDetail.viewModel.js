@@ -1581,56 +1581,64 @@ define("common/itemDetail.viewModel",
                     copyJobCards = function () {
                         selectedProduct();
                         var conCatJobCards = "";
+                        var title = "";
                         if (selectedProduct().jobDescription1() !== null &&
                             selectedProduct().jobDescription1() !== undefined && selectedProduct().jobDescription1().trim() !== "") {
-                            conCatJobCards = selectedProduct().jobDescription1();
+                            title = selectedProduct().jobDescriptionTitle1() ? selectedProduct().jobDescriptionTitle1() + " : " : "";
+                            conCatJobCards = title + selectedProduct().jobDescription1();
                         }
                         if (selectedProduct().jobDescription2() !== null &&
                             selectedProduct().jobDescription2() !== undefined && selectedProduct().jobDescription2().trim() !== "") {
+                            title = selectedProduct().jobDescriptionTitle2() ? selectedProduct().jobDescriptionTitle2() + " : " : "";
                             if (conCatJobCards === "") {
-                                conCatJobCards = selectedProduct().jobDescription2();
+                                conCatJobCards = title + selectedProduct().jobDescription2();
                             } else {
-                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription2();
+                                conCatJobCards = conCatJobCards + "\n" + title + selectedProduct().jobDescription2();
                             }
                         }
                         if (selectedProduct().jobDescription3() !== null &&
                             selectedProduct().jobDescription3() !== undefined && selectedProduct().jobDescription3().trim() !== "") {
+                            title = selectedProduct().jobDescriptionTitle3() ? selectedProduct().jobDescriptionTitle3() + " : " : "";
                             if (conCatJobCards === "") {
-                                conCatJobCards = selectedProduct().jobDescription3();
+                                conCatJobCards = title + selectedProduct().jobDescription3();
                             } else {
-                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription3();
+                                conCatJobCards = conCatJobCards + "\n" + title + selectedProduct().jobDescription3();
                             }
                         }
                         if (selectedProduct().jobDescription4() !== null &&
                             selectedProduct().jobDescription4() !== undefined && selectedProduct().jobDescription4().trim() !== "") {
+                            title = selectedProduct().jobDescriptionTitle4() ? selectedProduct().jobDescriptionTitle4() + " : " : "";
                             if (conCatJobCards === "") {
-                                conCatJobCards = selectedProduct().jobDescription4();
+                                conCatJobCards = title + selectedProduct().jobDescription4();
                             } else {
-                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription4();
+                                conCatJobCards = conCatJobCards + "\n" + title + selectedProduct().jobDescription4();
                             }
                         }
                         if (selectedProduct().jobDescription5() !== null &&
                             selectedProduct().jobDescription5() !== undefined && selectedProduct().jobDescription5().trim() !== "") {
+                            title = selectedProduct().jobDescriptionTitle5() ? selectedProduct().jobDescriptionTitle5() + " : " : "";
                             if (conCatJobCards === "") {
-                                conCatJobCards = selectedProduct().jobDescription5();
+                                conCatJobCards = title + selectedProduct().jobDescription5();
                             } else {
-                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription5();
+                                conCatJobCards = conCatJobCards + "\n" + title + selectedProduct().jobDescription5();
                             }
                         }
                         if (selectedProduct().jobDescription6() !== null &&
                             selectedProduct().jobDescription6() !== undefined && selectedProduct().jobDescription6().trim() !== "") {
+                            title = selectedProduct().jobDescriptionTitle6() ? selectedProduct().jobDescriptionTitle6() + " : " : "";
                             if (conCatJobCards === "") {
-                                conCatJobCards = selectedProduct().jobDescription6();
+                                conCatJobCards = title + selectedProduct().jobDescription6();
                             } else {
-                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription6();
+                                conCatJobCards = conCatJobCards + "\n" + title + selectedProduct().jobDescription6();
                             }
                         }
                         if (selectedProduct().jobDescription7() !== null &&
                             selectedProduct().jobDescription7() !== undefined && selectedProduct().jobDescription7().trim() !== "") {
+                            title = selectedProduct().jobDescriptionTitle7() ? selectedProduct().jobDescriptionTitle7() + " : " : "";
                             if (conCatJobCards === "") {
-                                conCatJobCards = selectedProduct().jobDescription7();
+                                conCatJobCards = title + selectedProduct().jobDescription7();
                             } else {
-                                conCatJobCards = conCatJobCards + "\n" + selectedProduct().jobDescription7();
+                                conCatJobCards = conCatJobCards + "\n" + title + selectedProduct().jobDescription7();
                             }
                         }
                         selectedProduct().invoiceDescription(conCatJobCards);

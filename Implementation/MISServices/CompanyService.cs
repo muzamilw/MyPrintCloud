@@ -103,6 +103,7 @@ namespace MPC.Implementation.MISServices
         private readonly ITemplateFontsRepository templatefonts;
         private readonly IStagingImportCompanyContactAddressRepository stagingImportCompanyContactRepository;
         private readonly ICostCentersService CostCentreService;
+        private readonly IDiscountVoucherRepository discountVoucherRepository;
         #endregion
 
         private bool CheckDuplicateExistenceOfCompanyDomains(CompanySavingModel companySaving)
@@ -1054,9 +1055,9 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void UpdateScopeVariables(CompanySavingModel companySavingModel)
         {
-            
 
-          
+
+
 
 
             //Store Scope Variables
@@ -2681,7 +2682,7 @@ namespace MPC.Implementation.MISServices
             }
 
             #endregion
-            
+
             smartFormRepository.SaveChanges();
             return smartForm.SmartFormId;
         }
@@ -2784,7 +2785,7 @@ namespace MPC.Implementation.MISServices
                     foreach (CmsSkinPageWidget cmsSkinPageWidgetItem in cmsSkinPageWidgetRemoveItems)
                     {
                         cmsPageDbVersionItem.CmsSkinPageWidgets.Remove(cmsSkinPageWidgetItem);
-                       cmsSkinPageWidgetRepository.Delete(cmsSkinPageWidgetItem);
+                        cmsSkinPageWidgetRepository.Delete(cmsSkinPageWidgetItem);
                     }
                     //Add new Widget of applied theme to Page
                     foreach (WidgetForTheme widgetTheme in group)
@@ -2975,7 +2976,8 @@ namespace MPC.Implementation.MISServices
             IEstimateRepository estimateRepository, IMediaLibraryRepository mediaLibraryRepository, ICompanyCostCenterRepository companyCostCenterRepository,
             ICmsTagReporistory cmsTagReporistory, ICompanyBannerSetRepository bannerSetRepository, ICampaignRepository campaignRepository,
             MPC.Interfaces.WebStoreServices.ITemplateService templateService, ITemplateFontsRepository templateFontRepository, IMarkupRepository markupRepository,
-            ITemplateColorStylesRepository templateColorStylesRepository, IStagingImportCompanyContactAddressRepository stagingImportCompanyContactRepository, ICostCentersService CostCentreService)
+            ITemplateColorStylesRepository templateColorStylesRepository, IStagingImportCompanyContactAddressRepository stagingImportCompanyContactRepository,
+            ICostCentersService CostCentreService, IDiscountVoucherRepository discountVoucherRepository)
         {
             if (bannerSetRepository == null)
             {
@@ -3048,6 +3050,7 @@ namespace MPC.Implementation.MISServices
             this.templateColorStylesRepository = templateColorStylesRepository;
             this.stagingImportCompanyContactRepository = stagingImportCompanyContactRepository;
             this.CostCentreService = CostCentreService;
+            this.discountVoucherRepository = discountVoucherRepository;
 
         }
         #endregion
@@ -3182,8 +3185,10 @@ namespace MPC.Implementation.MISServices
         {
             FieldVariableRequestModel request = new FieldVariableRequestModel();
             SmartFormRequestModel smartFormRequest = new SmartFormRequestModel();
+            DiscountVoucherRequestModel discountVoucherRequestModelRequest = new DiscountVoucherRequestModel();
             request.CompanyId = storeId;
             smartFormRequest.CompanyId = storeId;
+            discountVoucherRequestModelRequest.CompanyId = storeId;
 
             return new CompanyBaseResponse
             {
@@ -3620,6 +3625,64 @@ namespace MPC.Implementation.MISServices
         }
 
 
+        /// <summary>
+        /// Add/Update Discount Voucher
+        /// </summary>
+        public DiscountVoucher SaveDiscountVoucher(DiscountVoucher discountVoucher)
+        {
+            if (discountVoucher.DiscountVoucherId == 0)
+            {
+                return AddDiscountVoucher(discountVoucher);
+            }
+            return UpdateDiscountVoucher(discountVoucher);
+        }
+
+        /// <summary>
+        /// Get Discount Voucher By Id
+        /// </summary>
+        public DiscountVoucher GetDiscountVoucherById(long discountVoucherId)
+        {
+            return discountVoucherRepository.Find(discountVoucherId);
+        }
+        private DiscountVoucher AddDiscountVoucher(DiscountVoucher discountVoucher)
+        {
+            discountVoucher.VoucherCode = Guid.NewGuid().ToString();
+            discountVoucherRepository.Add(discountVoucher);
+            discountVoucherRepository.SaveChanges();
+            return discountVoucher;
+        }
+
+        private DiscountVoucher UpdateDiscountVoucher(DiscountVoucher discountVoucher)
+        {
+            DiscountVoucher discountVoucherDbVersion = discountVoucherRepository.Find(discountVoucher.DiscountVoucherId);
+            if (discountVoucherDbVersion != null)
+            {
+                discountVoucherDbVersion.VoucherName = discountVoucher.VoucherName;
+                discountVoucherDbVersion.DiscountRate = discountVoucher.DiscountRate;
+                discountVoucherDbVersion.DiscountType = discountVoucher.DiscountType;
+                discountVoucherDbVersion.HasCoupon = discountVoucher.HasCoupon;
+                discountVoucherDbVersion.CouponCode = discountVoucher.CouponCode;
+                discountVoucherDbVersion.CouponUseType = discountVoucher.CouponUseType;
+                discountVoucherDbVersion.IsUseWithOtherCoupon = discountVoucher.IsUseWithOtherCoupon;
+                discountVoucherDbVersion.CompanyId = discountVoucher.CompanyId;
+
+                discountVoucherDbVersion.IsTimeLimit = discountVoucher.IsTimeLimit;
+                discountVoucherDbVersion.ValidFromDate = discountVoucher.ValidFromDate;
+                discountVoucherDbVersion.ValidUptoDate = discountVoucher.ValidUptoDate;
+
+                discountVoucherDbVersion.IsQtyRequirement = discountVoucher.IsQtyRequirement;
+                discountVoucherDbVersion.MinRequiredQty = discountVoucher.MinRequiredQty;
+                discountVoucherDbVersion.MaxRequiredQty = discountVoucher.MaxRequiredQty;
+                discountVoucherDbVersion.IsQtySpan = discountVoucher.IsQtySpan;
+
+                discountVoucherDbVersion.IsOrderPriceRequirement = discountVoucher.IsOrderPriceRequirement;
+                discountVoucherDbVersion.MinRequiredOrderPrice = discountVoucher.MinRequiredOrderPrice;
+                discountVoucherDbVersion.MaxRequiredOrderPrice = discountVoucher.MaxRequiredOrderPrice;
+            }
+
+            discountVoucherRepository.SaveChanges();
+            return discountVoucher;
+        }
         #endregion
 
         #region ExportOrganisation

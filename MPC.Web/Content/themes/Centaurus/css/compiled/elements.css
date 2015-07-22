@@ -645,7 +645,7 @@ a.list-group-item.active, a.list-group-item.active:hover, a.list-group-item.acti
 }
 
 .filter-block {
-    margin-top: 7px;
+    margin-top: 2px;
 }
 
     .filter-block .form-group {
@@ -4093,6 +4093,18 @@ input[type="radio"] {
     background: -ms-linear-gradient(top,#95a5a6 0%,#7f8c8d 100%) !important;
     background: linear-gradient(to bottom,#95a5a6 0%,#7f8c8d 100%) !important;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#95a5a6',endColorstr='#7f8c8d',GradientType=0) !important;
+}
+
+
+.theme-blue-gradient .lightgray-bg {
+    background: #95a5a6 !important;
+    background: -moz-linear-gradient(top,#FAFBFF 0%,#e8e8e8 100%) !important;
+    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#FAFBFF),color-stop(100%,#e8e8e8)) !important;
+    background: -webkit-linear-gradient(top,#FAFBFF 0%,#e8e8e8 100%) !important;
+    background: -o-linear-gradient(top,#FAFBFF 0%,#e8e8e8 100%) !important;
+    background: -ms-linear-gradient(top,#FAFBFF 0%,#e8e8e8 100%) !important;
+    background: linear-gradient(to bottom,#FAFBFF 0%,#e8e8e8 100%) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FAFBFF',endColorstr='#e8e8e8',GradientType=0) !important;
 }
 
 @media (max-width: 991px) {

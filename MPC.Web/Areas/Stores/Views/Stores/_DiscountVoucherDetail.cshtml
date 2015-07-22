@@ -1,7 +1,7 @@
 
 <div class="modal fade my-modal" id="discountVoucherDetailDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div style="width: 838px;" class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" data-bind="with:$root.selectedDiscountVoucher">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Discount Voucher Detail</h4>
@@ -25,7 +25,7 @@
                                     <label for="txtSPTitle" class="control-label text-right tooltip-float">Discount Name</label>
                                 </div>
                                 <div class="col-sm-4 col-lg-4">
-                                    <input type="text" class="form-control" id="txtSPTitle">
+                                    <input type="text" class="form-control" id="txtSPTitle" data-bind="value:name,validationTooltip:name">
                                 </div>
                             </div>
                             <div class="form-group ">
@@ -38,7 +38,7 @@
                                     <label for="ddPageCat" class="control-label text-right tooltip-float">Discount Type</label>
                                 </div>
                                 <div class="col-sm-4 col-lg-4">
-                                    <select class="form-control" id="ddPageCat" data-bind="options: $root.pageCategories, optionsText: 'name', optionsValue: 'id'"> </select>
+                                    <select class="form-control" id="ddPageCat" data-bind="options: $root.discountTypes, optionsText: 'type', optionsValue: 'id',value:discountType"> </select>
                                 </div>
                                 <div class="col-sm-1">
 
@@ -54,7 +54,11 @@
                                     <label for="txtSPTitle" class="control-label text-right tooltip-float">Discount Rate</label>
                                 </div>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="txtSPTitle">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">%</span>
+                                        <input type="text" class="form-control  text-right" id="amount" data-bind="value:discountRate,validationTooltip:discountRate">
+                                    </div>
+                                    @*<input type="text" class="form-control" id="txtSPTitle" data-bind="value:discountRate,validationTooltip:discountRate">*@
                                 </div>
                             </div>
                             <div class="form-group ">
@@ -68,13 +72,13 @@
                                 </div>
                                 <div class="col-sm-4" style="margin-top: 5px;">
                                     <div class="checkbox-nice">
-                                        <input type="checkbox" id="cupon">
+                                        <input type="checkbox" id="cupon" data-bind="checked:hasCoupon">
                                         <label for="cupon">
                                         </label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" data-bind="visible:hasCoupon()">
                                 <div class="col-sm-4 text-right" style="margin-right: 8px;">
 
                                 </div>
@@ -84,7 +88,7 @@
                                             <label for="txtSPTitle" class="control-label text-right tooltip-float">Coupon Code</label>
                                         </div>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="txtSPTitle">
+                                            <input type="text" class="form-control" id="txtSPTitle" data-bind="value:couponCode">
                                         </div>
                                     </div>
                                     <div class="form-group ">
@@ -92,7 +96,7 @@
                                             <label for="txtSPTitle" class="control-label text-right tooltip-float">Coupon Usage</label>
                                         </div>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="txtSPTitle">
+                                            <select class="form-control" id="ddPageCat" data-bind="options: $root.couponUseType, optionsText: 'type', optionsValue: 'id',value:couponUseType"> </select>
                                         </div>
                                     </div>
                                     <div class="form-group ">
@@ -101,7 +105,7 @@
                                         </div>
                                         <div class="col-sm-4" style="margin-top: 5px;">
                                             <div class="checkbox-nice">
-                                                <input type="checkbox" id="withOtherCoupon">
+                                                <input type="checkbox" id="withOtherCoupon" data-bind="checked:isUseWithOtherCoupon">
                                                 <label for="withOtherCoupon" class="control-label">
                                                 </label>
                                             </div>
@@ -120,7 +124,7 @@
                                     <label for="txtSPTitle" class="control-label text-right tooltip-float">Categories</label>
                                 </div>
                                 <div class="col-sm-4" style="margin-top: 8px;">
-                                    <a href="#" class="control-label user-link">Select Categories</a>
+                                    <a href="#" class="control-label user-link" data-bind="click:$root.openProductCategoryDialog">Select Categories</a>
                                 </div>
                             </div>
                             <div class="form-group ">
@@ -150,14 +154,14 @@
                                 </div>
                                 <div class="col-sm-4" style="margin-top: 5px;">
                                     <div class="checkbox-nice">
-                                        <input type="checkbox" id="timeLimit">
+                                        <input type="checkbox" id="timeLimit" data-bind="checked:isTimeLimit">
                                         <label for="timeLimit" class="control-label">
 
                                         </label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" data-bind="visible:isTimeLimit()">
                                 <div class="col-sm-4 text-right" style="margin-right: 8px;">
 
                                 </div>
@@ -167,7 +171,7 @@
                                             <label for="txtSPTitle" class="control-label text-right tooltip-float">Begin Date</label>
                                         </div>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="txtSPTitle">
+                                            <input type="text" class="form-control" id="validFromDate" data-bind="datepicker:validFromDate">
                                         </div>
                                     </div>
                                     <div class="form-group ">
@@ -175,7 +179,7 @@
                                             <label for="txtSPTitle" class="control-label text-right tooltip-float">End Date</label>
                                         </div>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="txtSPTitle">
+                                            <input type="text" class="form-control" id="validUptoDate" data-bind="datepicker:validUptoDate">
                                         </div>
                                     </div>
 
@@ -193,13 +197,13 @@
                                 </div>
                                 <div class="col-sm-4" style="margin-top: 5px;">
                                     <div class="checkbox-nice">
-                                        <input type="checkbox" id="qty">
+                                        <input type="checkbox" id="qty" data-bind="checked:isQtyRequirement">
                                         <label for="qty">
                                         </label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" data-bind="visible:isQtyRequirement()">
                                 <div class="col-sm-4 text-right" style="margin-right: 8px;">
 
                                 </div>
@@ -209,7 +213,7 @@
                                             <label for="txtSPTitle" class="control-label text-right tooltip-float">Minimum Quantity</label>
                                         </div>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="txtSPTitle">
+                                            <input type="text" class="form-control" id="txtSPTitle" data-bind="value:minRequiredQty,validationTooltip:minRequiredQty">
                                         </div>
                                     </div>
                                     <div class="form-group ">
@@ -217,7 +221,7 @@
                                             <label for="txtSPTitle" class="control-label text-right tooltip-float">Maximum Quantity</label>
                                         </div>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="txtSPTitle">
+                                            <input type="text" class="form-control" id="txtSPTitle" data-bind="value:maxRequiredQty,validationTooltip:maxRequiredQty">
                                         </div>
                                     </div>
                                     <div class="form-group ">
@@ -226,7 +230,7 @@
                                         </div>
                                         <div class="col-sm-4" style="margin-top: 5px;">
                                             <div class="checkbox-nice">
-                                                <input type="checkbox" id="spanProduct">
+                                                <input type="checkbox" id="spanProduct" data-bind="checked:isQtySpan">
                                                 <label for="spanProduct" class="control-label">
                                                 </label>
                                             </div>
@@ -246,13 +250,13 @@
                                 </div>
                                 <div class="col-sm-4" style="margin-top: 5px;">
                                     <div class="checkbox-nice">
-                                        <input type="checkbox" id="price">
+                                        <input type="checkbox" id="price" data-bind="checked:isOrderPriceRequirement">
                                         <label for="price">
                                         </label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" data-bind="visible:isOrderPriceRequirement()">
                                 <div class="col-sm-4 text-right" style="margin-right: 8px;">
 
                                 </div>
@@ -262,7 +266,10 @@
                                             <label for="txtSPTitle" class="control-label text-right tooltip-float">Min Order Price</label>
                                         </div>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="txtSPTitle">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" data-bind="text:$root.currencySymbol">$</span>
+                                                <input type="text" class="form-control  text-right" id="amount" data-bind="numberValue:minRequiredOrderPrice,validationTooltip:minRequiredOrderPrice">
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group ">
@@ -270,7 +277,11 @@
                                             <label for="txtSPTitle" class="control-label text-right tooltip-float">Max Order Price</label>
                                         </div>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="txtSPTitle">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" data-bind="text:$root.currencySymbol">$</span>
+                                                <input type="text" class="form-control  text-right" id="amount" data-bind="numberValue:maxRequiredOrderPrice,validationTooltip:maxRequiredOrderPrice">
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -280,7 +291,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveDiscountVoucher, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left:0px;">Close</button>
 
             </div>

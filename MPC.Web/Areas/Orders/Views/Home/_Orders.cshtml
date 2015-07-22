@@ -1,7 +1,7 @@
 ﻿<div class="row" data-bind="visible: !isOrderDetailsVisible()">
     <div class="col-sm-12">
         <div class="pull-left">
-            <h5 style="padding-left: 7px;">Manage and Progress all your online and offline Orders in one place.</h5>
+            <span style="padding-left: 7px; color: #696969">Manage and Progress all your online and offline Orders in one place.</span>
         </div>
         <div class="pull-right" style="padding-right: 9px;">
             <button id="open-wizard" data-bind="click: createOrder" class="btn btn-primary pull-right">
@@ -12,7 +12,7 @@
             </button>
         </div>
     </div>
-    <div style="clear: both">
+    <div style="clear: both;max-height:11px;">
         &nbsp;
     </div>
     <div>
@@ -34,8 +34,8 @@
                     </ul>
                     <div class="tab-content" style="  margin-top: -15px;">
                         <div class="tab-pane fade in active" id="tab-PendingOrders" style="background-color:white;">
-                            <div style="margin-bottom:15px;padding-top:15px;padding-left:20px;">
-                                <span>Pending orders are orders manually progressed or from a web store and waiting for confirmation by the production manager before progressing into production</span>
+                            <div style="margin-bottom:15px;padding-top:25px;padding-left:20px;">
+                                <span style="color: #696969">Pending orders are orders manually progressed or from a web store and waiting for confirmation by the production manager before progressing into production</span>
                                 <div style="height:20px;">
                                     &nbsp;
                                 </div>
@@ -44,8 +44,8 @@
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane fade in" id="tab-ConfirmedStarts" style="background-color: white;">
-                            <div style="margin-bottom:15px;padding-top:15px;padding-left:20px;">
-                                <span>confirmed starts are jobs that have been approved and are queued for actual physical production</span>
+                            <div style="margin-bottom:15px;padding-top:25px;padding-left:20px;">
+                                <span style="color: #696969">Confirmed starts are jobs that have been approved and are queued for actual physical production.</span>
                                 <div style="height:20px;">
                                     &nbsp;
                                 </div>
@@ -54,8 +54,8 @@
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane fade in" id="tab-InProduction" style="background-color: white;">
-                            <div style="margin-bottom:15px;padding-top:15px;padding-left:20px;">
-                                <span>the status in production is when the physical job is being produced and is assigned to a person and/or equipment</span>
+                            <div style="margin-bottom:15px;padding-top:25px;padding-left:20px;">
+                                <span style="color: #696969">The status in production is when the physical job is being produced and is assigned to a person and/or equipment.</span>
                                 <div style="height:20px;">
                                     &nbsp;
                                 </div>
@@ -64,8 +64,8 @@
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane fade in" id="tab-ReadyForShipping" style="background-color: white;">
-                            <div style="margin-bottom:15px;padding-top:15px;padding-left:20px;">
-                                <span>once the job is complete and awaiting dispatch to a customer the order can be set to ready for shipping</span>
+                            <div style="margin-bottom:15px;padding-top:25px;padding-left:20px;">
+                                <span style="color: #696969">Once the job is complete and awaiting dispatch to a customer the order can be set to ready for shipping.</span>
                                 <div style="height:20px;">
                                     &nbsp;
                                 </div>
@@ -74,8 +74,8 @@
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane fade in" id="tab-Invoiced" style="background-color: white;">
-                            <div style="margin-bottom:15px;padding-top:15px;padding-left:20px;">
-                                <span>Once dispatched mark the job as invoiced, and the information can be automatically passed to popular accounting packages like Xero, MYOB, Sage and QuickBooks</span>
+                            <div style="margin-bottom:15px;padding-top:25px;padding-left:20px;">
+                                <span style="color: #696969">Once dispatched mark the job as invoiced, and the information can be automatically passed to popular accounting packages like Xero, MYOB, Sage and QuickBooks.</span>
                                 <div style="height:20px;">
                                     &nbsp;
                                 </div>
@@ -84,8 +84,8 @@
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane fade in" id="tab-CancelledOrders" style="background-color: white;">
-                            <div style="margin-bottom:15px;padding-top:15px;padding-left:20px;">
-                                <span>If a job is cancelled by a customer move the job to cancelled to stop the order from progressing further</span>
+                            <div style="margin-bottom:15px;padding-top:25px;padding-left:20px;">
+                                <span style="color: #696969">If a job is cancelled by a customer move the job to cancelled to stop the order from progressing further.</span>
                                 <div style="height:20px;">
                                     &nbsp;
                                 </div>
@@ -96,8 +96,8 @@
                         <div class="tab-pane fade in" id="tab-All">
                             <div class="main-box-body main-box clearfix">
 
-                                <div style="margin-bottom:15px;padding-top:15px;padding-left:20px;">
-                                    <span>Process orders through to completion, orders that are progressed from pending to in progress will appear on the production board</span>
+                                <div style="margin-bottom:15px;padding-top:25px;padding-left:20px;">
+                                    <span style="color: #696969">Process orders through to completion, orders that are progressed from pending to in progress will appear on the production board.</span>
                                     <div style="height:20px;">
                                         &nbsp;
                                     </div>
@@ -113,7 +113,7 @@
                                                 <th class="col-sm-2"><span>Order Date</span></th>
                                                 <th class="col-sm-1"><span>Flag</span></th>
                                                 <th class="col-sm-1"><span>Status</span></th>
-                                                <th class="col-sm-2" style="text-align: right"><span>Order Total</span></th>
+                                                <th class="col-sm-1" style="text-align: right"><span>Order Total</span></th>
                                             </tr>
                                         </thead>
                                         <tbody>

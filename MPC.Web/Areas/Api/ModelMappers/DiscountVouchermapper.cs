@@ -11,25 +11,25 @@ namespace MPC.MIS.Areas.Api.ModelMappers
     public static class DiscountVoucherMapper
     {
         #region Public
-       
+
 
         /// <summary>
         /// Create From Domain Model [List view ]
         /// </summary>
         public static DiscountVoucherListViewModel CreateFrom(this DomainModels.DiscountVoucher source)
         {
-            
+
             return new DiscountVoucherListViewModel
             {
-               DiscountVoucherId = source.DiscountVoucherId,
-               VoucherName = source.VoucherName,
-               CouponCode = source.CouponCode , 
-               DiscountType = source.DiscountType,
-               DiscountRate = source.DiscountRate,
-               CouponUseType = source.CouponUseType
+                DiscountVoucherId = source.DiscountVoucherId,
+                VoucherName = source.VoucherName,
+                CouponCode = source.CouponCode,
+                DiscountType = source.DiscountType,
+                DiscountRate = source.DiscountRate,
+                CouponUseType = source.CouponUseType
             };
         }
-        
+
         /// <summary>
         /// Create From Domain Model
         /// </summary>
@@ -42,6 +42,65 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
         }
 
+        /// <summary>
+        /// Create From Api Model 
+        /// </summary>
+        public static DomainModels.DiscountVoucher CreateFrom(this DiscountVoucher source)
+        {
+
+            return new DomainModels.DiscountVoucher
+            {
+                DiscountVoucherId = source.DiscountVoucherId,
+                VoucherName = source.VoucherName,
+                VoucherCode = string.Empty,
+                CouponCode = source.CouponCode,
+                DiscountType = source.DiscountType,
+                DiscountRate = source.DiscountRate,
+                CouponUseType = source.CouponUseType,
+                HasCoupon = source.HasCoupon,
+                IsOrderPriceRequirement = source.IsOrderPriceRequirement,
+                IsQtyRequirement = source.IsQtyRequirement,
+                IsQtySpan = source.IsQtySpan,
+                IsTimeLimit = source.IsTimeLimit,
+                IsUseWithOtherCoupon = source.IsUseWithOtherCoupon,
+                MaxRequiredOrderPrice = source.MaxRequiredOrderPrice,
+                MaxRequiredQty = source.MaxRequiredQty,
+                MinRequiredOrderPrice = source.MinRequiredOrderPrice,
+                MinRequiredQty = source.MinRequiredQty,
+                ValidFromDate = source.ValidFromDate,
+                ValidUptoDate = source.ValidUptoDate,
+                CompanyId = source.CompanyId
+            };
+        }
+        /// <summary>
+        /// Create From Domain Model 
+        /// </summary>
+        public static DiscountVoucher CreateFromDetail(this DomainModels.DiscountVoucher source)
+        {
+
+            return new DiscountVoucher
+            {
+                DiscountVoucherId = source.DiscountVoucherId,
+                VoucherName = source.VoucherName,
+                CouponCode = source.CouponCode,
+                DiscountType = source.DiscountType,
+                DiscountRate = source.DiscountRate,
+                CouponUseType = source.CouponUseType,
+                HasCoupon = source.HasCoupon,
+                IsOrderPriceRequirement = source.IsOrderPriceRequirement,
+                IsQtyRequirement = source.IsQtyRequirement,
+                IsQtySpan = source.IsQtySpan,
+                IsTimeLimit = source.IsTimeLimit,
+                IsUseWithOtherCoupon = source.IsUseWithOtherCoupon,
+                MaxRequiredOrderPrice = source.MaxRequiredOrderPrice,
+                MaxRequiredQty = source.MaxRequiredQty,
+                MinRequiredOrderPrice = source.MinRequiredOrderPrice,
+                MinRequiredQty = source.MinRequiredQty,
+                ValidFromDate = source.ValidFromDate,
+                ValidUptoDate = source.ValidUptoDate,
+                CompanyId = source.CompanyId
+            };
+        }
         #endregion
     }
 }

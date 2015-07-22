@@ -348,6 +348,7 @@
     <Compile Include="Areas\Api\Controllers\DiscountVoucherController.cs" />
     <Compile Include="Areas\Api\Controllers\CopyOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\CopyEstimateController.cs" />
+    <Compile Include="Areas\Api\Controllers\DiscountVaoucherDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductChildCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionFlagsController.cs" />
@@ -588,6 +589,7 @@
     <Compile Include="Areas\Api\Models\DeliveryNoteBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\DeliveryNoteDetail.cs" />
     <Compile Include="Areas\Api\Models\DeliveryNote.cs" />
+    <Compile Include="Areas\Api\Models\DiscountVoucher.cs" />
     <Compile Include="Areas\Api\Models\DiscountVoucherListViewModel.cs" />
     <Compile Include="Areas\Api\Models\DiscountVoucherListViewResponse.cs" />
     <Compile Include="Areas\Api\Models\GetInquiriesResponse.cs" />
@@ -2256,6 +2258,7 @@
     <Content Include="Areas\Settings\Views\Home\_AgileApiDetail.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_DiscountVoucherDetail.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_DiscountVoucher.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_ProductCategoryDialogForDiscountVoucher.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
@@ -3578,7 +3581,18 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>30630</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://mpc/mis</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://mpc/mis</IISAppRootUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

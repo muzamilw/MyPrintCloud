@@ -56,7 +56,7 @@
                     <div class="pull-left">
                         <h5 style="margin-left: 10px;">Create and track Purchase order to Suppliers.</h5>
                     </div>
-                    <div class="pull-right" style="margin-right: 3%;">
+                    <div class="pull-right" style="margin-right: 1%;">
                         <button class="btn btn-primary" data-bind="click: $root.openReport" style=" margin-left: 0px">
                             Reports
                         </button>
@@ -74,7 +74,7 @@
                 @*Remove Start from here for Login*@
                 <div class="filter-body">
                     <form data-bind="submit:$root.searchData">
-                        <div class="filter-block pull-right">
+                        <div class="filter-block pull-right" style=" margin-top: 1px;">
                             <div class="form-group pull-left">
                                 <select class="form-control col-sm-4" data-bind="options:$root.purchaseOrderTypes,optionsText:'name',optionsValue:'id', value: $root.purchaseOrderTypeFilter, event:{ change: $root.changePurchaseTypeFilter}"></select>
                             </div>

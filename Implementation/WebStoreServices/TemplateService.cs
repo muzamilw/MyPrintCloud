@@ -370,6 +370,7 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     styles = JsonConvert.DeserializeObject<List<objTextStyles>>(ooBject.textStyles);
                 }
+
                 string StyledHtml = "<p>";
 
                 if (styles.Count != 0)
@@ -382,11 +383,17 @@ namespace MPC.Implementation.WebStoreServices
                         {
                             if (objStyle.fontName == null && objStyle.fontSize == null && objStyle.fontStyle == null && objStyle.fontWeight == null && objStyle.textColor == null)
                             {
-                                StyledHtml += ooBject.ContentString[i];
+                                string content = ooBject.ContentString[i].ToString();
+                                content = content.Replace("<", "&#60;");
+                                content = content.Replace(">", "&#62;");
+                                StyledHtml += content;
                             }
                             else
                             {
-                                string toApplyStyle = ooBject.ContentString[i].ToString();
+                                string content = ooBject.ContentString[i].ToString();
+                                content = content.Replace("<", "&#60;");
+                                content = content.Replace(">", "&#62;");
+                                string toApplyStyle = content;
                                 string fontTag = "<font";
                                 string fontSize = "";
                                 string pid = "";
@@ -502,13 +509,19 @@ namespace MPC.Implementation.WebStoreServices
                         }
                         else
                         {
-                            StyledHtml += ooBject.ContentString[i];
+                            string content = ooBject.ContentString[i].ToString();
+                            content = content.Replace("<", "&#60;");
+                            content = content.Replace(">", "&#62;");
+                            StyledHtml += content;
                         }
                     }
 
                 }
                 else
                 {
+                    ooBject.ContentString = ooBject.ContentString.Replace("<", "&#60;");
+                    ooBject.ContentString = ooBject.ContentString.Replace(">", "&#62;");
+
                     StyledHtml += ooBject.ContentString;
                 }
                 StyledHtml += "</p>";
@@ -689,9 +702,9 @@ namespace MPC.Implementation.WebStoreServices
                     logoPath = ""; //since path is already in filenm
                     string[] vals;
                     FilePath = "";
-                    if (oObject.ContentString.ToLower().Contains("/mpc_content/"))
+                    if (oObject.ContentString.ToLower().Contains("mpc_content"))
                     {
-                        vals = oObject.ContentString.ToLower().Split(new string[] { "/mpc_content/" }, StringSplitOptions.None);
+                        vals = oObject.ContentString.ToLower().Split(new string[] { "mpc_content" }, StringSplitOptions.None);
                         FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/" + vals[vals.Length - 1]);
                      //   FilePath = logoPath + oObject.ContentString;
                         bFileExists = System.IO.File.Exists((FilePath));
