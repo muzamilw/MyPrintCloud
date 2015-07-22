@@ -637,6 +637,7 @@
     <Content Include="Content\Designer\assets-v2\white.jpg" />
     <Content Include="Content\Designer\p103.css" />
     <Content Include="Content\Designer\DSv2.css" />
+    <Content Include="Content\Images\footer_bg.jpg" />
     <Content Include="Content\Images\Glass.png" />
     <Content Include="Content\Images\GoogPluss.PNG" />
     <Content Include="Content\Images\IcoIllustrator.png" />
@@ -672,6 +673,7 @@
     <Content Include="Content\Images\SocialSprite.png" />
     <Content Include="Content\Images\sprite.png" />
     <Content Include="Content\Images\tiger.jpg" />
+    <Content Include="Content\Images\topnav_bg.jpg" />
     <Content Include="Content\Images\view-order.png" />
     <Content Include="Content\Images\visa_49x31.jpg" />
     <Content Include="Content\jquery-ui.min.css" />
@@ -685,6 +687,7 @@
     <Content Include="Content\metroboostrap.css" />
     <Content Include="Content\MetroStyles.css" />
     <Content Include="Content\NewBootstrapClass.css" />
+    <Content Include="Content\oxfordtestimonial.css" />
     <Content Include="Content\RealEstateSlider\css\feature-carousel.css" />
     <Content Include="Content\RealEstateSlider\images\arrow-left.png" />
     <Content Include="Content\RealEstateSlider\images\arrow-right.png" />
