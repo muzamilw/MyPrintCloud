@@ -257,8 +257,8 @@ namespace MPC.Webstore
 
             routes.MapRoute(
                 "ShopCart",
-                "ShopCart/{optionalOrderId}/{Message}",
-                new { controller = "Home", action = "Index", optionalOrderId = UrlParameter.Optional, Message = UrlParameter.Optional }
+                "ShopCart",
+                new { controller = "Home", action = "Index"}
             );
 
             routes.MapRoute(
@@ -408,6 +408,18 @@ namespace MPC.Webstore
              "ANZHandler",
              "ANZSubmit/{OrderId}",
              new { controller = "Payment", action = "ANZSubmit", OrderId = UrlParameter.Optional }
+         );
+
+            routes.MapRoute(
+              "FBAuth",
+              "FBAuth",
+              new { controller = "Home", action = "FBAuthentication", token = UrlParameter.Optional }
+          );
+            
+        routes.MapRoute(
+          "ANZResponse",
+          "ANZResponse",
+          new { controller = "Payment", action = "ANZResponse" }
          );
 
 

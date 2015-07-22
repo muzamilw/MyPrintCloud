@@ -104,7 +104,7 @@
                                             <label for="txtSPTitle" class="control-label text-right tooltip-float">Cannot Be Used With Another Coupon</label>
                                         </div>
                                         <div class="col-sm-4" style="margin-top: 5px;">
-                                            <div class="checkbox-nice" >
+                                            <div class="checkbox-nice">
                                                 <input type="checkbox" id="withOtherCoupon" data-bind="checked:isUseWithOtherCoupon">
                                                 <label for="withOtherCoupon" class="control-label">
                                                 </label>
@@ -124,7 +124,7 @@
                                     <label for="txtSPTitle" class="control-label text-right tooltip-float">Categories</label>
                                 </div>
                                 <div class="col-sm-4" style="margin-top: 8px;">
-                                    <a href="#" class="control-label user-link">Select Categories</a>
+                                    <a href="#" class="control-label user-link" data-bind="click:$root.openProductCategoryDialog">Select Categories</a>
                                 </div>
                             </div>
                             <div class="form-group ">

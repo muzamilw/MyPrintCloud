@@ -4039,6 +4039,26 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         );
         return productCategory;
     };
+
+    // Product Category Entity
+    ProductCategoryForDialog = function (specifiedId, specifiedName, specifiedIsSelected, specifiedParentCategoryId, specifiedIsArchived) {
+        // True If Selected
+        var isSelected = ko.observable(specifiedIsSelected || undefined);
+
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            isSelected: isSelected,
+            parentCategoryId: specifiedParentCategoryId,
+            isArchived: specifiedIsArchived
+        };
+    },
+    // Product Category Factory
+    ProductCategoryForDialog.Create = function (source) {
+        var productCategory = new ProductCategoryForDialog(source.ProductCategoryId, source.CategoryName, source.IsSelected, source.ParentCategoryId, source.IsArchived);
+
+        return productCategory;
+    };
     // #endregion ______________________P R O D U C T   C A T E G O R Y  _________________________________
 
     // #region ______________ Item For Widgets _________________
@@ -4828,6 +4848,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             validFromDate = ko.observable(spcValidFromDate ? moment(spcValidFromDate).toDate() : moment().toDate()),
             validUptoDate = ko.observable(spcValidUptoDate ? moment(spcValidUptoDate).toDate() : moment().toDate()),
             companyId = ko.observable(spcCompanyId),
+            productCategoryVouchers = ko.observableArray([]),
 
             //Convert To Server
             convertToServerData = function (source) {
@@ -4914,6 +4935,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             validFromDate: validFromDate,
             validUptoDate: validUptoDate,
             companyId: companyId,
+            productCategoryVouchers:productCategoryVouchers,
             convertToServerData: convertToServerData,
             errors: errors,
             isValid: isValid,
@@ -4929,6 +4951,23 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         return new DiscountVoucher(source.DiscountVoucherId, source.VoucherName, source.CouponCode, source.DiscountType, source.DiscountRate, source.CouponUseType,
             source.HasCoupon, source.IsOrderPriceRequirement, source.IsQtyRequirement, source.IsQtySpan, source.IsTimeLimit, source.IsUseWithOtherCoupon, source.MaxRequiredOrderPrice,
             source.MaxRequiredQty, source.MinRequiredOrderPrice, source.MinRequiredQty, source.ValidFromDate, source.ValidUptoDate, source.CompanyId);
+    };
+
+    // Product Category Voucher Entity
+    ProductCategoryVoucher = function (specifiedId, specifiedName, specifiedIsSelected, specifiedProductCategoryId) {
+        // True If Selected
+        var isSelected = ko.observable(specifiedIsSelected || undefined);
+
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            isSelected: isSelected,
+            productCategoryId: specifiedProductCategoryId
+        };
+    },
+    // Product Category Voucher Factory
+    ProductCategoryVoucher.Create = function (source) {
+        return new ProductCategoryVoucher(source.CategoryVoucherId, source.CategoryName, source.IsSelected, source.ProductCategoryId);
     };
     // #endregion ______________ Discount Voucher   _________________
 
@@ -5056,7 +5095,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         SmartForm: SmartForm,
         SmartFormDetail: SmartFormDetail,
         VariableExtension: VariableExtension,
-        DiscountVoucher: DiscountVoucher
+        DiscountVoucher: DiscountVoucher,
+        ProductCategoryForDialog: ProductCategoryForDialog,
+        ProductCategoryVoucher: ProductCategoryVoucher
     };
     // #endregion 
 });

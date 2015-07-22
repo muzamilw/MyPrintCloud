@@ -31,6 +31,7 @@ using MPC.Interfaces.Repository;
 using DotNetOpenAuth.ApplicationBlock;
 using DotNetOpenAuth.ApplicationBlock.Facebook;
 using DotNetOpenAuth.OAuth2;
+using Newtonsoft.Json.Linq;
 
 
 namespace MPC.Webstore.Controllers
@@ -125,39 +126,46 @@ namespace MPC.Webstore.Controllers
                 {
                     Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse> domainResponse = (cache.Get(CacheKeyName)) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>;
 
-                    // if company not found in cache then rebuild the cache
-                    if (!domainResponse.ContainsKey(UserCookieManager.WBStoreId))
+                    if (domainResponse == null)
                     {
-                        _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId);
-                    }
-
-                    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.WBStoreId];
-                    if (StoreBaseResopnse != null)
-                    {
-                        string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
-                        if (!_webstoreAuthorizationChecker.isUserLoggedIn())
-                        {
-                            if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
-                            {
-                                Response.Redirect("/Login");
-                            }
-                        }
-                        else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
-                        {
-                            Response.Redirect("/");
-
-                        }
-
-                        model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse);
-                        StoreBaseResopnse = null;
-
+                        TempData["ErrorMessage"] = "There is some problem while performing the operation. Please enter valid url to proceed.";
+                        return RedirectToAction("Error");
                     }
                     else 
                     {
-                        TempData["ErrorMessage"] = "There is some problem while performing the operation.";
-                        return RedirectToAction("Error");
-                    }
+                        // if company not found in cache then rebuild the cache
+                        if (!domainResponse.ContainsKey(UserCookieManager.WBStoreId))
+                        {
+                            _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId);
+                        }
 
+                        MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.WBStoreId];
+                        if (StoreBaseResopnse != null)
+                        {
+                            string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
+                            if (!_webstoreAuthorizationChecker.isUserLoggedIn())
+                            {
+                                if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
+                                {
+                                    Response.Redirect("/Login");
+                                }
+                            }
+                            else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
+                            {
+                                Response.Redirect("/");
+
+                            }
+
+                            model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse);
+                            StoreBaseResopnse = null;
+                            
+                        }
+                        else
+                        {
+                            TempData["ErrorMessage"] = "There is some problem while performing the operation.";
+                            return RedirectToAction("Error");
+                        }
+                    }
                 }
                 else
                 {
@@ -500,7 +508,53 @@ namespace MPC.Webstore.Controllers
             }
             return View();
         }
+        
+        [HttpGet]
+        public ActionResult FBAuthentication()
+        {
+            MPC.Models.DomainModels.Company oCompany = _myCompanyService.GetCompanyByCompanyID(UserCookieManager.WBStoreId);
 
+            DotNetOpenAuth.ApplicationBlock.FacebookClient client = new DotNetOpenAuth.ApplicationBlock.FacebookClient
+            {
+                ClientIdentifier = oCompany.facebookAppId,
+                ClientCredentialApplicator = ClientCredentialApplicator.PostParameter(oCompany.facebookAppKey),
+            };
+            IAuthorizationState authorization = client.ProcessUserAuthorization();
+            if (authorization == null)
+            {
+                // Kick off authorization request
+                client.RequestUserAuthorization();
+            }
+            else
+            {
+                string webResponse = "";
+                string email = "";
+                string firstname = "";
+                string lastname = "";
+                var request = System.Net.WebRequest.Create("https://graph.facebook.com/me?&grant_type=client_credentials&access_token=" + Uri.EscapeDataString(authorization.AccessToken) + "&scope=email");
+
+                using (var response = request.GetResponse())
+                {
+                    using (var responseStream = response.GetResponseStream())
+                    {
+                        StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                        webResponse = reader.ReadToEnd();
+
+                        // ShowMessage(graph.email);
+                        var definition = new { id = "", email = "", first_name = "", gender = "", last_name = "", link = "", locale = "", name = "" };
+                        var ResponseJon = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType(webResponse, definition);
+                        email = ResponseJon.email;
+                        firstname = ResponseJon.first_name;
+                        lastname = ResponseJon.last_name;
+                    }
+                }
+
+                
+                Response.Redirect("/Login?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email);
+                
+            }
+            return null;
+        }
         private void SetUserClaim(long OrganisationID)
         {
             if (UserCookieManager.isRegisterClaims == 1)

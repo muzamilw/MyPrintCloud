@@ -10,9 +10,9 @@
                 <div class="col-sm-12">
                     <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
                     <input type="hidden" name="OrderId" id="OrderId" value="@ViewBag.OrderId" />
-                    <ol class="breadcrumb">
-                        <li><a href="~/Dashboard/Index" class="my-navigator" data-bind="text:$root.orderCodeHeader()!=='' ? 'HOME' :''"></a></li>
-                        <li data-bind="css: $root.orderCodeHeader() != '' ?  ''  :   'active' , click:$root.onCloseOrderEditor, visible :$root.orderCodeHeader()!==''" style="cursor:pointer"><span data-bind="text:'Estimates'"></span></li>
+                    <ol class="breadcrumb" >
+                        <li><a href="~/Dashboard/Index" class="my-navigator" data-bind="text:$root.orderCodeHeader()!=='' ? 'Home' :''"></a></li>
+                        <li data-bind="css: $root.orderCodeHeader() != '' ?  ''  :   'active' , click:$root.onCloseOrderEditor, visible :$root.orderCodeHeader()!==''" style="cursor:pointer; display: none"><span data-bind="text:'Estimates'"></span></li>
                         <li data-bind="css: $root.orderCodeHeader() != '' &&  $root.itemCodeHeader() == '' ?  'active' :   '' , click:$root.closeItemDetail, visible:$root.orderCodeHeader() !== '' " style="display: none; cursor:pointer"><span data-bind="text:$root.orderCodeHeader"></span></li>
                         <li data-bind="css: $root.itemCodeHeader() != '' ?  'active'   :   '', visible:$root.itemCodeHeader() !== ''" style="display: none; cursor:pointer"><span data-bind="text:$root.itemCodeHeader()+'  '+$root.selectedOrder().companyName() + ' '+ $root.orderCodeHeader()"></span></li>
                     </ol>
@@ -89,6 +89,8 @@
                                     <div class="clearfix">
                                     </div>
                                 </div>
+                                <!--ko template: {name: 'pagers'}-->
+                                <!--/ko-->
                             </div>
                         </div>
                         @* Filter Template *@
@@ -169,7 +171,7 @@
                                 </td>
                                 <!--/ko-->
                                 <!--ko if: $root.currentScreen() == 0 || $root.currentScreen() == 1 || $root.currentScreen() == undefined-->
-                                <th class="col-sm-2" style="padding-top: 29px;"><span style="font-weight: normal;" data-bind="text:$root.currencySymbol()+estimateTotal()"></span></th>
+                                <th class="col-sm-2" style="padding-top: 29px;"><span style="margin-right: 0px; float: right; font-weight: normal;" data-bind="text:$root.currencySymbol()+estimateTotal()"></span></th>
                                 <!--/ko-->
                             </tr>
                         </script>
@@ -225,12 +227,12 @@
                                                     <!--/ko-->
                                                 </th>
                                                 <th class="col-sm-2"><span>Estimate Date</span></th>
-                                                <th class="col-sm-1"><span>Flag</span></th>
+                                                <th class="col-sm-2"><span>Flag</span></th>
                                                 <!--ko if: $root.currentScreen() == 0-->
                                                 <th class="col-sm-2" style="width: 13%;"><span>Status</span></th>
                                                 <!--/ko-->
                                                 <!--ko if: $root.currentScreen() == 0  || $root.currentScreen() == 1  || $root.currentScreen() == undefined-->
-                                                <th class="col-sm-1"><span>Estimate Total</span></th>
+                                                <th class="col-sm-2"><span style=" float: right;">Estimate Total</span></th>
                                                 <!--/ko-->
                                             </tr>
                                         </thead>
@@ -241,6 +243,14 @@
                                     </table>
                                 </div>
                             </div>
+                            @*<div id="pagerDiv" class="pull-right">
+                                <!-- ko with: pager -->
+                                @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                <!-- /ko -->
+                            </div>*@
+                        </script>
+                        
+                        <script id="pagers" type="text/html">
                             <div id="pagerDiv" class="pull-right">
                                 <!-- ko with: pager -->
                                 @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -257,10 +267,11 @@
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>
-                                                <th class="col-sm-3"><span>Customer</span></th>
-                                                <th class="col-sm-3"><span>Require By Date</span></th>
+                                                <th class="col-sm-4"><span>Customer</span></th>
+                                                <th class="col-sm-2"><span>Require By Date</span></th>
                                                 <th class="col-sm-2"><span>Flag</span></th>
-                                                <th class="col-sm-3">Status</th>
+                                                <th class="col-sm-2">Status</th>
+                                                <th class="col-sm-2"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -271,9 +282,9 @@
                                 </div>
                             </div>
                             <div id="pagerDiv" class="pull-right">
-                                <!-- ko with: pager -->
+                                @*<!-- ko with: pager -->
                                 @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                                <!-- /ko -->
+                                <!-- /ko -->*@
                             </div>
                         </script>
                     </div>
@@ -296,7 +307,7 @@
     <script>
 
         require(["order/estimate.view", "common/confirmation.view", "common/companySelector.view", "common/phraseLibrary.view", "common/stockItem.view",
-        "common/reportManager.view", "common/addCostCenter.view", "common/addProduct.view", "common/itemDetail.view"]);
+            "common/reportManager.view", "common/addCostCenter.view", "common/addProduct.view", "common/itemDetail.view"]);
         $(function () {
             $('#liestimating').addClass('active');
             $('.bs-example-tooltips a').popover();
