@@ -1805,7 +1805,7 @@ ul.nav li.selectedLava a {
     display: block;
     font-weight: bold;
     padding: 12px;
-    text-align: left;
+    text-align: center;
 }
 
     .product_detail_image_heading_IRI > span {
@@ -2458,7 +2458,7 @@ width: 520px*/
     text-align: left;
     padding-left: 10px;
     padding-top: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 20px;  padding-right: 20px;
 }
 
 .get_in_touch_box_ProdDetail {
@@ -7277,7 +7277,7 @@ div.wrapper {
     -moz-transition-timing-function: ease-out;
     -moz-transition-duration: 250ms;
     max-width: 240px;
-    height: 135px;
+    height: 118px;
     border: 0px;
     background-color: transparent !important;
     -moz-border-radius: 0px !important;
@@ -12546,59 +12546,85 @@ ul.LogBar li a {
     -khtml-border-radius: 0px !important;
     border-radius: 0px !important;
 }
+
 #PnalTotalBoxReceipt > table > tbody > tr:nth-child(1) > td:nth-child(4) {
-    text-align:center;
-  
+    text-align: center;
 }
+
 #PnalTotalBoxReceipt > table > tbody > tr:nth-child(2) > td:nth-child(4) {
-    text-align:center;
+    text-align: center;
 }
+
 #PnalTotalBoxReceipt > table > tbody > tr:nth-child(3) > td:nth-child(4) {
-    text-align:center;
+    text-align: center;
 }
+
 #PnalTotalBoxReceipt > table > tbody > tr:nth-child(4) > td:nth-child(4) {
-    text-align:center;
+    text-align: center;
 }
+
 #PnalTotalBoxReceipt > table > tbody > tr:nth-child(1) > td:nth-child(3) {
-    text-align:right;
-    width:32%;
+    text-align: right;
+    width: 32%;
 }
+
 #PnalTotalBoxReceipt > table > tbody > tr:nth-child(2) > td:nth-child(3) {
-    text-align:right;
+    text-align: right;
 }
+
 #PnalTotalBoxReceipt > table > tbody > tr:nth-child(3) > td:nth-child(3) {
-    text-align:right;
+    text-align: right;
 }
+
 #PnalTotalBoxReceipt > table > tbody > tr:nth-child(4) > td:nth-child(3) {
-    text-align:right;
+    text-align: right;
 }
+
 #PnalTotalBoxReceipt > table > tbody > tr:nth-child(2) > td:nth-child(2) {
-    text-align:right;
-    
+    text-align: right;
 }
+
 .bannerContainer > ul:nth-child(1) {
-    list-style-type:none;
+    list-style-type: none;
 }
+
 @media (min-width:320px) { /* smartphones, iPhone, portrait 480x320 phones */
-      .cnttotalPayablesAS {
+    .btn_brown_small {
+        font-size: 11px;
+        clear: both;
+        height: 27px;
+        background: #cfcfcd;
+        text-align: center;
+        cursor: pointer;
+        color: black;
+        width: 117px;
+        border: none;
+    }
+
+    .upload-panel-margin {
+        margin-left: 0px;
+    }
+
+    .cnttotalPayablesAS {
         float: none;
         width: 100%;
     }
-         .cntsubHeadingsAS {
+
+    .cntsubHeadingsAS {
         width: 40% !important;
         float: left;
-    }   
-         .cnttotalsAS {
+    }
+
+    .cnttotalsAS {
         width: 55%;
         float: right;
         text-align: right;
         line-height: 1.5;
     }
-.gridViewRowStyle>td:nth-child(4)
-{
- padding-right:0px;
 
-}
+    .gridViewRowStyle > td:nth-child(4) {
+        padding-right: 0px;
+    }
 
     .BreadCrumbMenu {
         text-align: left !important;
@@ -13257,14 +13283,15 @@ ul.LogBar li a {
         width: 290px !important;
     }
 
+
     .height40_LP {
-        width: 250px !important;
-        margin-top: -25px;
+        width: 100% !important;
+        margin-top: 0px;
         font-size: 12px;
     }
 
     .DeleteIconPP {
-        margin-left: 205px !important;
+        margin-left: 195px !important;
         margin-top: -15px;
         clear: both;
         width: 18px;
@@ -13274,7 +13301,7 @@ ul.LogBar li a {
     .BD_PCS {
         float: left;
         text-align: center;
-        width: 250px !important;
+        width: 100% !important;
         margin-right: 1px;
         margin-left: 5px;
         margin-bottom: 10px;
@@ -13307,7 +13334,7 @@ ul.LogBar li a {
     .UploadContainerCs {
         color: #042F42;
         font-size: 23px;
-        width: 320px !important;
+        width: 100% !important;
         text-align: left;
         margin-top: 10px;
     }
@@ -13563,8 +13590,8 @@ ul.LogBar li a {
 
     .rptContainers {
         width: auto !important;
-        float: left;
-        min-height: 145px;
+        float: none;
+        height: auto;
     }
 
     .PriceTableCs {
@@ -14385,25 +14412,31 @@ ul.LogBar li a {
 }
 
 @media (min-width:481px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
-        .cnttotalPayablesAS {
+    .upload-panel-margin {
+        margin-left: 0px;
+    }
+
+    .cnttotalPayablesAS {
         float: right;
         width: 45%;
     }
+
     .cntsubHeadingsAS {
         width: 60% !important;
         float: left;
     }
-        .cnttotalsAS {
+
+    .cnttotalsAS {
         width: 30%;
         float: right;
         text-align: right;
         line-height: 1.5;
     }
- .gridViewRowStyle>td:nth-child(4)
-{
- padding-right:0px;
 
-}
+    .gridViewRowStyle > td:nth-child(4) {
+        padding-right: 0px;
+    }
+
     .BillShipAddressesControl {
         width: 350px;
     }
@@ -14783,8 +14816,8 @@ ul.LogBar li a {
     }
 
     .height40_LP {
-        width: 160px !important;
-        margin-top: -25px;
+        width: 155px !important;
+        margin-top: 0px;
         font-size: 12px;
     }
 
@@ -14828,9 +14861,9 @@ ul.LogBar li a {
     }
 
     .rptContainers {
-        width: 290px !important;
-        float: left;
-        min-height: 145px;
+        width: 100% !important;
+        float: none;
+        height: auto;
     }
 
     .cntuploadfilebtns {
@@ -15698,25 +15731,43 @@ ul.LogBar li a {
 }
 
 @media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
-      .cnttotalPayablesAS {
+    .btn_brown_small {
+        font-size: 11px;
+        clear: both;
+        height: 27px;
+        background: #cfcfcd;
+        text-align: center;
+        cursor: pointer;
+        color: black;
+        width: 151px;
+        border: none;
+    }
+
+    .upload-panel-margin {
+        margin-left: 0px;
+    }
+
+    .cnttotalPayablesAS {
         float: right;
         width: 45%;
     }
-       .cntsubHeadingsAS {
+
+    .cntsubHeadingsAS {
         width: 60% !important;
         float: left;
     }
-        .cnttotalsAS {
+
+    .cnttotalsAS {
         width: 30%;
         float: right;
         text-align: right;
         line-height: 1.5;
     }
- .gridViewRowStyle>td:nth-child(4)
-{
- padding-right:0px;
 
-}
+    .gridViewRowStyle > td:nth-child(4) {
+        padding-right: 0px;
+    }
+
     .BillShipAddressesControl {
         width: 350px;
     }
@@ -16354,8 +16405,8 @@ ul.LogBar li a {
     }
 
     .height40_LP {
-        width: 160px !important;
-        margin-top: -25px;
+        width: 155px !important;
+        margin-top: 0px;
         font-size: 12px;
     }
 
@@ -16408,9 +16459,9 @@ ul.LogBar li a {
     }
 
     .rptContainers {
-        width: 475px !important;
-        float: left;
-        min-height: 145px;
+        width: 100% !important;
+        float: none;
+        height: auto;
     }
 
     .UploadContainerCs {
@@ -17272,25 +17323,43 @@ ul.LogBar li a {
 
 
 @media (min-width:992px) {
-                               .cnttotalPayablesAS {
+    .btn_brown_small {
+        font-size: 11px;
+        clear: both;
+        height: 27px;
+        background: #cfcfcd;
+        text-align: center;
+        cursor: pointer;
+        color: black;
+        width: 300px;
+        border: none;
+    }
+
+    .upload-panel-margin {
+        margin-left: 10px;
+    }
+
+    .cnttotalPayablesAS {
         float: right;
         width: 45%;
     }
-                             .cntsubHeadingsAS {
+
+    .cntsubHeadingsAS {
         width: 60% !important;
         float: left;
     }
-                             .cnttotalsAS {
+
+    .cnttotalsAS {
         width: 30%;
         float: right;
         text-align: right;
         line-height: 1.5;
     }
-    .gridViewRowStyle>td:nth-child(4)
-{
- padding-right:0px;
 
-}
+    .gridViewRowStyle > td:nth-child(4) {
+        padding-right: 0px;
+    }
+
     .BillShipAddressesControl {
         width: 350px;
     }
@@ -17798,7 +17867,7 @@ ul.LogBar li a {
         min-height: 270px;
         padding: 10px;
         cursor: pointer;
-        text-align:center;
+        text-align: center;
     }
 
     .BD_Featured:hover {
@@ -18248,14 +18317,15 @@ ul.LogBar li a {
         width: 500px !important;
     }
 
+
     .height40_LP {
-        width: 159px !important;
-        margin-top: -25px;
+        width: 100% !important;
+        margin-top: 0px;
         font-size: 12px;
     }
 
     .DeleteIconPP {
-        margin-left: 125px !important;
+        margin-left: 265px !important;
         margin-top: -15px;
         clear: both;
         width: 18px;
@@ -18263,12 +18333,13 @@ ul.LogBar li a {
     }
 
     .BD_PCS {
-        float: left;
+        float: none;
         text-align: center;
-        width: 160px !important;
+        width: 100% !important;
         margin-right: 1px;
         margin-left: 5px;
         margin-bottom: 10px;
+        padding: 0px;
     }
 
     .cntuploadfilebtns {
@@ -18299,7 +18370,7 @@ ul.LogBar li a {
     .UploadContainerCs {
         color: #042F42;
         font-size: 23px;
-        width: 100% !important;
+        width: 49% !important;
         text-align: left;
         margin-top: 10px;
     }
@@ -18541,9 +18612,9 @@ ul.LogBar li a {
     }
 
     .rptContainers {
-        width: 520px !important;
-        float: left;
-        min-height: 145px;
+        width: 100% !important;
+        float: none;
+        height: auto;
     }
 
     .PriceTableCs {
@@ -18912,7 +18983,7 @@ ul.LogBar li a {
     .collapsedMenu {
         display: none;
     }
-    
+
     .hyPrivacyP {
         margin-left: 1px !important;
         color: black;
@@ -18974,7 +19045,7 @@ ul.LogBar li a {
         /*position: absolute !important;*/
         margin-top: 20px;
         width: 1000px;
-        margin:auto;
+        margin: auto;
         /*margin-left: 15px;*/
     }
 
@@ -19140,25 +19211,43 @@ ul.LogBar li a {
 }
 
 @media (min-width:1025px) {
+    .btn_brown_small {
+        font-size: 11px;
+        clear: both;
+        height: 27px;
+        background: #cfcfcd;
+        text-align: center;
+        cursor: pointer;
+        color: black;
+        width: 300px;
+        border: none;
+    }
+
+    .upload-panel-margin {
+        margin-left: 10px;
+    }
+
     .cnttotalPayablesAS {
         float: right;
         width: 45%;
     }
-       .cntsubHeadingsAS {
+
+    .cntsubHeadingsAS {
         width: 60% !important;
         float: left;
     }
-     .cnttotalsAS {
+
+    .cnttotalsAS {
         width: 30%;
         float: right;
         text-align: right;
         line-height: 1.5;
     }
-    .gridViewRowStyle>td:nth-child(4)
-{
- padding-right:10px;
 
-}
+    .gridViewRowStyle > td:nth-child(4) {
+        padding-right: 10px;
+    }
+
     .BillShipAddressesControl {
         width: 350px;
     }
@@ -19665,7 +19754,8 @@ ul.LogBar li a {
     .PDTC_TL {
         min-height: 80px;
         padding: 10px;
-        cursor: pointer; text-align:center;
+        cursor: pointer;
+        text-align: center;
     }
 
     .BD_Featured:hover {
@@ -19991,10 +20081,10 @@ ul.LogBar li a {
     }
 
     .cntsubHeadings {
-         margin-left: -25px;
-      width: 73% !important;
-       float: left;
-       text-align: right;
+        margin-left: -25px;
+        width: 73% !important;
+        float: left;
+        text-align: right;
     }
 
     .cntdispatchDelivery {
@@ -20117,13 +20207,13 @@ ul.LogBar li a {
     }
 
     .height40_LP {
-        width: 159px !important;
-        margin-top: -25px;
+        width: 100% !important;
+        margin-top: 0px;
         font-size: 12px;
     }
 
     .DeleteIconPP {
-        margin-left: 125px !important;
+        margin-left: 265px !important;
         margin-top: -15px;
         clear: both;
         width: 18px;
@@ -20131,12 +20221,13 @@ ul.LogBar li a {
     }
 
     .BD_PCS {
-        float: left;
+        float: none;
         text-align: center;
-        width: 160px !important;
+        width: 100% !important;
         margin-right: 1px;
         margin-left: 5px;
         margin-bottom: 10px;
+        padding: 0px;
     }
 
     .cntuploadfilebtns {
@@ -20167,7 +20258,7 @@ ul.LogBar li a {
     .UploadContainerCs {
         color: #042F42;
         font-size: 23px;
-        width: 100% !important;
+        width: 49.2% !important;
         text-align: left;
         margin-top: 10px;
     }
@@ -20408,9 +20499,9 @@ ul.LogBar li a {
     }
 
     .rptContainers {
-        width: 520px !important;
-        float: left;
-        min-height: 145px;
+        width: 100% !important;
+        float: none;
+        height: auto;
     }
 
     .PriceTableCs {
@@ -20840,8 +20931,8 @@ ul.LogBar li a {
     .cntTopLevelCategory {
         /*position: absolute !important;*/
         margin-top: 20px;
-         width: 1000px;
-        margin:auto;
+        width: 1000px;
+        margin: auto;
         /*margin-left: 15px;*/
     }
 
@@ -23333,7 +23424,7 @@ label {
 .signin_heading_div {
     text-align: left;
     padding: 05px 0px;
-    text-align:center;
+    text-align: center;
 }
 
 .left_right_padding {
@@ -23619,7 +23710,7 @@ label {
 }
 
 .dashboard_item_main_heading > label {
-font-family: Arial, Helvetica, Verdana;
+    font-family: Arial, Helvetica, Verdana;
     cursor: pointer;
 }
 
@@ -23669,7 +23760,7 @@ font-family: Arial, Helvetica, Verdana;
     }
 
 .dashboard-main-heading {
-font-family: Arial, Helvetica, Verdana;
+    font-family: Arial, Helvetica, Verdana;
     color: #000000;
     text-shadow: none;
     font-weight: bold;
@@ -23766,6 +23857,7 @@ font-family: Arial, Helvetica, Verdana;
     text-shadow: none;
     font-weight: bold;
 }
+
 .more-info-button {
     background: #00be00;
     background-repeat: no-repeat;
@@ -23777,8 +23869,9 @@ font-family: Arial, Helvetica, Verdana;
     cursor: pointer;
     font-weight: bold;
     margin-left: 12px;
-    margin-top:10px;
+    margin-top: 10px;
 }
+
 .place-inquiry-button {
     background: #E83e48;
     background-repeat: no-repeat;
@@ -23790,8 +23883,9 @@ font-family: Arial, Helvetica, Verdana;
     cursor: pointer;
     font-weight: bold;
     margin-left: 12px;
-    margin-top:10px;
+    margin-top: 10px;
 }
+
 .create-design-button {
     background: #585858;
     background-repeat: no-repeat;
@@ -23803,8 +23897,9 @@ font-family: Arial, Helvetica, Verdana;
     cursor: pointer;
     font-weight: bold;
     margin-left: 12px;
-    margin-top:10px;
+    margin-top: 10px;
 }
+
 .goto-designer-button {
     background: #ffdd0c;
     background-repeat: no-repeat;
@@ -23815,12 +23910,14 @@ font-family: Arial, Helvetica, Verdana;
     width: 175px;
     cursor: pointer;
     font-weight: bold;
-    margin-left: 12px;
-    margin-top:10px;
+    margin-left: 23px;
+    margin-top: 10px;
 }
-.goto-designer-button:hover {
-    background: #DFC003;
-}
+
+    .goto-designer-button:hover {
+        background: #DFC003;
+    }
+
 .height-140 {
     height: 140px;
 }

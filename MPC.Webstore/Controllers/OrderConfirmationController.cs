@@ -60,31 +60,40 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(string buttonType, string OrderId)
         {
-            ShoppingCart shopCart = null;
-            if (buttonType == "1")
+            try
             {
-                shopCart = PlaceOrder(1, Convert.ToInt64(OrderId));
-           
-            }
-            else
-            {
-                if (_myClaimHelper.loginContactRoleID() == (int)Roles.Adminstrator || _myClaimHelper.loginContactRoleID() == (int)Roles.Manager)
+                ShoppingCart shopCart = null;
+                if (buttonType == "1")
                 {
-                    shopCart = PlaceOrder(3, Convert.ToInt64(OrderId));
+                    shopCart = PlaceOrder(1, Convert.ToInt64(OrderId));
+
                 }
                 else
                 {
-                    shopCart = PlaceOrder(2, Convert.ToInt64(OrderId));
+                    if (_myClaimHelper.loginContactRoleID() == (int)Roles.Adminstrator || _myClaimHelper.loginContactRoleID() == (int)Roles.Manager)
+                    {
+                        shopCart = PlaceOrder(3, Convert.ToInt64(OrderId));
+                    }
+                    else
+                    {
+                        shopCart = PlaceOrder(2, Convert.ToInt64(OrderId));
+                    }
+                }
+                if (shopCart != null)
+                {
+                    return View("PartialViews/OrderConfirmation", shopCart);
+                }
+                else
+                {
+                    return null;
                 }
             }
-            if (shopCart != null)
+            catch (Exception ex) 
             {
-                return View("PartialViews/OrderConfirmation", shopCart);
-            }
-            else
-            {
+                throw ex;
                 return null;
             }
+            
 
         }
 

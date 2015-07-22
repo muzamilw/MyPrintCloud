@@ -716,12 +716,10 @@ namespace MPC.Repository.Repositories
                 if (regContact != null)
                 {
 
-                    // int defaultAddressID = addmgr.GetCompanyDefaultAddressID(CustomerId);
                     CompanyTerritory companyTerritory = db.CompanyTerritories.Where(t => t.isDefault == true && t.CompanyId == CustomerId).FirstOrDefault();
                     CompanyContact Contact = new CompanyContact(); // ContactManager.PopulateContactsObject(CustomerId, defaultAddressID, false);
 
                     Contact.CompanyId = CustomerId;
-                    //  Contact.AddressID = defaultAddressID;
                     Contact.FirstName = string.Empty;
                     Contact.IsDefaultContact = 0;
                     Contact.FirstName = regContact.FirstName;
@@ -776,18 +774,20 @@ namespace MPC.Repository.Repositories
                                 }
                                 else
                                 {
-
                                     if (address.isDefaultTerrorityBilling == true)
+                                    {
                                         Contact.AddressId = (int)address.AddressId;
-                                    if (address.isDefaultTerrorityShipping == true)
                                         Contact.ShippingAddressId = (int)address.AddressId;
+                                    }
+                                    if (address.isDefaultTerrorityShipping == true)
+                                    {
+                                        Contact.AddressId = (int)address.AddressId;
+                                        Contact.ShippingAddressId = (int)address.AddressId;
+                                    }
                                 }
                             }
                         }
                         Contact.TerritoryId = companyTerritory.TerritoryId;
-                        //Contact.ShippingAddressID = companyTerritory.ShippingAddressID;
-                        //if (companyTerritory.BillingAddressID != null)
-                        //     Contact.AddressID = (int)companyTerritory.BillingAddressI
                     }
                     else
                     {
@@ -927,8 +927,8 @@ namespace MPC.Repository.Repositories
                              contact.IsNewsLetterSubscription,
                              //contact.image,
                              contact.quickFullName,
-                            contact.quickTitle,
-                            contact.quickCompanyName,
+                             contact.quickTitle,
+                             contact.quickCompanyName,
                              contact.quickAddress1,
                              contact.quickAddress2,
                              contact.quickAddress3,
@@ -1673,21 +1673,21 @@ namespace MPC.Repository.Repositories
         {
 
             //db.Configuration.LazyLoadingEnabled = false;
-            var contact= db.CompanyContacts.Where(c => c.ContactId == ContactId).FirstOrDefault();
+            var contact = db.CompanyContacts.Where(c => c.ContactId == ContactId).FirstOrDefault();
             contact.Company.StoreName = GetStoreNameByStoreId(contact.Company.StoreId ?? 0);
             return contact;
 
 
         }
 
-        public List<CompanyContact> GetCompanyAdminByCompanyId(long CompanyId) 
+        public List<CompanyContact> GetCompanyAdminByCompanyId(long CompanyId)
         {
             int admin = Convert.ToInt32(Roles.Adminstrator);
             var listOfApprovers = (from c in db.CompanyContacts
                                    join cc in db.Companies on c.CompanyId equals cc.CompanyId
 
                                    where c.ContactRoleId == admin && cc.IsCustomer == (int)CustomerTypes.Corporate && c.CompanyId == CompanyId
-                               select c).ToList();
+                                   select c).ToList();
             return listOfApprovers.ToList<CompanyContact>();
         }
         public CompanyContact GetCorporateContactByEmail(string Email, long OID, long StoreId)

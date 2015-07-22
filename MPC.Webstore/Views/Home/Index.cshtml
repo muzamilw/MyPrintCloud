@@ -36,10 +36,13 @@
     else
     {
         <div>
-            @{ string widgetname = widget.Widget.WidgetName; }
-            @{Html.RenderAction("Index", widgetname);}
+            @if (widget.Widget != null)
+            {
+                string widgetname = widget.Widget.WidgetName;
+                Html.RenderAction("Index", widgetname);
+            }
+           
         </div>
     }
 
 }
-
