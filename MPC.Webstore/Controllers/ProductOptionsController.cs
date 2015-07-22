@@ -321,7 +321,53 @@ namespace MPC.Webstore.Controllers
             // get reference item, stocks, addons, price matrix
             Item referenceItem = _myItemService.GetItemById(Convert.ToInt64(ReferenceItemId));
 
-            ViewData["StckOptions"] = _myItemService.GetStockList(Convert.ToInt64(ReferenceItemId), UserCookieManager.WBStoreId);
+            List<ItemStockOption> stockOptList = _myItemService.GetStockList(Convert.ToInt64(ReferenceItemId), UserCookieManager.WBStoreId);
+
+            ViewData["StckOptions"] = stockOptList.ToList();
+
+            //List<StockItemViewModel> stockItemOfStockOption = new List<StockItemViewModel>();
+
+            //foreach (ItemStockOption option in stockOptList)
+            //{
+            //    if (option.StockItem != null && stockItemOfStockOption.Where(s => s.StockId == option.StockId).FirstOrDefault() == null)
+            //    {
+            //        StockItemViewModel sItemObj = new StockItemViewModel();
+            //        sItemObj.StockId = option.StockId ?? 0;
+            //        sItemObj.InStockValue = option.StockItem.inStock ?? 0;
+
+            //        if (option.StockItem.isAllowBackOrder == true) // back ordering allowed
+            //        {
+            //            sItemObj.isAllowBackOrder = true;
+            //        }
+            //        else
+            //        {
+            //            sItemObj.isAllowBackOrder = false;
+            //        }
+            //        sItemObj.StockTextToDisplay = Utils.GetKeyValueFromResourceFile("lblitemInStock", UserCookieManager.WBStoreId) + option.StockItem.inStock;
+            //        if (option.StockItem.inStock == 0 || option.StockItem.inStock < 0) // no stock available 
+            //        {
+            //            //ContainerInStock.Attributes.CssStyle.Add("color", "white");
+            //            //ContainerInStock.Attributes.CssStyle.Add("background-color", "red");
+            //            if (option.StockItem.isAllowBackOrder ?? false) // back ordering allowed
+            //            {
+            //                sItemObj.StockTextToDisplay = Utils.GetKeyValueFromResourceFile("lblBackOrder", UserCookieManager.WBStoreId);
+
+            //            }
+            //            else
+            //            {
+            //                sItemObj.StockTextToDisplay = Utils.GetKeyValueFromResourceFile("lblItemOutOfStock", UserCookieManager.WBStoreId);
+            //            }
+            //        } // stock available
+            //        else
+            //        {
+
+            //            //ContainerInStock.Attributes.CssStyle.Add("background-color", "#f3f3f3");
+            //            //ContainerInStock.Attributes.CssStyle.Add("color", "black");
+
+            //        }
+            //        stockItemOfStockOption.Add(sItemObj);
+            //    }
+            //}
 
             List<AddOnCostsCenter> listOfCostCentres = _myItemService.GetStockOptionCostCentres(Convert.ToInt64(ReferenceItemId), UserCookieManager.WBStoreId);
 
@@ -344,9 +390,7 @@ namespace MPC.Webstore.Controllers
                     {
                         ViewBag.ShowUploadArkworkPanel = false;
                     }
-
                 }
-
             }
             else
             {
@@ -361,7 +405,6 @@ namespace MPC.Webstore.Controllers
                     {
                         ViewBag.ShowUploadArkworkPanel = false;
                     }
-
                 }
             }
 
@@ -375,7 +418,6 @@ namespace MPC.Webstore.Controllers
                 {
                     ViewBag.FinishedGoodProduct = referenceItem.ThumbnailPath;
                 }
-
             }
             else
             {
@@ -902,13 +944,13 @@ namespace MPC.Webstore.Controllers
 
         private Item CloneItemAndUpdateCookie(MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse, long ItemId, long OrderID)
         {
-           
+
             Item clonedItem = null;
             // create new order
-            
+
             if (OrderID > 0)
             {
-                
+
                 UserCookieManager.WEBOrderId = OrderID;
                 // gets the item from reference item id in case of upload design when user process the item but not add the item in cart
                 clonedItem = _myItemService.GetExisitingClonedItemInOrder(OrderID, ItemId);
@@ -919,7 +961,7 @@ namespace MPC.Webstore.Controllers
 
                 }
 
-                
+
             }
             return clonedItem;
         }
