@@ -690,7 +690,12 @@ namespace MPC.Repository.BaseRepository
         /// Variable Extension DbSet
         /// </summary>
         public DbSet<VariableExtension> VariableExtensions { get; set; }
-        
+
+
+        /// <summary>
+        /// Template Variable Extension DbSet
+        /// </summary>
+        public DbSet<TemplateVariableExtension> TemplateVariableExtensions { get; set; }
         /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
