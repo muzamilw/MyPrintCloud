@@ -4143,7 +4143,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                media.FilePath = "/MPC_Content/Media/" + NewOrgID + "/" + oCID + "/" + NewMediaFilePath;
+                                media.FilePath = "MPC_Content/Media/" + NewOrgID + "/" + oCID + "/" + NewMediaFilePath;
                             }
 
                         }

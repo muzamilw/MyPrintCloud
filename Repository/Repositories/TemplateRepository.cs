@@ -332,7 +332,7 @@ namespace MPC.Repository.Repositories
                     {
                         string[] content = item.ContentString.Split('/');
                         string fileName = content[content.Length - 1];
-                        if (!item.ContentString.Contains("assets/Imageplaceholder"))
+                        if (!item.ContentString.Contains("assets-v2/Imageplaceholder_sim"))
                         {
                             item.ContentString = "Designer/Organisation" + OrganisationID.ToString() + "/Templates/" + result.ToString() + "/" + fileName;
                         }
