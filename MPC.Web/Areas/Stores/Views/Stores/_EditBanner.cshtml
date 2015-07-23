@@ -18,7 +18,7 @@
                             <img style="width: 220px; object-fit: contain;height: 130px;" data-bind="visible:imageSource()===undefined,attr: { src: '@Url.Content("~/")' + filePathWithCacheRemoveTechnique() }" />
                             <img style="width: 220px; object-fit: contain; height: 130px; " data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />
 
-                            <div class="col-lg-11" style="margin-top:5px;text-align:center;width:220px;">
+                            <div class="col-lg-11" style="margin-top:5px;text-align:center;width:220px;margin-top:18px;">
 
                                 <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromCompanyBanner">
                                     <span>Change Banner</span>
@@ -107,7 +107,7 @@
 
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="padding-left:3px;padding-right:8px;">
                 <hr />
                 <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveCompanyBanner, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click:$root.onCloseCompanyBanner" style="margin-left: 0px;">Close</button>
