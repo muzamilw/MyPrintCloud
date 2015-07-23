@@ -1474,16 +1474,20 @@ function fu02UI() {
                 {
                     if (ui.draggable.attr('class') == "divVar ui-draggable") {
                         var txt = "" + $(ui.draggable).html() + "";
+                        var tag = txt.replace("{{", "");
+                        tag = tag.replace("}}", "");
                         var DIAO = canvas.getActiveObject();
                         if (!DIAO) return;
                         if (DIAO.isEditing) {
                             if (IsCalledFrom == 2) {
                                 var id = $(ui.draggable).attr("id");
                                 var objToAdd = { "VariableTag": txt, "VariableID": id, "TemplateID": tID };
-                                varList.push(objToAdd);
+                              //  var extToAdd = { "TemplateId": tID, "FieldVariableId": id, "HasPrefix": 1, "HasPostFix": 1 };
+                             //   varExtensions.push(extToAdd);  //already mapping while saving template 
                             }
-                            for (var i = 0; i < txt.length; i++) {
-                                DIAO.insertChars(txt[i]);
+                            var txtToAdd = "{{" + tag + "_pre}} " + txt +"{{" + tag + "_post}}" ;
+                            for (var i = 0; i < txtToAdd.length; i++) {
+                                DIAO.insertChars(txtToAdd[i]);
                             }
                         }
                         //insertAtCaret("txtAreaUpdateTxt", txt);
