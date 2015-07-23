@@ -629,6 +629,7 @@ define("order/order.viewModel",
                     // Do Before Save
                     doBeforeSave = function () {
                         var flag = true;
+                     
                         if (!selectedOrder().isValid()) {
                             selectedOrder().showAllErrors();
                             selectedOrder().setValidationSummary(errorList);
@@ -1325,7 +1326,15 @@ define("order/order.viewModel",
                                         getOrderById(selectedOrder().id());
                                     }
                                     else {
+
+                                        
                                         if (selectedOrder().isEstimate() == true) {
+
+                                            if (selectedOrder().id() == 0)
+                                            {
+                                                selectedOrder().id(data.EstimateId);
+
+                                            }
                                             reportManager.OpenExternalReport(ist.reportCategoryEnums.Estimate, 1, selectedOrder().id());
                                             // toastr.success("Saved Successfully.");
                                             getOrderById(selectedOrder().id());
@@ -2257,23 +2266,61 @@ define("order/order.viewModel",
 
                     },
                     downloadArtwork = function () {
-                        isLoadingOrders(true);
-                        dataservice.downloadOrderArtwork({
-                            OrderId: selectedOrder().id()
-                        }, {
-                            success: function (data) {
-                                if (data != null) {
-                                    var host = window.location.host;
-                                    var uri = encodeURI("http://" + host + data);
-                                    window.open(uri, "_blank");
+                       
+                        // if order not in  production
+                        if (selectedOrder().statusId() != 6)
+                        {
+                            confirmation.messageText("Important ! Please note that the artwork you are downloading is not high res and production ready. In order to download high res and production ready artwork first progress the order to In Production status, save and then download.");
+                            confirmation.afterProceed(function () {
+                                isLoadingOrders(true);
+
+                                dataservice.downloadOrderArtwork({
+                                    OrderId: selectedOrder().id()
+                                }, {
+                                    success: function (data) {
+                                        if (data != null) {
+                                            var host = window.location.host;
+                                            var uri = encodeURI("http://" + host + data);
+                                            window.open(uri, "_blank");
+                                        }
+                                        isLoadingOrders(false);
+                                        confirmation.hideWarningPopup();
+                                    },
+                                    error: function (response) {
+                                        isLoadingOrders(false);
+                                        toastr.error("Error: Failed to Download Artwork." + response);
+                                    }
+                                });
+                            });
+                            confirmation.showWarningPopup();
+
+                        }
+                        else
+                        {
+                            isLoadingOrders(true);
+
+                            dataservice.downloadOrderArtwork({
+                                OrderId: selectedOrder().id()
+                            }, {
+                                success: function (data) {
+                                    if (data != null) {
+                                        var host = window.location.host;
+                                        var uri = encodeURI("http://" + host + data);
+                                        window.open(uri, "_blank");
+                                    }
+                                    isLoadingOrders(false);
+                                },
+                                error: function (response) {
+                                    isLoadingOrders(false);
+                                    toastr.error("Error: Failed to Download Artwork." + response);
                                 }
-                                isLoadingOrders(false);
-                            },
-                            error: function (response) {
-                                isLoadingOrders(false);
-                                toastr.error("Error: Failed to Download Artwork." + response);
-                            }
-                        });
+                            });
+                        }
+
+                      
+
+
+
                     },
 
 
@@ -2352,6 +2399,15 @@ define("order/order.viewModel",
 
                             isOpenReport(true);
                             isOpenReportEmail(false);
+                            if (selectedOrder().items().length === 0) {
+                                isOpenReport(false);
+                                isOpenReportEmail(false);
+                                errorList.removeAll();
+                                errorList.push({ name: "Please add item to print. " });
+                                selectedOrder().isValid(false);
+                              
+                            }
+
                             onSaveOrder();
                         }
                         else {
@@ -2380,6 +2436,15 @@ define("order/order.viewModel",
                         if (orderHasChanges) {
                             isOpenReport(true);
                             isOpenReportEmail(true);
+                            if (selectedOrder().items().length === 0) {
+                                isOpenReport(false);
+                                isOpenReportEmail(false);
+                                errorList.removeAll();
+                                errorList.push({ name: "Please add item to print. " });
+                                selectedOrder().isValid(false);
+                                
+                            }
+
                             onSaveOrder();
                         }
                         else {

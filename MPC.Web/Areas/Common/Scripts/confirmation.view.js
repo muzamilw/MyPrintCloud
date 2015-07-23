@@ -11,20 +11,36 @@ define("common/confirmation.view",
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#dialog-confirm")[0],
+
+                // Binding root used with knockout
+                bindingRootq = $("#dialog-ok")[0],
                 // Show the dialog
-                show = function() {
+                show = function () {
                     $("#dialog-confirm").modal("show");
                 },
                 // Hide the dialog
-                hide = function() {
+                hide = function () {
                     $("#dialog-confirm").modal("hide");
+                },
+
+                showWarningPopup = function () {
+                    $("#dialog-ok").modal("show");
+                },
+                 // Hide the dialog
+                hideWarningPopup = function () {
+                    $("#dialog-ok").modal("hide");
                 };
-            
+                
+
+
             return {
                 bindingRoot: bindingRoot,
+                bindingRootq: bindingRootq,
                 viewModel: viewModel,
                 show: show,
-                hide: hide
+                hide: hide,
+                showWarningPopup: showWarningPopup,
+                hideWarningPopup: hideWarningPopup
             };
         })(ist.confirmation.viewModel);
 
