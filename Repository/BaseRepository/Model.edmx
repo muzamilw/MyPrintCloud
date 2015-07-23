@@ -3759,6 +3759,16 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="TemplateId" Type="bigint" />
           <Property Name="VariableId" Type="bigint" />
         </EntityType>
+        <EntityType Name="TemplateVariableExtension">
+          <Key>
+            <PropertyRef Name="TemplateVariableExtId" />
+          </Key>
+          <Property Name="TemplateVariableExtId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TemplateId" Type="int" />
+          <Property Name="FieldVariableId" Type="int" />
+          <Property Name="HasPrefix" Type="bit" />
+          <Property Name="HasPostFix" Type="bit" />
+        </EntityType>
         <EntityType Name="VariableExtension">
           <Key>
             <PropertyRef Name="Id" />
@@ -6302,6 +6312,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="TemplateObject" EntityType="Self.TemplateObject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplatePage" EntityType="Self.TemplatePage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplateVariable" EntityType="Self.TemplateVariable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TemplateVariableExtension" EntityType="Self.TemplateVariableExtension" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VariableExtension" EntityType="Self.VariableExtension" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VariableOption" EntityType="Self.VariableOption" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VariableSection" EntityType="Self.VariableSection" Schema="dbo" store:Type="Tables" />
@@ -8132,6 +8143,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           </FunctionImport>
           <EntitySet Name="ItemsVouchers" EntityType="DomainModels.ItemsVoucher" />
           <EntitySet Name="ProductCategoryVouchers" EntityType="DomainModels.ProductCategoryVoucher" />
+          <EntitySet Name="TemplateVariableExtensions" EntityType="DomainModels.TemplateVariableExtension" />
         </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -14876,6 +14888,16 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ProductCategoryId" Type="Int64" />
           <Property Name="VoucherId" Type="Int64" />
         </EntityType>
+        <EntityType Name="TemplateVariableExtension">
+          <Key>
+            <PropertyRef Name="TemplateVariableExtId" />
+          </Key>
+          <Property Name="TemplateVariableExtId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TemplateId" Type="Int32" />
+          <Property Name="FieldVariableId" Type="Int32" />
+          <Property Name="HasPrefix" Type="Boolean" />
+          <Property Name="HasPostFix" Type="Boolean" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -19577,6 +19599,17 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="VoucherId" ColumnName="VoucherId" />
                 <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
                 <ScalarProperty Name="CategoryVoucherId" ColumnName="CategoryVoucherId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TemplateVariableExtensions">
+            <EntityTypeMapping TypeName="DomainModels.TemplateVariableExtension">
+              <MappingFragment StoreEntitySet="TemplateVariableExtension">
+                <ScalarProperty Name="HasPostFix" ColumnName="HasPostFix" />
+                <ScalarProperty Name="HasPrefix" ColumnName="HasPrefix" />
+                <ScalarProperty Name="FieldVariableId" ColumnName="FieldVariableId" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
+                <ScalarProperty Name="TemplateVariableExtId" ColumnName="TemplateVariableExtId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
