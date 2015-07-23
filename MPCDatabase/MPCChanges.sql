@@ -6294,7 +6294,9 @@ GO
 
 
 
-/****** Object:  Table [dbo].[TemplateVariableExtension]    Script Date: 23/07/2015 02:28:57 PM ******/
+
+
+/****** Object:  Table [dbo].[TemplateVariableExtension]    Script Date: 23/07/2015 02:30:51 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -6305,8 +6307,8 @@ CREATE TABLE [dbo].[TemplateVariableExtension](
 	[TemplateVariableExtId] [int] IDENTITY(1,1) NOT NULL,
 	[TemplateId] [int] NULL,
 	[FieldVariableId] [int] NULL,
-	[IsPrefix] [int] NULL,
-	[IsPostFix] [int] NULL,
+	[HasPrefix] [bit] NULL,
+	[HasPostFix] [bit] NULL,
  CONSTRAINT [PK_TemplateVariableExtension] PRIMARY KEY CLUSTERED 
 (
 	[TemplateVariableExtId] ASC
@@ -6314,4 +6316,7 @@ CREATE TABLE [dbo].[TemplateVariableExtension](
 ) ON [PRIMARY]
 
 GO
+
+
+
 
