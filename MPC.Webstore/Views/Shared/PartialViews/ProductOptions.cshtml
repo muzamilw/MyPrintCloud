@@ -330,7 +330,23 @@
                         <label id="lblGrossTotal" class="float_right"> 0.00</label>
                         <label class="float_right">@ViewBag.Currency</label>
                     </div>
-                  
+                   @foreach (var stockItem in ViewData["stockControlItems"] as List<MPC.Webstore.ViewModels.StockItemViewModel>)
+                    {
+                        if (stockItem.isItemInStock == false)
+                        {
+                             <div class="InStockContainer" data-StockOptionid="@stockItem.StockOptionId" data-isAllowBackOrder="@stockItem.isAllowBackOrder" style="background:red; color:white;">
+                               
+                               <label>@stockItem.StockTextToDisplay</label>
+                               
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="InStockContainer" data-stockoptionid="@stockItem.StockOptionId" data-isallowbackorder="@stockItem.isAllowBackOrder" style="background:#f3f3f3; color:black;">
+                                <label>@stockItem.StockTextToDisplay</label>
+                            </div>
+                        }
+                    }
                     <div class="clearBoth">
                         &nbsp;
                     </div>
@@ -949,6 +965,12 @@
             $("#VMItemStockOptionId").val(ItemstockOptionID);
             hideShowPriceColumns(classname);
 
+           
+            $('.InStockContainer').each(function() {
+                if($(this).attr('data-StockOptionid') == ItemstockOptionID){
+                    $(this).css("display", "block");
+                }
+            });
         }
 
 
