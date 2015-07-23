@@ -468,6 +468,7 @@
     <Compile Include="ViewModels\RelatedItemViewModel.cs" />
     <Compile Include="ViewModels\SearchOrderViewModel.cs" />
     <Compile Include="ViewModels\ShopCartAddressSelectViewModel.cs" />
+    <Compile Include="ViewModels\StockItemViewModel.cs" />
     <Compile Include="ViewModels\ViewOrderDetails.cs" />
     <Compile Include="WebGridExtension\WebGridExt.cs" />
   </ItemGroup>
