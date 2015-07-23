@@ -3377,10 +3377,10 @@ function updateTOWithStyles(obTO, vTag, vVal) {
                 {
                     if (objs[i] == "")
                     {
-                   //     alert();
-                     //   objs[i + 1] = objs[i + 1].substring(1, objs[i + 1].length - 1);
+                     //   alert();
+                        objs[i + 1] = objs[i + 1].substring(1, objs[i + 1].length);
                      //   console.log(objs[i + 1]);
-                        //variableLength += 1;
+                        variableLength += 1;
                     }
                 }
             } else

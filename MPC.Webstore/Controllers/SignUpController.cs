@@ -123,30 +123,62 @@ namespace MPC.Webstore.Controllers
                         ViewBag.ShowTwitterSignInLink = 0;
                     }
 
-                    if (_myCompanyService.GetContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
-                        ViewBag.Message = "You indicated that you are a new customer but an account already exist with this email address " + model.Email;
 
-                        return View("PartialViews/SignUp");
-                    }
-                    else if (isSocial == "1")
-                    {
-                        if (_myCompanyService.GetContactByFirstName(model.FirstName) != null)
+                        if (_myCompanyService.GetCorporateContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
                         {
-                            ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.WBStoreId) + model.Email;
-                            return View();
+                            ViewBag.Message = "You indicated that you are a new customer but an account already exist with this email address " + model.Email;
+
+                            return View("PartialViews/SignUp");
+                        }
+                        else if (isSocial == "1")
+                        {
+                            if (_myCompanyService.GetContactByFirstName(model.FirstName) != null)
+                            {
+                                ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.WBStoreId) + model.Email;
+                                return View();
+                            }
+                            else
+                            {
+                                SetRegisterCustomer(model);
+
+                            }
                         }
                         else
                         {
+
                             SetRegisterCustomer(model);
-                           
+
                         }
                     }
                     else
                     {
+                        if (_myCompanyService.GetContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
+                        {
+                            ViewBag.Message = "You indicated that you are a new customer but an account already exist with this email address " + model.Email;
 
-                        SetRegisterCustomer(model);
-                       
+                            return View("PartialViews/SignUp");
+                        }
+                        else if (isSocial == "1")
+                        {
+                            if (_myCompanyService.GetContactByFirstName(model.FirstName) != null)
+                            {
+                                ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.WBStoreId) + model.Email;
+                                return View();
+                            }
+                            else
+                            {
+                                SetRegisterCustomer(model);
+
+                            }
+                        }
+                        else
+                        {
+
+                            SetRegisterCustomer(model);
+
+                        }
                     }
                 }
                 else
@@ -168,7 +200,7 @@ namespace MPC.Webstore.Controllers
                         ViewBag.ShowTwitterSignInLink = 0;
                     }
 
-                   
+
                 }
                 return View("PartialViews/SignUp");
             }
@@ -225,7 +257,7 @@ namespace MPC.Webstore.Controllers
 
                     MPC.Models.DomainModels.Company loginUserCompany = _myCompanyService.GetCompanyByCompanyID(CompanyID);
 
-                    CompanyContact loginUser = _myCompanyService.GetContactByEmail(model.Email, OrganisationId,UserCookieManager.WBStoreId);
+                    CompanyContact loginUser = _myCompanyService.GetContactByEmail(model.Email, OrganisationId, UserCookieManager.WBStoreId);
 
                     UserCookieManager.isRegisterClaims = 1;
                     UserCookieManager.WEBContactFirstName = model.FirstName == "First Name" ? "" : model.FirstName;
@@ -242,7 +274,7 @@ namespace MPC.Webstore.Controllers
                     isContactCreate = true;
 
                     long OrderId = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.WEBOrderId, loginUserCompany.CompanyId, loginUser.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID);
-
+                    cep.ContactId = loginUser.ContactId;
                     cep.SalesManagerContactID = loginUser.ContactId; // this is only dummy data these variables replaced with organization values 
                     cep.StoreId = UserCookieManager.WBStoreId;
                     cep.CompanyId = UserCookieManager.WBStoreId;
@@ -260,9 +292,9 @@ namespace MPC.Webstore.Controllers
                     if (StoreBaseResopnse.Company.SalesAndOrderManagerId1 == null)
                     {
                         throw new Exception("Critcal Error, Store Sales Manager is not selected.", null);
-                    
+
                     }
-                    else 
+                    else
                     {
                         SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
 
@@ -273,11 +305,11 @@ namespace MPC.Webstore.Controllers
                         _campaignService.SendEmailToSalesManager((int)Events.NewRegistrationToSalesManager, (int)loginUser.ContactId, (int)loginUser.CompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
 
                     }
-                    
+
                     if (OrderId > 0)
                     {
                         UserCookieManager.TemporaryCompanyId = 0;
-                        Response.Redirect("/ShopCart/" + OrderId);
+                        Response.Redirect("/ShopCart?OrderId=" + OrderId);
                     }
                     else
                     {
@@ -290,7 +322,7 @@ namespace MPC.Webstore.Controllers
                     isContactCreate = false;
                 }
                 StoreBaseResopnse = null;
-          
+
                 if (!string.IsNullOrEmpty(Request.QueryString["ReturnURL"]))
                 {
                     if (Url.IsLocalUrl(Request.QueryString["ReturnURL"]))
@@ -298,11 +330,11 @@ namespace MPC.Webstore.Controllers
                         ControllerContext.HttpContext.Response.Redirect(Request.QueryString["ReturnURL"]);
                     }
                 }
-                else 
+                else
                 {
                     Response.Redirect("/");
                 }
-              
+
                 return;
             }
             else
@@ -317,8 +349,8 @@ namespace MPC.Webstore.Controllers
 
                 UserCookieManager.WEBEmail = model.Email;
 
-                cep.ContactId = (int)CorpContact.ContactId;
-                cep.CompanyId = (int)CorpContact.CompanyId;
+                cep.ContactId = CorpContact.ContactId;
+                cep.CompanyId = CorpContact.CompanyId;
                 cep.SalesManagerContactID = CorpContact.ContactId; // this is only dummy data these variables replaced with organization values 
                 cep.StoreId = UserCookieManager.WBStoreId;
                 Address CompanyDefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.WBStoreId);
@@ -335,7 +367,7 @@ namespace MPC.Webstore.Controllers
                 {
                     cep.ApprovarID = listOfApprovers.FirstOrDefault().ContactId;
                 }
-                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.CorpUserRegistration, StoreBaseResopnse.Company.OrganisationId ?? 0 , UserCookieManager.WBStoreId);
+                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.CorpUserRegistration, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
 
                 SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
 
@@ -346,7 +378,7 @@ namespace MPC.Webstore.Controllers
                 ViewBag.Message = "You are successfully registered on store but your account does not have the web access enabled. Please contact your Order Manager.";
                 return;
             }
-           
+
         }
 
         //public void PostLoginCustomerAndCardChanges(out long replacedWithOrderID)

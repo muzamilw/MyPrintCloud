@@ -1206,7 +1206,7 @@ ul.nav li.selectedLava a {
 }
 
 .custom_color_heading14 {
-    color: rgb(102,102,102);
+    color: white;
     /*color: #67b8db;*/
     /* font-weight: bold;*/
     font-size: 14px;
@@ -12241,7 +12241,7 @@ ul.LogBar li a {
 
 .smallAveniorLogin {
     font-size: 14px;
-    color: #66615b;
+    color: #ffffff;
     text-shadow: none;
     font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     margin-right: 10px;
@@ -24145,7 +24145,7 @@ DIV.LoginBarContainer DIV.content_area {
   padding-top: 50px;
     background: #5f5651 !important;
 }
-DIV#ContactDetail DIV.ContactDetail {
+#all-contactDetail-pg {
   border: 2px solid white;
   padding-top: 50px;
     background: #5f5651 !important;
@@ -24156,4 +24156,32 @@ DIV#ContactDetail DIV.ContactDetail {
 DIV#controlBodyDiv DIV.content_area {
   
   padding-top: 50px;
+}
+#all-forgorPass-pg {
+     border: 2px solid white;
+  padding-top: 50px;
+    background: #5f5651 !important;
+}
+#all-signUp-pg {
+       border: 2px solid white;
+  padding-top: 50px;
+    background: #5f5651 !important;
+}
+DIV.signup_width DIV.BackgroundColor {
+  background-color:transparent !important;
+}
+#all-dashboard-pg {
+          border: 2px solid white;
+  padding-top: 50px;
+    background: #5f5651 !important;
+}
+#all-orderHistory-pg {
+            border: 2px solid white;
+  padding-top: 50px;
+    background: #5f5651 !important;
+}
+#BillingShiping {
+         border: 2px solid white;
+  padding-top: 50px;
+    background: #5f5651 !important;
 }

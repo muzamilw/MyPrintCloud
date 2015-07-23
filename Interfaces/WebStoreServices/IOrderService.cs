@@ -107,5 +107,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="OrderId"></param>
         /// <returns></returns>
         long GetStoreIdByOrderId(long OrderId);
+
+        Estimate GetOrderByOrderID(long OrderId);
     }
 }

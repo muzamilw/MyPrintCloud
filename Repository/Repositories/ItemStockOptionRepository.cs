@@ -45,7 +45,8 @@ namespace MPC.Repository.Repositories
 
         public List<ItemStockOption> GetStockList(long ItemID, long companyID)
         {
-            return db.ItemStockOptions.Where(i => i.ItemId == ItemID).OrderBy(g => g.OptionSequence).ToList();
+
+            return db.ItemStockOptions.Include("StockItem").Where(i => i.ItemId == ItemID).OrderBy(g => g.OptionSequence).ToList();
            // return db.ItemStockOptions.Where(i => i.ItemId == ItemID && i.CompanyId == companyID).OrderBy(g => g.OptionSequence).ToList();
 
         }

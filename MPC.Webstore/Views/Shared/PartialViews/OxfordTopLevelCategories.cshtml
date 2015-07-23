@@ -3,10 +3,17 @@
 
 @{
     
+    var bundle = System.Web.Optimization.BundleTable.Bundles.GetRegisteredBundles()
+        .Where(b => b.Path == "~/pageSpecific")
+        .First();
+
+    bundle.Include("~/Scripts/script.js");
+    
     var lstParentCategories = ViewBag.lstParentCategories as List<MPC.Models.DomainModels.ProductCategory>;
     var AllRetailCAt = ViewBag.AllRetailCat as List<MPC.Models.DomainModels.ProductCategory>;
     string Addressline1 = ViewBag.addressline1InnerHtml;
     string CatName = "ParentCat";
+    
 }
 <div class="container body-container spacer-top " id="all-topLevel-pg">
     <!--Main Content-->
@@ -21,16 +28,19 @@
                 </div>
                 <div class="panel-body">
                     <div class="panel-group" id="accordionmenu">
+                        @{
+                            int items = 0; 
+                        }
                         @foreach (var AllRetailCa in AllRetailCAt)
                         {
-
-                            int count = AllRetailCAt.Where(i => i.ParentCategoryId == AllRetailCa.ProductCategoryId).Count();
+                            
+                           int count = AllRetailCAt.Where(i => i.ParentCategoryId == AllRetailCa.ProductCategoryId).Count();
 
                             if (count > 0)
                             {
                                 <div id="parentCatsContainer" class="panel panel-default">
                                     <div class="panel-heading">
-                                        <a id="@CatName@count" data-toggle="collapse" data-parent="#accordionmenu" data-id="@count" onclick="sideBarClick(@count)">
+                                        <a id="@CatName@items" data-toggle="collapse" data-parent="#accordionmenu" data-id="@items" onclick="sideBarClick(@items)" href="/Category/@Html.ResolveString(AllRetailCa.CategoryName)/@AllRetailCa.ProductCategoryId">
                                             @AllRetailCa.CategoryName
                                         </a>
                                     </div>
@@ -43,14 +53,14 @@
                                             <ul class="submenu list-unstyled">
                                                 @foreach (var ccategories in childCats)
                                                 {
-                                                    <li><a id="ltrlSubCatName" href="../en/standard-business-cards/index.htm"><i class="fa fa-play-circle"></i><span>Standard Business Cards</span></a></li>
+                                                    <li><a id="ltrlSubCatName" href="/Category/@Html.ResolveString(ccategories.CategoryName)/@ccategories.ProductCategoryId"><i class="fa fa-play-circle"></i><span>@ccategories.CategoryName</span></a></li>
                                                 }
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                             }
-
+                            items++;
                         }
 
                     </div>
@@ -132,15 +142,18 @@
                     </div>
                     <div class="panel-body">
                         <form id="user_subscribe_1617216226" method="post" action="http://samplestore.onprintshop.com/demo-oxfordblue#" novalidate="novalidate">
+                         @using (Html.BeginForm())
+                         {
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="fa fa-envelope"></span></span>
-                                    <input type="text" id="txtEmailbox" class="form-control btn-rounded" width="100" />
+                                    <input type="text" name="txtEmailbox" id="txtEmailbox" class="form-control btn-rounded" width="100" />
                                 </div>
                                 <span id="errorMsg" class="error-block text-danger"></span>
                                 <p class="help-block">Subscribe Here to receive promotional offers.</p>
                             </div>
                             <input type="button" id="GoSubscribe" class="btn btn-primary btn-rounded" value="Subscribe" />
+                          }
                         </form>
                     </div>
                 </div>
@@ -151,9 +164,9 @@
                         <h3 class="panel-title">Testimonials</h3>
                     </div>
                     <div class="panel-body">
-                        <div id="testimonial-sidebar-1002820984" data-interval="6000" class="carousel slide testimonial-panel">
+                        <div id="testimonial-sidebar-124726984" data-interval="6000" class="carousel slide testimonial-panel">
                             <div class="carousel-inner">
-                                <div class="item">
+                                <div class="item active">
                                     <blockquote>
                                         <p id="lblRaveReview">
                                             @(new HtmlString(ViewBag.lblRaveReview.ToString()))
@@ -161,7 +174,7 @@
                                         <small id="lblReviewBy">@ViewBag.lblReviewBy</small>
                                     </blockquote>
                                 </div>
-                                <div class="item active">
+                                <div class="item">
                                     <blockquote>
                                         <p>
                                             As a realtor I am in regular need of business cards. I would like to thank you for the artistic work you undertook for printing cards for my real estate business. I appeciate your professional service and fast delivery. Company online printing facility surely does away with all hassles involved in conventional printing.

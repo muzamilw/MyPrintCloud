@@ -257,8 +257,8 @@ namespace MPC.Webstore
 
             routes.MapRoute(
                 "ShopCart",
-                "ShopCart/{optionalOrderId}/{Message}",
-                new { controller = "Home", action = "Index", optionalOrderId = UrlParameter.Optional, Message = UrlParameter.Optional }
+                "ShopCart",
+                new { controller = "Home", action = "Index"}
             );
 
             routes.MapRoute(
@@ -382,6 +382,9 @@ namespace MPC.Webstore
                 new { controller = "ProductOptions", action = "DeleteArtworkAttachment", AttachmentID = UrlParameter.Optional}
             );
 
+
+
+            /////////////////////////////////////////////////////////////////////////////Payment gateway redirects
             routes.MapRoute(
                "PaypalHandler",
                "SignupPaypal/{OrderId}",
@@ -393,6 +396,33 @@ namespace MPC.Webstore
              "PaypalIPN",
              new { controller = "Payment", action = "PaypalIPN"}
             );
+
+            routes.MapRoute(
+               "oAuth",
+               "oAuth/{LoginWithId}/{isRegistrationProcess}/{StoreId}/{ReturnUrl}",
+               new { controller = "Home", action = "oAuth", LoginWithId = UrlParameter.Optional, isRegistrationProcess = UrlParameter.Optional, StoreId = UrlParameter.Optional, ReturnUrl = UrlParameter.Optional }
+           );
+
+
+            routes.MapRoute(
+             "ANZHandler",
+             "ANZSubmit/{OrderId}",
+             new { controller = "Payment", action = "ANZSubmit", OrderId = UrlParameter.Optional }
+         );
+
+            routes.MapRoute(
+              "FBAuth",
+              "FBAuth",
+              new { controller = "Home", action = "FBAuthentication", token = UrlParameter.Optional }
+          );
+            
+        routes.MapRoute(
+          "ANZResponse",
+          "ANZResponse",
+          new { controller = "Payment", action = "ANZResponse" }
+         );
+
+
             routes.MapRoute(
                "Default", // Route name
                "",        // URL with parameters

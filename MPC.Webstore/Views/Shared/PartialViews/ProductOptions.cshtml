@@ -99,7 +99,6 @@
                             <div class="width365pxM250p">
                                 @foreach (var costcenter in ViewData["CostCenters"] as List<MPC.Models.Common.AddOnCostsCenter>)
                                 {
-                                    <mpc.models.common.addoncostscenter>
                                         <div class="CostCenterItems" data-ismandatory="@costcenter.IsMandatory" data-stockid="@costcenter.ItemStockOptionId" style="display:none; margin:10px;">
                                             <div class="float_left_simple spacerbottom CcImageContainer">
                                                 <img class="RfgImgCs" src=/@costcenter.AddOnImage />
@@ -184,7 +183,7 @@
                                     {
                                         Random random = new Random();
                                         string randonNumber = "?r=" + random.Next();
-                                        <mpc.models.domainmodels.itemattachment>
+                                      
                                             <div id="DivSide1" class="LGBC BD_PCS rounded_corners">
                                                 <div class="DeleteIconPP">
                                                     <button type="button" class="delete_icon_img" onclick="ConfirmDeleteArtWorkPopUP(@artworkFile.ItemAttachmentId);"></button>
@@ -221,7 +220,7 @@
                                     {
                                         Random random = new Random();
                                         string randonNumber = "?r=" + random.Next();
-                                        <mpc.webstore.models.templateviewdata>
+                              
                                             <div class="LGBC BD_PCS rounded_corners">
                                                 <a id="hlSide1">
                                                     <div class="PDTC_LP FI_PCS">
@@ -291,7 +290,6 @@
                                     {
                                         if (ViewBag.SelectedQuantity == quantity.Quantity)
                                         {
-                                            <mpc.models.domainmodels.itempricematrix>
                                                 <option value="@quantity.PriceMatrixId" selected>@quantity.Quantity</option>
                                         }
                                         else
@@ -444,7 +442,6 @@
                                 priceMatrixBackground = "white";
                             }
 
-                            <mpc.models.domainmodels.itempricematrix>
 
                                 <div class="@priceMatrixBackground">
                                     <div class="divfloat WhtBakg">
@@ -603,12 +600,12 @@
                     </a>
                 }
                 @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File5))
-                                        {
+                {
                     
-                                                        <a id="IcoPdf" href="/@ViewBag.ItemModel.File5" target="_blank" class="DownloadImages">
-                                                            <img src="@ViewBag.ItemModel.File5Url" />
-                                                        </a>
-                                        }
+                     <a id="IcoPdf" href="/@ViewBag.ItemModel.File5" target="_blank" class="DownloadImages">
+                        <img src="@ViewBag.ItemModel.File5Url" />
+                     </a>
+                }
 
             </div>
             <div class="clearBoth">&nbsp;</div>

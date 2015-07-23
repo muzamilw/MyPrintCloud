@@ -12,7 +12,7 @@
                     <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
                     <input type="hidden" name="OrderId" id="OrderId" value="@ViewBag.OrderId" />
                     <input type="hidden" name="ItemId" id="ItemId" value="@ViewBag.ItemId" />
-                    <ol class="breadcrumb">
+                    <ol class="breadcrumb" >
                         <li><a href="~/Dashboard/Index" class="my-navigator" data-bind="text:$root.orderCodeHeader() !== '' ? 'HOME':''"></a></li>
                         <li data-bind="css: $root.orderCodeHeader() != '' ?  ''  :   'active' , click:$root.onCloseOrderEditor, visible:$root.orderCodeHeader() !== ''" style="cursor:pointer; display: none"><span data-bind="text:'ORDERS'"></span></li>
                         <li data-bind="css: $root.orderCodeHeader() != '' &&  $root.itemCodeHeader() == '' ?  'active' :   '' , click:$root.closeItemDetail, visible:$root.orderCodeHeader() !== '' " style="display: none; cursor:pointer"><span data-bind="text:$root.orderCodeHeader"></span></li>

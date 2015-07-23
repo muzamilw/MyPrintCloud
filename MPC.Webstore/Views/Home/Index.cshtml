@@ -14,7 +14,10 @@
     @if (TempData["MetaKeywords"] != null)
     {
         <meta name="keywords" content="@TempData["MetaKeywords"]"/>
+
     }
+   
+   
    
     @if (ViewBag.WebAnalyticCode != null)
     {
@@ -22,6 +25,7 @@
     }
     @if (ViewBag.WebMasterTag != null)
     {
+ 
         @Html.Raw(ViewBag.WebMasterTag)
     }
 }
@@ -36,10 +40,13 @@
     else
     {
         <div>
-            @{ string widgetname = widget.Widget.WidgetName; }
-            @{Html.RenderAction("Index", widgetname);}
+            @if (widget.Widget != null)
+            {
+                string widgetname = widget.Widget.WidgetName;
+                Html.RenderAction("Index", widgetname);
+            }
+           
         </div>
     }
 
 }
-
