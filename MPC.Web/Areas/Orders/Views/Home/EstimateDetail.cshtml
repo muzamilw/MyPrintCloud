@@ -4,10 +4,11 @@
             <div class="col-sm-12 PaddingZero">
                 <div class="col-sm-3">
                     <div style="float:left;margin-bottom: 3px; margin-left:14px">
-                        <button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0, click:$root.openExternalReportsOrder">Print</button>
-                        <button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0, click:$root.openExternalEmailOrderReport">Email</button>
+                        <button type="button" class="btn btn-primary" data-bind="click:$root.openExternalReportsOrder">Print</button>
+                        <button type="button" class="btn btn-primary" data-bind="click:$root.openExternalEmailOrderReport">Email</button>
                         <button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0, click:$root.copyEstimate">Copy Estimate</button>
 
+                        @*enable: $root.selectedOrder().id() > 0,*@ 
                         @*<button type="button" class="btn btn-primary" data-bind="enable: $root.selectedOrder().id() > 0">Actions</button>
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" data-bind="enable: $root.selectedOrder().id() > 0">
                             <span class="caret"></span>

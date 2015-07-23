@@ -53,12 +53,32 @@ define("common/confirmation.viewModel",
                         resetDialog();
                         view.hide();
                     },
+
+
+                    showWarningPopup = function () {
+                        isLoading(true);
+                        view.showWarningPopup();
+                    },
+
+                    // Hide the dialog
+                    hideWarningPopup = function () {
+                        // Reset Call Backs
+                        resetDialog();
+                        view.hideWarningPopup();
+                    },
                     // Cancel 
                     cancel = function () {
                         if (typeof afterCancel() === "function") {
                             afterCancel()();
                         }
                         hide();
+                    },
+                      // Cancel 
+                    Warningcancel = function () {
+                        if (typeof afterCancel() === "function") {
+                            afterCancel()();
+                        }
+                        hideWarningPopup();
                     },
                     // No
                     no = function () {
@@ -71,6 +91,8 @@ define("common/confirmation.viewModel",
                     initialize = function (specifiedView) {
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
+                        ko.applyBindings(view.viewModel, view.bindingRootq);
+                        
                     };
 
                 return {
@@ -79,6 +101,7 @@ define("common/confirmation.viewModel",
                     initialize: initialize,
                     show: show,
                     cancel: cancel,
+                    Warningcancel: Warningcancel,
                     proceed: proceed,
                     no: no,
                     afterProceed: afterProceed,
@@ -87,7 +110,9 @@ define("common/confirmation.viewModel",
                     isProceedVisible: isProceedVisible,
                     resetDialog: resetDialog,
                     messageText: messageText,
-                    hide: hide
+                    hide: hide,
+                    showWarningPopup: showWarningPopup,
+                    hideWarningPopup: hideWarningPopup
                 };
             })()
         };

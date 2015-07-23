@@ -332,8 +332,10 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     if (sectionFlagId.error) {
                         validationSummaryList.push({ name: "Order Flag ", element: sectionFlagId.domElement });
                     }
-
-
+                    
+                    //if (items().length === 0) {
+                    //    validationSummaryList.push({ name: "Please add item to print. " });
+                    //}
                     // Show Item  Errors
                     var itemInvalid = items.find(function (item) {
                         return !item.isValid() && item.itemType() !== 2;

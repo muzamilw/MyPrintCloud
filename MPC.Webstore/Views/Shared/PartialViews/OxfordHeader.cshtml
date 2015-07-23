@@ -4,19 +4,21 @@
 @using System;
 
 
-<header class="navbar navbar-default topnav" id="TopHeaderContainer"  role="navigation">
-    <div class="container">
-        <div class="navbar-header col-md-3 col-lg-3 col-xs-12 col-sm-12">
-            <button type="button" class="navbar-toggle btn btn-darkblue hidden-lg hidden-md" id="darkCollapseBtn" data-toggle="collapse" data-target=".navbar-collapse"><span class="fa fa-bars fa-fw"></span></button>
-           
+<header class="navbar navbar-default topnav" id="TopHeaderContainer" >
+    <div class="container" >
+        <div class="navbar-header col-md-3 col-lg-3 col-xs-12 col-sm-12" style=" height: 75px;">
+            <button type="button" class="navbar-toggle btn btn-darkblue hidden-lg hidden-md" id="darkCollapseBtn" onclick="ToggleOxfordHeader();"><span class="fa fa-bars fa-fw"></span></button>
+
             <a class="navbar-brand" href='/'>
                 <img class="img-responsive" alt="Company" id="imgLogo" src="@Model.Image">
             </a>
         </div>
-       
-        <div class="navbar-collapse col-md-9 col-lg-9 col-xs-12 col-sm-12 visible-lg visible-md" >
 
-            <ul class="nav navbar-nav navbar-right">
+        <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12 visible-lg visible-md" style="
+  height: 75px;
+  padding-top: 17px;">
+
+            <ul class="nav navbar-nav navbar-right" style="width:100%;">
                 <li>
                     <a href="/AllProducts" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-list"></i><span>@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId))</span></a>
                 </li>
@@ -26,7 +28,7 @@
             </ul>
         </div>
 
-        <div class="navbar-collapse col-md-9 col-lg-9 col-xs-12 col-sm-12" style="display:none;" id="oxfordCollapedMenucnt">
+        <div class="navbar-collapse col-md-9 col-lg-9 col-xs-12 col-sm-12" style="display:none; " id="oxfordCollapedMenucnt">
 
             <ul class="nav navbar-nav navbar-right">
                 <li>
@@ -37,25 +39,8 @@
                 <li><a id="psop7" href="/Login" title="" class="top_login_popup"><i class="fa fa-user"></i><span>Login / Register </span></a></li>
             </ul>
         </div>
-      
+
     </div>
 </header>
 
-<script>
-
-    $("#darkCollapseBtn").click(function () {
-
-        $("#oxfordCollapedMenucnt").slideToggle();
-    });
-    function LoginPopUP() {
-
-        $('#divShd').css("display", "block");
-
-        $('#jqwin').css("display", "block");
-        $(".closeBtn_CP").css("display", "block");
-
-        return false;
-    }
-
-</script>
 
