@@ -330,31 +330,7 @@
                         <label id="lblGrossTotal" class="float_right"> 0.00</label>
                         <label class="float_right">@ViewBag.Currency</label>
                     </div>
-                    @if (ViewBag.IsStockControl == true)
-                    {
-
-                        if (ViewBag.ItemStock == 0)
-                        { <div class="InStockContainer" style="background:red; color:white;">
-                            @if (ViewBag.isAllowBackOrder ?? false) // back ordering allowed
-                            {
-                                <label id="lbl_BAckOrder">@Html.Raw(Html.GetKeyValueFromResourceFile("lblBackOrder", UserCookieManager.WBStoreId))</label>
-                            }
-                            else
-                            {
-                                <label id="lbl_OutOfStock">@Html.Raw(Html.GetKeyValueFromResourceFile("lblItemOutOfStock", UserCookieManager.WBStoreId))</label>
-                            }
-                        </div>
-                        }
-                        else
-                        {
-                            <div class="InStockContainer" style="background:#f3f3f3; color:black;">
-                                <label>In stock: @ViewBag.InStock</label>
-                            </div>
-                        }
-
-
-                    }
-
+                  
                     <div class="clearBoth">
                         &nbsp;
                     </div>

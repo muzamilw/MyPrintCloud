@@ -12,5 +12,6 @@ namespace MPC.Webstore.ViewModels
         public string StockTextToDisplay { get; set; }
         public long StockOptionId { get; set; }
         public long StockId { get; set; }
+        public bool isItemInStock { get; set; }
     }
 }
