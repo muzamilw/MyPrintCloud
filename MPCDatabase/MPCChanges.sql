@@ -6290,3 +6290,28 @@ CONSTRAINT [PK_ProductCategoryVoucher] PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
+
+
+
+
+/****** Object:  Table [dbo].[TemplateVariableExtension]    Script Date: 23/07/2015 02:28:57 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TemplateVariableExtension](
+	[TemplateVariableExtId] [int] IDENTITY(1,1) NOT NULL,
+	[TemplateId] [int] NULL,
+	[FieldVariableId] [int] NULL,
+	[IsPrefix] [int] NULL,
+	[IsPostFix] [int] NULL,
+ CONSTRAINT [PK_TemplateVariableExtension] PRIMARY KEY CLUSTERED 
+(
+	[TemplateVariableExtId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
