@@ -95,14 +95,17 @@ namespace MPC.Webstore.Controllers
             ObjectCache cache = MemoryCache.Default;
             long OrderID = 0;
             long referenceItemId = 0;
-
+            long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             if (ItemMode == "UploadDesign")
             {
 
                 if (UserCookieManager.WEBOrderId == 0 || _orderService.IsRealCustomerOrder(UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID()) == false)
                 {
-                    clonedItem = CloneItemAndUpdateCookie(StoreBaseResopnse, Convert.ToInt64(ItemId));
+                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
+                    UserCookieManager.WEBOrderId = OrderID;
+                    UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
+                    clonedItem = CloneItemAndUpdateCookie(StoreBaseResopnse, Convert.ToInt64(ItemId), OrderID);
                 }
                 else
                 {
@@ -112,7 +115,10 @@ namespace MPC.Webstore.Controllers
 
                     if (oCookieOrder.StatusId != (int)OrderStatus.ShoppingCart)
                     {
-                        clonedItem = CloneItemAndUpdateCookie(StoreBaseResopnse, Convert.ToInt64(ItemId));
+                        OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
+                        UserCookieManager.WEBOrderId = OrderID;
+                        UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
+                        clonedItem = CloneItemAndUpdateCookie(StoreBaseResopnse, Convert.ToInt64(ItemId), OrderID);
                     }
                     else
                     {
@@ -315,7 +321,53 @@ namespace MPC.Webstore.Controllers
             // get reference item, stocks, addons, price matrix
             Item referenceItem = _myItemService.GetItemById(Convert.ToInt64(ReferenceItemId));
 
-            ViewData["StckOptions"] = _myItemService.GetStockList(Convert.ToInt64(ReferenceItemId), UserCookieManager.WBStoreId);
+            List<ItemStockOption> stockOptList = _myItemService.GetStockList(Convert.ToInt64(ReferenceItemId), UserCookieManager.WBStoreId);
+
+            ViewData["StckOptions"] = stockOptList.ToList();
+
+            List<StockItemViewModel> stockItemOfStockOption = new List<StockItemViewModel>();
+
+            foreach (ItemStockOption option in stockOptList)
+            {
+                if (option.StockItem != null && stockItemOfStockOption.Where(s => s.StockId == option.StockId).FirstOrDefault() == null)
+                {
+                    StockItemViewModel sItemObj = new StockItemViewModel();
+                    sItemObj.StockId = option.StockId ?? 0;
+                    sItemObj.InStockValue = option.StockItem.inStock ?? 0;
+                    sItemObj.StockOptionId = option.ItemStockOptionId;
+                    if (option.StockItem.isAllowBackOrder == true) // back ordering allowed
+                    {
+                        sItemObj.isAllowBackOrder = true;
+                    }
+                    else
+                    {
+                        sItemObj.isAllowBackOrder = false;
+                    }
+                    sItemObj.StockTextToDisplay = Utils.GetKeyValueFromResourceFile("lblitemInStock", UserCookieManager.WBStoreId) + option.StockItem.inStock;
+                    if (option.StockItem.inStock == 0 || option.StockItem.inStock < 0) // no stock available 
+                    {
+                       
+                        if (option.StockItem.isAllowBackOrder ?? false) // back ordering allowed
+                        {
+                            sItemObj.StockTextToDisplay = Utils.GetKeyValueFromResourceFile("lblBackOrder", UserCookieManager.WBStoreId);
+                            sItemObj.isItemInStock = true;
+                        }
+                        else
+                        {
+                            sItemObj.isItemInStock = false;
+                            sItemObj.StockTextToDisplay = Utils.GetKeyValueFromResourceFile("lblItemOutOfStock", UserCookieManager.WBStoreId);
+                        }
+                    } // stock available
+                    else
+                    {
+                        sItemObj.isItemInStock = true;
+
+                    }
+                    stockItemOfStockOption.Add(sItemObj);
+                }
+            }
+
+            ViewData["stockControlItems"] = stockItemOfStockOption;
 
             List<AddOnCostsCenter> listOfCostCentres = _myItemService.GetStockOptionCostCentres(Convert.ToInt64(ReferenceItemId), UserCookieManager.WBStoreId);
 
@@ -338,9 +390,7 @@ namespace MPC.Webstore.Controllers
                     {
                         ViewBag.ShowUploadArkworkPanel = false;
                     }
-
                 }
-
             }
             else
             {
@@ -355,7 +405,6 @@ namespace MPC.Webstore.Controllers
                     {
                         ViewBag.ShowUploadArkworkPanel = false;
                     }
-
                 }
             }
 
@@ -369,7 +418,6 @@ namespace MPC.Webstore.Controllers
                 {
                     ViewBag.FinishedGoodProduct = referenceItem.ThumbnailPath;
                 }
-
             }
             else
             {
@@ -894,15 +942,15 @@ namespace MPC.Webstore.Controllers
         }
 
 
-        private Item CloneItemAndUpdateCookie(MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse, long ItemId)
+        private Item CloneItemAndUpdateCookie(MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse, long ItemId, long OrderID)
         {
-            long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+
             Item clonedItem = null;
             // create new order
-            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
+
             if (OrderID > 0)
             {
-                UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
+
                 UserCookieManager.WEBOrderId = OrderID;
                 // gets the item from reference item id in case of upload design when user process the item but not add the item in cart
                 clonedItem = _myItemService.GetExisitingClonedItemInOrder(OrderID, ItemId);
@@ -913,7 +961,7 @@ namespace MPC.Webstore.Controllers
 
                 }
 
-                
+
             }
             return clonedItem;
         }

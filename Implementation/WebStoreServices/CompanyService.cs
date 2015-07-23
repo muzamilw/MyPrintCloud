@@ -1463,6 +1463,7 @@ namespace MPC.Implementation.WebStoreServices
 
         public string OrderConfirmationPDF(long OrderId, long StoreId)
         {
+            Doc theDoc = new Doc();
             try
             {
                
@@ -1472,8 +1473,7 @@ namespace MPC.Implementation.WebStoreServices
                 string FileName = OrderId + "_OrderReceipt.pdf";
                 string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/" + FileName);
                 string AttachmentPath = "/mpc_content/EmailAttachments/" + FileName;
-                using (Doc theDoc = new Doc())
-                {
+                
                     string AddGeckoKey = ConfigurationManager.AppSettings["AddEngineTypeGecko"];
                     if (AddGeckoKey == "1")
                     {
@@ -1497,7 +1497,7 @@ namespace MPC.Implementation.WebStoreServices
                         Directory.CreateDirectory(physicalFolderPath);
                     theDoc.Save(FilePath);
                     theDoc.Clear();
-                }
+               
                 if (System.IO.File.Exists(FilePath))
                     return AttachmentPath;
                 else
@@ -1505,10 +1505,15 @@ namespace MPC.Implementation.WebStoreServices
             }
             catch (Exception e)
             {
+                theDoc.Clear();
+                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
 
-                //   LoggingManager.LogBLLException(e);
-                // string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/exe.txt" );
-                // System.IO.File.WriteAllText(FilePath, e.InnerException.ToString() + "\n" + e.StackTrace.ToString());
+                using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
+                {
+                    writer.WriteLine("Message :" + e.Message + "<br/>" + Environment.NewLine + "StackTrace :" + e.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
                 throw e;
                 return null;
             }

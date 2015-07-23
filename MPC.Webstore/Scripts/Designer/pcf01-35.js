@@ -1558,6 +1558,7 @@ function g2_1(e) {
     $("#FrontBackOptionPanalSection").addClass("showRightPropertyPanel");
 }
 function g2_22(mode) {
+    $("#btnReplaceImage,#BtnCropImg2").removeAttr("disabled");
     var D1AO = canvas.getActiveObject();
     if (!D1AO) return;
     $("#textPropertyPanel").css("display", "none");
@@ -1603,7 +1604,8 @@ function g2_22(mode) {
                 //DisplayDiv('1');
             }
             $(".svgColorPanel").css("display", "none");
-       // }
+        // }
+          
     } else if (mode == 3) {
         if ((D1AO.IsTextEditable && (IsCalledFrom == 4))) {
         } else {
@@ -1660,6 +1662,13 @@ function g2_22(mode) {
         }
     }
     g1_(D1AO);
+    if (IsCalledFrom == 4 && mode == 1) {
+        //changed on request of lucas 
+        if(D1AO.IsPositionLocked && D1AO.IsTextEditable)
+        {
+            $("#btnReplaceImage,#BtnCropImg2").attr("disabled", "disabled");
+        }
+    }
 }
 function inList(list,obj) {
     var res = false;
@@ -1684,7 +1693,7 @@ function g5(e) {
     }
 
     if (D1AO && showEBtn) {
-        g5_2(e); $(".collapseDesignerMenu").css("display", "list-item");
+        g5_2(e); $(".collapseDesignerMenu").css("display", "list-item"); // this is selected
     } else {
         g5_Sel(e); $(".collapseDesignerMenu").css("display", "list-item");
     }
@@ -1692,7 +1701,7 @@ function g5(e) {
 }
 function g5_Sel(e) {
     if (panelMode == 1) {
-        g5_new(e);
+        g5_new(e); // this is selected
     } else {
         g5_1(e);
     }
@@ -3377,10 +3386,10 @@ function updateTOWithStyles(obTO, vTag, vVal) {
                 {
                     if (objs[i] == "")
                     {
-                   //     alert();
-                     //   objs[i + 1] = objs[i + 1].substring(1, objs[i + 1].length - 1);
+                     //   alert();
+                        objs[i + 1] = objs[i + 1].substring(1, objs[i + 1].length);
                      //   console.log(objs[i + 1]);
-                        //variableLength += 1;
+                        variableLength += 1;
                     }
                 }
             } else

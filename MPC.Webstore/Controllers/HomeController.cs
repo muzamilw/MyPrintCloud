@@ -158,7 +158,7 @@ namespace MPC.Webstore.Controllers
 
                             model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse);
                             StoreBaseResopnse = null;
-
+                            
                         }
                         else
                         {

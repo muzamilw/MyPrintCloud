@@ -119,32 +119,40 @@ namespace MPC.Webstore.Common
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
 
-            MyCompanyDomainBaseReponse stores = (cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>)[StoreId];
-
-            XmlDocument resxFile = null;
-
-            if (stores != null)
+            if (StoreId > 0)
             {
-                resxFile = stores.ResourceFile;
-            }
-            
-            if (resxFile != null) 
-            {
-                XmlNode loRoot = resxFile.SelectSingleNode("root/data[@name='" + key + "']/value");
+                MyCompanyDomainBaseReponse stores = (cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>)[StoreId];
 
-                if (loRoot != null)
+                XmlDocument resxFile = null;
+
+                if (stores != null)
                 {
-                    return (loRoot).InnerXml;
+                    resxFile = stores.ResourceFile;
+                }
+
+                if (resxFile != null)
+                {
+                    XmlNode loRoot = resxFile.SelectSingleNode("root/data[@name='" + key + "']/value");
+
+                    if (loRoot != null)
+                    {
+                        return (loRoot).InnerXml;
+                    }
+                    else
+                    {
+                        return "";
+                    }
                 }
                 else
                 {
                     return "";
                 }
             }
-            else
-            {
-                return "";
+            else 
+            { 
+                return ""; 
             }
+            
         }
 
         public static void DeleteFile(string completePath)
