@@ -182,7 +182,7 @@
                                                 @*  <label for="txtSortOrder" class="control-label text-right tooltip-float">Categories</label>*@
 
                                             </div>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-9" style="margin-top:10px;">
                                                 <label class="control-label" style="text-align: left" data-bind="html: availableProductCategoryItems">
                                                 </label>
                                                 <a href="#" id="productCategorySelectorLink" style="margin-left:4px;" data-bind="click: $root.openProductCategoryDialog, validationOnElement: productCategoryElement, css:{ errorFill: !availableProductCategoryItems() && shouldValidateCategory() }">
@@ -1029,7 +1029,7 @@
                                     </div>
 
 
-                                    <div class="col-lg-12" style="margin-top:20px;">
+                                    <div class="col-lg-12" style="margin-top:20px;padding-right:0px;">
                                         <div class="col-lg-8 text-left">
                                             <div data-bind="visible: isFinishedGoodsUi() === '3'">
                                                 <div class="col-lg-7" style="margin-left:-25px;">
@@ -1048,7 +1048,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-4 text-right">
+                                        <div class="col-lg-4 text-right" style="padding-right:0px;">
                                             <button type="button" data-bind="click: addItemStockOption, enable: canAddItemStockOption" class="btn btn-success">
                                                 Add Price Column Attribute
                                             </button>
@@ -1265,7 +1265,7 @@
                                                 <div class="radio" style="padding-left:0px;">
                                                     <input type="radio" name="optionsRadiosTax" id="optionStoreTaxOver" data-bind="checked: isStoreTaxUi" value="1">
                                                     <label for="optionStoreTaxOver">
-                                                        Override stores default tax
+                                                        Override store default tax
                                                     </label>
                                                 </div>
                                             </div>
@@ -1292,8 +1292,8 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="input-group" id="txtTaxContainer">
-                                                    <input type="text" class="form-control" id="txtTax" data-bind="value: defaultItemTax" />
                                                     <span class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus">%</span>
+                                                    <input type="text" class="form-control" id="txtTax" data-bind="value: defaultItemTax" />
                                                 </div>
                                                 <span class="help-block text-right"></span>
                                             </div>
@@ -1302,7 +1302,7 @@
 
                                     <div class="col-lg-12 form-horizontal">
                                         <h3 class="group-header">Product Dimension</h3>
-                                        <p class="group-header-description">These dimensions are used for calculating delivery charges if store uses External delivery carriers </p>
+                                        <p class="group-header-description">These dimensions are used for calculating delivery charges if store uses External delivery carriers. </p>
                                         <div class="col-lg-9">
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
@@ -1946,7 +1946,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
+                                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;margin-top:20px;">
                                                         <button type="button" class="btn btn-primary" data-bind="click: $root.onAddRelatedItem"> Add Upsell Product</button>
                                                     </div>
                                                 </div>
@@ -2917,6 +2917,9 @@
                         </a>
                     </div>
                 </div>
+                
+
+               
                 <div class="form-group">
                     <div class="col-lg-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
@@ -2932,16 +2935,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-5">
-
-
                 <div class="form-group">
                     <div class="col-lg-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="In Stock" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
+
                         </div>
                         <label for="weight" class="control-label text-right tooltip-float">In Stock</label>
                     </div>
@@ -2950,13 +2947,10 @@
 
                     </div>
                 </div>
-
                 <div class="form-group">
                     <div class="col-lg-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Allocated" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
+
                         </div>
                         <label for="weight" class="control-label text-right tooltip-float">Allocated Stock</label>
                     </div>
@@ -2965,7 +2959,15 @@
 
                     </div>
                 </div>
+
+
             </div>
+            <div class="col-lg-5">
+
+                
+
+        </div>
+                
         </div>
 
         <div class="col-lg-12" style="margin-top: 30px; margin-bottom:10px;">
@@ -2995,7 +2997,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
+                <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;margin-top:20px;">
                     <button type="button" class="btn btn-primary" data-bind="click: $parent.onAddItemCostCentre">Add Refining Option</button>
                 </div>
             </div>
@@ -3006,7 +3008,7 @@
     <script id="stockLabelTemplate" type="text/html">
         <div>&nbsp;</div>
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left:15px;padding-right:15px;">
                 <div class="main-box clearfix my-tabsHeader">
                     <div class="tabs-wrapper profile-tabs">
                         <ul id="stockLabelTabListItem" class="nav nav-tabs">
