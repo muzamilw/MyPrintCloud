@@ -54,7 +54,7 @@ namespace MPC.Repository.Repositories
             }
             if(lstVariableExtensions != null && lstVariableExtensions.Count!= 0)
             {
-                int templateId = lstVariableExtensions[0].TemplateId.Value;
+                long templateId = lstVariableExtensions[0].TemplateId.Value;
                 var variableRange = db.TemplateVariableExtensions.Where(g => g.TemplateId == templateId).ToList();
                 if(variableRange !=  null)
                     db.TemplateVariableExtensions.RemoveRange(variableRange);

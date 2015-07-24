@@ -74,10 +74,10 @@ namespace MPC.Implementation.WebStoreServices
                             if (hasPreFix == true || hasPostFix == true)
                             {
                                 TemplateVariableExtension objExt = new TemplateVariableExtension();
-                                objExt.HasPostFix = hasPreFix;
+                                objExt.HasPrefix = hasPreFix;
                                 objExt.HasPostFix = hasPostFix;
-                                objExt.TemplateId =Convert.ToInt32( templateId);
-                                objExt.FieldVariableId =Convert.ToInt32( obj.VariableId);
+                                objExt.TemplateId = templateId;
+                                objExt.FieldVariableId =obj.VariableId;
                                 lstVaraibaleExtensions.Add(objExt);
                             }
                         }

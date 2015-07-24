@@ -3196,14 +3196,45 @@ function pcl42_UpdateTO() {
                             }
                         }
                     });
-                    value = prefix + obj.Value + post;
+                    value = obj.Value;//value = prefix + obj.Value + post;
+
                     while (IT.ContentString.indexOf(variableTag) != -1)
                         updateTOWithStyles(IT, variableTag, value);
                     while (IT.ContentString.indexOf(variableTagUpperCase) != -1)
                         updateTOWithStyles(IT, variableTagUpperCase, value.toUpperCase());
                     while (IT.ContentString.indexOf(variableTagLowerCase) != -1)
                         updateTOWithStyles(IT, variableTagLowerCase, value.toLowerCase());
-                        // IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+                    // IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+
+                    var tag = variableTag.replace("{{", "");
+                    tag = tag.replace("}}", "");
+                    var prefixVar = "{{" + tag + "_pre}} ";
+                    var postfixVar = "{{" + tag + "_post}}";
+                  
+                    var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    if (obj.FieldVariable.VariableTag != null) {
+                        prefixVarUpperCase = prefixVar.toUpperCase();
+                        prefixVarLowerCase = prefixVar.toLowerCase();
+                        postfixVarUpperCase = postfixVar.toUpperCase();
+                        postfixVarLowerCase = postfixVar.toLowerCase();
+                    }
+                    while (IT.ContentString.indexOf(prefixVar) != -1)
+                        updateTOWithStyles(IT, prefixVar, prefix);
+                    while (IT.ContentString.indexOf(prefixVarUpperCase) != -1)
+                        updateTOWithStyles(IT, prefixVarUpperCase, prefix.toUpperCase());
+                    while (IT.ContentString.indexOf(prefixVarLowerCase) != -1)
+                        updateTOWithStyles(IT, prefixVarLowerCase, prefix.toLowerCase());
+
+                    while (IT.ContentString.indexOf(postfixVar) != -1)
+                        updateTOWithStyles(IT, postfixVar, post);
+                    while (IT.ContentString.indexOf(postfixVarUpperCase) != -1)
+                        updateTOWithStyles(IT, postfixVarUpperCase, post.toUpperCase());
+                    while (IT.ContentString.indexOf(postfixVarLowerCase) != -1)
+                        updateTOWithStyles(IT, postfixVarLowerCase, post.toLowerCase());
+
                 }
               //  }
             });
@@ -3243,7 +3274,7 @@ function pcl42_UpdateTO() {
                             }
                         }
                     });
-                    value = prefix + obj.Value + post;
+                    value = obj.Value ;//value = prefix + obj.Value + post;
                     while (IT.ContentString.indexOf(variableTag) != -1) {
                         updateTOWithStyles(IT, variableTag, value);
                     }
@@ -3253,7 +3284,35 @@ function pcl42_UpdateTO() {
                     while (IT.ContentString.indexOf(variableTagLowerCase) != -1) {
                         updateTOWithStyles(IT, variableTagLowerCase, value.toLowerCase());
                     }
-//                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+                    //                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+                    var tag = variableTag.replace("{{", "");
+                    tag = tag.replace("}}", "");
+                    var prefixVar = "{{" + tag + "_pre}} ";
+                    var postfixVar = "{{" + tag + "_post}}";
+                    console.log(prefixVar);
+                    var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    if (obj.FieldVariable.VariableTag != null) {
+                        prefixVarUpperCase = prefixVar.toUpperCase();
+                        prefixVarLowerCase = prefixVar.toLowerCase();
+                        postfixVarUpperCase = postfixVar.toUpperCase();
+                        postfixVarLowerCase = postfixVar.toLowerCase();
+                    }
+                    while (IT.ContentString.indexOf(prefixVar) != -1)
+                        updateTOWithStyles(IT, prefixVar, prefix);
+                    while (IT.ContentString.indexOf(prefixVarUpperCase) != -1)
+                        updateTOWithStyles(IT, prefixVarUpperCase, prefix.toUpperCase());
+                    while (IT.ContentString.indexOf(prefixVarLowerCase) != -1)
+                        updateTOWithStyles(IT, prefixVarLowerCase, prefix.toLowerCase());
+
+                    while (IT.ContentString.indexOf(postfixVar) != -1)
+                        updateTOWithStyles(IT, postfixVar, post);
+                    while (IT.ContentString.indexOf(postfixVarUpperCase) != -1)
+                        updateTOWithStyles(IT, postfixVarUpperCase, post.toUpperCase());
+                    while (IT.ContentString.indexOf(postfixVarLowerCase) != -1)
+                        updateTOWithStyles(IT, postfixVarLowerCase, post.toLowerCase());
                 }
             });
         }); 
