@@ -240,6 +240,16 @@ div#spinner {
 #productBinding .LCLB:hover .productIcons {
   display: block;
 }
+
+.delPhrase
+{
+    display: none;
+}
+
+.phraseHover:hover .delPhrase
+{
+    display: block;
+}
 #productBinding #pressDialog #pressDialogMainContainer {
   width: 838px;
 }

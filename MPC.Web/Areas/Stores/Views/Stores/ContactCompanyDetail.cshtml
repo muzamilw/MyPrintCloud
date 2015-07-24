@@ -2714,7 +2714,26 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                         <label class="control-label text-right tooltip-float">Shipping charge taxable</label>
                                                     </div>
                                                     <div class="col-lg-6" style="padding-left:5px;">
-                                                        <div class="radio">
+
+                                                        <div class="onoffswitch" style="margin-right:0px;">
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchDisplayTaxable" data-bind="checked: $root.selectedStore().isDeliveryTaxAble">
+                                                            <label class="onoffswitch-label" for="switchDisplayTaxable">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+
+
+
+
+
+
+
+
+
+
+
+                                                        @*<div class="radio">
                                                             <input type="radio" name="optionsRadiosTaxOptions" id="optionsRadiosYesTaxable" value="1" data-bind="checked: isDeliveryTaxAbleUi">
                                                             <label for="optionsRadiosYesTaxable">
                                                                 Yes
@@ -2725,7 +2744,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <label for="optionsRadiosNotTaxable">
                                                                 No
                                                             </label>
-                                                        </div>
+                                                        </div>*@
                                                         <span class="help-block text-right"></span>
                                                     </div>
                                                 </div>

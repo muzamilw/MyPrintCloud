@@ -4543,6 +4543,15 @@ define("stores/stores.viewModel",
                                     selectedItemsForOfferList.removeAll();
 
                                     if (data.Company) {
+                                        if (data.Company.IsDeliveryTaxAble == true)
+                                        {
+                                            selectedStore().isDeliveryTaxAble(true);
+                                        }
+                                        else
+                                        {
+                                            selectedStore().isDeliveryTaxAble(false);
+                                        }
+                                        
                                         if (data.Company.Addresses) {
                                             _.each(data.Company.Addresses, function (addressItem) {
                                                 var address = new model.Address.Create(addressItem);
