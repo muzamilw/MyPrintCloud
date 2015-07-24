@@ -25,8 +25,10 @@ namespace MPC.Webstore.Controllers
         private readonly ICampaignService _myCampaignService;
         private readonly IUserManagerService _userManagerService;
         private readonly ICampaignService _campaignService;
+        private readonly ITemplateService _templateService;
         public OrderConfirmationController(IOrderService OrderService, IWebstoreClaimsHelperService myClaimHelper, ICompanyService myCompanyService, IItemService ItemService
-            , ICampaignService myCampaignService, IUserManagerService userManagerService, ICampaignService campaignService)
+            , ICampaignService myCampaignService, IUserManagerService userManagerService, ICampaignService campaignService
+            , ITemplateService templateService)
         {
             if (OrderService == null)
             {
@@ -39,6 +41,7 @@ namespace MPC.Webstore.Controllers
             this._myCampaignService = myCampaignService;
             this._userManagerService = userManagerService;
             this._campaignService = campaignService;
+            this._templateService = templateService;
         }
         // GET: OrderConfirmation
         public ActionResult Index(string OrderId)
@@ -60,31 +63,40 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(string buttonType, string OrderId)
         {
-            ShoppingCart shopCart = null;
-            if (buttonType == "1")
+            try
             {
-                shopCart = PlaceOrder(1, Convert.ToInt64(OrderId));
-           
-            }
-            else
-            {
-                if (_myClaimHelper.loginContactRoleID() == (int)Roles.Adminstrator || _myClaimHelper.loginContactRoleID() == (int)Roles.Manager)
+                ShoppingCart shopCart = null;
+                if (buttonType == "1")
                 {
-                    shopCart = PlaceOrder(3, Convert.ToInt64(OrderId));
+                    shopCart = PlaceOrder(1, Convert.ToInt64(OrderId));
+
                 }
                 else
                 {
-                    shopCart = PlaceOrder(2, Convert.ToInt64(OrderId));
+                    if (_myClaimHelper.loginContactRoleID() == (int)Roles.Adminstrator || _myClaimHelper.loginContactRoleID() == (int)Roles.Manager)
+                    {
+                        shopCart = PlaceOrder(3, Convert.ToInt64(OrderId));
+                    }
+                    else
+                    {
+                        shopCart = PlaceOrder(2, Convert.ToInt64(OrderId));
+                    }
+                }
+                if (shopCart != null)
+                {
+                    return View("PartialViews/OrderConfirmation", shopCart);
+                }
+                else
+                {
+                    return null;
                 }
             }
-            if (shopCart != null)
+            catch (Exception ex) 
             {
-                return View("PartialViews/OrderConfirmation", shopCart);
-            }
-            else
-            {
+                throw ex;
                 return null;
             }
+            
 
         }
 
@@ -135,12 +147,12 @@ namespace MPC.Webstore.Controllers
                             result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingOrder, StoreMode.Retail, baseResponse.Organisation, StockManagerIds, UserCookieManager.WBStoreId);
                             Estimate updatedOrder = _OrderService.GetOrderByID(OrderId);
                             UserCookieManager.WEBOrderId = 0;
-                            string AttachmentPath = _myCompanyService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
+                            string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
                             SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
                             
-                            _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
+                            _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", null);
                             _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
                      
 
@@ -241,7 +253,7 @@ namespace MPC.Webstore.Controllers
                             UserCookieManager.WEBOrderId = 0;
                             long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager); //ContactManager.GetBrokerByRole(SessionParameters.BrokerContactCompany.ContactCompanyID, Convert.ToInt32(Roles.Adminstrator));
                             cep.CorporateManagerID = ManagerID;
-                            string AttachmentPath = _myCompanyService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
+                            string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
                             _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
@@ -266,7 +278,7 @@ namespace MPC.Webstore.Controllers
                             UserCookieManager.WEBOrderId = 0;
                             long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager);
                             cep.CorporateManagerID = ManagerID;
-                            string AttachmentPath = _myCompanyService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
+                            string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
                             _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);

@@ -5,6 +5,7 @@
 @{
     var ParentCategory = ViewBag.ParentCategory as List<MPC.Models.DomainModels.ProductCategory>;
     var AllChildCategories = ViewBag.AllChildCategories as List<MPC.Models.DomainModels.ProductCategory>;
+    var AllRetailCAt = ViewBag.AllRetailCat as List<MPC.Models.DomainModels.ProductCategory>;
 }
 
 <div id="footer" class="container footer-content spacer-top">
@@ -29,21 +30,27 @@
                         </div>
                         <div class="panel-body">
                             <ul class="nav nav-pills">
-                                @foreach(var PCategory in ParentCategory)
+                                @foreach (var PCategory in AllRetailCAt)
                                 { 
-                                    var ChildCategories = AllChildCategories.Where(g => g.ParentCategoryId == PCategory.ProductCategoryId).ToList();
+                                    //var ChildCategories = AllChildCategories.Where(g => g.ParentCategoryId == PCategory.ProductCategoryId).ToList();
+                                     var childCats = AllRetailCAt.Where(i => i.ParentCategoryId == PCategory.ProductCategoryId).OrderBy(o => o.DisplayOrder).ToList();
+                                     int count = AllRetailCAt.Where(i => i.ParentCategoryId == PCategory.ProductCategoryId).OrderBy(o => o.DisplayOrder).Count();
+                                     if (count>0)
+                                     { 
                                         <li>
-                                            <a id="ParentCateLink" style="width: 100%;" href="/Category/@Html.ResolveString(PCategory.CategoryName)/@PCategory.ProductCategoryId">@PCategory.CategoryName">
+                                            <a id="ParentCateLink" style="width: 100%;" href="/Category/@Html.ResolveString(PCategory.CategoryName)/@PCategory.ProductCategoryId">
                                                 <i class="icon-th-large"></i>
                                                 <span><b id="parentCatName">@PCategory.CategoryName</b></span>
                                             </a><br />
                                             <ul>
-                                                @foreach(var childs in ChildCategories)
+                                                @foreach (var childs in childCats)
                                                 { 
-                                                 <li style="width: 100%;"><a id="subCatLink" style="width: 100%;" href="/Category/@Html.ResolveString(childs.CategoryName)/@childs.ProductCategoryId">@childs.CategoryName"><span id="subCatName">@childs.CategoryName</span></a></li><br />
+                                                 <li style="width:100%;"><a id="subCatLink" style="width: 100%;" href="/Category/@Html.ResolveString(childs.CategoryName)/@childs.ProductCategoryId"><span id="subCatName">@childs.CategoryName</span></a></li>
+                                                 <br/>
                                                 }
                                             </ul>
                                         </li>
+                                }
                                 }
                             </ul>
                         </div>
@@ -51,6 +58,6 @@
                 </div>
             </div>
         </div>
-        <p></p>
+       
     </div>
 </div>

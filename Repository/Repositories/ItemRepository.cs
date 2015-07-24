@@ -2466,7 +2466,17 @@ namespace MPC.Repository.Repositories
                 if (ActualOrder != null && TemporaryOrder != null)
                 {
                     ActualOrder.CreationTime = DateTime.Now;
-                    ActualOrder.SectionFlagId = 3;
+
+                    List<SectionFlag> flagsList = db.SectionFlags.Where(s => s.OrganisationId == OrganisationId && s.FlagName.Contains("Order")).ToList();
+                    if (flagsList != null && flagsList.Count > 0)
+                    {
+                        ActualOrder.SectionFlagId = flagsList.FirstOrDefault().SectionFlagId;
+                    }
+                    else
+                    {
+                        throw new Exception("Critcal Error, We have lost our main Order flags.", null);
+                    }
+                    
                     // ActualOrder.AddressId = 159239;
                     ActualOrder.LockedBy = Convert.ToInt32(realContactID);
                     ActualOrder.CompanyId = realCustomerID;

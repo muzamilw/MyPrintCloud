@@ -129,7 +129,7 @@
         <div class="col-lg-12">
             <div class="row">
                 <div class="row">
-                    <div class="col-md-8 col-lg-8">
+                    <div class="col-md-8 col-lg-8" style="padding-left: 15px;">
 
                         @*<div class="row">
                                 @if (ViewBag.Istrial == true)
@@ -223,7 +223,7 @@
                                             <i class="glyphicon glyphicon-file"></i>
                                             <div class="clearfix">
                                                 <span class="social-count" data-bind="text:$root.completedOrdersCount"></span>
-                                                <span class="social-action">Completed</span>
+                                                <span class="social-action">Ready for Shipping</span>
                                             </div>
                                             @* <span class="social-name">google+</span>*@
                                         </div>
@@ -334,7 +334,7 @@
 
                     <div class="col-md-4 col-lg-4">
 
-                        <div class="row">
+                        @*<div class="row">
                             <div class="main-box clearfix">
                                 <header class="main-box-header clearfix">
                                     <h2 class="pull-left">Useful Resources</h2>
@@ -365,6 +365,59 @@
                                             <br />
 
                                         </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="main-box clearfix">
+                                    <header class="main-box-header clearfix">
+                                        <h2 style="margin-top: 3%;" class="pull-left">Useful Resources</h2>
+                                    </header>
+                                    <div class="main-box-body clearfix">
+                                        <div class="table-responsive clearfix">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="col-lg-11"><span></span></th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="http://www.onlinemeetingnow.com/register/?id=rflm0y9eq7" target="_blank">Attend Daily Webinars</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="http://blog.myprintcloud.com/tutorials-quickstart/" target="_blank">Find Tutorials and Implementation Guides</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="http://www.w3schools.com/" target="_blank">Learn More About CSS and Modifying Stores</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="http://blog.myprintcloud.com/updates-releases/" target="_blank"> View the Latest Updates & Release Notes</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="http://www.speedtest.net" target="_blank">Test Your Internet Connection Speed</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="https://myprintcloud.com/Dashboard/contacts" target="_blank">Add Users to Your MyPrintCloud Account.</a>.
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -460,8 +513,63 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                         <div class="row">
+                            <div class="col-lg-12">
+                                <div class="main-box clearfix">
+                                    <header class="main-box-header clearfix">
+                                        <h2 style="margin-top: 3%;" class="pull-left">Management Reports</h2>
+                                    </header>
+                                    <div class="main-box-body clearfix">
+                                        <div class="table-responsive clearfix">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="col-lg-11"><span></span></th>
+                                                        <th style="text-align: right"><span></span></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="#">Top 5 Customers by revenue</a>
+                                                        </td>
+                                                        <td style="text-align: right"><i class=" fa fa-eye fa-lg" style="font-size: 20px;"></i></td>
+                                                    </tr>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="#">Most popular product sold by revenue</a>
+                                                        </td>
+                                                        <td style="text-align: right"><i class=" fa fa-eye fa-lg" style="font-size: 20px;"></i></td>
+                                                    </tr>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="#">Most active customers</a>
+                                                        </td>
+                                                        <td style="text-align: right"><i class=" fa fa-eye fa-lg" style="font-size: 20px;"></i></td>
+                                                    </tr>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="#">Carts that haven't checked-Out</a>
+                                                        </td>
+                                                        <td style="text-align: right"><i class=" fa fa-eye fa-lg" style="font-size: 20px;"></i></td>
+                                                    </tr>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="#">Active Order Statuses</a>
+                                                        </td>
+                                                        <td style="text-align: right"><i class=" fa fa-eye fa-lg" style="font-size: 20px;"></i></td>
+                                                    </tr>
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*<div class="row">
                             <div class="main-box clearfix" style="background-color:transparent !important">
                                 <header class="main-box-header clearfix">
                                     <h2 class="pull-left">Management Reports</h2>
@@ -512,7 +620,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div>*@
 
                     </div>
 
@@ -570,6 +678,7 @@
                 </td>
             </tr>
         </script>
+       
     </div>
 </div>
 @section Scripts {
