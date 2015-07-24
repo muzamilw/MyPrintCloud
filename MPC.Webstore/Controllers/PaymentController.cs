@@ -29,9 +29,10 @@ namespace MPC.Webstore.Controllers
         private readonly IUserManagerService _usermanagerService;
         private readonly IPrePaymentService _IPrePaymentService;
         private readonly IPayPalResponseService _PayPalResponseService;
+        private readonly ITemplateService _templateService;
 
         public PaymentController(IItemService ItemService, IOrderService OrderService, ICampaignService campaignService, ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper, IUserManagerService usermanagerService, IPrePaymentService IPrePaymentService, IPayPalResponseService _PayPalResponseService
-           )
+           , ITemplateService templateService)
         {
             this._ItemService = ItemService;
             this._OrderService = OrderService;
@@ -41,7 +42,7 @@ namespace MPC.Webstore.Controllers
             this._usermanagerService = usermanagerService;
             this._IPrePaymentService = IPrePaymentService;
             this._PayPalResponseService = _PayPalResponseService;
-       
+            this._templateService = templateService;
         }
 
         // GET: Payment
@@ -243,12 +244,12 @@ namespace MPC.Webstore.Controllers
 
                                 if (Store.IsCustomer == (int)CustomerTypes.Corporate)
                                 {
-                                    AttachmentPath = _myCompanyService.OrderConfirmationPDF(orderID, StoreId);
+                                    AttachmentPath = _templateService.OrderConfirmationPDF(orderID, StoreId);
                                     ModeOfStore = StoreMode.Corp;
                                 }
                                 else
                                 {
-                                    AttachmentPath = _myCompanyService.OrderConfirmationPDF(orderID, StoreId);
+                                    AttachmentPath = _templateService.OrderConfirmationPDF(orderID, StoreId);
                                 }
                                 List<string> AttachmentList = new List<string>();
                                 AttachmentList.Add(AttachmentPath);
@@ -596,12 +597,12 @@ namespace MPC.Webstore.Controllers
 
                             if (Store.IsCustomer == (int)CustomerTypes.Corporate)
                             {
-                                AttachmentPath = _myCompanyService.OrderConfirmationPDF(orderID, StoreId); // corp
+                                AttachmentPath = _templateService.OrderConfirmationPDF(orderID, StoreId); // corp
                                 ModeOfStore = StoreMode.Corp;
                             }
                             else
                             {
-                                AttachmentPath = _myCompanyService.OrderConfirmationPDF(orderID, StoreId); // retail
+                                AttachmentPath = _templateService.OrderConfirmationPDF(orderID, StoreId); // retail
                             }
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
