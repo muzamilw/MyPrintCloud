@@ -777,7 +777,7 @@ namespace MPC.Repository.Repositories
                                 )
                            )
                         && (isTypeSpecified && s.TypeId == type || !isTypeSpecified)) &&
-                        (s.OrganisationId == OrganisationId && s.isArchived != true)
+                        (s.OrganisationId == OrganisationId && s.isArchived != true) && s.TypeId != 53
                         && ((companyType != 2 && (s.IsCustomer == companyType)) || (companyType == 2 && (s.IsCustomer == 0 || s.IsCustomer == 1))) && (true);
 
                     int rowCount = DbSet.Count(query);
