@@ -47,10 +47,28 @@
         require(["order/order.view", "common/confirmation.view", "common/companySelector.view", "common/phraseLibrary.view", "common/stockItem.view",
             "common/reportManager.view", "common/addCostCenter.view", "common/addProduct.view", "common/itemDetail.view"]);
 
-        $(function () {
+        $(function() {
             $('#liorderprocessing').addClass('active');
             $('.bs-example-tooltips a').popover();
         });
 
+        $(document).ready(function() {
+            page = Request.QueryString("to").toString();
+            if (page != null) {
+                if (page == 'prd') {
+                    $("#pending-orders").removeClass("active");
+                    $("#tab-PendingOrders").removeClass("active");
+                    $("#in-production").addClass("active");
+                    $("#tab-InProduction").addClass("active");
+                }
+                else if (page == 'com') {
+                    $("#pending-orders").removeClass("active");
+                    $("#tab-PendingOrders").removeClass("active");
+                    $("#ready-shipping").addClass("active");
+                    $("#tab-ReadyForShipping").addClass("active");
+                }
+
+            }
+        });
     </script>
 }

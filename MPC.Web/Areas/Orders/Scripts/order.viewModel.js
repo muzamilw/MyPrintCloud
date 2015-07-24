@@ -2921,8 +2921,19 @@ define("order/order.viewModel",
                             itemIdFromDashboard(itemIdFromOrderScreen);
                             if (orderIdFromDashboard != 0) {
                                 editOrder({ id: function () { return orderIdFromDashboard; } });
-                            } else {
-                                getOrders(4);
+                            }
+                            else {
+                                var page = Request.QueryString("to").toString();
+                                if (page == 'prd') {
+                                    getOrders(6);
+                                }
+                                else if (page == 'com') {
+                                    getOrders(7);
+                                }
+                                else {
+                                    getOrders(4);
+                                }
+                                
                             }
                         },
                     //Initialize Estimate
