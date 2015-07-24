@@ -3208,7 +3208,7 @@ function pcl42_UpdateTO() {
 
                     var tag = variableTag.replace("{{", "");
                     tag = tag.replace("}}", "");
-                    var prefixVar = "{{" + tag + "_pre}} ";
+                    var prefixVar = "{{" + tag + "_pre}}";
                     var postfixVar = "{{" + tag + "_post}}";
                   
                     var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
@@ -3287,7 +3287,7 @@ function pcl42_UpdateTO() {
                     //                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
                     var tag = variableTag.replace("{{", "");
                     tag = tag.replace("}}", "");
-                    var prefixVar = "{{" + tag + "_pre}} ";
+                    var prefixVar = "{{" + tag + "_pre}}";
                     var postfixVar = "{{" + tag + "_post}}";
                     console.log(prefixVar);
                     var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
@@ -3300,19 +3300,19 @@ function pcl42_UpdateTO() {
                         postfixVarUpperCase = postfixVar.toUpperCase();
                         postfixVarLowerCase = postfixVar.toLowerCase();
                     }
-                    while (IT.ContentString.indexOf(prefixVar) != -1)
-                        updateTOWithStyles(IT, prefixVar, prefix);
-                    while (IT.ContentString.indexOf(prefixVarUpperCase) != -1)
-                        updateTOWithStyles(IT, prefixVarUpperCase, prefix.toUpperCase());
-                    while (IT.ContentString.indexOf(prefixVarLowerCase) != -1)
-                        updateTOWithStyles(IT, prefixVarLowerCase, prefix.toLowerCase());
+                    //while (IT.ContentString.indexOf(prefixVar) != -1)
+                    //    updateTOWithStyles(IT, prefixVar, prefix);
+                    //while (IT.ContentString.indexOf(prefixVarUpperCase) != -1)
+                    //    updateTOWithStyles(IT, prefixVarUpperCase, prefix.toUpperCase());
+                    //while (IT.ContentString.indexOf(prefixVarLowerCase) != -1)
+                    //    updateTOWithStyles(IT, prefixVarLowerCase, prefix.toLowerCase());
 
-                    while (IT.ContentString.indexOf(postfixVar) != -1)
-                        updateTOWithStyles(IT, postfixVar, post);
-                    while (IT.ContentString.indexOf(postfixVarUpperCase) != -1)
-                        updateTOWithStyles(IT, postfixVarUpperCase, post.toUpperCase());
-                    while (IT.ContentString.indexOf(postfixVarLowerCase) != -1)
-                        updateTOWithStyles(IT, postfixVarLowerCase, post.toLowerCase());
+                    //while (IT.ContentString.indexOf(postfixVar) != -1)
+                    //    updateTOWithStyles(IT, postfixVar, post);
+                    //while (IT.ContentString.indexOf(postfixVarUpperCase) != -1)
+                    //    updateTOWithStyles(IT, postfixVarUpperCase, post.toUpperCase());
+                    //while (IT.ContentString.indexOf(postfixVarLowerCase) != -1)
+                    //    updateTOWithStyles(IT, postfixVarLowerCase, post.toLowerCase());
                 }
             });
         }); 
