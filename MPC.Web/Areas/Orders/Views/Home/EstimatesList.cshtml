@@ -26,8 +26,8 @@
                     </div>
                     <div class="row" data-bind="visible: (!isOrderDetailsVisible() && !isDisplayInquiryDetailScreen())">
                         <div class="col-sm-12">
-                            <div class="pull-left">
-                                <span style="padding-left: 7px; color: #696969">Create Estimates for direct Inquiries and progress Estimates to Orders.</span>
+                            <div class="pull-left" style="padding-left:10px;">
+                                <p class="group-header-description">Create Estimates for direct Inquiries and progress Estimates to Orders.</p>
                             </div>
                             <div class="pull-right" style="margin-right:10px;">
                                 <button id="open-wizard" data-bind="click: createOrder, visible:  $root.currentScreen() != 8" class="btn btn-primary pull-right">
@@ -50,7 +50,7 @@
                                 <div class="main-box-body main-box clearfix">
                                     <div class="tabs-wrapper profile-tabs">
                                         <ul class="nav nav-tabs" id="estimateListTabs">
-                                            <li id="pending-orders" class="active"><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(1);}">Live Estimates(Pipeline)</a></li>
+                                            <li id="pending-orders" class="active"><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(1);}">Live Estimates (Pipeline)</a></li>
                                             <li><a href="#tab-Invoiced" data-toggle="tab" data-bind="click: function(){$root.inqiriesTabClick();}">Inquiries</a></li>
                                             <li id="all-orders"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(0);}">All Estimates</a></li>
 
@@ -202,18 +202,18 @@
                         <script id="tabItemsList" type="text/html">
                             <div>
                                 <!--ko if: $root.currentScreen() == undefined-->
-                                <div class="tabsdescriptions" style="margin-top: 25px !important;">
-                                    <span>Review all outstanding estimates, find, copy & edit estimates quickly with the inbuilt search function. </span>
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">Review all outstanding estimates, find, copy & edit estimates quickly with the inbuilt search function. </p>
                                 </div>
                                 <!--/ko-->
                                 <!--ko if: $root.currentScreen() == 0 -->
-                                <div class="tabsdescriptions" style="margin-top: 25px !important;">
-                                    <span>View all open, pending and closed estimates, produce sales reports for pipiline and conversion rates.  </span>
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">View all open, pending and closed estimates, produce sales reports for pipiline and conversion rates.  </p>
                                 </div>
                                 <!--/ko-->
                                 <!--ko if: $root.currentScreen() == 1 -->
-                                <div class="tabsdescriptions" style="margin-top: 25px !important;">
-                                    <span>Review all outstanding estimates, find, copy & edit estimates quickly with the inbuilt search function. </span>
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">Review all outstanding estimates, find, copy & edit estimates quickly with the inbuilt search function. </p>
                                 </div>
                                 <!--/ko-->
                                 <div class="table-responsive">
@@ -260,8 +260,8 @@
                         @* Inquiry Items List*@
                         <script id="inquiryItemsList" type="text/html">
                             <div>
-                                <div class="tabsdescriptions" style="margin-top: 25px !important;">
-                                   <span>Quickly Respond to quote requests from webstore by opening the request and converting it to an estimate.</span> 
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">Quickly Respond to quote requests from webstore by opening the request and converting it to an estimate.</p> 
                                 </div>
                                 <div class="table-responsive">
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">

@@ -11,15 +11,15 @@
                     <li><a href="#">&nbsp;</a></li>
                 </ol>
                 <h1 style="padding-left:0px;">Supplier</h1>
-                <div class="clearfix pull-left" style="padding-bottom: 1%">
-                    <span style="color: #696969">Create Contacts, Customers and Suppliers. Add to-do items and update shared calendars.</span>
+                <div class="clearfix pull-left">
+                    <span class="group-header-description">Create Contacts, Customers and Suppliers. Add to-do items and update shared calendars.</span>
                 </div>
                 <div style="clear: both;max-height: 14px;">
                     &nbsp;
                 </div>
             </div>
-            <div class="col-lg-12" data-bind="visible: $root.isEditorVisible" style="display: none">
-                <ol class="breadcrumb">
+            <div class="col-lg-12" data-bind="visible: $root.isEditorVisible" style="display: none;margin-top:60px;">
+                <ol class="breadcrumb" style="padding-left:0px;">
                     <li><a href="~/Dashboard/Index">Home</a></li>
                     <li><a href="~/CRM/Home/SuppliersList">Supplier</a></li>
                     <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
@@ -31,14 +31,14 @@
 
                 </ol>
                 <!--ko if: $root.selectedStore() != undefined -->
-                <h1 data-bind="text: $root.selectedStore().name() == undefined ? 'Supplier Name' :  $root.selectedStore().name()"></h1>
+                <h1 data-bind="text: $root.selectedStore().name() == undefined ? 'Supplier Name' :  $root.selectedStore().name()" style="padding-left:0px;"></h1>
                 <!-- /ko -->
 
 
             </div>
 
         </div>
-        <div class="row">
+        <div class="row" style="margin-top:42px;">
 
             <div class="col-lg-12">
                 <div class="main-box-body main-box clearfix">
@@ -72,9 +72,9 @@
                                 <div class="row" data-bind="visible: !$root.isEditorVisible()">
                                     <!-- ko template: { name: 'filterTemplate' } -->
                                     <!-- /ko -->
-                                    <div class="col-lg-12" style="margin-top:20px;">
+                                    <div class="col-lg-12">
                                         <div class="tabsdescriptions">
-                                            <span style="color: #696969">Add your Suppliers to allow automatic outsourcing and for stock Replenishment.</span>
+                                            <p class="group-header-description">Add your Suppliers to allow automatic outsourcing and for stock Replenishment.</p>
                                         </div>
                                         <div style="margin-left:7px;margin-right:7px;">
                                             <div>
