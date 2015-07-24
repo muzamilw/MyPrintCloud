@@ -45,8 +45,12 @@ namespace MPC.Repository.Repositories
         private readonly IOrganisationRepository _Organisationrepository;
         private readonly ITemplateRepository _TemplateRepository;
         private readonly ITemplatePageRepository _TemplatePageRepository;
-
-        public OrderRepository(IUnityContainer container, IWebstoreClaimsHelperService myClaimHelper, IPrefixRepository _prefixrepository, IItemRepository _ItemRepository, IItemAttachmentRepository _ItemAttachmentRepository, IOrganisationRepository _Organisationrepository, IPrefixService _PrefixService, ITemplateRepository _TemplateRepository, ITemplatePageRepository _TemplatePageRepository)
+        private readonly ICampaignRepository _campaignRepository;
+        public OrderRepository(IUnityContainer container, IWebstoreClaimsHelperService myClaimHelper, IPrefixRepository _prefixrepository, 
+            IItemRepository _ItemRepository, IItemAttachmentRepository _ItemAttachmentRepository,
+            IOrganisationRepository _Organisationrepository, IPrefixService _PrefixService,
+            ITemplateRepository _TemplateRepository, ITemplatePageRepository _TemplatePageRepository
+            , ICampaignRepository campaignRepository)
             : base(container)
         {
             this._myClaimHelper = myClaimHelper;
@@ -57,6 +61,7 @@ namespace MPC.Repository.Repositories
             this._Organisationrepository = _Organisationrepository;
             this._TemplateRepository = _TemplateRepository;
             this._TemplatePageRepository = _TemplatePageRepository;
+            this._campaignRepository = campaignRepository;
         }
 
         /// <summary>
@@ -1697,12 +1702,12 @@ namespace MPC.Repository.Repositories
                                 if (Mode == StoreMode.Corp)
                                 {
                                     ManagerID = GetContactByRole(companyId, (int)Roles.Manager);
-                                    stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, ItemId, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid);
+                                    _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, ItemId, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid);
 
                                 }
                                 else
                                 {
-                                    stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, ItemId, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid);
+                                    _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, ItemId, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid);
 
                                 }
                             }
@@ -1710,12 +1715,12 @@ namespace MPC.Repository.Repositories
                             if (Mode == StoreMode.Corp)
                             {
                                 ManagerID = GetContactByRole(companyId, (int)Roles.Manager);
-                                stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, ItemId, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid);
+                                _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, ItemId, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid);
                             }
 
                             else
                             {
-                                stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, ItemId, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid);
+                                _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, ItemId, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid);
 
                             }
                         }
@@ -1777,44 +1782,7 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public void stockNotificationToManagers(List<Guid> mangerList, long CompanyId, Organisation ServerSettings, StoreMode ModeOfStore, long salesId, long itemId, long emailevent, long contactId, long orderedItemid)
-        {
-            try
-            {
-
-                CampaignEmailParams obj = new CampaignEmailParams();
-                List<SystemUser> listOfManagers = new List<SystemUser>();
-
-
-
-                //listOfManagers = 
-                //(from c in db.SystemUsers
-                //                  where mangerList.Contains(c.SystemUserId)
-                //                  select c).ToList();
-                if (listOfManagers.Count() > 0)
-                {
-                    Campaign stockCampaign = GetCampaignRecordByEmailEvent(emailevent);
-
-                    foreach (SystemUser stRec in listOfManagers)
-                    {
-                        obj.SystemUserId = stRec.SystemUserId;
-                        obj.SalesManagerContactID = salesId;
-                        obj.StoreId = CompanyId;
-                        obj.CompanyId = CompanyId;
-                        obj.OrganisationId = 1;
-                        obj.ItemId = (int)itemId;
-                        obj.ContactId = contactId;
-                        obj.orderedItemID = (int)orderedItemid;
-                        //emailBodyGenerator(stockCampaign, SeverSettings, obj, null, ModeOfStore, "", "", "", stRec.Email, stRec.FullName);
-                    }
-                }
-
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
+       
 
         public Campaign GetCampaignRecordByEmailEvent(long iEmailEvent)
         {
