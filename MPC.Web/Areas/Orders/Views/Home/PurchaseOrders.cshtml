@@ -54,7 +54,7 @@
             <div class="row" id="main-body" data-bind="visible:!$root.isEditorVisible()">
                 <div class="col-sm-12">
                     <div class="pull-left">
-                        <h5 style="margin-left: 10px;">Create and track Purchase order to Suppliers.</h5>
+                        <p class="group-header-description">Create and track Purchase order to Suppliers.</p>
                     </div>
                     <div class="pull-right" style="margin-right: 1%;">
                         <button class="btn btn-primary" data-bind="click: $root.openReport" style=" margin-left: 0px">
@@ -99,28 +99,36 @@
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="tab-Open">
                             <div style="margin-bottom:15px;margin-top:15px;margin-left:15px;">
-                                <span>Review all open Purchase Orders waiting for external suppliers to deliver the goods.</span>
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">Review all open Purchase Orders waiting for external suppliers to deliver the goods.</p>
+                                </div>
                             </div>
                             <!-- ko template: { name: 'tabTemplate' } -->
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane" id="tab-Posted">
                             <div style="margin-bottom:15px;margin-top:15px;margin-left:15px;">
-                                <span>Review completed purchase orders.</span>
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">Review completed purchase orders.</p>
+                                </div>
                             </div>
                             <!-- ko template: { name: 'tabTemplate' } -->
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane" id="tab-ShowAll">
                             <div style="margin-bottom:15px;margin-top:15px;margin-left:15px;">
-                                <span>Review all open, posted & cancelled purchase orders to outside suppliers.</span>
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">Review all open, posted & cancelled purchase orders to outside suppliers.</p>
+                                </div>
                             </div>
                             <!-- ko template: { name: 'tabTemplate' } -->
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane" id="tab-Cancelled">
                             <div style="margin-bottom:15px;margin-top:15px;margin-left:15px;">
-                                <span>Review all cancelled purchase orders to outside suppliers, review the notes section for orders that have been cancelled and for what reason. </span>
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">Review all cancelled purchase orders to outside suppliers, review the notes section for orders that have been cancelled and for what reason. </p>
+                                </div>
                             </div>
                             <!-- ko template: { name: 'tabTemplate' } -->
                             <!-- /ko -->
