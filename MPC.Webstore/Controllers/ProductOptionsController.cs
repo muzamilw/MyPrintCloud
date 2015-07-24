@@ -334,7 +334,7 @@ namespace MPC.Webstore.Controllers
                     StockItemViewModel sItemObj = new StockItemViewModel();
                     sItemObj.StockId = option.StockId ?? 0;
                     sItemObj.InStockValue = option.StockItem.inStock ?? 0;
-
+                    sItemObj.StockOptionId = option.ItemStockOptionId;
                     if (option.StockItem.isAllowBackOrder == true) // back ordering allowed
                     {
                         sItemObj.isAllowBackOrder = true;
@@ -367,7 +367,7 @@ namespace MPC.Webstore.Controllers
                 }
             }
 
-            //ViewBag["stockControlItems"] = stockItemOfStockOption;
+            ViewData["stockControlItems"] = stockItemOfStockOption;
 
             List<AddOnCostsCenter> listOfCostCentres = _myItemService.GetStockOptionCostCentres(Convert.ToInt64(ReferenceItemId), UserCookieManager.WBStoreId);
 
