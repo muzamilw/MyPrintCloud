@@ -1341,6 +1341,39 @@ namespace MPC.Repository.Repositories
               //  emailBodyGenerator(EventCampaign, ServerSettings, CEP, supplieruser,StoreMode.Corp, "", "", "", SalesManager.Email, "", "", AttachmentList, "", null, "", "", null, "", "", "", 0, "", 0);
             }
         }
+        public void stockNotificationToManagers(List<Guid> mangerList, long CompanyId, Organisation ServerSettings, StoreMode ModeOfStore, long salesId, long itemId, long emailevent, long contactId, long orderedItemid)
+        {
+            try
+            {
 
+                CampaignEmailParams obj = new CampaignEmailParams();
+
+                List<SystemUser> Managers = db.SystemUsers.Where(s => mangerList.Contains(s.SystemUserId)).ToList();
+                if (Managers.Count() > 0)
+                {
+                    Campaign stockCampaign = GetCampaignRecordByEmailEvent(emailevent, ServerSettings.OrganisationId, CompanyId);
+
+                    foreach (SystemUser stRec in Managers)
+                    {
+                        obj.SystemUserId = stRec.SystemUserId;
+                        obj.SalesManagerContactID = salesId;
+                        obj.StoreId = CompanyId;
+                        obj.CompanyId = CompanyId;
+                        obj.OrganisationId = ServerSettings.OrganisationId;
+                        obj.ItemId = (int)itemId;
+                        obj.ContactId = contactId;
+                        obj.orderedItemID = (int)orderedItemid;
+
+                        emailBodyGenerator(stockCampaign, ServerSettings, obj, null, ModeOfStore, "", "", "", stRec.Email, stRec.FullName);
+
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

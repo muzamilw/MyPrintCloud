@@ -325,49 +325,59 @@ namespace MPC.Webstore.Controllers
 
             ViewData["StckOptions"] = stockOptList.ToList();
 
-            List<StockItemViewModel> stockItemOfStockOption = new List<StockItemViewModel>();
-
-            foreach (ItemStockOption option in stockOptList)
+            if (referenceItem.IsStockControl == true && referenceItem.ProductType == (int)ProductType.NonPrintProduct)
             {
-                if (option.StockItem != null && stockItemOfStockOption.Where(s => s.StockId == option.StockId).FirstOrDefault() == null)
+                List<StockItemViewModel> stockItemOfStockOption = new List<StockItemViewModel>();
+
+                foreach (ItemStockOption option in stockOptList)
                 {
-                    StockItemViewModel sItemObj = new StockItemViewModel();
-                    sItemObj.StockId = option.StockId ?? 0;
-                    sItemObj.InStockValue = option.StockItem.inStock ?? 0;
-                    sItemObj.StockOptionId = option.ItemStockOptionId;
-                    if (option.StockItem.isAllowBackOrder == true) // back ordering allowed
+                    if (option.StockItem != null && stockItemOfStockOption.Where(s => s.StockId == option.StockId).FirstOrDefault() == null)
                     {
-                        sItemObj.isAllowBackOrder = true;
-                    }
-                    else
-                    {
-                        sItemObj.isAllowBackOrder = false;
-                    }
-                    sItemObj.StockTextToDisplay = Utils.GetKeyValueFromResourceFile("lblitemInStock", UserCookieManager.WBStoreId) + option.StockItem.inStock;
-                    if (option.StockItem.inStock == 0 || option.StockItem.inStock < 0) // no stock available 
-                    {
-                       
-                        if (option.StockItem.isAllowBackOrder ?? false) // back ordering allowed
+                        StockItemViewModel sItemObj = new StockItemViewModel();
+                        sItemObj.StockId = option.StockId ?? 0;
+                        sItemObj.InStockValue = option.StockItem.inStock ?? 0;
+                        sItemObj.StockOptionId = option.ItemStockOptionId;
+                        if (option.StockItem.isAllowBackOrder == true) // back ordering allowed
                         {
-                            sItemObj.StockTextToDisplay = Utils.GetKeyValueFromResourceFile("lblBackOrder", UserCookieManager.WBStoreId);
-                            sItemObj.isItemInStock = true;
+                            sItemObj.isAllowBackOrder = true;
                         }
                         else
                         {
-                            sItemObj.isItemInStock = false;
-                            sItemObj.StockTextToDisplay = Utils.GetKeyValueFromResourceFile("lblItemOutOfStock", UserCookieManager.WBStoreId);
+                            sItemObj.isAllowBackOrder = false;
                         }
-                    } // stock available
-                    else
-                    {
-                        sItemObj.isItemInStock = true;
+                        sItemObj.StockTextToDisplay = Utils.GetKeyValueFromResourceFile("lblitemInStock", UserCookieManager.WBStoreId) + option.StockItem.inStock;
+                        if (option.StockItem.inStock == 0 || option.StockItem.inStock < 0) // no stock available 
+                        {
 
+                            if (option.StockItem.isAllowBackOrder ?? false) // back ordering allowed
+                            {
+                                sItemObj.StockTextToDisplay = Utils.GetKeyValueFromResourceFile("lblBackOrder", UserCookieManager.WBStoreId);
+                                sItemObj.isItemInStock = true;
+                            }
+                            else
+                            {
+                                sItemObj.isItemInStock = false;
+                                sItemObj.StockTextToDisplay = Utils.GetKeyValueFromResourceFile("lblItemOutOfStock", UserCookieManager.WBStoreId);
+                            }
+                        } // stock available
+                        else
+                        {
+                            sItemObj.isItemInStock = true;
+
+                        }
+                        stockItemOfStockOption.Add(sItemObj);
                     }
-                    stockItemOfStockOption.Add(sItemObj);
                 }
+                ViewData["stockControlItems"] = stockItemOfStockOption;
+            }
+            else
+            {
+                ViewData["stockControlItems"] = null;
             }
 
-            ViewData["stockControlItems"] = stockItemOfStockOption;
+            
+
+           
 
             List<AddOnCostsCenter> listOfCostCentres = _myItemService.GetStockOptionCostCentres(Convert.ToInt64(ReferenceItemId), UserCookieManager.WBStoreId);
 

@@ -45,8 +45,12 @@ namespace MPC.Repository.Repositories
         private readonly IOrganisationRepository _Organisationrepository;
         private readonly ITemplateRepository _TemplateRepository;
         private readonly ITemplatePageRepository _TemplatePageRepository;
-
-        public OrderRepository(IUnityContainer container, IWebstoreClaimsHelperService myClaimHelper, IPrefixRepository _prefixrepository, IItemRepository _ItemRepository, IItemAttachmentRepository _ItemAttachmentRepository, IOrganisationRepository _Organisationrepository, IPrefixService _PrefixService, ITemplateRepository _TemplateRepository, ITemplatePageRepository _TemplatePageRepository)
+        private readonly ICampaignRepository _campaignRepository;
+        public OrderRepository(IUnityContainer container, IWebstoreClaimsHelperService myClaimHelper, IPrefixRepository _prefixrepository, 
+            IItemRepository _ItemRepository, IItemAttachmentRepository _ItemAttachmentRepository,
+            IOrganisationRepository _Organisationrepository, IPrefixService _PrefixService,
+            ITemplateRepository _TemplateRepository, ITemplatePageRepository _TemplatePageRepository
+            , ICampaignRepository campaignRepository)
             : base(container)
         {
             this._myClaimHelper = myClaimHelper;
@@ -57,6 +61,7 @@ namespace MPC.Repository.Repositories
             this._Organisationrepository = _Organisationrepository;
             this._TemplateRepository = _TemplateRepository;
             this._TemplatePageRepository = _TemplatePageRepository;
+            this._campaignRepository = campaignRepository;
         }
 
         /// <summary>
@@ -1057,7 +1062,7 @@ namespace MPC.Repository.Repositories
                         CustomerID = Order.CompanyId,
                         CustomerName = "",
                         OrderDate = Order.Order_Date,
-                        DeliveryDate = Order.StartDeliveryDate, 
+                        DeliveryDate = Order.StartDeliveryDate,
                         DeliveryAddressID = Order.AddressId,
                         BillingAddressID = Order.BillingAddressId ?? 0,
                         DeliveryCostCentreID = Order.DeliveryCostCenterId ?? 0,
@@ -1340,15 +1345,26 @@ namespace MPC.Repository.Repositories
             {
                 if (item.IsOrderedItem.HasValue && item.IsOrderedItem.Value)
                 {
-
                     if (orderStatus != OrderStatus.ShoppingCart)
                         item.StatusId = (short)itemStatus;
 
-                    //updateStockAndSendNotification(Convert.ToInt32(item.RefItemId), Mode, Convert.ToInt32(tblOrder.CompanyId), Convert.ToInt32(item.Qty1), Convert.ToInt32(tblOrder.ContactId), Convert.ToInt32(item.ItemId), Convert.ToInt32(tblOrder.EstimateId), MgrIds, org);
-
+                    db.Configuration.LazyLoadingEnabled = false;
+                    Item ActualItem = db.Items.Include("ItemSections").Where(i => i.ItemId == item.RefItemId).FirstOrDefault();
+                    if (ActualItem != null)
+                    {
+                        if (ActualItem.IsStockControl == true && ActualItem.ProductType == (int)ProductType.NonPrintProduct)
+                        {
+                            ItemSection FirstItemSection = ActualItem.ItemSections.Where(sec => sec.SectionNo == 1 && sec.ItemId == ActualItem.ItemId).FirstOrDefault();
+                            if (FirstItemSection != null)
+                            {
+                                updateStockAndSendNotification(FirstItemSection.StockItemID1 ?? 0, ActualItem.ItemId, Mode, tblOrder.CompanyId, Convert.ToInt32(item.Qty1), Convert.ToInt32(tblOrder.ContactId), item.ItemId, tblOrder.EstimateId, MgrIds, org);
+                            }
+                        }
+                    }
                 }
                 else
-                {//Delete the non included items
+                {
+                    //Delete the non included items
                     bool result = false;
                     List<ArtWorkAttatchment> itemAttatchments = null;
                     Template clonedTempldateFiles = null;
@@ -1362,10 +1378,7 @@ namespace MPC.Repository.Repositories
                         if (clonedTempldateFiles != null)
                             DeleteTemplateFiles(clonedTempldateFiles.ProductId, org.OrganisationId); // file removing
                     }
-
-                    //dbContext.tbl_items.DeleteObject(item);
                 }
-
             });
         }
 
@@ -1636,31 +1649,25 @@ namespace MPC.Repository.Repositories
             return itemAttactchment;
         }
 
-        public void updateStockAndSendNotification(long itemID, StoreMode Mode, long companyId, int orderedQty, long contactId, long orderedItemid, long OrderId, List<Guid> MgrIds, Organisation org)
+        public void updateStockAndSendNotification(long StockID, long ItemId, StoreMode Mode, long companyId, int orderedQty, long contactId, long orderedItemid, long OrderId, List<Guid> MgrIds, Organisation org)
         {
+            StockItem tblItemStock = null;
 
-            Item tblRefItemProduct = null;
-            ItemStockControl tblItemStock = null;
-
-
-            if (itemID > 0)
+            if (StockID > 0)
             {
-
-                tblRefItemProduct = db.Items.Where(i => i.ItemId == itemID).FirstOrDefault();
-                if (tblRefItemProduct.IsStockControl == true)
+                tblItemStock = db.StockItems.Where(i => i.StockItemId == StockID && i.OrganisationId == org.OrganisationId).FirstOrDefault();
+                if (tblItemStock != null)
                 {
-
-
-                    //companySite = db.tbl_company_sites.FirstOrDefault();
-                    tblItemStock = db.ItemStockControls.Where(i => i.ItemId == itemID).FirstOrDefault();
-                    int currentStock = tblItemStock.InStock;
-                    int lastModified = tblItemStock.InStock = tblItemStock.InStock - orderedQty;
-                    if (tblItemStock.InStock < 0)
+                    double currentStock = tblItemStock.inStock ?? 0;
+                    int lastModified = Convert.ToInt32(tblItemStock.inStock) - orderedQty;
+                    tblItemStock.inStock = lastModified;
+                    if (tblItemStock.inStock < 0)
                     {
-                        tblItemStock.InStock = 0;
+                        tblItemStock.inStock = 0;
                     }
                     ItemStockUpdateHistory stockLog = new ItemStockUpdateHistory();
-                    stockLog.ItemId = (int)itemID;
+                    stockLog.ItemId = (int)ItemId;
+                    stockLog.StockItemId = StockID;
                     //stockLog.LastAvailableQty = currentStock;
                     //stockLog.LastOrderedQty = orderedQty;
                     stockLog.LastModifiedQty = lastModified;
@@ -1681,49 +1688,44 @@ namespace MPC.Repository.Repositories
 
                     db.ItemStockUpdateHistories.Add(stockLog);
                     db.SaveChanges();
-                }
 
 
-                if (tblItemStock != null)
-                {
-                    if (tblItemStock.InStock < tblItemStock.ThresholdLevel || tblItemStock.ThresholdLevel == null)
+                    if (tblItemStock != null)
                     {
-                        //EmailManager emailmgr = new EmailManager();
-                        long ManagerID = 0;
-
-
-
-
-                        // send emails to the managers
-                        if (tblItemStock.isAllowBackOrder == true)
+                        if (tblItemStock.inStock < tblItemStock.ThresholdLevel || tblItemStock.ThresholdLevel == null)
                         {
+                            //EmailManager emailmgr = new EmailManager();
+                            long ManagerID = 0;
+                            // send emails to the managers
+                            if (tblItemStock.isAllowBackOrder == true)
+                            {
+                                if (Mode == StoreMode.Corp)
+                                {
+                                    ManagerID = GetContactByRole(companyId, (int)Roles.Manager);
+                                    _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, ItemId, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid);
+
+                                }
+                                else
+                                {
+                                    _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, ItemId, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid);
+
+                                }
+                            }
+
                             if (Mode == StoreMode.Corp)
                             {
                                 ManagerID = GetContactByRole(companyId, (int)Roles.Manager);
-                                stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, itemID, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid);
-
+                                _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, ItemId, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid);
                             }
+
                             else
                             {
-                                stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, itemID, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid);
+                                _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, ItemId, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid);
 
                             }
-                        }
-
-                        if (Mode == StoreMode.Corp)
-                        {
-                            ManagerID = GetContactByRole(companyId, (int)Roles.Manager);
-                            stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, itemID, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid);
-                        }
-
-                        else
-                        {
-                            stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, itemID, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid);
-
                         }
                     }
                 }
-
             }
         }
         public bool UpdateCustomer(Company modelCustomer)
@@ -1780,44 +1782,7 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public void stockNotificationToManagers(List<Guid> mangerList, long CompanyId, Organisation ServerSettings, StoreMode ModeOfStore, long salesId, long itemId, long emailevent, long contactId, long orderedItemid)
-        {
-            try
-            {
-
-                CampaignEmailParams obj = new CampaignEmailParams();
-                List<SystemUser> listOfManagers = new List<SystemUser>();
-
-
-
-                //listOfManagers = 
-                //(from c in db.SystemUsers
-                //                  where mangerList.Contains(c.SystemUserId)
-                //                  select c).ToList();
-                if (listOfManagers.Count() > 0)
-                {
-                    Campaign stockCampaign = GetCampaignRecordByEmailEvent(emailevent);
-
-                    foreach (SystemUser stRec in listOfManagers)
-                    {
-                        obj.SystemUserId = stRec.SystemUserId;
-                        obj.SalesManagerContactID = salesId;
-                        obj.StoreId = CompanyId;
-                        obj.CompanyId = CompanyId;
-                        obj.OrganisationId = 1;
-                        obj.ItemId = (int)itemId;
-                        obj.ContactId = contactId;
-                        obj.orderedItemID = (int)orderedItemid;
-                        //emailBodyGenerator(stockCampaign, SeverSettings, obj, null, ModeOfStore, "", "", "", stRec.Email, stRec.FullName);
-                    }
-                }
-
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
+       
 
         public Campaign GetCampaignRecordByEmailEvent(long iEmailEvent)
         {
@@ -1926,13 +1891,12 @@ namespace MPC.Repository.Repositories
                 tblOrder.CreditLimitSetBy = ManagerIds[0];
             }
             Company oCompany = db.Companies.Where(c => c.CompanyId == StoreId).FirstOrDefault();
-            if(oCompany != null)
+            if (oCompany != null)
             {
                 tblOrder.OrderManagerId = oCompany.AccountManagerId;
             }
-           
+
             UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, currentStoreMode, Org, ManagerIds);
-            // UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, currentStoreMode); // and Delete the items which are not of part
 
             db.SaveChanges();
 
@@ -2537,7 +2501,7 @@ namespace MPC.Repository.Repositories
             db.SaveChanges();
         }
 
-        public List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber,bool IsManager,long TerritoryId)
+        public List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, bool IsManager, long TerritoryId)
         {
 
             List<Order> ordersList = null;
@@ -2593,7 +2557,7 @@ namespace MPC.Repository.Repositories
                             DeliveryDate = tblOrd.StartDeliveryDate,
                             YourRef = tblOrd.CustomerPO,
                             CustomerName = tblContacts.FirstName,
-                            TerritoryId=tblContacts.TerritoryId??0,
+                            TerritoryId = tblContacts.TerritoryId ?? 0,
                             CompanyName = tblcompany.Name
                         };
 
@@ -6912,7 +6876,7 @@ namespace MPC.Repository.Repositories
                      (estimate.Estimate_Name.Contains(request.SearchString))) && (
                          (estimate.OrganisationId == OrganisationId && estimate.StatusId == (int)OrderStatus.InProduction));
 
-            IQueryable<Item> estimates = DbSet.Where(query).SelectMany(est => est.Items).Where( item => item.ItemType!=2);
+            IQueryable<Item> estimates = DbSet.Where(query).SelectMany(est => est.Items).Where(item => item.ItemType != 2);
 
             List<Item> items = estimates.OrderBy(est => est.EstimateId)
            .Skip(fromRow)
@@ -6932,16 +6896,16 @@ namespace MPC.Repository.Repositories
             {
                 long StoreId = 0;
                 Estimate order = db.Estimates.Where(e => e.EstimateId == OrderId).FirstOrDefault();
-                if(order != null)
+                if (order != null)
                 {
                     Company oCompany = db.Companies.Where(c => c.CompanyId == order.CompanyId).FirstOrDefault();
-                    if(oCompany != null)
+                    if (oCompany != null)
                     {
-                        if(oCompany.IsCustomer == 1 && oCompany.StoreId != null)
+                        if (oCompany.IsCustomer == 1 && oCompany.StoreId != null)
                         {
                             StoreId = oCompany.StoreId ?? 0;
                         }
-                        else if(oCompany.IsCustomer == 3)
+                        else if (oCompany.IsCustomer == 3)
                         {
                             StoreId = oCompany.CompanyId;
                         }
@@ -6961,28 +6925,28 @@ namespace MPC.Repository.Repositories
             try
             {
                 string ProductionPath = "MPC_Content/Artworks/" + OrganisationId + "/Production";
-                if(items != null)
+                if (items != null)
                 {
-                    foreach(var itm in items)
+                    foreach (var itm in items)
                     {
-                        if(itm.ItemAttachments != null)
+                        if (itm.ItemAttachments != null)
                         {
-                            foreach(var iAttchm in itm.ItemAttachments)
+                            foreach (var iAttchm in itm.ItemAttachments)
                             {
                                 iAttchm.FolderPath = ProductionPath;
                             }
                         }
                     }
                     db.SaveChanges();
-                   
+
                 }
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return false;
                 throw ex;
-               
+
             }
 
         }

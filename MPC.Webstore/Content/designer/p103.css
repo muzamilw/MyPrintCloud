@@ -182,7 +182,7 @@ div.navBulletsWrapper  {
 .PreviewerContainerDesignerClose {
     line-height: 2.1;
     position: absolute;
-    top: 30px;
+    top: 36px;
     right: 30px;
     text-shadow: 0 -1px 1px rbga(0,0,0,.4);
     font-weight: normal;
@@ -201,7 +201,7 @@ div.navBulletsWrapper  {
     background: #aaa;
     float: right;
     margin-top: -17px !important;
-    margin-right: 6px;  line-height: 9px;
+    margin-right: 6px;  line-height: 2px;
     cursor: pointer;
 }
 
