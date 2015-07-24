@@ -638,7 +638,7 @@ namespace MPC.Webstore.Controllers
                     html = "  <div id='slider' style='height:450px;'> ";
                     for (int i = 1; i <= count; i++)
                     {
-                        string path = "/MPC_Content/Designer/Organisation" + OID + "/Templates/" + TempID + "/p" + i + ".png";
+                        string path = "MPC_Content/Designer/Organisation" + OID + "/Templates/" + TempID + "/p" + i + ".png";
                         //  string drURL = System.Web.HttpContext.Current.Server.MapPath(path);
                         // string imgurl = string.Format("{0}{1}{2}", TemplateDesignerUrl, "designer/products/" + TempID + "/", "p" + i + ".png");
                         if (LstTempPages != null)

@@ -2448,16 +2448,16 @@ define("stores/stores.viewModel",
                                                                 item.isDefaultTerrorityShipping(false);
                                                             }
                                                         }
-                                                        if (savedAddress.isDefaultAddress()) {
-                                                            if (item.isDefaultAddress() == true) {
-                                                                item.isDefaultAddress(false);
-                                                            }
-                                                        }
-                                                        if (savedAddress.isDefaultShippingAddress()) {
-                                                            if (item.isDefaultShippingAddress() == true) {
-                                                                item.isDefaultShippingAddress(false);
-                                                            }
-                                                        }
+                                                        //if (savedAddress.isDefaultAddress()) {
+                                                        //    if (item.isDefaultAddress() == true) {
+                                                        //        item.isDefaultAddress(false);
+                                                        //    }
+                                                        //}
+                                                        //if (savedAddress.isDefaultShippingAddress()) {
+                                                        //    if (item.isDefaultShippingAddress() == true) {
+                                                        //        item.isDefaultShippingAddress(false);
+                                                        //    }
+                                                        //}
                                                     }
                                                 });
                                                 if (selectedAddress().addressId() <= 0 || selectedAddress().addressId() == undefined) {
@@ -2474,13 +2474,14 @@ define("stores/stores.viewModel",
                                                             item.isDefaultTerrorityShipping(false);
                                                         }
                                                     }
+                                                    //Naveed Changed the condition as no need of applying territory check as this is globally default address for that store.
                                                     if (savedAddress.isDefaultAddress()) {
-                                                        if (item.isDefaultAddress() == true && item.territoryId() == savedAddress.territoryId()) {
+                                                        if (item.isDefaultAddress() == true) {
                                                             item.isDefaultAddress(false);
                                                         }
                                                     }
                                                     if (savedAddress.isDefaultShippingAddress()) {
-                                                        if (item.isDefaultShippingAddress() == true && item.territoryId() == savedAddress.territoryId()) {
+                                                        if (item.isDefaultShippingAddress() == true) {
                                                             item.isDefaultShippingAddress(false);
                                                         }
                                                     }

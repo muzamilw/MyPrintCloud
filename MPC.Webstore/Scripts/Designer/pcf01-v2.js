@@ -1485,7 +1485,7 @@ function fu02UI() {
                               //  var extToAdd = { "TemplateId": tID, "FieldVariableId": id, "HasPrefix": 1, "HasPostFix": 1 };
                              //   varExtensions.push(extToAdd);  //already mapping while saving template 
                             }
-                            var txtToAdd = "{{" + tag + "_pre}} " + txt +"{{" + tag + "_post}}" ;
+                            var txtToAdd = "{{" + tag + "_pre}}" + txt +"{{" + tag + "_post}}" ;
                             for (var i = 0; i < txtToAdd.length; i++) {
                                 DIAO.insertChars(txtToAdd[i]);
                             }

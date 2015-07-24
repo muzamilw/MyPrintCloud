@@ -86,7 +86,7 @@ namespace MPC.Implementation.MISServices
             }
             if (address.IsDefaultAddress == true)
             {
-                addressesToUpdate = addressRepository.GetAll().Where(x => x.IsDefaultAddress == true && x.CompanyId == address.CompanyId && x.TerritoryId == address.TerritoryId);
+                addressesToUpdate = addressRepository.GetAll().Where(x => x.IsDefaultAddress == true && x.CompanyId == address.CompanyId);
                 foreach (var updatingAddress in addressesToUpdate)
                 {
                     updatingAddress.IsDefaultAddress = false;
@@ -96,7 +96,7 @@ namespace MPC.Implementation.MISServices
             }
             if (address.IsDefaultShippingAddress == true)
             {
-                addressesToUpdate = addressRepository.GetAll().Where(x => x.IsDefaultShippingAddress == true && x.CompanyId == address.CompanyId && x.TerritoryId == address.TerritoryId);
+                addressesToUpdate = addressRepository.GetAll().Where(x => x.IsDefaultShippingAddress == true && x.CompanyId == address.CompanyId);
                 foreach (var updatingAddress in addressesToUpdate)
                 {
                     updatingAddress.IsDefaultShippingAddress = false;

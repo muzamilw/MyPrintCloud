@@ -201,12 +201,12 @@ namespace MPC.Webstore
 
         private void Application_Error(object sender, EventArgs e)
         {
-            //var exception = Server.GetLastError();
+            var exception = Server.GetLastError();
 
-            //var httpContext = ((HttpApplication)sender).Context;
-            //httpContext.Response.Clear();
-            //httpContext.ClearError();
-            //ExecuteErrorController(httpContext, exception);
+            var httpContext = ((HttpApplication)sender).Context;
+            httpContext.Response.Clear();
+            httpContext.ClearError();
+            ExecuteErrorController(httpContext, exception);
         }
         private void ExecuteErrorController(HttpContext httpContext, Exception exception)
         {

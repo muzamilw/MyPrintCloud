@@ -46,10 +46,22 @@ namespace MPC.Repository.Repositories
         {
             return db.TemplateVariables.Where(g => g.TemplateId == templateID).ToList();
         }
-        public void InsertTemplateVariables(List<TemplateVariable> lstTemplateVariables)
+        public void InsertTemplateVariables(List<TemplateVariable> lstTemplateVariables, List<TemplateVariableExtension> lstVariableExtensions)
         {
-            db.TemplateVariables.AddRange(lstTemplateVariables);
+            if (lstTemplateVariables != null && lstTemplateVariables.Count != 0)
+            {
+                db.TemplateVariables.AddRange(lstTemplateVariables);
+            }
+            if(lstVariableExtensions != null && lstVariableExtensions.Count!= 0)
+            {
+                long templateId = lstVariableExtensions[0].TemplateId.Value;
+                var variableRange = db.TemplateVariableExtensions.Where(g => g.TemplateId == templateId).ToList();
+                if(variableRange !=  null)
+                    db.TemplateVariableExtensions.RemoveRange(variableRange);
+                db.TemplateVariableExtensions.AddRange(lstVariableExtensions);
+            }
             db.SaveChanges();
+
 
         }
         #endregion
