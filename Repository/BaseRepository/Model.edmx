@@ -3763,9 +3763,9 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Key>
             <PropertyRef Name="TemplateVariableExtId" />
           </Key>
-          <Property Name="TemplateVariableExtId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TemplateId" Type="int" />
-          <Property Name="FieldVariableId" Type="int" />
+          <Property Name="TemplateVariableExtId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TemplateId" Type="bigint" />
+          <Property Name="FieldVariableId" Type="bigint" />
           <Property Name="HasPrefix" Type="bit" />
           <Property Name="HasPostFix" Type="bit" />
         </EntityType>
@@ -14892,9 +14892,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Key>
             <PropertyRef Name="TemplateVariableExtId" />
           </Key>
-          <Property Name="TemplateVariableExtId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TemplateId" Type="Int32" />
-          <Property Name="FieldVariableId" Type="Int32" />
+          <Property Name="TemplateVariableExtId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TemplateId" Type="Int64" />
+          <Property Name="FieldVariableId" Type="Int64" />
           <Property Name="HasPrefix" Type="Boolean" />
           <Property Name="HasPostFix" Type="Boolean" />
         </EntityType>
