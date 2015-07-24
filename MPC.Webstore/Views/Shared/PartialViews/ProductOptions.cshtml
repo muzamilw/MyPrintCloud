@@ -336,7 +336,7 @@
                             {
                                 if (stockItem.isItemInStock == false)
                                 {
-                                     <div class="InStockContainer" data-StockOptionid="@stockItem.StockOptionId" data-isAllowBackOrder="@stockItem.isAllowBackOrder" style="background:red; color:white;display:none;">
+                                     <div class="InStockContainer" data-isItemInStock="0" data-StockOptionid="@stockItem.StockOptionId" data-isAllowBackOrder="@stockItem.isAllowBackOrder" style="background:red; color:white;display:none;">
                                
                                        <label>@stockItem.StockTextToDisplay</label>
                                
@@ -344,7 +344,7 @@
                                 }
                                 else
                                 {
-                                    <div class="InStockContainer" data-stockoptionid="@stockItem.StockOptionId" data-isallowbackorder="@stockItem.isAllowBackOrder" style="background:#f3f3f3; color:black;display:none;">
+                                    <div class="InStockContainer" data-isItemInStock="1" data-StockOptionid="@stockItem.StockOptionId" data-isAllowBackOrder="@stockItem.isAllowBackOrder" style="background:#f3f3f3; color:black;display:none;">
                                         <label>@stockItem.StockTextToDisplay</label>
                                     </div>
                                 }
@@ -613,7 +613,7 @@
                     <label id="lbl_DesignSize_Format" class="Fsize13">Design sizes & format</label>
                 </div>
                 <div class="white_background rounded_corners left_align">
-                    <img id="designFormateimg" src="@ViewBag.ItemModel.GridImage" />
+                    <img id="designFormateimg" src="/@ViewBag.ItemModel.GridImage" />
                 </div>
             </div>
         }
@@ -973,6 +973,13 @@
             $('.InStockContainer').each(function() {
                 if($(this).attr('data-StockOptionid') == ItemstockOptionID){
                     $(this).css("display", "block");
+                    if($(this).attr('data-isItemInStock') == 1){
+                        $("#AddTOCart").removeAttr('disabled');
+                    }else{
+                        $("#AddTOCart").attr('disabled','disabled');
+                    }
+                }else{
+                    $(this).css("display", "none");
                 }
             });
         }

@@ -40,7 +40,7 @@ namespace MPC.Interfaces.Repository
         bool SetOrderCreationDateAndCode(long orderId);
         bool IsVoucherValid(string voucherCode);
         bool UpdateOrderStatusAfterPrePayment(Estimate tblOrder, OrderStatus orderStatus, StoreMode mode);
-        void updateStockAndSendNotification(long itemID, StoreMode Mode, long companyId, int orderedQty, long contactId, long orderedItemid, long OrderId, List<Guid> MgrIds, Organisation org);
+        void updateStockAndSendNotification(long ItemId, long StockID, StoreMode Mode, long companyId, int orderedQty, long contactId, long orderedItemid, long OrderId, List<Guid> MgrIds, Organisation org);
         Estimate CheckDiscountApplied(int orderId);
 
         bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode);
