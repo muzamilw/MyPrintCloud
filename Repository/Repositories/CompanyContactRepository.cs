@@ -759,8 +759,11 @@ namespace MPC.Repository.Repositories
                     Contact.quickTitle = regContact.quickTitle;
                     Contact.quickWebsite = regContact.quickWebsite;
                     Contact.IsPricingshown = true;
+                    Contact.AddressId = 0;
+                    Contact.ShippingAddressId = 0;
                     if (companyTerritory != null)
                     {
+                        Contact.TerritoryId = companyTerritory.TerritoryId;
                         List<Address> addresses = GetAddressesByTerritoryID(companyTerritory.TerritoryId);
                         if (addresses != null && addresses.Count > 0)
                         {
@@ -769,30 +772,41 @@ namespace MPC.Repository.Repositories
 
                                 if (address.isDefaultTerrorityBilling == true && address.isDefaultTerrorityShipping == true)
                                 {
-                                    Contact.AddressId = (int)address.AddressId;
-                                    Contact.ShippingAddressId = (int)address.AddressId;
+                                    Contact.AddressId = address.AddressId;
+                                    Contact.ShippingAddressId = address.AddressId;
                                 }
                                 else
                                 {
                                     if (address.isDefaultTerrorityBilling == true)
                                     {
-                                        Contact.AddressId = (int)address.AddressId;
-                                        Contact.ShippingAddressId = (int)address.AddressId;
+                                        Contact.AddressId = address.AddressId;
+                                        Contact.ShippingAddressId = address.AddressId;
                                     }
                                     if (address.isDefaultTerrorityShipping == true)
                                     {
-                                        Contact.AddressId = (int)address.AddressId;
-                                        Contact.ShippingAddressId = (int)address.AddressId;
+                                        Contact.AddressId = address.AddressId;
+                                        Contact.ShippingAddressId = address.AddressId;
                                     }
                                 }
                             }
+
+                            if (Contact.AddressId == 0 || Contact.ShippingAddressId == 0)
+                            {
+                                Contact.AddressId = addresses.FirstOrDefault().AddressId;
+                                Contact.ShippingAddressId = addresses.FirstOrDefault().AddressId;
+                            }
                         }
-                        Contact.TerritoryId = companyTerritory.TerritoryId;
+                        else 
+                        {
+                            throw new Exception("Critcal Error, We have lost our main Territory addresses.", null);
+                        }
+                       
                     }
                     else
                     {
                         Contact.TerritoryId = 0;
                         Contact.ShippingAddressId = 0;
+                        throw new Exception("Critcal Error, We have lost our main Territory.", null);
                     }
 
                     db.CompanyContacts.Add(Contact);
