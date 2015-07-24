@@ -44,6 +44,9 @@ namespace MPC.Implementation.WebStoreServices
                         string upperCaseVariable = obj.VariableTag.ToUpper();
                         string variable = obj.VariableTag;
 
+                        string variablePreFix ="{{"+ obj.VariableTag.Replace("{{","").Replace("}}","") + "_pre}}";
+                        string variablePostFix ="{{"+ obj.VariableTag.Replace("{{","").Replace("}}","") + "_post}}";
+                        
                         foreach (var templateObj in listTemplateObjects)
                         {
                             if (templateObj.ContentString.Contains(variable) || templateObj.ContentString.Contains(upperCaseVariable) || templateObj.ContentString.Contains(lowerCaseVariable))
@@ -56,6 +59,24 @@ namespace MPC.Implementation.WebStoreServices
                                     objNewVariable.TemplateId = templateId;
                                     lstTempVariablestoAdd.Add(objNewVariable);
                                 }
+                            }
+                            bool hasPreFix = false;
+                            bool hasPostFix = false;
+                            if (templateObj.ContentString.Contains(variablePreFix) || templateObj.ContentString.Contains(variablePreFix.ToUpper()) || templateObj.ContentString.Contains(variablePreFix.ToLower()))
+                            {
+                                hasPreFix = true;
+                            }
+                            if (templateObj.ContentString.Contains(variablePostFix) || templateObj.ContentString.Contains(variablePostFix.ToUpper()) || templateObj.ContentString.Contains(variablePostFix.ToLower()))
+                            {
+                                hasPostFix = true;
+                            }
+                            if (hasPreFix == true || hasPostFix == true)
+                            {
+                                TemplateVariableExtension objExt = new TemplateVariableExtension();
+                                objExt.HasPostFix = hasPreFix;
+                                objExt.HasPostFix = hasPostFix;
+                                objExt.TemplateId =Convert.ToInt32( templateId);
+                                   // objExt.
                             }
                         }
                     }
