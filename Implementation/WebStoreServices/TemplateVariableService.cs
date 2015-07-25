@@ -36,6 +36,7 @@ namespace MPC.Implementation.WebStoreServices
                 List<FieldVariable> listFieldVariables = _fieldVariableRepository.GetSystemAndCompanyVariables(companyId);
                 List<TemplateObject> listTemplateObjects = _templateObjectRepository.GetProductObjects(templateId);
                 List<TemplateVariable> lstTempVariablestoAdd = new List<TemplateVariable>();
+                List<TemplateVariableExtension> lstVaraibaleExtensions = new List<TemplateVariableExtension>();
                 foreach (var obj in listFieldVariables)
                 {
                     if (obj.VariableTag != null)
@@ -73,18 +74,18 @@ namespace MPC.Implementation.WebStoreServices
                             if (hasPreFix == true || hasPostFix == true)
                             {
                                 TemplateVariableExtension objExt = new TemplateVariableExtension();
-                                objExt.HasPostFix = hasPreFix;
+                                objExt.HasPrefix = hasPreFix;
                                 objExt.HasPostFix = hasPostFix;
-                                objExt.TemplateId =Convert.ToInt32( templateId);
-                                   // objExt.
+                                objExt.TemplateId = templateId;
+                                objExt.FieldVariableId =obj.VariableId;
+                                lstVaraibaleExtensions.Add(objExt);
                             }
                         }
                     }
                 }
-                if (lstTempVariablestoAdd != null && lstTempVariablestoAdd.Count != 0)
-                {
-                    _templateVariableRepository.InsertTemplateVariables(lstTempVariablestoAdd);
-                }
+
+                _templateVariableRepository.InsertTemplateVariables(lstTempVariablestoAdd, lstVaraibaleExtensions);
+
                 return true;
             }
             catch (Exception ex)

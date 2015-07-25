@@ -1843,7 +1843,7 @@ namespace MPC.Implementation.WebStoreServices
                         }
                     }
                     //crop marks or margins
-                    if (objProduct.CuttingMargin != null && objProduct.CuttingMargin != 0 && drawCuttingMargins)
+                    if (objProduct.CuttingMargin != null && objProduct.CuttingMargin != 0 )
                     {
                         //doc.CropBox.Height = doc.MediaBox.Height;
                         //doc.CropBox.Width = doc.MediaBox.Width;

@@ -191,21 +191,21 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             showPrices = ko.observable(undefined),
             // isDeliveryTaxAble = ko.observable(specifiedIsDeliveryTaxAble),
             // is Delivery TaxAble
-            isDeliveryTaxAble = ko.observable(!specifiedIsDeliveryTaxAble ? 2 : 1),
+            isDeliveryTaxAble = ko.observable(undefined),
             // is Delivery TaxAble ui
-            isDeliveryTaxAbleUi = ko.computed({
-                read: function () {
-                    return '' + isDeliveryTaxAble();
-                },
-                write: function (value) {
-                    var deliveryTaxAble = parseInt(value);
-                    if (deliveryTaxAble === isDeliveryTaxAble()) {
-                        return;
-                    }
+            //isDeliveryTaxAbleUi = ko.computed({
+            //    read: function () {
+            //        return '' + isDeliveryTaxAble();
+            //    },
+            //    write: function (value) {
+            //        var deliveryTaxAble = parseInt(value);
+            //        if (deliveryTaxAble === isDeliveryTaxAble()) {
+            //            return;
+            //        }
 
-                    isDeliveryTaxAble(deliveryTaxAble);
-                }
-            }),
+            //        isDeliveryTaxAble(deliveryTaxAble);
+            //    }
+            //}),
             pickupAddressId = ko.observable(specifiedPickupAddressId),
             //store Image Logo
             storeImageFileBinary = ko.observable(),
@@ -422,7 +422,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             result.includeEmailArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard();
             result.makeEmailArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady();
             result.isDisplayBanners = source.isDisplayBanners();
-            result.IsDeliveryTaxAble = source.isDeliveryTaxAble() === 2 ? false : true;
+            result.IsDeliveryTaxAble = source.isDeliveryTaxAble();
             result.PickupAddressId = source.pickupAddressId();
             result.CompanyType = source.companyType() != undefined ? CompanyType().convertToServerData(source.companyType()) : null;
             result.CustomCSS = source.customCSS();
@@ -593,7 +593,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             defaultSpriteImageFileName: defaultSpriteImageFileName,
             userDefinedSpriteImageSource: userDefinedSpriteImageSource,
             userDefinedSpriteImageFileName: userDefinedSpriteImageFileName,
-            isDeliveryTaxAbleUi: isDeliveryTaxAbleUi,
+           // isDeliveryTaxAbleUi: isDeliveryTaxAbleUi,
             pickupAddressId: pickupAddressId,
             customCSS: customCSS,
             companyDomains: companyDomains,
@@ -766,6 +766,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         store.taxLabel(source.TaxLabel);
         store.taxRate(source.TaxRate);
         store.isAllowRegistrationFromWeb(source.isAllowRegistrationFromWeb);
+        store.isDeliveryTaxAble(source.isDeliveryTaxAble);
         store.isDisplayDiscountVoucherCode(source.IsDisplayDiscountVoucherCode);
         store.canUserEditProfile(source.CanUserEditProfile);
         store.isWhiteLabel(source.isWhiteLabel);

@@ -3725,7 +3725,8 @@ if it's not present, don't show loader */
   margin-top: -11px;
   margin-right: 20px;
   cursor: pointer;
-  text-decoration: none;
+  text-decoration: none !important;
+  color:white !important;
 }
 
     .PreviewerDownloadPDF:hover ,.PreviewerDownloadImg:hover {
@@ -4305,7 +4306,7 @@ h2 + .gallery {
     position: relative;
     text-align: center;
     text-decoration: none;
-    height:38px;
+    height:35px;
     transition: background-color .15s,border-color .15s,color .15s;
     -webkit-user-select: none;
     -moz-user-select: none;

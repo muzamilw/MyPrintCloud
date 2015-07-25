@@ -45,7 +45,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xs-12" style="text-align: right; padding-right:0;margin-bottom:8px;">
+                    <div class="col-xs-12" style="text-align: right; padding-right:0;margin-bottom:18px;">
                         <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="">
                             Print
                         </button>
@@ -58,7 +58,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="main-box clearfix" id="tabsHeader">
                     <div class="tabs-wrapper profile-tabs">
-                        <ul class="nav nav-tabs">
+                        <ul class="nav nav-tabs" style="margin-bottom:0px;">
                             <li class="active" id="generalInfoTab"><a href="#tab-generalinfo" data-toggle="tab">General Info</a></li>
                             <li><a href="#tab-widgets" data-toggle="tab">Themes & Settings</a></li>
                             <li><a href="#tab-approvalPolicies" data-toggle="tab">Advance Settings</a></li>
@@ -83,7 +83,7 @@
                         <div class="tab-content">
                             <div class="tab-pane fade in active" data-bind="with: $root.selectedStore" id="tab-generalinfo">
                                 <div class="col-lg-12 form-horizontal ">
-                                    <div class="tabsdescriptions">
+                                    <div class="tabsdescriptions" style="margin-left:0px;">
                                         <p class="group-header-description">Manage the basic details of your store in this section.</p>
                                     </div>
                                     
@@ -627,7 +627,7 @@
                             </div>
                             <div class="tab-pane fade" id="tab-territory" data-bind="with: $root.selectedStore">
                                 <div class="col-lg-12">
-                                    <div class="tabsdescriptions">
+                                    <div class="tabsdescriptions" style="margin-left:0px;">
                                         <p class="group-header-description">Here you can add your customer information either import the store contacts and addresses or add manually.  Download the import document from blog.myprintcloud.com/tutorials-quickstart/</p>
                                     </div>
                                     <div style="height:20px;">
@@ -637,16 +637,16 @@
                                     <h3 class="group-header">Store Users and Visitors</h3>
 
 
-                                    <div class="col-lg-12 clearfix" style="padding-right:3px;">
+                                    <div class="col-lg-12 clearfix" style="padding-right:0px;">
 
-                                        <div class="col-lg-9">
+                                        <div class="col-lg-12" style="padding-left:14px;padding-right:0px;">
                                             <div class="form-group">
 
-                                                <div class="col-lg-3">
+                                                <div class="col-lg-2">
 
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <header class="main-box-header clearfix" style="padding-left:0px;width:226%;  margin-left: 0px;">
+                                                <div class="col-lg-10" style="padding-right:0px;">
+                                                    <header class="main-box-header clearfix" style="padding-left:0px;margin-left: 0px;">
                                                         <!--ko if: $root.selectedStore().type() != 4-->
                                                         <div class="filter-block form-group pull-left col-xs-4" style="padding-left:0px;margin-bottom:7px;">
                                                             <select class="form-control col-lg-4" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Select Territory...', value: $root.contactCompanyTerritoryFilter"></select>
@@ -664,7 +664,7 @@
                                                             </div>
                                                         </div>
                                                     </header>
-                                                    <div style="background-color:gainsboro; border-radius:3px; width:226%;">
+                                                    <div style="background-color:gainsboro; border-radius:3px;">
                                                         <header class="main-box-header clearfix">
                                                             <div style="float:left;"><span style="font-size:24px">Users and Visitors</span></div>
                                                         </header>
@@ -700,7 +700,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12 btn-group" style="float: left; margin-top: 18px; margin-left: -8px;padding-left:0px;">
-                                                        <div class="col-lg-5">
+                                                        <div class="col-lg-2">
                                                             <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyContact" class="btn btn-primary">
                                                                 Add New Contact
                                                             </a>
@@ -737,18 +737,18 @@
                                     <!--ko if: $root.selectedStore().type() == 3-->
                                     <p class="group-header-description">For a private store the addresses are used for pick up location and also as shipping locations for orders placed.</p>
                                     <!--/ko-->
-                                    <div class="col-lg-12 clearfix">
+                                    <div class="col-lg-12 clearfix" style="padding-right: 0px;">
 
 
-                                        <div class="col-lg-9">
+                                        <div class="col-lg-12" style="padding-left:14px;padding-right:0px;">
                                             <div class="form-group">
 
-                                                <div class="col-lg-3">
+                                                <div class="col-lg-2">
 
                                                 </div>
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-10" style="padding-right:0px;">
 
-                                                    <header class="main-box-header clearfix" style="padding-left:0px;width:229%;  margin-left: 0px;">
+                                                    <header class="main-box-header clearfix" style="padding-left:0px;margin-left: 0px;">
                                                         <!--ko if: $root.selectedStore().type() != 4-->
                                                         <div class="filter-block form-group pull-left col-xs-4" style="padding-left:0px;margin-bottom:7px;">
                                                             <select class="form-control col-lg-4" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Select Territory...', value: $root.addressTerritoryFilter"></select>
@@ -767,7 +767,7 @@
                                                         </div>
                                                     </header>
 
-                                                    <div style="background-color:gainsboro; border-radius:3px;width:228%;">
+                                                    <div style="background-color:gainsboro; border-radius:3px;">
                                                         <header class="main-box-header clearfix">
                                                             <div style="float:left;"><span style="font-size:24px">Addresses</span></div>
                                                         </header>
@@ -1024,7 +1024,7 @@
                             </div>
                             <div class="tab-pane fade" id="tab-widgets" data-bind="with: $root.selectedStore">
                                 <div class="col-md-12 form-horizontal">
-                                    <div class="tabsdescriptions">
+                                    <div class="tabsdescriptions" style="margin-left:0px;">
                                         <p class="group-header-description">Change and modify the look and feel of your webstores, upload new buttons and edit the CSS of the site to control items like logo size, fonts and colors etc.</p>
                                     </div> 
                                     <div class="col-md-9" style="padding-right:0px;">
@@ -1700,7 +1700,7 @@
                             <div class="tab-pane fade" data-bind="with: $root.selectedStore" id="tab-featuredProducts">
                                 <div class="col-lg-12 form-horizontal">
                                     @*<h3 class="group-header">Featured Products</h3>*@
-                                    <div class="tabsdescriptions">
+                                    <div class="tabsdescriptions" style="margin-left:0px;">
                                         <p class="group-header-description">The featured products wizard is part of a widget that can be added to a retail store, it allows for products to be more prominently displayed, to enable this feature add the widget to the page layout tool.</p>
                                     </div>
                                         <div style="height:20px;">
@@ -1772,7 +1772,7 @@
                             </div>
                             <div class="tab-pane fade" id="tab-SEO" data-bind="with: $root.selectedStore">
                                 <div class="col-lg-12 form-horizontal">
-                                    <div class="tabsdescriptions">
+                                    <div class="tabsdescriptions" style="margin-left:0px;">
                                         <p class="group-header-description">Add Google analytics to your store and put your happiest customers quotes online for other customers to see.</p>
                                     </div>
                                     <div style="height:20px;">
@@ -1971,7 +1971,7 @@
                             </div>
                             <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-approvalPolicies" data-bind="with: $root.selectedStore">
                                 <div class="col-lg-12 form-horizontal">
-                                    <div class="tabsdescriptions">
+                                    <div class="tabsdescriptions" style="margin-left:0px;">
                                         <p class="group-header-description">Change store tax settings, allow users to register on stores, control who can edit and modify their profile, add payment gateways and configure whats included when outsourcing jobs.</p>
                                     </div> 
                                    
@@ -2426,9 +2426,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>*@
                                     </div>
 
-                                    <div class="col-lg-12 form-horizontal">
+                                    <div class="col-lg-12 form-horizontal" style="padding-left:0px;">
                                         <h3 class="group-header">Configure how "auto push" order information is passed to third parties by email</h3>
-                                        <div class="col-lg-9">
+                                        <div class="col-lg-9" style="padding-left:16px;">
 
 
 
@@ -2462,22 +2462,22 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
 
                                             @*<div class="form-group">
-                                                    <div class="col-lg-6 text-right">
-                                                        <label class="control-label text-right" for="switchSecondaryPages">Include Order detailed Report ?</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div>
-                                                            <div class="onoffswitch">
-                                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderReport" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderReport">
-                                                                <label class="onoffswitch-label" for="onoffswitchOrderReport">
-                                                                    <div class="onoffswitch-inner"></div>
-                                                                    <div class="onoffswitch-switch"></div>
-                                                                </label>
-                                                            </div>
-                                                            <span class="help-block text-right"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>*@
+                <div class="col-lg-6 text-right">
+                    <label class="control-label text-right" for="switchSecondaryPages">Include Order detailed Report ?</label>
+                </div>
+                <div class="col-lg-4">
+                    <div>
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderReport" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderReport">
+                            <label class="onoffswitch-label" for="onoffswitchOrderReport">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                        <span class="help-block text-right"></span>
+                    </div>
+                </div>
+            </div>*@
 
 
                                             <div class="form-group">
@@ -2504,22 +2504,22 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
 
                                             @*<div class="form-group">
-                                                    <div class="col-lg-6 text-right">
-                                                        <label class="control-label text-right" for="switchSecondaryPages">Include Order information in XML format</label>
-                                                    </div>
-                                                    <div class="col-lg-3">
-                                                        <div>
-                                                            <div class="onoffswitch">
-                                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchxmlformat" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderXML">
-                                                                <label class="onoffswitch-label" for="onoffswitchxmlformat">
-                                                                    <div class="onoffswitch-inner"></div>
-                                                                    <div class="onoffswitch-switch"></div>
-                                                                </label>
-                                                            </div>
-                                                            <span class="help-block text-right"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>*@
+                <div class="col-lg-6 text-right">
+                    <label class="control-label text-right" for="switchSecondaryPages">Include Order information in XML format</label>
+                </div>
+                <div class="col-lg-3">
+                    <div>
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchxmlformat" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderXML">
+                            <label class="onoffswitch-label" for="onoffswitchxmlformat">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                        <span class="help-block text-right"></span>
+                    </div>
+                </div>
+            </div>*@
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
 
@@ -2541,22 +2541,22 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
 
                                             @*<div class="form-group">
-                                                    <div class="col-lg-6 text-right">
-                                                        <label class="control-label text-right" for="switchSecondaryPages">Include Job Card report for each item/product</label>
-                                                    </div>
-                                                    <div class="col-lg-3">
-                                                        <div>
-                                                            <div class="onoffswitch">
-                                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderforeach" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderJobCard">
-                                                                <label class="onoffswitch-label" for="onoffswitchOrderforeach">
-                                                                    <div class="onoffswitch-inner"></div>
-                                                                    <div class="onoffswitch-switch"></div>
-                                                                </label>
-                                                            </div>
-                                                            <span class="help-block text-right"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>*@
+                <div class="col-lg-6 text-right">
+                    <label class="control-label text-right" for="switchSecondaryPages">Include Job Card report for each item/product</label>
+                </div>
+                <div class="col-lg-3">
+                    <div>
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderforeach" data-bind="checked: $root.selectedStore().includeEmailBrokerArtworkOrderJobCard">
+                            <label class="onoffswitch-label" for="onoffswitchOrderforeach">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                        <span class="help-block text-right"></span>
+                    </div>
+                </div>
+            </div>*@
 
 
                                             <div class="form-group">
@@ -2583,22 +2583,22 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
 
                                             @*<div class="form-group">
-                                                    <div class="col-lg-6 text-right">
-                                                        <label class="control-label text-right" for="switchSecondaryPages">Make template artwork production ready by removing watermarks</label>
-                                                    </div>
-                                                    <div class="col-lg-3">
-                                                        <div>
-                                                            <div class="onoffswitch">
-                                                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderemovwWater" data-bind="checked: $root.selectedStore().makeEmailBrokerArtworkOrderProductionReady">
-                                                                <label class="onoffswitch-label" for="onoffswitchOrderemovwWater">
-                                                                    <div class="onoffswitch-inner"></div>
-                                                                    <div class="onoffswitch-switch"></div>
-                                                                </label>
-                                                            </div>
-                                                            <span class="help-block text-right"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>*@
+                <div class="col-lg-6 text-right">
+                    <label class="control-label text-right" for="switchSecondaryPages">Make template artwork production ready by removing watermarks</label>
+                </div>
+                <div class="col-lg-3">
+                    <div>
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchOrderemovwWater" data-bind="checked: $root.selectedStore().makeEmailBrokerArtworkOrderProductionReady">
+                            <label class="onoffswitch-label" for="onoffswitchOrderemovwWater">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div>
+                        <span class="help-block text-right"></span>
+                    </div>
+                </div>
+            </div>*@
                                         </div>
                                     </div>
                                 </div>
@@ -2690,7 +2690,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                             </div>
                             <div class="tab-pane clearfix fade" id="tab-DelvAddOns" data-bind="with: $root.selectedStore">
                                 <div class="col-lg-12">
-                                    <div class="tabsdescriptions">
+                                    <div class="tabsdescriptions" style="margin-left:0px;">
                                         <p class="group-header-description">Add shipping options for each store, shipping prices can be different for each store and is integrated with UPS and FedEx.</p>
                                     </div>
                                     <div style="height:20px;">
@@ -2714,7 +2714,26 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                         <label class="control-label text-right tooltip-float">Shipping charge taxable</label>
                                                     </div>
                                                     <div class="col-lg-6" style="padding-left:5px;">
-                                                        <div class="radio">
+
+                                                        <div class="onoffswitch" style="margin-right:0px;">
+                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchDisplayTaxable" data-bind="checked: $root.selectedStore().isDeliveryTaxAble">
+                                                            <label class="onoffswitch-label" for="switchDisplayTaxable">
+                                                                <div class="onoffswitch-inner"></div>
+                                                                <div class="onoffswitch-switch"></div>
+                                                            </label>
+                                                        </div>
+
+
+
+
+
+
+
+
+
+
+
+                                                        @*<div class="radio">
                                                             <input type="radio" name="optionsRadiosTaxOptions" id="optionsRadiosYesTaxable" value="1" data-bind="checked: isDeliveryTaxAbleUi">
                                                             <label for="optionsRadiosYesTaxable">
                                                                 Yes
@@ -2725,7 +2744,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <label for="optionsRadiosNotTaxable">
                                                                 No
                                                             </label>
-                                                        </div>
+                                                        </div>*@
                                                         <span class="help-block text-right"></span>
                                                     </div>
                                                 </div>
@@ -2898,7 +2917,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                             <div class="tab-pane clearfix fade" id="tab-VariableDef">
                                 @*<h3 class="group-header">Create user defined fields that can be used in smart forms of this store.</h3>*@
                                 <div class="col-lg-12 clearfix">
-                                    <div class="tabsdescriptions">
+                                    <div class="tabsdescriptions" style="margin-left:0px;">
                                         <p class="group-header-description">Create custom CRM fields for applying tools like text masking and unique requirements, in order to understand the relationship between custom CRM fields and Smartforms please watch the training tutorial https://www.youtube.com/user/myprintcloud you can create custom fields for individuals, addresses, territories, departments and entire stores.</p>
                                     </div>
                                        
@@ -2986,7 +3005,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                             <div class="tab-pane clearfix fade" id="tab-SystemCRMField">
                                 @*<h3 class="group-header">Create user defined fields that can be used in smart forms of this store.</h3>*@
                                 <div class="col-lg-12 clearfix">
-                                    <div class="tabsdescriptions">
+                                    <div class="tabsdescriptions" style="margin-left:0px;">
                                         <p class="group-header-description">System CRM fields can be modified to add a prefix or postfix field if the field contains data, as an example this is used to remove or display the word "Mobile" in front of a mobile number or remove the word "Mobile" if no number is present.</p>
                                     </div>
                                     <div style="background-color:gainsboro; border-radius:3px">
@@ -3027,7 +3046,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                             <div class="tab-pane clearfix fade" id="tab-SmartFormDef">
                                 @*<h3 class="group-header">Create smart forms to merge CRM fields data in templates</h3>*@
                                 <div class="col-lg-12 clearfix">
-                                    <div class="tabsdescriptions">
+                                    <div class="tabsdescriptions" style="margin-left:0px;">
                                         <p class="group-header-description">Smartforms are user input fields within the editor, you can add system CRM fields or create new ones using the custom CRM fields tab.</p>
                                     </div>
                                     <div style="height:20px;">
@@ -3108,7 +3127,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                             <div class="tab-pane clearfix fade" id="tab-StoreVariables">
                                 @*<h3 class="group-header">Variables</h3>*@
                                 <div class="col-lg-12 clearfix">
-                                    <div class="tabsdescriptions">
+                                    <div class="tabsdescriptions" style="margin-left:0px;">
                                         <p class="group-header-description">Enter the custom CRM values that will autopopulate within a template, these are the defaults for the store CRM fields.</p>
                                     </div> 
                                    <div style="height:20px;">
