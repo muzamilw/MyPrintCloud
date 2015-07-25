@@ -15,7 +15,7 @@
     string CatName = "ParentCat";
     
 }
-<
+
 <div class="container body-container spacer-top " id="all-topLevel-pg">
     <!--Main Content-->
     <div class="row">
@@ -142,9 +142,7 @@
                         <h3 class="panel-title">Subscribe here</h3>
                     </div>
                     <div class="panel-body">
-                        <form id="user_subscribe_1617216226" method="post" action="http://samplestore.onprintshop.com/demo-oxfordblue#" novalidate="novalidate">
-                         @using (Html.BeginForm())
-                         {
+
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="fa fa-envelope"></span></span>
@@ -153,9 +151,8 @@
                                 <span id="errorMsg" class="error-block text-danger"></span>
                                 <p class="help-block">Subscribe Here to receive promotional offers.</p>
                             </div>
-                            <input type="submit" id="GoSubscribe" class="btn btn-primary btn-rounded" value="Subscribe" />
-                          }
-                        </form>
+                            <input type="button" id="GoSubscribe" class="btn btn-primary btn-rounded" value="Subscribe" onclick="Go()" />
+                       
                     </div>
                 </div>
             </div>
@@ -198,13 +195,13 @@
     <!--/Main Content-->
 </div>
 
-<script>
+<script type="text/javascript">
     $(document).ready(function () {
         sideBarClick(0)
     });
 
     function sideBarClick(dataid) {
-        $('.sideMenuItems').each(function() {
+        $('.sideMenuItems').each(function () {
 
             $(this).removeClass('in');
         });
@@ -217,4 +214,24 @@
 
     }
 
+    function Go() {
+       
+        var Email = $("#txtEmailbox").val();
+        
+        var data = { txtEmailbox: Email };
+        $.ajax({
+            type: "POST",
+            url: "/OxfordTopLevelCategories/SubmitSubscribeData",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(data),
+            async: true,
+            success: function (response) {
+               
+                $("#errorMsg").text(response.ErrorMessage);
+            }
+        });
+    }
+
 </script>
+
