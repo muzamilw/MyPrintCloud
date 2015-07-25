@@ -90,8 +90,9 @@ namespace MPC.Webstore.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string txtEmailbox)
+        public JsonResult SubmitSubscribeData(string txtEmailbox)
         {
+            string Message = string.Empty;
             try
             {
                 NewsLetterSubscriber subscriber = _myCompanyService.GetSubscriber(txtEmailbox, UserCookieManager.WBStoreId);
@@ -150,11 +151,11 @@ namespace MPC.Webstore.Controllers
                     string sConfirmation = Utils.GetKeyValueFromResourceFile("ConfirmSubscriptionMesg", UserCookieManager.WBStoreId);
                     if (string.IsNullOrEmpty(sConfirmation))
                     {
-                        ViewBag.Message = "To confirm your subscription please follow instructions which have been sent to provided email.";
+                        Message = "To confirm your subscription please follow instructions which have been sent to provided email.";
                     }
                     else
                     {
-                        ViewBag.Message = sConfirmation;
+                        Message = sConfirmation;
                     }
 
 
@@ -165,22 +166,25 @@ namespace MPC.Webstore.Controllers
                     string sConfirmation = Utils.GetKeyValueFromResourceFile("SubscriptionErrorMesg", UserCookieManager.WBStoreId);
                     if (string.IsNullOrEmpty(sConfirmation))
                     {
-                        ViewBag.Message = "Someone is already subscribed with provided email. Please use a different email.";
+                        Message = "Someone is already subscribed with provided email. Please use a different email.";
                     }
                     else
                     {
-                        ViewBag.Message = sConfirmation;
+                        Message = sConfirmation;
                     }
                 }
             }
             catch (Exception ex)
             {
-                ViewBag.Message = "Error in subscription. Please try again.";
+                Message = "Error in subscription. Please try again.";
                 throw ex;
 
             }
-            return PartialView("PartialViews/OxfordTopLevelCategories");
+            return Json(new { ErrorMessage = Message });
+            //return PartialView("PartialViews/OxfordTopLevelCategories");
 
         }
+
+       
     }
 }
