@@ -3289,7 +3289,6 @@ function pcl42_UpdateTO() {
                     tag = tag.replace("}}", "");
                     var prefixVar = "{{" + tag + "_pre}}";
                     var postfixVar = "{{" + tag + "_post}}";
-                    console.log(prefixVar);
                     var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
                     var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
                     var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
@@ -3300,19 +3299,19 @@ function pcl42_UpdateTO() {
                         postfixVarUpperCase = postfixVar.toUpperCase();
                         postfixVarLowerCase = postfixVar.toLowerCase();
                     }
-                    //while (IT.ContentString.indexOf(prefixVar) != -1)
-                    //    updateTOWithStyles(IT, prefixVar, prefix);
-                    //while (IT.ContentString.indexOf(prefixVarUpperCase) != -1)
-                    //    updateTOWithStyles(IT, prefixVarUpperCase, prefix.toUpperCase());
-                    //while (IT.ContentString.indexOf(prefixVarLowerCase) != -1)
-                    //    updateTOWithStyles(IT, prefixVarLowerCase, prefix.toLowerCase());
+                    while (IT.ContentString.indexOf(prefixVar) != -1)
+                        updateTOWithStyles(IT, prefixVar, prefix);
+                    while (IT.ContentString.indexOf(prefixVarUpperCase) != -1)
+                        updateTOWithStyles(IT, prefixVarUpperCase, prefix.toUpperCase());
+                    while (IT.ContentString.indexOf(prefixVarLowerCase) != -1)
+                        updateTOWithStyles(IT, prefixVarLowerCase, prefix.toLowerCase());
 
-                    //while (IT.ContentString.indexOf(postfixVar) != -1)
-                    //    updateTOWithStyles(IT, postfixVar, post);
-                    //while (IT.ContentString.indexOf(postfixVarUpperCase) != -1)
-                    //    updateTOWithStyles(IT, postfixVarUpperCase, post.toUpperCase());
-                    //while (IT.ContentString.indexOf(postfixVarLowerCase) != -1)
-                    //    updateTOWithStyles(IT, postfixVarLowerCase, post.toLowerCase());
+                    while (IT.ContentString.indexOf(postfixVar) != -1)
+                        updateTOWithStyles(IT, postfixVar, post);
+                    while (IT.ContentString.indexOf(postfixVarUpperCase) != -1)
+                        updateTOWithStyles(IT, postfixVarUpperCase, post.toUpperCase());
+                    while (IT.ContentString.indexOf(postfixVarLowerCase) != -1)
+                        updateTOWithStyles(IT, postfixVarLowerCase, post.toLowerCase());
                 }
             });
         }); 
@@ -3344,7 +3343,7 @@ function pcl42_updateTemplate(DT) {
                         }
                     }
                 });
-                value = prefix + vari.Value + post;
+                value =  vari.Value ;//prefix + vari.Value + post;
                 $.each(DT, function (i, objDT) {
                     while (objDT.ContentString.indexOf(variableTag) != -1)
                         updateTOWithStyles(objDT, variableTag, value);
@@ -3352,6 +3351,36 @@ function pcl42_updateTemplate(DT) {
                         updateTOWithStyles(objDT, variableTag.toLowerCase(), value.toLowerCase());
                     while (objDT.ContentString.indexOf(variableTag.toUpperCase()) != -1)
                         updateTOWithStyles(objDT, variableTag.toUpperCase(), value.toUpperCase());
+
+
+
+                    var tag = variableTag.replace("{{", "");
+                    tag = tag.replace("}}", "");
+                    var prefixVar = "{{" + tag + "_pre}}";
+                    var postfixVar = "{{" + tag + "_post}}";
+                    var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    if (vari.FieldVariable.VariableTag != null) {
+                        prefixVarUpperCase = prefixVar.toUpperCase();
+                        prefixVarLowerCase = prefixVar.toLowerCase();
+                        postfixVarUpperCase = postfixVar.toUpperCase();
+                        postfixVarLowerCase = postfixVar.toLowerCase();
+                    }
+                    while (objDT.ContentString.indexOf(prefixVar) != -1)
+                        updateTOWithStyles(objDT, prefixVar, prefix);
+                    while (objDT.ContentString.indexOf(prefixVarUpperCase) != -1)
+                        updateTOWithStyles(objDT, prefixVarUpperCase, prefix.toUpperCase());
+                    while (objDT.ContentString.indexOf(prefixVarLowerCase) != -1)
+                        updateTOWithStyles(objDT, prefixVarLowerCase, prefix.toLowerCase());
+
+                    while (objDT.ContentString.indexOf(postfixVar) != -1)
+                        updateTOWithStyles(objDT, postfixVar, post);
+                    while (objDT.ContentString.indexOf(postfixVarUpperCase) != -1)
+                        updateTOWithStyles(objDT, postfixVarUpperCase, post.toUpperCase());
+                    while (objDT.ContentString.indexOf(postfixVarLowerCase) != -1)
+                        updateTOWithStyles(objDT, postfixVarLowerCase, post.toLowerCase());
                 });
             } else {
                 var variableTag = vari.FieldVariable.VariableTag;
@@ -3382,6 +3411,35 @@ function pcl42_updateTemplate(DT) {
                         updateTOWithStyles(objDT, variableTagUpperCase, value);
                     while (objDT.ContentString.indexOf(variableTagLowerCase) != -1)
                         updateTOWithStyles(objDT, variableTagLowerCase, value);
+
+                    var tag = variableTag.replace("{{", "");
+                    tag = tag.replace("}}", "");
+                    var prefixVar = "{{" + tag + "_pre}}";
+                    var postfixVar = "{{" + tag + "_post}}";
+                    var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    if (vari.FieldVariable.VariableTag != null) {
+                        prefixVarUpperCase = prefixVar.toUpperCase();
+                        prefixVarLowerCase = prefixVar.toLowerCase();
+                        postfixVarUpperCase = postfixVar.toUpperCase();
+                        postfixVarLowerCase = postfixVar.toLowerCase();
+                    }
+                    while (objDT.ContentString.indexOf(prefixVar) != -1)
+                        updateTOWithStyles(objDT, prefixVar, prefix);
+                    while (objDT.ContentString.indexOf(prefixVarUpperCase) != -1)
+                        updateTOWithStyles(objDT, prefixVarUpperCase, prefix.toUpperCase());
+                    while (objDT.ContentString.indexOf(prefixVarLowerCase) != -1)
+                        updateTOWithStyles(objDT, prefixVarLowerCase, prefix.toLowerCase());
+
+                    while (objDT.ContentString.indexOf(postfixVar) != -1)
+                        updateTOWithStyles(objDT, postfixVar, post);
+                    while (objDT.ContentString.indexOf(postfixVarUpperCase) != -1)
+                        updateTOWithStyles(objDT, postfixVarUpperCase, post.toUpperCase());
+                    while (objDT.ContentString.indexOf(postfixVarLowerCase) != -1)
+                        updateTOWithStyles(objDT, postfixVarLowerCase, post.toLowerCase());
+
                 });
             }
         });
@@ -3409,7 +3467,6 @@ function isEmptyStyles(customStyles) {
     return true;
 }
 function updateTOWithStyles(obTO, vTag, vVal) {
-    // obTO.ContentString = obTO.ContentString.replace(vTag, vVal);
     var objs = obTO.ContentString.split(vTag);
     var variableLength = vTag.length;
     var lengthCount = 0;
@@ -3463,14 +3520,13 @@ function updateTOWithStyles(obTO, vTag, vVal) {
         var stylesRemoved = 0;
         var StyleToCopy = null;
         if (styles != null && styles != "") {
-
             $.each(styles, function (i, objStyle) {
 
                 if (parseInt(objStyle.characterIndex) == toCopy) {
                     styleExist = true;
                     StyleToCopy = objStyle;
                 }
-                if (parseInt(objStyle.characterIndex) <= (lengthCount + variableLength) && parseInt(objStyle.characterIndex) >= lengthCount) {
+                if (parseInt(objStyle.characterIndex) < (lengthCount + variableLength) && parseInt(objStyle.characterIndex) >= lengthCount) {
                     var objToRemove = getObjectToRemove(stylesCopy, objStyle);
                     if (objToRemove != null) {
                         stylesCopy = $.grep(stylesCopy, function (n, i) {
@@ -3480,10 +3536,10 @@ function updateTOWithStyles(obTO, vTag, vVal) {
                     }
                 }
             });
-
-            var diff = vVal.length - (variableLength);
+          
+            var diff = vVal.length - (variableLength );
             $.each(stylesCopy, function (i, objStyle) {
-                if (parseInt(objStyle.characterIndex) > (lengthCount + vTag.length)) {
+                if (parseInt(objStyle.characterIndex) > (lengthCount + vTag.length-1)) {
                     objStyle.characterIndex = ((parseInt(objStyle.characterIndex) + diff)).toString();
                 }
             });
@@ -3507,7 +3563,6 @@ function updateTOWithStyles(obTO, vTag, vVal) {
       //  styles = new List < InlineTextStyles > (stylesCopy);
         lengthCount += vVal.length;
     }
-
     obTO.ContentString = content;
     if (styles != null && styles != "")
         obTO.textStyles = JSON.stringify(stylesCopy, null, 2);;
