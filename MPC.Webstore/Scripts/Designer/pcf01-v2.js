@@ -389,7 +389,6 @@ function c2_01(OPT) {
 
             }
             if (OPT.type == "path-group") {
-                //console.log(OPT.toSVG());
                // IT.originalContentString = OPT.toSVG();
                 //IT.textStyles = OPT.toDataURL(); 
 
@@ -768,7 +767,7 @@ function d1Svg(cCanvas, IO, isCenter) {
         }
         loadedObject.customStyles = colors;
        // IO.textStyles = JSON.stringify(colors, null, 2);
-     //   console.log(IO.textStyles);
+
     });
 
 }
@@ -1485,7 +1484,7 @@ function fu02UI() {
                               //  var extToAdd = { "TemplateId": tID, "FieldVariableId": id, "HasPrefix": 1, "HasPostFix": 1 };
                              //   varExtensions.push(extToAdd);  //already mapping while saving template 
                             }
-                            var txtToAdd = "{{" + tag + "_pre}}" + txt +"{{" + tag + "_post}}" ;
+                            var txtToAdd = "{{" + tag + "_pre}} " + txt +" {{" + tag + "_post}}" ;
                             for (var i = 0; i < txtToAdd.length; i++) {
                                 DIAO.insertChars(txtToAdd[i]);
                             }
@@ -1736,7 +1735,6 @@ function b3_lDimensions() {
     h = h.toFixed(3);
     h = h - 10;
     w = w - 10;
-    //console.log(Template);
     //w = w * Template.ScaleFactor;
     //h = h * Template.ScaleFactor;
     //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
