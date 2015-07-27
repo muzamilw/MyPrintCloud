@@ -567,6 +567,7 @@ namespace MPC.Repository.Repositories
         public LookupMethodResponse GetlookupById(long MethodId)
         {
             LookupMethod olookupMethod = DbSet.Where(g => g.MethodId == MethodId).SingleOrDefault();
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
             MachineGuillotineCalc oGuillotineCalc = olookupMethod.Type == 6 ? db.MachineGuillotineCalcs.Where(g => g.MethodId == MethodId).SingleOrDefault() : null;
             
             return new LookupMethodResponse
@@ -578,7 +579,7 @@ namespace MPC.Repository.Repositories
                 MeterPerHourLookup = olookupMethod.Type == 8 ? db.MachineMeterPerHourLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
              //   PerHourLookup = olookupMethod.Type == 4 ? db.MachinePerHourLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
                 //SpeedWeightLookup = olookupMethod.Type == 3 ? db.MachineSpeedWeightLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
-               
+               CurrencySymbol = organisation.Currency.CurrencySymbol
             };
         }
 
