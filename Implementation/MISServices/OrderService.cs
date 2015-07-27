@@ -350,13 +350,14 @@ namespace MPC.Implementation.MISServices
         {
             //if (dbOrder.StatusId != 4 && newOrder.StatusId == 4)
             //{
-            GeneratePO(newOrder.EstimateId, newOrder.ContactId ?? new long(), newOrder.CompanyId, newOrder.Created_by ?? new Guid());
+            GeneratePO(newOrder.EstimateId, newOrder.ContactId ?? new long(), newOrder.CompanyId, organisationRepository.LoggedInUserId);
             //}
         }
 
         private void DeletePurchaseOrders(Estimate order)
         {
             purchaseRepository.DeletePO(order.EstimateId);
+
         }
         // ReSharper disable once InconsistentNaming
         private bool GeneratePO(long orderId, long contactId, long companyId, Guid createdBy)
