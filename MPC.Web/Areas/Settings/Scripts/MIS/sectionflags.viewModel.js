@@ -85,7 +85,7 @@ define("sectionflags/sectionflags.viewModel",
                             success: function (data) {
                                 filteredMarkups.removeAll();
                                 selectedsection().reset();
-                                toastr.success("Seccessfully updated!");
+                                toastr.success("Successfully updated!");
                                 getFlags();
                             },
                             error: function () {
