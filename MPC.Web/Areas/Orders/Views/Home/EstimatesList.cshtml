@@ -25,11 +25,11 @@
                         @*<h1 class="pull-left" data-bind="text: ($root.itemCodeHeader())=='' ? pageHeader : ( $root.sectionHeader()==='' ? $root.selectedProduct().productName: ($root.selectedSection()!=undefined ? $root.selectedProduct().productName : ''))">Estimates</h1>*@
                     </div>
                     <div class="row" data-bind="visible: (!isOrderDetailsVisible() && !isDisplayInquiryDetailScreen())">
-                        <div class="col-sm-12">
-                            <div class="pull-left" style="padding-left:10px;">
-                                <p class="group-header-description">Create Estimates for direct Inquiries and progress Estimates to Orders.</p>
+                        <div class="col-sm-12" style="margin-bottom:15px;">
+                            <div class="pull-left">
+                                <p class="group-header-description" style="padding-left:7px;">Create Estimates for direct Inquiries and progress Estimates to Orders.</p>
                             </div>
-                            <div class="pull-right" style="margin-right:10px;">
+                            <div class="pull-right" style="margin-right:5px;margin-top:-10px;">
                                 <button id="open-wizard" data-bind="click: createOrder, visible:  $root.currentScreen() != 8" class="btn btn-primary pull-right">
                                     Add New Estimate
                                 </button>
@@ -38,15 +38,12 @@
                                 </button>
                             </div>
                         </div>
-                        <div>
-                            &nbsp;
-                        </div>
+                       
                         <div>
                             <div class="col-sm-12" style="padding-right: 17px;padding-left:15px;">
                                 <!-- ko template: { name: 'orderFilterTemplate' } -->
                                 <!-- /ko -->
-                                <div class=" clearfix">
-                                </div>
+                                
                                 <div class="main-box-body main-box clearfix">
                                     <div class="tabs-wrapper profile-tabs">
                                         <ul class="nav nav-tabs" id="estimateListTabs">
@@ -95,20 +92,20 @@
                         </div>
                         @* Filter Template *@
                         <script id="orderFilterTemplate" type="text/html">
-                            <div class="filter-body">
+                            <div class="filter-body" style="padding-top:12px;padding-bottom:12px;">
                                 <form data-bind="submit: $root.getOrdersOfCurrentScreen">
                                     <div class="filter-block pull-right" style=" margin-top: 0px; margin-right: -10px;">
                                         <div class="form-group pull-left">
                                             <!--ko if: currentScreen() != 8 -->
                                             @*<select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: selectedFilterFlag, foreach: $root.sectionFlags">
-                    <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
-                </select>*@
+                            <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
+                        </select>*@
                                             <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag"></select>
                                             <!--/ko-->
                                             <!--ko if: currentScreen() == 8 -->
                                             @*<select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: selectedFilterFlag, foreach: $root.inquiriesSectionFlags">
-                    <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
-                </select>*@
+                            <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
+                        </select>*@
                                             <select class="form-control" data-bind="options: $root.inquiriesSectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag"></select>
                                             <!--/ko-->
                                         </div>
