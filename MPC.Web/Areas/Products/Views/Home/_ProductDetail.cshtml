@@ -1018,17 +1018,9 @@
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Selling Price Stock Attributes</h3>
 
-                                    <div class="row" style="margin-left:3px;">
-                                        <span>You can select upto 11 stock attributes and each stock attribute can have its price matrix and multiple cost centers which can be marked mandatory or optional.</span>
+                                    <div class="tabsdescriptions" style="margin-top:0px !important;">
+                                        <p class="group-header-description">You can select upto 11 stock attributes and each stock attribute can have its price matrix and multiple cost centers which can be marked mandatory or optional.<br />These Stock price attributes will appear on price selection page allowing user to select a stock option.<br /> It's cost centers and final price will be based on the stock options prices.</p>
                                     </div>
-                                    <div class="row" style="margin-left:3px;">
-                                        <span> These Stock price attributes will appear on price selection page allowing user to select a stock option.</span>
-                                    </div>
-                                    <div class="row" style="margin-left:3px;">
-                                        <span> It's cost centers and final price will be based on the stock options prices.</span>
-                                    </div>
-
-
                                     <div class="col-lg-12" style="margin-top:20px;padding-right:0px;">
                                         <div class="col-lg-8 text-left">
                                             <div data-bind="visible: isFinishedGoodsUi() === '3'">
@@ -1196,9 +1188,9 @@
                                     <div class="col-lg-12 form-group" style="margin-top: 30px; padding-left:35px">
                                         <div style="background-color:gainsboro; border-radius:3px">
                                             <header class="main-box-header clearfix">
-                                                <div style="float:left;">
-                                                    <label style="font-size:15px;" data-bind="visible: isQtyRangedUi() === '2'">Enter the Desired quantities and the associated costs, these prices will be published on the webstore. Any quantities with zero will not be displayed on the web store. </label>
-                                                    <label style="font-size:15px; display: none" data-bind="visible: isQtyRangedUi() === '1'">Edit the Price Table with Quantity Range. These prices will be published on the webstore. Any quantities with zero will not be displayed on the web store. </label>
+                                                <div style="float:left;" class="group-header-description">
+                                                    <label  data-bind="visible: isQtyRangedUi() === '2'">Enter the Desired quantities and the associated costs, these prices will be published on the webstore. Any quantities with zero will not be displayed on the web store. </label>
+                                                    <label  display: none" data-bind="visible: isQtyRangedUi() === '1'">Edit the Price Table with Quantity Range. These prices will be published on the webstore. Any quantities with zero will not be displayed on the web store. </label>
                                                 </div>
                                             </header>
 
@@ -1962,9 +1954,10 @@
                             <!-- ko if: isTemplateTabsVisible -->
                             <div class="tab-pane fade" id="tab-tempProperties">
                                 <div class="col-lg-12 form-horizontal">
-
-                                    <span>Define how this product will link to a designer template ( in case of print product ) and also control the behavior of template designer and output.</span>
-                                    <div style="height:20px;">
+                                    <div class="tabsdescriptions">
+                                        <p class="group-header-description">Define how this product will link to a designer template ( in case of print product ) and also control the behavior of template designer and output.</p>
+                                    </div>
+                                        <div style="height:20px;">
                                         &nbsp;
                                     </div>
                                     <h3 class="group-header">Template type</h3>
@@ -2352,9 +2345,10 @@
                             </div>
                             <div class="tab-pane fade" id="tab-tempPages" data-bind="visible: template().canAddTemplatePages">
                                 <div class="col-lg-12 form-horizontal">
-
-                                    <span>Design template pages are displayed below in case of blank template or PDF based template. Pages can be added, removed, assigned name, sorted and each page can have different dimensions in case of blank template. </span>
-                                    <div style="height:20px;">
+                                    <div class="tabsdescriptions">
+                                        <p class="group-header-description">Design template pages are displayed below in case of blank template or PDF based template. Pages can be added, removed, assigned name, sorted and each page can have different dimensions in case of blank template. </p>
+                                    </div>
+                                        <div style="height:20px;">
                                         &nbsp;
                                     </div>
                                     <div class="col-lg-12" data-bind="with: template">
