@@ -50,18 +50,18 @@ define("dashboard.viewModel",
                 // months = ['jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
                 line = ko.observable([
 
-{ month: '2008-01', a: 100, b: 90 },
-{ month: '2008-02', a: 110, b: 90 },
-{ month: '2008-03', a: 200, b: 90 },
-{ month: '2008-04', a: 20, b: 90 },
-{ month: '2008-05', a: 100, b: 90 },
-{ month: '2008-06', a: 100, b: 90 },
-{ month: '2008-07', a: 10, b: 90 },
-{ month: '2008-08', a: 100, b: 90 },
-{ month: '2008-09', a: 100, b: 90 },
-{ month: '2008-10', a: 100, b: 90 },
-{ month: '2008-11', a: 300, b: 90 },
-{ month: '2008-12', a: 100, b: 90 }
+                                { month: '2008-01', a: 100, b: 90 },
+                                { month: '2008-02', a: 110, b: 90 },
+                                { month: '2008-03', a: 200, b: 90 },
+                                { month: '2008-04', a: 20, b: 90 },
+                                { month: '2008-05', a: 100, b: 90 },
+                                { month: '2008-06', a: 100, b: 90 },
+                                { month: '2008-07', a: 10, b: 90 },
+                                { month: '2008-08', a: 100, b: 90 },
+                                { month: '2008-09', a: 100, b: 90 },
+                                { month: '2008-10', a: 100, b: 90 },
+                                { month: '2008-11', a: 300, b: 90 },
+                                { month: '2008-12', a: 100, b: 90 }
                     //{ year: 'Jun', value: 8 },
                     //{ year: 'Aug', value: 20 },
                     //{ year: 'Sep', value: 20 },
@@ -72,25 +72,19 @@ define("dashboard.viewModel",
 
                  line1 = ko.observable([
 
-                     { month: 'abc', a: 100, b: 90 },
-{ month: 'abc1', a: 110, b: 90 },
-{ month: 'abc2', a: 200, b: 90 },
-{ month: 'abc3', a: 20, b: 90 },
-{ month: 'abc4', a: 100, b: 90 },
-{ month: 'abc4', a: 100, b: 90 },
-{ month: 'abc4', a: 100, b: 90 },
-{ month: 'a9', a: 100, b: 90 },
-{ month: 'a10', a: 100, b: 90 },
-{ month: 'a11', a: 100, b: 90 },
-{ month: 'a12', a: 100, b: 90 }
+                     { month: 'January', a: 100, b: 90 },
+                    { month: 'February', a: 110, b: 90 },
+                    { month: 'March', a: 200, b: 90 },
+                    { month: 'April', a: 60, b: 90 },
+                    { month: 'May', a: 90, b: 90 },
+                    { month: 'June', a: 100, b: 90 },
+                    { month: 'July', a: 150, b: 90 },
+                    { month: 'August', a: 170, b: 90 },
+                    { month: 'September', a: 190, b: 90 },
+                    { month: 'October', a: 120, b: 90 },
+                    { month: 'November', a: 180, b: 90 },
+                 { month: 'December', a: 195, b: 90 }
 
-//{ name: 'Hafiz', a: 100, b: 90 },
-//{ name: 'Hafiz', a: 100, b: 90 },
-//{ name: 'Hafiz', a: 100, b: 90 },
-//{ name: 'Hafiz', a: 100, b: 90 },
-//{ name: 'Hafiz', a: 100, b: 90 },
-//{ name: 'Hafiz', a: 100, b: 90 },
-//{ name: 'Hafiz', a: 100, b: 90 }
 
                  ]),
                 // In-production Orders Count
