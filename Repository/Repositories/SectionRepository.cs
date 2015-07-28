@@ -50,7 +50,7 @@ namespace MPC.Repository.Repositories
         public IEnumerable<Section> GetSectionsForPhraseLibrary()
         {
             // Estimate=1, Invoices=13, Purchases=7,Delivery=10, Job Production=4
-            return DbSet.Where(s => s.SectionId == 1 || s.SectionId == 13 || s.SectionId == 7 || s.SectionId == 10 || s.SectionId == 4).OrderBy(s => s.SecOrder).ToList();
+            return DbSet.Where(s => s.SectionId == 1 || s.SectionId == 13 || s.SectionId == 7 || s.SectionId == 10 || s.SectionId == 4).OrderBy(s => s.SectionName).ToList();
         }
 
 
@@ -60,7 +60,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<Section> GetSectionsByParentId(long parentId)
         {
-            return DbSet.Where(s => s.ParentId == parentId).OrderBy(s => s.SecOrder).ToList();
+            return DbSet.Where(s => s.ParentId == parentId).OrderBy(s => s.SectionName).ToList();
         }
 
         /// <summary>
