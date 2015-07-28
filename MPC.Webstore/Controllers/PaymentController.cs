@@ -91,31 +91,31 @@ namespace MPC.Webstore.Controllers
 
 
                         Estimate order = _OrderService.GetOrderByID(OrderId);
-                        if (order != null && order.DeliveryCost.HasValue)
-                        {
-                            opaypal.handling_cart = Math.Round(order.DeliveryCost.Value, 2, MidpointRounding.AwayFromZero).ToString("#.##");
-                        }
-                        else
-                        {
-                            opaypal.handling_cart = "0";
-                        }
 
-                        ShoppingCart shopCart = _OrderService.GetShopCartOrderAndDetails(OrderId, OrderStatus.ShoppingCart);
 
-                        if (shopCart != null && shopCart.CartItemsList != null)
+                        List<Item> CartItemsList = _OrderService.GetOrderItemsIncludingDelivery(OrderId, (int)OrderStatus.ShoppingCart);
+                     
+                        if (CartItemsList != null)
                         {
                             List<PaypalOrderParameter> itemsList = new List<PaypalOrderParameter>();
 
-                            foreach (ProductItem item in shopCart.CartItemsList)
+                            foreach (Item item in CartItemsList)
                             {
-                                PaypalOrderParameter prodItem = new PaypalOrderParameter
+                                if (item.ItemType == (int)ItemTypes.Delivery)
                                 {
-                                    ProductName = item.ProductName,
-                                    UnitPrice = Math.Round((item.Qty1GrossTotal ?? 1.00), 2, MidpointRounding.AwayFromZero),
-                                    TotalQuantity = 1
-                                };
+                                    opaypal.handling_cart = Math.Round(item.Qty1GrossTotal ?? 1.00, 2, MidpointRounding.AwayFromZero).ToString("#.##");
+                                }
+                                else if (item.StatusId == (int)OrderStatus.ShoppingCart)
+                                {
+                                    PaypalOrderParameter prodItem = new PaypalOrderParameter
+                                    {
+                                        ProductName = item.ProductName,
+                                        UnitPrice = Math.Round((item.Qty1GrossTotal ?? 1.00), 2, MidpointRounding.AwayFromZero),
+                                        TotalQuantity = 1
+                                    };
 
-                                itemsList.Add(prodItem);
+                                    itemsList.Add(prodItem);
+                                }
                             }
 
                             opaypal.txtJason = Newtonsoft.Json.JsonConvert.SerializeObject(itemsList);
