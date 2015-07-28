@@ -378,7 +378,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ErrorPage404Controller.cs" />
     <Compile Include="Controllers\FeaturedProductCarousalController.cs" />
-    <Compile Include="Controllers\FutureFormHeaderController.cs" />
+    <Compile Include="Controllers\ProductCategoriesHeader.cs" />
     <Compile Include="Controllers\HomePageBannerController.cs" />
     <Compile Include="Controllers\HomePageBannerS4Controller.cs" />
     <Compile Include="Controllers\MetroProductCategoriesController.cs" />
@@ -976,7 +976,7 @@
     <Content Include="Views\Home\NotFound.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Domain\ClearCache.cshtml" />
-    <Content Include="Views\Shared\PartialViews\FutureFormHeader.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ProductCategoriesHeader.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
