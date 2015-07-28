@@ -26,5 +26,6 @@ namespace MPC.MIS.Areas.Api.Models
         public double? EstimateTotal { get; set; }
         public Boolean? IsDirectSale { get; set; }
         public DateTime? OrderDate { get; set; }
+        public string CurrencySymbol { get; set; }
     }
 }
