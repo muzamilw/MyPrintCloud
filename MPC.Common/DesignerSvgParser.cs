@@ -84,13 +84,11 @@ namespace MPC.Common
                         {
 
                             firstColor = (document.Children[i] as SvgPath).Fill;
-                        }
-                    }
-                    if (document.Children[i] is SvgPath)
-                    {
-                        if ((document.Children[i] as SvgPath).Fill != firstColor)
-                        {
-                            canColour = false;
+                            if ((document.Children[i] as SvgPath).Fill != firstColor)
+                            {
+                                canColour = false;
+                            }
+                            break;
                         }
                     }
                 }
