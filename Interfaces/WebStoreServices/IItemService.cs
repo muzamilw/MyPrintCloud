@@ -17,7 +17,7 @@ namespace MPC.Interfaces.WebStoreServices
         Item GetItemByIdDesigner(long ItemId);
 
         
-        Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID);
+        Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, bool isUploadDesignMode = false);
         List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId, long OrganisationId);
 
         string specialCharactersEncoder(string value);
@@ -213,5 +213,6 @@ namespace MPC.Interfaces.WebStoreServices
         void DeleteItemAttachment(long ItemAttachmentId);
         long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID, long OrganisationId, long StoreId);
         List<ItemVideo> GetProductVideos(long ItemID);
+        List<ItemAttachment> GetItemAttactchments(long itemID);
     }
 }

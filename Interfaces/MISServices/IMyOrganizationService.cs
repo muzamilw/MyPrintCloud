@@ -45,6 +45,7 @@ namespace MPC.Interfaces.MISServices
         bool DeleteOrganisation(long OrganisationID);
 
         IEnumerable<Markup> GetMarkups();
+        void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial);
 
     }
 }

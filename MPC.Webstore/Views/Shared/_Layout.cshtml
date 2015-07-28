@@ -14,14 +14,32 @@
 
 
     <title>@ViewBag.Title </title>
+    <script>
+    function load_css_async(filename) {
 
+
+        var cb = function () {
+            var l = document.createElement('link'); l.rel = 'stylesheet';
+            l.href = filename;
+            var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
+        };
+        var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+            webkitRequestAnimationFrame || msRequestAnimationFrame;
+        if (raf) raf(cb);
+        else window.addEventListener('load', cb);
+
+
+    }
+    </script>
+
+    @Styles.RenderFormat("<script type=\"text/javascript\">load_css_async('{0}')</script>", "//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css")
+    @Styles.RenderFormat("<script type=\"text/javascript\">load_css_async('{0}')</script>", "~/Content/ListingPropertiesCarousel.css")
+    @Styles.RenderFormat("<script type=\"text/javascript\">load_css_async('{0}')</script>", "~/Content/js-image-slider.css")
+  
+    <script type="text/javascript">load_css_async('@ViewBag.StyleSheet')</script>
    
-
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    @Styles.Render("~/Content/ListingPropertiesCarousel.css")
-    @Styles.Render("~/Content/js-image-slider.css")
     @Styles.Render("~/Content/CSS")
-    <link href="@ViewBag.StyleSheet" rel="stylesheet" />
+   
     @RenderSection("headerScripts", required: false)
     @RenderSection("metatags", false)
 
@@ -56,7 +74,31 @@
 
                 );
             }
+            function checkImg(img) {
+                if (img.naturalHeight <= 1 && img.naturalWidth <= 1) {
+                    // undersize image here
+                    img.src = "upload/no-img.jpeg";
+                }
+            }
+
+            $("img").each(function () {
+                // if image already loaded, we can check it's height now
+                if (this.complete) {
+                    checkImg(this);
+                } else {
+                    // if not loaded yet, then set load and error handlers
+                    $(this).load(function () {
+                        checkImg(this);
+                    }).error(function () {
+                        // img did not load correctly
+                        // set new .src here
+                        this.src = "/Content/Images/notFound.svg";
+                    });
+
+                }
+            });
         });
+   
 
         function ToggleMenu() {
             $("#collapsedMenu").slideToggle();

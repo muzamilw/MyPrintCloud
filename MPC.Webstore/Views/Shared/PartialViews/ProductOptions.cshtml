@@ -186,7 +186,7 @@
                                       
                                             <div id="DivSide1" class="LGBC BD_PCS rounded_corners">
                                                 <div class="DeleteIconPP">
-                                                    <button type="button" class="delete_icon_img" onclick="ConfirmDeleteArtWorkPopUP(@artworkFile.ItemAttachmentId);"></button>
+                                                    <button type="button" class="delete_icon_img" onclick="ConfirmDeleteArtWorkPopUP(@artworkFile.ItemAttachmentId, @artworkFile.ItemId);"></button>
                                                 </div>
                                                 <a id="hlSide1">
                                                     <div class="PDTC_LP FI_PCS">
@@ -779,7 +779,7 @@
             return false;
         } else {
             
-            if("@ViewBag.ItemModel.isUploadImage" == "True" && isImageUploadedOnLandingPage == 0 && "@ViewBag.ItemModel.Mode" == "UploadDesign"){
+            if(isImageUploadedOnLandingPage == 0){
                 ShowPopUp("Message", "Please upload your artwork to proceed.");
                 return false;
             }
@@ -1879,5 +1879,6 @@
         }
         displayTotalPrice(TotalItemPrice, ReCalTotalVal);
     }
+       
 </script>
 }
