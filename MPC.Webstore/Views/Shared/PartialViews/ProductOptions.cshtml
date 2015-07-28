@@ -778,7 +778,7 @@
             ShowPopUp("Message", "Please check your details to proceed.");
             return false;
         } else {
-
+            
             if("@ViewBag.ItemModel.isUploadImage" == "True" && isImageUploadedOnLandingPage == 0 && "@ViewBag.ItemModel.Mode" == "UploadDesign"){
                 ShowPopUp("Message", "Please upload your artwork to proceed.");
                 return false;
@@ -1434,6 +1434,7 @@
                         if (messages[0] == "Success") {
                             console.log(messages[1]);
                             $("#attachmentUploadContainer").html(messages[1]);
+                            isImageUploadedOnLandingPage = 1;
                             HideLoader();
                         } else {
                             ShowPopUp('Message', messages[0]);
@@ -1686,9 +1687,9 @@
                                         ShowCostCentrePopup(arrayOfQuestionQueueObjects, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice,AnOtherInputQueueObject, CostCentreType, @ViewBag.TaxRate, AnOtherWorkInstructions);
                                     }
                                 }else if(AnOtherWorkInstructions != null && AnOtherWorkInstructions != ""){ // process the question queue and prompt for values
-                                 
+
                                     ShowCostCentrePopup(AnOtherQuestionQueueObject, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice,AnOtherInputQueueObject, CostCentreType, @ViewBag.TaxRate, AnOtherWorkInstructions);
-                                    
+
                                 }
                                 else{
 
