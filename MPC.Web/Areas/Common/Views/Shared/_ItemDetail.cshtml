@@ -24,17 +24,17 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-12 PaddingZero">
-                <div class="col-sm-12 PaddingZero">
+            <div class="col-sm-12">
+                <div class="col-sm-12" style="padding-right:0px;">
 
-                    <div style="float: right;text-align: right; padding-right: 7px; ">
+                    <div style="float: right;text-align: right; padding-right:0px;margin-top:-10px;">
                         <button data-bind="visible:!$root.showSectionDetail(),click:$root.closeItemDetail" class="btn btn-default" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Close</button>
                     </div>
-                    <div style="float: right; " data-bind="visible:($root.selectedOrder()!==undefined && $root.selectedOrder().isDirectSale() && !$root.showSectionDetail()),click:$root.deleteItem">
+                    <div style="float: right;margin-top:-10px;" data-bind="visible:($root.selectedOrder()!==undefined && $root.selectedOrder().isDirectSale() && !$root.showSectionDetail()),click:$root.deleteItem">
                         <button class="btn btn-danger" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Delete</button>
                     </div>
 
-                    <div style="text-align: right; padding-right: 7px; ">
+                    <div style="text-align: right; padding-right:0px;margin-top:-10px; ">
                         <!--ko if:$root.selectedOrder() &&   $root.selectedOrder().statusId !==undefined -->
                         <button type="button" class="btn btn-primary" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" data-bind="visible:$root.selectedOrder().statusId() === 6 && !$root.showSectionDetail(),click:$root.openExternalReportsJob">Print Job Card</button>
                         <!--/ko-->
@@ -47,7 +47,7 @@
             </div>
         </div>
         <div class="row" id="user-profile">
-            <div class="col-sm-12" data-bind="visible:!$root.showSectionDetail()" style="padding-left: 16px;padding-right: 16px;">
+            <div class="col-sm-12" data-bind="visible:!$root.showSectionDetail()" style="padding-left: 16px;padding-right:16px;">
                 <div class="main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs" id="sectionTabTabs">
@@ -61,9 +61,9 @@
                                     <div class="col-sm-12 form-horizontal">
                                         <div class="form-group">
                                             <div class="col-sm-2">&nbsp;</div>
-                                            <div class="col-sm-8" style="  margin-top: 10px;">
+                                            <div class="col-sm-8" style="margin-top: 10px;padding:0px;text-align:center;">
                                                 <input type="text" style="font-size: 24px;height: 60px;border-bottom: 2px dashed black !important;font-weight: bold;padding-left: 0px;border-top: none;border-left: none;border-right: none; text-align: center; color:#C2C2C2" class="form-control" placeholder="Product Name" data-bind="value: productName, validationTooltip: productName, validationOnElement: productName" />
-                                                <span style="margin-left: 44%">Product Name</span>
+                                                <span>Product Name</span>
                                             </div>
                                             <div class="col-sm-2">
                                                 <!--ko if:$root.selectedOrder() &&   $root.selectedOrder().statusId !==undefined -->
@@ -81,7 +81,7 @@
                                         <div class="form-group">
 
                                             <div class="col-sm-2 text-right"><label class="control-label">Sections</label></div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-4" style="padding:0px;">
                                                 <div>
                                                     <ul class="gallery-photos">
                                                         <!-- ko template: { name: 'sectionItemTemplate' , foreach: itemSections  } -->
@@ -89,44 +89,25 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4 form-horizontal" style="background-color:gainsboro;margin-left: 4px;padding-top:20px;border-radius:3px">
-                                                <div style="background-color:gainsboro; border-radius:3px">
-                                                    <div style="background-color:gainsboro; border-radius:3px">
-                                                        <div class="form-group col-lg-12">
-                                                            @*<div class="col-sm-4">
-                                                            <label class="control-label tooltip-float" style="cursor: pointer" data-bind="click: $root.selectQuantityForItem.bind(1, 1), css: { font20px: $root.selectedQtyForItem() === 1 }, style: { 'margin-top': $root.selectedQtyForItem() !== 1 ? '5px' : '0', 'text-decoration': $root.selectedQtyForItem() !== 1 ? 'underline' : 'none', 'color': $root.selectedQtyForItem() !== 1 ? 'blue' : '' }">Qty1</label>
-                                                            </div>
-                                                            <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
-                                                            <div class="col-sm-3">
-                                                            <label class="control-label tooltip-float" style="cursor: pointer" data-bind="click: $root.selectQuantityForItem.bind(2, 2), css: { font20px: $root.selectedQtyForItem() === 2 }, style: { 'margin-top': $root.selectedQtyForItem() !== 2 ? '5px' : '0', 'text-decoration': $root.selectedQtyForItem() !== 2 ? 'underline' : 'none', 'color': $root.selectedQtyForItem() !== 2 ? 'blue' : '' }">Qty2</label>
-                                                            </div>
-                                                            <div class="col-sm-3">
-                                                            <label class="control-label tooltip-float" style="cursor: pointer" data-bind="click: $root.selectQuantityForItem.bind(3, 3), css: { font20px: $root.selectedQtyForItem() === 3 }, style: { 'margin-top': $root.selectedQtyForItem() !== 3 ? '5px' : '0', 'text-decoration': $root.selectedQtyForItem() !== 3 ? 'underline' : 'none', 'color': $root.selectedQtyForItem() !== 3 ? 'blue' : '' }">Qty3</label>
-                                                            </div>
-                                                            <!--/ko-->*@
+                                            <div class="col-sm-4" style="background-color:gainsboro;padding-top:20px;">
+                                                <div style="background-color:gainsboro;">
+                                                    <div style="background-color:gainsboro;margin:10px;">
+                                                        <div class="form-group">
                                                             <div class="">
-                                                                <input type="button" style="  margin-left: 5px;" class="btn btn-default col-sm-3" data-bind="visible: $root.selectedQtyForItem() == 2 || $root.selectedQtyForItem() == 3, click: $root.selectQuantityForItem.bind(1, 1), value: 'Qty 1      (' + qty1() + ') '">
+                                                                <input type="button" class="btn btn-default col-sm-3" data-bind="visible: $root.selectedQtyForItem() == 2 || $root.selectedQtyForItem() == 3, click: $root.selectQuantityForItem.bind(1, 1), value: 'Qty 1      (' + qty1() + ') '">
                                                             </div>
                                                             <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
                                                             <div class="">
-                                                                <input type="button" style="  margin-left: 5px;" class="btn btn-default col-sm-3" data-bind="visible: $root.selectedQtyForItem() == 1 || $root.selectedQtyForItem() == 3, click: $root.selectQuantityForItem.bind(2, 2), value: 'Qty 2      (' + qty2() + ') '">
+                                                                <input type="button" style="margin-left:5px;" class="btn btn-default col-sm-3" data-bind="visible: $root.selectedQtyForItem() == 1 || $root.selectedQtyForItem() == 3, click: $root.selectQuantityForItem.bind(2, 2), value: 'Qty 2      (' + qty2() + ') '">
                                                             </div>
                                                             <div class="">
-                                                                <input type="button" style="  margin-left: 5px;" class="btn btn-default col-sm-3" data-bind="visible: $root.selectedQtyForItem() == 1 || $root.selectedQtyForItem() == 2, click: $root.selectQuantityForItem.bind(3, 3), value: 'Qty 3      (' + qty3() + ') '">
+                                                                <input type="button" style="margin-left:5px;" class="btn btn-default col-sm-3" data-bind="visible: $root.selectedQtyForItem() == 1 || $root.selectedQtyForItem() == 2, click: $root.selectQuantityForItem.bind(3, 3), value: 'Qty 3      (' + qty3() + ') '">
                                                             </div>
                                                             <!--/ko-->
-                                                            <input type="button" class="btn btn-success col-sm-4" style="float: right; padding-right: 5px;" data-bind="value: $root.selectedQtyForItem() == 1 ? 'Qty 1      (' + qty1() + ')' : $root.selectedQtyForItem() == 2? 'Qty 2      (' + qty2() + ')': 'Qty 3      (' + qty3() + ') '" />
+                                                            <input type="button" class="btn btn-success col-sm-4" style="float: right;margin-right:5px;" data-bind="value: $root.selectedQtyForItem() == 1 ? 'Qty 1      (' + qty1() + ')' : $root.selectedQtyForItem() == 2? 'Qty 2      (' + qty2() + ')': 'Qty 3      (' + qty3() + ') '" />
                                                         </div>
                                                     </div>
-                                                    @*<div class="form-group">
-                                                        <div class="col-sm-5" style="text-align: right">
-                                                            <label class="control-label">
-                                                                Qty
-                                                                <span data-bind="text: $root.selectedQtyForItem"></span>
-                                                                <span class="control-label">Summary</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>*@
+                                                    
                                                     <div class="form-group">
                                                         <div class="col-sm-5" style="text-align: right;">
                                                             <div class="col-sm-12" style="padding-right: 0;margin-bottom: 5px">
@@ -232,7 +213,7 @@
                                             <input style="text-align: right;" type="text" class="form-control" id="txtTitle1" data-bind="value: jobDescriptionTitle1" placeholder="Enter Title 1">
                                             <span class="label label-circle-question"></span>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6" style="padding-right:0px;">
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" style="height:34px;" rows="1" data-bind="value: jobDescription1, click: $root.selectJobDescription" id="txtDescription1" placeholder="Enter Description 1"></textarea>
                                             </div>
@@ -252,7 +233,7 @@
                                             <input type="text" style="text-align: right;" class="form-control" id="txtTitle2" data-bind="value: jobDescriptionTitle2" placeholder="Enter Title 2">
                                             <span class="label label-circle-question"></span>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6" style="padding-right:0px;">
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" style="height:34px;" rows="1" data-bind="value: jobDescription2, click: $root.selectJobDescription" id="txtDescription2" placeholder="Enter Description 2"></textarea>
                                             </div>
@@ -272,7 +253,7 @@
                                             <input type="text" style="text-align: right;" class="form-control" id="txtTitle3" data-bind="value: jobDescriptionTitle3" placeholder="Enter Title 3">
                                             <span class="label label-circle-question"></span>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6" style="padding-right:0px;">
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription3, click: $root.selectJobDescription" id="txtDescription3" placeholder="Enter Description 3"></textarea>
                                             </div>
@@ -292,7 +273,7 @@
                                             <input type="text" style="text-align: right;" class="form-control" id="txtTitle4" data-bind="value: jobDescriptionTitle4" placeholder="Enter Title 4">
                                             <span class="label label-circle-question"></span>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6" style="padding-right:0px;">
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription4, click: $root.selectJobDescription" id="txtDescription4" placeholder="Enter Description 4"></textarea>
                                             </div>
@@ -312,7 +293,7 @@
                                             <input type="text" style="text-align: right;" class="form-control" id="txtTitle5" data-bind="value: jobDescriptionTitle5" placeholder="Enter Title 5">
                                             <span class="label label-circle-question"></span>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6" style="padding-right:0px;">
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription5, click: $root.selectJobDescription" id="txtDescription5" placeholder="Enter Description 5"></textarea>
                                             </div>
@@ -332,7 +313,7 @@
                                             <input type="text" style="text-align: right;" class="form-control" id="txtTitle6" data-bind="value: jobDescriptionTitle6" placeholder="Enter Title 6">
                                             <span class="label label-circle-question"></span>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6" style="padding-right:0px;">
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription6, click: $root.selectJobDescription" id="txtDescription6" placeholder="Enter Description 6"></textarea>
                                             </div>
@@ -352,7 +333,7 @@
                                             <input type="text" style="text-align: right;" class="form-control" id="txtTitle7" data-bind="value: jobDescriptionTitle7" placeholder="Enter Title 7">
                                             <span class="label label-circle-question"></span>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6" style="padding-right:0px;">
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription7, click: $root.selectJobDescription" id="txtDescription7" placeholder="Enter Description 7"></textarea>
                                             </div>
@@ -370,23 +351,23 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-sm-1">&nbsp;</div>
-                                        <div class="col-sm-3 ">
+                                       
+                                        <div class="col-sm-2">
                                             <label class="control-label tooltip-float">Invoice Description</label>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-8" style="padding-right:0px;">
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" rows="3" data-bind="value: invoiceDescription" id="txtInvoiceDescription" placeholder="Enter Invoice Description" style="background-color:#FCFBB6;"></textarea>
                                             </div>
 
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 form-horizontal" style="margin-top: -1%">
+                                    <div class="col-sm-12 form-horizontal">
                                         <div class="form-group">
-                                            <div class="col-sm-4 text-right">
-                                                <label class="control-label tooltip-float">&nbsp;</label>
+                                            <div class="col-sm-2">
+                                              
                                             </div>
-                                            <div class="col-sm-8">
+                                            <div class="col-sm-8" style="padding-left:5px;">
                                                 <a href="#" class="btn btn-primary pull-left" data-bind="click:$root.copyJobCards" style="margin-left: -3px;">
                                                     <i class="fa fa-lg"></i>&nbsp;Copy Descriptions to Invoice
                                                 </a>
@@ -395,11 +376,11 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <div class="col-sm-2">&nbsp;</div>
+                                       
                                         <div class="col-sm-2 text-right">
                                             <label class="control-label tooltip-float">User Notes</label>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-8" style="padding-right:0px;">
                                             <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
                                                 <textarea class="form-control" rows="3" data-bind="value: itemNotes" id="txtNotes" placeholder="Enter Notes" style="background-color: #FCFBB6;"></textarea>
                                             </div>
@@ -669,7 +650,7 @@
 
 <script id="sectionItemTemplate" type="text/html">
     <!--ko if: !flagForAdd() -->
-    <li class="col-lg-4 col-sm-5" style="margin-left: 5px">
+    <li class="col-lg-4 col-sm-5" style="margin-left:0px;padding:0px;">
         <div>
             <div style="float: left">
                 <span data-bind="text:sectionsMultiplier, css: { 'sectionmultiplierindex':  $index() === 0,  'sectionmultiplier':  $index() !== 0 }" class="font20px"></span>
