@@ -29,15 +29,28 @@ namespace MPC.MIS.Areas.Api.Controllers
         #endregion
 
         #region Public
+        public bool Get()
+        {
+            try
+            {
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
 
+            }
+
+        }
         #endregion
 
-        // POST api/<controller>
-        public void Post(long organisationId, int storesCount, bool isTrial)
+        [HttpPost]
+        public bool Post([FromUri]long organisationId, int storesCount, bool isTrial)
         {
             try
             {
                 _myOrganizationService.UpdateOrganisationLicensing(organisationId, storesCount, isTrial);
+                return true;
 
             }
             catch (Exception ex)
