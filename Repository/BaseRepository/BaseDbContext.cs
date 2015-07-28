@@ -697,6 +697,10 @@ namespace MPC.Repository.BaseRepository
         /// </summary>
         public DbSet<TemplateVariableExtension> TemplateVariableExtensions { get; set; }
         /// <summary>
+        /// Company Vouchers Redeem DbSet
+        /// </summary>
+        public DbSet<CompanyVoucherRedeem> CompanyVoucherRedeems { get; set; }
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming

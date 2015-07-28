@@ -6315,3 +6315,30 @@ CREATE TABLE [dbo].[TemplateVariableExtension](
 GO
 
 
+---Executed on Live Servers--------
+
+alter table Organisation add isAgileActive bit
+alter table Organisation add isTrial bit
+alter table Organisation add LiveStoresCount int
+alter table company add isStoreLive bit
+
+
+/****** Object:  Table [dbo].[CompanyVoucherRedeem]    Script Date: 7/28/2015 2:05:27 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[CompanyVoucherRedeem](
+	[VoucherRedeemId] [bigint] IDENTITY(1,1) NOT NULL,
+	[CompanyId] [bigint] NULL,
+	[DiscountVoucherId] [bigint] NULL,
+	[RedeemDate] [datetime] NULL,
+ CONSTRAINT [PK_CompanyVoucherRedeem] PRIMARY KEY CLUSTERED 
+(
+	[VoucherRedeemId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO

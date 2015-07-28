@@ -492,6 +492,7 @@
           <Property Name="isCalculateTaxByService" Type="bit" />
           <Property Name="ActiveBannerSetId" Type="bigint" />
           <Property Name="CurrentThemeId" Type="bigint" />
+          <Property Name="isStoreLive" Type="bit" />
         </EntityType>
         <EntityType Name="CompanyBanner">
           <Key>
@@ -676,6 +677,15 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="VariableId" Type="bigint" />
           <Property Name="Icon" Type="varchar" MaxLength="255" />
           <Property Name="ContactCompanyId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="CompanyVoucherRedeem">
+          <Key>
+            <PropertyRef Name="VoucherRedeemId" />
+          </Key>
+          <Property Name="VoucherRedeemId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="DiscountVoucherId" Type="bigint" />
+          <Property Name="RedeemDate" Type="datetime" />
         </EntityType>
         <EntityType Name="CostCenterChoice">
           <Key>
@@ -2658,6 +2668,9 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="IsImperical" Type="bit" />
           <Property Name="AgileApiKey" Type="nvarchar" MaxLength="255" />
           <Property Name="AgileApiUrl" Type="nvarchar" MaxLength="255" />
+          <Property Name="isAgileActive" Type="bit" />
+          <Property Name="isTrial" Type="bit" />
+          <Property Name="LiveStoresCount" Type="int" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -6178,6 +6191,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="CompanyDomain" EntityType="Self.CompanyDomain" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyTerritory" EntityType="Self.CompanyTerritory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyType" EntityType="Self.CompanyType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompanyVoucherRedeem" EntityType="Self.CompanyVoucherRedeem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CostCenterChoice" EntityType="Self.CostCenterChoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CostCentre" EntityType="Self.CostCentre" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CostCentreAnswer" EntityType="Self.CostCentreAnswer" Schema="dbo" store:Type="Tables" />
@@ -8144,6 +8158,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="ItemsVouchers" EntityType="DomainModels.ItemsVoucher" />
           <EntitySet Name="ProductCategoryVouchers" EntityType="DomainModels.ProductCategoryVoucher" />
           <EntitySet Name="TemplateVariableExtensions" EntityType="DomainModels.TemplateVariableExtension" />
+          <EntitySet Name="CompanyVoucherRedeems" EntityType="DomainModels.CompanyVoucherRedeem" />
         </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -8281,6 +8296,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Inquiries" Relationship="DomainModels.FK_Inquiry_Company" FromRole="Company" ToRole="Inquiry" />
           <NavigationProperty Name="Purchases" Relationship="DomainModels.FK_Purchase_Company" FromRole="Company" ToRole="Purchase" />
           <NavigationProperty Name="GoodsReceivedNotes" Relationship="DomainModels.FK_GoodsReceivedNote_Company" FromRole="Company" ToRole="GoodsReceivedNote" />
+          <Property Name="isStoreLive" Type="Boolean" />
         </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -8430,6 +8446,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="IsImperical" Type="Boolean" />
           <Property Name="AgileApiKey" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="AgileApiUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="isAgileActive" Type="Boolean" />
+          <Property Name="isTrial" Type="Boolean" />
+          <Property Name="LiveStoresCount" Type="Int32" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -14898,6 +14917,15 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="HasPrefix" Type="Boolean" />
           <Property Name="HasPostFix" Type="Boolean" />
         </EntityType>
+        <EntityType Name="CompanyVoucherRedeem">
+          <Key>
+            <PropertyRef Name="VoucherRedeemId" />
+          </Key>
+          <Property Name="VoucherRedeemId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="DiscountVoucherId" Type="Int64" />
+          <Property Name="RedeemDate" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -14907,6 +14935,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="DomainModels.Company">
               <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="isStoreLive" ColumnName="isStoreLive" />
                 <ScalarProperty Name="CurrentThemeId" ColumnName="CurrentThemeId" />
                 <ScalarProperty Name="ActiveBannerSetId" ColumnName="ActiveBannerSetId" />
                 <ScalarProperty Name="makeEmailArtworkOrderProductionReady" ColumnName="makeEmailArtworkOrderProductionReady" />
@@ -15112,6 +15141,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="LiveStoresCount" ColumnName="LiveStoresCount" />
+                <ScalarProperty Name="isTrial" ColumnName="isTrial" />
+                <ScalarProperty Name="isAgileActive" ColumnName="isAgileActive" />
                 <ScalarProperty Name="AgileApiUrl" ColumnName="AgileApiUrl" />
                 <ScalarProperty Name="AgileApiKey" ColumnName="AgileApiKey" />
                 <ScalarProperty Name="IsImperical" ColumnName="IsImperical" />
@@ -19610,6 +19642,16 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="FieldVariableId" ColumnName="FieldVariableId" />
                 <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
                 <ScalarProperty Name="TemplateVariableExtId" ColumnName="TemplateVariableExtId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyVoucherRedeems">
+            <EntityTypeMapping TypeName="DomainModels.CompanyVoucherRedeem">
+              <MappingFragment StoreEntitySet="CompanyVoucherRedeem">
+                <ScalarProperty Name="RedeemDate" ColumnName="RedeemDate" />
+                <ScalarProperty Name="DiscountVoucherId" ColumnName="DiscountVoucherId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="VoucherRedeemId" ColumnName="VoucherRedeemId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1544,7 +1544,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     });
                 }
                 // If Start Designer Empty and Category is not selected
-                if (designerCategoryId.error) {
+                if (isFinishedGoodsUi() == 1 && designerCategoryId.error) {
                     validationSummaryList.push({
                         name: "Online Template Category",
                         element: designerCategoryId.domElement
