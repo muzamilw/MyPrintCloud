@@ -1,7 +1,6 @@
 ﻿
 @using MPC.Webstore.Common;
-@using MPC.Models.Common;
-
+@model MPC.Models.DomainModels.Company
 @{
     var ParentCategory = ViewBag.ParentCategory as List<MPC.Models.DomainModels.ProductCategory>;
     var AllChildCategories = ViewBag.AllChildCategories as List<MPC.Models.DomainModels.ProductCategory>;
@@ -9,19 +8,16 @@
 
 <div class="customHeader">
     <div class="container">
-        <div class="logo"><img src="/MPC_Content\Assets\1579\33430\logo.png"></div>
+        <div class="logo"><img src="/@Model.Image"></div>
         <div class="mainNav">
             <nav id="nav" role="navigation">
                 <a href="#nav" title="Show Menu">Show Menu</a>
                 <a href="#" title="Hide Menu">Hide Menu</a>
                 <ul>
-                    <li><a href="/">Home</a></li>
                   @foreach (var ParentProduct in ParentCategory)
                   {
                       int count = AllChildCategories.Where(g => g.ParentCategoryId == ParentProduct.ProductCategoryId).Count();
                       var ChildCategories = AllChildCategories.Where(i => i.ParentCategoryId == ParentProduct.ProductCategoryId).ToList();
-                      if(count>0)
-                      { 
                     <li>
                         <a aria-haspopup="true" href="/Category/@Html.ResolveString(ParentProduct.CategoryName)/@ParentProduct.ProductCategoryId">@ParentProduct.CategoryName</a>
                         <ul>
@@ -31,7 +27,6 @@
                             }
                         </ul>
                     </li>
-                      }
                   }
                 </ul>
             </nav>
