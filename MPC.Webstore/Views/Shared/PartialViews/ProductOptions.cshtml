@@ -186,7 +186,7 @@
                                       
                                             <div id="DivSide1" class="LGBC BD_PCS rounded_corners">
                                                 <div class="DeleteIconPP">
-                                                    <button type="button" class="delete_icon_img" onclick="ConfirmDeleteArtWorkPopUP(@artworkFile.ItemAttachmentId);"></button>
+                                                    <button type="button" class="delete_icon_img" onclick="ConfirmDeleteArtWorkPopUP(@artworkFile.ItemAttachmentId, @artworkFile.ItemId);"></button>
                                                 </div>
                                                 <a id="hlSide1">
                                                     <div class="PDTC_LP FI_PCS">
@@ -778,8 +778,8 @@
             ShowPopUp("Message", "Please check your details to proceed.");
             return false;
         } else {
-
-            if("@ViewBag.ItemModel.isUploadImage" == "True" && isImageUploadedOnLandingPage == 0 && "@ViewBag.ItemModel.Mode" == "UploadDesign"){
+            
+            if(isImageUploadedOnLandingPage == 0){
                 ShowPopUp("Message", "Please upload your artwork to proceed.");
                 return false;
             }
@@ -1434,6 +1434,7 @@
                         if (messages[0] == "Success") {
                             console.log(messages[1]);
                             $("#attachmentUploadContainer").html(messages[1]);
+                            isImageUploadedOnLandingPage = 1;
                             HideLoader();
                         } else {
                             ShowPopUp('Message', messages[0]);
@@ -1686,9 +1687,9 @@
                                         ShowCostCentrePopup(arrayOfQuestionQueueObjects, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice,AnOtherInputQueueObject, CostCentreType, @ViewBag.TaxRate, AnOtherWorkInstructions);
                                     }
                                 }else if(AnOtherWorkInstructions != null && AnOtherWorkInstructions != ""){ // process the question queue and prompt for values
-                                 
+
                                     ShowCostCentrePopup(AnOtherQuestionQueueObject, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice,AnOtherInputQueueObject, CostCentreType, @ViewBag.TaxRate, AnOtherWorkInstructions);
-                                    
+
                                 }
                                 else{
 
@@ -1878,5 +1879,6 @@
         }
         displayTotalPrice(TotalItemPrice, ReCalTotalVal);
     }
+       
 </script>
 }

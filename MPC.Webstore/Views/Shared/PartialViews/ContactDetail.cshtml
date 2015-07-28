@@ -546,7 +546,7 @@
                 var Model = { FirstName: FirstName, LastName: LastName, Email: Email, JobTitle: JobTitle, HomeTel1: HomeTel1, Mobile: Mobile, FAX: FAX, quickWebsite: quickWebsite, POBoxAddress: POBoxAddress, CorporateUnit: CorporateUnit, OfficeTradingName: OfficeTradingName, ContractorName: ContractorName, BPayCRN: BPayCRN, ABN: ABN, ACN: ACN, AdditionalField1: AdditionalField1, AdditionalField2: AdditionalField2, AdditionalField3: AdditionalField3, AdditionalField4: AdditionalField4, AdditionalField5: AdditionalField5, IsEmailSubscription: IsEmailSubscription, IsNewsLetterSubscription: IsNewsLetterSubscription };
                 $.ajax({
                     type: "POST",
-                    url: "/webstoreapi/costCenter/UploadImage?FirstName=" + FirstName + "&LastName=" + LastName + "&Email=" + Email + "&JobTitle=" + JobTitle + "&HomeTel1=" + HomeTel1 + "&Mobile=" + Mobile + "&FAX=" + FAX + "&CompanyName= " + CompanyName + "" + "&quickWebsite=" + quickWebsite + "&POBoxAddress=" + POBoxAddress + "&CorporateUnit=" + CorporateUnit + "&OfficeTradingName=" + OfficeTradingName + "&ContractorName=" + ContractorName + "&BPayCRN=" + BPayCRN + "&ABN=" + ABN + "&ACN=" + ACN + "&AdditionalField1=" + AdditionalField1 + "&AdditionalField2=" + AdditionalField2 + "&AdditionalField3=" + AdditionalField3 + "&AdditionalField4=" + AdditionalField4 + "&AdditionalField5=" + AdditionalField5 + "&IsEmailSubscription=" + IsEmailSubscription + "&IsNewsLetterSubscription=" + IsNewsLetterSubscription + "",
+                    url: "/webstoreapi/ContactImageUploader/UploadImage?FirstName=" + FirstName + "&LastName=" + LastName + "&Email=" + Email + "&JobTitle=" + JobTitle + "&HomeTel1=" + HomeTel1 + "&Mobile=" + Mobile + "&FAX=" + FAX + "&CompanyName= " + CompanyName + "" + "&quickWebsite=" + quickWebsite + "&POBoxAddress=" + POBoxAddress + "&CorporateUnit=" + CorporateUnit + "&OfficeTradingName=" + OfficeTradingName + "&ContractorName=" + ContractorName + "&BPayCRN=" + BPayCRN + "&ABN=" + ABN + "&ACN=" + ACN + "&AdditionalField1=" + AdditionalField1 + "&AdditionalField2=" + AdditionalField2 + "&AdditionalField3=" + AdditionalField3 + "&AdditionalField4=" + AdditionalField4 + "&AdditionalField5=" + AdditionalField5 + "&IsEmailSubscription=" + IsEmailSubscription + "&IsNewsLetterSubscription=" + IsNewsLetterSubscription + "",
                     contentType: false,
                     data: data,
                     async: true,
@@ -594,7 +594,7 @@
             }
             $.ajax({
                 type: "POST",
-                url: "/webstoreapi/costCenter/ImageFile",
+                url: "/webstoreapi/ContactImageUploader/ImageFile",
                 contentType: false,
                 data: data,
                 async: true,
