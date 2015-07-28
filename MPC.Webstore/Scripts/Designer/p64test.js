@@ -8597,46 +8597,93 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
           if (lockScalingFlip && transform.newScaleY <= 0 && transform.newScaleY < target.scaleY) {
               forbidScalingY = true;
           }
-
           if (by === 'equally' && !lockScalingX && !lockScalingY) {
-              forbidScalingX || forbidScalingY || this._scaleObjectEqually(localMouse, target, transform);
+              //  forbidScalingX || forbidScalingY || this._scaleObjectEqually(localMouse, target, transform);
+              var dist = localMouse.y + localMouse.x,
+                  strokeWidth = target.stroke ? target.strokeWidth : 0,
+                  lastDist = (target.height + (strokeWidth / 2)) * transform.original.scaleY +
+                             (target.width + (strokeWidth / 2)) * transform.original.scaleX;
+              transform.newScaleX = transform.original.scaleX * dist / lastDist;
+              transform.newScaleY = transform.original.scaleY * dist / lastDist;
+              var width = target.width * transform.newScaleX;
+              if (D1CZL != 0) {
+                  width = width * (1 / D1CS);
+              }
+              if (width > 10) {
+                  target.set('width', width);
+                  target.set('maxWidth', width);
+                  var dif = target.getWidth() - oldW;
+                  dif = dif / 2;
+                  target.set('left', target.left + dif);
+              }
+              var height = transform.newScaleY * target.height;
+              if (D1CZL != 0) {
+                  height = height * (1 / D1CS);
+              }
+              if (height > 10) {
+                  target.set('height', height);
+                  target.set('maxHeight', height);
+
+                  dif = target.getHeight() - oldH;
+                  dif = dif / 2;
+                  target.set('top', target.top + dif);
+              }
           }
           else if (!by) {
-              forbidScalingX || lockScalingX || target.set('scaleX', transform.newScaleX);
-              forbidScalingY || lockScalingY || target.set('scaleY', transform.newScaleY);
+             // forbidScalingX || lockScalingX || target.set('scaleX', transform.newScaleX);
+            //  forbidScalingY || lockScalingY || target.set('scaleY', transform.newScaleY);
+              var width = target.width * transform.newScaleX;
+              if (D1CZL != 0) {
+                  width = width * (1 / D1CS);
+              }
+              if (width > 10) {
+                  target.set('width', width);
+                  target.set('maxWidth', width);
+                  var dif = target.getWidth() - oldW;
+                  dif = dif / 2;
+                  target.set('left', target.left + dif);
+              }
+              var height = transform.newScaleY * target.height;
+              if (D1CZL != 0) {
+                  height = height * (1 / D1CS);
+              }
+              if (height > 10) {
+                  target.set('height', height);
+                  target.set('maxHeight', height);
+                  dif = target.getHeight() - oldH;
+                  dif = dif / 2;
+                  target.set('top', target.top + dif);
+              }
           }
           else if (by === 'x' && !target.lockUniScaling) {
-                  newScaleX = localMouse.x / (target.width + target.padding);
-                  var width = target.width * newScaleX;
-                  // edited by saqib for sorting zoom issue 
-                  if (D1CZL != 0) {
-                      width = width * (1 / D1CS);
-                  }
-                  if (width > 10) {
-                      target.set('width', width);
-                      target.set('maxWidth', width);
-                      var dif = target.getWidth() - oldW;
-                      dif = dif / 2
-                      //target.left = target.left + dif;
-                      target.set('left', target.left + dif);
-                  }
+              newScaleX = localMouse.x / (target.width + target.padding);
+              var width = target.width * newScaleX;
+              // edited by saqib for sorting zoom issue 
+              if (D1CZL != 0) {
+                  width = width * (1 / D1CS);
               }
-              else if (by === 'y' && !target.lockUniScaling) {
-                  newScaleY = localMouse.y / (target.height + target.padding);
-                  height = newScaleY * target.height;
-                  if (D1CZL != 0) {
-                      height = height * (1 / D1CS);
-                  }
-                  if (height > 10) {
-                      target.set('height', height);
-                      target.set('maxHeight', height);
-
-                      dif = target.getHeight() - oldH;
-                      dif = dif / 2
-                      //  target.top = target.top + dif;
-                      target.set('top', target.top + dif);
-                  }
+              if (width > 10) {
+                  target.set('width', width);
+                  target.set('maxWidth', width);
+                  var dif = target.getWidth() - oldW;
+                  dif = dif / 2;
+                  target.set('left', target.left + dif);
               }
+          }
+          else if (by === 'y' && !target.lockUniScaling) {
+              newScaleY = localMouse.y / (target.height + target.padding);
+              height = newScaleY * target.height;
+              if (D1CZL != 0) {
+                  height = height * (1 / D1CS);
+              }
+              if (height > 10) {
+                  target.set('height', height);
+                  target.set('maxHeight', height);
+                  dif = target.getHeight() - oldH;
+                  dif = dif / 2;
+                  target.set('top', target.top + dif);
+              }
+          }
 
           forbidScalingX || forbidScalingY || this._flipObject(transform, by);
       }

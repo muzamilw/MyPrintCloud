@@ -662,6 +662,7 @@
     <Content Include="Content\Images\MASTERCARD.gif" />
     <Content Include="Content\Images\my-jobs.png" />
     <Content Include="Content\Images\next-horizontal.png" />
+    <Content Include="Content\Images\notFound.svg" />
     <Content Include="Content\Images\olsonReviewImg.PNG" />
     <Content Include="Content\Images\Page_pdf.png" />
     <Content Include="Content\Images\prev-horizontal.png" />
