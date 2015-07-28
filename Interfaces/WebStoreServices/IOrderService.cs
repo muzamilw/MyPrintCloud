@@ -109,5 +109,6 @@ namespace MPC.Interfaces.WebStoreServices
         long GetStoreIdByOrderId(long OrderId);
 
         Estimate GetOrderByOrderID(long OrderId);
+        List<Item> GetOrderItemsIncludingDelivery(long OrderId, int OrderStatus);
     }
 }
