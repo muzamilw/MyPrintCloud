@@ -53,6 +53,8 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<SectionFlag> GetSectionFlagForInventory()
         {
+           
+
             return DbSet.Where(sf => sf.SectionId == (int)SectionEnum.Inventory && sf.OrganisationId == OrganisationId).ToList();
         }
 
@@ -61,7 +63,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<SectionFlag> GetSectionFlagBySectionId(long sectionId)
         {
-            return DbSet.Where(sf => sf.SectionId == sectionId && sf.OrganisationId == OrganisationId).ToList();
+            return DbSet.Where(sf => sf.SectionId == sectionId && sf.OrganisationId == OrganisationId).OrderBy(s => s.FlagName).ToList();
         }
 
         /// <summary>
