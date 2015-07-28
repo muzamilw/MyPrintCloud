@@ -177,7 +177,7 @@
                             @if (ViewData["ArtworkAttachments"] != null)
                             {
 
-                                <div class="rptContainers">
+                                <div id="attachmentUploadContainer" class="rptContainers">
 
                                     @foreach (var artworkFile in ViewData["ArtworkAttachments"] as List<MPC.Models.DomainModels.ItemAttachment>)
                                     {
@@ -1432,8 +1432,9 @@
                         sideOFImage = parseInt(sideOFImage) + 1;
                         $("#uploadedImageSide").val(sideOFImage);
                         if (messages[0] == "Success") {
-                            window.location.reload(true);
-
+                            console.log(messages[1]);
+                            $("#attachmentUploadContainer").html(messages[1]);
+                            HideLoader();
                         } else {
                             ShowPopUp('Message', messages[0]);
                         }

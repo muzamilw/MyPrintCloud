@@ -1,6 +1,4 @@
-﻿@import url(http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900);
-
-
+﻿
 @font-face {
     font-family: 'Poiret One';
     font-style: normal;
@@ -30,9 +28,12 @@
 }
 
 html, body {
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    /* font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;*/
     background-position-x: center;
     background-position-y: top;
+    font-family: 'Open Sans', sans-serif;
+    /*font-family: 'Open Sans Condensed' , sans-serif;*/
+    /*font-family:'Poiret One';*/
     font-style: normal;
     font-weight: normal !important;
     font-size: 12px;
@@ -40,15 +41,14 @@ html, body {
     padding: 0px;
     text-align: center;
     width: 100%;
-    color:#444444;
-background-color: #FFFFFF !important;
 }
 
 .bodycolor {
-    background-color: #FFFFFF !important;
+    background-color: #ffffff !important;
     background-image: url('_background.png') !important;
     background-repeat: repeat;
 }
+
 
 
 .height50p {
@@ -335,26 +335,33 @@ ul.nav li.selectedLava a {
 }
 
 .top_header {
-    background-color: #f8f8f8 !important;
-    background: #f8f8f8;
-    border-bottom: 1px solid #CCCCCC;
+    background-color: #d9534f !important;
+    background: #d9534f;
+    border-top: 4px solid #d9534f;
+    border-bottom: 1px solid #d9534f;
     -webkit-background-clip: border-box;
     -webkit-background-origin: padding-box;
     -webkit-background-size: auto;
     -webkit-font-smoothing: antialiased;
     background-attachment: scroll;
     background-clip: border-box;
+    background-color: #d9534f;
     background-image: none;
     background-origin: padding-box;
     background-size: auto;
+    border-bottom-color: #d9534f;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-top-color: #d9534f;
+    border-top-style: solid;
+    border-top-width: 4px;
     box-sizing: border-box;
     color: rgb(68, 68, 68);
     display: block;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-size: 13px;
     /* height: 70px; */
     line-height: 25px;
-    padding: 15px 0;
 }
 
 
@@ -396,8 +403,7 @@ ul.nav li.selectedLava a {
 }
 
 .spclColor {
-    background: #333333 none repeat scroll 0 0;
-    border-top: 2px solid #dddddd;
+    background-color: rgb(0,0,0);
 }
 
 .match_set_padding {
@@ -792,6 +798,7 @@ ul.nav li.selectedLava a {
 }
 
 #Footer {
+    margin-top: 60px;
     width: 100%;
     text-align: left;
 }
@@ -1615,21 +1622,20 @@ ul.nav li.selectedLava a {
 
 
 .btn_upload_files_Prod_Land {
-    height: 40px;
-    width: 165px;
+    height: 33px;
+    width: 145px;
     border: 0px;
     cursor: pointer;
     text-align: center;
-    background: #ffffff none repeat scroll 0 0 !important;
-    border: 2px solid #666666;
-    border-radius: 0.3em;
-    color: #666666;
+    color: White;
     text-transform: uppercase;
     font-weight: bold;
+    background-color: #333333;
+    border-color: #333333;
     padding: 10px 20px;
     box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
     font-size: 13px;
-    margin-top: 30px;
+    margin-top: 40px;
     margin-bottom: 20px;
     text-transform: uppercase;
 }
@@ -1757,7 +1763,7 @@ ul.nav li.selectedLava a {
 
 .sign_in_heading {
     font-size: 25px;
-    color: #ec008c;
+    color: #d9534f;
     /* font-weight: bold;*/
 }
 
@@ -1779,7 +1785,7 @@ ul.nav li.selectedLava a {
     padding: 20px 0px 0px 0px;
     text-align: center;
     font-size: 25px;
-    color: #ec008c;
+    color: #d9534f;
     text-shadow: none;
     font-weight: bold;
 }
@@ -1805,15 +1811,15 @@ ul.nav li.selectedLava a {
 }
 
 .product_detail_image_heading_IRI {
-    font-weight: 600;
-    font-size: 1.35em;
-    padding:10px 20px;
-    text-align: left;
-    color:#656565;
-    height:80px
+    /* font-weight: bold; padding: 20px 10px 5px 10px;*/
+    font-size: 16px;
+    color: black;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    text-align: center;
+    height: 15px;
+    display: none;
 }
-
-
 
 .product_detail_image_Pricing {
     color: #a8a8a8;
@@ -2252,7 +2258,7 @@ span.radioBtnPaperTypeClass input {
     -webkit-border-radius: 4px;
     border-radius: 4px;
     background-color: #fffefd;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     color: #66615b;
     font-size: 18px;
     padding: 13px 18px !important;
@@ -2481,7 +2487,7 @@ width: 520px*/
 }
 
 .product_detail_sup_padding {
-    padding: 10px 20px;
+    padding: 10px;
 }
 
 .product_detail_main_heading {
@@ -2612,7 +2618,7 @@ width: 520px*/
     color: rgb(255, 252, 245);
     cursor: pointer;
     display: inline;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'Avenir Next LT W01 Bold', Helvetica, Arial, sans-serif;
     font-size: 11px !important;
     font-style: normal;
     font-weight: normal !important;
@@ -2626,11 +2632,13 @@ width: 520px*/
     outline-width: 0px;
     text-align: left;
     text-decoration: none solid rgb(255, 252, 245);
+    text-transform: uppercase;
     width: auto;
     zoom: 1;
 }
 
 .themeFontColor li a {
+    text-transform: uppercase;
 }
 
 .heading_small /* h4*/ {
@@ -2712,7 +2720,7 @@ width: 520px*/
         font-size: 12px !important;
         font-style: normal;
         font-weight: normal;
-        color: #ec008c !important;
+        color: #d9534f !important;
         margin-left: 7px;
         line-height: 0;
     }
@@ -3205,16 +3213,16 @@ width: 520px*/
     padding: 0px;
     margin-left: 0px;
     height: auto !important;
-    margin-bottom:2px !important;
 }
 
     .uSecPageList li {
         padding: 5px 0px 0px 0px;
         /* padding: 5px 0px 0px 7px;*/
         font-size: 13px;
-        line-height: 16px;
+        line-height: 21px;
         text-decoration: none;
         text-transform: none; /*color: inherit;*/
+        font-size: 11px;
     }
 
         .uSecPageList li a:link {
@@ -3237,7 +3245,7 @@ width: 520px*/
             border-top-width: 0px;
             /* color: rgb(164, 158, 147); */
             cursor: auto;
-            font-size: 13px;
+            font-size: 11px;
             font-style: normal;
             font-weight: normal;
             height: auto;
@@ -3258,6 +3266,7 @@ width: 520px*/
             padding-top: 0px;
             text-align: left;
             text-decoration: none solid rgb(164, 158, 147);
+            text-transform: uppercase;
             vertical-align: baseline;
             width: auto;
             zoom: 1;
@@ -3283,7 +3292,7 @@ width: 520px*/
             border-top-width: 0px;
             /* color: rgb(164, 158, 147); */
             cursor: auto;
-            font-size: 13px;
+            font-size: 11px;
             font-style: normal;
             font-weight: normal;
             height: auto;
@@ -3304,6 +3313,7 @@ width: 520px*/
             padding-top: 0px;
             text-align: left;
             text-decoration: none solid rgb(164, 158, 147);
+            text-transform: uppercase;
             vertical-align: baseline;
             width: auto;
             zoom: 1;
@@ -3329,7 +3339,7 @@ width: 520px*/
             border-top-width: 0px;
             /* color: rgb(164, 158, 147); */
             cursor: auto;
-            font-size: 13px;
+            font-size: 11px;
             font-style: normal;
             font-weight: normal;
             height: auto;
@@ -3350,6 +3360,7 @@ width: 520px*/
             padding-top: 0px;
             text-align: left;
             text-decoration: none solid rgb(164, 158, 147);
+            text-transform: uppercase;
             vertical-align: baseline;
             width: auto;
             zoom: 1;
@@ -3375,7 +3386,7 @@ width: 520px*/
             border-top-width: 0px;
             /* color: rgb(164, 158, 147); */
             cursor: auto;
-            font-size: 13px;
+            font-size: 11px;
             font-style: normal;
             font-weight: normal;
             height: auto;
@@ -3396,6 +3407,7 @@ width: 520px*/
             padding-top: 0px;
             text-align: left;
             text-decoration: none solid rgb(164, 158, 147);
+            text-transform: uppercase;
             vertical-align: baseline;
             width: auto;
             zoom: 1;
@@ -3702,7 +3714,7 @@ width: 520px*/
     cursor: pointer;
     text-transform: uppercase;
     font-weight: bold;
-    background-color: #ec008c;
+    background-color: #d9534f;
     border-color: #d43f3a;
     padding: 10px 20px;
     box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
@@ -3721,7 +3733,7 @@ width: 520px*/
     color: White;
     width: 180px;
     cursor: pointer;
-    background-color: #ec008c;
+    background-color: #d9534f;
     border-color: #d43f3a;
     padding: 10px 20px;
     box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
@@ -5780,8 +5792,7 @@ width: 520px*/
     /*padding-left: 2px;
 	padding-right: 2px;
 	padding-top: 2px;*/
-    background-color: #555555 !important;
-    border-top:5px double #777777;
+    background-color: transparent !important;
 }
 
 .PDTC {
@@ -6183,7 +6194,7 @@ width: 520px*/
 
 
 #menu-my-account li {
-    height: 34px;
+    height: 30px;
     /*padding-right: 12px;margin-top: -12px;*/
     z-index: 999;
 }
@@ -7072,13 +7083,15 @@ div.wrapper {
 .PDTC_CAT {
     min-height: 166px;
     width: auto;
+    /* padding: 1px; border: 10px;
+	 border-style: solid;
+	border-color: #f3f3f3;*/
     cursor: pointer;
-    border-bottom:2px solid #ededed;
 }
 
 .FI_CAT {
-    width: 100%;
-    height: auto;
+    height: 166px;
+    width: 220px;
 }
 
 
@@ -7096,12 +7109,14 @@ div.wrapper {
 }
 
 .product_detail_image_heading_CAT {
-    font-weight: 600;
-    font-size: 1.35em;
-    padding:10px 20px 0;
-    text-align: left;
-    color:#656565;
-    min-height:70px;
+    /* font-weight: bold;*/
+    font-size: 16px;
+    color: Black;
+    padding: 20px 10px 5px 10px;
+    height: 30px;
+    margin-left: -5px;
+    margin-right: -5px;
+    display: none;
 }
 
 
@@ -7111,13 +7126,16 @@ div.wrapper {
 }
 
 .topcat_desc_CAT {
-    color: #656565;
-    font-size: 1em;
+    color: #042F42;
+    font-size: 13px;
     margin-top: 10px;
-    font-weight: 600;
+    width: 195px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 21.619999px;
     text-align: left;
-    padding:0 20px 10px;
-    display:none;
+    margin-left: 13px;
+    margin-bottom: 5px;
 }
 
 .ZeroRightMargin {
@@ -7128,7 +7146,7 @@ div.wrapper {
 
 /***All Products control***/
 .allprodHead {
-    color: #ec008c;
+    color: #d9534f;
     text-shadow: none;
     font-weight: bold;
     font-size: 25px;
@@ -7209,17 +7227,17 @@ div.wrapper {
     text-align: left !important;
     font-size: 22px !important;
     margin-left: 12px;
-    color: #ec008c;
+    color: #d9534f;
     font-weight: normal;
     text-decoration: none;
 }
 
     .width_allPro a {
-        color: #ec008c;
+        color: #d9534f;
     }
 
         .width_allPro a:hover {
-            color: #ec008c;
+            color: #d9534f;
         }
 /* Category Products**/
 
@@ -7241,15 +7259,17 @@ div.wrapper {
 }
 
 .PDTC_CatProd {
-    width: 100%;
-    height:auto;
+    min-height: 166px;
+    width: auto;
+    /* padding: 1px;border: 10px;
+	border-style: solid;
+	border-color: #f3f3f3;*/
     cursor: pointer;
-    overflow:hidden;
-    border-bottom:2px solid #ededed;
 }
 
 .full_img_ThumbnailPath_CatPro {
     max-width: 100%;
+    max-height: 166px;
     border: 0px;
 }
 /* Corporate category */
@@ -7882,11 +7902,11 @@ div.mc-caption {
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     -khtml-border-radius: 5px;
+    border-radius: 5px;
     padding-left: 5px;
+    border-radius: 5px;
+    background: #d9534f;
     text-align: left;
-background: #ec008c;
-    border-bottom: 3px solid #bb0075;
-    color:#FFFFFF;
 }
 
 .PinkBtnS6 {
@@ -8071,7 +8091,7 @@ PnkCrdsDfltClr {
     font-weight: normal;
     margin-bottom: 10px;
     line-height: 1em;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'Avenir Next LT W01 Bold';
     font-size: 71px;
     margin: 0;
     font-weight: normal;
@@ -8194,7 +8214,7 @@ PnkCrdsDfltClr {
     font-size: 15px;
     /* margin-top: 10px; */
     /* width: 217px; */
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;
     font-style: normal;
     font-weight: normal;
     line-height: 24.619999px;
@@ -8952,7 +8972,7 @@ a.PinkRegBack:active {
     color: black !important;
     font-size: 21px;
     font-weight: bold;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'museo_slab500',Arial, Helvetica, sans-serif;
     margin-top: 10px;
     float: left;
     margin-left: 10px;
@@ -8969,7 +8989,7 @@ a.PinkRegBack:active {
 
 .QuickPriceBtn {
     background: url('sprite.png') -378px -1710px;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'museo_slab500',Arial, Helvetica, sans-serif;
     font-size: 14px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -9009,12 +9029,12 @@ a.PinkRegBack:active {
 }
 
 .lblCartCounter {
-    color: #FFFFFF;
+    color: white;
     float: left;
     width: 83px;
     text-align: center;
     margin-left: 1px;
-    font-size: 13px;
+    font-size: 15px;
     margin-top: 4px;
 }
 
@@ -9316,15 +9336,14 @@ a.PinkRegBack:active {
 
 .lnkSignInCs {
     font-size: 13px;
-    color: #FFFFFF;
+    color: #fff;
     font-weight: bold;
     margin: 0px 1px;
     display: inline-block;
     padding: 6px 7px;
-    border-radius: 0;
-    background: #ec008c;
+    border-radius: 5px;
+    background: #d9534f;
     margin-left: 16px;
-    border-bottom: 3px solid #bb0075;
 }
 
     .lnkSignInCs:hover {
@@ -9334,7 +9353,8 @@ a.PinkRegBack:active {
         margin: 0px 1px;
         display: inline-block;
         padding: 6px 7px;
-        background: #ec008c;
+        border-radius: 5px;
+        background: #d9534f;
         margin-left: 16px;
     }
 /*scroll bar styles */
@@ -9382,7 +9402,7 @@ a.PinkRegBack:active {
     cursor: pointer;
     width: 105px;
     color: #fff;
-    background-color: #ec008c;
+    background-color: #d9534f;
     border-color: #d43f3a;
     padding: 10px 20px;
     box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
@@ -9764,7 +9784,7 @@ a.PinkRegBack:active {
 
 .lblToolTip {
     color: #8888A8;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'Arial';
     font-size: 12px;
 }
 
@@ -9864,7 +9884,7 @@ a.PinkRegBack:active {
 
 .SP_transparent {
     background-color: white !important;
-    border: 5px double #eeeeee;
+    border: 5px solid #eeeeee;
     text-align: left;
 }
 
@@ -9907,31 +9927,41 @@ a.PinkRegBack:active {
 }
 
 .grayRadiantbtn:hover {
-       margin: 10px;
-    background: #FFFFFF !important;
-    background-color: #FFFFFF !important;
-    padding: 0.65em 1.5em;
-    -webkit-border-radius: 0.3em;
-    -moz-border-radius: 0.3em;
-    border-radius: 0.3em;
-    border:2px solid #999999;
+    color: White;
+    margin: 10px;
+    background: -webkit-linear-gradient(rgb(238, 238, 238), #A8A3A2); /* For Safari */
+    background: -o-linear-gradient(rgb(238, 238, 238), #A8A3A2); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgb(238, 238, 238), #A8A3A2); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgb(238, 238, 238), #A8A3A2); /* Standard syntax (must be last) */
+    padding: .5em 2em .55em;
+    text-shadow: 0 1px 1px rgba(0,0,0,.3);
+    -webkit-border-radius: 1.5em;
+    -moz-border-radius: 1.5em;
+    border-radius: 1.5em;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
     cursor: pointer;
-    color:#999999;
-    font-size: 1.05em;
+    border: 1px solid transparent;
 }
 
 .OrangeGradiantbtn {
-        margin: 10px;
-    background: #ec008c !important;
-    background-color: #ec008c !important;
-    padding: 0.65em 1.5em;
+    color: White;
+    margin: 10px;
+    background: -webkit-linear-gradient(#FE9E9B, #d9534f); /* For Safari */
+    background: -o-linear-gradient(#FE9E9B, #d9534f); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#FE9E9B, #d9534f); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#FE9E9B, #d9534f); /* Standard syntax (must be last) */
+    padding: .5em 2em .55em;
     text-shadow: 0 1px 1px rgba(0,0,0,.3);
-    -webkit-border-radius: 0.3em;
-    -moz-border-radius: 0.3em;
-    border-radius: 0.3em;
+    -webkit-border-radius: 1.5em;
+    -moz-border-radius: 1.5em;
+    border-radius: 1.5em;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
     cursor: pointer;
-    color:#FFFFFF;
-    font-size: 1.05em;
+    border: 1px solid transparent;
 }
 
 .btn_inquiry_files_TS {
@@ -9975,7 +10005,7 @@ a.PinkRegBack:active {
 }
 
 .Uplod_PCS {
-    background-color: #ec008c;
+    background-color: #d9534f;
     border-color: #d43f3a;
     padding: 10px 20px;
     box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
@@ -10228,7 +10258,7 @@ a.PinkRegBack:active {
 }
 
 .OptionsContainer {
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'Lato', Calibri, Arial, sans-serif;
     font-size: 17px !important;
     font-weight: bold;
     padding: 10px;
@@ -10295,7 +10325,7 @@ a.PinkRegBack:active {
 .ContactNumberlb {
     margin-left: 17px;
     color: #333333;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 13px;
@@ -10310,7 +10340,7 @@ a.PinkRegBack:active {
 .SpecialNotesContainer {
     margin-left: 97px;
     color: #333333;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 13px;
@@ -10318,12 +10348,12 @@ a.PinkRegBack:active {
 }
 
 .AddressesContainer {
-    padding-left: 72px;
+    padding-left:12px;
 }
 
 .lbAddressLinesWithPadding {
     color: #333333;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
     font-style: normal;
     font-weight: bold;
     padding-left: 40px;
@@ -10333,7 +10363,7 @@ a.PinkRegBack:active {
 
 .lbAddressLines {
     color: #333333;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 13px;
@@ -10393,7 +10423,7 @@ a.PinkRegBack:active {
 }
 
 .GLHeading {
-    color: #ec008c;
+    color: #d9534f;
     margin-right: 5px;
 }
 
@@ -10576,15 +10606,11 @@ border-bottom: 3px solid #cacaca;*/
 }
 
 .SelectQtyContainer {
-    padding: 10px;
-    font-size: 1.15em;
+    padding: 5px;
+    font-size: 22px;
     text-align: left;
-    background-color: #555555;
+    background-color: #333333;
     color: White;
-}
-
-#lbl_Options {
-   font-size: 1.15em;
 }
 
 .AvailInContaier {
@@ -10613,44 +10639,58 @@ border-bottom: 3px solid #cacaca;*/
 
 .grayRadiantbtn {
     margin: 10px;
-    background: #FFFFFF !important;
-    background-color: #FFFFFF !important;
-    padding: 0.65em 1.5em;
-    -webkit-border-radius: 0.3em;
-    -moz-border-radius: 0.3em;
-    border-radius: 0.3em;
-    border:2px solid #666666;
+    background: -webkit-linear-gradient(white, #E4DFDF); /* For Safari */
+    background: -o-linear-gradient(white, #E4DFDF); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(white, #E4DFDF); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(white, #E4DFDF); /* Standard syntax (must be last) */
+    padding: .5em 2em .55em;
+    text-shadow: 0 1px 1px rgba(0,0,0,.3);
+    -webkit-border-radius: 1.5em;
+    -moz-border-radius: 1.5em;
+    border-radius: 1.5em;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    border: 1px solid #f8f8f8;
     cursor: pointer;
-    color:#666666;
-    font-size: 1.05em;
 }
 
-.grayRadiantbtn:hover {
-    margin: 10px;
-    background: #FFFFFF !important;
-    background-color: #FFFFFF !important;
-    padding: 0.65em 1.5em;
-    -webkit-border-radius: 0.3em;
-    -moz-border-radius: 0.3em;
-    border-radius: 0.3em;
-    border:2px solid #999999;
-    cursor: pointer;
-    color:#999999;
-    font-size: 1.05em;
-}
+    .grayRadiantbtn:hover {
+        color: White;
+        margin: 10px;
+        background: -webkit-linear-gradient(rgb(238, 238, 238), #A8A3A2) /* For Safari */
+        background: -o-linear-gradient(rgb(238, 238, 238), #A8A3A2) /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(rgb(238, 238, 238), #A8A3A2) /* For Firefox 3.6 to 15 */
+        background: linear-gradient(rgb(238, 238, 238), #A8A3A2) /* Standard syntax (must be last) */
+        padding: .5em 2em .55em;
+        text-shadow: 0 1px 1px rgba(0,0,0,.3);
+        -webkit-border-radius: 1.5em;
+        -moz-border-radius: 1.5em;
+        border-radius: 1.5em;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+        -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+        box-shadow: 0 1px 2px rgba(0,0,0,.2);
+        cursor: pointer;
+        border: 1px solid transparent;
+    }
 
 .OrangeGradiantbtn {
-         margin: 10px;
-    background: #ec008c !important;
-    background-color: #ec008c !important;
-    padding: 0.65em 1.5em;
+    color: White;
+    margin: 10px;
+    background: -webkit-linear-gradient(#fcba78, #fc7303); /* For Safari */
+    background: -o-linear-gradient(#fcba78, #fc7303); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#fcba78, #fc7303); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#fcba78, #fc7303); /* Standard syntax (must be last) */
+    padding: .5em 2em .55em;
     text-shadow: 0 1px 1px rgba(0,0,0,.3);
-    -webkit-border-radius: 0.3em;
-    -moz-border-radius: 0.3em;
-    border-radius: 0.3em;
+    -webkit-border-radius: 1.5em;
+    -moz-border-radius: 1.5em;
+    border-radius: 1.5em;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
     cursor: pointer;
-    color:#FFFFFF;
-    font-size: 1.05em;
+    border: 1px solid transparent;
 }
 
 @font-face {
@@ -10664,7 +10704,7 @@ border-bottom: 3px solid #cacaca;*/
 .twitter-feed {
     width: 1000px;
     margin: auto;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: "AvantGardeGothicITCBook", "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
     margin-bottom: 50px;
     clear: both;
 }
@@ -10733,7 +10773,7 @@ border-bottom: 3px solid #cacaca;*/
 
 
 .feedEkList LI {
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: "AvantGardeGothicITCBook", "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
     min-height: 37px;
     -webkit-transition: background 0.3s ease-in-out;
     -moz-transition: background 0.3s ease-in-out;
@@ -10913,7 +10953,7 @@ border-bottom: 3px solid #cacaca;*/
     font-size: 30px;
     margin: 0;
     padding: 20px 10px;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: arial;
     color: black;
     font-weight: normal;
     text-align: left;
@@ -10921,7 +10961,7 @@ border-bottom: 3px solid #cacaca;*/
 }
 
     .SavedDesignsWidget H2 strong {
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: arial;
         color: #6e4366; /*#ff5595; */
     }
 
@@ -11097,7 +11137,7 @@ border-bottom: 3px solid #cacaca;*/
 }
 
 .liUserInfo {
-    font-size: 14px;
+    font-size: 15px;
     margin-right: 20px;
     margin-top: 0px;
     width: 200px;
@@ -11107,9 +11147,7 @@ border-bottom: 3px solid #cacaca;*/
 
 
 .LoginBarContainer {
-    background: #eeeeee none repeat scroll 0 0;
-    border-bottom: 1px solid #dddddd;
-    padding: 4px 0;
+    background-color: transparent;
 }
 
 ul.LogBar {
@@ -11128,13 +11166,12 @@ ul.LogBar {
 .LogBar a {
     display: block;
     float: left;
-    color: #444444;
-    font-size: 14px;
-    font-weight:400 !important;
+    color: black;
+    font-size: 15px;
 }
 
     .LogBar a:hover {
-        color: #ec008c;
+        color: #d9534f;
     }
 
 ul.LogBar li a {
@@ -11223,7 +11260,7 @@ ul.LogBar li a {
 .TopHeaderMenu a {
     margin-right: 7px;
     margin-left: 7px;
-    color: #f22e9d;
+    color: white;
 }
 
 
@@ -11619,7 +11656,7 @@ ul.LogBar li a {
     font-size: 14px;
     color: #66615b;
     text-shadow: none;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     margin-right: 50px;
     margin-top: 33px;
     line-height: 2;
@@ -11803,12 +11840,12 @@ ul.LogBar li a {
 }
 
 .TopHeaderMenu a {
-    color: #f22e9d;
+    color: white;
     text-decoration: none;
 }
 
     .TopHeaderMenu a:hover {
-        color: #f22e9d;
+        color: white;
         text-decoration: none;
     }
 
@@ -11877,7 +11914,7 @@ ul.LogBar li a {
     -webkit-border-radius: 4px;
     border-radius: 4px;
     background-color: #fffefd;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     color: #66615b;
     font-size: 18px;
     padding: 13px 18px !important;
@@ -11901,7 +11938,7 @@ ul.LogBar li a {
     -webkit-border-radius: 4px;
     border-radius: 4px;
     background-color: #fffefd;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     color: #66615b;
     font-size: 18px;
     padding: 13px 18px !important;
@@ -11916,7 +11953,7 @@ ul.LogBar li a {
 }
 
 .newfontstyle {
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: "AvenirNextLTW01-Regular";
     color: #66615b;
     font-size: 20px;
 }
@@ -11973,7 +12010,7 @@ ul.LogBar li a {
     text-align: left;
     margin-bottom: 20px;
     text-shadow: none;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     color: #66615b;
     font-size: 17px !important;
 }
@@ -11982,7 +12019,7 @@ ul.LogBar li a {
     font-size: 14px;
     color: #66615b;
     text-shadow: none;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     margin-right: 50px;
     margin-top: 33px;
     width: 130px;
@@ -11993,7 +12030,7 @@ ul.LogBar li a {
     font-size: 14px;
     color: #66615b;
     text-shadow: none;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     margin-right: 50px;
     margin-top: 15px;
     width: 140px;
@@ -12010,7 +12047,7 @@ ul.LogBar li a {
     font-size: 12px;
     color: #66615b;
     text-shadow: none;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     margin-top: 19px;
     text-align: left;
     margin-left: 5px;
@@ -12058,9 +12095,10 @@ ul.LogBar li a {
 }
 
 .SecPagesHeading {
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.4);
     /* padding: 10px 0px 10px 0px; */
     color: #042F42;
-    font-size: 23px !important;
+    font-size: 21px !important;
     margin-bottom: 15px;
     font-family: sans-serif !important;
     font-weight: normal;
@@ -12110,7 +12148,7 @@ ul.LogBar li a {
 
 .tabItemMenu {
     line-height: 1.4;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 90%;
     list-style-type: disc;
     margin: 0;
@@ -12217,7 +12255,7 @@ ul.LogBar li a {
     font-size: 14px;
     color: #66615b;
     text-shadow: none;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     margin-right: 10px;
     margin-top: 7px;
     width: 105px;
@@ -12243,7 +12281,7 @@ ul.LogBar li a {
     border-top-width: 0px;
     color: rgb(102, 97, 91);
     display: block;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;
     font-size: 26px;
     font-style: normal;
     font-variant: normal;
@@ -12286,7 +12324,7 @@ ul.LogBar li a {
     -webkit-border-radius: 4px;
     border-radius: 4px;
     background-color: #ccc5b9;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     color: #66615b;
     font-size: 18px;
     padding: 13px 18px !important;
@@ -12364,7 +12402,7 @@ ul.LogBar li a {
 }
 
 .phone_number_sec {
-    color: #f22e9d;
+    color: white;
     font-size: 22px;
     margin-top: 0px;
     text-align: right;
@@ -12382,7 +12420,7 @@ ul.LogBar li a {
     border: 0px !important;
     cursor: pointer;
     color: #fff;
-    background-color: #ec008c !important;
+    background-color: #d9534f !important;
     border-color: #d43f3a;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -12537,21 +12575,601 @@ ul.LogBar li a {
 #container {
     margin-left: 68px !important;
 }
+#lblVerticalLine {
+    color:#d9534f;
+}
+#PnalTotalBoxReceipt > table > tbody > tr:nth-child(2) > td:nth-child(4) {
+    text-align:center;
+}
+#PnalTotalBoxReceipt > table > tbody > tr:nth-child(3) > td:nth-child(4) {
+    text-align:center;
+}
+#PnalTotalBoxReceipt > table > tbody > tr:nth-child(4) > td:nth-child(4) {
+    text-align:center;
+}
+#PnalTotalBoxReceipt > table > tbody > tr:nth-child(1) > td:nth-child(3) {
+    text-align:right;
+    width:33%;
+}
+#PnalTotalBoxReceipt > table > tbody > tr:nth-child(2) > td:nth-child(3) {
+    text-align:right;
+}
+#PnalTotalBoxReceipt > table > tbody > tr:nth-child(3) > td:nth-child(3) {
+    text-align:right;
+}
+#PnalTotalBoxReceipt > table > tbody > tr:nth-child(4) > td:nth-child(3) {
+    text-align:right;
+}
+#PnalTotalBoxReceipt > table > tbody > tr:nth-child(2) > td:nth-child(2) {
+    text-align:right;
+    
+}
+#PnalTotalBoxReceipt > table > tbody > tr:nth-child(1) > td:nth-child(4) {
+    text-align:center;
+  
+}
+ #innerLayer {
+     border-radius:10px;
+}
+#modal-7 {
+    border-radius:8px
+}
+.md-content {
+border-radius:8px;
+border-style: solid;
+border-width: 5px;border-radius: 8px;
+border-color: darkgray;
+}
+#Mytable > tbody > tr:nth-child(1) > td:nth-child(1) > table > tbody > tr:nth-child(3) > td:nth-child(1)>span {
+color: rgb(161, 161, 161)!important;
+     font-weight:normal!important;
+     font-size:12px!important;
+}
+#spnsubtotal {
+    color: rgb(161, 161, 161)!important;
+}
+#spnordernum {
+    color: rgb(161, 161, 161)!important;
+}
+#spnorderdate {
+     color: rgb(161, 161, 161)!important;
+}
+#Placedby {
+    color: rgb(161, 161, 161)!important;
+}
+#spnorderstatus {
+    color: rgb(161, 161, 161)!important;
+}
+#spndileverydate {
+    color: rgb(161, 161, 161)!important;
+}
+#spnDeliveryoptn {
+    color: rgb(161, 161, 161)!important;
+}
+#spnvattotal {
+    color: rgb(161, 161, 161)!important;
+}
+#spngrndtotal {
+     color: rgb(161, 161, 161)!important;
+}
+
+#ltrlShipTo {
+     color: rgb(161, 161, 161)!important;
+}
+#lblContactNotxt {
+    color: rgb(161, 161, 161)!important;
+}
+#spndelivery {
+    color: rgb(161, 161, 161)!important;
+}
+#lblTaxLabel {
+     color: rgb(161, 161, 161)!important;
+}
+#spngrandtotal {
+     color: rgb(161, 161, 161)!important;
+}
+#lblRefPOtxt {
+    color: rgb(161, 161, 161)!important;
+}
+#ltrlBillShippTo {
+    color: rgb(161, 161, 161)!important;
+}
+  .gridViewCheckoutRowStyle > td:nth-child(4) {
+        font-size:13px!important;
+        font-weight:bold!important;
+    }
+  .CAT_ThumbnailPath:hover {
+  -webkit-transform: scale(1.05,1.07);
+  -webkit-transition-timing-function: ease-out;
+  -webkit-transition-duration: 250ms;
+  -moz-transform: scale(1.05,1.07);
+  -moz-transition-timing-function: ease-out;
+  -moz-transition-duration: 250ms;
+}
+
+
+.full_img_ThumbnailPath_CatPro:hover {
+  -webkit-transform: scale(1.05,1.07);
+  -webkit-transition-timing-function: ease-out;
+  -webkit-transition-duration: 250ms;
+  -moz-transform: scale(1.05,1.07);
+  -moz-transition-timing-function: ease-out;
+  -moz-transition-duration: 250ms;
+}
 
 @media (min-width:320px) { /* smartphones, iPhone, portrait 480x320 phones */
-.cnttotalPayablesAS {
+    #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(2) {
+        display: none;
+    }
+
+    #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(3) {
+        display: none;
+    }
+
+    #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(4) {
+        display: none;
+    }
+
+    #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(5) {
+        display: none;
+    }
+     #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(6) {
+        display: none;
+    }
+       #PendingOrderGrid >tbody > tr > td:nth-child(6) {
+        display:none;
+    }
+    #collapsedMenu ul li {
+        padding: 10px;
+        padding-left: 5px;
+        /* border-bottom: 1px solid #e7e7e7; */
+        color: black;
+        font-size: 15px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+                           #ulCollapseMenu li a {
+  color: white;
+}
+  #ulCollapseMenu {
+    padding-left: 0px !important;
+    margin-top: 6px;
+    list-style-type: none;
+    background: #d9534f;
+    position: absolute;
+    width: 100%;
+}
+.add-address-btn {
+    background-color: green;
+    height: 34px;
+    border: 0px;
+    text-align: center;
+    color: White;
+    width: 167px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 1px;
+    margin-bottom: 10px;
+    word-wrap: normal;
+    text-decoration: none;
+    border-radius: 5px;
+}
+                             .icon-align-justify:after {
+        /*cursor: pointer;
+        content: "\f039";
+        font-family: FontAwesome;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 24px;
+        
+        color: #d9534f;*/
+        cursor: pointer;
+        content: "\f039";
+        font-family: FontAwesome;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 24px;
+        /* padding-top: 6px; */
+        color: #ffffff;
+    }
+
+    #innerLayer {
+        background-color:white!important;
+    }
+       .ScrollBarOnOrderHistory {
+          height: 289px;
+          overflow-y: scroll;
+          
+          overflow-x:scroll;
+    }
+                           .gridViewRowStyleForViewOrderHeader {
+    font-style: normal;
+    /* font-weight: bold; border-top: 1px dotted #CCCCCC; border-bottom: 1px dotted #CCCCCC;*/
+    font-size: 11.3px !important;
+    background-color: Black;
+    color: Black;
+    border-bottom: 1px solid #f3f3f3;
+    text-align: left;
+    height: 40px;
+    padding-top: 5px;
+}
+
+    .gridViewRowStyleForViewOrderHeader > th {
+        color: white;
+    }
+                           .WebGridTableStyle {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+                           .dashBoardRetrunLink > div > h1 {
+  font-size: 15px !important;
+  margin: 10px !important;
+}
+                           .gridViewRowStyleForWebGrid {
+    font-style: normal;
+    /* font-weight: bold; border-top: 1px dotted #CCCCCC; border-bottom: 1px dotted #CCCCCC;*/
+    font-size: 11.3px !important;
+    background-color: white;
+    color: Black;
+    border-bottom: 1px solid #f3f3f3;
+    text-align: left;
+    height: 40px;
+    padding-top: 5px;
+}
+
+    .gridViewRowStyleForWebGrid th {
+        color: white;
+    }
+
+                           .WebGridheader {
+    font-style: normal;
+    /* font-weight: bold; border-top: 1px dotted #CCCCCC; border-bottom: 1px dotted #CCCCCC;*/
+    font-size: 11.3px !important;
+    background-color: black;
+    color: white;
+    border-bottom: 1px solid #f3f3f3;
+    text-align: left;
+    height: 40px;
+    padding-top: 5px;
+}
+  .profile-menu li {
+  width: 100%;
+  border-bottom: 1px solid #f3f3f3;
+}
+                           .icon-align-justify {
+    /*cursor: pointer;
+    background: white;
+    padding: 10px;
+    border: 1px solid #d9534f;
+    border-radius: 5px;
+    padding-top: 18px;*/
+    cursor: pointer;
+    /*background: white;*/
+    padding: 10px;
+    /*border: 1px solid #a8a8a8;*/
+    border-radius: 5px;
+    padding-top: 18px;
+}
+ .profile-menu > li > a {
+        display: block;
+        padding: 5px 20px;
+        clear: both;
+        font-size: 15px;
+        line-height: 1.42857143;
+        color: #333;
+        white-space: nowrap;
+    }
+
+
+  #Mytable>tbody>tr:nth-child(1)>td:nth-child(1)>table>tbody>tr:nth-child(1)>td:nth-child(1)
+{
+
+width:289px!important;
+
+ }
+   #lblNotesDetail {
+      max-width:152px; 
+ word-wrap: break-word;
+
+}
+    #Email {
+        margin-left:-8px;
+    }
+  #lblEstimatedDeliveryMethod {
+  position: absolute;
+  margin-left: -110px;
+  margin-top: -8px;
+  font-size: 10px!important;
+}
+         #lblSpecialInstructions {
+        width:210px;
+        word-wrap:break-word;
+    }
+    .BreadCrumbMenu h1 a {
+    color: #d9534f;
+    font-weight: normal;
+    text-shadow: none;
+    font-weight: bold;
+    font-size: 16px;
+}
+#PnalTotalBox>td:nth-child(1)>div:nth-child(1)
+{
+    display:none;
+
+}
+
+                           .BillShipAddressesControl>div:nth-child(1)>table:nth-child(1)
+     {
+       width:128px!important;
+
+    }
+   
+    .search-order-Go {
+    width: 11%;
+    float: left;
+    margin-left: 15px;
+}
+      #PnalTotalBox > table > tbody > tr:nth-child(1) > td:nth-child(3) {
+        width:31%!important;
+    }
+    
+     #divBilling + div {
+        margin-left:0px;
+    }
+                           #lblCheckBox {
+        margin-bottom:0px;
+    }
+    #lblTaxLabel {
+        margin-top:8px!important;
+    }
+       .cnttotalPayablesAS {
         float: none;
         width: 100%;
     }
          .cntsubHeadingsAS {
         width: 40% !important;
         float: left;
+        text-align:right;
+        color: rgb(161, 161, 161)!important;
     }   
          .cnttotalsAS {
         width: 55%;
         float: right;
         text-align: right;
         line-height: 1.5;
+    }
+ @-webkit-keyframes thumb {
+	0% { -webkit-transform: scale(1); }
+	50% { -webkit-transform: scale(0.9); }
+	100% { -webkit-transform: scale(1); }
+     }
+
+ .start_creating_btn_Login:hover
+   {
+	-webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #btnPlaceOrder:hover {
+        -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #cmdNext:hover {
+        -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0:hover {
+         -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #btnSave:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #profileMenu > li > a:hover {
+                 -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+     .Parent_Cat_allPro:hover {
+                     -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #ContinueTo:hover {
+             -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    .allproducts_col_cat_ul > li > a:hover {
+                -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    .dashboard_item_main_heading:hover {
+               -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #ulCollapseMenu > li > a:hover {
+               -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    .dashBoardRetrunLink :hover {
+     -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #btn_ContinueShopping:hover {
+        -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #menu-my-account > li > a:hover {
+              -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    .order_history_btn:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    .SubCatLink:hover {
+                -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    .start_creating_btn:hover {
+            -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+
+    }
+    .start_creating_btn_SApp:hover {
+             -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #linkRemoveCartItem:hover {
+      -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #btnShopCart:hover {
+    -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #btnCopyProduct:hover {
+         -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #btnCheckout:hover {
+           -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    .btn_upload_files_Prod_Land:hover {
+       -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #btnCancel:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #btnOpenUploadDailog:hover {
+              -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #AddTOCart:hover {
+     -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #btnEditThisDesign:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #cmdRegister:hover {
+           -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #btnSend:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    .more-info-button:hover {
+     -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    .goto-designer-button:hover {
+         -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    .create-design-button:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
     }
     .ScrollBarOnOrderHistory {
         height: 289px;
@@ -12577,7 +13195,7 @@ ul.LogBar li a {
         cursor: pointer;
         text-transform: uppercase;
         font-weight: bold;
-        background-color: #ec008c;
+        background-color: #d9534f;
         border-color: #d43f3a;
         padding: 10px 20px;
         box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
@@ -12612,7 +13230,7 @@ ul.LogBar li a {
 
     .height40_LP {
         width: 100% !important;
-        margin-top: -25px;
+        margin-top:0px;
         font-size: 12px;
     }
 
@@ -12661,7 +13279,7 @@ ul.LogBar li a {
 
     .profile-menu {
         width: 167px;
-        left: -95px;
+        left:0px;
         background-color: #FFFFFF;
         border: none;
         -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.176);
@@ -12669,7 +13287,7 @@ ul.LogBar li a {
         top: 50px;
         position: absolute;
         padding: 5px 0;
-        margin: 2px 0 0;
+        margin: -19px 0 0;
         font-size: 14px;
         text-align: left;
         list-style: none;
@@ -12705,7 +13323,7 @@ ul.LogBar li a {
         padding: 5px;
         background-image: url('Images/text_box_back.png');
         background-repeat: repeat-x;
-        width: 100%;
+        width: 194px!important;
         color: black;
     }
 
@@ -12715,7 +13333,7 @@ ul.LogBar li a {
         box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
         background: white;
         border-radius: 33px;
-        color: #ec008c;
+        color: #d9534f;
         font-size: 25px;
         text-align: center;
     }
@@ -12739,7 +13357,7 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         font-size: 14px !important;
         line-height: 12px;
-        background-color: #ec008c;
+        background-color: #333333;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -12946,7 +13564,7 @@ ul.LogBar li a {
         border: 0px !important;
         cursor: pointer;
         color: #fff;
-        background-color: #ec008c !important;
+        background-color: #d9534f !important;
         border-color: #d43f3a;
         -moz-border-radius: 4px;
         -webkit-border-radius: 4px;
@@ -12967,7 +13585,7 @@ ul.LogBar li a {
     }
 
     .phone_number_sec {
-        color: #f22e9d;
+        color: white;
         font-size: 22px;
         margin-top: 0px;
         text-align: left;
@@ -13014,7 +13632,7 @@ ul.LogBar li a {
         -webkit-user-select: text;
         color: rgb(33, 31, 31);
         display: block;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'Avenir Next LT W01 Bold';
         font-size: 25px;
         font-style: normal;
         font-weight: normal !important;
@@ -13027,7 +13645,7 @@ ul.LogBar li a {
     }
 
     .start_creating_btn_SApp {
-        background-color: #ec008c;
+        background-color: #d9534f;
        
         padding: 10px 20px;
         box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
@@ -13131,7 +13749,7 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         font-size: 11px !important;
         line-height: 12px;
-        background-color: #f22e9d;
+        background-color: #333333;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -13300,7 +13918,7 @@ ul.LogBar li a {
 
     .UploadContainerCs {
         color: #042F42;
-        font-size: 1.15em !important;
+        font-size: 23px;
         width: 100% !important;
         text-align: left;
         margin-top: 10px;
@@ -13330,8 +13948,8 @@ ul.LogBar li a {
     .BreadCrumbMenuItem {
         color: #042F42;
         float: left;
-        font-size: 12px !important;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-size: 13px !important;
+        font-family: sans-serif !important;
     }
 
     .full_img_ThumbnailPath {
@@ -13709,7 +14327,8 @@ ul.LogBar li a {
     .shopReceiptBillToHeading {
         color: #333333;
         font-style: normal;
-        font-size: 15px !important;
+        font-size: 14px !important;
+        font-weight:bold;
     }
 
     .shopReceiptOrderDetails {
@@ -13832,43 +14451,52 @@ ul.LogBar li a {
 
     .BD_CatProducts {
         float: left;
-        border: 1px solid #DDDDDD;
+        border: 0px;
+        border-style: solid;
+        border-color: transparent;
         text-align: center;
         margin-top: 0px;
-        width: 100%;
-	margin:0 auto;
-        margin-bottom: 30px;
-        background: #FFFFFF !important;
-        padding: 0 0 30px 0;
+        width: 240px;
+        margin-right: 12px;
+        /*margin-left: 5px; border: 10px;*/
+        margin-bottom: 50px;
+        background: #fff !important;
+        border: 1px solid #f2f2f2;
+        border-right: 2px solid #eee;
+        border-bottom: 2px solid #eee;
+        border-radius: 7px;
+        padding: 20px 10px 10px 10px;
         min-height: 400px;
-border-radius:0 0 0 0 !important;
     }
 
     .CAT_ThumbnailPath {
-        width: 100%;
+        max-width: 100%;
+        max-height: 166px;
         border: 0px;
     }
 
     .CAT_Body {
-              float: left;
-        border: 1px solid #DDDDDD;
+        float: left;
+        border: none;
         text-align: center;
         margin-top: 0px;
-        width: 100%;
-	margin:0 auto;
+        width: 240px;
+        margin-right: 8px;
+        /*margin-left: 5px;*/
         margin-bottom: 50px;
-        background: #FFFFFF !important;
-        padding: 0 0 30px 0;
-border-radius:0 0 0 0 !important;
+        background: #fff !important;
+        border: 1px solid #f2f2f2;
+        border-right: 2px solid #eee;
+        border-bottom: 2px solid #eee;
+        border-radius: 7px;
+        padding: 20px 10px 10px 10px;
     }
 
     .cntParentCategDesc {
         width: auto !important;
-	padding:20px 10px;
         text-align: left;
         font-size: 13px;
-        color: #656565;
-background:#EEEEEE;
+        color: #042F42;
         margin-bottom: 30px;
         line-height: 1.9;
     }
@@ -13938,7 +14566,7 @@ background:#EEEEEE;
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -14023,7 +14651,7 @@ background:#EEEEEE;
 
     .hyPrivacyP {
         margin-left: 1px !important;
-        color: #FFFFFF;
+        color: black;
     }
 
     .login_bar {
@@ -14162,7 +14790,7 @@ background:#EEEEEE;
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -14196,7 +14824,7 @@ background:#EEEEEE;
         /*margin-left: 408px;*/
         float: right;
         width: 10em !important;
-        margin-right: 0px !important;
+        margin-right:-34px !important;
     }
 
     .divwidth {
@@ -14285,6 +14913,7 @@ background:#EEEEEE;
         width: 40% !important;
         float: left;
         padding-left: 0px;
+        text-align:right;
     }
 
     .cntdispatchDelivery {
@@ -14296,7 +14925,7 @@ background:#EEEEEE;
         /*width: 90px;*/
         width: 40%;
         float: left !important;
-        line-height: 4;
+        line-height: 2;
     }
 
     .dropdown_sec {
@@ -14318,7 +14947,7 @@ background:#EEEEEE;
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 0px !important;
@@ -14340,7 +14969,7 @@ background:#EEEEEE;
     }
 
     .MLeft17 {
-        margin-left: 0px !important;
+        margin-left: 43px !important;
     }
 
     .shopCartCheckOutbt {
@@ -14383,7 +15012,7 @@ background:#EEEEEE;
         height: 35px;
         width: 145px !important;
         cursor: pointer;
-        background-color: #ec008c;
+        background-color: #d9534f;
         border-color: #d43f3a;
         padding: 10px 20px;
         box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
@@ -14394,7 +15023,7 @@ background:#EEEEEE;
         height: 34px;
         border: 0px;
         color: White;
-        margin-right: 10px;
+        margin-right:0px;
         margin-top: 0px;
     }
 
@@ -14418,13 +15047,210 @@ background:#EEEEEE;
 }
 
 @media (min-width:481px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
-                           .cnttotalPayablesAS {
+                              #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(2) {
+        display: none;
+    }
+
+    #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(3) {
+        display: none;
+    }
+
+    #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(4) {
+        display: none;
+    }
+
+    #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(5) {
+        display: none;
+    }
+       #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(6) {
+        display: table-cell;
+    }
+      
+      #PendingOrderGrid >tbody > tr > td:nth-child(6) {
+        display:table-cell;
+    }
+    #collapsedMenu ul li {
+        padding: 10px;
+        padding-left: 5px;
+        /* border-bottom: 1px solid #e7e7e7; */
+        color: black;
+        font-size: 15px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+                           #ulCollapseMenu li a {
+  color: white;
+}
+                           #ulCollapseMenu {
+    padding-left: 0px !important;
+    margin-top: 6px;
+    list-style-type: none;
+    background: #d9534f;
+    position: absolute;
+    width: 100%;
+}
+ .add-address-btn {
+    background-color: green;
+    height: 34px;
+    border: 0px;
+    text-align: center;
+    color: White;
+    width: 167px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 1px;
+    margin-bottom: 10px;
+    word-wrap: normal;
+    text-decoration: none;
+    border-radius: 5px;
+}
+                             .icon-align-justify:after {
+        /*cursor: pointer;
+        content: "\f039";
+        font-family: FontAwesome;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 24px;
+        
+        color: #d9534f;*/
+        cursor: pointer;
+        content: "\f039";
+        font-family: FontAwesome;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 24px;
+        /* padding-top: 6px; */
+        color: #ffffff;
+    }
+
+       #innerLayer {
+        background-color:white!important;
+    }
+                             .ScrollBarOnOrderHistory {
+          height:190px;
+          overflow-y: scroll;
+          overflow-x:scroll;
+    }
+                           .gridViewRowStyleForViewOrderHeader {
+    font-style: normal;
+    /* font-weight: bold; border-top: 1px dotted #CCCCCC; border-bottom: 1px dotted #CCCCCC;*/
+    font-size: 11.3px !important;
+    background-color: Black;
+    color: Black;
+    border-bottom: 1px solid #f3f3f3;
+    text-align: left;
+    height: 40px;
+    padding-top: 5px;
+}
+
+    .gridViewRowStyleForViewOrderHeader > th {
+        color: white;
+    }
+                                                      .dashBoardRetrunLink > div > h1 {
+  font-size: 15px !important;
+  margin: 10px !important;
+}
+                           .gridViewRowStyleForWebGrid {
+    font-style: normal;
+    /* font-weight: bold; border-top: 1px dotted #CCCCCC; border-bottom: 1px dotted #CCCCCC;*/
+    font-size: 11.3px !important;
+    background-color: white;
+    color: Black;
+    border-bottom: 1px solid #f3f3f3;
+    text-align: left;
+    height: 40px;
+    padding-top: 5px;
+}
+      .profile-menu > li > a {
+        display: block;
+        padding: 5px 20px;
+        clear: both;
+        font-size: 15px;
+        line-height: 1.42857143;
+        color: #333;
+        white-space: nowrap;
+    }
+
+                           .icon-align-justify {
+    /*cursor: pointer;
+    background: white;
+    padding: 10px;
+    border: 1px solid #d9534f;
+    border-radius: 5px;
+    padding-top: 18px;*/
+    cursor: pointer;
+    /*background: white;*/
+    padding: 10px;
+    /*border: 1px solid #a8a8a8;*/
+    border-radius: 5px;
+    padding-top: 18px;
+}
+ #Mytable>tbody>tr:nth-child(1)>td:nth-child(1)>table>tbody>tr:nth-child(1)>td:nth-child(1)
+{
+
+width:149px!important;
+
+ }
+    #lblNotesDetail {
+      max-width:152px; 
+ word-wrap: break-word;
+
+}
+                           #Email {
+        margin-left:0px;
+    }
+   #lblEstimatedDeliveryMethod {
+   position: absolute;
+  margin-left: -110px;
+  margin-top: -8px;
+  font-size: 10px!important;
+
+    }
+    .BreadCrumbMenu h1 a {
+    color: #d9534f;
+    font-weight: normal;
+    text-shadow: none;
+    font-weight: bold;
+    font-size: 16px;
+}
+  #PnalTotalBox>td:nth-child(1)>div:nth-child(1)
+{
+    display:block;
+
+}
+     .BillShipAddressesControl>div:nth-child(1)>table:nth-child(1)
+     {
+       width:175px!important;
+
+    }  
+     
+  .search-order-Go {
+    width: 11%;
+    float: left;
+    margin-left: 15px;
+}
+     
+                                                  #PnalTotalBox > table > tbody > tr:nth-child(1) > td:nth-child(3) {
+        width:20%!important;
+    }
+      #divBilling + div {
+        margin-left:0px;
+    }
+                           #lblCheckBox {
+        margin-bottom:0px;
+    }
+                           #lblTaxLabel {
+        margin-top:8px!important;
+    }
+                                                    .cnttotalPayablesAS {
         float: right;
         width: 45%;
     }
                              .cntsubHeadingsAS {
         width: 60% !important;
         float: left;
+        text-align:right;
+        color: rgb(161, 161, 161)!important;
     }
                              .cnttotalsAS {
         width: 30%;
@@ -14432,8 +15258,225 @@ background:#EEEEEE;
         text-align: right;
         line-height: 1.5;
     }
-                            .ScrollBarOnOrderHistory {
-        height: 289px;
+                             @-webkit-keyframes thumb {
+	0% { -webkit-transform: scale(1); }
+	50% { -webkit-transform: scale(0.9); }
+	100% { -webkit-transform: scale(1); }
+     }
+     #cmdNext:hover {
+        -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+      #btnShopCart:hover {
+    -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+                              #btnPlaceOrder:hover {
+        -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+       #btnSave:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+        .Parent_Cat_allPro:hover {
+                     -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+         #ulCollapseMenu > li > a:hover {
+               -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+           #profileMenu > li > a:hover {
+                 -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+           .allproducts_col_cat_ul > li > a:hover {
+                -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+       .dashboard_item_main_heading:hover {
+               -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+         .SubCatLink:hover {
+                -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+      #linkRemoveCartItem:hover {
+      -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+       #menu-my-account > li > a:hover {
+              -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+      .order_history_btn:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+      .dashBoardRetrunLink :hover {
+     -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+       #btnCheckout:hover {
+           -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+      #MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0:hover {
+         -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+     #ContinueTo:hover {
+             -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+        #btn_ContinueShopping:hover {
+        -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+       #btnCopyProduct:hover {
+         -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+       #AddTOCart:hover {
+             -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+          .start_creating_btn:hover {
+            -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+
+    }
+        #btnOpenUploadDailog:hover {
+              -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+       #btnCancel:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+        .btn_upload_files_Prod_Land:hover {
+       -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+      .more-info-button:hover {
+     -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+       #btnSend:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+
+         .goto-designer-button:hover {
+         -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+           #btnEditThisDesign:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+          .create-design-button:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+       #cmdRegister:hover {
+           -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    .ScrollBarOnOrderHistory {
+        height: 195px;
         overflow-y: scroll;
     }
 
@@ -14456,7 +15499,7 @@ background:#EEEEEE;
         cursor: pointer;
         text-transform: uppercase;
         font-weight: bold;
-        background-color: #ec008c;
+        background-color: #d9534f;
         border-color: #d43f3a;
         padding: 10px 20px;
         box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
@@ -14495,7 +15538,7 @@ background:#EEEEEE;
 
     .height40_LP {
         width: 155px !important;
-        margin-top: -25px;
+        margin-top:0px;
         font-size: 12px;
     }
 
@@ -14537,7 +15580,7 @@ background:#EEEEEE;
 
     .profile-menu {
         width: 167px;
-        left: -95px;
+        left:0px;
         background-color: #FFFFFF;
         border: none;
         -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.176);
@@ -14545,7 +15588,7 @@ background:#EEEEEE;
         top: 50px;
         position: absolute;
         padding: 5px 0;
-        margin: 2px 0 0;
+        margin: -19px 0 0;
         font-size: 14px;
         text-align: left;
         list-style: none;
@@ -14585,7 +15628,7 @@ background:#EEEEEE;
         color: white;
         width: 62px;
         cursor: pointer;
-        background-color: #ec008c;
+        background-color: #d9534f;
         font-size: 16px;
         line-height: inherit;
     }
@@ -14596,7 +15639,7 @@ background:#EEEEEE;
         padding: 5px;
         background-image: url('Images/text_box_back.png');
         background-repeat: repeat-x;
-        width: 100%;
+        width:204px!important;
         color: black;
     }
 
@@ -14605,7 +15648,7 @@ background:#EEEEEE;
         box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
         background: white;
         border-radius: 33px;
-        color: #ec008c;
+        color: #d9534f;
         font-size: 25px;
         text-align: center;
     }
@@ -14629,7 +15672,7 @@ background:#EEEEEE;
         /* font-weight: bold;*/
         font-size: 14px !important;
         line-height: 12px;
-        background-color: #ec008c;
+        background-color: #333333;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -14919,7 +15962,7 @@ background:#EEEEEE;
         height: 35px;
         width: 145px !important;
         cursor: pointer;
-        background-color: #ec008c;
+        background-color: #d9534f;
         border-color: #d43f3a;
         padding: 10px 20px;
         box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
@@ -15011,7 +16054,7 @@ background:#EEEEEE;
         -webkit-user-select: text;
         color: rgb(33, 31, 31);
         display: block;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'Avenir Next LT W01 Bold';
         font-size: 31px;
         font-style: normal;
         font-weight: normal !important;
@@ -15024,7 +16067,7 @@ background:#EEEEEE;
     }
 
     .start_creating_btn_SApp {
-        background-color: #ec008c;
+        background-color: #d9534f;
        
         padding: 10px 20px;
         box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
@@ -15326,7 +16369,7 @@ background:#EEEEEE;
 
     .shopReceiptBillToHeading {
         color: #333333;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'Open Sans Condensed', sans-serif;
         font-style: normal;
         font-weight: bold;
         font-size: 20px !important;
@@ -15418,27 +16461,43 @@ background:#EEEEEE;
 
     .BD_CatProducts {
         float: left;
+        border: 0px;
+        border-style: solid;
+        border-color: transparent;
         text-align: center;
         margin-top: 0px;
-        width: 48% !important;
-        margin-right: 1% !important;
-        margin-left: 1% !important;
-        margin-bottom: 30px;
-        padding: 0 0 30px 0 !important;
+        width: 240px;
+        margin-right: 12px;
+        /*margin-left: 5px; border: 10px;*/
+        margin-bottom: 50px;
+        background: #fff !important;
+        border: 1px solid #f2f2f2;
+        border-right: 2px solid #eee;
+        border-bottom: 2px solid #eee;
+        border-radius: 7px;
+        padding: 20px 10px 10px 10px;
     }
 
     .CAT_Body {
-         float: left;
+        float: left;
+        border: none;
         text-align: center;
         margin-top: 0px;
-        width: 48% !important;
-        margin-right: 1% !important;
-        margin-left: 1% !important;
+        width: 215px;
+        margin-right: 8px;
+        /*margin-left: 5px;*/
         margin-bottom: 50px;
-        padding: 0 0 30px 0 !important;
+        background: #fff !important;
+        border: 1px solid #f2f2f2;
+        border-right: 2px solid #eee;
+        border-bottom: 2px solid #eee;
+        border-radius: 7px;
+        padding: 20px 10px 10px 10px;
     }
 
     .CAT_ThumbnailPath {
+        max-width: 100%;
+        max-height: 166px;
         border: 0px;
     }
 
@@ -15516,7 +16575,7 @@ background:#EEEEEE;
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -15603,22 +16662,22 @@ background:#EEEEEE;
     .Top_Cat_Body {
         margin-left: 3px;
         float: left;
-        border: 0;
+        border: 1px;
         text-align: center;
         width: 457px !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        margin-bottom: 0 !important;
+        margin-left: 20px !important;
+        margin-right: 0px !important;
+        margin-bottom: 10px !important;
         background-color: transparent;
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
         min-height: 470px;
         background: #fff;
-        border: 0;
-        border-right: 0;
-        border-bottom: 0;
-        border-radius: 0;
+        border: 1px solid #f2f2f2;
+        border-right: 2px solid #eee;
+        border-bottom: 2px solid #eee;
+        border-radius: 7px;
         padding: 20px 10px 10px 10px;
         min-height: 390px;
     }
@@ -15696,7 +16755,7 @@ background:#EEEEEE;
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -15730,7 +16789,7 @@ background:#EEEEEE;
         /*margin-left: 408px;*/
         float: right;
         width: 10em !important;
-        margin-right: 0px !important;
+        margin-right: -36px !important;
     }
 
     .divwidth {
@@ -15776,19 +16835,21 @@ background:#EEEEEE;
 
     .registerAccountBtn {
         float: right;
-        margin-right: -15px !important;
+        margin-right:0px !important;
         margin-top: -3px;
     }
 
     .cntdispatchDelivery {
         width: 55% !important;
         float: right;
+        margin-top:-2px;
     }
 
     .cntsubHeadings {
         width: 60% !important;
         float: left;
         padding-left: 0px;
+        text-align:right;
     }
 
     .dropdown_sec {
@@ -15805,7 +16866,7 @@ background:#EEEEEE;
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 0px !important;
@@ -15822,7 +16883,7 @@ background:#EEEEEE;
         /*width: 90px;*/
         width: 40%;
         float: none !important;
-        line-height: 4;
+        line-height: 3;
     }
 
     .cnttotalPayables {
@@ -15851,22 +16912,341 @@ background:#EEEEEE;
 }
 
 @media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
-   .cnttotalPayablesAS {
-        float: right;
-        width: 32%;
+   #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(5) {
+        display: none;
     }
 
-.cntsubHeadingsAS {
-        width: 33% !important;
-        float: left;
+
+       #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(2) {
+        display: none;
     }
-    .cnttotalsAS {
+
+    #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(3) {
+        display: table-cell!important;
+    }
+
+    #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(4) {
+        display: table-cell;
+    }
+
+    #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(5) {
+        display: table-cell;
+    }
+
+
+    #PendingOrderGrid >tbody > tr > td:nth-child(2) {
+        display:none!important;
+    }
+       #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(6) {
+        display: table-cell;
+    }
+      
+     #PendingOrderGrid >tbody > tr > td:nth-child(6) {
+        display:table-cell;
+    }
+                             .ScrollBarOnOrderHistory {
+          height: inherit!important;
+          overflow-y:no-display;
+    }
+ #Mytable>tbody>tr:nth-child(1)>td:nth-child(1)>table>tbody>tr:nth-child(1)>td:nth-child(1)
+{
+
+width:149px!important;
+
+ }  
+   #lblNotesDetail {
+      max-width: 470px; 
+ word-wrap: break-word;
+
+}
+      #Email {
+        margin-left:0px;
+    }
+                                                          #lblEstimatedDeliveryMethod {
+     position: absolute;
+  margin-left: -27px;
+  margin-top: -7px;
+  font-size:12px!important;
+    }
+     .BreadCrumbMenu h1 a {
+    color: #d9534f;
+    font-weight: normal;
+    text-shadow: none;
+    font-weight: bold;
+    font-size: 22px;
+}
+                             #PnalTotalBox>td:nth-child(1)>div:nth-child(1)
+{
+    display:block;
+
+}
+                                                 .BillShipAddressesControl>div:nth-child(1)>table:nth-child(1)
+     {
+       width:200px!important;
+
+    }
+    
+    .search-order-Go {
+    width: 13%;
+    float: left;
+    margin-left: 1px;
+}
+   
+                            #PnalTotalBox > table > tbody > tr:nth-child(1) > td:nth-child(3) {
+        width:20%!important;
+    }
+       #divBilling + div {
+        margin-left:0px;
+    }
+                           #lblCheckBox {
+        margin-bottom:0px;
+    }
+                           #lblTaxLabel {
+        margin-top:8px!important;
+    }
+      .cnttotalPayablesAS {
+        float: right;
+        width: 45%;
+    }
+                             .cntsubHeadingsAS {
+        width: 60% !important;
+        float: left;
+        text-align:right;
+        color: rgb(161, 161, 161)!important;
+    }
+                             .cnttotalsAS {
         width: 30%;
         float: right;
         text-align: right;
         line-height: 1.5;
-    }   
-                            .ScrollBarOnOrderHistory {
+    }
+                           
+                                @-webkit-keyframes thumb {
+	0% { -webkit-transform: scale(1); }
+	50% { -webkit-transform: scale(0.9); }
+	100% { -webkit-transform: scale(1); }
+     }
+#cmdNext:hover {
+        -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+.order_history_btn:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+ #btnSave:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+   #profileMenu > li > a:hover {
+                 -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+                           #btnPlaceOrder:hover {
+        -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+  #cmdRegister:hover {
+           -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+  .allproducts_col_cat_ul > li > a:hover {
+                -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+   .Parent_Cat_allPro:hover {
+                     -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #ulCollapseMenu > li > a:hover {
+               -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+      .SubCatLink:hover {
+                -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+     #menu-my-account > li > a:hover {
+              -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+  .dashBoardRetrunLink :hover {
+     -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+   #btnShopCart:hover {
+    -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+   .dashboard_item_main_heading:hover {
+               -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+      .start_creating_btn:hover {
+            -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+
+    }
+    #btn_ContinueShopping:hover {
+        -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+   #ContinueTo:hover {
+             -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+   #btnCopyProduct:hover {
+         -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #btnCheckout:hover {
+           -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+   #linkRemoveCartItem:hover {
+      -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+   #MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0:hover {
+         -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+   #btnOpenUploadDailog:hover {
+              -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+   .btn_upload_files_Prod_Land:hover {
+       -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+     #AddTOCart:hover {
+             -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #btnCancel:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+   .create-design-button:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #btnSend:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+
+     #btnEditThisDesign:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+     .goto-designer-button:hover {
+         -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+   .more-info-button:hover {
+     -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+  .start_creating_btn_Login:hover
+   {
+	-webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    .ScrollBarOnOrderHistory {
         height: inherit !important;
         overflow-y: no-display;
     }
@@ -15886,11 +17266,11 @@ background:#EEEEEE;
         border: 0px;
         text-align: center;
         color: White;
-        width: 180px;
+        width: 142px;
         cursor: pointer;
         text-transform: uppercase;
         font-weight: bold;
-        background-color: #ec008c;
+        background-color: #d9534f;
         border-color: #d43f3a;
         padding: 10px 20px;
         box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
@@ -15929,12 +17309,12 @@ background:#EEEEEE;
 
     .height40_LP {
         width: 155px !important;
-        margin-top: -25px;
+        margin-top:0px;
         font-size: 12px;
     }
 
     .phone_number_sec {
-        color: #f22e9d;
+        color: white;
         font-size: 22px;
         margin-top: 0px;
         text-align: left;
@@ -16011,7 +17391,7 @@ background:#EEEEEE;
         color: white;
         width: 62px;
         cursor: pointer;
-        background-color: #ec008c;
+        background-color: #d9534f;
         font-size: 16px;
         line-height: inherit;
     }
@@ -16022,7 +17402,7 @@ background:#EEEEEE;
         padding: 5px;
         background-image: url('Images/text_box_back.png');
         background-repeat: repeat-x;
-        width: 95px;
+        width: 128%!important;
         color: black;
     }
 
@@ -16031,7 +17411,7 @@ background:#EEEEEE;
         box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
         background: white;
         border-radius: 33px;
-        color: #ec008c;
+        color: #d9534f;
         font-size: 23px;
         text-align: center;
     }
@@ -16055,7 +17435,7 @@ background:#EEEEEE;
         /* font-weight: bold;*/
         font-size: 14px !important;
         line-height: 12px;
-        background-color: #ec008c;
+        background-color: #333333;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -16565,7 +17945,7 @@ background:#EEEEEE;
         height: 35px;
         width: 145px !important;
         cursor: pointer;
-        background-color: #ec008c;
+        background-color: #d9534f;
         border-color: #d43f3a;
         padding: 10px 20px;
         box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
@@ -16576,7 +17956,7 @@ background:#EEEEEE;
         height: 34px;
         border: 0px;
         color: White;
-        margin-right: 10px;
+        margin-right:0px;
         margin-top: 0px !important;
     }
 
@@ -16696,7 +18076,7 @@ background:#EEEEEE;
         -webkit-user-select: text;
         color: rgb(33, 31, 31);
         display: block;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'Avenir Next LT W01 Bold';
         font-size: 31px;
         font-style: normal;
         font-weight: normal !important;
@@ -16709,14 +18089,14 @@ background:#EEEEEE;
     }
 
     .start_creating_btn_SApp {
-        background: green;
+        background: #d9534f;
         background-repeat: no-repeat;
         height: 34px;
         border: 0px;
         text-transform: uppercase;
         color: White;
         cursor: pointer;
-        width: 165px;
+        width: 142px;
         margin-top: 0px;
         font-weight: bold;
         -webkit-transition: all 200ms ease-out;
@@ -16817,7 +18197,7 @@ background:#EEEEEE;
 
     .cnttotalPayables {
         float: right;
-        width: 45%;
+        width: 49%;
     }
 
     .tdDelivery {
@@ -16830,6 +18210,7 @@ background:#EEEEEE;
         width: 55% !important;
         float: left;
         padding-left: 93px;
+        text-align:right;
     }
 
     .cntdispatchDelivery {
@@ -16965,7 +18346,7 @@ background:#EEEEEE;
 
     .shopReceiptBillToHeading {
         color: #333333;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'Open Sans Condensed', sans-serif;
         font-style: normal;
         font-weight: bold;
         font-size: 15px !important;
@@ -16990,10 +18371,10 @@ background:#EEEEEE;
         text-transform: uppercase;
         cursor: pointer;
         color: White;
-        width: 180px;
+        width: 142px;
         font-weight: bold;
         margin-right: 3px;
-        font-size: 12px;
+        font-size: 10px!important;
         border: none;
     }
 
@@ -17073,27 +18454,43 @@ background:#EEEEEE;
 
     .BD_CatProducts {
         float: left;
+        border: 0px;
+        border-style: solid;
+        border-color: transparent;
         text-align: center;
         margin-top: 0px;
-        width: 48% !important;
-        margin-right: 1% !important;
-        margin-left: 1% !important;
-        margin-bottom: 30px;
-        padding: 0 0 30px 0 !important;
+        width: 240px;
+        margin-right: 12px;
+        /*margin-left: 5px; border: 10px;*/
+        margin-bottom: 50px;
+        background: #fff !important;
+        border: 1px solid #f2f2f2;
+        border-right: 2px solid #eee;
+        border-bottom: 2px solid #eee;
+        border-radius: 7px;
+        padding: 20px 10px 10px 10px;
     }
 
     .CAT_Body {
-         float: left;
+        float: left;
+        border: none;
         text-align: center;
         margin-top: 0px;
-        width: 48% !important;
-        margin-right: 1% !important;
-        margin-left: 1% !important;
+        width: 240px;
+        margin-right: 8px;
+        /*margin-left: 5px;*/
         margin-bottom: 50px;
-        padding: 0 0 30px 0 !important;
+        background: #fff !important;
+        border: 1px solid #f2f2f2;
+        border-right: 2px solid #eee;
+        border-bottom: 2px solid #eee;
+        border-radius: 7px;
+        padding: 20px 10px 10px 10px;
     }
 
     .CAT_ThumbnailPath {
+        max-width: 100%;
+        max-height: 166px;
         border: 0px;
     }
 
@@ -17171,7 +18568,7 @@ background:#EEEEEE;
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -17336,7 +18733,7 @@ background:#EEEEEE;
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -17370,7 +18767,7 @@ background:#EEEEEE;
         /*margin-left: 408px;*/
         float: right;
         width: 10em !important;
-        margin-right: 0px !important;
+        margin-right:-36px !important;
     }
 
     .divwidth {
@@ -17456,7 +18853,7 @@ background:#EEEEEE;
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 0px !important;
@@ -17468,27 +18865,346 @@ background:#EEEEEE;
         transition: background-color;
         margin-bottom: 10px;
     }
-}
+
 
 
 @media (min-width:992px) {
-       .cntsubHeadingsAS {
-  margin-left: 0px;
-  width: 40% !important;
-  float: left;
+
+      #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(2) {
+        display: table-cell;
+    }
+        #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(2) {
+        display: table-cell;
+    }
+
+    #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(3) {
+        display: table-cell;
+    }
+
+    #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(4) {
+        display: table-cell;
+    }
+
+    #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(5) {
+        display: table-cell;
+    }
+
+
+     #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(5) {
+        display: table-cell;
+    }
+      #PendingOrderGrid >tbody > tr > td:nth-child(2) {
+        display:table-cell!important;
+    }
+        #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(6) {
+        display: table-cell;
+    }
+          #PendingOrderGrid >tbody > tr > td:nth-child(6) {
+        display:table-cell;
+    }
+      .ScrollBarOnOrderHistory {
+          height: inherit!important;
+          overflow-y:no-display;
+    }
+#Mytable>tbody>tr:nth-child(1)>td:nth-child(1)>table>tbody>tr:nth-child(1)>td:nth-child(1)
+{
+
+width:149px!important;
+
+ }  
+                                 #lblNotesDetail {
+      max-width: 470px; 
+ word-wrap: break-word;
+
 }
-    .cnttotalPayablesAS{
-  float: right;
-  width: 19%;
+                            #Email {
+        margin-left:0px;
+    }
+      #lblEstimatedDeliveryMethod {
+          position: absolute;
+  margin-left:95px;
+ 
+  margin-top: -7px;
+  font-size:12px!important;
+    }
+    .BreadCrumbMenu h1 a {
+    color: #d9534f;
+    font-weight: normal;
+    text-shadow: none;
+    font-weight: bold;
+    font-size: 22px;
 }
-    .cnttotalsAS {
-  width: 30%;
-  float: right;
-  text-align: right;
-  line-height: 1.5;
-  margin-right: 1px;
+      #PnalTotalBox>td:nth-child(1)>div:nth-child(1)
+{
+    display:block;
+
 }
-     .ScrollBarOnOrderHistory {
+                            .BillShipAddressesControl>div:nth-child(1)>table:nth-child(1)
+     {
+       width:200px!important;
+
+    }
+  
+    .search-order-Go {
+    width: 11%;
+    float: left;
+    margin-left: 15px;
+}
+       #PnalTotalBox > table > tbody > tr:nth-child(1) > td:nth-child(3) {
+        width:20%!important;
+    }
+    #divBilling + div {
+        margin-left:0px;
+    }
+    #lblCheckBox {
+        margin-bottom:0px;
+    }
+    #lblTaxLabel {
+        margin-top:8px!important;
+    }
+     .cnttotalPayablesAS {
+        float: right;
+        width: 45%;
+    }
+                             .cntsubHeadingsAS {
+        width: 60% !important;
+        float: left;
+        text-align:right;
+        color: rgb(161, 161, 161)!important;
+    }
+                             .cnttotalsAS {
+        width: 30%;
+        float: right;
+        text-align: right;
+        line-height: 1.5;
+    }
+
+       @-webkit-keyframes thumb {
+	0% { -webkit-transform: scale(1); }
+	50% { -webkit-transform: scale(0.9); }
+	100% { -webkit-transform: scale(1); }
+     }
+        .order_history_btn:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+                                #btnPlaceOrder:hover {
+        -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+          #cmdRegister:hover {
+           -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+           .Parent_Cat_allPro:hover {
+                     -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+            #btnCancel:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+              .SubCatLink:hover {
+                -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+             #btnSave:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+                .start_creating_btn:hover {
+            -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+
+    }
+                .allproducts_col_cat_ul > li > a:hover {
+                -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+                  #ulCollapseMenu > li > a:hover {
+               -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+                    #profileMenu > li > a:hover {
+                 -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+                .dashboard_item_main_heading:hover {
+               -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+             #btnShopCart:hover {
+    -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+              #menu-my-account > li > a:hover {
+              -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+             .dashBoardRetrunLink :hover {
+     -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+             #linkRemoveCartItem:hover {
+      -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+         #ContinueTo:hover {
+             -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+               #btn_ContinueShopping:hover {
+        -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+              #btnCheckout:hover {
+           -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+              #btnCopyProduct:hover {
+         -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+             #MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0:hover {
+         -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+            #btnEditThisDesign:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+             #btnOpenUploadDailog:hover {
+              -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+  .start_creating_btn_Login:hover
+   {
+	-webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #AddTOCart:hover {
+             -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+   .btn_upload_files_Prod_Land:hover {
+       -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+     .goto-designer-button:hover {
+         -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+      #btnSend:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+
+      .create-design-button:hover {
+          -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+   .more-info-button:hover {
+     -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+  #cmdNext:hover {
+        -webkit-animation-name:thumb;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    .ScrollBarOnOrderHistory {
         height: inherit !important;
         overflow-y: no-display;
     }
@@ -17512,7 +19228,7 @@ background:#EEEEEE;
         cursor: pointer;
         text-transform: uppercase;
         font-weight: bold;
-        background-color: #ec008c;
+        background-color: #d9534f;
         border-color: #d43f3a;
         padding: 10px 20px;
         box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
@@ -17569,7 +19285,7 @@ background:#EEEEEE;
 
     .height40_LP {
         width: 100% !important;
-        margin-top: -25px;
+        margin-top:0px;
         font-size: 12px;
     }
 
@@ -17632,7 +19348,7 @@ background:#EEEEEE;
         color: white;
         width: 90px;
         cursor: pointer;
-        background-color: #ec008c;
+        background-color: #d9534f;
         font-size: 16px;
         line-height: inherit;
     }
@@ -17643,7 +19359,7 @@ background:#EEEEEE;
         padding: 5px;
         background-image: url('Images/text_box_back.png');
         background-repeat: repeat-x;
-        width: 125px;
+        width: 100%!important;
         color: black;
     }
 
@@ -17652,7 +19368,7 @@ background:#EEEEEE;
         box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
         background: white;
         border-radius: 33px;
-        color: #ec008c;
+        color: #d9534f;
         font-size: 30px;
         text-align: center;
     }
@@ -17672,7 +19388,7 @@ background:#EEEEEE;
         /* font-weight: bold;*/
         font-size: 14px !important;
         line-height: 12px;
-        background-color: #ec008c;
+        background-color: #333333;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -17964,7 +19680,7 @@ background:#EEEEEE;
     }
 
     .phone_number_sec {
-        color: #f22e9d;
+        color: white;
         font-size: 22px;
         margin-top: 0px;
         text-align: right;
@@ -18044,7 +19760,7 @@ background:#EEEEEE;
     .TopHeaderMenu {
         position: relative;
         z-index: 1;
-        color: #f22e9d;
+        color: white;
         font-size: 13px;
         margin-top: 0px;
         /* margin-right: 48px; */
@@ -18055,7 +19771,7 @@ background:#EEEEEE;
     }
 
         .TopHeaderMenu:hover {
-            color: #f22e9d;
+            color: white;
         }
 
     .BD_Featured {
@@ -18093,7 +19809,7 @@ background:#EEEEEE;
         height: 35px;
         width: 145px !important;
         cursor: pointer;
-        background-color: #ec008c;
+        background-color: #d9534f;
         border-color: #d43f3a;
         padding: 10px 20px;
         box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
@@ -18141,7 +19857,7 @@ background:#EEEEEE;
         -webkit-user-select: text;
         color: rgb(33, 31, 31);
         display: block;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'Avenir Next LT W01 Bold';
         font-size: 31px;
         font-style: normal;
         font-weight: normal !important;
@@ -18154,7 +19870,7 @@ background:#EEEEEE;
     }
 
     .start_creating_btn_SApp {
-        background-color: #ec008c;
+        background-color: #d9534f;
        
         padding: 10px 20px;
         box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
@@ -18327,7 +20043,7 @@ background:#EEEEEE;
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 0px !important;
@@ -18375,18 +20091,20 @@ background:#EEEEEE;
         width: 40% !important;
         float: left;
         padding-left: 0px;
+        text-align:right;
     }
 
     .cntdispatchDelivery {
         width: 52% !important;
         float: left;
+        margin-top:-1px;
     }
 
     .tdDispatchDate {
         /*width: 90px;*/
         width: 40%;
         float: left !important;
-        line-height: 4;
+        line-height: 3;
     }
 
     .dropdown_sec {
@@ -18546,8 +20264,8 @@ background:#EEEEEE;
     .BreadCrumbMenuItem {
         color: #042F42;
         float: left;
-        font-size: 11px !important;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-size: 14px !important;
+        font-family: sans-serif !important;
     }
 
     .full_img_ThumbnailPath {
@@ -18871,7 +20589,7 @@ background:#EEEEEE;
     .shopReceiptBillToHeading {
         line-height: 33px;
         color: #333333;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'Open Sans Condensed', sans-serif;
         font-style: normal;
         font-weight: bold;
         font-size: 13px !important;
@@ -18995,26 +20713,45 @@ background:#EEEEEE;
     }
 
     .BD_CatProducts {
-         float: left;
+        float: left;
+        border: 0px;
+        border-style: solid;
+        border-color: transparent;
         text-align: center;
         margin-top: 0px;
-        width: 31% !important;
-        margin-right: 1% !important;
-	margin-left: 1% !important;
-        margin-bottom: 30px;
+        width: 240px;
+        margin-right: 12px;
+        /*margin-left: 5px; border: 10px;*/
+        margin-bottom: 50px;
+        background: #fff !important;
+        border: 1px solid #f2f2f2;
+        border-right: 2px solid #eee;
+        border-bottom: 2px solid #eee;
+        border-radius: 7px;
+        padding: 20px 10px 10px 10px;
     }
 
     .CAT_Body {
         float: left;
+        border: none;
         text-align: center;
         margin-top: 0px;
-        width: 31% !important;
-        margin-right: 1% !important;
-	margin-left: 1% !important;
+        width: 240px;
+        margin-right: 8px;
+        /*margin-left: 5px;*/
         margin-bottom: 50px;
+        background: #fff !important;
+        border: 1px solid #f2f2f2;
+        border-right: 2px solid #eee;
+        border-bottom: 2px solid #eee;
+        border-radius: 7px;
+        padding: 20px 10px 10px 10px;
+        min-height: 323px;
     }
 
     .CAT_ThumbnailPath {
+        max-width: 100%;
+        max-height: 166px;
         border: 0px;
         background-color: transparent !important;
         -moz-border-radius: 0px !important;
@@ -19024,7 +20761,7 @@ background:#EEEEEE;
     }
 
     .cntParentCategDesc {
-        width: auto !important;
+        width: 650px !important;
         text-align: left;
         font-size: 13px;
         color: #042F42;
@@ -19097,7 +20834,7 @@ background:#EEEEEE;
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -19162,7 +20899,7 @@ background:#EEEEEE;
         float: left;
         border: 1px;
         text-align: center;
-        width: 225px !important;
+        width: 220px !important;
         margin-right: 0px !important;
         margin-bottom: 9px !important;
         background-color: transparent;
@@ -19257,7 +20994,7 @@ background:#EEEEEE;
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -19295,7 +21032,7 @@ background:#EEEEEE;
         /*margin-left: 408px;*/
         float: right;
         width: 8.9em !important;
-        margin-right: 0px !important;
+        margin-right:-14px !important;
     }
 
     .divwidth {
@@ -19355,22 +21092,365 @@ background:#EEEEEE;
 }
 
 @media (min-width:1025px) {
-        .cntsubHeadingsAS {
-  margin-left: 0px;
-  width: 40% !important;
-  float: left;
+        #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(2) {
+        display: table-cell;
+     }
+
+    #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(3) {
+        display: table-cell;
+    }
+
+    #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(4) {
+        display: table-cell;
+    }
+
+    #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(5) {
+        display: table-cell;
+    }
+       #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(2) {
+        display: table-cell;
+    }
+
+     #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(5) {
+        display: table-cell;
+    }
+      #PendingOrderGrid >tbody > tr > td:nth-child(2) {
+        display:table-cell!important;
+    }
+        #PendingOrderGrid > thead > tr.WebGridheader > th:nth-child(6) {
+        display: table-cell;
+    }
+          #PendingOrderGrid >tbody > tr > td:nth-child(6) {
+        display:table-cell;
+    }
+    .Top_Cat_ThumbnailPath:hover {
+  -webkit-transform: scale(1.05,1.07);
+  -webkit-transition-timing-function: ease-out;
+  -webkit-transition-duration: 250ms;
+  -moz-transform: scale(1.05,1.07);
+  -moz-transition-timing-function: ease-out;
+  -moz-transition-duration: 250ms;
 }
-    .cnttotalPayablesAS{
-  float: right;
-  width: 19%;
+
+  
+      .ScrollBarOnOrderHistory {
+          height: inherit!important;
+          overflow-y:no-display;
+    }
+     #Mytable>tbody>tr:nth-child(1)>td:nth-child(1)>table>tbody>tr:nth-child(1)>td:nth-child(1)
+{
+
+width:149px!important;
+
+ } 
+    #lblNotesDetail {
+      max-width: 470px; 
+ word-wrap: break-word;
+
 }
-    .cnttotalsAS {
-  width: 30%;
-  float: right;
-  text-align: right;
-  line-height: 1.5;
-  margin-right: 1px;
+                            #Email {
+        margin-left:0px;
+    }
+       #lblEstimatedDeliveryMethod {
+        position: absolute;
+  margin-left:95px;
+ 
+  margin-top: -7px;
+  font-size:12px!important;
+
+    } 
+      #lblSpecialInstructions {
+        width:291px;
+        word-wrap:break-word;
+    }
+  
+    .BreadCrumbMenu h1 a {
+    color: #d9534f;
+    font-weight: normal;
+    text-shadow: none;
+    font-weight: bold;
+    font-size: 22px;
 }
+      #PnalTotalBox>td:nth-child(1)>div:nth-child(1)
+{
+    display:block;
+
+}
+                          .BillShipAddressesControl>div:nth-child(1)>table:nth-child(1)
+     {
+       width:200px!important;
+
+    }
+ 
+    .search-order-Go {
+    width: 11%;
+    float: left;
+    margin-left: 15px;
+}
+     
+     #PnalTotalBox > table > tbody > tr:nth-child(1) > td:nth-child(3) {
+        width:20%!important;
+    }
+       #divBilling + div {
+        margin-left:0px;
+    }
+    #lblCheckBox {
+        margin-bottom:-6px;
+    }
+    #lblTaxLabel {
+        margin-top:-4px!important;
+    }
+                            .cnttotalPayablesAS {
+        float: right;
+        width: 33%;
+    }
+                             .cntsubHeadingsAS {
+        width: 60% !important;
+        float: left;
+        text-align:right;
+        color: rgb(161, 161, 161)!important;
+    }
+                             .cnttotalsAS {
+        width: 30%;
+        float: right;
+        text-align: right;
+        line-height: 1.5;
+    }
+      @-webkit-keyframes thumb {
+	0% { -webkit-transform: scale(1); }
+	50% { -webkit-transform: scale(0.9); }
+	100% { -webkit-transform: scale(1); }
+     }
+         #cmdRegister:hover {
+           -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+   #btnSend:hover {
+          -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+                           #btnPlaceOrder:hover {
+        -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+   .order_history_btn:hover {
+          -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    .Parent_Cat_allPro:hover {
+                     -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+     .SubCatLink:hover {
+                -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+     #profileMenu > li > a:hover {
+                 -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #btnSave:hover {
+          -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+     #menu-my-account > li > a:hover {
+              -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+   .dashBoardRetrunLink :hover {
+     -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+     #ulCollapseMenu > li > a:hover {
+               -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #btnShopCart:hover {
+    -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+       .start_creating_btn:hover {
+            -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+
+    }
+       .dashboard_item_main_heading:hover {
+               -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+      #ContinueTo:hover {
+             -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    .start_creating_btn_SApp :hover {
+    -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    .allproducts_col_cat_ul > li > a:hover {
+                -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #btnCheckout:hover {
+           -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+      #btn_ContinueShopping:hover {
+        -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    #MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0:hover {
+         -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+     #btnCopyProduct:hover {
+         -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+     #linkRemoveCartItem:hover {
+      -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+     #btnCancel:hover {
+          
+         -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+      #btnOpenUploadDailog:hover {
+              -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+       #AddTOCart:hover {
+             -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+  .start_creating_btn_Login:hover
+   {
+	-webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+   .btn_upload_files_Prod_Land:hover {
+       -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+   .more-info-button:hover {
+     -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+      .goto-designer-button:hover {
+         -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+        #btnEditThisDesign:hover {
+          -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+       .create-design-button:hover {
+          -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+  #cmdNext:hover {
+        -webkit-animation-name:none;
+	-webkit-animation-duration: 200ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-timing-function: linear;
+    }
+    .more-info-button:hover {
+        background: rgb(37, 37, 111) !important;
+    }
     .ScrollBarOnOrderHistory {
         height: inherit !important;
         overflow-y: no-display;
@@ -19399,7 +21479,7 @@ background:#EEEEEE;
         cursor: pointer;
         text-transform: uppercase;
         font-weight: bold;
-        background-color: #ec008c;
+        background-color: #d9534f;
         border-color: #d43f3a;
         padding: 10px 20px;
         box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
@@ -19460,7 +21540,7 @@ background:#EEEEEE;
 
     .height40_LP {
         width: 100% !important;
-        margin-top: -25px;
+        margin-top:0px;
         font-size: 12px;
     }
 
@@ -19544,7 +21624,7 @@ background:#EEEEEE;
         color: white;
         width: 90px;
         cursor: pointer;
-        background-color: #ec008c;
+        background-color: #d9534f;
         font-size: 16px;
         line-height: inherit;
     }
@@ -19555,7 +21635,7 @@ background:#EEEEEE;
         padding: 5px;
         background-image: url('Images/text_box_back.png');
         background-repeat: repeat-x;
-        width: 125px;
+        width:247px!important;
         color: black;
     }
 
@@ -19564,7 +21644,7 @@ background:#EEEEEE;
         box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
         background: white;
         border-radius: 33px;
-        color: #ec008c;
+        color: #d9534f;
         font-size: 30px;
         text-align: center;
     }
@@ -19584,7 +21664,7 @@ background:#EEEEEE;
         /* font-weight: bold;*/
         font-size: 14px !important;
         line-height: 12px;
-        background-color: #ec008c;
+        background-color: #333333;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -19876,7 +21956,7 @@ background:#EEEEEE;
     }
 
     .phone_number_sec {
-        color: #f22e9d;
+        color: white;
         font-size: 22px;
         margin-top: 0px;
         text-align: right;
@@ -19956,7 +22036,7 @@ background:#EEEEEE;
     .TopHeaderMenu {
         position: relative;
         z-index: 1;
-        color: #f22e9d;
+        color: white;
         font-size: 13px;
         margin-top: 0px;
         /* margin-right: 48px; */
@@ -19967,7 +22047,7 @@ background:#EEEEEE;
     }
 
         .TopHeaderMenu:hover {
-            color: #f22e9d;
+            color: white;
         }
 
     .BD_Featured {
@@ -20005,7 +22085,7 @@ background:#EEEEEE;
         height: 35px;
         width: 145px !important;
         cursor: pointer;
-        background-color: #ec008c;
+        background-color: #d9534f;
         border-color: #d43f3a;
         padding: 10px 20px;
         box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
@@ -20053,7 +22133,7 @@ background:#EEEEEE;
         -webkit-user-select: text;
         color: rgb(33, 31, 31);
         display: block;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'Avenir Next LT W01 Bold';
         font-size: 31px;
         font-style: normal;
         font-weight: normal !important;
@@ -20066,7 +22146,7 @@ background:#EEEEEE;
     }
 
     .start_creating_btn_SApp {
-        background-color: #ec008c;
+        background-color: #d9534f;
         
         padding: 10px 20px;
         box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
@@ -20170,7 +22250,7 @@ background:#EEEEEE;
         }
 
     .fntQtyPrice {
-        font-size: 14px !important;
+        font-size: 13px !important;
     }
 
     .gridViewHeaderStyle {
@@ -20225,7 +22305,7 @@ background:#EEEEEE;
 
     .cnttotalPayables {
         float: right;
-        width: 19%;
+        width:23%;
     }
 
     .dropdown290 {
@@ -20238,7 +22318,7 @@ background:#EEEEEE;
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 0px !important;
@@ -20286,18 +22366,20 @@ background:#EEEEEE;
         width: 40% !important;
         float: left;
         padding-left: 0px;
+        text-align:right;
     }
 
     .cntdispatchDelivery {
         width: 52% !important;
         float: left;
+        margin-top:-1px;
     }
 
     .tdDispatchDate {
         /*width: 90px;*/
         width: 40%;
         float: left !important;
-        line-height: 4;
+        line-height: 3;
     }
 
     .dropdown_sec {
@@ -20452,8 +22534,8 @@ background:#EEEEEE;
     .BreadCrumbMenuItem {
         color: #042F42;
         float: left;
-        font-size: 12px !important;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-size: 14px !important;
+        font-family: sans-serif !important;
     }
 
     .full_img_ThumbnailPath {
@@ -20778,7 +22860,7 @@ background:#EEEEEE;
     .shopReceiptBillToHeading {
         line-height: 33px;
         color: #333333;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'Open Sans Condensed', sans-serif;
         font-style: normal;
         font-weight: bold;
         font-size: 13px !important;
@@ -20902,26 +22984,45 @@ background:#EEEEEE;
     }
 
     .BD_CatProducts {
-      float: left;
+        float: left;
+        border: 0px;
+        border-style: solid;
+        border-color: transparent;
         text-align: center;
         margin-top: 0px;
-        width: 31% !important;
-        margin-right: 1% !important;
-	margin-left: 1% !important;
-        margin-bottom: 30px;
+        width: 240px;
+        margin-right: 12px;
+        /*margin-left: 5px; border: 10px;*/
+        margin-bottom: 50px;
+        background: #fff !important;
+        border: 1px solid #f2f2f2;
+        border-right: 2px solid #eee;
+        border-bottom: 2px solid #eee;
+        border-radius: 7px;
+        padding: 20px 10px 10px 10px;
     }
 
     .CAT_Body {
         float: left;
+        border: none;
         text-align: center;
         margin-top: 0px;
-        width: 31% !important;
-        margin-right: 1% !important;
-	margin-left: 1% !important;
+        width: 240px;
+        margin-right: 8px;
+        /*margin-left: 5px;*/
         margin-bottom: 50px;
+        background: #fff !important;
+        border: 1px solid #f2f2f2;
+        border-right: 2px solid #eee;
+        border-bottom: 2px solid #eee;
+        border-radius: 7px;
+        padding: 20px 10px 10px 10px;
+        min-height: 323px;
     }
 
     .CAT_ThumbnailPath {
+        max-width: 100%;
+        max-height: 166px;
         border: 0px;
         background-color: transparent !important;
         -moz-border-radius: 0px !important;
@@ -20931,7 +23032,7 @@ background:#EEEEEE;
     }
 
     .cntParentCategDesc {
-        width: auto !important;
+        width: 650px !important;
         text-align: left;
         font-size: 13px;
         color: #042F42;
@@ -21004,7 +23105,7 @@ background:#EEEEEE;
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -21093,7 +23194,7 @@ background:#EEEEEE;
         /*border-style: solid;
 	border-color: #F9F9F9;*/
         text-align: center;
-        width: 226px !important;
+        width: 220px !important;
         margin-right: 5px !important;
         margin-bottom: 9px !important;
         background-color: transparent;
@@ -21188,7 +23289,7 @@ background:#EEEEEE;
         -webkit-border-radius: 4px;
         border-radius: 4px;
         background-color: #fffefd;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
         color: #66615b;
         font-size: 18px;
         padding: 13px 18px !important;
@@ -21226,7 +23327,7 @@ background:#EEEEEE;
         /*margin-left: 408px;*/
         float: right;
         width: 8.9em !important;
-        margin-right: 0px !important;
+        margin-right:3px !important;
     }
 
     .divwidth {
@@ -21369,9 +23470,9 @@ background:#EEEEEE;
 }
 
 .prod_table_cell {
-    background-color: #FFFFFF !important;
-    font-size: 0.9em;
-    border-bottom:1px solid #DDDDDD;
+    background-color: #f3f3f3 !important;
+    color: black;
+    font-size: 8px;
 }
 
 
@@ -21785,7 +23886,7 @@ background:#EEEEEE;
     background-color: #FFFFFF;
     padding-top: 25px;
     text-align: center;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'Lato';
     position: fixed;
     padding: 5px;
     color: White;
@@ -22148,7 +24249,6 @@ gridViewRowStyle td {
 
 .productPricetbl {
     width: 100%;
-    color:#656565;
 }
 
 
@@ -22182,16 +24282,16 @@ gridViewRowStyle td {
 #lblCartCount::before {
     content: '\f07a';
     font-family: FontAwesome;
-    color: #FFFFFF;
-    font-size: 13px;
+    color: white;
+    font-size: 15px;
     margin-right: 5px;
 }
 
 #lblCartCount::after {
     content: ' Item(s)';
     font-family: FontAwesome;
-    color: #FFFFFF;
-    font-size: 13px;
+    color: white;
+    font-size: 15px;
     margin-right: 10px;
 }
 
@@ -22277,7 +24377,7 @@ gridViewRowStyle td {
     padding-left: 0px !important;
     margin-top: 6px;
     list-style-type: none;
-    background: #e90081;
+    background: #d9534f;
     position: absolute;
     width: 100%;
 }
@@ -22290,7 +24390,7 @@ gridViewRowStyle td {
     /*cursor: pointer;
     background: white;
     padding: 10px;
-    border: 1px solid #ec008c;
+    border: 1px solid #d9534f;
     border-radius: 5px;
     padding-top: 18px;*/
     cursor: pointer;
@@ -22309,7 +24409,7 @@ gridViewRowStyle td {
         font-weight: normal;
         font-size: 24px;
         
-        color: #ec008c;*/
+        color: #d9534f;*/
         cursor: pointer;
         content: "\f039";
         font-family: FontAwesome;
@@ -22317,7 +24417,7 @@ gridViewRowStyle td {
         font-weight: normal;
         font-size: 24px;
         /* padding-top: 6px; */
-        color: #e90081;
+        color: #ffffff;
     }
 
 .whitebackground {
@@ -22460,7 +24560,7 @@ gridViewRowStyle td {
     -webkit-border-radius: 4px;
     border-radius: 4px;
     background-color: white;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
     color: #66615b;
     font-size: 18px;
     padding: 13px 18px !important;
@@ -22494,14 +24594,14 @@ gridViewRowStyle td {
     display: none;
 }
 
-.hero {
+/*.hero {
     text-align: center;
     margin: 15px 0px;
 }
 
     .hero h3 {
         font-size: 50px;
-        font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+        font-family: 'Open Sans Condensed', sans-serif;
         font-weight: 500;
         line-height: 1.1;
         color: inherit;
@@ -22519,7 +24619,7 @@ gridViewRowStyle td {
         background: #f8f8f8;
         border-top: 3px solid #eee;
         border-bottom: 3px solid #eee;
-    }
+    }*/
 
 .sep-bor {
     border-top: 1px dashed #ccc;
@@ -22539,10 +24639,10 @@ gridViewRowStyle td {
 .section-title h4 {
     margin: 0px;
     padding: 0px;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: "Open Sans", sans-serif;
     font-size: 22px;
     margin-bottom: 5px;
-    color: #ec008c;
+    color: #d9534f;
     padding-bottom: 10px;
     border-bottom: 1px solid #eee;
 }
@@ -23048,7 +25148,7 @@ gridfontStyle {
     }
 
         .profile-menu > li > a:hover {
-            color: #ec008c;
+            color: #d9534f;
         }
 
     .profile-menu > li:hover {
@@ -23060,13 +25160,7 @@ gridfontStyle {
     margin-top: 0px !important;
 }
 
-.BreadCrumbMenu h1 a {
-    color: #656565;
-    font-weight: 600;
-    text-shadow: none;
-    font-weight: bold;
-    font-size: 0.7em;
-}
+
 
 #productCategoryContainer {
     display: none;
@@ -23074,10 +25168,6 @@ gridfontStyle {
 
 .cntParentCategDesc label {
     font-weight: normal;
-    font-size:1.2em;
-    color:#656565;
-    line-height:1.4em;
-    text-align:center;
 }
 
 #lbl_ProductHeading {
@@ -23094,11 +25184,11 @@ gridfontStyle {
 }
 
 .copyTerms a {
-    color: #FFFFFF;
+    color: black;
 }
 
     .copyTerms a:hover {
-        color: #ec008c;
+        color: #d9534f;
     }
 
 #priceToggle > label {
@@ -23206,7 +25296,7 @@ gridfontStyle {
     }
 
 .dashboard-main-heading {
-    color: #ec008c;
+    color: #d9534f;
     text-shadow: none;
     font-weight: bold;
     font-size: 30px;
@@ -23217,7 +25307,7 @@ gridfontStyle {
 }
 
 .dashboard_item_main_heading > label:hover {
-    color: #ec008c;
+    color: #d9534f;
 }
 
 .modal-header {
@@ -23288,11 +25378,7 @@ gridfontStyle {
 
 
 
-.search-order-Go {
-    width: 11%;
-    float: left;
-    margin-left: 15px;
-}
+
 
 .search-order-clear {
     width: 11%;
@@ -23313,12 +25399,14 @@ gridfontStyle {
     cursor: pointer;
     text-transform: uppercase;
     font-weight: bold;
-    background-color: #ec008c;
+    background-color: #d9534f;
     border-color: #d43f3a;
     padding: 10px 20px;
+    box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
     font-weight: bold;
     font-size: 13px !important;
     text-transform: uppercase;
+    text-shadow: 0px 1px 1px #000;
     margin-bottom: 3px;
     -webkit-transition: all 200ms ease-out;
     -o-transition: all 200ms ease-out;
@@ -23332,7 +25420,7 @@ gridfontStyle {
 .modal-title {
     text-align: center;
     font-size: 25px;
-    color: #ec008c;
+    color: #d9534f;
     text-shadow: none;
     font-weight: bold;
 }
@@ -23340,36 +25428,31 @@ gridfontStyle {
 .orderReceiptTitle {
     text-align: center;
     font-size: 25px;
-    color: #ec008c;
+    color: #d9534f;
     text-shadow: none;
     font-weight: bold;
 }
 
 .more-info-button {
-    height: auto !important;
-    background: #DCDCDC;
+    background-color:blue!important;
     background-repeat: no-repeat;
+    height: 34px;
     border: 0px;
     text-align: center;
-    color: #656565;
+    color: White;
+    width: 175px;
     cursor: pointer;
     font-weight: bold;
-    font-size:1.1em !important;
-    padding:8px 0;
-    width:90%;
-    margin:20px 5% 5px;
-    border-radius: 0 !important;
-    text-transform: none !important;
-    text-shadow: 0 !important;
+    margin-left: 1px;
+    margin-top: 10px;
 }
 
     .more-info-button:hover {
-        background: #666666;
-	color:#FFFFFF;
+        background: #0B750B;
     }
 
 .place-inquiry-button {
-    background: #ec008c;
+    background: #d9534f;
     background-repeat: no-repeat;
     height: 34px;
     border: 0px;
@@ -23383,39 +25466,51 @@ gridfontStyle {
 }
 
 .create-design-button {
-    border: none;
+    height: 34px;
+    border: 0px;
     text-align: center;
     color: White;
-    width: 90%;
+    width: 175px;
     cursor: pointer;
+    text-transform: uppercase;
     font-weight: bold;
-    background-color: #069;
-    border-radius: 0 !important;
-    padding: 8px 0;
-    margin:5px 5%;
+    background-color: #585858;
+    border-color: #585858;
+    padding: 10px 13px;
+    box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
     font-weight: bold;
-    font-size: 1.1em !important;
+    font-size: 13px !important;
+    text-transform: uppercase;
+    text-shadow: 0px 1px 1px #000;
+    margin-left: 1px;
+    margin-top: 10px;
     -webkit-transition: all 200ms ease-out;
     -o-transition: all 200ms ease-out;
     -moz-transition: all 200ms ease-out;
-     font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
 }
 
 .goto-designer-button {
+    height: 34px;
     border: 0px;
     text-align: center;
-    color: #FFFFFF;
-    width: 90%;
-    margin:5px 5%;
+    color: black;
+    width: 175px;
     cursor: pointer;
-    background-color: #ec008c;
-    padding: 8px 0;
+    text-transform: uppercase;
     font-weight: bold;
-    font-size: 1.1em !important;
+    background-color: #ffdd0c;
+    border-color: #ffdd0c;
+    padding: 10px 20px;
+    box-shadow: 0 2px 0 0 rgba(255,255,255,0.3) inset,0 2px 3px rgba(0,0,0,0.3);
+    font-weight: bold;
+    font-size: 13px !important;
+    text-transform: uppercase;
+    text-shadow: 0px 1px 1px #000;
+    margin-left: 1px;
+    margin-top: 10px;
     -webkit-transition: all 200ms ease-out;
     -o-transition: all 200ms ease-out;
     -moz-transition: all 200ms ease-out;
-    border-radius:0 !important;
 }
 
     .goto-designer-button:hover {
@@ -23437,7 +25532,7 @@ gridfontStyle {
 
 .link-sign-up:hover {
     margin-left: 53px;
-    color: #ec008c;
+    color: #d9534f;
 }
 
 .classicLoginCart {
@@ -23445,7 +25540,7 @@ gridfontStyle {
 }
 
 .morelink {
-    color: #ec008c;
+    color: #d9534f;
 }
 
 .SubCatLink {
@@ -23456,7 +25551,7 @@ gridfontStyle {
 }
 
     .SubCatLink:hover {
-        color: #ec008c;
+        color: #d9534f;
     }
 
 .allproducts_col_cat_ul li a {
@@ -23464,14 +25559,14 @@ gridfontStyle {
 }
 
     .allproducts_col_cat_ul li a:hover {
-        color: #ec008c;
+        color: #d9534f;
     }
 
 .BreadCrumbMenu {
     -webkit-user-select: text;
     color: rgb(33, 31, 31);
     display: block;
-    font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
+    font-family: 'Avenir Next LT W01 Bold';
     font-size: 21px;
     font-style: normal;
     font-weight: normal !important;
@@ -23529,693 +25624,3 @@ padding-left:10px;
 }
 
 /***Brownn***/
-
-
-
-
-
-
-/* CUSTOM CSS â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€” */
-
-/* BASE CSS HERE (NO MEDIA QUERIES) â€”â€”â€”â€” */
-
-h1, h2, h3, h4, h5, h6, p, a, label {
-font-family: 'Lato', Calibri, Arial, sans-serif; Trebuchet MS, Arial, Helvetica, sans-serif;
-}
-
-a {
-font-weight:600;
-}
-
-label {
-font-weight:normal;
-}
-
-#tdQty1{
-border-right:1px solid #DDDDDD;
-border-bottom:1px solid #DDDDDD;
-}
-
-#tdPrice1 {
-border-bottom:1px solid #DDDDDD;
-}
-
-#lblStockOpt1 {
-display:none;
-}
-
-.product_detail_image_heading_IRI p {
-	width:100% !important;
-}
-
-
-
-/* FEATURED PRODUCT CSS ------ */
-
-
-.greyWrapper {
-    padding:30px 0;
-	background:#EEEEEE;
-}
-
-.greyWrapper h2 {
-	text-align:left;
-	padding:20px 25px;
-	font-size:2.3em;
-	font-weight:bold;
-	background:#FFFFFF;
-	width:auto;
-	margin-bottom:0;
-	display:inline-block;
-}
-
-
-.heading {
-	border-bottom:4px solid #FFFFFF;
-	margin-bottom:20px;
-	width:100%;
-}
-
-
-.featuredProduct h3 {
-	font-size:1.5em;
-}
-
-.featuredProduct p {
-	font-size:1.1em;
-}
-
-
-/* DESIGN STRIP CSS â€”- */
-
-.whiteWrapper {
-	padding:30px 0;
-	background:#FFFFFF;
-}
-
-
-
-/* WHY CHOOSE US CSS â€”â€” */
-
-
-.blueWrapper {
-	background:#069;
-	padding:30px 0;
-}
-
-.blueWrapper h3 {
-	color:#FFF;
-	text-align:center;
-	font-size:2.7em;
-	padding-bottom:20px;
-}
-
-.carousel-inner>.item>img {
-  width: 100%;
-}
-
-.hidden-xs {
-	display:block !important;
-}
-
-
-/* FOOTER CSS â€”â€”â€”â€” */
-
-
-footer {
-	background:#333333;
-	padding:20px 0;
-	border-top:2px solid #DDDDDD;
-}
-
-.col1 h1, .col2 h1, .col3 h1, .col4 h1 {
-	font-size:1.2em;
-	margin-bottom:10px;
-}
-
-.col1 ul, .col2 ul {
-	padding:0;
-	color:#FFFFFF;
-	list-style-type:none;
-}
-
-.col1 ul li a, .col2 ul li a {
-	color:#FFFFFF;
-}
-
-#catName {
-	padding-bottom:20px !important;
-	margin-bottom:20px !important;
-	line-height:30px !important;
-}
-
-#lbl_ContactInformation {
-line-height: 30px !important;
-    margin-bottom: 20px !important;
-    padding-bottom: 20px !important;
-}
-
-/* LOGIN PAGE CSS â€”â€”â€” */
-
-#cntSocialLink {
-display:none !important;
-
-}
-
-#cntSocialLink {
-display:none !important;
-
-}
-
-/* CHECKOUT CSS â€”â€” */
-
-.cntsubHeadingsAS {
-    float: left;
-    padding-right: 5px;
-    width: auto;
-}
-
-.cnttotalsAS {
-    float: left;
-    width: auto;
-}
-
-#all-OrderConfirm-pg {
-    padding-bottom: 50px;
-}
-
-
-@media (min-width:320px) { /* smartphones, iPhone, portrait 480x320 phones */
-
-
-.topHeaderStrip {
-	background:#555555;
-	border-bottom:2px solid #FFFFFF;
-	padding:10px 0;
-}
-
-.topContact {
-	width:100%;
-	padding:0;
-	margin:0;
-	text-align:center;
-}
-
-.topContact p {
-	margin:0;
-	font-size:1.1em;
-	color:#FFFFFF;
-}
-
-.topButtons {
-	width:100%;
-	padding:0;
-	margin:0;
-	text-align:center;
-}
-
-.topButtons a {
-	background:#FFFFFF;
-	color:#333333;
-	display:inline-block;
-	padding:4px 8px;
-	border-radius:3px;
-	font-size:0.9em;
-	margin-left:5px;
-}
-
-
-
-.featuredProduct {
-	float:left;
-	width:100%;
-	margin:20px auto;
-	background:#FFFFFF;
-	padding-bottom:20px;
-}
-
-.featuredProduct img {
-	width:100%;
-}
-
-.featuredProduct h3, .featuredProduct p, .featuredProduct span {
-	padding:10px 15px;
-	margin:0;
-}
-
-.featuredProduct a {
-	background:#ec008c;
-	color:#FFFFFF;
-	padding:8px 5%;
-	width:90%;
-	display:block;
-	margin:10px 0 0 15px;
-	font-size:1.3em;
-} 
-
-.featuredProduct a:hover {
-	background:#004990;
-	color:#FFFFFF;
-} 
-
-.usp {
-	width:96%;
-	background:#FFF;
-	margin:0;
-	padding:10px 2%;
-	text-align:center;
-	color:#069;
-	margin-bottom:15px;
-}
-
-.usp h3 {
-	color:#069;
-	font-size:1.9em;
-	margin-bottom:3px;
-	line-height:1.2em;
-	margin-top:5px;
-}
-
-.usp img {
-	width:50%;
-	max-width:150px;
-}
-
-.usp p {
-	font-size: 1.1em;
-}
-
-
-
-.twitter, .facebook, .opening {
-	width:96%;
-	padding:10px 2%;
-	margin:0;
-	background:#FFF;
-	text-align:center;
-	height:400px
-}
-
-
-
-/* FOOTER CSS â€”â€”â€”â€” */
-
-
-.col1, .col2, .col3, .col4 {
-	width:100%;
-	padding:0;
-	margin-bottom:10px;
-	color:#FFFFFF;
-}
-
-
-
-}
-
-
-@media (min-width:481px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
-
-.topContact {
-	float:left;
-	width:50%;
-	padding:0;
-	margin:0;
-	text-align:left;
-}
-
-.topButtons {
-	float:right;
-	width:50%;
-	padding:0;
-	margin:0;
-	text-align:right;
-}
-
-
-}
-
-@media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
-
-.featuredProduct {
-	width:48%;
-	margin:20px 1%;
-}
-
-.usp {
-	width:31%;
-	float:left;
-	padding:10px 3%;
-	margin:0 1% 20px 1%;
-}
-
-
-
-.twitter, .facebook, .opening {
-	width:31%;
-	float:left;
-	padding:10px 3%;
-	margin:0 1% 0 1%;
-	text-align:center;
-	height:400px
-}
-
-/* FOOTER CSS â€”â€”â€”â€” */
-
-
-.col1, .col2, .col3, .col4 {
-	width:24%;
-	padding:0;
-	margin-right:1%;
-	float:left;
-	margin-bottom:100px;
-	color:#FFFFFF;
-}
-
-
-
-}
-
-@media (min-width:992px) {
-
-.featuredProduct {
-	width:31%;
-}
-
-
-/* FOOTER CSS â€”â€”â€”â€” */
-
-
-.col1, .col2, .col3, .col4 {
-	width:24%;
-	padding:0;
-	margin-right:1%;
-	float:left;
-	margin-bottom:100px;
-	color:#FFFFFF;
-}
-
-
-
-}
-
-
-
-@media (min-width:1025px) {
-
-.featuredProduct {
-	width:23%;
-	margin:20px 1%;
-}
-
-
-
-
-/* FOOTER CSS â€”â€”â€”â€” */
-
-
-.col1, .col2, .col3, .col4 {
-	width:24%;
-	padding:0;
-	margin-right:1%;
-	float:left;
-	margin-bottom:100px;
-	color:#FFFFFF;
-}
-
-}
-
-/* CUSTOM MENU CSS â€”â€” */
-
-.customHeader {
-width:100%;
-padding:10px 0;
-background-color:#f8f8f8 !important;
-background:#f8f8f8 !important;
-}
-
-.logo {
-float:left;
-width:30%;
-padding:20px 5% 20px 0;
-}
-
-.logo img {
-width:100%;
-}
-
-.mainNav {
-width:65%;
-float:right;
-padding:10px 0;
-}
-
-#nav {
-font-weight: 400;
-}
-
-#nav > a {
-display: none;
-text-decoration:none;
-}
-
-#nav li {
-position: relative;
-}
-
-#nav li a {
-color: #f22e9d;
-display: block;
-text-decoration:none;
-}
-				
-#nav li a:active {
-/* background-color: #FFFFFF !important; */
-}
-
-#nav span:after {
-width: 0;
-height: 0;
-border: 0.313em solid transparent; /* 5 */
-border-bottom: none;
-border-top-color: #cc0080;
-content: '';
-vertical-align: middle;
-display: inline-block;
-position: relative;
-right: -0.313em; /* 5 */
-}
-
-
-/* first level */
-
-#nav > ul {
-height: 3.75em; /* 60 */
-/* background-color: #FFFFFF; */
-list-style:none;
-padding-left:0;
-}
-				
-#nav > ul > li {
-width: auto;
-height: 100%;
-float: left;
-padding:10px 15px;
-}
-					
-#nav > ul > li > a {
-height: 100%;
-font-size: 1.2em; /* 24 */
-line-height: 2.5em; /* 60 (24) */
-text-align: center;
-}
-						
-#nav > ul > li:not( :last-child ) > a {
-/*border-right: 1px solid #cc0080; */
-}
-						
-#nav > ul > li:hover > a, #nav > ul:not( :hover ) > li.active > a {
-/* background-color: #cc0080; */
-color:#777777;
-}
-
-
-/* second level */
-
-#nav li ul {
-background-color: #f22e9d;
-display: none;
-position: absolute;
-top: 100%;
-list-style:none;
-padding-left:0;
-z-index:99999999 !important;
-width:auto;
-min-width:200px;
-}
-					
-#nav li:hover ul {
-display: block;
-left: 0;
-right: 0;
-}
-						
-#nav li:not( :first-child ):hover ul {
-left: -1px;
-}
-						
-#nav li ul a {
-font-size: 1.15em; /* 20 */
-border-top: 1px solid #cc0080;
-color:#FFFFFF;
-padding: 0.75em; /* 15 (20) */
-}
-							
-#nav li ul li a:hover, #nav li ul:not( :hover ) li.active a {
-/*background-color: #069 ; */
-/* color:#777777; */
-}
-
-
-
-@media only screen and ( max-width: 991px )  {
-
-.logo {
-width:100%;
-padding:20px 0 10px 0;
-text-align:center;
-}
-
-.logo img {
-max-width:300px;
-text-align:center;
-margin:0 auto;
-}
-
-.mainNav {
-width:100%;
-padding:10px 0 20px;
-text-align: center;
-}
-
-}
-
-@media only screen and ( max-width: 800px )  {
-
-.logo {
-width:100%;
-padding:20px 0 20px 0;
-}
-
-.mainNav {
-width:100%;
-padding:25px 0;
-}
-
-
-
-#nav {
-  position: relative;
-  top: auto;
-  left: 0;
-  text-align: -moz-center !important;
-  width: auto;
-}
-				
-#nav > a {
-/* width: 3.125em; */
-/* height: 3.125em; */
-text-align: center;
-/* text-indent: -9999px; */
-background-color: #f22e9d;
-position: relative;
-color:#FFFFFF;
-padding:10px;
-font-size:17px;
-border-bottom:3px solid #cc0080;
-width: auto !important;
-}
-					
-// #nav > a:before, #nav > a:after {
-position: absolute;
-border: 2px solid #fff;
-top: 35%;
-left: 25%;
-right: 25%;
-content: '';
-} //
-					
-#nav > a:after {
-top: 60%;
-}
-
-				
-#nav:not( :target ) > a:first-of-type, #nav:target > a:last-of-type {
-display: block;
-}
-
-#nav > ul > li:hover > a, #nav > ul:not( :hover ) > li.active > a {
-color:#FFFFFF;
-}
-
-
-/* first level */
-
-#nav > ul {
-height: auto;
-display: none;
-position: absolute;
-left: 0;
-right: 0;
-z-index:999999;
-background-color:#f22e9d;
-color: #FFFFFF;				
-}
-				
-#nav:target > ul {
-display: block;
-}
-				
-#nav > ul > li {
-width: 100%;
-float: none;
-color: #FFFFFF;				
-}
-					
-#nav > ul > li > a {
-height: auto;
-text-align: left;
-padding: 0 0.833em; /* 20 (24) */
-color:#FFFFFF;
-}
-
-#nav > ul > li > a:hover {
-color:#FFFFFF;
-background-color: transparent !important;
-}
-
-						
-#nav > ul > li:not( :last-child ) > a {
-border-right: none;
-border-bottom: 1px solid #cc0080;
-}
-
-
-				
-/* second level */
-
-				
-#nav li ul {
-position: static; 
-padding: 1.25em; /* 20 */
-padding-top: 0;
-text-align: -webkit-left;
-text-align: -moz-left;
-text-align:left;
-}
-
-#nav li ul li a:hover {
-background-color: transparent !important;
-}
-
-
-}
