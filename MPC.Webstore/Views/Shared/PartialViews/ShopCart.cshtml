@@ -272,17 +272,14 @@
                                 {
                                     <div class="cntsubHeadings">
                                         <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId))</label>
+                                        <label id="lblVoucherDiscPercentageDisplay" class=" LightGrayLabels displayClear" style="display:none;">Discount</label>
                                         <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">Delivery:</label>
                                         <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">@Model.TaxLabel</label>
                                         <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">Total:</label>
-
-
                                     </div>
-
                                     <div class="cnttotals" id="cntRightPricing1">
-
                                         <label id="lblSubTotal" class="Fsize13 colorBlack displayClear">@subtotal</label>
-
+                                        <label id="lblVoucherCodeDiscAmount" class="Fsize13 colorBlack displayClear" style="display:none;">0</label>
                                         <label class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Model.DeliveryCost), ViewBag.Currency)</label>
                                         <label class="Fsize13 colorBlack displayClear">@VatTotal</label>
                                         <label class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(GrossTotal.ToString(), ViewBag.Currency)</label>
@@ -301,7 +298,19 @@
                                     </div>
                                 </div>
                                 <div class="tdDelivery">
+                                    <div class="estimated_dilvery_sec  LightGrayLabels" style="display:none;">
+                                        &nbsp;
+                                    </div>
+                                    <div class="dropdown_sec" style="display:none;">
 
+                                        <div id="pnlVoucherCodes">
+                                            <label id="lblRedeemHeading" class="LightGrayLabels marginLeft marginRight">Voucher codes</label>
+                                            <input type="text" class="text_box115 rounded_corners5" id="txtDiscountVoucherCode" />
+                                            <button id="btnAutoPostBackDiscountVoucherCode" class="btn_blue_back_small rounded_corners5" onclick="ApplyDiscountVouchers();">Apply</button>
+                                            <button id="btnAutoPostBackRemoveVoucherCode" class="btn_blue_back_small_Remove rounded_corners5" style="display:none;">Remove voucher code</button>
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="clearBoth">
@@ -378,7 +387,7 @@
 
     </div>
 </div>
-</div>
+
 <div class="opaqueLayer">
 </div>
 <div id="popupSendProofs" class="popupSendProofs">
@@ -389,7 +398,7 @@
     </label>
     <br />
     <br />
-    <table class="normalTextStyle" width="400px" cellpadding="2">
+    <table class="normalTextStyle" width="400" cellpadding="2">
         <tr>
             <td align="right">
                 <label id="lbl_Email1AddressSendProofs">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Email1AddressSendProofs", UserCookieManager.WBStoreId))</label>
@@ -421,7 +430,7 @@
             </td>
         </tr>
     </table>
-    <p class="proofSuccess" style="display: none;" id="lbl_EmailSentProofMessage" runat="server">
+    <p class="proofSuccess" style="display: none;" id="lbl_EmailSentProofMessage">
         @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_EmailSentProofMessage", UserCookieManager.WBStoreId))
     </p>
 </div>
@@ -430,10 +439,6 @@
         <div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp();>&times;</button><h4 id="popup_Mesaage_Title" class="modal-title">@Html.Raw(Html.GetKeyValueFromResourceFile("popup_Mesaage_Title", UserCookieManager.WBStoreId))</h4></div><div id="popup_Mesaage" class="modal-body">@Html.Raw(Html.GetKeyValueFromResourceFile("popup_Mesaage", UserCookieManager.WBStoreId))<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="submit" class="btn btn-primary" value="Yes" /><input type="button" onclick=HideMessagePopUp(); class="btn btn-primary" value="No"></div></div></div>
     </div>
 </div>
-<label id="lblDesgnHeaderTxt" visible="false"></label>
-<label id="lblProductHeaderTxt" visible="false"></label>
-<label id="lblQuantityHeaderTxt" visible="false"></label>
-<label id="lblPriceHeaderTxt" visible="false"></label>
 <button id="btnYesNO" style="display: none; width: 0px; height: 0px" />
 
 @section scripts
@@ -547,12 +552,7 @@
         }
         function ConfirmDeleteItem(ItemID,OrderID)
         {
-            //$("#RemoveProductDiv1").css("display", "block");
-            //$("hfIsItemID").val(ItemID);
-            //$("hfIsCallFrom").val("Delete");
-            //var html = $("div.RemoveProductDiv").html();
-            //alert(html);
-
+            
             $("#hfItemID").val(ItemID);
             $("#hfIsCallFrom").val("RemoveProduct");
             ConfirmDeleteItemPopUP(ItemID,OrderID);
@@ -564,9 +564,26 @@
             $("#hfItemID").val(ItemID);
             $("#hfIsCallFrom").val("CopyProduct");
 
-            //"/EditDesign/''/" + EditType + "/" + ItemID + "/" + TempID;
             ShowLoader();
 
+
+        }
+
+        function ApplyDiscountVouchers() {
+
+            ShowLoader();
+            
+            var data = { DiscountVoucher: $("#txtDiscountVoucherCode").val() }
+            $.ajax({
+                type: "GET",
+                url: "/webstoreapi/DiscountVoucher/ValidateDiscountVouchers",
+                contentType: "application/json",
+                data: data,
+                async: true,
+                success: function (response) {
+                  
+                }
+            });
 
         }
     </script>

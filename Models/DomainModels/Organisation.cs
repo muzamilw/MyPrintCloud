@@ -195,6 +195,18 @@ namespace MPC.Models.DomainModels
         /// Agile Api Url
         /// </summary>
         public string AgileApiUrl { get; set; }
+       /// <summary>
+       /// Agile Active Flag
+       /// </summary>
+        public bool? isAgileActive { get; set; }
+        /// <summary>
+        /// Trial Flag
+        /// </summary>
+        public bool? isTrial { get; set; }
+        /// <summary>
+        /// Live Stores Count
+        /// </summary>
+        public int? LiveStoresCount { get; set; }
 
         #endregion
         

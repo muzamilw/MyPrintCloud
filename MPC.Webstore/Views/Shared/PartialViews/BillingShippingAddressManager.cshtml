@@ -419,7 +419,7 @@ grid.Column("Default Shipping",format:@<p>
         var data = { AddressId: AddressID }
         $.ajax({
             type: "GET",
-            url: "/webstoreapi/CostCenter/FillAddresses",
+            url: "/webstoreapi/Address/FillAddresses",
             contentType: "application/json",
             data: data,
             async: true,

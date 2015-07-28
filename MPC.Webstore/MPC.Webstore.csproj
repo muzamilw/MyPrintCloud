@@ -356,9 +356,15 @@
     <Compile Include="Areas\DesignerApi\DesignerApiAreaRegistration.cs" />
     <Compile Include="Areas\Designer\Controllers\DesignerController.cs" />
     <Compile Include="Areas\Designer\DesignerAreaRegistration.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\AddressController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\ContactImageUploaderController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\CostCenterController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\DeleteAttachmentController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\DiscountVoucherController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\FileAttachmentsController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\OrderController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\OrganisationCacheController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\RFQController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\StoreCacheController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RealEstateController.cs" />
     <Compile Include="Areas\WebstoreApi\WebstoreApiAreaRegistration.cs" />

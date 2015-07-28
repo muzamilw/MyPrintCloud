@@ -106,9 +106,9 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.GetItemByIdDesigner(ItemId);
         }
-        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID)
+        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, bool isUploadDesignMode = false)
         {
-           // return _ItemRepository.CloneItem(itemID, RefItemID, OrderID, CustomerID, TemplateID, StockID, SelectedAddOnsList, isSavedDesign, isCopyProduct, objContactID,OrganisationID);
+          
             try
             {
                 Template clonedTemplate = null;
@@ -159,6 +159,11 @@ namespace MPC.Implementation.WebStoreServices
                 newItem.DesignerCategoryId = ActualItem.DesignerCategoryId;
 
                 newItem.TemplateType = ActualItem.TemplateType;
+
+                if (isUploadDesignMode == true) 
+                {
+                    newItem.TemplateId = null;
+                }
                 if (isCopyProduct)
                 {
                     newItem.IsOrderedItem = true;
@@ -1943,7 +1948,10 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _videoRepository.GetProductVideos(ItemID);
         }
-      
+        public List<ItemAttachment> GetItemAttactchments(long itemID)
+        {
+            return _itemAtachement.GetItemAttactchments(itemID);
+        }
         #endregion
     }
 }

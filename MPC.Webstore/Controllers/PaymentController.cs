@@ -101,21 +101,21 @@ namespace MPC.Webstore.Controllers
 
                             foreach (Item item in CartItemsList)
                             {
-                                if (item.ItemType == (int)ItemTypes.Delivery)
-                                {
-                                    opaypal.handling_cart = Math.Round(item.Qty1GrossTotal ?? 1.00, 2, MidpointRounding.AwayFromZero).ToString("#.##");
-                                }
-                                else if (item.StatusId == (int)OrderStatus.ShoppingCart)
-                                {
+                                //if (item.ItemType == (int)ItemTypes.Delivery)
+                                //{
+                                //    opaypal.handling_cart = Math.Round(item.Qty1GrossTotal ?? 1.00, 2, MidpointRounding.AwayFromZero).ToString("#.##");
+                                //}
+                                //else if (item.StatusId == (int)OrderStatus.ShoppingCart)
+                                //{
                                     PaypalOrderParameter prodItem = new PaypalOrderParameter
                                     {
                                         ProductName = item.ProductName,
-                                        UnitPrice = Math.Round((item.Qty1GrossTotal ?? 1.00), 2, MidpointRounding.AwayFromZero),
+                                        UnitPrice = Utils.FormatDecimalValueToTwoDecimal(item.Qty1GrossTotal),
                                         TotalQuantity = 1
                                     };
 
                                     itemsList.Add(prodItem);
-                                }
+                                //}
                             }
 
                             opaypal.txtJason = Newtonsoft.Json.JsonConvert.SerializeObject(itemsList);
