@@ -412,7 +412,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             designerCategoryId = ko.observable(specifiedDesignerCategoryId || undefined).extend({
                 required: {
                     onlyIf: function() {
-                        return templateType() === 3;
+                        return templateType() === 3 && isFinishedGoodsUi() === '1';
                     }
                 }
             }),

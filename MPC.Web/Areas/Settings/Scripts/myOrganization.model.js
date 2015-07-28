@@ -53,7 +53,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             taxRegistrationNo = ko.observable(),
              agileApiUrl = ko.observable(),
              agileApiKey = ko.observable(),
-             isAgileActive = ko.observable(),
+             isAgileApiActive = ko.observable(),
             //Markup ID
             markupId = ko.observable().extend({ required: true }),
             //markups In My Organization
@@ -101,7 +101,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                  isImperical: isImperical,
                  agileApiUrl: agileApiUrl,
                  agileApiKey: agileApiKey,
-                 isAgileActive: isAgileActive
+                 isAgileApiActive: isAgileApiActive
 
              }),
              // Has Changes
@@ -142,7 +142,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              isImperical: isImperical,
              agileApiUrl: agileApiUrl,
              agileApiKey: agileApiKey,
-             isAgileActive: isAgileActive,
+             isAgileApiActive: isAgileApiActive,
              errors: errors,
              isValid: isValid,
              dirtyFlag: dirtyFlag,
@@ -339,7 +339,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.isImperical(source.IsImperical);
         companySites.agileApiKey(source.AgileApiKey);
         companySites.agileApiUrl(source.AgileApiUrl);
-        companySites.agileApiUrl(source.isAgileActive);
+        companySites.isAgileApiActive(source.isAgileActive);
         return companySites;
     };
     //Convert Server To Client
@@ -383,7 +383,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.IsImperical = source.isImperical() === undefined ? null : source.isImperical();
         result.AgileApiUrl = source.agileApiUrl() === undefined ? null : source.agileApiUrl();
         result.AgileApiKey = source.agileApiKey() === undefined ? null : source.agileApiKey();
-        result.isAgileActive = source.isAgileActive() === undefined ? null : source.isAgileActive();
+        result.isAgileActive = source.isAgileApiActive() === undefined ? null : source.isAgileApiActive();
         //Markup
         result.Markups = [];
         _.each(source.markupsInMyOrganization(), function (item) {
