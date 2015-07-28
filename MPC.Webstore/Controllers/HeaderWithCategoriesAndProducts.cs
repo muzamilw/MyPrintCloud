@@ -14,7 +14,7 @@ namespace MPC.Webstore.Controllers
         // GET: FutureFormHeader
         private ICompanyService _myCompanyService;
 
-        public ProductCategoriesHeaderController(ICompanyService _myCompanyService)
+        public HeaderWithCategoriesAndProductsController(ICompanyService _myCompanyService)
         {
             this._myCompanyService = _myCompanyService;
         }
