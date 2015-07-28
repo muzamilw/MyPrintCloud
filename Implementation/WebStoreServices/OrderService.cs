@@ -607,5 +607,9 @@ namespace MPC.Implementation.WebStoreServices
        {
            return _OrderRepository.GetOrderByOrderID(OrderId);
        }
+       public List<Item> GetOrderItemsIncludingDelivery(long OrderId, int OrderStatus)
+       {
+           return _OrderRepository.GetOrderItemsIncludingDelivery(OrderId, OrderStatus);
+       }
     }
 }

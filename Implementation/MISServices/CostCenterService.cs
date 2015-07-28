@@ -1214,7 +1214,7 @@ namespace MPC.Implementation.MISServices
         public bool ReCompileAllCostCentres(long OrganisationId)
         {
 
-            Organisation org = _organisationRepository.GetOrganizatiobByID();
+            Organisation org = _organisationRepository.GetOrganizatiobByOrganisationID(OrganisationId);
             string OrganisationName = specialCharactersEncoderCostCentre(org.OrganisationName);
 
             CostCentreTemplate oTemplate = _costCenterRepository.LoadCostCentreTemplate(2);

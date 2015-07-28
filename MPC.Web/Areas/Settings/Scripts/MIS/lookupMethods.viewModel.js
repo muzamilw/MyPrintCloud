@@ -539,7 +539,7 @@
                     }, {
                         success: function (data) {
 
-                            
+                            CurrencySymbol(data.CurrencySymbol);
                             IsSelected(true);
                             if (MachineType == 1)
                             {

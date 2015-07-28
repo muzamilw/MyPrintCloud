@@ -392,8 +392,8 @@ namespace MPC.Repository.Repositories
             List<ProductItem> productItemsList = new List<ProductItem>();
             List<AddOnCostsCenter> allItemsAddOnsList = new List<AddOnCostsCenter>();
 
-            long? StockID = 0;
-            string StockName = null;
+            long? StockOptionID = 0;
+            string StockName = "";
             ProductItem prodItem = null;
 
             orderItemsList.ForEach
@@ -406,12 +406,18 @@ namespace MPC.Repository.Repositories
                             var Section = db.ItemSections.Where(i => i.ItemId == item.ItemId & i.SectionNo == 1).FirstOrDefault();
 
                             if (Section != null)
-                                StockID = Section.StockItemID1;
-                            else
-                                StockID = 0;
-                            StockName = db.ItemStockOptions.Where(i => i.StockId == StockID && i.ItemId == item.RefItemId).Select(o => o.StockLabel).FirstOrDefault();
+                                StockOptionID = Section.StockItemID2;
 
 
+                            if (StockOptionID > 0)
+                            {
+                                ItemStockOption stockOption = db.ItemStockOptions.Where(i => i.ItemStockOptionId == StockOptionID && i.ItemId == item.RefItemId).FirstOrDefault();
+                                if(stockOption != null)
+                                {
+                                     StockName = stockOption.StockLabel;
+                                }
+                            }
+                            
                             prodItem = CreateProductItem(item, StockName);
                             prodItem.Attatchment = this.ExtractAttachment(item);
 
@@ -6951,7 +6957,21 @@ namespace MPC.Repository.Repositories
 
         }
 
-
+        public List<Item> GetOrderItemsIncludingDelivery(long OrderId, int OrderStatus)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                return (from r in db.Items
+                        where r.EstimateId == OrderId && r.IsOrderedItem == true 
+                        
+                        select r).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
 

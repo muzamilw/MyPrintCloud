@@ -176,6 +176,22 @@ div#spinner {
   margin-left: 7px;
   margin-top: 35px;
 }
+.delPhrase {
+  display: none;
+}
+.phraseHover:hover .delPhrase {
+  display: block;
+}
+.graphheaderleft {
+  margin-left: 8px !important;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+.graphheaderright {
+  margin-left: -2px !important;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
 /* For Cost Centre Input Dialog */
 /* Common Styles */
 #productBinding .activeView {
@@ -239,16 +255,6 @@ div#spinner {
 }
 #productBinding .LCLB:hover .productIcons {
   display: block;
-}
-
-.delPhrase
-{
-    display: none;
-}
-
-.phraseHover:hover .delPhrase
-{
-    display: block;
 }
 #productBinding #pressDialog #pressDialogMainContainer {
   width: 838px;
