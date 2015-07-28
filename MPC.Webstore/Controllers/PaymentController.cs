@@ -110,7 +110,7 @@ namespace MPC.Webstore.Controllers
                                     PaypalOrderParameter prodItem = new PaypalOrderParameter
                                     {
                                         ProductName = item.ProductName,
-                                        UnitPrice = Math.Round((item.Qty1GrossTotal ?? 1.00), 2, MidpointRounding.AwayFromZero),
+                                        UnitPrice = Utils.FormatDecimalValueToTwoDecimal(item.Qty1GrossTotal),
                                         TotalQuantity = 1
                                     };
 

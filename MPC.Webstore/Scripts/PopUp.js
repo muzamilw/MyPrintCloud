@@ -1072,76 +1072,9 @@ function ShowReceiptLoader() {
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
 }
-function ConfirmDeleteArtWorkPopUP(AttachmentID, ItemId) {
 
-    var Path = "/ProductOptions/DeleteArtworkAttachment/" + AttachmentID;
-    var Type = "Alert!";
-    var Message = "Are you sure you want to remove this design?"
-    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="submit" class="btn btn-primary" onclick=DeleteArtWork(' + AttachmentID + ',' + ItemId + '); value="Yes" /><button type="button" onclick=HideMessagePopUp(); class="btn btn-primary">No</button></div></div></div>';
 
-    var bws = getBrowserHeight();
-    var shadow = document.getElementById("innerLayer");
-    document.getElementById("layer").style.width = bws.width + "px";
-    document.getElementById("layer").style.height = bws.height + "px";
 
-    var left = 0;
-    var top = parseInt((bws.height - 170) / 2);
-
-    if (bws.width < 640) {
-        document.getElementById("innerLayer").style.width = (bws.width) + "px";
-
-    } else {
-        left = parseInt((bws.width - 500) / 2);
-        document.getElementById("innerLayer").style.width = "500px";
-    }
-    document.getElementById("innerLayer").innerHTML = container;
-
-    document.getElementById("innerLayer").style.top = top + "px";
-    document.getElementById("innerLayer").style.left = left + "px";
-
-    document.getElementById("innerLayer").style.width = "500px";
-    document.getElementById("innerLayer").style.height = "170px";
-    document.getElementById("innerLayer").style.position = "fixed";
-    document.getElementById("innerLayer").style.zIndex = "9999";
-
-    document.getElementById("layer").style.display = "block";
-    document.getElementById("innerLayer").style.display = "block";
-
-    return false;
-}
-
-function DeleteArtWork(AttachmentId, ItemId)
-{
-    ShowLoader();
-    
-    var to;
-    to = "/webstoreapi/DeleteAttachment/DeleteArtworkAttachment?AttachmentId=" + AttachmentId + "&ItemId=" + ItemId;
-    var options = {
-        type: "POST",
-        url: to,
-        data:"",
-        contentType: "application/json",
-        async: true,
-        success: function(response) {
-
-            if (response[0] == "Success") {
-                $("#attachmentUploadContainer").html(response[1]);
-                isImageUploadedOnLandingPage = 1;
-                HideLoader();
-            } else if (response[0] == "NoFiles") {
-                $("#attachmentUploadContainer").html("");
-                isImageUploadedOnLandingPage = 0;
-                HideLoader();
-            }
-
-        },
-        error: function(msg) {
-            alert("Error occured ");
-            console.log(msg);
-        }
-    };
-    var returnText = $.ajax(options).responseText;
-}
 
 function CustomeAlertBoxDesigner(msg,callbackFuncName) {
 

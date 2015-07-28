@@ -81,6 +81,13 @@ namespace MPC.Webstore.Common
             }
         }
 
+        public static double FormatDecimalValueToTwoDecimal(double? valueToFormat)
+        {
+           
+                return Math.Round(Convert.ToDouble(valueToFormat, CultureInfo.CurrentCulture), 2);
+           
+        }
+
         public static DateTime AddBusinessdays(decimal ProductionDays, DateTime StartingDay)
         {
             var sign = ProductionDays < 0 ? -1 : 1;
