@@ -468,6 +468,7 @@ define("machine/machine.viewModel",
                                         if (pagetype == 'press') {
                                             if (data.machine.isSheetFed == true) {
                                                 MachineType(0);
+                                                lookupMethodViewModel.CurrencySymbol(selectedMachine().CurrencySymbol());
                                                 lookupMethodViewModel.SetLookupMethod(data.machine.LookupMethod.MachineClickChargeZones, 1, null);
                                             }
                                             else

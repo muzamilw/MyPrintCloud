@@ -95,11 +95,14 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                     else 
                     {
                         messages.Add("Success");
+                        string ArtworkHtml = "";
                         foreach(var attach in ListOfAttachments)
                         {
-                            messages.Add(attach.FolderPath + attach.FileName);
-                        }
+                            ArtworkHtml = ArtworkHtml + "<div class='LGBC BD_PCS rounded_corners'><div class='DeleteIconPP'><button type='button' class='delete_icon_img' onclick=ConfirmDeleteArtWorkPopUP(" + attach.ItemAttachmentId + ");</button></div><a><div class='PDTC_LP FI_PCS'><img class='full_img_ThumbnailPath_LP' src='/" + attach.FolderPath + "/" + attach.FileName + "Thumb.png' /></div></a><div class='confirm_design LGBC height40_LP '><label>" + attach.FileName + "</label></div></div>";
+                            
 
+                        }
+                        messages.Add(ArtworkHtml);
                         return messages;
                     }
                     

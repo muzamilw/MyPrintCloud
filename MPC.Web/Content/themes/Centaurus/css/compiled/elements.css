@@ -4005,7 +4005,7 @@ input[type="radio"] {
 }
 
 .theme-blue-gradient #header-navbar, #config-tool #skin-colors li a.skin-changer.blue-gradient {
-    background: #3b3b3b !important;
+    background: #2c3e50 !important;
     background: -moz-linear-gradient(top,#3498db 0%,#2980b9 100%);
     background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#3498db),color-stop(100%,#2980b9));
     background: -webkit-linear-gradient(top,#3498db 0%,#2980b9 100%);

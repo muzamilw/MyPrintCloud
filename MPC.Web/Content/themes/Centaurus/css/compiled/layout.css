@@ -69,5 +69,5 @@ position: absolute;
 left: 0;
 padding-left:5px;
 }
-.navbar-nav>li>a:hover{ background-color: #fc813b !important;}
-.navbar-toggle:hover{background-color: #fc813b !important;}
+.navbar-nav>li>a:hover{ background-color: #1a1d22 !important;color: #fc813b !important;}
+.navbar-toggle:hover{background-color: #1a1d22 !important;color: #fc813b !important;}
