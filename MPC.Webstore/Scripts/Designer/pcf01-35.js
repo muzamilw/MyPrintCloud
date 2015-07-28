@@ -177,10 +177,6 @@ function d1ToCanvasCC(src, IW, IH) {
 
 }
 function d1CompanyLogoToCanvas(x, y) {
-    var center = canvas.getCenter();
-
-    var canvasHeight = Math.floor(canvas.height);
-    var canvasWidth = Math.floor(canvas.width);
     var D1NIO = {};
     D1NIO = fabric.util.object.clone(TO[0]);
     D1NIO.ObjectId = --NCI;
@@ -214,9 +210,6 @@ function d1CompanyLogoToCanvas(x, y) {
 
 }
 function d1ContactLogoToCanvas(x, y) {
-    var center = canvas.getCenter();
-    var canvasHeight = Math.floor(canvas.height);
-    var canvasWidth = Math.floor(canvas.width);
     var D1NIO = {};
     D1NIO = fabric.util.object.clone(TO[0]);
     D1NIO.ObjectId = --NCI;
@@ -249,9 +242,6 @@ function d1ContactLogoToCanvas(x, y) {
 }
 
 function d1PlaceHoldToCanvas() {
-    var center = canvas.getCenter();
-    var canvasHeight = Math.floor(canvas.height);
-    var canvasWidth = Math.floor(canvas.width);
     var D1NIO = {};
     D1NIO = fabric.util.object.clone(TO[0]);
     D1NIO.ObjectId = --NCI;
@@ -262,8 +252,8 @@ function d1PlaceHoldToCanvas() {
     D1NIO.ProductPageId = SP;
     D1NIO.MaxWidth = 100;
     D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
-    D1NIO.PositionX = center.left -150;
-    D1NIO.PositionY = center.top -150;
+    D1NIO.PositionX = canvas.getWidth() / 2 - 300;
+    D1NIO.PositionY = canvas.getHeight() / 2 - 300;
     D1NIO.ObjectType = 3;
 
     D1NIO.MaxHeight = 300;
@@ -620,7 +610,7 @@ function f2(c, m, y, k, ColorHex, Sname) {
         } else if (D1AO.type == 'path-group' || D1AO.type == 'path') {
             var orignalClr = "";
             $.each(D1AO.customStyles, function (i, IT) {
-                if (i == selectedPathIndex) {
+                if (IT.PathIndex == selectedPathIndex) {
                     orignalClr = IT.OriginalColor;
                 }
 
@@ -637,7 +627,6 @@ function f2(c, m, y, k, ColorHex, Sname) {
                 var clr = IT.OriginalColor;
                 if (IT.ModifiedColor != "")
                     clr = IT.ModifiedColor;
-
                 if (D1AO.isSameColor && D1AO.isSameColor() || !D1AO.paths) {
                     D1AO.setFill(clr);
                 }

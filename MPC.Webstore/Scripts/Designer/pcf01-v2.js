@@ -10,7 +10,7 @@
     $(".dialog").css("top", ($(window).height() - $(".dialog").height()) / 2 + "px");
     var2 = setInterval((function () {
         var3 += 1;
-        if (var3 <= 95) {
+        if (var3 <= 70) {
             $(".progressValue").css("width", var3 + "%");
         }
 
@@ -745,8 +745,11 @@ function d1Svg(cCanvas, IO, isCenter) {
         d2();
         var colors = [];
         // get colors 
+       
         if (loadedObject.isSameColor && loadedObject.isSameColor() || !loadedObject.paths) {
             clr = (loadedObject.get('fill'));
+            if (loadedObject.paths.length > 1)
+                clr = loadedObject.paths[0].get('fill');
             var objClr = {
                 OriginalColor: clr,
                 PathIndex: -2,
@@ -755,6 +758,7 @@ function d1Svg(cCanvas, IO, isCenter) {
             colors.push(objClr);
         }
         else if (loadedObject.paths) {
+       
             for (var i = 0; i < loadedObject.paths.length; i++) {
                 clr = (loadedObject.paths[i].get('fill'));
                 var objClr = {
@@ -1651,24 +1655,24 @@ function fu02() {
         };
     })(canvas.findTarget);
 
-    canvas.on('object:over', function (e) {
-        if (e.TG.IsQuickText == true && e.TG.type == 'image' && e.TG.getWidth() > 112 && e.TG.getHeight() > 64) {
-            $("#placeHolderTxt").css("visibility", "visible")
-            var width = 51;//$("#placeHolderTxt").width() / 2;
-            var height = 23;// $("#placeHolderTxt").height() / 2;
-            $("#placeHolderTxt").css("left", ($(window).width() / 2 - canvas.getWidth() / 2 + 212 + e.TG.left - width) + "px");
-            $("#placeHolderTxt").css("top", (e.TG.top + 103 - height / 2) + "px");
-        } else {
-            $("#placeHolderTxt").css("visibility", "hidden");
-        }
-    });
+    //canvas.on('object:over', function (e) {
+    //    if (e.TG.IsQuickText == true && e.TG.type == 'image' && e.TG.getWidth() > 112 && e.TG.getHeight() > 64) {
+    //        $("#placeHolderTxt").css("visibility", "visible")
+    //        var width = 51;//$("#placeHolderTxt").width() / 2;
+    //        var height = 23;// $("#placeHolderTxt").height() / 2;
+    //        $("#placeHolderTxt").css("left", ($(window).width() / 2 - canvas.getWidth() / 2 + 212 + e.TG.left - width) + "px");
+    //        $("#placeHolderTxt").css("top", (e.TG.top + 103 - height / 2) + "px");
+    //    } else {
+    //        $("#placeHolderTxt").css("visibility", "hidden");
+    //    }
+    //});
 
-    canvas.on('object:out', function (e) {
-        if (e.TG.IsQuickText == true && e.TG.type == 'image') {
-            $("#placeHolderTxt").css("visibility", "hidden");
-        }
+    //canvas.on('object:out', function (e) {
+    //    if (e.TG.IsQuickText == true && e.TG.type == 'image') {
+    //        $("#placeHolderTxt").css("visibility", "hidden");
+    //    }
 
-    });
+    //});
 
     //    canvas.observe('mouse:down', onMouseDown);
     //    function onMouseDown(e) {
