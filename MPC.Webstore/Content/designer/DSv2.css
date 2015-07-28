@@ -4441,6 +4441,7 @@ h2 + .gallery {
     height: 100%;
     position: absolute;
     z-index: 2003;
+    left:0px;
 }
 
 .static .paletteToolbar li, .static .paletteToolbarCloneItem {

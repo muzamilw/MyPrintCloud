@@ -378,6 +378,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ErrorPage404Controller.cs" />
     <Compile Include="Controllers\FeaturedProductCarousalController.cs" />
+    <Compile Include="Controllers\HeaderWithCategoriesAndProducts.cs" />
     <Compile Include="Controllers\HomePageBannerController.cs" />
     <Compile Include="Controllers\HomePageBannerS4Controller.cs" />
     <Compile Include="Controllers\MetroProductCategoriesController.cs" />
@@ -975,6 +976,7 @@
     <Content Include="Views\Home\NotFound.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Domain\ClearCache.cshtml" />
+    <Content Include="Views\Shared\PartialViews\HeaderWithCategoriesAndProducts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -983,6 +985,7 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
+    <Folder Include="Views\FutureFormHeader\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
