@@ -779,7 +779,7 @@
             return false;
         } else {
             
-            if("@ViewBag.ItemModel.isUploadImage" == "True" && isImageUploadedOnLandingPage == 0 && "@ViewBag.ItemModel.Mode" == "UploadDesign"){
+            if(isImageUploadedOnLandingPage == 0){
                 ShowPopUp("Message", "Please upload your artwork to proceed.");
                 return false;
             }
@@ -1879,5 +1879,6 @@
         }
         displayTotalPrice(TotalItemPrice, ReCalTotalVal);
     }
+       
 </script>
 }
