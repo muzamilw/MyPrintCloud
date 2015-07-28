@@ -6353,8 +6353,9 @@ namespace MPC.Implementation.MISServices
 
                     timelog = organisationRepository.InsertOrganisation(OrganisationId, objExpCorp, objExpRetail, isCorpStore, exportSets, SubDomain, timelog);
 
-                    CostCentre objCostCentre = costCentreRepository.GetFirstCostCentreByOrganisationId(OrganisationId);
-                    CostCentreService.CostCentreDLL(objCostCentre, OrganisationId);
+                   // CostCentre objCostCentre = costCentreRepository.GetFirstCostCentreByOrganisationId(OrganisationId);
+                  //  CostCentreService.CostCentreDLL(objCostCentre, OrganisationId);
+                    CostCentreService.ReCompileAllCostCentres(OrganisationId);
 
                     string StoreName = ConfigurationManager.AppSettings["RetailStoreName"];
                     end = DateTime.Now;
