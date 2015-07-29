@@ -94,7 +94,7 @@ namespace MPC.Webstore.Controllers
 
 
                         List<Item> CartItemsList = _OrderService.GetOrderItemsIncludingDelivery(OrderId, (int)OrderStatus.ShoppingCart);
-                     
+                        double VATTotal = 0;
                         if (CartItemsList != null)
                         {
                             List<PaypalOrderParameter> itemsList = new List<PaypalOrderParameter>();
@@ -103,21 +103,28 @@ namespace MPC.Webstore.Controllers
                             {
                                 //if (item.ItemType == (int)ItemTypes.Delivery)
                                 //{
-                                //    opaypal.handling_cart = Math.Round(item.Qty1GrossTotal ?? 1.00, 2, MidpointRounding.AwayFromZero).ToString("#.##");
+                                //    PaypalOrderParameter prodItem = new PaypalOrderParameter
+                                //    {
+                                //        ProductName = item.ProductName,
+                                //        UnitPrice = Utils.FormatDecimalValueToTwoDecimal(item.Qty1BaseCharge1)
+
+                                //    };
+                                //    VATTotal = Utils.FormatDecimalValueToTwoDecimal(item.Qty1NetTotal);
+                                //    itemsList.Add(prodItem);
                                 //}
                                 //else if (item.StatusId == (int)OrderStatus.ShoppingCart)
                                 //{
                                     PaypalOrderParameter prodItem = new PaypalOrderParameter
                                     {
                                         ProductName = item.ProductName,
-                                        UnitPrice = Math.Round((item.Qty1GrossTotal ?? 1.00), 2, MidpointRounding.AwayFromZero),
+                                        UnitPrice = Utils.FormatDecimalValueToTwoDecimal(item.Qty1BaseCharge1),
                                         TotalQuantity = 1
                                     };
-
+                                    VATTotal = VATTotal + item.Qty1Tax1Value ?? 0;
                                     itemsList.Add(prodItem);
                                 //}
                             }
-
+                            opaypal.handling_cart = VATTotal.ToString("#.##");
                             opaypal.txtJason = Newtonsoft.Json.JsonConvert.SerializeObject(itemsList);
 
                         }

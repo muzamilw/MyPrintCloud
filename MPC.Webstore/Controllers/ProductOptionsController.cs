@@ -386,6 +386,7 @@ namespace MPC.Webstore.Controllers
             if (mode == "Modify")
             {
                 ViewBag.Mode = "Modify";
+                ViewBag.AttachmentCount = 1;
                 if (isTemplateProduct == true)
                 {
                     ViewBag.ShowUploadArkworkPanel = true;

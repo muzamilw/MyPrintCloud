@@ -5474,5 +5474,17 @@ namespace MPC.Repository.Repositories
            
         }
 
+        public void UpdateLiveStores(long organisationId, int storesCount)
+        {
+            List<Company> LiveStores = DbSet.Where(c => c.OrganisationId == organisationId && c.isStoreLive == true).ToList();
+            if (LiveStores.Count() > storesCount)
+            {
+                int ExtraLive = LiveStores.Count() - storesCount;
+                List<Company> StoresToOffline = LiveStores.Take(ExtraLive).ToList();
+                StoresToOffline.ForEach(c => c.isStoreLive = false);
+                SaveChanges();
+            }
+        }
+
     }
 }

@@ -261,7 +261,7 @@
                                                 {
 
                                                     string itemPrice = string.Empty;
-                                                    double vatStateTaxPaid = (prod.Qty1GrossTotal ?? 0) - (prod.Qty1BaseCharge1 ?? 0);
+                                                    double vatStateTaxPaid = prod.Qty1Tax1Value ?? 0;
                                                     _vatTotal += vatStateTaxPaid;
 
                                                     //2.Set item Price Now

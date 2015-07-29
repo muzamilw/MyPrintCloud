@@ -233,7 +233,7 @@
                                             {
 
                                                 string itemPrice = string.Empty;
-                                                double vatStateTaxPaid = (prod.Qty1GrossTotal ?? 0) - (prod.Qty1BaseCharge1 ?? 0);
+                                                double vatStateTaxPaid = prod.Qty1Tax1Value ?? 0;
                                                 _vatTotal += vatStateTaxPaid;
 
                                                 //2.Set item Price Now
@@ -300,12 +300,12 @@
                                     </div>
                                 </div>
                                 <div class="tdDelivery">
-                                    <div class="estimated_dilvery_sec  LightGrayLabels">
+                                    <div class="estimated_dilvery_sec  LightGrayLabels" style="display:none;">
                                         &nbsp;
                                     </div>
-                                    <div class="dropdown_sec">
+                                    <div class="dropdown_sec" style="display:none;">
 
-                                        <div ID="pnlVoucherCodes">
+                                        <div id="pnlVoucherCodes">
                                             <label id="lblRedeemHeading" class="LightGrayLabels marginLeft marginRight">Voucher codes</label>
                                             <input type="text" class="text_box115 rounded_corners5" id="txtDiscountVoucherCode" />
                                             <button id="btnAutoPostBackDiscountVoucherCode" class="btn_blue_back_small rounded_corners5" onclick="ApplyDiscountVouchers();">Apply</button>

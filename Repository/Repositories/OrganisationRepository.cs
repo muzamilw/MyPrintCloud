@@ -3242,5 +3242,16 @@ namespace MPC.Repository.Repositories
             }
 
         }
+
+        public void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial)
+        {
+            Organisation org = GetOrganizatiobByID(organisationId);
+            if (org != null)
+            {
+                org.isTrial = isTrial;
+                org.LiveStoresCount = storesCount;
+            }
+            SaveChanges();
+        }
     }
 }

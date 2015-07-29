@@ -907,7 +907,9 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return itemValue * (percentageValue / 100);
+                double TaxValue = (itemValue * percentageValue / 100);
+                TaxValue = Math.Round(TaxValue, 2, MidpointRounding.AwayFromZero);
+                return TaxValue;
 
             }
             catch (Exception ex)
@@ -2153,26 +2155,26 @@ namespace MPC.Repository.Repositories
                         if (clonedItem.DefaultItemTax != null)
                         {
                             clonedItem.Tax1 = Convert.ToInt32(clonedItem.DefaultItemTax);
-                            double TaxAppliedOnItemTotal = ((itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100); //(itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax) / 100);
-                            double TaxAppliedOnCostCentreTotal = ((addonsPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100);
-                            //itemPrice = itemPrice - (currTax - (currTax * Convert.ToDouble(clonedItem.DefaultItemTax) / 100));
+                            double TaxAppliedOnItemTotal = CalculatePercentage(itemPrice, Convert.ToDouble(clonedItem.DefaultItemTax));// ((itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100); 
 
-                            itemPrice = itemPrice; //- (currTax - Math.Ceiling(((currTax * TaxRate) / 100)));
-                            netTotal = itemPrice + addonsPrice;
+                            double TaxAppliedOnCostCentreTotal = CalculatePercentage(addonsPrice, Convert.ToDouble(clonedItem.DefaultItemTax));// ((addonsPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100);
+                          
+                            itemPrice = itemPrice;
 
-                            netTotal = netTotal + markupRate ?? 0;
+                            netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+
                             grossTotal = netTotal + (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);
                             clonedItem.Qty1Tax1Value = (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);//GetTaxPercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
                         }
                         else
                         {
                             clonedItem.Tax1 = Convert.ToInt32(TaxRate);
-                            double TaxAppliedOnItemTotal = (itemPrice * TaxRate / 100);
-                            double TaxAppliedOnCostCentreTotal = (addonsPrice * TaxRate / 100);
-                            itemPrice = itemPrice;// - (currTax - Math.Ceiling(((currTax * TaxRate) / 100)));
-                            netTotal = itemPrice + addonsPrice;
+                            double TaxAppliedOnItemTotal = CalculatePercentage(itemPrice, TaxRate); //(itemPrice * TaxRate / 100);
+                            double TaxAppliedOnCostCentreTotal = CalculatePercentage(addonsPrice, TaxRate); //(addonsPrice * TaxRate / 100);
+                            itemPrice = itemPrice;
 
-                            netTotal = netTotal + markupRate ?? 0;
+                            netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+                           
                             grossTotal = netTotal + (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);//CalculatePercentage(netTotal, TaxRate);
                             clonedItem.Qty1Tax1Value = TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal;//GetTaxPercentage(netTotal, TaxRate);
                         }
@@ -2180,9 +2182,9 @@ namespace MPC.Repository.Repositories
                     else
                     {
                         clonedItem.Tax1 = Convert.ToInt32(TaxRate);
-                        netTotal = itemPrice + addonsPrice;
 
-                        netTotal = netTotal + markupRate ?? 0;
+                        netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+
                         grossTotal = netTotal + CalculatePercentage(netTotal, TaxRate);
                         clonedItem.Qty1Tax1Value = GetTaxPercentage(netTotal, TaxRate);
                     }
@@ -2857,32 +2859,29 @@ namespace MPC.Repository.Repositories
                             if (isDeliveryTaxable)
                             {
                                 Record.Tax1 = 0;
-                                grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2);
-                                Record.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2);
+                                grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
+                                Record.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
                             }
                             else
                             {
-                                grossTotal = GrossTotalCalculation(netTotal, 0);
-                                Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                                
+                                Record.Qty1Tax1Value = CalculatePercentage(netTotal, 0);
+                                grossTotal = netTotal + Record.Qty1Tax1Value ?? 0; //GrossTotalCalculation(netTotal, 0);
                             }
                         }
                         else
                         {
                             if (isDeliveryTaxable == true)
                             {
-
-                                grossTotal = GrossTotalCalculation(netTotal, TaxRate);
-                                Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
-
+                                Record.Qty1Tax1Value = CalculatePercentage(netTotal, TaxRate); //calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
+                                grossTotal = netTotal + Record.Qty1Tax1Value ?? 0;
                             }
                             else
                             {
-                                grossTotal = GrossTotalCalculation(netTotal, 0);
-                                Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                                Record.Qty1Tax1Value = CalculatePercentage(netTotal, 0);// calculateTaxPercentage(netTotal, 0);
+                                grossTotal = netTotal + Record.Qty1Tax1Value ?? 0;
                             }
-
                         }
-
                     }
                     else
                     {
@@ -2891,14 +2890,14 @@ namespace MPC.Repository.Repositories
                             if (isDeliveryTaxable)
                             {
                                 Record.Tax1 = 0;
-                                grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2);
-                                Record.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2);
+                                grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2,MidpointRounding.AwayFromZero);
+                                Record.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
                             }
                             else
                             {
                                 Record.Tax1 = 0;
-                                grossTotal = GrossTotalCalculation(netTotal, 0);
-                                Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                                Record.Qty1Tax1Value = CalculatePercentage(netTotal, 0);// calculateTaxPercentage(netTotal, 0);
+                                grossTotal = netTotal + Record.Qty1Tax1Value ?? 0;
                             }
                         }
                         else
@@ -2906,14 +2905,14 @@ namespace MPC.Repository.Repositories
                             if (isDeliveryTaxable)
                             {
                                 Record.Tax1 = 0;
-                                grossTotal = GrossTotalCalculation(netTotal, TaxRate);
-                                Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, TaxRate);
+                                Record.Qty1Tax1Value = CalculatePercentage(netTotal, TaxRate); //calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
+                                grossTotal = netTotal + Record.Qty1Tax1Value ?? 0;
                             }
                             else
                             {
                                 Record.Tax1 = 0;
-                                grossTotal = GrossTotalCalculation(netTotal, 0);
-                                Record.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                                Record.Qty1Tax1Value = CalculatePercentage(netTotal, 0);// calculateTaxPercentage(netTotal, 0);
+                                grossTotal = netTotal + Record.Qty1Tax1Value ?? 0;
                             }
                         }
 

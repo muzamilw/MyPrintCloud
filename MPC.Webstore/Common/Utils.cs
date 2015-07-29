@@ -42,7 +42,7 @@ namespace MPC.Webstore.Common
         {
             if (!string.IsNullOrEmpty(valueToFormat))
             {
-                return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat, CultureInfo.CurrentCulture), 2));
+                return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat), 2, MidpointRounding.AwayFromZero)); //Math.Round(, 2));
             }
             else
             {
@@ -73,12 +73,20 @@ namespace MPC.Webstore.Common
         {
             if (!string.IsNullOrEmpty(valueToFormat))
             {
-                return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat, CultureInfo.CurrentCulture), 2));
+                return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat), 2, MidpointRounding.AwayFromZero));
+                //return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat, CultureInfo.CurrentCulture), 2));
             }
             else
             {
                 return "";
             }
+        }
+
+        public static double FormatDecimalValueToTwoDecimal(double? valueToFormat)
+        {
+            return Math.Round(Convert.ToDouble(valueToFormat), 2, MidpointRounding.AwayFromZero);
+           //     return Math.Round(Convert.ToDouble(valueToFormat, CultureInfo.CurrentCulture), 2);
+           
         }
 
         public static DateTime AddBusinessdays(decimal ProductionDays, DateTime StartingDay)
