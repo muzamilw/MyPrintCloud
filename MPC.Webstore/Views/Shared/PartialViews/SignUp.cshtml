@@ -1,6 +1,8 @@
 ﻿@model  MPC.Webstore.Models.RegisterViewModel
 @using MPC.Webstore.Common;
-
+@{
+    Layout = null;
+}
 <div class="container content_area" id="all-signUp-pg">
 
     <div class="row left_right_padding">
@@ -177,7 +179,7 @@
         <br />
     </div>
 </div>
-@section scripts {
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script>
 
         $(document).ready(function () {
@@ -260,4 +262,3 @@
             }
         });
     </script>
-}

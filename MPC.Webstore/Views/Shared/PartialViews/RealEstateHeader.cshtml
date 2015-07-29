@@ -1,5 +1,7 @@
 ﻿@using MPC.Webstore.Common;
-
+@{
+    Layout = null;
+}
 <link href="~/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
 
 <div class="content_area realEstateHeader" style="padding-top: 13px; padding-bottom: 10px;">
@@ -91,9 +93,8 @@
     </div>
 </div>
 
-@section scripts
-{
-    <script>
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript">
         $(document).ready(function () {
             $(".DropDown").hide();
             $(".HeaderBarLeft-ChildDiv").hover(function () {
@@ -116,4 +117,3 @@
             });
         });
     </script>
-}

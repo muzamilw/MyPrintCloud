@@ -5,7 +5,7 @@
 @using MPC.Webstore.ViewModels;
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml"; ;
+  
     string EstimateDispatchTime = string.Empty;
     double _priceTotal = 0;
     double _vatTotal = 0;
@@ -19,7 +19,9 @@
     string subtotal = string.Empty;
     var ThumnbString = "Thumb.png";
 }
-
+@{
+    Layout = null;
+}
 <div class="container content_area" id="all-shopCart-pg">
     <div class="left_right_padding">
         <div class="signin_heading_div textAlignLeft col-lg-12 col-md-12 col-xs-12" style="padding-bottom: 0px !important;">
@@ -441,10 +443,10 @@
 </div>
 <button id="btnYesNO" style="display: none; width: 0px; height: 0px" />
 
-@section scripts
-{
+
+     <script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script src="~/Scripts/PopUp.js"></script>
-    <script>
+    <script type="text/javascript">
         function EmailProofClick() {
             if ($('#hfIsUserLoggedIn.ClientID').val() == "true") {
 
@@ -572,8 +574,10 @@
         function ApplyDiscountVouchers() {
 
             ShowLoader();
-            
-            var data = { DiscountVoucher: $("#txtDiscountVoucherCode").val() }
+            var txtDiscountVoucher = $("#txtDiscountVoucherCode").val();
+            var storeId = @UserCookieManager.WBStoreId;
+            console.log(txtDiscountVoucher + ""  +  storeId);
+            var data = { DiscountVoucher: txtDiscountVoucher, StoreId:storeId };
             $.ajax({
                 type: "GET",
                 url: "/webstoreapi/DiscountVoucher/ValidateDiscountVouchers",
@@ -587,4 +591,4 @@
 
         }
     </script>
-}
+

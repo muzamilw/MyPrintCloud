@@ -1,4 +1,7 @@
 ﻿@using MPC.Webstore.Common;
+@{
+    Layout = null;
+}
 <div class="container content_area" id="all-dashboard-pg">
     <div class="row left_right_padding">
         <div class="center_align col-md-12 col-lg-12 col-xs-12">
@@ -112,11 +115,11 @@
     <input type="hidden" id="hfErrorMes" value="@ViewBag.ErrorMes" />
 }
 
-@section scripts
-{
+
+
 
     <script src="~/Scripts/PopUp.js"></script>
-
+    <script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -294,4 +297,3 @@
             window.location.href = "/Dashboard/ResetPassword/" + CurrentPass + "/" + passwordnew;
         }
     </script>
-}
