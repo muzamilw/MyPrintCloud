@@ -477,7 +477,7 @@ namespace MPC.Repository.Repositories
                 Qty1MarkUpPercentageValue = tblItem.Qty1MarkUpPercentageValue,
                 Qty1MarkUp1Value = tblItem.Qty1MarkUp1Value,
                 Qty1NetTotal = tblItem.Qty1NetTotal,
-                Qty1Tax1Value = Math.Round(Convert.ToDouble(tblItem.Qty1Tax1Value, CultureInfo.CurrentCulture), 2),
+                Qty1Tax1Value = tblItem.Qty1Tax1Value,
                 Qty1Tax2Value = tblItem.Qty1Tax2Value,
                 Qty1Tax3Value = tblItem.Qty1Tax3Value,
                 Qty1GrossTotal = tblItem.Qty1GrossTotal,
