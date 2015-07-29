@@ -203,18 +203,27 @@ namespace MPC.Webstore.Controllers
                 ViewBag.ShowUploadArkworkPanel = true;
                 OrderID = UserCookieManager.WEBOrderId;
                 clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
-                BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), Convert.ToInt32(clonedItem.DesignerCategoryId), clonedItem.ProductName);
-                referenceItemId = clonedItem.RefItemId ?? 0;
-                if (clonedItem.ItemSections != null)
+                if(clonedItem != null)
                 {
-                    if (clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 != null && clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 > 0)
+                    if(OrderID == 0)
                     {
-                        ViewBag.SelectedStockItemId = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID2;
-                        ViewBag.SelectedQuantity = clonedItem.Qty1;
+                        OrderID = clonedItem.EstimateId ?? 0;
+                        UserCookieManager.WEBOrderId = clonedItem.EstimateId ?? 0;
+                    }
+                    BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), Convert.ToInt32(clonedItem.DesignerCategoryId), clonedItem.ProductName);
+                    referenceItemId = clonedItem.RefItemId ?? 0;
+                    if (clonedItem.ItemSections != null)
+                    {
+                        if (clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 != null && clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 > 0)
+                        {
+                            ViewBag.SelectedStockItemId = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID2;
+                            ViewBag.SelectedQuantity = clonedItem.Qty1;
+
+                        }
 
                     }
-
                 }
+              
             }
 
             ViewBag.ClonedItemId = clonedItem.ItemId;
