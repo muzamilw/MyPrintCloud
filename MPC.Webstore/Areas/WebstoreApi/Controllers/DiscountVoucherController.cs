@@ -1,4 +1,5 @@
 ﻿using MPC.Interfaces.WebStoreServices;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,11 +24,15 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
            
         }
         #endregion
-        //[System.Web.Http.AcceptVerbs("GET", "POST")]
-        //[System.Web.Http.HttpGet]
-        //public HttpResponseMessage ValidateDiscountVouchers(string DiscountVoucher)
-        //{
-           
-        //}
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage ValidateDiscountVouchers(string DiscountVoucher, long StoreId)
+        {
+
+            JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
+
+            return Request.CreateResponse(HttpStatusCode.OK, "");
+        }
     }
 }
