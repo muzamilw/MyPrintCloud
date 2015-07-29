@@ -2996,7 +2996,7 @@ namespace MPC.Repository.Repositories
                                 if (TaxRate != null && TaxRate > 0)
                                 {
                                     newItem.Qty1Tax1Value = CalculatePercentage(netTotal, TaxRate); //calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
-                                    grossTotal = netTotal + Record.Qty1Tax1Value ?? 0;
+                                    grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0;
                                 }
                                 else
                                 {
@@ -3033,7 +3033,7 @@ namespace MPC.Repository.Repositories
                             if (isDeliveryTaxable)
                             {
                                 newItem.Qty1Tax1Value = CalculatePercentage(netTotal, TaxRate); //calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
-                                grossTotal = netTotal + Record.Qty1Tax1Value ?? 0;
+                                grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0;
                                 
                             }
                             else
