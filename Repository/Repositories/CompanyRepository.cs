@@ -228,6 +228,7 @@ namespace MPC.Repository.Repositories
                         c.IsDisplayDiscountVoucherCode,
                         c.PriceFlagId,
                         c.StoreId,
+                        c.isStoreLive,
                         RaveReviews = c.RaveReviews.OrderBy(r => r.SortOrder).ToList(),
                         CmsPages = c.CmsPages.Where(page => page.isUserDefined == true).Take(5).Select(cms => new
                         {
@@ -357,6 +358,7 @@ namespace MPC.Repository.Repositories
                         PriceFlagId = c.PriceFlagId,
                         TaxRate = c.TaxRate,
                         StoreId = c.StoreId,
+                        isStoreLive = c.isStoreLive,
                         CmsPages = c.CmsPages.Select(cms => new CmsPage
                         {
                             PageId = cms.PageId,
