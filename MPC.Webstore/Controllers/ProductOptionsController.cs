@@ -223,7 +223,7 @@ namespace MPC.Webstore.Controllers
 
                     }
                 }
-              
+
             }
 
             ViewBag.ClonedItemId = clonedItem.ItemId;
@@ -384,9 +384,9 @@ namespace MPC.Webstore.Controllers
                 ViewData["stockControlItems"] = null;
             }
 
-            
 
-           
+
+
 
             List<AddOnCostsCenter> listOfCostCentres = _myItemService.GetStockOptionCostCentres(Convert.ToInt64(ReferenceItemId), UserCookieManager.WBStoreId);
 
@@ -414,7 +414,7 @@ namespace MPC.Webstore.Controllers
             else
             {
                 ViewBag.Mode = "";
-         
+
                 if (mode == "UploadDesign")
                 {
                     if (referenceItem.IsUploadImage == true)
@@ -689,12 +689,12 @@ namespace MPC.Webstore.Controllers
             ItemModel.File4 = referenceItem.File4;
             ItemModel.GridImage = referenceItem.GridImage;
             ItemModel.IsQtyRanged = referenceItem.IsQtyRanged ?? false;
-            
+
             ItemModel.ItemPriceMatrices = referenceItem.ItemPriceMatrices.ToList();
             ItemModel.ProductName = referenceItem.ProductName;
             ItemModel.WebDescription = referenceItem.WebDescription;
             ItemModel.ItemId = referenceItem.ItemId;
-            if(ViewData["Templates"] == null)
+            if (ViewData["Templates"] == null)
             {
                 ItemModel.isUploadImage = referenceItem.IsUploadImage == true ? 1 : 0;
             }
@@ -702,7 +702,7 @@ namespace MPC.Webstore.Controllers
             {
                 ItemModel.isUploadImage = 0;
             }
-            
+
             if (!string.IsNullOrEmpty(ItemModel.File1))
             {
                 string FileExtension = System.IO.Path.GetExtension(ItemModel.File1);
