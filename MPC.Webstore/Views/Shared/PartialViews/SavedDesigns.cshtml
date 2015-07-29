@@ -2,6 +2,9 @@
 @{ 
     string thumbname = "Thumb.png";
 }
+@{
+    Layout = null;
+}
 <div id="controlBodyDiv" >
     <div class="container content_area" id="all-SavedDesign-pg">
         <div class="left_right_padding">
@@ -70,8 +73,8 @@
         </div>
     </div>
 </div>
-@section scripts
-{
+
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
 
     <script type="text/javascript">
         function ReOrderSaveDesign(ItemID)
@@ -79,4 +82,3 @@
             window.location.href = "/ReOrder/" + ItemID;
         }
     </script>
-}

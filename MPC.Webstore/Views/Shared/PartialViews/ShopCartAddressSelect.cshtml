@@ -3,7 +3,9 @@
 @using MPC.Models.Common;
 @using MPC.Webstore.Common;
 @using MPC.Models.DomainModels;
-
+@{
+    Layout = null;
+}
 @{
     List<AddOnCostsCenter> AddsOnList = Model.SelectedItemsAddonsList;
     string addson = string.Empty;
@@ -720,8 +722,7 @@
 </div>
 
 
-@section scripts
-{
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script type="text/javascript" language="javascript">
 
 
@@ -1471,6 +1472,6 @@
             }
         }
     </script>
-}
+
 
 

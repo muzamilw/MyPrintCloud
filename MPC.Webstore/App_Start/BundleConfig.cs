@@ -8,6 +8,7 @@ namespace MPC.Webstore
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-1.10.2.js",
                         "~/Scripts/jquery-ui.min.js"));
@@ -46,18 +47,20 @@ namespace MPC.Webstore
                       "~/Scripts/respond.js",
                       "~/Scripts/bootstrap-datepicker.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/fancyBox").Include(
-                   "~/LightBox/Js/jquery-1.10.1.min.js", "~/LightBox/Js/jquery.fancybox.pack.js", "~/LightBox/Js/jquery.fancybox.js"));
-
             
-
             bundles.Add(new ScriptBundle("~/bundles/modalEffects").Include(
                      "~/Scripts/modalEffects.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/fancyBox").Include(
+                "~/LightBox/Js/jquery-1.10.1.min.js", "~/LightBox/Js/jquery.fancybox.pack.js", "~/LightBox/Js/jquery.fancybox.js"));
+            
             bundles.Add(new ScriptBundle("~/pageSpecific"));
+
+           
+
 
             bundles.Add(new StyleBundle("~/Content/CSS").Include(
                       "~/Content/bootstrap.min.css"
-
                       ));
 
             bundles.Add(new StyleBundle("~/Content/jquery.rating").Include(
@@ -76,9 +79,7 @@ namespace MPC.Webstore
                       ));
          
             
-            bundles.Add(new StyleBundle("~/Content/LightBoxcss").Include(
-                    "~/LightBox/Css/jquery.fancybox.css"
-                    ));
+          
               //bundles.Add(new ScriptBundle("~/bundles/LightBox").Include("~/LightBox1/Js/jquery.js", "~/LightBox1/Js/jquery.lightbox-0.5.js", "~/LightBox1/Js/jquery.lightbox-0.5.min.js", "~/LightBox1/Js/jquery.lightbox-0.5.pack.js", "~/LightBox1/Js/viewport.js"));
 
             //bundles.Add(new ScriptBundle("~/bundles/LightBox").Include("~/LightBox/Js/jquery-1.10.1.min.js", "~/LightBox/Js/jquery.fancybox.js", "~/LightBox/Js/jquery.fancybox-thumbs.js", "~/LightBox1/Js/jquery.fancybox-media.js", "~/LightBox1/Js/jquery.fancybox-buttons.js"));

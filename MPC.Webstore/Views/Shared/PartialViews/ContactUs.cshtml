@@ -1,5 +1,8 @@
 ﻿@model MPC.Webstore.Models.ContactViewModel
 @using MPC.Webstore.Common;
+@{
+    Layout = null;
+}
 <div class="container content_area" style="clear:right;" id="all-contactus-pg">
     <div class="left_right_padding">
         <div class="contact_us_heading">
@@ -176,7 +179,7 @@
 
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 @Html.Raw(ViewBag.googleMapScript)
-<script>
+<script type="text/javascript">
     var geocoder;
     var map;
     function initialize() {

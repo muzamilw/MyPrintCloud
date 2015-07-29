@@ -4,12 +4,14 @@
 @using System;
 @using System.Globalization;
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
     int StockCount = 1;
     int PriceBackgroundCount = 0;
     string priceMatrixBackground = "";
     string imagePath = "Thumb.png";
  
+}
+@{
+    Layout = null;
 }
 <script src="~/Scripts/Designer/p55.js"></script>
 <script src="~/Scripts/Designer/p55-ease.js"></script>
@@ -711,7 +713,7 @@
     <div class="clearBoth">&nbsp;</div>
 
 </div>
-@section scripts {
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script src="~/Scripts/PopUp.js"></script>
     <script>
 
@@ -1916,4 +1918,3 @@
             var returnText = $.ajax(options).responseText;
         }
 </script>
-}
