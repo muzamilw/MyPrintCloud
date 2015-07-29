@@ -1,7 +1,9 @@
-﻿    @using MPC.Webstore.Common;
+﻿@using MPC.Webstore.Common;
 @using MPC.Models.Common;
 @model MPC.Models.DomainModels.RequestQuote
-
+@{
+    Layout = null;
+}
 @using (Html.BeginForm())
 {
 
@@ -353,10 +355,9 @@
 
 }
 
-@section scripts{
 
-<script>
-
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+<script type="text/javascript">
 
     //$(document).ready(function () {
 
@@ -364,10 +365,7 @@
         $("#txtInquiryDate2").datepicker();
         $("#txtInquiryDate3").datepicker();
         $("#AddNewInquiryItemList").click(function () {
-
-
             AddNew();
-
         });
         $("#Remove2").click(function () {
 
@@ -654,7 +652,7 @@
         $.ajax({
             type: "POST",
             @*"/api/AttachmentUploader/" + url + "/" + FileName + "/" + @ViewBag.ClonedItem.ItemId + "/" + @ViewBag.Order.ContactId + "/" + @ViewBag.Order.CompanyId,*@
-            url: "/WebstoreApi/CostCenter/UpdateDataRequestQuote?FirstName=" + FirstName + "&LastName=" + LastName + "&Email=" + Email + "&Mobile=" + Mobile + "&Title=" + Title + "&InquiryItemTitle1= " + InquiryItemTitle1 + "" + "&InquiryItemNotes1=" + InquiryItemNotes1 + "&InquiryItemDeliveryDate1=" + InquiryItemDeliveryDate1 + "&InquiryItemTitle2=" + InquiryItemTitle2 + "&InquiryItemNotes2=" + InquiryItemNotes2 + "&InquiryItemDeliveryDate2=" + InquiryItemDeliveryDate2 + "&InquiryItemTitle3=" + InquiryItemTitle3 + "&InquiryItemNotes3=" + InquiryItemNotes3 + "&InquiryItemDeliveryDate3=" + InquiryItemDeliveryDate3 + "&hfNoOfRec=" + hfNoOfRec + "",
+            url: "/WebstoreApi/RFQ/UpdateDataRequestQuote?FirstName=" + FirstName + "&LastName=" + LastName + "&Email=" + Email + "&Mobile=" + Mobile + "&Title=" + Title + "&InquiryItemTitle1= " + InquiryItemTitle1 + "" + "&InquiryItemNotes1=" + InquiryItemNotes1 + "&InquiryItemDeliveryDate1=" + InquiryItemDeliveryDate1 + "&InquiryItemTitle2=" + InquiryItemTitle2 + "&InquiryItemNotes2=" + InquiryItemNotes2 + "&InquiryItemDeliveryDate2=" + InquiryItemDeliveryDate2 + "&InquiryItemTitle3=" + InquiryItemTitle3 + "&InquiryItemNotes3=" + InquiryItemNotes3 + "&InquiryItemDeliveryDate3=" + InquiryItemDeliveryDate3 + "&hfNoOfRec=" + hfNoOfRec + "",
             contentType: false,
             data: data,
             async: true,
@@ -698,4 +696,3 @@
         window.location.href = "/";
     }
 </script>
-}

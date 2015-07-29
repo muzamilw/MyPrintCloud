@@ -2,6 +2,9 @@
 @using MPC.Webstore.WebGridExtension;
 @using MPC.Models.Common;
 @{
+    Layout = null;
+}
+@{
     var grid = new WebGrid(source: ViewBag.Address, canPage: true,canSort:false, rowsPerPage: 13);
 
     grid.Pager(WebGridPagerModes.NextPrevious);
@@ -321,15 +324,14 @@ grid.Column("Default Shipping",format:@<p>
         
 </div>
        
-@section scripts
 
-    {
+
+    
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 <link href="@Href("~/Content/NewBootstrapClass.css")" rel="stylesheet" type="text/css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-
 <script type="text/javascript">
 
     var AdRessID;
@@ -419,7 +421,7 @@ grid.Column("Default Shipping",format:@<p>
         var data = { AddressId: AddressID }
         $.ajax({
             type: "GET",
-            url: "/webstoreapi/CostCenter/FillAddresses",
+            url: "/webstoreapi/Address/FillAddresses",
             contentType: "application/json",
             data: data,
             async: true,
@@ -838,5 +840,5 @@ grid.Column("Default Shipping",format:@<p>
     }
 </script>
 
-    } 
+    
 

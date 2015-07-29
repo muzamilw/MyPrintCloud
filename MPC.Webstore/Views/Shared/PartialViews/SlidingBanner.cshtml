@@ -1,6 +1,9 @@
 ﻿@{
     int index = 1;
 }
+@{
+    Layout = null;
+}
 @model List<MPC.Models.DomainModels.CompanyBanner>
 
 
@@ -19,13 +22,13 @@
                 if (index == 1)
                 {
                 <div class="item text-center active">
-                    <img id="banner1Img" src="@banner.ImageURL" alt="Banner 1" title="Banner 1" /><div class="carousel-caption" style=""></div>
+                    <a href="@banner.ItemURL"> <img id="banner1Img" src="@banner.ImageURL" alt="Banner 1" title="Banner 1" /></a><div class="carousel-caption" style=""></div>
                 </div>
                 }
                 else
                 {
                 <div class="item text-center">
-                    <img id="banner1Img" src="@banner.ImageURL" alt="Banner 1" title="Banner 1" /><div class="carousel-caption" style=""></div>
+                    <a href="@banner.ItemURL"> <img id="banner1Img" src="@banner.ImageURL" alt="Banner 1" title="Banner 1" /></a><div class="carousel-caption" style=""></div>
                 </div>
                 }
                 index++;
@@ -40,6 +43,5 @@
         </div>
     </div>
 }
-@section scripts {
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script src="/Scripts/SlidingBanner.js"></script>
-}

@@ -2,6 +2,7 @@
 @using MPC.Webstore.Common;
 @model MPC.Models.DomainModels.Company
 @{
+    Layout = null;
     var ParentCategory = ViewBag.ParentCategory as List<MPC.Models.DomainModels.ProductCategory>;
     var AllChildCategories = ViewBag.AllChildCategories as List<MPC.Models.DomainModels.ProductCategory>;
 }

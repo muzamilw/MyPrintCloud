@@ -98,7 +98,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                         string ArtworkHtml = "";
                         foreach(var attach in ListOfAttachments)
                         {
-                            ArtworkHtml = ArtworkHtml + "<div class='LGBC BD_PCS rounded_corners'><div class='DeleteIconPP'><button type='button' class='delete_icon_img' onclick=ConfirmDeleteArtWorkPopUP(" + attach.ItemAttachmentId + ");</button></div><a><div class='PDTC_LP FI_PCS'><img class='full_img_ThumbnailPath_LP' src='/" + attach.FolderPath + "/" + attach.FileName + "Thumb.png' /></div></a><div class='confirm_design LGBC height40_LP '><label>" + attach.FileName + "</label></div></div>";
+                            ArtworkHtml = ArtworkHtml + "<div class='LGBC BD_PCS rounded_corners'><div class='DeleteIconPP'><button type='button' class='delete_icon_img' onclick='ConfirmDeleteArtWorkPopUP(" + attach.ItemAttachmentId + "," + attach.ItemId + ");'</button></div><a><div class='PDTC_LP FI_PCS'><img class='full_img_ThumbnailPath_LP' src='/" + attach.FolderPath + "/" + attach.FileName + "Thumb.png' /></div></a><div class='confirm_design LGBC height40_LP '><label>" + attach.FileName + "</label></div></div>";
                             
 
                         }

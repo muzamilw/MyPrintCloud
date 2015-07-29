@@ -4,6 +4,9 @@
 @using MPC.Models.Common;
 @using MPC.Webstore.Common;
 @{
+    Layout = null;
+}
+@{
     string CategoryDescription = "";
     string SkipDesignerPopUp = "";
 }
@@ -484,7 +487,7 @@
         </div>
     </div>
 </div>
-@section scripts {
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
 <script src="~/Scripts/PopUp.js"></script>
 <script>
     var tID = 0;
@@ -627,4 +630,3 @@
 
     }
 </script>
-}

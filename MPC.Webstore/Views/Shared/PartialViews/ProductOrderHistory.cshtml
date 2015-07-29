@@ -4,22 +4,15 @@
 @using MPC.Webstore.Common;
 @using MPC.Models.Common;
 @{
-
-
-    var grid = new WebGrid(source: ViewBag.OrderList, canSort: false, rowsPerPage: 15);
-
-    grid.Pager(WebGridPagerModes.NextPrevious);
+    Layout = null;
 }
+
 @{
-
+    var grid = new WebGrid(source: ViewBag.OrderList, canSort: false, rowsPerPage: 15);
+    grid.Pager(WebGridPagerModes.NextPrevious);
     string Result = ViewBag.res;
-
 }
-@section headerScripts{
 
-<link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
-<link href="/LightBox/Css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="Screen" />
-}
 <div class="content_area container" id="all-orderHistory-pg">
     <div class="left_right_padding">
         <div class="col-md-12 col-lg-12 col-xs-12">
@@ -481,28 +474,26 @@
         </tbody>
     </table>
 </div>
-
-@section scripts{
-<script src="/LightBox/Js/jquery.fancybox-thumbs.js"></script>
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+    <link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
+    <link href="/LightBox/Css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="Screen" />
 <script src="/LightBox/Js/jquery.fancybox.pack.js"></script>
 <script src="/LightBox/Js/jquery.fancybox.js"></script>
-   
+
     <script type="text/javascript">
         //var $=jQuery.noConflict();
-
+        $(".fancybox").fancybox();
         $(document).ready(function () {
 
             $("#txtFromDate").datepicker();
             $("#txtToDate").datepicker();
-            $(".fancybox").fancybox();
+           
         });
-
 
         function ClearTextBoxes() {
             $("#txtFromDate").val("");
             $("#txtToDate").val("");
             $("#txtOrderRefrence").val("");
-
         }
         function ReOrder(orderId) {
             ShowLoader();
@@ -553,7 +544,7 @@
             ShowLoader();
             $.ajax({
                 type: "GET",
-                url: "/webstoreapi/CostCenter/GetData",
+                url: "/webstoreapi/Order/GetData",
                 contentType: "application/json",
                 data: { orderID: orderId },
                 async: true,
@@ -603,7 +594,7 @@
                     $("#DeliveryAddressName").text(response.shippingAddress.AddressName);
 
                     if (response.shippingAddress.Address1 == null) {
-                        $("#Delive  ryAddressline1").text('');
+                        $("#DeliveryAddressline1").text('');
                     }
                     else {
                         $("#DeliveryAddressline1").text(response.shippingAddress.Address1);
@@ -671,5 +662,4 @@
             document.cookie = name + "=" + value + expires + "; path=/";
         }
     </script>
-}
-
+  

@@ -2,6 +2,9 @@
 @using System.Text.RegularExpressions
 @model List<MPC.Models.DomainModels.Item>
 @{
+    Layout = null;
+}
+@{
     var loopcount = 0;
     var productsCount = ViewBag.ProductsCount;
     var featuredList = Model as List<MPC.Models.DomainModels.Item>;
@@ -282,6 +285,6 @@
     </div>
 
 </div>
-@section scripts {
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script src="/Scripts/bootstrap.min.js"></script>
-}
+
