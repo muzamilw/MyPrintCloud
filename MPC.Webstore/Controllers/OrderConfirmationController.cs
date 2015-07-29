@@ -310,7 +310,7 @@ namespace MPC.Webstore.Controllers
                             {
                                 case 1: //PayPal
                                     {
-                                        Response.Redirect("SignupPaypal/" + OrderId);
+                                        Response.Redirect("/SignupPaypal/" + OrderId);
                                         break;
                                     }
 

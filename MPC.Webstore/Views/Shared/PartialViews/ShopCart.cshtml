@@ -574,8 +574,10 @@
         function ApplyDiscountVouchers() {
 
             ShowLoader();
-            
-            var data = { DiscountVoucher: $("#txtDiscountVoucherCode").val() }
+            var txtDiscountVoucher = $("#txtDiscountVoucherCode").val();
+            var storeId = @UserCookieManager.WBStoreId;
+            console.log(txtDiscountVoucher + ""  +  storeId);
+            var data = { DiscountVoucher: txtDiscountVoucher, StoreId:storeId };
             $.ajax({
                 type: "GET",
                 url: "/webstoreapi/DiscountVoucher/ValidateDiscountVouchers",

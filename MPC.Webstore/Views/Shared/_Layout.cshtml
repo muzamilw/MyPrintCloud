@@ -77,14 +77,14 @@
             function checkImg(img) {
                 if (img.naturalHeight <= 1 && img.naturalWidth <= 1) {
                     // undersize image here
-                    img.src = "upload/no-img.jpeg";
+                    img.src = "/Content/Images/notFound.svg";
                 }
             }
 
             $("img").each(function () {
                 // if image already loaded, we can check it's height now
                 if (this.complete) {
-                    checkImg(this);
+                    //checkImg(this);
                 } else {
                     // if not loaded yet, then set load and error handlers
                     $(this).load(function () {
