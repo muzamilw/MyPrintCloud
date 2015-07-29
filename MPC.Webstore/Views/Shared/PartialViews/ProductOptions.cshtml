@@ -724,6 +724,7 @@
     var isImageUploadedOnLandingPage = 0;
     $(document).ready(function() {
 
+        isImageUploadedOnLandingPage = @ViewBag.AttachmentCount;
 
         $('input:radio[name=StockPaper]:checked').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
         $('input:radio[name=StockPaper]:checked').next().css("background-color", "white");
@@ -750,7 +751,6 @@
 
         SetCostCentreQueueLabelsOnModify();
 
-        isImageUploadedOnLandingPage = @ViewBag.AttachmentCount;
     });
 
     $("#priceToggle").click(function() {
@@ -778,11 +778,15 @@
             ShowPopUp("Message", "Please check your details to proceed.");
             return false;
         } else {
-            
-            if(isImageUploadedOnLandingPage == 0){
-                ShowPopUp("Message", "Please upload your artwork to proceed.");
-                return false;
+            console.log(@ViewBag.ItemModel.isUploadImage);
+            console.log(isImageUploadedOnLandingPage);
+            if(@ViewBag.ItemModel.isUploadImage == 1){
+                if(isImageUploadedOnLandingPage == 0){
+                    ShowPopUp("Message", "Please upload your artwork to proceed.");
+                    return false;
+                }
             }
+
             var noRefiningOptSelected = 1;
             if(mandatoryRefiningOptIds != ""){
                 var ListOfOptnToCheck = mandatoryRefiningOptIds.split(',');
@@ -1879,6 +1883,37 @@
         }
         displayTotalPrice(TotalItemPrice, ReCalTotalVal);
     }
-       
+
+        function DeleteArtWork(AttachmentId, ItemId) {
+            ShowLoader();
+
+            var to;
+            to = "/webstoreapi/DeleteAttachment/DeleteArtworkAttachment?AttachmentId=" + AttachmentId + "&ItemId=" + ItemId;
+            var options = {
+                type: "POST",
+                url: to,
+                data: "",
+                contentType: "application/json",
+                async: true,
+                success: function (response) {
+
+                    if (response[0] == "Success") {
+                        $("#attachmentUploadContainer").html(response[1]);
+                        isImageUploadedOnLandingPage = 1;
+                        HideLoader();
+                    } else if (response[0] == "NoFiles") {
+                        $("#attachmentUploadContainer").html("");
+                        isImageUploadedOnLandingPage = 0;
+                        HideLoader();
+                    }
+
+                },
+                error: function (msg) {
+                    alert("Error occured ");
+                    console.log(msg);
+                }
+            };
+            var returnText = $.ajax(options).responseText;
+        }
 </script>
 }

@@ -35,7 +35,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             _ItemService.DeleteItemAttachment(AttachmentId);
 
             List<ItemAttachment> ListOfAttachments = _ItemService.GetItemAttactchments(ItemId);
-            if (ListOfAttachments == null)
+            if (ListOfAttachments == null || ListOfAttachments.Count == 0)
             {
                 messages.Add("NoFiles");
                 JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
