@@ -1,6 +1,10 @@
 ﻿@model List<MPC.Models.DomainModels.CompanyBanner>
 @using MPC.Webstore.Common;
 
+@{
+    Layout = null;
+}
+
 <div class="content_area container bannerContainer">
     <ul class="bxslider">
         @foreach (var banner in Model)

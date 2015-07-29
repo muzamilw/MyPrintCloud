@@ -7,6 +7,7 @@ using MPC.Interfaces.WebStoreServices;
 using MPC.Webstore.Common;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using System.Runtime.Caching;
 
 namespace MPC.Webstore.Controllers
 {
@@ -59,6 +60,7 @@ namespace MPC.Webstore.Controllers
                 lstParentCategories = _myCompanyService.GetStoreParentCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
             }
 
+           
             return PartialView("PartialViews/ProductParentCategories", lstParentCategories);
         }
     }

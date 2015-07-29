@@ -1,7 +1,10 @@
 ﻿@using MPC.Models.Common
 @using MPC.Webstore.Common
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
+}
+@{
+    
     var featureProducts = ViewData["FeaturedProducts"] as List<MPC.Models.DomainModels.Item>;
     var Categories = ViewData["Categories"] as List<MPC.Models.DomainModels.ProductCategory>;
     var childs = ViewData["childCategory"] as List<MPC.Models.DomainModels.ProductCategory>;
@@ -110,8 +113,8 @@
     </div>
 </div>
 
-@section scripts {
-    <script>
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript">
         $(document).ready(function() {
             sideBarClick(0);
         });
@@ -131,4 +134,3 @@
         }
 
     </script>
-}

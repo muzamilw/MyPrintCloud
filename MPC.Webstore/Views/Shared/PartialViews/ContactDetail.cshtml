@@ -3,13 +3,9 @@
 @using MPC.Models.Common;
 @using System;
 @{
-    var bundle = System.Web.Optimization.BundleTable.Bundles.GetRegisteredBundles()
-        .Where(b => b.Path == "~/pageSpecific")
-        .First();
-
-    bundle.Include(
-                   "~/Scripts/jquery.MultiFile.js");
+    Layout = null;
 }
+
 @using (Html.BeginForm())
 {
     <style type="text/css">
@@ -453,7 +449,8 @@
         </div>
     </div>
 }
-@section scripts {
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+<script src="/Scripts/jquery.MultiFile.js"></script>
     <script type="text/javascript">
         var obj=null;
         $(document).ready(function(){
@@ -627,5 +624,5 @@
         }
 
     </script>
-}
+
 
