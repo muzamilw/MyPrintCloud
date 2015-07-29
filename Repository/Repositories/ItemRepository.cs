@@ -2977,15 +2977,16 @@ namespace MPC.Repository.Repositories
                         {
                             if (isDeliveryTaxable)
                             {
-                                grossTotal = ServiceGrossTotalCalculation(netTotal, GetServiceTAX);
-                                newItem.Qty1Tax1Value = ServiceTotalTaxCalculation(netTotal, GetServiceTAX);
+                                
+                                grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
+                                newItem.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
                             }
                             else
                             {
-                                grossTotal = GrossTotalCalculation(netTotal, 0);
-                                newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
-                            }
 
+                                newItem.Qty1Tax1Value = CalculatePercentage(netTotal, 0);// calculateTaxPercentage(netTotal, 0);
+                                grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0;
+                            }
                         }
                         else
                         {
@@ -2994,20 +2995,20 @@ namespace MPC.Repository.Repositories
 
                                 if (TaxRate != null && TaxRate > 0)
                                 {
-                                    grossTotal = GrossTotalCalculation(netTotal, TaxRate);
-                                    newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
+                                    newItem.Qty1Tax1Value = CalculatePercentage(netTotal, TaxRate); //calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
+                                    grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0;
                                 }
                                 else
                                 {
-                                    grossTotal = GrossTotalCalculation(netTotal, 0);
-                                    newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                                    newItem.Qty1Tax1Value = CalculatePercentage(netTotal, 0);
+                                    grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0; 
                                 }
 
                             }
                             else
                             {
-                                grossTotal = GrossTotalCalculation(netTotal, 0);
-                                newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
+                                newItem.Qty1Tax1Value = CalculatePercentage(netTotal, 0);
+                                grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0; 
                             }
                         }
 
@@ -3018,28 +3019,27 @@ namespace MPC.Repository.Repositories
                         {
                             if (isDeliveryTaxable)
                             {
-                                grossTotal = ServiceGrossTotalCalculation(netTotal, GetServiceTAX);
-                                newItem.Qty1Tax1Value = ServiceTotalTaxCalculation(netTotal, GetServiceTAX);
+                                grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
+                                newItem.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
                             }
                             else
                             {
-                                grossTotal = ServiceGrossTotalCalculation(netTotal, 0);
-                                newItem.Qty1Tax1Value = ServiceTotalTaxCalculation(netTotal, 0);
-
+                                newItem.Qty1Tax1Value = CalculatePercentage(netTotal, 0);// calculateTaxPercentage(netTotal, 0);
+                                grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0;
                             }
                         }
                         else
                         {
                             if (isDeliveryTaxable)
                             {
-                                grossTotal = GrossTotalCalculation(netTotal, TaxRate);
-                                newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, (int)TaxRate);
+                                newItem.Qty1Tax1Value = CalculatePercentage(netTotal, TaxRate); //calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
+                                grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0;
+                                
                             }
                             else
                             {
-                                grossTotal = GrossTotalCalculation(netTotal, 0);
-                                newItem.Qty1Tax1Value = calculateTaxPercentage(netTotal, 0);
-
+                                newItem.Qty1Tax1Value = CalculatePercentage(netTotal, 0);
+                                grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0; 
                             }
                         }
 

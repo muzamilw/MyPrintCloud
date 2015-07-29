@@ -666,26 +666,26 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-        public string FormatDecimalValueToTwoDecimal(string valueToFormat)
-        {
-            try
-            {
-                if (!string.IsNullOrEmpty(valueToFormat))
-                {
-                    return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat, CultureInfo.CurrentCulture), 2));
-                }
-                else
-                {
-                    return "";
-                }
+        //public string FormatDecimalValueToTwoDecimal(string valueToFormat)
+        //{
+        //    try
+        //    {
+        //        if (!string.IsNullOrEmpty(valueToFormat))
+        //        {
+        //            return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat, CultureInfo.CurrentCulture), 2));
+        //        }
+        //        else
+        //        {
+        //            return "";
+        //        }
 
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
 
-        }
+        //}
         public double CalculateVATOnPrice(double ActualPrice, double TaxValue)
         {
             try

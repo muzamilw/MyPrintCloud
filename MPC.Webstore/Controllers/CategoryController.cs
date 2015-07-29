@@ -157,11 +157,11 @@ namespace MPC.Webstore.Controllers
                                     {
                                         if (product.DefaultItemTax != null)
                                         {
-                                            Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), Convert.ToDouble(product.DefaultItemTax))));
+                                            Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), Convert.ToDouble(product.DefaultItemTax))));
                                         }
                                         else
                                         {
-                                            Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), TaxRate)));
+                                            Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), TaxRate)));
 
                                         }
 
@@ -170,7 +170,7 @@ namespace MPC.Webstore.Controllers
                                     else
                                     {
 
-                                        Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(matrixlist[0].PricePaperType1.ToString());
+                                        Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(matrixlist[0].PricePaperType1.ToString());
 
                                     }
                                 }
@@ -178,12 +178,12 @@ namespace MPC.Webstore.Controllers
                                 {// corp
                                     if (includeVAT)
                                     {
-                                        Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), TaxRate)));
+                                        Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), TaxRate)));
 
                                     }
                                     else
                                     {
-                                        Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(matrixlist[0].PricePaperType1.ToString());
+                                        Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(matrixlist[0].PricePaperType1.ToString());
 
                                     }
 
@@ -221,16 +221,16 @@ namespace MPC.Webstore.Controllers
                                         {
                                             if (product.DefaultItemTax != null)
                                             {
-                                                Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrix.PricePaperType1), Convert.ToDouble(product.DefaultItemTax))));
+                                                Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrix.PricePaperType1), Convert.ToDouble(product.DefaultItemTax))));
                                             }
                                             else
                                             {
-                                                Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrix.PricePaperType1), TaxRate)));
+                                                Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrix.PricePaperType1), TaxRate)));
                                             }
                                         }
                                         else
                                         {
-                                            Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(matrix.PricePaperType1.ToString());
+                                            Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(matrix.PricePaperType1.ToString());
                                         }
                                     }
                                     else
@@ -238,12 +238,12 @@ namespace MPC.Webstore.Controllers
                                         if (includeVAT)
                                         {
 
-                                            Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrix.PricePaperType1), TaxRate)));
+                                            Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrix.PricePaperType1), TaxRate)));
 
                                         }
                                         else
                                         {
-                                            Price = StoreBaseResopnse.Currency + _myCompanyService.FormatDecimalValueToTwoDecimal(matrix.PricePaperType1.ToString());
+                                            Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(matrix.PricePaperType1.ToString());
 
                                         }
                                     }
