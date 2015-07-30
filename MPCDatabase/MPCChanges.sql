@@ -6342,3 +6342,7 @@ CREATE TABLE [dbo].[CompanyVoucherRedeem](
 ) ON [PRIMARY]
 
 GO
+
+---Executed on Live Servers--------
+alter table Organisation add WebStoreOrdersCount int
+alter table Organisation add MisOrdersCount int

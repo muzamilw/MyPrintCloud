@@ -146,6 +146,7 @@ namespace MPC.MIS.Areas.Api.Models
         public double? TaxRate { get; set; }
 
         public List<ScopeVariable> ScopeVariables { get; set; }
+        public bool? isStoreLive { get; set; }
         #endregion
 
         #region Public List Properties

@@ -207,7 +207,14 @@ namespace MPC.Models.DomainModels
         /// Live Stores Count
         /// </summary>
         public int? LiveStoresCount { get; set; }
-
+        /// <summary>
+        /// Web Store Orders Count
+        /// </summary>
+        public int? WebStoreOrdersCount { get; set; }
+        /// <summary>
+        /// MIS Order Count
+        /// </summary>
+        public int? MisOrdersCount { get; set; }
         #endregion
         
         #region Reference Properties

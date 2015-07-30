@@ -203,18 +203,27 @@ namespace MPC.Webstore.Controllers
                 ViewBag.ShowUploadArkworkPanel = true;
                 OrderID = UserCookieManager.WEBOrderId;
                 clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
-                BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), Convert.ToInt32(clonedItem.DesignerCategoryId), clonedItem.ProductName);
-                referenceItemId = clonedItem.RefItemId ?? 0;
-                if (clonedItem.ItemSections != null)
+                if(clonedItem != null)
                 {
-                    if (clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 != null && clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 > 0)
+                    if(OrderID == 0)
                     {
-                        ViewBag.SelectedStockItemId = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID2;
-                        ViewBag.SelectedQuantity = clonedItem.Qty1;
+                        OrderID = clonedItem.EstimateId ?? 0;
+                        UserCookieManager.WEBOrderId = clonedItem.EstimateId ?? 0;
+                    }
+                    BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), Convert.ToInt32(clonedItem.DesignerCategoryId), clonedItem.ProductName);
+                    referenceItemId = clonedItem.RefItemId ?? 0;
+                    if (clonedItem.ItemSections != null)
+                    {
+                        if (clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 != null && clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID1 > 0)
+                        {
+                            ViewBag.SelectedStockItemId = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().StockItemID2;
+                            ViewBag.SelectedQuantity = clonedItem.Qty1;
+
+                        }
 
                     }
-
                 }
+
             }
 
             ViewBag.ClonedItemId = clonedItem.ItemId;
@@ -375,9 +384,9 @@ namespace MPC.Webstore.Controllers
                 ViewData["stockControlItems"] = null;
             }
 
-            
 
-           
+
+
 
             List<AddOnCostsCenter> listOfCostCentres = _myItemService.GetStockOptionCostCentres(Convert.ToInt64(ReferenceItemId), UserCookieManager.WBStoreId);
 
@@ -405,7 +414,7 @@ namespace MPC.Webstore.Controllers
             else
             {
                 ViewBag.Mode = "";
-         
+
                 if (mode == "UploadDesign")
                 {
                     if (referenceItem.IsUploadImage == true)
@@ -680,12 +689,12 @@ namespace MPC.Webstore.Controllers
             ItemModel.File4 = referenceItem.File4;
             ItemModel.GridImage = referenceItem.GridImage;
             ItemModel.IsQtyRanged = referenceItem.IsQtyRanged ?? false;
-            
+
             ItemModel.ItemPriceMatrices = referenceItem.ItemPriceMatrices.ToList();
             ItemModel.ProductName = referenceItem.ProductName;
             ItemModel.WebDescription = referenceItem.WebDescription;
             ItemModel.ItemId = referenceItem.ItemId;
-            if(ViewData["Templates"] == null)
+            if (ViewData["Templates"] == null)
             {
                 ItemModel.isUploadImage = referenceItem.IsUploadImage == true ? 1 : 0;
             }
@@ -693,7 +702,7 @@ namespace MPC.Webstore.Controllers
             {
                 ItemModel.isUploadImage = 0;
             }
-            
+
             if (!string.IsNullOrEmpty(ItemModel.File1))
             {
                 string FileExtension = System.IO.Path.GetExtension(ItemModel.File1);
