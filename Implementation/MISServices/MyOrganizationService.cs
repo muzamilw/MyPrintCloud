@@ -691,9 +691,9 @@ namespace MPC.Implementation.MISServices
             return markupRepository.GetAll();
         }
 
-        public void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial)
+        public void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial, int misOrdersCount, int webStoreOrdersCount)
         {
-            organisationRepository.UpdateOrganisationLicensing(organisationId, storesCount, isTrial);
+            organisationRepository.UpdateOrganisationLicensing(organisationId, storesCount, isTrial, misOrdersCount, webStoreOrdersCount);
             if (!isTrial)
             {
                 _companyRepository.UpdateLiveStores(organisationId, storesCount);

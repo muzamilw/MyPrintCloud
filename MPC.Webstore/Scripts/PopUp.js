@@ -1285,7 +1285,6 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
 }
 function ConfirmDeleteArtWorkPopUP(AttachmentID, ItemId) {
 
-    var Path = "/ProductOptions/DeleteArtworkAttachment/" + AttachmentID;
     var Type = "Alert!";
     var Message = "Are you sure you want to remove this design?"
     var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="submit" class="btn btn-primary" onclick=DeleteArtWork(' + AttachmentID + ',' + ItemId + '); value="Yes" /><button type="button" onclick=HideMessagePopUp(); class="btn btn-primary">No</button></div></div></div>';
@@ -1320,6 +1319,7 @@ function ConfirmDeleteArtWorkPopUP(AttachmentID, ItemId) {
 
     return false;
 }
+
 function DeleteArtWork(AttachmentId, ItemId) {
     ShowLoader();
 

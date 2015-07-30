@@ -2,6 +2,9 @@
 @using MPC.Webstore.WebGridExtension;
 @using MPC.Models.Common;
 @{
+    Layout = null;
+}
+@{
     var grid = new WebGrid(source: ViewBag.Address, canPage: true,canSort:false, rowsPerPage: 13);
 
     grid.Pager(WebGridPagerModes.NextPrevious);
@@ -144,7 +147,7 @@ grid.Column("Default Shipping",format:@<p>
         </div>
     </div>
 
-<div id="UpdateModelPopUp" class="pop_body_MesgPopUp" style="padding: 25px; display:none;">
+<div id="UpdateModelPopUp" class="pop_body_MesgPopUp" >
     <div id="MainContent_CRUDShippingAddress1_upnlBody">
         <div id="container" style="margin-left: 85px;">
         @*<div class="address_label_area1 ">
@@ -312,7 +315,7 @@ grid.Column("Default Shipping",format:@<p>
 
             <input type="button" value="Save" id="btnSaveShippingAddress" class="start_creating_btn rounded_corners5 background-green" style="float: left;" onclick="SaveCall();">
 
-            <input value="Cancel" type="button"  id="btnCancelShippingAddress" class="start_creating_btn rounded_corners5" style="float: left; margin-left: 5px;" onclick="myFunction();">
+            <input value="Cancel" type="button"  id="btnCancelShippingAddress" class="start_creating_btn rounded_corners5" style="float: left; margin-left: 5px;" onclick="HideMessagePopUpCustom();">
         </div>
         <div class="clearBoth">
             
@@ -320,18 +323,14 @@ grid.Column("Default Shipping",format:@<p>
     </div>
         
 </div>
-       
-@section scripts
-
-    {
+      
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 <link href="@Href("~/Content/NewBootstrapClass.css")" rel="stylesheet" type="text/css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-
 <script type="text/javascript">
-
+  
     var AdRessID;
     var CountryID;
     var StateID;
@@ -413,7 +412,7 @@ grid.Column("Default Shipping",format:@<p>
         });
     }
     function ShowBillingShippingDetails(AddressID) {
-        ShowLoader();
+       // ShowLoader();
         UpdateStatus = true;
         AdRessID = AddressID;
         var data = { AddressId: AddressID }
@@ -424,9 +423,10 @@ grid.Column("Default Shipping",format:@<p>
             data: data,
             async: true,
             success: function (response) {
-                var PHtml = $("#UpdateModelPopUp").html();
+               // var PHtml = $("#UpdateModelPopUp").html();
 
-                ShippingBillingDetails("Update Address", PHtml);
+                //    ShippingBillingDetails("Update Address", PHtml);
+                $("#modelTitle").text("Update Address");
                 $("#txtAddressName").val(response.Address.AddressName);
                 $("#txtFAO").val(response.Address.FAO);
                 $('#txtAddress1').val(response.Address.Address1);
@@ -446,6 +446,8 @@ grid.Column("Default Shipping",format:@<p>
                 CountryID = response.CountryId;
                 LoadCountries();
                 LoadStates();
+                    document.getElementById("layer").style.display = "block";
+                    document.getElementById("innerLayer").style.display = "block";
             }
         });
 
@@ -462,16 +464,13 @@ grid.Column("Default Shipping",format:@<p>
                 CountriesDD.html('');
                 CountriesDD.append($('<option></option>').val(0).html('Select Country'));
                 $.each(response.Country, function (id, option) {
-
                     CountriesDD.append($('<option></option>').val(option.CountryId).html(option.CountryName));
                 });
                 if (UpdateStatus == true) {
                     if (CountryID > 0) {
-
                         SetSelectedCountry(response.Country, CountryID);
                     }
                     else {
-
                         $("#DDCountry")[0].selectedIndex = 0;
                     }
                 }
@@ -524,9 +523,9 @@ grid.Column("Default Shipping",format:@<p>
     }
     function ResetTextboxes() {
         UpdateStatus = false;
-        var PHtml = $("#UpdateModelPopUp").html();
-        ShippingBillingDetails("Add New Address", PHtml);
-
+      //  var PHtml = $("#UpdateModelPopUp").html();
+      //  ShippingBillingDetails("Add New Address", PHtml);
+        $("#modelTitle").text("Add New  Address");
         $("#txtAddressName").val('');
         $("#txtFAO").val('');
         $('#txtAddress1').val('');
@@ -546,7 +545,9 @@ grid.Column("Default Shipping",format:@<p>
         $("#DDCountry").val('');
         $("#TerritoryDD").val('');
         LoadCountries();
-        LoadStates();
+        LoadStates();   document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+    
     }
 
     function AddNewAddress() {
@@ -584,8 +585,11 @@ grid.Column("Default Shipping",format:@<p>
 
         //public bool? DisplayOnContactUs { get; set; }
         if (UpdateStatus == true) {
-            var PHtml = $("#UpdateModelPopUp").html();
-            ShippingBillingDetails("", PHtml);
+          //  var PHtml = $("#UpdateModelPopUp").html();
+            //  ShippingBillingDetails("", PHtml);
+            $("#modelTitle").text("");
+            document.getElementById("layer").style.display = "block";
+            document.getElementById("innerLayer").style.display = "block";
         }
         var AddressName = $("#txtAddressName").val();
         var FAO = $("#txtFAO").val();
@@ -634,6 +638,7 @@ grid.Column("Default Shipping",format:@<p>
     function UpdateAddress() {
         //var PHtml = $("#UpdateModelPopUp").html();
         //ShippingBillingDetails("", PHtml);
+        $("#modelTitle").text("");
         var AddressName = $("#txtAddressName").val();
         var FAO = $("#txtFAO").val();
         var Address1 = $('#txtAddress1').val();
@@ -784,6 +789,7 @@ grid.Column("Default Shipping",format:@<p>
 
 
     function Validation() {
+        
         var IsValid = true;
         var errorMessage = '';
 
@@ -791,6 +797,7 @@ grid.Column("Default Shipping",format:@<p>
             var AddressNAme = "Address Name Is Required";
             errorMessage = errorMessage + AddressNAme + "<br>";
             $("#txtAddressName").css("border", "2px solid red");
+            
             IsValid = false;
         }
         else {
@@ -827,16 +834,91 @@ grid.Column("Default Shipping",format:@<p>
         //}
 
         return IsValid;
-
+      
     }
 
     function SaveCall() {
+        
         if (Validation() == true) {
             AddAndUpdate();
         }
 
     }
+    function HideMessagePopUpCustom() {
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
+    }
+    function buidPopup() {
+        //popupBody
+        //modelTitle
+        var bws = getBrowserHeight();
+
+        var shadow = document.getElementById("innerLayer");
+
+        document.getElementById("layer").style.width = bws.width + "px";
+        document.getElementById("layer").style.height = bws.height + "px";
+        var left = 0;
+        var container = "";
+        if (bws.width < 700 && bws.width > 640) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body"  id="popupBody" style="height:500px;overflow-y:scroll;"></div></div>';
+
+        }
+        else if (bws.width == 640) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:500px;"></div></div>';
+
+        }
+        else if (bws.width < 640 && bws.width > 600) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:550px;"></div></div>';
+
+        }
+        else if (bws.width < 600 && bws.width > 500) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:350px;"></div></div>';
+
+        } else if (bws.width < 500) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:300px;"></div></div>';
+        }
+        else {
+
+            left = parseInt((bws.width - 730) / 2);
+            document.getElementById("innerLayer").style.width = "730px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:500px;overflow-y:scroll;" ></div></div>';
+        }
+
+
+
+        // document.getElementById("innerLayer").style.width = (bws.width) + "px";
+        document.getElementById("innerLayer").innerHTML = container;
+
+        document.getElementById("innerLayer").style.left = left + "px";
+        document.getElementById("innerLayer").style.top = "0px";
+
+        document.getElementById("innerLayer").style.position = "fixed";
+        document.getElementById("innerLayer").style.zIndex = "9999";
+
+  
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
+    }
+    $(document).ready(function () {
+
+        buidPopup();
+        $("#popupBody").append($("#UpdateModelPopUp"));
+
+
+
+    });
+  
 </script>
 
-    } 
+    
 

@@ -6,9 +6,10 @@
     bundle.Include("~/Scripts/script.js");
                    
 }
-<head>
-    <link href="/Content/MetroStyles.css" rel="stylesheet" />
-</head>
+@{
+    Layout = null;
+}
+
 <div class="Container" id="all-metroTest-pg">
     <div class="panel panel-info" id="testimonial_sidebar">
         <div class="panel-heading">
@@ -68,6 +69,9 @@
         </div>
     }
 </div>
+
+ <link href="/Content/MetroStyles.css" rel="stylesheet" />
+<script src="/Scripts/script.js"></script>
 <script type="text/javascript">
     function Go()
     {

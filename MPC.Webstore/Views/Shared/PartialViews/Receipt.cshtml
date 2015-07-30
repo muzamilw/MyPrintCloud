@@ -12,6 +12,9 @@
     DateTime OrderDateTime = Model.OrderDate ?? DateTime.Now;
     var OrderDate = OrderDateTime.ToString("MMMM dd, yyyy");
 }
+@{
+    Layout = null;
+}
 <div id="page" class="container content_area" style="margin: auto; border: 0px solid orange; margin-top: 20px;">
 
     <div class="left_right_padding">
@@ -288,6 +291,7 @@
                                             <div class="">
                                                 <span style="font-size:12px;">Stock: @item.PaperType</span>
                                             </div>
+                                         
                                             <div class=" spacer5pxbottom">
                                                 <span style="font-size:12px;">@Html.Raw(item.ProductWebDescription)</span>
                                             </div>

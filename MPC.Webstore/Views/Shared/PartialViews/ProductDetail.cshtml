@@ -14,6 +14,9 @@
     stockOptions = ViewData["Stocks"] as List<ItemStockOption>;
 
 }
+@{
+    Layout = null;
+}
 @Styles.Render("~/Content/js-image-slider-detail")
 
 @section metatags
@@ -343,7 +346,7 @@
                                 <label id="lblCategoryCode" class="marginall5">@ViewBag.lblCategoryCode</label>
                                 <br />
                                 <p class="marginall5" style="width: 285px;">
-                                    <label id="lblCatDes">@ViewBag.lblCatDes</label>
+                                    <label id="lblCatDes">@Html.Raw(ViewBag.lblCatDes)</label>
                                 </p>
                                 <br />
                                 @if (ViewData["CostCentersList"] != null)
@@ -824,10 +827,8 @@
 
     </div>
 }
-@section scripts
-			{
-    @Scripts.Render("~/bundles/SliderDetail")
-
+    <script src="/Scripts/jquery-1.10.1.min.js"></script>
+   <script src="/Scripts/js-image-slider-detail.js"></script>
     <script src="~/Scripts/PopUp.js"></script>
     <script src="~/Scripts/jquery.rating.js"></script>
     <script type="text/javascript">
@@ -1378,4 +1379,4 @@
 
 
     </script>
-}
+

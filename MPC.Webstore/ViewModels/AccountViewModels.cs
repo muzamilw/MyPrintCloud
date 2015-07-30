@@ -262,7 +262,6 @@ namespace MPC.Webstore.Models
         public long ItemId { get; set; }
         public string ProductName { get; set; }
         public bool IsQtyRanged { get; set; }
-        public bool isUploadImage { get; set; }
         public List<ItemPriceMatrix> ItemPriceMatrices { get; set; }
         public string WebDescription { get; set; }
         public string File1 { get; set; }
@@ -277,6 +276,7 @@ namespace MPC.Webstore.Models
         public string File3Url { get; set; }
         public string File4Url { get; set; }
         public string File5Url { get; set; }
+        public int isUploadImage { get; set; }
     }
     
 }

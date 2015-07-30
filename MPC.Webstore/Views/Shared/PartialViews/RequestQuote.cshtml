@@ -1,7 +1,9 @@
-﻿    @using MPC.Webstore.Common;
+﻿@using MPC.Webstore.Common;
 @using MPC.Models.Common;
 @model MPC.Models.DomainModels.RequestQuote
-
+@{
+    Layout = null;
+}
 @using (Html.BeginForm())
 {
 
@@ -353,10 +355,12 @@
 
 }
 
-@section scripts{
 
-<script>
-
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+<script src="/Scripts/bootstrap.js"></script>
+<script src="/Scripts/respond.js"></script>
+<script src="/Scripts/bootstrap-datepicker.js"></script>
+<script type="text/javascript">
 
     //$(document).ready(function () {
 
@@ -364,10 +368,7 @@
         $("#txtInquiryDate2").datepicker();
         $("#txtInquiryDate3").datepicker();
         $("#AddNewInquiryItemList").click(function () {
-
-
             AddNew();
-
         });
         $("#Remove2").click(function () {
 
@@ -698,4 +699,3 @@
         window.location.href = "/";
     }
 </script>
-}

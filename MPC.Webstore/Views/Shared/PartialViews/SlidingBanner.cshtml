@@ -1,6 +1,9 @@
 ﻿@{
     int index = 1;
 }
+@{
+    Layout = null;
+}
 @model List<MPC.Models.DomainModels.CompanyBanner>
 
 
@@ -40,6 +43,5 @@
         </div>
     </div>
 }
-@section scripts {
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script src="/Scripts/SlidingBanner.js"></script>
-}

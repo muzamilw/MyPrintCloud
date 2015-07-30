@@ -120,7 +120,7 @@ namespace MPC.Webstore.Controllers
                                         UnitPrice = Utils.FormatDecimalValueToTwoDecimal(item.Qty1BaseCharge1),
                                         TotalQuantity = 1
                                     };
-                                    VATTotal = VATTotal + Utils.FormatDecimalValueToTwoDecimal(item.Qty1Tax1Value);
+                                    VATTotal = VATTotal + item.Qty1Tax1Value ?? 0;
                                     itemsList.Add(prodItem);
                                 //}
                             }
