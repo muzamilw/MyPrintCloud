@@ -951,7 +951,7 @@ function d5_sub(pageID, isloading) {
             } else
             {
                 DzoomFactor *= D1SF;
-                while ((canvasHeight * DzoomFactor) <= contentAreaheight || (canvasWidth * DzoomFactor) <= contentAreaWidth) {
+                while ((canvasHeight * DzoomFactor) <= contentAreaheight && (canvasWidth * DzoomFactor) <= contentAreaWidth) {
                     D1CS = D1CS * D1SF;
                     dfZ1l = D1CS;
                     DzoomFactor *= D1SF;

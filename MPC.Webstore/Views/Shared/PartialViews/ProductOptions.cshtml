@@ -1367,9 +1367,11 @@
     }
 
     function ShowArtworkPanel() {
-        var panelHtml = $("#pnlArtworkUploader").html();
-        ShowArtWorkPopup("Upload Artwork", panelHtml);
-        $('.imageUploader').change(function () {
+     //   var panelHtml = $("#pnlArtworkUploader").html();
+        CreateGenericPopup("Upload Artwork","pnlArtworkUploader");
+        $("#pnlArtworkUploader").css("display","block");
+        // ShowArtWorkPopup("Upload Artwork", panelHtml);
+        $('.imageUploader').change(function () { 
             data = new FormData();
             var files = $(this)[0].files;
 
@@ -1385,10 +1387,11 @@
         });
 
     }
-
     function openDailog() {
+
         if ( [ "pdf", "jpg", "eps", "tiff", "csv", "xls", "xlsx" ].indexOf(fileExtension) > -1 )
         {
+            HideMessagePopUpGeneric();
             ShowLoader();
             var files = $('#imageUploader')[0].files;
 
@@ -1450,6 +1453,7 @@
                 });
             }else
             {
+                HideMessagePopUpGeneric();
                 HideLoader();
                 console.log(files);
                 alert(files.length);
@@ -1457,10 +1461,12 @@
         }
         else
         {
+            HideMessagePopUpGeneric();
             ShowPopUp("Message", "You cannot upload file except of pdf,jpg,eps,tiff,csv,xls,xlsx.");
         }
 
     }
+    
 
     function RediredToDesigner(ProductName, TemplateID, ItemID, CompanyID, ContactID, isCalledFrom, OrganisationID, printCropMarks, printWaterMark, isEmbedded, TempDesignerID) {
 
