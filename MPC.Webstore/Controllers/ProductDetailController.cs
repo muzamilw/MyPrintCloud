@@ -167,31 +167,6 @@ namespace MPC.Webstore.Controllers
                     }
 
 
-                    if (ItemRecord.IsStockControl == true)
-                    {
-                        ItemStockControl StckItem = _IItemService.GetStockItem(ItemRecord.ItemId);
-                        ViewData["StockControl"] = StckItem;
-                        if (StckItem != null)
-                        {
-                            if (StckItem.isAllowBackOrder ?? false) // back ordering allowed
-                            {
-                                ViewBag.isAllowBackOrder = true;
-                            }
-                            else
-                            {// no stock 
-                                ViewBag.isAllowBackOrder = false;
-
-
-
-                            }
-
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.isAllowBackOrder = false;
-                    }
-
 
                     //Handle corporate scenario
                     //HandleCorporateScenario(curProduct);
