@@ -1089,6 +1089,26 @@ namespace MPC.Repository.BaseRepository
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteTemplate", templateIdParameter);
         }
 
+        public ObjectResult<usp_ChartRegisteredUserByStores_Result> usp_ChartRegisteredUserByStores(long? organisationid)
+        // ReSharper restore InconsistentNaming
+        {
+            var organisationidParameter = organisationid.HasValue ?
+                new ObjectParameter("OrganisationId", organisationid) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ChartRegisteredUserByStores_Result>("usp_ChartRegisteredUserByStores", organisationidParameter);
+        }
+
+        public ObjectResult<usp_ChartTopPerformingStores_Result> usp_ChartTopPerformingStores(long? organisationid)
+        // ReSharper restore InconsistentNaming
+        {
+            var organisationidParameter = organisationid.HasValue ?
+                new ObjectParameter("OrganisationId", organisationid) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ChartTopPerformingStores_Result>("usp_ChartTopPerformingStores", organisationidParameter);
+        }
+
         #endregion
     }
 }
