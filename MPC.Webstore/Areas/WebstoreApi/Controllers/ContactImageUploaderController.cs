@@ -3,6 +3,7 @@ using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Webstore.Common;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -101,11 +102,19 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 UserCookieManager.WEBContactFirstName = FirstName;
 
                 UserCookieManager.WEBContactLastName = LastName;
+
+                //JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
+                //GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
+
+                //return Request.CreateResponse(HttpStatusCode.OK, result);
             }
+            
             catch (Exception ex)
             {
                 throw ex;
             }
+
+           
         }
 
         private string UpdateImage(HttpPostedFile Request)

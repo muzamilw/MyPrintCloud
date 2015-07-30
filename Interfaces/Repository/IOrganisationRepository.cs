@@ -22,7 +22,7 @@ namespace MPC.Interfaces.Repository
         double GetBleedSize(long OrganisationID);
 
         bool GetImpericalFlagbyOrganisationId();
-        void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial);
+        void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial, int MisOrdersCount, int WebStoreOrdersCount);
         //Estimate GetOrderByOrderID(long OrderID);
     }
 }

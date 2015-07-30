@@ -17,7 +17,7 @@
                         <li data-bind="css: $root.itemCodeHeader() != '' ?  'active'   :   '', visible:$root.itemCodeHeader() !== ''" style="display: none; cursor:pointer"><span data-bind="text:$root.itemCodeHeader()+'  '+$root.selectedOrder().companyName() + ' '+ $root.orderCodeHeader()"></span></li>
                     </ol>
                     <div class="clearfix">
-                        <h1 style="padding-left:4px !important;" data-bind=" visible:  $root.currentScreen() != 8">Estimating</h1>
+                        <h1 style="padding-left:6px !important;" data-bind=" visible:  $root.currentScreen() != 8">Estimating</h1>
                         
                         <div style="display: none" data-bind=" visible:  $root.currentScreen() == 8">
                             <h1 style="padding-left:7px !important;">Inquiry</h1>
@@ -199,17 +199,17 @@
                         <script id="tabItemsList" type="text/html">
                             <div>
                                 <!--ko if: $root.currentScreen() == undefined-->
-                                <div class="tabsdescriptions">
+                                <div class="tabsdescriptions" style="margin-left:9px;">
                                     <p class="group-header-description">Review all outstanding estimates, find, copy & edit estimates quickly with the inbuilt search function. </p>
                                 </div>
                                 <!--/ko-->
                                 <!--ko if: $root.currentScreen() == 0 -->
-                                <div class="tabsdescriptions">
-                                    <p class="group-header-description">View all open, pending and closed estimates, produce sales reports for pipiline and conversion rates.  </p>
+                                <div class="tabsdescriptions" style="margin-left:9px;">
+                                    <p class="group-header-description" style="margin-left:2px;">View all open, pending and closed estimates, produce sales reports for pipiline and conversion rates.  </p>
                                 </div>
                                 <!--/ko-->
                                 <!--ko if: $root.currentScreen() == 1 -->
-                                <div class="tabsdescriptions">
+                                <div class="tabsdescriptions" style="margin-left:8px;">
                                     <p class="group-header-description">Review all outstanding estimates, find, copy & edit estimates quickly with the inbuilt search function. </p>
                                 </div>
                                 <!--/ko-->
