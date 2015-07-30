@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -13,7 +15,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         private readonly IMyOrganizationService _myOrganizationService;
 
         #endregion
-         #region Constructor
+        #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
@@ -29,15 +31,44 @@ namespace MPC.MIS.Areas.Api.Controllers
         #endregion
 
         #region Public
-
-        #endregion
-
-        // POST api/<controller>
-        public void Post(long organisationId, int storesCount, bool isTrial)
+        
+        public bool Get()
         {
             try
             {
-                _myOrganizationService.UpdateOrganisationLicensing(organisationId, storesCount, isTrial);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
+        
+        public bool Get(int organisationId, int storesCount, bool isTrial, int misOrderCount, int webOrderCount)
+        {
+            try
+            {
+               
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
+        #endregion
+        [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
+        public bool Post(int organisationId, int storesCount, bool isTrial, int misOrderCount, int webOrderCount)
+        {
+            try
+            {
+                _myOrganizationService.UpdateOrganisationLicensing(organisationId, storesCount, isTrial, misOrderCount, webOrderCount);
+                return true;
 
             }
             catch (Exception ex)

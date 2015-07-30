@@ -810,6 +810,7 @@ namespace MPC.Implementation.WebStoreServices
         }
         public bool CreatAndSaveThumnail(Stream oImgstream,string sideThumbnailPath,string itemId)
         {
+            Image origImage = null;
             try
             {
                 string orgPath = sideThumbnailPath;
@@ -818,52 +819,58 @@ namespace MPC.Implementation.WebStoreServices
                
 
                 sideThumbnailPath = baseAddress + "\\" + itemId  + sideThumbnailPath;
+       
+                    if (oImgstream != null)
+                    {
+                        origImage = Image.FromStream(oImgstream);
+                    }
+                    else
+                    {
+                        origImage = Image.FromFile(orgPath);
+                    }
 
-                Image origImage = null;
-                if (oImgstream != null)
-                {
-                    origImage = Image.FromStream(oImgstream);
-                }
-                else
-                {
-                    origImage = Image.FromFile(orgPath);
-                }
+
+                    float WidthPer, HeightPer;
+
+                    int NewWidth, NewHeight;
+                    int ThumbnailSizeWidth = 400;
+                    int ThumbnailSizeHeight = 400;
+
+                    if (origImage.Width > origImage.Height)
+                    {
+                        NewWidth = ThumbnailSizeWidth;
+                        WidthPer = (float)ThumbnailSizeWidth / origImage.Width;
+                        NewHeight = Convert.ToInt32(origImage.Height * WidthPer);
+                    }
+                    else
+                    {
+                        NewHeight = ThumbnailSizeHeight;
+                        HeightPer = (float)ThumbnailSizeHeight / origImage.Height;
+                        NewWidth = Convert.ToInt32(origImage.Width * HeightPer);
+                    }
+
+                    Bitmap origThumbnail = new Bitmap(NewWidth, NewHeight, origImage.PixelFormat);
+                    Graphics oGraphic = Graphics.FromImage(origThumbnail);
+                    oGraphic.CompositingQuality = CompositingQuality.HighQuality;
+                    oGraphic.SmoothingMode = SmoothingMode.HighQuality;
+                    oGraphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    Rectangle oRectangle = new Rectangle(0, 0, NewWidth, NewHeight);
+                    oGraphic.DrawImage(origImage, oRectangle);
+
+
+                    origThumbnail.Save(sideThumbnailPath, ImageFormat.Png);
+                    origImage.Dispose();
+                    oGraphic.Dispose();
                 
-
-                float WidthPer, HeightPer;
-
-                int NewWidth, NewHeight;
-                int ThumbnailSizeWidth = 400;
-                int ThumbnailSizeHeight = 400;
-
-                if (origImage.Width > origImage.Height)
-                {
-                    NewWidth = ThumbnailSizeWidth;
-                    WidthPer = (float)ThumbnailSizeWidth / origImage.Width;
-                    NewHeight = Convert.ToInt32(origImage.Height * WidthPer);
-                }
-                else
-                {
-                    NewHeight = ThumbnailSizeHeight;
-                    HeightPer = (float)ThumbnailSizeHeight / origImage.Height;
-                    NewWidth = Convert.ToInt32(origImage.Width * HeightPer);
-                }
-
-                Bitmap origThumbnail = new Bitmap(NewWidth, NewHeight, origImage.PixelFormat);
-                Graphics oGraphic = Graphics.FromImage(origThumbnail);
-                oGraphic.CompositingQuality = CompositingQuality.HighQuality;
-                oGraphic.SmoothingMode = SmoothingMode.HighQuality;
-                oGraphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                Rectangle oRectangle = new Rectangle(0, 0, NewWidth, NewHeight);
-                oGraphic.DrawImage(origImage, oRectangle);
-
-
-                origThumbnail.Save(sideThumbnailPath, ImageFormat.Png);
                 return true;
             }
             catch (Exception e)
             {
                 return false;
+            }
+            finally
+            {
+                origImage.Dispose();
             }
         }
         public List<ItemAttachment> SaveArtworkAttachments(List<ItemAttachment> attachmentList)

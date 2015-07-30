@@ -1,7 +1,9 @@
 ﻿@using MPC.Webstore.Common;
 @using MPC.Models.Common;
 @model MPC.Models.DomainModels.CompanyContact
-
+@{
+    Layout = null;
+}
 @{
     var Store = ViewData["Company"] as MPC.Models.DomainModels.Company;
     string CurrencySymbol = ViewBag.CurrencySymbol;
