@@ -16,6 +16,7 @@ using MPC.Interfaces.Logger;
 using Microsoft.Practices.Unity;
 using System.Diagnostics;
 using System.Collections;
+using System.Linq;
 
 namespace MPC.Webstore.Controllers
 {
@@ -94,6 +95,7 @@ namespace MPC.Webstore.Controllers
 
 
                         List<Item> CartItemsList = _OrderService.GetOrderItemsIncludingDelivery(OrderId, (int)OrderStatus.ShoppingCart);
+                        Item DeliveryItem = CartItemsList.Where(c => c.ItemType == (int)ItemTypes.Delivery).FirstOrDefault();
                         double VATTotal = 0;
                         if (CartItemsList != null)
                         {
@@ -101,19 +103,8 @@ namespace MPC.Webstore.Controllers
 
                             foreach (Item item in CartItemsList)
                             {
-                                //if (item.ItemType == (int)ItemTypes.Delivery)
-                                //{
-                                //    PaypalOrderParameter prodItem = new PaypalOrderParameter
-                                //    {
-                                //        ProductName = item.ProductName,
-                                //        UnitPrice = Utils.FormatDecimalValueToTwoDecimal(item.Qty1BaseCharge1)
-
-                                //    };
-                                //    VATTotal = Utils.FormatDecimalValueToTwoDecimal(item.Qty1NetTotal);
-                                //    itemsList.Add(prodItem);
-                                //}
-                                //else if (item.StatusId == (int)OrderStatus.ShoppingCart)
-                                //{
+                                if (item.ItemType != (int)ItemTypes.Delivery)
+                                {
                                     PaypalOrderParameter prodItem = new PaypalOrderParameter
                                     {
                                         ProductName = item.ProductName,
@@ -122,9 +113,22 @@ namespace MPC.Webstore.Controllers
                                     };
                                     VATTotal = VATTotal + item.Qty1Tax1Value ?? 0;
                                     itemsList.Add(prodItem);
-                                //}
+                                }
                             }
-                            opaypal.handling_cart = VATTotal.ToString("#.##");
+
+                            if(DeliveryItem != null)
+                            {
+                                PaypalOrderParameter prodItem = new PaypalOrderParameter
+                                {
+                                    ProductName = "Shipping: " + DeliveryItem.ProductName,
+                                    UnitPrice = Utils.FormatDecimalValueToTwoDecimal(DeliveryItem.Qty1BaseCharge1),
+                                    TotalQuantity = 1
+                                };
+                                VATTotal = VATTotal + DeliveryItem.Qty1Tax1Value ?? 0;
+                                itemsList.Add(prodItem);
+                            }
+
+                            opaypal.tax_cart = VATTotal.ToString("#.##");
                             opaypal.txtJason = Newtonsoft.Json.JsonConvert.SerializeObject(itemsList);
 
                         }

@@ -37,6 +37,7 @@ namespace MPC.Webstore.ViewModels
         public string txtJason { get; set; }
 
         public string custom { get; set; }
+        public string tax_cart { get; set; }
     }
 
 

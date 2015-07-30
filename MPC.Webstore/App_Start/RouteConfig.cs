@@ -429,7 +429,11 @@ namespace MPC.Webstore
           new { controller = "Payment", action = "ANZResponse" }
          );
 
-
+        routes.MapRoute(
+         "ApplyDelivery",
+         "ShopCartAddressSelect/AddDeliveryToOrder/{DeliveryMethodId}",
+         new { controller = "ShopCartAddressSelect", action = "AddDeliveryToOrder", DeliveryMethodId = UrlParameter.Optional }
+       );
             routes.MapRoute(
                "Default", // Route name
                "",        // URL with parameters
