@@ -102,6 +102,11 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div id="pagerDiv" class="pull-right">
+                                            <!-- ko with: supplierpager -->
+                                            @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                            <!-- /ko -->
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -109,15 +114,12 @@
                                         Html.RenderPartial("~/Areas/CRM/Views/Home/CompaniesDetail.cshtml");
                                     }
                                 </div>
+                               
                             </div>
                         </div>
                     </div>
                 </div>
-                <div id="pagerDiv" class="pull-right">
-                    <!-- ko with: supplierpager -->
-                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                    <!-- /ko -->
-                </div>
+               
             </div>
         </div>
     </div>
