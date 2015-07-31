@@ -513,8 +513,8 @@
 
         function DownLoadArtworkFile(orderId) {
             ShowLoader();
-            $.get("/mis/api/DownloadArtwork?OrderId=" + orderId, function (DT) {
-                console.log(DT);
+            $.get("/mis/api/DownloadArtwork?OrderId=" + orderId + "&OrganisationId=" + @UserCookieManager.WEBOrganisationID, function (DT) {
+                console.log(DT); 
                 window.location.href = DT;
                 HideLoader();
             });
