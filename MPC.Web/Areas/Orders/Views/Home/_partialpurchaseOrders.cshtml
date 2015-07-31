@@ -2,25 +2,21 @@
     <div class="row" style="">
         <div class="col-sm-12">
             <div class="row">
-                <div class="col-sm-12" id="topArea" style="padding-left:16px;margin-bottom: 5%;">
+                <div class="col-sm-12" id="topArea" style="padding-left:9px;">
                     <ol class="breadcrumb">
                         <li><a href="/mis/Dashboard/Index" class="my-navigator">Home</a></li>
                         <li><a href="/mis/Orders/Home/PurchaseOrders/Index" class="my-navigator">Purchase Orders</a></li>
-                        <li class="active"><span>Modify Purchase Orders</span></li>
+                        <li class="active"><span>Add Purchase Orders</span></li>
                     </ol>
                     <div class="clearfix">
 
                     </div>
 
-                    <div class="col-sm-12" id="filter" style="height:50px;margin-bottom:7px;">
+                    <div class="col-sm-12" id="filter" style="height:33px;margin-bottom:7px;">
                         <div>
-                            <h1 style="padding-left: 0.5%;margin-bottom: 0px;font-weight: 500">
-                                Purchase Orders
-                            </h1>
+                           
                         </div>
-                        <div>
-                            <div style="padding-left: 0.5%;">Create and track Purchase Order to Suppliers</div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -28,7 +24,7 @@
     </div>
 
     <div>
-        <div class="row col-sm-6" style="float:left;padding-left: 1.7%;padding-top: 2%;">
+        <div class="row col-sm-6" style="float:left;">
             <div class="pull-left validationSummaryContainer">
                 <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopupForStore', popoverId: 'validationSummaryPopoverBodyForStore' }" style="display: none">Invalid data: Click here to see details.</a>
                 <div class="well well-small validationSummaryModal" id="validationSummaryPopupForStore" style="display: none">
@@ -41,7 +37,7 @@
                     </div>
                 </div>
 
-                <div class="btn-group" style="float:left;margin-bottom: 3px; margin-left:14px;margin-top:-11px;">
+                <div class="btn-group" style="float:left;margin-left:16px;">
                     <button type="button" class="btn btn-primary">Actions</button>
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <span class="caret"></span>
@@ -55,13 +51,13 @@
                 </div>
             </div>
         </div>
-        <div class="row" id="prefixesdata" style="float: right; padding-right: 1.1%; margin-top: 1%; ">
+        <div class="row" id="prefixesdata" style="float:right;">
 
-            <div class="input-group">
+            <div class="input-group" style="padding-right:12px;margin-bottom:20px;">
                 @*<button class="btn btn-primary" data-bind="visible:$root.selectedPurchaseOrder().id()!==undefined,click: $root.openReport.bind($data, true) " style="margin-right:5px">
                     Print
                 </button>*@
-                <button data-bind="click:$root.onCloseEditor" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;">&nbsp;Cancel</button>
+                <button data-bind="click:$root.onCloseEditor" class="btn btn-default" style="float:right;margin-bottom:10px;margin-right: 15px;display:inline;margin-top:0px;">&nbsp;Cancel</button>
                 <button class="btn btn-primary" style="float: right;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===31,click:$root.onSavePurchaseOrder, enable: $root.selectedPurchaseOrder().hasChanges(),css: { 'btn-warning': $root.selectedPurchaseOrder().hasChanges() }">
                     &nbsp;Save
                 </button>
@@ -73,7 +69,7 @@
             </div>
         </div>
     </div>
-    <div class="row" id="user-profile" data-bind="with: selectedPurchaseOrder" style="padding-left: 18px; padding-right: 20px; margin-top: 5.5%; ">
+    <div class="row" id="user-profile" data-bind="with: selectedPurchaseOrder" style="padding-left: 18px; padding-right: 20px;">
         <div class="col-sm-12">
             <div class="main-box clearfix">
                 <div class="col-sm-12 form-horizontal" style="margin-top: 3%;">
