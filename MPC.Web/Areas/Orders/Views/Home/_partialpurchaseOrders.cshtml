@@ -440,12 +440,12 @@
     <tr style="cursor: pointer">
         <td data-bind="text: itemCode,click:$root.editPurchaseDetail"></td>
         <td data-bind="text: serviceDetail,click:$root.editPurchaseDetail"></td>
-        <td data-bind="text: packqty,click:$root.editPurchaseDetail"></td>
-        <td>
+        <td style="text-align:right;padding-right:50px;" data-bind="text: packqty,click:$root.editPurchaseDetail"></td>
+        <td style="text-align:right;padding-right:25px;">
             <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: price,click:$root.editPurchaseDetail"></span>
         </td>
-        <td data-bind="text: quantity,click:$root.editPurchaseDetail"></td>
-        <td>
+        <td style="text-align:right;" data-bind="text: quantity,click:$root.editPurchaseDetail"></td>
+        <td style="text-align:right;padding-right:40px;">
             <span class="control-label" data-bind="text:$root.currencySymbol"></span><span class="control-label" data-bind="numberInput: totalPrice,click:$root.editPurchaseDetail"></span>
         </td>
         <td style="width: 5%">
@@ -457,8 +457,8 @@
 <script id="serviceItemTemplate" type="text/html">
     <tr style="cursor: pointer" data-bind="enable:$root.selectedPurchaseOrder().status()===31">
         <td data-bind="text: serviceDetail,click:$root.editPurchaseDetail"></td>
-        <td data-bind="numberInput: price,click:$root.editPurchaseDetail"></td>
-        <td data-bind="numberInput: totalPrice,click:$root.editPurchaseDetail"></td>
+        <td style="text-align:right;" data-bind="numberInput: price,click:$root.editPurchaseDetail"></td>
+        <td style="text-align:right;" data-bind="numberInput: totalPrice,click:$root.editPurchaseDetail"></td>
         <td style="width: 5%">
             <!-- ko template: { name: 'deletePurchaseDetailTemplate' } -->
             <!-- /ko -->
