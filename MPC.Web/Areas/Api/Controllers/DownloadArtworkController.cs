@@ -34,7 +34,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #endregion
 
         #region Public
-        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+       // [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
         [CompressFilterAttribute]
         public string Get(int OrderId)
         {
