@@ -123,7 +123,7 @@
     grid.Column("StatusName","Status",style:"hidden-xs "),
       grid.Column("Download",header:Result, format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
       {
-        <button id="Download" value="Download" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
+        <button  value="Download" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
   background-color: transparent;" class="rounded_corners" onclick="DownLoadArtworkFile(@item.OrderID)" />
 
       }</text>),
@@ -513,31 +513,36 @@
 
         function DownLoadArtworkFile(orderId) {
             ShowLoader();
-            var d = { OrderId: orderId, OrderType: "Download" }
-            $.ajax({
-                type: "POST",
-                url: "/ProductOrderHistory/OrderResult",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(d),
-                success: function (response) {
-                    HideLoader();
-                    var indexOfException = response.indexOf("Exception");
-                    if(indexOfException != -1){
-                        console.log(response);
-                        ShowPopUp("Error", response);
-                    }else{
-                        window.location.href = response;
-                        //window.open(response,'_blank');
-                    }
-                   
-                },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    //alert("Error while invoking the Web API");
-                 
-                    alert(thrownError);
-                    HideLoader();
-                }
+            $.get("/mis/api/DownloadArtwork?OrderId=" + orderId, function (DT) {
+                window.location.href = DT;
+                HideLoader();
             });
+            
+            //var d = { OrderId: orderId, OrderType: "Download" }
+            //$.ajax({
+            //    type: "POST",
+            //    url: "/ProductOrderHistory/OrderResult",
+            //    contentType: "application/json; charset=utf-8",
+            //    data: JSON.stringify(d),
+            //    success: function (response) {
+            //        HideLoader();
+            //        var indexOfException = response.indexOf("Exception");
+            //        if(indexOfException != -1){
+            //            console.log(response);
+            //            ShowPopUp("Error", response);
+            //        }else{
+            //            window.location.href = response;
+            //            //window.open(response,'_blank');
+            //        }
+                   
+            //    },
+            //    error: function(xhr, ajaxOptions, thrownError) {
+            //        //alert("Error while invoking the Web API");
+                 
+            //        alert(thrownError);
+            //        HideLoader();
+            //    }
+            //});
         }
 
         function ViewOrder(orderId) {
