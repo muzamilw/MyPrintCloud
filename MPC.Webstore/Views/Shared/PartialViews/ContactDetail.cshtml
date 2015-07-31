@@ -82,7 +82,7 @@
             <div align="center" id="divUserProfile" class="col-md-12 col-lg-12 col-xs-12">
 
 
-                <div id=" messgetodisply" class="rounded_corners messageBoxNew" style="display:none;"></div>
+                <div id="messgetodisply" class="rounded_corners messageBoxNew" style="display:none;"></div>
 
 
                 <div id="ContactDetailsMainContainer" class="white-container-lightgrey-border rounded_corners">
@@ -550,20 +550,20 @@
                     processData: false,
                     success: function (response) {
 
-                        $("#MessgeToDisply").css('display', 'block');
-                        $("#MessgeToDisply").html('Profile Updated Sucessfuly!');
+                        $("#messgetodisply").css('display', 'block');
+                        $("#messgetodisply").html('Profile Updated Sucessfuly!');
 
                         createCookie("WEBFirstName", FirstName);
                         createCookie("WEBLastName", LastName);
                         HideLoader();
                         $("#lblUserName").text("Hi, " + FirstName + " " + LastName);
                         $('html, body').animate({
-                            scrollTop: $("#MessgeToDisply").offset().top
+                            scrollTop: $("#messgetodisply").offset().top
                         }, 500);
                     },
                     error: function (error) {
-                        $("#MessgeToDisply").css('display', 'block');
-                        $("#MessgeToDisply").html('Error Occured While Updating Profile!');
+                        $("#messgetodisply").css('display', 'block');
+                        $("#messgetodisply").html('Error Occured While Updating Profile!');
                         HideLoader();
                     }
                 });

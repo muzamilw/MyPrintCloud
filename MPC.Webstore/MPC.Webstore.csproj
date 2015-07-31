@@ -357,6 +357,7 @@
     <Compile Include="Areas\Designer\Controllers\DesignerController.cs" />
     <Compile Include="Areas\Designer\DesignerAreaRegistration.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\AddressController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\ApplyDeliveryMethodController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\ContactImageUploaderController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\CostCenterController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\DeleteAttachmentController.cs" />
@@ -509,6 +510,7 @@
     <Content Include="Content\Images\artwork_light_icons.png" />
     <Content Include="Content\Images\bg2.png" />
     <Content Include="Content\Images\bugzy.PNG" />
+    <Content Include="Content\Images\Clock-Icon-Blue.png" />
     <Content Include="Content\Images\costcentreLoader.gif" />
     <Content Include="Content\Images\delete.png" />
     <Content Include="Content\Images\download-icon.png" />
@@ -680,8 +682,10 @@
     <Content Include="Content\Images\SmartFormCart.png" />
     <Content Include="Content\Images\SocialSprite.png" />
     <Content Include="Content\Images\sprite.png" />
+    <Content Include="Content\Images\Telephone-Icon-Blue.png" />
     <Content Include="Content\Images\tiger.jpg" />
     <Content Include="Content\Images\topnav_bg.jpg" />
+    <Content Include="Content\Images\Van-Icon-Blue.png" />
     <Content Include="Content\Images\view-order.png" />
     <Content Include="Content\Images\visa_49x31.jpg" />
     <Content Include="Content\jquery-ui.min.css" />

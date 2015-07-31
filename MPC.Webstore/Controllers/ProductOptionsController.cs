@@ -203,9 +203,9 @@ namespace MPC.Webstore.Controllers
                 ViewBag.ShowUploadArkworkPanel = true;
                 OrderID = UserCookieManager.WEBOrderId;
                 clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
-                if (clonedItem != null)
+                if(clonedItem != null)
                 {
-                    if (OrderID == 0)
+                    if(OrderID == 0)
                     {
                         OrderID = clonedItem.EstimateId ?? 0;
                         UserCookieManager.WEBOrderId = clonedItem.EstimateId ?? 0;
@@ -222,10 +222,6 @@ namespace MPC.Webstore.Controllers
                         }
 
                     }
-                }
-                else
-                {
-                    throw new Exception("Critical error! Order not found.");
                 }
 
             }

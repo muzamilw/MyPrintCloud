@@ -6342,3 +6342,87 @@ CREATE TABLE [dbo].[CompanyVoucherRedeem](
 ) ON [PRIMARY]
 
 GO
+
+---Executed on Live Servers--------
+alter table Organisation add WebStoreOrdersCount int
+alter table Organisation add MisOrdersCount int
+
+---Executed on Live Servers on 2015 29 2015-----
+
+
+/****** Object:  StoredProcedure [dbo].[usp_ChartRegisteredUserByStores]    Script Date: 7/30/2015 8:24:51 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Muhammad Naveed
+-- Create date: 2015 07 30
+-- Description:	To Get Charts data of Registered Users by store
+-- =============================================
+-- Exec [usp_ChartRegisteredUserByStores] 1
+create PROCEDURE [dbo].[usp_ChartRegisteredUserByStores]
+	@OrganisationId bigint
+AS
+BEGIN
+		select Name,sum(TotalContacts) as TotalContacts, Month, MonthName, Year
+			from
+			(
+				select c.Name, ct.[TotalContacts],c.companyid,
+				DATENAME(MONTH,c.CreationDate) as [MonthName],
+				DATEPART(MONTH,c.CreationDate) as [Month],
+				DATEPART(YEAR,c.CreationDate) as [Year]
+				from company c
+				inner join (
+							SELECT  companyid,Count(*) AS TotalContacts
+							FROM companycontact
+							GROUP BY companyid
+							HAVING  companyid in ( select companyId from company where organisationID = @OrganisationId and storeId is null)
+							)
+							ct on ct.companyid = c.CompanyId
+			) data
+
+		group by month,Name,monthname,year
+		order by TotalContacts desc, Month
+
+			RETURN 
+	END
+
+	
+/****** Object:  StoredProcedure [dbo].[usp_ChartTopPerformingStores]    Script Date: 7/30/2015 8:25:55 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Muhammad Naveed
+-- Create date: 2015 07 30
+-- Description:	To Get Charts data of Top Performing Stores
+-- =============================================
+-- Exec [usp_ChartTopPerformingStores] 1
+ALTER PROCEDURE [dbo].[usp_ChartTopPerformingStores]
+	@OrganisationId bigint
+AS
+BEGIN
+
+		select Name,sum(TotalCustomers) as TotalCustomers, Month, MonthName, Year
+			from
+			(		
+				select c.Name, ct.[TotalCustomers],		
+				DATENAME(MONTH,c.CreationDate) as [MonthName],
+				DATEPART(MONTH,c.CreationDate) as [Month],
+				DATEPART(YEAR,c.CreationDate) as [Year]
+				from company c
+				inner join	(
+								SELECT storeId, COUNT(*) AS [TotalCustomers] FROM company
+								GROUP BY StoreId
+								HAVING  StoreId in ( select companyId from company where organisationID = @organisationid and storeId is null )
+							) ct on ct.StoreId = c.CompanyId
+
+			) data
+
+		group by month,Name,monthname,year
+		order by TotalCustomers desc
+			RETURN 
+	END
+

@@ -3,9 +3,9 @@
         <div class="col-sm-12 PaddingZero">
             <div class="col-sm-12 PaddingZero">
                 <div class="col-sm-3">
-                    <div class="btn-group" style="float:left;margin-bottom: 3px; margin-left:14px">
-                        <button type="button" class="btn btn-primary">Actions</button>
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <div class="btn-group" style="float:left;margin-bottom: 3px; margin-left:11px">
+                        <button type="button" class="btn btn-primary" style="margin-top:-10px;">Actions</button>
+                        <button type="button" style="margin-top:-10px;" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
@@ -16,12 +16,12 @@
                         </ul>
                     </div>
                 </div>
-                <div data-bind="with: selectedInvoice" style="text-align: right; padding-right: 16px">
+                <div data-bind="with: selectedInvoice" style="text-align:right; padding-right:19px;margin-bottom:10px;">
                     @*<button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:0px">
                             Print
                         </button>*@
-                    <button class="btn btn-primary" id="saveBtn" data-bind="visible:invoiceStatus()===19,click: $root.onSaveInvoice, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
-                    <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseInvoiceEditor">Cancel</button>
+                    <button class="btn btn-primary" style="margin-top:-10px;" id="saveBtn" data-bind="visible:invoiceStatus()===19,click: $root.onSaveInvoice, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
+                    <button class="btn btn-default" style="margin-top:-10px;" id="cancelBtn" data-bind="click: $root.onCloseInvoiceEditor">Cancel</button>
                 </div>
             </div>
             <div class="col-sm-12 PaddingZero PaddingStatuses">

@@ -3243,13 +3243,15 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial)
+        public void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial, int MisOrdersCount, int WebStoreOrdersCount)
         {
             Organisation org = GetOrganizatiobByID(organisationId);
             if (org != null)
             {
                 org.isTrial = isTrial;
                 org.LiveStoresCount = storesCount;
+                org.MisOrdersCount = MisOrdersCount;
+                org.WebStoreOrdersCount = WebStoreOrdersCount;
             }
             SaveChanges();
         }
