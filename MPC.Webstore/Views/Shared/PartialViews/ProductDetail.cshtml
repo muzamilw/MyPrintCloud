@@ -79,12 +79,10 @@
                                 {
                                     <div id="divFaourites" class="">
                                        
-                                            @*<a onclick="return ShowDesignNow();">
                                                 <input id="btnEditThisDesign" value="Design Now" type="button"
-                                                       class="start_creating_btn_prodDetail_orng  rounded_corners5 padding0imp" />
-                                            </a>*@
-                                        
-                                       &nbsp;
+                                                       class="start_creating_btn_prodDetail_orng  rounded_corners5 padding0imp" onclick="return ShowDesignNow();" />
+                                      
+                                       
                                         <div class="clear">
                                         </div>
                                     </div>
@@ -1326,7 +1324,7 @@
             var EditType = "@ViewBag.hfEditTempType";
             var ItemID = "@Model.ItemId";
             var TempID = "@ViewBag.TemplateID";
-
+            debugger;
             if (EditType == "NoTemplate") {
                 window.location.href = "/EditDesign/''/" + EditType + "/" + ItemID + "/" + TempID;
 
