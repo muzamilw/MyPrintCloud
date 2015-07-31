@@ -357,6 +357,7 @@
     <Compile Include="Areas\Designer\Controllers\DesignerController.cs" />
     <Compile Include="Areas\Designer\DesignerAreaRegistration.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\AddressController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\ApplyDeliveryMethodController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\ContactImageUploaderController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\CostCenterController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\DeleteAttachmentController.cs" />

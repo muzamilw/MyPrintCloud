@@ -76,7 +76,12 @@ namespace MPC.Webstore.Controllers
 
                 if (ItemRecord != null)
                 {
-                    // curProduct = ProductManager.GetProductItemByItemId(itemID);
+                    if (ItemRecord.ProductDisplayOptions == (int)ProductDisplayOption.ThumbWithMultipleBanners)
+                    {
+
+                        loadfinishedGoodsImages(ItemRecord, ItemID, ItemRecord.ImagePath);
+                    }
+
                     if (ItemRecord.TemplateId != null && ItemRecord.TemplateId > 0)
                     {
                         ViewBag.TemplateID = ItemRecord.TemplateId;
@@ -101,13 +106,7 @@ namespace MPC.Webstore.Controllers
                     // LayoutGrid
 
 
-                    if (ItemRecord.ProductDisplayOptions == (int)ProductDisplayOption.ThumbWithMultipleBanners)
-                    {
-
-                        // ProductrightContainter.Style.Add("display", "none");
-                        // SliderContainer.Style.Add("background-color", "#f3f3f3");
-                        loadfinishedGoodsImages(ItemRecord, ItemID, ItemRecord.ImagePath);
-                    }
+                   
 
 
                     if (CategoryID == 0)
@@ -166,31 +165,6 @@ namespace MPC.Webstore.Controllers
                         ViewData["CostCentersList"] = null;
                     }
 
-
-                    if (ItemRecord.IsStockControl == true)
-                    {
-                        ItemStockControl StckItem = _IItemService.GetStockItem(ItemRecord.ItemId);
-                        ViewData["StockControl"] = StckItem;
-                        if (StckItem != null)
-                        {
-                            if (StckItem.isAllowBackOrder ?? false) // back ordering allowed
-                            {
-                                ViewBag.isAllowBackOrder = true;
-                            }
-                            else
-                            {// no stock 
-                                ViewBag.isAllowBackOrder = false;
-
-
-
-                            }
-
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.isAllowBackOrder = false;
-                    }
 
 
                     //Handle corporate scenario
@@ -1077,11 +1051,12 @@ namespace MPC.Webstore.Controllers
                         }
 
                     }
-
-
-
-                    int tempid = (int)TemplateId;
-                    NewLocalTemplateID = _ITemplateService.MergeRetailTemplate(tempid, 0, StoreBaseResopnse.Organisation.OrganisationId, false, CompanyID, ContactID, ItemID);
+                    ItemCloneResult cloneObject = _IItemService.CloneItemAndLoadDesigner(ItemID, (StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WEBOrderId, ContactID, CompanyID, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID);
+                    UserCookieManager.TemporaryCompanyId = cloneObject.TemporaryCustomerId;
+                    UserCookieManager.WEBOrderId = cloneObject.OrderId;
+                    Response.Redirect(cloneObject.RedirectUrl);
+                    return null;
+              //      NewLocalTemplateID = _ITemplateService.MergeRetailTemplate(tempid, 0, StoreBaseResopnse.Organisation.OrganisationId, false, CompanyID, ContactID, ItemID);
 
 
 
@@ -1098,116 +1073,83 @@ namespace MPC.Webstore.Controllers
                     //processing order information and adding the selected item
 
 
-                    if (UserCookieManager.WEBOrderId == 0)
-                    {
-                        long TemporaryRetailCompanyId = 0;
-                        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
-                        {
-                            TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
-                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
-                            if (OrderID > 0)
-                            {
-                                UserCookieManager.WEBOrderId = OrderID;
-                            }
-                            if (TemporaryRetailCompanyId != 0)
-                            {
-                                UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
-                                ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
-                            }
-                            CompanyID = TemporaryRetailCompanyId;
-
-                        }
-                        else
-                        {
-                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
-                            if (OrderID > 0)
-                            {
-                                UserCookieManager.WEBOrderId = OrderID;
-                            }
-                        }
-
-                        // create new order
-
-
-                        Item item = _IItemService.CloneItem(ItemID, 0, UserCookieManager.WEBOrderId, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
-
-                        if (item != null)
-                        {
-                            oItemID = item.ItemId;
-                            oTemplateID = item.TemplateId ?? 0;
-                            TempDesignerID = item.DesignerCategoryId ?? 0;
-                            sProductName = item.ProductName;
-                        }
-
-                    }
-                    else
-                    {
-                        if (UserCookieManager.TemporaryCompanyId == 0 && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail && ContactID == 0)
-                        {
-                            long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
-
-                            // create new order
-
-                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
-                            if (OrderID > 0)
-                            {
-                                UserCookieManager.WEBOrderId = OrderID;
-                            }
-                            if (TemporaryRetailCompanyId != 0)
-                            {
-                                UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
-                                ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
-                            }
-                            CompanyID = TemporaryRetailCompanyId;
-                        }
-                        else if (UserCookieManager.TemporaryCompanyId > 0 && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
-                        {
-                            CompanyID = UserCookieManager.TemporaryCompanyId;
-                            ContactID = _myCompanyService.GetContactIdByCompanyId(CompanyID);
-                        }
-                        Item item = _IItemService.CloneItem(ItemID, 0, UserCookieManager.WEBOrderId, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
-
-                        if (item != null)
-                        {
-                            oItemID = item.ItemId;
-                            oTemplateID = item.TemplateId ?? 0;
-                            TempDesignerID = item.DesignerCategoryId ?? 0;
-                            sProductName = Utils.specialCharactersEncoder(item.ProductName);
-                        }
-                    }
-                    //int isCalledFrom = 0;
-                    //if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                    //    isCalledFrom = 4;
-                    //else
-                    //    isCalledFrom = 3;
-
-                    //bool isEmbedded;
-                    //bool printWaterMark = true;
-                    //if (UserCookieManager.StoreMode == (int)StoreMode.Corp || UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                    //if (UserCookieManager.WEBOrderId == 0)
                     //{
-                    //    isEmbedded = true;
+                    //    long TemporaryRetailCompanyId = 0;
+                    //    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+                    //    {
+                    //        TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+                    //        long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    //        if (OrderID > 0)
+                    //        {
+                    //            UserCookieManager.WEBOrderId = OrderID;
+                    //        }
+                    //        if (TemporaryRetailCompanyId != 0)
+                    //        {
+                    //            UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
+                    //            ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
+                    //        }
+                    //        CompanyID = TemporaryRetailCompanyId;
+
+                    //    }
+                    //    else
+                    //    {
+                    //        long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    //        if (OrderID > 0)
+                    //        {
+                    //            UserCookieManager.WEBOrderId = OrderID;
+                    //        }
+                    //    }
+
+                    //    // create new order
+
+
+                    //    Item item = _IItemService.CloneItem(ItemID, 0, UserCookieManager.WEBOrderId, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
+
+                    //    if (item != null)
+                    //    {
+                    //        oItemID = item.ItemId;
+                    //        oTemplateID = item.TemplateId ?? 0;
+                    //        TempDesignerID = item.DesignerCategoryId ?? 0;
+                    //        sProductName = item.ProductName;
+                    //    }
+
                     //}
-                    //else {
-                    //    printWaterMark = false;
-                    //    isEmbedded = false;
+                    //else
+                    //{
+                    //    if (UserCookieManager.TemporaryCompanyId == 0 && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail && ContactID == 0)
+                    //    {
+                    //        long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
+
+                    //        // create new order
+
+                    //        long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    //        if (OrderID > 0)
+                    //        {
+                    //            UserCookieManager.WEBOrderId = OrderID;
+                    //        }
+                    //        if (TemporaryRetailCompanyId != 0)
+                    //        {
+                    //            UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
+                    //            ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
+                    //        }
+                    //        CompanyID = TemporaryRetailCompanyId;
+                    //    }
+                    //    else if (UserCookieManager.TemporaryCompanyId > 0 && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+                    //    {
+                    //        CompanyID = UserCookieManager.TemporaryCompanyId;
+                    //        ContactID = _myCompanyService.GetContactIdByCompanyId(CompanyID);
+                    //    }
+                    //    Item item = _IItemService.CloneItem(ItemID, 0, UserCookieManager.WEBOrderId, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
+
+                    //    if (item != null)
+                    //    {
+                    //        oItemID = item.ItemId;
+                    //        oTemplateID = item.TemplateId ?? 0;
+                    //        TempDesignerID = item.DesignerCategoryId ?? 0;
+                    //        sProductName = Utils.specialCharactersEncoder(item.ProductName);
+                    //    }
                     //}
-
-                    //ProductName = _IItemService.specialCharactersEncoder(ProductName);
-                    ////Designer/productName/CategoryIDv2/TemplateID/ItemID/companyID/cotnactID/printCropMarks/printWaterMarks/isCalledFrom/IsEmbedded;
-                    //bool printCropMarks = true;
-                    //string URL = "/Designer/" + sProductName + "/" + TempDesignerID + "/" + oTemplateID + "/" + oItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + UserCookieManager.OrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
-
-                    // ItemID ok
-                    // TemplateID ok
-                    // iscalledfrom ok
-                    // cv scripts require
-                    // productName ok
-                    // contactid // ask from iqra about retail and corporate
-                    // companyID // ask from iqra
-                    // isembaded ook
-
-
-
                 }
                 int isCalledFrom = 0;
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
