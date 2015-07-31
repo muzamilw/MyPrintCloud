@@ -3,6 +3,7 @@ using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Webstore.Common;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -48,7 +49,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
         #endregion
         [HttpPost]
-        public void UpdateDataRequestQuote(string FirstName, string LastName, string Email, string Mobile, string Title, string InquiryItemTitle1, string InquiryItemNotes1, string InquiryItemDeliveryDate1, string InquiryItemTitle2, string InquiryItemNotes2, string InquiryItemDeliveryDate2, string InquiryItemTitle3, string InquiryItemNotes3, string InquiryItemDeliveryDate3, string hfNoOfRec)
+        public HttpResponseMessage UpdateDataRequestQuote(string FirstName, string LastName, string Email, string Mobile, string Title, string InquiryItemTitle1, string InquiryItemNotes1, string InquiryItemDeliveryDate1, string InquiryItemTitle2, string InquiryItemNotes2, string InquiryItemDeliveryDate2, string InquiryItemTitle3, string InquiryItemNotes3, string InquiryItemDeliveryDate3, string hfNoOfRec)
         {
             int count = HttpContext.Current.Request.Files.Count;
             int Contentlength = HttpContext.Current.Request.ContentLength;
@@ -68,10 +69,15 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             }
             else
             {
-                if (_companyContact.GetContactByEmailID(Email) != null)
+                CompanyContact SubsriberContact = _companyService.GetContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+                if (SubsriberContact != null)
                 {
-                    return;
+                    JsonSerializerSettings jSettings = new Newtonsoft.Json.JsonSerializerSettings();
+                    GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
+
+                    return Request.CreateResponse(HttpStatusCode.OK, false);
                 }
+
                 CompanyContact Contact = new CompanyContact();
                 Contact.FirstName = FirstName;
                 Contact.LastName = LastName;
@@ -81,37 +87,39 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
 
 
-                long Customer = _companyService.CreateCustomer(FirstName, false, false, CompanyTypes.SalesCustomer, string.Empty, 0, StoreBaseResopnse.Company.CompanyId, Contact);
+                long Customer = _companyService.CreateCustomer(FirstName, false, false, CompanyTypes.SalesCustomer, string.Empty,  UserCookieManager.WEBOrganisationID, StoreBaseResopnse.Company.CompanyId, Contact);
 
                 if (Customer > 0)
                 {
 
-                    MPC.Models.DomainModels.Company loginUserCompany = _companyService.GetCompanyByCompanyID(UserCookieManager.WEBOrganisationID);
+                    CompanyContact loginUser = _companyService.GetContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+                    NewInqury.ContactId = loginUser.ContactId;
+                    NewInqury.CompanyId = Customer;
                     CompanyContact UserContact = _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
                     CampaignEmailParams cep = new CampaignEmailParams();
-
                     Campaign RegistrationCampaignn = _campaignService.GetCampaignRecordByEmailEvent((int)Events.RequestAQuote, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
                     cep.ContactId = NewInqury.ContactId;
 
                     cep.OrganisationId = 1;
-                    cep.AddressId = (int)NewInqury.CompanyId;
+                    
+                    cep.AddressId = NewInqury.CompanyId??0;
                     cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
                     cep.StoreId = UserCookieManager.WBStoreId;
 
-                    SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(loginUserCompany.SalesAndOrderManagerId1.Value);
+                    SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
 
                     if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                     {
-                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.CompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
+                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId,NewInqury.CompanyId??0, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
 
                     }
                     else
                     {
-                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.CompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Corp, UserCookieManager.WBStoreId, EmailOFSM);
+                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId,NewInqury.CompanyId??0, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Corp, UserCookieManager.WBStoreId, EmailOFSM);
 
                     }
 
-                    _campaignService.emailBodyGenerator(RegistrationCampaignn, cep, UserContact, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+                    _campaignService.emailBodyGenerator(RegistrationCampaignn, cep, UserContact, StoreMode.Retail, (int)UserCookieManager.WEBOrganisationID, "", "", "", EmailOFSM.Email, "", "", null, "");
 
                 }
             }
@@ -119,6 +127,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             NewInqury.IsDirectInquiry = false;
             NewInqury.FlagId = null;
             NewInqury.SourceId = 30;
+           // NewInqury.ContactId = 73473;
             int iMaxFileSize = 2097152;
             long result = _ItemService.AddInquiryAndItems(NewInqury, FillItems(InquiryItemDeliveryDate1, InquiryItemDeliveryDate2, InquiryItemDeliveryDate3, InquiryItemTitle1, InquiryItemNotes1, InquiryItemTitle2, InquiryItemNotes2, InquiryItemTitle3, InquiryItemNotes3, Convert.ToInt32(hfNoOfRec)));
             long InquiryId = result;
@@ -128,6 +137,10 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 if (HttpContext.Current.Request.ContentLength < iMaxFileSize)
                 {
                     FillAttachments(result);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK,"gs");
                 }
             }
             if (result > 0)
@@ -141,7 +154,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 cep.ContactId = NewInqury.ContactId;
 
                 cep.OrganisationId = 1;
-                cep.AddressId = (int)NewInqury.CompanyId;
+                cep.AddressId =NewInqury.CompanyId??0;
                 cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
                 cep.StoreId = UserCookieManager.WBStoreId;
                 cep.CompanyId = UserCookieManager.WBStoreId;
@@ -165,10 +178,11 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                 }
 
-                _campaignService.emailBodyGenerator(RegistrationCampaign, cep, UserContact, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+                _campaignService.emailBodyGenerator(RegistrationCampaign, cep, UserContact, StoreMode.Retail,(int)UserCookieManager.WEBOrganisationID, "", "", "", EmailOFSM.Email, "", "", null, "");
             }
 
-
+            
+            return Request.CreateResponse(HttpStatusCode.OK, true);
         }
 
         

@@ -6100,6 +6100,12 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Parameter Name="TemplateID" Type="bigint" Mode="In" />
           <Parameter Name="CustomerID" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="usp_ChartRegisteredUserByStores" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrganisationId" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_ChartTopPerformingStores" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrganisationId" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="usp_DeleteCarts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CompanyID" Type="bigint" Mode="In" />
         </Function>
@@ -8161,6 +8167,12 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="ProductCategoryVouchers" EntityType="DomainModels.ProductCategoryVoucher" />
           <EntitySet Name="TemplateVariableExtensions" EntityType="DomainModels.TemplateVariableExtension" />
           <EntitySet Name="CompanyVoucherRedeems" EntityType="DomainModels.CompanyVoucherRedeem" />
+          <FunctionImport Name="usp_ChartRegisteredUserByStores" ReturnType="Collection(DomainModels.usp_ChartRegisteredUserByStores_Result)">
+            <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_ChartTopPerformingStores" ReturnType="Collection(DomainModels.usp_ChartTopPerformingStores_Result)">
+            <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -14930,6 +14942,20 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="DiscountVoucherId" Type="Int64" />
           <Property Name="RedeemDate" Type="DateTime" Precision="3" />
         </EntityType>
+        <ComplexType Name="usp_ChartRegisteredUserByStores_Result">
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="TotalContacts" Nullable="true" />
+          <Property Type="Int32" Name="Month" Nullable="true" />
+          <Property Type="String" Name="MonthName" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="Year" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="usp_ChartTopPerformingStores_Result">
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="TotalCustomers" Nullable="true" />
+          <Property Type="Int32" Name="Month" Nullable="true" />
+          <Property Type="String" Name="MonthName" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="Year" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -19661,6 +19687,28 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_ChartRegisteredUserByStores" FunctionName="DomainModels.Store.usp_ChartRegisteredUserByStores">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DomainModels.usp_ChartRegisteredUserByStores_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TotalContacts" ColumnName="TotalContacts" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="MonthName" ColumnName="MonthName" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_ChartTopPerformingStores" FunctionName="DomainModels.Store.usp_ChartTopPerformingStores">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DomainModels.usp_ChartTopPerformingStores_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TotalCustomers" ColumnName="TotalCustomers" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="MonthName" ColumnName="MonthName" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

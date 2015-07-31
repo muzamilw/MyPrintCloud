@@ -357,6 +357,9 @@
 
 
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
+<script src="/Scripts/bootstrap.js"></script>
+<script src="/Scripts/respond.js"></script>
+<script src="/Scripts/bootstrap-datepicker.js"></script>
 <script type="text/javascript">
 
     //$(document).ready(function () {
@@ -658,13 +661,28 @@
             async: true,
             processData: false,
             success: function (response) {
+                
                 HideLoader();
-                $("#txtBoxUserName").val(''); $("#LastName").val(''); $("#UserEmail").val(''); $("#Phone").val('');
-                $("#txtInquiryTitle").val(''); $("#txtTitle1").val(''); $("#txtItemNote1").val(''); $("#txtInquiryDate1").val('');
-                $("#txtTitle2").val(''); $("#itemnotes2").val(''); $("#txtInquiryDate2").val('');
-                $("#txtTitle3").val(''); $("#txtItemNote3").val(''); $("#txtInquiryDate3").val('');
-                $("#hfNoOfRec").val(1);
-                ShowPopUp("Message", "Inquiry submitted successfully!");
+                
+                if (response == 'gs')
+                {
+                    ShowPopUp("Message", "Please upload smaller size Attachments!");
+                }
+                else
+                    if (response == false) {
+                        
+                        ShowPopUp("Message", "Sorry,you have already subscribed with this email!");
+                    }
+                    else {
+                        $("#txtBoxUserName").val(''); $("#LastName").val(''); $("#UserEmail").val(''); $("#Phone").val('');
+                        $("#txtInquiryTitle").val(''); $("#txtTitle1").val(''); $("#txtItemNote1").val(''); $("#txtInquiryDate1").val('');
+                        $("#txtTitle2").val(''); $("#itemnotes2").val(''); $("#txtInquiryDate2").val('');
+                        $("#txtTitle3").val(''); $("#txtItemNote3").val(''); $("#txtInquiryDate3").val('');
+                        $("#hfNoOfRec").val(1);
+                        $("#InquiryAttachment").val('');
+                        alert(response);
+                        ShowPopUp("Message", "Inquiry submitted successfully!");
+                    }
                
             },
             error: function (error) {

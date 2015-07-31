@@ -356,7 +356,7 @@ namespace MPC.Implementation.MISServices
             SystemUser objSystemUser = SystemUserRepository.GetUserrById(SystemUserId);
             Organisation objOrg = organisationRepository.GetOrganizatiobByID();
 
-            string[] stringSeparators = new string[] {"mpc_content"};
+            string[] stringSeparators = new string[] {"mpc_content/"};
             string[] SplitPath = Path.Split(stringSeparators, StringSplitOptions.None);
 
             string PathFull = "\\MPC_Content" + SplitPath[1];
