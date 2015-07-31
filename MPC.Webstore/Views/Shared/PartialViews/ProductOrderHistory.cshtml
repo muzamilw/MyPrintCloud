@@ -442,7 +442,7 @@
                                 </tr>
                                 <tr>
                                     <td align="left" style="width: 80%">
-                                        <span id="spnDeliveryoptn">Deivery Cost:</span>
+                                        <span id="spnDeliveryoptn">Delivery Cost:</span>
                                     </td>
                                     <td>
                                         <label id="lblDeliveryCost"><span id="DelCharge"></span></label>
@@ -514,6 +514,7 @@
         function DownLoadArtworkFile(orderId) {
             ShowLoader();
             $.get("/mis/api/DownloadArtwork?OrderId=" + orderId, function (DT) {
+                console.log(DT);
                 window.location.href = DT;
                 HideLoader();
             });
