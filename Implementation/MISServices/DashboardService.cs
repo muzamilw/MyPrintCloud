@@ -50,9 +50,9 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Get Total Earnings For Dashboard
         /// </summary>
-        public IEnumerable<usp_TotalEarnings_Result> GetTotalEarningsForDashboard()
+        public DashBoardChartsResponse GetChartsForDashboard()
         {
-            return estimateRepository.GetTotalEarningsForDashboard();
+            return estimateRepository.GetChartsForDashboard();
         }
         #endregion
 

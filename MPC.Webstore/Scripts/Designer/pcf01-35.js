@@ -960,6 +960,7 @@ function fu12(mode, title) {
     var returnText = $.ajax(options).responseText;
 }
 function fu13(op, type, r, c) {
+    
     if (type == 1) {
         if (isImgPaCl) {
             $(".ImgsBrowserCategories").removeClass("folderExpanded"); $(".ImgsBrowserCategories ul li").removeClass("folderExpanded");
@@ -976,6 +977,7 @@ function fu13(op, type, r, c) {
             isImgPaCl = true;
         }
     } else if (type == 2) {
+        $(".BkColors").removeClass("SelectBkColorPanel");
         if (isBkPaCl) {
             $(".bKimgBrowseCategories").removeClass("folderExpanded"); $(".bKimgBrowseCategories ul li").removeClass("folderExpanded");
             $(".BkImgPanels").addClass("disappearing");
@@ -1547,7 +1549,7 @@ function g2_1(e) {
     $("#FrontBackOptionPanalSection").addClass("showRightPropertyPanel");
 }
 function g2_22(mode) {
-    $("#btnReplaceImage,#BtnCropImg2").removeAttr("disabled");
+    $("#btnReplaceImage,#BtnCropImg2,.BtnChngeClrSvg").removeAttr("disabled");
     var D1AO = canvas.getActiveObject();
     if (!D1AO) return;
     $("#textPropertyPanel").css("display", "none");
@@ -1555,6 +1557,7 @@ function g2_22(mode) {
     $(".inputObjectAlphaSlider").slider("option", "value", (D1AO.getOpacity() * 100));
     if (D1AO.IsEditable) {
         $("#LockImgProperties").prop('checked', true);
+
     } else {
         $("#LockImgProperties").prop('checked', false);
     }
@@ -1593,6 +1596,8 @@ function g2_22(mode) {
                 //DisplayDiv('1');
             }
             $(".svgColorPanel").css("display", "none");
+            $(".inputObjectAlphaSlider ").css("display", "inline-block");
+
         // }
           
     } else if (mode == 3) {
@@ -1610,7 +1615,7 @@ function g2_22(mode) {
                 m0();
             } 
         }
-        $(".svgColorPanel").css("display", "block"); $("#AddColorShape").css("visibility", "hidden");
+        $(".svgColorPanel").css("display", "block"); $("#AddColorShape").css("visibility", "hidden"); $(".inputObjectAlphaSlider ").css("display", "none");
         $(".svgColorContainer").html("");
         var lstClrs = [];
         if (D1AO.customStyles != null) {
@@ -1627,7 +1632,7 @@ function g2_22(mode) {
         } 
     } else {
         $("#AddColorShape").css("visibility", "visible");
-        $(".svgColorPanel").css("display", "none");
+        $(".svgColorPanel").css("display", "none"); $(".inputObjectAlphaSlider ").css("display", "inline-block");
         if ((D1AO.IsTextEditable && (IsCalledFrom == 4))) {
         } else {
             $(".rotateSlider").slider("option", "value", D1AO.getAngle());
@@ -1655,7 +1660,12 @@ function g2_22(mode) {
         //changed on request of lucas 
         if(D1AO.IsPositionLocked && D1AO.IsTextEditable)
         {
-            $("#btnReplaceImage,#BtnCropImg2").attr("disabled", "disabled");
+            $("#btnReplaceImage,#BtnCropImg2,.BtnChngeClrSvg").attr("disabled", "disabled");
+        }
+    }else 
+    {
+        if (D1AO.IsPositionLocked && D1AO.IsTextEditable) {
+            $(".BtnChngeClrSvg").attr("disabled", "disabled");
         }
     }
 }
@@ -3587,4 +3597,27 @@ function pcl43_bullet() {
         D1AO.isBulletPoint = true;
 
     canvas.renderAll();
+}
+function pcl44_rLoad() {
+    $("#layer").css("background-color", "rgb(112, 114, 119)");
+    CustomeAlertBoxDesigner("Are you sure you want to restore template to its original state ?", "pcl44_rLoad_CallBack()");
+}
+function pcl44_rLoad_CallBack() {
+    //if (confirm("Are you sure you want to restore template to its original state ?")) {
+    $("#layer").css("background-color", "transparent");
+    document.getElementById("layer").style.display = "none";
+    document.getElementById("innerLayer").style.display = "none";
+        TO = [];
+        TP = [];
+        $.each(TORestore, function (i, IT) {
+            var obj = fabric.util.object.clone(IT);
+            TO.push(obj);
+        });
+        $.each(TPRestore, function (i, IT) {
+            var obj = fabric.util.object.clone(IT);
+            TP.push(obj);
+        });
+        canvas.clear();
+        d5(SP);
+   // }
 }

@@ -281,7 +281,10 @@ function fu04_01() {
           // if (firstLoad) {
           fu05();
           //   }
-         
+          $.each(TO, function (i, IT) {
+              var obj = fabric.util.object.clone(IT);
+              TORestore.push(obj);
+          });
       });
     k0();
     if (IsCalledFrom == 2) {
@@ -434,8 +437,13 @@ function SvcLoad2ndTemplate() {
          Template = DT;
          tID = Template.ProductId;
          TP = [];
+         TPRestore = [];
          $.each(Template.TemplatePages, function (i, IT) {
              TP.push(IT);
+         });
+         $.each(TP, function (i, IT) {
+             var obj = fabric.util.object.clone(IT);
+             TPRestore.push(obj);
          });
          $.getJSON("/designerapi/TemplateObject/GetTemplateObjects/" + tID,
         function (DT) {
@@ -445,6 +453,11 @@ function SvcLoad2ndTemplate() {
                 IT.ProductPageId = IT.ProductPageId;
             }); 
             TO = DT;
+            TORestore = [];
+            $.each(TO, function (i, IT) {
+                var obj = fabric.util.object.clone(IT);
+                TORestore.push(obj);
+            });
             fu06(true);
             fu07();
         });

@@ -761,19 +761,34 @@ function d1Svg(cCanvas, IO, isCenter) {
        
             for (var i = 0; i < loadedObject.paths.length; i++) {
                 clr = (loadedObject.paths[i].get('fill'));
+                var sortOrder = GetSortIndexforHex(clr);
                 var objClr = {
                     OriginalColor: clr,
                     PathIndex: i,
-                    ModifiedColor: ''
+                    ModifiedColor: '',
+                    SortOrder: sortOrder
                 }
                 colors.push(objClr);
             }
+            colors.sort(function (obj1, obj2) {
+                return obj1.SortOrder - obj2.SortOrder;
+            });
         }
         loadedObject.customStyles = colors;
        // IO.textStyles = JSON.stringify(colors, null, 2);
 
     });
 
+}
+function GetSortIndexforHex(hexColor)
+{
+    hexColor = hexColor.replace('#', '');
+    var bigint = parseInt(hexColor, 16);
+    var r = (bigint >> 16) & 255;
+    var g = (bigint >> 8) & 255;
+    var b = bigint & 255;
+
+    return 0.299 * r + 0.587 * g + 0.114 * b;
 }
 function d1(cCanvas, IO, isCenter) {
     TIC += 1;
@@ -1390,6 +1405,12 @@ function fu02UI() {
     $("#canvasDocument").scroll(function () {
         canvas.calcOffset();
     });
+    //$("#DivColorPickerDraggable").draggable({
+
+    //    appendTo: "body",
+    //    cursor: 'move',
+    //    cancel: "div #DivColorContainer"
+    //});
     $(".add").draggable({
         snap: '#dropzone',
         snapMode: 'inner',
@@ -1708,6 +1729,10 @@ function fu04_callBack(DT) {
   //  $("#txtTemplateTitle").val(Template.ProductName);
     $.each(Template.TemplatePages, function (i, IT) {
         TP.push(IT);
+    });
+    $.each(TP, function (i, IT) {
+        var obj = fabric.util.object.clone(IT);
+        TPRestore.push(obj);
     });
     if (Template.TemplateType == 1 || Template.TemplateType == 2) {
         IsBC = true

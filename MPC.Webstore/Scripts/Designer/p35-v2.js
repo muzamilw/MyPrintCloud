@@ -823,6 +823,7 @@ $(".templateBackgrounds").click(function (event) {
 });
 $(".BkColors").click(function (event) {
     fu13(2, 2, 2, 1); spBkPanel = ".BkColors";
+    $(".BkColors").toggleClass("SelectBkColorPanel");
 });
 $(".btnFreeImgs").click(function (event) {
     fu13(2, 1, 1, 1);
@@ -1891,6 +1892,7 @@ $('#btnDeleteImage').click(function (event) {
 
 //};
 $("#clearBackground").click(function (event) {
+    $(".BkColors").removeClass("SelectBkColorPanel");
     $(".bKimgBrowseCategories").removeClass("folderExpanded"); $(".bKimgBrowseCategories ul li").removeClass("folderExpanded");
     $(".BkImgPanels").addClass("disappearing");
     isBkPaCl = false; SelBkCat = "00";
@@ -2268,4 +2270,7 @@ $("#Homebtn2").click(function () {
 });
 $("#BtnBulletedLstTxt").click(function () {
     pcl43_bullet();
+});
+$('#BtnReload').click(function (event) {
+    pcl44_rLoad();
 });

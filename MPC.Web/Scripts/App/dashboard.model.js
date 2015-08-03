@@ -378,6 +378,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // #endregion;
 
+
     TotalEarnings = function (specifiedMonth, specifiedOrders, specifiedTotal, specifiedmonthname, specifiedyear, specifiedstore) {
         //var //
         //    month :specifiedMonth;

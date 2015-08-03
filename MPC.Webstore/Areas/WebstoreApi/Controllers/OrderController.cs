@@ -119,10 +119,10 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         private void CalculateProductDescription(Order order, out double GrandTotal, out double Subtotal, out double vat)
         {
 
-            double Delevery = 0;
-            double DeliveryTaxValue = 0;
-            double TotalVat = 0;
-            double calculate = 0;
+            double DeliveryItemTotal = 0;
+            double DeliveryTaxVal = 0;
+            double ItemsTotalVat = 0;
+            
             Subtotal = 0;
             vat = 0;
             GrandTotal = 0;
@@ -130,23 +130,16 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 foreach (var item in order.OrderDetails.CartItemsList)
                 {
 
-                    if (item.ItemType == (int)ItemTypes.Delivery)
+                    if (item.ItemType != (int)ItemTypes.Delivery)
                     {
-                        Delevery = Convert.ToDouble(item.Qty1NetTotal);
-                        DeliveryTaxValue = Convert.ToDouble(item.Qty1GrossTotal - item.Qty1NetTotal);
+                        Subtotal = Subtotal + item.Qty1BaseCharge1 ?? 0;
+                        ItemsTotalVat = ItemsTotalVat + item.Qty1Tax1Value ?? 0;
                     }
-                    else
-                    {
-
-                        Subtotal = Subtotal + Convert.ToDouble(item.Qty1NetTotal);
-                        TotalVat = Convert.ToDouble(item.Qty1GrossTotal) - Convert.ToDouble(item.Qty1NetTotal);
-                        calculate = calculate + TotalVat;
-                    }
-
                 }
-
-                GrandTotal = Subtotal + calculate + DeliveryTaxValue + Delevery;
-                vat = calculate;
+                DeliveryItemTotal = order.OrderDetails.DeliveryCost;
+                DeliveryTaxVal = order.OrderDetails.DeliveryTaxValue;
+                GrandTotal = Subtotal + ItemsTotalVat + DeliveryTaxVal + DeliveryItemTotal;
+                vat = ItemsTotalVat + DeliveryTaxVal;
 
         }
      

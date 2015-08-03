@@ -124,7 +124,11 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            
+                                            <div id="pagerDiv" style="margin-right:0px" class="pull-right">
+                                                <!-- ko with: prospectPager -->
+                                                @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                <!-- /ko -->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -135,11 +139,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="pagerDiv" style="margin-right:0px" class="pull-right">
-                    <!-- ko with: prospectPager -->
-                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                    <!-- /ko -->
-                </div>
+                
             </div>
             <script id="filterTemplate" type="text/html">
                 <div class="filter-body" id="filter" style=" margin-left:13px;   margin-right:15px; margin-bottom: 4px;">
