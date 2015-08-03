@@ -131,6 +131,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+
                 CompanyResponse companyResponse = new CompanyResponse();
                 var company = db.Companies.Include(c => c.CmsPages)
                     .Include(c => c.RaveReviews)

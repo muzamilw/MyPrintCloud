@@ -16,7 +16,7 @@ namespace MPC.Models.DomainModels
         /// Item Id
         /// </summary>
         public long ItemId { get; set; }
-
+        
         /// <summary>
         /// Item Code
         /// </summary>
@@ -394,6 +394,9 @@ namespace MPC.Models.DomainModels
         public bool? IsDigitalDownload { get; set; }
         public bool? IsRealStateProduct { get; set; }
         public int? ProductDisplayOptions { get; set; }
+
+        public long? DiscountVoucherID { get; set; }
+        
 
         [NotMapped]
         public double MinPrice { get; set; }

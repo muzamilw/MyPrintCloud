@@ -65,7 +65,7 @@ namespace MPC.Models.Common
             get;
             set;
         }
-        public int DiscountVoucherID
+        public long DiscountVoucherID
         {
             get;
             set;
