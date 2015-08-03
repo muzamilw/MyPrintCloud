@@ -59,8 +59,8 @@
                                     <tr id="storesList">
                                         <th class="col-lg-1"></th>
                                         <th class="col-lg-3"><span>All Stores</span></th>
-                                        <th class="col-lg-6"><span>Type</span></th>
-
+                                        <th class="col-lg-3"><span>Type</span></th>
+                                        <th class="col-lg-3"><span>Status</span></th>
                                         <th class="col-lg-2">&nbsp;</th>
                                     </tr>
                                 </thead>
@@ -116,7 +116,9 @@
                 </td>
 
                 <td data-bind="text: type"></td>
-
+                <td>
+                    <span class="label" data-bind="text: storeMode() , css: { 'label-success':  storeMode() === 'Live', 'label-warning' : storeMode() === 'Offline' }">Offline</span>                    
+                </td>
                 <td>
                     <a class="btn btn-success" data-bind="text: 'Preview Web Store', attr: {href: domain }, click: function(){$root.openDomainInTab($data, event);}" target="_new"></a>
                 </td>
