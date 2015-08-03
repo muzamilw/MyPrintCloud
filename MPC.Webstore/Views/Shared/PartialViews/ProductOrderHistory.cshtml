@@ -514,6 +514,9 @@
         function DownLoadArtworkFile(orderId) {
             ShowLoader();
             $.get("/mis/api/DownloadArtwork?OrderId=" + orderId + "&OrganisationId=" + @UserCookieManager.WEBOrganisationID, function (DT) {
+               
+                DT = DT.replace("\"","");
+                DT = DT.replace("\"","");
                 console.log(DT); 
                 window.location.href = DT;
                 HideLoader();
