@@ -960,6 +960,7 @@ function fu12(mode, title) {
     var returnText = $.ajax(options).responseText;
 }
 function fu13(op, type, r, c) {
+    
     if (type == 1) {
         if (isImgPaCl) {
             $(".ImgsBrowserCategories").removeClass("folderExpanded"); $(".ImgsBrowserCategories ul li").removeClass("folderExpanded");
@@ -976,6 +977,7 @@ function fu13(op, type, r, c) {
             isImgPaCl = true;
         }
     } else if (type == 2) {
+        $(".BkColors").removeClass("SelectBkColorPanel");
         if (isBkPaCl) {
             $(".bKimgBrowseCategories").removeClass("folderExpanded"); $(".bKimgBrowseCategories ul li").removeClass("folderExpanded");
             $(".BkImgPanels").addClass("disappearing");
@@ -3595,4 +3597,27 @@ function pcl43_bullet() {
         D1AO.isBulletPoint = true;
 
     canvas.renderAll();
+}
+function pcl44_rLoad() {
+    $("#layer").css("background-color", "rgb(112, 114, 119)");
+    CustomeAlertBoxDesigner("Are you sure you want to restore template to its original state ?", "pcl44_rLoad_CallBack()");
+}
+function pcl44_rLoad_CallBack() {
+    //if (confirm("Are you sure you want to restore template to its original state ?")) {
+    $("#layer").css("background-color", "transparent");
+    document.getElementById("layer").style.display = "none";
+    document.getElementById("innerLayer").style.display = "none";
+        TO = [];
+        TP = [];
+        $.each(TORestore, function (i, IT) {
+            var obj = fabric.util.object.clone(IT);
+            TO.push(obj);
+        });
+        $.each(TPRestore, function (i, IT) {
+            var obj = fabric.util.object.clone(IT);
+            TP.push(obj);
+        });
+        canvas.clear();
+        d5(SP);
+   // }
 }

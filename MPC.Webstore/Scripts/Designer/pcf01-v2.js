@@ -1730,6 +1730,10 @@ function fu04_callBack(DT) {
     $.each(Template.TemplatePages, function (i, IT) {
         TP.push(IT);
     });
+    $.each(TP, function (i, IT) {
+        var obj = fabric.util.object.clone(IT);
+        TPRestore.push(obj);
+    });
     if (Template.TemplateType == 1 || Template.TemplateType == 2) {
         IsBC = true
     } else {
