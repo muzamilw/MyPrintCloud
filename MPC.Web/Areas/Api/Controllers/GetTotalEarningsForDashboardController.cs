@@ -9,6 +9,7 @@ using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.WebBase.Mvc;
+using MPC.Models.ResponseModels;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -41,13 +42,13 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewDashboard })]
         [CompressFilterAttribute]
-        public IEnumerable<usp_TotalEarnings_Result> Get()
+        public DashBoardChartsResponse Get()
         {
             if (!ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            return dashboardService.GetTotalEarningsForDashboard().Select(x => x.CreateFrom());
+            return dashboardService.GetChartsForDashboard();
         }
 
         #endregion

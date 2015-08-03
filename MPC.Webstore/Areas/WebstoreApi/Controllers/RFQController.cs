@@ -60,7 +60,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             Inquiry NewInqury = new Inquiry();
 
             NewInqury.Title = Title;
-
+            NewInqury.OrganisationId = UserCookieManager.WEBOrganisationID;
             if (_webstoreAuthorizationChecker.loginContactID() > 0)
             {
                 NewInqury.ContactId = _webstoreAuthorizationChecker.loginContactID();
@@ -95,6 +95,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     CompanyContact loginUser = _companyService.GetContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
                     NewInqury.ContactId = loginUser.ContactId;
                     NewInqury.CompanyId = Customer;
+                    
                     CompanyContact UserContact = _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
                     CampaignEmailParams cep = new CampaignEmailParams();
                     Campaign RegistrationCampaignn = _campaignService.GetCampaignRecordByEmailEvent((int)Events.RequestAQuote, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);

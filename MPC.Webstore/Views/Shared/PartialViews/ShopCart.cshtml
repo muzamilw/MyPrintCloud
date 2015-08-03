@@ -282,7 +282,22 @@
                                     <div class="cnttotals" id="cntRightPricing1">
                                         <label id="lblSubTotal" class="Fsize13 colorBlack displayClear">@subtotal</label>
                                         <label id="lblVoucherCodeDiscAmount" class="Fsize13 colorBlack displayClear" style="display:none;">0</label>
-                                        <label class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Model.DeliveryCost), ViewBag.Currency)</label>
+                                        @if (Model.DeliveryCostCenterID == 0)
+                                        {
+                                            <label class="Fsize13 colorBlack displayClear tobeCalDelivery" style="color: red !important;
+    position: absolute;
+    line-height: 1;
+    text-align: left;
+    width: 105px;
+    margin-left: -45px;
+    margin-top: 7px;">To be calculated</label>
+                                            <label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label>
+                                        }
+                                        else
+                                        {
+                                            <label class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Model.DeliveryCost), ViewBag.Currency)</label>
+                                        }
+                                        
                                         <label class="Fsize13 colorBlack displayClear">@VatTotal</label>
                                         <label class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(GrossTotal.ToString(), ViewBag.Currency)</label>
                                     </div>
