@@ -149,7 +149,7 @@
                     @if (!string.IsNullOrEmpty(Model.BillingAdress.Tel1))
                     {
                         <span>
-                            <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Tel", UserCookieManager.WBStoreId))</label>
+                            <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId))</label>
                         </span>
                         <label id="lblBTel" style="color: black;  font-style: normal; font-weight: normal; font-size: 12px;">@Model.BillingAdress.Tel1</label>
                     }
@@ -181,7 +181,7 @@
 
                     @if (!string.IsNullOrEmpty(Model.ShippingAddress.Tel1))
                     {
-                        <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Tel", UserCookieManager.WBStoreId))</label>
+                        <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId))</label>
                         <label id="lblSTel" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Tel1</label>
                     }
 

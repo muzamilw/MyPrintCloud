@@ -73,6 +73,21 @@ namespace MPC.Repository.Repositories
         {
            return db.Markups.Where(c => c.OrganisationId == OrganisationId).ToList();
         }
+
+        public Markup GetDefaultMarkupsByOrganisationId(long OID)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
+                return db.Markups.Where(m => m.OrganisationId == OrganisationId && m.IsDefault == true).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         #endregion
     }
 }

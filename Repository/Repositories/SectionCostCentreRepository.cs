@@ -66,6 +66,25 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+        public void RemoveCostCentreOfFirstSection(long ItemSetionId)
+        {
+            try
+            {
+                db.SectionCostcentres.Where(
+                            c => c.ItemSectionId == ItemSetionId && c.IsOptionalExtra == 1)
+                            .ToList()
+                            .ForEach(sc =>
+                            {
+                                db.SectionCostcentres.Remove(sc);
+
+                            });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
 
     }

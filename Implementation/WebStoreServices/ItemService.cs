@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using MPC.Models.DomainModels;
 using System.Web;
 using WebSupergoo.ABCpdf8;
+
 using System.IO;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -21,7 +22,7 @@ namespace MPC.Implementation.WebStoreServices
 {
     public class ItemService : IItemService
     {
-
+        
         private readonly IItemRepository _ItemRepository;
         private readonly IItemStockOptionRepository _StockOptions;
         private readonly ISectionFlagRepository _SectionFlagRepository;
@@ -49,6 +50,8 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IOrderRepository _OrderRepository;
         private readonly IPrefixRepository _prefixRepository;
         private readonly IItemVideoRepository _videoRepository;
+        private readonly IMarkupRepository _markupRepository;
+        private readonly IDiscountVoucherRepository _DVRepository;
         #region Constructor
 
         /// <summary>
@@ -62,7 +65,8 @@ namespace MPC.Implementation.WebStoreServices
             , IItemSectionRepository ItemSectionRepository, ISectionCostCentreRepository ItemSectionCostCentreRepository
             , ITemplateRepository TemplateRepository, ITemplatePageRepository TemplatePageRepository, ITemplateBackgroundImagesRepository TemplateBackgroundImagesRepository
             , ITemplateObjectRepository TemplateObjectRepository, ICostCentreRepository CostCentreRepository
-            , IOrderRepository OrderRepository, IPrefixRepository prefixRepository, IItemVideoRepository videoRepository)
+            , IOrderRepository OrderRepository, IPrefixRepository prefixRepository, IItemVideoRepository videoRepository
+            , IMarkupRepository markupRepository, IDiscountVoucherRepository DVRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -91,6 +95,8 @@ namespace MPC.Implementation.WebStoreServices
             this._OrderRepository = OrderRepository;
             this._prefixRepository = prefixRepository;
             this._videoRepository = videoRepository;
+            this._markupRepository = markupRepository;
+            this._DVRepository = DVRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -508,10 +514,187 @@ namespace MPC.Implementation.WebStoreServices
             }
          
         }
-        public bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, bool isInculdeTax, long ItemstockOptionID, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "") 
+        public bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, bool isInculdeTax, long ItemstockOptionID, 
+            long StoreId, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "") 
         {
-            return _ItemRepository.UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, ItemMode, isInculdeTax, ItemstockOptionID, CountOfUploads, QuestionQueue, CostCentreQueue, InputQueue);
-        }
+           // return _ItemRepository.UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, ItemMode, isInculdeTax, ItemstockOptionID, CountOfUploads, QuestionQueue, CostCentreQueue, InputQueue);
+             bool result = false;
+
+                ItemSection FirstItemSection = null;
+
+                double currentTotal = 0;
+                double netTotal = 0;
+                double grossTotal = 0;
+                double? markupRate = 0;
+
+                try
+                {
+                    Item clonedItem = null;
+
+                    clonedItem =  _ItemRepository.GetItemByItemID(clonedItemID);// db.Items.Where(i => i.ItemId == clonedItemID).FirstOrDefault();
+
+                    long? markupid = 1;
+
+
+                    Markup OrgMarkup = _markupRepository.GetDefaultMarkupsByOrganisationId(OrganisationId); //db.Markups.Where(m => m.OrganisationId == OrganisationId && m.IsDefault == true).FirstOrDefault();
+
+                    if (OrgMarkup != null)
+                    {
+                        markupid = 0;//OrgMarkup.MarkUpId;
+                        markupRate = 0;//(int)OrgMarkup.MarkUpRate;
+                    }
+                    else
+                    {
+                        markupid = 0;
+                        markupRate = 0;
+                    }
+
+                    if (CountOfUploads > 0)
+                    {
+                        clonedItem.ProductName = clonedItem.ProductName + " " + CountOfUploads + " file(s) uploaded";
+                    }
+
+                    clonedItem.Qty1 = (int)orderedQuantity;
+
+                    clonedItem.IsOrderedItem = true;
+
+
+
+                    if (isInculdeTax == true)
+                    {
+                        if (clonedItem.DefaultItemTax != null)
+                        {
+                            clonedItem.Tax1 = Convert.ToInt32(clonedItem.DefaultItemTax);
+                            double TaxAppliedOnItemTotal = _ItemRepository.CalculatePercentage(itemPrice, Convert.ToDouble(clonedItem.DefaultItemTax));// ((itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100); 
+
+                            double TaxAppliedOnCostCentreTotal = _ItemRepository.CalculatePercentage(addonsPrice, Convert.ToDouble(clonedItem.DefaultItemTax));// ((addonsPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100);
+                          
+                            itemPrice = itemPrice;
+
+                            netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+
+                            grossTotal = netTotal + (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);
+                            clonedItem.Qty1Tax1Value = (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);//GetTaxPercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
+                        }
+                        else
+                        {
+                            clonedItem.Tax1 = Convert.ToInt32(TaxRate);
+                            double TaxAppliedOnItemTotal = _ItemRepository.CalculatePercentage(itemPrice, TaxRate); //(itemPrice * TaxRate / 100);
+                            double TaxAppliedOnCostCentreTotal = _ItemRepository.CalculatePercentage(addonsPrice, TaxRate); //(addonsPrice * TaxRate / 100);
+                            itemPrice = itemPrice;
+
+                            netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+                           
+                            grossTotal = netTotal + (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);//CalculatePercentage(netTotal, TaxRate);
+                            clonedItem.Qty1Tax1Value = TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal;//GetTaxPercentage(netTotal, TaxRate);
+                        }
+                    }
+                    else
+                    {
+                        clonedItem.Tax1 = Convert.ToInt32(TaxRate);
+
+                        netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+
+                        _DVRepository.GetStoreDefaultDiscountRate(32844, OrganisationId);
+
+                        grossTotal = netTotal + _ItemRepository.CalculatePercentage(netTotal, TaxRate);
+                        clonedItem.Qty1Tax1Value = _ItemRepository.CalculatePercentage(netTotal, TaxRate);
+                    }
+
+
+                    //******************Existing item update*********************
+                    clonedItem.Qty1MarkUp1Value = markupRate;
+
+                    clonedItem.Qty1MarkUpId1 = (int)markupid;
+
+                    clonedItem.Qty1BaseCharge1 = netTotal;
+
+                    clonedItem.Qty1NetTotal = netTotal;
+
+                    clonedItem.Qty1GrossTotal = grossTotal;
+
+                    FirstItemSection =
+                        clonedItem.ItemSections.Where(sec => sec.SectionNo == 1 && sec.ItemId == clonedItem.ItemId)
+                            .FirstOrDefault();
+
+                    result = SaveAdditionalAddonsOrUpdateStockItemType(newlyAddedCostCenters, stockItemID, FirstItemSection,
+                        ItemMode, ItemstockOptionID); // additional addon required the newly inserted cloneditem
+
+                    FirstItemSection.Qty1 = clonedItem.Qty1;
+
+                    FirstItemSection.BaseCharge1 = clonedItem.Qty1BaseCharge1;
+
+
+
+                    FirstItemSection.Qty1MarkUpID = (int)markupid;
+                    FirstItemSection.QuestionQueue = QuestionQueue;
+                    FirstItemSection.InputQueue = InputQueue;
+                    FirstItemSection.CostCentreQueue = CostCentreQueue;
+
+
+                    bool isNewSectionCostCenter = false;
+
+
+                    List<SectionCostcentre> listOfSectionCostCentres = _ItemSectionCostCentreRepository.GetAllSectionCostCentres(FirstItemSection.ItemSectionId); //db.SectionCostcentres.Where(c => c.ItemSectionId == FirstItemSection.ItemSectionId).ToList();
+
+                    SectionCostcentre sectionCC = null;
+                    foreach (var ccItem in listOfSectionCostCentres)
+                    {
+                        if (ccItem.CostCentre != null)
+                        {
+                            if (ccItem.CostCentre.Type == 29)
+                            {
+                                sectionCC = ccItem;
+                            }
+                        }
+                    }
+
+
+                    if (sectionCC == null)
+                    {
+                        sectionCC = new SectionCostcentre();
+
+                        sectionCC.Qty1MarkUpID = 1;
+                        sectionCC.Qty1Charge = itemPrice;
+                        sectionCC.Qty1NetTotal = itemPrice;
+
+                        isNewSectionCostCenter = true;
+                    }
+
+                    if (isNewSectionCostCenter)
+                    {
+                        //29 is the global type of web order cost centre
+                        var oCostCentre = _CostCentreRepository.GetGlobalWebOrderCostCentre(OrganisationId); //db.CostCentres.Where(g => g.Type == 29 && g.OrganisationId == OrganisationId).SingleOrDefault();
+                        if (oCostCentre != null)
+                        {
+                            sectionCC.Name = oCostCentre.Name;
+                            sectionCC.CostCentreId = oCostCentre.CostCentreId;
+                            sectionCC.ItemSectionId = FirstItemSection.ItemSectionId;
+                            FirstItemSection.SectionCostcentres.Add(sectionCC);
+                        }
+                        else
+                        {
+                            throw new Exception("Critcal Error, We have lost our main costcentre.", null);
+                        }
+                    }
+                    _ItemRepository.SaveChanges();
+                    _ItemSectionRepository.SaveChanges();
+                    _ItemSectionCostCentreRepository.SaveChanges();
+                    //if (result)
+                    //    result = db.SaveChanges() > 0 ? true : false;
+                    result = true;
+                }
+                catch (Exception)
+                {
+                    result = false;
+                    throw;
+                }
+
+                return result;
+            }
+
+
+       
         public ProductCategoriesView GetMappedCategory(string CatName, int CID)
         {
             
@@ -1959,6 +2142,131 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _itemAtachement.GetItemAttactchments(itemID);
         }
+
+      private bool SaveAdditionalAddonsOrUpdateStockItemType(List<AddOnCostsCenter> selectedAddonsList, long newItemID,
+            long stockID, bool isCopyProduct, string updateMode, long ItemStockOptionId)
+        {
+            try
+            {
+                bool result = false;
+                ItemSection SelectedtblItemSectionOne = null;
+
+                //Create A new Item Section #1 to pass to the cost center
+                SelectedtblItemSectionOne =_ItemSectionRepository.GetFirstSectionOfItem(newItemID);
+                //SelectedtblItemSectionOne =
+                //    db.ItemSections.Where(itemSect => itemSect.SectionNo == 1 && itemSect.ItemId == newItemID)
+                //        .FirstOrDefault();
+                
+                if (isCopyProduct == true)
+                {
+                    result = this.SaveAdditionalAddonsOrUpdateStockItemType(selectedAddonsList,
+                        Convert.ToInt64(SelectedtblItemSectionOne.StockItemID1), SelectedtblItemSectionOne, updateMode, ItemStockOptionId);
+                }
+                else
+                {
+                    result = this.SaveAdditionalAddonsOrUpdateStockItemType(selectedAddonsList, stockID,
+                        SelectedtblItemSectionOne, updateMode, ItemStockOptionId);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+        }
+
+        private bool SaveAdditionalAddonsOrUpdateStockItemType(List<AddOnCostsCenter> selectedAddonsList, long stockID,
+            ItemSection SelectedtblItemSectionOne, string updateMode, long ItemstockOptionID)
+        {
+            try
+            {
+                SectionCostcentre SelectedtblISectionCostCenteres = null;
+
+                if (SelectedtblItemSectionOne != null)
+                {
+                    //Set or Update the paper Type stockid in the section #1
+                    if (stockID > 0)
+                        this.UpdateStockItemType(SelectedtblItemSectionOne, stockID, ItemstockOptionID);
+
+                    if (selectedAddonsList != null)
+                    {
+                        // Remove previous Addons
+                        _ItemSectionCostCentreRepository.RemoveCostCentreOfFirstSection(SelectedtblItemSectionOne.ItemSectionId);
+                        //db.SectionCostcentres.Where(
+                        //    c => c.ItemSectionId == SelectedtblItemSectionOne.ItemSectionId && c.IsOptionalExtra == 1)
+                        //    .ToList()
+                        //    .ForEach(sc =>
+                        //    {
+                        //        db.SectionCostcentres.Remove(sc);
+
+                        //    });
+                        //Create Additional Addons Data
+                        //Create Additional Addons Data
+                        for (int i = 0; i < selectedAddonsList.Count; i++)
+                        {
+                            AddOnCostsCenter addonCostCenter = selectedAddonsList[i];
+
+                            SelectedtblISectionCostCenteres = this.PopulateTblSectionCostCenteres(addonCostCenter);
+                            SelectedtblISectionCostCenteres.IsOptionalExtra = 1; //1 tells that it is the Additional AddOn 
+
+                            SelectedtblItemSectionOne.SectionCostcentres.Add(SelectedtblISectionCostCenteres);
+
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public void UpdateStockItemType(ItemSection itemSection, long stockID, long ItemstockOptionID)
+        {
+            try
+            {
+                itemSection.StockItemID1 = (int)stockID; //always set into the first column
+                itemSection.StockItemID2 = (int)ItemstockOptionID;
+                itemSection.StockItemID3 = null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+        }
+        private SectionCostcentre PopulateTblSectionCostCenteres(AddOnCostsCenter addOn)
+        {
+            try
+            {
+                SectionCostcentre tblISectionCostCenteres = new SectionCostcentre
+                {
+                    CostCentreId = addOn.CostCenterID,
+                    IsOptionalExtra = 1,
+                    Qty1Charge = addOn.Qty1NetTotal,
+                    Qty1NetTotal = addOn.Qty1NetTotal,
+                    Qty1WorkInstructions = addOn.CostCentreDescription,
+                    Qty2WorkInstructions = addOn.CostCentreJsonData,
+                    Name = addOn.AddOnName
+                };
+
+                return tblISectionCostCenteres;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
         #endregion
     }
 }
+
