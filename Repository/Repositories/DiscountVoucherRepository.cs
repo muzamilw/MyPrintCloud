@@ -78,7 +78,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.DiscountVouchers.Where(d => d.CompanyId == StoreId && d.CouponCode == null).FirstOrDefault();
+                return db.DiscountVouchers.Where(d => d.CompanyId == StoreId && d.CouponCode == null && d.IsEnabled == true).FirstOrDefault();
             }
             catch (Exception ex)
             {
