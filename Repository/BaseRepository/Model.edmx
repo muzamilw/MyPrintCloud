@@ -1070,6 +1070,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="CustomerId" Type="bigint" />
           <Property Name="IsSingleUseRedeemed" Type="bit" />
           <Property Name="IsQtySpan" Type="bit" />
+          <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
         <EntityType Name="EmailEvent">
           <Key>
@@ -1163,7 +1164,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="OrderReportLastPrinted" Type="datetime" />
           <Property Name="EstimateReportLastPrinted" Type="datetime" />
           <Property Name="isEmailSent" Type="bit" />
-          <Property Name="DiscountVoucherID" Type="int" />
+          <Property Name="DiscountVoucherID" Type="bigint" />
           <Property Name="ClientStatus" Type="smallint" />
           <Property Name="RefEstimateId" Type="bigint" />
           <Property Name="XeroAccessCode" Type="varchar" MaxLength="50" />
@@ -1742,6 +1743,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="IsDigitalDownload" Type="bit" />
           <Property Name="IsRealStateProduct" Type="bit" />
           <Property Name="ProductDisplayOptions" Type="int" />
+          <Property Name="DiscountVoucherID" Type="bigint" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -6100,7 +6102,19 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Parameter Name="TemplateID" Type="bigint" Mode="In" />
           <Parameter Name="CustomerID" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="usp_ChartEstimateToOrderConversion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrganisationId" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_ChartEstimateToOrderConversionCount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrganisationId" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_ChartMonthlyOrdersCount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrganisationId" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="usp_ChartRegisteredUserByStores" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrganisationId" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="usp_ChartTop10PerfomingCustomers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="OrganisationId" Type="bigint" Mode="In" />
         </Function>
         <Function Name="usp_ChartTopPerformingStores" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -8168,10 +8182,22 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="TemplateVariableExtensions" EntityType="DomainModels.TemplateVariableExtension" />
           <EntitySet Name="CompanyVoucherRedeems" EntityType="DomainModels.CompanyVoucherRedeem" />
           <FunctionImport Name="usp_ChartRegisteredUserByStores" ReturnType="Collection(DomainModels.usp_ChartRegisteredUserByStores_Result)">
-            <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
+          <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_ChartEstimateToOrderConversion" ReturnType="Collection(DomainModels.usp_ChartEstimateToOrderConversion_Result)">
+          <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_ChartEstimateToOrderConversionCount" ReturnType="Collection(DomainModels.usp_ChartEstimateToOrderConversionCount_Result)">
+          <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_ChartMonthlyOrdersCount" ReturnType="Collection(DomainModels.usp_ChartMonthlyOrdersCount_Result)">
+          <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_ChartTop10PerfomingCustomers" ReturnType="Collection(DomainModels.usp_ChartTop10PerfomingCustomers_Result)">
+          <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_ChartTopPerformingStores" ReturnType="Collection(DomainModels.usp_ChartTopPerformingStores_Result)">
-            <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
+          <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Company">
@@ -9615,6 +9641,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="ProductMarketBriefQuestions" Relationship="DomainModels.FK_ProductMarketBriefQuestion_Item" FromRole="Item" ToRole="ProductMarketBriefQuestion" />
           <NavigationProperty Name="PurchaseDetails" Relationship="DomainModels.FK_PurchaseDetail_Items" FromRole="Item" ToRole="PurchaseDetail" />
           <NavigationProperty Name="GoodsReceivedNoteDetails" Relationship="DomainModels.FK_GoodsReceivedNoteDetail_Items" FromRole="Item" ToRole="GoodsReceivedNoteDetail" />
+          <Property Name="DiscountVoucherID" Type="Int64" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -10295,7 +10322,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="OrderReportLastPrinted" Type="DateTime" Precision="3" />
           <Property Name="EstimateReportLastPrinted" Type="DateTime" Precision="3" />
           <Property Name="isEmailSent" Type="Boolean" />
-          <Property Name="DiscountVoucherID" Type="Int32" />
+          <Property Name="DiscountVoucherID" Type="Int64" />
           <Property Name="ClientStatus" Type="Int16" />
           <Property Name="RefEstimateId" Type="Int64" />
           <Property Name="XeroAccessCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -10961,6 +10988,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="CustomerId" Type="Int64" />
           <Property Name="IsSingleUseRedeemed" Type="Boolean" />
           <Property Name="IsQtySpan" Type="Boolean" />
+          <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
         <EntityType Name="GetItemsListView">
           <Key>
@@ -14949,12 +14977,48 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="String" Name="MonthName" Nullable="true" MaxLength="30" />
           <Property Type="Int32" Name="Year" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="usp_ChartTopPerformingStores_Result">
-          <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="TotalCustomers" Nullable="true" />
+        <ComplexType Name="usp_TopPerformingStoresChat_Result" >
+          <Property Type="String" Name="CompanyName" Nullable="false" />
+          <Property Type="Int32" Name="TotalCustomers" Nullable="false" />
+          <Property Type="Int32" Name="Month" Nullable="false" />
+          <Property Type="String" Name="monthnane" Nullable="false" />
+          <Property Type="Int32" Name="year" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="usp_ChartEstimateToOrderConversion_Result">
+          <Property Type="Int32" Name="TotalEstimateConvert" Nullable="true" />
           <Property Type="Int32" Name="Month" Nullable="true" />
+          <Property Type="String" Name="monthname" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="year" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="usp_ChartEstimateToOrderConversionCount_Result">
+          <Property Type="Int32" Name="TotalEstimateCount" Nullable="true" />
+          <Property Type="Int32" Name="Month" Nullable="true" />
+          <Property Type="String" Name="monthname" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="year" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="usp_ChartMonthlyOrdersCount_Result">
+          <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="TotalOrders" Nullable="true" />
+          <Property Type="Int32" Name="Month" Nullable="true" />
+          <Property Type="String" Name="monthname" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="year" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="usp_ChartTop10PerfomingCustomers_Result">
+          <Property Type="String" Name="ContactName" Nullable="true" MaxLength="101" />
+          <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="OrderCount" Nullable="true" />
+          <Property Type="Double" Name="OrderAmount" Nullable="true" />
+          <Property Type="Int32" Name="Month" Nullable="true" />
+          <Property Type="String" Name="monthname" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="year" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="usp_ChartTopPerformingStores_Result">
+          <Property Type="Double" Name="CurrentMonthEarning" Nullable="true" />
+          <Property Type="Double" Name="LastMonthEarning" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="MonthName" Nullable="true" MaxLength="30" />
-          <Property Type="Int32" Name="Year" Nullable="true" />
+          <Property Type="Int32" Name="year" Nullable="false" />
+          <Property Type="Int32" Name="Month" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -15869,6 +15933,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Items">
             <EntityTypeMapping TypeName="DomainModels.Item">
               <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="DiscountVoucherID" ColumnName="DiscountVoucherID" />
                 <ScalarProperty Name="ProductDisplayOptions" ColumnName="ProductDisplayOptions" />
                 <ScalarProperty Name="IsRealStateProduct" ColumnName="IsRealStateProduct" />
                 <ScalarProperty Name="IsDigitalDownload" ColumnName="IsDigitalDownload" />
@@ -17013,6 +17078,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="DiscountVouchers">
             <EntityTypeMapping TypeName="DomainModels.DiscountVoucher">
               <MappingFragment StoreEntitySet="DiscountVoucher">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="IsQtySpan" ColumnName="IsQtySpan" />
                 <ScalarProperty Name="IsSingleUseRedeemed" ColumnName="IsSingleUseRedeemed" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
@@ -19698,14 +19764,59 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_ChartEstimateToOrderConversion" FunctionName="DomainModels.Store.usp_ChartEstimateToOrderConversion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DomainModels.usp_ChartEstimateToOrderConversion_Result">
+                <ScalarProperty Name="TotalEstimateConvert" ColumnName="TotalEstimateConvert" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="monthname" ColumnName="monthname" />
+                <ScalarProperty Name="year" ColumnName="year" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_ChartEstimateToOrderConversionCount" FunctionName="DomainModels.Store.usp_ChartEstimateToOrderConversionCount">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DomainModels.usp_ChartEstimateToOrderConversionCount_Result">
+                <ScalarProperty Name="TotalEstimateCount" ColumnName="TotalEstimateCount" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="monthname" ColumnName="monthname" />
+                <ScalarProperty Name="year" ColumnName="year" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_ChartMonthlyOrdersCount" FunctionName="DomainModels.Store.usp_ChartMonthlyOrdersCount">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DomainModels.usp_ChartMonthlyOrdersCount_Result">
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="TotalOrders" ColumnName="TotalOrders" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="monthname" ColumnName="monthname" />
+                <ScalarProperty Name="year" ColumnName="year" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_ChartTop10PerfomingCustomers" FunctionName="DomainModels.Store.usp_ChartTop10PerfomingCustomers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DomainModels.usp_ChartTop10PerfomingCustomers_Result">
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="OrderCount" ColumnName="OrderCount" />
+                <ScalarProperty Name="OrderAmount" ColumnName="OrderAmount" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="monthname" ColumnName="monthname" />
+                <ScalarProperty Name="year" ColumnName="year" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="usp_ChartTopPerformingStores" FunctionName="DomainModels.Store.usp_ChartTopPerformingStores">
             <ResultMapping>
               <ComplexTypeMapping TypeName="DomainModels.usp_ChartTopPerformingStores_Result">
+                <ScalarProperty Name="CurrentMonthEarning" ColumnName="CurrentMonthEarning" />
+                <ScalarProperty Name="LastMonthEarning" ColumnName="LastMonthEarning" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="TotalCustomers" ColumnName="TotalCustomers" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="MonthName" ColumnName="MonthName" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

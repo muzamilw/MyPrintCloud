@@ -88,7 +88,7 @@ namespace MPC.Models.DomainModels
         public DateTime? OrderReportLastPrinted { get; set; }
         public DateTime? EstimateReportLastPrinted { get; set; }
         public bool? isEmailSent { get; set; }
-        public int? DiscountVoucherID { get; set; }
+        public long? DiscountVoucherID { get; set; }
         public short? ClientStatus { get; set; }
         public long? RefEstimateId { get; set; }
         public string XeroAccessCode { get; set; }
