@@ -11,8 +11,28 @@ define("dashboard.viewModel",
                     view,
                     // orders
                     orders = ko.observableArray([]),
+                   
                      // Total Earnings
                     totalEarnings = ko.observableArray([]),
+
+                       // Top performing stores
+                    topPerformingStores = ko.observableArray([]),
+
+                       // monthly order count
+                    monthlyOrdersCount = ko.observableArray([]),
+
+                       // Total Earnings
+                    estimateToOrderConversion = ko.observableArray([]),
+
+                       // Total Earnings
+                    estimateToOrderConversionCount = ko.observableArray([]),
+
+                       // Registered Users
+                    RegisteredUsers = ko.observableArray([]),
+
+                       // Total Earnings
+                    top10PerformingStores = ko.observableArray([]),
+
                     date = new Date(),
                     year = date.getFullYear(),
                     counter = 1,
@@ -50,18 +70,18 @@ define("dashboard.viewModel",
                 // months = ['jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
                 line = ko.observable([
 
-                                { month: '2008-01', a: 100, b: 90 },
-                                { month: '2008-02', a: 110, b: 90 },
-                                { month: '2008-03', a: 200, b: 90 },
-                                { month: '2008-04', a: 20, b: 90 },
-                                { month: '2008-05', a: 100, b: 90 },
-                                { month: '2008-06', a: 100, b: 90 },
-                                { month: '2008-07', a: 10, b: 90 },
-                                { month: '2008-08', a: 100, b: 90 },
-                                { month: '2008-09', a: 100, b: 90 },
-                                { month: '2008-10', a: 100, b: 90 },
-                                { month: '2008-11', a: 300, b: 90 },
-                                { month: '2008-12', a: 100, b: 90 }
+                                { month: '2008-01', a: 100, b: 90, c: 120 },
+                                { month: '2008-02', a: 110, b: 90, c: 40 },
+                                { month: '2008-03', a: 200, b: 90, c: 60 },
+                                { month: '2008-04', a: 20, b: 90, c: 70 },
+                                { month: '2008-05', a: 100, b: 90, c: 80 },
+                                { month: '2008-06', a: 100, b: 90, c: 90 },
+                                { month: '2008-07', a: 10, b: 90, c: 90 },
+                                { month: '2008-08', a: 100, b: 90, c: 80 },
+                                { month: '2008-09', a: 100, b: 90, c: 60 },
+                                { month: '2008-10', a: 100, b: 90, c: 100 },
+                                { month: '2008-11', a: 300, b: 90, c: 90 },
+                                { month: '2008-12', a: 100, b: 90, c: 130 }
                     //{ year: 'Jun', value: 8 },
                     //{ year: 'Aug', value: 20 },
                     //{ year: 'Sep', value: 20 },
@@ -69,7 +89,27 @@ define("dashboard.viewModel",
                     //{ year: 'Nov', value: 20 },
                     //{ year: 'Dec', value: 20 }
                 ]),
+                //line = ko.observable([
 
+                //                { month: '2008-01', jan: 100, feb: 90, mar: 120, apri: 100, e: 910, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
+                //                { month: '2008-02', a: 110, b: 90, c: 120, d: 500, e: 920, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
+                //                { month: '2008-03', a: 120, b: 90, c: 120, d: 600, e: 930, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
+                //                { month: '2008-04', a: 130, b: 90, c: 120, d: 200, e: 940, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
+                //                { month: '2008-05', a: 140, b: 90, c: 120, d: 300, e: 950, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
+                //                { month: '2008-06', a: 150, b: 90, c: 120, d: 500, e: 90, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
+                //                { month: '2008-07', a: 160, b: 90, c: 120, d: 600, e: 90, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
+                //                { month: '2008-08', a: 170, b: 90, c: 120, d: 100, e: 960, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
+                //                { month: '2008-09', a: 180, b: 90, c: 120, d: 600, e: 90, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
+                //                { month: '2008-10', a: 190, b: 90, c: 120, d: 100, e: 970, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
+                //                { month: '2008-11', a: 200, b: 90, c: 120, d: 100, e: 970, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
+                //                { month: '2008-12', a: 210, b: 90, c: 120, d: 100, e: 90, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
+                //    //{ year: 'Jun', value: 8 },
+                //    //{ year: 'Aug', value: 20 },
+                //    //{ year: 'Sep', value: 20 },
+                //    //{ year: 'Oct', value: 20 },
+                //    //{ year: 'Nov', value: 20 },
+                //    //{ year: 'Dec', value: 20 }
+                //]),
                  line1 = ko.observable([
 
                      { month: 'January', a: 100, b: 90 },
@@ -164,7 +204,42 @@ define("dashboard.viewModel",
                 dataservice.getTotalEarnings({
                     success: function (data) {
                         if (data != null) {
-                            mapTotalEarnings(data);
+                            
+                            // totalEarning
+                            totalEarnings.removeAll();
+                            ko.utils.arrayPushAll(totalEarnings(), data.TotalEarningResult);
+                            totalEarnings.valueHasMutated();
+
+                            // registered users
+                            //RegisteredUsers.removeAll();
+                            //ko.utils.arrayPushAll(RegisteredUsers(), data.RegisteredUserByStores);
+                           // RegisteredUsers.valueHasMutated();
+
+                            // top performing stores
+                            topPerformingStores.removeAll();
+                            ko.utils.arrayPushAll(topPerformingStores(), data.TopPerformingStores);
+                            topPerformingStores.valueHasMutated();
+
+                            //monthly orders
+                            monthlyOrdersCount.removeAll();
+                            ko.utils.arrayPushAll(monthlyOrdersCount(), data.MonthlyOrdersCount);
+                            monthlyOrdersCount.valueHasMutated();
+
+                            // estimate to order
+                            estimateToOrderConversion.removeAll();
+                            ko.utils.arrayPushAll(estimateToOrderConversion(), data.EstimateToOrderConversion);
+                            estimateToOrderConversion.valueHasMutated();
+
+                            // estimate to order count
+                            estimateToOrderConversionCount.removeAll();
+                            ko.utils.arrayPushAll(estimateToOrderConversionCount(), data.EstimateToOrderConversionCount);
+                            estimateToOrderConversionCount.valueHasMutated();
+
+                            // top 10 perfoming companies
+                            top10PerformingStores.removeAll();
+                            ko.utils.arrayPushAll(top10PerformingStores(), data.Top10PerformingCustomers);
+                            top10PerformingStores.valueHasMutated();
+
                         }
                         //load the tour
                         //openTourInit();
@@ -235,7 +310,15 @@ define("dashboard.viewModel",
                     goToCustomer: goToCustomer,
                     yAxisPoints: yAxisPoints,
                     chartLabels: chartLabels,
-                    line1: line1
+                    line1: line1,
+                    topPerformingStores: topPerformingStores,
+
+                    monthlyOrdersCount: monthlyOrdersCount,
+                    estimateToOrderConversion: estimateToOrderConversion,
+
+                    estimateToOrderConversionCount: estimateToOrderConversionCount,
+                    RegisteredUsers: RegisteredUsers,
+                    top10PerformingStores: top10PerformingStores
                     // xLabelFormat: xLabelFormat
                 };
             })()

@@ -4674,7 +4674,7 @@ h2 + .gallery {
     background-color: transparent !important;
 }
 
-.compactHeader #documentMenuUndo, .compactHeader #documentMenuRedo {
+.compactHeader #documentMenuUndo, .compactHeader #documentMenuRedo,.compactHeader #documentMenuReload {
     font-size: 0;
     width: 37px;
     transition: -webkit-transform .5s ease,opacity .5s ease;
@@ -4685,13 +4685,13 @@ h2 + .gallery {
     margin-left:31px;
 
 }
-#documentMenuUndo, #documentMenuRedo {
+#documentMenuUndo, #documentMenuRedo,#documentMenuReload {
     width: 46px;
     transition: all .3s linear;
 
 }
 
-    #documentMenuUndo > button {
+    #documentMenuUndo > button,#documentMenuReload>button {
         background: #000000 no-repeat center / 14px;
         /*background-image: url('assets-v2/icon_undo.png');*/
         min-width: 0;
@@ -4704,7 +4704,7 @@ h2 + .gallery {
         font-size: 11px;
     }
 
-        #documentMenuUndo > button:hover {
+        #documentMenuUndo > button:hover,#documentMenuReload >button:hover {
             background: #3F4652 no-repeat center / 14px;
             /*background-image: url('assets-v2/icon_undo.png');*/
         }
@@ -6945,4 +6945,7 @@ font-size: 13px;
   cursor: pointer;
   -webkit-appearance: none;   text-overflow: ellipsis;
 
+}
+.SelectBkColorPanel{
+    background-color:black !important;
 }
