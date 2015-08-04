@@ -67,6 +67,6 @@ namespace MPC.Interfaces.Repository
         /// <summary>
         /// Get Total Earnings For Dashboard
         /// </summary>
-        IEnumerable<usp_TotalEarnings_Result> GetTotalEarningsForDashboard();
+        DashBoardChartsResponse GetChartsForDashboard();
     }
 }

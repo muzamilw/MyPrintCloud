@@ -6426,3 +6426,14 @@ BEGIN
 			RETURN 
 	END
 
+
+alter table DiscountVoucher
+add OrganisationId bigint
+
+alter table Items
+add DiscountVoucherID bigint
+
+alter table Estimate
+alter column DiscountVoucherID bigint
+
+alter table CompanyContact add RegistrationDate datetime

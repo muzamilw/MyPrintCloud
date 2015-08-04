@@ -228,6 +228,8 @@
     <Compile Include="Repositories\InvoiceDetailRepository.cs" />
     <Compile Include="Repositories\ItemImageRepository.cs" />
     <Compile Include="Repositories\InkPlateSideRepository.cs" />
+    <Compile Include="Repositories\ItemsVoucherRepository.cs" />
+    <Compile Include="Repositories\ProductCategoryVoucherRepository.cs" />
     <Compile Include="Repositories\ProductMarketBriefAnswerRepository.cs" />
     <Compile Include="Repositories\ProductMarketBriefQuestionRepository.cs" />
     <Compile Include="Repositories\PurchaseDetailRepository.cs" />

@@ -80,6 +80,6 @@ namespace MPC.Interfaces.Repository
 
 
         List<CostCentre> GetAllCostCentresForRecompiling(long OrganisationId);
-        
+        CostCentre GetGlobalWebOrderCostCentre(long OrganisationId);
     }
 }

@@ -4470,6 +4470,7 @@ define("stores/stores.viewModel",
                                             } else if (selectedStore().type() == "3") {
                                                 selectedStore().type("Corporate");
                                             }
+                                            
                                             stores.splice(0, 0, selectedStore());
                                         }
                                         if (selectedStoreListView() && selectedStoreListView().companyId() == selectedStore().companyId()) {
@@ -4483,6 +4484,11 @@ define("stores/stores.viewModel",
                                                         store.type("Retail");
                                                     } else if (selectedStore().type() == "3") {
                                                         store.type("Corporate");
+                                                    }
+                                                    if (selectedStore().isStoreSetLive() == 'True' || selectedStore().isStoreSetLive() == true) {
+                                                        store.storeMode("Live");
+                                                    } else {
+                                                        store.storeMode("Offline");
                                                     }
                                                 }
                                             });
