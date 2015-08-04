@@ -559,12 +559,12 @@ namespace MPC.Implementation.WebStoreServices
 
                 netTotal = itemPrice + addonsPrice + markupRate ?? 0;
 
-                DiscountVoucher storeDiscountVoucher = _DVRepository.GetStoreDefaultDiscountRate(StoreId, OrganisationId);
-                if (storeDiscountVoucher != null)
-                {
-                    DiscountAmountToApply = GetDiscountAmountByVoucher(storeDiscountVoucher, netTotal, clonedItem.RefItemId ?? 0, orderedQuantity, clonedItem.DiscountVoucherID);
-                    clonedItem.DiscountVoucherID = storeDiscountVoucher.DiscountVoucherId;
-                }
+                //DiscountVoucher storeDiscountVoucher = _DVRepository.GetStoreDefaultDiscountRate(StoreId, OrganisationId);
+                //if (storeDiscountVoucher != null)
+                //{
+                //    DiscountAmountToApply = GetDiscountAmountByVoucher(storeDiscountVoucher, netTotal, clonedItem.RefItemId ?? 0, orderedQuantity, clonedItem.DiscountVoucherID);
+                //    clonedItem.DiscountVoucherID = storeDiscountVoucher.DiscountVoucherId;
+                //}
                 if (CountOfUploads > 0)
                 {
                     clonedItem.ProductName = clonedItem.ProductName + " " + CountOfUploads + " file(s) uploaded";
