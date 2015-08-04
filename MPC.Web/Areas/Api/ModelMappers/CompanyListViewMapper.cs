@@ -19,6 +19,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Status = source.Status,
                 URL = source.URL,
                 ImageBytes = source.Image,
+                IsStoreLive = source.isStoreLive,
                 DefaultDomain = source.CompanyDomains != null ? source.CompanyDomains.FirstOrDefault().Domain: string.Empty
             };
         }
