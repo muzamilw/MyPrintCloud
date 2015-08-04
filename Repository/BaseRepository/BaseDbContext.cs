@@ -700,6 +700,16 @@ namespace MPC.Repository.BaseRepository
         /// Company Vouchers Redeem DbSet
         /// </summary>
         public DbSet<CompanyVoucherRedeem> CompanyVoucherRedeems { get; set; }
+        
+        /// <summary>
+        /// Item Vouchers Redeem DbSet
+        /// </summary>
+        public DbSet<ItemsVoucher> ItemsVouchers { get; set; }
+         
+        /// <summary>
+        /// Item Vouchers Redeem DbSet
+        /// </summary>
+        public DbSet<ProductCategoryVoucher> ProductCategoryVouchers { get; set; }
         /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>

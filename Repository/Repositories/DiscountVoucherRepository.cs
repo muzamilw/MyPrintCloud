@@ -72,6 +72,20 @@ namespace MPC.Repository.Repositories
 
             return new DiscountVoucherListViewResponse { DiscountVouchers = items, RowCount = DbSet.Count(query) };
         }
+
+
+        public DiscountVoucher GetStoreDefaultDiscountRate(long StoreId, long OrganisationId)
+        {
+            try
+            {
+                return db.DiscountVouchers.Where(d => d.CompanyId == StoreId && d.CouponCode == null && d.IsEnabled == true).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         #endregion
     }
 }

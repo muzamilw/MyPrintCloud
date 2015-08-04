@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using MPC.Models.DomainModels;
 using System.Web;
 using WebSupergoo.ABCpdf8;
+
 using System.IO;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -49,6 +50,9 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IOrderRepository _OrderRepository;
         private readonly IPrefixRepository _prefixRepository;
         private readonly IItemVideoRepository _videoRepository;
+        private readonly IMarkupRepository _markupRepository;
+        private readonly IDiscountVoucherRepository _DVRepository;
+        private readonly IItemsVoucherRepository _ItemVRepository;
         #region Constructor
 
         /// <summary>
@@ -62,7 +66,8 @@ namespace MPC.Implementation.WebStoreServices
             , IItemSectionRepository ItemSectionRepository, ISectionCostCentreRepository ItemSectionCostCentreRepository
             , ITemplateRepository TemplateRepository, ITemplatePageRepository TemplatePageRepository, ITemplateBackgroundImagesRepository TemplateBackgroundImagesRepository
             , ITemplateObjectRepository TemplateObjectRepository, ICostCentreRepository CostCentreRepository
-            , IOrderRepository OrderRepository, IPrefixRepository prefixRepository, IItemVideoRepository videoRepository)
+            , IOrderRepository OrderRepository, IPrefixRepository prefixRepository, IItemVideoRepository videoRepository
+            , IMarkupRepository markupRepository, IDiscountVoucherRepository DVRepository, IItemsVoucherRepository ItemVRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -91,6 +96,9 @@ namespace MPC.Implementation.WebStoreServices
             this._OrderRepository = OrderRepository;
             this._prefixRepository = prefixRepository;
             this._videoRepository = videoRepository;
+            this._markupRepository = markupRepository;
+            this._DVRepository = DVRepository;
+            this._ItemVRepository = ItemVRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -108,7 +116,7 @@ namespace MPC.Implementation.WebStoreServices
         }
         public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID, bool isUploadDesignMode = false)
         {
-          
+
             try
             {
                 Template clonedTemplate = null;
@@ -160,7 +168,7 @@ namespace MPC.Implementation.WebStoreServices
 
                 newItem.TemplateType = ActualItem.TemplateType;
 
-                if (isUploadDesignMode == true) 
+                if (isUploadDesignMode == true)
                 {
                     newItem.TemplateId = null;
                 }
@@ -202,7 +210,7 @@ namespace MPC.Implementation.WebStoreServices
                 //newItem.Qty1MarkUp1Value = markup.MarkUpRate;
                 _ItemRepository.Add(newItem);
                 _ItemRepository.SaveChanges();
-               // db.Items.Add(newItem); //dbcontext added
+                // db.Items.Add(newItem); //dbcontext added
 
                 //*****************Existing item Sections and cost Centeres*********************************
                 foreach (ItemSection tblItemSection in ActualItem.ItemSections.ToList())
@@ -271,7 +279,7 @@ namespace MPC.Implementation.WebStoreServices
                     _TemplateRepository.SaveChanges();
                 }
 
-              //  SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, newItem.ItemId, StockID, isCopyProduct, "");
+                //  SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, newItem.ItemId, StockID, isCopyProduct, "");
                 // additional addon required the newly inserted cloneditem
                 newItem.ItemCode = "ITM-0-001-" + newItem.ItemId;
                 _ItemRepository.SaveChanges();
@@ -374,7 +382,7 @@ namespace MPC.Implementation.WebStoreServices
 
         public ProductItem GetItemAndDetailsByItemID(long itemId)
         {
-           return _ItemRepository.GetItemAndDetailsByItemID(itemId);
+            return _ItemRepository.GetItemAndDetailsByItemID(itemId);
         }
         public List<ProductMarketBriefQuestion> GetMarketingInquiryQuestionsByItemID(int itemID)
         {
@@ -388,7 +396,7 @@ namespace MPC.Implementation.WebStoreServices
         {
             try
             {
-               
+
                 int sideNumber = 1;
                 List<ItemAttachment> attachmentsOfActualItem = _ItemRepository.GetItemAttactchments(ItemID);
                 List<ItemAttachment> attachmentsOfNewlyClonedItem = new List<ItemAttachment>();
@@ -417,13 +425,13 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         obj.FileName = GetTemplateAttachmentFileName(NewlyClonedItem.ProductCode, OrderCode, NewlyClonedItem.ItemCode,
                             "Side" + sideNumber.ToString(), "", "", OrderCreationDate);
-                       
+
                     }
                     else
                     {
                         obj.FileName = GetAttachmentFileName(NewlyClonedItem.ProductCode, OrderCode, NewlyClonedItem.ItemCode,
                             sideNumber.ToString() + "Copy", "", "", OrderCreationDate);
-                        
+
                     }
                     sideNumber += 1;
                     attachmentsOfNewlyClonedItem.Add(obj);
@@ -448,7 +456,7 @@ namespace MPC.Implementation.WebStoreServices
                         string destinationFolderDir = HttpContext.Current.Server.MapPath("~/" + obj.FolderPath);
                         if (!Directory.Exists(destinationFolderDir))
                             Directory.CreateDirectory(destinationFolderDir);
-                       
+
                         File.Copy(sourceFileName, destFileName);
 
                         // Generate the thumbnail
@@ -471,7 +479,7 @@ namespace MPC.Implementation.WebStoreServices
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -483,7 +491,7 @@ namespace MPC.Implementation.WebStoreServices
             try
             {
 
-                return _ItemRepository.RemoveCloneItem(itemID,out itemAttatchmetList, out clonedTemplateToRemove);
+                return _ItemRepository.RemoveCloneItem(itemID, out itemAttatchmetList, out clonedTemplateToRemove);
             }
             catch (Exception ex)
             {
@@ -502,30 +510,219 @@ namespace MPC.Implementation.WebStoreServices
                 return _StockRepository.GetStockOfItemById(itemId);
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
-         
+
         }
-        public bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, bool isInculdeTax, long ItemstockOptionID, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "") 
+        public bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, bool isInculdeTax, long ItemstockOptionID,
+            long StoreId, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "")
         {
-            return _ItemRepository.UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, ItemMode, isInculdeTax, ItemstockOptionID, CountOfUploads, QuestionQueue, CostCentreQueue, InputQueue);
+            // return _ItemRepository.UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, ItemMode, isInculdeTax, ItemstockOptionID, CountOfUploads, QuestionQueue, CostCentreQueue, InputQueue);
+            bool result = false;
+
+            ItemSection FirstItemSection = null;
+
+            double currentTotal = 0;
+
+            double netTotal = 0;
+
+            double grossTotal = 0;
+
+            double? markupRate = 0;
+
+            
+            double DiscountAmountToApply = 0;
+
+            try
+            {
+                Item clonedItem = null;
+
+                clonedItem = _ItemRepository.GetItemByItemID(clonedItemID);// db.Items.Where(i => i.ItemId == clonedItemID).FirstOrDefault();
+
+                long? markupid = 1;
+
+
+                Markup OrgMarkup = _markupRepository.GetDefaultMarkupsByOrganisationId(OrganisationId); //db.Markups.Where(m => m.OrganisationId == OrganisationId && m.IsDefault == true).FirstOrDefault();
+
+                if (OrgMarkup != null)
+                {
+                    markupid = 0;//OrgMarkup.MarkUpId;
+                    markupRate = 0;//(int)OrgMarkup.MarkUpRate;
+                }
+                else
+                {
+                    markupid = 0;
+                    markupRate = 0;
+                }
+
+                netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+
+                DiscountVoucher storeDiscountVoucher = _DVRepository.GetStoreDefaultDiscountRate(StoreId, OrganisationId);
+
+                DiscountAmountToApply = GetDiscountAmountByVoucher(storeDiscountVoucher, netTotal, clonedItem.RefItemId ?? 0, orderedQuantity);
+
+                if (CountOfUploads > 0)
+                {
+                    clonedItem.ProductName = clonedItem.ProductName + " " + CountOfUploads + " file(s) uploaded";
+                }
+
+                clonedItem.Qty1 = (int)orderedQuantity;
+
+                clonedItem.IsOrderedItem = true;
+
+
+
+                if (isInculdeTax == true)
+                {
+                    if (clonedItem.DefaultItemTax != null)
+                    {
+                        clonedItem.Tax1 = Convert.ToInt32(clonedItem.DefaultItemTax);
+                        double TaxAppliedOnItemTotal = _ItemRepository.CalculatePercentage(itemPrice, Convert.ToDouble(clonedItem.DefaultItemTax));// ((itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100); 
+
+                        double TaxAppliedOnCostCentreTotal = _ItemRepository.CalculatePercentage(addonsPrice, Convert.ToDouble(clonedItem.DefaultItemTax));// ((addonsPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100);
+
+                        itemPrice = itemPrice;
+
+                        netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+
+                        grossTotal = netTotal + (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);
+                        clonedItem.Qty1Tax1Value = (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);//GetTaxPercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
+                    }
+                    else
+                    {
+                        clonedItem.Tax1 = Convert.ToInt32(TaxRate);
+                        double TaxAppliedOnItemTotal = _ItemRepository.CalculatePercentage(itemPrice, TaxRate); //(itemPrice * TaxRate / 100);
+                        double TaxAppliedOnCostCentreTotal = _ItemRepository.CalculatePercentage(addonsPrice, TaxRate); //(addonsPrice * TaxRate / 100);
+                        itemPrice = itemPrice;
+
+                        netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+
+                        grossTotal = netTotal + (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);//CalculatePercentage(netTotal, TaxRate);
+                        clonedItem.Qty1Tax1Value = TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal;//GetTaxPercentage(netTotal, TaxRate);
+                    }
+                }
+                else
+                {
+                    clonedItem.Tax1 = Convert.ToInt32(TaxRate);
+
+                    netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+
+                    grossTotal = netTotal + _ItemRepository.CalculatePercentage(netTotal, TaxRate);
+                    clonedItem.Qty1Tax1Value = _ItemRepository.CalculatePercentage(netTotal, TaxRate);
+                }
+
+
+                //******************Existing item update*********************
+                clonedItem.Qty1MarkUp1Value = markupRate;
+
+                clonedItem.Qty1MarkUpId1 = (int)markupid;
+
+                clonedItem.Qty1BaseCharge1 = netTotal;
+
+                clonedItem.Qty1NetTotal = netTotal;
+
+                clonedItem.Qty1GrossTotal = grossTotal;
+
+                FirstItemSection = _ItemSectionRepository.GetFirstSectionOfItem(clonedItem.ItemId);
+                //clonedItem.ItemSections.Where(sec => sec.SectionNo == 1 && sec.ItemId == clonedItem.ItemId)
+                //    .FirstOrDefault();
+
+                result = SaveAdditionalAddonsOrUpdateStockItemType(newlyAddedCostCenters, stockItemID, FirstItemSection,
+                    ItemMode, ItemstockOptionID); // additional addon required the newly inserted cloneditem
+
+                FirstItemSection.Qty1 = clonedItem.Qty1;
+
+                FirstItemSection.BaseCharge1 = clonedItem.Qty1BaseCharge1;
+
+
+
+                FirstItemSection.Qty1MarkUpID = (int)markupid;
+                FirstItemSection.QuestionQueue = QuestionQueue;
+                FirstItemSection.InputQueue = InputQueue;
+                FirstItemSection.CostCentreQueue = CostCentreQueue;
+
+
+                bool isNewSectionCostCenter = false;
+
+
+                List<SectionCostcentre> listOfSectionCostCentres = _ItemSectionCostCentreRepository.GetAllSectionCostCentres(FirstItemSection.ItemSectionId); //db.SectionCostcentres.Where(c => c.ItemSectionId == FirstItemSection.ItemSectionId).ToList();
+
+                SectionCostcentre sectionCC = null;
+                foreach (var ccItem in listOfSectionCostCentres)
+                {
+                    if (ccItem.CostCentre != null)
+                    {
+                        if (ccItem.CostCentre.Type == 29)
+                        {
+                            sectionCC = ccItem;
+                        }
+                    }
+                }
+
+
+                if (sectionCC == null)
+                {
+                    sectionCC = new SectionCostcentre();
+
+                    sectionCC.Qty1MarkUpID = 1;
+                    sectionCC.Qty1Charge = itemPrice;
+                    sectionCC.Qty1NetTotal = itemPrice;
+
+                    isNewSectionCostCenter = true;
+                }
+
+                if (isNewSectionCostCenter)
+                {
+                    //29 is the global type of web order cost centre
+                    var oCostCentre = _CostCentreRepository.GetGlobalWebOrderCostCentre(OrganisationId); //db.CostCentres.Where(g => g.Type == 29 && g.OrganisationId == OrganisationId).SingleOrDefault();
+                    if (oCostCentre != null)
+                    {
+                        sectionCC.Name = oCostCentre.Name;
+                        sectionCC.CostCentreId = oCostCentre.CostCentreId;
+                        sectionCC.ItemSectionId = FirstItemSection.ItemSectionId;
+
+                        _ItemSectionCostCentreRepository.Add(sectionCC);
+
+                    }
+                    else
+                    {
+                        throw new Exception("Critcal Error, We have lost our main costcentre.", null);
+                    }
+                }
+
+                _ItemRepository.SaveChanges();
+                _ItemSectionRepository.SaveChanges();
+                _ItemSectionCostCentreRepository.SaveChanges();
+
+                result = true;
+            }
+            catch (Exception)
+            {
+                result = false;
+                throw;
+            }
+
+            return result;
         }
+
+
+
         public ProductCategoriesView GetMappedCategory(string CatName, int CID)
         {
-            
+
             return _ProductCategoryRepository.GetMappedCategory(CatName, CID);
         }
 
-        public Item GetExisitingClonedItemInOrder(long OrderId, long ReferenceItemId) 
+        public Item GetExisitingClonedItemInOrder(long OrderId, long ReferenceItemId)
         {
             return _ItemRepository.GetClonedItemByOrderId(OrderId, ReferenceItemId);
         }
         //get related items list
         public List<ProductItem> GetRelatedItemsList()
         {
-            
+
             return _ItemRepository.GetRelatedItemsList();
         }
 
@@ -559,17 +756,17 @@ namespace MPC.Implementation.WebStoreServices
         /// </summaery>
         /// <param name="categoryID"></param>
         /// <returns></returns>
-        public string GetImmidiateParentCategory(long categoryID,out string CategoryName)
+        public string GetImmidiateParentCategory(long categoryID, out string CategoryName)
         {
             try
             {
                 return _ProductCategoryRepository.GetImmidiateParentCategory(categoryID, out CategoryName);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
-            
+
         }
         /// <summary>
         /// get list of all stock options by item and company id 
@@ -583,11 +780,11 @@ namespace MPC.Implementation.WebStoreServices
             {
                 return _StockOptions.GetAllStockListByItemID(ItemID, companyID);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
-          
+
         }
 
         public List<string> GetProductItemAddOnCostCentres(long StockOptionID, long CompanyID)
@@ -611,7 +808,7 @@ namespace MPC.Implementation.WebStoreServices
             try
             {
                 return _ItemRepository.GetRelatedItemsByItemID(ItemID);
-                
+
             }
             catch (Exception ex)
             {
@@ -646,14 +843,14 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
-        
+
         public FavoriteDesign GetFavContactDesign(long templateID, long contactID)
         {
             try
             {
                 return _favoriteDesign.GetFavContactDesign(templateID, contactID);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -663,38 +860,40 @@ namespace MPC.Implementation.WebStoreServices
 
         public long PostLoginCustomerAndCardChanges(long OrderId, long CompanyId, long ContactId, long TemporaryCompanyId, long OrganisationId)
         {
-            try{
-            List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved = null;
-            List<Template> clonedTempldateFilesList = null;
-
-            if (OrderId > 0)
+            try
             {
-                bool isUpdateOrder = _ItemRepository.isTemporaryOrder(OrderId, CompanyId, ContactId);
-                if (isUpdateOrder)
+                List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved = null;
+                List<Template> clonedTempldateFilesList = null;
+
+                if (OrderId > 0)
                 {
-                    long orderId = _ItemRepository.UpdateTemporaryCustomerOrderWithRealCustomer(TemporaryCompanyId, CompanyId, ContactId, OrderId, OrganisationId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTempldateFilesList);
-                    if (orderId > 0)
+                    bool isUpdateOrder = _ItemRepository.isTemporaryOrder(OrderId, CompanyId, ContactId);
+                    if (isUpdateOrder)
                     {
-                        RemoveItemAttacmentPhysically(orderAllItemsAttatchmentsListToBeRemoved);
-                        RemoveItemTemplateFilesPhysically(clonedTempldateFilesList, OrganisationId);
-                        return orderId;
+                        long orderId = _ItemRepository.UpdateTemporaryCustomerOrderWithRealCustomer(TemporaryCompanyId, CompanyId, ContactId, OrderId, OrganisationId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTempldateFilesList);
+                        if (orderId > 0)
+                        {
+                            RemoveItemAttacmentPhysically(orderAllItemsAttatchmentsListToBeRemoved);
+                            RemoveItemTemplateFilesPhysically(clonedTempldateFilesList, OrganisationId);
+                            return orderId;
+                        }
+                        else
+                        {
+                            return 0;
+                        }
                     }
                     else
                     {
-                        return 0;
+                        return OrderId;
                     }
+
                 }
-                else 
+                else
                 {
                     return OrderId;
                 }
-               
             }
-            else
-            {
-                return OrderId;
-            }
-            }catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
                 return 0;
@@ -779,7 +978,7 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
 
-        public  void GenerateThumbnailForPdf(string url, bool insertCuttingMargin, long ItemId)
+        public void GenerateThumbnailForPdf(string url, bool insertCuttingMargin, long ItemId)
         {
             using (Doc theDoc = new Doc())
             {
@@ -808,7 +1007,7 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.SaveDesignAttachments(templateID, itemID, customerID, DesignName, caller, organisationId);
         }
-        public bool CreatAndSaveThumnail(Stream oImgstream,string sideThumbnailPath,string itemId)
+        public bool CreatAndSaveThumnail(Stream oImgstream, string sideThumbnailPath, string itemId)
         {
             Image origImage = null;
             try
@@ -816,52 +1015,52 @@ namespace MPC.Implementation.WebStoreServices
                 string orgPath = sideThumbnailPath;
                 string baseAddress = sideThumbnailPath.Substring(0, sideThumbnailPath.LastIndexOf('\\'));
                 sideThumbnailPath = Path.GetFileNameWithoutExtension(sideThumbnailPath) + "Thumb.png";
-               
-
-                sideThumbnailPath = baseAddress + "\\" + itemId  + sideThumbnailPath;
-       
-                    if (oImgstream != null)
-                    {
-                        origImage = Image.FromStream(oImgstream);
-                    }
-                    else
-                    {
-                        origImage = Image.FromFile(orgPath);
-                    }
 
 
-                    float WidthPer, HeightPer;
+                sideThumbnailPath = baseAddress + "\\" + itemId + sideThumbnailPath;
 
-                    int NewWidth, NewHeight;
-                    int ThumbnailSizeWidth = 400;
-                    int ThumbnailSizeHeight = 400;
-
-                    if (origImage.Width > origImage.Height)
-                    {
-                        NewWidth = ThumbnailSizeWidth;
-                        WidthPer = (float)ThumbnailSizeWidth / origImage.Width;
-                        NewHeight = Convert.ToInt32(origImage.Height * WidthPer);
-                    }
-                    else
-                    {
-                        NewHeight = ThumbnailSizeHeight;
-                        HeightPer = (float)ThumbnailSizeHeight / origImage.Height;
-                        NewWidth = Convert.ToInt32(origImage.Width * HeightPer);
-                    }
-
-                    Bitmap origThumbnail = new Bitmap(NewWidth, NewHeight, origImage.PixelFormat);
-                    Graphics oGraphic = Graphics.FromImage(origThumbnail);
-                    oGraphic.CompositingQuality = CompositingQuality.HighQuality;
-                    oGraphic.SmoothingMode = SmoothingMode.HighQuality;
-                    oGraphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    Rectangle oRectangle = new Rectangle(0, 0, NewWidth, NewHeight);
-                    oGraphic.DrawImage(origImage, oRectangle);
+                if (oImgstream != null)
+                {
+                    origImage = Image.FromStream(oImgstream);
+                }
+                else
+                {
+                    origImage = Image.FromFile(orgPath);
+                }
 
 
-                    origThumbnail.Save(sideThumbnailPath, ImageFormat.Png);
-                    origImage.Dispose();
-                    oGraphic.Dispose();
-                
+                float WidthPer, HeightPer;
+
+                int NewWidth, NewHeight;
+                int ThumbnailSizeWidth = 400;
+                int ThumbnailSizeHeight = 400;
+
+                if (origImage.Width > origImage.Height)
+                {
+                    NewWidth = ThumbnailSizeWidth;
+                    WidthPer = (float)ThumbnailSizeWidth / origImage.Width;
+                    NewHeight = Convert.ToInt32(origImage.Height * WidthPer);
+                }
+                else
+                {
+                    NewHeight = ThumbnailSizeHeight;
+                    HeightPer = (float)ThumbnailSizeHeight / origImage.Height;
+                    NewWidth = Convert.ToInt32(origImage.Width * HeightPer);
+                }
+
+                Bitmap origThumbnail = new Bitmap(NewWidth, NewHeight, origImage.PixelFormat);
+                Graphics oGraphic = Graphics.FromImage(origThumbnail);
+                oGraphic.CompositingQuality = CompositingQuality.HighQuality;
+                oGraphic.SmoothingMode = SmoothingMode.HighQuality;
+                oGraphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                Rectangle oRectangle = new Rectangle(0, 0, NewWidth, NewHeight);
+                oGraphic.DrawImage(origImage, oRectangle);
+
+
+                origThumbnail.Save(sideThumbnailPath, ImageFormat.Png);
+                origImage.Dispose();
+                oGraphic.Dispose();
+
                 return true;
             }
             catch (Exception e)
@@ -904,7 +1103,7 @@ namespace MPC.Implementation.WebStoreServices
 
 
         }
-                 /// <summary>
+        /// <summary>
         /// add payment
         /// </summary>
         /// <returns></returns>
@@ -930,7 +1129,7 @@ namespace MPC.Implementation.WebStoreServices
         {
             try
             {
-               return _ItemRepository.GetListOfDeliveryItemByOrderID(OID);
+                return _ItemRepository.GetListOfDeliveryItemByOrderID(OID);
 
             }
             catch (Exception ex)
@@ -952,9 +1151,9 @@ namespace MPC.Implementation.WebStoreServices
         }
         public bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost, long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService, double GetServiceTAX, double TaxRate)
         {
-             try
+            try
             {
-                return _ItemRepository.AddUpdateItemFordeliveryCostCenter(orderId,DeliveryCostCenterId,DeliveryCost,customerID,DeliveryName,Mode,isDeliveryTaxable,IstaxONService,GetServiceTAX,TaxRate);
+                return _ItemRepository.AddUpdateItemFordeliveryCostCenter(orderId, DeliveryCostCenterId, DeliveryCost, customerID, DeliveryName, Mode, isDeliveryTaxable, IstaxONService, GetServiceTAX, TaxRate);
 
             }
             catch (Exception ex)
@@ -962,7 +1161,7 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
-        public Item GetItemByOrderItemID(long ItemID,long OrderID)
+        public Item GetItemByOrderItemID(long ItemID, long OrderID)
         {
             try
             {
@@ -1000,58 +1199,58 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
-       public void AddInquiryAttachments(List<InquiryAttachment> InquiryAttachments)
-       {
+        public void AddInquiryAttachments(List<InquiryAttachment> InquiryAttachments)
+        {
             _inquiryAttachmentRepository.SaveInquiryAttachments(InquiryAttachments);
-        
-       }
 
-       public ItemSection GetItemFirstSectionByItemId(long ItemId)
-       {
-           return _ItemRepository.GetItemFirstSectionByItemId(ItemId);
+        }
 
-       }
-       public ItemSection UpdateItemFirstSectionByItemId(long ItemId, int Quantity)
-       {
-           return _ItemRepository.UpdateItemFirstSectionByItemId(ItemId, Quantity);
-       }
+        public ItemSection GetItemFirstSectionByItemId(long ItemId)
+        {
+            return _ItemRepository.GetItemFirstSectionByItemId(ItemId);
+
+        }
+        public ItemSection UpdateItemFirstSectionByItemId(long ItemId, int Quantity)
+        {
+            return _ItemRepository.UpdateItemFirstSectionByItemId(ItemId, Quantity);
+        }
         /// <summary>
         /// get id's of cost center except webstore cost cnetre 216 of first section of cloned item 
         /// </summary>
         /// <param name="StockOptionID"></param>
         /// <param name="CompanyID"></param>
         /// <returns></returns>
-       public List<SectionCostcentre> GetClonedItemAddOnCostCentres(long ItemId, long OrganisationId)
-       {
-           try
-           {
-               ItemSection firstSection = _ItemSectionRepository.GetFirstSectionOfItem(ItemId);
-               if (firstSection != null)
-               {
-                   CostCentre webOrderCC = _CostCentreRepository.GetWebOrderCostCentre(OrganisationId);
-                   List<SectionCostcentre> sectionCCList = _ItemSectionCostCentreRepository.GetAllSectionCostCentres(firstSection.ItemSectionId);
-                   if (webOrderCC != null)
-                   {
-                       sectionCCList = sectionCCList.Where(s => s.CostCentreId != webOrderCC.CostCentreId).ToList();
-                       return sectionCCList;
-                   }
-                   else 
-                   {
-                       return sectionCCList;
-                   }
-               }
-               else 
-               {
-                   return null;
-               }
-              
-           }
-           catch (Exception ex)
-           {
-               throw ex;
-           }
-           
-       }
+        public List<SectionCostcentre> GetClonedItemAddOnCostCentres(long ItemId, long OrganisationId)
+        {
+            try
+            {
+                ItemSection firstSection = _ItemSectionRepository.GetFirstSectionOfItem(ItemId);
+                if (firstSection != null)
+                {
+                    CostCentre webOrderCC = _CostCentreRepository.GetWebOrderCostCentre(OrganisationId);
+                    List<SectionCostcentre> sectionCCList = _ItemSectionCostCentreRepository.GetAllSectionCostCentres(firstSection.ItemSectionId);
+                    if (webOrderCC != null)
+                    {
+                        sectionCCList = sectionCCList.Where(s => s.CostCentreId != webOrderCC.CostCentreId).ToList();
+                        return sectionCCList;
+                    }
+                    else
+                    {
+                        return sectionCCList;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
 
         /// <summary>
         /// get cart items count 
@@ -1105,8 +1304,8 @@ namespace MPC.Implementation.WebStoreServices
 
         public List<Item> GetProductsWithDisplaySettings(ProductWidget productWidgetId, long CompanyId, long OrganisationId)
         {
-           
-            List<Item> productsAllList = null; 
+
+            List<Item> productsAllList = null;
             List<Item> filteredList = null;
 
             switch (productWidgetId)
@@ -1115,12 +1314,12 @@ namespace MPC.Implementation.WebStoreServices
                 case ProductWidget.FeaturedProducts:
                     productsAllList = GetDisplayProductsWithDisplaySettings(null, null, CompanyId, OrganisationId);
                     filteredList = productsAllList;//ProductManager.GetSearchedProducts((int)productWidget, productsAllList);
-                    
+
                     break;
                 case ProductWidget.PopularProducts:
 
                     productsAllList = GetDisplayProductsWithDisplaySettings(true, null, CompanyId, OrganisationId); //popular
-                   
+
                     if (productsAllList != null & productsAllList.Count > 0)
                         filteredList = productsAllList.ToList();
 
@@ -1130,7 +1329,7 @@ namespace MPC.Implementation.WebStoreServices
                     productsAllList = GetDisplayProductsWithDisplaySettings(null, true, CompanyId, OrganisationId); //promotional or special
                     if (productsAllList != null & productsAllList.Count > 0)
                     {
-                       // filteredList = ProductManager.GetSearchedProducts((int)productWidget, productsAllList);
+                        // filteredList = ProductManager.GetSearchedProducts((int)productWidget, productsAllList);
 
                         if (filteredList != null)
                             filteredList = filteredList.ToList();
@@ -1213,7 +1412,7 @@ namespace MPC.Implementation.WebStoreServices
         //    return filteredProdcuts.OrderBy(item => item.SortOrder).ToList();
 
         //}
-      
+
 
         /// <summary>
         /// get all parent categories and corresponding products of a category against a store
@@ -1235,7 +1434,7 @@ namespace MPC.Implementation.WebStoreServices
         }
         public long getParentTemplateID(long itemId)
         {
-           return _ItemRepository.getParentTemplateID(itemId);
+            return _ItemRepository.getParentTemplateID(itemId);
         }
         // called from category page to generate template and order if skip designer mode is selected
         public string ProcessCorpOrderSkipDesignerMode(long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID)
@@ -1248,7 +1447,7 @@ namespace MPC.Implementation.WebStoreServices
             bool isMultiplageProduct = false;
             if (WEBOrderId == 0)
             {
-                
+
                 long TemporaryRetailCompanyId = 0;
                 if (WEBStoreMode == (int)StoreMode.Retail)
                 {
@@ -1285,7 +1484,7 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     ItemID = item.ItemId;
                     TemplateID = item.TemplateId ?? 0;
-                    if(item.printCropMarks.HasValue)
+                    if (item.printCropMarks.HasValue)
                         printCropMarks = item.printCropMarks.Value;
                     if (item.drawWaterMarkTxt.HasValue)
                         printWaterMark = item.drawWaterMarkTxt.Value;
@@ -1331,12 +1530,12 @@ namespace MPC.Implementation.WebStoreServices
                         printWaterMark = item.drawWaterMarkTxt.Value;
                     if (item.isMultipagePDF.HasValue)
                         isMultiplageProduct = item.isMultipagePDF.Value;
-                  
+
                 }
             }
             //resolve template variables 
             _smartFormService.AutoResolveTemplateVariables(ItemID, ContactID);
-            _templateService.processTemplatePDF(TemplateID,OrganisationId, printCropMarks,printWaterMark,false,isMultiplageProduct);
+            _templateService.processTemplatePDF(TemplateID, OrganisationId, printCropMarks, printWaterMark, false, isMultiplageProduct);
             return ItemID + "_" + TemplateID + "_" + WEBOrderId + "_" + TemporaryCompanyId;
             //update temporary customer id (for case of retail) and order id 
         }
@@ -1351,19 +1550,19 @@ namespace MPC.Implementation.WebStoreServices
             {
                 return _ProductCategoryRepository.GetCategoryById(CategoryId).CategoryName;
             }
-            else 
+            else
             {
                 CategoryId = _ProductCategoryItemRepository.GetCategoryId(ItemId) ?? 0;
                 if (CategoryId > 0)
                 {
                     return _ProductCategoryRepository.GetCategoryById(CategoryId).CategoryName;
                 }
-                else 
+                else
                 {
                     return "";
                 }
             }
-           
+
         }
         /// <summary>
         /// get category id
@@ -1373,7 +1572,7 @@ namespace MPC.Implementation.WebStoreServices
         public long GetCategoryIdByItemId(long ItemId)
         {
             return _ProductCategoryItemRepository.GetCategoryId(ItemId) ?? 0;
-          
+
         }
 
         public static string GetAttachmentFileName(string ProductCode, string OrderCode, string ItemCode,
@@ -1515,7 +1714,7 @@ namespace MPC.Implementation.WebStoreServices
 
             ItemCloneResult itemCloneObj = new ItemCloneResult();
             Item item = null;
-            
+
             long ItemID = 0;
             long TemplateID = 0;
             bool isCorp = true;
@@ -1628,10 +1827,10 @@ namespace MPC.Implementation.WebStoreServices
             }
 
             ProductName = specialCharactersEncoder(ProductName);
-           
+
             bool printCropMarks = true;
 
-            if(item != null && item.TemplateType == 3)
+            if (item != null && item.TemplateType == 3)
             {
                 itemCloneObj.RedirectUrl = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationId + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
             }
@@ -1639,8 +1838,8 @@ namespace MPC.Implementation.WebStoreServices
             {
                 itemCloneObj.RedirectUrl = "/Designer/" + ProductName + "/0/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationId + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
             }
-           
-            
+
+
             return itemCloneObj;
         }
         /// <summary>
@@ -1651,23 +1850,23 @@ namespace MPC.Implementation.WebStoreServices
         {
             try
             {
-               ItemAttachment oDbAttachmentRecord = _itemAtachement.GetArtworkAttachment(ItemAttachmentId);
-               if (oDbAttachmentRecord != null) 
-               {
-                   // delete attachment record
-                   _itemAtachement.DeleteArtworkAttachment(oDbAttachmentRecord);
-                   // delete physical file
-                   string completePhysicalPathOfAttachmentThumbnail = HttpContext.Current.Server.MapPath("~/" + oDbAttachmentRecord.FolderPath + "/" + oDbAttachmentRecord.FileName + "Thumb.png");
-                   string completePhysicalPathOfAttachmentFile = HttpContext.Current.Server.MapPath("~/" + oDbAttachmentRecord.FolderPath + "/" + oDbAttachmentRecord.FileName + oDbAttachmentRecord.FileType);
-                   if (System.IO.File.Exists(completePhysicalPathOfAttachmentFile))
-                   {
-                       System.IO.File.Delete(completePhysicalPathOfAttachmentFile);
-                   }
-                   if (System.IO.File.Exists(completePhysicalPathOfAttachmentThumbnail))
-                   {
-                       System.IO.File.Delete(completePhysicalPathOfAttachmentThumbnail);
-                   }
-               }
+                ItemAttachment oDbAttachmentRecord = _itemAtachement.GetArtworkAttachment(ItemAttachmentId);
+                if (oDbAttachmentRecord != null)
+                {
+                    // delete attachment record
+                    _itemAtachement.DeleteArtworkAttachment(oDbAttachmentRecord);
+                    // delete physical file
+                    string completePhysicalPathOfAttachmentThumbnail = HttpContext.Current.Server.MapPath("~/" + oDbAttachmentRecord.FolderPath + "/" + oDbAttachmentRecord.FileName + "Thumb.png");
+                    string completePhysicalPathOfAttachmentFile = HttpContext.Current.Server.MapPath("~/" + oDbAttachmentRecord.FolderPath + "/" + oDbAttachmentRecord.FileName + oDbAttachmentRecord.FileType);
+                    if (System.IO.File.Exists(completePhysicalPathOfAttachmentFile))
+                    {
+                        System.IO.File.Delete(completePhysicalPathOfAttachmentFile);
+                    }
+                    if (System.IO.File.Exists(completePhysicalPathOfAttachmentThumbnail))
+                    {
+                        System.IO.File.Delete(completePhysicalPathOfAttachmentThumbnail);
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -1850,9 +2049,9 @@ namespace MPC.Implementation.WebStoreServices
                 }
 
                 _TemplatePageRepository.SaveChanges();
-                _TemplateObjectRepository.SaveChanges(); 
+                _TemplateObjectRepository.SaveChanges();
                 _TemplateBackgroundImagesRepository.SaveChanges();
-              
+
             }
             catch (Exception ex)
             {
@@ -1959,6 +2158,207 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _itemAtachement.GetItemAttactchments(itemID);
         }
+
+        private bool SaveAdditionalAddonsOrUpdateStockItemType(List<AddOnCostsCenter> selectedAddonsList, long newItemID,
+              long stockID, bool isCopyProduct, string updateMode, long ItemStockOptionId)
+        {
+            try
+            {
+                bool result = false;
+                ItemSection SelectedtblItemSectionOne = null;
+
+                //Create A new Item Section #1 to pass to the cost center
+                SelectedtblItemSectionOne = _ItemSectionRepository.GetFirstSectionOfItem(newItemID);
+                //SelectedtblItemSectionOne =
+                //    db.ItemSections.Where(itemSect => itemSect.SectionNo == 1 && itemSect.ItemId == newItemID)
+                //        .FirstOrDefault();
+
+                if (isCopyProduct == true)
+                {
+                    result = this.SaveAdditionalAddonsOrUpdateStockItemType(selectedAddonsList,
+                        Convert.ToInt64(SelectedtblItemSectionOne.StockItemID1), SelectedtblItemSectionOne, updateMode, ItemStockOptionId);
+                }
+                else
+                {
+                    result = this.SaveAdditionalAddonsOrUpdateStockItemType(selectedAddonsList, stockID,
+                        SelectedtblItemSectionOne, updateMode, ItemStockOptionId);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+        }
+
+        private bool SaveAdditionalAddonsOrUpdateStockItemType(List<AddOnCostsCenter> selectedAddonsList, long stockID,
+            ItemSection SelectedtblItemSectionOne, string updateMode, long ItemstockOptionID)
+        {
+            try
+            {
+                SectionCostcentre SelectedtblISectionCostCenteres = null;
+
+                if (SelectedtblItemSectionOne != null)
+                {
+                    //Set or Update the paper Type stockid in the section #1
+                    if (stockID > 0)
+                        this.UpdateStockItemType(SelectedtblItemSectionOne, stockID, ItemstockOptionID);
+
+                    if (selectedAddonsList != null)
+                    {
+                        // Remove previous Addons
+                        _ItemSectionCostCentreRepository.RemoveCostCentreOfFirstSection(SelectedtblItemSectionOne.ItemSectionId);
+                        //db.SectionCostcentres.Where(
+                        //    c => c.ItemSectionId == SelectedtblItemSectionOne.ItemSectionId && c.IsOptionalExtra == 1)
+                        //    .ToList()
+                        //    .ForEach(sc =>
+                        //    {
+                        //        db.SectionCostcentres.Remove(sc);
+
+                        //    });
+                        //Create Additional Addons Data
+                        //Create Additional Addons Data
+                        for (int i = 0; i < selectedAddonsList.Count; i++)
+                        {
+                            AddOnCostsCenter addonCostCenter = selectedAddonsList[i];
+
+                            SelectedtblISectionCostCenteres = this.PopulateTblSectionCostCenteres(addonCostCenter);
+                            SelectedtblISectionCostCenteres.IsOptionalExtra = 1; //1 tells that it is the Additional AddOn 
+
+                            SelectedtblItemSectionOne.SectionCostcentres.Add(SelectedtblISectionCostCenteres);
+
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public void UpdateStockItemType(ItemSection itemSection, long stockID, long ItemstockOptionID)
+        {
+            try
+            {
+                itemSection.StockItemID1 = (int)stockID; //always set into the first column
+                itemSection.StockItemID2 = (int)ItemstockOptionID;
+                itemSection.StockItemID3 = null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+        }
+        private SectionCostcentre PopulateTblSectionCostCenteres(AddOnCostsCenter addOn)
+        {
+            try
+            {
+                SectionCostcentre tblISectionCostCenteres = new SectionCostcentre
+                {
+                    CostCentreId = addOn.CostCenterID,
+                    IsOptionalExtra = 1,
+                    Qty1Charge = addOn.Qty1NetTotal,
+                    Qty1NetTotal = addOn.Qty1NetTotal,
+                    Qty1WorkInstructions = addOn.CostCentreDescription,
+                    Qty2WorkInstructions = addOn.CostCentreJsonData,
+                    Name = addOn.AddOnName
+                };
+
+                return tblISectionCostCenteres;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public double GetDiscountAmountByVoucher(DiscountVoucher storeDiscountVoucher, double itemTotal, long ItemId, double OrderedQty) 
+        {
+            bool isApplyDiscount = false;
+            double DiscountAmountToApply = 0;
+            
+            if (storeDiscountVoucher != null)
+            {
+                if (storeDiscountVoucher.IsTimeLimit == true)
+                {
+                    DateTime? ValidFromDate = storeDiscountVoucher.ValidFromDate;
+                    DateTime? ValidUptoDate = storeDiscountVoucher.ValidUptoDate;
+                    DateTime TodayDate = DateTime.Now;
+                    if (ValidFromDate != null && ValidUptoDate != null)
+                    {
+                        if (TodayDate >= ValidFromDate && TodayDate <= ValidUptoDate)
+                        {
+                            isApplyDiscount = true;
+                        }
+                    }
+                }
+
+                if (storeDiscountVoucher.IsQtyRequirement == true)
+                {
+                    if (OrderedQty >= storeDiscountVoucher.MinRequiredQty && OrderedQty <= storeDiscountVoucher.MaxRequiredQty)
+                    {
+                        isApplyDiscount = true;
+                    }
+                    else
+                    {
+                        isApplyDiscount = false;
+                    }
+                }
+
+                if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.DollaramountoffEntireorder || storeDiscountVoucher.DiscountType == (int)DiscountTypes.PercentoffEntirorder)
+                {
+                    if (storeDiscountVoucher.IsOrderPriceRequirement == true)
+                    {
+
+                    }
+                }
+
+            }
+
+            if (isApplyDiscount)
+            {
+                if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.DollaramountoffEntireorder)
+                {
+                    DiscountAmountToApply = storeDiscountVoucher.DiscountRate;
+                }
+                else if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.PercentoffEntirorder)
+                {
+                    DiscountAmountToApply = _ItemRepository.CalculatePercentage(itemTotal, storeDiscountVoucher.DiscountRate);
+                }
+                else if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.PercentoffEntirorder)
+                {
+                    DiscountAmountToApply = _ItemRepository.CalculatePercentage(itemTotal, storeDiscountVoucher.DiscountRate);
+                }
+                else
+                {
+                    if (_ItemVRepository.isVoucherAppliedOnThisProduct(storeDiscountVoucher.DiscountVoucherId, ItemId))
+                    {
+                        if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.PercentoffaProduct)
+                        {
+                            DiscountAmountToApply = _ItemRepository.CalculatePercentage(itemTotal, storeDiscountVoucher.DiscountRate);
+                        }
+                        else if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.DollarAmountOffProduct)
+                        {
+                            DiscountAmountToApply = storeDiscountVoucher.DiscountRate;
+                        }
+                    }
+                }
+            }
+
+            return DiscountAmountToApply;
+        }
+
         #endregion
     }
 }
+

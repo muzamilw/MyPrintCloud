@@ -316,10 +316,11 @@
                                     <tr>
                                         <td>
                                             @*<span id="ltrlcontactnum">Contact Number:</span>*@
-                                            <span id="BillingAddressContactNumber"></span>
+                                            
                                         </td>
                                         <td>
                                             @*<label id="lblContactNumber" class="txtBold">*@@*</label>*@
+                                            <span id="BillingAddressContactNumber"></span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -514,6 +515,9 @@
         function DownLoadArtworkFile(orderId) {
             ShowLoader();
             $.get("/mis/api/DownloadArtwork?OrderId=" + orderId + "&OrganisationId=" + @UserCookieManager.WEBOrganisationID, function (DT) {
+               
+                DT = DT.replace("\"","");
+                DT = DT.replace("\"","");
                 console.log(DT); 
                 window.location.href = DT;
                 HideLoader();
