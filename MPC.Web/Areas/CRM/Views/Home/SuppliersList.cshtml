@@ -11,12 +11,10 @@
                     <li><a href="#">&nbsp;</a></li>
                 </ol>
                 <h1 style="padding-left:0px;">Supplier</h1>
-                <div class="clearfix pull-left">
+                <div style="padding-top:3px;margin-left:-2px;">
                     <span class="group-header-description">Create Contacts, Customers and Suppliers. Add to-do items and update shared calendars.</span>
                 </div>
-                <div style="clear: both;max-height: 14px;">
-                    &nbsp;
-                </div>
+               
             </div>
             <div class="col-lg-12" data-bind="visible: $root.isEditorVisible" style="display: none;">
                 <ol class="breadcrumb" style="padding-left:0px;">
@@ -36,11 +34,10 @@
 
 
             </div>
-
         </div>
         <div class="row">
-
-            <div class="col-lg-12">
+            
+            <div class="col-lg-12" style="margin-top:33px;">
                 <div class="main-box-body main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
@@ -61,11 +58,6 @@
                                 @Html.ActionLink("Calendar", "Calendar", "Home")
                                 @*<a href="#tab-Calendar" data-toggle="tab">Calendar</a>*@
                             </li>
-
-                            @*<li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.EMarketing) { <text>active</text> }">
-                                @Html.ActionLink("E-Marketing", "EMarketing", "Home")
-                            </li>*@
-
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-Supplier">
@@ -109,8 +101,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" style="margin-left:0px;margin-right:0px;">
+                                <div>
                                     @{
+                                        
                                         Html.RenderPartial("~/Areas/CRM/Views/Home/CompaniesDetail.cshtml");
                                     }
                                 </div>

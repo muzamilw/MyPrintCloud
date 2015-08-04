@@ -6,7 +6,7 @@
 <div class="row" id="crmBindingRoot">
     <div class="col-lg-12" >
         <div class="row">
-            <div class="col-lg-12" data-bind="visible: !$root.isEditorVisible()">
+            <div class="col-lg-12" data-bind="visible: !$root.isEditorVisible()" style="padding-left:6px;">
                 <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
                 <input type="hidden" name="CompanyId" id="CompanyId" value="@ViewBag.CompanyId" />
                 <ol class="breadcrumb" style="padding-left:8px;">
@@ -139,7 +139,6 @@
                         </div>
                     </div>
                 </div>
-                
             </div>
             <script id="filterTemplate" type="text/html">
                 <div class="filter-body" id="filter" style=" margin-left:18px;margin-right:18px; margin-bottom: 4px;">
