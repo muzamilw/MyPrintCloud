@@ -560,9 +560,11 @@ namespace MPC.Implementation.WebStoreServices
                 netTotal = itemPrice + addonsPrice + markupRate ?? 0;
 
                 DiscountVoucher storeDiscountVoucher = _DVRepository.GetStoreDefaultDiscountRate(StoreId, OrganisationId);
-
-                DiscountAmountToApply = GetDiscountAmountByVoucher(storeDiscountVoucher, netTotal, clonedItem.RefItemId ?? 0, orderedQuantity);
-
+                if (storeDiscountVoucher != null)
+                {
+                    DiscountAmountToApply = GetDiscountAmountByVoucher(storeDiscountVoucher, netTotal, clonedItem.RefItemId ?? 0, orderedQuantity, clonedItem.DiscountVoucherID);
+                    clonedItem.DiscountVoucherID = storeDiscountVoucher.DiscountVoucherId;
+                }
                 if (CountOfUploads > 0)
                 {
                     clonedItem.ProductName = clonedItem.ProductName + " " + CountOfUploads + " file(s) uploaded";
@@ -579,37 +581,41 @@ namespace MPC.Implementation.WebStoreServices
                     if (clonedItem.DefaultItemTax != null)
                     {
                         clonedItem.Tax1 = Convert.ToInt32(clonedItem.DefaultItemTax);
-                        double TaxAppliedOnItemTotal = _ItemRepository.CalculatePercentage(itemPrice, Convert.ToDouble(clonedItem.DefaultItemTax));// ((itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100); 
 
-                        double TaxAppliedOnCostCentreTotal = _ItemRepository.CalculatePercentage(addonsPrice, Convert.ToDouble(clonedItem.DefaultItemTax));// ((addonsPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100);
+                        //double TaxAppliedOnCostCentreTotal = _ItemRepository.CalculatePercentage(addonsPrice, Convert.ToDouble(clonedItem.DefaultItemTax));// ((addonsPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100);
 
-                        itemPrice = itemPrice;
+                        //netTotal = itemPrice + addonsPrice + markupRate ?? 0;
 
-                        netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+                        netTotal = netTotal - DiscountAmountToApply;
 
-                        grossTotal = netTotal + (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);
-                        clonedItem.Qty1Tax1Value = (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);//GetTaxPercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
+                        double TaxAppliedOnItemTotal = _ItemRepository.CalculatePercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));// ((itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100); 
+
+                        grossTotal = netTotal + TaxAppliedOnItemTotal;
+                        clonedItem.Qty1Tax1Value = TaxAppliedOnItemTotal;//GetTaxPercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
                     }
                     else
                     {
                         clonedItem.Tax1 = Convert.ToInt32(TaxRate);
-                        double TaxAppliedOnItemTotal = _ItemRepository.CalculatePercentage(itemPrice, TaxRate); //(itemPrice * TaxRate / 100);
-                        double TaxAppliedOnCostCentreTotal = _ItemRepository.CalculatePercentage(addonsPrice, TaxRate); //(addonsPrice * TaxRate / 100);
-                        itemPrice = itemPrice;
+                        
+                       // double TaxAppliedOnCostCentreTotal = _ItemRepository.CalculatePercentage(addonsPrice, TaxRate); //(addonsPrice * TaxRate / 100);
 
-                        netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+                        netTotal = netTotal - DiscountAmountToApply;
 
-                        grossTotal = netTotal + (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);//CalculatePercentage(netTotal, TaxRate);
-                        clonedItem.Qty1Tax1Value = TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal;//GetTaxPercentage(netTotal, TaxRate);
+                        double TaxAppliedOnItemTotal = _ItemRepository.CalculatePercentage(netTotal, TaxRate); //(itemPrice * TaxRate / 100);
+
+                        grossTotal = netTotal + TaxAppliedOnItemTotal;//CalculatePercentage(netTotal, TaxRate);
+
+                        clonedItem.Qty1Tax1Value = TaxAppliedOnItemTotal;//GetTaxPercentage(netTotal, TaxRate);
                     }
                 }
                 else
                 {
                     clonedItem.Tax1 = Convert.ToInt32(TaxRate);
 
-                    netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+                    netTotal = netTotal - DiscountAmountToApply;
 
                     grossTotal = netTotal + _ItemRepository.CalculatePercentage(netTotal, TaxRate);
+
                     clonedItem.Qty1Tax1Value = _ItemRepository.CalculatePercentage(netTotal, TaxRate);
                 }
 
@@ -624,6 +630,10 @@ namespace MPC.Implementation.WebStoreServices
                 clonedItem.Qty1NetTotal = netTotal;
 
                 clonedItem.Qty1GrossTotal = grossTotal;
+
+                clonedItem.Qty1CostCentreProfit = DiscountAmountToApply;
+
+
 
                 FirstItemSection = _ItemSectionRepository.GetFirstSectionOfItem(clonedItem.ItemId);
                 //clonedItem.ItemSections.Where(sec => sec.SectionNo == 1 && sec.ItemId == clonedItem.ItemId)
@@ -2282,13 +2292,22 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-        public double GetDiscountAmountByVoucher(DiscountVoucher storeDiscountVoucher, double itemTotal, long ItemId, double OrderedQty) 
+        public double GetDiscountAmountByVoucher(DiscountVoucher storeDiscountVoucher, double itemTotal, long ItemId, double OrderedQty, long? DiscountIdAlreadyApplied) 
         {
-            bool isApplyDiscount = false;
+            bool isApplyDiscount = true;
             double DiscountAmountToApply = 0;
-            
+            double DiscountAmountAlreadyApplied = 0;
             if (storeDiscountVoucher != null)
             {
+                if (DiscountIdAlreadyApplied != null)
+                {
+                    DiscountVoucher dvAlreadyApplied = _DVRepository.GetDiscountVoucherById(Convert.ToInt64(DiscountIdAlreadyApplied));
+                    if (dvAlreadyApplied != null)
+                    {
+                        DiscountAmountAlreadyApplied = dvAlreadyApplied.DiscountRate;
+                    }
+                }
+
                 if (storeDiscountVoucher.IsTimeLimit == true)
                 {
                     DateTime? ValidFromDate = storeDiscountVoucher.ValidFromDate;
@@ -2300,6 +2319,14 @@ namespace MPC.Implementation.WebStoreServices
                         {
                             isApplyDiscount = true;
                         }
+                        else
+                        {
+                            isApplyDiscount = false;
+                        }
+                    }
+                    else
+                    {
+                        isApplyDiscount = false;
                     }
                 }
 
@@ -2325,7 +2352,7 @@ namespace MPC.Implementation.WebStoreServices
 
             }
 
-            if (isApplyDiscount)
+            if (isApplyDiscount && storeDiscountVoucher.DiscountRate > DiscountAmountAlreadyApplied)
             {
                 if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.DollaramountoffEntireorder)
                 {

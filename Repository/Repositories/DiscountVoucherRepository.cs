@@ -86,6 +86,19 @@ namespace MPC.Repository.Repositories
             }
 
         }
+
+        public DiscountVoucher GetDiscountVoucherById(long DiscountVoucherId)
+        {
+            try
+            {
+                return db.DiscountVouchers.Where(d => d.DiscountVoucherId == DiscountVoucherId).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         #endregion
     }
 }
