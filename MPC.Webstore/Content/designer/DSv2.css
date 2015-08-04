@@ -30,7 +30,7 @@ body {
 }
 
 a {
-    color: #ffdd0c;
+    color: #fc813b;
     text-decoration: underline;
     cursor: pointer;
 }
@@ -181,7 +181,7 @@ body:not(.compactHeader) .searchBtn {
 
         #objectPanel > menu a:hover, #objectPanel > menu .on a:hover {
             /*background-image: url('assets-v2/icon_tabs_search_on.png');*/
-            color: #FFFF01 !important;
+            color: #fc813b!important;
             -webkit-transform: none;
             transform: none;
         }
@@ -291,7 +291,7 @@ body:not(.compactHeader) .searchBtn {
 height: 53px;
 margin: 0 0 0 .8em;
 padding: 0 1em 0 1em !important;
-/* background-color: #ffdd0c !important; */
+/* background-color: #fc813b !important; */
 color: #fff;
 text-decoration: none;
 -webkit-transition: all .6s linear;
@@ -318,7 +318,7 @@ line-height: 38px;
     height: 53px;
     margin: 0 0 0 .8em;
     padding: 0 1em 0 1em !important;
-    /* background-color: #ffdd0c !important; */
+    /* background-color: #fc813b !important; */
     color: #fff;
     text-decoration: none;
     -webkit-transition: all .6s linear;
@@ -746,7 +746,7 @@ html:not(.touch) #addNewPage {
 
     #addNewPage:not(.off):hover {
         border: 0 none transparent;
-        background-color: #ffdd0c;
+        background-color: #fc813b;
         color: #fff;
         line-height: 47px;
     }
@@ -943,7 +943,7 @@ body:not(.compactHeader) #editorLogo {
     overflow: visible;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    background-color: #ffdd0c;
+    background-color: #fc813b;
     /*text-indent: -9999px;
     text-decoration: none;*/
     font-size: 24px;
@@ -954,7 +954,10 @@ body:not(.compactHeader) #editorLogo {
     -webkit-transition: top .45s ease-out, -webkit-transform .6s ease-out;
     transition: top .45s ease-out, transform .6s ease-out;
 }
-
+body:not(.compactHeader) #editorLogo:hover {
+	background-color: #fca26f;
+    color:#506a85;
+}
     body:not(.compactHeader) #editorLogo.collapsed {
         top: -100px;
     }
@@ -967,11 +970,10 @@ body:not(.compactHeader) #editorLogo {
   height: 26px;
     /*background-image: 
     background-repeat: no-repeat;*/
-    color: rgba(63,70,82, .5);
+    color: rgba(255,255,255, .8);
     -webkit-transition: all 1s ease-out;
     transition: all 1s ease-out;
 }
-
 
 
 .loadingDot {
@@ -1138,7 +1140,7 @@ body:not(.compactHeader) .documentMenu.undoDisabled .menuItemContainer {
     height: 34px;
     margin: 0 0 0 .8em;
     padding: 0 1em 0 1em !important;
-    background-color: #ffdd0c !important;
+    background-color: #fc813b !important;
     color: #fff;
     text-decoration: none;
     -webkit-transition: all .6s linear;
@@ -1168,7 +1170,7 @@ body:not(.compactHeader) .documentMenu {
     border-radius: 17px;
     padding: 0;
     list-style: none;
-    background-color: #FADD2E;
+    background-color: #fc813b;
     color: #fff;
     line-height: 34px;
     white-space: nowrap;
@@ -1181,7 +1183,7 @@ body:not(.compactHeader) .documentMenu {
         width: 0;
         height: 34px;
         border-radius: 17px;
-        background-color: #F5D513;
+        background-color: #fca26f;
         /*-webkit-transition: right .2s linear, width .15s linear;
         transition: right .2s linear, width .15s linear;*/
     }
@@ -1206,7 +1208,7 @@ body:not(.compactHeader) .documentMenu {
     border-radius: 17px;
     padding: 0;
     list-style: none;
-    background-color: #FADD2E;
+    background-color: #fc813b;
     color: #fff;
     line-height: 34px;
     white-space: nowrap;
@@ -1423,7 +1425,7 @@ body:not(.compactHeader) .documentMenu a, body:not(.compactHeader) .documentMenu
 }
 
 .ThemeColor {
-    color: #FADD2E !important;
+    color: #ffffff !important;
 }
 
 .qTextInput {
@@ -1463,7 +1465,7 @@ body:not(.compactHeader) .documentMenu a, body:not(.compactHeader) .documentMenu
 
     .SampleBtn:not(.off):hover {
         border: 0 none transparent;
-        background-color: #ffdd0c;
+        background-color: #fc813b;
         color: #fff;
         line-height: 47px;
     }
@@ -1686,9 +1688,9 @@ html:not(.touch) .SampleBtn {
     top: 0;
     height: 16px;
     border-radius: 8px;
-    background-color: #ffdd0c;
-    background-image: -webkit-linear-gradient(left, #ffdd0c, #F9DC2D, #ffdd0c);
-    background-image: linear-gradient(to right, #ffdd0c, #F9DC2D, #ffdd0c);
+    background-color: #fc813b;
+    background-image: -webkit-linear-gradient(left, #fc813b, #F9DC2D, #fc813b);
+    background-image: linear-gradient(to right, #fc813b, #F9DC2D, #fc813b);
     background-size: 400px 100%;
     box-shadow: inset 0 -7px 7px rgba(0,0,0,0.15), 3px 3px 6px rgba(0,0,0,0.15);
     -webkit-animation: progressGradient 2s linear infinite;
@@ -1822,7 +1824,7 @@ html:not(.touch) .SampleBtn {
 }
 
     .dialog input[type=text]:focus, textarea {
-        border-color: #ffdd0c;
+        border-color: #fc813b;
         border-width: 3px;
         padding: 0 8px;
     }
@@ -1967,7 +1969,7 @@ html:not(.touch) .SampleBtn {
     }
 
         .dialog.popover input[type="text"]:focus, .dialog.popover textarea:focus {
-            border-color: #ffdd0c;
+            border-color: #fc813b;
         }
 
     .dialog.popover button {
@@ -2554,11 +2556,11 @@ html:not(.touch) .SampleBtn {
 }
 
     .toolbarMoreGroup li.enabled a:hover {
-        color: #ffdd0c;
+        color: #fc813b;
     }
 
     .toolbarMoreGroup li.enabled a:active {
-        text-shadow: 0 0 5px #ffdd0c;
+        text-shadow: 0 0 5px #fc813b;
     }
 
 .toolbarMoreGroup .elementToolbarCopy a {
@@ -2858,20 +2860,20 @@ div.fontSelector {
     }
 
 .elementToolbar .elementToolbarMore:not(.disabled):hover a:after, .imageToolbar .imageToolbarMore:not(.disabled):hover a:after, .textToolbar .textToolbarMore:not(.disabled):hover a:after {
-    color: #ffdd0c;
+    color: #fc813b;
 }
 
 .elementToolbar .elementToolbarMore:not(.disabled) a:hover, .textToolbar .textToolbarMore:not(.disabled) a:hover, .imageToolbar .imageToolbarMore:not(.disabled) a:hover, .elementToolbar a:hover, .imageToolbar a:hover {
-    color: #ffdd0c;
+    color: #fc813b;
 }
 
 .elementToolbar .elementToolbarMore.on a, .imageToolbar .imageToolbarMore.on a, .textToolbar .textToolbarMore.on a {
-    color: #ffdd0c;
-    text-shadow: 0 0 5px #ffdd0c;
+    color: #fc813b;
+    text-shadow: 0 0 5px #fc813b;
 }
 
     .elementToolbar .elementToolbarMore.on a:after, .imageToolbar .imageToolbarMore.on a:after, .textToolbar .textToolbarMore.on a:after {
-        color: #ffdd0c;
+        color: #fc813b;
     }
 
 .textToolbarColor a, .elementToolbarColor a {
@@ -4176,7 +4178,7 @@ h2 + .gallery {
 }
 
     .infoPanelGallery .info .moreInfo:hover {
-        background-color: #ffdd0c;
+        background-color: #fc813b;
     }
 
     .infoPanelGallery .info .moreInfo:active {
@@ -6606,7 +6608,7 @@ font-weight: 400;
 cursor: pointer;
 }
 .radio input[type=radio]:checked + label:before, .radio input[type=radio]:hover + label:before {
-border: 1px solid #FFDD0C;
+border: 1px solid #fc813b;
 }
 .radio label:before {
 background: none repeat scroll 0 0 #ffffff;
@@ -6640,8 +6642,8 @@ transform: scale(0.63);
 transition: transform 0.1s 0s cubic-bezier(0.4,0.02,0.3,1.2);
 }
 .radio label:after {
-background-color: #FADD2E;
-border: 1px solid #FADD2E;
+background-color: #fc813b;
+border: 1px solid #fc813b;
 -webkit-border-radius: 50%;
 -moz-border-radius: 50%;
 border-radius: 50%;
@@ -6811,7 +6813,7 @@ font-size: 13px;
 #FrontBackOptionPanal div button:hover
 {
       color: #222;
-      background-color: #ffdd0c;
+      background-color: #fc813b;
 }
 .divTxtAlignmentControls button:hover ,.divGroupAlignControls button:hover{
     background-color:rgb(39, 44, 51) !important;
@@ -6857,7 +6859,7 @@ font-size: 13px;
       right: 65px !important;
       top: -4px !important;
       color: rgba(63,70,82, .5) !important;
-      background-color: #ffdd0c;
+      background-color: #fc813b;
 }
 .btnUploadYourDesign button:hover
 {
