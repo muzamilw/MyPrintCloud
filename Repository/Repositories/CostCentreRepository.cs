@@ -919,6 +919,12 @@ namespace MPC.Repository.Repositories
                 CurrencySymbol = organisation == null ? null : organisation.Currency==null? null: organisation.Currency.CurrencySymbol
             };
         }
+
+        public CostCentre GetGlobalWebOrderCostCentre(long OrganisationId) 
+        {
+            return db.CostCentres.Where(g => g.Type == 29 && g.OrganisationId == OrganisationId).SingleOrDefault();
+        } 
+
 		#endregion
 
 		#region "CostCentre Template"

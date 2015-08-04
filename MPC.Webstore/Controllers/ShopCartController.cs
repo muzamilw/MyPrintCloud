@@ -92,40 +92,9 @@ namespace MPC.Webstore.Controllers
             {
                 List<CostCentre> deliveryCostCentersList = null;
 
-              
-
-               
-
                 ViewBag.Currency = StoreBaseResopnse.Currency;
 
-
-                int status = (int)OrderStatus.ShoppingCart;
-
-               // long sOrderID = _OrderService.GetUserShopCartOrderID(status);
-
-
                 shopCart = LoadShoppingCart(OrderId);
-
-                string Messege = ""; // if error comes ....... //HttpContext.Current.Request.QueryString["Error"];
-                if (!string.IsNullOrEmpty(Messege))
-                {
-                    //ErrorDisplyMes.Style.Add(HtmlTextWriterStyle.Display, "block");
-                    //if (Messege == "UserCancelled")
-                    //{
-                    //    ErrorMEsSummry.Text = (string)GetGlobalResourceObject("MyResource", "lnkPaymentCancelled");
-                    //}
-                    //else if (Messege == "Failed")
-                    //{
-                    //    ErrorMEsSummry.Text = HttpContext.Current.Request.QueryString["ErrorMessage"];
-                    //}
-                }
-                else
-                {
-                    //ErrorDisplyMes.Style.Add(HtmlTextWriterStyle.Display, "none");
-                }
-
-
-                // setProofInfo();
 
                 if (shopCart != null)
                 {
@@ -133,6 +102,7 @@ namespace MPC.Webstore.Controllers
 
                 }
                 ViewBag.OrderID = OrderId;
+
                 if (StoreBaseResopnse.Company.TaxRate != null)
                     ViewBag.TaxRate = StoreBaseResopnse.Company.TaxRate;
                 else
@@ -140,18 +110,17 @@ namespace MPC.Webstore.Controllers
 
                 // start from here 
 
-                //  MatchingSet1.Visible = false;
+               
                 // no Redeem Voucher options AT ALL for corporate customers
 
                 if (StoreBaseResopnse.Company.ShowPrices ?? true)
                 {
                     ViewBag.IsShowPrices = true;
-                    //do nothing because pricing are already visible.
+                    
                 }
                 else
                 {
                     ViewBag.IsShowPrices = false;
-                    //  cntRightPricing1.Visible = false;
                 }
 
                 if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
