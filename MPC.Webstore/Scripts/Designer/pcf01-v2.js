@@ -1405,12 +1405,12 @@ function fu02UI() {
     $("#canvasDocument").scroll(function () {
         canvas.calcOffset();
     });
-    //$("#DivColorPickerDraggable").draggable({
+    $("#divColorPicker").draggable({
 
-    //    appendTo: "body",
-    //    cursor: 'move',
-    //    cancel: "div #DivColorContainer"
-    //});
+        appendTo: "body",
+        cursor: 'move',
+        cancel: "div #DivColorContainer"
+    });
     $(".add").draggable({
         snap: '#dropzone',
         snapMode: 'inner',

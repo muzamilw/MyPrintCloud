@@ -2272,5 +2272,7 @@ $("#BtnBulletedLstTxt").click(function () {
     pcl43_bullet();
 });
 $('#BtnReload').click(function (event) {
+    undoArry = [];
+    redoArry = [];
     pcl44_rLoad();
 });
