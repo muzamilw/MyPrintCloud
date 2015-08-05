@@ -1,9 +1,9 @@
 ﻿<div class="row" data-bind="visible: !isOrderDetailsVisible()">
     <div class="col-sm-12">
-        <div class="pull-left">
-            <span style="padding-left: 7px; color: #696969">Manage and Progress all your online and offline Orders in one place.</span>
+        <div class="clearfix pull-left" style="margin-left:7px;">
+            <p class="group-header-description">Manage and Progress all your online and offline Orders in one place.</p>
         </div>
-        <div class="pull-right" style="padding-right: 9px;">
+        <div class="pull-right" style="padding-right:9px;margin-top:-10px;">
             <button id="open-wizard" data-bind="click: createOrder" class="btn btn-primary pull-right">
                 Add New Order
             </button>
@@ -26,68 +26,63 @@
                     <ul id="orderTabs" class="nav nav-tabs" style="margin-left: 10px;margin-right: 9px;">
                         <li id="pending-orders" class="active"><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(4);}">Pending Orders</a></li>
                         <li id="confirmed-starts"><a href="#tab-ConfirmedStarts" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(5);}">Confirmed Starts</a></li>
-                        <li id="in-production"><a href="#tab-InProduction" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(6);}">In Production</a></li>
-                        <li id="ready-shipping"><a href="#tab-ReadyForShipping" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(7);}">Ready For Shipping</a></li>
+                        <li id="in-production"><a id="aProduction" href="#tab-InProduction" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(6);}">In Production</a></li>
+                        <li id="ready-shipping"><a id="aReadyForShipping" href="#tab-ReadyForShipping" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(7);}">Ready For Shipping</a></li>
                         <li id="invoiced"><a href="#tab-Invoiced" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(10);}">Invoiced</a></li>
                         <li id="cancelled-orders"><a href="#tab-CancelledOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(9);}">Cancelled Orders</a></li>
                         <li id="all-orders"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(0);}">All Orders</a></li>
                     </ul>
                     <div class="tab-content" style="  margin-top: -15px;">
                         <div class="tab-pane fade in active" id="tab-PendingOrders" style="background-color:white;">
-                            <div style="margin-bottom:15px;padding-top:25px;padding-left:20px;">
-                                <span style="color: #696969">Pending orders are orders manually progressed or from a web store and waiting for confirmation by the production manager before progressing into production</span>
-                                <div style="height:20px;">
-                                    &nbsp;
+                            <div style="padding-top:1px;padding-left:11px;">
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">Pending orders are orders manually progressed or from a web store and waiting for confirmation by the production manager before progressing into production.</p>
                                 </div>
                             </div>
                             <!-- ko template: { name: 'tabItemsList' } -->
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane fade in" id="tab-ConfirmedStarts" style="background-color: white;">
-                            <div style="margin-bottom:15px;padding-top:25px;padding-left:20px;">
-                                <span style="color: #696969">Confirmed starts are jobs that have been approved and are queued for actual physical production.</span>
-                                <div style="height:20px;">
-                                    &nbsp;
+                            <div style="margin-bottom:1px;padding-top:1px;padding-left:10px;">
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">Confirmed starts are jobs that have been approved and are queued for actual physical production.</p>
                                 </div>
+                                
                             </div>
                             <!-- ko template: { name: 'tabItemsList' } -->
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane fade in" id="tab-InProduction" style="background-color: white;">
-                            <div style="margin-bottom:15px;padding-top:25px;padding-left:20px;">
-                                <span style="color: #696969">The status in production is when the physical job is being produced and is assigned to a person and/or equipment.</span>
-                                <div style="height:20px;">
-                                    &nbsp;
+                            <div style="margin-bottom:1px;padding-top:1px;padding-left:10px;">
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">The status in production is when the physical job is being produced and is assigned to a person and/or equipment.</p>
                                 </div>
                             </div>
                             <!-- ko template: { name: 'tabItemsList' } -->
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane fade in" id="tab-ReadyForShipping" style="background-color: white;">
-                            <div style="margin-bottom:15px;padding-top:25px;padding-left:20px;">
-                                <span style="color: #696969">Once the job is complete and awaiting dispatch to a customer the order can be set to ready for shipping.</span>
-                                <div style="height:20px;">
-                                    &nbsp;
+                            <div style="margin-bottom:15px;padding-top:1px;padding-left:11px;">
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">Once the job is complete and awaiting dispatch to a customer the order can be set to ready for shipping.</p>
                                 </div>
                             </div>
                             <!-- ko template: { name: 'tabItemsList' } -->
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane fade in" id="tab-Invoiced" style="background-color: white;">
-                            <div style="margin-bottom:15px;padding-top:25px;padding-left:20px;">
-                                <span style="color: #696969">Once dispatched mark the job as invoiced, and the information can be automatically passed to popular accounting packages like Xero, MYOB, Sage and QuickBooks.</span>
-                                <div style="height:20px;">
-                                    &nbsp;
+                            <div style="margin-bottom:15px;padding-top:1px;padding-left:11px;">
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">Once dispatched mark the job as invoiced, and the information can be automatically passed to popular accounting packages like Xero, MYOB, Sage and QuickBooks.</p>
                                 </div>
                             </div>
                             <!-- ko template: { name: 'tabItemsList' } -->
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane fade in" id="tab-CancelledOrders" style="background-color: white;">
-                            <div style="margin-bottom:15px;padding-top:25px;padding-left:20px;">
-                                <span style="color: #696969">If a job is cancelled by a customer move the job to cancelled to stop the order from progressing further.</span>
-                                <div style="height:20px;">
-                                    &nbsp;
+                            <div style="margin-bottom:15px;padding-top:1px;padding-left:11px;">
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">If a job is cancelled by a customer move the job to cancelled to stop the order from progressing further.</p>
                                 </div>
                             </div>
                             <!-- ko template: { name: 'tabItemsList' } -->
@@ -96,14 +91,14 @@
                         <div class="tab-pane fade in" id="tab-All">
                             <div class="main-box-body main-box clearfix">
 
-                                <div style="margin-bottom:15px;padding-top:25px;padding-left:20px;">
-                                    <span style="color: #696969">Process orders through to completion, orders that are progressed from pending to in progress will appear on the production board.</span>
-                                    <div style="height:20px;">
-                                        &nbsp;
+                                <div style="padding-top:1px;padding-left:11px;">
+                                    <div class="tabsdescriptions">
+                                        <p class="group-header-description">Process orders through to completion, orders that are progressed from pending to in progress will appear on the production board.</p>
                                     </div>
+                                       
                                 </div>
 
-                                <div class="table-responsive" style="padding-left: 22px; padding-right: 22px;">
+                                <div class="table-responsive" style="padding-left:16px; padding-right: 16px;padding-top:0px;">
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>
@@ -147,7 +142,7 @@
     <script id="orderFilterTemplate" type="text/html">
         <div class="filter-body" style="margin-left: 10px; margin-right: 10px;">
             <form data-bind="submit: $root.getOrdersOfCurrentScreen">
-                <div class="filter-block pull-right" style="padding-right: 13px; padding-bottom: 5px; margin-top: 4px;">
+                <div class="filter-block pull-right" style="padding-bottom: 5px; margin-top: 6px;">
 
                     <div class="form-group pull-left">
                         <select class="form-control col-sm-4" data-bind="options:$root.orderType,optionsText:'name',optionsValue:'value', value: $root.orderTypeFilter"></select>
@@ -247,8 +242,8 @@
 
     @* Tab Items Lists*@
     <script id="tabItemsList" type="text/html">
-        <div class="main-box-body main-box clearfix" style="padding-top: 17px;">
-            <div class="table-responsive" style="padding-left: 22px; padding-right: 22px;">
+        <div class="main-box-body main-box clearfix">
+            <div class="table-responsive" style="padding-left: 16px; padding-right: 16px;">
                 <table id="OrderListtbl" class="table user-list table-striped table-hover">
                     <thead>
                         <tr>

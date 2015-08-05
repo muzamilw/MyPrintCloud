@@ -234,6 +234,10 @@ namespace MPC.MIS.Areas.Api.Models
         /// Agile Api Url
         /// </summary>
         public string AgileApiUrl { get; set; }
+        /// <summary>
+        /// Agile API Active
+        /// </summary>
+        public bool? isAgileActive { get; set; }
 
         /// <summary>
         /// Image Source

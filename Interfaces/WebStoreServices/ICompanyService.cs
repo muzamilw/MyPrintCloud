@@ -77,7 +77,7 @@ namespace MPC.Interfaces.WebStoreServices
         ItemStockOption GetFirstStockOptByItemID(long ItemId, long CompanyId);
 
         List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId);
-        string FormatDecimalValueToTwoDecimal(string valueToFormat);
+        //string FormatDecimalValueToTwoDecimal(string valueToFormat);
 
         double CalculateVATOnPrice(double ActualPrice, double TaxValue);
 

@@ -16,6 +16,7 @@ using MPC.Interfaces.Logger;
 using Microsoft.Practices.Unity;
 using System.Diagnostics;
 using System.Collections;
+using System.Linq;
 
 namespace MPC.Webstore.Controllers
 {
@@ -29,9 +30,10 @@ namespace MPC.Webstore.Controllers
         private readonly IUserManagerService _usermanagerService;
         private readonly IPrePaymentService _IPrePaymentService;
         private readonly IPayPalResponseService _PayPalResponseService;
+        private readonly ITemplateService _templateService;
 
         public PaymentController(IItemService ItemService, IOrderService OrderService, ICampaignService campaignService, ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper, IUserManagerService usermanagerService, IPrePaymentService IPrePaymentService, IPayPalResponseService _PayPalResponseService
-           )
+           , ITemplateService templateService)
         {
             this._ItemService = ItemService;
             this._OrderService = OrderService;
@@ -41,7 +43,7 @@ namespace MPC.Webstore.Controllers
             this._usermanagerService = usermanagerService;
             this._IPrePaymentService = IPrePaymentService;
             this._PayPalResponseService = _PayPalResponseService;
-       
+            this._templateService = templateService;
         }
 
         // GET: Payment
@@ -90,33 +92,43 @@ namespace MPC.Webstore.Controllers
 
 
                         Estimate order = _OrderService.GetOrderByID(OrderId);
-                        if (order != null && order.DeliveryCost.HasValue)
-                        {
-                            opaypal.handling_cart = Math.Round(order.DeliveryCost.Value, 2, MidpointRounding.AwayFromZero).ToString("#.##");
-                        }
-                        else
-                        {
-                            opaypal.handling_cart = "0";
-                        }
 
-                        ShoppingCart shopCart = _OrderService.GetShopCartOrderAndDetails(OrderId, OrderStatus.ShoppingCart);
 
-                        if (shopCart != null && shopCart.CartItemsList != null)
+                        List<Item> CartItemsList = _OrderService.GetOrderItemsIncludingDelivery(OrderId, (int)OrderStatus.ShoppingCart);
+                        Item DeliveryItem = CartItemsList.Where(c => c.ItemType == (int)ItemTypes.Delivery).FirstOrDefault();
+                        double VATTotal = 0;
+                        if (CartItemsList != null)
                         {
                             List<PaypalOrderParameter> itemsList = new List<PaypalOrderParameter>();
 
-                            foreach (ProductItem item in shopCart.CartItemsList)
+                            foreach (Item item in CartItemsList)
+                            {
+                                if (item.ItemType != (int)ItemTypes.Delivery)
+                                {
+                                    PaypalOrderParameter prodItem = new PaypalOrderParameter
+                                    {
+                                        ProductName = item.ProductName,
+                                        UnitPrice = Utils.FormatDecimalValueToTwoDecimal(item.Qty1BaseCharge1),
+                                        TotalQuantity = 1
+                                    };
+                                    VATTotal = VATTotal + item.Qty1Tax1Value ?? 0;
+                                    itemsList.Add(prodItem);
+                                }
+                            }
+
+                            if(DeliveryItem != null)
                             {
                                 PaypalOrderParameter prodItem = new PaypalOrderParameter
                                 {
-                                    ProductName = item.ProductName,
-                                    UnitPrice = Math.Round((item.Qty1GrossTotal ?? 1.00), 2, MidpointRounding.AwayFromZero),
+                                    ProductName = "Shipping: " + DeliveryItem.ProductName,
+                                    UnitPrice = Utils.FormatDecimalValueToTwoDecimal(DeliveryItem.Qty1BaseCharge1),
                                     TotalQuantity = 1
                                 };
-
+                                VATTotal = VATTotal + DeliveryItem.Qty1Tax1Value ?? 0;
                                 itemsList.Add(prodItem);
                             }
 
+                            opaypal.tax_cart = VATTotal.ToString("#.##");
                             opaypal.txtJason = Newtonsoft.Json.JsonConvert.SerializeObject(itemsList);
 
                         }
@@ -243,12 +255,12 @@ namespace MPC.Webstore.Controllers
 
                                 if (Store.IsCustomer == (int)CustomerTypes.Corporate)
                                 {
-                                    AttachmentPath = _myCompanyService.OrderConfirmationPDF(orderID, StoreId);
+                                    AttachmentPath = _templateService.OrderConfirmationPDF(orderID, StoreId);
                                     ModeOfStore = StoreMode.Corp;
                                 }
                                 else
                                 {
-                                    AttachmentPath = _myCompanyService.OrderConfirmationPDF(orderID, StoreId);
+                                    AttachmentPath = _templateService.OrderConfirmationPDF(orderID, StoreId);
                                 }
                                 List<string> AttachmentList = new List<string>();
                                 AttachmentList.Add(AttachmentPath);
@@ -596,12 +608,12 @@ namespace MPC.Webstore.Controllers
 
                             if (Store.IsCustomer == (int)CustomerTypes.Corporate)
                             {
-                                AttachmentPath = _myCompanyService.OrderConfirmationPDF(orderID, StoreId); // corp
+                                AttachmentPath = _templateService.OrderConfirmationPDF(orderID, StoreId); // corp
                                 ModeOfStore = StoreMode.Corp;
                             }
                             else
                             {
-                                AttachmentPath = _myCompanyService.OrderConfirmationPDF(orderID, StoreId); // retail
+                                AttachmentPath = _templateService.OrderConfirmationPDF(orderID, StoreId); // retail
                             }
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);

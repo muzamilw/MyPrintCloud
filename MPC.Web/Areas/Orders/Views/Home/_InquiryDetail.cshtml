@@ -4,7 +4,7 @@
             <div class="col-lg-12 PaddingZero">
                 <div class="col-lg-3">
                 </div>
-                <div data-bind="with: selectedInquiry" style="text-align: right; padding-right: 16px; margin-right: 9px;">
+                <div data-bind="with: selectedInquiry" style="text-align: right; padding-right:16px; margin-right:9px;margin-top:-10px;margin-bottom:8px;">
                     @*<button class="btn btn-danger" id="delButton" data-bind="click: $root.deleteOrderButtonHandler">Delete</button>*@
                     <!-- ko if: $root.selectedInquiry().inquiryId() > 0 && status() == 25 -->
                     <button class="btn btn-success" id="progressToEstBtn" data-bind="click: $root.onProgressToEstimate, enable: status() == 25 && inquiryId() > 0">Progress To Estimate</button>

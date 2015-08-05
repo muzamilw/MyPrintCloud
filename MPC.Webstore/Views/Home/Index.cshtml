@@ -35,7 +35,7 @@
     if (widget.WidgetId == 14)
     {
         @Html.Raw(widget.CmsSkinPageWidgetParams.FirstOrDefault().ParamValue)
-       
+       <!--0111111-->
     }
     else
     {
@@ -45,8 +45,9 @@
                 string widgetname = widget.Widget.WidgetName;
                 Html.RenderAction("Index", widgetname);
             }
-           
+          <!--0000000000000000000 @widget.Widget.WidgetName --> 
         </div>
     }
 
 }
+

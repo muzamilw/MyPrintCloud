@@ -139,8 +139,8 @@
             <a href="#" data-bind="text:MachineName, click: $root.onEditItem" class="user-link"></a>
             <span style="margin-left:0px;" data-bind="text:Description" class="user-subhead machine-list-margin"></span>
         </td>
-        <td><span data-bind="text: maximumsheetwidth"> </span><span>*</span> <span data-bind="text: maximumsheetheight"> </span>  </td>
-        <td><span data-bind="text: minimumsheetwidth"> </span><span>*</span> <span data-bind="text: minimumsheetheight"> </span>  </td>
+        <td><span data-bind="text: maximumsheetwidth"> </span><span> x </span> <span data-bind="text: maximumsheetheight"> </span>  </td>
+        <td><span data-bind="text: minimumsheetwidth"> </span><span> x </span> <span data-bind="text: minimumsheetheight"> </span>  </td>
 
         @*<td id="actionColumn">
                 <!-- ko template: { name: "MachineActionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
@@ -203,7 +203,7 @@
 
                     $("#tab-presses").removeClass("in active");
                     $("#tab-Guillotine").addClass("in active");
-                    $("#tab-Guillotine").css("display", "black");
+                    $("#tab-Guillotine").css("display", "block");
                     $("#tab-presses").css("display", "none");
                     $("#liGuillotine").css("display", "block");
                     $("#liPress").css("display", "none");

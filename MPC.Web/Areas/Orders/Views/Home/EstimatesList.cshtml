@@ -10,14 +10,14 @@
                 <div class="col-sm-12">
                     <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
                     <input type="hidden" name="OrderId" id="OrderId" value="@ViewBag.OrderId" />
-                    <ol class="breadcrumb" >
+                    <ol class="breadcrumb" style="padding-left:5px;">
                         <li><a href="~/Dashboard/Index" class="my-navigator" data-bind="text:$root.orderCodeHeader()!=='' ? 'Home' :''"></a></li>
                         <li data-bind="css: $root.orderCodeHeader() != '' ?  ''  :   'active' , click:$root.onCloseOrderEditor, visible :$root.orderCodeHeader()!==''" style="cursor:pointer; display: none"><span data-bind="text:'Estimates'"></span></li>
                         <li data-bind="css: $root.orderCodeHeader() != '' &&  $root.itemCodeHeader() == '' ?  'active' :   '' , click:$root.closeItemDetail, visible:$root.orderCodeHeader() !== '' " style="display: none; cursor:pointer"><span data-bind="text:$root.orderCodeHeader"></span></li>
                         <li data-bind="css: $root.itemCodeHeader() != '' ?  'active'   :   '', visible:$root.itemCodeHeader() !== ''" style="display: none; cursor:pointer"><span data-bind="text:$root.itemCodeHeader()+'  '+$root.selectedOrder().companyName() + ' '+ $root.orderCodeHeader()"></span></li>
                     </ol>
                     <div class="clearfix">
-                        <h1 style="padding-left:7px !important;" data-bind=" visible:  $root.currentScreen() != 8">Estimating</h1>
+                        <h1 style="padding-left:6px !important;" data-bind=" visible:  $root.currentScreen() != 8">Estimating</h1>
                         
                         <div style="display: none" data-bind=" visible:  $root.currentScreen() == 8">
                             <h1 style="padding-left:7px !important;">Inquiry</h1>
@@ -25,11 +25,11 @@
                         @*<h1 class="pull-left" data-bind="text: ($root.itemCodeHeader())=='' ? pageHeader : ( $root.sectionHeader()==='' ? $root.selectedProduct().productName: ($root.selectedSection()!=undefined ? $root.selectedProduct().productName : ''))">Estimates</h1>*@
                     </div>
                     <div class="row" data-bind="visible: (!isOrderDetailsVisible() && !isDisplayInquiryDetailScreen())">
-                        <div class="col-sm-12">
+                        <div class="col-sm-12" style="margin-bottom:15px;">
                             <div class="pull-left">
-                                <span style="padding-left: 7px; color: #696969">Create Estimates for direct Inquiries and progress Estimates to Orders.</span>
+                                <p class="group-header-description" style="padding-left:7px;">Create Estimates for direct Inquiries and progress Estimates to Orders.</p>
                             </div>
-                            <div class="pull-right" style="margin-right:10px;">
+                            <div class="pull-right" style="margin-right:5px;margin-top:-10px;">
                                 <button id="open-wizard" data-bind="click: createOrder, visible:  $root.currentScreen() != 8" class="btn btn-primary pull-right">
                                     Add New Estimate
                                 </button>
@@ -38,15 +38,12 @@
                                 </button>
                             </div>
                         </div>
-                        <div>
-                            &nbsp;
-                        </div>
+                       
                         <div>
                             <div class="col-sm-12" style="padding-right: 17px;padding-left:15px;">
                                 <!-- ko template: { name: 'orderFilterTemplate' } -->
                                 <!-- /ko -->
-                                <div class=" clearfix">
-                                </div>
+                                
                                 <div class="main-box-body main-box clearfix">
                                     <div class="tabs-wrapper profile-tabs">
                                         <ul class="nav nav-tabs" id="estimateListTabs">
@@ -95,20 +92,20 @@
                         </div>
                         @* Filter Template *@
                         <script id="orderFilterTemplate" type="text/html">
-                            <div class="filter-body">
+                            <div class="filter-body" style="padding-top:12px;padding-bottom:12px;">
                                 <form data-bind="submit: $root.getOrdersOfCurrentScreen">
                                     <div class="filter-block pull-right" style=" margin-top: 0px; margin-right: -10px;">
                                         <div class="form-group pull-left">
                                             <!--ko if: currentScreen() != 8 -->
                                             @*<select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: selectedFilterFlag, foreach: $root.sectionFlags">
-                    <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
-                </select>*@
+                            <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
+                        </select>*@
                                             <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag"></select>
                                             <!--/ko-->
                                             <!--ko if: currentScreen() == 8 -->
                                             @*<select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: selectedFilterFlag, foreach: $root.inquiriesSectionFlags">
-                    <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
-                </select>*@
+                            <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
+                        </select>*@
                                             <select class="form-control" data-bind="options: $root.inquiriesSectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag"></select>
                                             <!--/ko-->
                                         </div>
@@ -202,21 +199,21 @@
                         <script id="tabItemsList" type="text/html">
                             <div>
                                 <!--ko if: $root.currentScreen() == undefined-->
-                                <div class="tabsdescriptions" style="margin-top: 25px !important;">
-                                    <span>Review all outstanding estimates, find, copy & edit estimates quickly with the inbuilt search function. </span>
+                                <div class="tabsdescriptions" style="margin-left:9px;">
+                                    <p class="group-header-description">Review all outstanding estimates, find, copy & edit estimates quickly with the inbuilt search function. </p>
                                 </div>
                                 <!--/ko-->
                                 <!--ko if: $root.currentScreen() == 0 -->
-                                <div class="tabsdescriptions" style="margin-top: 25px !important;">
-                                    <span>View all open, pending and closed estimates, produce sales reports for pipiline and conversion rates.  </span>
+                                <div class="tabsdescriptions" style="margin-left:9px;">
+                                    <p class="group-header-description" style="margin-left:2px;">View all open, pending and closed estimates, produce sales reports for pipiline and conversion rates.  </p>
                                 </div>
                                 <!--/ko-->
                                 <!--ko if: $root.currentScreen() == 1 -->
-                                <div class="tabsdescriptions" style="margin-top: 25px !important;">
-                                    <span>Review all outstanding estimates, find, copy & edit estimates quickly with the inbuilt search function. </span>
+                                <div class="tabsdescriptions" style="margin-left:8px;">
+                                    <p class="group-header-description">Review all outstanding estimates, find, copy & edit estimates quickly with the inbuilt search function. </p>
                                 </div>
                                 <!--/ko-->
-                                <div class="table-responsive">
+                                <div class="table-responsive" style="padding-right:7px;padding-left:7px;">
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>
@@ -260,10 +257,10 @@
                         @* Inquiry Items List*@
                         <script id="inquiryItemsList" type="text/html">
                             <div>
-                                <div class="tabsdescriptions" style="margin-top: 25px !important;">
-                                   <span>Quickly Respond to quote requests from webstore by opening the request and converting it to an estimate.</span> 
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">Quickly Respond to quote requests from webstore by opening the request and converting it to an estimate.</p> 
                                 </div>
-                                <div class="table-responsive">
+                                <div class="table-responsive" style="padding-left:7px;padding-right:7px;">
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>

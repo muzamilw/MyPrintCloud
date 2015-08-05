@@ -6293,10 +6293,7 @@ GO
 
 
 
-
-
-
-/****** Object:  Table [dbo].[TemplateVariableExtension]    Script Date: 23/07/2015 02:30:51 PM ******/
+/****** Object:  Table [dbo].[TemplateVariableExtension]    Script Date: 24/07/2015 10:53:32 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -6304,9 +6301,9 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[TemplateVariableExtension](
-	[TemplateVariableExtId] [int] IDENTITY(1,1) NOT NULL,
-	[TemplateId] [int] NULL,
-	[FieldVariableId] [int] NULL,
+	[TemplateVariableExtId] [bigint] IDENTITY(1,1) NOT NULL,
+	[TemplateId] [bigint] NULL,
+	[FieldVariableId] [bigint] NULL,
 	[HasPrefix] [bit] NULL,
 	[HasPostFix] [bit] NULL,
  CONSTRAINT [PK_TemplateVariableExtension] PRIMARY KEY CLUSTERED 
@@ -6318,53 +6315,125 @@ CREATE TABLE [dbo].[TemplateVariableExtension](
 GO
 
 
-/* execution date 24/07/2015*/
+---Executed on Live Servers--------
 
-/* To prevent any potential data loss issues, you should review this script in detail before running it outside the context of the database designer.*/
-BEGIN TRANSACTION
-SET QUOTED_IDENTIFIER ON
-SET ARITHABORT ON
-SET NUMERIC_ROUNDABORT OFF
-SET CONCAT_NULL_YIELDS_NULL ON
+alter table Organisation add isAgileActive bit
+alter table Organisation add isTrial bit
+alter table Organisation add LiveStoresCount int
+alter table company add isStoreLive bit
+
+
+/****** Object:  Table [dbo].[CompanyVoucherRedeem]    Script Date: 7/28/2015 2:05:27 PM ******/
 SET ANSI_NULLS ON
-SET ANSI_PADDING ON
-SET ANSI_WARNINGS ON
-COMMIT
-BEGIN TRANSACTION
 GO
-CREATE TABLE dbo.Tmp_TemplateVariableExtension
-	(
-	TemplateVariableExtId bigint NOT NULL IDENTITY (1, 1),
-	TemplateId bigint NULL,
-	FieldVariableId bigint NULL,
-	HasPrefix bit NULL,
-	HasPostFix bit NULL
-	)  ON [PRIMARY]
+
+SET QUOTED_IDENTIFIER ON
 GO
-ALTER TABLE dbo.Tmp_TemplateVariableExtension SET (LOCK_ESCALATION = TABLE)
-GO
-SET IDENTITY_INSERT dbo.Tmp_TemplateVariableExtension ON
-GO
-IF EXISTS(SELECT * FROM dbo.TemplateVariableExtension)
-	 EXEC('INSERT INTO dbo.Tmp_TemplateVariableExtension (TemplateVariableExtId, TemplateId, FieldVariableId, HasPrefix, HasPostFix)
-		SELECT CONVERT(bigint, TemplateVariableExtId), CONVERT(bigint, TemplateId), CONVERT(bigint, FieldVariableId), HasPrefix, HasPostFix FROM dbo.TemplateVariableExtension WITH (HOLDLOCK TABLOCKX)')
-GO
-SET IDENTITY_INSERT dbo.Tmp_TemplateVariableExtension OFF
-GO
-DROP TABLE dbo.TemplateVariableExtension
-GO
-EXECUTE sp_rename N'dbo.Tmp_TemplateVariableExtension', N'TemplateVariableExtension', 'OBJECT' 
-GO
-ALTER TABLE dbo.TemplateVariableExtension ADD CONSTRAINT
-	PK_TemplateVariableExtension PRIMARY KEY CLUSTERED 
-	(
-	TemplateVariableExtId
-	) WITH( STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+
+CREATE TABLE [dbo].[CompanyVoucherRedeem](
+	[VoucherRedeemId] [bigint] IDENTITY(1,1) NOT NULL,
+	[CompanyId] [bigint] NULL,
+	[DiscountVoucherId] [bigint] NULL,
+	[RedeemDate] [datetime] NULL,
+ CONSTRAINT [PK_CompanyVoucherRedeem] PRIMARY KEY CLUSTERED 
+(
+	[VoucherRedeemId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 
 GO
-COMMIT
+
+---Executed on Live Servers--------
+alter table Organisation add WebStoreOrdersCount int
+alter table Organisation add MisOrdersCount int
+
+---Executed on Live Servers on 2015 29 2015-----
 
 
+/****** Object:  StoredProcedure [dbo].[usp_ChartRegisteredUserByStores]    Script Date: 7/30/2015 8:24:51 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Muhammad Naveed
+-- Create date: 2015 07 30
+-- Description:	To Get Charts data of Registered Users by store
+-- =============================================
+-- Exec [usp_ChartRegisteredUserByStores] 1
+create PROCEDURE [dbo].[usp_ChartRegisteredUserByStores]
+	@OrganisationId bigint
+AS
+BEGIN
+		select Name,sum(TotalContacts) as TotalContacts, Month, MonthName, Year
+			from
+			(
+				select c.Name, ct.[TotalContacts],c.companyid,
+				DATENAME(MONTH,c.CreationDate) as [MonthName],
+				DATEPART(MONTH,c.CreationDate) as [Month],
+				DATEPART(YEAR,c.CreationDate) as [Year]
+				from company c
+				inner join (
+							SELECT  companyid,Count(*) AS TotalContacts
+							FROM companycontact
+							GROUP BY companyid
+							HAVING  companyid in ( select companyId from company where organisationID = @OrganisationId and storeId is null)
+							)
+							ct on ct.companyid = c.CompanyId
+			) data
+
+		group by month,Name,monthname,year
+		order by TotalContacts desc, Month
+
+			RETURN 
+	END
+
+	
+/****** Object:  StoredProcedure [dbo].[usp_ChartTopPerformingStores]    Script Date: 7/30/2015 8:25:55 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Muhammad Naveed
+-- Create date: 2015 07 30
+-- Description:	To Get Charts data of Top Performing Stores
+-- =============================================
+-- Exec [usp_ChartTopPerformingStores] 1
+ALTER PROCEDURE [dbo].[usp_ChartTopPerformingStores]
+	@OrganisationId bigint
+AS
+BEGIN
+
+		select Name,sum(TotalCustomers) as TotalCustomers, Month, MonthName, Year
+			from
+			(		
+				select c.Name, ct.[TotalCustomers],		
+				DATENAME(MONTH,c.CreationDate) as [MonthName],
+				DATEPART(MONTH,c.CreationDate) as [Month],
+				DATEPART(YEAR,c.CreationDate) as [Year]
+				from company c
+				inner join	(
+								SELECT storeId, COUNT(*) AS [TotalCustomers] FROM company
+								GROUP BY StoreId
+								HAVING  StoreId in ( select companyId from company where organisationID = @organisationid and storeId is null )
+							) ct on ct.StoreId = c.CompanyId
+
+			) data
+
+		group by month,Name,monthname,year
+		order by TotalCustomers desc
+			RETURN 
+	END
 
 
+alter table DiscountVoucher
+add OrganisationId bigint
 
+alter table Items
+add DiscountVoucherID bigint
+
+alter table Estimate
+alter column DiscountVoucherID bigint
+
+alter table CompanyContact add RegistrationDate datetime

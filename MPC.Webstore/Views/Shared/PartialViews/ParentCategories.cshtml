@@ -3,6 +3,9 @@
 @{
     string ProductDescription = "";
 }
+@{
+    Layout = null;
+}
 <div class="parentCatsContainer">
     <div class="container content_area clearBoth " style="padding-left:0px; padding-right:0px;">
         <div class="row left_right_padding cntTopLevelCategory">
@@ -40,8 +43,8 @@
                                }
                             @Html.Raw(ProductDescription)
                         </div>
+                        <a id="ShopNowFuture" href="/Category/@Html.ResolveString(categories.CategoryName)/@categories.ProductCategoryId" style="display:none;text-align:center;">Shop Now</a>
                     </div>
-
                 </div>
             }
             <div class="clearBoth">

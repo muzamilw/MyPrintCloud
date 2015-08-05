@@ -43,21 +43,21 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-12" style="padding-left:6px;">
                         <div class="clearfix">
-                            <h1 class="pull-left" style="padding-left:0px;margin-top:35px;">Purchase Orders</h1>
+                            <h1 class="pull-left" style="padding-left:0px;margin-top:36px;">Purchase Orders</h1>
                         </div>
 
                     </div>
                 </div>
             </div>
             <div class="row" id="main-body" data-bind="visible:!$root.isEditorVisible()">
-                <div class="col-sm-12">
+                <div class="col-sm-12" style="padding-left:15px;">
                     <div class="pull-left">
-                        <h5 style="margin-left: 10px;">Create and track Purchase order to Suppliers.</h5>
+                        <p class="group-header-description">Create and track Purchase order to Suppliers.</p>
                     </div>
-                    <div class="pull-right" style="margin-right: 1%;">
-                        <button class="btn btn-primary" data-bind="click: $root.openReport" style=" margin-left: 0px">
+                    <div class="pull-right" style="margin-top:-10px;margin-right:9px;">
+                        <button class="btn btn-primary" data-bind="click: $root.openReport" style="margin-left: 0px">
                             Reports
                         </button>
                         <a class="btn btn-primary patial-edit" data-bind="click:$root.CreatePurchaseOrder">
@@ -68,17 +68,16 @@
                 </div>
             </div>
 
-            <div class="col-sm-12" style="padding-left:10px;padding-right:12px;">
+            <div class="col-sm-12" style="padding-left:8px;padding-right:9px;margin-top:-6px;">
                 <br />
-                @*Write Your Logic Here , Ko Scripting Template with name "purchaseordersFilterTemplate" is Following*@
-                @*Remove Start from here for Login*@
+               
                 <div class="filter-body">
                     <form data-bind="submit:$root.searchData">
-                        <div class="filter-block pull-right" style=" margin-top: 1px;">
+                        <div class="filter-block pull-right">
                             <div class="form-group pull-left">
                                 <select class="form-control col-sm-4" data-bind="options:$root.purchaseOrderTypes,optionsText:'name',optionsValue:'id', value: $root.purchaseOrderTypeFilter, event:{ change: $root.changePurchaseTypeFilter}"></select>
                             </div>
-                            <div class="form-group pull-left">
+                            <div class="form-group pull-left" style="margin-right:0px;margin-bottom:2px;">
                                 <input type="text" class="form-control" placeholder="Search..." data-bind="value:$root. searchFilter">
                                 <i class="fa fa-search search-icon" data-bind="click:$root.searchData"></i>
                             </div>
@@ -98,34 +97,42 @@
                     </div>
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="tab-Open">
-                            <div style="margin-bottom:15px;margin-top:15px;margin-left:15px;">
-                                <span>Review all open Purchase Orders waiting for external suppliers to deliver the goods.</span>
+                            <div style="margin-bottom:15px;margin-top:15px;margin-left:7px;">
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">Review all open Purchase Orders waiting for external suppliers to deliver the goods.</p>
+                                </div>
                             </div>
                             <!-- ko template: { name: 'tabTemplate' } -->
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane" id="tab-Posted">
-                            <div style="margin-bottom:15px;margin-top:15px;margin-left:15px;">
-                                <span>Review completed purchase orders.</span>
+                            <div style="margin-bottom:15px;margin-top:15px;margin-left:7px;">
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">Review completed purchase orders.</p>
+                                </div>
                             </div>
                             <!-- ko template: { name: 'tabTemplate' } -->
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane" id="tab-ShowAll">
-                            <div style="margin-bottom:15px;margin-top:15px;margin-left:15px;">
-                                <span>Review all open, posted & cancelled purchase orders to outside suppliers.</span>
+                            <div style="margin-bottom:15px;margin-top:15px;margin-left:7px;">
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">Review all open, posted & cancelled purchase orders to outside suppliers.</p>
+                                </div>
                             </div>
                             <!-- ko template: { name: 'tabTemplate' } -->
                             <!-- /ko -->
                         </div>
                         <div class="tab-pane" id="tab-Cancelled">
-                            <div style="margin-bottom:15px;margin-top:15px;margin-left:15px;">
-                                <span>Review all cancelled purchase orders to outside suppliers, review the notes section for orders that have been cancelled and for what reason. </span>
+                            <div style="margin-bottom:15px;margin-top:15px;margin-left:7px;">
+                                <div class="tabsdescriptions">
+                                    <p class="group-header-description">Review all cancelled purchase orders to outside suppliers, review the notes section for orders that have been cancelled and for what reason. </p>
+                                </div>
                             </div>
                             <!-- ko template: { name: 'tabTemplate' } -->
                             <!-- /ko -->
                         </div>
-                        <div id="pagerDiv" class="pull-right" style="padding-right: 2%;">
+                        <div id="pagerDiv" class="pull-right" style="padding-right:16px;margin-bottom:20px;">
                            
                             <!-- ko with: pager -->
                             @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -164,16 +171,16 @@
 }
 
 <script id="tabTemplate" type="text/html">
-    <div class="table-responsive" style="padding-left:10px;padding-right:10px;">
+    <div class="table-responsive" style="padding-left:15px;padding-right:15px;">
         <table class="table user-list table-striped table-hover">
             <thead>
                 <tr>
-                    <th class="col-sm-4"><span>Company / Title</span></th>
+                    <th class="col-sm-4"><span>Supplier</span></th>
+                    <th class="col-sm-2"><span>Purchase Code</span></th>
                     <th class="col-sm-2"><span>Purchase Date</span></th>
-                    <th class="col-sm-2 text-center"><span>Flag</span></th>
-                    <th class="col-sm-2 "><span>Status</span></th>
-                    <th class="col-sm-2"><span>Code</span></th>
-                    <th>&nbsp;</th>
+                    <th class="col-sm-1 text-center"><span>Flag</span></th>
+                    <th class="col-sm-1"><span>Status</span></th>
+                    <th class="col-sm-2"><span>Purchase Total</span></th>
                 </tr>
             </thead>
             <tbody>
@@ -191,6 +198,9 @@
             <span class="user-subhead" data-bind="text:refNo"></span>
         </td>
         <td>
+            <span data-bind="text:code"></span>
+        </td>
+        <td>
             <span data-bind="dateString: purchaseOrderDate, datePattern: 'DD/MM/YYYY'"></span>
         </td>
         <td class="text-center">
@@ -200,9 +210,9 @@
             <span data-bind="text:statusName"></span>
         </td>
         <td>
-            <span data-bind="text:code"></span>
+            <span class="control-label" data-bind="text:$root.currencySymbol">A$</span>
+            <span class="control-label" data-bind="numberInput:$root.netTotal">0.00</span>
         </td>
-        <td style="width: 20%;"></td>
     </tr>
 
 </script>

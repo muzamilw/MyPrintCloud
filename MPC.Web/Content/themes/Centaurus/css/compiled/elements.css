@@ -737,6 +737,11 @@ label {
         -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(52,152,219,0.6);
         box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(52,152,219,0.6);
     }
+    .form-control::-webkit-input-placeholder { color: darkgray; }
+.form-control:-moz-placeholder { color: darkgray; }
+.form-control::-moz-placeholder { color: darkgray; }
+.form-control:-ms-input-placeholder { color: darkgray; }
+
 
 .form-inline-box {
     background: none repeat scroll 0 0 #F6F6F6;
@@ -4000,7 +4005,7 @@ input[type="radio"] {
 }
 
 .theme-blue-gradient #header-navbar, #config-tool #skin-colors li a.skin-changer.blue-gradient {
-    background: #3b3b3b !important;
+    background: #2c3e50 !important;
     background: -moz-linear-gradient(top,#3498db 0%,#2980b9 100%);
     background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#3498db),color-stop(100%,#2980b9));
     background: -webkit-linear-gradient(top,#3498db 0%,#2980b9 100%);

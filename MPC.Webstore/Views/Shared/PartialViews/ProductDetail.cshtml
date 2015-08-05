@@ -14,6 +14,9 @@
     stockOptions = ViewData["Stocks"] as List<ItemStockOption>;
 
 }
+@{
+    Layout = null;
+}
 @Styles.Render("~/Content/js-image-slider-detail")
 
 @section metatags
@@ -75,40 +78,16 @@
                                 @if (ViewBag.TemplateID > 0)
                                 {
                                     <div id="divFaourites" class="">
-                                        @if (ViewBag.isAllowBackOrder)
-                                        {
-
-                                            <a onclick="return ShowDesignNow();">
+                                       
                                                 <input id="btnEditThisDesign" value="Design Now" type="button"
-                                                       class="start_creating_btn_prodDetail_orng  rounded_corners5 padding0imp" />
-                                            </a>
-
-
-                                        }
-                                        else
-                                        {
-                                            <a onclick="return ShowDesignNow();">
-                                                <input id="btnEditThisDesign" value="Design Now" type="button"
-                                                       class="start_creating_btn_prodDetail_orng  rounded_corners5 padding0imp" />
-                                            </a>
-                                        }
-
-                                        @*@if (ViewBag.Count > 0)
-                                            {
-                                            templateCountLabel = ViewBag.Count + " other template(s)";
-                                            }
-                                            else
-                                            {
-                                            templateCountLabel = "";
-                                            }
-                                            <label id="lblTemplateCount" class="lblTemplateCount">@templateCountLabel</label>*@
+                                                       class="start_creating_btn_prodDetail_orng  rounded_corners5 padding0imp" onclick="return ShowDesignNow();" />
+                                      
+                                       
                                         <div class="clear">
                                         </div>
                                     </div>
 
-                                    @*<button id="btnStartCreating" value="Other designs"
-                                        class="start_creating_btn_prodDetail_blk rounded_corners5 marginBtm10" onclick="btnStartCreating_Click"
-                                         >Design Now</button>*@
+                                    
                                 }
                                 else
                                 {
@@ -158,25 +137,21 @@
                         }
                         @if (Model.ProductType == (int)ProductType.NonPrintProduct)
                         {
-                            if (ViewBag.TemplateID == 0)
+                            if (Model.IsUploadImage == true)
                             {
-                                if (ViewBag.isAllowBackOrder)
-                                {
+                                
                                     <a href="@ViewBag.btnUploadDesignPath">
-                                        <input id="btnUploadDesign" value="Add to Cart" type="button"
+                                        <input id="btnUploadDesign" value="Upload your Design" type="button"
                                                class="btn_upload_design_Prod_details background-green rounded_corners5 padding0imp" />
                                     </a>
 
-                                }
-                                else
-                                {
-                                    <a href="@ViewBag.btnUploadDesignPath">
-                                        <input id="btnUploadDesign" value="Add to Cart" type="button"
-                                               class="btn_upload_design_Prod_details background-green rounded_corners5 padding0imp" />
-                                    </a>
-
-                                }
-
+                            }
+                            else
+                            {
+                                <a href="@ViewBag.btnUploadDesignPath">
+                                    <input id="btnUploadDesign" value="Add to Cart" type="button"
+                                           class="btn_upload_design_Prod_details background-green rounded_corners5 padding0imp" />
+                                </a>
                             }
                         }
                         else if (Model.ProductType == (int)ProductType.MarketingBrief)
@@ -343,7 +318,7 @@
                                 <label id="lblCategoryCode" class="marginall5">@ViewBag.lblCategoryCode</label>
                                 <br />
                                 <p class="marginall5" style="width: 285px;">
-                                    <label id="lblCatDes">@ViewBag.lblCatDes</label>
+                                    <label id="lblCatDes">@Html.Raw(ViewBag.lblCatDes)</label>
                                 </p>
                                 <br />
                                 @if (ViewData["CostCentersList"] != null)
@@ -824,10 +799,8 @@
 
     </div>
 }
-@section scripts
-			{
-    @Scripts.Render("~/bundles/SliderDetail")
-
+    <script src="/Scripts/jquery-1.10.1.min.js"></script>
+   <script src="/Scripts/js-image-slider-detail.js"></script>
     <script src="~/Scripts/PopUp.js"></script>
     <script src="~/Scripts/jquery.rating.js"></script>
     <script type="text/javascript">
@@ -1358,7 +1331,7 @@
             var EditType = "@ViewBag.hfEditTempType";
             var ItemID = "@Model.ItemId";
             var TempID = "@ViewBag.TemplateID";
-
+            debugger;
             if (EditType == "NoTemplate") {
                 window.location.href = "/EditDesign/''/" + EditType + "/" + ItemID + "/" + TempID;
 
@@ -1369,7 +1342,7 @@
 
             } else if (EditType == "SameItem") {
                 // alert();
-                ShowPopUpDesignNow('Alert!', 'you already have another template in designer mode. Would you like to continue modifiing the design or create new','SameItem',ItemID,TempID)
+                ShowPopUpDesignNow('Alert!', 'you already have another template in designer mode. Would you like to continue modifying the design or create new','SameItem',ItemID,TempID)
 
             }
             return false;
@@ -1378,4 +1351,4 @@
 
 
     </script>
-}
+

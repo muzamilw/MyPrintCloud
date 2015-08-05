@@ -26,16 +26,16 @@ namespace MPC.Interfaces.WebStoreServices
         
 
         bool SetOrderCreationDateAndCode(long orderId);
-        bool IsVoucherValid(string voucherCode);
+        //bool IsVoucherValid(string voucherCode);
 
-        Estimate CheckDiscountApplied(int orderId);
+        //Estimate CheckDiscountApplied(int orderId);
 
-        bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode);
+        //bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode);
 
-        double SaveVoucherCodeAndRate(int orderId, string VCode);
-        double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate, StoreMode Mode);
+        //double SaveVoucherCodeAndRate(int orderId, string VCode);
+        //double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate, StoreMode Mode);
 
-        bool ResetOrderVoucherCode(int orderId);
+        //bool ResetOrderVoucherCode(int orderId);
          /// <summary>
         /// Get the OrderId by login User 
         /// </summary>
@@ -109,5 +109,7 @@ namespace MPC.Interfaces.WebStoreServices
         long GetStoreIdByOrderId(long OrderId);
 
         Estimate GetOrderByOrderID(long OrderId);
+        List<Item> GetOrderItemsIncludingDelivery(long OrderId, int OrderStatus);
+        void SaveOrUpdateOrder();
     }
 }

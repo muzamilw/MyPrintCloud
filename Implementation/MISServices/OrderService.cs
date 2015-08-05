@@ -302,6 +302,10 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void SaveItemAttachments(Estimate estimate)
         {
+            if(estimate.isDirectSale != true)
+                return;
+            ;
+           
             string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
             HttpServerUtility server = HttpContext.Current.Server;
             string mapPath = server.MapPath(mpcContentPath + "/Attachments/" + itemRepository.OrganisationId + "/" + estimate.CompanyId + "/Products/");
@@ -350,13 +354,14 @@ namespace MPC.Implementation.MISServices
         {
             //if (dbOrder.StatusId != 4 && newOrder.StatusId == 4)
             //{
-            GeneratePO(newOrder.EstimateId, newOrder.ContactId ?? new long(), newOrder.CompanyId, newOrder.Created_by ?? new Guid());
+            GeneratePO(newOrder.EstimateId, newOrder.ContactId ?? new long(), newOrder.CompanyId, organisationRepository.LoggedInUserId);
             //}
         }
 
         private void DeletePurchaseOrders(Estimate order)
         {
             purchaseRepository.DeletePO(order.EstimateId);
+
         }
         // ReSharper disable once InconsistentNaming
         private bool GeneratePO(long orderId, long contactId, long companyId, Guid createdBy)
@@ -1438,9 +1443,11 @@ namespace MPC.Implementation.MISServices
                 bool drawBleedArea = false;
                 bool mutlipageMode = true;
                 bool hasOverlayPdf = false;
+                long StoreId = orderRepository.GetStoreIdByOrderId(EstimateId);
                 List<Item> OrderItems = orderRepository.GetOrderItems(EstimateId);
                 if (OrderItems != null)
                 {
+                    
                     foreach (var i in OrderItems)
                     {
                         long TemplateID = i.TemplateId ?? 0;
@@ -1492,7 +1499,7 @@ namespace MPC.Implementation.MISServices
                                 //special working for attaching the PDF
                                 List<ArtWorkAttatchment> uplodedArtWorkList = new List<ArtWorkAttatchment>();
                                 ArtWorkAttatchment attatcment = null;
-                                string folderPath = "MPC_Content/Attachments/" + OrganisationId;
+                                string folderPath = "mpc_content/Attachments/" + OrganisationId + "/" + StoreId + "/Products/" + ItemID; //"MPC_Content/Attachments/" + OrganisationId;
                                 string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/" + folderPath);
                                 string VirtualFolderPath2 = System.Web.HttpContext.Current.Server.MapPath("~/" + productionFolderPath);
 
@@ -1652,7 +1659,8 @@ namespace MPC.Implementation.MISServices
                             }
                             else// attachment alredy exists hence we need to updat the existing artwork.
                             {
-                                string folderPath = "MPC_Content/Attachments/" + OrganisationId;
+                                string folderPath = "mpc_content/Attachments/" + OrganisationId + "/" + StoreId + "/Products/" + ItemID; 
+
                                 string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/" + folderPath);
                                 string VirtualFolderPath2 = System.Web.HttpContext.Current.Server.MapPath("~/" + productionFolderPath);
 
@@ -1805,7 +1813,7 @@ namespace MPC.Implementation.MISServices
                         {
                             List<ItemAttachment> ListOfAttachments = itemAttachmentRepository.GetItemAttactchments(ItemID);
 
-                            string folderPath = "Attachments/" + OrganisationId;// Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
+                            string folderPath = "mpc_content/Attachments/" + OrganisationId + "/" + StoreId + "/Products/" + ItemID; // Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
                             string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/" + productionFolderPath);
                             string fileSourcePath = System.Web.HttpContext.Current.Server.MapPath("~/" + folderPath);
 
@@ -1818,14 +1826,14 @@ namespace MPC.Implementation.MISServices
                                 System.IO.Directory.CreateDirectory(fileSourcePath);
                             }
 
-                            //foreach (var oPage in ListOfAttachments)
-                            //{
-                            //    string fileName = oPage.FileName;
-                            //    string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
-                            //    string sourceFileAdd = System.IO.Path.Combine(fileSourcePath, fileName);
-                            //    System.IO.File.Copy(sourceFileAdd, fileCompleteAddress, true);
+                            foreach (var oPage in ListOfAttachments)
+                            {
+                                string fileName = oPage.FileName;
+                                string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName + oPage.FileType);
+                                string sourceFileAdd = System.IO.Path.Combine(fileSourcePath, fileName + oPage.FileType);
+                                System.IO.File.Copy(sourceFileAdd, fileCompleteAddress, true);
 
-                            //}
+                            }
                         }
                     }
                 }
@@ -1882,7 +1890,10 @@ namespace MPC.Implementation.MISServices
             return FileName;
         }
 
-
+        public List<Item> GetOrderItems(long EstimateId)
+        {
+            return orderRepository.GetOrderItems(EstimateId);
+        } 
 
 
         #endregion

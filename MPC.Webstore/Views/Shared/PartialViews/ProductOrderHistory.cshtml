@@ -4,22 +4,15 @@
 @using MPC.Webstore.Common;
 @using MPC.Models.Common;
 @{
-
-
-    var grid = new WebGrid(source: ViewBag.OrderList, canSort: false, rowsPerPage: 15);
-
-    grid.Pager(WebGridPagerModes.NextPrevious);
+    Layout = null;
 }
+
 @{
-
+    var grid = new WebGrid(source: ViewBag.OrderList, canSort: false, rowsPerPage: 15);
+    grid.Pager(WebGridPagerModes.NextPrevious);
     string Result = ViewBag.res;
-
 }
-@section headerScripts{
 
-<link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
-<link href="/LightBox/Css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="Screen" />
-}
 <div class="content_area container" id="all-orderHistory-pg">
     <div class="left_right_padding">
         <div class="col-md-12 col-lg-12 col-xs-12">
@@ -130,7 +123,7 @@
     grid.Column("StatusName","Status",style:"hidden-xs "),
       grid.Column("Download",header:Result, format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
       {
-        <button id="Download" value="Download" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
+        <button  value="Download" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
   background-color: transparent;" class="rounded_corners" onclick="DownLoadArtworkFile(@item.OrderID)" />
 
       }</text>),
@@ -323,10 +316,11 @@
                                     <tr>
                                         <td>
                                             @*<span id="ltrlcontactnum">Contact Number:</span>*@
-                                            <span id="BillingAddressContactNumber"></span>
+                                            
                                         </td>
                                         <td>
                                             @*<label id="lblContactNumber" class="txtBold">*@@*</label>*@
+                                            <span id="BillingAddressContactNumber"></span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -449,7 +443,7 @@
                                 </tr>
                                 <tr>
                                     <td align="left" style="width: 80%">
-                                        <span id="spnDeliveryoptn">Deivery Cost:</span>
+                                        <span id="spnDeliveryoptn">Delivery Cost:</span>
                                     </td>
                                     <td>
                                         <label id="lblDeliveryCost"><span id="DelCharge"></span></label>
@@ -481,28 +475,26 @@
         </tbody>
     </table>
 </div>
-
-@section scripts{
-<script src="/LightBox/Js/jquery.fancybox-thumbs.js"></script>
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+    <link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
+    <link href="/LightBox/Css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="Screen" />
 <script src="/LightBox/Js/jquery.fancybox.pack.js"></script>
 <script src="/LightBox/Js/jquery.fancybox.js"></script>
-   
+
     <script type="text/javascript">
         //var $=jQuery.noConflict();
-
+        $(".fancybox").fancybox();
         $(document).ready(function () {
 
             $("#txtFromDate").datepicker();
             $("#txtToDate").datepicker();
-            $(".fancybox").fancybox();
+           
         });
-
 
         function ClearTextBoxes() {
             $("#txtFromDate").val("");
             $("#txtToDate").val("");
             $("#txtOrderRefrence").val("");
-
         }
         function ReOrder(orderId) {
             ShowLoader();
@@ -522,38 +514,47 @@
 
         function DownLoadArtworkFile(orderId) {
             ShowLoader();
-            var d = { OrderId: orderId, OrderType: "Download" }
-            $.ajax({
-                type: "POST",
-                url: "/ProductOrderHistory/OrderResult",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(d),
-                success: function (response) {
-                    HideLoader();
-                    var indexOfException = response.indexOf("Exception");
-                    if(indexOfException != -1){
-                        console.log(response);
-                        ShowPopUp("Error", response);
-                    }else{
-                        window.location.href = response;
-                        //window.open(response,'_blank');
-                    }
-                   
-                },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    //alert("Error while invoking the Web API");
-                 
-                    alert(thrownError);
-                    HideLoader();
-                }
+            $.get("/mis/api/DownloadArtwork?OrderId=" + orderId + "&OrganisationId=" + @UserCookieManager.WEBOrganisationID, function (DT) {
+               
+                DT = DT.replace("\"","");
+                DT = DT.replace("\"","");
+                console.log(DT); 
+                window.location.href = DT;
+                HideLoader();
             });
+            
+            //var d = { OrderId: orderId, OrderType: "Download" }
+            //$.ajax({
+            //    type: "POST",
+            //    url: "/ProductOrderHistory/OrderResult",
+            //    contentType: "application/json; charset=utf-8",
+            //    data: JSON.stringify(d),
+            //    success: function (response) {
+            //        HideLoader();
+            //        var indexOfException = response.indexOf("Exception");
+            //        if(indexOfException != -1){
+            //            console.log(response);
+            //            ShowPopUp("Error", response);
+            //        }else{
+            //            window.location.href = response;
+            //            //window.open(response,'_blank');
+            //        }
+                   
+            //    },
+            //    error: function(xhr, ajaxOptions, thrownError) {
+            //        //alert("Error while invoking the Web API");
+                 
+            //        alert(thrownError);
+            //        HideLoader();
+            //    }
+            //});
         }
 
         function ViewOrder(orderId) {
             ShowLoader();
             $.ajax({
                 type: "GET",
-                url: "/webstoreapi/CostCenter/GetData",
+                url: "/webstoreapi/Order/GetData",
                 contentType: "application/json",
                 data: { orderID: orderId },
                 async: true,
@@ -603,7 +604,7 @@
                     $("#DeliveryAddressName").text(response.shippingAddress.AddressName);
 
                     if (response.shippingAddress.Address1 == null) {
-                        $("#Delive  ryAddressline1").text('');
+                        $("#DeliveryAddressline1").text('');
                     }
                     else {
                         $("#DeliveryAddressline1").text(response.shippingAddress.Address1);
@@ -671,5 +672,4 @@
             document.cookie = name + "=" + value + expires + "; path=/";
         }
     </script>
-}
-
+  

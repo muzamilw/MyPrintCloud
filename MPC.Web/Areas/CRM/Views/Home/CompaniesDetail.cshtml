@@ -24,7 +24,7 @@
                         </div>
                     </div>
                    
-                    <div class="col-xs-12" style="text-align: right; padding-right: 8px;margin-bottom:18px;" data-bind="with: $root.selectedStore()">
+                    <div class="col-xs-12" style="text-align: right; padding-right:10px;margin-bottom:18px;" data-bind="with: $root.selectedStore()">
                         <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:0px">
                             Print
                         </button>
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="main-box clearfix" style="border:1px solid silver;margin-left:5px;margin-right:5px;">
+                <div class="main-box clearfix" style="border:1px solid silver;margin-left:10px;margin-right:10px;">
                     <div class="tabs-wrapper profile-tabs">
                         <ul id="crmTabsId" class="nav nav-tabs">
                             <li class="active" id="generalInfoTabForCrm"><a href="#tab-newsfeedForCrm" data-toggle="tab">General Info</a></li>
@@ -125,6 +125,7 @@
                                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select a Store for which customer belongs to" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
+                                                    
                                                 </div>
                                                 <label for="selectStore" class="control-label text-right tooltip-float">Select Store</label>
                                             </div>
@@ -362,22 +363,27 @@
                                             </div>*@
                                     </div>
                                     <!--/ko-->
+                                    <!--ko if: type() == 2-->
+                                    <h3 class="group-header">Multiple Shipping and billing addresses for this supplier</h3>
+                                    <!--/ko-->
+                                    <!--ko if: type() != 2-->
                                     <h3 class="group-header">Multiple Shipping and billing addresses for this company</h3>
+                                    <!--/ko-->
                                     <div class="col-lg-12">
 
-                                        <div class="col-lg-9">
+                                        <div class="col-lg-12">
                                             <div class="form-group">
 
 
-                                                <div class="col-lg-3">
+                                                <div class="col-lg-2">
 
                                                 </div>
-                                                <div class="col-lg-6" style="padding-left:2px;">
-                                                    <header class="main-box-header clearfix" style="width:220%;">
+                                                <div class="col-lg-10" style="padding-left:25px;padding-right:0px;">
+                                                    <header class="main-box-header clearfix" style="padding-right:15px;">
 
                                                         <div class="filter-block">
                                                             <div class="filter-block pull-right">
-                                                                <div class="form-group pull-left" style="padding-right:0px; margin-right: -14px;margin-bottom:5px;">
+                                                                <div class="form-group pull-left" style="padding-right:0px; margin-right: -15px;margin-bottom:5px;">
                                                                     <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchAddressFilter, validationOnElement: $root.searchAddressFilter">
                                                                     <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
                                                                 </div>
@@ -385,7 +391,7 @@
                                                             </div>
                                                         </div>
                                                     </header>
-                                                    <div style="background-color:gainsboro; border-radius:3px; width:220%;">
+                                                    <div style="background-color:gainsboro; border-radius:3px;">
                                                         @*<header class="main-box-header clearfix">
                                                                 <div style="float:left;"><span style="font-size:24px">Addresses</span></div>
                                                             </header>*@
@@ -478,19 +484,24 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12  form-horizontal">
-                                    <h3 class="group-header">Registered users for this company / online store</h3>
+                                    <!--ko if: type() == 2-->
+                                    <h3 class="group-header">Registered users for this supplier</h3>
+                                    <!--/ko-->
+                                    <!--ko if: type() != 2-->
+                                    <h3 class="group-header">Registered users for this company</h3>
+                                    <!--/ko-->
 
-                                    <div class="col-lg-9">
+                                    <div class="col-lg-12">
                                         <div class="form-group">
 
 
-                                            <div class="col-lg-3">
+                                            <div class="col-lg-2">
 
                                             </div>
-                                            <div class="col-lg-6" style="padding-left:8px;">
-                                                <header class="main-box-header clearfix" style="width:220%;">
+                                            <div class="col-lg-10" style="padding-left:30px;">
+                                                <header class="main-box-header clearfix">
                                                     <div class="filter-block">
-                                                        <div class="filter-block pull-right" style="margin-right:-24px;margin-bottom:5px;">
+                                                        <div class="filter-block pull-right" style="margin-right:-29px;margin-bottom:5px;">
                                                             <div class="form-group pull-left">
                                                                 <input type="text" class="form-control" placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter, validationOnElement: $root.searchCompanyContactFilter">
                                                                 <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyContact"></i>
@@ -499,7 +510,7 @@
                                                         </div>
                                                     </div>
                                                 </header>
-                                                <div style="background-color:gainsboro; border-radius:3px; width:220%;">
+                                                <div style="background-color:gainsboro; border-radius:3px;">
                                                     @*<header class="main-box-header clearfix">
                                                             <div style="float:left;"><span style="font-size:24px">Users</span></div>
                                                         </header>*@
@@ -903,9 +914,9 @@
                                                         <thead>
                                                             <tr>
                                                                 <th><span>Name</span></th>
-                                                                <th><span>Order</span></th>
+                                                                <th><span>Code</span></th>
                                                                 <th><span>Status</span></th>
-                                                                <th><span>Invoice Total</span></th>
+                                                                <th><span>Total</span></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -936,8 +947,8 @@
                                                     <table class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th>&nbsp;</th>
                                                                 <th><span>Name</span></th>
+                                                                <th><span>Code</span></th>
                                                                 <th><span>Status</span></th>
                                                                 <th><span>Total</span></th>
                                                             </tr>
@@ -1064,14 +1075,17 @@
     </script>
     <script id="invoiceTemplate" type="text/html">
         <tr>
-            <td><span data-bind="style: { 'background-color':flagColor }" class=" label label-success"></span>x</td>
+            @*<td><span data-bind="style: { 'background-color':flagColor }" class=" label label-success"></span>x</td>*@
             <td>
-                <b><span data-bind="text:companyName"></span></b> <br />
-                <span data-bind="dateString:invoiceDate, datePattern: 'DD/MM/YYYY'"></span> &emsp; &emsp;&emsp; &emsp;&emsp;  <span data-bind="text:invoiceName"></span>(<span data-bind="text:invoiceCode"></span>)
+                <b><span data-bind="text:companyName"></span></b>  <br />
+                    <span data-bind="text:contact"></span>
+            </td>
+            <td>                
+                <span data-bind="text:invoiceName"></span>(<span data-bind="text:invoiceCode"></span>)<br />
+                    <span data-bind="dateString:invoiceDate, datePattern: 'DD/MM/YYYY'"></span>
             </td>
             <td>
-                <span data-bind="text:status"></span><br />
-                <span data-bind="text:contact"></span>
+                <span data-bind="text:status"></span>
             </td>
             <td><span data-bind="text:invoiceTotal"></span></td>
         </tr>

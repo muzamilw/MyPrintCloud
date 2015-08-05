@@ -1,13 +1,9 @@
 ﻿@using MPC.Webstore.Common;
 @using MPC.Models.Common;
 @using System;
-
-<head>
-    <link href="/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
-
-    <link href="/Content/RealEstateSlider/css/feature-carousel.css" rel="stylesheet" />
-
-</head>
+@{
+    Layout = null;
+}
 
 @{
     var ParentCategories = ViewBag.rptParentCategoryNames as List<MPC.Models.DomainModels.ProductCategory>;
@@ -15,14 +11,6 @@
     var ChildCategories = ViewBag.AllCategories as List<MPC.Models.DomainModels.ProductCategory>;
     var AllListingImages = ViewBag.AllListingImages as List<MPC.Models.DomainModels.ListingImage>;
 }
-@{
-    var bundle = System.Web.Optimization.BundleTable.Bundles.GetRegisteredBundles()
-        .Where(b => b.Path == "~/pageSpecific")
-        .First();
-    bundle.Include("~/Content/RealEstateSlider/js/jquery-1.7.min.js", "~/Content/RealEstateSlider/js/jquery.featureCarousel.min.js", "~/Content/RealEstateSlider/js/jquery.featureCarousel.js");
-    
-}
-
 
 <div class="container">
     <div class="sidebar-offcanvas sidebar realEs-myProfile-leftPanel" id="sidebar-left" role="navigation" style="">
@@ -128,6 +116,12 @@
             &nbsp;
         </div>
     
+
+ <link href="/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
+<script src="/Content/RealEstateSlider/js/jquery-1.7.min.js"></script>
+<script src="/Content/RealEstateSlider/js/jquery.featureCarousel.js"></script>
+<script src="/Content/RealEstateSlider/js/jquery.featureCarousel.min.js"></script>
+ <link href="/Content/RealEstateSlider/css/feature-carousel.css" rel="stylesheet" />
 
 <script type="text/javascript">
     $(document).ready(function () {

@@ -30,6 +30,7 @@ using MPC.Common;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using Image = System.Drawing.Image;
+using System.Globalization;
 
 namespace MPC.Repository.Repositories
 {
@@ -45,8 +46,12 @@ namespace MPC.Repository.Repositories
         private readonly IOrganisationRepository _Organisationrepository;
         private readonly ITemplateRepository _TemplateRepository;
         private readonly ITemplatePageRepository _TemplatePageRepository;
-
-        public OrderRepository(IUnityContainer container, IWebstoreClaimsHelperService myClaimHelper, IPrefixRepository _prefixrepository, IItemRepository _ItemRepository, IItemAttachmentRepository _ItemAttachmentRepository, IOrganisationRepository _Organisationrepository, IPrefixService _PrefixService, ITemplateRepository _TemplateRepository, ITemplatePageRepository _TemplatePageRepository)
+        private readonly ICampaignRepository _campaignRepository;
+        public OrderRepository(IUnityContainer container, IWebstoreClaimsHelperService myClaimHelper, IPrefixRepository _prefixrepository, 
+            IItemRepository _ItemRepository, IItemAttachmentRepository _ItemAttachmentRepository,
+            IOrganisationRepository _Organisationrepository, IPrefixService _PrefixService,
+            ITemplateRepository _TemplateRepository, ITemplatePageRepository _TemplatePageRepository
+            , ICampaignRepository campaignRepository)
             : base(container)
         {
             this._myClaimHelper = myClaimHelper;
@@ -57,6 +62,7 @@ namespace MPC.Repository.Repositories
             this._Organisationrepository = _Organisationrepository;
             this._TemplateRepository = _TemplateRepository;
             this._TemplatePageRepository = _TemplatePageRepository;
+            this._campaignRepository = campaignRepository;
         }
 
         /// <summary>
@@ -353,24 +359,22 @@ namespace MPC.Repository.Repositories
                 //1. Get All Items and Its Attament in a Singe Instant
                 shopCart.CartItemsList = this.ExtractItemsAndAttatchments(ItemsOfOrder, out childrenRecordsAllProductItemAddons);
 
-                //2. Get All Addons Used in that Items
-                //shopCart.ItemsSelectedAddonsList = childrenRecordsAllProductItemAddons;
-
                 //3. Extract company address if any
-                // shopCart.AddressesList = this.GetOrderCompanyAllAddresses(tblEstimate); //this.GetOrderCompanyBillingShipingAddresses(tblEstimate);
+                shopCart.AddressesList = this.GetOrderCompanyAllAddresses(tblEstimate); //this.GetOrderCompanyBillingShipingAddresses(tblEstimate);
 
 
                 //4. Set Order Level Fields
-                // shopCart.DiscountVoucherID = (tblEstimate.DiscountVoucherID.HasValue && tblEstimate.DiscountVoucherID.Value > 0) ? tblEstimate.DiscountVoucherID.Value : 0;
-                // shopCart.VoucherDiscountRate = (tblEstimate.VoucherDiscountRate.HasValue && tblEstimate.VoucherDiscountRate.Value > 0) ? tblEstimate.VoucherDiscountRate.Value : 0;
-                //shopCart.DeliveryCostCenterID = (tblEstimate.DeliveryCostCenterId.HasValue && tblEstimate.DeliveryCostCenterId.Value > 0) ? tblEstimate.DeliveryCostCenterId.Value : 0;
+                shopCart.DiscountVoucherID = (tblEstimate.DiscountVoucherID.HasValue && tblEstimate.DiscountVoucherID.Value > 0) ? tblEstimate.DiscountVoucherID.Value : 0;
+                shopCart.VoucherDiscountRate = (tblEstimate.VoucherDiscountRate.HasValue && tblEstimate.VoucherDiscountRate.Value > 0) ? tblEstimate.VoucherDiscountRate.Value : 0;
+                shopCart.DeliveryCostCenterID = (tblEstimate.DeliveryCostCenterId.HasValue && tblEstimate.DeliveryCostCenterId.Value > 0) ? tblEstimate.DeliveryCostCenterId.Value : 0;
                 // shopCart.DeliveryCost = (tblEstimate.DeliveryCost.HasValue && tblEstimate.DeliveryCost.Value > 0) ? tblEstimate.DeliveryCost.Value : 0;
                 //5. get delivery item 
-                //  Item DeliveryItemOfOrder = GetDeliveryOrderItem(tblEstimate.EstimateId);
-                // if (DeliveryItemOfOrder != null)
-                // {
-                //    shopCart.DeliveryTaxValue = DeliveryItemOfOrder.Qty1Tax1Value ?? 0;
-                // }
+                Item DeliveryItemOfOrder = GetDeliveryOrderItem(tblEstimate.EstimateId);
+                if (DeliveryItemOfOrder != null)
+                {
+                    shopCart.DeliveryTaxValue = DeliveryItemOfOrder.Qty1Tax1Value ?? 0;
+                    shopCart.DeliveryCost = DeliveryItemOfOrder.Qty1NetTotal ?? 0;
+                }
 
             }
             catch (Exception ex)
@@ -387,8 +391,8 @@ namespace MPC.Repository.Repositories
             List<ProductItem> productItemsList = new List<ProductItem>();
             List<AddOnCostsCenter> allItemsAddOnsList = new List<AddOnCostsCenter>();
 
-            long? StockID = 0;
-            string StockName = null;
+            long? StockOptionID = 0;
+            string StockName = "";
             ProductItem prodItem = null;
 
             orderItemsList.ForEach
@@ -401,12 +405,18 @@ namespace MPC.Repository.Repositories
                             var Section = db.ItemSections.Where(i => i.ItemId == item.ItemId & i.SectionNo == 1).FirstOrDefault();
 
                             if (Section != null)
-                                StockID = Section.StockItemID1;
-                            else
-                                StockID = 0;
-                            StockName = db.ItemStockOptions.Where(i => i.StockId == StockID && i.ItemId == item.RefItemId).Select(o => o.StockLabel).FirstOrDefault();
+                                StockOptionID = Section.StockItemID2;
 
 
+                            if (StockOptionID > 0)
+                            {
+                                ItemStockOption stockOption = db.ItemStockOptions.Where(i => i.ItemStockOptionId == StockOptionID && i.ItemId == item.RefItemId).FirstOrDefault();
+                                if(stockOption != null)
+                                {
+                                     StockName = stockOption.StockLabel;
+                                }
+                            }
+                            
                             prodItem = CreateProductItem(item, StockName);
                             prodItem.Attatchment = this.ExtractAttachment(item);
 
@@ -480,6 +490,8 @@ namespace MPC.Repository.Repositories
                 PaperType = PaperName,
                 ItemType = tblItem.ItemType,
                 ProductWebDescription = tblItem.WebDescription,
+                DiscountedAmount = tblItem.Qty1CostCentreProfit,
+                DiscountedVoucherId = tblItem.DiscountVoucherID,
             };
             return prodItem;
         }
@@ -680,37 +692,37 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public bool IsVoucherValid(string voucherCode)
-        {
+        //public bool IsVoucherValid(string voucherCode)
+        //{
 
-            bool result = true;
-            DiscountVoucher discountVocher = null;
-            try
-            {
-                discountVocher = db.DiscountVouchers.Where(discVoucher => discVoucher.VoucherCode == voucherCode && discVoucher.IsEnabled && discVoucher.CompanyId == null).FirstOrDefault();
-                if (discountVocher != null)
-                {
+        //    bool result = true;
+        //    DiscountVoucher discountVocher = null;
+        //    try
+        //    {
+        //        discountVocher = db.DiscountVouchers.Where(discVoucher => discVoucher.VoucherCode == voucherCode && discVoucher.IsEnabled && discVoucher.CompanyId == null).FirstOrDefault();
+        //        if (discountVocher != null)
+        //        {
 
-                    if (discountVocher.ValidFromDate.HasValue && DateTime.Now < discountVocher.ValidFromDate.Value)
-                        result = false;
+        //            if (discountVocher.ValidFromDate.HasValue && DateTime.Now < discountVocher.ValidFromDate.Value)
+        //                result = false;
 
-                    else if (discountVocher.ValidUptoDate.HasValue && DateTime.Now > discountVocher.ValidUptoDate.Value)
-                        result = false;
+        //            else if (discountVocher.ValidUptoDate.HasValue && DateTime.Now > discountVocher.ValidUptoDate.Value)
+        //                result = false;
 
-                    //else if (discountVocher.OrderID.HasValue)
-                    //    result = false;
-                }
-                else
-                {
-                    result = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return result;
-        }
+        //            //else if (discountVocher.OrderID.HasValue)
+        //            //    result = false;
+        //        }
+        //        else
+        //        {
+        //            result = false;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return result;
+        //}
         public Estimate CheckDiscountApplied(int orderId)
         {
             try
@@ -725,138 +737,138 @@ namespace MPC.Repository.Repositories
             }
 
         }
-        public bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode)
-        {
+        //public bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode)
+        //{
 
-            double QtyNewTotal = 0;
-            double QtyTaxVal = 0;
+        //    double QtyNewTotal = 0;
+        //    double QtyTaxVal = 0;
 
-            List<Item> tblOrder = db.Items.Where(c => c.EstimateId == orderId && c.Qty1CostCentreProfit != null).ToList();
-            if (tblOrder != null)
-            {
-                foreach (var item in tblOrder.Where(i => i.ItemType != Convert.ToInt32(ItemTypes.Delivery)))
-                {
-                    SectionCostcentre SC = item.ItemSections.FirstOrDefault().SectionCostcentres.Where(c => c.CostCentreId == (int)CostCentresForWeb.WebOrderCostCentre).FirstOrDefault();
+        //    List<Item> tblOrder = db.Items.Where(c => c.EstimateId == orderId && c.Qty1CostCentreProfit != null).ToList();
+        //    if (tblOrder != null)
+        //    {
+        //        foreach (var item in tblOrder.Where(i => i.ItemType != Convert.ToInt32(ItemTypes.Delivery)))
+        //        {
+        //            SectionCostcentre SC = item.ItemSections.FirstOrDefault().SectionCostcentres.Where(c => c.CostCentreId == (int)CostCentresForWeb.WebOrderCostCentre).FirstOrDefault();
 
-                    QtyNewTotal = (double)item.Qty1NetTotal + (double)item.Qty1CostCentreProfit;
-                    QtyTaxVal = (QtyNewTotal * StateTax) / 100;
-                    item.Qty1NetTotal = QtyNewTotal;
-                    item.Qty1BaseCharge1 = QtyNewTotal;
-                    item.Qty1Tax1Value = QtyTaxVal;
-                    item.Qty1GrossTotal = QtyNewTotal + QtyTaxVal;
-                    item.ItemSections.FirstOrDefault().BaseCharge1 += (double)item.Qty1CostCentreProfit;
-                    if (SC != null)
-                    {
-                        SC.Qty1NetTotal += (double)item.Qty1CostCentreProfit;
-                        // SC.Qty1MarkUpValue = 0;
-                    }
-                    item.Qty1CostCentreProfit = 0;
-                }
-                if (db.SaveChanges() > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //            QtyNewTotal = (double)item.Qty1NetTotal + (double)item.Qty1CostCentreProfit;
+        //            QtyTaxVal = (QtyNewTotal * StateTax) / 100;
+        //            item.Qty1NetTotal = QtyNewTotal;
+        //            item.Qty1BaseCharge1 = QtyNewTotal;
+        //            item.Qty1Tax1Value = QtyTaxVal;
+        //            item.Qty1GrossTotal = QtyNewTotal + QtyTaxVal;
+        //            item.ItemSections.FirstOrDefault().BaseCharge1 += (double)item.Qty1CostCentreProfit;
+        //            if (SC != null)
+        //            {
+        //                SC.Qty1NetTotal += (double)item.Qty1CostCentreProfit;
+        //                // SC.Qty1MarkUpValue = 0;
+        //            }
+        //            item.Qty1CostCentreProfit = 0;
+        //        }
+        //        if (db.SaveChanges() > 0)
+        //        {
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
 
-        public double SaveVoucherCodeAndRate(int orderId, string VCode)
-        {
-            try
-            {
+        //public double SaveVoucherCodeAndRate(int orderId, string VCode)
+        //{
+        //    try
+        //    {
 
-                Estimate record = db.Estimates.Where(c => c.EstimateId == orderId).FirstOrDefault();
-                DiscountVoucher discountVocher = db.DiscountVouchers.Where(discVoucher => discVoucher.VoucherCode == VCode && discVoucher.IsEnabled).FirstOrDefault();
-                if (record != null)
-                {
-                    record.DiscountVoucherID = Convert.ToInt16(discountVocher.DiscountVoucherId);
-                    record.VoucherDiscountRate = discountVocher.DiscountRate;
-                }
-                if (db.SaveChanges() > 0)
-                {
-                    return discountVocher.DiscountRate;
-                }
-                else
-                {
-                    return 0;
-                }
+        //        Estimate record = db.Estimates.Where(c => c.EstimateId == orderId).FirstOrDefault();
+        //        DiscountVoucher discountVocher = db.DiscountVouchers.Where(discVoucher => discVoucher.VoucherCode == VCode && discVoucher.IsEnabled).FirstOrDefault();
+        //        if (record != null)
+        //        {
+        //            record.DiscountVoucherID = Convert.ToInt16(discountVocher.DiscountVoucherId);
+        //            record.VoucherDiscountRate = discountVocher.DiscountRate;
+        //        }
+        //        if (db.SaveChanges() > 0)
+        //        {
+        //            return discountVocher.DiscountRate;
+        //        }
+        //        else
+        //        {
+        //            return 0;
+        //        }
 
-            }
-            catch (Exception e)
-            {
-                return 0;
-                throw e;
-            }
-        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return 0;
+        //        throw e;
+        //    }
+        //}
 
-        public double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate, StoreMode Mode)
-        {
-            short status = (short)orderStatus;
-            double DiscountedAmount = 0;
-            double TotalDiscAmount = 0;
-            double TotalDiscAmountBroker = 0;
-            double QtyNewTotal = 0;
-            double QtyTaxVal = 0;
+        //public double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate, StoreMode Mode)
+        //{
+        //    short status = (short)orderStatus;
+        //    double DiscountedAmount = 0;
+        //    double TotalDiscAmount = 0;
+        //    double TotalDiscAmountBroker = 0;
+        //    double QtyNewTotal = 0;
+        //    double QtyTaxVal = 0;
 
 
-            List<Item> tblOrder = db.Items.Where(c => c.EstimateId == orderId && (c.ItemType == null || c.ItemType != 2) && (c.Qty1CostCentreProfit == null || c.Qty1CostCentreProfit == 0)).ToList();
-            if (tblOrder != null)
-            {
-                foreach (var item in tblOrder)
-                {
-                    SectionCostcentre SC = item.ItemSections.FirstOrDefault().SectionCostcentres.Where(c => c.CostCentreId == (int)CostCentresForWeb.WebOrderCostCentre).FirstOrDefault();
+        //    List<Item> tblOrder = db.Items.Where(c => c.EstimateId == orderId && (c.ItemType == null || c.ItemType != 2) && (c.Qty1CostCentreProfit == null || c.Qty1CostCentreProfit == 0)).ToList();
+        //    if (tblOrder != null)
+        //    {
+        //        foreach (var item in tblOrder)
+        //        {
+        //            SectionCostcentre SC = item.ItemSections.FirstOrDefault().SectionCostcentres.Where(c => c.CostCentreId == (int)CostCentresForWeb.WebOrderCostCentre).FirstOrDefault();
 
-                    DiscountedAmount = CalCulateVoucherDiscount(Convert.ToDouble(item.Qty1BaseCharge1), VDiscountRate);
-                    item.Qty1CostCentreProfit = DiscountedAmount;
-                    TotalDiscAmount += DiscountedAmount;
-                    QtyNewTotal = item.Qty1NetTotal - DiscountedAmount ?? 0;
-                    QtyTaxVal = (QtyNewTotal * StateTax) / 100;
-                    item.Qty1NetTotal = QtyNewTotal;
-                    item.Qty1BaseCharge1 = QtyNewTotal;
-                    item.Qty1Tax1Value = QtyTaxVal;
-                    item.Qty1GrossTotal = QtyNewTotal + QtyTaxVal;
-                    item.ItemSections.FirstOrDefault().BaseCharge1 -= DiscountedAmount;
-                    if (SC != null)
-                    {
-                        SC.Qty1NetTotal -= DiscountedAmount;
-                        //SC.Qty1MarkUpValue = -DiscountedAmount;
-                    }
-                }
-                if (db.SaveChanges() > 0)
-                {
+        //            DiscountedAmount = CalCulateVoucherDiscount(Convert.ToDouble(item.Qty1BaseCharge1), VDiscountRate);
+        //            item.Qty1CostCentreProfit = DiscountedAmount;
+        //            TotalDiscAmount += DiscountedAmount;
+        //            QtyNewTotal = item.Qty1NetTotal - DiscountedAmount ?? 0;
+        //            QtyTaxVal = (QtyNewTotal * StateTax) / 100;
+        //            item.Qty1NetTotal = QtyNewTotal;
+        //            item.Qty1BaseCharge1 = QtyNewTotal;
+        //            item.Qty1Tax1Value = QtyTaxVal;
+        //            item.Qty1GrossTotal = QtyNewTotal + QtyTaxVal;
+        //            item.ItemSections.FirstOrDefault().BaseCharge1 -= DiscountedAmount;
+        //            if (SC != null)
+        //            {
+        //                SC.Qty1NetTotal -= DiscountedAmount;
+        //                //SC.Qty1MarkUpValue = -DiscountedAmount;
+        //            }
+        //        }
+        //        if (db.SaveChanges() > 0)
+        //        {
 
-                    return TotalDiscAmount;
+        //            return TotalDiscAmount;
 
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
-                return 0;
-            }
+        //        }
+        //        else
+        //        {
+        //            return 0;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return 0;
+        //    }
 
-        }
-        private double CalCulateVoucherDiscount(double subTotal, double VoucherRate)
-        {
-            double discRate = VoucherRate;
-            double discountedAmount = 0;
+        //}
+        //private double CalCulateVoucherDiscount(double subTotal, double VoucherRate)
+        //{
+        //    double discRate = VoucherRate;
+        //    double discountedAmount = 0;
 
-            if (discRate > 0)
-            {
-                discountedAmount = CalculatePercentage(subTotal, discRate);
-            }
-            return discountedAmount;
-        }
+        //    if (discRate > 0)
+        //    {
+        //        discountedAmount = CalculatePercentage(subTotal, discRate);
+        //    }
+        //    return discountedAmount;
+        //}
 
         public static double CalculatePercentage(double itemValue, double percentageValue)
         {
@@ -866,28 +878,28 @@ namespace MPC.Repository.Repositories
 
             return percentValue;
         }
-        public bool ResetOrderVoucherCode(int orderId)
-        {
+        //public bool ResetOrderVoucherCode(int orderId)
+        //{
 
-            Estimate OrderRecord = db.Estimates.Where(c => c.EstimateId == orderId).FirstOrDefault();
-            if (OrderRecord != null)
-            {
-                OrderRecord.DiscountVoucherID = 0;
-                OrderRecord.VoucherDiscountRate = 0;
-                if (db.SaveChanges() > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //    Estimate OrderRecord = db.Estimates.Where(c => c.EstimateId == orderId).FirstOrDefault();
+        //    if (OrderRecord != null)
+        //    {
+        //        OrderRecord.DiscountVoucherID = 0;
+        //        OrderRecord.VoucherDiscountRate = 0;
+        //        if (db.SaveChanges() > 0)
+        //        {
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
         /// <summary>
         /// returns the order id of a logged in user if order exist in cart
         /// </summary>
@@ -1057,7 +1069,7 @@ namespace MPC.Repository.Repositories
                         CustomerID = Order.CompanyId,
                         CustomerName = "",
                         OrderDate = Order.Order_Date,
-                        DeliveryDate = Order.StartDeliveryDate, 
+                        DeliveryDate = Order.StartDeliveryDate,
                         DeliveryAddressID = Order.AddressId,
                         BillingAddressID = Order.BillingAddressId ?? 0,
                         DeliveryCostCentreID = Order.DeliveryCostCenterId ?? 0,
@@ -1340,15 +1352,26 @@ namespace MPC.Repository.Repositories
             {
                 if (item.IsOrderedItem.HasValue && item.IsOrderedItem.Value)
                 {
-
                     if (orderStatus != OrderStatus.ShoppingCart)
                         item.StatusId = (short)itemStatus;
 
-                    //updateStockAndSendNotification(Convert.ToInt32(item.RefItemId), Mode, Convert.ToInt32(tblOrder.CompanyId), Convert.ToInt32(item.Qty1), Convert.ToInt32(tblOrder.ContactId), Convert.ToInt32(item.ItemId), Convert.ToInt32(tblOrder.EstimateId), MgrIds, org);
-
+                    db.Configuration.LazyLoadingEnabled = false;
+                    Item ActualItem = db.Items.Include("ItemSections").Where(i => i.ItemId == item.RefItemId).FirstOrDefault();
+                    if (ActualItem != null)
+                    {
+                        if (ActualItem.IsStockControl == true && ActualItem.ProductType == (int)ProductType.NonPrintProduct)
+                        {
+                            ItemSection FirstItemSection = ActualItem.ItemSections.Where(sec => sec.SectionNo == 1 && sec.ItemId == ActualItem.ItemId).FirstOrDefault();
+                            if (FirstItemSection != null)
+                            {
+                                updateStockAndSendNotification(FirstItemSection.StockItemID1 ?? 0, ActualItem.ItemId, Mode, tblOrder.CompanyId, Convert.ToInt32(item.Qty1), Convert.ToInt32(tblOrder.ContactId), item.ItemId, tblOrder.EstimateId, MgrIds, org);
+                            }
+                        }
+                    }
                 }
                 else
-                {//Delete the non included items
+                {
+                    //Delete the non included items
                     bool result = false;
                     List<ArtWorkAttatchment> itemAttatchments = null;
                     Template clonedTempldateFiles = null;
@@ -1362,10 +1385,7 @@ namespace MPC.Repository.Repositories
                         if (clonedTempldateFiles != null)
                             DeleteTemplateFiles(clonedTempldateFiles.ProductId, org.OrganisationId); // file removing
                     }
-
-                    //dbContext.tbl_items.DeleteObject(item);
                 }
-
             });
         }
 
@@ -1636,31 +1656,25 @@ namespace MPC.Repository.Repositories
             return itemAttactchment;
         }
 
-        public void updateStockAndSendNotification(long itemID, StoreMode Mode, long companyId, int orderedQty, long contactId, long orderedItemid, long OrderId, List<Guid> MgrIds, Organisation org)
+        public void updateStockAndSendNotification(long StockID, long ItemId, StoreMode Mode, long companyId, int orderedQty, long contactId, long orderedItemid, long OrderId, List<Guid> MgrIds, Organisation org)
         {
+            StockItem tblItemStock = null;
 
-            Item tblRefItemProduct = null;
-            ItemStockControl tblItemStock = null;
-
-
-            if (itemID > 0)
+            if (StockID > 0)
             {
-
-                tblRefItemProduct = db.Items.Where(i => i.ItemId == itemID).FirstOrDefault();
-                if (tblRefItemProduct.IsStockControl == true)
+                tblItemStock = db.StockItems.Where(i => i.StockItemId == StockID && i.OrganisationId == org.OrganisationId).FirstOrDefault();
+                if (tblItemStock != null)
                 {
-
-
-                    //companySite = db.tbl_company_sites.FirstOrDefault();
-                    tblItemStock = db.ItemStockControls.Where(i => i.ItemId == itemID).FirstOrDefault();
-                    int currentStock = tblItemStock.InStock;
-                    int lastModified = tblItemStock.InStock = tblItemStock.InStock - orderedQty;
-                    if (tblItemStock.InStock < 0)
+                    double currentStock = tblItemStock.inStock ?? 0;
+                    int lastModified = Convert.ToInt32(tblItemStock.inStock) - orderedQty;
+                    tblItemStock.inStock = lastModified;
+                    if (tblItemStock.inStock < 0)
                     {
-                        tblItemStock.InStock = 0;
+                        tblItemStock.inStock = 0;
                     }
                     ItemStockUpdateHistory stockLog = new ItemStockUpdateHistory();
-                    stockLog.ItemId = (int)itemID;
+                    stockLog.ItemId = (int)ItemId;
+                    stockLog.StockItemId = StockID;
                     //stockLog.LastAvailableQty = currentStock;
                     //stockLog.LastOrderedQty = orderedQty;
                     stockLog.LastModifiedQty = lastModified;
@@ -1681,49 +1695,44 @@ namespace MPC.Repository.Repositories
 
                     db.ItemStockUpdateHistories.Add(stockLog);
                     db.SaveChanges();
-                }
 
 
-                if (tblItemStock != null)
-                {
-                    if (tblItemStock.InStock < tblItemStock.ThresholdLevel || tblItemStock.ThresholdLevel == null)
+                    if (tblItemStock != null)
                     {
-                        //EmailManager emailmgr = new EmailManager();
-                        long ManagerID = 0;
-
-
-
-
-                        // send emails to the managers
-                        if (tblItemStock.isAllowBackOrder == true)
+                        if (tblItemStock.inStock < tblItemStock.ThresholdLevel || tblItemStock.ThresholdLevel == null)
                         {
+                            //EmailManager emailmgr = new EmailManager();
+                            long ManagerID = 0;
+                            // send emails to the managers
+                            if (tblItemStock.isAllowBackOrder == true)
+                            {
+                                if (Mode == StoreMode.Corp)
+                                {
+                                    ManagerID = GetContactByRole(companyId, (int)Roles.Manager);
+                                    _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, ItemId, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid);
+
+                                }
+                                else
+                                {
+                                    _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, ItemId, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid);
+
+                                }
+                            }
+
                             if (Mode == StoreMode.Corp)
                             {
                                 ManagerID = GetContactByRole(companyId, (int)Roles.Manager);
-                                stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, itemID, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid);
-
+                                _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, ItemId, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid);
                             }
+
                             else
                             {
-                                stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, itemID, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid);
+                                _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, ItemId, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid);
 
                             }
-                        }
-
-                        if (Mode == StoreMode.Corp)
-                        {
-                            ManagerID = GetContactByRole(companyId, (int)Roles.Manager);
-                            stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, itemID, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid);
-                        }
-
-                        else
-                        {
-                            stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, itemID, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid);
-
                         }
                     }
                 }
-
             }
         }
         public bool UpdateCustomer(Company modelCustomer)
@@ -1780,44 +1789,7 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public void stockNotificationToManagers(List<Guid> mangerList, long CompanyId, Organisation ServerSettings, StoreMode ModeOfStore, long salesId, long itemId, long emailevent, long contactId, long orderedItemid)
-        {
-            try
-            {
-
-                CampaignEmailParams obj = new CampaignEmailParams();
-                List<SystemUser> listOfManagers = new List<SystemUser>();
-
-
-
-                //listOfManagers = 
-                //(from c in db.SystemUsers
-                //                  where mangerList.Contains(c.SystemUserId)
-                //                  select c).ToList();
-                if (listOfManagers.Count() > 0)
-                {
-                    Campaign stockCampaign = GetCampaignRecordByEmailEvent(emailevent);
-
-                    foreach (SystemUser stRec in listOfManagers)
-                    {
-                        obj.SystemUserId = stRec.SystemUserId;
-                        obj.SalesManagerContactID = salesId;
-                        obj.StoreId = CompanyId;
-                        obj.CompanyId = CompanyId;
-                        obj.OrganisationId = 1;
-                        obj.ItemId = (int)itemId;
-                        obj.ContactId = contactId;
-                        obj.orderedItemID = (int)orderedItemid;
-                        //emailBodyGenerator(stockCampaign, SeverSettings, obj, null, ModeOfStore, "", "", "", stRec.Email, stRec.FullName);
-                    }
-                }
-
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
+       
 
         public Campaign GetCampaignRecordByEmailEvent(long iEmailEvent)
         {
@@ -1926,13 +1898,12 @@ namespace MPC.Repository.Repositories
                 tblOrder.CreditLimitSetBy = ManagerIds[0];
             }
             Company oCompany = db.Companies.Where(c => c.CompanyId == StoreId).FirstOrDefault();
-            if(oCompany != null)
+            if (oCompany != null)
             {
                 tblOrder.OrderManagerId = oCompany.AccountManagerId;
             }
-           
+
             UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, currentStoreMode, Org, ManagerIds);
-            // UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, currentStoreMode); // and Delete the items which are not of part
 
             db.SaveChanges();
 
@@ -2537,7 +2508,7 @@ namespace MPC.Repository.Repositories
             db.SaveChanges();
         }
 
-        public List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber,bool IsManager,long TerritoryId)
+        public List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, bool IsManager, long TerritoryId)
         {
 
             List<Order> ordersList = null;
@@ -2593,7 +2564,7 @@ namespace MPC.Repository.Repositories
                             DeliveryDate = tblOrd.StartDeliveryDate,
                             YourRef = tblOrd.CustomerPO,
                             CustomerName = tblContacts.FirstName,
-                            TerritoryId=tblContacts.TerritoryId??0,
+                            TerritoryId = tblContacts.TerritoryId ?? 0,
                             CompanyName = tblcompany.Name
                         };
 
@@ -6912,7 +6883,7 @@ namespace MPC.Repository.Repositories
                      (estimate.Estimate_Name.Contains(request.SearchString))) && (
                          (estimate.OrganisationId == OrganisationId && estimate.StatusId == (int)OrderStatus.InProduction));
 
-            IQueryable<Item> estimates = DbSet.Where(query).SelectMany(est => est.Items).Where( item => item.ItemType!=2);
+            IQueryable<Item> estimates = DbSet.Where(query).SelectMany(est => est.Items).Where(item => item.ItemType != 2);
 
             List<Item> items = estimates.OrderBy(est => est.EstimateId)
            .Skip(fromRow)
@@ -6932,16 +6903,16 @@ namespace MPC.Repository.Repositories
             {
                 long StoreId = 0;
                 Estimate order = db.Estimates.Where(e => e.EstimateId == OrderId).FirstOrDefault();
-                if(order != null)
+                if (order != null)
                 {
                     Company oCompany = db.Companies.Where(c => c.CompanyId == order.CompanyId).FirstOrDefault();
-                    if(oCompany != null)
+                    if (oCompany != null)
                     {
-                        if(oCompany.IsCustomer == 1 && oCompany.StoreId != null)
+                        if (oCompany.IsCustomer == 1 && oCompany.StoreId != null)
                         {
                             StoreId = oCompany.StoreId ?? 0;
                         }
-                        else if(oCompany.IsCustomer == 3)
+                        else if (oCompany.IsCustomer == 3)
                         {
                             StoreId = oCompany.CompanyId;
                         }
@@ -6961,33 +6932,47 @@ namespace MPC.Repository.Repositories
             try
             {
                 string ProductionPath = "MPC_Content/Artworks/" + OrganisationId + "/Production";
-                if(items != null)
+                if (items != null)
                 {
-                    foreach(var itm in items)
+                    foreach (var itm in items)
                     {
-                        if(itm.ItemAttachments != null)
+                        if (itm.ItemAttachments != null)
                         {
-                            foreach(var iAttchm in itm.ItemAttachments)
+                            foreach (var iAttchm in itm.ItemAttachments)
                             {
                                 iAttchm.FolderPath = ProductionPath;
                             }
                         }
                     }
                     db.SaveChanges();
-                   
+
                 }
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return false;
                 throw ex;
-               
+
             }
 
         }
 
-
+        public List<Item> GetOrderItemsIncludingDelivery(long OrderId, int OrderStatus)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                return (from r in db.Items
+                        where r.EstimateId == OrderId && r.IsOrderedItem == true 
+                        
+                        select r).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
 

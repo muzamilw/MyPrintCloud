@@ -131,6 +131,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+
                 CompanyResponse companyResponse = new CompanyResponse();
                 var company = db.Companies.Include(c => c.CmsPages)
                     .Include(c => c.RaveReviews)
@@ -228,6 +229,7 @@ namespace MPC.Repository.Repositories
                         c.IsDisplayDiscountVoucherCode,
                         c.PriceFlagId,
                         c.StoreId,
+                        c.isStoreLive,
                         RaveReviews = c.RaveReviews.OrderBy(r => r.SortOrder).ToList(),
                         CmsPages = c.CmsPages.Where(page => page.isUserDefined == true).Take(5).Select(cms => new
                         {
@@ -357,6 +359,7 @@ namespace MPC.Repository.Repositories
                         PriceFlagId = c.PriceFlagId,
                         TaxRate = c.TaxRate,
                         StoreId = c.StoreId,
+                        isStoreLive = c.isStoreLive,
                         CmsPages = c.CmsPages.Select(cms => new CmsPage
                         {
                             PageId = cms.PageId,
@@ -777,7 +780,7 @@ namespace MPC.Repository.Repositories
                                 )
                            )
                         && (isTypeSpecified && s.TypeId == type || !isTypeSpecified)) &&
-                        (s.OrganisationId == OrganisationId && s.isArchived != true)
+                        (s.OrganisationId == OrganisationId && s.isArchived != true) && s.TypeId != 53
                         && ((companyType != 2 && (s.IsCustomer == companyType)) || (companyType == 2 && (s.IsCustomer == 0 || s.IsCustomer == 1))) && (true);
 
                     int rowCount = DbSet.Count(query);
@@ -5472,6 +5475,18 @@ namespace MPC.Repository.Repositories
             return response;
 
            
+        }
+
+        public void UpdateLiveStores(long organisationId, int storesCount)
+        {
+            List<Company> LiveStores = DbSet.Where(c => c.OrganisationId == organisationId && c.isStoreLive == true).ToList();
+            if (LiveStores.Count() > storesCount)
+            {
+                int ExtraLive = LiveStores.Count() - storesCount;
+                List<Company> StoresToOffline = LiveStores.Take(ExtraLive).ToList();
+                StoresToOffline.ForEach(c => c.isStoreLive = false);
+                SaveChanges();
+            }
         }
 
     }

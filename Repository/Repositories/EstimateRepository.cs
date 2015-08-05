@@ -72,6 +72,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<usp_TotalEarnings_Result> GetTotalEarnings(DateTime fromDate, DateTime toDate)
         {
+            
             return db.usp_TotalEarnings(fromDate, toDate, OrganisationId).ToList();
         }
 
@@ -154,7 +155,7 @@ namespace MPC.Repository.Repositories
             {
                 PendingOrdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.PendingOrder && order.isEstimate == false),
                 InProductionOrdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.InProduction && order.isEstimate == false),
-                CompletedOrdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.CompletedOrders && order.isEstimate == false),
+                CompletedOrdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.Completed_NotShipped && order.isEstimate == false),
                 UnConfirmedOrdersCount = DbSet.Count(estimate => estimate.OrganisationId == OrganisationId && estimate.isEstimate == true),
                 TotalEarnings = DbSet.Where(order => order.OrganisationId == OrganisationId).Sum(estimate => estimate.Estimate_Total),
                 CurrentMonthOdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.Order_Date.HasValue &&
@@ -261,12 +262,35 @@ namespace MPC.Repository.Repositories
             {
                 var now = DateTime.Now;
                 return db.usp_TotalEarnings(new DateTime(now.Year, 01, 01), new DateTime(now.Year, 12, 31), OrganisationId);
+
+
+
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
+
+        public DashBoardChartsResponse GetChartsForDashboard()
+        {
+            var now = DateTime.Now;
+            return new DashBoardChartsResponse
+            {
+                 
+                TotalEarningResult = db.usp_TotalEarnings(new DateTime(now.Year, 01, 01), new DateTime(now.Year, 12, 31), OrganisationId),
+                RegisteredUserByStores = db.usp_ChartRegisteredUserByStores(OrganisationId),
+                TopPerformingStores = db.usp_ChartTopPerformingStores(OrganisationId),
+                MonthlyOrdersCount = db.usp_ChartMonthlyOrdersCount(OrganisationId),
+                EstimateToOrderConversion = db.usp_ChartEstimateToOrderConversion(OrganisationId),
+                EstimateToOrderConversionCount = db.usp_ChartEstimateToOrderConversionCount(OrganisationId),
+                Top10PerformingCustomers = db.usp_ChartTop10PerfomingCustomers(OrganisationId)
+            
+               
+            };
+        }
+
+
         #endregion
     }
 }

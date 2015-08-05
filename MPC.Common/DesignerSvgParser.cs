@@ -84,13 +84,11 @@ namespace MPC.Common
                         {
 
                             firstColor = (document.Children[i] as SvgPath).Fill;
-                        }
-                    }
-                    if (document.Children[i] is SvgPath)
-                    {
-                        if ((document.Children[i] as SvgPath).Fill != firstColor)
-                        {
-                            canColour = false;
+                            if ((document.Children[i] as SvgPath).Fill != firstColor)
+                            {
+                                canColour = false;
+                            }
+                            break;
                         }
                     }
                 }
@@ -184,6 +182,46 @@ namespace MPC.Common
             }
 
         }
+
+        private static void ChangeShapesFill(SvgElement element, Color hexColor)
+        {
+            if (element is SvgRectangle)
+            {
+
+                (element as SvgRectangle).Fill = new SvgColourServer(hexColor);
+            }
+            else if (element is SvgCircle)
+            {
+
+                (element as SvgCircle).Fill = new SvgColourServer(hexColor);
+            }
+            else if (element is SvgPolygon)
+            {
+
+                (element as SvgPolygon).Fill = new SvgColourServer(hexColor);
+            }
+            else if (element is SvgEllipse)
+            {
+
+                (element as SvgEllipse).Fill = new SvgColourServer(hexColor);
+            }
+            else if (element is SvgLine)
+            {
+
+                (element as SvgLine).Fill = new SvgColourServer(hexColor);
+            }
+            else if (element is SvgPolyline)
+            {
+
+                (element as SvgPolyline).Fill = new SvgColourServer(hexColor);
+            }
+            else if (element is SvgText)
+            {
+
+                (element as SvgText).Fill = new SvgColourServer(hexColor);
+            }
+
+        }
         /// <summary>
         ///  Recursive fill function to change the color of a selected node and all of its children.
         /// </summary>
@@ -228,6 +266,17 @@ namespace MPC.Common
                                         Color color = HexToColor(obj.ModifiedColor);
                                         //   Color orgClr = HexToColor(obj.OriginalColor);
                                         ChangeFill(document.Children[i], color);
+                                    }
+                                    index++;
+                                }
+                                else
+                                {
+
+                                    if (index == obj.PathIndex)
+                                    {
+                                        Color color = HexToColor(obj.ModifiedColor);
+                                        //   Color orgClr = HexToColor(obj.OriginalColor);
+                                         ChangeShapesFill(document.Children[i], color);
                                     }
                                     index++;
                                 }

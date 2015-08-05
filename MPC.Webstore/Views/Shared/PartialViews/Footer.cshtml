@@ -1,6 +1,9 @@
 ﻿@model MPC.Models.DomainModels.Company
 @using MPC.Webstore.Common;
 @using MPC.Models.Common;
+@{
+    Layout = null;
+}
 <div class="clearBoth">
 
     <div id="FooterContainer" class="PDTCWB">
@@ -29,8 +32,7 @@
                             </div>
                         </div>
                         <div class="txtAlignLeft col-xs-12 col-md-3 col-sm-4  col-lg-3 social_icons" id="pnlFollowUs">
-                            <asp:Label ID="lblFollowusText" Text="Follow Us :" Font-Bold="true" runat="server"
-                                       CssClass="S6DisplayNone" />
+                            <div ID="lblFollowusText" class="S6DisplayNone" >Follow Us :</div>
                             <div class="space3 S6DisplayNone">
                                 &nbsp;
                             </div>
@@ -38,37 +40,32 @@
                                 <tr>
                                     <td valign="top">
                                         <a id="linkFollowUs1">
-                                            <img id="imgFollowUs1" class="imgFollowUs" />
+                                            <img id="imgFollowUs1" class="imgFollowUs" height="20" />
                                         </a>
                                     </td>
                                     <td valign="top">
                                         <a id="linkFollowUs2">
-                                            <img id="imgFollowUs2" class="imgFollowUs" />
+                                            <img id="imgFollowUs2" class="imgFollowUs" height="20" />
                                         </a>
                                     </td>
                                     <td valign="top">
                                         <a id="linkFollowUs3">
-                                            <img id="imgFollowUs3" class="imgFollowUs" />
+                                            <img id="imgFollowUs3" class="imgFollowUs" height="20" />
                                         </a>
                                     </td>
                                     <td valign="top">
                                         <a id="linkFollowUs4">
-                                            <img id="imgFollowUs4" class="imgFollowUs" />
+                                            <img id="imgFollowUs4" class="imgFollowUs" height="20" />
                                         </a>
                                     </td>
                                 </tr>
                             </table>
                         </div>
-                        <div class="clearBoth">
-                            &nbsp;
-                        </div>
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="clearBoth">
-        &nbsp;
-    </div>
+   
 </div>
-<div class="bottom_sec S6DisplayNone clearBoth"></div>

@@ -29,5 +29,7 @@ namespace MPC.Interfaces.MISServices
         void SendEmail(string EmailTo, string EmailCC, string EmailSubject, string Signature, long ContactId,Guid SystemUserId, string Path);
 
         string GetInternalReportEmailBaseData(ReportEmailRequestModel request);
+
+        string DownloadExternalReport(int ReportId, bool isPDF);
     }
 }

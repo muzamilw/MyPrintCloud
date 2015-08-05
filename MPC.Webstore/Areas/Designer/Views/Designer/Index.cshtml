@@ -391,6 +391,27 @@
                                     <a class=" SampleBtn btntxt  bkTextBoxes" id="uploadBackgroundMn">Upload<br /> Background</a>
                                     <a class=" SampleBtn btntxt  bkTextBoxes" id="clearBackground">Clear <br />Backgrounds</a>
                                 </li>
+                                <li>
+                                    <section class="freeBkImgsContainer BkImgPanels disappearing bkImr2c1 ">
+                                        <div class="inlineFolderPointer" style="left: 84.5px;display:none;" > </div>
+                                        <div class="inlineFolderGroup searchGroup hasContent" style="">
+                                            <div class="">
+                                                <div class="paletteToolbarWrapper static" style="display: block;">
+                                                    <menu class="paletteToolbar colorToolBarBk" style="overflow:hidden;">
+                                                        <li class="colorOption" style="background-color: #020302"><a href="#" onclick="f2(0,0,0,100,'#020302','Black');">#020302</a></li>
+                                                        <li class="colorOption" style="background-color: #ffffff"><a href="#" onclick='f2(0,0,0,0,"#ffffff");'>#ffffff</a></li>
+                                                        <li class="colorOption" style="background-color: #EF4123"><a href="#" onclick='f2(0,88,100,0,"#EF4123","Orange 021");'>#EF4123</a></li>
+                                                        <li class="colorOption" style="background-color: #FFF200"><a href="#" onclick="f2(0,100,100,0,'#FFF200','Yellow');">#FFF200</a></li>
+                                                        <li class="colorOption" style="background-color: #04B14B"><a href="#" onclick="f2(75,0,100,0,'#04B14B','Green');">#04B14B</a></li>
+                                                        <li class="colorOption" style="background-color: #034EA2"><a href="#" onclick='f2(100,82,0,2,"#034EA2","Reflex Blue");'>#034EA2</a></li><br />
+                                                        <li class="colorOption" style="background-color: #EE2B76"><a onclick='f2(0,92,18,0,"#EE2B76","Pink 213");'>#EE2B76</a></li>
+                                                        <li class="picker" style="display: inline-block;"><a id="AddBkColorRetailNew">Add a color</a></li>
+                                                    </menu>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </li>
                                 <p class="uploadBkLbl">Recommended 300 dpi CMYK JPeg or PDF files.</p>
                                 <div id="FontUploadingMsgDiv" class="panelItemsLeftAligned leftalignTxt largeText" style="text-align:left;">
                                     <br>
@@ -469,25 +490,7 @@
                             </ul>*@
                             
                             <section class="ImagesScrollContainer">
-                                <section class="freeBkImgsContainer BkImgPanels disappearing bkImr2c1 ">
-                                    <div class="inlineFolderPointer" style="left: 84.5px;"></div>
-                                    <div class="inlineFolderGroup searchGroup hasContent" style="">
-                                        <div class="">
-                                            <div class="paletteToolbarWrapper static" style="display: block;">
-                                                <menu class="paletteToolbar colorToolBarBk">
-                                                    <li class="colorOption" style="background-color: #020302"><a href="#" onclick="f2(0,0,0,100,'#020302','Black');">#020302</a></li>
-                                                    <li class="colorOption" style="background-color: #ffffff"><a href="#" onclick='f2(0,0,0,0,"#ffffff");'>#ffffff</a></li>
-                                                    <li class="colorOption" style="background-color: #EF4123"><a href="#" onclick='f2(0,88,100,0,"#EF4123","Orange 021");'>#EF4123</a></li>
-                                                    <li class="colorOption" style="background-color: #FFF200"><a href="#" onclick="f2(0,100,100,0,'#FFF200','Yellow');">#FFF200</a></li>
-                                                    <li class="colorOption" style="background-color: #04B14B"><a href="#" onclick="f2(75,0,100,0,'#04B14B','Green');">#04B14B</a></li>
-                                                    <li class="colorOption" style="background-color: #034EA2"><a href="#" onclick='f2(100,82,0,2,"#034EA2","Reflex Blue");'>#034EA2</a></li>
-                                                    <li class="colorOption" style="background-color: #EE2B76"><a onclick='f2(0,92,18,0,"#EE2B76","Pink 213");'>#EE2B76</a></li>
-                                                    <li class="picker" style="display: inline-block;"><a id="AddBkColorRetailNew" >Add a color</a></li>
-                                                </menu>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
+    
                                 <section class="myBkImgsContainer BkImgPanels disappearing bkImr2c2">
                                     <div class="inlineFolderPointer" style="left: 193.5px;"></div>
                                     <div class="inlineFolderGroup searchGroup hasContent" style="">
@@ -649,22 +652,22 @@
                                             </div>
 
                                         </div>
-                                        <div class="propertyPanelControlDiv" style="margin-top: 30px">
-
-                                            <div class="divTxtAlignmentControls">
-
-                                                <label class="textLabel">Align to Canvas</label>
-                                                <button id="btnImgCanvasAlignLeft" class="btnCj1" title=""></button>
-                                                <button id="BtnImgCanvasAlignCenter" class="btnCj2" title=""></button>
-                                                <button id="BtnImgCanvasAlignMiddle" class="btnCj5" title=""></button>
-                                                <button id="BtnImgCanvasAlignRight" class="btnCj3" title=""></button>
-                                            </div>
-
-                                        </div>
+                                        
                                         <div class="DivBlockWithNoHeight vertLine"></div>
                                     </div>
 
+                                    <div class="propertyPanelControlDiv" style="margin-top: 30px">
 
+                                        <div class="divTxtAlignmentControls">
+
+                                            <label class="textLabel">Align to Canvas</label>
+                                            <button id="btnImgCanvasAlignLeft" class="btnCj1" title=""></button>
+                                            <button id="BtnImgCanvasAlignCenter" class="btnCj2" title=""></button>
+                                            <button id="BtnImgCanvasAlignMiddle" class="btnCj5" title=""></button>
+                                            <button id="BtnImgCanvasAlignRight" class="btnCj3" title=""></button>
+                                        </div>
+                                        <div class="DivBlockWithNoHeight vertLine"></div>
+                                    </div>
 
 
 
@@ -836,23 +839,7 @@
                                 </div>
 
 
-                                <div class="textPropertyPanel2" style="padding-top: 13px;">
-
-
-                                    <div class="propertyPanelControlDiv">
-
-                                        <div class="divTxtAlignmentControls">
-                                            <label class="textLabel" style="display:none;">Align to Canvas</label>
-                                            <button id="BtnTxtCanvasAlignLeft" class="btnCj1" title=""></button>
-                                            <button id="BtnTxtCanvasAlignCenter" class="btnCj2" title=""></button>
-                                            <button id="BtnTxtCanvasAlignMiddle" class="btnCj5" title=""></button>
-                                            <button id="BtnTxtCanvasAlignRight" class="btnCj3" title=""></button>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="DivBlockWithNoHeight vertLine"></div>
-                                </div>
+                          <div class="DivBlockWithNoHeight vertLine"></div>
                                 <div class="propertyPanelControlDiv">
 
                                     <div class="PostionPanelLabel">
@@ -905,7 +892,25 @@
 
                                     </div>
                                 </div>
+
                                 <div class="DivBlockWithNoHeight vertLine positioningControls"></div>
+                                <div class="textPropertyPanel2" style="padding-top: 13px;">
+
+
+                                    <div class="propertyPanelControlDiv">
+
+                                        <div class="divTxtAlignmentControls">
+                                            <label class="textLabel" style="display:none;">Align to Canvas</label>
+                                            <button id="BtnTxtCanvasAlignLeft" class="btnCj1" title=""></button>
+                                            <button id="BtnTxtCanvasAlignCenter" class="btnCj2" title=""></button>
+                                            <button id="BtnTxtCanvasAlignMiddle" class="btnCj5" title=""></button>
+                                            <button id="BtnTxtCanvasAlignRight" class="btnCj3" title=""></button>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="DivBlockWithNoHeight vertLine"></div>
+                                </div>
                                 <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
                                     <div class="lblchckboxControl" id=""> <p class="paraLblChkBox">Make Object appear on Overlay Layer </p> </div>
                                     <div class="onoffswitch" >
@@ -1106,6 +1111,9 @@
                 <li id="documentMenuRedo" class="mainMenuItem">
                     <button class="buttonDesigner" id="BtnRedo" title="Redo">Redo</button>
                 </li>
+                <li id="documentMenuReload" class="mainMenuItem">
+                    <button class="buttonDesigner" id="BtnReload" title="Reload">Reload</button>
+                </li>
                 <li id="documentMenuGuides" class="mainMenuItem" style="display:none;">
                     <button class="buttonDesigner" id="BtnGuides" title="Show / Hide Trim Line"></button>
                 </li>
@@ -1213,7 +1221,7 @@
         </menu>
     </div>
     <div id="DivColorPickerDraggable" class="DivColorPickerDraggable">
-        <div class="paletteToolbarWrapper upwards" style="height: 224px; display: block;">
+        <div class="paletteToolbarWrapper upwards" id="divColorPicker" style="height: 224px; display: block;">
             <menu class="paletteToolbar ">
                 <div class="innerDesigner ColorOptionContainer">
                     <menu></menu>

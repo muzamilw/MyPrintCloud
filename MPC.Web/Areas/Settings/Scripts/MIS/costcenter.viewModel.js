@@ -237,6 +237,8 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
             },
 
+
+
             getvariableListItem = function () {
                 dataservice.getCostCentreAnswerList({
                     VariableId: 2,

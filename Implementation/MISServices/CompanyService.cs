@@ -3481,7 +3481,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public void ApplyTheme(int themeId, string themeName, long companyId)
         {
-            //DeleteMediaFiles(companyId);
+            DeleteMediaFiles(companyId);
             string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyId);
             if (directoryPath != null && !Directory.Exists(directoryPath))
             {
@@ -6353,8 +6353,9 @@ namespace MPC.Implementation.MISServices
 
                     timelog = organisationRepository.InsertOrganisation(OrganisationId, objExpCorp, objExpRetail, isCorpStore, exportSets, SubDomain, timelog);
 
-                    CostCentre objCostCentre = costCentreRepository.GetFirstCostCentreByOrganisationId(OrganisationId);
-                    CostCentreService.CostCentreDLL(objCostCentre, OrganisationId);
+                   // CostCentre objCostCentre = costCentreRepository.GetFirstCostCentreByOrganisationId(OrganisationId);
+                  //  CostCentreService.CostCentreDLL(objCostCentre, OrganisationId);
+                    CostCentreService.ReCompileAllCostCentres(OrganisationId);
 
                     string StoreName = ConfigurationManager.AppSettings["RetailStoreName"];
                     end = DateTime.Now;

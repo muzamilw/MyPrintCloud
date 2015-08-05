@@ -15,5 +15,6 @@ namespace MPC.Interfaces.Repository
         string GetMarkupNamebyID(long ID);
 
         List<Markup> GetMarkups();
+        Markup GetDefaultMarkupsByOrganisationId(long OID);
     }
 }

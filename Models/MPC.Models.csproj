@@ -182,6 +182,7 @@
     <Compile Include="DomainModels\ActivityType.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CmsOffer.cs" />
+    <Compile Include="DomainModels\CompanyVoucherRedeem.cs" />
     <Compile Include="DomainModels\GoodsReceivedNote.cs" />
     <Compile Include="DomainModels\GoodsReceivedNoteDetail.cs" />
     <Compile Include="DomainModels\InkPlateSide.cs" />
@@ -230,6 +231,12 @@
     <Compile Include="DomainModels\SmartFormDetail.cs" />
     <Compile Include="DomainModels\StagingImportCompanyContactAddress.cs" />
     <Compile Include="DomainModels\TemplateVariableExtension.cs" />
+    <Compile Include="DomainModels\usp_ChartEstimateToOrderConversionCount_Result.cs" />
+    <Compile Include="DomainModels\usp_ChartEstimateToOrderConversion_Result.cs" />
+    <Compile Include="DomainModels\usp_ChartMonthlyOrdersCount_Result.cs" />
+    <Compile Include="DomainModels\usp_ChartRegisteredUserByStores_Result.cs" />
+    <Compile Include="DomainModels\usp_ChartTop10PerfomingCustomers_Result.cs" />
+    <Compile Include="DomainModels\usp_ChartTopPerformingStores_Result.cs" />
     <Compile Include="DomainModels\usp_DeliveryReport_Result.cs" />
     <Compile Include="DomainModels\usp_EstimateReport_Result.cs" />
     <Compile Include="DomainModels\usp_InvoiceReport_Result.cs" />
@@ -461,6 +468,7 @@
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SupplierRequestModelForInventory.cs" />
     <Compile Include="RequestModels\UpdateSectionCostCentersRequest.cs" />
+    <Compile Include="ResponseModels\DashBoardChartsResponse.cs" />
     <Compile Include="ResponseModels\DiscountVoucherListViewResponse.cs" />
     <Compile Include="ResponseModels\AddressResponse.cs" />
     <Compile Include="ResponseModels\BestPressResponse.cs" />

@@ -2,26 +2,22 @@
     <div class="row" style="">
         <div class="col-sm-12">
             <div class="row">
-                <div class="col-sm-12" id="topArea" style="padding-left:16px;">
+                <div class="col-sm-12" id="topArea">
                     <ol class="breadcrumb">
                         <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
                         <li><a href="~/DeliveryNotes/Home/DeliveryNote/Index" class="my-navigator">Delivery Notes</a></li>
                         <li class="active"><span data-bind="text:$root.deliveryNoteEditorHeader">Modify Delivery Notes</span></li>
                     </ol>
-                    <div class="clearfix" style="margin-top: -3.1%;">
-                        <h1 class="pull-left" style="padding-left:0px;margin-top:35px;">&nbsp;</h1>
+                    <div class="clearfix">
+                        <h1 class="pull-left" style="padding-left:0px;">&nbsp;</h1>
                     </div>
 
-                    <div class="col-sm-12" id="filter" style="height:50px;margin-bottom:7px;">
-                        <div class="col-sm-2 pull-right" style="padding-right: 2%; ">
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div>
-        <div class="row col-sm-6" style="float:left;padding-left: 1.7%;">
+        <div class="row col-sm-6" style="float:left;">
             <div class="pull-left validationSummaryContainer">
                
                 <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopupForStore', popoverId: 'validationSummaryPopoverBodyForStore' }" style="display: none">Invalid data: Click here to see details.</a>
@@ -34,7 +30,7 @@
                         </ul>
                     </div>
                 </div>
-                    <div class="btn-group" style="float:left;margin-bottom: 3px; margin-left:14px;  margin-top: 10px;">
+                    <div class="btn-group" style="float:left;margin-bottom: 3px;margin-left:17px;margin-top:-10px;">
                         <button type="button" class="btn btn-primary">Actions</button>
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             <span class="caret"></span>
@@ -55,7 +51,7 @@
   
                 </div>
         </div>
-        <div class="row" id="prefixesdata" style="float: right; padding-right: 1.1%; margin-top: 1%; ">
+        <div class="row" id="prefixesdata" style="float:right;margin-top:-10px;margin-right:5px;">
            
             <div class="input-group">
                 <button data-bind="click:$root.onCloseEditor" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;">&nbsp;Cancel</button>
@@ -71,10 +67,10 @@
             </div>
         </div>
     </div>
-    <div class="row" id="user-profile" data-bind="with: selectedDeliveryNote" style="padding-left: 18px; padding-right: 20px; margin-top: 5.5%; ">
-        <div class="col-sm-12">
+    <div class="row" id="user-profile" data-bind="with: selectedDeliveryNote" style="padding-left: 18px;padding-right:20px;">
+        <div class="col-sm-12" style="margin-top:20px;">
             <div class="main-box clearfix">
-                <div class="col-sm-12 form-horizontal" style="margin-top: 3%;">
+                <div class="col-sm-12 form-horizontal" style="margin-top:20px;">
                     <h3 class="group-header">General Information</h3>
                     <div class="col-sm-6">
                         <div class="form-group">

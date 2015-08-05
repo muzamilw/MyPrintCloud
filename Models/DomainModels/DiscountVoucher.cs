@@ -33,5 +33,6 @@ namespace MPC.Models.DomainModels
         public long? CustomerId { get; set; }
         public bool? IsSingleUseRedeemed { get; set; }
         public bool? IsQtySpan { get; set; }
+        public long? OrganisationId { get; set; }
     }
 }

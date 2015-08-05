@@ -36,6 +36,7 @@ namespace MPC.Implementation.MISServices
         private readonly IWeightUnitRepository weightUnitRepository;
         private readonly ILengthUnitRepository lengthUnitRepository;
         private readonly IGlobalLanguageRepository globalLanguageRepository;
+        private readonly ICompanyRepository _companyRepository;
 
         #endregion
 
@@ -48,7 +49,7 @@ namespace MPC.Implementation.MISServices
          IChartOfAccountRepository chartOfAccountRepository,
             ICountryRepository countryRepository, IStateRepository stateRepository, IPrefixRepository prefixRepository,
            ICurrencyRepository currencyRepository, IWeightUnitRepository weightUnitRepository, ILengthUnitRepository lengthUnitRepository,
-            IGlobalLanguageRepository globalLanguageRepository)
+            IGlobalLanguageRepository globalLanguageRepository, ICompanyRepository companyRepository)
         {
             this.organisationRepository = organisationRepository;
             this.markupRepository = markupRepository;
@@ -60,6 +61,7 @@ namespace MPC.Implementation.MISServices
             this.weightUnitRepository = weightUnitRepository;
             this.lengthUnitRepository = lengthUnitRepository;
             this.globalLanguageRepository = globalLanguageRepository;
+            this._companyRepository = companyRepository;
         }
 
         #endregion
@@ -239,6 +241,7 @@ namespace MPC.Implementation.MISServices
             organisationDbVersion.IsImperical = organisation.IsImperical;
             organisationDbVersion.AgileApiKey = organisation.AgileApiKey;
             organisationDbVersion.AgileApiUrl = organisation.AgileApiUrl;
+            organisationDbVersion.isAgileActive = organisation.isAgileActive;
             if(organisation.IsImperical == true)
             {
                 organisationDbVersion.SystemLengthUnit = 3;
@@ -686,6 +689,15 @@ namespace MPC.Implementation.MISServices
         public IEnumerable<Markup> GetMarkups()
         {
             return markupRepository.GetAll();
+        }
+
+        public void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial, int misOrdersCount, int webStoreOrdersCount)
+        {
+            organisationRepository.UpdateOrganisationLicensing(organisationId, storesCount, isTrial, misOrdersCount, webStoreOrdersCount);
+            if (!isTrial)
+            {
+                _companyRepository.UpdateLiveStores(organisationId, storesCount);
+            }
         }
 
 

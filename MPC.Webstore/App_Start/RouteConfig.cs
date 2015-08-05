@@ -65,6 +65,13 @@ namespace MPC.Webstore
             );
 
             routes.MapRoute(
+                "OxfordTop",
+                "OxfordTopLevelCategories/SubmitSubscribeData",
+                new { controller = "OxfordTopLevelCategories", action = "SubmitSubscribeData", id = UrlParameter.Optional }
+            );
+
+
+            routes.MapRoute(
                 "QuickCAlculatorProducts",
                 "QuickCalculator/GetAllProducts",
                 new { controller = "QuickCalculator", action = "GetAllProducts", id = UrlParameter.Optional }
@@ -422,7 +429,12 @@ namespace MPC.Webstore
           new { controller = "Payment", action = "ANZResponse" }
          );
 
-
+        routes.MapRoute(
+         "ApplyDelivery",
+         "ShopCartAddressSelect/AddDeliveryToOrder/{DeliveryMethodId}",
+         new { controller = "ShopCartAddressSelect", action = "AddDeliveryToOrder", DeliveryMethodId = UrlParameter.Optional }
+       );
+   
             routes.MapRoute(
                "Default", // Route name
                "",        // URL with parameters

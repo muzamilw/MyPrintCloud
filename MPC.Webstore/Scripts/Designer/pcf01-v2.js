@@ -10,7 +10,7 @@
     $(".dialog").css("top", ($(window).height() - $(".dialog").height()) / 2 + "px");
     var2 = setInterval((function () {
         var3 += 1;
-        if (var3 <= 95) {
+        if (var3 <= 70) {
             $(".progressValue").css("width", var3 + "%");
         }
 
@@ -389,7 +389,6 @@ function c2_01(OPT) {
 
             }
             if (OPT.type == "path-group") {
-                //console.log(OPT.toSVG());
                // IT.originalContentString = OPT.toSVG();
                 //IT.textStyles = OPT.toDataURL(); 
 
@@ -746,8 +745,11 @@ function d1Svg(cCanvas, IO, isCenter) {
         d2();
         var colors = [];
         // get colors 
+       
         if (loadedObject.isSameColor && loadedObject.isSameColor() || !loadedObject.paths) {
             clr = (loadedObject.get('fill'));
+            if (loadedObject.paths.length > 1)
+                clr = loadedObject.paths[0].get('fill');
             var objClr = {
                 OriginalColor: clr,
                 PathIndex: -2,
@@ -756,21 +758,37 @@ function d1Svg(cCanvas, IO, isCenter) {
             colors.push(objClr);
         }
         else if (loadedObject.paths) {
+       
             for (var i = 0; i < loadedObject.paths.length; i++) {
                 clr = (loadedObject.paths[i].get('fill'));
+                var sortOrder = GetSortIndexforHex(clr);
                 var objClr = {
                     OriginalColor: clr,
                     PathIndex: i,
-                    ModifiedColor: ''
+                    ModifiedColor: '',
+                    SortOrder: sortOrder
                 }
                 colors.push(objClr);
             }
+            colors.sort(function (obj1, obj2) {
+                return obj1.SortOrder - obj2.SortOrder;
+            });
         }
         loadedObject.customStyles = colors;
        // IO.textStyles = JSON.stringify(colors, null, 2);
-     //   console.log(IO.textStyles);
+
     });
 
+}
+function GetSortIndexforHex(hexColor)
+{
+    hexColor = hexColor.replace('#', '');
+    var bigint = parseInt(hexColor, 16);
+    var r = (bigint >> 16) & 255;
+    var g = (bigint >> 8) & 255;
+    var b = bigint & 255;
+
+    return 0.299 * r + 0.587 * g + 0.114 * b;
 }
 function d1(cCanvas, IO, isCenter) {
     TIC += 1;
@@ -948,7 +966,7 @@ function d5_sub(pageID, isloading) {
             } else
             {
                 DzoomFactor *= D1SF;
-                while ((canvasHeight * DzoomFactor) <= contentAreaheight || (canvasWidth * DzoomFactor) <= contentAreaWidth) {
+                while ((canvasHeight * DzoomFactor) <= contentAreaheight && (canvasWidth * DzoomFactor) <= contentAreaWidth) {
                     D1CS = D1CS * D1SF;
                     dfZ1l = D1CS;
                     DzoomFactor *= D1SF;
@@ -1387,6 +1405,12 @@ function fu02UI() {
     $("#canvasDocument").scroll(function () {
         canvas.calcOffset();
     });
+    $("#divColorPicker").draggable({
+
+        appendTo: "body",
+        cursor: 'move',
+        cancel: "div #DivColorContainer"
+    });
     $(".add").draggable({
         snap: '#dropzone',
         snapMode: 'inner',
@@ -1485,7 +1509,7 @@ function fu02UI() {
                               //  var extToAdd = { "TemplateId": tID, "FieldVariableId": id, "HasPrefix": 1, "HasPostFix": 1 };
                              //   varExtensions.push(extToAdd);  //already mapping while saving template 
                             }
-                            var txtToAdd = "{{" + tag + "_pre}} " + txt +"{{" + tag + "_post}}" ;
+                            var txtToAdd = "{{" + tag + "_pre}} " + txt +" {{" + tag + "_post}}" ;
                             for (var i = 0; i < txtToAdd.length; i++) {
                                 DIAO.insertChars(txtToAdd[i]);
                             }
@@ -1652,24 +1676,24 @@ function fu02() {
         };
     })(canvas.findTarget);
 
-    canvas.on('object:over', function (e) {
-        if (e.TG.IsQuickText == true && e.TG.type == 'image' && e.TG.getWidth() > 112 && e.TG.getHeight() > 64) {
-            $("#placeHolderTxt").css("visibility", "visible")
-            var width = 51;//$("#placeHolderTxt").width() / 2;
-            var height = 23;// $("#placeHolderTxt").height() / 2;
-            $("#placeHolderTxt").css("left", ($(window).width() / 2 - canvas.getWidth() / 2 + 212 + e.TG.left - width) + "px");
-            $("#placeHolderTxt").css("top", (e.TG.top + 103 - height / 2) + "px");
-        } else {
-            $("#placeHolderTxt").css("visibility", "hidden");
-        }
-    });
+    //canvas.on('object:over', function (e) {
+    //    if (e.TG.IsQuickText == true && e.TG.type == 'image' && e.TG.getWidth() > 112 && e.TG.getHeight() > 64) {
+    //        $("#placeHolderTxt").css("visibility", "visible")
+    //        var width = 51;//$("#placeHolderTxt").width() / 2;
+    //        var height = 23;// $("#placeHolderTxt").height() / 2;
+    //        $("#placeHolderTxt").css("left", ($(window).width() / 2 - canvas.getWidth() / 2 + 212 + e.TG.left - width) + "px");
+    //        $("#placeHolderTxt").css("top", (e.TG.top + 103 - height / 2) + "px");
+    //    } else {
+    //        $("#placeHolderTxt").css("visibility", "hidden");
+    //    }
+    //});
 
-    canvas.on('object:out', function (e) {
-        if (e.TG.IsQuickText == true && e.TG.type == 'image') {
-            $("#placeHolderTxt").css("visibility", "hidden");
-        }
+    //canvas.on('object:out', function (e) {
+    //    if (e.TG.IsQuickText == true && e.TG.type == 'image') {
+    //        $("#placeHolderTxt").css("visibility", "hidden");
+    //    }
 
-    });
+    //});
 
     //    canvas.observe('mouse:down', onMouseDown);
     //    function onMouseDown(e) {
@@ -1706,6 +1730,10 @@ function fu04_callBack(DT) {
     $.each(Template.TemplatePages, function (i, IT) {
         TP.push(IT);
     });
+    $.each(TP, function (i, IT) {
+        var obj = fabric.util.object.clone(IT);
+        TPRestore.push(obj);
+    });
     if (Template.TemplateType == 1 || Template.TemplateType == 2) {
         IsBC = true
     } else {
@@ -1736,7 +1764,6 @@ function b3_lDimensions() {
     h = h.toFixed(3);
     h = h - 10;
     w = w - 10;
-    //console.log(Template);
     //w = w * Template.ScaleFactor;
     //h = h * Template.ScaleFactor;
     //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";

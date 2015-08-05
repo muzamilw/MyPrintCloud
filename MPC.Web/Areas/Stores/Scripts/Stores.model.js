@@ -5,7 +5,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // #region ____________ S T O R E   L I S T    V I E W____________________
 
         // ReSharper disable once InconsistentNaming
-        StoreListView = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedIsCustomer, specifiedStoreImageFileBinary, specifiedDefaultDomain) {
+        StoreListView = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedIsCustomer, specifiedStoreImageFileBinary, specifiedDefaultDomain, specifiedSetIsStoreLive) {
             var
                 self,
                 companyId = ko.observable(specifiedCompanyId).extend({ required: true }),
@@ -17,6 +17,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 storeImageFileBinary = ko.observable(specifiedStoreImageFileBinary),
                 type = ko.observable(),
                 defaultDomain = ko.observable(specifiedDefaultDomain),
+                isStoreLive = ko.observable(specifiedSetIsStoreLive),
+                storeMode = ko.observable(),
                 // Errors
                 errors = ko.validation.group({
 
@@ -66,6 +68,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 domain: defaultDomain,
                 storeImageFileBinary: storeImageFileBinary,
                 isValid: isValid,
+                isStoreLive: isStoreLive,
+                storeMode:storeMode,
                 errors: errors,
                 dirtyFlag: dirtyFlag,
                 hasChanges: hasChanges,
@@ -82,7 +86,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.image,
             source.url,
             source.isCustomer,
-            source.defaultDomain
+            source.defaultDomain,
+            source.IsStoreLive
         );
         return result;
     };
@@ -95,7 +100,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.URL,
             source.IsCustomer,
             source.ImageBytes,
-            source.DefaultDomain
+            source.DefaultDomain,
+            source.IsStoreLive
         );
 
         //if (source.IsCustomer == 0) {
@@ -110,7 +116,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         else if (source.IsCustomer == 3) {
             store.type("Corporate");
         }
-
+        if (source.IsStoreLive == 'True' || source.IsStoreLive == true) {
+            store.storeMode("Live");
+        } else {
+            store.storeMode("Offline");
+        }
+            
+        
         return store;
     };
     // #endregion _________ S T O R E   L I S T    V I E W____________________
@@ -129,7 +141,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         , specifiedIsDeliveryTaxAble, specifiedPickupAddressId,
         specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource, specifiedIsShowGoogleMap,
         specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS, specifiedStoreBackgroundImage, specifiedStoreImagePath
-    , specifiedIsDidplayInFooter, specifiedCurrentThemeId, specifiedPriceFlagId) {
+    , specifiedIsDidplayInFooter, specifiedCurrentThemeId, specifiedPriceFlagId, specifiedIsStoreLive) {
         var self,
             storeId = ko.observable(undefined),
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
@@ -191,21 +203,21 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             showPrices = ko.observable(undefined),
             // isDeliveryTaxAble = ko.observable(specifiedIsDeliveryTaxAble),
             // is Delivery TaxAble
-            isDeliveryTaxAble = ko.observable(!specifiedIsDeliveryTaxAble ? 2 : 1),
+            isDeliveryTaxAble = ko.observable(undefined),
             // is Delivery TaxAble ui
-            isDeliveryTaxAbleUi = ko.computed({
-                read: function () {
-                    return '' + isDeliveryTaxAble();
-                },
-                write: function (value) {
-                    var deliveryTaxAble = parseInt(value);
-                    if (deliveryTaxAble === isDeliveryTaxAble()) {
-                        return;
-                    }
+            //isDeliveryTaxAbleUi = ko.computed({
+            //    read: function () {
+            //        return '' + isDeliveryTaxAble();
+            //    },
+            //    write: function (value) {
+            //        var deliveryTaxAble = parseInt(value);
+            //        if (deliveryTaxAble === isDeliveryTaxAble()) {
+            //            return;
+            //        }
 
-                    isDeliveryTaxAble(deliveryTaxAble);
-                }
-            }),
+            //        isDeliveryTaxAble(deliveryTaxAble);
+            //    }
+            //}),
             pickupAddressId = ko.observable(specifiedPickupAddressId),
             //store Image Logo
             storeImageFileBinary = ko.observable(),
@@ -276,6 +288,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         taxRate = ko.observable(undefined).extend({ number: true }),
         activeBannerSetId = ko.observable().extend({ required: true }),
         priceFlagId = ko.observable(specifiedPriceFlagId),
+        isStoreSetLive = ko.observable(specifiedIsStoreLive),
         // Errors
         errors = ko.validation.group({
             companyId: companyId,
@@ -366,7 +379,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isWhiteLabel: isWhiteLabel,
             isAllowRegistrationFromWeb: isAllowRegistrationFromWeb,
             canUserEditProfile: canUserEditProfile,
-            priceFlagId: priceFlagId
+            priceFlagId: priceFlagId,
+            isStoreSetLive: isStoreSetLive
             //#endregion
         }),
         // Has Changes
@@ -422,7 +436,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             result.includeEmailArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard();
             result.makeEmailArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady();
             result.isDisplayBanners = source.isDisplayBanners();
-            result.IsDeliveryTaxAble = source.isDeliveryTaxAble() === 2 ? false : true;
+            result.IsDeliveryTaxAble = source.isDeliveryTaxAble();
             result.PickupAddressId = source.pickupAddressId();
             result.CompanyType = source.companyType() != undefined ? CompanyType().convertToServerData(source.companyType()) : null;
             result.CustomCSS = source.customCSS();
@@ -437,7 +451,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             result.CanUserEditProfile = source.canUserEditProfile();
             result.isWhiteLabel = source.isWhiteLabel();
             result.ShowPrices = source.showPrices();
-            result.PriceFlagId = source.priceFlagId();
+            result.isStoreLive = source.isStoreSetLive();
             result.RaveReviews = [];
             result.PaymentGateways = [];
             result.CompanyContacts = [];
@@ -593,7 +607,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             defaultSpriteImageFileName: defaultSpriteImageFileName,
             userDefinedSpriteImageSource: userDefinedSpriteImageSource,
             userDefinedSpriteImageFileName: userDefinedSpriteImageFileName,
-            isDeliveryTaxAbleUi: isDeliveryTaxAbleUi,
+           // isDeliveryTaxAbleUi: isDeliveryTaxAbleUi,
             pickupAddressId: pickupAddressId,
             customCSS: customCSS,
             companyDomains: companyDomains,
@@ -618,8 +632,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             canUserEditProfile: canUserEditProfile,
             isWhiteLabel: isWhiteLabel,
             showPrices: showPrices,
-            priceFlagId: priceFlagId
-
+            priceFlagId: priceFlagId,
+            isStoreSetLive:isStoreSetLive
             //#endregion
         };
         return self;
@@ -766,11 +780,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         store.taxLabel(source.TaxLabel);
         store.taxRate(source.TaxRate);
         store.isAllowRegistrationFromWeb(source.isAllowRegistrationFromWeb);
+        store.isDeliveryTaxAble(source.isDeliveryTaxAble);
         store.isDisplayDiscountVoucherCode(source.IsDisplayDiscountVoucherCode);
         store.canUserEditProfile(source.CanUserEditProfile);
         store.isWhiteLabel(source.isWhiteLabel);
         store.showPrices(source.ShowPrices);
         store.priceFlagId(source.PriceFlagId);
+        store.isStoreSetLive(source.isStoreLive);
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}

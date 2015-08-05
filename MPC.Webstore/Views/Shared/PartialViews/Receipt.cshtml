@@ -12,6 +12,9 @@
     DateTime OrderDateTime = Model.OrderDate ?? DateTime.Now;
     var OrderDate = OrderDateTime.ToString("MMMM dd, yyyy");
 }
+@{
+    Layout = null;
+}
 <div id="page" class="container content_area" style="margin: auto; border: 0px solid orange; margin-top: 20px;">
 
     <div class="left_right_padding">
@@ -84,104 +87,107 @@
                     <div class="clearBoth" style="border-top: 2px solid #f3f3f3;">
                     </div>
                 }
-
-                <div class="col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt">
-                    <div style="" class="shopReceiptOrderDetails">
-                        <span id="lbl_OrderDate" class="spnOrderHeadings">@Html.Raw(Html.GetKeyValueFromResourceFile("spnorderdate", UserCookieManager.WBStoreId)) </span>
+                <div class="cntrecpspclNotes">
+                    <div class="col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt">
+                        <div style="" class="shopReceiptOrderDetails">
+                            <span id="lbl_OrderDate" class="spnOrderHeadings">@Html.Raw(Html.GetKeyValueFromResourceFile("spnorderdate", UserCookieManager.WBStoreId)) </span>
+                        </div>
+                        <label id="lblOrderDate" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@OrderDate</label>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="shopReceiptOrderDetails">
+                            <span id="lbl_OrderCode" class="spnOrderHeadings">@Html.Raw(Html.GetKeyValueFromResourceFile("spnordernum", UserCookieManager.WBStoreId))</span>
+                        </div>
+                        <label id="lblOrderCode" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@Model.OrderCode</label>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="shopReceiptOrderDetails">
+                            <span id="lbl_InvoiceDate" class="spnOrderHeadings">@Html.Raw(Html.GetKeyValueFromResourceFile("spninvoicedate", UserCookieManager.WBStoreId))</span>
+                        </div>
+                        <label id="lblInvoiceDate" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@OrderDate</label>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="shopReceiptOrderDetails">
+                            <span id="lbl_PlacedBy" class="spnOrderHeadings">@Html.Raw(Html.GetKeyValueFromResourceFile("spnplacedby", UserCookieManager.WBStoreId)) </span>
+                        </div>
+                        <label id="lblPlacedBy" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@Model.PlacedBy</label>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="shopReceiptOrderDetails">
+                            <span id="lbl_YourRer" class="spnOrderHeadings"> @Html.Raw(Html.GetKeyValueFromResourceFile("ltlReference", UserCookieManager.WBStoreId))</span>
+                        </div>
+                        <label id="lblYourRefNum" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@Model.YourRef</label>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
                     </div>
-                    <label id="lblOrderDate" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@OrderDate</label>
+                    <div class="col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt" style="line-height: 30px;">
+                        <span id="lbl_ReceiptbillTo" style="" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("spnbilledto", UserCookieManager.WBStoreId))</span><br />
+                        <label id="lblCustName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
+                        <label id="lblBAddressLine1" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address1</label><br />
+                        @if (!string.IsNullOrEmpty(Model.BillingAdress.Address2))
+                        {
+                            <div><label id="lblAddressLine2" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address2</label></div>
+                        }
+
+                        <label id="lblBcity" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.City</label>
+                        @if (Model.BillingAdress.State != null)
+                        {
+                            <label id="lblBState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.State.StateName</label>
+                        }
+                        @if (Model.BillingAdress.Country != null)
+                        {
+                            <label id="lblBCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Country.CountryName</label>
+                        }
+                        <br />
+                        <label id="lblBZipCode" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.PostCode</label><br />
+
+                        @if (!string.IsNullOrEmpty(Model.BillingAdress.Tel1))
+                        {
+                            <span>
+                            <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId))</label>
+                            </span>
+                            <label id="lblBTel" style="color: black;  font-style: normal; font-weight: normal; font-size: 12px;">@Model.BillingAdress.Tel1</label>
+                        }
+
+                    </div>
+                    <div class="col-md-4 col-lg-4 col-xs-12 receiptShippingDeliverycnt" style="line-height: 30px;">
+                        <span id="lbl_ShippedTo" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("spnshippedto", UserCookieManager.WBStoreId))</span><br />
+                        <label id="lblSCusName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
+                        <label id="lblSAddLine1" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Address1</label><br />
+                        @if (!string.IsNullOrEmpty(Model.ShippingAddress.Address2))
+                        {
+                            <div><label id="lblSAddreLine2" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Address2</label></div>
+                        }
+
+                        <label id="lblSCity" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.City</label>
+                        @if (Model.ShippingAddress.State != null)
+                        {
+                            <label id="lblSState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.State.StateName</label>
+                        }
+                        @if (Model.ShippingAddress.Country != null)
+                        {
+                            <label id="lblSCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Country.CountryName</label>
+                        }
+                        <br />
+
+
+
+                        <label id="lblSZipCode" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.PostCode</label><br />
+
+                        @if (!string.IsNullOrEmpty(Model.ShippingAddress.Tel1))
+                        {
+                        <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId))</label>
+                            <label id="lblSTel" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Tel1</label>
+                        }
+
+                    </div>
                     <div class="clearBoth">
-                        &nbsp;
                     </div>
-                    <div class="shopReceiptOrderDetails">
-                        <span id="lbl_OrderCode" class="spnOrderHeadings">@Html.Raw(Html.GetKeyValueFromResourceFile("spnordernum", UserCookieManager.WBStoreId))</span>
-                    </div>
-                    <label id="lblOrderCode" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@Model.OrderCode</label>
-                    <div class="clearBoth">
-                        &nbsp;
-                    </div>
-                    <div class="shopReceiptOrderDetails">
-                        <span id="lbl_InvoiceDate" class="spnOrderHeadings">@Html.Raw(Html.GetKeyValueFromResourceFile("spninvoicedate", UserCookieManager.WBStoreId))</span>
-                    </div>
-                    <label id="lblInvoiceDate" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@OrderDate</label>
-                    <div class="clearBoth">
-                        &nbsp;
-                    </div>
-                    <div class="shopReceiptOrderDetails">
-                        <span id="lbl_PlacedBy" class="spnOrderHeadings">@Html.Raw(Html.GetKeyValueFromResourceFile("spnplacedby", UserCookieManager.WBStoreId)) </span>
-                    </div>
-                    <label id="lblPlacedBy" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@Model.PlacedBy</label>
-                    <div class="clearBoth">
-                        &nbsp;
-                    </div>
-                    <div class="shopReceiptOrderDetails">
-                        <span id="lbl_YourRer" class="spnOrderHeadings"> @Html.Raw(Html.GetKeyValueFromResourceFile("ltlReference", UserCookieManager.WBStoreId))</span>
-                    </div>
-                    <label id="lblYourRefNum" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@Model.YourRef</label>
-                    <div class="clearBoth">
-                        &nbsp;
-                    </div>
-                </div>
-                <div class="col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt" style="line-height: 30px;">
-                    <span id="lbl_ReceiptbillTo" style="" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("spnbilledto", UserCookieManager.WBStoreId))</span><br />
-                    <label id="lblCustName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
-                    <label id="lblBAddressLine1" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address1</label><br />
-                    @if (!string.IsNullOrEmpty(Model.BillingAdress.Address2))
-                    {
-                        <div><label id="lblAddressLine2" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address2</label></div>
-                    }
-
-                    <label id="lblBcity" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.City</label>
-                    @if (Model.BillingAdress.State != null)
-                    {
-                        <label id="lblBState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.State.StateName</label>
-                    }
-                    @if (Model.BillingAdress.Country != null)
-                    {
-                        <label id="lblBCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Country.CountryName</label>
-                    }
-                    <br />
-                    <label id="lblBZipCode" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.PostCode</label><br />
-
-                    @if (!string.IsNullOrEmpty(Model.BillingAdress.Tel1))
-                    {
-                        <span>
-                            <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Tel", UserCookieManager.WBStoreId))</label>
-                        </span>
-                        <label id="lblBTel" style="color: black;  font-style: normal; font-weight: normal; font-size: 12px;">@Model.BillingAdress.Tel1</label>
-                    }
-
-                </div>
-                <div class="col-md-4 col-lg-4 col-xs-12 receiptShippingDeliverycnt" style="line-height: 30px;">
-                    <span id="lbl_ShippedTo" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("spnshippedto", UserCookieManager.WBStoreId))</span><br />
-                    <label id="lblSCusName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
-                    <label id="lblSAddLine1" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Address1</label><br />
-                    @if (!string.IsNullOrEmpty(Model.ShippingAddress.Address2))
-                    {
-                        <div><label id="lblSAddreLine2" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Address2</label></div>
-                    }
-
-                    <label id="lblSCity" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.City</label>
-                    @if (Model.ShippingAddress.State != null)
-                    {
-                        <label id="lblSState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.State.StateName</label>
-                    }
-                    @if (Model.ShippingAddress.Country != null)
-                    {
-                        <label id="lblSCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Country.CountryName</label>
-                    }
-                    <br />
-
-
-
-                    <label id="lblSZipCode" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.PostCode</label><br />
-
-                    @if (!string.IsNullOrEmpty(Model.ShippingAddress.Tel1))
-                    {
-                        <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Tel", UserCookieManager.WBStoreId))</label>
-                        <label id="lblSTel" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Tel1</label>
-                    }
-
                 </div>
                 <div class="clearBoth">
                 </div>
@@ -288,6 +294,7 @@
                                             <div class="">
                                                 <span style="font-size:12px;">Stock: @item.PaperType</span>
                                             </div>
+                                         
                                             <div class=" spacer5pxbottom">
                                                 <span style="font-size:12px;">@Html.Raw(item.ProductWebDescription)</span>
                                             </div>
