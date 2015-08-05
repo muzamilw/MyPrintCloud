@@ -366,5 +366,25 @@ namespace MPC.Implementation.MISServices
             CampaignRepository.AddMsgToTblQueue(EmailTo, EmailCC, ToName, Signature, objSystemUser.FullName ?? string.Empty, objSystemUser.Email ?? string.Empty, objOrg.SmtpUserName ?? string.Empty, objOrg.SmtpPassword ?? string.Empty, objOrg.SmtpServer ?? string.Empty, EmailSubject, AttachmentsList, 0);
 
         }
+
+        public string DownloadExternalReport(int ReportId,bool isPDF)
+        {
+            string Path = string.Empty;
+            if(isPDF)
+            {
+                Path = ExportReportHelper.ExportPDF(ReportId, 0, ReportType.Internal, 0, string.Empty);
+            }
+            else
+            {
+                Path = ExportReportHelper.ExportExcel(ReportId, 0, ReportType.Internal, 0, string.Empty);
+            }
+
+            
+            string[] stringSeparators = new string[] { "MPC.Web" };
+            string[] SplitPath = Path.Split(stringSeparators, StringSplitOptions.None);
+            Path = SplitPath[1];
+
+            return Path;
+        }
     }
 }

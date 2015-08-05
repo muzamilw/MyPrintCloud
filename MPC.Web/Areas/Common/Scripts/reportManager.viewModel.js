@@ -105,9 +105,9 @@
                             } else if (outputTo() == "email") {
                                 showEmailView();
                             } else if (outputTo() == "pdf") {
-
+                                downloadPDFReport();
                             } else if (outputTo() == "excel") {
-
+                                downloadExcelReport();
                             }
                         } else {
                             errorList.push({ name: "Please Select a Report to View", element: null });
@@ -274,12 +274,60 @@
                         view.hide();
                     },
                     showEmailView = function () {
-
-
-
                         
                        getReportEmailBaseData();
                     },
+                    
+                    downloadPDFReport = function () {
+                        if (selectedReportId() > 0) {
+                            dataservice.downloadExternalReport({
+                                ReportId: selectedReportId(),
+                                Mode: true                               
+                            }, {
+                                success: function (data) {
+                                    if (data != null) {
+                                        var host = window.location.host;
+                                        var path = "http://" + host + data;
+                                        //var uri = encodeURI("http://" + host + data);
+                                        window.open(path, "_blank");
+                                    }
+                                    isLoading(false);
+
+                                },
+                                error: function (response) {
+
+                                }
+                            });
+                            isLoading(true);
+
+                        }
+                    },
+
+                     downloadExcelReport = function () {
+                         if (selectedReportId() > 0) {
+                             dataservice.downloadExternalReport({
+                                 ReportId: selectedReportId(),
+                                 Mode: false
+                             }, {
+                                 success: function (data) {
+                                     if (data != null) {
+                                         var host = window.location.host;
+                                         var path = "http://" + host + data;
+                                         //var uri = encodeURI("http://" + host + data);
+                                         window.open(path, "_blank");
+                                     }
+                                     isLoading(false);
+
+                                 },
+                                 error: function (response) {
+
+                                 }
+                             });
+                             isLoading(true);
+
+                         }
+                     },
+
                     hideEmailView = function () {
                         view.hide();
                         view.hideEmailView();
