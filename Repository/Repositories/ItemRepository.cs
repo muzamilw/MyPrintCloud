@@ -235,176 +235,176 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID,
-            List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID,
-            long OrganisationID)
-        {
-            try
-            {
-                Template clonedTemplate = null;
+        //public Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID,
+        //    List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID,
+        //    long OrganisationID)
+        //{
+        //    try
+        //    {
+        //        Template clonedTemplate = null;
 
-                ItemSection tblItemSectionCloned = new ItemSection();
+        //        ItemSection tblItemSectionCloned = new ItemSection();
 
-                ItemAttachment Attacments = new ItemAttachment();
+        //        ItemAttachment Attacments = new ItemAttachment();
 
-                SectionCostcentre tblISectionCostCenteresCloned = new SectionCostcentre();
+        //        SectionCostcentre tblISectionCostCenteresCloned = new SectionCostcentre();
 
-                Item newItem = new Item();
-
-
-                Item ActualItem = GetActualItemToClone(itemID);
-                //******************new item*********************
-                newItem = Clone<Item>(ActualItem);
-
-                newItem.ItemId = 0;
-
-                newItem.IsPublished = false;
-
-                newItem.IsEnabled = false;
-
-                newItem.EstimateId = OrderID;
-
-                newItem.StatusId = (short)ItemStatuses.ShoppingCart; //tblStatuses.StatusID; //shopping cart
-
-                newItem.Qty1 = 0; //qty
-
-                newItem.Qty1BaseCharge1 = 0; //productSelection.PriceTotal + productSelection.AddonTotal; //item price
-
-                newItem.Qty1Tax1Value = 0; // say vat
-
-                newItem.Qty1NetTotal = 0;
-
-                newItem.Qty1GrossTotal = 0;
-
-                newItem.ProductType = 0;
-
-                newItem.InvoiceId = null;
-
-                newItem.EstimateProductionTime = ActualItem.EstimateProductionTime;
-
-                newItem.DefaultItemTax = ActualItem.DefaultItemTax;
-
-                newItem.ProductType = ActualItem.ProductType;
-
-                newItem.DesignerCategoryId = ActualItem.DesignerCategoryId;
-                if (isCopyProduct)
-                {
-                    newItem.IsOrderedItem = true;
-                    newItem.Qty1 = ActualItem.Qty1; //qty
-
-                    newItem.Qty1BaseCharge1 = ActualItem.Qty1BaseCharge1;
-                    //productSelection.PriceTotal + productSelection.AddonTotal; //item price
-
-                    newItem.Qty1Tax1Value = ActualItem.Qty1Tax1Value; // say vat
-
-                    newItem.Qty1NetTotal = ActualItem.Qty1NetTotal;
-
-                    newItem.Qty1GrossTotal = ActualItem.Qty1GrossTotal;
-                    newItem.ProductType = ActualItem.ProductType;
-                    newItem.ProductName = ActualItem.ProductName + "- Copy";
-                }
-                else
-                {
-                    newItem.IsOrderedItem = false;
-                    if (!isSavedDesign)  // in case of save designs ref item 
-                        newItem.RefItemId = (int)itemID;
-                    else
-                        newItem.RefItemId = ActualItem.RefItemId;
-                }
+        //        Item newItem = new Item();
 
 
+        //        Item ActualItem = GetActualItemToClone(itemID);
+        //        //******************new item*********************
+        //        newItem = Clone<Item>(ActualItem);
 
-                // Default Mark up rate will be always 0 ...
-                // when updating clone item we are getting markups from organisation ask sir naveed to change needed here also 
-                //Markup markup = (from c in db.Markups
-                //                 where c.MarkUpId == 1 && c.MarkUpRate == 0
-                //                 select c).FirstOrDefault();
+        //        newItem.ItemId = 0;
 
-                //if (markup.MarkUpId != null)
-                //    newItem.Qty1MarkUpId1 = (int)markup.MarkUpId;  //markup id
-                //newItem.Qty1MarkUp1Value = markup.MarkUpRate;
+        //        newItem.IsPublished = false;
 
-                db.Items.Add(newItem); //dbcontext added
+        //        newItem.IsEnabled = false;
 
-                //*****************Existing item Sections and cost Centeres*********************************
-                foreach (ItemSection tblItemSection in ActualItem.ItemSections.ToList())
-                {
-                    tblItemSectionCloned = Clone<ItemSection>(tblItemSection);
-                    tblItemSectionCloned.ItemSectionId = 0;
-                    tblItemSectionCloned.ItemId = newItem.ItemId;
-                    db.ItemSections.Add(tblItemSectionCloned); //ContextAdded
+        //        newItem.EstimateId = OrderID;
 
-                    //*****************Section Cost Centeres*********************************
-                    if (tblItemSection.SectionCostcentres.Count > 0)
-                    {
-                        foreach (SectionCostcentre tblSectCostCenter in tblItemSection.SectionCostcentres.ToList())
-                        {
-                            tblISectionCostCenteresCloned = Clone<SectionCostcentre>(tblSectCostCenter);
-                            tblISectionCostCenteresCloned.SectionCostcentreId = 0;
-                            tblISectionCostCenteresCloned.ItemSectionId = tblItemSectionCloned.ItemSectionId;
-                            db.SectionCostcentres.Add(tblISectionCostCenteresCloned);
-                        }
+        //        newItem.StatusId = (short)ItemStatuses.ShoppingCart; //tblStatuses.StatusID; //shopping cart
 
-                    }
+        //        newItem.Qty1 = 0; //qty
 
-                }
-                //Copy Template if it does exists
+        //        newItem.Qty1BaseCharge1 = 0; //productSelection.PriceTotal + productSelection.AddonTotal; //item price
 
-                if (newItem.TemplateId.HasValue && newItem.TemplateId.Value > 0)
-                {
-                    clonedTemplate = new Template();
-                    if (newItem.TemplateType == 1 || newItem.TemplateType == 2 || isSavedDesign || isCopyProduct)
-                    {
-                        long result = db.sp_cloneTemplate((int)newItem.TemplateId.Value, 0, "");
+        //        newItem.Qty1Tax1Value = 0; // say vat
 
-                        long? clonedTemplateID = result;
-                        clonedTemplate = db.Templates.Where(g => g.ProductId == clonedTemplateID).Single();
+        //        newItem.Qty1NetTotal = 0;
 
-                        var oCutomer = db.Companies.Where(i => i.CompanyId == CustomerID).FirstOrDefault();
-                        clonedTemplate.ProductName = clonedTemplate.ProductName == null ? newItem.ProductName : clonedTemplate.ProductName;
-                        if (oCutomer != null)
-                        {
-                            clonedTemplate.TempString = oCutomer.WatermarkText;
-                            clonedTemplate.isWatermarkText = oCutomer.isTextWatermark;
-                            if (oCutomer.isTextWatermark == false)
-                            {
-                                clonedTemplate.TempString = HttpContext.Current.Server.MapPath("~/" + oCutomer.WatermarkText);
-                            }
+        //        newItem.Qty1GrossTotal = 0;
 
-                        }
-                        // here 
+        //        newItem.ProductType = 0;
 
-                        //  VariablesResolve(itemID, clonedTemplate.ProductId, objContactID);
-                    }
+        //        newItem.InvoiceId = null;
 
-                }
+        //        newItem.EstimateProductionTime = ActualItem.EstimateProductionTime;
 
-                db.SaveChanges();
-                if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2 || isSavedDesign || isCopyProduct))
-                {
-                    newItem.TemplateId = clonedTemplate.ProductId;
-                    TemplateID = clonedTemplate.ProductId;
+        //        newItem.DefaultItemTax = ActualItem.DefaultItemTax;
 
-                    CopyTemplatePaths(clonedTemplate, OrganisationID);
-                }
+        //        newItem.ProductType = ActualItem.ProductType;
 
-                SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, newItem.ItemId, StockID, isCopyProduct, "", 0);
-                // additional addon required the newly inserted cloneditem
-                newItem.ItemCode = "ITM-0-001-" + newItem.ItemId;
-                db.SaveChanges();
+        //        newItem.DesignerCategoryId = ActualItem.DesignerCategoryId;
+        //        if (isCopyProduct)
+        //        {
+        //            newItem.IsOrderedItem = true;
+        //            newItem.Qty1 = ActualItem.Qty1; //qty
 
-                //else
-                //    throw 
+        //            newItem.Qty1BaseCharge1 = ActualItem.Qty1BaseCharge1;
+        //            //productSelection.PriceTotal + productSelection.AddonTotal; //item price
 
-                return newItem;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
+        //            newItem.Qty1Tax1Value = ActualItem.Qty1Tax1Value; // say vat
 
-            }
+        //            newItem.Qty1NetTotal = ActualItem.Qty1NetTotal;
 
-        }
+        //            newItem.Qty1GrossTotal = ActualItem.Qty1GrossTotal;
+        //            newItem.ProductType = ActualItem.ProductType;
+        //            newItem.ProductName = ActualItem.ProductName + "- Copy";
+        //        }
+        //        else
+        //        {
+        //            newItem.IsOrderedItem = false;
+        //            if (!isSavedDesign)  // in case of save designs ref item 
+        //                newItem.RefItemId = (int)itemID;
+        //            else
+        //                newItem.RefItemId = ActualItem.RefItemId;
+        //        }
+
+
+
+        //        // Default Mark up rate will be always 0 ...
+        //        // when updating clone item we are getting markups from organisation ask sir naveed to change needed here also 
+        //        //Markup markup = (from c in db.Markups
+        //        //                 where c.MarkUpId == 1 && c.MarkUpRate == 0
+        //        //                 select c).FirstOrDefault();
+
+        //        //if (markup.MarkUpId != null)
+        //        //    newItem.Qty1MarkUpId1 = (int)markup.MarkUpId;  //markup id
+        //        //newItem.Qty1MarkUp1Value = markup.MarkUpRate;
+
+        //        db.Items.Add(newItem); //dbcontext added
+
+        //        //*****************Existing item Sections and cost Centeres*********************************
+        //        foreach (ItemSection tblItemSection in ActualItem.ItemSections.ToList())
+        //        {
+        //            tblItemSectionCloned = Clone<ItemSection>(tblItemSection);
+        //            tblItemSectionCloned.ItemSectionId = 0;
+        //            tblItemSectionCloned.ItemId = newItem.ItemId;
+        //            db.ItemSections.Add(tblItemSectionCloned); //ContextAdded
+
+        //            //*****************Section Cost Centeres*********************************
+        //            if (tblItemSection.SectionCostcentres.Count > 0)
+        //            {
+        //                foreach (SectionCostcentre tblSectCostCenter in tblItemSection.SectionCostcentres.ToList())
+        //                {
+        //                    tblISectionCostCenteresCloned = Clone<SectionCostcentre>(tblSectCostCenter);
+        //                    tblISectionCostCenteresCloned.SectionCostcentreId = 0;
+        //                    tblISectionCostCenteresCloned.ItemSectionId = tblItemSectionCloned.ItemSectionId;
+        //                    db.SectionCostcentres.Add(tblISectionCostCenteresCloned);
+        //                }
+
+        //            }
+
+        //        }
+        //        //Copy Template if it does exists
+
+        //        if (newItem.TemplateId.HasValue && newItem.TemplateId.Value > 0)
+        //        {
+        //            clonedTemplate = new Template();
+        //            if (newItem.TemplateType == 1 || newItem.TemplateType == 2 || isSavedDesign || isCopyProduct)
+        //            {
+        //                long result = db.sp_cloneTemplate((int)newItem.TemplateId.Value, 0, "");
+
+        //                long? clonedTemplateID = result;
+        //                clonedTemplate = db.Templates.Where(g => g.ProductId == clonedTemplateID).Single();
+
+        //                var oCutomer = db.Companies.Where(i => i.CompanyId == CustomerID).FirstOrDefault();
+        //                clonedTemplate.ProductName = clonedTemplate.ProductName == null ? newItem.ProductName : clonedTemplate.ProductName;
+        //                if (oCutomer != null)
+        //                {
+        //                    clonedTemplate.TempString = oCutomer.WatermarkText;
+        //                    clonedTemplate.isWatermarkText = oCutomer.isTextWatermark;
+        //                    if (oCutomer.isTextWatermark == false)
+        //                    {
+        //                        clonedTemplate.TempString = HttpContext.Current.Server.MapPath("~/" + oCutomer.WatermarkText);
+        //                    }
+
+        //                }
+        //                // here 
+
+        //                //  VariablesResolve(itemID, clonedTemplate.ProductId, objContactID);
+        //            }
+
+        //        }
+
+        //        db.SaveChanges();
+        //        if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2 || isSavedDesign || isCopyProduct))
+        //        {
+        //            newItem.TemplateId = clonedTemplate.ProductId;
+        //            TemplateID = clonedTemplate.ProductId;
+
+        //            CopyTemplatePaths(clonedTemplate, OrganisationID);
+        //        }
+
+        //        SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, newItem.ItemId, StockID, isCopyProduct, "", 0);
+        //        // additional addon required the newly inserted cloneditem
+        //        newItem.ItemCode = "ITM-0-001-" + newItem.ItemId;
+        //        db.SaveChanges();
+
+        //        //else
+        //        //    throw 
+
+        //        return newItem;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+
+        //    }
+
+        //}
 
         // resolve c
         public void VariablesResolve(long ItemID, long ProductID, long objContactID)
@@ -1221,159 +1221,128 @@ namespace MPC.Repository.Repositories
 
         }
 
-        private bool SaveAdditionalAddonsOrUpdateStockItemType(List<AddOnCostsCenter> selectedAddonsList, long newItemID,
-            long stockID, bool isCopyProduct, string updateMode, long ItemStockOptionId)
-        {
-            try
-            {
-                bool result = false;
-                ItemSection SelectedtblItemSectionOne = null;
+        //private bool SaveAdditionalAddonsOrUpdateStockItemType(List<AddOnCostsCenter> selectedAddonsList, long newItemID,
+        //    long stockID, bool isCopyProduct, string updateMode, long ItemStockOptionId)
+        //{
+        //    try
+        //    {
+        //        bool result = false;
+        //        ItemSection SelectedtblItemSectionOne = null;
 
-                //Create A new Item Section #1 to pass to the cost center
+        //        //Create A new Item Section #1 to pass to the cost center
 
-                SelectedtblItemSectionOne =
-                    db.ItemSections.Where(itemSect => itemSect.SectionNo == 1 && itemSect.ItemId == newItemID)
-                        .FirstOrDefault();
-                //this.PopulateTblItemSections(newItem.ItemID, productSelection.Quantity, productSelection.CurrentTotal, 1);
-                if (isCopyProduct == true)
-                {
-                    result = this.SaveAdditionalAddonsOrUpdateStockItemType(selectedAddonsList,
-                        Convert.ToInt64(SelectedtblItemSectionOne.StockItemID1), SelectedtblItemSectionOne, updateMode, ItemStockOptionId);
-                }
-                else
-                {
-                    result = this.SaveAdditionalAddonsOrUpdateStockItemType(selectedAddonsList, stockID,
-                        SelectedtblItemSectionOne, updateMode, ItemStockOptionId);
-                }
+        //        SelectedtblItemSectionOne =
+        //            db.ItemSections.Where(itemSect => itemSect.SectionNo == 1 && itemSect.ItemId == newItemID)
+        //                .FirstOrDefault();
 
-                return result;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+        //        if (isCopyProduct == true)
+        //        {
+        //            result = this.SaveAdditionalAddonsOrUpdateStockItemType(selectedAddonsList,
+        //                Convert.ToInt64(SelectedtblItemSectionOne.StockItemID1), SelectedtblItemSectionOne, updateMode, ItemStockOptionId);
+        //        }
+        //        else
+        //        {
+        //            result = this.SaveAdditionalAddonsOrUpdateStockItemType(selectedAddonsList, stockID,
+        //                SelectedtblItemSectionOne, updateMode, ItemStockOptionId);
+        //        }
 
-
-        }
-
-        private bool SaveAdditionalAddonsOrUpdateStockItemType(List<AddOnCostsCenter> selectedAddonsList, long stockID,
-            ItemSection SelectedtblItemSectionOne, string updateMode, long ItemstockOptionID)
-        {
-            try
-            {
-                SectionCostcentre SelectedtblISectionCostCenteres = null;
-
-                if (SelectedtblItemSectionOne != null)
-                {
-                    //Set or Update the paper Type stockid in the section #1
-                    if (stockID > 0)
-                        this.UpdateStockItemType(SelectedtblItemSectionOne, stockID, ItemstockOptionID);
-
-                    if (selectedAddonsList != null)
-                    {
-                        //if (updateMode == "Modify")
-                        //{
-                        //    List<SectionCostcentre> listOfCostCentres = db.SectionCostcentres.Where(c => c.ItemSectionId == SelectedtblItemSectionOne.ItemSectionId && c.IsOptionalExtra == 1).ToList();
-
-                        //    foreach(var ccItem in listOfCostCentres)
-                        //    {
-                        //         for (int i = 0; i < selectedAddonsList.Count; i++)
-                        //         {
-                        //             AddOnCostsCenter addonCostCenter = selectedAddonsList[i];
-                        //             if(addonCostCenter.CostCenterID == ccItem.CostCentreId)
-                        //             {
-                        //                 ccItem.Qty1NetTotal = addonCostCenter.ActualPrice;
-                        //                 if(!string.IsNullOrEmpty(addonCostCenter.CostCentreJsonData))
-                        //                 {
-                        //                     ccItem.Qty2WorkInstructions = addonCostCenter.CostCentreJsonData;
-                        //                 }
-
-                        //                 if(!string.IsNullOrEmpty(addonCostCenter.CostCentreDescription))
-                        //                 {
-                        //                     ccItem.Qty1WorkInstructions = addonCostCenter.CostCentreDescription;
-
-                        //                 }
-                        //             }
-                        //         }
-                        //    }
-
-                        //}
-                        //else 
-                        //{
-                        // Remove previous Addons
-                        db.SectionCostcentres.Where(
-                            c => c.ItemSectionId == SelectedtblItemSectionOne.ItemSectionId && c.IsOptionalExtra == 1)
-                            .ToList()
-                            .ForEach(sc =>
-                            {
-                                db.SectionCostcentres.Remove(sc);
-
-                            });
-                        //Create Additional Addons Data
-                        //Create Additional Addons Data
-                        for (int i = 0; i < selectedAddonsList.Count; i++)
-                        {
-                            AddOnCostsCenter addonCostCenter = selectedAddonsList[i];
-
-                            SelectedtblISectionCostCenteres = this.PopulateTblSectionCostCenteres(addonCostCenter);
-                            SelectedtblISectionCostCenteres.IsOptionalExtra = 1; //1 tells that it is the Additional AddOn 
-
-                            SelectedtblItemSectionOne.SectionCostcentres.Add(SelectedtblISectionCostCenteres);
-
-                        }
-                        // }
-
-                    }
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-        }
-
-        public void UpdateStockItemType(ItemSection itemSection, long stockID, long ItemstockOptionID)
-        {
-            try
-            {
-                itemSection.StockItemID1 = (int)stockID; //always set into the first column
-                itemSection.StockItemID2 = (int)ItemstockOptionID;
-                itemSection.StockItemID3 = null;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+        //        return result;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
 
 
-        }
+        //}
 
-        private SectionCostcentre PopulateTblSectionCostCenteres(AddOnCostsCenter addOn)
-        {
-            try
-            {
-                SectionCostcentre tblISectionCostCenteres = new SectionCostcentre
-                {
-                    CostCentreId = addOn.CostCenterID,
-                    IsOptionalExtra = 1,
-                    Qty1Charge = addOn.Qty1NetTotal,
-                    Qty1NetTotal = addOn.Qty1NetTotal,
-                    Qty1WorkInstructions = addOn.CostCentreDescription,
-                    Qty2WorkInstructions = addOn.CostCentreJsonData,
-                    Name = addOn.AddOnName
-                };
+        //private bool SaveAdditionalAddonsOrUpdateStockItemType(List<AddOnCostsCenter> selectedAddonsList, long stockID,
+        //    ItemSection SelectedtblItemSectionOne, string updateMode, long ItemstockOptionID)
+        //{
+        //    try
+        //    {
+        //        SectionCostcentre SelectedtblISectionCostCenteres = null;
 
-                return tblISectionCostCenteres;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+        //        if (SelectedtblItemSectionOne != null)
+        //        {
+        //            //Set or Update the paper Type stockid in the section #1
+        //            if (stockID > 0)
+        //                this.UpdateStockItemType(SelectedtblItemSectionOne, stockID, ItemstockOptionID);
 
-        }
+        //            if (selectedAddonsList != null)
+        //            {
+        //                // Remove previous Addons
+        //                db.SectionCostcentres.Where(
+        //                    c => c.ItemSectionId == SelectedtblItemSectionOne.ItemSectionId && c.IsOptionalExtra == 1)
+        //                    .ToList()
+        //                    .ForEach(sc =>
+        //                    {
+        //                        db.SectionCostcentres.Remove(sc);
+
+        //                    });
+        //                //Create Additional Addons Data
+        //                //Create Additional Addons Data
+        //                for (int i = 0; i < selectedAddonsList.Count; i++)
+        //                {
+        //                    AddOnCostsCenter addonCostCenter = selectedAddonsList[i];
+
+        //                    SelectedtblISectionCostCenteres = this.PopulateTblSectionCostCenteres(addonCostCenter);
+        //                    SelectedtblISectionCostCenteres.IsOptionalExtra = 1; //1 tells that it is the Additional AddOn 
+
+        //                    SelectedtblItemSectionOne.SectionCostcentres.Add(SelectedtblISectionCostCenteres);
+
+        //                }
+        //            }
+        //        }
+
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+
+        //}
+
+        //public void UpdateStockItemType(ItemSection itemSection, long stockID, long ItemstockOptionID)
+        //{
+        //    try
+        //    {
+        //        itemSection.StockItemID1 = (int)stockID; //always set into the first column
+        //        itemSection.StockItemID2 = (int)ItemstockOptionID;
+        //        itemSection.StockItemID3 = null;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+
+
+        //}
+
+        //private SectionCostcentre PopulateTblSectionCostCenteres(AddOnCostsCenter addOn)
+        //{
+        //    try
+        //    {
+        //        SectionCostcentre tblISectionCostCenteres = new SectionCostcentre
+        //        {
+        //            CostCentreId = addOn.CostCenterID,
+        //            IsOptionalExtra = 1,
+        //            Qty1Charge = addOn.Qty1NetTotal,
+        //            Qty1NetTotal = addOn.Qty1NetTotal,
+        //            Qty1WorkInstructions = addOn.CostCentreDescription,
+        //            Qty2WorkInstructions = addOn.CostCentreJsonData,
+        //            Name = addOn.AddOnName
+        //        };
+
+        //        return tblISectionCostCenteres;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+
+        //}
 
         #endregion
 
@@ -2102,189 +2071,191 @@ namespace MPC.Repository.Repositories
         }
 
 
-        public bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice,
-            long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId,
-            double TaxRate, string ItemMode, bool isInculdeTax, long ItemstockOptionID, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "")
-        {
-            try
-            {
-                bool result = false;
+        //public bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice,
+        //    long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId,
+        //    double TaxRate, string ItemMode, bool isInculdeTax, long ItemstockOptionID, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "")
+        //{
+            //try
+            //{
+            //    bool result = false;
 
-                ItemSection FirstItemSection = null;
+            //    ItemSection FirstItemSection = null;
 
-                double currentTotal = 0;
-                double netTotal = 0;
-                double grossTotal = 0;
-                double? markupRate = 0;
+            //    double currentTotal = 0;
+            //    double netTotal = 0;
+            //    double grossTotal = 0;
+            //    double? markupRate = 0;
 
-                try
-                {
-                    Item clonedItem = null;
+            //    try
+            //    {
+            //        Item clonedItem = null;
 
-                    clonedItem = db.Items.Where(i => i.ItemId == clonedItemID).FirstOrDefault();
+            //        clonedItem = db.Items.Where(i => i.ItemId == clonedItemID).FirstOrDefault();
 
-                    long? markupid = 1;
-
-
-                    Markup OrgMarkup = db.Markups.Where(m => m.OrganisationId == OrganisationId && m.IsDefault == true).FirstOrDefault();
-
-                    if (OrgMarkup != null)
-                    {
-                        markupid = 0;//OrgMarkup.MarkUpId;
-                        markupRate = 0;//(int)OrgMarkup.MarkUpRate;
-                    }
-                    else
-                    {
-                        markupid = 0;
-                        markupRate = 0;
-                    }
-
-                    if (CountOfUploads > 0)
-                    {
-                        clonedItem.ProductName = clonedItem.ProductName + " " + CountOfUploads + " file(s) uploaded";
-                    }
-
-                    clonedItem.Qty1 = (int)orderedQuantity;
-
-                    clonedItem.IsOrderedItem = true;
+            //        long? markupid = 1;
 
 
+            //        Markup OrgMarkup = db.Markups.Where(m => m.OrganisationId == OrganisationId && m.IsDefault == true).FirstOrDefault();
 
-                    if (isInculdeTax == true)
-                    {
-                        if (clonedItem.DefaultItemTax != null)
-                        {
-                            clonedItem.Tax1 = Convert.ToInt32(clonedItem.DefaultItemTax);
-                            double TaxAppliedOnItemTotal = CalculatePercentage(itemPrice, Convert.ToDouble(clonedItem.DefaultItemTax));// ((itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100); 
+            //        if (OrgMarkup != null)
+            //        {
+            //            markupid = 0;//OrgMarkup.MarkUpId;
+            //            markupRate = 0;//(int)OrgMarkup.MarkUpRate;
+            //        }
+            //        else
+            //        {
+            //            markupid = 0;
+            //            markupRate = 0;
+            //        }
 
-                            double TaxAppliedOnCostCentreTotal = CalculatePercentage(addonsPrice, Convert.ToDouble(clonedItem.DefaultItemTax));// ((addonsPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100);
+            //        if (CountOfUploads > 0)
+            //        {
+            //            clonedItem.ProductName = clonedItem.ProductName + " " + CountOfUploads + " file(s) uploaded";
+            //        }
+
+            //        clonedItem.Qty1 = (int)orderedQuantity;
+
+            //        clonedItem.IsOrderedItem = true;
+
+
+
+            //        if (isInculdeTax == true)
+            //        {
+            //            if (clonedItem.DefaultItemTax != null)
+            //            {
+            //                clonedItem.Tax1 = Convert.ToInt32(clonedItem.DefaultItemTax);
+            //                double TaxAppliedOnItemTotal = CalculatePercentage(itemPrice, Convert.ToDouble(clonedItem.DefaultItemTax));// ((itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100); 
+
+            //                double TaxAppliedOnCostCentreTotal = CalculatePercentage(addonsPrice, Convert.ToDouble(clonedItem.DefaultItemTax));// ((addonsPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100);
                           
-                            itemPrice = itemPrice;
+            //                itemPrice = itemPrice;
 
-                            netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+            //                netTotal = itemPrice + addonsPrice + markupRate ?? 0;
 
-                            grossTotal = netTotal + (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);
-                            clonedItem.Qty1Tax1Value = (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);//GetTaxPercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
-                        }
-                        else
-                        {
-                            clonedItem.Tax1 = Convert.ToInt32(TaxRate);
-                            double TaxAppliedOnItemTotal = CalculatePercentage(itemPrice, TaxRate); //(itemPrice * TaxRate / 100);
-                            double TaxAppliedOnCostCentreTotal = CalculatePercentage(addonsPrice, TaxRate); //(addonsPrice * TaxRate / 100);
-                            itemPrice = itemPrice;
+            //                grossTotal = netTotal + (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);
+            //                clonedItem.Qty1Tax1Value = (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);//GetTaxPercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
+            //            }
+            //            else
+            //            {
+            //                clonedItem.Tax1 = Convert.ToInt32(TaxRate);
+            //                double TaxAppliedOnItemTotal = CalculatePercentage(itemPrice, TaxRate); //(itemPrice * TaxRate / 100);
+            //                double TaxAppliedOnCostCentreTotal = CalculatePercentage(addonsPrice, TaxRate); //(addonsPrice * TaxRate / 100);
+            //                itemPrice = itemPrice;
 
-                            netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+            //                netTotal = itemPrice + addonsPrice + markupRate ?? 0;
                            
-                            grossTotal = netTotal + (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);//CalculatePercentage(netTotal, TaxRate);
-                            clonedItem.Qty1Tax1Value = TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal;//GetTaxPercentage(netTotal, TaxRate);
-                        }
-                    }
-                    else
-                    {
-                        clonedItem.Tax1 = Convert.ToInt32(TaxRate);
+            //                grossTotal = netTotal + (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);//CalculatePercentage(netTotal, TaxRate);
+            //                clonedItem.Qty1Tax1Value = TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal;//GetTaxPercentage(netTotal, TaxRate);
+            //            }
+            //        }
+            //        else
+            //        {
+            //            clonedItem.Tax1 = Convert.ToInt32(TaxRate);
 
-                        netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+            //            netTotal = itemPrice + addonsPrice + markupRate ?? 0;
 
-                        grossTotal = netTotal + CalculatePercentage(netTotal, TaxRate);
-                        clonedItem.Qty1Tax1Value = GetTaxPercentage(netTotal, TaxRate);
-                    }
+            //            GetStoreDefaultDiscountRate();
 
-
-                    //******************Existing item update*********************
-                    clonedItem.Qty1MarkUp1Value = markupRate;
-
-                    clonedItem.Qty1MarkUpId1 = (int)markupid;
-
-                    clonedItem.Qty1BaseCharge1 = netTotal;
-
-                    clonedItem.Qty1NetTotal = netTotal;
-
-                    clonedItem.Qty1GrossTotal = grossTotal;
-
-                    FirstItemSection =
-                        clonedItem.ItemSections.Where(sec => sec.SectionNo == 1 && sec.ItemId == clonedItem.ItemId)
-                            .FirstOrDefault();
-
-                    result = SaveAdditionalAddonsOrUpdateStockItemType(newlyAddedCostCenters, stockItemID, FirstItemSection,
-                        ItemMode, ItemstockOptionID); // additional addon required the newly inserted cloneditem
-
-                    FirstItemSection.Qty1 = clonedItem.Qty1;
-
-                    FirstItemSection.BaseCharge1 = clonedItem.Qty1BaseCharge1;
+            //            grossTotal = netTotal + CalculatePercentage(netTotal, TaxRate);
+            //            clonedItem.Qty1Tax1Value = GetTaxPercentage(netTotal, TaxRate);
+            //        }
 
 
+            //        //******************Existing item update*********************
+            //        clonedItem.Qty1MarkUp1Value = markupRate;
 
-                    FirstItemSection.Qty1MarkUpID = (int)markupid;
-                    FirstItemSection.QuestionQueue = QuestionQueue;
-                    FirstItemSection.InputQueue = InputQueue;
-                    FirstItemSection.CostCentreQueue = CostCentreQueue;
+            //        clonedItem.Qty1MarkUpId1 = (int)markupid;
 
+            //        clonedItem.Qty1BaseCharge1 = netTotal;
 
-                    bool isNewSectionCostCenter = false;
+            //        clonedItem.Qty1NetTotal = netTotal;
 
+            //        clonedItem.Qty1GrossTotal = grossTotal;
 
-                    List<SectionCostcentre> listOfSectionCostCentres = db.SectionCostcentres.Where(c => c.ItemSectionId == FirstItemSection.ItemSectionId).ToList();
+            //        FirstItemSection =
+            //            clonedItem.ItemSections.Where(sec => sec.SectionNo == 1 && sec.ItemId == clonedItem.ItemId)
+            //                .FirstOrDefault();
 
-                    SectionCostcentre sectionCC = null;
-                    foreach (var ccItem in listOfSectionCostCentres)
-                    {
-                        if (ccItem.CostCentre != null)
-                        {
-                            if (ccItem.CostCentre.Type == 29)
-                            {
-                                sectionCC = ccItem;
-                            }
-                        }
-                    }
+            //        result = SaveAdditionalAddonsOrUpdateStockItemType(newlyAddedCostCenters, stockItemID, FirstItemSection,
+            //            ItemMode, ItemstockOptionID); // additional addon required the newly inserted cloneditem
+
+            //        FirstItemSection.Qty1 = clonedItem.Qty1;
+
+            //        FirstItemSection.BaseCharge1 = clonedItem.Qty1BaseCharge1;
 
 
-                    if (sectionCC == null)
-                    {
-                        sectionCC = new SectionCostcentre();
 
-                        sectionCC.Qty1MarkUpID = 1;
-                        sectionCC.Qty1Charge = itemPrice;
-                        sectionCC.Qty1NetTotal = itemPrice;
-
-                        isNewSectionCostCenter = true;
-                    }
-
-                    if (isNewSectionCostCenter)
-                    {
-                        //29 is the global type of web order cost centre
-                        var oCostCentre = db.CostCentres.Where(g => g.Type == 29 && g.OrganisationId == OrganisationId).SingleOrDefault();
-                        if (oCostCentre != null)
-                        {
-                            sectionCC.Name = oCostCentre.Name;
-                            sectionCC.CostCentreId = oCostCentre.CostCentreId;
-                            sectionCC.ItemSectionId = FirstItemSection.ItemSectionId;
-                            FirstItemSection.SectionCostcentres.Add(sectionCC);
-                        }
-                        else
-                        {
-                            throw new Exception("Critcal Error, We have lost our main costcentre.", null);
-                        }
-                    }
-
-                    if (result)
-                        result = db.SaveChanges() > 0 ? true : false;
-
-                }
-                catch (Exception)
-                {
-                    result = false;
-                    throw;
-                }
-
-                return result;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            //        FirstItemSection.Qty1MarkUpID = (int)markupid;
+            //        FirstItemSection.QuestionQueue = QuestionQueue;
+            //        FirstItemSection.InputQueue = InputQueue;
+            //        FirstItemSection.CostCentreQueue = CostCentreQueue;
 
 
-        }
+            //        bool isNewSectionCostCenter = false;
+
+
+            //        List<SectionCostcentre> listOfSectionCostCentres = db.SectionCostcentres.Where(c => c.ItemSectionId == FirstItemSection.ItemSectionId).ToList();
+
+            //        SectionCostcentre sectionCC = null;
+            //        foreach (var ccItem in listOfSectionCostCentres)
+            //        {
+            //            if (ccItem.CostCentre != null)
+            //            {
+            //                if (ccItem.CostCentre.Type == 29)
+            //                {
+            //                    sectionCC = ccItem;
+            //                }
+            //            }
+            //        }
+
+
+            //        if (sectionCC == null)
+            //        {
+            //            sectionCC = new SectionCostcentre();
+
+            //            sectionCC.Qty1MarkUpID = 1;
+            //            sectionCC.Qty1Charge = itemPrice;
+            //            sectionCC.Qty1NetTotal = itemPrice;
+
+            //            isNewSectionCostCenter = true;
+            //        }
+
+            //        if (isNewSectionCostCenter)
+            //        {
+            //            //29 is the global type of web order cost centre
+            //            var oCostCentre = db.CostCentres.Where(g => g.Type == 29 && g.OrganisationId == OrganisationId).SingleOrDefault();
+            //            if (oCostCentre != null)
+            //            {
+            //                sectionCC.Name = oCostCentre.Name;
+            //                sectionCC.CostCentreId = oCostCentre.CostCentreId;
+            //                sectionCC.ItemSectionId = FirstItemSection.ItemSectionId;
+            //                FirstItemSection.SectionCostcentres.Add(sectionCC);
+            //            }
+            //            else
+            //            {
+            //                throw new Exception("Critcal Error, We have lost our main costcentre.", null);
+            //            }
+            //        }
+
+            //        if (result)
+            //            result = db.SaveChanges() > 0 ? true : false;
+
+            //    }
+            //    catch (Exception)
+            //    {
+            //        result = false;
+            //        throw;
+            //    }
+
+            //    return result;
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw ex;
+            //}
+
+
+        //}
 
         private double GetTaxPercentage(double netTotal, double TaxRate)
         {
@@ -4532,6 +4503,8 @@ namespace MPC.Repository.Repositories
             }
 
         }
+        
+       
         #endregion
     }
 }

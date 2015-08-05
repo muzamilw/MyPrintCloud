@@ -38,6 +38,8 @@ define("dashboard.viewModel",
                     counter = 1,
                     // Y axis point for chart
                     yAxisPoints = [],
+                    yAxisPointdummy = ko.observableArray(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']),
+                    chartLabelsdummy = ko.observableArray(['PinkCards.com', 'Goldwell.com', 'saleflow.com', 'yolkpm.com', 'eazyprint.com', 'sunnyland.com', 'printtech.com', 'printmedia.com', 'cloudfusion.com']),
                     yAxisPointsWithStoreName = ko.observableArray([]),
                     chartLabels = [],
                      // customers
@@ -70,24 +72,19 @@ define("dashboard.viewModel",
                 // months = ['jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
                 line = ko.observable([
 
-                                { month: '2008-01', a: 100, b: 90, c: 120 },
-                                { month: '2008-02', a: 110, b: 90, c: 40 },
-                                { month: '2008-03', a: 200, b: 90, c: 60 },
-                                { month: '2008-04', a: 20, b: 90, c: 70 },
-                                { month: '2008-05', a: 100, b: 90, c: 80 },
-                                { month: '2008-06', a: 100, b: 90, c: 90 },
-                                { month: '2008-07', a: 10, b: 90, c: 90 },
-                                { month: '2008-08', a: 100, b: 90, c: 80 },
-                                { month: '2008-09', a: 100, b: 90, c: 60 },
-                                { month: '2008-10', a: 100, b: 90, c: 100 },
-                                { month: '2008-11', a: 300, b: 90, c: 90 },
-                                { month: '2008-12', a: 100, b: 90, c: 130 }
-                    //{ year: 'Jun', value: 8 },
-                    //{ year: 'Aug', value: 20 },
-                    //{ year: 'Sep', value: 20 },
-                    //{ year: 'Oct', value: 20 },
-                    //{ year: 'Nov', value: 20 },
-                    //{ year: 'Dec', value: 20 }
+                                //{ month: '2015-01', a: 100, b: 110, c: 120, d:130, e:140, f:150, g:160, h:170, i:180 },
+                                //{ month: '2015-02', a: 120, b: 130, c: 140, d: 140, e: 150, f: 150, g: 160, h: 170, i: 180 },
+                                //{ month: '2015-03', a: 130, b: 140, c: 160, d: 150, e: 160, f: 150, g: 160, h: 170, i: 180 },
+                                //{ month: '2015-04', a: 120, b: 190, c: 170, d: 160, e: 170, f: 150, g: 160, h: 170, i: 180 },
+                                { month: '2015-05', a: 100, b: 120, c: 180, d: 170, e: 180, f: 150, g: 160, h: 170, i: 180 },
+                                { month: '2015-06', a: 100, b: 110, c: 110, d: 160, e: 190, f: 150, g: 160, h: 170, i: 180 },
+                                { month: '2015-07', a: 105, b: 90, c: 110, d: 170, e: 120, f: 150, g: 160, h: 170, i: 180 },
+                                { month: '2015-08', a: 100, b: 90, c: 80, d: 130, e: 200, f: 150, g: 160, h: 170, i: 180 },
+                                { month: '2015-09', a: 100, b: 90, c: 60, d: 180, e: 210, f: 150, g: 160, h: 170, i: 180 },
+                                { month: '2015-10', a: 100, b: 90, c: 100, d: 190, e: 220, f: 150, g: 160, h: 170, i: 180 },
+                                { month: '2015-11', a: 300, b: 90, c: 90, d: 180, e: 225, f: 150, g: 160, h: 170, i: 180 },
+                                { month: '2015-12', a: 100, b: 90, c: 130, d: 170, e: 230, f: 150, g: 160, h: 170, i: 180 }
+                    
                 ]),
                 //line = ko.observable([
 
@@ -210,10 +207,10 @@ define("dashboard.viewModel",
                             ko.utils.arrayPushAll(totalEarnings(), data.TotalEarningResult);
                             totalEarnings.valueHasMutated();
 
-                            // registered users
-                            //RegisteredUsers.removeAll();
-                            //ko.utils.arrayPushAll(RegisteredUsers(), data.RegisteredUserByStores);
-                           // RegisteredUsers.valueHasMutated();
+                           //  registered users
+                            RegisteredUsers.removeAll();
+                            ko.utils.arrayPushAll(RegisteredUsers(), data.RegisteredUserByStores);
+                            RegisteredUsers.valueHasMutated();
 
                             // top performing stores
                             topPerformingStores.removeAll();
@@ -318,7 +315,9 @@ define("dashboard.viewModel",
 
                     estimateToOrderConversionCount: estimateToOrderConversionCount,
                     RegisteredUsers: RegisteredUsers,
-                    top10PerformingStores: top10PerformingStores
+                    top10PerformingStores: top10PerformingStores,
+                    yAxisPointdummy: yAxisPointdummy,
+                    chartLabelsdummy: chartLabelsdummy
                     // xLabelFormat: xLabelFormat
                 };
             })()

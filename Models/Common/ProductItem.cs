@@ -36,7 +36,9 @@ namespace MPC.Models.Common
         public int? TopCategoryID;
         public int? _ProductionTime;
         public string _StockName;
-
+        public double? _DiscountedAmount;
+        public long? _DiscountedVoucherId;
+    
 
         #region Primitive Properties
 
@@ -436,7 +438,17 @@ namespace MPC.Models.Common
             set;
         }
 
+        public double? DiscountedAmount
+        {
+            get { return _DiscountedAmount; }
+            set { _DiscountedAmount = value; }
+        }
 
+        public long? DiscountedVoucherId
+        {
+            get { return _DiscountedVoucherId; }
+            set { _DiscountedVoucherId = value; }
+        }
         #endregion
     }
 }

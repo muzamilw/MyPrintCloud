@@ -42,7 +42,7 @@ namespace MPC.Interfaces.Repository
         ItemStockOption GetFirstStockOptByItemID(long ItemId, long CompanyId);
 
         List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId);
-        Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID);
+        //Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID);
 
         Item GetItemById(long RefitemId);
         Item GetItemByIdDesigner(long ItemId);
@@ -57,7 +57,7 @@ namespace MPC.Interfaces.Repository
 
         bool RemoveCloneItem(long itemID, out List<ArtWorkAttatchment> itemAttatchmetList, out Template clonedTemplateToRemove);
 
-        bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, bool isInculdeTax, long ItemstockOptionID, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "");
+       // bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, bool isInculdeTax, long ItemstockOptionID, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "");
 
         List<ProductItem> GetRelatedItemsList();
 
