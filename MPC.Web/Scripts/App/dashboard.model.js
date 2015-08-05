@@ -399,9 +399,32 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         };
     };
 
-    TotalEarnings.Create = function (source) {
+    TotalEarnings.Create = function(source) {
         return new TotalEarnings(source.Month, source.Orders, source.Total, source.monthname, source.year, source.store);
-    }
+    };
+    
+    //Registered Users Model
+    RegisteredUser = function (specifiedMonth, specifiedTotalStore1, specifiedTotalStore2, specifiedTotalStore3,specifiedTotalStore4,specifiedTotalStore5, specifiedmonthname, specifiedyear, specifiedstore) {
+        
+            
+        return {
+            month: specifiedMonth || 0,
+            totalStore1: specifiedTotalStore1 || 0,
+            totalStore2: specifiedTotalStore2 || 0,
+            totalStore3: specifiedTotalStore3 || 0,
+            totalStore4: specifiedTotalStore4 || 0,
+            totalStore5: specifiedTotalStore5 || 0,
+            monthname: specifiedmonthname || "",
+            year: specifiedyear || 0,
+            store: specifiedstore || ""
+        };
+    };
+    
+    RegisteredUser.Create = function (source, valOrder) {
+        return new RegisteredUser(source.Month, source.TotalContacts, valOrder, source.MonthName, source.Year, source.Name);
+    };
+
+
     // Estimate Factory
     // Estimate Factory
     Estimate.Create = function (source) {
@@ -444,6 +467,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     return {
         Estimate: Estimate,
         TotalEarnings: TotalEarnings,
+        RegisteredUser:RegisteredUser,
         customerViewListModel: customerViewListModel
     };
 });

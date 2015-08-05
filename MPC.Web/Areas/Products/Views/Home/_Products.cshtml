@@ -132,7 +132,7 @@
                 <span data-bind="text: productNameForGrid, attr:{ title: productName }"></span>
             </div>
             <div class="" style="height:32px">
-                <span data-bind="text: 'Starting From $' + miniPrice()"></span>
+                <span data-bind="text: 'Starting From ' + $root.currencyUnit()"></span>  <span data-bind="text: miniPrice()"></span>
             </div>
             <div style="margin-top:10px; height:75px;">
                 <!-- ko template: { name: 'productActionTemplate' } -->

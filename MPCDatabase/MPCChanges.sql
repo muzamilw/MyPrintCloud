@@ -6437,3 +6437,9 @@ alter table Estimate
 alter column DiscountVoucherID bigint
 
 alter table CompanyContact add RegistrationDate datetime
+
+update companyContact set RegistrationDate = c.CreationDate
+from  companyContact cc, Company c
+where c.CompanyId = cc.CompanyId
+
+alter table CompanyVoucherRedeem add ContactId bigint
