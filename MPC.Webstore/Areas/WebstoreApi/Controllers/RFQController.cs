@@ -124,11 +124,13 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                 }
             }
+
             NewInqury.CreatedDate = DateTime.Now;
             NewInqury.IsDirectInquiry = false;
             NewInqury.FlagId = null;
             NewInqury.SourceId = 30;
-           // NewInqury.ContactId = 73473;
+            NewInqury.SystemUserId = StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value;
+           
             int iMaxFileSize = 2097152;
             long result = _ItemService.AddInquiryAndItems(NewInqury, FillItems(InquiryItemDeliveryDate1, InquiryItemDeliveryDate2, InquiryItemDeliveryDate3, InquiryItemTitle1, InquiryItemNotes1, InquiryItemTitle2, InquiryItemNotes2, InquiryItemTitle3, InquiryItemNotes3, Convert.ToInt32(hfNoOfRec)));
             long InquiryId = result;
@@ -196,7 +198,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             if (HttpContext.Current.Request != null)
             {
                 List<InquiryAttachment> listOfAttachment = new List<InquiryAttachment>();
-                string folderPath = "/mpc_content/Attachments/" + "/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/" + inquiryID + "";
+                string folderPath = "mpc_content/Attachments/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/" + inquiryID + "/";
                 string virtualFolderPth = string.Empty;
 
                 virtualFolderPth = HttpContext.Current.Server.MapPath(folderPath);
