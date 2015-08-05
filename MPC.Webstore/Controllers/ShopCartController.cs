@@ -95,6 +95,16 @@ namespace MPC.Webstore.Controllers
 
                 ViewBag.Currency = StoreBaseResopnse.Currency;
 
+                if (string.IsNullOrEmpty(Request.QueryString["VCId"]))
+                {
+                    long DisVId = _ItemService.ApplyStoreDefaultDiscountRateOnCartItems(OrderId, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                    if (DisVId > 0) 
+                    {
+                        DiscountVoucher voucher = _ItemService.GetDiscountVoucherById(DisVId);
+                        _ItemService.ApplyDiscountOnCartProducts(voucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                    }
+                }
+                
                 shopCart = LoadShoppingCart(OrderId);
 
                 if (shopCart != null)
@@ -261,6 +271,7 @@ namespace MPC.Webstore.Controllers
                 if (IsCallFrom == "RemoveVoucherCode")
                 {
                    _ItemService.RollBackDiscountedItems(Convert.ToInt64(OrderID), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+                   _ItemService.ApplyStoreDefaultDiscountRateOnCartItems(Convert.ToInt64(OrderID), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
                 }
                 else 
                 {
