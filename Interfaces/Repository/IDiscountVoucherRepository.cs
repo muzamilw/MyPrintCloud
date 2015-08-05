@@ -18,5 +18,6 @@ namespace MPC.Interfaces.Repository
         DiscountVoucherListViewResponse GetDiscountVoucherListView(DiscountVoucherRequestModel requestModel);
         DiscountVoucher GetStoreDefaultDiscountRate(long StoreId, long OrganisationId);
         DiscountVoucher GetDiscountVoucherById(long DiscountVoucherId);
+        DiscountVoucher GetDiscountVoucherByCouponCode(string DiscountVoucherName, long StoreId, long OrganisationId);
     }
 }
