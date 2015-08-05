@@ -179,73 +179,63 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _OrderRepository.SetOrderCreationDateAndCode(orderId);
         }
-        public bool IsVoucherValid(string voucherCode)
-        {
-            try
-            {
-                return _OrderRepository.IsVoucherValid(voucherCode);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public Estimate CheckDiscountApplied(int orderId)
-        {
-            try
-            {
-                return _OrderRepository.CheckDiscountApplied(orderId);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //public bool IsVoucherValid(string voucherCode)
+        //{
+        //    try
+        //    {
+        //        return _OrderRepository.IsVoucherValid(voucherCode);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+        //public Estimate CheckDiscountApplied(int orderId)
+        //{
+        //    try
+        //    {
+        //        return _OrderRepository.CheckDiscountApplied(orderId);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
-        public bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode)
-        {
-            try
-            {
-                return _OrderRepository.RollBackDiscountedItems(orderId,StateTax,Mode);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public double SaveVoucherCodeAndRate(int orderId, string VCode)
-        {
-            try
-            {
-                return _OrderRepository.SaveVoucherCodeAndRate(orderId, VCode);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate,StoreMode Mode)
-        {
-            try
-            {
-                return _OrderRepository.PerformVoucherdiscountOnEachItem(orderId, orderStatus, StateTax, VDiscountRate, Mode);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-       public bool ResetOrderVoucherCode(int orderId)
-       {
-           try
-           {
-               return _OrderRepository.ResetOrderVoucherCode(orderId);
-           }
-           catch (Exception ex)
-           {
-               throw ex;
-           }
-       }
+        
+        //public double SaveVoucherCodeAndRate(int orderId, string VCode)
+        //{
+        //    try
+        //    {
+        //        return _OrderRepository.SaveVoucherCodeAndRate(orderId, VCode);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+        //public double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate,StoreMode Mode)
+        //{
+        //    try
+        //    {
+        //        return _OrderRepository.PerformVoucherdiscountOnEachItem(orderId, orderStatus, StateTax, VDiscountRate, Mode);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+       //public bool ResetOrderVoucherCode(int orderId)
+       //{
+       //    try
+       //    {
+       //        return _OrderRepository.ResetOrderVoucherCode(orderId);
+       //    }
+       //    catch (Exception ex)
+       //    {
+       //        throw ex;
+       //    }
+       //}
 
         /// <summary>
         /// Get the OrderId by login User 
@@ -610,6 +600,10 @@ namespace MPC.Implementation.WebStoreServices
        public List<Item> GetOrderItemsIncludingDelivery(long OrderId, int OrderStatus)
        {
            return _OrderRepository.GetOrderItemsIncludingDelivery(OrderId, OrderStatus);
+       }
+       public void SaveOrUpdateOrder()
+       {
+           _OrderRepository.SaveChanges();
        }
     }
 }

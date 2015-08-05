@@ -532,7 +532,6 @@ namespace MPC.Implementation.WebStoreServices
 
             double? markupRate = 0;
 
-            
             double DiscountAmountToApply = 0;
 
             try
@@ -559,12 +558,22 @@ namespace MPC.Implementation.WebStoreServices
 
                 netTotal = itemPrice + addonsPrice + markupRate ?? 0;
 
-                //DiscountVoucher storeDiscountVoucher = _DVRepository.GetStoreDefaultDiscountRate(StoreId, OrganisationId);
-                //if (storeDiscountVoucher != null)
-                //{
-                //    DiscountAmountToApply = GetDiscountAmountByVoucher(storeDiscountVoucher, netTotal, clonedItem.RefItemId ?? 0, orderedQuantity, clonedItem.DiscountVoucherID);
-                //    clonedItem.DiscountVoucherID = storeDiscountVoucher.DiscountVoucherId;
-                //}
+                DiscountVoucher storeDiscountVoucher = _DVRepository.GetStoreDefaultDiscountRate(StoreId, OrganisationId);
+                if (storeDiscountVoucher != null)
+                {
+                    if(ValidateDiscountVoucher(storeDiscountVoucher) == "Success")
+                    {
+                        DiscountAmountToApply = GetDiscountAmountByVoucher(storeDiscountVoucher, netTotal, clonedItem.RefItemId ?? 0, orderedQuantity, clonedItem.DiscountVoucherID);
+                        if (DiscountAmountToApply >= 0)
+                        {
+                            clonedItem.DiscountVoucherID = storeDiscountVoucher.DiscountVoucherId;
+                        }
+                        else
+                        {
+                            DiscountAmountToApply = 0;
+                        }
+                    }
+                }
                 if (CountOfUploads > 0)
                 {
                     clonedItem.ProductName = clonedItem.ProductName + " " + CountOfUploads + " file(s) uploaded";
@@ -596,8 +605,8 @@ namespace MPC.Implementation.WebStoreServices
                     else
                     {
                         clonedItem.Tax1 = Convert.ToInt32(TaxRate);
-                        
-                       // double TaxAppliedOnCostCentreTotal = _ItemRepository.CalculatePercentage(addonsPrice, TaxRate); //(addonsPrice * TaxRate / 100);
+
+                        // double TaxAppliedOnCostCentreTotal = _ItemRepository.CalculatePercentage(addonsPrice, TaxRate); //(addonsPrice * TaxRate / 100);
 
                         netTotal = netTotal - DiscountAmountToApply;
 
@@ -2292,11 +2301,80 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-        public double GetDiscountAmountByVoucher(DiscountVoucher storeDiscountVoucher, double itemTotal, long ItemId, double OrderedQty, long? DiscountIdAlreadyApplied) 
+        public bool ApplyDiscountOnCartProducts(DiscountVoucher storeDiscountVoucher, long OrderId, double StoreTaxRate)
+        {
+            //Dictionary<int, string> listOfMesg = new Dictionary<int, string>();
+            try
+            {
+                int isDiscountVoucherApplied = 0;
+
+                double DiscountAmountToApply = 0;
+
+                List<Item> CartItems = _OrderRepository.GetOrderItems(OrderId);
+
+                double ItemBaseCharge = 0;
+
+                foreach (Item citem in CartItems)
+                {
+                    ItemBaseCharge = citem.Qty1NetTotal ?? 0;
+
+                    if (citem.DiscountVoucherID != null)
+                    {
+                        ItemBaseCharge = (citem.Qty1NetTotal ?? 0) + (citem.Qty1CostCentreProfit ?? 0);
+                    }
+
+                    DiscountAmountToApply = GetDiscountAmountByVoucher(storeDiscountVoucher, ItemBaseCharge, Convert.ToInt64(citem.RefItemId), Convert.ToDouble(citem.Qty1), citem.DiscountVoucherID);
+
+                    if (DiscountAmountToApply != -1)
+                    {
+                        isDiscountVoucherApplied += 1;
+
+                        citem.Tax1 = Convert.ToInt32(StoreTaxRate);
+
+                        ItemBaseCharge = ItemBaseCharge - DiscountAmountToApply;
+
+                        citem.Qty1Tax1Value = _ItemRepository.CalculatePercentage(ItemBaseCharge, StoreTaxRate);
+
+                        citem.Qty1GrossTotal = ItemBaseCharge + citem.Qty1Tax1Value;
+
+                        citem.Qty1BaseCharge1 = ItemBaseCharge;
+
+                        citem.Qty1NetTotal = ItemBaseCharge;
+
+                        citem.Qty1CostCentreProfit = DiscountAmountToApply;
+
+                        citem.DiscountVoucherID = storeDiscountVoucher.DiscountVoucherId;
+
+                        _ItemRepository.SaveChanges();
+                    }
+                    else 
+                    {
+                        DiscountAmountToApply = 0;
+                    }
+
+                }
+
+                if (isDiscountVoucherApplied > 0)
+                {
+                    return true;
+                }
+                else 
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public double GetDiscountAmountByVoucher(DiscountVoucher storeDiscountVoucher, double itemTotal, long ItemId, double OrderedQty, long? DiscountIdAlreadyApplied)//, ref string voucherErrorMesg
         {
             bool isApplyDiscount = true;
-            double DiscountAmountToApply = 0;
-            double DiscountAmountAlreadyApplied = 0;
+            double DiscountAmountToApply = -1; // This value considered as no discount value applied to item 
+            double DiscountRateAlreadyApplied = 0;
             if (storeDiscountVoucher != null)
             {
                 if (DiscountIdAlreadyApplied != null)
@@ -2304,41 +2382,26 @@ namespace MPC.Implementation.WebStoreServices
                     DiscountVoucher dvAlreadyApplied = _DVRepository.GetDiscountVoucherById(Convert.ToInt64(DiscountIdAlreadyApplied));
                     if (dvAlreadyApplied != null)
                     {
-                        DiscountAmountAlreadyApplied = dvAlreadyApplied.DiscountRate;
-                    }
-                }
-
-                if (storeDiscountVoucher.IsTimeLimit == true)
-                {
-                    DateTime? ValidFromDate = storeDiscountVoucher.ValidFromDate;
-                    DateTime? ValidUptoDate = storeDiscountVoucher.ValidUptoDate;
-                    DateTime TodayDate = DateTime.Now;
-                    if (ValidFromDate != null && ValidUptoDate != null)
-                    {
-                        if (TodayDate >= ValidFromDate && TodayDate <= ValidUptoDate)
-                        {
-                            isApplyDiscount = true;
-                        }
-                        else
-                        {
-                            isApplyDiscount = false;
-                        }
-                    }
-                    else
-                    {
-                        isApplyDiscount = false;
+                        DiscountRateAlreadyApplied = dvAlreadyApplied.DiscountRate;
                     }
                 }
 
                 if (storeDiscountVoucher.IsQtyRequirement == true)
                 {
-                    if (OrderedQty >= storeDiscountVoucher.MinRequiredQty && OrderedQty <= storeDiscountVoucher.MaxRequiredQty)
+                    if (storeDiscountVoucher.MinRequiredQty != null && storeDiscountVoucher.MinRequiredQty > 0  && OrderedQty <= storeDiscountVoucher.MaxRequiredQty)
                     {
-                        isApplyDiscount = true;
+                        if (OrderedQty < storeDiscountVoucher.MinRequiredQty)
+                        {
+                            isApplyDiscount = false;
+                        }
                     }
-                    else
+
+                    if (storeDiscountVoucher.MaxRequiredQty > 0 && storeDiscountVoucher.MaxRequiredQty != null)
                     {
-                        isApplyDiscount = false;
+                        if (OrderedQty > storeDiscountVoucher.MaxRequiredQty)
+                        {
+                            isApplyDiscount = false;
+                        }
                     }
                 }
 
@@ -2350,41 +2413,183 @@ namespace MPC.Implementation.WebStoreServices
                     }
                 }
 
-            }
-
-            if (isApplyDiscount && storeDiscountVoucher.DiscountRate > DiscountAmountAlreadyApplied)
-            {
-                if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.DollaramountoffEntireorder)
+                if (isApplyDiscount && storeDiscountVoucher.DiscountRate > DiscountRateAlreadyApplied)
                 {
-                    DiscountAmountToApply = storeDiscountVoucher.DiscountRate;
-                }
-                else if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.PercentoffEntirorder)
-                {
-                    DiscountAmountToApply = _ItemRepository.CalculatePercentage(itemTotal, storeDiscountVoucher.DiscountRate);
-                }
-                else if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.PercentoffEntirorder)
-                {
-                    DiscountAmountToApply = _ItemRepository.CalculatePercentage(itemTotal, storeDiscountVoucher.DiscountRate);
-                }
-                else
-                {
-                    if (_ItemVRepository.isVoucherAppliedOnThisProduct(storeDiscountVoucher.DiscountVoucherId, ItemId))
+                    if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.DollaramountoffEntireorder)
                     {
-                        if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.PercentoffaProduct)
+                        DiscountAmountToApply = storeDiscountVoucher.DiscountRate;
+                    }
+                    else if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.PercentoffEntirorder)
+                    {
+                        DiscountAmountToApply = _ItemRepository.CalculatePercentage(itemTotal, storeDiscountVoucher.DiscountRate);
+                    }
+                    else if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder)
+                    {
+                        DiscountAmountToApply = itemTotal;
+                    }
+                    else
+                    {
+                        if (_ItemVRepository.isVoucherAppliedOnThisProduct(storeDiscountVoucher.DiscountVoucherId, ItemId))
                         {
-                            DiscountAmountToApply = _ItemRepository.CalculatePercentage(itemTotal, storeDiscountVoucher.DiscountRate);
-                        }
-                        else if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.DollarAmountOffProduct)
-                        {
-                            DiscountAmountToApply = storeDiscountVoucher.DiscountRate;
+                            if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.PercentoffaProduct)
+                            {
+                                DiscountAmountToApply = _ItemRepository.CalculatePercentage(itemTotal, storeDiscountVoucher.DiscountRate);
+                            }
+                            else if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.DollarAmountOffProduct)
+                            {
+                                DiscountAmountToApply = storeDiscountVoucher.DiscountRate;
+                            }
                         }
                     }
                 }
             }
-
             return DiscountAmountToApply;
         }
+        public void SaveOrUpdateDiscountVoucher(DiscountVoucher storeDiscountVoucher)
+        {
+            _DVRepository.SaveChanges();
+        }
 
+        public string ValidateDiscountVoucher(DiscountVoucher storeDiscountVoucher)
+        {
+            if (storeDiscountVoucher.IsTimeLimit == true)
+            {
+                DateTime? ValidFromDate = storeDiscountVoucher.ValidFromDate;
+                DateTime? ValidUptoDate = storeDiscountVoucher.ValidUptoDate;
+                DateTime TodayDate = DateTime.Now;
+                if (ValidFromDate != null)
+                {
+                    if (TodayDate < ValidFromDate)
+                    {
+                        return "The promotion for the code you entered has not started yet it will begin on " + ValidFromDate.Value.Month.ToString() + " " + ValidFromDate.Value.Day + ", " + ValidFromDate.Value.Year;
+                    }
+                }
+                if (ValidUptoDate != null)
+                {
+                    if (TodayDate > ValidUptoDate)
+                    {
+                        return "This Voucher is Expired.";
+                    }
+                }
+                else 
+                {
+                    return "Invalid Voucher settings.";
+                }
+            }
+            return "Success";
+        }
+
+        public DiscountVoucher GetDiscountVoucherByCouponCode(string DiscountCouponCode, long StoreId, long OrganisationId)
+        {
+            try
+            {
+                return _DVRepository.GetDiscountVoucherByCouponCode(DiscountCouponCode, StoreId, OrganisationId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public void RollBackDiscountedItems(long OrderId, double StoreTaxRate, long StoreId, long OrganisationId)
+        {
+            try
+            {
+                double ItemBaseCharge = 0;
+
+                double DiscountAmountToApply = 0;
+
+                DiscountVoucher voucher = null;
+
+                Estimate order = _OrderRepository.GetOrderByID(OrderId);
+
+                List<Item> CartItems = _OrderRepository.GetOrderItems(OrderId);
+
+                if (order.DiscountVoucherID != null)
+                {
+                    
+                    var CouponAppliedItems = CartItems.Where(i => i.DiscountVoucherID == order.DiscountVoucherID).ToList();
+                    foreach (Item citem in CouponAppliedItems)
+                    {
+                            ItemBaseCharge = (citem.Qty1NetTotal ?? 0) + (citem.Qty1CostCentreProfit ?? 0);
+                       
+                            citem.Tax1 = Convert.ToInt32(StoreTaxRate);
+
+                            citem.Qty1Tax1Value = _ItemRepository.CalculatePercentage(ItemBaseCharge, StoreTaxRate);
+
+                            citem.Qty1GrossTotal = ItemBaseCharge + citem.Qty1Tax1Value;
+
+                            citem.Qty1BaseCharge1 = ItemBaseCharge;
+
+                            citem.Qty1NetTotal = ItemBaseCharge;
+
+                            citem.Qty1CostCentreProfit = null;
+
+                            citem.DiscountVoucherID = null;
+
+                            _ItemRepository.SaveChanges();
+                      
+                    }
+                    voucher = _DVRepository.GetDiscountVoucherById(Convert.ToInt64(order.DiscountVoucherID));
+                    if (voucher.CouponUseType == (int)CouponUseType.OneTimeUseCoupon)
+                    {
+                        if (voucher.IsSingleUseRedeemed == true)
+                        {
+                            voucher.IsSingleUseRedeemed = false;
+                            _DVRepository.SaveChanges();
+                        }
+                    }
+                }
+                order.DiscountVoucherID = null;
+                order.VoucherDiscountRate = null;
+                _OrderRepository.SaveChanges();
+
+                //Apply store default discount on items
+
+                voucher = _DVRepository.GetStoreDefaultDiscountRate(StoreId, OrganisationId);
+
+                if (voucher != null)
+                {
+                    if (ValidateDiscountVoucher(voucher) == "Success")
+                    {
+                        foreach (Item citem in CartItems)
+                        {
+                            DiscountAmountToApply = GetDiscountAmountByVoucher(voucher, citem.Qty1NetTotal ?? 0, citem.RefItemId ?? 0, Convert.ToDouble(citem.Qty1), citem.DiscountVoucherID);
+                            if (DiscountAmountToApply >= 0)
+                            {
+                                citem.DiscountVoucherID = voucher.DiscountVoucherId;
+                            }
+                            else
+                            {
+                                DiscountAmountToApply = 0;
+                            }
+
+                            ItemBaseCharge = (citem.Qty1NetTotal ?? 0) - DiscountAmountToApply;
+
+                            citem.Tax1 = Convert.ToInt32(StoreTaxRate);
+
+                            citem.Qty1Tax1Value = _ItemRepository.CalculatePercentage(ItemBaseCharge, StoreTaxRate);
+
+                            citem.Qty1GrossTotal = ItemBaseCharge + citem.Qty1Tax1Value;
+
+                            citem.Qty1BaseCharge1 = ItemBaseCharge;
+
+                            citem.Qty1NetTotal = ItemBaseCharge;
+
+                            citem.Qty1CostCentreProfit = DiscountAmountToApply;
+
+                            _ItemRepository.SaveChanges();
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
     }
 }
