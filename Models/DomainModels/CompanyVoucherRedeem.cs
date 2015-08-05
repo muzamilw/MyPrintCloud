@@ -20,5 +20,9 @@ namespace MPC.Models.DomainModels
         /// Discount Redeem Date
         /// </summary>
         public DateTime? RedeemDate { get; set; }
+        /// <summary>
+        /// Company Id
+        /// </summary>
+        public long? ContactId { get; set; }
     }
 }
