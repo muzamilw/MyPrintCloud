@@ -16,7 +16,7 @@
 </script>
 <body>
  
-    <ActiveReportsWeb:WebViewer ID="ARWebViewer" runat="server"  Height="700px" Width="900px">
+    <ActiveReportsWeb:WebViewer ID="ARWebViewer" runat="server"  Height="700px" Width="900px" ViewerType="AcrobatReader">
     </ActiveReportsWeb:WebViewer>
 </body>
 
