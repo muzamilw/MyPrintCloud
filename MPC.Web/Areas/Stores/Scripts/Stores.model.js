@@ -5,7 +5,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // #region ____________ S T O R E   L I S T    V I E W____________________
 
         // ReSharper disable once InconsistentNaming
-        StoreListView = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedIsCustomer, specifiedStoreImageFileBinary, specifiedDefaultDomain) {
+        StoreListView = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedIsCustomer, specifiedStoreImageFileBinary, specifiedDefaultDomain, specifiedSetIsStoreLive) {
             var
                 self,
                 companyId = ko.observable(specifiedCompanyId).extend({ required: true }),
@@ -17,6 +17,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 storeImageFileBinary = ko.observable(specifiedStoreImageFileBinary),
                 type = ko.observable(),
                 defaultDomain = ko.observable(specifiedDefaultDomain),
+                isStoreLive = ko.observable(specifiedSetIsStoreLive),
+                storeMode = ko.observable(),
                 // Errors
                 errors = ko.validation.group({
 
@@ -66,6 +68,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 domain: defaultDomain,
                 storeImageFileBinary: storeImageFileBinary,
                 isValid: isValid,
+                isStoreLive: isStoreLive,
+                storeMode:storeMode,
                 errors: errors,
                 dirtyFlag: dirtyFlag,
                 hasChanges: hasChanges,
@@ -82,7 +86,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.image,
             source.url,
             source.isCustomer,
-            source.defaultDomain
+            source.defaultDomain,
+            source.IsStoreLive
         );
         return result;
     };
@@ -95,7 +100,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.URL,
             source.IsCustomer,
             source.ImageBytes,
-            source.DefaultDomain
+            source.DefaultDomain,
+            source.IsStoreLive
         );
 
         //if (source.IsCustomer == 0) {
@@ -110,7 +116,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         else if (source.IsCustomer == 3) {
             store.type("Corporate");
         }
-
+        if (source.IsStoreLive == 'True' || source.IsStoreLive == true) {
+            store.storeMode("Live");
+        } else {
+            store.storeMode("Offline");
+        }
+            
+        
         return store;
     };
     // #endregion _________ S T O R E   L I S T    V I E W____________________

@@ -2275,7 +2275,8 @@ define("order/order.viewModel",
                                 isLoadingOrders(true);
 
                                 dataservice.downloadOrderArtwork({
-                                    OrderId: selectedOrder().id()
+                                    OrderId: selectedOrder().id(),
+                                    OrganisationId:0 // This value does't matters as this parameters is just to get value from WebStore into Controller.
                                 }, {
                                     success: function (data) {
                                         if (data != null) {
@@ -2300,7 +2301,8 @@ define("order/order.viewModel",
                             isLoadingOrders(true);
 
                             dataservice.downloadOrderArtwork({
-                                OrderId: selectedOrder().id()
+                                OrderId: selectedOrder().id(),
+                                OrganisationId: 0 // This value does't matters as this parameters is just to get value from WebStore into Controller.
                             }, {
                                 success: function (data) {
                                     if (data != null) {

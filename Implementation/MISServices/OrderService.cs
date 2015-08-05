@@ -302,6 +302,10 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void SaveItemAttachments(Estimate estimate)
         {
+            if(estimate.isDirectSale != true)
+                return;
+            ;
+           
             string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
             HttpServerUtility server = HttpContext.Current.Server;
             string mapPath = server.MapPath(mpcContentPath + "/Attachments/" + itemRepository.OrganisationId + "/" + estimate.CompanyId + "/Products/");

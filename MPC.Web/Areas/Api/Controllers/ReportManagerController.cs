@@ -36,5 +36,16 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         }
         
+       
+        //public string DownloadExternalReport(int ReportId,bool Mode)
+        //{
+        //    return _IReportService.DownloadExternalReport(ReportId, Mode);
+        //}
+       
+        public string gggg(int ReportId, int Mode)
+        {
+            bool GG = true;
+            return _IReportService.DownloadExternalReport(ReportId, GG);
+        }
     }
 }
