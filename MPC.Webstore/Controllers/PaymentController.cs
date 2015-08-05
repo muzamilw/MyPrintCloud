@@ -645,7 +645,7 @@ namespace MPC.Webstore.Controllers
                             _IPrePaymentService.CreatePrePayment(PaymentMethods.PayPal, orderID, Convert.ToInt32(customerID), 0, Request.QueryString["vpc_TransactionNo"], Convert.ToDouble(modelOrder.Estimate_Total), ModeOfStore);
 
 
-                            Response.Redirect("../Receipt.aspx?OrderID=" + orderID.ToString());
+                            Response.Redirect("/Receipt/" + orderID.ToString());
 
                         }
 

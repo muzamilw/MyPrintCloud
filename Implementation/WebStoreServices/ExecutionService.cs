@@ -307,6 +307,12 @@ namespace MPC.Implementation.WebStoreServices
 
                     // in this type the Criteria will be used that will be
 
+                    if (oItemSection == null)
+                    {
+                        functionReturnValue = 0;
+                        return functionReturnValue;
+                    }
+
                     if (oVariable.Type == 1)
                     {
                         switch (oVariable.PropertyType)
@@ -320,6 +326,12 @@ namespace MPC.Implementation.WebStoreServices
 
                                 break;
                             case (int)VariableProperty.PrintSheetQty_ProRata:
+
+                                if (Convert.ToDouble(oParamsArray[11]) != 0)
+                                {
+                                    functionReturnValue = Convert.ToDouble(oParamsArray[11]);
+                                    return functionReturnValue;
+                                }
 
                                 switch (CurrentQuantity)
                                 {
@@ -397,8 +409,15 @@ namespace MPC.Implementation.WebStoreServices
                             //    break;
 
                             case (int)VariableProperty.ImpressionQty_ProRata:
+                                if (Convert.ToDouble(oParamsArray[11]) != 0)
+                                {
+                                    functionReturnValue = Convert.ToDouble(oParamsArray[11]);
+                                    return functionReturnValue;
+                                }
+
                                 switch (CurrentQuantity)
                                 {
+
                                     case 1:
                                         functionReturnValue = Convert.ToDouble(oItemSection.ImpressionQty1);
                                         break;
@@ -573,6 +592,12 @@ namespace MPC.Implementation.WebStoreServices
 
                                 break;
                             case (int)VariableProperty.FinishedItemQty_ProRata:
+
+                                if (Convert.ToDouble(oParamsArray[11]) != 0)
+                                {
+                                    functionReturnValue = Convert.ToDouble(oParamsArray[11]);
+                                    return functionReturnValue;
+                                }
                                 switch (CurrentQuantity)
                                 {
                                     case 1:
@@ -645,6 +670,13 @@ namespace MPC.Implementation.WebStoreServices
 
                                 break;
                             case (int)VariableProperty.PrintSheetQtyIncSpoilage_ProRata:
+
+                                if (Convert.ToDouble(oParamsArray[11]) != 0)
+                                {
+                                    functionReturnValue = Convert.ToDouble(oParamsArray[11]);
+                                    return functionReturnValue;
+                                }
+
                                 switch (CurrentQuantity)
                                 {
                                     case 1:
@@ -665,6 +697,12 @@ namespace MPC.Implementation.WebStoreServices
                                 break;
 
                             case (int)VariableProperty.FinishedItemQtyIncSpoilage_ProRata:
+                                if (Convert.ToDouble(oParamsArray[11]) != 0)
+                                {
+                                    functionReturnValue = Convert.ToDouble(oParamsArray[11]);
+                                    return functionReturnValue;
+                                }
+
                                 switch (CurrentQuantity)
                                 {
                                     case 1:
