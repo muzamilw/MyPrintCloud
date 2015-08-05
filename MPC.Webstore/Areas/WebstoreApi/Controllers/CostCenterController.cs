@@ -214,6 +214,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     _CostCentreParamsArray[5] = 1;
                     //MultipleQuantities
 
+
+                    _CostCentreParamsArray[11] = OrderedQuantity;
+
                     //CurrentQuantity
                     _CostCentreParamsArray[6] = new List<StockQueueItem>();
                     //StockQueue
