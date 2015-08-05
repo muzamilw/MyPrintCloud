@@ -116,7 +116,7 @@
     alternatingRowStyle: "gridViewRowStyleForWebGrid",
     columns: new[] {
 
-    grid.Column("OrderCode","OrderCode"),
+    grid.Column("OrderCode","Order Code"),
     grid.Column("YourRef","Your PO reference",style:"hidden-xs"),
     grid.Column("SOrderDate","Order Date",style:"hidden-xs "),
     grid.Column("SOrderDeliveryDate","Estimated Delivery",style:"hidden-xs "),
@@ -124,8 +124,7 @@
       grid.Column("Download",header:Result, format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
       {
         <button  value="Download" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
-  background-color: transparent;" class="rounded_corners" onclick="DownLoadArtworkFile(@item.OrderID)" />
-
+          background-color: transparent;" class="rounded_corners" onclick="DownLoadArtworkFile(@item.OrderID)" />
       }</text>),
      grid.Column("View", format:@<text><button id="view" value="View" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" />
     </text>),
@@ -451,7 +450,7 @@
                                 </tr>
                                 <tr>
                                     <td align="left" style="width: 80%">
-                                        <span id="spnvattotal">Vat:</span>
+                                        <span id="spnvattotal">VAT:</span>
                                     </td>
                                     <td>
                                         <label id="lblVatTotal"><span id="Vat"></span></label>
