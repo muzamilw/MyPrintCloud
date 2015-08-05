@@ -279,7 +279,7 @@ namespace MPC.Repository.Repositories
             {
                  
                 TotalEarningResult = db.usp_TotalEarnings(new DateTime(now.Year, 01, 01), new DateTime(now.Year, 12, 31), OrganisationId),
-                //RegisteredUserByStores = db.usp_ChartRegisteredUserByStores(OrganisationId),
+                RegisteredUserByStores = db.usp_ChartRegisteredUserByStores(OrganisationId),
                 TopPerformingStores = db.usp_ChartTopPerformingStores(OrganisationId),
                 MonthlyOrdersCount = db.usp_ChartMonthlyOrdersCount(OrganisationId),
                 EstimateToOrderConversion = db.usp_ChartEstimateToOrderConversion(OrganisationId),
