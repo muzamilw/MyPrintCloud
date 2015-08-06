@@ -1890,7 +1890,10 @@ namespace MPC.Implementation.MISServices
             return FileName;
         }
 
-
+        public List<Item> GetOrderItems(long EstimateId)
+        {
+            return orderRepository.GetOrderItems(EstimateId);
+        } 
 
 
         #endregion

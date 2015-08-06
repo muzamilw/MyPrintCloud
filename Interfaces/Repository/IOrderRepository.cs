@@ -38,17 +38,17 @@ namespace MPC.Interfaces.Repository
 
         Estimate GetOrderByID(long orderId);
         bool SetOrderCreationDateAndCode(long orderId);
-        bool IsVoucherValid(string voucherCode);
+        //bool IsVoucherValid(string voucherCode);
         bool UpdateOrderStatusAfterPrePayment(Estimate tblOrder, OrderStatus orderStatus, StoreMode mode);
         void updateStockAndSendNotification(long ItemId, long StockID, StoreMode Mode, long companyId, int orderedQty, long contactId, long orderedItemid, long OrderId, List<Guid> MgrIds, Organisation org);
-        Estimate CheckDiscountApplied(int orderId);
+        //Estimate CheckDiscountApplied(int orderId);
 
-        bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode);
+        //bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode);
 
-        double SaveVoucherCodeAndRate(int orderId, string VCode);
-        double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate, StoreMode Mode);
+        //double SaveVoucherCodeAndRate(int orderId, string VCode);
+        //double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate, StoreMode Mode);
 
-        bool ResetOrderVoucherCode(int orderId);
+        //bool ResetOrderVoucherCode(int orderId);
         /// <summary>
         /// returns the order id of a logged in user if order exist in cart
         /// </summary>

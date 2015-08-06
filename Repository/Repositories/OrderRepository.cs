@@ -104,7 +104,7 @@ namespace MPC.Repository.Repositories
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 return (from r in db.Items
-                        where r.EstimateId == OrderId && (r.ItemType == null || r.ItemType != (int)ItemTypes.Delivery)
+                        where r.EstimateId == OrderId && r.IsOrderedItem == true && (r.ItemType == null || r.ItemType != (int)ItemTypes.Delivery)
                         select r).ToList();
             }
             catch (Exception ex)
@@ -490,6 +490,8 @@ namespace MPC.Repository.Repositories
                 PaperType = PaperName,
                 ItemType = tblItem.ItemType,
                 ProductWebDescription = tblItem.WebDescription,
+                DiscountedAmount = tblItem.Qty1CostCentreProfit,
+                DiscountedVoucherId = tblItem.DiscountVoucherID,
             };
             return prodItem;
         }
@@ -690,37 +692,37 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public bool IsVoucherValid(string voucherCode)
-        {
+        //public bool IsVoucherValid(string voucherCode)
+        //{
 
-            bool result = true;
-            DiscountVoucher discountVocher = null;
-            try
-            {
-                discountVocher = db.DiscountVouchers.Where(discVoucher => discVoucher.VoucherCode == voucherCode && discVoucher.IsEnabled && discVoucher.CompanyId == null).FirstOrDefault();
-                if (discountVocher != null)
-                {
+        //    bool result = true;
+        //    DiscountVoucher discountVocher = null;
+        //    try
+        //    {
+        //        discountVocher = db.DiscountVouchers.Where(discVoucher => discVoucher.VoucherCode == voucherCode && discVoucher.IsEnabled && discVoucher.CompanyId == null).FirstOrDefault();
+        //        if (discountVocher != null)
+        //        {
 
-                    if (discountVocher.ValidFromDate.HasValue && DateTime.Now < discountVocher.ValidFromDate.Value)
-                        result = false;
+        //            if (discountVocher.ValidFromDate.HasValue && DateTime.Now < discountVocher.ValidFromDate.Value)
+        //                result = false;
 
-                    else if (discountVocher.ValidUptoDate.HasValue && DateTime.Now > discountVocher.ValidUptoDate.Value)
-                        result = false;
+        //            else if (discountVocher.ValidUptoDate.HasValue && DateTime.Now > discountVocher.ValidUptoDate.Value)
+        //                result = false;
 
-                    //else if (discountVocher.OrderID.HasValue)
-                    //    result = false;
-                }
-                else
-                {
-                    result = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return result;
-        }
+        //            //else if (discountVocher.OrderID.HasValue)
+        //            //    result = false;
+        //        }
+        //        else
+        //        {
+        //            result = false;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return result;
+        //}
         public Estimate CheckDiscountApplied(int orderId)
         {
             try
@@ -735,138 +737,138 @@ namespace MPC.Repository.Repositories
             }
 
         }
-        public bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode)
-        {
+        //public bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode)
+        //{
 
-            double QtyNewTotal = 0;
-            double QtyTaxVal = 0;
+        //    double QtyNewTotal = 0;
+        //    double QtyTaxVal = 0;
 
-            List<Item> tblOrder = db.Items.Where(c => c.EstimateId == orderId && c.Qty1CostCentreProfit != null).ToList();
-            if (tblOrder != null)
-            {
-                foreach (var item in tblOrder.Where(i => i.ItemType != Convert.ToInt32(ItemTypes.Delivery)))
-                {
-                    SectionCostcentre SC = item.ItemSections.FirstOrDefault().SectionCostcentres.Where(c => c.CostCentreId == (int)CostCentresForWeb.WebOrderCostCentre).FirstOrDefault();
+        //    List<Item> tblOrder = db.Items.Where(c => c.EstimateId == orderId && c.Qty1CostCentreProfit != null).ToList();
+        //    if (tblOrder != null)
+        //    {
+        //        foreach (var item in tblOrder.Where(i => i.ItemType != Convert.ToInt32(ItemTypes.Delivery)))
+        //        {
+        //            SectionCostcentre SC = item.ItemSections.FirstOrDefault().SectionCostcentres.Where(c => c.CostCentreId == (int)CostCentresForWeb.WebOrderCostCentre).FirstOrDefault();
 
-                    QtyNewTotal = (double)item.Qty1NetTotal + (double)item.Qty1CostCentreProfit;
-                    QtyTaxVal = (QtyNewTotal * StateTax) / 100;
-                    item.Qty1NetTotal = QtyNewTotal;
-                    item.Qty1BaseCharge1 = QtyNewTotal;
-                    item.Qty1Tax1Value = QtyTaxVal;
-                    item.Qty1GrossTotal = QtyNewTotal + QtyTaxVal;
-                    item.ItemSections.FirstOrDefault().BaseCharge1 += (double)item.Qty1CostCentreProfit;
-                    if (SC != null)
-                    {
-                        SC.Qty1NetTotal += (double)item.Qty1CostCentreProfit;
-                        // SC.Qty1MarkUpValue = 0;
-                    }
-                    item.Qty1CostCentreProfit = 0;
-                }
-                if (db.SaveChanges() > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //            QtyNewTotal = (double)item.Qty1NetTotal + (double)item.Qty1CostCentreProfit;
+        //            QtyTaxVal = (QtyNewTotal * StateTax) / 100;
+        //            item.Qty1NetTotal = QtyNewTotal;
+        //            item.Qty1BaseCharge1 = QtyNewTotal;
+        //            item.Qty1Tax1Value = QtyTaxVal;
+        //            item.Qty1GrossTotal = QtyNewTotal + QtyTaxVal;
+        //            item.ItemSections.FirstOrDefault().BaseCharge1 += (double)item.Qty1CostCentreProfit;
+        //            if (SC != null)
+        //            {
+        //                SC.Qty1NetTotal += (double)item.Qty1CostCentreProfit;
+        //                // SC.Qty1MarkUpValue = 0;
+        //            }
+        //            item.Qty1CostCentreProfit = 0;
+        //        }
+        //        if (db.SaveChanges() > 0)
+        //        {
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
 
-        public double SaveVoucherCodeAndRate(int orderId, string VCode)
-        {
-            try
-            {
+        //public double SaveVoucherCodeAndRate(int orderId, string VCode)
+        //{
+        //    try
+        //    {
 
-                Estimate record = db.Estimates.Where(c => c.EstimateId == orderId).FirstOrDefault();
-                DiscountVoucher discountVocher = db.DiscountVouchers.Where(discVoucher => discVoucher.VoucherCode == VCode && discVoucher.IsEnabled).FirstOrDefault();
-                if (record != null)
-                {
-                    record.DiscountVoucherID = Convert.ToInt16(discountVocher.DiscountVoucherId);
-                    record.VoucherDiscountRate = discountVocher.DiscountRate;
-                }
-                if (db.SaveChanges() > 0)
-                {
-                    return discountVocher.DiscountRate;
-                }
-                else
-                {
-                    return 0;
-                }
+        //        Estimate record = db.Estimates.Where(c => c.EstimateId == orderId).FirstOrDefault();
+        //        DiscountVoucher discountVocher = db.DiscountVouchers.Where(discVoucher => discVoucher.VoucherCode == VCode && discVoucher.IsEnabled).FirstOrDefault();
+        //        if (record != null)
+        //        {
+        //            record.DiscountVoucherID = Convert.ToInt16(discountVocher.DiscountVoucherId);
+        //            record.VoucherDiscountRate = discountVocher.DiscountRate;
+        //        }
+        //        if (db.SaveChanges() > 0)
+        //        {
+        //            return discountVocher.DiscountRate;
+        //        }
+        //        else
+        //        {
+        //            return 0;
+        //        }
 
-            }
-            catch (Exception e)
-            {
-                return 0;
-                throw e;
-            }
-        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return 0;
+        //        throw e;
+        //    }
+        //}
 
-        public double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate, StoreMode Mode)
-        {
-            short status = (short)orderStatus;
-            double DiscountedAmount = 0;
-            double TotalDiscAmount = 0;
-            double TotalDiscAmountBroker = 0;
-            double QtyNewTotal = 0;
-            double QtyTaxVal = 0;
+        //public double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate, StoreMode Mode)
+        //{
+        //    short status = (short)orderStatus;
+        //    double DiscountedAmount = 0;
+        //    double TotalDiscAmount = 0;
+        //    double TotalDiscAmountBroker = 0;
+        //    double QtyNewTotal = 0;
+        //    double QtyTaxVal = 0;
 
 
-            List<Item> tblOrder = db.Items.Where(c => c.EstimateId == orderId && (c.ItemType == null || c.ItemType != 2) && (c.Qty1CostCentreProfit == null || c.Qty1CostCentreProfit == 0)).ToList();
-            if (tblOrder != null)
-            {
-                foreach (var item in tblOrder)
-                {
-                    SectionCostcentre SC = item.ItemSections.FirstOrDefault().SectionCostcentres.Where(c => c.CostCentreId == (int)CostCentresForWeb.WebOrderCostCentre).FirstOrDefault();
+        //    List<Item> tblOrder = db.Items.Where(c => c.EstimateId == orderId && (c.ItemType == null || c.ItemType != 2) && (c.Qty1CostCentreProfit == null || c.Qty1CostCentreProfit == 0)).ToList();
+        //    if (tblOrder != null)
+        //    {
+        //        foreach (var item in tblOrder)
+        //        {
+        //            SectionCostcentre SC = item.ItemSections.FirstOrDefault().SectionCostcentres.Where(c => c.CostCentreId == (int)CostCentresForWeb.WebOrderCostCentre).FirstOrDefault();
 
-                    DiscountedAmount = CalCulateVoucherDiscount(Convert.ToDouble(item.Qty1BaseCharge1), VDiscountRate);
-                    item.Qty1CostCentreProfit = DiscountedAmount;
-                    TotalDiscAmount += DiscountedAmount;
-                    QtyNewTotal = item.Qty1NetTotal - DiscountedAmount ?? 0;
-                    QtyTaxVal = (QtyNewTotal * StateTax) / 100;
-                    item.Qty1NetTotal = QtyNewTotal;
-                    item.Qty1BaseCharge1 = QtyNewTotal;
-                    item.Qty1Tax1Value = QtyTaxVal;
-                    item.Qty1GrossTotal = QtyNewTotal + QtyTaxVal;
-                    item.ItemSections.FirstOrDefault().BaseCharge1 -= DiscountedAmount;
-                    if (SC != null)
-                    {
-                        SC.Qty1NetTotal -= DiscountedAmount;
-                        //SC.Qty1MarkUpValue = -DiscountedAmount;
-                    }
-                }
-                if (db.SaveChanges() > 0)
-                {
+        //            DiscountedAmount = CalCulateVoucherDiscount(Convert.ToDouble(item.Qty1BaseCharge1), VDiscountRate);
+        //            item.Qty1CostCentreProfit = DiscountedAmount;
+        //            TotalDiscAmount += DiscountedAmount;
+        //            QtyNewTotal = item.Qty1NetTotal - DiscountedAmount ?? 0;
+        //            QtyTaxVal = (QtyNewTotal * StateTax) / 100;
+        //            item.Qty1NetTotal = QtyNewTotal;
+        //            item.Qty1BaseCharge1 = QtyNewTotal;
+        //            item.Qty1Tax1Value = QtyTaxVal;
+        //            item.Qty1GrossTotal = QtyNewTotal + QtyTaxVal;
+        //            item.ItemSections.FirstOrDefault().BaseCharge1 -= DiscountedAmount;
+        //            if (SC != null)
+        //            {
+        //                SC.Qty1NetTotal -= DiscountedAmount;
+        //                //SC.Qty1MarkUpValue = -DiscountedAmount;
+        //            }
+        //        }
+        //        if (db.SaveChanges() > 0)
+        //        {
 
-                    return TotalDiscAmount;
+        //            return TotalDiscAmount;
 
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
-                return 0;
-            }
+        //        }
+        //        else
+        //        {
+        //            return 0;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return 0;
+        //    }
 
-        }
-        private double CalCulateVoucherDiscount(double subTotal, double VoucherRate)
-        {
-            double discRate = VoucherRate;
-            double discountedAmount = 0;
+        //}
+        //private double CalCulateVoucherDiscount(double subTotal, double VoucherRate)
+        //{
+        //    double discRate = VoucherRate;
+        //    double discountedAmount = 0;
 
-            if (discRate > 0)
-            {
-                discountedAmount = CalculatePercentage(subTotal, discRate);
-            }
-            return discountedAmount;
-        }
+        //    if (discRate > 0)
+        //    {
+        //        discountedAmount = CalculatePercentage(subTotal, discRate);
+        //    }
+        //    return discountedAmount;
+        //}
 
         public static double CalculatePercentage(double itemValue, double percentageValue)
         {
@@ -876,28 +878,28 @@ namespace MPC.Repository.Repositories
 
             return percentValue;
         }
-        public bool ResetOrderVoucherCode(int orderId)
-        {
+        //public bool ResetOrderVoucherCode(int orderId)
+        //{
 
-            Estimate OrderRecord = db.Estimates.Where(c => c.EstimateId == orderId).FirstOrDefault();
-            if (OrderRecord != null)
-            {
-                OrderRecord.DiscountVoucherID = 0;
-                OrderRecord.VoucherDiscountRate = 0;
-                if (db.SaveChanges() > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //    Estimate OrderRecord = db.Estimates.Where(c => c.EstimateId == orderId).FirstOrDefault();
+        //    if (OrderRecord != null)
+        //    {
+        //        OrderRecord.DiscountVoucherID = 0;
+        //        OrderRecord.VoucherDiscountRate = 0;
+        //        if (db.SaveChanges() > 0)
+        //        {
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
         /// <summary>
         /// returns the order id of a logged in user if order exist in cart
         /// </summary>

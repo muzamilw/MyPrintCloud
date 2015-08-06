@@ -275,7 +275,7 @@
                                              style="max-height: 335px;"></div>*@
 
                                         <div class="graph-box lightgray-bg">
-                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'month',xLabelMargin: 3,ykeys: $root.yAxisPointdummy,labels: $root.chartLabelsdummy,xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>
+                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.RegisteredUsers, xkey: 'monthname',xLabelMargin: 3,ykeys: $root.yAxisPointdummy,labels: $root.chartLabelsdummy,xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>
                                         </div>
                                     </div>
                                     <h2 class="graphheaderright">Monthly Orders Count</h2>

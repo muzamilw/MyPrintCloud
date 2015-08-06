@@ -1,4 +1,5 @@
 ﻿using GrapeCity.ActiveReports;
+using GrapeCity.ActiveReports.Export.Pdf.Section;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
@@ -193,6 +194,7 @@ namespace MPC.Implementation.MISServices
                     {
                         currReport.Run();
                         GrapeCity.ActiveReports.Export.Pdf.Section.PdfExport pdf = new GrapeCity.ActiveReports.Export.Pdf.Section.PdfExport();
+                        pdf.ImageQuality = ImageQuality.Highest;
                         string Path = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/");
                         if (!Directory.Exists(Path))
                         {

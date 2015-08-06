@@ -621,6 +621,7 @@
           <Property Name="canPlaceDirectOrder" Type="bit" />
           <Property Name="OrganisationId" Type="bigint" />
           <Property Name="SecondaryEmail" Type="varchar" MaxLength="200" />
+          <Property Name="RegistrationDate" Type="datetime" />
         </EntityType>
         <EntityType Name="CompanyContactRole">
           <Key>
@@ -686,6 +687,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="CompanyId" Type="bigint" />
           <Property Name="DiscountVoucherId" Type="bigint" />
           <Property Name="RedeemDate" Type="datetime" />
+          <Property Name="ContactId" Type="bigint" />
         </EntityType>
         <EntityType Name="CostCenterChoice">
           <Key>
@@ -9073,6 +9075,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Invoices" Relationship="DomainModels.FK_Invoice_CompanyContact" FromRole="CompanyContact" ToRole="Invoice" />
           <NavigationProperty Name="NewsLetterSubscribers" Relationship="DomainModels.FK_tbl_NewsLetterSubscribers_tbl_Contacts" FromRole="CompanyContact" ToRole="NewsLetterSubscriber" />
           <Property Name="SecondaryEmail" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="CompanyContactRole">
           <Key>
@@ -14969,6 +14972,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="CompanyId" Type="Int64" />
           <Property Name="DiscountVoucherId" Type="Int64" />
           <Property Name="RedeemDate" Type="DateTime" Precision="3" />
+          <Property Name="ContactId" Type="Int64" />
         </EntityType>
         <ComplexType Name="usp_ChartRegisteredUserByStores_Result">
           <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
@@ -15591,6 +15595,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="CompanyContacts">
             <EntityTypeMapping TypeName="DomainModels.CompanyContact">
               <MappingFragment StoreEntitySet="CompanyContact">
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
                 <ScalarProperty Name="SecondaryEmail" ColumnName="SecondaryEmail" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="canPlaceDirectOrder" ColumnName="canPlaceDirectOrder" />
@@ -19746,6 +19751,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="CompanyVoucherRedeems">
             <EntityTypeMapping TypeName="DomainModels.CompanyVoucherRedeem">
               <MappingFragment StoreEntitySet="CompanyVoucherRedeem">
+                <ScalarProperty Name="ContactId" ColumnName="ContactId" />
                 <ScalarProperty Name="RedeemDate" ColumnName="RedeemDate" />
                 <ScalarProperty Name="DiscountVoucherId" ColumnName="DiscountVoucherId" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
