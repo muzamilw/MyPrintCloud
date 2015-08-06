@@ -120,7 +120,7 @@ namespace MPC.Implementation.MISServices
                         currReport.DataSource = ReportRepository.GetReportDataSourceByReportID(iReportID, "");
                     }
 
-                  
+                    //currReport.Document.pr
                     //DataTable dataSourceList = ReportRepository.GetReportDataSourceByReportID(iReportID, CriteriaParam);
                     //currReport.DataSource = dataSourceList;
 
