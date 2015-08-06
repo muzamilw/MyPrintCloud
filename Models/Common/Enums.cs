@@ -524,4 +524,18 @@ namespace MPC.Models.Common
         Medium = 2,
         Low = 3
     }
+    public enum PipelineSource : int
+    {
+       	WebtoPrintSite = 26,
+	    EmailCampaign = 27,
+	    Referral = 28,
+	    Mailingcampaign = 29,
+	    InternetSearch = 30,
+	    Radio = 53,
+	    TV = 54,
+	    Facebook = 55,
+	    LinkedIn = 56,
+	    Twitter = 57,
+	    SocialOther = 58
+    }
 }

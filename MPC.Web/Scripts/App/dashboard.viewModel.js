@@ -206,14 +206,14 @@ define("dashboard.viewModel",
                         var currentMonth = 0;
                         var uCounter = 1;
                         chartLabelsdummy.removeAll();
-                        //_.each(data, function (item) {
-                        //    var store = _.filter(chartLabelsdummy(), function (label) {
-                        //        return store !== null && label.toLowerCase() === item.Name.toLowerCase();
-                        //    });
-                        //    if (chartLabelsdummy().length === 0 || store.length === 0) {
-                        //        chartLabelsdummy().push(item.Name);
-                        //    }
-                        //});
+                        _.each(data, function (item) {
+                            var store = _.filter(chartLabelsdummy(), function (label) {
+                                return store !== null && label.toLowerCase() === item.Name.toLowerCase();
+                            });
+                            if (chartLabelsdummy().length === 0 || store.length === 0) {
+                                chartLabelsdummy().push(item.Name);
+                            }
+                        });
                         _.each(data, function (tUser) {
                             var item = dummyUsers()[tUser.Month - 1];
                             if (tUser.Month != currentMonth) {
@@ -222,39 +222,23 @@ define("dashboard.viewModel",
                                 item.month = currentMonth;
                                 item.monthname = tUser.Year + "-0" + currentMonth;
                                 uCounter = 1;
-                                chartLabelsdummy().push(tUser.Name);
+                               // chartLabelsdummy().push(tUser.Name);
                                 tempUsers.push(item);
                             } else {
                                 
                                 uCounter = uCounter + 1;
                                 _.each(tempUsers(), function (user) {
-                                    var store = _.filter(chartLabelsdummy(), function (label) {
-                                        return store !== null && label.toLowerCase() === tUser.Name.toLowerCase();
-                                    });
                                     if (user.month == currentMonth && uCounter == 2) {
                                         user.totalStore2 = tUser.TotalContacts;
-                                       
-                                        if (chartLabelsdummy().length === 0 || store.length === 0) {
-                                            chartLabelsdummy().push(tUser.Name);
-                                        }
                                     }
                                     if (user.month == currentMonth && uCounter == 3) {
                                         user.totalStore3 = tUser.TotalContacts;
-                                        if (chartLabelsdummy().length === 0 || store.length === 0) {
-                                            chartLabelsdummy().push(tUser.Name);
-                                        }
                                     }
                                     if (user.month == currentMonth && uCounter == 4) {
                                         user.totalStore4 = tUser.TotalContacts;
-                                        if (chartLabelsdummy().length === 0 || store.length === 0) {
-                                            chartLabelsdummy().push(tUser.Name);
-                                        }
                                     }
                                     if (user.month == currentMonth && uCounter == 5) {
                                         user.totalStore5 = tUser.TotalContacts;
-                                        if (chartLabelsdummy().length === 0 || store.length === 0) {
-                                            chartLabelsdummy().push(tUser.Name);
-                                        }
                                     }
                                     
                                 });

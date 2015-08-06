@@ -377,6 +377,7 @@
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BillingShippingAddressManagerController.cs" />
+    <Compile Include="Controllers\BlackAndWhiteHeaderMenuController.cs" />
     <Compile Include="Controllers\BreadCrumbController.cs" />
     <Compile Include="Controllers\CategoriesAndProductsController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
@@ -510,6 +511,7 @@
     <Content Include="Content\HomeBannerS4.js" />
     <Content Include="Content\Images\artwork_light_icons.png" />
     <Content Include="Content\Images\bg2.png" />
+    <Content Include="Content\Images\bonhamsBakground.png" />
     <Content Include="Content\Images\bugzy.PNG" />
     <Content Include="Content\Images\Clock-Icon-Blue.png" />
     <Content Include="Content\Images\costcentreLoader.gif" />
@@ -989,6 +991,7 @@
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Domain\ClearCache.cshtml" />
     <Content Include="Views\Shared\PartialViews\HeaderWithCategoriesAndProducts.cshtml" />
+    <Content Include="Views\BlackAndWhiteHeaderMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -997,6 +1000,7 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
+    <Folder Include="Views\BlackAndWhiteHeaderMenu\" />
     <Folder Include="Views\FutureFormHeader\" />
   </ItemGroup>
   <ItemGroup>
