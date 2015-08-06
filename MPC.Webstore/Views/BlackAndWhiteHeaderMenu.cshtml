@@ -1,0 +1,79 @@
+﻿
+<div id="bonhamsControl"  class="content_area container">
+    <div class="left_right_padding">
+        <ul class="bonhamsMenu navM cursor_pointer">
+            <li>
+                <a href="/">Home</a>
+
+            </li>
+            <li>
+                <a href="/ContactDetail">Edit My Details</a>
+
+            </li>
+
+
+            <li>
+                <a href="/SavedDesigns">Saved Projects</a>
+
+            </li>
+            <li>
+                <a id="orderRedirectLink" href="/ProductOrderHistory">Order History</a>
+
+            </li>
+            <li>
+                <a href="/Dashboard">Open Catelogue</a>
+
+            </li>
+            <li>
+                <a href="/ShopCart">My Shopping Basket</a>
+
+            </li>
+            <li>
+                <input type="button" id="lnkBtnSignOut" value="Log Out"
+                       onclick="Go()" />
+            </li>
+        </ul>
+        <ul id="bonhamUserStatus" class="navM" style="width: 1000px; padding-left: 0px;">
+            <li style="width: 12%; ">
+                <Label ID="loggedInUser" Text="Logged in Mr William Smith"></Label>
+            </li>
+            <li style="width: 28%; margin-right: 0px;">
+                <Label ID="savedDesnglbl" Text="You have 4 Saved Project(s)"></Label>
+
+            </li>
+
+
+
+            <li style="width: 29%; margin-right: 0px;">
+
+                <Label ID="cartItemsCount"  Text="0 Items in your basket(s)"></Label>
+            </li>
+
+            <li style="width: 29%; margin-right: 0px;">
+                <Label ID="cartBalance"  Text="Balance $0.00"></Label>
+
+            </li>
+
+        </ul>
+
+        <div class="clearBoth">
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    function Go() {
+        alert();
+        $.ajax({
+            type: "POST",
+            url: "/BlackAndWhiteHeaderMenu/LogOut",
+            contentType: "application/json",
+            dataType: "json",
+            async: true,
+            success: function (response) {
+               
+            }
+        });
+    }
+
+</script>
