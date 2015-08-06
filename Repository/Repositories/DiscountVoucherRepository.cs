@@ -99,6 +99,20 @@ namespace MPC.Repository.Repositories
             }
 
         }
+
+        public DiscountVoucher GetDiscountVoucherByCouponCode(string DiscountVoucherName, long StoreId, long OrganisationId)
+        {
+            try
+            {
+                return db.DiscountVouchers.Where(d => d.CouponCode == DiscountVoucherName && d.CompanyId == StoreId && d.OrganisationId == OrganisationId).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+      
         #endregion
     }
 }

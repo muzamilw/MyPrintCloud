@@ -345,6 +345,7 @@
     <Compile Include="Areas\Api\Controllers\CopyOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\CopyEstimateController.cs" />
     <Compile Include="Areas\Api\Controllers\DiscountVaoucherDetailController.cs" />
+    <Compile Include="Areas\Api\Controllers\DownloadReportController.cs" />
     <Compile Include="Areas\Api\Controllers\OrganisationLicensingController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductChildCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForOrderController.cs" />
@@ -3578,7 +3579,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>30630</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
