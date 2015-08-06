@@ -104,7 +104,7 @@ namespace MPC.Repository.Repositories
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 return (from r in db.Items
-                        where r.EstimateId == OrderId && (r.ItemType == null || r.ItemType != (int)ItemTypes.Delivery)
+                        where r.EstimateId == OrderId && r.IsOrderedItem == true && (r.ItemType == null || r.ItemType != (int)ItemTypes.Delivery)
                         select r).ToList();
             }
             catch (Exception ex)

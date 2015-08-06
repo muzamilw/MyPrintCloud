@@ -49,11 +49,17 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                 MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
-                string voucherErrorMesg = "";
-
                 if (storeDiscountVoucher != null)
                 {
-                    if (storeDiscountVoucher.CouponUseType == (int)CouponUseType.OneTimeUseCoupon)
+                    if (storeDiscountVoucher.CouponUseType == (int)CouponUseType.UnlimitedUse)
+                    {
+                        ApplyVoucher(storeDiscountVoucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), messages);
+                    }
+                    else if (storeDiscountVoucher.CouponUseType == (int)CouponUseType.OneTimeUsePerCustomer)
+                    {
+                        ApplyVoucher(storeDiscountVoucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), messages);
+                    }
+                    else if (storeDiscountVoucher.CouponUseType == (int)CouponUseType.OneTimeUseCoupon)
                     {
                         if (storeDiscountVoucher.IsSingleUseRedeemed == true)
                         {
@@ -62,28 +68,13 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                         }
                         else
                         {
-                            voucherErrorMesg = _ItemService.ValidateDiscountVoucher(storeDiscountVoucher);
-                            if (voucherErrorMesg == "Success")
-                            {
-                                if (_ItemService.ApplyDiscountOnCartProducts(storeDiscountVoucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate)))
-                                {
-                                    storeDiscountVoucher.IsSingleUseRedeemed = true;
+                            ApplyVoucher(storeDiscountVoucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), messages);
 
-                                    _ItemService.SaveOrUpdateDiscountVoucher(storeDiscountVoucher);
-
-                                    messages.Add("Success");
-                                   
-                                }
-                                else
-                                {
-                                    messages.Add("Error");
-                                    messages.Add("This Voucher is not applicable on the product(s) in cart. Please try another one.");
-                                }
-                            }
-                            else
+                            if (messages[0] == "Success")
                             {
-                                messages.Add("Error");
-                                messages.Add(voucherErrorMesg);
+                                storeDiscountVoucher.IsSingleUseRedeemed = true;
+
+                                _ItemService.SaveOrUpdateDiscountVoucher(storeDiscountVoucher);
                             }
                         }
                     }
@@ -114,6 +105,29 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
 
             return Request.CreateResponse(HttpStatusCode.OK, messages);
+        }
+
+        void ApplyVoucher(DiscountVoucher storeDiscountVoucher, long OrderId, double StoreTaxRate, List<string> messages) 
+        {
+            string voucherDisplayMesg = "";
+            voucherDisplayMesg = _ItemService.ValidateDiscountVoucher(storeDiscountVoucher);
+            if (voucherDisplayMesg == "Success")
+            {
+                if (_ItemService.ApplyDiscountOnCartProducts(storeDiscountVoucher, OrderId, StoreTaxRate))
+                {
+                    messages.Add("Success");
+                }
+                else
+                {
+                    messages.Add("Error");
+                    messages.Add("This Voucher is not applicable on the product(s) in cart. Please try another one.");
+                }
+            }
+            else
+            {
+                messages.Add("Error");
+                messages.Add(voucherDisplayMesg);
+            }
         }
     }
 }

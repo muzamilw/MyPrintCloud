@@ -35,22 +35,20 @@
         </ul>
         <ul id="bonhamUserStatus" class="navM" style="width: 1000px; padding-left: 0px;">
             <li style="width: 12%; ">
-                <Label ID="loggedInUser" Text="Logged in Mr William Smith"></Label>
+                <Label ID="loggedInUser" >@ViewBag.loggedInUser</Label>
             </li>
             <li style="width: 28%; margin-right: 0px;">
-                <Label ID="savedDesnglbl" Text="You have 4 Saved Project(s)"></Label>
+                <Label ID="savedDesnglbl">@ViewBag.SavedDesignItmesTotal</Label>
 
             </li>
 
-
-
             <li style="width: 29%; margin-right: 0px;">
 
-                <Label ID="cartItemsCount"  Text="0 Items in your basket(s)"></Label>
+                <Label ID="cartItemsCount">@ViewBag.CartCount</Label>
             </li>
 
             <li style="width: 29%; margin-right: 0px;">
-                <Label ID="cartBalance"  Text="Balance $0.00"></Label>
+                <Label ID="cartBalance">@ViewBag.OrderTotal</Label>
 
             </li>
 

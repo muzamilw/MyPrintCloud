@@ -74,7 +74,9 @@ namespace MPC.Implementation.MISServices
                     OrganisationID = org.OrganisationId;
                 }
                 Report currentReport = ReportRepository.GetReportByReportID(iReportID);
+               
                 SectionReport currReport = new SectionReport();
+             
                 if (currentReport.ReportId > 0)
                 {
                     byte[] rptBytes = null;
@@ -120,7 +122,7 @@ namespace MPC.Implementation.MISServices
                         currReport.DataSource = ReportRepository.GetReportDataSourceByReportID(iReportID, "");
                     }
 
-                  
+                    //currReport.Document.pr
                     //DataTable dataSourceList = ReportRepository.GetReportDataSourceByReportID(iReportID, CriteriaParam);
                     //currReport.DataSource = dataSourceList;
 
