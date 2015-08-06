@@ -15,12 +15,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="pull-right top-page-ui" style="margin-bottom:17px;">
-                        <button class="btn btn-yellow" style="margin-top:-10px;" id="editTemplate" data-bind="click: $root.editTemplate, visible: $root.canEditTemplateFromEditor">Edit Template</button>
-                        <button class="btn btn-danger" style="margin-top:-10px;" data-bind="click: $root.onDeleteProduct, visible: id() > 0">Delete</button>
-                        <button class="btn" style="margin-top:-10px;" data-bind="click: $root.onArchiveProduct, visible: id() > 0">Archive</button>
-                        <button class="btn btn-primary" style="margin-top:-10px;" id="saveBtn" data-bind="click: $root.onSaveProduct, css: { 'btn-warning': hasChanges }, enable: hasChanges() && !$root.pageHasErrors()">Save</button>
-                        <button class="btn btn-default" style="margin-top:-10px;" id="cancelBtn" data-bind="click: $root.onCloseProductEditor">Close</button>
+                    <div class="pull-right top-page-ui" style="margin-bottom:19px;margin-top:-21px;">
+                        <button class="btn btn-yellow" id="editTemplate" data-bind="click: $root.editTemplate, visible: $root.canEditTemplateFromEditor">Edit Template</button>
+                        <button class="btn btn-danger"  data-bind="click: $root.onDeleteProduct, visible: id() > 0">Delete</button>
+                        <button class="btn" data-bind="click: $root.onArchiveProduct, visible: id() > 0">Archive</button>
+                        <button class="btn btn-primary"  id="saveBtn" data-bind="click: $root.onSaveProduct, css: { 'btn-warning': hasChanges }, enable: hasChanges() && !$root.pageHasErrors()">Save</button>
+                        <button class="btn btn-default"  id="cancelBtn" data-bind="click: $root.onCloseProductEditor">Close</button>
                     </div>
                 </div>
             </div>
