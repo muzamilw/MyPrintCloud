@@ -1,4 +1,5 @@
-﻿using MPC.Models.Common;
+﻿using MPC.Interfaces.WebStoreServices;
+using MPC.Models.Common;
 using MPC.Webstore.Common;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,31 @@ namespace MPC.Webstore.Controllers
 {
     public class BlackAndWhiteHeaderMenuController : Controller
     {
+        private readonly IWebstoreClaimsHelperService _webstoreclaimHelper;
+         private readonly IItemService _itemService;
+         private readonly ICompanyService _companyservice;
+         public BlackAndWhiteHeaderMenuController(IWebstoreClaimsHelperService _webstoreclaimHelper, IItemService _itemService, ICompanyService _companyservice)
+        {
+          this._webstoreclaimHelper=_webstoreclaimHelper;
+          this._itemService = _itemService;
+          this._companyservice = _companyservice;
+        }
         // GET: BlackAndWhiteHeaderMenu
         public ActionResult Index()
         {
             ViewBag.loggedInUser = "Logged in " + UserCookieManager.WEBContactFirstName + UserCookieManager.WEBContactLastName;
-            
+            if (_webstoreclaimHelper.isUserLoggedIn())
+            {
+
+                ViewBag.CartCount = string.Format("{0}", _itemService.GetCartItemsCount(_webstoreclaimHelper.loginContactID(), 0, _webstoreclaimHelper.loginContactCompanyID()).ToString());
+            }
+            else
+            {
+
+                ViewBag.CartCount = string.Format("{0}", _itemService.GetCartItemsCount(0, UserCookieManager.TemporaryCompanyId, 0).ToString());
+            }
+            ViewBag.OrderTotal = _companyservice.GetOrderTotalById(UserCookieManager.WEBOrderId);
+            ViewBag.SavedDesignItmesTotal = _companyservice.GetSavedDesignCountByContactId(_webstoreclaimHelper.loginContactID());
             return View();
         }
         [HttpPost]

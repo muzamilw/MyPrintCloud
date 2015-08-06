@@ -1518,5 +1518,13 @@ namespace MPC.Implementation.WebStoreServices
                 return null;
             }
         }
+        public int GetSavedDesignCountByContactId(long ContactID)
+        {
+            return _itemRepository.GetSavedDesignCountByContactId(ContactID);
+        }
+        public double? GetOrderTotalById(long OrderId)
+        {
+            return _orderrepository.GetOrderTotalById(OrderId);
+        }
     }
 }
