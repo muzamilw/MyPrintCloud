@@ -141,6 +141,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public int GetNewOrdersCount(int noOfLastDays, long companyId)
         {
+           
             DateTime currenteDate = DateTime.UtcNow.Date.AddDays(-noOfLastDays);
             return DbSet.Count(estimate => estimate.isEstimate == false && companyId == estimate.CompanyId && estimate.CreationDate >= currenteDate);
         }
