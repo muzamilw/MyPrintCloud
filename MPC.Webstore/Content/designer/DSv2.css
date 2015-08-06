@@ -7233,7 +7233,7 @@ input[type="radio"] {
 .multiBackCarouselContainer {
     position: absolute;
     right: 0;
-    width: 73.5%;
+    width:100%;
     bottom: 0;
     overflow: hidden;
     padding: 20px 18px 20px 0;

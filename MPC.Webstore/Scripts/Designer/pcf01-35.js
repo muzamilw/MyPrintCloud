@@ -3624,7 +3624,9 @@ function pcl44_rLoad_CallBack() {
 function toggleMbPanel() {
     
     if ( $(".multiBackCarouselContainer").css("display") == "none") {
-        $(".multiBackCarouselContainer").css("display","block");
+        $("#collapseDesignerMenu").click();
+        $(".multiBackCarouselContainer").css("display", "block");
+        
     } else  {
         $(".multiBackCarouselContainer").css("display", "none");
     }
