@@ -7,7 +7,7 @@
 <div data-bind="visible: $root.isEditorVisible()" style="display: none">
     @*<form method="post" enctype="multipart/form-data" id="fileUploadForm">*@
     <div class="col-lg-12">
-        <div class="row">
+        <div class="row" style="margin-left:-1px;">
             <div class="col-lg-12">
                 <ol class="breadcrumb" style="padding-left:0px;">
                     <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
@@ -24,7 +24,7 @@
                     <li class="active"><span data-bind="text:$root.productStatus"></span></li>
                     <!-- /ko -->
                 </ol>
-                <div class="tab-content dynamicNameHeading" data-bind="with: $root.selectedStore()" style="height:41px;">
+                <div class="tab-content dynamicNameHeading" data-bind="with: $root.selectedStore()" style="height:41px;margin-left:-3px;">
                     <h1 data-bind="text:$root.storeHeading()!='undefined-undefined' ?$root.storeHeading():'' " style="padding-left:0px;"></h1>
                 </div>
             </div>
