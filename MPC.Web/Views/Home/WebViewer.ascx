@@ -12,12 +12,18 @@
         
     }
 
-   
+   void printReport()
+    {
+       
+    }
 </script>
 <body>
- 
-    <ActiveReportsWeb:WebViewer ID="ARWebViewer" runat="server"  Height="700px" Width="900px">
+     <%-- <input type="button" id="printReport" value="Print Report" style="width: 100px;height: 30px;color: white;" onclick="window.print()" />
+    <div id="myDiv" style="margin-left:60px;">--%>
+         <ActiveReportsWeb:WebViewer ID="ARWebViewer" runat="server"  Height="700px" Width="900px"   ViewerType="AcrobatReader">
     </ActiveReportsWeb:WebViewer>
+    <%--</div>--%>
+   
 </body>
 
 
