@@ -59,14 +59,14 @@ namespace MPC.Implementation.MISServices
                 switch (outputUnit)
                 {
                     case LengthUnit.Cm:
-                        conversionUnit = systemUnit.CM.HasValue ? Math.Round(input * (double)systemUnit.CM, 0) : 0;
+                        conversionUnit = systemUnit.CM.HasValue ? Math.Round(input * (double)systemUnit.CM, 3) : 0;
                         break;
                     case LengthUnit.Inch:
-                        conversionUnit = systemUnit.Inch.HasValue ? Math.Round(input * (double)systemUnit.Inch, 0) : 0;
+                        conversionUnit = systemUnit.Inch.HasValue ? Math.Round(input * (double)systemUnit.Inch, 3) : 0;
                         break;
                     case LengthUnit.Mm:
                         conversionUnit = systemUnit.MM.HasValue ? (double)systemUnit.MM : 0;
-                        conversionUnit = Math.Round(input*conversionUnit, 0);
+                        conversionUnit = input*conversionUnit;
                         break;
                 }
 
