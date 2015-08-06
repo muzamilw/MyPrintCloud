@@ -446,7 +446,7 @@ namespace MPC.Repository.Repositories
                             template.Orientation = oTemplate.Orientation;
                             template.PDFTemplateHeight = oTemplate.PDFTemplateHeight;
                             template.PDFTemplateWidth = oTemplate.PDFTemplateWidth;
-
+                            template.TemplateType = oTemplate.TemplateType;
                         }
                         db.SaveChanges();
                         newProductID = template.ProductId;
