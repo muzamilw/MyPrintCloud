@@ -23,10 +23,23 @@ define("dashboard.viewModel",
 
                        // Total Earnings
                     estimateToOrderConversion = ko.observableArray([]),
-
+                    tempUsers = ko.observableArray([]),
                        // Total Earnings
                     estimateToOrderConversionCount = ko.observableArray([]),
-
+                    dummyUsers = ko.observableArray([
+                        { monthname: '2015-01', totalStore1: 10, totalStore2: 20, totalStore3: 30, totalStore4: 40, totalStore5: 50, month: 1, year: 2015 },
+                        { monthname: '2015-02', totalStore1: 25, totalStore2: 35, totalStore3: 45, totalStore4: 50, totalStore5: 60, month: 2, year: 2015 },
+                        { monthname: '2015-03', totalStore1: 40, totalStore2: 60, totalStore3: 70, totalStore4: 80, totalStore5: 80, month: 3, year: 2015 },
+                        { monthname: '2015-04', totalStore1: 0, totalStore2: 0, totalStore3: 0, totalStore4: 0, totalStore5: 0, month: 4, year: 2015 },
+                        { monthname: '2015-05', totalStore1: 0, totalStore2: 0, totalStore3: 0, totalStore4: 0, totalStore5: 0, month: 5, year: 2015 },
+                        { monthname: '2015-06', totalStore1: 0, totalStore2: 0, totalStore3: 0, totalStore4: 0, totalStore5: 0, month: 6, year: 2015 },
+                        { monthname: '2015-07', totalStore1: 0, totalStore2: 0, totalStore3: 0, totalStore4: 0, totalStore5: 0, month: 7, year: 2015 },
+                        { monthname: '2015-08', totalStore1: 0, totalStore2: 0, totalStore3: 0, totalStore4: 0, totalStore5: 0, month: 8, year: 2015 },
+                        { monthname: '2015-09', totalStore1: 0, totalStore2: 0, totalStore3: 0, totalStore4: 0, totalStore5: 0, month: 9, year: 2015 },
+                        { monthname: '2015-10', totalStore1: 0, totalStore2: 0, totalStore3: 0, totalStore4: 0, totalStore5: 0, month: 10, year: 2015 },
+                        { monthname: '2015-11', totalStore1: 0, totalStore2: 0, totalStore3: 0, totalStore4: 0, totalStore5: 0, month: 11, year: 2015 },
+                        { monthname: '2015-12', totalStore1: 0, totalStore2: 0, totalStore3: 0, totalStore4: 0, totalStore5: 0, month: 12, year: 2015 }
+                    ]),
                        // Registered Users
                     RegisteredUsers = ko.observableArray([]),
 
@@ -38,8 +51,9 @@ define("dashboard.viewModel",
                     counter = 1,
                     // Y axis point for chart
                     yAxisPoints = [],
-                    yAxisPointdummy = ko.observableArray(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']),
-                    chartLabelsdummy = ko.observableArray(['PinkCards.com', 'Goldwell.com', 'saleflow.com', 'yolkpm.com', 'eazyprint.com', 'sunnyland.com', 'printtech.com', 'printmedia.com', 'cloudfusion.com']),
+                    yAxisPointdummy = ko.observableArray(['totalStore1', 'totalStore2', 'totalStore3', 'totalStore4', 'totalStore5']),
+                    //chartLabelsdummy = ko.observableArray(['PinkCards.com', 'Goldwell.com', 'saleflow.com', 'yolkpm.com', 'eazyprint.com', 'sunnyland.com', 'printtech.com', 'printmedia.com', 'cloudfusion.com']),
+                    chartLabelsdummy = ko.observableArray([]),
                     yAxisPointsWithStoreName = ko.observableArray([]),
                     chartLabels = [],
                      // customers
@@ -72,40 +86,34 @@ define("dashboard.viewModel",
                 // months = ['jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
                 line = ko.observable([
 
-                                //{ month: '2015-01', a: 100, b: 110, c: 120, d:130, e:140, f:150, g:160, h:170, i:180 },
-                                //{ month: '2015-02', a: 120, b: 130, c: 140, d: 140, e: 150, f: 150, g: 160, h: 170, i: 180 },
-                                //{ month: '2015-03', a: 130, b: 140, c: 160, d: 150, e: 160, f: 150, g: 160, h: 170, i: 180 },
-                                //{ month: '2015-04', a: 120, b: 190, c: 170, d: 160, e: 170, f: 150, g: 160, h: 170, i: 180 },
-                                { month: '2015-05', a: 100, b: 120, c: 180, d: 170, e: 180, f: 150, g: 160, h: 170, i: 180 },
-                                { month: '2015-06', a: 100, b: 110, c: 110, d: 160, e: 190, f: 150, g: 160, h: 170, i: 180 },
-                                { month: '2015-07', a: 105, b: 90, c: 110, d: 170, e: 120, f: 150, g: 160, h: 170, i: 180 },
-                                { month: '2015-08', a: 100, b: 90, c: 80, d: 130, e: 200, f: 150, g: 160, h: 170, i: 180 },
-                                { month: '2015-09', a: 100, b: 90, c: 60, d: 180, e: 210, f: 150, g: 160, h: 170, i: 180 },
-                                { month: '2015-10', a: 100, b: 90, c: 100, d: 190, e: 220, f: 150, g: 160, h: 170, i: 180 },
-                                { month: '2015-11', a: 300, b: 90, c: 90, d: 180, e: 225, f: 150, g: 160, h: 170, i: 180 },
-                                { month: '2015-12', a: 100, b: 90, c: 130, d: 170, e: 230, f: 150, g: 160, h: 170, i: 180 }
+                                { month: '2015-01', a: 100, b: 110, c: 120, d:130, e:140 },
+                                { month: '2015-02', a: 120, b: 130, c: 140, d: 140, e: 150},
+                                { month: '2015-03', a: 130, b: 140, c: 160, d: 150, e: 160 },
+                                { month: '2015-04', a: 120, b: 190, c: 170, d: 160, e: 170 },
+                                { month: '2015-05', a: 100, b: 120, c: 180, d: 170, e: 180},
+                                { month: '2015-06', a: 100, b: 110, c: 110, d: 160, e: 190 },
+                                { month: '2015-07', a: 105, b: 90, c: 110, d: 170, e: 120 },
+                                { month: '2015-08', a: 100, b: 90, c: 80, d: 130, e: 200 },
+                                { month: '2015-09', a: 100, b: 90, c: 60, d: 180, e: 210 },
+                                { month: '2015-10', a: 100, b: 90, c: 100, d: 190, e: 220 },
+                                { month: '2015-11', a: 300, b: 90, c: 90, d: 180, e: 225},
+                                { month: '2015-12', a: 100, b: 90, c: 130, d: 170, e: 230 }
                     
                 ]),
                 //line = ko.observable([
-
-                //                { month: '2008-01', jan: 100, feb: 90, mar: 120, apri: 100, e: 910, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
-                //                { month: '2008-02', a: 110, b: 90, c: 120, d: 500, e: 920, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
-                //                { month: '2008-03', a: 120, b: 90, c: 120, d: 600, e: 930, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
-                //                { month: '2008-04', a: 130, b: 90, c: 120, d: 200, e: 940, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
-                //                { month: '2008-05', a: 140, b: 90, c: 120, d: 300, e: 950, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
-                //                { month: '2008-06', a: 150, b: 90, c: 120, d: 500, e: 90, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
-                //                { month: '2008-07', a: 160, b: 90, c: 120, d: 600, e: 90, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
-                //                { month: '2008-08', a: 170, b: 90, c: 120, d: 100, e: 960, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
-                //                { month: '2008-09', a: 180, b: 90, c: 120, d: 600, e: 90, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
-                //                { month: '2008-10', a: 190, b: 90, c: 120, d: 100, e: 970, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
-                //                { month: '2008-11', a: 200, b: 90, c: 120, d: 100, e: 970, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
-                //                { month: '2008-12', a: 210, b: 90, c: 120, d: 100, e: 90, f: 120, g: 100, h: 90, i: 120, j: 100, k: 90, l: 120 },
-                //    //{ year: 'Jun', value: 8 },
-                //    //{ year: 'Aug', value: 20 },
-                //    //{ year: 'Sep', value: 20 },
-                //    //{ year: 'Oct', value: 20 },
-                //    //{ year: 'Nov', value: 20 },
-                //    //{ year: 'Dec', value: 20 }
+                //                { month: '2015-01', a: 100 },
+                //                { month: '2015-02', a: 120},
+                //                { month: '2015-03', a: 130},
+                //                { month: '2015-04', a: 120},
+                //                { month: '2015-05', a: 100},
+                //                { month: '2015-06', a: 100},
+                //                { month: '2015-07', a: 105},
+                //                { month: '2015-08', a: 100},
+                //                { month: '2015-09', a: 100},
+                //                { month: '2015-10', a: 100},
+                //                { month: '2015-11', a: 300},
+                //                { month: '2015-12', a: 100}
+                
                 //]),
                  line1 = ko.observable([
 
@@ -160,6 +168,105 @@ define("dashboard.viewModel",
                     }
                 });
             },
+            //Map Registered Users
+                    //select Name, count(*) as TotalContacts, Month, MonthName, Year 
+            mapRegisteredUsers = function(data) {
+                //var rCounter = 0;
+                //var currentMonth = 0;
+                //_.each(data, function (tUser) {
+                //    if (tUser.Month != currentMonth) {
+                //        currentMonth = tUser.Month;
+                //        rCounter = rCounter + 1;
+                //    }
+
+                //    if (tUser.Month !== null && tUser.Month !== 0) {
+                //        var item = dummyUsers()[tUser.Month - 1];
+                //        if (item !== undefined && item !== null) {
+                //            var duplicateItem = model.RegisteredUser.Create(tUser, rCounter);
+                //            var category = _.filter(yAxisPointdummy(), function (tData) {
+                //                return duplicateItem.monthname !== null && tData.monthname !== null && tData.monthname.toLowerCase() === duplicateItem.monthname.toLowerCase();
+                //            });
+                //            if (category.length > 0) {
+                //                duplicateItem.month = item.month;
+                //                duplicateItem[category[0].y] = duplicateItem.totalStore1;
+                //                dummyUsers.push(duplicateItem);
+                //            }
+
+                //        }
+                //    }
+                //});
+                //ko.utils.arrayPushAll(RegisteredUsers(), dummyUsers());
+                //RegisteredUsers.valueHasMutated();
+                
+                
+                 transposeUsersData(data);
+               
+            },
+                    transposeUsersData = function (data) {
+                        var currentMonth = 0;
+                        var uCounter = 1;
+                        chartLabelsdummy.removeAll();
+                        //_.each(data, function (item) {
+                        //    var store = _.filter(chartLabelsdummy(), function (label) {
+                        //        return store !== null && label.toLowerCase() === item.Name.toLowerCase();
+                        //    });
+                        //    if (chartLabelsdummy().length === 0 || store.length === 0) {
+                        //        chartLabelsdummy().push(item.Name);
+                        //    }
+                        //});
+                        _.each(data, function (tUser) {
+                            var item = dummyUsers()[tUser.Month - 1];
+                            if (tUser.Month != currentMonth) {
+                                currentMonth = tUser.Month;
+                                item.totalStore1 = tUser.TotalContacts;
+                                item.month = currentMonth;
+                                item.monthname = tUser.Year + "-0" + currentMonth;
+                                uCounter = 1;
+                                chartLabelsdummy().push(tUser.Name);
+                                tempUsers.push(item);
+                            } else {
+                                
+                                uCounter = uCounter + 1;
+                                _.each(tempUsers(), function (user) {
+                                    var store = _.filter(chartLabelsdummy(), function (label) {
+                                        return store !== null && label.toLowerCase() === tUser.Name.toLowerCase();
+                                    });
+                                    if (user.month == currentMonth && uCounter == 2) {
+                                        user.totalStore2 = tUser.TotalContacts;
+                                       
+                                        if (chartLabelsdummy().length === 0 || store.length === 0) {
+                                            chartLabelsdummy().push(tUser.Name);
+                                        }
+                                    }
+                                    if (user.month == currentMonth && uCounter == 3) {
+                                        user.totalStore3 = tUser.TotalContacts;
+                                        if (chartLabelsdummy().length === 0 || store.length === 0) {
+                                            chartLabelsdummy().push(tUser.Name);
+                                        }
+                                    }
+                                    if (user.month == currentMonth && uCounter == 4) {
+                                        user.totalStore4 = tUser.TotalContacts;
+                                        if (chartLabelsdummy().length === 0 || store.length === 0) {
+                                            chartLabelsdummy().push(tUser.Name);
+                                        }
+                                    }
+                                    if (user.month == currentMonth && uCounter == 5) {
+                                        user.totalStore5 = tUser.TotalContacts;
+                                        if (chartLabelsdummy().length === 0 || store.length === 0) {
+                                            chartLabelsdummy().push(tUser.Name);
+                                        }
+                                    }
+                                    
+                                });
+                                
+                            }
+                            
+                            
+                        });
+                        ko.utils.arrayPushAll(RegisteredUsers(), tempUsers());
+                        RegisteredUsers.valueHasMutated();
+                    },
+                    
 
                 // Map Orders 
                 mapTotalEarnings = function (data) {
@@ -207,10 +314,11 @@ define("dashboard.viewModel",
                             ko.utils.arrayPushAll(totalEarnings(), data.TotalEarningResult);
                             totalEarnings.valueHasMutated();
 
-                           //  registered users
-                            RegisteredUsers.removeAll();
-                            ko.utils.arrayPushAll(RegisteredUsers(), data.RegisteredUserByStores);
-                            RegisteredUsers.valueHasMutated();
+                            //  registered users
+                            mapRegisteredUsers(data.RegisteredUserByStores);
+                            //RegisteredUsers.removeAll();
+                            //ko.utils.arrayPushAll(RegisteredUsers(), data.RegisteredUserByStores);
+                            //RegisteredUsers.valueHasMutated();
 
                             // top performing stores
                             topPerformingStores.removeAll();

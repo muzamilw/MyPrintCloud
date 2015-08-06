@@ -84,5 +84,7 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         Estimate CloneOrder(long estimateId);
 
+        List<Item> GetOrderItems(long EstimateId);
+
     }
 }

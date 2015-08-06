@@ -1189,7 +1189,7 @@ body:not(.compactHeader) .documentMenu {
     }
 
     body:not(.compactHeader) .documentMenu:active .marker {
-        background-color: #FFD602;
+        background-color: #F7772F;
     }
 
     body:not(.compactHeader) .documentMenu li {

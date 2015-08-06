@@ -137,14 +137,21 @@
                         }
                         @if (Model.ProductType == (int)ProductType.NonPrintProduct)
                         {
-                            if (ViewBag.TemplateID == 0)
+                            if (Model.IsUploadImage == true)
                             {
                                 
                                     <a href="@ViewBag.btnUploadDesignPath">
-                                        <input id="btnUploadDesign" value="Add to Cart" type="button"
+                                        <input id="btnUploadDesign" value="Upload your Design" type="button"
                                                class="btn_upload_design_Prod_details background-green rounded_corners5 padding0imp" />
                                     </a>
 
+                            }
+                            else
+                            {
+                                <a href="@ViewBag.btnUploadDesignPath">
+                                    <input id="btnUploadDesign" value="Add to Cart" type="button"
+                                           class="btn_upload_design_Prod_details background-green rounded_corners5 padding0imp" />
+                                </a>
                             }
                         }
                         else if (Model.ProductType == (int)ProductType.MarketingBrief)
