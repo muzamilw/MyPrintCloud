@@ -74,11 +74,11 @@ namespace MPC.Repository.Repositories
         }
 
 
-        public DiscountVoucher GetStoreDefaultDiscountRate(long StoreId, long OrganisationId)
+        public List<DiscountVoucher> GetStoreDefaultDiscountVouchers(long StoreId, long OrganisationId)
         {
             try
             {
-                return db.DiscountVouchers.Where(d => d.CompanyId == StoreId && d.CouponCode == null && d.IsEnabled == true).FirstOrDefault();
+                return db.DiscountVouchers.Where(d => d.CompanyId == StoreId && d.CouponCode == null && d.IsEnabled == true && ((d.IsTimeLimit == null || d.IsTimeLimit == false) || (d.IsTimeLimit == true && d.ValidFromDate >= DateTime.Now))).ToList();
             }
             catch (Exception ex)
             {
@@ -104,7 +104,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.DiscountVouchers.Where(d => d.CouponCode == DiscountVoucherName && d.CompanyId == StoreId && d.OrganisationId == OrganisationId).FirstOrDefault();
+                return db.DiscountVouchers.Where(d => d.CouponCode == DiscountVoucherName && d.CompanyId == StoreId && d.OrganisationId == OrganisationId && d.IsEnabled == true).FirstOrDefault();
             }
             catch (Exception ex)
             {

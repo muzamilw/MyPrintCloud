@@ -86,5 +86,10 @@ namespace MPC.Models.Common
             get;
             set;
         }
+        public long? DeliveryDiscountVoucherID
+        {
+            get;
+            set;
+        }
     }
 }

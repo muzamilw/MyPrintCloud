@@ -51,6 +51,6 @@ namespace MPC.Interfaces.Repository
         /// <param name="CompanyID"></param>
         /// <returns></returns>
         ItemSection GetFirstSectionOfItem(long ItemId);
-        
+        ItemSection GetSectionByItemId(long ItemId);
     }
 }
