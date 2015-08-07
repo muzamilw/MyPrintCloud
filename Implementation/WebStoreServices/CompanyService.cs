@@ -879,6 +879,7 @@ namespace MPC.Implementation.WebStoreServices
         /// <returns></returns>
         public int GetAllPendingOrders(long CompanyId, OrderStatus statusId)
         {
+
             try
             {
                 return _CompanyContactRepository.GetAllPendingOrders(CompanyId, statusId);
@@ -1522,12 +1523,19 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
 
-
+        public int GetSavedDesignCountByContactId(long ContactID)
+        {
+            return _itemRepository.GetSavedDesignCountByContactId(ContactID);
+        }
+        public double? GetOrderTotalById(long OrderId)
+        {
+            return _orderrepository.GetOrderTotalById(OrderId);
+            }
         public bool IsVoucherUserByCustomer(long contactId, long companyId, long DiscountVoucherId)
         {
             try
             {
-               return _companyVoucherReedemRepository.IsVoucherUserByCustomer(contactId, companyId, DiscountVoucherId);
+                return _companyVoucherReedemRepository.IsVoucherUserByCustomer(contactId, companyId, DiscountVoucherId);
             }
             catch (Exception ex)
             {

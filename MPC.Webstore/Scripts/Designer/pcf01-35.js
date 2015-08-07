@@ -3621,3 +3621,13 @@ function pcl44_rLoad_CallBack() {
         d5(SP);
    // }
 }
+function toggleMbPanel() {
+    
+    if ( $(".multiBackCarouselContainer").css("display") == "none") {
+        $("#collapseDesignerMenu").click();
+        $(".multiBackCarouselContainer").css("display", "block");
+        
+    } else  {
+        $(".multiBackCarouselContainer").css("display", "none");
+    }
+}

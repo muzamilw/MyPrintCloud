@@ -6976,6 +6976,11 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        public double? GetOrderTotalById(long OrderId)
+        {
+                return db.Estimates.Where(e => e.EstimateId == OrderId).Select(t => t.Estimate_Total).FirstOrDefault();
+        }
+
     }
 }
 

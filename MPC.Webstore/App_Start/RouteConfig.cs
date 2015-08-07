@@ -69,8 +69,16 @@ namespace MPC.Webstore
                 "OxfordTopLevelCategories/SubmitSubscribeData",
                 new { controller = "OxfordTopLevelCategories", action = "SubmitSubscribeData", id = UrlParameter.Optional }
             );
-
-
+            routes.MapRoute(
+                "metroCatggggggg",
+                "MetroTestimonial/SubmitTestimonialData",
+                new { controller = "MetroTestimonial", action = "SubmitTestimonialData", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                            "logdoggg",
+                            "BlackAndWhiteHeaderMenu/LogOut",
+                            new { controller = "BlackAndWhiteHeaderMenu", action = "LogOut", id = UrlParameter.Optional }
+                        );
             routes.MapRoute(
                 "QuickCAlculatorProducts",
                 "QuickCalculator/GetAllProducts",

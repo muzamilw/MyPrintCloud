@@ -99,6 +99,7 @@ namespace MPC.Implementation.WebStoreServices
               obj.Height = objtemplate.PDFTemplateWidth;
               obj.Width = objtemplate.PDFTemplateHeight;
           }
+           
            return obj;
         }
         private TemplateObject returnLocalObject(GlobalTemplateDesigner.TemplateObjects tempObj)
@@ -3017,6 +3018,7 @@ namespace MPC.Implementation.WebStoreServices
                         oTemp[1] = oTemplatePagesV2[1];
                         oTemplatePagesV2 = oTemp;
                     }
+                    //template type 3 for multiback business cards 
                     Template oTemplate = returnLocalTemplate(oTemplateV2);
                     List<TemplatePage> oTemplatePages = new List<TemplatePage>();
                     foreach(var obj in oTemplatePagesV2)
