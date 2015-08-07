@@ -40,7 +40,7 @@
                         </div>
                        
                         <div>
-                            <div class="col-sm-12" style="padding-right: 17px;padding-left:15px;">
+                            <div class="col-sm-12" style="padding-right: 16px;padding-left:15px;">
                                 <!-- ko template: { name: 'orderFilterTemplate' } -->
                                 <!-- /ko -->
                                 
@@ -97,15 +97,10 @@
                                     <div class="filter-block pull-right" style=" margin-top: 0px; margin-right: -10px;">
                                         <div class="form-group pull-left">
                                             <!--ko if: currentScreen() != 8 -->
-                                            @*<select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: selectedFilterFlag, foreach: $root.sectionFlags">
-                            <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
-                        </select>*@
+                                            
                                             <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag"></select>
                                             <!--/ko-->
                                             <!--ko if: currentScreen() == 8 -->
-                                            @*<select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: selectedFilterFlag, foreach: $root.inquiriesSectionFlags">
-                            <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
-                        </select>*@
                                             <select class="form-control" data-bind="options: $root.inquiriesSectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag"></select>
                                             <!--/ko-->
                                         </div>
@@ -144,6 +139,9 @@
                         <script id="orderListViewTemplate" type="text/html">
                             <tr data-bind=" click: $root.editOrder" style="cursor:pointer;">
                                 <td>
+                                    &nbsp;
+                                </td>
+                                <td>
                                     <a data-bind="text: companyName" style="cursor:pointer;" class="user-link"></a>
                                     <span class="user-subhead">
                                         <span data-bind="text: name"></span>
@@ -168,13 +166,14 @@
                                 </td>
                                 <!--/ko-->
                                 <!--ko if: $root.currentScreen() == 0 || $root.currentScreen() == 1 || $root.currentScreen() == undefined-->
-                                <th class="col-sm-2" style="padding-top: 29px;"><span style="margin-right: 0px; float: right; font-weight: normal;" data-bind="text:$root.currencySymbol()+estimateTotal()"></span></th>
+                                <th class="col-sm-2" style="padding-top: 29px;padding-right:66px;"><span style="margin-right: 0px; float: right; font-weight: normal;" data-bind="text:$root.currencySymbol()+estimateTotal()"></span></th>
                                 <!--/ko-->
                             </tr>
                         </script>
                         @* inquiries List View Template *@
                         <script id="inquiriesListViewTemplate" type="text/html">
                             <tr data-bind="click: $root.editInquiry" style="cursor:pointer;">
+                                <td>&nbsp;</td>
                                 <td>
                                     <a data-bind="text: companyName" style="cursor:pointer;" class="user-link"></a>
                                     <span class="user-subhead">
@@ -192,7 +191,9 @@
                                     @*<span data-bind="text: ' '"></span>
                                     <span data-bind="text: noOfInquiryItems"></span>*@
                                 </td>
-
+                                <td>
+                                    &nbsp;
+                                </td>
                             </tr>
                         </script>
                         @* Tab Items Lists*@
@@ -213,11 +214,12 @@
                                     <p class="group-header-description">Review all outstanding estimates, find, copy & edit estimates quickly with the inbuilt search function. </p>
                                 </div>
                                 <!--/ko-->
-                                <div class="table-responsive" style="padding-right:7px;padding-left:7px;">
+                                <div class="table-responsive" style="padding-right:10px;padding-left:10px;">
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>
-                                                <th class="col-sm-4" style=""><span>Customer</span></th>
+                                                <th class="col-sm-1">&nbsp;</th>
+                                                <th class="col-sm-3"><span>Customer</span></th>
                                                 <th class="col-sm-2">
                                                     <!--ko if: $root.currentScreen() != 8-->
                                                     <span>Estimate Code</span>
@@ -226,11 +228,12 @@
                                                 <th class="col-sm-2"><span>Estimate Date</span></th>
                                                 <th class="col-sm-2"><span>Flag</span></th>
                                                 <!--ko if: $root.currentScreen() == 0-->
-                                                <th class="col-sm-2" style="width: 13%;"><span>Status</span></th>
+                                                <th class="col-sm-2"><span>Status</span></th>
                                                 <!--/ko-->
                                                 <!--ko if: $root.currentScreen() == 0  || $root.currentScreen() == 1  || $root.currentScreen() == undefined-->
-                                                <th class="col-sm-2"><span style=" float: right;">Estimate Total</span></th>
+                                                <th class="col-sm-2"><span>Estimate Total</span></th>
                                                 <!--/ko-->
+                                                
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -260,11 +263,12 @@
                                 <div class="tabsdescriptions">
                                     <p class="group-header-description">Quickly Respond to quote requests from webstore by opening the request and converting it to an estimate.</p> 
                                 </div>
-                                <div class="table-responsive" style="padding-left:7px;padding-right:7px;">
+                                <div class="table-responsive" style="padding-left:10px;padding-right:10px;">
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>
-                                                <th class="col-sm-4"><span>Customer</span></th>
+                                                <th class="col-sm-1">&nbsp;</th>
+                                                <th class="col-sm-3"><span>Customer</span></th>
                                                 <th class="col-sm-2"><span>Require By Date</span></th>
                                                 <th class="col-sm-2"><span>Flag</span></th>
                                                 <th class="col-sm-2">Status</th>
