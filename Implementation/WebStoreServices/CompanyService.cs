@@ -876,6 +876,7 @@ namespace MPC.Implementation.WebStoreServices
         /// <returns></returns>
         public int GetAllPendingOrders(long CompanyId, OrderStatus statusId)
         {
+
             try
             {
                 return _CompanyContactRepository.GetAllPendingOrders(CompanyId, statusId);
@@ -1517,6 +1518,14 @@ namespace MPC.Implementation.WebStoreServices
                 throw e;
                 return null;
             }
+        }
+        public int GetSavedDesignCountByContactId(long ContactID)
+        {
+            return _itemRepository.GetSavedDesignCountByContactId(ContactID);
+        }
+        public double? GetOrderTotalById(long OrderId)
+        {
+            return _orderrepository.GetOrderTotalById(OrderId);
         }
     }
 }

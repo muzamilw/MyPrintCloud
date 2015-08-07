@@ -4503,8 +4503,35 @@ namespace MPC.Repository.Repositories
             }
 
         }
-        
-       
+        public  int GetSavedDesignCountByContactId(long ContactID)
+        {
+
+            
+                long sameItem = 0;
+                
+                
+                    List<SaveDesignView> NewList = new List<SaveDesignView>();
+                    List<SaveDesignView> ListsavedDesign = (from savedDesign in db.SaveDesignViews
+                                                           where savedDesign.ContactID == ContactID
+                                                           select savedDesign).ToList();
+
+                    foreach (var s in ListsavedDesign)
+                    {
+                        if (sameItem > 0 && s.ItemID == sameItem)
+                        {
+
+                        }
+                        else
+                        {
+                            sameItem = s.ItemID;
+                            NewList.Add(s);
+                        }
+                    }
+
+                    return NewList.Count;
+                }
+            }
+            
         #endregion
     }
-}
+
