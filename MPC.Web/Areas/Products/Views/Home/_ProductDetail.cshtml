@@ -15,12 +15,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="pull-right top-page-ui" style="margin-bottom:17px;">
-                        <button class="btn btn-yellow" style="margin-top:-10px;" id="editTemplate" data-bind="click: $root.editTemplate, visible: $root.canEditTemplateFromEditor">Edit Template</button>
-                        <button class="btn btn-danger" style="margin-top:-10px;" data-bind="click: $root.onDeleteProduct, visible: id() > 0">Delete</button>
-                        <button class="btn" style="margin-top:-10px;" data-bind="click: $root.onArchiveProduct, visible: id() > 0">Archive</button>
-                        <button class="btn btn-primary" style="margin-top:-10px;" id="saveBtn" data-bind="click: $root.onSaveProduct, css: { 'btn-warning': hasChanges }, enable: hasChanges() && !$root.pageHasErrors()">Save</button>
-                        <button class="btn btn-default" style="margin-top:-10px;" id="cancelBtn" data-bind="click: $root.onCloseProductEditor">Close</button>
+                    <div class="pull-right top-page-ui" style="margin-bottom:19px;margin-top:-21px;">
+                        <button class="btn btn-yellow" id="editTemplate" data-bind="click: $root.editTemplate, visible: $root.canEditTemplateFromEditor">Edit Template</button>
+                        <button class="btn btn-danger"  data-bind="click: $root.onDeleteProduct, visible: id() > 0">Delete</button>
+                        <button class="btn" data-bind="click: $root.onArchiveProduct, visible: id() > 0">Archive</button>
+                        <button class="btn btn-primary"  id="saveBtn" data-bind="click: $root.onSaveProduct, css: { 'btn-warning': hasChanges }, enable: hasChanges() && !$root.pageHasErrors()">Save</button>
+                        <button class="btn btn-default"  id="cancelBtn" data-bind="click: $root.onCloseProductEditor">Close</button>
                     </div>
                 </div>
             </div>
@@ -1018,7 +1018,7 @@
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Selling Price Stock Attributes</h3>
 
-                                    <div class="tabsdescriptions" style="margin-top:0px !important;">
+                                    <div class="tabsdescriptions" style="margin-top:0px !important;margin-left:2px;">
                                         <p class="group-header-description">You can select upto 11 stock attributes and each stock attribute can have its price matrix and multiple cost centers which can be marked mandatory or optional.<br />These Stock price attributes will appear on price selection page allowing user to select a stock option.<br /> It's cost centers and final price will be based on the stock options prices.</p>
                                     </div>
                                     <div class="col-lg-12" style="padding-right:0px;">
@@ -1185,7 +1185,7 @@
                                             </div>*@
 
                                     </div>
-                                    <div class="col-lg-12" style="margin-top: 30px;">
+                                    <div class="col-lg-12" style="margin-top: 30px;padding-left:3px;padding-right:0px;">
                                         <div style="background-color:gainsboro; border-radius:3px">
                                             <header class="main-box-header clearfix">
                                                 <div style="float:left;" class="group-header-description">
@@ -1194,9 +1194,9 @@
                                                 </div>
                                             </header>
 
-                                            <div class="main-box-body clearfix">
+                                            <div class="main-box-body clearfix" style="">
                                                 <div class="table-responsive">
-                                                    <span class="input-group-addon" style="float:left;font-weight: bold;font-size: 19px;padding-left: 5px;" data-bind="text: $root.currencyUnit"></span>
+                                                    <span class="input-group-addon" style="float:left;font-weight: bold;font-size: 19px;" data-bind="text: $root.currencyUnit"></span>
                                                     <table class="table table-striped table-hover">
                                                         <thead>
                                                             <!-- ko template: { name: 'headerPriceMatrixTemplate' } -->
@@ -1292,7 +1292,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-12 form-horizontal">
+                                    <div class="col-lg-12 form-horizontal" style="padding-left:3px;padding-right:0px;">
                                         <h3 class="group-header">Product Dimension</h3>
                                         <p class="group-header-description">These dimensions are used for calculating delivery charges if store uses External delivery carriers. </p>
                                         <div class="col-lg-9">
@@ -1614,7 +1614,7 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="tab-internalDescription" data-bind="with: selectedProduct">
-                                <div class="col-lg-12 form-horizontal">
+                                <div class="col-lg-12 form-horizontal" style="padding-left:3px;padding-right:0px;">
 
                                     <div class="col-lg-12">
                                         <div class="clearfix" id="tabsHeader" style="height:467px;">
@@ -1631,10 +1631,10 @@
                                                 <div class="tab-content">
                                                     <div class="tab-pane fade in active" id="tab-ProdSpec">
                                                         <div class="col-lg-12 form-horizontal">
-                                                            <div class="tabsdescriptions">
+                                                            <div class="tabsdescriptions" style="margin-left:2px;">
                                                                 <p class="group-header-description">Product specifications are displayed on the Store’s Product detail and Product Options page. Text can be formatted using HTML tags. </p>
                                                             </div>
-                                                            <div class="col-lg-12 Internal-Tab-Height">
+                                                            <div class="col-lg-12 Internal-Tab-Height" style="padding-left:3px;padding-right:0px;">
 
                                                                 <textarea class="form-control textAreaHeight" id="txtareaProdSpec" rows="5" data-bind="value: webDescription"></textarea>
 
@@ -1644,10 +1644,10 @@
                                                     </div>
                                                     <div class="tab-pane fade" id="tab-MarketingTips">
                                                         <div class="col-lg-12 form-horizontal">
-                                                            <div class="tabsdescriptions">
-                                                                <p class="group-header-description">Marketing tips are displayed on Store’s Product Detail page. Text can be formatted using HTML tags.</p>
+                                                            <div class="tabsdescriptions" style="margin-left:2px;">
+                                                                <p class="group-header-description" >Marketing tips are displayed on Store’s Product Detail page. Text can be formatted using HTML tags.</p>
                                                             </div>
-                                                            <div class="col-lg-12 Internal-Tab-Height">
+                                                            <div class="col-lg-12 Internal-Tab-Height" style="padding-left:3px;padding-right:0px;">
 
                                                                 <textarea class="form-control textAreaHeight" id="txtMarketintips" rows="5" data-bind="value: productSpecification"></textarea>
 
@@ -1660,10 +1660,10 @@
                                                     </div>
                                                     <div class="tab-pane fade" id="tab-MoreIdeas">
                                                         <div class="col-lg-12 form-horizontal">
-                                                            <div class="tabsdescriptions">
+                                                            <div class="tabsdescriptions" style="margin-left:2px;">
                                                                 <p class="group-header-description">More Ideas are displayed on Store’s Product Detail page. Text can be formatted using HTML tags. </p>
                                                             </div>
-                                                            <div class="col-lg-12 Internal-Tab-Height">
+                                                            <div class="col-lg-12 Internal-Tab-Height" style="padding-left:3px;padding-right:0px;">
 
                                                                 <textarea class="form-control textAreaHeight" id="txtMoreIdeas" rows="5" data-bind="value: tipsAndHints"></textarea>
 
@@ -1675,7 +1675,7 @@
                                                     </div>
                                                     <div class="tab-pane fade" id="tab-ProductVideos">
                                                         <div class="col-lg-12 form-horizontal" style="height: 331px;overflow: auto; overflow-x:hidden;">
-                                                            <div class="tabsdescriptions">
+                                                            <div class="tabsdescriptions" style="margin-left:2px;">
                                                                 <p class="group-header-description">Show a  YouTube video on Store’s product detail page by embedding its YouTube embed link and giving it a caption. </p>
                                                             </div>
                                                             <div class="form-group">
@@ -1711,7 +1711,7 @@
                                                     </div>
                                                     <div class="tab-pane fade" id="tab-metaDescription">
                                                         <div class="col-lg-12 form-horizontal">
-                                                            <div class="tabsdescriptions">
+                                                            <div class="tabsdescriptions" style="margin-left:2px;">
                                                                 <p class="group-header-description">Add SEO meta tags for this product which will be used on Store’s Product detail page. Meta title can contain max 160 characters, keep the Description concise and use main keywords in it. Keywords should correspond to this product and should not contain duplicates.  </p>
                                                             </div>
                                                             <div class="form-group">
@@ -1777,14 +1777,14 @@
 
                                                     <div class="tab-pane fade" id="tab-jobDescriptions">
                                                         <div class="col-lg-12 form-horizontal" style="height: 410px;overflow: auto;overflow-x:hidden;">
-                                                            <div class="tabsdescriptions">
-                                                                <div class="tabsdescriptions" style="margin-left:0px;">
+                                                            <div>
+                                                                <div class="tabsdescriptions" style="margin-left:2px;">
                                                                     <p class="group-header-description">Enter Job Description for Product which are part of Printed Job Card and Estimate/Order Report. </p>
                                                                 </div>
                                                             </div>
 
                                                             <div class="form-group">
-                                                                <div class="col-lg-3 text-right" style="padding-left: 24px;">
+                                                                <div class="col-lg-3 text-right" style="padding-left:17px;">
                                                                     <input type="text" class="form-control text-right" style="height:33px;" id="txtTitle1" data-bind="value: jobDescriptionTitle1" placeholder="Enter Title 1" />
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
@@ -1797,7 +1797,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <div class="col-lg-3 text-right" style="padding-left: 24px;">
+                                                                <div class="col-lg-3 text-right" style="padding-left: 17px;">
                                                                     <input type="text" class="form-control text-right" id="txtTitle2" data-bind="value: jobDescriptionTitle2" placeholder="Enter Title 2">
 
                                                                     <span class="label label-circle-question"></span>
@@ -1811,7 +1811,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <div class="col-lg-3 text-right" style="padding-left: 24px;">
+                                                                <div class="col-lg-3 text-right" style="padding-left: 17px;">
                                                                     <input type="text" class="form-control text-right" style="height:33px;" id="txtTitle3" data-bind="value: jobDescriptionTitle3" placeholder="Enter Title 3">
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
@@ -1826,7 +1826,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <div class="col-lg-3 text-right" style="padding-left: 24px;">
+                                                                <div class="col-lg-3 text-right" style="padding-left: 17px;">
                                                                     <input type="text" class="form-control text-right" style="height:33px;" id="txtTitle4" data-bind="value: jobDescriptionTitle4" placeholder="Enter Title 4">
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
@@ -1841,7 +1841,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <div class="col-lg-3 text-right" style="padding-left: 24px;">
+                                                                <div class="col-lg-3 text-right" style="padding-left: 17px;">
                                                                     <input type="text" class="form-control text-right" style="height:33px;" id="txtTitle5" data-bind="value: jobDescriptionTitle5" placeholder="Enter Title 5">
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
@@ -1856,7 +1856,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <div class="col-lg-3 text-right" style="padding-left: 24px;">
+                                                                <div class="col-lg-3 text-right" style="padding-left: 17px;">
                                                                     <input type="text" class="form-control text-right" style="height:33px;" id="txtTitle6" data-bind="value: jobDescriptionTitle6" placeholder="Enter Title 6">
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
@@ -1871,7 +1871,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
-                                                                <div class="col-lg-3 text-right" style="padding-left: 24px;">
+                                                                <div class="col-lg-3 text-right" style="padding-left: 17px;">
                                                                     <input type="text" class="form-control text-right" style="height:33px;" id="txtTitle7" data-bind="value: jobDescriptionTitle7" placeholder="Enter Title 7">
                                                                     <span class="label label-circle-question"></span>
                                                                 </div>
@@ -1969,7 +1969,7 @@
                             <!-- ko if: isTemplateTabsVisible -->
                             <div class="tab-pane fade" id="tab-tempProperties">
                                 <div class="col-lg-12 form-horizontal">
-                                    <div class="tabsdescriptions" style="margin-top:25px;">
+                                    <div class="tabsdescriptions" style="margin-top:25px;margin-left:2px;">
                                         <p class="group-header-description">Define how this product will link to a designer template ( in case of print product ) and also control the behavior of template designer and output.</p>
                                     </div>
                                         
@@ -2358,11 +2358,11 @@
                             </div>
                             <div class="tab-pane fade" id="tab-tempPages" data-bind="visible: template().canAddTemplatePages">
                                 <div class="col-lg-12 form-horizontal">
-                                    <div class="tabsdescriptions" style="margin-top:25px;">
+                                    <div class="tabsdescriptions" style="margin-top:25px;margin-left:2px;">
                                         <p class="group-header-description">Design template pages are displayed below in case of blank template or PDF based template. Pages can be added, removed, assigned name, sorted and each page can have different dimensions in case of blank template. </p>
                                     </div>
                                         
-                                    <div class="col-lg-12" data-bind="with: template">
+                                    <div class="col-lg-12" data-bind="with: template" style="padding-left:3px;padding-right:0px;">
                                         <div class="clearfix">
                                             <header class="main-box-header clearfix" style="padding-right:0px;">
                                                 <div class="filter-block pull-right">
@@ -2703,7 +2703,7 @@
                             <div class="tab-pane fade" id="tab-ProductMarketBrief">
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">RFQ/Marketing Brief form creation</h3>
-                                    <p class="group-header-description">
+                                    <p class="group-header-description" style="padding-left:3px;">
                                         A Retail or Private store product can have to option to request a quote (RFQ).<br />
                                         If this option is selected by the end user then an email will be sent to your Sales Manager (as defined in Settings, My Organisation, Manager and Departments)
                                     </p>
@@ -2731,7 +2731,7 @@
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
-                                        <div class="clearfix">
+                                        <div class="clearfix" style="margin-left:-6px;margin-right:-6px;">
                                             <header class="main-box-header clearfix" style="padding-right:0px;">
                                                 <div class="filter-block pull-right">
 
@@ -2979,7 +2979,7 @@
             <div class="col-lg-2">
                 &nbsp;
             </div>
-            <div class="col-lg-9" style="padding-left:6px;">
+            <div class="col-lg-10" style="padding-right:0px;">
                 <div style="background-color:gainsboro; border-radius:3px">
                     <header class="main-box-header clearfix">
                         <div style="float:left;"><span style="font-size:24px">Refining Options for this price column</span></div>
@@ -3013,7 +3013,7 @@
     <script id="stockLabelTemplate" type="text/html">
         <div>&nbsp;</div>
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left:15px;padding-right:15px;">
+            <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left:18px;padding-right:18px;">
                 <div class="main-box clearfix my-tabsHeader">
                     <div class="tabs-wrapper profile-tabs">
                         <ul id="stockLabelTabListItem" class="nav nav-tabs">
