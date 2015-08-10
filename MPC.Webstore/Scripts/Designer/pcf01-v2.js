@@ -33,6 +33,13 @@ function StopLoader(forceStop) {
             $("#MainLoader").css("display", "none");
             
         }
+        if($(".templatepreviewContainer").css("display") == "block")
+        {
+            $(".tempPreviewImg").fadeIn()
+              .animate({ height: 0}, 800, function () {
+                  $(".templatepreviewContainer").css("display", "none");
+              });
+        }
 }
 function startInlineLoader(divID) {
     if (divID == 1) {
@@ -1984,6 +1991,9 @@ function fu06_SvcCallback(DT, fname,mode) {
         canvas.calcOffset();
     });
     $("#canvasDocument").css("width", $(window).width() - 380);
+    $(".templatepreviewContainer").css("width", $(window).width() - 390);
+    $(".templatepreviewContainer").css("height", $(window).height() - 70);
+    $(".tempPreviewImg").css("height", $(window).height() - 180);
     if (mode == true) {
         d5(TP[0].ProductPageID, true);
     }
@@ -2112,6 +2122,13 @@ function fu10(ca, gtID) {
     TO = [];
     isloadingNew = true;
     svcCall1(ca, gtID);
+    $(".templatepreviewContainer").css("display","block");
+    $(".tempPreviewImg").attr("src", "http://designerv2.myprintcloud.com//designer/products/" + gtID + "/TemplateThumbnail1.jpg");
+    $(".tempPreviewImg").fadeIn()
+       .css({ height: "0px"})
+       .animate({ height: ($(window).height() - 180) }, 800, function () {
+           //$(".multiBackCarouselContainer").css("display", "none");
+       });
 }
 function fu14() {
     k16(1, TeImC, "Loader");
