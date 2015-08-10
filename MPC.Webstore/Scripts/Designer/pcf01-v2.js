@@ -2000,6 +2000,7 @@ function fu07(is2ndLoad) {
         isLandScapeBC = false;
     } $('.multiBackCarouselLayer').html("");
     if (Template.TemplateType == 3) {
+        var addClasses = " ";
         $.each(TP, function (i, ite) {
             var classes = "menuItemContainer " + ite.ProductPageID + " ";
             if (i == 0) {
@@ -2010,21 +2011,22 @@ function fu07(is2ndLoad) {
                 if (false) //!isLandScapeBC
                 {
                      html = '<div class="MultiBackPageLS MultiBackPageLS-type-zoom"> <a class="MultiBackPageLS-hover" '+
-                        'onclick="d5(' + ite.ProductPageID + ')"> <div class="MultiBackPageLS-info"> <div class="headline"> ' +
+                        'onclick="showMBPage(' + ite.ProductPageID + ');toggleMbPanel();"> <div class="MultiBackPageLS-info"> <div class="headline"> ' +
                          ite.PageName + '<div class="line"></div> <div class="date"> </div> </div> </div> <div class="mask"></div> </a> <div class="MultiBackPageLS-img">' +
                          '<img src="' + baseUrl + 'p'+ite.PageNo+'.png" alt="" class="MultiBackPageLS-ActlImg" /></div> </div>';
                 } else 
                 {
+                    addClasses += ite.ProductPageID + " ";
                     html = '<div class="MultiBackPage MultiBackPage-type-zoom"> <a class="MultiBackPage-hover" '+
-                        'onclick="d5(' + ite.ProductPageID + ')"> <div class="MultiBackPage-info"> <div class="headline"> ' +
+                        'onclick="showMBPage(' + ite.ProductPageID + ');toggleMbPanel();"> <div class="MultiBackPage-info"> <div class="headline"> ' +
                         ite.PageName + '<div class="line"></div> <div class="date"> </div> </div> </div> <div class="mask"></div> </a> <div class="MultiBackPage-img">' +
-                        '<img src="' + baseUrl + 'p' + ite.PageNo + '.png" alt="" class="MultiBackPage-ActlImg" /></div> </div>';
+                        '<img src="' + baseUrl + 'p' + ite.PageNo + '.png" alt="" class="MultiBackPage-ActlImg" id="MbImg' + ite.ProductPageID + '" /></div> </div>';
                 }
                 $('.multiBackCarouselLayer').append(html);
                     
             }
         });
-        pHtml += '  <li  class="menuItemContainer "><a class="plain" onClick="toggleMbPanel();">Backs</a></li>';
+        pHtml += '  <li  class="menuItemContainer ' + addClasses + ' "><a class="plain" onClick="toggleMbPanel();">Backs</a></li>';
 
     } else { 
         $.each(TP, function (i, ite) {
@@ -2063,7 +2065,6 @@ function fu07(is2ndLoad) {
 
     $("#documentMenu").css("left", $("#documentTitleAndMenu").width() / 2 - $("#documentMenu").width() / 2 + "px");
 }
-
 function fu09_SvcCallBack(DT) {
     if (DT != "") {
         tcListCc++;
