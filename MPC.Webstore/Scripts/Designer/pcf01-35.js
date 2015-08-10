@@ -3625,9 +3625,29 @@ function toggleMbPanel() {
     
     if ( $(".multiBackCarouselContainer").css("display") == "none") {
         $("#collapseDesignerMenu").click();
-        $(".multiBackCarouselContainer").css("display", "block");
+        if (!$('.multiBackCarouselContainer').is(':animated')) {
+            $(".multiBackCarouselContainer").css("display", "block");
+            $(".multiBackCarouselContainer").fadeIn()
+            .css({ top: ($(window).height() + 205), position: 'absolute' })
+            .animate({ top: ($(window).height() - 205) }, 800, function () {
+                //callback
+            });
+        }
+    } else {
+        if (!$('.multiBackCarouselContainer').is(':animated')) {
+            $(".multiBackCarouselContainer").fadeIn()
+             .css({ top: ($(window).height() - 205), position: 'absolute' })
+             .animate({ top: ($(window).height() + 205) }, 800, function () {
+                 $(".multiBackCarouselContainer").css("display", "none");
+             });
+        }
+     
         
-    } else  {
-        $(".multiBackCarouselContainer").css("display", "none");
     }
+}
+function showMBPage(pPageID)
+{
+    var is = canvas.toDataURL('jpeg');
+    $("#MbImg" + SP).attr('src', is);
+    d5(pPageID);
 }
