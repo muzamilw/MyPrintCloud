@@ -37,44 +37,44 @@ namespace MPC.Models.DomainModels
         public string Address2 { get; set; }
         public string Address3 { get; set; }
         public string City { get; set; }
-        public long? StateId { get; set; }
-        public long? CountryId { get; set; }
+        public string State { get; set; }
+        public string Country { get; set; }
         public string PostCode { get; set; }
         public string Fax { get; set; }
         public string Email { get; set; }
         public string URL { get; set; }
         public string Tel1 { get; set; }
-        public int? Qty1 { get; set; }
+        public Nullable<int> Qty1 { get; set; }
         public string ProductName { get; set; }
         public string WebDescription { get; set; }
         public string JobDescription { get; set; }
         public string SectionName { get; set; }
-        public int? SectionNo { get; set; }
+        public Nullable<int> SectionNo { get; set; }
         public string BAddress1 { get; set; }
         public string BAddress2 { get; set; }
         public string BCity { get; set; }
-        public long? BState { get; set; }
+        public string BState { get; set; }
         public string BEmail { get; set; }
-        public DateTime? FinishDeliveryDate { get; set; }
-        public DateTime? CreationDate { get; set; }
-        public DateTime? StartDeliveryDate { get; set; }
+        public Nullable<System.DateTime> FinishDeliveryDate { get; set; }
+        public Nullable<System.DateTime> CreationDate { get; set; }
+        public Nullable<System.DateTime> StartDeliveryDate { get; set; }
         public string CustomerPO { get; set; }
         public string BAddressName { get; set; }
         public string FullName { get; set; }
-        public DateTime? Order_Date { get; set; }
+        public Nullable<System.DateTime> Order_Date { get; set; }
         public string Qty1WorkInstructions { get; set; }
         public string CostCenterName { get; set; }
         public string ItemNotes { get; set; }
-        public double? Qty1NetTotal { get; set; }
-        public double? Qty1Tax1Value { get; set; }
-        public double? GrossTotal { get; set; }
+        public Nullable<double> Qty1NetTotal { get; set; }
+        public Nullable<double> Qty1Tax1Value { get; set; }
+        public Nullable<double> GrossTotal { get; set; }
         public string FullProductName { get; set; }
         public string BannerPath { get; set; }
         public string EstimateDescription { get; set; }
         public string ReportBanner { get; set; }
         public string OtherItems { get; set; }
         public string BPostCode { get; set; }
-        public long? BCountry { get; set; }
+        public string BCountry { get; set; }
         public string AttachmentsList { get; set; }
         public string PressName { get; set; }
         public string StockName { get; set; }

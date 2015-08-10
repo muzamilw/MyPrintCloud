@@ -97,11 +97,21 @@ namespace MPC.Webstore.Controllers
 
                 if (string.IsNullOrEmpty(Request.QueryString["VCId"]))
                 {
-                    long DisVId = _ItemService.ApplyStoreDefaultDiscountRateOnCartItems(OrderId, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                    long FreeShippingVoucherId = 0;
+                    long DisVId = _ItemService.ApplyStoreDefaultDiscountRateOnCartItems(OrderId, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate),ref FreeShippingVoucherId);
                     if (DisVId > 0) 
                     {
                         DiscountVoucher voucher = _ItemService.GetDiscountVoucherById(DisVId);
-                        _ItemService.ApplyDiscountOnCartProducts(voucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                        _ItemService.ApplyDiscountOnCartProducts(voucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), ref FreeShippingVoucherId);
+                        ApplyVoucherOnDeliveryItem(OrderId, FreeShippingVoucherId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                    }
+                    else if (FreeShippingVoucherId > 0)
+                    {
+                        ApplyVoucherOnDeliveryItem(OrderId, FreeShippingVoucherId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                    }
+                    else
+                    {
+                        _ItemService.RollBackDiscountedItems(OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, true);
                     }
                 }
                 
@@ -267,11 +277,29 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                
                 if (IsCallFrom == "RemoveVoucherCode")
                 {
-                   _ItemService.RollBackDiscountedItems(Convert.ToInt64(OrderID), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
-                   _ItemService.ApplyStoreDefaultDiscountRateOnCartItems(Convert.ToInt64(OrderID), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                    long FreeShippingVoucherId = 0; 
+                   _ItemService.RollBackDiscountedItems(Convert.ToInt64(OrderID), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, false);
+                   _ItemService.ApplyStoreDefaultDiscountRateOnCartItems(Convert.ToInt64(OrderID), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate),ref FreeShippingVoucherId);
+                   if (FreeShippingVoucherId > 0)
+                   {
+                       UserCookieManager.FreeShippingVoucherId = FreeShippingVoucherId;
+                   }
+                   else 
+                   {
+                       _ItemService.RollBackDiscountedItems(Convert.ToInt64(OrderID), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, true);
+                   }
+                }
+                else if (IsCallFrom == "RemoveDeliveryVoucherCode")
+                {
+                    _ItemService.RollBackDiscountedItems(Convert.ToInt64(OrderID), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, true);
+                    Estimate order = _OrderService.GetOrderByID(Convert.ToInt64(OrderID));
+                    order.DiscountVoucherID = null;
+                    order.VoucherDiscountRate = null;
+                    _OrderService.SaveOrUpdateOrder();
+                    UserCookieManager.FreeShippingVoucherId = 0;
+                    
                 }
                 else 
                 {
@@ -323,6 +351,12 @@ namespace MPC.Webstore.Controllers
             return shopCart;
         }
 
+        private void ApplyVoucherOnDeliveryItem(long orderID, long voucherId, double storeTaxRate)
+        {
+            DiscountVoucher voucher = _ItemService.GetDiscountVoucherById(voucherId);
+            _ItemService.ApplyDiscountOnDeliveryItemAlreadyAddedToCart(voucher, orderID, storeTaxRate);
+           UserCookieManager.FreeShippingVoucherId = voucherId;
+        }
 
         public void ValidateOrderForCorporateLogin(long orderID,bool isPlaceOrder,MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse,bool isWebAccess)
         {

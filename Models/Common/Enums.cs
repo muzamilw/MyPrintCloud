@@ -538,4 +538,11 @@ namespace MPC.Models.Common
 	    Twitter = 57,
 	    SocialOther = 58
     }
+
+    public enum DiscountVoucherChecks
+    {
+        RollBackVoucherIfApplied = -2,
+        ApplyVoucherOnDeliveryItem = -3,
+        
+    }
 }

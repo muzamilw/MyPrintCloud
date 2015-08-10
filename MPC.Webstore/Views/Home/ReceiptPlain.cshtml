@@ -17,6 +17,7 @@
     DateTime OrderDateTime = Model.OrderDate ?? DateTime.Now;
     var OrderDate = OrderDateTime.ToString("MMMM dd, yyyy");
     long CookieStoreId = Convert.ToInt64(ViewBag.StoreId);
+    double _DiscountAmountTotal = 0;
 }
 <div style="font-family:'Open Sans Condensed', sans-serif; width: 1000px !important; margin: auto; border: 0px solid orange; margin-top: 20px;">
 
@@ -300,9 +301,15 @@
             </tr>
             @foreach (var item in Model.ProductsList as List<MPC.Models.Common.ProductItem>)
             {
+                double ItemActulVal = 0;
                 _vatTotal = _vatTotal + item.Qty1Tax1Value ?? 0;
                 _itemTotal = _itemTotal + item.Qty1BaseCharge1 ?? 0;
-                //DeliveryTaxValue += DeliveryTaxValue + item.
+                _DiscountAmountTotal += item.DiscountedAmount ?? 0;
+
+                if (item.DiscountedAmount != null)
+                {
+                    ItemActulVal = item.Qty1BaseCharge1 + item.DiscountedAmount ?? 0;
+                }
                 <tr style="  font-style: normal;
     font-weight: normal !important;
     font-size: 15px;
@@ -393,7 +400,16 @@
         border-right: 0px;">
                         @if (ViewBag.IsShowPrices)
                         {
-                            <span id="MainContent_grdViewShopCart_lblItemPrice_0">@Utils.FormatDecimalValueToTwoDecimal(item.Qty1BaseCharge1.ToString(), ViewBag.Currency)</span>
+                            if (item.DiscountedVoucherId != null)
+                            {
+                                <span id="spnItemActualPrice" class="strikeThrough" style="font-weight:bold;text-align: right !important;">@Utils.FormatDecimalValueToTwoDecimal((ItemActulVal).ToString(), ViewBag.Currency)</span>
+
+                                <span id="MainContent_grdViewShopCart_lblItemPrice_0">@Utils.FormatDecimalValueToTwoDecimal(item.Qty1BaseCharge1.ToString(), ViewBag.Currency)</span>
+                            }
+                            else
+                            {
+                                <span id="MainContent_grdViewShopCart_lblItemPrice_0">@Utils.FormatDecimalValueToTwoDecimal(item.Qty1BaseCharge1.ToString(), ViewBag.Currency)</span>
+                            }
                         }
                     </td>
                 </tr>
@@ -420,6 +436,23 @@
 
                 </td>
             </tr>
+            @if (_DiscountAmountTotal > 0)
+            {
+                <tr>
+                    <td width="30%" align="left">
+                        &nbsp;
+                    </td>
+                    <td width="35%">
+                        &nbsp;
+                    </td>
+                    <td width="20%" align="left" class="fontWeightNormal Fsize13" id="td2" style="text-align:right;">
+                        <span id="lbl_Delivery" style="  line-height: 2;font-size: 13px; color: Black;">Discount:</span>
+                    </td>
+                    <td align="right" width="20%">
+                        <span id="lblDiscountV" style="font-weight: bold; font-size: 14px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal((_DiscountAmountTotal).ToString(), ViewBag.Currency)</span>
+                    </td>
+                </tr>
+            }
             <tr>
                 <td></td>
                 <td align="left"></td>
@@ -427,13 +460,30 @@
                     <span id="lbl_Delivery" style="font-weight: bold; font-size: 13px; color: Black;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", CookieStoreId)):</span>
                 </td>
                 <td>
-                    @if (Model.DeliveryCost > 0)
+                    @if (Model.DeliveryDiscountVoucherId == null)
                     {
-                        <span id="lblDeliveryCostCenter" style="font-weight: bold; font-size: 14px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal(Model.DeliveryCost.ToString(), ViewBag.Currency)</span>
+                        if (Model.DeliveryCost > 0)
+                        {
+                            <span id="lblDeliveryCostCenter" style="font-weight: bold; font-size: 14px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal(Model.DeliveryCost.ToString(), ViewBag.Currency)</span>
+                        }
+                        else
+                        {
+                            <span id="lblDeliveryCostCenter" style="font-weight: bold; font-size: 14px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal("0", ViewBag.Currency)</span>
+                        }
                     }
                     else
                     {
-                        <span id="lblDeliveryCostCenter" style="font-weight: bold; font-size: 14px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal("0", ViewBag.Currency)</span>
+                        <span id="lblCalculatedDelivery" style="color: red !important;
+    position: absolute;
+    line-height: 1;
+    text-align: left;
+    /* width: 105px; */
+    margin-left: -45px;
+    margin-top: 11px;
+    font-weight: bold;
+    font-size: 14px;">Free Shipping</span>
+
+                        <span class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</span>
                     }
                 </td>
             </tr>

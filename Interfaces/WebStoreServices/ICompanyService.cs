@@ -232,6 +232,8 @@ namespace MPC.Interfaces.WebStoreServices
         List<CompanyContact> GetCompanyAdminByCompanyId(long CompanyId);
         CompanyContact GetCorporateContactByEmail(string Email, long OID, long StoreId);
         string OrderConfirmationPDF(long OrderId, long StoreId);
+        bool IsVoucherUserByCustomer(long contactId, long companyId, long DiscountVoucherId);
         double? GetOrderTotalById(long OrderId);
+        void AddReedem(long contactId, long companyId, long DiscountVoucherId);
     }
 }
