@@ -7255,3 +7255,26 @@ input[type="radio"] {
     padding-top: 5px;
     padding-left: 7px;
 }
+
+.templatepreviewContainer {
+    position: absolute;
+    background-color: #EBECED;
+    height: 100%;
+    width: 100%;
+    top: 70px;
+    z-index: 100;
+    right: 0px;
+    display:none;
+}
+.tempPreviewImgContainer {
+    position:absolute;
+    width:100%;
+    top:68px;
+    height:100%;
+       text-align: center;
+}
+.tempPreviewImg
+{
+    height:400px;
+    width:auto;
+}
