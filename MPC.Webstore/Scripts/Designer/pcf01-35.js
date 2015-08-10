@@ -2428,25 +2428,29 @@ function pcL02_main2() {
     pcL36('toggle', '#DivColorPickerDraggable');
 }
 function pcL03() {
-    if (confirm("Are you sure you want to Remove this Object from the canvas.")) {
+   
         var D1AO = canvas.getActiveObject(),
         D1AG = canvas.getActiveGroup();
         if (D1AO) {
-            //  c2(D1AO, 'delete');
-            c2_del(D1AO);
-            canvas.remove(D1AO);
+            if (confirm("Are you sure you want to Remove this Object from the canvas.")) {
+                //  c2(D1AO, 'delete');
+                c2_del(D1AO);
+                canvas.remove(D1AO);
+            }
         }
         else if (D1AG) {
-            var objectsInGroup = D1AG.getObjects();
-            canvas.discardActiveGroup();
-            objectsInGroup.forEach(function (OPT) {
-                //  c2(OPT, 'delete');
-                c2_del(OPT);
-                canvas.remove(OPT);
-            });
+            if (confirm("Are you sure you want to Remove these Objects from the canvas.")) {
+                var objectsInGroup = D1AG.getObjects();
+                canvas.discardActiveGroup();
+                objectsInGroup.forEach(function (OPT) {
+                    //  c2(OPT, 'delete');
+                    c2_del(OPT);
+                    canvas.remove(OPT);
+                });
+            }
         }
         pcL36('hide', '#divTxtPropPanelRetail');
-    }
+    
 }
 function pcL04() {
     var fontFamily = $('#BtnSelectFontsRetail').val();

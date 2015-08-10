@@ -2279,3 +2279,6 @@ $('#BtnReload').click(function (event) {
 $(".mainLeftMenu li").click(function (event) {
     $(".multiBackCarouselContainer").css("display", "none");
 });
+$("#btnDeleteGroupObjs").click(function (event) {
+    pcL03();
+});
