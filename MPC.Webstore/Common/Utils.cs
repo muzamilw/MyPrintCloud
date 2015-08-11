@@ -131,7 +131,7 @@ namespace MPC.Webstore.Common
         {
             return string.Format("{0}{1}{2}{3}{4}{5}{6}", Folder, "Organisation" + OrganisationId, "/", CompanyId, "/", ImageURl);
         }
-        public static string GetKeyValueFromResourceFile(string key, long StoreId)
+        public static string GetKeyValueFromResourceFile(string key, long StoreId, string KeyValue = "")
         {
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
@@ -157,19 +157,18 @@ namespace MPC.Webstore.Common
                     }
                     else
                     {
-                        return "";
+                        return KeyValue;
                     }
                 }
                 else
                 {
-                    return "";
+                    return KeyValue;
                 }
             }
             else 
-            { 
-                return ""; 
+            {
+                return KeyValue; 
             }
-            
         }
 
         public static void DeleteFile(string completePath)
@@ -285,9 +284,9 @@ namespace MPC.Webstore.Common
             return WebConfigurationManager.AppSettings["AppBasePath"];
         }
 
-        public static string GetKeyValueFromResourceFile(this HtmlHelper htmlHelper, string Key, long StoreId)
+        public static string GetKeyValueFromResourceFile(this HtmlHelper htmlHelper, string Key, long StoreId, string KeyValue = "")
         {
-            return Utils.GetKeyValueFromResourceFile(Key, StoreId);
+            return Utils.GetKeyValueFromResourceFile(Key, StoreId, KeyValue);
         }
 
         public static string GetAttachmentFileName(this HtmlHelper htmlHelper, string ProductCode, string OrderCode, string ItemCode, string SideCode, string extension, DateTime OrderCreationDate)
