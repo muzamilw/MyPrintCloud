@@ -5479,6 +5479,7 @@ namespace MPC.Repository.Repositories
 
         public void UpdateLiveStores(long organisationId, int storesCount)
         {
+            db.Configuration.LazyLoadingEnabled = false;
             List<Company> LiveStores = DbSet.Where(c => c.OrganisationId == organisationId && c.isStoreLive == true).ToList();
             if (LiveStores.Count() > storesCount)
             {
@@ -5491,6 +5492,7 @@ namespace MPC.Repository.Repositories
 
         public int GetLiveStoresCount(long organisationId)
         {
+            db.Configuration.LazyLoadingEnabled = false;
             return DbSet.Where(c => c.isStoreLive == true && (c.isArchived == false || c.isArchived == null) && c.OrganisationId == organisationId).Count();
         }
 

@@ -41,7 +41,7 @@ define("stores/stores.viewModel",
                     isLoadingStores = ko.observable(false),
                     //Is Editorial View Visible
                     isEditorVisible = ko.observable(false),
-
+                    storeDbStatus = ko.observable(),
                     // widget section header title
                     productsFilterHeading = ko.observable(),
 
@@ -1580,7 +1580,7 @@ define("stores/stores.viewModel",
                     
                     validateStoreLiveHandler = function () {
                         var isLive = selectedStore().isStoreSetLive();
-                        if (isLive == 'true' || isLive == true) {
+                        if (isLive == 'true' || isLive == true && storeDbStatus() == false) {
                             dataservice.validateLiveStoresCount({
                                 success: function (data) {
                                     if (data != null) {
@@ -4651,6 +4651,7 @@ define("stores/stores.viewModel",
                                         selectedStore().activeBannerSetId(data.Company.ActiveBannerSetId);
                                         selectedStore().currentThemeId(data.Company.CurrentThemeId);
                                         selectedTheme(data.Company.CurrentThemeId);
+                                        storeDbStatus(selectedStore().isStoreSetLive());
                                     }
 
                                     if (data.SecondaryPageResponse) {
