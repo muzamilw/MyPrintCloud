@@ -245,6 +245,49 @@ namespace MPC.Repository.Repositories
 
             return qry.ToList();
         }
+
+        public DiscountVoucher CreateDiscountVoucher(DiscountVoucher discountVoucher)
+        {
+            try
+            {
+                discountVoucher.VoucherCode = Guid.NewGuid().ToString();
+
+
+                db.DiscountVouchers.Add(discountVoucher);
+
+                db.SaveChanges();
+
+
+                if (discountVoucher.ProductCategoryVouchers != null && discountVoucher.ProductCategoryVouchers.Count() > 0)
+                {
+                    foreach (var obj in discountVoucher.ProductCategoryVouchers)
+                    {
+                      
+
+                            List<Item> CategoryProducts = GetItemsByCategoryId(obj.ProductCategoryId ?? 0);
+
+                            foreach (var itm in CategoryProducts)
+                            {
+                                ItemsVoucher ObjItemVoucher = new ItemsVoucher();
+                                ObjItemVoucher.ItemId = itm.ItemId;
+                                ObjItemVoucher.VoucherId = discountVoucher.DiscountVoucherId;
+                                db.ItemsVouchers.Add(ObjItemVoucher);
+                            }
+
+                        
+
+                    }
+                    db.SaveChanges();
+                }
+                return discountVoucher;
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+
+            }
+        }
         #endregion
     }
 }
