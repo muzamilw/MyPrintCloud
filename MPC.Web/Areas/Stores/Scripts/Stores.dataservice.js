@@ -350,6 +350,12 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to validate Live Stores Count
+                    amplify.request.define('validateLiveStoresCount', 'ajax', {
+                        url: ist.siteUrl + '/Api/OrganisationLicensing',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     amplify.request.define('getProductforDV', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyProductCategory',
                         dataType: 'json',
@@ -870,7 +876,15 @@
                 data: param
             });
         },
-       getProductforDV = function (params, callbacks) {
+          validateLiveStoresCount = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'validateLiveStoresCount',
+                    success: callbacks.success,
+                    error: callbacks.error
+                });
+            },
+            getProductforDV = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getProductforDV',
@@ -879,6 +893,7 @@
                     data: params
                 });
        },
+       
         // save Store
         saveStore = function (param, callbacks) {
             initialize();
@@ -889,6 +904,7 @@
                 data: param
             });
         };
+        
 
         return {
             getStores: getStores,
@@ -941,7 +957,8 @@
             getPaymentGateways: getPaymentGateways,
             getDiscountVouchers: getDiscountVouchers,
             saveDiscountVoucher: saveDiscountVoucher,
-            getDiscountVaoucherById: getDiscountVaoucherById
+            getDiscountVaoucherById: getDiscountVaoucherById,
+            validateLiveStoresCount: validateLiveStoresCount
         };
     })();
 

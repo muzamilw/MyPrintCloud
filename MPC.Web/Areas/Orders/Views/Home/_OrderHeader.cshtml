@@ -331,7 +331,7 @@
                 <a href="#" data-bind="text: productName, click: $root.editItem"><span></span></a>
             </td>
             <td>
-                <span style="font-size:20px;" data-bind="text: qty1"></span>
+                <span style="font-size:20px;" data-bind="text: qty1, visible:$root.isStoreLive"></span>
             </td>
             <td style=" text-align: right;">
                 <span style="font-size:20px;" data-bind="text: $root.currencySymbol()"></span>

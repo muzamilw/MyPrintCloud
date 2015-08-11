@@ -6399,7 +6399,7 @@ GO
 -- Create date: 2015 07 30
 -- Description:	To Get Charts data of Top Performing Stores
 -- =============================================
--- Exec [usp_ChartTopPerformingStores] 1
+-- Exec [usp_ChartTopPerformingStores]
 ALTER PROCEDURE [dbo].[usp_ChartTopPerformingStores]
 	@OrganisationId bigint
 AS
@@ -6570,6 +6570,7 @@ FROM         dbo.company INNER JOIN
 
 
 End
+
 
 
 
