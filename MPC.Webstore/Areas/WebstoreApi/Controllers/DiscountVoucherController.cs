@@ -147,6 +147,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             voucherDisplayMesg = _ItemService.ValidateDiscountVoucher(storeDiscountVoucher);
             if (voucherDisplayMesg == "Success")
             {
+                voucherDisplayMesg = "";
                 if (_ItemService.ApplyDiscountOnCartProducts(storeDiscountVoucher, OrderId, StoreTaxRate, ref FreeShippingVoucherId, ref voucherDisplayMesg))
                 {
                     messages.Add("Success");
@@ -179,6 +180,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 messages.Add("Error");
                 messages.Add(voucherDisplayMesg);
             }
+            voucherDisplayMesg = "";
         }
     }
 }

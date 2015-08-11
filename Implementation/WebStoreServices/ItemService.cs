@@ -53,6 +53,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IMarkupRepository _markupRepository;
         private readonly IDiscountVoucherRepository _DVRepository;
         private readonly IItemsVoucherRepository _ItemVRepository;
+        private readonly ICurrencyRepository _currencyRepository;
         #region Constructor
 
         /// <summary>
@@ -67,7 +68,8 @@ namespace MPC.Implementation.WebStoreServices
             , ITemplateRepository TemplateRepository, ITemplatePageRepository TemplatePageRepository, ITemplateBackgroundImagesRepository TemplateBackgroundImagesRepository
             , ITemplateObjectRepository TemplateObjectRepository, ICostCentreRepository CostCentreRepository
             , IOrderRepository OrderRepository, IPrefixRepository prefixRepository, IItemVideoRepository videoRepository
-            , IMarkupRepository markupRepository, IDiscountVoucherRepository DVRepository, IItemsVoucherRepository ItemVRepository)
+            , IMarkupRepository markupRepository, IDiscountVoucherRepository DVRepository, IItemsVoucherRepository ItemVRepository
+            , ICurrencyRepository currencyRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -99,6 +101,7 @@ namespace MPC.Implementation.WebStoreServices
             this._markupRepository = markupRepository;
             this._DVRepository = DVRepository;
             this._ItemVRepository = ItemVRepository;
+            this._currencyRepository = currencyRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -2746,7 +2749,7 @@ namespace MPC.Implementation.WebStoreServices
                             {
                                 isApplyDiscount = false;
                                 DiscountAmountToApply = (int)DiscountVoucherChecks.RollBackVoucherIfApplied;
-                                voucherErrorMesg += "To apply this voucher the minimum quantity of " + _ItemRepository.GetProductNameByItemId(ItemId) + "must be " + storeDiscountVoucher.MinRequiredQty + ".<br/>";
+                                voucherErrorMesg += "To apply this voucher the minimum quantity of " + _ItemRepository.GetProductNameByItemId(ItemId) + "should be " + storeDiscountVoucher.MinRequiredQty + ".<br/>";
                             }
                         }
 
@@ -2756,7 +2759,7 @@ namespace MPC.Implementation.WebStoreServices
                             {
                                 isApplyDiscount = false;
                                 DiscountAmountToApply = (int)DiscountVoucherChecks.RollBackVoucherIfApplied;
-                                voucherErrorMesg += "To apply this voucher the max quantity of " + _ItemRepository.GetProductNameByItemId(ItemId) + "must be " + storeDiscountVoucher.MaxRequiredQty + ".<br/>";
+                                voucherErrorMesg += "To apply this voucher the max quantity of " + _ItemRepository.GetProductNameByItemId(ItemId) + "should be " + storeDiscountVoucher.MaxRequiredQty + ".<br/>";
                             }
                         }
                     }
@@ -2770,7 +2773,7 @@ namespace MPC.Implementation.WebStoreServices
                         {
                             isApplyDiscount = false;
                             DiscountAmountToApply = (int)DiscountVoucherChecks.RollBackVoucherIfApplied;
-                            voucherErrorMesg += "To apply this voucher the Sub Total of Product(s) must be " + storeDiscountVoucher.MinRequiredOrderPrice + ".<br/>";
+                            voucherErrorMesg += "To apply this voucher the minimum Sub Total value should be " + _currencyRepository.GetCurrencySymbolByOrganisationId(Convert.ToInt64(storeDiscountVoucher.OrganisationId)) + storeDiscountVoucher.MinRequiredOrderPrice + ".<br/>";
                         }
                     }
 
@@ -2780,7 +2783,7 @@ namespace MPC.Implementation.WebStoreServices
                         {
                             isApplyDiscount = false;
                             DiscountAmountToApply = (int)DiscountVoucherChecks.RollBackVoucherIfApplied;
-                            voucherErrorMesg += "To apply this voucher the Sub Total of Product(s) must be " + storeDiscountVoucher.MinRequiredOrderPrice + ".<br/>";
+                            voucherErrorMesg += "To apply this voucher the maximum Sub Total value should be " + _currencyRepository.GetCurrencySymbolByOrganisationId(Convert.ToInt64(storeDiscountVoucher.OrganisationId)) + storeDiscountVoucher.MaxRequiredOrderPrice + ".<br/>";
                         }
                     }
                 }
