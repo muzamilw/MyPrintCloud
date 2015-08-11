@@ -658,7 +658,7 @@
                 async: true,
                 success: function (response) {
                     if(response[0] == "Error"){
-                        $("#lblRedeemErrorMesg").html(response[1]);
+                        $("#lblRedeemErrorMesg").html("<p style='font-weight: bold;line-height: 2; margin-bottom: 0px;' >Can't apply the voucher because: <br /></p>" + response[1]);
                         HideLoader();
                     }else if(response[0] == "Free"){
                         $("#hfFreeShippingVoucherId").val(response[1]);

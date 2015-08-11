@@ -56,6 +56,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                         if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder)
                         {
                             _ItemService.ApplyDiscountOnDeliveryItemAlreadyAddedToCart(storeDiscountVoucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                            messages.Add("Success");
                         }
                         else 
                         {
@@ -70,6 +71,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                             if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder)
                             {
                                 _ItemService.ApplyDiscountOnDeliveryItemAlreadyAddedToCart(storeDiscountVoucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                                messages.Add("Success");
                             }
                             else
                             {
@@ -96,6 +98,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                             if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder)
                             {
                                 _ItemService.ApplyDiscountOnDeliveryItemAlreadyAddedToCart(storeDiscountVoucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                                messages.Add("Success");
                             }
                             else
                             {
@@ -123,13 +126,13 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 else
                 {
                     messages.Add("Error");
-                    messages.Add("Your Discount Voucher is invalid.");
+                    messages.Add("Your Coupon Code is invalid.");
                 }
             }
             else
             {
                 messages.Add("Error");
-                messages.Add("Please enter Voucher Code to proceed.");
+                messages.Add("Please enter Coupon Code to proceed.");
             }
 
            
