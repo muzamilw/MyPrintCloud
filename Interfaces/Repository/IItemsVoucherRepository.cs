@@ -9,5 +9,6 @@ namespace MPC.Interfaces.Repository
     public interface IItemsVoucherRepository
     {
         bool isVoucherAppliedOnThisProduct(long VoucherId, long ItemId);
+        bool isVoucherAppliedOnListOfCartProduct(long VoucherId, List<int?> ItemIds);
     }
 }

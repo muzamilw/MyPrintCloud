@@ -245,6 +245,27 @@ namespace MPC.Repository.Repositories
 
             return qry.ToList();
         }
+
+        public long IsDiscountVoucherApplied(long StoreId, long OrganisationId)
+        {
+            try
+            {
+                List<DiscountVoucher> freeShippingV = db.DiscountVouchers.Where(d => d.CompanyId == StoreId && (d.HasCoupon == null || d.HasCoupon == false) && d.IsEnabled == true && d.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder).ToList();
+                if (freeShippingV != null && freeShippingV.Count > 0)
+                {
+                    return freeShippingV.FirstOrDefault().DiscountVoucherId;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         #endregion
     }
 }
