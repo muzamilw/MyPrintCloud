@@ -6570,7 +6570,7 @@ define("stores/stores.viewModel",
                         // Set Product Category true/false for popup
                         productCategories.each(function (productCategory) {
                             var productCategoryItem = selectedDiscountVoucher().productCategoryVouchers.find(function (pci) {
-                                return pci.productCategoryId === productCategory.id;
+                                return pci.categoryId() === productCategory.id;
                             });
 
                             if (productCategoryItem) {
@@ -6641,14 +6641,14 @@ define("stores/stores.viewModel",
                             success: function (data) {
                                 if (data.ProductCategories != null) {
                                     // Update Product Category Items
-                                    //selectedProduct().updateProductCategoryItems(productCategories());
+                                    selectedDiscountVoucher().updateProductCategoryVoucher(productCategories());
 
                                     _.each(data.ProductCategories, function (productCategory) {
                                         productCategory.ParentCategoryId = id;
                                         var category = model.ProductCategoryForDialog.Create(productCategory);
                                         if (selectedDiscountVoucher()) {
                                             var productCategoryItem = selectedDiscountVoucher().productCategoryVouchers.find(function (pCatItem) {
-                                                return pCatItem.productCategoryId === category.id;
+                                                return pCatItem.categoryId() === category.id;
                                             });
 
                                             if (productCategoryItem) {
@@ -7331,6 +7331,7 @@ define("stores/stores.viewModel",
                     //updateProductCategoriesDiscountVoucher : updateProductCategoriesDiscountVoucher,
                     toggleChildCategories: toggleChildCategories,
                     updateProductCategoriesDV: updateProductCategoriesDV,
+                    updateCheckedStateForCategory: updateCheckedStateForCategory
                    
                    
 
