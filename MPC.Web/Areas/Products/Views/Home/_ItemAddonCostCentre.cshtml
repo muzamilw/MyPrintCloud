@@ -9,9 +9,6 @@
                 <div class="form-group">
                     <div class="col-lg-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-
-
-
                         </div>
                         <label class="control-label text-right tooltip-float">Cost Center</label>
 
@@ -68,11 +65,13 @@
 
             </div>
 
-            <div class="modal-footer" style="padding-left:8px;padding-right:8px;">
+            <div class="modal-footer" style="padding-left:0px;padding-right:0px;">
                 <hr />
-                <button type="button" data-dismiss="modal" class="btn btn-danger pull-left" data-bind="click: $root.onDeleteItemAddonCostCentre, enable: id() !== 0">Delete</button>
-                <button type="button" class="btn btn-primary" data-bind="click: $parents[1].onSaveItemCostCentre, css: { 'btn-warning': hasChanges() }, enable: hasChanges()">Save</button>
-                <button type="button" class="btn btn-default" data-bind="click: $root.closeItemAddonCostCentreDialog" style="margin-left: 0">Close</button>
+                <div style="padding-left:10px;padding-right:10px;">
+                    <button type="button" data-dismiss="modal" class="btn btn-danger pull-left" data-bind="click: $root.onDeleteItemAddonCostCentre, enable: id() !== 0">Delete</button>
+                    <button type="button" class="btn btn-primary" data-bind="click: $parents[1].onSaveItemCostCentre, css: { 'btn-warning': hasChanges() }, enable: hasChanges()">Save</button>
+                    <button type="button" class="btn btn-default" data-bind="click: $root.closeItemAddonCostCentreDialog" style="margin-left: 0">Close</button>
+                </div>
 
             </div>
         </div>

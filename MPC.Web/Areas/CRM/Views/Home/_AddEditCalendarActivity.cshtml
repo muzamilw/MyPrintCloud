@@ -131,7 +131,7 @@
                 </div>
             </div>
             <div class="col-lg-12 form-horizontal">
-                <h3>Marketing information</h3>
+                <h3 style="margin-left:8px;margin-right:10px;">Marketing information</h3>
                 <div class="form-group">
                     <div class="col-lg-3 text-right">
                         <label for="product" class="control-label text-right tooltip-float">Inquiry for</label>
@@ -151,11 +151,13 @@
                    
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="padding-left:0px;padding-right:0px;">
                 <hr />
-                <button type="button" class="btn btn-danger pull-left" data-bind="click:$root.onDeleteActivity,enable:id()!==undefined">Delete</button>
-                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveActivity,css: { 'btn-warning': hasChanges}, enable:hasChanges ">Save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+                <div style="padding-left:8px;padding-right:8px;">
+                    <button type="button" class="btn btn-danger pull-left" data-bind="click:$root.onDeleteActivity,enable:id()!==undefined">Delete</button>
+                    <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveActivity,css: { 'btn-warning': hasChanges}, enable:hasChanges ">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+                </div>
             </div>
         </div>
     </div>
