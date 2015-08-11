@@ -827,7 +827,8 @@ namespace MPC.Implementation.MISServices
                     CompanyContacts = companyContactRepository.GetCompanyContactsByCompanyId(companyId),
                     CompanyAddresses = addressRepository.GetAddressByCompanyID(companyId),
                     TaxRate = companyRepository.GetTaxRateByStoreId(storeId),
-                    JobManagerId = companyRepository.GetStoreJobManagerId(storeId)
+                    JobManagerId = companyRepository.GetStoreJobManagerId(storeId),
+                    IsStoreLive = companyRepository.IsStoreLive(storeId)
                 };
         }
         /// <summary>

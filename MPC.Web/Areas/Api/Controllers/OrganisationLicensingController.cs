@@ -36,7 +36,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         {
             try
             {
-                return false;
+                var isValid = _myOrganizationService.CanStoreMakeLive();
+                return isValid;
             }
             catch (Exception ex)
             {

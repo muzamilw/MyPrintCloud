@@ -5489,5 +5489,17 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        public int GetLiveStoresCount(long organisationId)
+        {
+            return DbSet.Where(c => c.isStoreLive == true && (c.isArchived == false || c.isArchived == null) && c.OrganisationId == organisationId).Count();
+        }
+
+        public bool IsStoreLive(long storeId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            var store = DbSet.Where(s => s.CompanyId == storeId && (s.isArchived == false || s.isArchived == null)).FirstOrDefault();
+            return store != null && store.isStoreLive == true ? true : false;
+        }
+
     }
 }

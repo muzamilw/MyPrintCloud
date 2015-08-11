@@ -350,6 +350,12 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to validate Live Stores Count
+                    amplify.request.define('validateLiveStoresCount', 'ajax', {
+                        url: ist.siteUrl + '/Api/OrganisationLicensing',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -863,6 +869,14 @@
                 data: param
             });
         },
+          validateLiveStoresCount = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'validateLiveStoresCount',
+                    success: callbacks.success,
+                    error: callbacks.error
+                });
+            },
 
         // save Store
         saveStore = function (param, callbacks) {
@@ -874,6 +888,7 @@
                 data: param
             });
         };
+        
 
         return {
             getStores: getStores,
@@ -926,7 +941,8 @@
             getPaymentGateways: getPaymentGateways,
             getDiscountVouchers: getDiscountVouchers,
             saveDiscountVoucher: saveDiscountVoucher,
-            getDiscountVaoucherById: getDiscountVaoucherById
+            getDiscountVaoucherById: getDiscountVaoucherById,
+            validateLiveStoresCount: validateLiveStoresCount
         };
     })();
 

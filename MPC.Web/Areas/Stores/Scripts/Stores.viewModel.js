@@ -1577,6 +1577,38 @@ define("stores/stores.viewModel",
                         });
                     },
                     //#endregion 
+                    
+                    validateStoreLiveHandler = function () {
+                        var isLive = selectedStore().isStoreSetLive();
+                        if (isLive == 'true' || isLive == true) {
+                            dataservice.validateLiveStoresCount({
+                                success: function (data) {
+                                    if (data != null) {
+                                        if (data == 'true' || data == true)
+                                            selectedStore().isStoreSetLive(true);
+                                        else {
+                                            selectedStore().isStoreSetLive(false);
+                                            showLicenseUpgradeDialog();
+                                        }
+                                    } else {
+                                        selectedStore().isStoreSetLive(false);
+                                        showLicenseUpgradeDialog();
+                                    }
+                                },
+                                error: function (response) {
+                                    toastr.error("Failed to load Licensing . Error: ");
+                                }
+                            });
+                        }
+                        return true;
+                    },
+                    showLicenseUpgradeDialog = function() {
+                        confirmation.afterProceed(function () {
+                            var uri = encodeURI("https://myprintcloud.com/dashboard");
+                            window.location.href = uri;
+                        });
+                        confirmation.showUpgradePopup();
+                    },
 
                     //#region _________EMAIL ______________________________________
                     selectedEmail = ko.observable(),
@@ -7257,7 +7289,8 @@ define("stores/stores.viewModel",
                     getProductCategories: getProductCategories,
                     parentProductCategories: parentProductCategories,
                     updateProductCategories: updateProductCategories,
-                    toggleChildCategories: toggleChildCategories
+                    toggleChildCategories: toggleChildCategories,
+                    validateStoreLiveHandler: validateStoreLiveHandler
 
                 };
                 //#endregion
