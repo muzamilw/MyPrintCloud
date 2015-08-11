@@ -13,7 +13,7 @@
                     <thead>
                         <tr>
                             <th class="col-lg-2"><span>Discount Name</span></th>
-                            <th class="col-lg-2"><span>Coupone Code</span></th>
+                            <th class="col-lg-2"><span>Coupon Code</span></th>
                             <th class="col-lg-2"><span>Discount Type</span></th>
                             <th class="col-lg-2"><span>Discount Value</span></th>
                             <th class="col-lg-2"><span>Coupon Usage</span></th>
@@ -23,6 +23,7 @@
                     <tbody>
                         <!-- ko  foreach: $root.discountVouuchers() -->
                         <tr data-bind="click:$root.editDiscountVoucher">
+                           
                             <td><a class="store-user-link" data-bind="text:name"></a></td>
                             <td data-bind="text:couponCode"></td>
                             <td data-bind="text:discountType"></td>

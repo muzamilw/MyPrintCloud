@@ -94,7 +94,7 @@ namespace MPC.Interfaces.Repository
         List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long CompanyId);
          bool RemoveListOfDeliveryItemCostCenter(long OrderId);
 
-         bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost, long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService, double GetServiceTAX, double TaxRate);
+         //bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost, long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService, double GetServiceTAX, double TaxRate);
        
          Item GetItemByOrderItemID(long ItemID, long OrderID);
 
@@ -190,8 +190,7 @@ namespace MPC.Interfaces.Repository
 
         T Clone<T>(T source);
 
-        List<Item> GetItemsByCategoryId(long Categoryid);
-
+        string GetProductNameByItemId(long ItemId);
     }
 
 }

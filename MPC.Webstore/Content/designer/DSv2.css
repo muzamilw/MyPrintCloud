@@ -4309,7 +4309,7 @@ h2 + .gallery {
 }
 
 .buttonDesigner {
-    background-color: #99c432;
+    background-color: #fc813b;
     border: 2px solid transparent;
     border-radius: 5px;
     box-sizing: border-box;
@@ -4343,11 +4343,11 @@ h2 + .gallery {
     }
 
     .buttonDesigner:active, .buttonDesigner:focus {
-        border-color: #83a82b;
+        border-color: rgba(252, 162, 111, 0.85);
     }
 
     .buttonDesigner:hover {
-        background-color: #a5d92b;
+        background-color: #fca26f;
     }
 
     .buttonDesigner::-moz-focus-inner {
@@ -4789,7 +4789,7 @@ h2 + .gallery {
 }
 
 .DivAlignObjs {
-    height: 108px !important;
+    height: 143px !important;
     z-index: 10000;
     width: 235px !important;
     display: none;
@@ -4810,7 +4810,7 @@ h2 + .gallery {
 .DivTitleLbl {
     margin-bottom: 10px;
     margin-top: 18px;
-    padding-left: 6px;
+    padding-left: 8px;
 }
 
 .titletxt {
@@ -4838,7 +4838,7 @@ h2 + .gallery {
     width: 30px;
     height: 28px;
     margin-bottom: -8px;
-    margin-left: 4px;
+    margin-left: 8px;
     border: none;
 }
 
@@ -7240,11 +7240,41 @@ input[type="radio"] {
     background-color: #272C33;
     text-align: left;
     z-index: 100;
-    overflow-x : scroll;
-    display: none;    text-align: center;
+    overflow-x: scroll;
+    display: none;
+    text-align: center;
 }
 
-.multiBackCarouselLayer
+.multiBackCarouselLayer {
+    display: inline-flex;
+}
+
+.divGroupObjDel {
+    width: 224px;
+    clear: both;
+    padding-top: 5px;
+    padding-left: 7px;
+}
+
+.templatepreviewContainer {
+    position: absolute;
+    background-color: #EBECED;
+    height: 100%;
+    width: 100%;
+    top: 70px;
+    z-index: 100;
+    right: 0px;
+    display:none;
+}
+.tempPreviewImgContainer {
+    position:absolute;
+    width:100%;
+    top:68px;
+    height:100%;
+       text-align: center;
+}
+.tempPreviewImg
 {
-    display:inline-flex;
+    height:400px;
+    width:auto;
 }

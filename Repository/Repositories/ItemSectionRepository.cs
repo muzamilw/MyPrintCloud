@@ -188,6 +188,19 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+        public ItemSection GetSectionByItemId(long ItemId)
+        {
+            try
+            {
+
+                return db.ItemSections.Where(i => i.ItemId == ItemId).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
     }
 }

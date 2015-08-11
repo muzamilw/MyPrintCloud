@@ -17545,6 +17545,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
       {
           var xml = this.ImageClippedInfo;
           var parser, xmlDoc;
+
           if (window.DOMParser) {
               parser = new DOMParser();
               xmlDoc = parser.parseFromString(xml, "text/xml");
@@ -17559,6 +17560,10 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
           var sy = parseFloat(xmlDoc.getElementsByTagName("sy")[0].childNodes[0].nodeValue);
           var swidth = parseFloat(xmlDoc.getElementsByTagName("swidth")[0].childNodes[0].nodeValue);
           var sheight = parseFloat(xmlDoc.getElementsByTagName("sheight")[0].childNodes[0].nodeValue);
+
+          // for firefox fix
+          if (swidth > imageMargins.width) swidth = imageMargins.width;
+          if (sheight > imageMargins.height) sheight = imageMargins.height;
 
           elementToDraw && ctx.drawImage(elementToDraw,sx, sy, swidth, sheight,
                                    x + imageMargins.marginX,

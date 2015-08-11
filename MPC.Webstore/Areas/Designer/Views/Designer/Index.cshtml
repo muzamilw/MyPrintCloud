@@ -1305,6 +1305,9 @@
             <div class="ColorPallet" style="background-color: rgb(0, 125, 151); border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px;" onclick="f2(100,5,20,30,&quot;#007D97&quot;,&quot;null&quot;);"></div>
             <button id="AddColorGroupRetail" class="" title="Color picker">MORE</button>
         </div>
+        <div class="divGroupObjDel" style="">
+            <button class="buttonDesigner" id="btnDeleteGroupObjs" title="Delete Objects" style="width:100%;">Delete Objects</button>
+        </div>
     </div>
     <div class="divVariableContainer propertyPanel" id="divVariableContainer">
         <div class="closePanelButton" title="Close this panel" onclick="pcL36('hide','#divVariableContainer');">
@@ -1338,8 +1341,7 @@
 
         </div>
 </section>
-<section class="multiBackCarouselContainer">
-    <section class=" multiBackCarouselLayer"></section></section>
+<section class="multiBackCarouselContainer"><section class=" multiBackCarouselLayer"></section></section>
 <section class="proofsContainer">
     <div id="DivShadow" class="opaqueLayer"></div>
     <div id="LargePreviewer" class="LargePreviewer" title="Full Size Image">
@@ -1428,7 +1430,11 @@
         </div>
     </form>
 </section>
-
+<section class="templatepreviewContainer">
+    <div class="tempPreviewImgContainer">
+        <img src="" class="tempPreviewImg" />
+    </div>
+</section>
 <input id="getCopied" style="position:absolute;left:-115px;top:-25px;height:20px;width:100px;" />
 <input id="imageUploader" name="imageUploader" type="file" style="position:absolute;left:-115px;top:-25px;height:20px;width:100px;" accept="application/pdf, image/*" />
 <input id="fontUploader" name="fontUploader" type="file" multiple="multiple" accept=".eot,.ttf,.woff" style="position:absolute;left:-115px;top:-25px;height:20px;width:100px;" />
