@@ -17,14 +17,10 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>44300</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -480,7 +476,6 @@
     <Compile Include="Areas\Api\ModelMappers\ItemAttachmentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemImageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemStockUpdateHistoryMapper.cs" />
-    <Compile Include="Areas\Api\ModelMappers\ProductCategoryVoucherMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductMarketBriefAnswerMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductMarketBriefQuestionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\LiveJobItemMapper.cs" />
@@ -636,7 +631,6 @@
     <Compile Include="Areas\Api\Models\OrderRetailItemDetail.cs" />
     <Compile Include="Areas\Api\Models\OrderStatusesResponse.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryDeleteModel.cs" />
-    <Compile Include="Areas\Api\Models\ProductCategoryVoucher.cs" />
     <Compile Include="Areas\Api\Models\ProductMarketBriefAnswer.cs" />
     <Compile Include="Areas\Api\Models\ProductMarketBriefQuestion.cs" />
     <Compile Include="Areas\Api\Models\PtvDTO.cs" />
