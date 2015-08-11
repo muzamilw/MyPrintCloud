@@ -341,7 +341,7 @@
                     <div id="PnalTotalBoxReceipt" class="col-md-12 col-lg-12 col-xs-12" style="color: #333333; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px; padding: 10px; background-color: #f3f3f3; border: 1px solid #f4f4f4;">
                         <table border="0" cellpadding="3" cellspacing="0" width="100%">
                             <tr>
-                                <td class="srFirstTd"></td>
+                                <td class="srFirstTd hidden-xs"></td>
                                 <td class="srScdTd"></td>
                                 <td class="srThirdTd" align="left">
                                     <span id="lbl_SubTotal" style="  line-height: 2;font-size: 13px; color: Black;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId)):</span>
@@ -355,27 +355,27 @@
                             @if (_DiscountAmountTotal > 0)
                             {
                                 <tr>
-                                    <td width="30%" align="left">
+                                    <td align="left" class="hidden-xs">
                                         &nbsp;
                                     </td>
-                                    <td width="35%">
+                                    <td>
                                         &nbsp;
                                     </td>
-                                    <td width="20%" align="left" class="fontWeightNormal Fsize13" id="td2" style="text-align:right;">
-                                        <span id="lbl_Delivery" style="  line-height: 2;font-size: 13px; color: Black;">Discount:</span>
+                                    <td align="left" class="fontWeightNormal Fsize13" id="td2" style="text-align:right;">
+                                        <span id="lbl_Delivery" style="  line-height: 2;font-size: 13px; color: red;">Discount:</span>
                                     </td>
-                                    <td align="right" width="30%">
-                                        <span id="lblDiscountV" style="font-weight: bold; font-size: 14px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal((_DiscountAmountTotal).ToString(), ViewBag.Currency)</span>
+                                    <td align="right">
+                                        <span id="lblDiscountV" style="font-weight: bold; font-size: 14px; color: red;">@Utils.FormatDecimalValueToTwoDecimal((_DiscountAmountTotal).ToString(), ViewBag.Currency)</span>
                                     </td>
                                 </tr>
                             }
                             <tr>
-                                <td></td>
+                                <td class="hidden-xs"></td>
                                 <td align="left"><label id="lblEstimatedDeliveryMethod" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@Model.DeliveryMethod</label></td>
                                 <td align="left">
                                     <span id="lbl_Delivery" style="  line-height: 2;font-size: 13px; color: Black;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.WBStoreId)):</span>
                                 </td>
-                                <td width="30%">
+                                <td >
                                     @if (Model.DeliveryDiscountVoucherId == null)
                                     {
                                         if (Model.DeliveryCost > 0)
@@ -397,12 +397,12 @@
                                 </td>
                             </tr>
                             <tr id="rowVat">
-                                <td></td>
+                                <td class="hidden-xs"></td>
                                 <td align="left"></td>
                                 <td align="left">
                                     <span id="lblTaxLabelTotal" style="  line-height: 2;font-size: 13px; color: Black;">@ViewBag.TaxLabel:</span>
                                 </td>
-                                <td width="30%">
+                                <td >
                                     @if (Model.DeliveryCost > 0)
                                     {
                                         double total = _vatTotal + Model.DeliveryCostTaxValue;
@@ -416,7 +416,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td></td>
+                                <td class="hidden-xs"></td>
                                 <td></td>
                                 <td align="right" >
                                     <span id="lbl_Total" style="  line-height: 2;color: Black; font-size: 13px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spngrandtotal", UserCookieManager.WBStoreId))</span>

@@ -2075,184 +2075,184 @@ namespace MPC.Repository.Repositories
         //    long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId,
         //    double TaxRate, string ItemMode, bool isInculdeTax, long ItemstockOptionID, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "")
         //{
-            //try
-            //{
-            //    bool result = false;
+        //try
+        //{
+        //    bool result = false;
 
-            //    ItemSection FirstItemSection = null;
+        //    ItemSection FirstItemSection = null;
 
-            //    double currentTotal = 0;
-            //    double netTotal = 0;
-            //    double grossTotal = 0;
-            //    double? markupRate = 0;
+        //    double currentTotal = 0;
+        //    double netTotal = 0;
+        //    double grossTotal = 0;
+        //    double? markupRate = 0;
 
-            //    try
-            //    {
-            //        Item clonedItem = null;
+        //    try
+        //    {
+        //        Item clonedItem = null;
 
-            //        clonedItem = db.Items.Where(i => i.ItemId == clonedItemID).FirstOrDefault();
+        //        clonedItem = db.Items.Where(i => i.ItemId == clonedItemID).FirstOrDefault();
 
-            //        long? markupid = 1;
-
-
-            //        Markup OrgMarkup = db.Markups.Where(m => m.OrganisationId == OrganisationId && m.IsDefault == true).FirstOrDefault();
-
-            //        if (OrgMarkup != null)
-            //        {
-            //            markupid = 0;//OrgMarkup.MarkUpId;
-            //            markupRate = 0;//(int)OrgMarkup.MarkUpRate;
-            //        }
-            //        else
-            //        {
-            //            markupid = 0;
-            //            markupRate = 0;
-            //        }
-
-            //        if (CountOfUploads > 0)
-            //        {
-            //            clonedItem.ProductName = clonedItem.ProductName + " " + CountOfUploads + " file(s) uploaded";
-            //        }
-
-            //        clonedItem.Qty1 = (int)orderedQuantity;
-
-            //        clonedItem.IsOrderedItem = true;
+        //        long? markupid = 1;
 
 
+        //        Markup OrgMarkup = db.Markups.Where(m => m.OrganisationId == OrganisationId && m.IsDefault == true).FirstOrDefault();
 
-            //        if (isInculdeTax == true)
-            //        {
-            //            if (clonedItem.DefaultItemTax != null)
-            //            {
-            //                clonedItem.Tax1 = Convert.ToInt32(clonedItem.DefaultItemTax);
-            //                double TaxAppliedOnItemTotal = CalculatePercentage(itemPrice, Convert.ToDouble(clonedItem.DefaultItemTax));// ((itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100); 
+        //        if (OrgMarkup != null)
+        //        {
+        //            markupid = 0;//OrgMarkup.MarkUpId;
+        //            markupRate = 0;//(int)OrgMarkup.MarkUpRate;
+        //        }
+        //        else
+        //        {
+        //            markupid = 0;
+        //            markupRate = 0;
+        //        }
 
-            //                double TaxAppliedOnCostCentreTotal = CalculatePercentage(addonsPrice, Convert.ToDouble(clonedItem.DefaultItemTax));// ((addonsPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100);
-                          
-            //                itemPrice = itemPrice;
+        //        if (CountOfUploads > 0)
+        //        {
+        //            clonedItem.ProductName = clonedItem.ProductName + " " + CountOfUploads + " file(s) uploaded";
+        //        }
 
-            //                netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+        //        clonedItem.Qty1 = (int)orderedQuantity;
 
-            //                grossTotal = netTotal + (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);
-            //                clonedItem.Qty1Tax1Value = (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);//GetTaxPercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
-            //            }
-            //            else
-            //            {
-            //                clonedItem.Tax1 = Convert.ToInt32(TaxRate);
-            //                double TaxAppliedOnItemTotal = CalculatePercentage(itemPrice, TaxRate); //(itemPrice * TaxRate / 100);
-            //                double TaxAppliedOnCostCentreTotal = CalculatePercentage(addonsPrice, TaxRate); //(addonsPrice * TaxRate / 100);
-            //                itemPrice = itemPrice;
-
-            //                netTotal = itemPrice + addonsPrice + markupRate ?? 0;
-                           
-            //                grossTotal = netTotal + (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);//CalculatePercentage(netTotal, TaxRate);
-            //                clonedItem.Qty1Tax1Value = TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal;//GetTaxPercentage(netTotal, TaxRate);
-            //            }
-            //        }
-            //        else
-            //        {
-            //            clonedItem.Tax1 = Convert.ToInt32(TaxRate);
-
-            //            netTotal = itemPrice + addonsPrice + markupRate ?? 0;
-
-            //            GetStoreDefaultDiscountRate();
-
-            //            grossTotal = netTotal + CalculatePercentage(netTotal, TaxRate);
-            //            clonedItem.Qty1Tax1Value = GetTaxPercentage(netTotal, TaxRate);
-            //        }
-
-
-            //        //******************Existing item update*********************
-            //        clonedItem.Qty1MarkUp1Value = markupRate;
-
-            //        clonedItem.Qty1MarkUpId1 = (int)markupid;
-
-            //        clonedItem.Qty1BaseCharge1 = netTotal;
-
-            //        clonedItem.Qty1NetTotal = netTotal;
-
-            //        clonedItem.Qty1GrossTotal = grossTotal;
-
-            //        FirstItemSection =
-            //            clonedItem.ItemSections.Where(sec => sec.SectionNo == 1 && sec.ItemId == clonedItem.ItemId)
-            //                .FirstOrDefault();
-
-            //        result = SaveAdditionalAddonsOrUpdateStockItemType(newlyAddedCostCenters, stockItemID, FirstItemSection,
-            //            ItemMode, ItemstockOptionID); // additional addon required the newly inserted cloneditem
-
-            //        FirstItemSection.Qty1 = clonedItem.Qty1;
-
-            //        FirstItemSection.BaseCharge1 = clonedItem.Qty1BaseCharge1;
+        //        clonedItem.IsOrderedItem = true;
 
 
 
-            //        FirstItemSection.Qty1MarkUpID = (int)markupid;
-            //        FirstItemSection.QuestionQueue = QuestionQueue;
-            //        FirstItemSection.InputQueue = InputQueue;
-            //        FirstItemSection.CostCentreQueue = CostCentreQueue;
+        //        if (isInculdeTax == true)
+        //        {
+        //            if (clonedItem.DefaultItemTax != null)
+        //            {
+        //                clonedItem.Tax1 = Convert.ToInt32(clonedItem.DefaultItemTax);
+        //                double TaxAppliedOnItemTotal = CalculatePercentage(itemPrice, Convert.ToDouble(clonedItem.DefaultItemTax));// ((itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100); 
+
+        //                double TaxAppliedOnCostCentreTotal = CalculatePercentage(addonsPrice, Convert.ToDouble(clonedItem.DefaultItemTax));// ((addonsPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100);
+
+        //                itemPrice = itemPrice;
+
+        //                netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+
+        //                grossTotal = netTotal + (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);
+        //                clonedItem.Qty1Tax1Value = (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);//GetTaxPercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
+        //            }
+        //            else
+        //            {
+        //                clonedItem.Tax1 = Convert.ToInt32(TaxRate);
+        //                double TaxAppliedOnItemTotal = CalculatePercentage(itemPrice, TaxRate); //(itemPrice * TaxRate / 100);
+        //                double TaxAppliedOnCostCentreTotal = CalculatePercentage(addonsPrice, TaxRate); //(addonsPrice * TaxRate / 100);
+        //                itemPrice = itemPrice;
+
+        //                netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+
+        //                grossTotal = netTotal + (TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal);//CalculatePercentage(netTotal, TaxRate);
+        //                clonedItem.Qty1Tax1Value = TaxAppliedOnItemTotal + TaxAppliedOnCostCentreTotal;//GetTaxPercentage(netTotal, TaxRate);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            clonedItem.Tax1 = Convert.ToInt32(TaxRate);
+
+        //            netTotal = itemPrice + addonsPrice + markupRate ?? 0;
+
+        //            GetStoreDefaultDiscountRate();
+
+        //            grossTotal = netTotal + CalculatePercentage(netTotal, TaxRate);
+        //            clonedItem.Qty1Tax1Value = GetTaxPercentage(netTotal, TaxRate);
+        //        }
 
 
-            //        bool isNewSectionCostCenter = false;
+        //        //******************Existing item update*********************
+        //        clonedItem.Qty1MarkUp1Value = markupRate;
+
+        //        clonedItem.Qty1MarkUpId1 = (int)markupid;
+
+        //        clonedItem.Qty1BaseCharge1 = netTotal;
+
+        //        clonedItem.Qty1NetTotal = netTotal;
+
+        //        clonedItem.Qty1GrossTotal = grossTotal;
+
+        //        FirstItemSection =
+        //            clonedItem.ItemSections.Where(sec => sec.SectionNo == 1 && sec.ItemId == clonedItem.ItemId)
+        //                .FirstOrDefault();
+
+        //        result = SaveAdditionalAddonsOrUpdateStockItemType(newlyAddedCostCenters, stockItemID, FirstItemSection,
+        //            ItemMode, ItemstockOptionID); // additional addon required the newly inserted cloneditem
+
+        //        FirstItemSection.Qty1 = clonedItem.Qty1;
+
+        //        FirstItemSection.BaseCharge1 = clonedItem.Qty1BaseCharge1;
 
 
-            //        List<SectionCostcentre> listOfSectionCostCentres = db.SectionCostcentres.Where(c => c.ItemSectionId == FirstItemSection.ItemSectionId).ToList();
 
-            //        SectionCostcentre sectionCC = null;
-            //        foreach (var ccItem in listOfSectionCostCentres)
-            //        {
-            //            if (ccItem.CostCentre != null)
-            //            {
-            //                if (ccItem.CostCentre.Type == 29)
-            //                {
-            //                    sectionCC = ccItem;
-            //                }
-            //            }
-            //        }
+        //        FirstItemSection.Qty1MarkUpID = (int)markupid;
+        //        FirstItemSection.QuestionQueue = QuestionQueue;
+        //        FirstItemSection.InputQueue = InputQueue;
+        //        FirstItemSection.CostCentreQueue = CostCentreQueue;
 
 
-            //        if (sectionCC == null)
-            //        {
-            //            sectionCC = new SectionCostcentre();
+        //        bool isNewSectionCostCenter = false;
 
-            //            sectionCC.Qty1MarkUpID = 1;
-            //            sectionCC.Qty1Charge = itemPrice;
-            //            sectionCC.Qty1NetTotal = itemPrice;
 
-            //            isNewSectionCostCenter = true;
-            //        }
+        //        List<SectionCostcentre> listOfSectionCostCentres = db.SectionCostcentres.Where(c => c.ItemSectionId == FirstItemSection.ItemSectionId).ToList();
 
-            //        if (isNewSectionCostCenter)
-            //        {
-            //            //29 is the global type of web order cost centre
-            //            var oCostCentre = db.CostCentres.Where(g => g.Type == 29 && g.OrganisationId == OrganisationId).SingleOrDefault();
-            //            if (oCostCentre != null)
-            //            {
-            //                sectionCC.Name = oCostCentre.Name;
-            //                sectionCC.CostCentreId = oCostCentre.CostCentreId;
-            //                sectionCC.ItemSectionId = FirstItemSection.ItemSectionId;
-            //                FirstItemSection.SectionCostcentres.Add(sectionCC);
-            //            }
-            //            else
-            //            {
-            //                throw new Exception("Critcal Error, We have lost our main costcentre.", null);
-            //            }
-            //        }
+        //        SectionCostcentre sectionCC = null;
+        //        foreach (var ccItem in listOfSectionCostCentres)
+        //        {
+        //            if (ccItem.CostCentre != null)
+        //            {
+        //                if (ccItem.CostCentre.Type == 29)
+        //                {
+        //                    sectionCC = ccItem;
+        //                }
+        //            }
+        //        }
 
-            //        if (result)
-            //            result = db.SaveChanges() > 0 ? true : false;
 
-            //    }
-            //    catch (Exception)
-            //    {
-            //        result = false;
-            //        throw;
-            //    }
+        //        if (sectionCC == null)
+        //        {
+        //            sectionCC = new SectionCostcentre();
 
-            //    return result;
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
+        //            sectionCC.Qty1MarkUpID = 1;
+        //            sectionCC.Qty1Charge = itemPrice;
+        //            sectionCC.Qty1NetTotal = itemPrice;
+
+        //            isNewSectionCostCenter = true;
+        //        }
+
+        //        if (isNewSectionCostCenter)
+        //        {
+        //            //29 is the global type of web order cost centre
+        //            var oCostCentre = db.CostCentres.Where(g => g.Type == 29 && g.OrganisationId == OrganisationId).SingleOrDefault();
+        //            if (oCostCentre != null)
+        //            {
+        //                sectionCC.Name = oCostCentre.Name;
+        //                sectionCC.CostCentreId = oCostCentre.CostCentreId;
+        //                sectionCC.ItemSectionId = FirstItemSection.ItemSectionId;
+        //                FirstItemSection.SectionCostcentres.Add(sectionCC);
+        //            }
+        //            else
+        //            {
+        //                throw new Exception("Critcal Error, We have lost our main costcentre.", null);
+        //            }
+        //        }
+
+        //        if (result)
+        //            result = db.SaveChanges() > 0 ? true : false;
+
+        //    }
+        //    catch (Exception)
+        //    {
+        //        result = false;
+        //        throw;
+        //    }
+
+        //    return result;
+        //}
+        //catch (Exception ex)
+        //{
+        //    throw ex;
+        //}
 
 
         //}
@@ -2273,7 +2273,7 @@ namespace MPC.Repository.Repositories
         public Item GetClonedItemByOrderId(long OrderId, long ReferenceItemId)
         {
             try
-            { 
+            {
                 return
                db.Items.Include("ItemAttachments").Where(
                    i => i.EstimateId == OrderId && i.RefItemId == ReferenceItemId && i.IsOrderedItem == false)
@@ -2449,7 +2449,7 @@ namespace MPC.Repository.Repositories
                     {
                         throw new Exception("Critcal Error, We have lost our main Order flags.", null);
                     }
-                    
+
                     // ActualOrder.AddressId = 159239;
                     ActualOrder.LockedBy = Convert.ToInt32(realContactID);
                     ActualOrder.CompanyId = realCustomerID;
@@ -2800,282 +2800,282 @@ namespace MPC.Repository.Repositories
         //    long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService,
         //    double GetServiceTAX, double TaxRate)
         //{
-            //try
-            //{
-            //    ItemSection NewtblItemSection = null;
-            //    SectionCostcentre NewtblISectionCostCenteres = null;
-            //    Item newItem = null;
+        //try
+        //{
+        //    ItemSection NewtblItemSection = null;
+        //    SectionCostcentre NewtblISectionCostCenteres = null;
+        //    Item newItem = null;
 
-            //    Organisation organisation = null;
-            //    // CompanySiteManager compSiteManager = new CompanySiteManager();
+        //    Organisation organisation = null;
+        //    // CompanySiteManager compSiteManager = new CompanySiteManager();
 
-            //    double netTotal = 0;
-            //    double grossTotal = 0;
+        //    double netTotal = 0;
+        //    double grossTotal = 0;
 
-            //    long OID =
-            //        db.Companies.Where(c => c.CompanyId == customerID).Select(s => s.OrganisationId ?? 0).FirstOrDefault();
-            //    organisation = db.Organisations.Where(o => o.OrganisationId == OID).FirstOrDefault();
-            //    Item Record =
-            //        db.Items.Where(c => c.EstimateId == orderId && c.ItemType == (int)ItemTypes.Delivery).FirstOrDefault();
-            //    if (Record != null)
-            //    {
-
-
-            //        netTotal = DeliveryCost;
-
-            //        if (Mode == StoreMode.Corp)
-            //        {
-            //            if (IstaxONService == true)
-            //            {
-            //                if (isDeliveryTaxable)
-            //                {
-            //                    Record.Tax1 = 0;
-            //                    grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
-            //                    Record.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
-            //                }
-            //                else
-            //                {
-                                
-            //                    Record.Qty1Tax1Value = CalculatePercentage(netTotal, 0);
-            //                    grossTotal = netTotal + Record.Qty1Tax1Value ?? 0; //GrossTotalCalculation(netTotal, 0);
-            //                }
-            //            }
-            //            else
-            //            {
-            //                if (isDeliveryTaxable == true)
-            //                {
-            //                    Record.Qty1Tax1Value = CalculatePercentage(netTotal, TaxRate); //calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
-            //                    grossTotal = netTotal + Record.Qty1Tax1Value ?? 0;
-            //                }
-            //                else
-            //                {
-            //                    Record.Qty1Tax1Value = CalculatePercentage(netTotal, 0);// calculateTaxPercentage(netTotal, 0);
-            //                    grossTotal = netTotal + Record.Qty1Tax1Value ?? 0;
-            //                }
-            //            }
-            //        }
-            //        else
-            //        {
-            //            if (IstaxONService == true)
-            //            {
-            //                if (isDeliveryTaxable)
-            //                {
-            //                    Record.Tax1 = 0;
-            //                    grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2,MidpointRounding.AwayFromZero);
-            //                    Record.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
-            //                }
-            //                else
-            //                {
-            //                    Record.Tax1 = 0;
-            //                    Record.Qty1Tax1Value = CalculatePercentage(netTotal, 0);// calculateTaxPercentage(netTotal, 0);
-            //                    grossTotal = netTotal + Record.Qty1Tax1Value ?? 0;
-            //                }
-            //            }
-            //            else
-            //            {
-            //                if (isDeliveryTaxable)
-            //                {
-            //                    Record.Tax1 = 0;
-            //                    Record.Qty1Tax1Value = CalculatePercentage(netTotal, TaxRate); //calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
-            //                    grossTotal = netTotal + Record.Qty1Tax1Value ?? 0;
-            //                }
-            //                else
-            //                {
-            //                    Record.Tax1 = 0;
-            //                    Record.Qty1Tax1Value = CalculatePercentage(netTotal, 0);// calculateTaxPercentage(netTotal, 0);
-            //                    grossTotal = netTotal + Record.Qty1Tax1Value ?? 0;
-            //                }
-            //            }
-
-            //        }
+        //    long OID =
+        //        db.Companies.Where(c => c.CompanyId == customerID).Select(s => s.OrganisationId ?? 0).FirstOrDefault();
+        //    organisation = db.Organisations.Where(o => o.OrganisationId == OID).FirstOrDefault();
+        //    Item Record =
+        //        db.Items.Where(c => c.EstimateId == orderId && c.ItemType == (int)ItemTypes.Delivery).FirstOrDefault();
+        //    if (Record != null)
+        //    {
 
 
-            //        //******************existing item*********************
+        //        netTotal = DeliveryCost;
 
-            //        Record.IsPublished = false;
-            //        Record.ProductName = DeliveryName;
-            //        Record.EstimateId = orderId; //orderid
-            //        Record.CompanyId = customerID; //customerid
-            //        Record.ItemType = (int)ItemTypes.Delivery;
-            //        Record.Qty1BaseCharge1 = netTotal;
-            //        Record.Qty1NetTotal = netTotal;
-            //        Record.Qty1GrossTotal = grossTotal;
-            //        Record.InvoiceId = null;
-            //        Record.IsOrderedItem = true;
+        //        if (Mode == StoreMode.Corp)
+        //        {
+        //            if (IstaxONService == true)
+        //            {
+        //                if (isDeliveryTaxable)
+        //                {
+        //                    Record.Tax1 = 0;
+        //                    grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
+        //                    Record.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
+        //                }
+        //                else
+        //                {
 
-            //        Markup zeroMarkup = db.Markups.Where(m => m.MarkUpRate == 0).FirstOrDefault();
+        //                    Record.Qty1Tax1Value = CalculatePercentage(netTotal, 0);
+        //                    grossTotal = netTotal + Record.Qty1Tax1Value ?? 0; //GrossTotalCalculation(netTotal, 0);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                if (isDeliveryTaxable == true)
+        //                {
+        //                    Record.Qty1Tax1Value = CalculatePercentage(netTotal, TaxRate); //calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
+        //                    grossTotal = netTotal + Record.Qty1Tax1Value ?? 0;
+        //                }
+        //                else
+        //                {
+        //                    Record.Qty1Tax1Value = CalculatePercentage(netTotal, 0);// calculateTaxPercentage(netTotal, 0);
+        //                    grossTotal = netTotal + Record.Qty1Tax1Value ?? 0;
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (IstaxONService == true)
+        //            {
+        //                if (isDeliveryTaxable)
+        //                {
+        //                    Record.Tax1 = 0;
+        //                    grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2,MidpointRounding.AwayFromZero);
+        //                    Record.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
+        //                }
+        //                else
+        //                {
+        //                    Record.Tax1 = 0;
+        //                    Record.Qty1Tax1Value = CalculatePercentage(netTotal, 0);// calculateTaxPercentage(netTotal, 0);
+        //                    grossTotal = netTotal + Record.Qty1Tax1Value ?? 0;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                if (isDeliveryTaxable)
+        //                {
+        //                    Record.Tax1 = 0;
+        //                    Record.Qty1Tax1Value = CalculatePercentage(netTotal, TaxRate); //calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
+        //                    grossTotal = netTotal + Record.Qty1Tax1Value ?? 0;
+        //                }
+        //                else
+        //                {
+        //                    Record.Tax1 = 0;
+        //                    Record.Qty1Tax1Value = CalculatePercentage(netTotal, 0);// calculateTaxPercentage(netTotal, 0);
+        //                    grossTotal = netTotal + Record.Qty1Tax1Value ?? 0;
+        //                }
+        //            }
+
+        //        }
 
 
+        //        //******************existing item*********************
 
-            //        //*****************Existing item Sections and cost Centeres*********************************
-            //        ItemSection ExistingItemSect = db.ItemSections.Where(i => i.ItemId == Record.ItemId).FirstOrDefault();
-            //        ExistingItemSect.SectionName = DeliveryName;
-            //        ExistingItemSect.BaseCharge1 = DeliveryCost;
+        //        Record.IsPublished = false;
+        //        Record.ProductName = DeliveryName;
+        //        Record.EstimateId = orderId; //orderid
+        //        Record.CompanyId = customerID; //customerid
+        //        Record.ItemType = (int)ItemTypes.Delivery;
+        //        Record.Qty1BaseCharge1 = netTotal;
+        //        Record.Qty1NetTotal = netTotal;
+        //        Record.Qty1GrossTotal = grossTotal;
+        //        Record.InvoiceId = null;
+        //        Record.IsOrderedItem = true;
 
-
-            //        //*****************Existing Section Cost Centeres*********************************
-            //        SectionCostcentre ExistingSectCostCentre =
-            //            db.SectionCostcentres.Where(e => e.ItemSectionId == ExistingItemSect.ItemSectionId).FirstOrDefault();
-
-            //        if (zeroMarkup != null)
-            //        {
-            //            ExistingSectCostCentre.Qty1MarkUpID = (int)zeroMarkup.MarkUpId;
-            //        }
-            //        else
-            //        {
-            //            ExistingSectCostCentre.Qty1MarkUpID = 1;
-            //        }
-            //        ExistingSectCostCentre.CostCentreId = DeliveryCostCenterId;
-            //        ExistingSectCostCentre.Qty1Charge = DeliveryCost;
-            //        ExistingSectCostCentre.Qty1NetTotal = DeliveryCost;
-            //        if (db.SaveChanges() > 0)
-            //        {
-            //            return true;
-            //        }
-            //        else
-            //        {
-            //            return false;
-            //        }
-            //    }
-            //    else
-            //    {
-
-            //        newItem = new Item();
-            //        netTotal = DeliveryCost;
-            //        if (Mode == StoreMode.Corp)
-            //        {
-            //            if (IstaxONService == true)
-            //            {
-            //                if (isDeliveryTaxable)
-            //                {
-                                
-            //                    grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
-            //                    newItem.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
-            //                }
-            //                else
-            //                {
-
-            //                    newItem.Qty1Tax1Value = CalculatePercentage(netTotal, 0);// calculateTaxPercentage(netTotal, 0);
-            //                    grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0;
-            //                }
-            //            }
-            //            else
-            //            {
-            //                if (isDeliveryTaxable)
-            //                {
-
-            //                    if (TaxRate != null && TaxRate > 0)
-            //                    {
-            //                        newItem.Qty1Tax1Value = CalculatePercentage(netTotal, TaxRate); //calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
-            //                        grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0;
-            //                    }
-            //                    else
-            //                    {
-            //                        newItem.Qty1Tax1Value = CalculatePercentage(netTotal, 0);
-            //                        grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0; 
-            //                    }
-
-            //                }
-            //                else
-            //                {
-            //                    newItem.Qty1Tax1Value = CalculatePercentage(netTotal, 0);
-            //                    grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0; 
-            //                }
-            //            }
-
-            //        }
-            //        else
-            //        {
-            //            if (IstaxONService == true)
-            //            {
-            //                if (isDeliveryTaxable)
-            //                {
-            //                    grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
-            //                    newItem.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
-            //                }
-            //                else
-            //                {
-            //                    newItem.Qty1Tax1Value = CalculatePercentage(netTotal, 0);// calculateTaxPercentage(netTotal, 0);
-            //                    grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0;
-            //                }
-            //            }
-            //            else
-            //            {
-            //                if (isDeliveryTaxable)
-            //                {
-            //                    newItem.Qty1Tax1Value = CalculatePercentage(netTotal, TaxRate); //calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
-            //                    grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0;
-                                
-            //                }
-            //                else
-            //                {
-            //                    newItem.Qty1Tax1Value = CalculatePercentage(netTotal, 0);
-            //                    grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0; 
-            //                }
-            //            }
-
-            //        }
-
-            //        //******************new item*********************
+        //        Markup zeroMarkup = db.Markups.Where(m => m.MarkUpRate == 0).FirstOrDefault();
 
 
 
-            //        newItem.IsPublished = false;
-            //        newItem.ProductName = DeliveryName;
-            //        newItem.EstimateId = orderId; //orderid
-            //        newItem.CompanyId = customerID; //customerid
-            //        newItem.ItemType = (int)ItemTypes.Delivery;
-            //        newItem.Qty1BaseCharge1 = netTotal;
-            //        newItem.Qty1NetTotal = netTotal;
-            //        newItem.Qty1GrossTotal = grossTotal;
-            //        newItem.InvoiceId = null;
-            //        newItem.IsOrderedItem = true;
-            //        Markup zeroMarkup = db.Markups.Where(m => m.MarkUpRate == 0).FirstOrDefault();
+        //        //*****************Existing item Sections and cost Centeres*********************************
+        //        ItemSection ExistingItemSect = db.ItemSections.Where(i => i.ItemId == Record.ItemId).FirstOrDefault();
+        //        ExistingItemSect.SectionName = DeliveryName;
+        //        ExistingItemSect.BaseCharge1 = DeliveryCost;
+
+
+        //        //*****************Existing Section Cost Centeres*********************************
+        //        SectionCostcentre ExistingSectCostCentre =
+        //            db.SectionCostcentres.Where(e => e.ItemSectionId == ExistingItemSect.ItemSectionId).FirstOrDefault();
+
+        //        if (zeroMarkup != null)
+        //        {
+        //            ExistingSectCostCentre.Qty1MarkUpID = (int)zeroMarkup.MarkUpId;
+        //        }
+        //        else
+        //        {
+        //            ExistingSectCostCentre.Qty1MarkUpID = 1;
+        //        }
+        //        ExistingSectCostCentre.CostCentreId = DeliveryCostCenterId;
+        //        ExistingSectCostCentre.Qty1Charge = DeliveryCost;
+        //        ExistingSectCostCentre.Qty1NetTotal = DeliveryCost;
+        //        if (db.SaveChanges() > 0)
+        //        {
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    else
+        //    {
+
+        //        newItem = new Item();
+        //        netTotal = DeliveryCost;
+        //        if (Mode == StoreMode.Corp)
+        //        {
+        //            if (IstaxONService == true)
+        //            {
+        //                if (isDeliveryTaxable)
+        //                {
+
+        //                    grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
+        //                    newItem.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
+        //                }
+        //                else
+        //                {
+
+        //                    newItem.Qty1Tax1Value = CalculatePercentage(netTotal, 0);// calculateTaxPercentage(netTotal, 0);
+        //                    grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                if (isDeliveryTaxable)
+        //                {
+
+        //                    if (TaxRate != null && TaxRate > 0)
+        //                    {
+        //                        newItem.Qty1Tax1Value = CalculatePercentage(netTotal, TaxRate); //calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
+        //                        grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0;
+        //                    }
+        //                    else
+        //                    {
+        //                        newItem.Qty1Tax1Value = CalculatePercentage(netTotal, 0);
+        //                        grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0; 
+        //                    }
+
+        //                }
+        //                else
+        //                {
+        //                    newItem.Qty1Tax1Value = CalculatePercentage(netTotal, 0);
+        //                    grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0; 
+        //                }
+        //            }
+
+        //        }
+        //        else
+        //        {
+        //            if (IstaxONService == true)
+        //            {
+        //                if (isDeliveryTaxable)
+        //                {
+        //                    grossTotal = Math.Round(ServiceGrossTotalCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
+        //                    newItem.Qty1Tax1Value = Math.Round(ServiceTotalTaxCalculation(netTotal, GetServiceTAX), 2, MidpointRounding.AwayFromZero);
+        //                }
+        //                else
+        //                {
+        //                    newItem.Qty1Tax1Value = CalculatePercentage(netTotal, 0);// calculateTaxPercentage(netTotal, 0);
+        //                    grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                if (isDeliveryTaxable)
+        //                {
+        //                    newItem.Qty1Tax1Value = CalculatePercentage(netTotal, TaxRate); //calculateTaxPercentage(netTotal, Convert.ToInt32(TaxRate));
+        //                    grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0;
+
+        //                }
+        //                else
+        //                {
+        //                    newItem.Qty1Tax1Value = CalculatePercentage(netTotal, 0);
+        //                    grossTotal = netTotal + newItem.Qty1Tax1Value ?? 0; 
+        //                }
+        //            }
+
+        //        }
+
+        //        //******************new item*********************
 
 
 
-            //        //*****************NEw item Sections and cost Centeres*********************************
-            //        NewtblItemSection = new ItemSection();
-            //        NewtblItemSection.ItemId = newItem.ItemId;
-            //        NewtblItemSection.SectionName = DeliveryName;
-            //        NewtblItemSection.BaseCharge1 = DeliveryCost;
+        //        newItem.IsPublished = false;
+        //        newItem.ProductName = DeliveryName;
+        //        newItem.EstimateId = orderId; //orderid
+        //        newItem.CompanyId = customerID; //customerid
+        //        newItem.ItemType = (int)ItemTypes.Delivery;
+        //        newItem.Qty1BaseCharge1 = netTotal;
+        //        newItem.Qty1NetTotal = netTotal;
+        //        newItem.Qty1GrossTotal = grossTotal;
+        //        newItem.InvoiceId = null;
+        //        newItem.IsOrderedItem = true;
+        //        Markup zeroMarkup = db.Markups.Where(m => m.MarkUpRate == 0).FirstOrDefault();
 
-            //        //dbContext.tbl_item_sections.AddObject(NewtblItemSection); //ContextAdded
 
-            //        //*****************Section Cost Centeres*********************************
-            //        NewtblISectionCostCenteres = new SectionCostcentre();
 
-            //        if (zeroMarkup != null)
-            //        {
-            //            NewtblISectionCostCenteres.Qty1MarkUpID = (int)zeroMarkup.MarkUpId;
-            //        }
-            //        else
-            //        {
-            //            NewtblISectionCostCenteres.Qty1MarkUpID = 1;
-            //        }
+        //        //*****************NEw item Sections and cost Centeres*********************************
+        //        NewtblItemSection = new ItemSection();
+        //        NewtblItemSection.ItemId = newItem.ItemId;
+        //        NewtblItemSection.SectionName = DeliveryName;
+        //        NewtblItemSection.BaseCharge1 = DeliveryCost;
 
-            //        NewtblISectionCostCenteres.CostCentreId = DeliveryCostCenterId;
-            //        NewtblISectionCostCenteres.ItemSectionId = NewtblItemSection.ItemSectionId;
-            //        NewtblISectionCostCenteres.Qty1Charge = DeliveryCost;
-            //        NewtblISectionCostCenteres.Qty1NetTotal = DeliveryCost;
-            //        db.SectionCostcentres.Add(NewtblISectionCostCenteres);
-            //        db.ItemSections.Add(NewtblItemSection);
-            //        db.Items.Add(newItem);
+        //        //dbContext.tbl_item_sections.AddObject(NewtblItemSection); //ContextAdded
 
-            //        if (db.SaveChanges() > 0)
-            //        {
-            //            return true;
-            //        }
-            //        else
-            //        {
-            //            return false;
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
+        //        //*****************Section Cost Centeres*********************************
+        //        NewtblISectionCostCenteres = new SectionCostcentre();
+
+        //        if (zeroMarkup != null)
+        //        {
+        //            NewtblISectionCostCenteres.Qty1MarkUpID = (int)zeroMarkup.MarkUpId;
+        //        }
+        //        else
+        //        {
+        //            NewtblISectionCostCenteres.Qty1MarkUpID = 1;
+        //        }
+
+        //        NewtblISectionCostCenteres.CostCentreId = DeliveryCostCenterId;
+        //        NewtblISectionCostCenteres.ItemSectionId = NewtblItemSection.ItemSectionId;
+        //        NewtblISectionCostCenteres.Qty1Charge = DeliveryCost;
+        //        NewtblISectionCostCenteres.Qty1NetTotal = DeliveryCost;
+        //        db.SectionCostcentres.Add(NewtblISectionCostCenteres);
+        //        db.ItemSections.Add(NewtblItemSection);
+        //        db.Items.Add(newItem);
+
+        //        if (db.SaveChanges() > 0)
+        //        {
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //}
+        //catch (Exception ex)
+        //{
+        //    throw ex;
+        //}
 
 
         //}
@@ -3817,7 +3817,7 @@ namespace MPC.Repository.Repositories
                     && item.OrganisationId == OrganisationId
                     && item.IsPublished == true
                     && item.EstimateId == null
-              && ((!isNonPrintProductSpecified && item.ProductType != (int)ProductType.MarketingBrief) || 
+              && ((!isNonPrintProductSpecified && item.ProductType != (int)ProductType.MarketingBrief) ||
               (isNonPrintProductSpecified && item.ProductType == (int)ProductType.NonPrintProduct));
 
             List<Item> totalItems = DbSet.Where(query).ToList();
@@ -3934,7 +3934,7 @@ namespace MPC.Repository.Repositories
                 newItem.ItemId = 0;
                 newItem.EstimateId = orderID;
                 newItem.IsOrderedItem = true;
-                if(ExistingItem.DiscountVoucherID != null)
+                if (ExistingItem.DiscountVoucherID != null)
                 {
                     newItem.Qty1BaseCharge1 = (ExistingItem.Qty1NetTotal ?? 0) + (ExistingItem.Qty1CostCentreProfit ?? 0);
                     newItem.Qty1NetTotal = (ExistingItem.Qty1NetTotal ?? 0) + (ExistingItem.Qty1CostCentreProfit ?? 0);
@@ -4510,35 +4510,50 @@ namespace MPC.Repository.Repositories
             }
 
         }
-        public  int GetSavedDesignCountByContactId(long ContactID)
+        public int GetSavedDesignCountByContactId(long ContactID)
         {
 
-            
-                long sameItem = 0;
-                
-                
-                    List<SaveDesignView> NewList = new List<SaveDesignView>();
-                    List<SaveDesignView> ListsavedDesign = (from savedDesign in db.SaveDesignViews
-                                                           where savedDesign.ContactID == ContactID
-                                                           select savedDesign).ToList();
 
-                    foreach (var s in ListsavedDesign)
-                    {
-                        if (sameItem > 0 && s.ItemID == sameItem)
-                        {
+            long sameItem = 0;
 
-                        }
-                        else
-                        {
-                            sameItem = s.ItemID;
-                            NewList.Add(s);
-                        }
-                    }
 
-                    return NewList.Count;
+            List<SaveDesignView> NewList = new List<SaveDesignView>();
+            List<SaveDesignView> ListsavedDesign = (from savedDesign in db.SaveDesignViews
+                                                    where savedDesign.ContactID == ContactID
+                                                    select savedDesign).ToList();
+
+            foreach (var s in ListsavedDesign)
+            {
+                if (sameItem > 0 && s.ItemID == sameItem)
+                {
+
+                }
+                else
+                {
+                    sameItem = s.ItemID;
+                    NewList.Add(s);
                 }
             }
-            
+
+            return NewList.Count;
+        }
+        public string GetProductNameByItemId(long ItemId)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                return db.Items.Where(
+                     i =>
+                         i.ItemId == ItemId).Select(n => n.ProductName).FirstOrDefault();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         #endregion
     }
+}
 
