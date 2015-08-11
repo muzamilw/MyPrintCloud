@@ -189,6 +189,9 @@ namespace MPC.Interfaces.Repository
         Item GetActualItemToClone(long itemID);
 
         T Clone<T>(T source);
+
+        List<Item> GetItemsByCategoryId(long Categoryid);
+
     }
 
 }

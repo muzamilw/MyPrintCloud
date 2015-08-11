@@ -350,6 +350,13 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    amplify.request.define('getProductforDV', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyProductCategory',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
+
                     isInitialized = true;
                 }
             },
@@ -863,7 +870,15 @@
                 data: param
             });
         },
-
+       getProductforDV = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getProductforDV',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+       },
         // save Store
         saveStore = function (param, callbacks) {
             initialize();

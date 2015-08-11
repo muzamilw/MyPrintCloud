@@ -54,7 +54,9 @@ namespace MPC.MIS.Areas.Api.Controllers
         [CompressFilterAttribute]
         public DiscountVoucher Get(long discountVoucherId)
         {
-            return companyService.GetDiscountVoucherById(discountVoucherId).CreateFromDetail();
+            DiscountVoucher dv = companyService.GetDiscountVoucherById(discountVoucherId).CreateFromDetail();
+            return dv;
+
         }
 
 

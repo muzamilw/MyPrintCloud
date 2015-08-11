@@ -4530,7 +4530,23 @@ namespace MPC.Repository.Repositories
 
                     return NewList.Count;
                 }
-            }
+
+        public List<Item> GetItemsByCategoryId(long CategoryId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+
+            var qry = from items in db.Items
+                      join pci in db.ProductCategoryItems on items.ItemId equals pci.ItemId
+                      join pc in db.ProductCategories on pci.CategoryId equals pc.ProductCategoryId
+
+                      where pc.ProductCategoryId == CategoryId && (items.IsPublished == true || items.IsPublished == null) && (items.IsArchived == false || items.IsArchived == null)
+
+                      select items;
+
+            return qry.ToList();
+        }
+
+        }
             
         #endregion
     }
