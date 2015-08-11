@@ -31,7 +31,6 @@ function StopLoader(forceStop) {
         {
             clearInterval(var2);
             $("#MainLoader").css("display", "none");
-            
         }
         if($(".templatepreviewContainer").css("display") == "block")
         {
