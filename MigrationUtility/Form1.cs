@@ -22,7 +22,7 @@ namespace MigrationUtility
         long OrganizationId = 1;
         string MPCContentBasePath = @"E:\Development\MyPrintCloud\MyPrintCloud.Cloud\MyPrintCloud\MPC.Web\MPC_Content\";
 
-        string PinkCardsStoredImagesBasePath = @"E:\eazyprint_storedImages\";
+        string PinkCardsStoredImagesBasePath = @"E:\TigerPrint_StoredImages\";
 
 
         string goldwelldesignerbasePath = @"E:\goldwell templates\goldwell templates\";
@@ -1451,6 +1451,7 @@ namespace MigrationUtility
                                     //}
 
 
+
                                     //////deleting the irrelevent matrix
                                     ////foreach (var soption in item.tbl_ItemStockOptions)
                                     ////{
@@ -1468,6 +1469,9 @@ namespace MigrationUtility
                                     oItem.CompanyId = RetailStoreId;
                                     oItem.Tax3 = item.ItemID; ////saving old itemid for ref
                                     oItem.FlagId = 716;
+
+
+                                    //oItem.DesignerCategoryId = item.TemplateDesignerMappedCategoryName
 
 
 
@@ -2800,6 +2804,87 @@ namespace MigrationUtility
             }
         }
 
+
+
+
+
+
+
+        public void StockImport()
+        {
+            using (pinkcardsEntities PCContext = new pinkcardsEntities())
+            {
+                PCContext.Configuration.LazyLoadingEnabled = false;
+                using (MPCPreviewEntities1 MPCContext = new MPCPreviewEntities1())
+                {
+                    MPCContext.Configuration.LazyLoadingEnabled = false;
+
+                    ///////////////////////////////////////////////////////////////stock category
+
+                    List<tbl_stockcategories> otbl_stockcategories = PCContext.tbl_stockcategories.Include("tbl_stocksubcategories").ToList();
+                    foreach (var item in otbl_stockcategories)
+                    {
+                        Preview.StockCategory oStockCategory = Mapper.Map<tbl_stockcategories, StockCategory>(item);
+                        oStockCategory.OrganisationId = OrganizationId;
+                        MPCContext.StockCategories.Add(oStockCategory);
+
+                    }
+
+                    MPCContext.SaveChanges();
+
+                    output.Text += "Stock Category" + Environment.NewLine;
+
+
+                    ///////////////////////////////////////////////////////////////supplier
+                    //CreateNestedMappers(typeof(tbl_contactcompanies), typeof(Company));
+
+
+                    List<tbl_contactcompanies> otbl_contactcompanies = PCContext.tbl_contactcompanies.Where(g => g.IsCustomer == 2).ToList();
+                    foreach (var item in otbl_contactcompanies)
+                    {
+                        Preview.Company oCompany = Mapper.Map<tbl_contactcompanies, Company>(item);
+                        oCompany.OrganisationId = OrganizationId;
+                        MPCContext.Companies.Add(oCompany);
+
+                    }
+
+                    MPCContext.SaveChanges();
+
+                    output.Text += "suppliers" + Environment.NewLine;
+
+
+
+                    ///////////////////////////////////////////////////////////////Stock
+                    //CreateNestedMappers(typeof(tbl_stockitems), typeof(StockItem));
+                    List<tbl_stockitems> otbl_stockitems = PCContext.tbl_stockitems.Include("tbl_stock_cost_and_price").Include("tbl_stockitems_colors").ToList();
+                    foreach (var item in otbl_stockitems)
+                    {
+                        Preview.StockItem oStockItem = Mapper.Map<tbl_stockitems, StockItem>(item);
+                        string suppliername = PCContext.tbl_contactcompanies.Where(g => g.ContactCompanyID == item.SupplierID).Single().Name;
+                        oStockItem.SupplierId = MPCContext.Companies.Where(g => g.Name == suppliername).Single().CompanyId;
+
+                        var ocat = PCContext.tbl_stockcategories.Where(g => g.CategoryID == item.CategoryID).Single();
+                        string categoryname = ocat.Name;
+                        int catid = ocat.CategoryID;
+                        var newcat = MPCContext.StockCategories.Where(g => g.Name == categoryname).Single();
+                        oStockItem.CategoryId = newcat.CategoryId;
+                        long newcatid = newcat.CategoryId;
+
+
+                        string subcategoryname = PCContext.tbl_stocksubcategories.Where(g => g.SubCategoryID == item.SubCategoryID).First().Name;
+                        string subcategorycode = PCContext.tbl_stocksubcategories.Where(g => g.SubCategoryID == item.SubCategoryID).First().Code;
+                        oStockItem.SubCategoryId = MPCContext.StockSubCategories.Where(g => g.Name == subcategoryname && g.Code == subcategorycode && g.CategoryId == newcatid).First().SubCategoryId;
+
+                        oStockItem.OrganisationId = OrganizationId;
+                        MPCContext.StockItems.Add(oStockItem);
+
+                    }
+
+                    MPCContext.SaveChanges();
+                    output.Text += "Stock Items" + Environment.NewLine;
+                }
+            }
+        }
       
     }
 }
