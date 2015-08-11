@@ -6443,3 +6443,134 @@ from  companyContact cc, Company c
 where c.CompanyId = cc.CompanyId
 
 alter table CompanyVoucherRedeem add ContactId bigint
+
+
+
+------------------------
+
+
+ALTER TABLE ProductCategoryVoucher
+ADD CONSTRAINT FK_DiscountVoucher_ProductCategoruVoucher
+FOREIGN KEY (VoucherId) REFERENCES DiscountVoucher(DiscountVoucherId)
+
+
+
+ALTER TABLE ItemsVoucher
+ADD CONSTRAINT FK_DiscountVoucher_ItemsVoucher
+FOREIGN KEY (VoucherId) REFERENCES DiscountVoucher(DiscountVoucherId)
+
+
+---------------
+
+
+
+/****** Object:  StoredProcedure [dbo].[usp_OrderReport]    Script Date: 8/11/2015 12:21:00 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+ALTER procedure [dbo].[usp_OrderReport]
+ @organisationId bigint,
+ @OrderID bigint
+AS
+Begin
+
+
+SELECT   dbo.Items.ItemID,dbo.company.companyid, dbo.Items.Title, isnull(dbo.Items.Qty1,0) As Qty1, dbo.Items.Qty2, dbo.Items.Qty3, dbo.Items.Qty1NetTotal, dbo.Items.Qty2NetTotal, dbo.Items.Qty3NetTotal,dbo.Items.ProductCode, 
+                      
+					 dbo.Items.JobDescription1 as JobDescription1,dbo.Items.JobDescription2 as JobDescription2,dbo.Items.JobDescription3 as JobDescription3,dbo.Items.JobDescription4 as JobDescription4,dbo.Items.JobDescription5 as JobDescription5,
+					 dbo.Items.JobDescription6 as JobDescription6, dbo.Items.JobDescription7 as JobDescription7,
+					 
+					  CASE 
+						  WHEN dbo.Items.JobDescription1 is null then null
+						  WHEN dbo.Items.JobDescription1 is not null THEN  dbo.Items.JobDescriptionTitle1
+				       END As JobDescriptionTitle1,
+				        CASE 
+						  WHEN dbo.Items.JobDescription2 is null THEN Null
+						  WHEN dbo.Items.JobDescription2 is not null THEN  dbo.Items.JobDescriptionTitle2
+				       END As JobDescriptionTitle2,
+				        CASE 
+						  WHEN dbo.Items.JobDescription3 is null THEN Null
+						  WHEN dbo.Items.JobDescription3 is not null THEN  dbo.Items.JobDescriptionTitle3
+				       END As JobDescriptionTitle3,
+				        CASE 
+						  WHEN dbo.Items.JobDescription4 is null THEN Null
+						  WHEN dbo.Items.JobDescription4 is not null THEN  dbo.Items.JobDescriptionTitle4
+				       END As JobDescriptionTitle4,
+				        CASE 
+						  WHEN dbo.Items.JobDescription5 is null THEN Null
+						  WHEN dbo.Items.JobDescription5 is not null THEN  dbo.Items.JobDescriptionTitle5
+				       END As JobDescriptionTitle5,
+				        CASE 
+						  WHEN dbo.Items.JobDescription6 is null THEN Null
+						  WHEN dbo.Items.JobDescription6 is not null THEN  dbo.Items.JobDescriptionTitle6
+				       END As JobDescriptionTitle6,
+				        CASE 
+						  WHEN dbo.Items.JobDescription7 is null THEN Null
+						  WHEN dbo.Items.JobDescription7 is not null THEN  dbo.Items.JobDescriptionTitle7
+				       END As JobDescriptionTitle7,
+                      dbo.Items.JobDescription, dbo.Estimate.Estimate_Name, dbo.Estimate.Order_Code, dbo.Estimate.Estimate_Total, dbo.Estimate.FootNotes, 
+                      dbo.Estimate.HeadNotes, dbo.Estimate.Order_Date, dbo.Estimate.Greeting, dbo.Estimate.CustomerPO, dbo.address.AddressName, 
+                      dbo.address.Address1, dbo.address.Address2, dbo.address.Address3, dbo.address.Email, dbo.address.Fax, (select StateName from State where StateId in (select StateId from address where addressid =  dbo.Address.AddressId)) as State,(select countryname from country where countryid in (select countryid from address where addressid =  dbo.Address.AddressId)) as Country,
+                      dbo.address.City, dbo.address.URL, dbo.address.Tel1, dbo.Company.AccountNumber, dbo.address.PostCode, 
+                      dbo.Company.Name AS CustomerName, dbo.Company.URL AS CustomerURL, dbo.Estimate.EstimateID, dbo.items.ProductName, 
+                      dbo.CompanyContact.FirstName + ISNULL(' ' + dbo.CompanyContact.MiddleName, '') + ISNULL(' ' + dbo.CompanyContact.LastName, '') AS ContactName, 
+                      --dbo.SystemUser.FullName, (select ReportBanner from reportnote where ReportCategoryID=12) as BannerPath ,
+                      (select top 1 ReportTitle from reportnote where ReportCategoryID=12 and organisationid = @organisationId) as ReportTitle,
+                      
+					   CASE 
+						  WHEN dbo.Company.IsCustomer = 3 then 
+						  isnull((select top 1 ISNULL(BannerAbsolutePath,'http://preview.myprintcloud.com/mis/') + isnull(ReportBanner,'MPC_Content/Reports/Banners/ReportBannerOrder.png')  from reportnote where ReportCategoryID=12 and organisationid = @organisationId and CompanyId = Company.CompanyId),'http://preview.myprintcloud.com/mis/MPC_Content/Reports/Banners/ReportBannerOrder.png')
+						  WHEN (dbo.Company.IsCustomer = 4 or dbo.Company.IsCustomer = 1 or  dbo.Company.IsCustomer = 0 or dbo.Company.IsCustomer = 2)  THEN  
+						    isnull((select top 1 ISNULL(BannerAbsolutePath,'http://preview.myprintcloud.com/mis/') + isnull(ReportBanner,'MPC_Content/Reports/Banners/ReportBannerOrder.png')  from reportnote where ReportCategoryID=12 and organisationid = @organisationId and CompanyId = Company.StoreId),'http://preview.myprintcloud.com/mis/MPC_Content/Reports/Banners/ReportBannerOrder.png')
+						  
+				       END As ReportBanner,
+					  
+					  --(select top 1 ISNULL(BannerAbsolutePath,'') + isnull(ReportBanner,'')  from reportnote where ReportCategoryID=12 and organisationid = @organisationId) as ReportBanner,
+                      isnull(dbo.Estimate.Greeting, 'Dear '+ dbo.CompanyContact.FirstName + ' ' + isnull(dbo.CompanyContact.LastName,'')) as Greetings,
+                     -- isnull((select top 1 CategoryName from tbl_productCategory where ProductCategoryID = tbl_items.ProductCategoryID),'')+ ' ' + dbo.tbl_items.ProductName as FullProductName
+                       dbo.items.ProductName as FullProductName
+					  
+					  ,isnull((select top 1 itemName from StockItem where stockitemid = dbo.itemsection.stockitemid1 and StockItem.OrganisationId = @organisationId),'N/A')as StockName
+                      ,dbo.fn_GetItemAttachmentsList(dbo.Estimate.EstimateID, 1) As AttachmentsList 
+                      ,p.PaymentDate
+                      , case when p.paymentmethodid = 1 then 'Paypal'
+							 when p.paymentmethodid = 2 then 'On Account'
+							 when p.paymentmethodid = 3 then 'ANZ'
+							 else 'On Account'
+							 End as paymentType
+                      , case when p.paymentmethodid = 1 then (select top 1 transactionid from paypalresponse where orderid = estimate.estimateid)
+							 when p.paymentmethodid = 2 or p.paymentmethodid = 3 then p.ReferenceCode
+							 else 'N/A'
+							 End as paymentRefNo
+					 , (dbo.Company.TaxRate) As TaxLabel,BAddress.AddressName AS BAddressName,BAddress.PostCode as BPostCode, (select countryname from country where countryid in (select countryid from address where addressid =  dbo.Address.AddressId)) as BCountry
+					 ,BAddress.Address1 AS BAddress1, BAddress.Address2 AS BAddress2, BAddress.City AS BCity,(select StateName from State where StateId in (select StateId from address where addressid =  BAddress.AddressId)) AS BState
+					, items.Qty1Tax1Value,
+					(select top 1 currencysymbol from currency c inner join organisation o on o.CurrencyId = c.CurrencyId and o.OrganisationId = @OrganisationID) as CurrencySymbol,
+					case when estimate.Estimate_Code is not null then 'Estimate Code:'
+					     when estimate.Estimate_Code is null then ''
+					     end as EstimateCodeLabel
+					     , dbo.estimate.Estimate_Code, dbo.estimate.UserNotes
+
+FROM         dbo.company INNER JOIN
+                      dbo.estimate ON dbo.estimate.companyid = dbo.company.companyid INNER JOIN
+                      dbo.companycontact ON dbo.companycontact.ContactID = dbo.estimate.ContactID INNER JOIN
+                      dbo.items ON dbo.estimate.EstimateID = dbo.items.EstimateID left outer JOIN
+                     dbo.systemuser ON dbo.estimate.OrderReportSignedBy = dbo.systemuser.SystemUserID 
+					 INNER JOIN
+                      dbo.address ON dbo.estimate.BillingAddressID = dbo.address.AddressID 
+                      inner JOIN dbo.itemsection ON dbo.items.ItemID = dbo.itemsection.ItemID
+					  left join prepayment p on dbo.estimate.estimateid = p.orderid
+					  left JOIN  dbo.address AS BAddress ON dbo.estimate.addressID = BAddress.AddressID
+					
+					  where company.organisationid = @organisationId and estimate.EstimateId = @OrderID
+					--  where 1 = case when @ItemID = 0 then 
+
+
+End
+
+
+
+

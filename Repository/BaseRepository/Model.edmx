@@ -4506,6 +4506,30 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DiscountVoucher_ItemsVoucher">
+          <End Role="DiscountVoucher" Type="Self.DiscountVoucher" Multiplicity="0..1" />
+          <End Role="ItemsVoucher" Type="Self.ItemsVoucher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DiscountVoucher">
+              <PropertyRef Name="DiscountVoucherId" />
+            </Principal>
+            <Dependent Role="ItemsVoucher">
+              <PropertyRef Name="VoucherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DiscountVoucher_ProductCategoruVoucher">
+          <End Role="DiscountVoucher" Type="Self.DiscountVoucher" Multiplicity="0..1" />
+          <End Role="ProductCategoryVoucher" Type="Self.ProductCategoryVoucher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DiscountVoucher">
+              <PropertyRef Name="DiscountVoucherId" />
+            </Principal>
+            <Dependent Role="ProductCategoryVoucher">
+              <PropertyRef Name="VoucherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Estimate_SectionFlag">
           <End Role="SectionFlag" Type="Self.SectionFlag" Multiplicity="1" />
           <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
@@ -6751,6 +6775,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="DeliveryNote" EntitySet="DeliveryNote" />
             <End Role="DeliveryNoteDetail" EntitySet="DeliveryNoteDetail" />
           </AssociationSet>
+          <AssociationSet Name="FK_DiscountVoucher_ItemsVoucher" Association="Self.FK_DiscountVoucher_ItemsVoucher">
+            <End Role="DiscountVoucher" EntitySet="DiscountVoucher" />
+            <End Role="ItemsVoucher" EntitySet="ItemsVoucher" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DiscountVoucher_ProductCategoruVoucher" Association="Self.FK_DiscountVoucher_ProductCategoruVoucher">
+            <End Role="DiscountVoucher" EntitySet="DiscountVoucher" />
+            <End Role="ProductCategoryVoucher" EntitySet="ProductCategoryVoucher" />
+          </AssociationSet>
           <AssociationSet Name="FK_Estimate_SectionFlag" Association="Self.FK_Estimate_SectionFlag">
             <End Role="SectionFlag" EntitySet="SectionFlag" />
             <End Role="Estimate" EntitySet="Estimate" />
@@ -7517,7 +7549,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="DeliveryNoteDetail" EntitySet="DeliveryNoteDetails" />
           </AssociationSet>
           <EntitySet Name="CompanyCMYKColors" EntityType="DomainModels.CompanyCMYKColor" />
-          <EntitySet Name="DiscountVouchers" EntityType="DomainModels.DiscountVoucher" />
           <EntitySet Name="GetItemsListViews" EntityType="DomainModels.GetItemsListView" />
           <AssociationSet Name="FK_CompanyCMYKColor_Company" Association="DomainModels.FK_CompanyCMYKColor_Company">
             <End Role="Company" EntitySet="Companies" />
@@ -7989,10 +8020,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Company" EntitySet="Companies" />
             <End Role="TemplateColorStyle" EntitySet="TemplateColorStyles" />
           </AssociationSet>
-          <FunctionImport Name="usp_OrderReport" ReturnType="Collection(DomainModels.usp_OrderReport_Result)">
-            <Parameter Name="organisationId" Mode="In" Type="Int64" />
-            <Parameter Name="OrderID" Mode="In" Type="Int64" />
-          </FunctionImport>
           <EntitySet Name="ReportCategories" EntityType="DomainModels.ReportCategory" />
           <AssociationSet Name="FK_tbl_reports_tbl_reportcategory" Association="DomainModels.FK_tbl_reports_tbl_reportcategory">
             <End Role="ReportCategory" EntitySet="ReportCategories" />
@@ -8174,8 +8201,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <FunctionImport Name="usp_DeleteTemplate">
           <Parameter Name="TemplateID" Mode="In" Type="Int64" />
           </FunctionImport>
-          <EntitySet Name="ItemsVouchers" EntityType="DomainModels.ItemsVoucher" />
-          <EntitySet Name="ProductCategoryVouchers" EntityType="DomainModels.ProductCategoryVoucher" />
           <EntitySet Name="TemplateVariableExtensions" EntityType="DomainModels.TemplateVariableExtension" />
           <EntitySet Name="CompanyVoucherRedeems" EntityType="DomainModels.CompanyVoucherRedeem" />
           <FunctionImport Name="usp_ChartRegisteredUserByStores" ReturnType="Collection(DomainModels.usp_ChartRegisteredUserByStores_Result)">
@@ -8200,6 +8225,21 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <Parameter Name="organisationId" Mode="In" Type="Int64" />
             <Parameter Name="OrderID" Mode="In" Type="Int64" />
             <Parameter Name="ItemID" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <EntitySet Name="DiscountVouchers" EntityType="DomainModels.DiscountVoucher" />
+          <EntitySet Name="ItemsVouchers" EntityType="DomainModels.ItemsVoucher" />
+          <EntitySet Name="ProductCategoryVouchers" EntityType="DomainModels.ProductCategoryVoucher" />
+          <AssociationSet Name="FK_DiscountVoucher_ItemsVoucher" Association="DomainModels.FK_DiscountVoucher_ItemsVoucher">
+            <End Role="DiscountVoucher" EntitySet="DiscountVouchers" />
+            <End Role="ItemsVoucher" EntitySet="ItemsVouchers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DiscountVoucher_ProductCategoruVoucher" Association="DomainModels.FK_DiscountVoucher_ProductCategoruVoucher">
+            <End Role="DiscountVoucher" EntitySet="DiscountVouchers" />
+            <End Role="ProductCategoryVoucher" EntitySet="ProductCategoryVouchers" />
+          </AssociationSet>
+          <FunctionImport Name="usp_OrderReport" ReturnType="Collection(DomainModels.usp_OrderReport_Result)">
+            <Parameter Name="organisationId" Mode="In" Type="Int64" />
+            <Parameter Name="OrderID" Mode="In" Type="Int64" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Company">
@@ -10960,38 +11000,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ColorY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ColorK" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_CompanyCMYKColor_Company" FromRole="CompanyCMYKColor" ToRole="Company" />
-        </EntityType>
-        <EntityType Name="DiscountVoucher">
-          <Key>
-            <PropertyRef Name="DiscountVoucherId" />
-          </Key>
-          <Property Name="DiscountVoucherId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="VoucherCode" Type="String" Nullable="false" MaxLength="400" FixedLength="false" Unicode="false" />
-          <Property Name="ValidFromDate" Type="DateTime" Precision="3" />
-          <Property Name="ValidUptoDate" Type="DateTime" Precision="3" />
-          <Property Name="OrderId" Type="Int64" />
-          <Property Name="DiscountRate" Type="Double" Nullable="false" />
-          <Property Name="ConsumedDate" Type="DateTime" Precision="3" />
-          <Property Name="IsEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="CompanyId" Type="Int64" />
-          <Property Name="VoucherName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="DiscountType" Type="Int32" />
-          <Property Name="HasCoupon" Type="Boolean" />
-          <Property Name="CouponCode" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="CouponUseType" Type="Int32" />
-          <Property Name="IsUseWithOtherCoupon" Type="Boolean" />
-          <Property Name="IsTimeLimit" Type="Boolean" />
-          <Property Name="IsQtyRequirement" Type="Boolean" />
-          <Property Name="MinRequiredQty" Type="Int32" />
-          <Property Name="MaxRequiredQty" Type="Int32" />
-          <Property Name="IsOrderPriceRequirement" Type="Boolean" />
-          <Property Name="MinRequiredOrderPrice" Type="Int32" />
-          <Property Name="MaxRequiredOrderPrice" Type="Int32" />
-          <Property Name="CustomerId" Type="Int64" />
-          <Property Name="IsSingleUseRedeemed" Type="Boolean" />
-          <Property Name="IsQtySpan" Type="Boolean" />
-          <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
         <EntityType Name="GetItemsListView">
           <Key>
@@ -14021,80 +14029,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="usp_OrderReport_Result">
-          <Property Type="Int64" Name="ItemID" Nullable="false" />
-          <Property Type="String" Name="Title" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="Qty1" Nullable="false" />
-          <Property Type="Int32" Name="Qty2" Nullable="true" />
-          <Property Type="Int32" Name="Qty3" Nullable="true" />
-          <Property Type="Double" Name="Qty1NetTotal" Nullable="true" />
-          <Property Type="Double" Name="Qty2NetTotal" Nullable="true" />
-          <Property Type="Double" Name="Qty3NetTotal" Nullable="true" />
-          <Property Type="String" Name="ProductCode" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="JobDescription1" Nullable="true" MaxLength="Max" />
-          <Property Type="String" Name="JobDescription2" Nullable="true" MaxLength="Max" />
-          <Property Type="String" Name="JobDescription3" Nullable="true" MaxLength="Max" />
-          <Property Type="String" Name="JobDescription4" Nullable="true" MaxLength="Max" />
-          <Property Type="String" Name="JobDescription5" Nullable="true" MaxLength="Max" />
-          <Property Type="String" Name="JobDescription6" Nullable="true" MaxLength="Max" />
-          <Property Type="String" Name="JobDescription7" Nullable="true" MaxLength="Max" />
-          <Property Type="String" Name="JobDescriptionTitle1" Nullable="true" MaxLength="Max" />
-          <Property Type="String" Name="JobDescriptionTitle2" Nullable="true" MaxLength="Max" />
-          <Property Type="String" Name="JobDescriptionTitle3" Nullable="true" MaxLength="Max" />
-          <Property Type="String" Name="JobDescriptionTitle4" Nullable="true" MaxLength="Max" />
-          <Property Type="String" Name="JobDescriptionTitle5" Nullable="true" MaxLength="Max" />
-          <Property Type="String" Name="JobDescriptionTitle6" Nullable="true" MaxLength="Max" />
-          <Property Type="String" Name="JobDescriptionTitle7" Nullable="true" MaxLength="Max" />
-          <Property Type="String" Name="JobDescription" Nullable="true" MaxLength="Max" />
-          <Property Type="String" Name="Estimate_Name" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="Order_Code" Nullable="true" MaxLength="50" />
-          <Property Type="Double" Name="Estimate_Total" Nullable="true" />
-          <Property Type="String" Name="FootNotes" Nullable="true" MaxLength="2000" />
-          <Property Type="String" Name="HeadNotes" Nullable="true" MaxLength="2000" />
-          <Property Type="DateTime" Name="Order_Date" Nullable="true" Precision="23" />
-          <Property Type="String" Name="Greeting" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="CustomerPO" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="AddressName" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Address1" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="Address2" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="Address3" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="Email" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="Fax" Nullable="true" MaxLength="30" />
-          <Property Type="Int64" Name="Stateid" Nullable="true" />
-          <Property Type="String" Name="City" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="URL" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Tel1" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="AccountNumber" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="PostCode" Nullable="true" MaxLength="30" />
-          <Property Type="Int64" Name="Countryid" Nullable="true" />
-          <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CustomerURL" Nullable="true" MaxLength="150" />
-          <Property Type="Int64" Name="EstimateID" Nullable="false" />
-          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="ContactName" Nullable="true" MaxLength="152" />
-          <Property Type="String" Name="ReportTitle" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="ReportBanner" Nullable="true" MaxLength="700" />
-          <Property Type="String" Name="Greetings" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="FullProductName" Nullable="true" MaxLength="551" />
-          <Property Type="String" Name="StockName" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="AttachmentsList" Nullable="true" MaxLength="1000" />
-          <Property Type="DateTime" Name="PaymentDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="paymentType" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="paymentRefNo" Nullable="true" />
-          <Property Type="Double" Name="TaxLabel" Nullable="true" />
-          <Property Type="String" Name="BAddressName" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="BPostCode" Nullable="true" MaxLength="30" />
-          <Property Type="Int64" Name="BCountry" Nullable="true" />
-          <Property Type="String" Name="BAddress1" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="BAddress2" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="BCity" Nullable="true" MaxLength="100" />
-          <Property Type="Int64" Name="BState" Nullable="true" />
-          <Property Type="Double" Name="Qty1Tax1Value" Nullable="true" />
-          <Property Type="String" Name="CurrencySymbol" Nullable="true" MaxLength="5" />
-          <Property Type="String" Name="EstimateCodeLabel" Nullable="true" MaxLength="14" />
-          <Property Type="String" Name="Estimate_Code" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="UserNotes" Nullable="true" MaxLength="Max" />
-        </ComplexType>
         <EntityType Name="ReportCategory">
           <Key>
             <PropertyRef Name="CategoryId" />
@@ -14858,22 +14792,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ItemsVoucher">
-          <Key>
-            <PropertyRef Name="ItemVoucherId" />
-          </Key>
-          <Property Name="ItemVoucherId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ItemId" Type="Int64" />
-          <Property Name="VoucherId" Type="Int64" />
-        </EntityType>
-        <EntityType Name="ProductCategoryVoucher">
-          <Key>
-            <PropertyRef Name="CategoryVoucherId" />
-          </Key>
-          <Property Name="CategoryVoucherId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductCategoryId" Type="Int64" />
-          <Property Name="VoucherId" Type="Int64" />
-        </EntityType>
         <EntityType Name="TemplateVariableExtension">
           <Key>
             <PropertyRef Name="TemplateVariableExtId" />
@@ -15023,6 +14941,157 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="String" Name="DeliveryMethod" Nullable="false" MaxLength="500" />
           <Property Type="String" Name="CurrencySymbol" Nullable="true" MaxLength="5" />
           <Property Type="String" Name="StateTaxLabel" Nullable="true" MaxLength="31" />
+        </ComplexType>
+        <EntityType Name="DiscountVoucher">
+          <Key>
+            <PropertyRef Name="DiscountVoucherId" />
+          </Key>
+          <Property Name="DiscountVoucherId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VoucherCode" Type="String" Nullable="false" MaxLength="400" FixedLength="false" Unicode="false" />
+          <Property Name="ValidFromDate" Type="DateTime" Precision="3" />
+          <Property Name="ValidUptoDate" Type="DateTime" Precision="3" />
+          <Property Name="OrderId" Type="Int64" />
+          <Property Name="DiscountRate" Type="Double" Nullable="false" />
+          <Property Name="ConsumedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="VoucherName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DiscountType" Type="Int32" />
+          <Property Name="HasCoupon" Type="Boolean" />
+          <Property Name="CouponCode" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CouponUseType" Type="Int32" />
+          <Property Name="IsUseWithOtherCoupon" Type="Boolean" />
+          <Property Name="IsTimeLimit" Type="Boolean" />
+          <Property Name="IsQtyRequirement" Type="Boolean" />
+          <Property Name="MinRequiredQty" Type="Int32" />
+          <Property Name="MaxRequiredQty" Type="Int32" />
+          <Property Name="IsOrderPriceRequirement" Type="Boolean" />
+          <Property Name="MinRequiredOrderPrice" Type="Int32" />
+          <Property Name="MaxRequiredOrderPrice" Type="Int32" />
+          <Property Name="CustomerId" Type="Int64" />
+          <Property Name="IsSingleUseRedeemed" Type="Boolean" />
+          <Property Name="IsQtySpan" Type="Boolean" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="ItemsVouchers" Relationship="DomainModels.FK_DiscountVoucher_ItemsVoucher" FromRole="DiscountVoucher" ToRole="ItemsVoucher" />
+          <NavigationProperty Name="ProductCategoryVouchers" Relationship="DomainModels.FK_DiscountVoucher_ProductCategoruVoucher" FromRole="DiscountVoucher" ToRole="ProductCategoryVoucher" />
+        </EntityType>
+        <EntityType Name="ItemsVoucher">
+          <Key>
+            <PropertyRef Name="ItemVoucherId" />
+          </Key>
+          <Property Name="ItemVoucherId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemId" Type="Int64" />
+          <Property Name="VoucherId" Type="Int64" />
+          <NavigationProperty Name="DiscountVoucher" Relationship="DomainModels.FK_DiscountVoucher_ItemsVoucher" FromRole="ItemsVoucher" ToRole="DiscountVoucher" />
+        </EntityType>
+        <EntityType Name="ProductCategoryVoucher">
+          <Key>
+            <PropertyRef Name="CategoryVoucherId" />
+          </Key>
+          <Property Name="CategoryVoucherId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductCategoryId" Type="Int64" />
+          <Property Name="VoucherId" Type="Int64" />
+          <NavigationProperty Name="DiscountVoucher" Relationship="DomainModels.FK_DiscountVoucher_ProductCategoruVoucher" FromRole="ProductCategoryVoucher" ToRole="DiscountVoucher" />
+        </EntityType>
+        <Association Name="FK_DiscountVoucher_ItemsVoucher">
+          <End Type="DomainModels.DiscountVoucher" Role="DiscountVoucher" Multiplicity="0..1" />
+          <End Type="DomainModels.ItemsVoucher" Role="ItemsVoucher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DiscountVoucher">
+              <PropertyRef Name="DiscountVoucherId" />
+            </Principal>
+            <Dependent Role="ItemsVoucher">
+              <PropertyRef Name="VoucherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DiscountVoucher_ProductCategoruVoucher">
+          <End Type="DomainModels.DiscountVoucher" Role="DiscountVoucher" Multiplicity="0..1" />
+          <End Type="DomainModels.ProductCategoryVoucher" Role="ProductCategoryVoucher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DiscountVoucher">
+              <PropertyRef Name="DiscountVoucherId" />
+            </Principal>
+            <Dependent Role="ProductCategoryVoucher">
+              <PropertyRef Name="VoucherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="usp_OrderReport_Result">
+          <Property Type="Int64" Name="ItemID" Nullable="false" />
+          <Property Type="Int64" Name="companyid" Nullable="false" />
+          <Property Type="String" Name="Title" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Qty1" Nullable="false" />
+          <Property Type="Int32" Name="Qty2" Nullable="true" />
+          <Property Type="Int32" Name="Qty3" Nullable="true" />
+          <Property Type="Double" Name="Qty1NetTotal" Nullable="true" />
+          <Property Type="Double" Name="Qty2NetTotal" Nullable="true" />
+          <Property Type="Double" Name="Qty3NetTotal" Nullable="true" />
+          <Property Type="String" Name="ProductCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="JobDescription1" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescription2" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescription3" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescription4" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescription5" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescription6" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescription7" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescriptionTitle1" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescriptionTitle2" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescriptionTitle3" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescriptionTitle4" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescriptionTitle5" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescriptionTitle6" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescriptionTitle7" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescription" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="Estimate_Name" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Order_Code" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="Estimate_Total" Nullable="true" />
+          <Property Type="String" Name="FootNotes" Nullable="true" MaxLength="2000" />
+          <Property Type="String" Name="HeadNotes" Nullable="true" MaxLength="2000" />
+          <Property Type="DateTime" Name="Order_Date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Greeting" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CustomerPO" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AddressName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Address1" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Address2" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Address3" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Fax" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="State" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Country" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="URL" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Tel1" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="AccountNumber" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="PostCode" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CustomerURL" Nullable="true" MaxLength="150" />
+          <Property Type="Int64" Name="EstimateID" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="ContactName" Nullable="true" MaxLength="152" />
+          <Property Type="String" Name="ReportTitle" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ReportBanner" Nullable="true" MaxLength="700" />
+          <Property Type="String" Name="Greetings" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FullProductName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="StockName" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="AttachmentsList" Nullable="true" MaxLength="1000" />
+          <Property Type="DateTime" Name="PaymentDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="paymentType" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="paymentRefNo" Nullable="true" />
+          <Property Type="Double" Name="TaxLabel" Nullable="true" />
+          <Property Type="String" Name="BAddressName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BPostCode" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="BCountry" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BAddress1" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="BAddress2" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="BCity" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BState" Nullable="true" MaxLength="100" />
+          <Property Type="Double" Name="Qty1Tax1Value" Nullable="true" />
+          <Property Type="String" Name="CurrencySymbol" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="EstimateCodeLabel" Nullable="true" MaxLength="14" />
+          <Property Type="String" Name="Estimate_Code" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="UserNotes" Nullable="true" MaxLength="Max" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -17077,39 +17146,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="ColorName" ColumnName="ColorName" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="ColorId" ColumnName="ColorId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DiscountVouchers">
-            <EntityTypeMapping TypeName="DomainModels.DiscountVoucher">
-              <MappingFragment StoreEntitySet="DiscountVoucher">
-                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
-                <ScalarProperty Name="IsQtySpan" ColumnName="IsQtySpan" />
-                <ScalarProperty Name="IsSingleUseRedeemed" ColumnName="IsSingleUseRedeemed" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="MaxRequiredOrderPrice" ColumnName="MaxRequiredOrderPrice" />
-                <ScalarProperty Name="MinRequiredOrderPrice" ColumnName="MinRequiredOrderPrice" />
-                <ScalarProperty Name="IsOrderPriceRequirement" ColumnName="IsOrderPriceRequirement" />
-                <ScalarProperty Name="MaxRequiredQty" ColumnName="MaxRequiredQty" />
-                <ScalarProperty Name="MinRequiredQty" ColumnName="MinRequiredQty" />
-                <ScalarProperty Name="IsQtyRequirement" ColumnName="IsQtyRequirement" />
-                <ScalarProperty Name="IsTimeLimit" ColumnName="IsTimeLimit" />
-                <ScalarProperty Name="IsUseWithOtherCoupon" ColumnName="IsUseWithOtherCoupon" />
-                <ScalarProperty Name="CouponUseType" ColumnName="CouponUseType" />
-                <ScalarProperty Name="CouponCode" ColumnName="CouponCode" />
-                <ScalarProperty Name="HasCoupon" ColumnName="HasCoupon" />
-                <ScalarProperty Name="DiscountType" ColumnName="DiscountType" />
-                <ScalarProperty Name="VoucherName" ColumnName="VoucherName" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
-                <ScalarProperty Name="ConsumedDate" ColumnName="ConsumedDate" />
-                <ScalarProperty Name="DiscountRate" ColumnName="DiscountRate" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="ValidUptoDate" ColumnName="ValidUptoDate" />
-                <ScalarProperty Name="ValidFromDate" ColumnName="ValidFromDate" />
-                <ScalarProperty Name="VoucherCode" ColumnName="VoucherCode" />
-                <ScalarProperty Name="DiscountVoucherId" ColumnName="DiscountVoucherId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -19205,84 +19241,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="usp_OrderReport" FunctionName="DomainModels.Store.usp_OrderReport">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DomainModels.usp_OrderReport_Result">
-                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Qty1" ColumnName="Qty1" />
-                <ScalarProperty Name="Qty2" ColumnName="Qty2" />
-                <ScalarProperty Name="Qty3" ColumnName="Qty3" />
-                <ScalarProperty Name="Qty1NetTotal" ColumnName="Qty1NetTotal" />
-                <ScalarProperty Name="Qty2NetTotal" ColumnName="Qty2NetTotal" />
-                <ScalarProperty Name="Qty3NetTotal" ColumnName="Qty3NetTotal" />
-                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
-                <ScalarProperty Name="JobDescription1" ColumnName="JobDescription1" />
-                <ScalarProperty Name="JobDescription2" ColumnName="JobDescription2" />
-                <ScalarProperty Name="JobDescription3" ColumnName="JobDescription3" />
-                <ScalarProperty Name="JobDescription4" ColumnName="JobDescription4" />
-                <ScalarProperty Name="JobDescription5" ColumnName="JobDescription5" />
-                <ScalarProperty Name="JobDescription6" ColumnName="JobDescription6" />
-                <ScalarProperty Name="JobDescription7" ColumnName="JobDescription7" />
-                <ScalarProperty Name="JobDescriptionTitle1" ColumnName="JobDescriptionTitle1" />
-                <ScalarProperty Name="JobDescriptionTitle2" ColumnName="JobDescriptionTitle2" />
-                <ScalarProperty Name="JobDescriptionTitle3" ColumnName="JobDescriptionTitle3" />
-                <ScalarProperty Name="JobDescriptionTitle4" ColumnName="JobDescriptionTitle4" />
-                <ScalarProperty Name="JobDescriptionTitle5" ColumnName="JobDescriptionTitle5" />
-                <ScalarProperty Name="JobDescriptionTitle6" ColumnName="JobDescriptionTitle6" />
-                <ScalarProperty Name="JobDescriptionTitle7" ColumnName="JobDescriptionTitle7" />
-                <ScalarProperty Name="JobDescription" ColumnName="JobDescription" />
-                <ScalarProperty Name="Estimate_Name" ColumnName="Estimate_Name" />
-                <ScalarProperty Name="Order_Code" ColumnName="Order_Code" />
-                <ScalarProperty Name="Estimate_Total" ColumnName="Estimate_Total" />
-                <ScalarProperty Name="FootNotes" ColumnName="FootNotes" />
-                <ScalarProperty Name="HeadNotes" ColumnName="HeadNotes" />
-                <ScalarProperty Name="Order_Date" ColumnName="Order_Date" />
-                <ScalarProperty Name="Greeting" ColumnName="Greeting" />
-                <ScalarProperty Name="CustomerPO" ColumnName="CustomerPO" />
-                <ScalarProperty Name="AddressName" ColumnName="AddressName" />
-                <ScalarProperty Name="Address1" ColumnName="Address1" />
-                <ScalarProperty Name="Address2" ColumnName="Address2" />
-                <ScalarProperty Name="Address3" ColumnName="Address3" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Fax" ColumnName="Fax" />
-                <ScalarProperty Name="Stateid" ColumnName="Stateid" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="Tel1" ColumnName="Tel1" />
-                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
-                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
-                <ScalarProperty Name="Countryid" ColumnName="Countryid" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="CustomerURL" ColumnName="CustomerURL" />
-                <ScalarProperty Name="EstimateID" ColumnName="EstimateID" />
-                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
-                <ScalarProperty Name="ReportTitle" ColumnName="ReportTitle" />
-                <ScalarProperty Name="ReportBanner" ColumnName="ReportBanner" />
-                <ScalarProperty Name="Greetings" ColumnName="Greetings" />
-                <ScalarProperty Name="FullProductName" ColumnName="FullProductName" />
-                <ScalarProperty Name="StockName" ColumnName="StockName" />
-                <ScalarProperty Name="AttachmentsList" ColumnName="AttachmentsList" />
-                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
-                <ScalarProperty Name="paymentType" ColumnName="paymentType" />
-                <ScalarProperty Name="paymentRefNo" ColumnName="paymentRefNo" />
-                <ScalarProperty Name="TaxLabel" ColumnName="TaxLabel" />
-                <ScalarProperty Name="BAddressName" ColumnName="BAddressName" />
-                <ScalarProperty Name="BPostCode" ColumnName="BPostCode" />
-                <ScalarProperty Name="BCountry" ColumnName="BCountry" />
-                <ScalarProperty Name="BAddress1" ColumnName="BAddress1" />
-                <ScalarProperty Name="BAddress2" ColumnName="BAddress2" />
-                <ScalarProperty Name="BCity" ColumnName="BCity" />
-                <ScalarProperty Name="BState" ColumnName="BState" />
-                <ScalarProperty Name="Qty1Tax1Value" ColumnName="Qty1Tax1Value" />
-                <ScalarProperty Name="CurrencySymbol" ColumnName="CurrencySymbol" />
-                <ScalarProperty Name="EstimateCodeLabel" ColumnName="EstimateCodeLabel" />
-                <ScalarProperty Name="Estimate_Code" ColumnName="Estimate_Code" />
-                <ScalarProperty Name="UserNotes" ColumnName="UserNotes" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="ReportCategories">
             <EntityTypeMapping TypeName="DomainModels.ReportCategory">
               <MappingFragment StoreEntitySet="ReportCategory">
@@ -19635,24 +19593,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <FunctionImportMapping FunctionImportName="usp_DeleteCRMCompanyByID" FunctionName="DomainModels.Store.usp_DeleteCRMCompanyByID" />
           <FunctionImportMapping FunctionImportName="usp_DeleteStagingImportCompanyContactAddress" FunctionName="DomainModels.Store.usp_DeleteStagingImportCompanyContactAddress" />
           <FunctionImportMapping FunctionImportName="usp_DeleteTemplate" FunctionName="DomainModels.Store.usp_DeleteTemplate" />
-          <EntitySetMapping Name="ItemsVouchers">
-            <EntityTypeMapping TypeName="DomainModels.ItemsVoucher">
-              <MappingFragment StoreEntitySet="ItemsVoucher">
-                <ScalarProperty Name="VoucherId" ColumnName="VoucherId" />
-                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
-                <ScalarProperty Name="ItemVoucherId" ColumnName="ItemVoucherId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ProductCategoryVouchers">
-            <EntityTypeMapping TypeName="DomainModels.ProductCategoryVoucher">
-              <MappingFragment StoreEntitySet="ProductCategoryVoucher">
-                <ScalarProperty Name="VoucherId" ColumnName="VoucherId" />
-                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
-                <ScalarProperty Name="CategoryVoucherId" ColumnName="CategoryVoucherId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TemplateVariableExtensions">
             <EntityTypeMapping TypeName="DomainModels.TemplateVariableExtension">
               <MappingFragment StoreEntitySet="TemplateVariableExtension">
@@ -19823,6 +19763,136 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="DeliveryMethod" ColumnName="DeliveryMethod" />
                 <ScalarProperty Name="CurrencySymbol" ColumnName="CurrencySymbol" />
                 <ScalarProperty Name="StateTaxLabel" ColumnName="StateTaxLabel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="DiscountVouchers">
+            <EntityTypeMapping TypeName="DomainModels.DiscountVoucher">
+              <MappingFragment StoreEntitySet="DiscountVoucher">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="IsQtySpan" ColumnName="IsQtySpan" />
+                <ScalarProperty Name="IsSingleUseRedeemed" ColumnName="IsSingleUseRedeemed" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="MaxRequiredOrderPrice" ColumnName="MaxRequiredOrderPrice" />
+                <ScalarProperty Name="MinRequiredOrderPrice" ColumnName="MinRequiredOrderPrice" />
+                <ScalarProperty Name="IsOrderPriceRequirement" ColumnName="IsOrderPriceRequirement" />
+                <ScalarProperty Name="MaxRequiredQty" ColumnName="MaxRequiredQty" />
+                <ScalarProperty Name="MinRequiredQty" ColumnName="MinRequiredQty" />
+                <ScalarProperty Name="IsQtyRequirement" ColumnName="IsQtyRequirement" />
+                <ScalarProperty Name="IsTimeLimit" ColumnName="IsTimeLimit" />
+                <ScalarProperty Name="IsUseWithOtherCoupon" ColumnName="IsUseWithOtherCoupon" />
+                <ScalarProperty Name="CouponUseType" ColumnName="CouponUseType" />
+                <ScalarProperty Name="CouponCode" ColumnName="CouponCode" />
+                <ScalarProperty Name="HasCoupon" ColumnName="HasCoupon" />
+                <ScalarProperty Name="DiscountType" ColumnName="DiscountType" />
+                <ScalarProperty Name="VoucherName" ColumnName="VoucherName" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="ConsumedDate" ColumnName="ConsumedDate" />
+                <ScalarProperty Name="DiscountRate" ColumnName="DiscountRate" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="ValidUptoDate" ColumnName="ValidUptoDate" />
+                <ScalarProperty Name="ValidFromDate" ColumnName="ValidFromDate" />
+                <ScalarProperty Name="VoucherCode" ColumnName="VoucherCode" />
+                <ScalarProperty Name="DiscountVoucherId" ColumnName="DiscountVoucherId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemsVouchers">
+            <EntityTypeMapping TypeName="DomainModels.ItemsVoucher">
+              <MappingFragment StoreEntitySet="ItemsVoucher">
+                <ScalarProperty Name="VoucherId" ColumnName="VoucherId" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="ItemVoucherId" ColumnName="ItemVoucherId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductCategoryVouchers">
+            <EntityTypeMapping TypeName="DomainModels.ProductCategoryVoucher">
+              <MappingFragment StoreEntitySet="ProductCategoryVoucher">
+                <ScalarProperty Name="VoucherId" ColumnName="VoucherId" />
+                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
+                <ScalarProperty Name="CategoryVoucherId" ColumnName="CategoryVoucherId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_OrderReport" FunctionName="DomainModels.Store.usp_OrderReport">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DomainModels.usp_OrderReport_Result">
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="companyid" ColumnName="companyid" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Qty1" ColumnName="Qty1" />
+                <ScalarProperty Name="Qty2" ColumnName="Qty2" />
+                <ScalarProperty Name="Qty3" ColumnName="Qty3" />
+                <ScalarProperty Name="Qty1NetTotal" ColumnName="Qty1NetTotal" />
+                <ScalarProperty Name="Qty2NetTotal" ColumnName="Qty2NetTotal" />
+                <ScalarProperty Name="Qty3NetTotal" ColumnName="Qty3NetTotal" />
+                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+                <ScalarProperty Name="JobDescription1" ColumnName="JobDescription1" />
+                <ScalarProperty Name="JobDescription2" ColumnName="JobDescription2" />
+                <ScalarProperty Name="JobDescription3" ColumnName="JobDescription3" />
+                <ScalarProperty Name="JobDescription4" ColumnName="JobDescription4" />
+                <ScalarProperty Name="JobDescription5" ColumnName="JobDescription5" />
+                <ScalarProperty Name="JobDescription6" ColumnName="JobDescription6" />
+                <ScalarProperty Name="JobDescription7" ColumnName="JobDescription7" />
+                <ScalarProperty Name="JobDescriptionTitle1" ColumnName="JobDescriptionTitle1" />
+                <ScalarProperty Name="JobDescriptionTitle2" ColumnName="JobDescriptionTitle2" />
+                <ScalarProperty Name="JobDescriptionTitle3" ColumnName="JobDescriptionTitle3" />
+                <ScalarProperty Name="JobDescriptionTitle4" ColumnName="JobDescriptionTitle4" />
+                <ScalarProperty Name="JobDescriptionTitle5" ColumnName="JobDescriptionTitle5" />
+                <ScalarProperty Name="JobDescriptionTitle6" ColumnName="JobDescriptionTitle6" />
+                <ScalarProperty Name="JobDescriptionTitle7" ColumnName="JobDescriptionTitle7" />
+                <ScalarProperty Name="JobDescription" ColumnName="JobDescription" />
+                <ScalarProperty Name="Estimate_Name" ColumnName="Estimate_Name" />
+                <ScalarProperty Name="Order_Code" ColumnName="Order_Code" />
+                <ScalarProperty Name="Estimate_Total" ColumnName="Estimate_Total" />
+                <ScalarProperty Name="FootNotes" ColumnName="FootNotes" />
+                <ScalarProperty Name="HeadNotes" ColumnName="HeadNotes" />
+                <ScalarProperty Name="Order_Date" ColumnName="Order_Date" />
+                <ScalarProperty Name="Greeting" ColumnName="Greeting" />
+                <ScalarProperty Name="CustomerPO" ColumnName="CustomerPO" />
+                <ScalarProperty Name="AddressName" ColumnName="AddressName" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address3" ColumnName="Address3" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Tel1" ColumnName="Tel1" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerURL" ColumnName="CustomerURL" />
+                <ScalarProperty Name="EstimateID" ColumnName="EstimateID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="ReportTitle" ColumnName="ReportTitle" />
+                <ScalarProperty Name="ReportBanner" ColumnName="ReportBanner" />
+                <ScalarProperty Name="Greetings" ColumnName="Greetings" />
+                <ScalarProperty Name="FullProductName" ColumnName="FullProductName" />
+                <ScalarProperty Name="StockName" ColumnName="StockName" />
+                <ScalarProperty Name="AttachmentsList" ColumnName="AttachmentsList" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="paymentType" ColumnName="paymentType" />
+                <ScalarProperty Name="paymentRefNo" ColumnName="paymentRefNo" />
+                <ScalarProperty Name="TaxLabel" ColumnName="TaxLabel" />
+                <ScalarProperty Name="BAddressName" ColumnName="BAddressName" />
+                <ScalarProperty Name="BPostCode" ColumnName="BPostCode" />
+                <ScalarProperty Name="BCountry" ColumnName="BCountry" />
+                <ScalarProperty Name="BAddress1" ColumnName="BAddress1" />
+                <ScalarProperty Name="BAddress2" ColumnName="BAddress2" />
+                <ScalarProperty Name="BCity" ColumnName="BCity" />
+                <ScalarProperty Name="BState" ColumnName="BState" />
+                <ScalarProperty Name="Qty1Tax1Value" ColumnName="Qty1Tax1Value" />
+                <ScalarProperty Name="CurrencySymbol" ColumnName="CurrencySymbol" />
+                <ScalarProperty Name="EstimateCodeLabel" ColumnName="EstimateCodeLabel" />
+                <ScalarProperty Name="Estimate_Code" ColumnName="Estimate_Code" />
+                <ScalarProperty Name="UserNotes" ColumnName="UserNotes" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
