@@ -440,23 +440,21 @@ namespace MPC.Repository.Repositories
                                                     }
                                                     else if (Tag.Contains("StoreName"))
                                                     {
-                                                        if (Mode == StoreMode.Retail)
-                                                        {
-                                                            if (OrganizationRec != null)
-                                                            {
-                                                                tagValue = OrganizationRec.OrganisationName;
-                                                            }
-                                                            else
-                                                            {
-                                                                tagValue = "";
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, propertyInfo.Name, Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
-                                                        }
-
-
+                                                        //if (Mode == StoreMode.Retail)
+                                                        //{
+                                                        //    if (OrganizationRec != null)
+                                                        //    {
+                                                        //        tagValue = OrganizationRec.OrganisationName;
+                                                        //    }
+                                                        //    else
+                                                        //    {
+                                                        //        tagValue = "";
+                                                        //    }
+                                                        //}
+                                                        //else
+                                                        //{
+                                                       tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, propertyInfo.Name, Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
+                                                       // }
                                                     }
                                                     else if (propertyInfo.Name == "AddressId")
                                                     {
