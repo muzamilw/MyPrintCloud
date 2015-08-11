@@ -7365,6 +7365,7 @@ define("stores/stores.viewModel",
                     toggleChildCategories: toggleChildCategories,
                     updateProductCategoriesDV: updateProductCategoriesDV,
                     updateCheckedStateForCategory: updateCheckedStateForCategory,
+
                     validateStoreLiveHandler: validateStoreLiveHandler
                 };
                 //#endregion
