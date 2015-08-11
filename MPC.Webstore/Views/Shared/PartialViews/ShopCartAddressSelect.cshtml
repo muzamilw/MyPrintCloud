@@ -558,7 +558,7 @@
                                                         <label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId))</label>
                                                         @if (_DiscountAmountTotal > 0)
                                                         {
-                                                            <label id="lblVoucherDiscPercentageDisplay" class=" LightGrayLabels displayClear">Discount:</label>
+                                                            <label id="lblVoucherDiscPercentageDisplay" class="clrRed LightGrayLabels displayClear">Discount:</label>
                                                         }
                                                         <label class=" LightGrayLabels displayClear">Delivery:</label>
                                                         <label class=" LightGrayLabels displayClear">@Model.TaxLabel</label>
@@ -571,7 +571,7 @@
 
                                                         @if (_DiscountAmountTotal > 0)
                                                         {
-                                                            <label id="lblVoucherCodeDiscAmount" class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(_DiscountAmountTotal.ToString(), Model.Currency)</label>
+                                                            <label id="lblVoucherCodeDiscAmount" class="Fsize13 colorBlack displayClear clrRed">@Utils.FormatDecimalValueToTwoDecimal(_DiscountAmountTotal.ToString(), Model.Currency)</label>
                                                         }
                                                         @if (Model.DeliveryDiscountVoucherID == null)
                                                         {
@@ -580,7 +580,7 @@
                                                         }
                                                         else
                                                         {
-                                                            <label class="Fsize13 colorBlack displayClear tobeCalDelivery" style="color:red;color: red !important;    position: absolute;    line-height: 1;    text-align: left;    width: 105px;    margin-left: -45px;    margin-top: 7px;">Free Shipping</label>
+                                                            <label class="Fsize13 colorBlack displayClear delivery-checkouttext">Free Shipping</label>
                                                              <label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label>
                                                         }
                                                         <label class="Fsize13 colorBlack displayClear">@deliveryTax</label>

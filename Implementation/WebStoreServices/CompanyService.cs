@@ -1531,11 +1531,11 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _orderrepository.GetOrderTotalById(OrderId);
             }
-        public bool IsVoucherUserByCustomer(long contactId, long companyId, long DiscountVoucherId)
+        public bool IsVoucherUsedByCustomer(long contactId, long companyId, long DiscountVoucherId)
         {
             try
             {
-                return _companyVoucherReedemRepository.IsVoucherUserByCustomer(contactId, companyId, DiscountVoucherId);
+                return _companyVoucherReedemRepository.IsVoucherUsedByCustomer(contactId, companyId, DiscountVoucherId);
             }
             catch (Exception ex)
             {

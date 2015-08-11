@@ -78,7 +78,8 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.DiscountVouchers.Where(d => d.CompanyId == StoreId && d.CouponCode == null && d.IsEnabled == true && ((d.IsTimeLimit == null || d.IsTimeLimit == false) || (d.IsTimeLimit == true && d.ValidFromDate >= DateTime.Now))).ToList();
+                //&& ((d.IsTimeLimit == null || d.IsTimeLimit == false) || (d.IsTimeLimit == true && d.ValidUptoDate <= DateTime.Now)
+                return db.DiscountVouchers.Where(d => d.CompanyId == StoreId && (d.HasCoupon == null || d.HasCoupon == false) && d.IsEnabled == true).ToList();
             }
             catch (Exception ex)
             {
@@ -112,7 +113,26 @@ namespace MPC.Repository.Repositories
             }
 
         }
-      
+        public long IsStoreHaveFreeShippingDiscountVoucher(long StoreId, long OrganisationId)
+        {
+            try
+            {
+               List<DiscountVoucher> freeShippingV = db.DiscountVouchers.Where(d => d.CompanyId == StoreId && (d.HasCoupon == null || d.HasCoupon == false) && d.IsEnabled == true && d.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder).ToList();
+               if (freeShippingV != null && freeShippingV.Count > 0)
+               {
+                   return freeShippingV.FirstOrDefault().DiscountVoucherId;
+               }
+               else 
+               {
+                   return 0;
+               }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         #endregion
     }
 }

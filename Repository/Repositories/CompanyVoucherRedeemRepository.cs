@@ -34,7 +34,7 @@ namespace MPC.Repository.Repositories
         }
 
         #endregion
-        public bool IsVoucherUserByCustomer(long contactId, long companyId, long DiscountVoucherId)
+        public bool IsVoucherUsedByCustomer(long contactId, long companyId, long DiscountVoucherId)
         {
             try
             {

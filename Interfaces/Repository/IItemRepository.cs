@@ -189,6 +189,8 @@ namespace MPC.Interfaces.Repository
         Item GetActualItemToClone(long itemID);
 
         T Clone<T>(T source);
+
+        string GetProductNameByItemId(long ItemId);
     }
 
 }

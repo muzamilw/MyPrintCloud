@@ -309,81 +309,81 @@
                                     <div id="PnalTotalBox">
                                         <table border="0" cellpadding="3" cellspacing="0" width="100%" class="left_align">
                                             <tr>
-                                                <td width="30%">
+                                                <td class="OCnfmtd1">
                                                     &nbsp;
                                                 </td>
-                                                <td width="35%">
+                                                <td width="25%">
                                                     &nbsp;
                                                 </td>
-                                                <td width="20%" align="left" class="fontWeightNormal Fsize13" id="td1" style="text-align:right;">
+                                                <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td1" style="text-align:right;">
                                                     <span id="spnsubtotal" class="CartFonts colorBlack">Sub Total:</span>
                                                 </td>
-                                                <td align="right" width="20%">
+                                                <td align="right" class="OCnfmtd4">
                                                     <label id="lblSubTotal" class="Fsize15 colorBlack">@subtotal</label>
                                                 </td>
                                             </tr>
                                             @if (_DiscountAmountTotal > 0)
                                             {
                                                 <tr>
-                                                    <td width="30%" align="left">
+                                                    <td class="OCnfmtd1" align="left">
                                                         &nbsp;
                                                     </td>
-                                                    <td width="35%">
+                                                    <td width="25%">
                                                         &nbsp;
                                                     </td>
-                                                    <td width="20%" align="left" class="fontWeightNormal Fsize13" id="td2" style="text-align:right;">
-                                                        <span id="spndiscount" class="CartFonts colorBlack">Discount:</span>
+                                                    <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td2" style="text-align:right;">
+                                                        <span id="spndiscount" class="CartFonts clrRed">Discount:</span>
                                                     </td>
-                                                    <td align="right" width="20%">
-                                                        <label id="lbldiscount" class="Fsize15 colorBlack">@Utils.FormatDecimalValueToTwoDecimal((_DiscountAmountTotal).ToString(), ViewBag.Currency)</label>
+                                                    <td align="right"  class="OCnfmtd4">
+                                                        <label id="lbldiscount" class="Fsize15 clrRed">@Utils.FormatDecimalValueToTwoDecimal((_DiscountAmountTotal).ToString(), ViewBag.Currency)</label>
                                                     </td>
                                                 </tr>
                                             }
                                             <tr>
-                                                <td width="30%" align="left">
+                                                <td align="left" class="OCnfmtd1">
                                                     &nbsp;
                                                 </td>
-                                                <td width="35%">
+                                                <td width="25%">
                                                     &nbsp;
                                                 </td>
-                                                <td width="20%" align="left" class="fontWeightNormal Fsize13" id="td2" style="text-align:right;">
+                                                <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td2" style="text-align:right;">
                                                     <span id="spndelivery" class="CartFonts colorBlack">Delivery:</span>
                                                 </td>
-                                                <td align="right" width="20%">
+                                                <td align="right" class="OCnfmtd4">
                                                     @if (Model.DeliveryDiscountVoucherID == null)
                                                     {
                                                         <label id="lblDeliveryCostCenter" class="Fsize15 colorBlack">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Model.DeliveryCost), ViewBag.Currency)</label>
                                                     }
                                                     else
                                                     {
-                                                        <label class="Fsize15 colorBlack tobeCalDelivery" id="lblCalculatedDelivery" style="color:red;color: red !important;    position: absolute;    line-height: 1;    text-align: left;    width: 105px;    margin-left: -45px;    margin-top: 7px;">Free Shipping</label>
-    
-                                                    <label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label>
+                                                        <label class="Fsize15 colorBlack  delivery-OCnfntext" id="lblCalculatedDelivery">Free Shipping</label>
+
+                                                        <label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label>
                                                     }
-                                                    
+
                                                 </td>
                                             </tr>
                                             <tr id="Tr2">
-                                                <td width="30%" align="left"></td>
-                                                <td width="35%"></td>
-                                                <td width="20%" align="left" class="fontWeightNormal Fsize13" style="text-align:right;">
+                                                <td align="left" class="OCnfmtd1"></td>
+                                                <td width="25%"></td>
+                                                <td width="30%" align="left" class="fontWeightNormal Fsize13" style="text-align:right;">
                                                     <span id="lblTaxLabel" class="CartFonts colorBlack">@ViewBag.TaxLabel:</span>
                                                 </td>
-                                                <td align="right" width="20%">
+                                                <td align="right" class="OCnfmtd4">
                                                     <label id="lblVatTotal" class="Fsize15 colorBlack">@VatTotal</label>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td width="30%">
+                                                <td class="OCnfmtd1">
                                                     &nbsp;
                                                 </td>
-                                                <td width="35%">
+                                                <td width="25%">
                                                     &nbsp;
                                                 </td>
-                                                <td width="20%" align="left" class="fontWeightNormal Fsize13" id="td3" style="text-align:right;">
+                                                <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td3" style="text-align:right;">
                                                     <span class="CartFonts colorBlack" id="spngrandtotal">Total:</span>
                                                 </td>
-                                                <td align="right" width="20%">
+                                                <td align="right" class="OCnfmtd4">
                                                     <label class="CartFonts colorBlack Fsize15" id="lblGrandTotal">@Utils.FormatDecimalValueToTwoDecimal(GrossTotal.ToString(), ViewBag.Currency)</label>
                                                 </td>
                                             </tr>

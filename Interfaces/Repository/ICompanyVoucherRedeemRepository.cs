@@ -8,7 +8,7 @@ namespace MPC.Interfaces.Repository
 {
     public interface ICompanyVoucherRedeemRepository
     {
-        bool IsVoucherUserByCustomer(long contactId, long companyId, long DiscountVoucherId);
+        bool IsVoucherUsedByCustomer(long contactId, long companyId, long DiscountVoucherId);
         void AddReedem(long contactId, long companyId, long DiscountVoucherId);
     }
 }
