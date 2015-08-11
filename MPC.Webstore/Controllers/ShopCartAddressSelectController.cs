@@ -484,6 +484,7 @@ namespace MPC.Webstore.Controllers
                 itemsList = shopCart.CartItemsList;
                 model.shopcart.CartItemsList = itemsList;
                 model.SelectedDeliveryCostCentreId = shopCart.DeliveryCostCenterID;
+                model.DeliveryDiscountVoucherID = shopCart.DeliveryDiscountVoucherID;
                 if (itemsList != null && itemsList.Count > 0)
                 {
                     BindGriViewWithProductItemList(itemsList, model);

@@ -11,7 +11,7 @@ namespace MPC.Webstore.Common
     public sealed class UserCookieManager
     {
         public static bool isWritePresistentCookie = false;
-
+        
         public static long WBStoreId
         {
             get
@@ -407,6 +407,35 @@ namespace MPC.Webstore.Common
                 HttpCookie AutoLoginClaimCookie = null;
                 AutoLoginClaimCookie = new HttpCookie("isPerformAutoLogin", value.ToString());
                 HttpContext.Current.Response.Cookies.Add(AutoLoginClaimCookie);
+            }
+        }
+
+
+        public static long FreeShippingVoucherId
+        {
+            get
+            {
+                if (HttpContext.Current.Request.Cookies["FreeShippingVoucherId"] != null)
+                {
+                    return Convert.ToInt64((HttpContext.Current.Request.Cookies["FreeShippingVoucherId"].Value));
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+            set
+            {
+                if (HttpContext.Current.Response.Cookies["FreeShippingVoucherId"] != null)
+                {
+                    HttpContext.Current.Response.Cookies.Remove("FreeShippingVoucherId");
+
+                }
+
+                HttpCookie FreeShippingVoucherIdCookie = null;
+                FreeShippingVoucherIdCookie = new HttpCookie("FreeShippingVoucherId", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(FreeShippingVoucherIdCookie);
             }
         }
 

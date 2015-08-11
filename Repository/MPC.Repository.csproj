@@ -198,6 +198,7 @@
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\CompanyVoucherRedeemRepository.cs" />
     <Compile Include="Repositories\DiscountVoucherRepository.cs" />
     <Compile Include="Repositories\ActivityRepository.cs" />
     <Compile Include="Repositories\ActivityTypeRepository.cs" />

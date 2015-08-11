@@ -33,6 +33,13 @@ function StopLoader(forceStop) {
             $("#MainLoader").css("display", "none");
             
         }
+        if($(".templatepreviewContainer").css("display") == "block")
+        {
+            $(".tempPreviewImg").fadeIn()
+              .animate({ height: 0}, 800, function () {
+                  $(".templatepreviewContainer").css("display", "none");
+              });
+        }
 }
 function startInlineLoader(divID) {
     if (divID == 1) {
@@ -1984,27 +1991,67 @@ function fu06_SvcCallback(DT, fname,mode) {
         canvas.calcOffset();
     });
     $("#canvasDocument").css("width", $(window).width() - 380);
+    $(".templatepreviewContainer").css("width", $(window).width() - 390);
+    $(".templatepreviewContainer").css("height", $(window).height() - 70);
+    $(".tempPreviewImg").css("height", $(window).height() - 180);
     if (mode == true) {
         d5(TP[0].ProductPageID, true);
     }
 }
-function fu07() {
-    var dm = '<span class="marker" style="left: 0px; width: 72px;"></span>';
+function fu07(is2ndLoad) {
+    var dm = '<span class="marker" style="left: 0px; width: 64px;"></span>';
     $("#documentMenu").html(dm);
+    var baseUrl = "/MPC_Content/Designer/Organisation" + organisationId + "/Templates/" + tID + "/";
+    if (globalTemplateId != 0)
+        baseUrl = "http://designerv2.myprintcloud.com/designer/products/" + globalTemplateId + "/";
     var pHtml = "";
-    $.each(TP, function (i, ite) {
-        var classes = "menuItemContainer " + ite.ProductPageID + " ";
-        if (i == 0) {
-            classes = "menuItemContainer selectedItem " + ite.ProductPageID + " ";
-        }
-        if (IsCalledFrom == 3) {
-            pHtml += '  <li  class="' + classes + '"><a class="plain" onClick="d5(' + ite.ProductPageID + ')">Page ' + (i + 1) + '</a></li>';
-        } else
-        {
-            pHtml += '  <li  class="' + classes + '"><a class="plain" onClick="d5(' + ite.ProductPageID + ')">' + ite.PageName + '</a></li>';
-        }
-        
-    });
+    var isLandScapeBC = true;
+    if (Template.PDFTemplateHeight > Template.PDFTemplateWidth) {
+        isLandScapeBC = false;
+    } $('.multiBackCarouselLayer').html("");
+    if (Template.TemplateType == 3) {
+        var addClasses = " ";
+        $.each(TP, function (i, ite) {
+            var classes = "menuItemContainer " + ite.ProductPageID + " ";
+            if (i == 0) {
+                classes = "menuItemContainer selectedItem " + ite.ProductPageID + " ";
+                pHtml += '  <li  class="' + classes + '"><a class="plain" onClick="d5(' + ite.ProductPageID + ')">' + ite.PageName + '</a></li>';
+            } else {
+                var html = "";
+                if (false) //!isLandScapeBC
+                {
+                     html = '<div class="MultiBackPageLS MultiBackPageLS-type-zoom"> <a class="MultiBackPageLS-hover" '+
+                        'onclick="showMBPage(' + ite.ProductPageID + ');toggleMbPanel();"> <div class="MultiBackPageLS-info"> <div class="headline"> ' +
+                         ite.PageName + '<div class="line"></div> <div class="date"> </div> </div> </div> <div class="mask"></div> </a> <div class="MultiBackPageLS-img">' +
+                         '<img src="' + baseUrl + 'p'+ite.PageNo+'.png" alt="" class="MultiBackPageLS-ActlImg" /></div> </div>';
+                } else 
+                {
+                    addClasses += ite.ProductPageID + " ";
+                    html = '<div class="MultiBackPage MultiBackPage-type-zoom"> <a class="MultiBackPage-hover" '+
+                        'onclick="showMBPage(' + ite.ProductPageID + ');toggleMbPanel();"> <div class="MultiBackPage-info"> <div class="headline"> ' +
+                        ite.PageName + '<div class="line"></div> <div class="date"> </div> </div> </div> <div class="mask"></div> </a> <div class="MultiBackPage-img">' +
+                        '<img src="' + baseUrl + 'p' + ite.PageNo + '.png" alt="" class="MultiBackPage-ActlImg" id="MbImg' + ite.ProductPageID + '" /></div> </div>';
+                }
+                $('.multiBackCarouselLayer').append(html);
+                    
+            }
+        });
+        pHtml += '  <li  class="menuItemContainer ' + addClasses + ' "><a class="plain" onClick="toggleMbPanel();">Backs</a></li>';
+
+    } else { 
+        $.each(TP, function (i, ite) {
+            var classes = "menuItemContainer " + ite.ProductPageID + " ";
+            if (i == 0) {
+                classes = "menuItemContainer selectedItem " + ite.ProductPageID + " ";
+            }
+            if (IsCalledFrom == 3) {
+                pHtml += '  <li  class="' + classes + '"><a class="plain" onClick="d5(' + ite.ProductPageID + ')">Page ' + (i + 1) + '</a></li>';
+            } else {
+                pHtml += '  <li  class="' + classes + '"><a class="plain" onClick="d5(' + ite.ProductPageID + ')">' + ite.PageName + '</a></li>';
+            }
+
+        });
+    }
     $("#documentMenu").append(pHtml);
     $("#documentMenu li").hover(function () {
         $el = $(this);
@@ -2015,19 +2062,19 @@ function fu07() {
             width: newWidth
         })
     }, function () {
-        $el = $('.selectedItem');
-        leftPos = $el.position().left;
-        newWidth = $el.width();
-        $(".marker").stop().animate({
-            left: leftPos,
-            width: newWidth
-        });
-
+        if ($(".selectedItem").length) {
+            $el = $('.selectedItem');
+            leftPos = $el.position().left;
+            newWidth = $el.width();
+            $(".marker").stop().animate({
+                left: leftPos,
+                width: newWidth
+            });
+        }
     });
 
-    $("#documentMenu").css("left", $("#documentTitleAndMenu").width() / 2 - $("#documentMenu").width()/2 + "px");
+    $("#documentMenu").css("left", $("#documentTitleAndMenu").width() / 2 - $("#documentMenu").width() / 2 + "px");
 }
-
 function fu09_SvcCallBack(DT) {
     if (DT != "") {
         tcListCc++;
@@ -2075,6 +2122,13 @@ function fu10(ca, gtID) {
     TO = [];
     isloadingNew = true;
     svcCall1(ca, gtID);
+    $(".templatepreviewContainer").css("display","block");
+    $(".tempPreviewImg").attr("src", "http://designerv2.myprintcloud.com//designer/products/" + gtID + "/TemplateThumbnail1.jpg");
+    $(".tempPreviewImg").fadeIn()
+       .css({ height: "0px"})
+       .animate({ height: ($(window).height() - 180) }, 800, function () {
+           //$(".multiBackCarouselContainer").css("display", "none");
+       });
 }
 function fu14() {
     k16(1, TeImC, "Loader");

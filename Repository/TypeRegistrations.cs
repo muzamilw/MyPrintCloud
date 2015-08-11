@@ -142,6 +142,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IDiscountVoucherRepository, DiscountVoucherRepository>();
             unityContainer.RegisterType<IItemsVoucherRepository, ItemsVoucherRepository>();
             unityContainer.RegisterType<IProductCategoryVoucherRepository, ProductCategoryVoucherRepository>();
+            unityContainer.RegisterType<ICompanyVoucherRedeemRepository, CompanyVoucherRedeemRepository>();
         }
     }
 }

@@ -74,11 +74,12 @@ namespace MPC.Repository.Repositories
         }
 
 
-        public DiscountVoucher GetStoreDefaultDiscountRate(long StoreId, long OrganisationId)
+        public List<DiscountVoucher> GetStoreDefaultDiscountVouchers(long StoreId, long OrganisationId)
         {
             try
             {
-                return db.DiscountVouchers.Where(d => d.CompanyId == StoreId && d.CouponCode == null && d.IsEnabled == true).FirstOrDefault();
+                //&& ((d.IsTimeLimit == null || d.IsTimeLimit == false) || (d.IsTimeLimit == true && d.ValidUptoDate <= DateTime.Now)
+                return db.DiscountVouchers.Where(d => d.CompanyId == StoreId && (d.HasCoupon == null || d.HasCoupon == false) && d.IsEnabled == true).ToList();
             }
             catch (Exception ex)
             {
@@ -104,7 +105,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.DiscountVouchers.Where(d => d.CouponCode == DiscountVoucherName && d.CompanyId == StoreId && d.OrganisationId == OrganisationId).FirstOrDefault();
+                return db.DiscountVouchers.Where(d => d.CouponCode == DiscountVoucherName && d.CompanyId == StoreId && d.OrganisationId == OrganisationId && d.IsEnabled == true).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -112,7 +113,26 @@ namespace MPC.Repository.Repositories
             }
 
         }
-      
+        public long IsStoreHaveFreeShippingDiscountVoucher(long StoreId, long OrganisationId)
+        {
+            try
+            {
+               List<DiscountVoucher> freeShippingV = db.DiscountVouchers.Where(d => d.CompanyId == StoreId && (d.HasCoupon == null || d.HasCoupon == false) && d.IsEnabled == true && d.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder).ToList();
+               if (freeShippingV != null && freeShippingV.Count > 0)
+               {
+                   return freeShippingV.FirstOrDefault().DiscountVoucherId;
+               }
+               else 
+               {
+                   return 0;
+               }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         #endregion
     }
 }

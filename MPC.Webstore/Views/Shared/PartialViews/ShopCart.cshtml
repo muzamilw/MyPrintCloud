@@ -284,10 +284,10 @@
                                 @if (ViewBag.IsShowPrices)
                                 {
                                     <div class="cntsubHeadings">
-                                        <label  class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId))</label>
+                                        <label  class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId)):</label>
                                         @if (_DiscountAmountTotal > 0)
                                         {
-                                            <label id="lblVoucherDiscPercentageDisplay" class=" LightGrayLabels displayClear">Discount:</label>
+                                            <label id="lblVoucherDiscPercentageDisplay" class=" LightGrayLabels displayClear clrRed">Discount:</label>
                                         }
                                         
                                         <label  class=" LightGrayLabels displayClear">Delivery:</label>
@@ -298,17 +298,34 @@
                                         <label  class="Fsize13 colorBlack displayClear">@subtotal</label>
                                         @if (_DiscountAmountTotal > 0)
                                         {
-                                            <label id="lblVoucherCodeDiscAmount" class="Fsize13 colorBlack displayClear">@ViewBag.Currency@_DiscountAmountTotal</label>
+                                            <label id="lblVoucherCodeDiscAmount" class="Fsize13 colorBlack displayClear clrRed">@Utils.FormatDecimalValueToTwoDecimal(_DiscountAmountTotal.ToString(), ViewBag.Currency)</label>
                                         }
                                         
                                         @if (Model.DeliveryCostCenterID == 0)
                                         {
-                                            <label class="Fsize13 colorBlack displayClear tobeCalDelivery" style="color: red !important;    position: absolute;    line-height: 1;    text-align: left;    width: 105px;    margin-left: -45px;    margin-top: 7px;">To be calculated</label>
+                                            if (Model.DeliveryDiscountVoucherID == null)
+                                            {
+                                                <label class="Fsize13 colorBlack displayClear delivery-toBeCaltext" id="lblDeliveryToBeCal" >To be calculated</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="Fsize13 colorBlack displayClear delivery-codetext" id="lblDeliveryToBeCal" >Free Shipping</label>
+                                            }
+
                                             <label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label>
                                         }
                                         else
                                         {
-                                            <label class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Model.DeliveryCost), ViewBag.Currency)</label>
+                                            if (Model.DeliveryDiscountVoucherID == null)
+                                            {
+                                                <label class="Fsize13 colorBlack displayClear" id="lblCalculatedDelivery">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Model.DeliveryCost), ViewBag.Currency)</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="Fsize13 colorBlack displayClear delivery-codetext" id="lblCalculatedDelivery" >Free Shipping</label>
+
+                                             <label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label>
+                                            }
                                         }
                                         
                                         <label class="Fsize13 colorBlack displayClear">@VatTotal</label>
@@ -333,13 +350,14 @@
                                     </div>
                                     <div class="dropdown_sec" style="display:block;">
 
-                                        <div id="pnlVoucherCodes">
+                                        <div id="panelCouponCode">
                                             @if (ViewBag.VoucherApplied == null)
                                             {
-                                                <label id="lblRedeemHeading" class="LightGrayLabels marginLeft marginRight">Voucher codes</label>
-                                                <input type="text" class="text_box115 rounded_corners5" id="txtDiscountVoucherCode" />
+
+                                                <input type="text" class="txtCouponCode rounded_corners5" id="txtDiscountVoucherCode" placeholder="Coupon Code" />
                                                 <button id="btnApplyDiscountVoucherCode" type="button" class="btn_blue_back_small rounded_corners5" onclick="return ApplyDiscountVouchers();">Apply</button>
                                                 <label id="lblRedeemErrorMesg" class="errorMessage"></label>
+                                                <button id="btnRemoveDeliveryVoucherCode" type="submit" class="btn_blue_back_small_Remove rounded_corners5" onclick="RemoveDeliveryVoucherCode();" style="display:none;">Remove voucher code</button>
                                             }
                                             else
                                             {
@@ -366,7 +384,7 @@
                     </div>
                     <input type="hidden" id="hfIsCallFrom" name="hfIsCallFrom" value="Checkout" />
                     <input type="hidden" id="hfItemID" name="hfItemID" value="0" />
-                    <input type="hidden" id="hfNumOfRec" value="@ViewBag.NumberOfRecords" />
+                    <input type="hidden" id="hfFreeShippingVoucherId" value="0" />
                     <input type="hidden" id="hfOrderID" name="hfOrderID" value="@ViewBag.OrderID" />
                     <input type="hidden" id="hfGrandTotal" name="hfGrandTotal" value="@ViewBag.GrossTotal" />
 
@@ -583,10 +601,7 @@
     {
         window.location.href = "/ShopCart/ApplyDiscountVoucherCode/DiscountVoucher=" + DiscountVoucher + "/" + OrderID;
     }
-    function RemoveVoucherCode(OrderID)
-    {
-        window.location.href = "/ShopCart/RemoveDiscountVoucherCode/OrderID="+ OrderID;
-    }
+  
     function ConfirmDeleteItem(ItemID,OrderID)
     {
 
@@ -612,8 +627,16 @@
 
         ShowLoader();
 
-
     }
+    
+    
+    function RemoveDeliveryVoucherCode()
+    {
+        $("#hfIsCallFrom").val("RemoveDeliveryVoucherCode");
+
+        ShowLoader();
+    }
+    
     function ApplyDiscountVouchers() {
         var txtDiscountVoucher = $("#txtDiscountVoucherCode").val();
         if(txtDiscountVoucher == ""){
@@ -637,15 +660,22 @@
                     if(response[0] == "Error"){
                         $("#lblRedeemErrorMesg").text(response[1]);
                         HideLoader();
+                    }else if(response[0] == "Free"){
+                        $("#hfFreeShippingVoucherId").val(response[1]);
+                        $("#lblCalculatedDelivery").text("Free Shipping");
+                        $("#lblDeliveryToBeCal").text("Free Shipping");
+                      
+                        $("#txtDiscountVoucherCode").css("display", "none");
+                        $("#btnApplyDiscountVoucherCode").css("display", "none");
+                        $("#lblRedeemErrorMesg").css("display", "none");
+                        $("#btnRemoveDeliveryVoucherCode").css("display", "block");
+                        HideLoader();
                     }else if(response[0] == "Success"){
                         window.location.href = "/ShopCart?OrderId=" + orderId + "&VCId=1";
                     }
                 }
             });
-
-        
         }
-           
      }
     </script>
 

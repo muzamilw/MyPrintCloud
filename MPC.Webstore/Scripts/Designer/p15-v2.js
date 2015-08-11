@@ -322,6 +322,7 @@ function fu09() {
  });
 }
 function svcCall1(ca, gtID) {
+    globalTemplateId = gtID;
     $.getJSON("/designerapi/Template/mergeTemplate/" + gtID + "/" + tID + "/" + organisationId,
           function (xdata) {
             //  console.log("call returned");
@@ -459,7 +460,7 @@ function SvcLoad2ndTemplate() {
                 TORestore.push(obj);
             });
             fu06(true);
-            fu07();
+            fu07(true);
         });
          $(".additionalPages").css("visibility", "hidden");
          $.each(TP, function (i, IT) {
