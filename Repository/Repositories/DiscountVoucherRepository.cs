@@ -245,6 +245,70 @@ namespace MPC.Repository.Repositories
 
             return qry.ToList();
         }
+
+        public DiscountVoucher CreateDiscountVoucher(DiscountVoucher discountVoucher)
+        {
+            try
+            {
+                discountVoucher.VoucherCode = Guid.NewGuid().ToString();
+
+
+                db.DiscountVouchers.Add(discountVoucher);
+
+                db.SaveChanges();
+
+
+                if (discountVoucher.ProductCategoryVouchers != null && discountVoucher.ProductCategoryVouchers.Count() > 0)
+                {
+                    foreach (var obj in discountVoucher.ProductCategoryVouchers)
+                    {
+                      
+
+                            List<Item> CategoryProducts = GetItemsByCategoryId(obj.ProductCategoryId ?? 0);
+
+                            foreach (var itm in CategoryProducts)
+                            {
+                                ItemsVoucher ObjItemVoucher = new ItemsVoucher();
+                                ObjItemVoucher.ItemId = itm.ItemId;
+                                ObjItemVoucher.VoucherId = discountVoucher.DiscountVoucherId;
+                                db.ItemsVouchers.Add(ObjItemVoucher);
+                            }
+
+                        
+
+                    }
+                    db.SaveChanges();
+                }
+                return discountVoucher;
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+         public long IsDiscountVoucherApplied(long StoreId, long OrganisationId)
+        {
+            try
+            {
+                List<DiscountVoucher> freeShippingV = db.DiscountVouchers.Where(d => d.CompanyId == StoreId && (d.HasCoupon == null || d.HasCoupon == false) && d.IsEnabled == true && d.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder).ToList();
+                if (freeShippingV != null && freeShippingV.Count > 0)
+                {
+                    return freeShippingV.FirstOrDefault().DiscountVoucherId;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
         #endregion
     }
 }
