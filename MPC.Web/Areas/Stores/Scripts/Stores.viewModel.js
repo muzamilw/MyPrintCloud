@@ -41,7 +41,7 @@ define("stores/stores.viewModel",
                     isLoadingStores = ko.observable(false),
                     //Is Editorial View Visible
                     isEditorVisible = ko.observable(false),
-
+                    storeDbStatus = ko.observable(),
                     // widget section header title
                     productsFilterHeading = ko.observable(),
 
@@ -1577,6 +1577,38 @@ define("stores/stores.viewModel",
                         });
                     },
                     //#endregion 
+                    
+                    validateStoreLiveHandler = function () {
+                        var isLive = selectedStore().isStoreSetLive();
+                        if (isLive == 'true' || isLive == true && storeDbStatus() == false) {
+                            dataservice.validateLiveStoresCount({
+                                success: function (data) {
+                                    if (data != null) {
+                                        if (data == 'true' || data == true)
+                                            selectedStore().isStoreSetLive(true);
+                                        else {
+                                            selectedStore().isStoreSetLive(false);
+                                            showLicenseUpgradeDialog();
+                                        }
+                                    } else {
+                                        selectedStore().isStoreSetLive(false);
+                                        showLicenseUpgradeDialog();
+                                    }
+                                },
+                                error: function (response) {
+                                    toastr.error("Failed to load Licensing . Error: ");
+                                }
+                            });
+                        }
+                        return true;
+                    },
+                    showLicenseUpgradeDialog = function() {
+                        confirmation.afterProceed(function () {
+                            var uri = encodeURI("https://myprintcloud.com/dashboard");
+                            window.location.href = uri;
+                        });
+                        confirmation.showUpgradePopup();
+                    },
 
                     //#region _________EMAIL ______________________________________
                     selectedEmail = ko.observable(),
@@ -4619,6 +4651,7 @@ define("stores/stores.viewModel",
                                         selectedStore().activeBannerSetId(data.Company.ActiveBannerSetId);
                                         selectedStore().currentThemeId(data.Company.CurrentThemeId);
                                         selectedTheme(data.Company.CurrentThemeId);
+                                        storeDbStatus(selectedStore().isStoreSetLive());
                                     }
 
                                     if (data.SecondaryPageResponse) {
@@ -7331,7 +7364,8 @@ define("stores/stores.viewModel",
                     //updateProductCategoriesDiscountVoucher : updateProductCategoriesDiscountVoucher,
                     toggleChildCategories: toggleChildCategories,
                     updateProductCategoriesDV: updateProductCategoriesDV,
-                   
+                    validateStoreLiveHandler: validateStoreLiveHandler
+
                    
 
                 };

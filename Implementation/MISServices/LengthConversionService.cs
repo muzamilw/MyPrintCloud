@@ -102,7 +102,7 @@ namespace MPC.Implementation.MISServices
                 }
             }
 
-            return Input * ConversionUnit;
+            return Input * Math.Round(ConversionUnit, 2);
         }
         #endregion
     }

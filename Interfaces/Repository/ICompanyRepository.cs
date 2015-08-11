@@ -100,5 +100,7 @@ namespace MPC.Interfaces.Repository
         void DeleteCrmCompanyBySP(long storeId);
 
         void UpdateLiveStores(long organisationId, int storesCount);
+        int GetLiveStoresCount(long organisationId);
+        bool IsStoreLive(long storeId);
     }
 }
