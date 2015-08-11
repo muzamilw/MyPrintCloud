@@ -356,7 +356,7 @@
 
                                                 <input type="text" class="txtCouponCode rounded_corners5" id="txtDiscountVoucherCode" placeholder="Coupon Code" />
                                                 <button id="btnApplyDiscountVoucherCode" type="button" class="btn_blue_back_small rounded_corners5" onclick="return ApplyDiscountVouchers();">Apply</button>
-                                                <p id="lblRedeemErrorMesg" class="errorMessage"></p>
+                                                <div id="lblRedeemErrorMesg" class="errorMessage"></div>
                                                 <button id="btnRemoveDeliveryVoucherCode" type="submit" class="btn_blue_back_small_Remove rounded_corners5" onclick="RemoveDeliveryVoucherCode(event);" style="display:none;">Remove voucher code</button>
                                             }
                                             else
@@ -680,7 +680,7 @@
                     async: true,
                     success: function (response) {
                         if(response[0] == "Error"){
-                            $("#lblRedeemErrorMesg").html("<p style='font-weight: bold;line-height: 2; margin-bottom: 0px;' >Can't apply the voucher because: <br /></p>" + response[1]);
+                            $("#lblRedeemErrorMesg").html("<p class='cantApplyVMesg'>Can't apply the voucher because: <br /></p><p class='voucherErrorDesc' >" + response[1] + "</p>");
                             HideLoader();
                         }else if(response[0] == "Free"){
                             $("#hfFreeShippingVoucherId").val(response[1]);
