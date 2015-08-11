@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MPC.Models.DomainModels;
+using System;
+using System.Collections.Generic;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -26,5 +28,10 @@ namespace MPC.MIS.Areas.Api.Models
         public int? MinRequiredOrderPrice { get; set; }
         public int? MaxRequiredOrderPrice { get; set; }
         public bool? IsQtySpan { get; set; }
+
+        public bool IsEnabled { get; set; }
+
+        public virtual IEnumerable<ItemsVoucher> ItemsVouchers { get; set; }
+        public virtual IEnumerable<ProductCategoryVoucher> ProductCategoryVouchers { get; set; }
     }
 }
