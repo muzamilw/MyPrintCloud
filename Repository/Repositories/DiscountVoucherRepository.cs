@@ -74,11 +74,12 @@ namespace MPC.Repository.Repositories
         }
 
 
-        public DiscountVoucher GetStoreDefaultDiscountRate(long StoreId, long OrganisationId)
+        public List<DiscountVoucher> GetStoreDefaultDiscountVouchers(long StoreId, long OrganisationId)
         {
             try
             {
-                return db.DiscountVouchers.Where(d => d.CompanyId == StoreId && d.CouponCode == null && d.IsEnabled == true).FirstOrDefault();
+                //&& ((d.IsTimeLimit == null || d.IsTimeLimit == false) || (d.IsTimeLimit == true && d.ValidUptoDate <= DateTime.Now)
+                return db.DiscountVouchers.Where(d => d.CompanyId == StoreId && (d.HasCoupon == null || d.HasCoupon == false) && d.IsEnabled == true).ToList();
             }
             catch (Exception ex)
             {
@@ -100,11 +101,23 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public DiscountVoucher GetDiscountVoucherByCouponCode(string DiscountVoucherName, long StoreId, long OrganisationId)
+        public DiscountVoucher GetDiscountVoucherByVoucherId(long DVId)
         {
             try
             {
-                return db.DiscountVouchers.Where(d => d.CouponCode == DiscountVoucherName && d.CompanyId == StoreId && d.OrganisationId == OrganisationId).FirstOrDefault();
+                DiscountVoucher dv = db.DiscountVouchers.Where(c => c.DiscountVoucherId == DVId).FirstOrDefault();
+
+                if(dv.ProductCategoryVouchers != null && dv.ProductCategoryVouchers.Count > 0)
+                {
+                    foreach(var objDV in dv.ProductCategoryVouchers)
+                    {
+                        objDV.CategoryName = db.ProductCategories.Where(c => c.ProductCategoryId == objDV.ProductCategoryId).Select(v => v.CategoryName).FirstOrDefault();
+
+
+                    }
+                }
+
+                return dv;
             }
             catch (Exception ex)
             {
@@ -112,7 +125,126 @@ namespace MPC.Repository.Repositories
             }
 
         }
-      
+        public DiscountVoucher GetDiscountVoucherByCouponCode(string DiscountVoucherName, long StoreId, long OrganisationId)
+        {
+            try
+            {
+                return db.DiscountVouchers.Where(d => d.CouponCode == DiscountVoucherName && d.CompanyId == StoreId && d.OrganisationId == OrganisationId && d.IsEnabled == true).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public long IsStoreHaveFreeShippingDiscountVoucher(long StoreId, long OrganisationId)
+        {
+            try
+            {
+               List<DiscountVoucher> freeShippingV = db.DiscountVouchers.Where(d => d.CompanyId == StoreId && (d.HasCoupon == null || d.HasCoupon == false) && d.IsEnabled == true && d.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder).ToList();
+               if (freeShippingV != null && freeShippingV.Count > 0)
+               {
+                   return freeShippingV.FirstOrDefault().DiscountVoucherId;
+               }
+               else 
+               {
+                   return 0;
+               }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+
+        public DiscountVoucher AddCategoryVoucher(DiscountVoucher discountVoucher)
+        {
+            try
+            {
+
+                DiscountVoucher discountVoucherDbVersion = db.DiscountVouchers.Where(c => c.DiscountVoucherId == discountVoucher.DiscountVoucherId).FirstOrDefault();
+                if (discountVoucherDbVersion != null)
+                {
+                    discountVoucherDbVersion.VoucherName = discountVoucher.VoucherName;
+                    discountVoucherDbVersion.DiscountRate = discountVoucher.DiscountRate;
+                    discountVoucherDbVersion.DiscountType = discountVoucher.DiscountType;
+                    discountVoucherDbVersion.HasCoupon = discountVoucher.HasCoupon;
+                    discountVoucherDbVersion.CouponCode = discountVoucher.CouponCode;
+                    discountVoucherDbVersion.CouponUseType = discountVoucher.CouponUseType;
+                    discountVoucherDbVersion.IsUseWithOtherCoupon = discountVoucher.IsUseWithOtherCoupon;
+                    discountVoucherDbVersion.CompanyId = discountVoucher.CompanyId;
+
+                    discountVoucherDbVersion.IsTimeLimit = discountVoucher.IsTimeLimit;
+                    discountVoucherDbVersion.ValidFromDate = discountVoucher.ValidFromDate;
+                    discountVoucherDbVersion.ValidUptoDate = discountVoucher.ValidUptoDate;
+
+                    discountVoucherDbVersion.IsQtyRequirement = discountVoucher.IsQtyRequirement;
+                    discountVoucherDbVersion.MinRequiredQty = discountVoucher.MinRequiredQty;
+                    discountVoucherDbVersion.MaxRequiredQty = discountVoucher.MaxRequiredQty;
+                    discountVoucherDbVersion.IsQtySpan = discountVoucher.IsQtySpan;
+
+                    discountVoucherDbVersion.IsOrderPriceRequirement = discountVoucher.IsOrderPriceRequirement;
+                    discountVoucherDbVersion.MinRequiredOrderPrice = discountVoucher.MinRequiredOrderPrice;
+                    discountVoucherDbVersion.MaxRequiredOrderPrice = discountVoucher.MaxRequiredOrderPrice;
+                    discountVoucherDbVersion.IsEnabled = discountVoucher.IsEnabled;
+
+
+
+                    if (discountVoucher.ProductCategoryVouchers != null && discountVoucher.ProductCategoryVouchers.Count() > 0)
+                    {
+                        foreach (var obj in discountVoucher.ProductCategoryVouchers)
+                        {
+                            if (obj.CategoryVoucherId == 0)
+                            {
+                                ProductCategoryVoucher objVoucher = new ProductCategoryVoucher();
+                                objVoucher.ProductCategoryId = obj.ProductCategoryId;
+                                objVoucher.VoucherId = discountVoucherDbVersion.DiscountVoucherId;
+                               // objVoucher.DiscountVoucher = null;
+                                db.ProductCategoryVouchers.Add(objVoucher);
+                                List<Item> CategoryProducts = GetItemsByCategoryId(obj.ProductCategoryId ?? 0);
+
+                                foreach (var itm in CategoryProducts)
+                                {
+                                    ItemsVoucher ObjItemVoucher = new ItemsVoucher();
+                                    ObjItemVoucher.ItemId = itm.ItemId;
+                                    ObjItemVoucher.VoucherId = discountVoucherDbVersion.DiscountVoucherId;
+                                    db.ItemsVouchers.Add(ObjItemVoucher);
+                                }
+
+                            }
+
+                        }
+                        
+                    }
+
+                    
+                }
+                db.SaveChanges();
+                return discountVoucher;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+       
+        public List<Item> GetItemsByCategoryId(long CategoryId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+
+            var qry = from items in db.Items
+                      join pci in db.ProductCategoryItems on items.ItemId equals pci.ItemId
+                      join pc in db.ProductCategories on pci.CategoryId equals pc.ProductCategoryId
+
+                      where pc.ProductCategoryId == CategoryId && (items.IsPublished == true || items.IsPublished == null) && (items.IsArchived == false || items.IsArchived == null)
+
+                      select items;
+
+            return qry.ToList();
+        }
         #endregion
     }
 }

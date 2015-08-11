@@ -44,3 +44,37 @@
         </div>
     </div>
 </div>
+
+<div id="dialog-okLicensing" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialogOkModalLabel" aria-hidden="true" style="z-index: 100000">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border: 3px solid #2c3e50 !important;">
+            <div class=" modal-header" style="background-color: #2c3e50; color: #ffffff">
+            <button type="button" class="close" id="dismiss" data-dismiss="modal"><span aria-hidden="true" style="color: #ffffff">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel" data-bind="text: headingText">Upgrade your plan to access this feature.</h4>
+        </div>
+            <div class="modal-body">
+                <div>
+                    <form class="form-horizontal">
+                        <div class="pricing-package ">
+                            <h2 style="text-align: center">What's included in all plans</h2>
+                            <ul class="package-features" style="margin-left: 10%">
+                                <li class="has-feature">Multiple live Private or Public Store fronts.</li>
+                                <li class="has-feature">Full access to order management and download artwork.</li>
+                            </ul>
+                            
+                        </div>
+                        <h4 style="margin-top: 10px; text-align: center">Starting only from $199/MO</h4>
+                        <div class="row" style="text-align: center">
+                            <button type="button" id="dialog-confirm-yes" class="btn btn-danger" data-bind="click: $root.proceed" style="background-color: #fc813b; margin-top: 10px;">UPGRADE PLAN</button>
+                        </div>
+                        <h4 style="margin-top: 20px; text-align: center">Downgrade plans any time - directly from your account.</h4>
+                    </form>
+                </div>
+            </div>
+            @*<div class="modal-footer">
+                <button type="button" id="dialog-confirm-yes" class="btn btn-primary" data-bind="click: proceed" style="margin-left: 0;">Ok</button>
+                <button type="button" id="dialog-confirm-no" class="btn btn-default" data-bind="click: $root.Warningcancel">Cancel</button>
+            </div>*@
+        </div>
+    </div>
+</div>

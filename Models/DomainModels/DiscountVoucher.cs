@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MPC.Models.DomainModels
 {
@@ -34,5 +35,9 @@ namespace MPC.Models.DomainModels
         public bool? IsSingleUseRedeemed { get; set; }
         public bool? IsQtySpan { get; set; }
         public long? OrganisationId { get; set; }
+
+
+        public virtual ICollection<ItemsVoucher> ItemsVouchers { get; set; }
+        public virtual ICollection<ProductCategoryVoucher> ProductCategoryVouchers { get; set; }
     }
 }

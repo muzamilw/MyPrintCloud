@@ -9,13 +9,14 @@
     string EstimateDispatchTime = string.Empty;
     double _priceTotal = 0;
     double _vatTotal = 0;
-    double _grandTotal = 0;
+  
     decimal noOfCostCentreProdDays = 0;
     decimal _numOfProductionDays = 0;
     decimal numberOfDaysAddedTodelivery = 0;
     decimal ProductProductionTime = 0;
     var ThumnbString = "Thumb.png";
 
+    double _DiscountAmountTotal = 0;
 }
 @{
     Layout = null;
@@ -261,18 +262,32 @@
                                                 {
 
                                                     string itemPrice = string.Empty;
-                                                    double vatStateTaxPaid = prod.Qty1Tax1Value ?? 0;
-                                                    _vatTotal += vatStateTaxPaid;
-
+                                                    _vatTotal += prod.Qty1Tax1Value ?? 0;
+                                                     
                                                     //2.Set item Price Now
-
+                                                    double ItemActulVal = 0;
+                                                
                                                     _priceTotal += prod.Qty1BaseCharge1 ?? 0;
+                                                    _DiscountAmountTotal += prod.DiscountedAmount ?? 0;
 
+                                                    if (prod.DiscountedAmount != null)
+                                                    {
+                                                        ItemActulVal = prod.Qty1BaseCharge1 + prod.DiscountedAmount ?? 0;
+                                                    }
                                                     itemPrice = Utils.FormatDecimalValueToTwoDecimal((prod.Qty1BaseCharge1 ?? 0).ToString(), ViewBag.Currency);
-                                                    _grandTotal += prod.Qty1GrossTotal ?? 0;
-
+                                                  
                                                     <td class="PadTop5 priceth" align="right" style="width:20%; padding-right:0px;">
-                                                        <span id="lblItemPrice" class="fntQtyPrice" style="font-weight:bold;text-align: right !important;">@itemPrice</span>
+                                                        @if (prod.DiscountedVoucherId != null)
+                                                        {
+                                                            <span id="spnItemActualPrice" class="fntQtyPrice strikeThrough" style="font-weight:bold;text-align: right !important;">@Utils.FormatDecimalValueToTwoDecimal((ItemActulVal).ToString(), ViewBag.Currency)</span>
+                                                            <span id="lblItemPrice" class="fntQtyPrice" style="font-weight:bold;text-align: right !important;">@itemPrice</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span id="lblItemPrice" class="fntQtyPrice" style="font-weight:bold;text-align: right !important;">@itemPrice</span>
+                                                        }
+
+                                                        
                                                     </td>
                                                 }
 
@@ -294,54 +309,81 @@
                                     <div id="PnalTotalBox">
                                         <table border="0" cellpadding="3" cellspacing="0" width="100%" class="left_align">
                                             <tr>
-                                                <td width="30%">
+                                                <td class="OCnfmtd1">
                                                     &nbsp;
                                                 </td>
-                                                <td width="35%">
+                                                <td width="25%">
                                                     &nbsp;
                                                 </td>
-                                                <td width="20%" align="left" class="fontWeightNormal Fsize13" id="td1" style="text-align:right;">
+                                                <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td1" style="text-align:right;">
                                                     <span id="spnsubtotal" class="CartFonts colorBlack">Sub Total:</span>
                                                 </td>
-                                                <td align="right" width="20%">
+                                                <td align="right" class="OCnfmtd4">
                                                     <label id="lblSubTotal" class="Fsize15 colorBlack">@subtotal</label>
                                                 </td>
                                             </tr>
+                                            @if (_DiscountAmountTotal > 0)
+                                            {
+                                                <tr>
+                                                    <td class="OCnfmtd1" align="left">
+                                                        &nbsp;
+                                                    </td>
+                                                    <td width="25%">
+                                                        &nbsp;
+                                                    </td>
+                                                    <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td2" style="text-align:right;">
+                                                        <span id="spndiscount" class="CartFonts clrRed">Discount:</span>
+                                                    </td>
+                                                    <td align="right"  class="OCnfmtd4">
+                                                        <label id="lbldiscount" class="Fsize15 clrRed">@Utils.FormatDecimalValueToTwoDecimal((_DiscountAmountTotal).ToString(), ViewBag.Currency)</label>
+                                                    </td>
+                                                </tr>
+                                            }
                                             <tr>
-                                                <td width="30%" align="left">
+                                                <td align="left" class="OCnfmtd1">
                                                     &nbsp;
                                                 </td>
-                                                <td width="35%">
+                                                <td width="25%">
                                                     &nbsp;
                                                 </td>
-                                                <td width="20%" align="left" class="fontWeightNormal Fsize13" id="td2" style="text-align:right;">
+                                                <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td2" style="text-align:right;">
                                                     <span id="spndelivery" class="CartFonts colorBlack">Delivery:</span>
                                                 </td>
-                                                <td align="right" width="20%">
-                                                    <label id="lblDeliveryCostCenter" class="Fsize15 colorBlack">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Model.DeliveryCost), ViewBag.Currency)</label>
+                                                <td align="right" class="OCnfmtd4">
+                                                    @if (Model.DeliveryDiscountVoucherID == null)
+                                                    {
+                                                        <label id="lblDeliveryCostCenter" class="Fsize15 colorBlack">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Model.DeliveryCost), ViewBag.Currency)</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="Fsize15 colorBlack  delivery-OCnfntext" id="lblCalculatedDelivery">Free Shipping</label>
+
+                                                        <label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label>
+                                                    }
+
                                                 </td>
                                             </tr>
                                             <tr id="Tr2">
-                                                <td width="30%" align="left"></td>
-                                                <td width="35%"></td>
-                                                <td width="20%" align="left" class="fontWeightNormal Fsize13" style="text-align:right;">
+                                                <td align="left" class="OCnfmtd1"></td>
+                                                <td width="25%"></td>
+                                                <td width="30%" align="left" class="fontWeightNormal Fsize13" style="text-align:right;">
                                                     <span id="lblTaxLabel" class="CartFonts colorBlack">@ViewBag.TaxLabel:</span>
                                                 </td>
-                                                <td align="right" width="20%">
+                                                <td align="right" class="OCnfmtd4">
                                                     <label id="lblVatTotal" class="Fsize15 colorBlack">@VatTotal</label>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td width="30%">
+                                                <td class="OCnfmtd1">
                                                     &nbsp;
                                                 </td>
-                                                <td width="35%">
+                                                <td width="25%">
                                                     &nbsp;
                                                 </td>
-                                                <td width="20%" align="left" class="fontWeightNormal Fsize13" id="td3" style="text-align:right;">
+                                                <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td3" style="text-align:right;">
                                                     <span class="CartFonts colorBlack" id="spngrandtotal">Total:</span>
                                                 </td>
-                                                <td align="right" width="20%">
+                                                <td align="right" class="OCnfmtd4">
                                                     <label class="CartFonts colorBlack Fsize15" id="lblGrandTotal">@Utils.FormatDecimalValueToTwoDecimal(GrossTotal.ToString(), ViewBag.Currency)</label>
                                                 </td>
                                             </tr>

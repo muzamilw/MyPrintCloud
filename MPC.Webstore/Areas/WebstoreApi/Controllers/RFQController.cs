@@ -124,11 +124,13 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                 }
             }
+
             NewInqury.CreatedDate = DateTime.Now;
             NewInqury.IsDirectInquiry = false;
             NewInqury.FlagId = null;
-            NewInqury.SourceId = 30;
-           // NewInqury.ContactId = 73473;
+            NewInqury.SourceId = (int)PipelineSource.WebtoPrintSite;
+            NewInqury.SystemUserId = StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value;
+           
             int iMaxFileSize = 2097152;
             long result = _ItemService.AddInquiryAndItems(NewInqury, FillItems(InquiryItemDeliveryDate1, InquiryItemDeliveryDate2, InquiryItemDeliveryDate3, InquiryItemTitle1, InquiryItemNotes1, InquiryItemTitle2, InquiryItemNotes2, InquiryItemTitle3, InquiryItemNotes3, Convert.ToInt32(hfNoOfRec)));
             long InquiryId = result;
@@ -185,10 +187,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             
             return Request.CreateResponse(HttpStatusCode.OK, true);
         }
-
-        
-
-        
         
       
         private void FillAttachments(long inquiryID)
@@ -196,7 +194,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             if (HttpContext.Current.Request != null)
             {
                 List<InquiryAttachment> listOfAttachment = new List<InquiryAttachment>();
-                string folderPath = "/mpc_content/Attachments/" + "/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/" + inquiryID + "";
+                string folderPath = "mpc_content/Attachments/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/" + inquiryID + "/";
                 string virtualFolderPth = string.Empty;
 
                 virtualFolderPth = HttpContext.Current.Server.MapPath(folderPath);
@@ -208,16 +206,14 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     //HttpPostedFile postedFile = HttpContext.Current.Request.Files[i];
                     HttpPostedFile postedFile = HttpContext.Current.Request.Files["UploadedFile" + i];
 
-                    string fileName = string.Format("{0}{1}", Guid.NewGuid().ToString(), Path.GetFileName(postedFile.FileName));
+                    string fileName = string.Format("{0}{1}", i, Path.GetFileName(postedFile.FileName));
 
                     InquiryAttachment inquiryAttachment = new InquiryAttachment();
-                    inquiryAttachment.OrignalFileName = Path.GetFileName(postedFile.FileName);
+                    inquiryAttachment.OrignalFileName = fileName;
                     inquiryAttachment.Extension = Path.GetExtension(postedFile.FileName);
-                    inquiryAttachment.AttachmentPath = "/" + folderPath + fileName;
+                    inquiryAttachment.AttachmentPath = "/" + folderPath; //+ fileName;
                     inquiryAttachment.InquiryId = Convert.ToInt32(inquiryID);
                     listOfAttachment.Add(inquiryAttachment);
-                    //Request.SaveAs(virtualFolderPth + fileName);
-                    // HttpContext.Current.Request.SaveAs(virtualFolderPth + fileName);
                     string filevirtualpath = virtualFolderPth + "/" + fileName;
                     postedFile.SaveAs(virtualFolderPth + "/" + fileName);
                 }
@@ -227,8 +223,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         }
         private Inquiry AddInquiry(Prefix prefix)
         {
-            // Get order prefix and update the order next number
-            //  tbl_prefixes prefix = PrefixManager.GetDefaultPrefix(context);
             Inquiry inquiry = new Inquiry();
 
             inquiry.InquiryCode = prefix.EnquiryPrefix + "-001-" + prefix.EnquiryNext.ToString();

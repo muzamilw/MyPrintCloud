@@ -104,7 +104,7 @@ namespace MPC.Repository.Repositories
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 return (from r in db.Items
-                        where r.EstimateId == OrderId && (r.ItemType == null || r.ItemType != (int)ItemTypes.Delivery)
+                        where r.EstimateId == OrderId && r.IsOrderedItem == true && (r.ItemType == null || r.ItemType != (int)ItemTypes.Delivery)
                         select r).ToList();
             }
             catch (Exception ex)
@@ -331,6 +331,7 @@ namespace MPC.Repository.Repositories
                 shopCart.DiscountVoucherID = (tblEstimate.DiscountVoucherID.HasValue && tblEstimate.DiscountVoucherID.Value > 0) ? tblEstimate.DiscountVoucherID.Value : 0;
                 shopCart.VoucherDiscountRate = (tblEstimate.VoucherDiscountRate.HasValue && tblEstimate.VoucherDiscountRate.Value > 0) ? tblEstimate.VoucherDiscountRate.Value : 0;
                 shopCart.DeliveryCostCenterID = (tblEstimate.DeliveryCostCenterId.HasValue && tblEstimate.DeliveryCostCenterId.Value > 0) ? tblEstimate.DeliveryCostCenterId.Value : 0;
+
                 // shopCart.DeliveryCost = (tblEstimate.DeliveryCost.HasValue && tblEstimate.DeliveryCost.Value > 0) ? tblEstimate.DeliveryCost.Value : 0;
                 //5. get delivery item 
                 Item DeliveryItemOfOrder = GetDeliveryOrderItem(tblEstimate.EstimateId);
@@ -338,6 +339,7 @@ namespace MPC.Repository.Repositories
                 {
                     shopCart.DeliveryTaxValue = DeliveryItemOfOrder.Qty1Tax1Value ?? 0;
                     shopCart.DeliveryCost = DeliveryItemOfOrder.Qty1NetTotal ?? 0;
+                    shopCart.DeliveryDiscountVoucherID = DeliveryItemOfOrder.DiscountVoucherID;
                 }
 
             }
@@ -1086,6 +1088,7 @@ namespace MPC.Repository.Repositories
                         userOrder.ProductsList = shopCart.CartItemsList;
                         userOrder.DeliveryCost = shopCart.DeliveryCost;
                         userOrder.DeliveryCostTaxValue = shopCart.DeliveryTaxValue;
+                        userOrder.DeliveryDiscountVoucherId = shopCart.DeliveryDiscountVoucherID;
                     }
 
                     userOrder.BillingAdress = db.Addesses.Include("State").Include("Country").Where(i => i.AddressId == Order.BillingAddressId).FirstOrDefault();
@@ -6973,6 +6976,11 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        public double? GetOrderTotalById(long OrderId)
+        {
+                return db.Estimates.Where(e => e.EstimateId == OrderId).Select(t => t.Estimate_Total).FirstOrDefault();
+        }
+
     }
 }
 

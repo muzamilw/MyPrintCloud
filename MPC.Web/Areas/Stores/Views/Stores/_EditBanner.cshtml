@@ -22,15 +22,13 @@
 
                                 <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromCompanyBanner">
                                     <span>Change Banner</span>
-                                    @*<input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: $root.MultipleImageFilesLoadedCallback, fileFilter: 'image.*'}" />*@
+                                    
 
                                 </div>
 
                             </div>
                             <div class="col-lg-11 ThoumbnailCostCenter" style="margin-top:10px !important;text-align:center;width:220px;">Banner Image.</div>
-                            @*<div class="profile-stars">
-                                    <span data-bind="value: type"></span>
-                                </div>*@
+                           
 
                         </div>
 
@@ -39,9 +37,7 @@
 
 
 
-                        @*<img style="min-height: 200px; width: 270px;" data-bind="attr: { src: fileBinary }" />*@
-                        @*<img height="200" width="270" data-bind="visible:imageSource()===undefined,attr: { src: '@Url.Content("~/")' + filePathWithCacheRemoveTechnique() }" />
-                            <img height="200" width="270" data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />*@
+                       
 
                     </div>
                     <div class="col-lg-1">
@@ -107,11 +103,13 @@
 
                 </div>
             </div>
-            <div class="modal-footer" style="padding-left:3px;padding-right:8px;">
+            <div class="modal-footer" style="padding-left:0px;padding-right:0px;">
                 <hr />
-                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveCompanyBanner, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
-                <button type="button" class="btn btn-default" data-bind="click:$root.onCloseCompanyBanner" style="margin-left: 0px;">Close</button>
-                <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteCompanyBanner, enable: $root.selectedCompanyBanner().id() != undefined">Archive</button>
+                <div style="padding-left:4px;padding-right:8px;">
+                    <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveCompanyBanner, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                    <button type="button" class="btn btn-default" data-bind="click:$root.onCloseCompanyBanner" style="margin-left: 0px;">Close</button>
+                    <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteCompanyBanner, enable: $root.selectedCompanyBanner().id() != undefined">Archive</button>
+                </div>
             </div>
         </div>
     </div>

@@ -12,6 +12,7 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        int GetSavedDesignCountByContactId(long ContactID);
         CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode);
         long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "");
         List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover);
@@ -231,5 +232,8 @@ namespace MPC.Interfaces.WebStoreServices
         List<CompanyContact> GetCompanyAdminByCompanyId(long CompanyId);
         CompanyContact GetCorporateContactByEmail(string Email, long OID, long StoreId);
         string OrderConfirmationPDF(long OrderId, long StoreId);
+        bool IsVoucherUsedByCustomer(long contactId, long companyId, long DiscountVoucherId);
+        double? GetOrderTotalById(long OrderId);
+        void AddReedem(long contactId, long companyId, long DiscountVoucherId);
     }
 }

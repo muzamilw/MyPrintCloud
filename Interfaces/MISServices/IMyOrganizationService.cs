@@ -46,6 +46,7 @@ namespace MPC.Interfaces.MISServices
 
         IEnumerable<Markup> GetMarkups();
         void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial, int misOrdersCount, int webStoreOrdersCount);
+        bool CanStoreMakeLive();
 
     }
 }

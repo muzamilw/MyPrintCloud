@@ -21,17 +21,17 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         private readonly ICompanyService _companyService;
         private readonly IItemService _ItemService;
         private readonly IOrderService _orderService;
+        private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
         #endregion
         #region Constructor
 
         public DiscountVoucherController(ICompanyService companyService, IItemService ItemService
-            , IOrderService orderService)
+            , IOrderService orderService, IWebstoreClaimsHelperService webstoreAuthorizationChecker)
         {
             this._companyService = companyService;
-           
-           
             this._ItemService = ItemService;
             this._orderService = orderService;
+            this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
         }
         #endregion
         [System.Web.Http.AcceptVerbs("GET", "POST")]
@@ -39,7 +39,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         public HttpResponseMessage ValidateDiscountVouchers(string DiscountVoucher, long StoreId, long OrderId, long OrganisationId)
         {
             List<string> messages = new List<string>();
-
+            
             if (!string.IsNullOrEmpty(DiscountVoucher))
             {
                 DiscountVoucher storeDiscountVoucher = _ItemService.GetDiscountVoucherByCouponCode(DiscountVoucher, StoreId, OrganisationId);
@@ -49,11 +49,42 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                 MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
-                string voucherErrorMesg = "";
-
                 if (storeDiscountVoucher != null)
                 {
-                    if (storeDiscountVoucher.CouponUseType == (int)CouponUseType.OneTimeUseCoupon)
+                    if (storeDiscountVoucher.CouponUseType == (int)CouponUseType.UnlimitedUse)
+                    {
+                        if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder)
+                        {
+                            _ItemService.ApplyDiscountOnDeliveryItemAlreadyAddedToCart(storeDiscountVoucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                        }
+                        else 
+                        {
+                            ApplyVoucher(storeDiscountVoucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), messages);
+                        }
+                        
+                    }
+                    else if (storeDiscountVoucher.CouponUseType == (int)CouponUseType.OneTimeUsePerCustomer)
+                    {
+                        if (_companyService.IsVoucherUsedByCustomer(_webstoreAuthorizationChecker.loginContactID(), _webstoreAuthorizationChecker.loginContactCompanyID(), storeDiscountVoucher.DiscountVoucherId))
+                        {
+                            if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder)
+                            {
+                                _ItemService.ApplyDiscountOnDeliveryItemAlreadyAddedToCart(storeDiscountVoucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                            }
+                            else
+                            {
+                                ApplyVoucher(storeDiscountVoucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), messages);
+                            }
+                            
+                            _companyService.AddReedem(_webstoreAuthorizationChecker.loginContactID(), _webstoreAuthorizationChecker.loginContactCompanyID(), storeDiscountVoucher.DiscountVoucherId);
+                        }
+                        else 
+                        {
+                            messages.Add("Error");
+                            messages.Add("The Coupon Code has already been redeemed.");
+                        }
+                    }
+                    else if (storeDiscountVoucher.CouponUseType == (int)CouponUseType.OneTimeUseCoupon)
                     {
                         if (storeDiscountVoucher.IsSingleUseRedeemed == true)
                         {
@@ -62,33 +93,26 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                         }
                         else
                         {
-                            voucherErrorMesg = _ItemService.ValidateDiscountVoucher(storeDiscountVoucher);
-                            if (voucherErrorMesg == "Success")
+                            if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder)
                             {
-                                if (_ItemService.ApplyDiscountOnCartProducts(storeDiscountVoucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate)))
-                                {
-                                    storeDiscountVoucher.IsSingleUseRedeemed = true;
-
-                                    _ItemService.SaveOrUpdateDiscountVoucher(storeDiscountVoucher);
-
-                                    messages.Add("Success");
-                                   
-                                }
-                                else
-                                {
-                                    messages.Add("Error");
-                                    messages.Add("This Voucher is not applicable on the product(s) in cart. Please try another one.");
-                                }
+                                _ItemService.ApplyDiscountOnDeliveryItemAlreadyAddedToCart(storeDiscountVoucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
                             }
                             else
                             {
-                                messages.Add("Error");
-                                messages.Add(voucherErrorMesg);
+                                ApplyVoucher(storeDiscountVoucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), messages);
+                            }
+                            
+
+                            if (messages[0] == "Success")
+                            {
+                                storeDiscountVoucher.IsSingleUseRedeemed = true;
+
+                                _ItemService.SaveOrUpdateDiscountVoucher(storeDiscountVoucher);
                             }
                         }
                     }
 
-                    if (messages[0] == "Success") 
+                    if (messages[0] == "Success" || messages[0] == "Free") 
                     {
                         Estimate order = _orderService.GetOrderByID(OrderId);
                         order.DiscountVoucherID = storeDiscountVoucher.DiscountVoucherId;
@@ -114,6 +138,47 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
 
             return Request.CreateResponse(HttpStatusCode.OK, messages);
+        }
+
+        void ApplyVoucher(DiscountVoucher storeDiscountVoucher, long OrderId, double StoreTaxRate, List<string> messages) 
+        {
+            string voucherDisplayMesg = "";
+            long FreeShippingVoucherId = 0;
+            voucherDisplayMesg = _ItemService.ValidateDiscountVoucher(storeDiscountVoucher);
+            if (voucherDisplayMesg == "Success")
+            {
+                if (_ItemService.ApplyDiscountOnCartProducts(storeDiscountVoucher, OrderId, StoreTaxRate, ref FreeShippingVoucherId, ref voucherDisplayMesg))
+                {
+                    messages.Add("Success");
+                }
+                else
+                {
+                    if (FreeShippingVoucherId > 0)
+                    {
+                        _ItemService.ApplyDiscountOnDeliveryItemAlreadyAddedToCart(storeDiscountVoucher, OrderId, StoreTaxRate);
+                        messages.Add("Free");
+                        messages.Add(FreeShippingVoucherId.ToString());
+                        UserCookieManager.FreeShippingVoucherId = FreeShippingVoucherId;
+                    }
+                    else 
+                    {
+                        messages.Add("Error");
+                        if (!string.IsNullOrEmpty(voucherDisplayMesg))
+                        {
+                            messages.Add(voucherDisplayMesg);
+                        }
+                        else 
+                        {
+                            messages.Add("This Voucher is not applicable on the product(s) in cart. Please try another one.");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                messages.Add("Error");
+                messages.Add(voucherDisplayMesg);
+            }
         }
     }
 }
