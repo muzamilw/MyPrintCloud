@@ -67,10 +67,12 @@
                     {
                         <div class="errorMesgLoginPage">
                             <div>@ViewBag.Message</div>
-                            <div>@Html.ValidationMessageFor(u => u.Email, string.Empty, new { @style = "color:red;" })</div>
-                            <div>@Html.ValidationMessageFor(u => u.FirstName, string.Empty, new { @style = "color:red" })</div>
-                            <div>@Html.ValidationMessageFor(u => u.LastName, string.Empty, new { @style = "color:red" })</div>
-                            <div>@Html.ValidationMessageFor(u => u.Phone, string.Empty, new { @style = "color:red" })</div>
+                            
+                                <div>@Html.ValidationMessageFor(u => u.Email, string.Empty, new { @style = "color:red;" })</div>
+                                <div>@Html.ValidationMessageFor(u => u.FirstName, string.Empty, new { @style = "color:red" })</div>
+                                <div>@Html.ValidationMessageFor(u => u.LastName, string.Empty, new { @style = "color:red" })</div>
+                                <div>@Html.ValidationMessageFor(u => u.Phone, string.Empty, new { @style = "color:red" })</div>
+                            
                         </div>
                         <br />
 
