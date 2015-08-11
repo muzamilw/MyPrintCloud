@@ -240,6 +240,113 @@ div#spinner {
   margin-top: 10px !important;
   margin-bottom: 10px !important;
 }
+
+/*Custom ON OFF Switch for Store Live*/
+
+
+.onoffswitchlive {
+    position: relative;
+    width: 120px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    margin-right: 20px;
+}
+
+.onoffswitchlive-checkbox {
+    display: none;
+}
+
+.onoffswitchlive-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid #999999;
+    border-radius: 20px;
+}
+
+.onoffswitchlive-inner {
+    width: 200%;
+    margin-left: -100%;
+    -moz-transition: margin 0.3s ease-in 0s;
+    -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s;
+    transition: margin 0.3s ease-in 0s;
+}
+
+    .onoffswitchlive-inner:before, .onoffswitchlive-inner:after {
+        float: left;
+        width: 50%;
+        height: 40px;
+        padding: 0;
+        line-height: 30px;
+        font-size: 14px;
+        color: white;
+        font-family: Trebuchet,Arial,sans-serif;
+        font-weight: bold;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        padding-top: 5px;
+    }
+
+    .onoffswitchlive-inner:before {
+        content: "LIVE";
+        padding-left: 10px;
+        background-color: #2ecc71;
+        color: #FFFFFF;
+    }
+
+.onoffswitchlive.onoffswitchlive-success .onoffswitchlive-inner:before {
+    background-color: #2ecc71;
+}
+
+.onoffswitchlive.onoffswitchlive-danger .onoffswitchlive-inner:before {
+    background-color: #e74c3c;
+}
+
+.onoffswitchlive.onoffswitchlive-warning .onoffswitchlive-inner:before {
+    background-color: #f1c40f;
+}
+
+.onoffswitchlive-inner:after {
+    content: "OFFLINE";
+    padding-right: 10px;
+    background-color: #f1c40f;
+    color: #FFFFFF;
+    text-align: right;
+}
+
+.onoffswitchlive-switch {
+    width: 26px;
+    margin: 7px;
+    background: #FFFFFF;
+    border: 1px solid #999999;
+    border-radius: 20px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 80px;
+    -moz-transition: all 0.3s ease-in 0s;
+    -webkit-transition: all 0.3s ease-in 0s;
+    -o-transition: all 0.3s ease-in 0s;
+    transition: all 0.3s ease-in 0s;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.onoffswitchlive-checkbox:checked + .onoffswitchlive-label .onoffswitchlive-inner {
+    margin-left: 0;
+}
+
+.onoffswitchlive-checkbox:checked + .onoffswitchlive-label .onoffswitchlive-switch {
+    right: 0px;
+}
+
+/*Custom ON OFF Flag CSS ends */
+
 /* For Cost Centre Input Dialog */
 
 /* Common Styles */

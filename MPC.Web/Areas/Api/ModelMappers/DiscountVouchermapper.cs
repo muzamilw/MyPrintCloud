@@ -2,6 +2,8 @@
 using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
+using System.Collections.Generic;
+
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -69,7 +71,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MinRequiredQty = source.MinRequiredQty,
                 ValidFromDate = source.ValidFromDate,
                 ValidUptoDate = source.ValidUptoDate,
-                CompanyId = source.CompanyId
+                CompanyId = source.CompanyId,
+                IsEnabled = source.IsEnabled,
+                ProductCategoryVouchers = source.ProductCategoryVouchers != null ? source.ProductCategoryVouchers.Select(pci => pci.CreateFrom()).ToList() :
+              new List<DomainModels.ProductCategoryVoucher>(),
             };
         }
         /// <summary>
@@ -98,7 +103,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MinRequiredQty = source.MinRequiredQty,
                 ValidFromDate = source.ValidFromDate,
                 ValidUptoDate = source.ValidUptoDate,
-                CompanyId = source.CompanyId
+                CompanyId = source.CompanyId,
+                IsEnabled = source.IsEnabled,
+                ProductCategoryVouchers = source.ProductCategoryVouchers != null ? source.ProductCategoryVouchers.Select(pci => pci.CreateFrom()) : new List<ProductCategoryVoucher>(),
             };
         }
         #endregion
