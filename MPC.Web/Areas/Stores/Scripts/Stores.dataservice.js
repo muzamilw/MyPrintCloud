@@ -893,7 +893,7 @@
                     data: params
                 });
        },
-       },
+       
         // save Store
         saveStore = function (param, callbacks) {
             initialize();
