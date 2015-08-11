@@ -128,8 +128,15 @@ namespace MPC.Webstore.Controllers
 
                     if (domainResponse == null)
                     {
-                        TempData["ErrorMessage"] = "There is some problem while performing the operation. Please enter valid url to proceed.";
-                        return RedirectToAction("Error");
+                        if (UserCookieManager.WBStoreId > 0)
+                        {
+                            _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId);
+                        }
+                        else 
+                        {
+                            TempData["ErrorMessage"] = "There is some problem while performing the operation. Please enter valid url to proceed.";
+                            return RedirectToAction("Error");
+                        }
                     }
                     else 
                     {

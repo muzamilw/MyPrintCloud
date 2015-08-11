@@ -57,11 +57,14 @@
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr id="storesList">
-                                        <th class="col-lg-1"></th>
-                                        <th class="col-lg-3"><span>All Stores</span></th>
-                                        <th class="col-lg-3"><span>Type</span></th>
-                                        <th class="col-lg-3"><span>Status</span></th>
-                                        <th class="col-lg-2">&nbsp;</th>
+                                        <th class="col-sm-1">&nbsp;</th>
+                                        <th class="col-sm-3"><span>All Stores</span></th>
+                                        <th class="col-sm-2"><span>Type</span></th>
+                                        <th class="col-sm-2"><span>Status</span></th>
+                                        <th class="col-sm-2"></th>
+                                        <th class="col-sm-2"></th>
+
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -119,13 +122,11 @@
                 <td>
                     <span class="label" data-bind="text: storeMode() , css: { 'label-success':  storeMode() === 'Live', 'label-warning' : storeMode() === 'Offline' }">Offline</span>                    
                 </td>
+                <td>&nbsp;</td>
                 <td>
                     <a class="btn btn-success" data-bind="text: 'Preview Web Store', attr: {href: domain }, click: function(){$root.openDomainInTab($data, event);}" target="_new"></a>
                 </td>
-                @*<td id="actionColumn">
-                        <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                        <!-- /ko -->
-                    </td>*@
+                
             </tr>
         </script>
         @* Filter Template *@

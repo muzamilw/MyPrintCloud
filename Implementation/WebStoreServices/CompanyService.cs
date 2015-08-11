@@ -47,6 +47,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly INewsLetterSubscriberRepository _newsLetterSubscriberRepository;
         private readonly IRaveReviewRepository _raveReviewRepository;
         private readonly IOrderRepository _orderrepository;
+        private readonly ICompanyVoucherRedeemRepository _companyVoucherReedemRepository;
         private string pageTitle = string.Empty;
         private string MetaKeywords = string.Empty;
         private string MetaDEsc = string.Empty;
@@ -63,7 +64,8 @@ namespace MPC.Implementation.WebStoreServices
             IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository, ICurrencyRepository currencyRepository
             , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository, IItemRepository itemRepository, IAddressRepository addressRepository, IMarkupRepository markuprepository
             , ICountryRepository countryRepository, IStateRepository stateRepository, IFavoriteDesignRepository favoriteRepository, IStateRepository StateRepository, ICompanyTerritoryRepository CompanyTerritoryRepository
-            , INewsLetterSubscriberRepository newsLetterSubscriberRepository, IRaveReviewRepository raveReviewRepository, IOrderRepository _orderrepository)
+            , INewsLetterSubscriberRepository newsLetterSubscriberRepository, IRaveReviewRepository raveReviewRepository, IOrderRepository _orderrepository
+            , ICompanyVoucherRedeemRepository companyVoucherReedemRepository)
         {
             this._CompanyRepository = companyRepository;
             this._widgetRepository = widgetRepository;
@@ -86,6 +88,7 @@ namespace MPC.Implementation.WebStoreServices
             this._newsLetterSubscriberRepository = newsLetterSubscriberRepository;
             this._raveReviewRepository = raveReviewRepository;
             this._orderrepository = _orderrepository;
+            this._companyVoucherReedemRepository = companyVoucherReedemRepository;
         }
 
         #endregion
@@ -876,6 +879,7 @@ namespace MPC.Implementation.WebStoreServices
         /// <returns></returns>
         public int GetAllPendingOrders(long CompanyId, OrderStatus statusId)
         {
+
             try
             {
                 return _CompanyContactRepository.GetAllPendingOrders(CompanyId, statusId);
@@ -1517,6 +1521,39 @@ namespace MPC.Implementation.WebStoreServices
                 throw e;
                 return null;
             }
+        }
+
+        public int GetSavedDesignCountByContactId(long ContactID)
+        {
+            return _itemRepository.GetSavedDesignCountByContactId(ContactID);
+        }
+        public double? GetOrderTotalById(long OrderId)
+        {
+            return _orderrepository.GetOrderTotalById(OrderId);
+            }
+        public bool IsVoucherUsedByCustomer(long contactId, long companyId, long DiscountVoucherId)
+        {
+            try
+            {
+                return _companyVoucherReedemRepository.IsVoucherUsedByCustomer(contactId, companyId, DiscountVoucherId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public void AddReedem(long contactId, long companyId, long DiscountVoucherId)
+        {
+            try
+            {
+                _companyVoucherReedemRepository.AddReedem(contactId, companyId, DiscountVoucherId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
     }
 }

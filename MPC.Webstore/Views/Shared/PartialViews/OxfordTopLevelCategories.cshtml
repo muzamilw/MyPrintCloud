@@ -88,7 +88,7 @@
                                         <div class="product-desc" itemprop="description">
                                             <p id="productDesc">@seabluectg.Description1</p>
                                         </div>
-                                        <p class="text-center"><a id="prductlinkUrl" href="../en/standard-business-cards/index.htm" class='btn btn-info' itemprop="url">View details <i class="fa fa-angle-double-right"></i></a></p>
+                                        <p class="text-center"><a id="prductlinkUrl" href="/Category/@Html.ResolveString(seabluectg.CategoryName)/@seabluectg.ProductCategoryId" class='btn btn-info' itemprop="url">View details <i class="fa fa-angle-double-right"></i></a></p>
                                     </div>
                                 </div>
                             }
@@ -222,7 +222,6 @@
             data: JSON.stringify(data),
             async: true,
             success: function (response) {
-               
                 $("#errorMsg").text(response.ErrorMessage);
             }
         });

@@ -2424,6 +2424,9 @@ namespace MPC.Implementation.MISServices
             // Get Updated Minimum Price
             target.MinPrice = itemRepository.GetMinimumProductValue(target.ItemId);
 
+            // convert template length to system unit 
+            ConvertTemplateLengthToSystemUnit(target);
+
             // Return Product
             return target;
         }

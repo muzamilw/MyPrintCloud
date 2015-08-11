@@ -34,7 +34,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage AddDelivery(long DeliveryMethodId)
+        public HttpResponseMessage AddDelivery(long DeliveryMethodId, long FreeShippingVoucherId)
         {
             List<string> messages = new List<string>();
 
@@ -111,12 +111,12 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                         {
                             if (_ItemService.RemoveListOfDeliveryItemCostCenter(Convert.ToInt32(UserCookieManager.WEBOrderId)))
                             {
-                                AddNewDeliveryCostCentreToItem(SelecteddeliveryCostCenter, CostOfDelivery, StoreBaseResopnse.Company);
+                                AddNewDeliveryCostCentreToItem(SelecteddeliveryCostCenter, CostOfDelivery, StoreBaseResopnse.Company, FreeShippingVoucherId, StoreBaseResopnse.Organisation);
                             }
                         }
                         else
                         {
-                            AddNewDeliveryCostCentreToItem(SelecteddeliveryCostCenter, CostOfDelivery, StoreBaseResopnse.Company);
+                            AddNewDeliveryCostCentreToItem(SelecteddeliveryCostCenter, CostOfDelivery, StoreBaseResopnse.Company, FreeShippingVoucherId, StoreBaseResopnse.Organisation);
                         }
                     }
 
@@ -129,7 +129,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, messages);
         }
 
-        private void AddNewDeliveryCostCentreToItem(CostCentre SelecteddeliveryCostCenter, double costOfDelivery, Company baseResponse)
+        private void AddNewDeliveryCostCentreToItem(CostCentre SelecteddeliveryCostCenter, double costOfDelivery, Company company, long FreeShippingVoucherId, Organisation organisation)
         {
 
 
@@ -140,13 +140,13 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 {
                     if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
-                        _ItemService.AddUpdateItemFordeliveryCostCenter(UserCookieManager.WEBOrderId, SelecteddeliveryCostCenter.CostCentreId, costOfDelivery, baseResponse.CompanyId, SelecteddeliveryCostCenter.Name, StoreMode.Corp, baseResponse.IsDeliveryTaxAble ?? false, baseResponse.isCalculateTaxByService ?? false, GetServiceTAX, baseResponse.TaxRate ?? 0);
+                        _ItemService.AddUpdateItemFordeliveryCostCenter(UserCookieManager.WEBOrderId, SelecteddeliveryCostCenter.CostCentreId, costOfDelivery, company.CompanyId, SelecteddeliveryCostCenter.Name, StoreMode.Corp, company.IsDeliveryTaxAble ?? false, company.isCalculateTaxByService ?? false, GetServiceTAX, company.TaxRate ?? 0, FreeShippingVoucherId, organisation);
 
 
                     }
                     else
                     {
-                        _ItemService.AddUpdateItemFordeliveryCostCenter(UserCookieManager.WEBOrderId, SelecteddeliveryCostCenter.CostCentreId, costOfDelivery, baseResponse.CompanyId, SelecteddeliveryCostCenter.Name, StoreMode.Corp, baseResponse.IsDeliveryTaxAble ?? false, baseResponse.isCalculateTaxByService ?? false, GetServiceTAX, baseResponse.TaxRate ?? 0);
+                        _ItemService.AddUpdateItemFordeliveryCostCenter(UserCookieManager.WEBOrderId, SelecteddeliveryCostCenter.CostCentreId, costOfDelivery, company.CompanyId, SelecteddeliveryCostCenter.Name, StoreMode.Corp, company.IsDeliveryTaxAble ?? false, company.isCalculateTaxByService ?? false, GetServiceTAX, company.TaxRate ?? 0, FreeShippingVoucherId, organisation);
                     }
 
                 }

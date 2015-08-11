@@ -2276,3 +2276,9 @@ $('#BtnReload').click(function (event) {
     redoArry = [];
     pcl44_rLoad();
 });
+$(".mainLeftMenu li").click(function (event) {
+    $(".multiBackCarouselContainer").css("display", "none");
+});
+$("#btnDeleteGroupObjs").click(function (event) {
+    pcL03();
+});
