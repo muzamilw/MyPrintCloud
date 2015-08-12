@@ -21,11 +21,11 @@ namespace MPC.Interfaces.Repository
         DiscountVoucher GetDiscountVoucherByCouponCode(string DiscountVoucherName, long StoreId, long OrganisationId);
 
         long IsStoreHaveFreeShippingDiscountVoucher(long StoreId, long OrganisationId);
-        DiscountVoucher AddCategoryVoucher(DiscountVoucher discountVoucher);
+        DiscountVoucher UpdateVoucher(DiscountVoucher discountVoucher);
 
         DiscountVoucher GetDiscountVoucherByVoucherId(long DVId);
 
-
+        DiscountVoucher CreateDiscountVoucher(DiscountVoucher discountVoucher);
       
     }
 }

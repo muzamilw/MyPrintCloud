@@ -586,7 +586,7 @@ namespace MPC.Repository.Repositories
                     }
                     db.SaveChanges();
 
-                    foreach(TemplateObject obj in listObjects)
+                    foreach (TemplateObject obj in listObjects.Where(g => g.ProductPageId != null))
                     {
                         db.TemplateObjects.Add(obj);
                     }

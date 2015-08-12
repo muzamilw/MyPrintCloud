@@ -17545,7 +17545,6 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
       {
           var xml = this.ImageClippedInfo;
           var parser, xmlDoc;
-
           if (window.DOMParser) {
               parser = new DOMParser();
               xmlDoc = parser.parseFromString(xml, "text/xml");
@@ -17556,20 +17555,24 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
               xmlDoc.async = false;
               xmlDoc.loadXML(xml);
           }
+
           var sx = parseFloat(xmlDoc.getElementsByTagName("sx")[0].childNodes[0].nodeValue);
           var sy = parseFloat(xmlDoc.getElementsByTagName("sy")[0].childNodes[0].nodeValue);
           var swidth = parseFloat(xmlDoc.getElementsByTagName("swidth")[0].childNodes[0].nodeValue);
           var sheight = parseFloat(xmlDoc.getElementsByTagName("sheight")[0].childNodes[0].nodeValue);
+          var dWidth = parseFloat(imageMargins.width);
+          var dHeight = parseFloat(imageMargins.height);
+          var dx = x + imageMargins.marginX;
+          var dy = y + imageMargins.marginY;
 
-          // for firefox fix
-          if (swidth > imageMargins.width) swidth = imageMargins.width;
-          if (sheight > imageMargins.height) sheight = imageMargins.height;
+          if (swidth > dWidth) swidth = dWidth;
+          if (sheight > dHeight) sheight = dHeight;
 
           elementToDraw && ctx.drawImage(elementToDraw,sx, sy, swidth, sheight,
-                                   x + imageMargins.marginX,
-                                   y + imageMargins.marginY,
-                                   imageMargins.width,
-                                   imageMargins.height
+                                  dx,
+                                  dy,
+                                  dWidth,
+                                  dHeight
                                   );
           // this._element, sx, sy, swidth, sheight, -this.width / 2, -this.height / 2, this.width, this.height);
           //this._element, -this.width / 2, -this.height / 2, this.width,          this.height

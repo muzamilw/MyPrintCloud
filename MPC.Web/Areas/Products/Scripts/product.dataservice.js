@@ -100,6 +100,12 @@ define("product/product.dataservice", function () {
                         type: 'GET'
                     });
                     
+                    // Define request to get product
+                    amplify.request.define('getProducts', 'ajax', {
+                        url: ist.siteUrl + '/Api/ItemsForDiscountVoucher',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to delete Item
                     amplify.request.define('deleteItem', 'ajax', {
                         url: ist.siteUrl + '/Api/DeleteItem',
@@ -225,6 +231,16 @@ define("product/product.dataservice", function () {
                     data: params
                 });
             },
+             // get Products
+            getProducts = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getProducts',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
              // get ProductCategories
         
             // get ProductCategory Childs
@@ -280,6 +296,7 @@ define("product/product.dataservice", function () {
             getMachines: getMachines,
             cloneItem: cloneItem,
             getProductCategories: getProductCategories,
+            getProducts: getProducts,
             deleteItem: deleteItem,
             getPtvCalculation: getPtvCalculation,
             getPtv: getPtv
