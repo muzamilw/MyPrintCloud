@@ -402,7 +402,7 @@
                         {
                             if (item.DiscountedVoucherId != null)
                             {
-                                <span id="spnItemActualPrice" class="strikeThrough" style="font-weight:bold;text-align: right !important;">@Utils.FormatDecimalValueToTwoDecimal((ItemActulVal).ToString(), ViewBag.Currency)</span>
+                                <span id="spnItemActualPrice" style="text-decoration: line-through;  color: red;font-weight:bold;text-align: right !important;">@Utils.FormatDecimalValueToTwoDecimal((ItemActulVal).ToString(), ViewBag.Currency)</span>
 
                                 <span id="MainContent_grdViewShopCart_lblItemPrice_0">@Utils.FormatDecimalValueToTwoDecimal(item.Qty1BaseCharge1.ToString(), ViewBag.Currency)</span>
                             }

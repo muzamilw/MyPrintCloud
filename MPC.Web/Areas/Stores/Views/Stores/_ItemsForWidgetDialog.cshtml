@@ -47,16 +47,9 @@
                         <div class="main-box-body clearfix">
                             <div class="table-responsive" style="border:groove;border-width:1px;margin-right:10px;height: 300px; overflow-y: auto">
                                 <table class="table table-striped table-hover">
-                                    @*<thead>
-                                            <tr>
-                                                <th><a href="#"><span>Stock Name</span></a></th>
-                                                <th><a href="#"><span>Category</span></a></th>
-                                                <th><a href="#" class="asc"><span>Location</span></a></th>
-                                                <th>Weight</th>
-                                            </tr>
-                                        </thead>*@
+                                    
 
-                                    <tbody>
+                                    <tbody style="cursor:pointer;">
                                         <!-- ko template: { name: 'itemsForSelectedOffer' , foreach: $root.selectedItemsForOfferList} -->
                                         <!-- /ko -->
                                     </tbody>
@@ -68,7 +61,7 @@
             </div>
 
             <div class="modal-footer" style="padding-left:0px;padding-right:0px;">
-                <hr />
+                <hr style="margin-bottom:15px;" />
                 <div style="padding-right:8px;">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
                 </div>
