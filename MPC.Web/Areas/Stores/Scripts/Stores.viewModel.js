@@ -1580,7 +1580,7 @@ define("stores/stores.viewModel",
                     
                     validateStoreLiveHandler = function () {
                         var isLive = selectedStore().isStoreSetLive();
-                        if (isLive == 'true' || isLive == true && storeDbStatus() == false) {
+                        if (isLive == 'true' || isLive == true && (storeDbStatus() == false || storeDbStatus() == null)) {
                             dataservice.validateLiveStoresCount({
                                 success: function (data) {
                                     if (data != null) {
