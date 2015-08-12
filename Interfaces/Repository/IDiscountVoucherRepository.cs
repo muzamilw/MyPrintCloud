@@ -25,7 +25,7 @@ namespace MPC.Interfaces.Repository
 
         DiscountVoucher GetDiscountVoucherByVoucherId(long DVId);
 
-
+        DiscountVoucher CreateDiscountVoucher(DiscountVoucher discountVoucher);
       
     }
 }

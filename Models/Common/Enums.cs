@@ -545,4 +545,12 @@ namespace MPC.Models.Common
         ApplyVoucherOnDeliveryItem = -3,
         
     }
+    public enum DiscountVocherMessages
+    {
+        BetterVoucherApplied = -10,
+        MinOrderTotal = -9,
+        MaxOrderTotal = -8,
+        MinQtyProduct = -7,
+        MaxQtyProduct = -6
+    }
 }

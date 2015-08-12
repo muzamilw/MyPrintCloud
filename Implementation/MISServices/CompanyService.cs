@@ -3645,10 +3645,8 @@ namespace MPC.Implementation.MISServices
         }
         private DiscountVoucher AddDiscountVoucher(DiscountVoucher discountVoucher)
         {
-            discountVoucher.VoucherCode = Guid.NewGuid().ToString();
-            discountVoucherRepository.Add(discountVoucher);
-            discountVoucherRepository.SaveChanges();
-            return discountVoucher;
+            DiscountVoucher DV = discountVoucherRepository.CreateDiscountVoucher(discountVoucher);
+            return DV;
         }
 
         private DiscountVoucher UpdateDiscountVoucher(DiscountVoucher discountVoucher)
