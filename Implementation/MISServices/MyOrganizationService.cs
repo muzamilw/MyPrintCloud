@@ -700,6 +700,18 @@ namespace MPC.Implementation.MISServices
             }
         }
 
+        public bool CanStoreMakeLive()
+        {
+            var livestores = _companyRepository.GetLiveStoresCount(organisationRepository.OrganisationId);
+            var org = organisationRepository.GetOrganizatiobByID();
+
+            if (livestores < org.LiveStoresCount)
+                return true;
+            else
+                return false;
+            
+        }
+
 
         #endregion
 

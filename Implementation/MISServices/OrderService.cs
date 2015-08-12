@@ -822,12 +822,17 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public OrderBaseResponseForCompany GetBaseDataForCompany(long companyId, long storeId)
         {
+            bool isStoreLive = companyRepository.IsStoreLive(storeId);
+            bool isOrgTrial = organisationRepository.GetOrganizatiobByID().isTrial ?? false;
+            bool isValid = isOrgTrial ? true : isStoreLive ? true : false;
+
             return new OrderBaseResponseForCompany
                 {
                     CompanyContacts = companyContactRepository.GetCompanyContactsByCompanyId(companyId),
                     CompanyAddresses = addressRepository.GetAddressByCompanyID(companyId),
                     TaxRate = companyRepository.GetTaxRateByStoreId(storeId),
-                    JobManagerId = companyRepository.GetStoreJobManagerId(storeId)
+                    JobManagerId = companyRepository.GetStoreJobManagerId(storeId),
+                    IsStoreLive = isValid
                 };
         }
         /// <summary>

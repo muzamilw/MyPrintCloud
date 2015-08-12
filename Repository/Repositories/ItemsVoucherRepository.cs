@@ -46,6 +46,18 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        public bool isVoucherAppliedOnListOfCartProduct(long VoucherId, List<int?> ItemIds)
+        {
+            List<ItemsVoucher> vItem = db.ItemsVouchers.Where(v => ItemIds.Contains((int)v.ItemId) && v.VoucherId == VoucherId).ToList();
+            if (vItem != null && vItem.Count() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         #endregion
     }
 }

@@ -59,6 +59,10 @@ define("common/confirmation.viewModel",
                         isLoading(true);
                         view.showWarningPopup();
                     },
+                    showUpgradePopup = function () {
+                        isLoading(true);
+                        view.showUpgradePopup();
+                    },
 
                     // Hide the dialog
                     hideWarningPopup = function () {
@@ -92,7 +96,7 @@ define("common/confirmation.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         ko.applyBindings(view.viewModel, view.bindingRootq);
-                        
+                        ko.applyBindings(view.viewModel, view.bindingRootupgrade);
                     };
 
                 return {
@@ -112,7 +116,8 @@ define("common/confirmation.viewModel",
                     messageText: messageText,
                     hide: hide,
                     showWarningPopup: showWarningPopup,
-                    hideWarningPopup: hideWarningPopup
+                    hideWarningPopup: hideWarningPopup,
+                    showUpgradePopup: showUpgradePopup
                 };
             })()
         };

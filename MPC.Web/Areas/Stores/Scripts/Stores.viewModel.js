@@ -41,7 +41,7 @@ define("stores/stores.viewModel",
                     isLoadingStores = ko.observable(false),
                     //Is Editorial View Visible
                     isEditorVisible = ko.observable(false),
-
+                    storeDbStatus = ko.observable(),
                     // widget section header title
                     productsFilterHeading = ko.observable(),
 
@@ -1577,6 +1577,38 @@ define("stores/stores.viewModel",
                         });
                     },
                     //#endregion 
+                    
+                    validateStoreLiveHandler = function () {
+                        var isLive = selectedStore().isStoreSetLive();
+                        if (isLive == 'true' || isLive == true && (storeDbStatus() == false || storeDbStatus() == null)) {
+                            dataservice.validateLiveStoresCount({
+                                success: function (data) {
+                                    if (data != null) {
+                                        if (data == 'true' || data == true)
+                                            selectedStore().isStoreSetLive(true);
+                                        else {
+                                            selectedStore().isStoreSetLive(false);
+                                            showLicenseUpgradeDialog();
+                                        }
+                                    } else {
+                                        selectedStore().isStoreSetLive(false);
+                                        showLicenseUpgradeDialog();
+                                    }
+                                },
+                                error: function (response) {
+                                    toastr.error("Failed to load Licensing . Error: ");
+                                }
+                            });
+                        }
+                        return true;
+                    },
+                    showLicenseUpgradeDialog = function() {
+                        confirmation.afterProceed(function () {
+                            var uri = encodeURI("https://myprintcloud.com/dashboard");
+                            window.location.href = uri;
+                        });
+                        confirmation.showUpgradePopup();
+                    },
 
                     //#region _________EMAIL ______________________________________
                     selectedEmail = ko.observable(),
@@ -4619,6 +4651,7 @@ define("stores/stores.viewModel",
                                         selectedStore().activeBannerSetId(data.Company.ActiveBannerSetId);
                                         selectedStore().currentThemeId(data.Company.CurrentThemeId);
                                         selectedTheme(data.Company.CurrentThemeId);
+                                        storeDbStatus(selectedStore().isStoreSetLive());
                                     }
 
                                     if (data.SecondaryPageResponse) {
@@ -6497,7 +6530,7 @@ define("stores/stores.viewModel",
                                 toastr.error("Error: Failed To load Discount Voucher " + response, "", ist.toastrOptions);
                             }
                         });
-                        openDiscountVoucherDetailDialog();
+                        //openDiscountVoucherDetailDialog();
                     },
                     //Pager
 
@@ -6544,6 +6577,10 @@ define("stores/stores.viewModel",
                     });
                 },
 
+
+
+
+
                 // open Product Category Dialog
                     openProductCategoryDialog = function () {
                         getProductCategories(selectedStore().companyId(), function () {
@@ -6551,6 +6588,12 @@ define("stores/stores.viewModel",
                             view.showProductCategoryDialog();
                         });
                     },
+                    openProductsDialog = function () {
+                        getProductCategories(selectedStore().companyId(), function () {
+                            initializeProductCategoryDialog();
+                            view.showProductCategoryDialog();
+                        });
+                    }
                     // open Product Category Dialog
                     closeProductCategoryDialog = function () {
                         view.hideProductCategoryDialog();
@@ -6560,7 +6603,7 @@ define("stores/stores.viewModel",
                         // Set Product Category true/false for popup
                         productCategories.each(function (productCategory) {
                             var productCategoryItem = selectedDiscountVoucher().productCategoryVouchers.find(function (pci) {
-                                return pci.productCategoryId === productCategory.id;
+                                return pci.categoryId() === productCategory.id;
                             });
 
                             if (productCategoryItem) {
@@ -6595,6 +6638,10 @@ define("stores/stores.viewModel",
                             }
                         });
                     },
+
+               
+
+                
                     //changeIcon = function (event) {
                     //    if (event.target.classList.contains("fa-chevron-circle-right")) {
                     //        // ReSharper disable Html.TagNotResolved
@@ -6627,14 +6674,14 @@ define("stores/stores.viewModel",
                             success: function (data) {
                                 if (data.ProductCategories != null) {
                                     // Update Product Category Items
-                                    //selectedProduct().updateProductCategoryItems(productCategories());
+                                    selectedDiscountVoucher().updateProductCategoryVoucher(productCategories());
 
                                     _.each(data.ProductCategories, function (productCategory) {
                                         productCategory.ParentCategoryId = id;
                                         var category = model.ProductCategoryForDialog.Create(productCategory);
                                         if (selectedDiscountVoucher()) {
                                             var productCategoryItem = selectedDiscountVoucher().productCategoryVouchers.find(function (pCatItem) {
-                                                return pCatItem.productCategoryId === category.id;
+                                                return pCatItem.categoryId() === category.id;
                                             });
 
                                             if (productCategoryItem) {
@@ -6655,9 +6702,14 @@ define("stores/stores.viewModel",
                     },
                     // Update Product Categories to Selected Product
                     updateProductCategories = function () {
-                        selectedProduct().updateProductCategoryItems(productCategories());
+                        selectedProduct().updateProductCategoryVoucher(productCategories());
                         view.hideProductCategoryDialog();
                     },
+                    updateProductCategoriesDV = function () {
+
+                        selectedDiscountVoucher().updateProductCategoryVoucher(productCategories());
+                        view.hideProductCategoryDialog();
+                    }
                     // update Checked state for category
                     updateCheckedStateForCategory = function (data, event) {
                         var categoryId = view.getCategoryIdFromElement(event);
@@ -6753,6 +6805,58 @@ define("stores/stores.viewModel",
                                         }
                                     }
                                     });
+                            }
+
+                            // Update Un-Selected
+                            if (unselectedCategories.length > 0) {
+                                _.each(unselectedCategories, function (productCategory) {
+                                    var productCategoryItemObj = productCategoryItems.find(function (productCategoryItem) {
+                                        return productCategoryItem.categoryId() === productCategory.id;
+                                    });
+
+                                    // Exists Already
+                                    if (productCategoryItemObj) {
+                                        if (!productCategoryItemObj.id()) { // If New Product Category Item
+                                            productCategoryItems.remove(productCategoryItemObj);
+                                        }
+                                        else {
+                                            // set it to false
+                                            productCategoryItemObj.isSelected(false);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    },
+
+                // Update Product Category Items for DV
+                    updateProductCategoryItemsDV = function (productCategories) {
+                        if (productCategories || productCategories.length > 0) {
+                            // Add Selected to Product Category Item List
+                            var selectedCategories = _.filter(productCategories, function (productCategory) {
+                                return productCategory.isSelected();
+                            });
+
+                            // Update UnSelected to Product Category Item List
+                            var unselectedCategories = _.filter(productCategories, function (productCategory) {
+                                return !productCategory.isSelected();
+                            });
+
+                            // Add Selected
+                            if (selectedCategories.length > 0) {
+                                _.each(selectedCategories, function (productCategory) {
+                                    var productCategoryItemObj = productCategoryItems.find(function (productCategoryItem) {
+                                        return productCategoryItem.categoryId() === productCategory.id;
+                                    });
+
+                                    // Exists Already
+                                    if (productCategoryItemObj) {
+                                        if (!productCategoryItemObj.isSelected()) {
+                                            // set it to true
+                                            productCategoryItemObj.isSelected(true);
+                                        }
+                                    }
+                                });
                             }
 
                             // Update Un-Selected
@@ -7257,8 +7361,12 @@ define("stores/stores.viewModel",
                     getProductCategories: getProductCategories,
                     parentProductCategories: parentProductCategories,
                     updateProductCategories: updateProductCategories,
-                    toggleChildCategories: toggleChildCategories
+                    //updateProductCategoriesDiscountVoucher : updateProductCategoriesDiscountVoucher,
+                    toggleChildCategories: toggleChildCategories,
+                    updateProductCategoriesDV: updateProductCategoriesDV,
+                    updateCheckedStateForCategory: updateCheckedStateForCategory,
 
+                    validateStoreLiveHandler: validateStoreLiveHandler
                 };
                 //#endregion
             })()

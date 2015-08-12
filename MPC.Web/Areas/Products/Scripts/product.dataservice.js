@@ -225,6 +225,8 @@ define("product/product.dataservice", function () {
                     data: params
                 });
             },
+             // get ProductCategories
+        
             // get ProductCategory Childs
             getProductCategoryChildsForProduct = function (params, callbacks) {
                 initialize();

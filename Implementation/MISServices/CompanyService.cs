@@ -3641,46 +3641,48 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public DiscountVoucher GetDiscountVoucherById(long discountVoucherId)
         {
-            return discountVoucherRepository.Find(discountVoucherId);
+            return discountVoucherRepository.GetDiscountVoucherByVoucherId(discountVoucherId);
         }
         private DiscountVoucher AddDiscountVoucher(DiscountVoucher discountVoucher)
         {
-            discountVoucher.VoucherCode = Guid.NewGuid().ToString();
-            discountVoucherRepository.Add(discountVoucher);
-            discountVoucherRepository.SaveChanges();
-            return discountVoucher;
+            DiscountVoucher DV = discountVoucherRepository.CreateDiscountVoucher(discountVoucher);
+            return DV;
         }
 
         private DiscountVoucher UpdateDiscountVoucher(DiscountVoucher discountVoucher)
         {
-            DiscountVoucher discountVoucherDbVersion = discountVoucherRepository.Find(discountVoucher.DiscountVoucherId);
-            if (discountVoucherDbVersion != null)
-            {
-                discountVoucherDbVersion.VoucherName = discountVoucher.VoucherName;
-                discountVoucherDbVersion.DiscountRate = discountVoucher.DiscountRate;
-                discountVoucherDbVersion.DiscountType = discountVoucher.DiscountType;
-                discountVoucherDbVersion.HasCoupon = discountVoucher.HasCoupon;
-                discountVoucherDbVersion.CouponCode = discountVoucher.CouponCode;
-                discountVoucherDbVersion.CouponUseType = discountVoucher.CouponUseType;
-                discountVoucherDbVersion.IsUseWithOtherCoupon = discountVoucher.IsUseWithOtherCoupon;
-                discountVoucherDbVersion.CompanyId = discountVoucher.CompanyId;
+        //    DiscountVoucher discountVoucherDbVersion = discountVoucherRepository.Find(discountVoucher.DiscountVoucherId);
+        //    if (discountVoucherDbVersion != null)
+        //    {
+        //        discountVoucherDbVersion.VoucherName = discountVoucher.VoucherName;
+        //        discountVoucherDbVersion.DiscountRate = discountVoucher.DiscountRate;
+        //        discountVoucherDbVersion.DiscountType = discountVoucher.DiscountType;
+        //        discountVoucherDbVersion.HasCoupon = discountVoucher.HasCoupon;
+        //        discountVoucherDbVersion.CouponCode = discountVoucher.CouponCode;
+        //        discountVoucherDbVersion.CouponUseType = discountVoucher.CouponUseType;
+        //        discountVoucherDbVersion.IsUseWithOtherCoupon = discountVoucher.IsUseWithOtherCoupon;
+        //        discountVoucherDbVersion.CompanyId = discountVoucher.CompanyId;
 
-                discountVoucherDbVersion.IsTimeLimit = discountVoucher.IsTimeLimit;
-                discountVoucherDbVersion.ValidFromDate = discountVoucher.ValidFromDate;
-                discountVoucherDbVersion.ValidUptoDate = discountVoucher.ValidUptoDate;
+        //        discountVoucherDbVersion.IsTimeLimit = discountVoucher.IsTimeLimit;
+        //        discountVoucherDbVersion.ValidFromDate = discountVoucher.ValidFromDate;
+        //        discountVoucherDbVersion.ValidUptoDate = discountVoucher.ValidUptoDate;
 
-                discountVoucherDbVersion.IsQtyRequirement = discountVoucher.IsQtyRequirement;
-                discountVoucherDbVersion.MinRequiredQty = discountVoucher.MinRequiredQty;
-                discountVoucherDbVersion.MaxRequiredQty = discountVoucher.MaxRequiredQty;
-                discountVoucherDbVersion.IsQtySpan = discountVoucher.IsQtySpan;
+        //        discountVoucherDbVersion.IsQtyRequirement = discountVoucher.IsQtyRequirement;
+        //        discountVoucherDbVersion.MinRequiredQty = discountVoucher.MinRequiredQty;
+        //        discountVoucherDbVersion.MaxRequiredQty = discountVoucher.MaxRequiredQty;
+        //        discountVoucherDbVersion.IsQtySpan = discountVoucher.IsQtySpan;
 
-                discountVoucherDbVersion.IsOrderPriceRequirement = discountVoucher.IsOrderPriceRequirement;
-                discountVoucherDbVersion.MinRequiredOrderPrice = discountVoucher.MinRequiredOrderPrice;
-                discountVoucherDbVersion.MaxRequiredOrderPrice = discountVoucher.MaxRequiredOrderPrice;
-            }
+        //        discountVoucherDbVersion.IsOrderPriceRequirement = discountVoucher.IsOrderPriceRequirement;
+        //        discountVoucherDbVersion.MinRequiredOrderPrice = discountVoucher.MinRequiredOrderPrice;
+        //        discountVoucherDbVersion.MaxRequiredOrderPrice = discountVoucher.MaxRequiredOrderPrice;
+        //        discountVoucherDbVersion.IsEnabled = discountVoucher.IsEnabled;
 
-            discountVoucherRepository.SaveChanges();
-            return discountVoucher;
+        //        discountVoucherRepository.AddCategoryVoucher(discountVoucher.ProductCategoryVouchers, discountVoucherDbVersion.DiscountVoucherId);
+        //    }
+
+        //    discountVoucherRepository.SaveChanges();
+            DiscountVoucher voucher = discountVoucherRepository.AddCategoryVoucher(discountVoucher);
+            return voucher;
         }
         #endregion
 
