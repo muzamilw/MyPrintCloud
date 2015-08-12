@@ -116,6 +116,16 @@ namespace MPC.Repository.Repositories
 
                     }
                 }
+                if (dv.ItemsVouchers != null && dv.ItemsVouchers.Count > 0)
+                {
+                    foreach (var objDV in dv.ItemsVouchers)
+                    {
+                        objDV.ProductName = db.Items.Where(c => c.ItemId == objDV.ItemId).Select(v => v.ProductName).FirstOrDefault();
+
+
+                    }
+                }
+
 
                 return dv;
             }
@@ -159,7 +169,7 @@ namespace MPC.Repository.Repositories
         }
 
 
-        public DiscountVoucher AddCategoryVoucher(DiscountVoucher discountVoucher)
+        public DiscountVoucher UpdateVoucher(DiscountVoucher discountVoucher)
         {
             try
             {
@@ -191,7 +201,70 @@ namespace MPC.Repository.Repositories
                     discountVoucherDbVersion.IsEnabled = discountVoucher.IsEnabled;
 
 
+                    // logic to delete product category which is not selected now
+                    List<long> DeleteCategoryVoucherIds = new List<long>();
+                  
+                    if (discountVoucherDbVersion.ProductCategoryVouchers != null && discountVoucherDbVersion.ProductCategoryVouchers.Count > 0)
+                    {
+                       
+                        foreach (var pcv in discountVoucherDbVersion.ProductCategoryVouchers)
+                        {
+                            if (discountVoucher.ProductCategoryVouchers != null)
+                            {
+                                ProductCategoryVoucher dbRecord = discountVoucher.ProductCategoryVouchers.Where(c => c.CategoryVoucherId == pcv.CategoryVoucherId).FirstOrDefault();
+                                if (dbRecord == null)
+                                {
+                                    DeleteCategoryVoucherIds.Add(pcv.CategoryVoucherId);
+                                   
+                                    // this category voucher will delete becox its not in updated product category list
+                                }
+                            }
+                          
 
+
+                        }
+                        if (DeleteCategoryVoucherIds != null && DeleteCategoryVoucherIds.Count > 0)
+                        {
+                            foreach (var DCVI in DeleteCategoryVoucherIds)
+                            {
+                                ProductCategoryVoucher deleteVoucherCat = db.ProductCategoryVouchers.Where(c => c.CategoryVoucherId == DCVI).FirstOrDefault();
+                                discountVoucherDbVersion.ProductCategoryVouchers.Remove(deleteVoucherCat);
+                            }
+                        }
+                    }
+
+                    // logic to delete item voucher which is not selected now
+                    List<long> DeleteItemVoucherIds = new List<long>();
+
+                    if (discountVoucherDbVersion.ItemsVouchers != null && discountVoucherDbVersion.ItemsVouchers.Count > 0)
+                    {
+
+                        foreach (var pcv in discountVoucherDbVersion.ItemsVouchers)
+                        {
+                            if (discountVoucher.ItemsVouchers != null)
+                            {
+                                ItemsVoucher dbRecord = discountVoucher.ItemsVouchers.Where(c => c.ItemVoucherId == pcv.ItemVoucherId).FirstOrDefault();
+                                if (dbRecord == null)
+                                {
+                                    DeleteItemVoucherIds.Add(pcv.ItemVoucherId);
+
+                                    // this category voucher will delete becox its not in updated product category list
+                                }
+                            }
+
+
+
+                        }
+                        if (DeleteItemVoucherIds != null && DeleteItemVoucherIds.Count > 0)
+                        {
+                            foreach (var DCVI in DeleteItemVoucherIds)
+                            {
+                                ItemsVoucher deleteVoucherItems = db.ItemsVouchers.Where(c => c.ItemVoucherId == DCVI).FirstOrDefault();
+                                discountVoucherDbVersion.ItemsVouchers.Remove(deleteVoucherItems);
+                            }
+                        }
+                    }
+                    // add product category vouchers
                     if (discountVoucher.ProductCategoryVouchers != null && discountVoucher.ProductCategoryVouchers.Count() > 0)
                     {
                         foreach (var obj in discountVoucher.ProductCategoryVouchers)
@@ -203,22 +276,40 @@ namespace MPC.Repository.Repositories
                                 objVoucher.VoucherId = discountVoucherDbVersion.DiscountVoucherId;
                                // objVoucher.DiscountVoucher = null;
                                 db.ProductCategoryVouchers.Add(objVoucher);
-                                List<Item> CategoryProducts = GetItemsByCategoryId(obj.ProductCategoryId ?? 0);
+                                //List<Item> CategoryProducts = GetItemsByCategoryId(obj.ProductCategoryId ?? 0);
 
-                                foreach (var itm in CategoryProducts)
-                                {
-                                    ItemsVoucher ObjItemVoucher = new ItemsVoucher();
-                                    ObjItemVoucher.ItemId = itm.ItemId;
-                                    ObjItemVoucher.VoucherId = discountVoucherDbVersion.DiscountVoucherId;
-                                    db.ItemsVouchers.Add(ObjItemVoucher);
-                                }
+                                //foreach (var itm in CategoryProducts)
+                                //{
+                                //    ItemsVoucher ObjItemVoucher = new ItemsVoucher();
+                                //    ObjItemVoucher.ItemId = itm.ItemId;
+                                //    ObjItemVoucher.VoucherId = discountVoucherDbVersion.DiscountVoucherId;
+                                //    db.ItemsVouchers.Add(ObjItemVoucher);
+                                //}
 
                             }
 
                         }
                         
                     }
+                    // add items voucher
+                    if (discountVoucher.ItemsVouchers != null && discountVoucher.ItemsVouchers.Count() > 0)
+                    {
+                        foreach (var obj in discountVoucher.ItemsVouchers)
+                        {
+                            if (obj.ItemVoucherId == 0)
+                            {
+                                ItemsVoucher objVoucher = new ItemsVoucher();
+                                objVoucher.ItemId = obj.ItemId;
+                                objVoucher.VoucherId = discountVoucherDbVersion.DiscountVoucherId;
+                                // objVoucher.DiscountVoucher = null;
+                                db.ItemsVouchers.Add(objVoucher);
+                                
 
+                            }
+
+                        }
+
+                    }
                     
                 }
                 db.SaveChanges();
@@ -252,33 +343,55 @@ namespace MPC.Repository.Repositories
             {
                 discountVoucher.VoucherCode = Guid.NewGuid().ToString();
 
-
+                discountVoucher.IsEnabled = true;
                 db.DiscountVouchers.Add(discountVoucher);
 
                 db.SaveChanges();
 
 
-                if (discountVoucher.ProductCategoryVouchers != null && discountVoucher.ProductCategoryVouchers.Count() > 0)
-                {
-                    foreach (var obj in discountVoucher.ProductCategoryVouchers)
-                    {
+                //if (discountVoucher.ProductCategoryVouchers != null && discountVoucher.ProductCategoryVouchers.Count() > 0)
+                //{
+                //    foreach (var obj in discountVoucher.ProductCategoryVouchers)
+                //    {
                       
 
-                            List<Item> CategoryProducts = GetItemsByCategoryId(obj.ProductCategoryId ?? 0);
+                //            List<Item> CategoryProducts = GetItemsByCategoryId(obj.ProductCategoryId ?? 0);
 
-                            foreach (var itm in CategoryProducts)
-                            {
-                                ItemsVoucher ObjItemVoucher = new ItemsVoucher();
-                                ObjItemVoucher.ItemId = itm.ItemId;
-                                ObjItemVoucher.VoucherId = discountVoucher.DiscountVoucherId;
-                                db.ItemsVouchers.Add(ObjItemVoucher);
-                            }
+                //            foreach (var itm in CategoryProducts)
+                //            {
+                //                ItemsVoucher ObjItemVoucher = new ItemsVoucher();
+                //                ObjItemVoucher.ItemId = itm.ItemId;
+                //                ObjItemVoucher.VoucherId = discountVoucher.DiscountVoucherId;
+                //                db.ItemsVouchers.Add(ObjItemVoucher);
+                //            }
 
                         
 
-                    }
-                    db.SaveChanges();
-                }
+                //    }
+                //    db.SaveChanges();
+                //}
+
+                //if (discountVoucher.ProductCategoryVouchers != null && discountVoucher.ProductCategoryVouchers.Count() > 0)
+                //{
+                //    foreach (var obj in discountVoucher.ProductCategoryVouchers)
+                //    {
+
+
+                //        List<Item> CategoryProducts = GetItemsByCategoryId(obj.ProductCategoryId ?? 0);
+
+                //        foreach (var itm in CategoryProducts)
+                //        {
+                //            ItemsVoucher ObjItemVoucher = new ItemsVoucher();
+                //            ObjItemVoucher.ItemId = itm.ItemId;
+                //            ObjItemVoucher.VoucherId = discountVoucher.DiscountVoucherId;
+                //            db.ItemsVouchers.Add(ObjItemVoucher);
+                //        }
+
+
+
+                //    }
+                //    db.SaveChanges();
+                //}
                 return discountVoucher;
 
             }

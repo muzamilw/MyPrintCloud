@@ -350,6 +350,7 @@
     <Compile Include="Areas\Api\Controllers\CopyEstimateController.cs" />
     <Compile Include="Areas\Api\Controllers\DiscountVaoucherDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\DownloadReportController.cs" />
+    <Compile Include="Areas\Api\Controllers\ItemsForDiscountVoucherController.cs" />
     <Compile Include="Areas\Api\Controllers\OrganisationLicensingController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductChildCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForOrderController.cs" />
@@ -479,7 +480,9 @@
     <Compile Include="Areas\Api\ModelMappers\InvoiceDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemAttachmentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemImageMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemsForDiscountVoucherMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemStockUpdateHistoryMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemsVoucherMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductCategoryVoucherMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductMarketBriefAnswerMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductMarketBriefQuestionMapper.cs" />
@@ -620,6 +623,7 @@
     <Compile Include="Areas\Api\Models\ItemListViewForOrder.cs" />
     <Compile Include="Areas\Api\Models\ItemSearchResponseForOrder.cs" />
     <Compile Include="Areas\Api\Models\ItemStockUpdateHistory.cs" />
+    <Compile Include="Areas\Api\Models\ItemsVoucher.cs" />
     <Compile Include="Areas\Api\Models\LiveJobItem.cs" />
     <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodListResponse.cs" />
@@ -2263,6 +2267,7 @@
     <Content Include="Areas\Stores\Views\Stores\_DiscountVoucherDetail.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_DiscountVoucher.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_ProductCategoryDialogForDiscountVoucher.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_ProductDialogForDiscountVoucher.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>

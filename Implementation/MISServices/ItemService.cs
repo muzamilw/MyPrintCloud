@@ -2483,6 +2483,10 @@ namespace MPC.Implementation.MISServices
             DeleteItem(itemId, itemRepository.OrganisationId);
         }
 
+        public IEnumerable<Item> GetProductsByCompanyId(long? companyId)
+        {
+           return itemRepository.GetProductsByCompanyID(companyId ?? 0);
+        }
         #endregion
 
         #region DeleteProducts

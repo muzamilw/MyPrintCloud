@@ -114,8 +114,8 @@
                                 </div>
 
                             </div>
-
-                            <div class="form-group">
+                            <!-- ko if: $root.selectedDiscountVoucher().id() > 0 -->
+                                 <div class="form-group">
                                 <div class="col-sm-4 text-right">
                                     <div class="bs-example-tooltips tooltip-float-width">
                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="is Enabled" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
@@ -139,7 +139,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <!-- /ko -->
                             <div class="form-group ">
                                 <div class="col-sm-4 text-right">
                                     <div class="bs-example-tooltips tooltip-float-width">
@@ -165,7 +165,10 @@
                                     <label for="txtSPTitle" class="control-label text-right tooltip-float">Products </label>
                                 </div>
                                 <div class="col-sm-4" style="margin-top: 8px;">
-                                    <a href="#" class="control-label user-link">Select Products</a>
+                                    <label class="control-label" style="text-align: left" data-bind="html:availableProductVouchers">
+                                    </label>
+
+                                    <a href="#" class="control-label user-link" data-bind="click:$root.openProductsDialog">Select Products</a>
                                 </div>
                             </div>
                             <h3 class="group-header" style="margin-top:20px;">

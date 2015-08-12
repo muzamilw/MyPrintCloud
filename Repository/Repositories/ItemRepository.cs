@@ -4553,6 +4553,22 @@ namespace MPC.Repository.Repositories
             }
 
         }
+
+        public IEnumerable<Item> GetProductsByCompanyID(long CompanyId)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+
+
+                return db.Items.Where(c => c.CompanyId == CompanyId && (c.IsPublished == null || c.IsPublished == true) && (c.IsArchived == null || c.IsArchived == false)).ToList();
+                
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
     }
 }
