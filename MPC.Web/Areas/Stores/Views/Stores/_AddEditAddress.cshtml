@@ -355,7 +355,7 @@
                 </div>
             </div>
             <div class="modal-footer" style="padding-left:0px;padding-right:0px;">
-                <hr />
+                <hr style="margin-bottom:15px;" />
                 <button type="button" style="margin-left:10px;" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteAddress, enable: $root.selectedAddress().addressId() != undefined">Archive</button>
                 <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveAddress, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.onCloseAddress" style="margin-left:0px;margin-right:10px;">Close</button>

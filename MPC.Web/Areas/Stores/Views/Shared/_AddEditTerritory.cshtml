@@ -1,5 +1,5 @@
-﻿
-<div class="modal fade" id="myTerritorySetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" aria-hidden="true">
+﻿class
+<div ="modal fade" id="myTerritorySetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" aria-hidden="true">
     <div style="width: 838px;" class="modal-dialog">
         <div class="modal-content" data-bind="with: $root.selectedCompanyTerritory">
             <div class="modal-header" id="dialgHeaderPadding">
@@ -99,11 +99,13 @@
                 </div>
             </div>
 
-            <div class="modal-footer" style="padding-left: 4px;padding-right: 8px;">
-                <hr />
-                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyTerritory, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
-                <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyTerritory" style="margin-left: 0px;">Close</button>
-                <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteCompanyTerritory, enable: $root.selectedCompanyTerritory().territoryId() != undefined">Archive</button>
+            <div class="modal-footer" style="padding-left: 0px;padding-right: 0px;">
+                <hr style="margin-bottom:15px;" />
+                <div style="padding-right:8px;padding-left:3px;">
+                    <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyTerritory, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                    <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyTerritory" style="margin-left: 0px;">Close</button>
+                    <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteCompanyTerritory, enable: $root.selectedCompanyTerritory().territoryId() != undefined">Archive</button>
+                </div>
             </div>
         </div>
     </div>
