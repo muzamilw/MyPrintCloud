@@ -55,7 +55,7 @@
                     <div class="col-lg-5">
                         <select class="form-control" data-bind="options: $root.companyBannerSetList, optionsText: 'setName', optionsValue: 'id',value:companySetId, validationTooltip: companySetId"></select>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-2" style="padding-left:0px;">
                         <div class="btn btn-primary pull-left" data-bind="click:$root.onAddSetBanner">
                             Add New Banner Set
                         </div>
@@ -104,7 +104,7 @@
                 </div>
             </div>
             <div class="modal-footer" style="padding-left:0px;padding-right:0px;">
-                <hr />
+                <hr style="margin-bottom:15px;" />
                 <div style="padding-left:4px;padding-right:8px;">
                     <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveCompanyBanner, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                     <button type="button" class="btn btn-default" data-bind="click:$root.onCloseCompanyBanner" style="margin-left: 0px;">Close</button>

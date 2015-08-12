@@ -348,10 +348,12 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer" style="padding-left:5px; padding-right:10px;">
-                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveSecondaryPage, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
-                <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteSecondaryPage, enable:isUserDefined() && $root.selectedSecondaryPage().id() != undefined">Archive</button>
+            <div class="modal-footer" style="padding-left:0px; padding-right:0px;">
+                <div style="padding-left:3px;padding-right:8px;">
+                    <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveSecondaryPage, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+                    <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteSecondaryPage, enable:isUserDefined() && $root.selectedSecondaryPage().id() != undefined">Archive</button>
+                </div>
             </div>
         </div>
     </div>
