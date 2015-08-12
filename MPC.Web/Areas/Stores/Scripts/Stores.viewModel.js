@@ -6745,7 +6745,7 @@ define("stores/stores.viewModel",
                             }
                         });
                     },
-                    // Update Product Categories to Selected Product
+                    // Update Product Categories to Selected Products
                     updateProductCategories = function () {
                         selectedProduct().updateProductCategoryVoucher(productCategories());
                         view.hideProductCategoryDialog();
