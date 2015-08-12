@@ -1359,12 +1359,12 @@ namespace MPC.Repository.Repositories
                         item.StatusId = (short)itemStatus;
 
                     db.Configuration.LazyLoadingEnabled = false;
-                    Item ActualItem = db.Items.Include("ItemSections").Where(i => i.ItemId == item.RefItemId).FirstOrDefault();
+                    Item ActualItem = db.Items.Where(i => i.ItemId == item.RefItemId).FirstOrDefault();
                     if (ActualItem != null)
                     {
                         if (ActualItem.IsStockControl == true && ActualItem.ProductType == (int)ProductType.NonPrintProduct)
                         {
-                            ItemSection FirstItemSection = ActualItem.ItemSections.Where(sec => sec.SectionNo == 1 && sec.ItemId == ActualItem.ItemId).FirstOrDefault();
+                            ItemSection FirstItemSection = db.ItemSections.Where(sec => sec.SectionNo == 1 && sec.ItemId == item.ItemId).FirstOrDefault();
                             if (FirstItemSection != null)
                             {
                                 updateStockAndSendNotification(FirstItemSection.StockItemID1 ?? 0, ActualItem.ItemId, Mode, tblOrder.CompanyId, Convert.ToInt32(item.Qty1), Convert.ToInt32(tblOrder.ContactId), item.ItemId, tblOrder.EstimateId, MgrIds, org);

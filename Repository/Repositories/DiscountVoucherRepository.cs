@@ -129,7 +129,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.DiscountVouchers.Where(d => d.CouponCode == DiscountVoucherName && d.CompanyId == StoreId && d.OrganisationId == OrganisationId && d.IsEnabled == true).FirstOrDefault();
+                return db.DiscountVouchers.Where(d => d.CouponCode == DiscountVoucherName && d.CompanyId == StoreId && d.OrganisationId == OrganisationId && d.IsEnabled == true && d.HasCoupon == true).FirstOrDefault();
             }
             catch (Exception ex)
             {
