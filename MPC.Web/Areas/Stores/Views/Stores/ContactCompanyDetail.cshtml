@@ -84,7 +84,31 @@
                             <div class="tab-pane fade in active" data-bind="with: $root.selectedStore" id="tab-generalinfo">
                                 <div class="col-lg-12 form-horizontal" style="padding-left:6px;">
                                     <div class="tabsdescriptions" style="margin-left:3px;">
-                                        <p class="group-header-description">Manage the basic details of your store in this section.</p>
+                                        <div class="col-lg-9" style="padding-left: 0 !important;">
+                                            <p class="group-header-description">
+                                                Manage the basic details of your store in this section.
+                                            </p>
+                                        </div>
+                                        <div class="col-lg-3 pull-left">
+                                            <div class="col-lg-4 pull-left">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Make a store live to receive & process orders. You can not process an order while a store is offline or progress an order into production." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label class="control-label">Status</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="onoffswitchlive" style="margin-right:0; margin-top: -10px;">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitchlive-checkbox" id="switchStoreLive" data-bind="checked: $root.selectedStore().isStoreSetLive, event: { click: $root.validateStoreLiveHandler }">
+                                                    <label class="onoffswitchlive-label" for="switchStoreLive">
+                                                        <div class="onoffswitchlive-inner"></div>
+                                                        <div class="onoffswitchlive-switch"></div>
+                                                    </label>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="col-lg-9">
