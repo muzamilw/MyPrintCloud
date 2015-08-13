@@ -15,8 +15,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="dialog-confirm-yes" class="btn btn-primary" data-bind="click: proceed" style="margin-left: 0px;">Yes</button>
-                <button type="button" id="dialog-confirm-no" class="btn btn-default" data-bind="click: $root.cancel">No</button>
+                <button type="button" id="dialog-confirm-yes" class="btn btn-primary"  data-bind="click: proceed,text: yesBtnText" style="margin-left: 0px;"></button>
+                <button type="button" id="dialog-confirm-no" class="btn btn-default" data-bind="click: $root.cancel,text: noBtnText"></button>
             </div>
         </div>
     </div>
