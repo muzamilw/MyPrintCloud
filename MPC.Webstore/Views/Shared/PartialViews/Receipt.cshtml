@@ -126,36 +126,41 @@
                             &nbsp;
                         </div>
                     </div>
-                    <div class="col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt" style="line-height: 30px;">
-                        <span id="lbl_ReceiptbillTo" style="" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("spnbilledto", UserCookieManager.WBStoreId, "Bill To:"))</span><br />
-                        <label id="lblCustName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
-                        <label id="lblBAddressLine1" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address1</label><br />
-                        @if (!string.IsNullOrEmpty(Model.BillingAdress.Address2))
-                        {
-                            <div><label id="lblAddressLine2" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address2</label></div>
-                        }
+                    @if (Model.BillingAdress != null)
+                    {
+                        <div class="col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt" style="line-height: 30px;">
+                            <span id="lbl_ReceiptbillTo" style="" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("spnbilledto", UserCookieManager.WBStoreId, "Bill To:"))</span><br />
+                            <label id="lblCustName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
+                            <label id="lblBAddressLine1" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address1</label><br />
+                            @if (!string.IsNullOrEmpty(Model.BillingAdress.Address2))
+                            {
+                                <div><label id="lblAddressLine2" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address2</label></div>
+                            }
 
-                        <label id="lblBcity" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.City</label>
-                        @if (Model.BillingAdress.State != null)
-                        {
-                            <label id="lblBState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.State.StateName</label>
-                        }
-                        @if (Model.BillingAdress.Country != null)
-                        {
-                            <label id="lblBCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Country.CountryName</label>
-                        }
-                        <br />
-                        <label id="lblBZipCode" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.PostCode</label><br />
+                            <label id="lblBcity" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.City</label>
+                            @if (Model.BillingAdress.State != null)
+                            {
+                                <label id="lblBState" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.State.StateName</label>
+                            }
+                            @if (Model.BillingAdress.Country != null)
+                            {
+                                <label id="lblBCountry" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Country.CountryName</label>
+                            }
+                            <br />
+                            <label id="lblBZipCode" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.PostCode</label><br />
 
-                        @if (!string.IsNullOrEmpty(Model.BillingAdress.Tel1))
-                        {
-                            <span>
-                            <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId))</label>
-                            </span>
-                            <label id="lblBTel" style="color: black;  font-style: normal; font-weight: normal; font-size: 12px;">@Model.BillingAdress.Tel1</label>
-                        }
+                            @if (!string.IsNullOrEmpty(Model.BillingAdress.Tel1))
+                            {
+                                <span>
+                                    <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId))</label>
+                                </span>
+                                <label id="lblBTel" style="color: black;  font-style: normal; font-weight: normal; font-size: 12px;">@Model.BillingAdress.Tel1</label>
+                            }
 
-                    </div>
+                        </div>
+                    }
+                   @if (Model.ShippingAddress != null)
+                   {
                     <div class="col-md-4 col-lg-4 col-xs-12 receiptShippingDeliverycnt" style="line-height: 30px;">
                         <span id="lbl_ShippedTo" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("spnshippedto", UserCookieManager.WBStoreId))</span><br />
                         <label id="lblSCusName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
@@ -182,11 +187,13 @@
 
                         @if (!string.IsNullOrEmpty(Model.ShippingAddress.Tel1))
                         {
-                        <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId))</label>
+                            <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId))</label>
                             <label id="lblSTel" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Tel1</label>
                         }
 
                     </div>
+                   }
+                   
                     <div class="clearBoth">
                     </div>
                 </div>
@@ -210,9 +217,6 @@
                     <span id="lbl_itemsOrdered">@Html.Raw(Html.GetKeyValueFromResourceFile("lblitemsOrdered", UserCookieManager.WBStoreId))</span>
                 </div>
                 <div style="padding-bottom: 20px;" class="col-md-12 col-lg-12 col-xs-12">
-
-
-
 
                     <table cellspacing="0" cellpadding="5" id="MainContent_grdViewShopCart" style="width:100%;border-collapse:collapse;">
                         <tbody>
@@ -448,6 +452,7 @@
     <br />
     <br />
 </div>
+
 <iframe id="iframeReceiptPlain" src="/ReceiptPlain/@ViewBag.OrderId/@ViewBag.StoreId/1" style="display:none;">
     
 </iframe>
@@ -455,24 +460,6 @@
     function PrintReceipt()
     {
         document.getElementById('iframeReceiptPlain').contentWindow.MyPrint();
-      
-        //var docprint = window.open("about:blank");
-        //var oTable = document.getElementById("page");
-        //docprint.document.open();
-        //docprint.document.write('<html><head><title>Ashley Mattresses</title>');
-        //docprint.document.write('</head><body><center>');
-        //docprint.document.write(oTable.innerHTML);
-        //docprint.document.write('</center></body></html>');
-        //docprint.document.close();
-        //docprint.print();
-        //docprint.close();
-        //$.ajax({
-        //    url: '/ReceiptPlain',
-        //    data: { OrderId: 46822, StoreId: 32844, IsPrintReceipt : 1},
-        //    success: function () {
-        //        alert('Added');
-        //    }
-        //});
       
     }
 </script>

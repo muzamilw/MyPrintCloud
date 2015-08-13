@@ -421,7 +421,34 @@ namespace MPC.Repository.Repositories
             }
 
         }
+         public bool isCouponVoucher(long DiscountVoucherId)
+         {
+             try
+             {
+                 if (DiscountVoucherId > 0)
+                 {
+                     DiscountVoucher voucher = db.DiscountVouchers.Where(d => d.DiscountVoucherId == DiscountVoucherId).FirstOrDefault();
+                     if (voucher != null && (voucher.HasCoupon == false || voucher.HasCoupon == null))
+                     {
+                         return true;
+                     }
+                     else 
+                     {
+                         return false;
+                     }
+                 }
+                 else 
+                 {
+                     return false;
+                 }
+                  
+             }
+             catch (Exception ex)
+             {
+                 throw ex;
+             }
 
+         }
         #endregion
     }
 }
