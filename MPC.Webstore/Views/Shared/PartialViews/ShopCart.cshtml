@@ -24,6 +24,23 @@
 }
 <div class="container content_area" id="all-shopCart-pg">
     <div class="left_right_padding">
+        <ul class="bonhamsOption navM cursor_pointer" style="display:none;">
+            <li>
+                1. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlSelect", UserCookieManager.WBStoreId, "Select"))
+            </li>
+            <li class="bonhamSelectedOption">
+                2. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrledit", UserCookieManager.WBStoreId, "Edit"))
+            </li>
+
+
+            <li>
+                3. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmorder", UserCookieManager.WBStoreId, "Confirm order & payment"))
+            </li>
+            <li>
+                4. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOrderSumm", UserCookieManager.WBStoreId, "Order Summary"))
+            </li>
+
+        </ul>
         <div class="signin_heading_div textAlignLeft col-lg-12 col-md-12 col-xs-12" style="padding-bottom: 0px !important;">
             <table style="  width: 100%;">
                 <tr>
@@ -211,7 +228,7 @@
                                                 <span id="lblselectedAddOnList" class="ItemdetailDesc">@itemAddsOn</span>
                                                 <input type="hidden" id="numberOfDaysAddedTodelivery" name="numberOfDaysAddedTodelivery" value="@numberOfDaysAddedTodelivery">
                                                 <br>
-                                                <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrremoveproduct", UserCookieManager.WBStoreId, "Remove product from cart"))">
+                                                <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID', event);" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrremoveproduct", UserCookieManager.WBStoreId, "Remove product from cart"))">
                                                 <br />
                                                 <input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyproduct", UserCookieManager.WBStoreId, "Make a copy of this product in cart"))">
 

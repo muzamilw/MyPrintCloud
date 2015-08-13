@@ -92,7 +92,7 @@
 
 <div class="container content_area" id="all-AddressSelect-pg">
     <div class="left_right_padding">
-        <ul class="bonhamsOption navM cursor_pointer">
+        <ul class="bonhamsOption navM cursor_pointer" style="display:none;">
             <li>
                 1. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlSelect", UserCookieManager.WBStoreId, "Select"))
             </li>
@@ -101,7 +101,7 @@
             </li>
 
             <li class="bonhamSelectedOption">
-                3. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmorder", UserCookieManager.WBStoreId, ""))
+                3. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmorder", UserCookieManager.WBStoreId, "Confirm order & payment"))
             </li>
             <li>
                 4. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOrderSumm", UserCookieManager.WBStoreId, "Order Summary"))
