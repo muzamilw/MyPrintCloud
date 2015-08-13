@@ -5037,7 +5037,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     // Exists Already
                     if (productVoucherObj) {
                         if (!productVoucherObj.id()) { // If New Product Category Item
-                            productVoucherObj.remove(productVoucherObj);
+                            itemsVoucher.remove(productVoucherObj);
                         }
                         else {
                             // set it to false
