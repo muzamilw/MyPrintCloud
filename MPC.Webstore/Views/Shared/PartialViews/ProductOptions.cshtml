@@ -21,6 +21,23 @@
 </div>
 <div class="container content_area" id="all-productOption-pg">
     <div class="left_right_padding">
+        <ul class="bonhamsOption navM cursor_pointer" style="display:none;">
+            <li class="bonhamSelectedOption">
+                1. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlSelect", UserCookieManager.WBStoreId, "Select"))
+            </li>
+            <li>
+                2. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrledit", UserCookieManager.WBStoreId, "Edit"))
+            </li>
+
+
+            <li>
+                3. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmorder", UserCookieManager.WBStoreId, "Confirm order & payment"))
+            </li>
+            <li>
+                4.  @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOrderSumm", UserCookieManager.WBStoreId, "Order Summary"))
+            </li>
+
+        </ul>
         <div class="BreadCrumbMenu left_align col-xs-12">
             <h1>
 
