@@ -361,8 +361,8 @@
                                     <td>
                                         &nbsp;
                                     </td>
-                                    <td align="left" class="fontWeightNormal Fsize13" id="td2" style="text-align:right;">
-                                        <span id="lbl_Delivery" style="  line-height: 2;font-size: 13px; color: red;">Discount:</span>
+                                    <td align="right" class="fontWeightNormal Fsize13" id="td2" style="text-align:right;">
+                                        <span style="line-height: 2;font-size: 13px; color: red;">Discount:</span>
                                     </td>
                                     <td align="right">
                                         <span id="lblDiscountV" style="font-weight: bold; font-size: 14px; color: red;">@Utils.FormatDecimalValueToTwoDecimal((_DiscountAmountTotal).ToString(), ViewBag.Currency)</span>
@@ -372,7 +372,7 @@
                             <tr>
                                 <td class="hidden-xs"></td>
                                 <td align="left"><label id="lblEstimatedDeliveryMethod" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@Model.DeliveryMethod</label></td>
-                                <td align="left">
+                                <td align="right">
                                     <span id="lbl_Delivery" style="  line-height: 2;font-size: 13px; color: Black;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.WBStoreId)):</span>
                                 </td>
                                 <td >
@@ -399,8 +399,8 @@
                             <tr id="rowVat">
                                 <td class="hidden-xs"></td>
                                 <td align="left"></td>
-                                <td align="left">
-                                    <span id="lblTaxLabelTotal" style="  line-height: 2;font-size: 13px; color: Black;">@ViewBag.TaxLabel:</span>
+                                <td align="right">
+                                    <span id="lblTaxLabelTotal" style="line-height: 2;font-size: 13px; color: Black;">@ViewBag.TaxLabel:</span>
                                 </td>
                                 <td >
                                     @if (Model.DeliveryCost > 0)
