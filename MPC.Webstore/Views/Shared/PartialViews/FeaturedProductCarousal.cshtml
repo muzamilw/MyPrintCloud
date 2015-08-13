@@ -4,6 +4,9 @@
 @{
     Layout = null;
 }
+@using MPC.Webstore.Common;
+
+
 @{
     var loopcount = 0;
     var productsCount = ViewBag.ProductsCount;
@@ -16,7 +19,7 @@
             <div class="col-md-12">
                 <!-- Section title -->
                 <div class="section-title">
-                    <h4>&nbsp;Whats New</h4>
+                    <h4>&nbsp;@Html.Raw(Html.GetKeyValueFromResourceFile("wnew", UserCookieManager.WBStoreId, "Whats New"))</h4>
                 </div>
                 <div class="carousel slide" data-ride="carousel" id="item-carousel">
                     <!-- Wrapper for slides -->

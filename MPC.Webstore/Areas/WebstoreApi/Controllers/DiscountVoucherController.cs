@@ -56,7 +56,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                         if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder)
                         {
                             _ItemService.ApplyDiscountOnDeliveryItemAlreadyAddedToCart(storeDiscountVoucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
-                            messages.Add("Success");
+                            UserCookieManager.FreeShippingVoucherId = storeDiscountVoucher.DiscountVoucherId;
+                            messages.Add("Free");
+                            messages.Add(storeDiscountVoucher.DiscountVoucherId.ToString());
                         }
                         else 
                         {
@@ -71,7 +73,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                             if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder)
                             {
                                 _ItemService.ApplyDiscountOnDeliveryItemAlreadyAddedToCart(storeDiscountVoucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
-                                messages.Add("Success");
+                                UserCookieManager.FreeShippingVoucherId = storeDiscountVoucher.DiscountVoucherId;
+                                messages.Add("Free");
+                                messages.Add(storeDiscountVoucher.DiscountVoucherId.ToString());
                             }
                             else
                             {
@@ -98,7 +102,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                             if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.FreeShippingonEntireorder)
                             {
                                 _ItemService.ApplyDiscountOnDeliveryItemAlreadyAddedToCart(storeDiscountVoucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
-                                messages.Add("Success");
+                                UserCookieManager.FreeShippingVoucherId = storeDiscountVoucher.DiscountVoucherId;
+                                messages.Add("Free");
+                                messages.Add(storeDiscountVoucher.DiscountVoucherId.ToString());
                             }
                             else
                             {
@@ -126,7 +132,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 else
                 {
                     messages.Add("Error");
-                    messages.Add("Your Coupon Code is invalid.");
+                    messages.Add("Coupon Code is invalid.");
                 }
             }
             else

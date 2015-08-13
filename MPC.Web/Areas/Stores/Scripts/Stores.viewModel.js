@@ -1602,7 +1602,8 @@ define("stores/stores.viewModel",
                         }
                         return true;
                     },
-                    showLicenseUpgradeDialog = function() {
+                    showLicenseUpgradeDialog = function () {
+                        confirmation.messageText("Important ! You are already reached live stores limit.");
                         confirmation.afterProceed(function () {
                             var uri = encodeURI("https://myprintcloud.com/dashboard");
                             window.location.href = uri;

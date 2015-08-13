@@ -36,29 +36,32 @@ namespace MPC.Webstore.Controllers
             }
             ViewBag.OrderTotal = _companyservice.GetOrderTotalById(UserCookieManager.WEBOrderId);
             ViewBag.SavedDesignItmesTotal = _companyservice.GetSavedDesignCountByContactId(_webstoreclaimHelper.loginContactID());
-            return View();
+            return View("PartialViews/BlackAndWhiteHeaderMenu");
         }
-        [HttpPost]
         public ActionResult LogOut()
         {
-            System.Web.HttpContext.Current.Response.Cookies["ShowPrice"].Expires = DateTime.Now.AddDays(-1);
-            System.Web.HttpContext.Current.Response.Cookies["CanEditProfile"].Expires = DateTime.Now.AddDays(-1);
-            System.Web.HttpContext.Current.Response.Cookies["WEBLastName"].Expires = DateTime.Now.AddDays(-1);
-            System.Web.HttpContext.Current.Response.Cookies["WEBFirstName"].Expires = DateTime.Now.AddDays(-1);
-            System.Web.HttpContext.Current.Response.Cookies["WEBOrderId"].Expires = DateTime.Now.AddDays(-1);
-            UserCookieManager.isRegisterClaims = 2;
+                System.Web.HttpContext.Current.Response.Cookies["ShowPrice"].Expires = DateTime.Now.AddDays(-1);
+                System.Web.HttpContext.Current.Response.Cookies["CanEditProfile"].Expires = DateTime.Now.AddDays(-1);
+                System.Web.HttpContext.Current.Response.Cookies["WEBLastName"].Expires = DateTime.Now.AddDays(-1);
+                System.Web.HttpContext.Current.Response.Cookies["WEBFirstName"].Expires = DateTime.Now.AddDays(-1);
+                System.Web.HttpContext.Current.Response.Cookies["WEBOrderId"].Expires = DateTime.Now.AddDays(-1);
+                UserCookieManager.isRegisterClaims = 2;
 
-            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-            {
-                Response.Redirect("/Login");
-            }
-            else
-            {
-                Response.Redirect("/");
-            }
-            //Response.Redirect("/"); 
-            return null;
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                {
+                    
+                    Response.Redirect("/Login");
+                    
+                }
+                else
+                {
+                    
+                    Response.Redirect("/");
+                    
+                }
+                //Response.Redirect("/"); 
 
+                return null;
         }
     }
 }

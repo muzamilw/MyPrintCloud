@@ -114,9 +114,10 @@ namespace MPC.Webstore.Controllers
                     }
                     else
                     {
-                        FreeShippingVoucherId = _ItemService.IsStoreHaveFreeShippingDiscountVoucher(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+                        FreeShippingVoucherId = _ItemService.IsStoreHaveFreeShippingDiscountVoucher(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, OrderId);
                         if (FreeShippingVoucherId == 0)
                         {
+
                             _ItemService.RollBackDiscountedItems(OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, true);
                         }
                         else
@@ -300,7 +301,7 @@ namespace MPC.Webstore.Controllers
                     }
                     else
                     {
-                        FreeShippingVoucherId = _ItemService.IsStoreHaveFreeShippingDiscountVoucher(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+                        FreeShippingVoucherId = _ItemService.IsStoreHaveFreeShippingDiscountVoucher(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID,Convert.ToInt64(OrderID));
                         if (FreeShippingVoucherId == 0)
                         {
                             UserCookieManager.FreeShippingVoucherId = 0;
@@ -419,6 +420,17 @@ namespace MPC.Webstore.Controllers
                 {
                     BindGriViewWithProductItemList(itemsList, baseResponse, IsShowPrices, OrderId);
                     return;
+                }
+                else
+                {
+                   
+                    Estimate order = _OrderService.GetOrderByID(OrderId);
+                    if (order != null)
+                    {
+                        order.DiscountVoucherID = null;
+                        order.VoucherDiscountRate = null;
+                        _OrderService.SaveOrUpdateOrder();
+                    }
                 }
             }
         }

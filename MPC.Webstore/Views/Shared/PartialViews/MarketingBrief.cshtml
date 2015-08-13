@@ -30,7 +30,7 @@
             <div id="welcomeSummeryMEsg" class="LGBC rounded_corners Mleft10">
                 <div class="white_background rounded_corners MB_P5o">
                     <label id="WlSumMesg" class="MB_ThksMsg">@Html.Raw(ViewBag.SuccessMessage)</label>
-                    <a class="spanRetURl" href="/" id="lnk_ReturnHome">Back to HomePage</a>
+                    <a class="spanRetURl" href="/" id="lnk_ReturnHome">@Html.Raw(Html.GetKeyValueFromResourceFile("backtohpage", UserCookieManager.WBStoreId, "Back to HomePage"))</a>
                 </div>
             </div>
         }
@@ -162,7 +162,8 @@
                                 </div>
                                 <div class="MB_AddInfoCOnt">
                                     <label id="lbl_AdditionalInformation" class="MB_AddInfoColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lblAdditionalInformation", UserCookieManager.WBStoreId))</label>
-                                    <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder="Additional Information"></textarea>
+                                    <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("btnideas", UserCookieManager.WBStoreId, "Additional Information"))
+                                              "></textarea>
                                 </div>
 
                             </div>
@@ -212,12 +213,14 @@
                     <div class="float_left_simple LGBC rounded_corners paddingLeft5px Mleft10 MB_InnerRightCont">
                         <div class="white_background rounded_corners MB_RightInnerPnl">
                             <div class="MB_GrayBack">
-                                <label id="lbl_Reply_Message" class="Fsize15">Reply back to me by</label>
+                                <label id="lbl_Reply_Message" class="Fsize15">@Html.Raw(Html.GetKeyValueFromResourceFile("replybacktome", UserCookieManager.WBStoreId,"Reply back to me by"))
+</label>
                                 <div class="left_align">
-                                    <span id="lbl_Email" class="MB_EMailtxtColor Fsize13">Email: <span>@MPC.Webstore.Common.UserCookieManager.WEBEmail</span></span>
+                                    <span id="lbl_Email" class="MB_EMailtxtColor Fsize13">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email")): <span>@MPC.Webstore.Common.UserCookieManager.WEBEmail</span></span>
                                 </div>
                                 <div style="margin-top: 10px; text-align: left;">
-                                    <span id="lblTelText" class="MB_EMailtxtColor Fsize13">Tel: <span>@ViewBag.Phone</span></span>
+                                    <span id="lblTelText" class="MB_EMailtxtColor Fsize13">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:"))
+ <span>@ViewBag.Phone</span></span>
                                 </div>
                                 <a id="lbl_Change" href="#" style="float: right; cursor: pointer; color:#73a8ac; clear: both; display:none;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblChange", UserCookieManager.WBStoreId))</a>
                                 <div class="clearBoth">
@@ -226,7 +229,7 @@
                             </div>
                             <div style="margin: 5px; margin-top: 15px;">
                                 <input type="submit" class="MB_SendINqBtn rounded_corners5" id="SendINqBtn"
-                                       onclick="return GetAllinputElementIDS(); ShowLoader();" value="Submit Inquiry" />
+                                       onclick="return GetAllinputElementIDS(); ShowLoader();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnmarketingbrief", UserCookieManager.WBStoreId,"Submit Inquiry"))" />
                             </div>
                         </div>
                     </div>
@@ -253,10 +256,6 @@
 
         $(document).ready(function () {
             CreateMultipleUpload();
-
-
-
-
 
         });
 

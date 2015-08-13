@@ -20,19 +20,20 @@
                         <div class="txtAlignLeft col-md-6 col-sm-5 col-xs-12 col-lg-6 payment_sec NoPadding">
                             <div class="copyTerms">
                                 <a id="lbl_CopyRightMessage" onclick="ShowLoader();" style="  font-size: 12px;
-  font-weight: normal;" href="/pages/@SecondryPagesInfo.PrivacyPolicy/@Convert.ToInt32(SecondryPagesInfo.PrivacyPolicy)">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkPrivacyPolicy", UserCookieManager.WBStoreId))</a>
+  font-weight: normal;" href="/pages/@SecondryPagesInfo.PrivacyPolicy/@Convert.ToInt32(SecondryPagesInfo.PrivacyPolicy)">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkPrivacyPolicy", UserCookieManager.WBStoreId,"Privacy Policy"))</a>
                                 <a id="lnkTermsCondtions" class="small_gray_hyperlink S6FooterMLCs hyperTermCond"
-                                   href="/pages/@SecondryPagesInfo.TermsAndConditions/@Convert.ToInt32(SecondryPagesInfo.TermsAndConditions)" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkTermsCondtions", UserCookieManager.WBStoreId))</a>
+                                   href="/pages/@SecondryPagesInfo.TermsAndConditions/@Convert.ToInt32(SecondryPagesInfo.TermsAndConditions)" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkTermsCondtions", UserCookieManager.WBStoreId, "Terms And Conditions"))</a>
                             </div>
 
                             <div class="powerPrivacy">
                                 <a id="hlPweredBy" href="http://www.myprintcloud.com/"
                                    class="poweredby"></a>
-                                <span id="lnkPrivacyPolicy" class="small_gray_hyperlink hyPrivacyP" style="cursor:none !important;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyrite", UserCookieManager.WBStoreId))</span>
+                                <span id="lnkPrivacyPolicy" class="small_gray_hyperlink hyPrivacyP" style="cursor:none !important;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyrite", UserCookieManager.WBStoreId, "Copyrights 2015. All Rights Reserved."))</span>
                             </div>
                         </div>
                         <div class="txtAlignLeft col-xs-12 col-md-3 col-sm-4  col-lg-3 social_icons" id="pnlFollowUs">
-                            <div ID="lblFollowusText" class="S6DisplayNone" >Follow Us :</div>
+                            <div ID="lblFollowusText" class="S6DisplayNone" >@Html.Raw(Html.GetKeyValueFromResourceFile("lblFollowusText", UserCookieManager.WBStoreId, "Follow Us :"))
+</div>
                             <div class="space3 S6DisplayNone">
                                 &nbsp;
                             </div>

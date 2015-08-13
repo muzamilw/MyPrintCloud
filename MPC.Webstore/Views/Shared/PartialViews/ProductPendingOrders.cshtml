@@ -16,13 +16,13 @@
     <div class="left_right_padding">
         <div class="col-md-12 col-lg-12 col-xs-12 ">
             <div class="signin_heading_div float_left_simple ">
-                <label class="sign_in_heading" id="HistryBtn">Pending Orders For Approval</label>
+                <label class="sign_in_heading" id="HistryBtn">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitlePendingOrder",UserCookieManager.WBStoreId,"Pending Orders For Approval"))</label>
             </div>
             <div class="dashBoardRetrunLink dashboard_heading_signin">
                 <div class=" left_align">
                     <h1>
                         <a href="/Dashboard" class="left_align" title="Back to my dashboard" onclick="ShowLoader();">
-                            Back to my dashboard
+                           @Html.Raw(Html.GetKeyValueFromResourceFile("BackToDashboardlbl", UserCookieManager.WBStoreId,"Back to my dashboard"))
                         </a>
                     </h1>
                     <div class="clearBoth"></div>
@@ -103,7 +103,7 @@
                         <tbody>
                             <tr>
                                 <td class="textAlignRight" style="width: 90px">
-                                    <span class="simpleTextBold" id="spnordernum">Order Number:</span>
+                                    <span class="simpleTextBold" id="spnordernum">@Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderNumHeadingTxt", UserCookieManager.WBStoreId,"Order Number")):</span>
                                 </td>
                                 <td class="textAlignLeft simpleText">
                                     @*<label id="lblOrderNumber" class="txtBold" />*@
@@ -113,7 +113,7 @@
                                     &nbsp;
                                 </td>
                                 <td class="textAlignRight">
-                                    <span class="simpleTextBold" id="spnorderstatus">Status:</span>
+                                    <span class="simpleTextBold" id="spnorderstatus">@Html.Raw(Html.GetKeyValueFromResourceFile("lblStatusHeadingTxt", UserCookieManager.WBStoreId,"Status")):</span>
                                 </td>
                                 <td class="textAlignLeft simpleText" style="width: 200px">
                                     @*<label id="lblOrderStatus" class="txtBold clrOrderDetail" />*@
@@ -124,7 +124,7 @@
                             </tr>
                             <tr>
                                 <td class="textAlignRight">
-                                    <span class="simpleTextBold" id="spnorderdate">Order Date:</span>
+                                    <span class="simpleTextBold" id="spnorderdate">@Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderDateHeadingTxt", UserCookieManager.WBStoreId, "Order Date")):</span>
                                 </td>
                                 <td class="textAlignLeft simpleText">
                                     @*<asp:label id="lblOrderDate" class="txtBold" />*@
@@ -138,7 +138,7 @@
                                     </td>*@
 
                                 <td class="textAlignRight">
-                                    <span class="simpleTextBold" id="spndileverydate">Delivery Date:</span>
+                                    <span class="simpleTextBold" id="spndileverydate">@Html.Raw(Html.GetKeyValueFromResourceFile("spndileverydate", UserCookieManager.WBStoreId, "Delivery Date:"))</span>
                                 </td>
                                 <td class="textAlignLeft simpleText">
                                     <label id="lblOrderDeliveryStartDate" class="txtBold marginTopforDate" />
@@ -149,7 +149,7 @@
                             </tr>
                             <tr>
                                 <td class="textAlignRight">
-                                    <span class="simpleTextBold" id="Span1">Placed By:</span>
+                                    <span class="simpleTextBold" id="Span1">@Html.Raw(Html.GetKeyValueFromResourceFile("spnplacedby", UserCookieManager.WBStoreId, "Placed by:"))</span>
                                 </td>
                                 <td class="textAlignLeft simpleText">
                                     @*<Label ID="lblPlacedBy"  Class="txtBold" />*@
@@ -195,7 +195,7 @@
                                     <tr>
                                         <th colspan="2" style="height: 25px; text-align: left;">
 
-                                            <label id="lblMainControlHeading" class="heading_small" style="margin-left:12px;">Billing Address</label>
+                                            <label id="lblMainControlHeading" class="heading_small" style="margin-left:12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("baddresss", UserCookieManager.WBStoreId, "Billing Address"))</label>
                                         </th>
                                     </tr>
                                 </thead>
@@ -276,7 +276,7 @@
                                 <thead>
                                     <tr>
                                         <th colspan="2" style="height: 25px; text-align: left;">
-                                            <label id="Label1" class="heading_small" style="margin-left:12px;">Shipping Address</label>
+                                            <label id="Label1" class="heading_small" style="margin-left:12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("shippinadresss", UserCookieManager.WBStoreId,"Shipping Address"))</label>
                                         </th>
                                     </tr>
                                 </thead>
@@ -361,7 +361,8 @@
                             <table border="0" cellpadding="3" cellspacing="0" width="200px">
                                 <tr>
                                     <td align="left">
-                                        <span id="spnsubtotal">Sub Total:</span>
+                                        <span id="spnsubtotal">@Html.Raw(Html.GetKeyValueFromResourceFile("spnsubtotal", UserCookieManager.WBStoreId, "Sub Total:"))
+</span>
                                     </td>
                                     <td>
                                         <label id="lblSubTotal"><span id="subtotal"></span></label>
@@ -370,7 +371,7 @@
                                 </tr>
                                 <tr>
                                     <td align="left" style="width: 80%">
-                                        <span id="spnDeliveryoptn">Deivery Cost:</span>
+                                        <span id="spnDeliveryoptn">@Html.Raw(Html.GetKeyValueFromResourceFile("spnDeliveryoptn", UserCookieManager.WBStoreId, "Deivery Cost:"))</span>
                                     </td>
                                     <td>
                                         <label id="lblDeliveryCost"><span id="DelCharge"></span></label>
@@ -378,7 +379,7 @@
                                 </tr>
                                 <tr>
                                     <td align="left" style="width: 80%">
-                                        <span id="spnvattotal">Vat Total:</span>
+                                        <span id="spnvattotal">@Html.Raw(Html.GetKeyValueFromResourceFile("spnvattotal", UserCookieManager.WBStoreId, "Vat Total:"))</span>
                                     </td>
                                     <td>
                                         <label id="lblVatTotal"><span id="Vat"></span></label>
@@ -386,7 +387,7 @@
                                 </tr>
                                 <tr>
                                     <td align="left">
-                                        <span class="CartFonts" id="spngrndtotal">Grand Total:</span>
+                                        <span class="CartFonts" id="spngrndtotal">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgrandtotal", UserCookieManager.WBStoreId, "Grand Total")):</span>
                                     </td>
                                     <td>
 
