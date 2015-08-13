@@ -186,7 +186,7 @@ namespace MPC.Repository.Repositories
         public IEnumerable<ProductCategory> GetParentCategories(long? companyId)
         {
             return DbSet.Where(productCategory => !productCategory.ParentCategoryId.HasValue && productCategory.OrganisationId == OrganisationId &&
-                (!companyId.HasValue || productCategory.CompanyId == companyId)).ToList();
+                (!companyId.HasValue || productCategory.CompanyId == companyId)).OrderBy(v => v.CategoryName).ToList();
         }
         /// <summary>
         /// Get Parent Categories For Organisation including archived once also

@@ -10,6 +10,7 @@ using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
+using MPC.ExceptionHandling;
 
 namespace MPC.Repository.Repositories
 {
@@ -173,7 +174,17 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                if (discountVoucher.HasCoupon == true)
+                {
+                    // Check for Code Duplication
+                    bool isDuplicateCode = IsDuplicateCouponCode(discountVoucher.CouponCode, discountVoucher.CompanyId);
+                    if (isDuplicateCode)
+                    {
+                        throw new MPCException("Coupon Code already exist.", OrganisationId);
+                    }
 
+                }
+              
                 DiscountVoucher discountVoucherDbVersion = db.DiscountVouchers.Where(c => c.DiscountVoucherId == discountVoucher.DiscountVoucherId).FirstOrDefault();
                 if (discountVoucherDbVersion != null)
                 {
@@ -342,8 +353,23 @@ namespace MPC.Repository.Repositories
             try
             {
                 discountVoucher.VoucherCode = Guid.NewGuid().ToString();
-
+                discountVoucher.OrganisationId = OrganisationId;
                 discountVoucher.IsEnabled = true;
+
+                // Check for Code Duplication
+                if(discountVoucher.HasCoupon == true)
+                {
+                    bool isDuplicateCode = IsDuplicateCouponCode(discountVoucher.CouponCode, discountVoucher.CompanyId);
+                    if (isDuplicateCode)
+                    {
+                        throw new MPCException("Coupon Code already exist.", OrganisationId);
+                    }
+                    
+                }
+               
+
+
+
                 db.DiscountVouchers.Add(discountVoucher);
 
                 db.SaveChanges();
@@ -401,6 +427,25 @@ namespace MPC.Repository.Repositories
 
             }
         }
+
+
+        /// <summary>
+        /// Check if coupon code provided already exists
+        /// </summary>
+        public bool IsDuplicateCouponCode(string CouponCode, long? companyId)
+        {
+            try
+            {
+                return db.DiscountVouchers.Any(c => c.CouponCode == CouponCode && c.CompanyId == companyId);
+               
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
          public long IsDiscountVoucherApplied(long StoreId, long OrganisationId)
         {
             try

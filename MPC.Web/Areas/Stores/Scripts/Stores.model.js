@@ -4806,7 +4806,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     };
     // #endregion ______________ Smart Form   _________________
     // #region ______________  Discount Voucher _________________
-    var discountVoucherListView = function (specifiedSmartFormId, specifiedName, specifiedCode, specifiedDtype, dRate, dusetype) {
+    var discountVoucherListView = function (specifiedSmartFormId, specifiedName, specifiedCode, specifiedDtype, dRate, dusetype,specifiedhasCoupon) {
         var self,
             id = ko.observable(specifiedSmartFormId),
             name = ko.observable(specifiedName),
@@ -4814,6 +4814,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             discountType = ko.observable(specifiedDtype),
             discountRate = ko.observable(dRate || 0),
             couponUseType = ko.observable(dusetype),
+            hasCoupon = ko.observable(specifiedhasCoupon || false),
             // Errors
             errors = ko.validation.group({
                 name: name,
@@ -4842,6 +4843,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             discountType: discountType,
             discountRate: discountRate,
             couponUseType: couponUseType,
+            hasCoupon: hasCoupon,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -4856,7 +4858,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.CouponCode,
             source.DiscountType,
             source.DiscountRate,
-            source.CouponUseType);
+            source.CouponUseType,source.HasCoupon);
     };
 
     DiscountVoucher = function (spcDiscountVoucherId, spcVoucherName, spcCouponCode, spcDiscountType, spcDiscountRate, spcCouponUseType, spcHasCoupon,
@@ -4865,11 +4867,19 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         var self,
             id = ko.observable(spcDiscountVoucherId),
             name = ko.observable(spcVoucherName).extend({ required: true }),
-            couponCode = ko.observable(spcCouponCode),
+              hasCoupon = ko.observable(spcHasCoupon || false),
+            couponCode = ko.observable(spcCouponCode).extend({
+                   required: {
+                       onlyIf: function () {
+                           return hasCoupon() === true;
+                       }
+                   }
+               }),
             discountType = ko.observable(spcDiscountType),
             discountRate = ko.observable(spcDiscountRate || 0).extend({ number: true }),
             couponUseType = ko.observable(spcCouponUseType),
-            hasCoupon = ko.observable(spcHasCoupon || false),
+          
+             
             isOrderPriceRequirement = ko.observable(spcIsOrderPriceRequirement),
             isQtyRequirement = ko.observable(spcIsQtyRequirement),
             isQtySpan = ko.observable(spcIsQtySpan || false),
@@ -5087,6 +5097,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 discountRate: discountRate,
                 maxRequiredQty: maxRequiredQty,
                 minRequiredQty: minRequiredQty,
+                couponCode: couponCode,
             }),
             // Is Valid 
             isValid = ko.computed(function () {

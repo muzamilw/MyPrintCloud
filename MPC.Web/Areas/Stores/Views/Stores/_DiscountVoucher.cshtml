@@ -25,10 +25,23 @@
                         <tr data-bind="click:$root.editDiscountVoucher">
                            
                             <td><a class="store-user-link" data-bind="text:name"></a></td>
-                            <td data-bind="text:couponCode"></td>
+                         
+
+                            <td>
+                                <!-- ko if: hasCoupon() === true -->
+                            <span data-bind="text:couponCode"></span>
+                                <!-- /ko -->
+                            </td>
+                           
                             <td data-bind="text:discountType"></td>
                             <td data-bind="text:discountRate()+'%'"></td>
-                            <td data-bind="text:couponUseType"></td>
+                          
+                            <td >
+                                <!-- ko if: hasCoupon() === true -->
+                                <span data-bind="text:couponUseType"></span>
+                                <!-- /ko -->
+                            </td>
+                           
                         </tr>
                         <!-- /ko -->
 
@@ -45,7 +58,7 @@
             </ul>
         </div>
     </div>
-    <div class="col-lg-7 btn-group" style="float: left; margin-top:15px;margin-left:-5px;">
+    <div class="col-lg-7 btn-group" style="float: left; margin-top:11px;margin-left:-5px;">
         <div class="filter-block" data-bind="">
             <a class="btn btn-primary" data-bind="click:$root.createDiscountVoucher">
                 Add New Voucher
