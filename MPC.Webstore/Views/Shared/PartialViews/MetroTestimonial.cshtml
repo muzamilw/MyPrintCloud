@@ -9,11 +9,11 @@
 @{
     Layout = null;
 }
-
+@using MPC.Webstore.Common;
 <div class="Container" id="all-metroTest-pg">
     <div class="panel panel-info" id="testimonial_sidebar">
         <div class="panel-heading">
-            <h3 class="panel-title">Testimonials</h3>
+            <h3 class="panel-title">@Html.Raw(Html.GetKeyValueFromResourceFile("testiiiii", UserCookieManager.WBStoreId, "Testimonials"))</h3>
         </div>
         <div class="panel-body">
             <div id="testimonial-sidebar-124726984" data-interval="6000" class="carousel slide testimonial-panel">
@@ -49,12 +49,12 @@
                                  ClientIDMode="Static">
                     </asp:TextBox>*@
 
-                <input id="txtEmailbox" name="txtEmailbox" type="text" value="Enter email address..." class="txtSubscribe-Subscribe SubscribeTxtBoxCS" />
+                <input id="txtEmailbox" name="txtEmailbox" type="text" value="@Html.Raw(Html.GetKeyValueFromResourceFile("EemailAdd", UserCookieManager.WBStoreId, "Enter email address..."))" class="txtSubscribe-Subscribe SubscribeTxtBoxCS" />
             </div>
             <div class="NewsDescCs col-md-12 col-lg-12 col-sm-12 col-xs-12">
                 <span id="Nwsdesc">@ViewBag.Nwsdesc</span>
             </div>
-            <input type="button" id="btnSendNews" onclick="Go();" class="btnSubscribe rounded_corners" value="@ViewBag.SendBtntext" /><br />
+            <input type="button" id="btnSendNews" onclick="Go();" class="btnSubscribe rounded_corners" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSend", UserCookieManager.WBStoreId,"Send"))" /><br />
 
             @*<asp:Button ID="btnSendNews" runat="server" OnClientClick="return ValidateBottomSubscriberEmail();"
                 OnClick="btnGo_Click" CssClass="btnSubscribe rounded_corners" Text="Send" /><br />*@

@@ -12,8 +12,8 @@
         <div class="logo"><img src="/@Model.Image"></div>
         <div class="mainNav">
             <nav id="nav" role="navigation">
-                <a href="#nav" title="Show Menu">Show Menu</a>
-                <a href="#" title="Hide Menu">Hide Menu</a>
+                <a href="#nav" title="Show Menu">@Html.Raw(Html.GetKeyValueFromResourceFile("showmenuu", UserCookieManager.WBStoreId, "Show Menu"))</a>
+                <a href="#" title="Hide Menu">@Html.Raw(Html.GetKeyValueFromResourceFile("hidemenuuu", UserCookieManager.WBStoreId, "Hide Menu"))</a>
                 <ul>
                   @foreach (var ParentProduct in ParentCategory)
                   {

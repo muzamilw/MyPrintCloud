@@ -5,17 +5,18 @@
 @{
     Layout = null;
 }
+@using MPC.Webstore.Common;
 <div id="controlBodyDiv" >
     <div class="container content_area" id="all-SavedDesign-pg">
         <div class="left_right_padding">
             <div class="signin_heading_div float_left_simple dashboard_heading_signin col-md-12 col-lg-12 col-xs-12">
-                <label id="lblCategoriesLinks1" class="sign_in_heading">My saved designs</label>
+                <label id="lblCategoriesLinks1" class="sign_in_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblCategoriesLinks1", UserCookieManager.WBStoreId, "My saved designs"))</label>
             </div>
             <div class="dashBoardRetrunLink dashboard_heading_signin">
                 <div class=" left_align">
                     <h1>
                         <a href="/Dashboard" class="left_align" title="Back to my dashboard" onclick="ShowLoader();">
-                            Back to my dashboard
+                            @Html.Raw(Html.GetKeyValueFromResourceFile("BackToDashboardlbl", UserCookieManager.WBStoreId, "Back to my dashboard"))
                         </a>
                     </h1>
                     <div class="clearBoth"></div>
@@ -69,7 +70,7 @@
                     }
                     @if (ViewData["SaveDesignView"] == null)
                     {
-                        <label id="lblProductNotFound" class="simpleTextLarge">You have No saved templates</label>
+                        <label id="lblProductNotFound" class="simpleTextLarge">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlhavenosavdesign", UserCookieManager.WBStoreId, "You have No saved templates"))</label>
                     }
                     <div class="clearBoth">
                         &nbsp;

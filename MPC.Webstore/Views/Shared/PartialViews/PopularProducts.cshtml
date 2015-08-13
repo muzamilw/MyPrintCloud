@@ -14,7 +14,7 @@
 <div class="content_area left_right_padding paddingS4 PopularProducts" id="all-popularPro-pg">
     <div id="controlBodyDiv" class="PopularProductsSub">
         <div class="feature_product_main_heading">
-            <label id="ltrlPopularProducts">Popular Products</label>
+            <label id="ltrlPopularProducts">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlPopularProducts", UserCookieManager.WBStoreId, "Popular Products"))</label>
         </div>
         @foreach (var Product in PopularProductList)
         {
