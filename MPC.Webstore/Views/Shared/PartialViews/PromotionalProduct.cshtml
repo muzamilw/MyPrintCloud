@@ -14,7 +14,7 @@
 <div class="content_area left_right_padding paddingS4 PromotionalBanner" id="all-promotionalPro-pg">
     <div id="controlBodyDiv" class="PromotionalBannerSub">
         <div class="feature_product_main_heading">
-            <label id="ltrlSpecialOffers">Special Offers</label>
+            <label id="ltrlSpecialOffers">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlSpecialOffers",UserCookieManager.WBStoreId,"Special Offers"))</label>
         </div>
         @foreach (var Product in PromotionalProductList)
         {

@@ -62,14 +62,14 @@
             <div class="col-md-12 col-lg-12 col-xs-12">
                 <div class=" signin_heading_div float_left_simple ">
                     <label class=" sign_in_heading" id="HistryBtn">
-                        My Profile
+                        @Html.Raw(Html.GetKeyValueFromResourceFile("myprofile", UserCookieManager.WBStoreId, "My Profile"))
                     </label>
                 </div>
                 <div class="dashBoardRetrunLink dashboard_heading_signin">
                     <div class=" left_align">
                         <h1>
                             <a href="/Dashboard" class="left_align" title="Back to my dashboard" onclick="ShowLoader();">
-                                Back to my dashboard
+                                @Html.Raw(Html.GetKeyValueFromResourceFile("BackToDashboardlbl", UserCookieManager.WBStoreId, "Back to my dashboard"))
                             </a>
                         </h1>
                         <div class="clearBoth"></div>
@@ -98,8 +98,8 @@
                                 @*First Name*@
                             </div>
                             <div class="TTL widthAvenior">
-                                <span class="error-message EFirstName" style="display: none;">can't be blank</span>
-                                @Html.TextBoxFor(model => model.FirstName, new { id = "txtFirstName", @class = "newTxtBox", placeholder = "First Name", maxlength = 500, })
+                                <span class="error-message EFirstName" style="display: none;">@Html.Raw(Html.GetKeyValueFromResourceFile("cnb", UserCookieManager.WBStoreId, "can't be blank"))</span>
+                                @Html.TextBoxFor(model => model.FirstName, new { id = "txtFirstNamee", @class = "newTxtBox", placeholder = "First Name", maxlength = 500, })
                             </div>
                             <div class="clearBoth">
                             </div>
@@ -108,7 +108,7 @@
                                 @*Last Name*@
                             </div>
                             <div class="TTL widthAvenior">
-                                @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "newTxtBox", placeholder = "Last Name", maxlength = 500, })
+                                @Html.TextBoxFor(model => model.LastName, new { id = "txtLastNamee", @class = "newTxtBox", placeholder = "Last Name", maxlength = 500, })
                             </div>
 
                             <div class="clearBoth">
@@ -118,7 +118,7 @@
                                 @*Email*@
                             </div>
                             <div class="TTL widthAvenior">
-                                @Html.TextBoxFor(model => model.Email, new { id = "txtUserEmail", @class = "newTxtBox", placeholder = "Email", maxlength = 500, @readonly = "readonly" })
+                                @Html.TextBoxFor(model => model.Email, new { id = "txtUserEmaile", @class = "newTxtBox", placeholder = "Email", maxlength = 500, @readonly = "readonly" })
                             </div>
                             <div class="clearBoth">
                             </div>
@@ -387,12 +387,12 @@
                                     @if (Model.IsEmailSubscription == true)
                                     {
                                         <input id="Select" name="MarketAndPromotion" type="checkbox" value="true" checked />
-                                        <label for="Select">Notify me of marketing and promotions</label>
+                                        <label for="Select">@Html.Raw(Html.GetKeyValueFromResourceFile("chkEmailMeOffers", UserCookieManager.WBStoreId, "Notify me of marketing and promotions"))</label>
                                     }
                                     else
                                     {
                                         <input id="Select" name="MarketAndPromotion" type="checkbox" value="true" />
-                                        <label for="Select">Notify me of marketing and promotions</label>
+                                        <label for="Select">@Html.Raw(Html.GetKeyValueFromResourceFile("chkEmailMeOffers", UserCookieManager.WBStoreId, "Notify me of marketing and promotions"))</label>
                                     }
                                     <input id="Select" name="MarketAndPromotion" type="hidden" value="false" />
 
@@ -409,12 +409,13 @@
                                     {
 
                                         <input id="News" name="NewsLetterSubscription" type="checkbox" value="true" checked />
-                                        <label for="News">Subscribe to Newsletters</label>
+                                        <label for="News">@Html.Raw(Html.GetKeyValueFromResourceFile("chkSendMeNewsLetters", UserCookieManager.WBStoreId, "Subscribe to Newsletters"))
+</label>
                                     }
                                     else
                                     {
                                         <input id="News" name="NewsLetterSubscription" type="checkbox" value="true" />
-                                        <label for="News">Subscribe to Newsletters</label>
+                                        <label for="News">@Html.Raw(Html.GetKeyValueFromResourceFile("chkSendMeNewsLetters", UserCookieManager.WBStoreId, "Subscribe to Newsletters"))</label>
                                     }
                                     <input name="NewsLetterSubscription" type="hidden" value="false" />
 
@@ -427,11 +428,11 @@
                                     &nbsp;
                                 </div>
                                 <div class="TTL widthAvenior">
-                                    <input id="btnSave" type="button" value="Save" class="start_creating_btn rounded_corners5" tabindex="13" onclick="Update()" />
+                                    <input id="btnSave" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSave", UserCookieManager.WBStoreId, "Save"))" class="start_creating_btn rounded_corners5" tabindex="13" onclick="Update()" />
 
                                     &nbsp;&nbsp;
 
-                                    <input id="btnCancel" type="button" value="Cancel" class="start_creating_btn rounded_corners5" tabindex="15" onclick="Cancel()" />
+                                    <input id="btnCancel" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnCancel", UserCookieManager.WBStoreId, "Cancel"))" class="start_creating_btn rounded_corners5" tabindex="15" onclick="Cancel()" />
                                     @*<input id="btnSubmitForm" type="submit" value="Cancel"  style="display:none;" tabindex="17"  />*@
                                 </div>
                             </div>
@@ -475,13 +476,13 @@
 
             var errorMessage = '';
             var isValid = true;
-            if ($("#txtFirstName").val() == '') {
+            if ($("#txtFirstNamee").val() == '') {
 
                 errorMessage = errorMessage + "First Name";
 
                 isValid = false;
             }
-            if ($("#txtLastName").val() == '') {
+            if ($("#txtLastNamee").val() == '') {
                 if (errorMessage == '') {
                     errorMessage = errorMessage + "Last Name";
                 } else {
@@ -502,9 +503,9 @@
                 ShowPopUp('Message', 'Please enter ' + errorMessage + ' to proceed.');
             } else {
                 ShowLoader();
-                var FirstName = $("#txtFirstName").val();
-                var LastName = $("#txtLastName").val();
-                var Email = $("#txtUserEmail").val();
+                var FirstName = $("#txtFirstNamee").val();
+                var LastName = $("#txtLastNamee").val();
+                var Email = $("#txtUserEmaile").val();
                 var JobTitle = $("#txtJobTitle").val();
                 var HomeTel1 = $("#txtUserPhone1").val();
                 var Mobile = $("#txtUserCellNo").val();
