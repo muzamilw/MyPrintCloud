@@ -3651,37 +3651,8 @@ namespace MPC.Implementation.MISServices
 
         private DiscountVoucher UpdateDiscountVoucher(DiscountVoucher discountVoucher)
         {
-        //    DiscountVoucher discountVoucherDbVersion = discountVoucherRepository.Find(discountVoucher.DiscountVoucherId);
-        //    if (discountVoucherDbVersion != null)
-        //    {
-        //        discountVoucherDbVersion.VoucherName = discountVoucher.VoucherName;
-        //        discountVoucherDbVersion.DiscountRate = discountVoucher.DiscountRate;
-        //        discountVoucherDbVersion.DiscountType = discountVoucher.DiscountType;
-        //        discountVoucherDbVersion.HasCoupon = discountVoucher.HasCoupon;
-        //        discountVoucherDbVersion.CouponCode = discountVoucher.CouponCode;
-        //        discountVoucherDbVersion.CouponUseType = discountVoucher.CouponUseType;
-        //        discountVoucherDbVersion.IsUseWithOtherCoupon = discountVoucher.IsUseWithOtherCoupon;
-        //        discountVoucherDbVersion.CompanyId = discountVoucher.CompanyId;
-
-        //        discountVoucherDbVersion.IsTimeLimit = discountVoucher.IsTimeLimit;
-        //        discountVoucherDbVersion.ValidFromDate = discountVoucher.ValidFromDate;
-        //        discountVoucherDbVersion.ValidUptoDate = discountVoucher.ValidUptoDate;
-
-        //        discountVoucherDbVersion.IsQtyRequirement = discountVoucher.IsQtyRequirement;
-        //        discountVoucherDbVersion.MinRequiredQty = discountVoucher.MinRequiredQty;
-        //        discountVoucherDbVersion.MaxRequiredQty = discountVoucher.MaxRequiredQty;
-        //        discountVoucherDbVersion.IsQtySpan = discountVoucher.IsQtySpan;
-
-        //        discountVoucherDbVersion.IsOrderPriceRequirement = discountVoucher.IsOrderPriceRequirement;
-        //        discountVoucherDbVersion.MinRequiredOrderPrice = discountVoucher.MinRequiredOrderPrice;
-        //        discountVoucherDbVersion.MaxRequiredOrderPrice = discountVoucher.MaxRequiredOrderPrice;
-        //        discountVoucherDbVersion.IsEnabled = discountVoucher.IsEnabled;
-
-        //        discountVoucherRepository.AddCategoryVoucher(discountVoucher.ProductCategoryVouchers, discountVoucherDbVersion.DiscountVoucherId);
-        //    }
-
-        //    discountVoucherRepository.SaveChanges();
-            DiscountVoucher voucher = discountVoucherRepository.AddCategoryVoucher(discountVoucher);
+       
+            DiscountVoucher voucher = discountVoucherRepository.UpdateVoucher(discountVoucher);
             return voucher;
         }
         #endregion

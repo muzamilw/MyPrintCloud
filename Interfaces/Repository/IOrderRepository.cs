@@ -141,6 +141,9 @@ namespace MPC.Interfaces.Repository
 
         bool UpdateItemAttachmentPath(List<Item> items);
         List<Item> GetOrderItemsIncludingDelivery(long OrderId, int OrderStatus);
+        List<long> GetOrdersForBillingCycle(DateTime billingDate, bool isDirectOrder);
+        bool IsExtradOrderForBillingCycle(DateTime billingDate, bool isDirectOrder, int licensedCount, long orderId, long organisationId);
+
     }
 }
 

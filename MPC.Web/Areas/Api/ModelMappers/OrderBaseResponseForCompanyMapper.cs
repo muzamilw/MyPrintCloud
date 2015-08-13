@@ -24,7 +24,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 new List<CompanyContactDropDownForOrder>(),
                 TaxRate=source.TaxRate,
                 JobManagerId = source.JobManagerId,
-                IsStoreLive = source.IsStoreLive
+                IsStoreLive = source.IsStoreLive,
+                IsMisOrdersCountReached = source.IsMisOrdersCountReached,
+                IsWebOrdersCountReached = source.IsWebOrdersCountReached
             };
         }
         

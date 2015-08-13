@@ -1,0 +1,52 @@
+﻿<div class="modal fade my-modal" id="itemsDialogForDiscountVoucher" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Select Product(s)</h4>
+            </div>
+            <div class="col-lg-12">
+                <div class="row pull-right" style="margin-left: -24px;">
+                <span style="margin-left: -80px;">Select</span>
+                </div>
+                <div class="row" style="padding-top: 15px;">
+                    <div style="padding-right: 16px;padding-left: 16px;max-height: 500px;min-height: 500px;overflow-y: auto;margin-bottom:13px;margin-top:10px;" id="nestable2">
+                        <ol id="itemsDialogProducts" class="dd-list">
+                            <!-- ko template: { name: 'itemsDialogTemplate', foreach: $root.products } -->
+                            <!-- /ko -->
+                        </ol>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bind="click: $root.updateProductDV">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Product Template *@
+<script id="itemsDialogTemplate" type="text/html">
+    <li class="dd-item dd-item-list" data-bind="attr: { id: 'liElement-' + id }">
+        <div class="dd-handle-list"></div>
+        <div class="dd-handle">
+            <div>
+                <span data-bind="text: name">
+
+                </span>
+                <!--ko if: isArchived-->
+                <span style="color:red; font-weight: 700;"> (Archive) </span>
+                <!--/ko-->
+                <input type="checkbox" class="bigcheckbox" style="float:right" data-bind="checked: isSelected" />
+            </div>
+
+
+
+        </div>
+    </li>
+</script>
+
+
+@* Wizard Popup ends here*@
