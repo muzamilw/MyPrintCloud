@@ -2444,9 +2444,14 @@ define("order/order.viewModel",
 
 
                     },
-                    checkStoreLive = function() {
-                        if (!isStoreLive()) {
-                           // confirmation.messageText("Important ! You can not " + message + " for the offline store. Please make it live or upgrade your package.");
+                    checkStoreLive = function () {
+                        var sMessage = "";
+                        if (!isStoreLive())
+                            sMessage = "Store is not live.";
+                        else if (selectedOrder().isExtraOrder() == true)
+                            sMessage = "Your orders exceeds the limit.";
+                        if (!isStoreLive() || selectedOrder().isExtraOrder() == true) {
+                            confirmation.messageText("Important ! " + sMessage);
                             confirmation.afterProceed(function () {
                                 var uri = encodeURI("https://myprintcloud.com/dashboard");
                                 window.location.href = uri;

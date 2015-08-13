@@ -98,6 +98,7 @@ namespace MPC.MIS.Areas.Api.Models
         public long? StoreId { get; set; }
         public short IsCustomer { get; set; }
         public int? InvoiceStatus { get; set; }
+        public bool IsExtraOrder { get; set; }
         public IEnumerable<OrderItem> Items { get; set; }
         public IEnumerable<PrePayment> PrePayments { get; set; }
         public IEnumerable<ShippingInformation> ShippingInformations { get; set; }

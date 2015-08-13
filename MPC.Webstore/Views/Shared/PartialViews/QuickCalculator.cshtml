@@ -4,7 +4,8 @@
 @{
    Layout = null; 
  }
-
+@using MPC.Webstore.Common;
+@{
 
 <div class="content_area container left_right_padding PDM7-CS  QCMainContainer">
     <div id="QuickCalcFrame" class=" QuickCalcFrame">
@@ -12,33 +13,34 @@
             <br />
            
             <img src="/Content/images/asdf.gif" alt="" /><br />
-            Loading...
+            @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlloading", UserCookieManager.WBStoreId, "Loading..."))
         </div>
         <h1 id="lblQuickCalcHead" class="QuickCalcHead">
-            Quick Calculator
+            @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlQuickcal", UserCookieManager.WBStoreId,"Quick Calculator"))
         </h1>
         <div class="QuickCalcBar">
             @*<asp:DropDownList ID="ddlProducts" Class="QuickCalcProducts">
             </asp:DropDownList>*@
             <select id="DDProduct" class="QuickCalcProducts"></select>
             <span id="lblQuickCalcQty" class="lblQuickCalcQty">
-                Qty
+                @Html.Raw(Html.GetKeyValueFromResourceFile("ltrllllqtyyy", UserCookieManager.WBStoreId,"Qty"))
             </span>
             <select id="ddlQuantity" class="QuickCalcQty"></select>
             <div class="clear">
             </div>
         </div>
         <div id="QuickQtyRanged">
-            <span>Enter Quantity</span>
+            <span>@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlenterqty", UserCookieManager.WBStoreId, "Enter Quantity"))</span>
             @*<asp:TextBox ID="txtRangedQty" runat="server"></asp:TextBox>*@
             <input type="text" id="txtRangedQty" />
         </div>
         <div id="QuickPriceBox" class="QuickCalcPriceBox">
             <div id="QuickCalcOnlinePrice" class="QuickCalcPriceLbl">
-                Online price
+                @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlonlineprice", UserCookieManager.WBStoreId, "Online price"))
             </div>
             <div id="QuickCalcFrom" class="QuickCalcPriceLbl" style="display:none;">
-                &nbsp;from&nbsp;
+                &nbsp;@Html.Raw(Html.GetKeyValueFromResourceFile("lblQtyFrom", UserCookieManager.WBStoreId,"From"))
+&nbsp;
             </div>
             <div id="QuickPrice" class="QuickCalcPrice">
             </div>
@@ -55,7 +57,7 @@
         <input type="hidden" id="hlPriceData" />
     </div>
     <div class="float_right Need_aPrice_CS">
-        <a href="../RequestQuote.aspx" id="hfReqQ" >Need a price? </a>
+        <a href="../RequestQuote.aspx" id="hfReqQ" >@Html.Raw(Html.GetKeyValueFromResourceFile("lnkNeedaprice", UserCookieManager.WBStoreId, "Need a price?"))</a>
     </div>
     <div class="clearBoth">
         &nbsp;

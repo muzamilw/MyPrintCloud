@@ -96,6 +96,9 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public int? InvoiceStatus { get; set; }
 
+        [NotMapped]
+        public bool IsExtraOrder { get; set; }
+
         public virtual Company Company { get; set; }
         public virtual CompanyContact CompanyContact { get; set; }
         public virtual Organisation Organisation { get; set; }

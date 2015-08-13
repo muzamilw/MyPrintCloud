@@ -173,18 +173,18 @@
                                             <img style="margin-left:34%" src="/mis/Content/Images/Company_Default.png">
                                             <!--/ko-->
                                             <!-- ko if: storeImageFileBinary() -->
-                                            <img style="width:240px;height:130px;-o-object-fit: contain; object-fit: contain;" id="idCompanyimage" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
-                                            <img style="width: 240px; height: 130px; -o-object-fit: contain; object-fit: contain;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
+                                            <img style="width:220px;height:130px;-o-object-fit: contain; object-fit: contain;" id="idCompanyimage" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
+                                            <img style="width: 220px; height: 130px; -o-object-fit: contain; object-fit: contain;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
 
                                             <!--/ko-->
-                                            <div class="col-lg-12" style="margin-top:15px;text-align:center;width:240px;">
+                                            <div class="col-lg-12" style="margin-top:12px;text-align:center;width:220px;">
                                                 <div class="fileUpload btn btn-primary">
-                                                    <span>Upload </span>
+                                                    <span>Upload</span>
                                                     <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                 </div>
 
                                             </div>
-                                            <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px !important;width:240px;">Upload a Logo (PNG,JPG,GIF) for profile</div>
+                                            <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:5px !important;width:220px;">Upload a Logo (PNG,JPG,GIF) for profile</div>
                                             <div class="profile-stars">
                                                 <span data-bind="value: type"></span>
                                             </div>

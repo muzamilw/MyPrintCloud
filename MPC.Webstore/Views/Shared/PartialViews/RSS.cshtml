@@ -1,12 +1,13 @@
 ﻿@{
     Layout = null;
 }
+@using MPC.Webstore.Common;
 <div class="RSSContainer">
     <div class="RSSWidgetPRE">
     </div>
     <div class="RSSWidget">
         <h2 class="rssWidgetHeading">
-            Our  <strong>charity blog</strong>
+            Our  <strong>@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlCharityBlog", UserCookieManager.WBStoreId, "charity blog"))</strong>
         </h2>
         <div id="divRss">
         </div>

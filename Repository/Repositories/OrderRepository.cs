@@ -6981,6 +6981,29 @@ namespace MPC.Repository.Repositories
                 return db.Estimates.Where(e => e.EstimateId == OrderId).Select(t => t.Estimate_Total).FirstOrDefault();
         }
 
+        public List<long> GetOrdersForBillingCycle(DateTime billingDate, bool isDirectOrder)
+        {
+            List<long> ordersList = DbSet.Where(
+                    o =>
+                        o.isEstimate == false && o.isDirectSale == isDirectOrder && o.StatusId != 3 &&
+                        o.CreationDate >= billingDate.AddMonths(-1) && o.CreationDate <= billingDate).OrderByDescending(o => o.CreationDate).Select(o => o.EstimateId).ToList();
+            
+            return ordersList;
+        }
+
+        public bool IsExtradOrderForBillingCycle(DateTime billingDate, bool isDirectOrder, int licensedCount, long orderId, long organisationId)
+        {
+            DateTime lastMonth = billingDate.AddMonths(-1);
+            List<long> ordersList = DbSet.Where(
+                    o =>
+                        o.isEstimate == false && o.isDirectSale == isDirectOrder && o.StatusId != 3 && o.OrganisationId == organisationId &&
+                        o.CreationDate >= lastMonth && o.CreationDate <= billingDate).OrderBy(o => o.CreationDate).Select(o => o.EstimateId).Take(licensedCount).ToList();
+
+            if (ordersList.Contains(orderId))
+                return false;
+            else
+                return true;
+        }
     }
 }
 

@@ -102,6 +102,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 systemUsers = ko.observableArray([]),
                 // Credit Limit Set By
                 creditLimitSetBy = ko.observable(specifiedCreditLimitSetBy || undefined),
+                isExtraOrder = ko.observable(),
                 // Get User by Id
                 getUserById = function (userId) {
                     return systemUsers.find(function (user) {
@@ -555,6 +556,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 originalStatusId: originalStatusId,
                 refEstimateId: refEstimateId,
                 status: status,
+                isExtraOrder:isExtraOrder,
                 storeId: storeId,
                 setCreditiLimitSetBy: setCreditiLimitSetBy,
                 setAllowJobWoCreditCheckSetBy: setAllowJobWoCreditCheckSetBy,
@@ -827,6 +829,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         estimate.statusId(source.StatusId);
         estimate.originalStatusId(source.StatusId);
         estimate.status(source.Status);
+        estimate.isExtraOrder(source.IsExtraOrder);
+        
         estimate.systemUsers(constructorParams.SystemUsers);
         var total = (parseFloat((source.EstimateTotal === undefined || source.EstimateTotal === null) ? 0 : source.EstimateTotal)).toFixed(2);
         estimate.estimateTotal(total);

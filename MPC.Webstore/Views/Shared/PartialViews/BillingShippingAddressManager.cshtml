@@ -1,6 +1,7 @@
 ﻿
 @using MPC.Webstore.WebGridExtension;
 @using MPC.Models.Common;
+@using MPC.Webstore.Common;
 @{
     Layout = null;
 }
@@ -15,13 +16,14 @@
     <div class="left_right_padding">
         <div class="col-md-12 col-lg-12 col-xs-12">
             <div class="signin_heading_div float_left_simple ">
-                <label class="sign_in_heading" id="HistryBtn">My Saved Billing & Shipping Details</label>
+                <label class="sign_in_heading" id="HistryBtn">@Html.Raw(Html.GetKeyValueFromResourceFile("BillShipMangHead", UserCookieManager.WBStoreId, "My Saved Billing & Shipping Details"))
+</label>
             </div>
             <div class="dashBoardRetrunLink dashboard_heading_signin">
                 <div class=" left_align">
                     <h1>
                         <a href="/Dashboard" class="left_align" title="Back to my dashboard" onclick="ShowLoader();">
-                            Back to my dashboard
+                            @Html.Raw(Html.GetKeyValueFromResourceFile("BackToDashboardlbl", UserCookieManager.WBStoreId, "Back to my dashboard"))
                         </a>
                     </h1>
                     <div class="clearBoth"></div>
@@ -35,7 +37,7 @@
             <div class="cursor_pointer">
 
                 <div class="new_caption">
-                    <input type="button" id="btnCopyProduct" class="add-address-btn" onclick="ResetTextboxes()" value="Add new address">
+                    <input type="button" id="btnCopyProduct" class="add-address-btn" onclick="ResetTextboxes()" value="@Html.Raw(Html.GetKeyValueFromResourceFile("AddAddress", UserCookieManager.WBStoreId, "Add new address"))">
                 </div>
                 <div class="clearBoth">
                 </div>
@@ -59,13 +61,13 @@
                             <td style="padding-left: 10px;">
                                 @*<asp:Button ID="btnsearch" runat="server" Text="Go" CssClass="start_creating_btn rounded_corners5"
                                 OnClick="btnsearch_Click" />*@
-                                <button id="btnsearch" name="btnsearch" type="submit" class="start_creating_btn rounded_corners5" style="visibility:hidden;">Go</button>
+                                <button id="btnsearch" name="btnsearch" type="submit" class="start_creating_btn rounded_corners5" style="visibility:hidden;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnSearchOrders", UserCookieManager.WBStoreId, "Go"))</button>
                             </td>
 
                             <td style="padding-left: 10px;">
                                 @*<asp:Button ID="btnReset" runat="server" Text="Reset" CssClass="start_creating_btn rounded_corners5"
                                 OnClick="btnReset_Click" />*@
-                                <button id="btnReset" name="btnReset" type="submit" class="start_creating_btn rounded_corners5" style="visibility:hidden;">Clear</button>
+                                <button id="btnReset" name="btnReset" type="submit" class="start_creating_btn rounded_corners5" style="visibility:hidden;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnClear", UserCookieManager.WBStoreId, "Clear"))</button>
                             </td>
                         }
                     </tr>
@@ -157,13 +159,13 @@ grid.Column("Default Shipping",format:@<p>
             </div>
         </div>*@
         <div class="address_contol_area1">
-            <input type="text" value="Address Name" maxlength="100" id="txtAddressName" class="newTxtBox" placeholder="Address Name">
+            <input type="text" value="Address Name" maxlength="100" id="txtAddressName" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddressName", UserCookieManager.WBStoreId, "Address Name:"))">
         </div>
         @*<div class="address_label_area2">
             FAO:
         </div>*@
         <div class="address_contol_area2">
-            <input type="text" maxlength="50" id="txtFAO" class="newTxtBox" placeholder="FAO">
+            <input type="text" maxlength="50" id="txtFAO" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlFAO", UserCookieManager.WBStoreId, "FAO"))">
         </div>
         <div class="clearBoth">
             &nbsp;
@@ -175,13 +177,13 @@ grid.Column("Default Shipping",format:@<p>
             </div>
         </div>*@
         <div class="address_contol_area1">
-            <input type="text" value="Address 1" maxlength="250" id="txtAddress1" class="newTxtBox" placeholder="Address 1">
+            <input type="text" value="Address 1" maxlength="250" id="txtAddress1" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("literalAddress1", UserCookieManager.WBStoreId, "Address 1"))">
         </div>
         @*<div class="address_label_area2">
             Reference:
         </div>*@
         <div class="address_contol_area2">
-            <input type="text" maxlength="50" id="txtReference" class="newTxtBox" placeholder="Reference">
+            <input type="text" maxlength="50" id="txtReference" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltlReference", UserCookieManager.WBStoreId, "Reference"))">
         </div>
         <div class="clearBoth">
             &nbsp;
@@ -190,20 +192,20 @@ grid.Column("Default Shipping",format:@<p>
             Address 2:
         </div>*@
         <div class="address_contol_area1">
-            <input type="text" maxlength="250" id="txtAddress2" class="newTxtBox" placeholder="Address 2">
+            <input type="text" maxlength="250" id="txtAddress2" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddress2", UserCookieManager.WBStoreId, "Address 2"))">
         </div>
         @*<div class="address_label_area2">
             Telephone :
         </div>*@
         <div class="address_contol_area2">
             <div class="float_left_simple">
-                <input type="text" maxlength="30" id="txtTel1" class="newTxtBox" style="width:160px;" placeholder="Telephone">
+                <input type="text" maxlength="30" id="txtTel1" class="newTxtBox" style="width:160px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("label15", UserCookieManager.WBStoreId, "Telephone"))">
             </div>
             @*<div class="label_area_ext">
                 Ext 1:
             </div>*@
             <div class="float_left">
-                <input type="text" maxlength="7" id="txtExt1" class="newTxtBox" style="width:97px;" placeholder="Ext 1">
+                <input type="text" maxlength="7" id="txtExt1" class="newTxtBox" style="width:97px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("literalExt1", UserCookieManager.WBStoreId, "Ext 1"))">
             </div>
         </div>
         <div class="clearBoth">
@@ -214,7 +216,7 @@ grid.Column("Default Shipping",format:@<p>
 
         </div>*@
         <div class="address_contol_area1">
-            <input type="text" maxlength="250" id="txtAddress3" class="newTxtBox" placeholder="Address 3">
+            <input type="text" maxlength="250" id="txtAddress3" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddress3", UserCookieManager.WBStoreId, "Address 3"))">
         </div>
         @*<div class="address_label_area2">
             Tel 2:
@@ -222,13 +224,13 @@ grid.Column("Default Shipping",format:@<p>
         </div>*@
         <div class="address_contol_area2">
             <div class="float_left_simple">
-                <input type="text" maxlength="30" id="txtTel2" class="newTxtBox" style="width:160px;" placeholder="Tel 2">
+                <input type="text" maxlength="30" id="txtTel2" class="newTxtBox" style="width:160px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlTel2", UserCookieManager.WBStoreId, "Tel 2"))">
             </div>
             @*<div class="label_area_ext">
                 Ext 2:
             </div>*@
             <div class="float_left">
-                <input type="text" maxlength="7" id="txtExt2" class="newTxtBox" style="width:96px;" placeholder="Ext 2">
+                <input type="text" maxlength="7" id="txtExt2" class="newTxtBox" style="width:96px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("LiteralExt2", UserCookieManager.WBStoreId, "Ext 2"))">
             </div>
         </div>
         <div class="clearBoth">
@@ -241,14 +243,14 @@ grid.Column("Default Shipping",format:@<p>
             </div>
         </div>*@
         <div class="address_contol_area1">
-            <input type="text" value="City" maxlength="100" id="txtCity" class="newTxtBox" placeholder="City">
+            <input type="text" value="City" maxlength="100" id="txtCity" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcity", UserCookieManager.WBStoreId, "City "))">
         </div>
         @*<div class="address_label_area2">
 
             Fax:
         </div>*@
         <div class="address_contol_area2">
-            <input type="text" maxlength="30" id="txtFax" class="newTxtBox" placeholder="Fax">
+            <input type="text" maxlength="30" id="txtFax" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("divfax", UserCookieManager.WBStoreId, "Fax"))">
         </div>
         <div class="clearBoth">
             &nbsp;
@@ -268,7 +270,7 @@ grid.Column("Default Shipping",format:@<p>
             Latitude:
         </div>*@
         <div class="address_contol_area2">
-            <input type="text" maxlength="100" id="txtLatitude" class="newTxtBox" placeholder="Latitude">
+            <input type="text" maxlength="100" id="txtLatitude" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("Latitudelbl", UserCookieManager.WBStoreId, "Latitude"))">
         </div>
         <div class="clearBoth">
             &nbsp;
@@ -287,7 +289,7 @@ grid.Column("Default Shipping",format:@<p>
             Longitude:
         </div>*@
         <div class="address_contol_area2">
-            <input type="text" maxlength="100" id="txtLongitude" class="newTxtBox" placeholder="Longitude">
+            <input type="text" maxlength="100" id="txtLongitude" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlLongitude", UserCookieManager.WBStoreId, "Longitude"))">
         </div>
         <div class="clearBoth">
             &nbsp;
@@ -297,7 +299,7 @@ grid.Column("Default Shipping",format:@<p>
 
         </div>*@
         <div class="address_contol_area1">
-            <input type="text" value="54000" maxlength="30" id="txtPostalCode" class="newTxtBox" placeholder="Postal Code">
+            <input type="text" value="54000" maxlength="30" id="txtPostalCode" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("LiteralPostalCode", UserCookieManager.WBStoreId, "Postal Code"))">
         </div>
         <div class="address_label_area2">
 
@@ -313,9 +315,9 @@ grid.Column("Default Shipping",format:@<p>
         </div>
         <div class="address_contol_area1_corp">
 
-            <input type="button" value="Save" id="btnSaveShippingAddress" class="start_creating_btn rounded_corners5 background-green" style="float: left;" onclick="SaveCall();">
+            <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSave", UserCookieManager.WBStoreId, "Save"))" id="btnSaveShippingAddress" class="start_creating_btn rounded_corners5 background-green" style="float: left;" onclick="SaveCall();">
 
-            <input value="Cancel" type="button"  id="btnCancelShippingAddress" class="start_creating_btn rounded_corners5" style="float: left; margin-left: 5px;" onclick="HideMessagePopUpCustom();">
+            <input value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnCancel", UserCookieManager.WBStoreId, "Cancel"))" type="button" id="btnCancelShippingAddress" class="start_creating_btn rounded_corners5" style="float: left; margin-left: 5px;" onclick="HideMessagePopUpCustom();">
         </div>
         <div class="clearBoth">
             
