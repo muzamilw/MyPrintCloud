@@ -89,8 +89,8 @@
                                                 Manage the basic details of your store in this section.
                                             </p>
                                         </div>
-                                        <div class="col-lg-3 pull-left">
-                                            <div class="col-lg-4 pull-left">
+                                        <div class="col-lg-3 pull-left" style="width:260px;margin-top:-4px;">
+                                            <div class="col-lg-5 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
                                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Make a store live to receive & process orders. You can not process an order while a store is offline or progress an order into production." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -99,7 +99,7 @@
                                                 <label class="control-label">Status</label>
                                             </div>
                                             <div class="col-lg-6">
-                                                <div class="onoffswitchlive" style="margin-right:0; margin-top: -10px;">
+                                                <div class="onoffswitchlive" style="margin-right:0; margin-top: -4px;">
                                                     <input type="checkbox" name="onoffswitch" class="onoffswitchlive-checkbox" id="switchStoreLive" data-bind="checked: $root.selectedStore().isStoreSetLive, event: { click: $root.validateStoreLiveHandler }">
                                                     <label class="onoffswitchlive-label" for="switchStoreLive">
                                                         <div class="onoffswitchlive-inner"></div>
@@ -312,9 +312,9 @@
                                                     <!--/ko-->
                                                 </div>
 
-                                                <div class="col-lg-12" style="margin-top: 10px;text-align:center;width:220px;padding-right:0px;">
+                                                <div class="col-lg-12" style="margin-top:15px;text-align:center;width:220px;padding-right:0px;">
                                                     <div class="col-lg-8">
-                                                        <div class="fileUpload btn btn-primary" style="float: right;">
+                                                        <div class="fileUpload btn btn-primary" style="float:right;">
                                                             <span>Upload </span>
                                                             <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                         </div>
@@ -328,7 +328,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px;width:240px;padding-left:20px;">
+                                                <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:5px;width:220px;margin-left:20px;">
                                                     Store logo dimensions depend upon the selected theme. Upload a logo image (PNG,JPG,SVG) which is reasonably high resolution yet loads quicker.
                                                 </div>
                                                 <div class="profile-stars">
