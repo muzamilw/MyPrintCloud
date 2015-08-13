@@ -17,8 +17,7 @@
         <div class="order_container">
             <div class="corpPInfoCnt1 pad17">
                 <div class="custom_color confirm_design">
-
-                    <label id="ltrlpersonalinfo">Personal Details</label>
+                    <label id="ltrlpersonalinfo">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlpersonalinfo", UserCookieManager.WBStoreId, "Personal Details"))</label>
                 </div>
                 <br />
                 <br />
@@ -39,14 +38,15 @@
                             }
                             else
                             {
-                                <label id="lblJobTitle">N/A</label>
+                                <label id="lblJobTitle">@Html.Raw(Html.GetKeyValueFromResourceFile("naaaaa", UserCookieManager.WBStoreId, "N/A"))
+</label>
                             }
                         </td>
                     </tr>
                     <tr>
                         <td>
 
-                            <label id="ltrlteritory">Territory</label>
+                            <label id="ltrlteritory">@Html.Raw(Html.GetKeyValueFromResourceFile("tttidd", UserCookieManager.WBStoreId, "Territory"))</label>
                         </td>
                         <td>
                             @if (ViewBag.CompTerritory.TerritoryName != null && ViewBag.CompTerritory.TerritoryName != string.Empty)
@@ -55,13 +55,13 @@
                             }
                             else
                             {
-                                <label id="lblTerritory">N/A</label>
+                                <label id="lblTerritory">@Html.Raw(Html.GetKeyValueFromResourceFile("naaaaa", UserCookieManager.WBStoreId, "N/A"))</label>
                             }
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label id="ltrlorderlimit">Order Limit</label>
+                            <label id="ltrlorderlimit">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlorderlimit", UserCookieManager.WBStoreId, "Order Limit"))</label>
 
                         </td>
                         <td>
@@ -71,7 +71,7 @@
                             }
                             else
                             {
-                                <label id="lblOrderLimit">N/A</label>
+                                <label id="lblOrderLimit">@Html.Raw(Html.GetKeyValueFromResourceFile("naaaaa", UserCookieManager.WBStoreId, "N/A"))</label>
 
                             }
 
@@ -79,14 +79,14 @@
                     </tr>
                     <tr>
                         <td>
-                            <label id="ltrlloplaced">Last order placed</label>
+                            <label id="ltrlloplaced">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlloplaced", UserCookieManager.WBStoreId, "Last order placed"))</label>
 
                         </td>
                         <td>
 
                             @if (ViewBag.Order == null)
                             {
-                                <label id="lblCanPlaceOrder">N/A</label>
+                                <label id="lblCanPlaceOrder">@Html.Raw(Html.GetKeyValueFromResourceFile("naaaaa", UserCookieManager.WBStoreId, "N/A"))</label>
                             }
                             else
                             {
@@ -96,7 +96,7 @@
                                 }
                                 else
                                 {
-                                    <label id="lblCanPlaceOrder">N/A</label>
+                                    <label id="lblCanPlaceOrder">@Html.Raw(Html.GetKeyValueFromResourceFile("naaaaa", UserCookieManager.WBStoreId, "N/A"))</label>
 
                                 }
 
@@ -106,37 +106,38 @@
                     </tr>
                     <tr>
                         <td>
-                            <label id="ltrlcplaceorder">Can Place Order</label>
+                            <label id="ltrlcplaceorder">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcplaceorder", UserCookieManager.WBStoreId, "Can Place Order"))</label>
 
                         </td>
                         <td>
 
                             @if (Model.isPlaceOrder != null && Model.isPlaceOrder.Value)
                             {
-                                <label id="lblLastOrder">Yes</label>
+                                <label id="lblLastOrder">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlyes", UserCookieManager.WBStoreId, "Yes"))</label>
                             }
                             else
                             {
 
-                                <label id="lblLastOrder">No</label>
+                                <label id="lblLastOrder">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlNo", UserCookieManager.WBStoreId, "No"))</label>
                             }
 
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label id="ltrlcanapproveorder">Can Approve Orders</label>
+                            <label id="ltrlcanapproveorder">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcanapproveorder", UserCookieManager.WBStoreId, "Can Approve Orders"))
+</label>
 
                         </td>
                         <td>
 
                             @if (Model.IsApprover != null && Model.IsApprover.Value)
                             {
-                                <label id="lblCanApproveOrders">Yes</label>
+                                <label id="lblCanApproveOrders">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlyes", UserCookieManager.WBStoreId, "Yes"))</label>
                             }
                             else
                             {
-                                <label id="lblCanApproveOrders">No</label>
+                                <label id="lblCanApproveOrders">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlNo", UserCookieManager.WBStoreId, "No"))</label>
                             }
 
 
@@ -156,7 +157,7 @@
                         <textarea name="Text1" cols="20" rows="4" class="rounded_corners5 text_boxPolicy" id="txtPolicy" readonly="readonly">@ViewBag.CorpCompany.CorporateOrderingPolicy</textarea>
                         <br />
                         <a id="btnCorporateOrderingPolicy1" class="linkOrderingpolicy" onclick="ShowOrderingPolicyPopUp('Corporate Ordering Policy', '@ViewBag.CorpCompany.CorporateOrderingPolicy');">
-                            Set your policy
+                            @Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderingPolicy", UserCookieManager.WBStoreId, "Set your policy"))
                         </a>
                     }
                     else
@@ -164,7 +165,7 @@
                         <textarea name="Text1" cols="20" rows="4" class="rounded_corners5 text_boxPolicy" id="txtPolicy" readonly="readonly">No Policy Defined</textarea>
                         <br />
                         <a id="btnCorporateOrderingPolicy1" class="linkOrderingpolicy" onclick="ShowOrderingPolicyPopUp('Corporate Ordering Policy',' No Policy Defined');">
-                            Set your policy
+                            @Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderingPolicy", UserCookieManager.WBStoreId, "Set your policy"))
                         </a>
                     }
                     <br />

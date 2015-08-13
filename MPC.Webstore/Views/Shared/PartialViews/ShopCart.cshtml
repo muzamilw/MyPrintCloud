@@ -77,7 +77,7 @@
                 <div class="get_in_touch_box rounded_corners col-lg-12 col-md-12 col-xs-12">
                     <div class="textAlignCenter">
 
-                        <label class="lbl_Cart">@Html.Raw(Html.GetKeyValueFromResourceFile("lblMsg", UserCookieManager.WBStoreId))</label>
+                        <label class="lbl_Cart">@Html.Raw(Html.GetKeyValueFromResourceFile("lblMsg", UserCookieManager.WBStoreId, "Your cart is empty!"))</label>
 
                     </div>
 
@@ -97,11 +97,11 @@
                                 <tbody>
                                     <tr class="gridViewHeaderStyle">
                                         <th align="center" scope="col" class="hidden-xs">&nbsp;</th>
-                                        <th id="lblProductTxt" align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProductTxt", UserCookieManager.WBStoreId))</th>
-                                        <th id="lblQuantityHeaderTxt" align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantityHeaderTxt", UserCookieManager.WBStoreId))</th>
+                                        <th id="lblProductTxt" align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProductTxt", UserCookieManager.WBStoreId, "Product"))</th>
+                                        <th id="lblQuantityHeaderTxt" align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantityHeaderTxt", UserCookieManager.WBStoreId, "Quantity"))</th>
                                         @if (ViewBag.IsShowPrices)
                                         {
-                                            <th id="lbl_Price" align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPriceHeaderTxt", UserCookieManager.WBStoreId))</th>
+                                            <th id="lbl_Price" align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPriceHeaderTxt", UserCookieManager.WBStoreId, "Price"))</th>
                                         }
                                         @*<th align="left" scope="col" style="color: white !important; border: none; background-color: white">&nbsp;</th>*@
                                     </tr>
@@ -166,11 +166,11 @@
                                                 <div class="BtnTemplateModifyContainer visible-xs hidden-sm">
                                                     @if (prod.ProductType == (int)ProductType.PrintProduct)
                                                     {
-                                                        <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
+                                                        <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSide1Modify", UserCookieManager.WBStoreId, "Modify"))" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
                                                     }
                                                     else
                                                     {
-                                                        <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('0','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
+                                                        <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('0','@prod.ProductCategoryID','@prod.ItemID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSide1Modify", UserCookieManager.WBStoreId, "Modify"))" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
                                                     }
                                                 </div>
                                             </td>
@@ -211,19 +211,19 @@
                                                 <span id="lblselectedAddOnList" class="ItemdetailDesc">@itemAddsOn</span>
                                                 <input type="hidden" id="numberOfDaysAddedTodelivery" name="numberOfDaysAddedTodelivery" value="@numberOfDaysAddedTodelivery">
                                                 <br>
-                                                <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID');" value="Remove product from cart">
+                                                <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrremoveproduct", UserCookieManager.WBStoreId, "Remove product from cart"))">
                                                 <br />
-                                                <input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID');" value="Make a copy of this product in cart">
+                                                <input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyproduct", UserCookieManager.WBStoreId, "Make a copy of this product in cart"))">
 
                                                 <br />
                                                 <br />
                                                 @if (prod.ProductType == (int)ProductType.PrintProduct)
                                                 {
-                                                    <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="visible-sm visible-xs silver_back_button">
+                                                    <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSide1Modify", UserCookieManager.WBStoreId, "Modify"))" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="visible-sm visible-xs silver_back_button">
                                                 }
                                                 else
                                                 {
-                                                    <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('0','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="visible-sm visible-xs silver_back_button">
+                                                    <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('0','@prod.ProductCategoryID','@prod.ItemID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSide1Modify", UserCookieManager.WBStoreId, "Modify"))" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="visible-sm visible-xs silver_back_button">
                                                 }
                                             </td>
                                             <td class="PadTop5" align="left" style="width:5%;" valign="top">
@@ -287,12 +287,13 @@
                                         <label  class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId)):</label>
                                         @if (_DiscountAmountTotal > 0)
                                         {
-                                            <label id="lblVoucherDiscPercentageDisplay" class=" LightGrayLabels displayClear clrRed">Discount:</label>
+                                            <label id="lblVoucherDiscPercentageDisplay" class=" LightGrayLabels displayClear clrRed">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVoucherDiscPercentageDisplay",UserCookieManager.WBStoreId,"Discount"))
+:</label>
                                         }
                                         
-                                        <label  class=" LightGrayLabels displayClear">Delivery:</label>
+                                        <label  class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("tddelivery", UserCookieManager.WBStoreId, "Delivery:"))</label>
                                         <label class=" LightGrayLabels displayClear">@Model.TaxLabel</label>
-                                        <label class=" LightGrayLabels displayClear">Total:</label>
+                                        <label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("spntotal", UserCookieManager.WBStoreId, "Total:"))</label>
                                     </div>
                                     <div class="cnttotals" id="cntRightPricing1">
                                         <label  class="Fsize13 colorBlack displayClear">@subtotal</label>
@@ -305,11 +306,11 @@
                                         {
                                             if (Model.DeliveryDiscountVoucherID == null)
                                             {
-                                                <label class="Fsize13 colorBlack displayClear delivery-toBeCaltext" id="lblDeliveryToBeCal" >To be calculated</label>
+                                                <label class="Fsize13 colorBlack displayClear delivery-toBeCaltext" id="lblDeliveryToBeCal">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlTobeCalculated",UserCookieManager.WBStoreId,"To be calculated"))</label>
                                             }
                                             else
                                             {
-                                                <label class="Fsize13 colorBlack displayClear delivery-codetext" id="lblDeliveryToBeCal" >Free Shipping</label>
+                                                <label class="Fsize13 colorBlack displayClear delivery-codetext" id="lblDeliveryToBeCal">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId,"Free Shipping"))</label>
                                             }
 
                                             <label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label>
@@ -322,7 +323,7 @@
                                             }
                                             else
                                             {
-                                                <label class="Fsize13 colorBlack displayClear delivery-codetext" id="lblCalculatedDelivery" >Free Shipping</label>
+                                                <label class="Fsize13 colorBlack displayClear delivery-codetext" id="lblCalculatedDelivery" >@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label>
 
                                              <label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label>
                                             }
@@ -338,7 +339,7 @@
                             <div class="cntdispatchDelivery">
                                 <div class="tdDispatchDate">
                                     <div class="estimated_dispactch_sec MLeft17 LightGrayLabels">
-                                        <label id="lbl_EstimatedDispatch">@Html.Raw(Html.GetKeyValueFromResourceFile("spnestimateddispatchdate", UserCookieManager.WBStoreId))</label>
+                                        <label id="lbl_EstimatedDispatch">@Html.Raw(Html.GetKeyValueFromResourceFile("spnestimateddispatchdate", UserCookieManager.WBStoreId, "Estimated dispatch date:"))</label>
                                     </div>
                                     <div class="estimated_dispatch_time MLeft17">
                                         <label id="lblDeliveryCostCenterDateText" class="heading_h5 colorBlack fontSyleBold">@EstimateDispatchTime</label>  &nbsp;
@@ -354,8 +355,8 @@
                                             @if (ViewBag.VoucherApplied == null)
                                             {
 
-                                                <input type="text" class="txtCouponCode rounded_corners5" id="txtDiscountVoucherCode" placeholder="Coupon Code" />
-                                                <button id="btnApplyDiscountVoucherCode" type="button" class="btn_blue_back_small rounded_corners5" onclick="return ApplyDiscountVouchers();">Apply</button>
+                                                <input type="text" class="txtCouponCode rounded_corners5" id="txtDiscountVoucherCode" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcoponcode",UserCookieManager.WBStoreId, "Coupon Code"))" />
+                                                <button id="btnApplyDiscountVoucherCode" type="button" class="btn_blue_back_small rounded_corners5" onclick="return ApplyDiscountVouchers();">@Html.Raw(Html.GetKeyValueFromResourceFile("btnAutoPostBackDiscountVoucherCode",UserCookieManager.WBStoreId, ""))</button>
                                                 <label id="lblRedeemErrorMesg" class="errorMessage"></label>
                                                 <button id="btnRemoveDeliveryVoucherCode" type="submit" class="btn_blue_back_small_Remove rounded_corners5" onclick="RemoveDeliveryVoucherCode();" style="display:none;">Remove voucher code</button>
                                             }
@@ -433,7 +434,7 @@
             }
             else
             {
-                <label id="lbl_NorelatedItemsFound" class="errorMsgClss">@Html.Raw(Html.GetKeyValueFromResourceFile("lblNorelatedItemsFound", UserCookieManager.WBStoreId))</label>
+                <label id="lbl_NorelatedItemsFound" class="errorMsgClss">@Html.Raw(Html.GetKeyValueFromResourceFile("lblNorelatedItemsFound", UserCookieManager.WBStoreId, "No Related Items Found"))</label>
             }
         }
 

@@ -5,7 +5,7 @@
 <div class="container content_area" id="all-dashboard-pg">
     <div class="row left_right_padding">
         <div class="center_align col-md-12 col-lg-12 col-xs-12">
-            <label class="dashboard-main-heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblORderManagment", UserCookieManager.WBStoreId))</label>
+            <label class="dashboard-main-heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblORderManagment", UserCookieManager.WBStoreId, "My Account"))</label>
         </div>
         <div class="clearboth">
         </div>
@@ -88,12 +88,12 @@
 
         <div class="reset-box-container">
 
-            <input type="password" id="txtCurPass" name="txtCurPass" maxlength="50" class="newTxtBox" placeholder="Current password" />
+            <input type="password" id="txtCurPass" name="txtCurPass" maxlength="50" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("cpassword", UserCookieManager.WBStoreId, "Current password"))" />
         </div>
 
         <div class="reset-box-container">
 
-            <input type="password" id="txtNewPassword" name="txtNewPassword" maxlength="50" class=" newTxtBox" placeholder="New Password" />
+            <input type="password" id="txtNewPassword" name="txtNewPassword" maxlength="50" class=" newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("npassword", UserCookieManager.WBStoreId, "New Password"))" />
         </div>
         <div class="clearBoth">
             &nbsp;
@@ -101,15 +101,15 @@
 
         <div class="reset-box-container">
 
-            <input type="password" id="txtConfirmPassword" name="txtConfirmPassword" maxlength="50" class="newTxtBox" placeholder="Confirm Password" />
+            <input type="password" id="txtConfirmPassword" name="txtConfirmPassword" maxlength="50" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmpass", UserCookieManager.WBStoreId, "Confirm Password"))" />
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
 
         <div class="reset-box-container Mtop15P">
-            <input type="submit" onclick="PasswordValidation();" class="start_creating_btn rounded_corners5 background-green" value="Save" />
-            <input type="submit" onclick="HideMessagePopUpCustom();" class="start_creating_btn rounded_corners5" value="Cancel" />
+            <input type="submit" onclick="PasswordValidation();" class="start_creating_btn rounded_corners5 background-green" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSave", UserCookieManager.WBStoreId, "Save"))" />
+            <input type="submit" onclick="HideMessagePopUpCustom();" class="start_creating_btn rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnCancel", UserCookieManager.WBStoreId, "Cancel"))" />
         </div>
         <div class="clearBoth">
             &nbsp;
