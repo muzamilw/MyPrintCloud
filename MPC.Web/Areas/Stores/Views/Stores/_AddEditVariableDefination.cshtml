@@ -257,11 +257,13 @@
                 </div>
 
             </div>
-            <div class="modal-footer" style="padding-right:10px;padding-left:8px;">
-                <hr />
-                <button type="button" class="btn btn-danger pull-left" data-bind="enable:id()!== undefined,visible:!isSystem() ,click:$root.onRemoveFieldVariable">Delete</button>
-                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveFieldVariable, css: { 'btn-warning': hasChanges() }, enable: hasChanges()">Save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+            <div class="modal-footer" style="padding-right:0px;padding-left:0px;">
+                <hr style="margin-bottom:15px;" />
+                <div style="padding-left:8px;padding-right:8px;">
+                    <button type="button" class="btn btn-danger pull-left" data-bind="enable:id()!== undefined,visible:!isSystem() ,click:$root.onRemoveFieldVariable">Delete</button>
+                    <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveFieldVariable, css: { 'btn-warning': hasChanges() }, enable: hasChanges()">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+                </div>
             </div>
         </div>
     </div>

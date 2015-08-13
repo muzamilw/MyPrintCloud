@@ -68,6 +68,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreationTime = source.CreationTime,
                 RefEstimateId = source.RefEstimateId,
                 InvoiceStatus = source.InvoiceStatus,
+                IsExtraOrder = source.IsExtraOrder,
                 Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()).OrderBy(item => item.ProductName).ToList() :
                 new List<OrderItem>(),
                 ItemsCount = source.Items != null ? source.Items.Count : 0,

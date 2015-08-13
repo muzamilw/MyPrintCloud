@@ -19,6 +19,13 @@ namespace MPC.Interfaces.Repository
         List<DiscountVoucher> GetStoreDefaultDiscountVouchers(long StoreId, long OrganisationId);
         DiscountVoucher GetDiscountVoucherById(long DiscountVoucherId);
         DiscountVoucher GetDiscountVoucherByCouponCode(string DiscountVoucherName, long StoreId, long OrganisationId);
+
         long IsStoreHaveFreeShippingDiscountVoucher(long StoreId, long OrganisationId);
+        DiscountVoucher UpdateVoucher(DiscountVoucher discountVoucher);
+
+        DiscountVoucher GetDiscountVoucherByVoucherId(long DVId);
+
+        DiscountVoucher CreateDiscountVoucher(DiscountVoucher discountVoucher);
+      
     }
 }

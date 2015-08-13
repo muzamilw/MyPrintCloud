@@ -357,12 +357,12 @@
 
                                                 <input type="text" class="txtCouponCode rounded_corners5" id="txtDiscountVoucherCode" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcoponcode",UserCookieManager.WBStoreId, "Coupon Code"))" />
                                                 <button id="btnApplyDiscountVoucherCode" type="button" class="btn_blue_back_small rounded_corners5" onclick="return ApplyDiscountVouchers();">@Html.Raw(Html.GetKeyValueFromResourceFile("btnAutoPostBackDiscountVoucherCode",UserCookieManager.WBStoreId, ""))</button>
-                                                <label id="lblRedeemErrorMesg" class="errorMessage"></label>
-                                                <button id="btnRemoveDeliveryVoucherCode" type="submit" class="btn_blue_back_small_Remove rounded_corners5" onclick="RemoveDeliveryVoucherCode();" style="display:none;">Remove voucher code</button>
+                                                <div id="lblRedeemErrorMesg" class="errorMessage"></div>
+                                                <button id="btnRemoveDeliveryVoucherCode" type="submit" class="btn_blue_back_small_Remove rounded_corners5" onclick="RemoveDeliveryVoucherCode(event);" style="display:none;">Remove voucher code</button>
                                             }
                                             else
                                             {
-                                                <button id="btnRemoveVoucherCode" type="submit" class="btn_blue_back_small_Remove rounded_corners5" onclick="RemoveVoucherCode();">Remove voucher code</button>
+                                                <button id="btnRemoveVoucherCode" type="submit" class="btn_blue_back_small_Remove rounded_corners5" onclick="RemoveVoucherCode(event);">Remove voucher code</button>
                                             }
                                         </div>
                                        
@@ -372,8 +372,8 @@
                             <div class="clearBoth">
                             </div>
 
-                            <input type="submit" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" onclick="ShowLoader();" /><br />
-                            <button id="btn_ContinueShopping" type="button" onclick="ContinueShopping(); ShowLoader();" class="btn_brown  rounded_corners5" style="float: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.WBStoreId))</button>
+                            <input type="submit" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" onclick="return ifNoAnEnterKay(event);" /><br />
+                            <button id="btn_ContinueShopping" type="button" onclick="return ContinueShopping();" class="btn_brown  rounded_corners5" style="float: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.WBStoreId))</button>
                             <div class="clearBoth">
                                 &nbsp;
                             </div>
@@ -593,90 +593,119 @@
         }
         return false;
     }
-    function ContinueShopping()
+    function ContinueShopping(e)
     {
-
-        window.location.href = "/";
+        if (e.keyCode == 13) {
+            return false;
+        }else{
+            window.location.href = "/";
+            return true;
+        }
     }
     function ApplyVoucherCode(OrderID,DiscountVoucher)
     {
         window.location.href = "/ShopCart/ApplyDiscountVoucherCode/DiscountVoucher=" + DiscountVoucher + "/" + OrderID;
     }
   
-    function ConfirmDeleteItem(ItemID,OrderID)
+    function ConfirmDeleteItem(ItemID,OrderID, e)
     {
-
-        $("#hfItemID").val(ItemID);
-        $("#hfIsCallFrom").val("RemoveProduct");
-        ConfirmDeleteItemPopUP(ItemID,OrderID);
+        if (e.keyCode == 13) {
+            
+        }else{
+            $("#hfItemID").val(ItemID);
+            $("#hfIsCallFrom").val("RemoveProduct");
+            ConfirmDeleteItemPopUP(ItemID,OrderID);
+        }
+       
         return false;
     }
-    function CopyProduct(ItemID)
+    function CopyProduct(ItemID, e)
     {
-
-        $("#hfItemID").val(ItemID);
-        $("#hfIsCallFrom").val("CopyProduct");
-
-        ShowLoader();
-
-
+        if (e.keyCode == 13) {
+            
+        }else{
+            $("#hfItemID").val(ItemID);
+            $("#hfIsCallFrom").val("CopyProduct");
+            ShowLoader();
+        }
     }
 
-    function RemoveVoucherCode()
+    function RemoveVoucherCode(e)
     {
-        $("#hfIsCallFrom").val("RemoveVoucherCode");
+        if (e.keyCode == 13) {
+            
+        }else{
+            $("#hfIsCallFrom").val("RemoveVoucherCode");
 
-        ShowLoader();
-
+            ShowLoader();
+        }
     }
     
-    
-    function RemoveDeliveryVoucherCode()
-    {
-        $("#hfIsCallFrom").val("RemoveDeliveryVoucherCode");
-
-        ShowLoader();
-    }
-    
-    function ApplyDiscountVouchers() {
-        var txtDiscountVoucher = $("#txtDiscountVoucherCode").val();
-        if(txtDiscountVoucher == ""){
-            $("#lblRedeemErrorMesg").text("Please enter Voucher Code to proceed.");
-            return false;//ShowPopUp("Message", "Please enter Voucher Code to proceed.");
+    function ifNoAnEnterKay(event){
+        if (e.keyCode == 13) {
+            return false;
         }else{
             ShowLoader();
-            
-            var storeId = @UserCookieManager.WBStoreId;
-            var orderId = @ViewBag.OrderID;
-            var OrgId = @UserCookieManager.WEBOrganisationID;
-            console.log(txtDiscountVoucher + " "  +  storeId + " " + orderId);
-            var data = { DiscountVoucher: txtDiscountVoucher, StoreId:storeId, OrderId: orderId, OrganisationId: OrgId };
-            $.ajax({
-                type: "GET",
-                url: "/webstoreapi/DiscountVoucher/ValidateDiscountVouchers",
-                contentType: "application/json",
-                data: data,
-                async: true,
-                success: function (response) {
-                    if(response[0] == "Error"){
-                        $("#lblRedeemErrorMesg").text(response[1]);
-                        HideLoader();
-                    }else if(response[0] == "Free"){
-                        $("#hfFreeShippingVoucherId").val(response[1]);
-                        $("#lblCalculatedDelivery").text("Free Shipping");
-                        $("#lblDeliveryToBeCal").text("Free Shipping");
-                      
-                        $("#txtDiscountVoucherCode").css("display", "none");
-                        $("#btnApplyDiscountVoucherCode").css("display", "none");
-                        $("#lblRedeemErrorMesg").css("display", "none");
-                        $("#btnRemoveDeliveryVoucherCode").css("display", "block");
-                        HideLoader();
-                    }else if(response[0] == "Success"){
-                        window.location.href = "/ShopCart?OrderId=" + orderId + "&VCId=1";
-                    }
-                }
-            });
+            return true;
         }
-     }
+    } 
+        function RemoveDeliveryVoucherCode(e)
+        {
+            if (e.keyCode == 13) {
+            
+            }else{
+                $("#hfIsCallFrom").val("RemoveDeliveryVoucherCode");
+
+                ShowLoader();
+            }
+        }
+    
+        function ApplyDiscountVouchers() {
+            var txtDiscountVoucher = $("#txtDiscountVoucherCode").val();
+            if(txtDiscountVoucher == ""){
+                $("#lblRedeemErrorMesg").text("Please enter Voucher Code to proceed.");
+                return false;//ShowPopUp("Message", "Please enter Voucher Code to proceed.");
+            }else{
+                ShowLoader();
+            
+                var storeId = @UserCookieManager.WBStoreId;
+                var orderId = @ViewBag.OrderID;
+                var OrgId = @UserCookieManager.WEBOrganisationID;
+                console.log(txtDiscountVoucher + " "  +  storeId + " " + orderId);
+                var data = { DiscountVoucher: txtDiscountVoucher, StoreId:storeId, OrderId: orderId, OrganisationId: OrgId };
+                $.ajax({
+                    type: "GET",
+                    url: "/webstoreapi/DiscountVoucher/ValidateDiscountVouchers",
+                    contentType: "application/json",
+                    data: data,
+                    async: true,
+                    success: function (response) {
+                        if(response[0] == "Error"){
+                            $("#lblRedeemErrorMesg").html("<p class='cantApplyVMesg'>Can't apply the voucher because: <br /></p><p class='voucherErrorDesc' >" + response[1] + "</p>");
+                            HideLoader();
+                        }else if(response[0] == "Free"){
+                            $("#hfFreeShippingVoucherId").val(response[1]);
+                            $("#lblCalculatedDelivery").text("Free Shipping");
+                            $("#lblDeliveryToBeCal").text("Free Shipping");
+                      
+                            $("#txtDiscountVoucherCode").css("display", "none");
+                            $("#btnApplyDiscountVoucherCode").css("display", "none");
+                            $("#lblRedeemErrorMesg").css("display", "none");
+                            $("#btnRemoveDeliveryVoucherCode").css("display", "block");
+                            HideLoader();
+                        }else if(response[0] == "Success"){
+                            window.location.href = "/ShopCart?OrderId=" + orderId + "&VCId=1";
+                        }
+                    }
+                });
+            }
+        }
+        $("#txtDiscountVoucherCode").keydown(function(event){
+            
+            if(event.keyCode == 13){
+                
+                return false;
+            }
+        });
     </script>
 

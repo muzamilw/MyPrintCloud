@@ -7,40 +7,45 @@ define("common/confirmation.view",
         var ist = window.ist || {};
         // View 
         ist.confirmation.view = (function (specifiedViewModel) {
-            var// View model 
+            var // View model 
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#dialog-confirm")[0],
-
                 // Binding root used with knockout
                 bindingRootq = $("#dialog-ok")[0],
+                 // Binding root used with knockout for upgrade dialog
+                bindingRootupgrade = $("#dialog-okLicensing")[0],
                 // Show the dialog
-                show = function () {
+                show = function() {
                     $("#dialog-confirm").modal("show");
                 },
                 // Hide the dialog
-                hide = function () {
+                hide = function() {
                     $("#dialog-confirm").modal("hide");
                 },
-
-                showWarningPopup = function () {
+                showWarningPopup = function() {
                     $("#dialog-ok").modal("show");
                 },
-                 // Hide the dialog
-                hideWarningPopup = function () {
+                // Hide the dialog
+                hideWarningPopup = function() {
                     $("#dialog-ok").modal("hide");
+                },
+                // Show Upgrade Plan dialog
+                showUpgradePopup = function() {
+                    $("#dialog-okLicensing").modal("show");
                 };
-                
 
 
             return {
                 bindingRoot: bindingRoot,
                 bindingRootq: bindingRootq,
+                bindingRootupgrade:bindingRootupgrade,
                 viewModel: viewModel,
                 show: show,
                 hide: hide,
                 showWarningPopup: showWarningPopup,
-                hideWarningPopup: hideWarningPopup
+                hideWarningPopup: hideWarningPopup,
+                showUpgradePopup: showUpgradePopup
             };
         })(ist.confirmation.viewModel);
 

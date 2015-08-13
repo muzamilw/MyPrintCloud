@@ -606,8 +606,10 @@ namespace MPC.Implementation.MISServices
                 {
                     estimate.InvoiceStatus = invoice.InvoiceStatus;
                 }
+                bool isExtra = CheckIsExtraOrder(orderId, estimate.isDirectSale ?? true);
+                estimate.IsExtraOrder = isExtra;
             }
-
+            
             return estimate;
         }
 
@@ -822,14 +824,43 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public OrderBaseResponseForCompany GetBaseDataForCompany(long companyId, long storeId)
         {
+            bool isStoreLive = companyRepository.IsStoreLive(storeId);
+            //var org = organisationRepository.GetOrganizatiobByID();
+            //bool isMisReached = GetMonthlyOrdersReached(org, true);
+            //bool isWebReached = GetMonthlyOrdersReached(org, false);
+
             return new OrderBaseResponseForCompany
                 {
                     CompanyContacts = companyContactRepository.GetCompanyContactsByCompanyId(companyId),
                     CompanyAddresses = addressRepository.GetAddressByCompanyID(companyId),
                     TaxRate = companyRepository.GetTaxRateByStoreId(storeId),
-                    JobManagerId = companyRepository.GetStoreJobManagerId(storeId)
+                    JobManagerId = companyRepository.GetStoreJobManagerId(storeId),
+                    IsStoreLive = isStoreLive
                 };
         }
+
+        public bool GetMonthlyOrdersReached(Organisation org, bool isMis)
+        {
+            bool isReached = false;
+            DateTime? billingDate = org.BillingDate;
+            if (billingDate != null)
+            {
+                List<long> orders = orderRepository.GetOrdersForBillingCycle(Convert.ToDateTime(billingDate), isMis);
+                int licensedOrders = isMis ? org.MisOrdersCount ?? 0 : org.WebStoreOrdersCount ?? 0;
+                if (orders.Count > licensedOrders)
+                    isReached = true;
+            }
+            return isReached;
+        }
+
+        private bool CheckIsExtraOrder(long orderId, bool isDirectSale)
+        {
+            var org = organisationRepository.GetOrganizatiobByID();
+            int ordersCount = isDirectSale ? org.MisOrdersCount??0 : org.WebStoreOrdersCount ?? 0;
+            bool isExtra = orderRepository.IsExtradOrderForBillingCycle(Convert.ToDateTime(org.BillingDate), isDirectSale, ordersCount, orderId, org.OrganisationId);
+            return isExtra;
+        }
+        
         /// <summary>
         /// Get Order Statuses Count For Menu Items
         /// </summary>

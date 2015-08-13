@@ -29,5 +29,9 @@ namespace MPC.Models.ResponseModels
         /// Job Manager Id
         /// </summary>
         public Guid? JobManagerId { get; set; }
+
+        public bool IsStoreLive { get; set; }
+        public bool IsMisOrdersCountReached { get; set; }
+        public bool IsWebOrdersCountReached { get; set; }
     }
 }

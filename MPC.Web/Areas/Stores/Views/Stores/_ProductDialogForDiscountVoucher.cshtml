@@ -1,16 +1,18 @@
-﻿<div class="modal fade my-modal" id="productCategoryDialogForDiscountVoucher" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+﻿<div class="modal fade my-modal" id="itemsDialogForDiscountVoucher" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Select Product Category(s)</h4>
+                <h4 class="modal-title">Select Product(s)</h4>
             </div>
             <div class="col-lg-12">
-                <div class="row pull-right" style="margin-right:17px;">Select</div>
+                <div class="row pull-right" style="margin-left: -24px;">
+                <span style="margin-left: -80px;">Select</span>
+                </div>
                 <div class="row" style="padding-top: 15px;">
-                    <div style="padding-right: 16px;padding-left: 16px;" id="nestable2">
-                        <ol id="productCategoryDialogCategories" class="dd-list">
-                            <!-- ko template: { name: 'productCategoryDialogTemplate', foreach: $root.parentProductCategories } -->
+                    <div style="padding-right: 16px;padding-left: 16px;max-height: 500px;min-height: 500px;overflow-y: auto;margin-bottom:13px;margin-top:10px;" id="nestable2">
+                        <ol id="itemsDialogProducts" class="dd-list">
+                            <!-- ko template: { name: 'itemsDialogTemplate', foreach: $root.products } -->
                             <!-- /ko -->
                         </ol>
                     </div>
@@ -18,17 +20,17 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bind="click: $root.updateProductCategoriesDV">Save</button>
+                <button type="button" class="btn btn-primary" data-bind="click: $root.updateProductDV">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
-@* Product Category Template *@
-<script id="productCategoryDialogTemplate" type="text/html">
+@* Product Template *@
+<script id="itemsDialogTemplate" type="text/html">
     <li class="dd-item dd-item-list" data-bind="attr: { id: 'liElement-' + id }">
-        <div class="dd-handle-list"><i class="fa fa-chevron-circle-right cursorShape" data-bind="click: $root.toggleChildCategories"></i></div>
+        <div class="dd-handle-list"></div>
         <div class="dd-handle">
             <div>
                 <span data-bind="text: name">

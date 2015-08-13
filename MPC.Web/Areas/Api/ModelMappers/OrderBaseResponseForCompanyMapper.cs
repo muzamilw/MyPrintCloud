@@ -23,7 +23,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyContacts = source.CompanyContacts != null ? source.CompanyContacts.Select(cc => cc.CreateFromDropDownForOrder()) : 
                 new List<CompanyContactDropDownForOrder>(),
                 TaxRate=source.TaxRate,
-                JobManagerId = source.JobManagerId
+                JobManagerId = source.JobManagerId,
+                IsStoreLive = source.IsStoreLive,
+                IsMisOrdersCountReached = source.IsMisOrdersCountReached,
+                IsWebOrdersCountReached = source.IsWebOrdersCountReached
             };
         }
         

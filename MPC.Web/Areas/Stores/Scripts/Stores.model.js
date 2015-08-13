@@ -4075,6 +4075,24 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
         return productCategory;
     };
+    // Product Category Entity
+    ProductForDialog = function (specifiedId, specifiedName, specifiedIsSelected, specifiedIsArchived) {
+        // True If Selected
+        var isSelected = ko.observable(specifiedIsSelected || undefined);
+
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            isSelected: isSelected,
+            isArchived: specifiedIsArchived
+        };
+    },
+    // Product Category Factory
+    ProductForDialog.Create = function (source) {
+        var product = new ProductForDialog(source.ItemId, source.ProductName, source.IsSelected, source.IsArchived);
+
+        return product;
+    };
     // #endregion ______________________P R O D U C T   C A T E G O R Y  _________________________________
 
     // #region ______________ Item For Widgets _________________
@@ -4843,7 +4861,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     DiscountVoucher = function (spcDiscountVoucherId, spcVoucherName, spcCouponCode, spcDiscountType, spcDiscountRate, spcCouponUseType, spcHasCoupon,
         spcIsOrderPriceRequirement, spcIsQtyRequirement, spcIsQtySpan, spcIsTimeLimit, spcIsUseWithOtherCoupon, spcMaxRequiredOrderPrice,
-        spcMaxRequiredQty, spcMinRequiredOrderPrice, spcMinRequiredQty, spcValidFromDate, spcValidUptoDate, spcCompanyId) {
+        spcMaxRequiredQty, spcMinRequiredOrderPrice, spcMinRequiredQty, spcValidFromDate, spcValidUptoDate, spcCompanyId,specifiedIsEnabled) {
         var self,
             id = ko.observable(spcDiscountVoucherId),
             name = ko.observable(spcVoucherName).extend({ required: true }),
@@ -4864,7 +4882,173 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             validFromDate = ko.observable(spcValidFromDate ? moment(spcValidFromDate).toDate() : moment().toDate()),
             validUptoDate = ko.observable(spcValidUptoDate ? moment(spcValidUptoDate).toDate() : moment().toDate()),
             companyId = ko.observable(spcCompanyId),
+            isEnabled = ko.observable(specifiedIsEnabled),
             productCategoryVouchers = ko.observableArray([]),
+            itemsVoucher = ko.observableArray([]),
+         
+             // Available Product Category VOUCHERS
+            availableProductCategoryVouchers = ko.computed(function () {
+                if (productCategoryVouchers().length === 0) {
+                    return "";
+                }
+
+                var categories = "";
+                productCategoryVouchers.each(function (pci, index) {
+                    if (pci.isSelected()) {
+                        var pcname = pci.categoryName();
+                        if (index < productCategoryVouchers().length - 1) {
+                            pcname = pcname + "<br/>";
+                        }
+                        categories += pcname;
+                    }
+                });
+
+                return categories;
+            }),
+
+            availableProductVouchers = ko.computed(function () {
+                if (itemsVoucher().length === 0) {
+                    return "";
+                }
+
+                var categories = "";
+                itemsVoucher.each(function (pci, index) {
+                    if (pci.isSelected()) {
+                        var pcname = pci.itemName();
+                        if (index < itemsVoucher().length - 1) {
+                            pcname = pcname + "<br/>";
+                        }
+                        categories += pcname;
+                    }
+                });
+
+                return categories;
+            }),
+
+
+                // Update Product Category Items
+    updateProductCategoryVoucher = function (productCategories) {
+        if (productCategories || productCategories.length > 0) {
+            // Add Selected to Product Category Item List
+            var selectedCategories = _.filter(productCategories, function (productCategory) {
+                return productCategory.isSelected();
+            });
+
+            // Update UnSelected to Product Category Item List
+            var unselectedCategories = _.filter(productCategories, function (productCategory) {
+                return !productCategory.isSelected();
+            });
+
+            // Add Selected
+            if (selectedCategories.length > 0) {
+                _.each(selectedCategories, function (productCategory) {
+                    var productCategoryVoucherObj = productCategoryVouchers.find(function (productCategoryVoucher) {
+                        return productCategoryVoucher.categoryId() === productCategory.id;
+                    });
+
+                    // Exists Already
+                    if (productCategoryVoucherObj) {
+                        if (!productCategoryVoucherObj.isSelected()) {
+                            // set it to true
+                            productCategoryVoucherObj.isSelected(true);
+                        }
+                    }
+                    else {
+                        // Add New
+                        productCategoryVouchers.push(ProductCategoryVoucher.Create({
+                            ProductCategoryId: productCategory.id,
+                            CategoryName: productCategory.name,
+                            voucherId: id(),
+                            IsSelected: true
+                        }));
+                    }
+                });
+            }
+
+            // Update Un-Selected
+            if (unselectedCategories.length > 0) {
+                _.each(unselectedCategories, function (productCategory) {
+                    var productCategoryVoucherObj = productCategoryVouchers.find(function (productCategoryVoucher) {
+                        return productCategoryVoucher.categoryId() === productCategory.id;
+                    });
+
+                    // Exists Already
+                    if (productCategoryVoucherObj) {
+                        if (!productCategoryVoucherObj.id()) { // If New Product Category Item
+                            productCategoryVouchers.remove(productCategoryVoucherObj);
+                        }
+                        else {
+                            // set it to false
+                            productCategoryVouchers.remove(productCategoryVoucherObj);
+                            productCategoryVoucherObj.isSelected(false);
+                        }
+                    }
+                });
+            }
+        }
+    },
+
+     // Update Product Category Items
+    updateItemsVoucher = function (productVouchers) {
+        if (productVouchers || productVouchers.length > 0) {
+            // Add Selected to Product Category Item List
+            var selectedCategories = _.filter(productVouchers, function (productCategory) {
+                return productCategory.isSelected();
+            });
+
+            // Update UnSelected to Product Category Item List
+            var unselectedCategories = _.filter(productVouchers, function (productCategory) {
+                return !productCategory.isSelected();
+            });
+
+            // Add Selected
+            if (selectedCategories.length > 0) {
+                _.each(selectedCategories, function (productCategory) {
+                    var productVoucherObj = itemsVoucher.find(function (itemsVoucher) {
+                        return itemsVoucher.itemId() === productCategory.id;
+                    });
+
+                    // Exists Already
+                    if (productVoucherObj) {
+                        if (!productVoucherObj.isSelected()) {
+                            // set it to true
+                            productVoucherObj.isSelected(true);
+                        }
+                    }
+                    else {
+                        // Add New
+                        itemsVoucher.push(ItemsVouchers.Create({
+                            ItemId: productCategory.id,
+                            ProductName: productCategory.name,
+                            voucherId: id(),
+                            IsSelected: true
+                        }));
+                    }
+                });
+            }
+
+            // Update Un-Selected
+            if (unselectedCategories.length > 0) {
+                _.each(unselectedCategories, function (productCategory) {
+                    var productVoucherObj = itemsVoucher.find(function (productCategoryVoucher) {
+                        return productCategoryVoucher.itemId() === productCategory.id;
+                    });
+
+                    // Exists Already
+                    if (productVoucherObj) {
+                        if (!productVoucherObj.id()) { // If New Product Category Item
+                            productVoucherObj.remove(productVoucherObj);
+                        }
+                        else {
+                            // set it to false
+                            itemsVoucher.remove(productVoucherObj);
+                            productVoucherObj.isSelected(false);
+                        }
+                    }
+                });
+            }
+        }
+    },
 
             //Convert To Server
             convertToServerData = function (source) {
@@ -4888,7 +5072,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 result.ValidFromDate = validFromDate() === undefined || validFromDate() === null ? null : moment(validFromDate()).format(ist.utcFormat);
                 result.ValidUptoDate = validUptoDate() === undefined || validUptoDate() === null ? null : moment(validUptoDate()).format(ist.utcFormat);
                 result.CompanyId = source.companyId();
-
+                result.IsEnabled = source.isEnabled();
+                result.ProductCategoryVouchers = productCategoryVouchers.map(function (productCategoryVoucher) {
+                    return productCategoryVoucher.convertToServerData();
+                });
+                result.ItemsVouchers = itemsVoucher.map(function (itemVoucher) {
+                    return itemVoucher.convertToServerData();
+                });
                 return result;
             },
             // Errors
@@ -4921,6 +5111,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 minRequiredQty: minRequiredQty,
                 validFromDate: validFromDate,
                 validUptoDate: validUptoDate,
+                isEnabled: isEnabled,
+                productCategoryVouchers: productCategoryVouchers,
+                itemsVoucher: itemsVoucher
             }),
             // True If Has Changes
             hasChanges = ko.computed(function () {
@@ -4951,40 +5144,155 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             validFromDate: validFromDate,
             validUptoDate: validUptoDate,
             companyId: companyId,
-            productCategoryVouchers:productCategoryVouchers,
+            isEnabled: isEnabled,
+            productCategoryVouchers: productCategoryVouchers,
+            itemsVoucher: itemsVoucher,
             convertToServerData: convertToServerData,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
-            reset: reset
+            reset: reset,
+            updateProductCategoryVoucher: updateProductCategoryVoucher,
+            updateItemsVoucher: updateItemsVoucher,
+            availableProductCategoryVouchers: availableProductCategoryVouchers,
+            availableProductVouchers: availableProductVouchers,
         };
         return self;
     };
 
     //Discount Voucher Create Factory
     DiscountVoucher.Create = function (source) {
-        return new DiscountVoucher(source.DiscountVoucherId, source.VoucherName, source.CouponCode, source.DiscountType, source.DiscountRate, source.CouponUseType,
+           var discountvoucher = new DiscountVoucher(source.DiscountVoucherId, source.VoucherName, source.CouponCode, source.DiscountType, source.DiscountRate, source.CouponUseType,
             source.HasCoupon, source.IsOrderPriceRequirement, source.IsQtyRequirement, source.IsQtySpan, source.IsTimeLimit, source.IsUseWithOtherCoupon, source.MaxRequiredOrderPrice,
-            source.MaxRequiredQty, source.MinRequiredOrderPrice, source.MinRequiredQty, source.ValidFromDate, source.ValidUptoDate, source.CompanyId);
+            source.MaxRequiredQty, source.MinRequiredOrderPrice, source.MinRequiredQty, source.ValidFromDate, source.ValidUptoDate, source.CompanyId, source.IsEnabled);
+
+
+        // Map Product Category Items if any
+        if (source.ProductCategoryVouchers && source.ProductCategoryVouchers.length > 0) {
+            var oproductCategoryVouchers = [];
+
+            _.each(source.ProductCategoryVouchers, function (productCategoryVouchers) {
+                oproductCategoryVouchers.isSelected = true;
+                oproductCategoryVouchers.push(ProductCategoryVoucher.Create(productCategoryVouchers));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(discountvoucher.productCategoryVouchers(), oproductCategoryVouchers);
+            discountvoucher.productCategoryVouchers.valueHasMutated();
+        }
+
+        // Map Products Items if any
+        if (source.ItemsVouchers && source.ItemsVouchers.length > 0) {
+            var oitemVouchers = [];
+
+            _.each(source.ItemsVouchers, function (itemVouchers) {
+                oitemVouchers.isSelected = true;
+                oitemVouchers.push(ItemsVouchers.Create(itemVouchers));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(discountvoucher.itemsVoucher(), oitemVouchers);
+            discountvoucher.itemsVoucher.valueHasMutated();
+        }
+
+
+        // Return item with dirty state if New
+        if (!discountvoucher.id()) {
+            return discountvoucher;
+        }
+
+        // Reset State to Un-Modified
+        discountvoucher.reset();
+
+        return discountvoucher;
+
     };
 
-    // Product Category Voucher Entity
-    ProductCategoryVoucher = function (specifiedId, specifiedName, specifiedIsSelected, specifiedProductCategoryId) {
-        // True If Selected
-        var isSelected = ko.observable(specifiedIsSelected || undefined);
+
+
+    //// Product Category Voucher Entity
+    ProductCategoryVoucher = function (specifiedId, specifiedProductCategoryId, specifiedName, specifiedIsSelected, specifiedVoucherId) {
+        var
+            // Unique Id
+            id = ko.observable(specifiedId || 0),
+            // Category Id
+            categoryId = ko.observable(specifiedProductCategoryId || 0),
+            // Category Name
+            categoryName = ko.observable(specifiedName || ""),
+            // True if Selected
+            isSelected = ko.observable(specifiedIsSelected || undefined),
+            // voucher Id
+            voucherId = ko.observable(specifiedVoucherId || 0),
+            // Convert To Server Data
+            convertToServerData = function () {
+                return {
+                    CategoryVoucherId: id(),
+                    ProductCategoryId: categoryId(),
+                    VoucherId: voucherId(),
+                    IsSelected: isSelected()
+                };
+            };
 
         return {
-            id: specifiedId,
-            name: specifiedName,
+            id: id,
+            categoryId: categoryId,
+            categoryName: categoryName,
             isSelected: isSelected,
-            productCategoryId: specifiedProductCategoryId
+            voucherId: voucherId,
+            convertToServerData: convertToServerData
         };
     },
+
+    
     // Product Category Voucher Factory
     ProductCategoryVoucher.Create = function (source) {
-        return new ProductCategoryVoucher(source.CategoryVoucherId, source.CategoryName, source.IsSelected, source.ProductCategoryId);
+        return new ProductCategoryVoucher(source.CategoryVoucherId, source.ProductCategoryId,source.CategoryName, source.IsSelected,source.VoucherId);
     };
+
+
+    // items voucher
+
+    //// Product Category Voucher Entity
+    ItemsVouchers = function (specifiedId, specifiedItemId, specifiedName, specifiedIsSelected, specifiedVoucherId) {
+        var
+            // Unique Id
+            id = ko.observable(specifiedId || 0),
+            // Category Id
+            itemId = ko.observable(specifiedItemId || 0),
+            // Category Name
+            itemName = ko.observable(specifiedName || ""),
+            // True if Selected
+            isSelected = ko.observable(specifiedIsSelected || undefined),
+            // voucher Id
+            voucherId = ko.observable(specifiedVoucherId || 0),
+            // Convert To Server Data
+            convertToServerData = function () {
+                return {
+                    ItemVoucherId: id(),
+                    ItemId: itemId(),
+                    VoucherId: voucherId(),
+                    IsSelected: isSelected()
+                };
+            };
+
+        return {
+            id: id,
+            itemId: itemId,
+            itemName: itemName,
+            isSelected: isSelected,
+            voucherId: voucherId,
+            convertToServerData: convertToServerData
+        };
+    },
+
+
+    // Product Category Voucher Factory
+    ItemsVouchers.Create = function (source) {
+        return new ItemsVouchers(source.ItemVoucherId, source.ItemId, source.ProductName, source.IsSelected, source.VoucherId);
+    };
+
+
     // #endregion ______________ Discount Voucher   _________________
 
     // #region ______________  Smart Form Detail _________________
@@ -5064,6 +5372,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     };
     // #endregion ______________  Field Variable   _________________
 
+
+
+
+
+
     //#region ______________ R E T U R N ______________
     return {
         discountVoucherListView: discountVoucherListView,
@@ -5113,7 +5426,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         VariableExtension: VariableExtension,
         DiscountVoucher: DiscountVoucher,
         ProductCategoryForDialog: ProductCategoryForDialog,
-        ProductCategoryVoucher: ProductCategoryVoucher
+        ProductForDialog: ProductForDialog,
+        ProductCategoryVoucher: ProductCategoryVoucher,
+        ItemsVouchers: ItemsVouchers
+       
     };
     // #endregion 
 });

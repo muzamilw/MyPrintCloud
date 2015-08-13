@@ -5479,6 +5479,7 @@ namespace MPC.Repository.Repositories
 
         public void UpdateLiveStores(long organisationId, int storesCount)
         {
+            db.Configuration.LazyLoadingEnabled = false;
             List<Company> LiveStores = DbSet.Where(c => c.OrganisationId == organisationId && c.isStoreLive == true).ToList();
             if (LiveStores.Count() > storesCount)
             {
@@ -5487,6 +5488,19 @@ namespace MPC.Repository.Repositories
                 StoresToOffline.ForEach(c => c.isStoreLive = false);
                 SaveChanges();
             }
+        }
+
+        public int GetLiveStoresCount(long organisationId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            return DbSet.Where(c => c.isStoreLive == true && (c.isArchived == false || c.isArchived == null) && c.OrganisationId == organisationId).Count();
+        }
+
+        public bool IsStoreLive(long storeId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            var store = DbSet.Where(s => s.CompanyId == storeId && (s.isArchived == false || s.isArchived == null)).FirstOrDefault();
+            return store != null && store.isStoreLive == true ? true : false;
         }
 
     }

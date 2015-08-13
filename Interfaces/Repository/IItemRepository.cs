@@ -191,6 +191,8 @@ namespace MPC.Interfaces.Repository
         T Clone<T>(T source);
 
         string GetProductNameByItemId(long ItemId);
+
+        IEnumerable<Item> GetProductsByCompanyID(long CompanyId);
     }
 
 }

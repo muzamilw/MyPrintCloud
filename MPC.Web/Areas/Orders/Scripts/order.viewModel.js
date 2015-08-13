@@ -57,6 +57,7 @@ define("order/order.viewModel",
                     selectedCompanyJobManagerUser = ko.observable(),
                     // selected Company
                     selectedCompany = ko.observable(),
+                    isStoreLive = ko.observable(),
                     //inquiries
                     inquiries = ko.observableArray([]),
                     // Errors List
@@ -470,6 +471,8 @@ define("order/order.viewModel",
                     },
                     // Edit Item
                     editItem = function (item) {
+                        if (!checkStoreLive())
+                            return;
                         var itemHasChanges = item.hasChanges();
                         var orderGotChanges = selectedOrder().hasChanges();
                         itemCodeHeader(item.code());
@@ -696,6 +699,11 @@ define("order/order.viewModel",
                     },
                     // On Order Status Change
                     onOrderStatusChange = function (status) {
+                        if (!checkStoreLive()) {
+                            view.setOrderState(selectedOrder().statusId(), selectedOrder().isFromEstimate());
+                            return;
+                        }
+                            
                         // For Cancel Order
                         if (status === 5) {
                             forOrderStatusCancel();
@@ -1610,6 +1618,7 @@ define("order/order.viewModel",
                                     }
                                     selectedCompanyTaxRate(data.TaxRate);
                                     selectedCompanyJobManagerUser(data.JobManagerId);
+                                    isStoreLive(data.IsStoreLive);
                                 }
                                 isCompanyBaseDataLoaded(true);
                             },
@@ -2266,6 +2275,8 @@ define("order/order.viewModel",
 
                     },
                     downloadArtwork = function () {
+                        if (!checkStoreLive())
+                            return;
                        
                         // if order not in  production
                         if (selectedOrder().statusId() != 6)
@@ -2389,6 +2400,8 @@ define("order/order.viewModel",
                     },
                     openExternalReportsOrder = function () {
 
+                        if (!checkStoreLive())
+                            return;
                         //ContactId(oContactId);
                         //RecordId(oRecordId);
                         //CategoryId(oCategoryId);
@@ -2431,9 +2444,28 @@ define("order/order.viewModel",
 
 
                     },
+                    checkStoreLive = function () {
+                        var sMessage = "";
+                        if (!isStoreLive())
+                            sMessage = "Store is not live.";
+                        else if (selectedOrder().isExtraOrder() == true)
+                            sMessage = "Your orders exceeds the limit.";
+                        if (!isStoreLive() || selectedOrder().isExtraOrder() == true) {
+                            confirmation.messageText("Important ! " + sMessage);
+                            confirmation.afterProceed(function () {
+                                var uri = encodeURI("https://myprintcloud.com/dashboard");
+                                window.location.href = uri;
+                            });
+                            
+                            confirmation.showUpgradePopup();
+                            return false;
+                        }
+                        return true;
+                    },
                     openExternalEmailOrderReport = function () {
+                        if (!checkStoreLive())
+                            return;
                         reportManager.outputTo("email");
-
 
                         if (orderHasChanges) {
                             isOpenReport(true);
@@ -2483,6 +2515,8 @@ define("order/order.viewModel",
                         confirmation.show();
                     },
                     copyOrder = function () {
+                        if (!checkStoreLive())
+                            return;
                         confirmation.messageText("Proceed To Copy Order ?");
                         confirmation.afterProceed(function () {
                             dataservice.copyOrder({
@@ -3142,7 +3176,8 @@ define("order/order.viewModel",
                     onCreateNewCostCenterProduct: onCreateNewCostCenterProduct,
                     sectionFlagsForListView: sectionFlagsForListView,
                     onDeleteShippingItem: onDeleteShippingItem,
-                    copyOrder:copyOrder
+                    copyOrder: copyOrder,
+                    isStoreLive:isStoreLive
                     //#endregion
                 };
             })()
