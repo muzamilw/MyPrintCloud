@@ -177,7 +177,7 @@ namespace MPC.Repository.Repositories
                 if (discountVoucher.HasCoupon == true)
                 {
                     // Check for Code Duplication
-                    bool isDuplicateCode = IsDuplicateCouponCode(discountVoucher.CouponCode, discountVoucher.CompanyId);
+                    bool isDuplicateCode = IsDuplicateCouponCode(discountVoucher.CouponCode, discountVoucher.CompanyId,discountVoucher.DiscountVoucherId);
                     if (isDuplicateCode)
                     {
                         throw new MPCException("Coupon Code already exist.", OrganisationId);
@@ -359,7 +359,7 @@ namespace MPC.Repository.Repositories
                 // Check for Code Duplication
                 if(discountVoucher.HasCoupon == true)
                 {
-                    bool isDuplicateCode = IsDuplicateCouponCode(discountVoucher.CouponCode, discountVoucher.CompanyId);
+                    bool isDuplicateCode = IsDuplicateCouponCode(discountVoucher.CouponCode, discountVoucher.CompanyId,discountVoucher.DiscountVoucherId);
                     if (isDuplicateCode)
                     {
                         throw new MPCException("Coupon Code already exist.", OrganisationId);
@@ -432,11 +432,11 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Check if coupon code provided already exists
         /// </summary>
-        public bool IsDuplicateCouponCode(string CouponCode, long? companyId)
+        public bool IsDuplicateCouponCode(string CouponCode, long? companyId,long DiscountVoucherId)
         {
             try
             {
-                return db.DiscountVouchers.Any(c => c.CouponCode == CouponCode && c.CompanyId == companyId);
+                return db.DiscountVouchers.Any(c => c.CouponCode == CouponCode && c.CompanyId == companyId && c.DiscountVoucherId != DiscountVoucherId);
                
             }
             catch (Exception ex)
