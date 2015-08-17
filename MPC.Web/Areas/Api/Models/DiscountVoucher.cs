@@ -25,8 +25,8 @@ namespace MPC.MIS.Areas.Api.Models
         public int? MinRequiredQty { get; set; }
         public int? MaxRequiredQty { get; set; }
         public bool? IsOrderPriceRequirement { get; set; }
-        public int? MinRequiredOrderPrice { get; set; }
-        public int? MaxRequiredOrderPrice { get; set; }
+        public double? MinRequiredOrderPrice { get; set; }
+        public double? MaxRequiredOrderPrice { get; set; }
         public bool? IsQtySpan { get; set; }
 
         public bool IsEnabled { get; set; }

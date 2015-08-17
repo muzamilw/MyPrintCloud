@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using MPC.Common;
 using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.LoggerModels;
 using MPC.Models.ModelMappers;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -1992,5 +1994,1091 @@ namespace MPC.Implementation.MISServices
             estimateRepository.LoadProperty(estimate, () => estimate.Company);
             return estimate;
         }
+
+        #region Unleashed Xero Integration
+        public bool PostOrderToXero(long orderID)
+        {
+
+            Organisation org = organisationRepository.GetOrganizatiobByID();
+            bool key = org.isXeroIntegrationRequired ?? false;
+
+            if (key == true)
+            {
+                string CustomerGuid = string.Empty;
+
+                try
+                {
+                    Estimate order = estimateRepository.Find(orderID);
+                    // tbl_estimates order = this.ObjectContext.tbl_estimates.Where(o => o.EstimateID == orderID).FirstOrDefault();
+                    // tbl_contactcompanies customer = this.ObjectContext.tbl_contactcompanies.Where(c => c.ContactCompanyID == order.ContactCompanyID).FirstOrDefault();
+                    Company customer = order.Company;
+
+                    //tbl_taxrate tax = this.ObjectContext.tbl_taxrate.Where(t => t.TaxID == 
+                    // List<tbl_items> products = this.ObjectContext.tbl_items.Where(i => i.EstimateID == orderID).ToList();
+                    List<Item> products = order.Items.ToList();
+
+                    Item curItem = products.FirstOrDefault();
+                    double totaltax = curItem != null ? curItem.Qty1Tax1Value ?? 0 : 0;
+                    int taxid = curItem != null ? curItem.Tax1 ?? 0 : 0;
+                    double taxrate = curItem != null ? curItem.DefaultItemTax ?? 0 : 0;
+
+                    List<Company> suppliers = new List<Company>();
+
+                   //// XeroAPI api = new XeroAPI();
+                    string apiID = org.XeroApiId;
+                    string apiKey = org.XeroApiKey;
+
+
+                    products.ForEach(p => suppliers.Add(companyRepository.GetCustomer(p.SupplierId ?? 0)));
+
+                    if (string.IsNullOrEmpty(customer.XeroAccessCode))
+                    {
+                        //Add Customer to Xero
+                        Guid newGuid = Guid.NewGuid();
+
+                        try
+                        {
+                            string PostData = CustomerXmlData(newGuid, customer);
+                            //api.AddCustomerXml(customer, apiID, apiKey, newGuid);
+                        }
+                        catch (Exception)
+                        {
+
+                            return false;
+                        }
+                        customer.XeroAccessCode = newGuid.ToString();
+                        CustomerGuid = newGuid.ToString();
+                        companyRepository.SaveChanges();
+                    }
+
+
+                    if (suppliers.Count > 0)
+                    {
+                        foreach (Company supplier in suppliers)
+                        {
+                            if (string.IsNullOrEmpty(supplier.XeroAccessCode))
+                            {
+                                //Add Supplier
+                                Guid newGuid = Guid.NewGuid();
+
+                                try
+                                {
+                                    string PostData = CustomerXmlData(newGuid, customer);
+                                    // api.AddCustomerXml(supplier, apiID, apiKey, newGuid);
+                                }
+                                catch (Exception)
+                                {
+
+                                    return false;
+                                }
+                                supplier.XeroAccessCode = newGuid.ToString();
+                                companyRepository.SaveChanges();
+                            }
+                        }
+                    }
+
+                    //update xero code from referral item
+                    foreach (Item item in products)
+                    {
+
+                        string xeroCode = itemRepository.Find(item.RefItemId ?? 0).XeroAccessCode;
+                        if (!string.IsNullOrEmpty(xeroCode))
+                        {
+                            item.XeroAccessCode = xeroCode;
+                        }
+                    }
+
+
+                    foreach (Item item in products)
+                    {
+                        //Add product
+                        if (string.IsNullOrEmpty(item.XeroAccessCode))
+                        {
+                            Guid newGuid = Guid.NewGuid();
+                            string supplierCode = "";
+                            if (item.SupplierId != null)
+                            {
+                                supplierCode = companyRepository.GetCustomer(item.SupplierId ?? 0).XeroAccessCode;
+                                if (string.IsNullOrEmpty(supplierCode))
+                                {
+                                    supplierCode = "";
+                                }
+                            }
+                            else
+                            {
+                                supplierCode = "";
+                            }
+
+                            XeroXmlRefData refData = new XeroXmlRefData();
+                            refData.createdBy = "";
+                            if (item.CreatedBy.HasValue)
+                            {
+                                refData.createdBy = systemUserRepository.GetUserrById(order.Created_by?? new Guid()).FullName;
+                            }
+
+
+                            Item refItem = itemRepository.Find(item.RefItemId ?? 0);
+                            CostCentre costcentre = new CostCentre();
+                            StockItem stockitem = new StockItem();
+                            string CostCenterID = string.Empty;
+                            string StockID = string.Empty;
+                            if (item.ItemType == 2)
+                            {
+                                refData.productPurchasePrice = "1";
+                                refData.productSellPrice = CalculateSalesPrice(item, order.isDirectSale.Value);
+                                refData.productHeight = "0";
+                                refData.productWidth = "0";
+                                refData.packSize = "0";
+                                refData.reOrderPoint = "0";
+                               // costcentre = this.ObjectContext.tbl_costcentres.Where(c => c.Name == item.ProductName).FirstOrDefault();
+
+
+                                CostCenterID = Convert.ToString(CostCentreRepository.GetCostCentreIdByName(item.ProductName));
+
+                            }
+                            else if (item.ItemType == 3)
+                            {
+
+                                ////refData.productPurchasePrice = CalculatePurchasePrice(item, order.isDirectSale.Value);
+                                ////refData.productSellPrice = CalculateSalesPrice(item, order.isDirectSale.Value);
+                                ////refData.productHeight = CalculateHeight(item);
+                                ////refData.productWidth = CalculateWeight(item);
+                                ////refData.packSize = CalculatePackSize(item);
+                                ////refData.reOrderPoint = CalculateReorderLevel(item);
+                                ////stockitem = this.ObjectContext.tbl_stockitems.Where(s => s.StockItemID == item.RefItemID).FirstOrDefault();
+                                ////if (stockitem != null)
+                                ////{
+                                ////    StockID = Convert.ToString(stockitem.StockItemID);
+                                ////}
+
+
+
+                            }
+                            else
+                            {
+                                ////refData.productPurchasePrice = CalculatePurchasePrice(refItem, order.isDirectSale.Value);
+                                ////refData.productSellPrice = CalculateSalesPrice(item, order.isDirectSale.Value);
+                                ////refData.productHeight = CalculateHeight(item);
+                                ////refData.productWidth = CalculateWeight(item);
+                                ////refData.packSize = CalculatePackSize(item);
+                                ////refData.reOrderPoint = CalculateReorderLevel(item);
+                            }
+
+                            try
+                            {
+                                ////api.AddProductXml(item, supplierCode, refData, apiID, apiKey, newGuid, CostCenterID, StockID);
+                            }
+                            catch (Exception)
+                            {
+
+                                return false;
+                            }
+
+
+                            item.XeroAccessCode = newGuid.ToString();
+                            if (item.ItemType == 2)
+                                costcentre.XeroAccessCode = newGuid.ToString();
+                            else if (item.ItemType == 3)
+                                stockitem.XeroAccessCode = newGuid.ToString();
+                            else
+                                refItem.XeroAccessCode = newGuid.ToString();
+
+
+                            ////this.ObjectContext.SaveChanges();
+                        }
+                    }
+
+                    // Add Order
+
+
+                    if (string.IsNullOrEmpty(order.XeroAccessCode))
+                    {
+                        Guid orderGuid = Guid.NewGuid();
+                        try
+                        {
+                            ////api.AddOrderXml(order, customer, products, apiID, apiKey, orderGuid, taxrate);
+                        }
+                        catch (Exception)
+                        {
+
+                            return false;
+                        }
+
+                        ////order.XeroAccessCode = orderGuid.ToString();
+                        ////this.ObjectContext.SaveChanges();
+                    }
+
+                    Guid invoiceGuid = Guid.NewGuid();
+                    try
+                    {
+                        ////api.AddInvoiceXml(order, customer, apiID, apiKey, invoiceGuid, taxrate, totaltax, CustomerGuid, products);
+
+                    }
+                    catch (Exception)
+                    {
+
+                        return false;
+                    }
+
+
+
+
+                    return true;
+                }
+                catch (Exception)
+                {
+
+                    return false;
+                }
+
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+
+        private string CustomerXmlData(Guid gid, Company companyObject)
+        {
+            string xml = @"<?xml version='1.0'?>
+				<Customer xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns='http://api.unleashedsoftware.com/version/1'>
+				<Guid>{0}</Guid>
+				<CustomerCode>{1}</CustomerCode>
+				<CustomerName>{2}</CustomerName>
+				<CustomerType>{3}</CustomerType>
+				<Email>{4}</Email>
+				<EmailCC>{4}</EmailCC>
+				<FaxNumber>{5}</FaxNumber>
+				<GSTVATNumber>{6}</GSTVATNumber>
+				<MobileNumber>{7}</MobileNumber>
+				<Notes>{8}</Notes>
+				<PhoneNumber>{9}</PhoneNumber>
+
+				<Obsolete>{10}</Obsolete>
+
+				<StopCredit>0</StopCredit>
+				<Taxable>{11}</Taxable>
+				
+
+				<PrintInvoice>1</PrintInvoice>
+				<PrintPackingSlipInsteadOfInvoice>0</PrintPackingSlipInsteadOfInvoice>
+
+				<ContactFirstName>{12}</ContactFirstName>
+				<ContactLastName>{13}</ContactLastName>
+
+				<XeroContactId>1</XeroContactId>
+				<XeroCostOfGoodsAccount>1</XeroCostOfGoodsAccount>
+				<XeroSalesAccount>1</XeroSalesAccount>
+
+				</Customer>";
+
+            xml = xml.Replace("\r\n", "");
+            string customerType = "";
+            switch (companyObject.IsCustomer)
+            {
+                case 0:
+                    customerType = "Prospect";
+                    break;
+                case 1:
+                    customerType = "Retail";
+                    break;
+                case 2:
+                    customerType = "Supplier";
+                    break;
+                case 3:
+                    customerType = "Corporate";
+                    break;
+                case 4:
+                    customerType = "Broker";
+                    break;
+            }
+            string isObselete = "0";
+            if (companyObject.isArchived.HasValue && companyObject.isArchived.Value == true)
+            {
+                isObselete = "1";
+            }
+            string isTaxable = "0";
+            if (companyObject.isIncludeVAT.HasValue && companyObject.isIncludeVAT.Value == true)
+            {
+                isTaxable = "1";
+            }
+            string vatReference = "";
+            if (!string.IsNullOrEmpty(companyObject.VATRegReference))
+            {
+                vatReference = companyObject.VATRegReference;
+            }
+
+            CompanyContact contact = companyObject.CompanyContacts.Where(con => con.IsDefaultContact == 1).FirstOrDefault();
+            xml = string.Format(xml, gid, gid + " - " + companyObject.AccountNumber, companyObject.Name, customerType, contact.Email, contact.FAX, vatReference,
+                contact.Mobile, companyObject.Notes, contact.HomeTel1, isObselete, isTaxable,
+                   contact.FirstName, contact.LastName);
+            xml = xml.Replace("&", "and");
+
+            return xml;
+        }
+        private static string ProductXmlData(Guid id, Item product, string supplierCode, XeroXmlRefData refData, string CostCenterID, string StockID)
+        {
+            string xml = @"<?xml version='1.0'?>
+                    <Product xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns='http://api.unleashedsoftware.com/version/1'>
+                    <Guid>#productID</Guid>
+                    <ProductCode>#productCode</ProductCode>
+                    <ProductDescription>#description</ProductDescription>  
+
+                    <CanAutoAssemble>0</CanAutoAssemble>
+                    <IsAssembledProduct>#isFinishGood</IsAssembledProduct>  
+                   
+
+                    <DefaultPurchasePrice>#purchasePrice</DefaultPurchasePrice>  
+                    <DefaultSellPrice>#sellPrice</DefaultSellPrice>
+
+
+                    <Height>#height</Height>
+                    <Width>#width</Width>
+
+
+
+                    <NeverDiminishing>1</NeverDiminishing>
+
+
+                    <Obsolete>0</Obsolete>
+
+                    <PackSize>#packSize</PackSize>
+                    <ReOrderPoint>#reorderPoint</ReOrderPoint>
+
+
+                    <Taxable>0</Taxable>
+                    <TaxableSales>1</TaxableSales>
+
+                    <XeroSalesAccount>1</XeroSalesAccount>";
+
+            xml += "</Product>";
+            xml = xml.Replace("\r\n", "");
+            xml = xml.Replace("#productID", id.ToString());
+
+            if (product.ItemType == 2)
+            {
+                xml = xml.Replace("#productCode", CostCenterID + "-CostCentre");
+
+            }
+            else if (product.ItemType == 3)
+            {
+                xml = xml.Replace("#productCode", StockID + "-StockItem");
+
+            }
+            else
+            {
+                xml = xml.Replace("#productCode", product.ProductCode);
+            }
+
+            if (!string.IsNullOrEmpty(product.WebDescription))
+            {
+                if (product.WebDescription.Length < 150)
+                    xml = xml.Replace("#description", product.WebDescription);
+                else
+                    xml = xml.Replace("#description", product.WebDescription.Substring(0, 150));
+            }
+            else
+            {
+                xml = xml.Replace("#description", product.ProductName);
+            }
+
+
+
+            if (product.ProductType != null && product.ProductType != 1)
+            {
+                xml = xml.Replace("#isFinishGood", "1");
+            }
+            else
+            {
+                xml = xml.Replace("#isFinishGood", "0");
+            }
+
+            xml = xml.Replace("#purchasePrice", refData.productPurchasePrice);
+            xml = xml.Replace("#sellPrice", refData.productSellPrice);
+
+            xml = xml.Replace("#height", refData.productHeight);
+            xml = xml.Replace("#width", refData.productWidth);
+
+            xml = xml.Replace("#packSize", refData.packSize);
+            xml = xml.Replace("#reorderPoint", refData.reOrderPoint);
+            xml = xml.Replace("\r\n", "");
+            return xml;
+        }
+        private static string SaleOrderXmlData(Guid id, Estimate order, Company customer, List<Item> products, double TaxRate)
+        {
+            double corectTaxRate = TaxRate / 100;
+
+            string xml = @"<?xml version='1.0'?>
+                    <SalesOrder xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns='http://api.unleashedsoftware.com/version/1'>
+ 
+                     <Guid>{0}</Guid>
+	                    <OrderNumber>{1}</OrderNumber>
+	                    <OrderStatus>Parked</OrderStatus>
+	                    <Customer>
+	                      <Guid>{2}</Guid>
+	                    </Customer>
+	
+	                    <TaxRate>{3}</TaxRate>
+	
+	                    <SubTotal>{4}</SubTotal>
+	                    <TaxTotal>{5}</TaxTotal>
+	                    <Total>{6}</Total>    
+	
+
+	                    <SalesOrderLines>
+	                     ";
+
+            XeroXmlRefData refData = CalculateOrderRefData(order, customer, products);
+            ////xml += GetSalesOrderLineXml(products, order.isDirectSale, TaxRate);
+            xml += @"</SalesOrderLines>
+						  </SalesOrder>";
+            xml = xml.Replace("\r\n", "");
+            xml = string.Format(xml, id, order.Order_Code, customer.XeroAccessCode, corectTaxRate, refData.subTotal, refData.taxTotal, refData.Total);
+            return xml;
+        }
+        private static string InvoiceXmlData(Guid gid, Estimate order, Company customer, double TaxRate, double taxtotal, string custGuid, List<Item> products)
+        {
+
+            #region preFunctionalities for xml
+            // For order date
+            DateTime orderDate = new DateTime();
+            orderDate = order.Order_Date ?? DateTime.Now;
+
+
+            string orderDateString = orderDate.ToString("yyyy-MM-dd");
+            // for requiredDate
+            DateTime ReqDate = new DateTime();
+            ReqDate = order.Order_DeliveryDate ?? DateTime.Now;
+
+            string ReqDateString = ReqDate.ToString("yyyy-MM-dd");
+
+            // for Due Date
+            DateTime DueDate = new DateTime();
+            DueDate = order.Order_DeliveryDate ?? DateTime.Now;
+
+            string DueDateString = DueDate.ToString("yyyy-MM-dd"); 
+            // for taxrate
+
+            double corectTaxRate = TaxRate / 100;
+
+            DateTime pd = new DateTime();
+            if (order.PrePayments.Count > 0)
+            {
+                pd = order.PrePayments.Select(x => x.PaymentDate).FirstOrDefault();
+            }
+            else
+            {
+                pd = DateTime.Now;
+            }
+
+            string paymentddate = pd.ToString("yyyy-MM-dd");
+
+            double LineTotal = 0;
+            foreach (Item itm in products)
+            {
+                LineTotal += itm.Qty1NetTotal ?? 0;
+            }
+            double linetax = 0;
+            foreach (Item itm in products)
+            {
+
+                linetax += itm.Qty1Tax1Value ?? 0;
+
+            }
+
+
+            double Subtotal = 0;
+            Subtotal = LineTotal;
+            double taxtotalOrder = 0;
+            taxtotalOrder = linetax;
+
+            double total = 0;
+            total = Subtotal + taxtotalOrder;
+
+            #endregion
+
+
+            string xml = @"<?xml version='1.0'?>
+                <SalesInvoice xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns='http://api.unleashedsoftware.com/version/1'>
+                  <Guid>{0}</Guid>
+                  <OrderNumber>{1}</OrderNumber>
+                  <OrderDate>{2}</OrderDate>
+                 <RequiredDate>{3}</RequiredDate>
+                  <OrderStatus>{4}</OrderStatus>
+                    <Customer>
+                    <Guid>{5}</Guid>
+                  </Customer>
+  
+                  <TaxRate>{6}</TaxRate>
+  
+                  <SubTotal>{7}</SubTotal>
+                  <TaxTotal>{8}</TaxTotal>
+                  <Total>{9}</Total>
+
+                  <PaymentDueDate>{10}</PaymentDueDate>
+                  <SalesOrderLines> 
+                ";
+
+            xml += GetInvoiceOrderLine(products, DueDateString, corectTaxRate);
+
+            xml += @"</SalesOrderLines>
+					 </SalesInvoice>";
+
+
+
+            xml = string.Format(xml, gid, order.Order_Code, orderDateString, ReqDateString, "Confirmed", customer.XeroAccessCode, corectTaxRate, Subtotal, taxtotalOrder, total, paymentddate);
+            // xml = string.Format(xml, gid);
+            xml = xml.Replace("\r\n", "");
+
+            return xml;
+        }
+
+
+        private string GetSalesOrderLineXml(List<Item> products, bool isDirect, double taxrate)
+        {
+            string xml = "";
+            string tags = "";
+            int count = 1;
+            double correctTaxrate = taxrate / 100;
+            foreach (Item item in products)
+            {
+                tags += "<SalesOrderLine>";
+                tags += " <LineNumber>" + count + "</LineNumber>";
+                if (item.ItemType == 2)
+                {
+                    long ccID = 0;
+                    string costcenterID = string.Empty;
+                    ccID = this.CostCentreRepository.GetCostCentreIdByName(item.ProductName);
+                    
+                    if (ccID > 0)
+                        costcenterID = Convert.ToString(ccID);
+                    tags += @"<Product>a
+								  <ProductCode>" + costcenterID + @"</ProductCode>
+							  </Product>";
+                }
+                else if (item.ItemType == 3)
+                {
+                    long SID = 0;
+                    string StockItemID = string.Empty;
+                    SID = stockItemRepository.Find(item.RefItemId ?? 0).StockItemId;
+                    if (SID > 0)
+                        StockItemID = Convert.ToString(SID);
+                    tags += @"<Product>a
+								  <ProductCode>" + StockItemID + @"</ProductCode>
+							  </Product>";
+                }
+                else
+                {
+                    tags += @"<Product>a
+								  <ProductCode>" + item.ProductCode + @"</ProductCode>
+							  </Product>";
+                }
+                tags += "<OrderQuantity>" + GetQty(item, isDirect) + "</OrderQuantity>";
+                tags += "<UnitPrice>" + GetUnitPrice(item, isDirect) + "</UnitPrice>";
+                tags += "<LineTotal>" + GetNetTotal(item, isDirect) + "</LineTotal>";
+                tags += "<UnitCost>0</UnitCost>";
+                tags += "<TaxRate>" + correctTaxrate + "</TaxRate>";
+                tags += "<LineTax>" + GetLineTax(item, isDirect) + "</LineTax>";
+                tags += "</SalesOrderLine>";
+
+                count++;
+            }
+            xml += tags;
+            return xml;
+        }
+
+        private static string GetInvoiceOrderLine(List<Item> products, string DueDate, double taxrate)
+        {
+            string xml = "";
+            string tags = "";
+            int count = 1;
+
+            foreach (Item item in products)
+            {
+                tags += "<SalesInvoiceLine>";
+                tags += " <LineNumber>" + count + "</LineNumber>";
+                tags += @"<Product>
+								  <Guid>" + item.XeroAccessCode + @"</Guid>
+							  </Product>";
+                tags += "<DueDate>" + DueDate + "</DueDate>";
+                if (item.ItemType == 2)
+                    tags += "<OrderQuantity>" + 1 + "</OrderQuantity>";
+                else
+                    tags += "<OrderQuantity>" + item.Qty1 + "</OrderQuantity>";
+
+                tags += "<UnitPrice>" + GetUnitPrice(item, false) + "</UnitPrice>";
+                tags += "<LineTotal>" + item.Qty1NetTotal + "</LineTotal>";
+                tags += "<TaxRate>" + taxrate + "</TaxRate>";
+                tags += "<LineTax>" + item.Qty1Tax1Value + "</LineTax>";
+                tags += "</SalesInvoiceLine>";
+
+                count++;
+            }
+            xml += tags;
+            return xml;
+        }
+
+
+        private static double GetQty(Item item, bool isDirect)
+        {
+            if (!isDirect)
+            {
+                if (item.ItemType == 2)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return item.Qty1.Value;
+                }
+            }
+            else
+            {
+                switch (item.JobSelectedQty)
+                {
+                    case null:
+                        return item.Qty1.Value;
+                    case 1:
+                        return item.Qty1.Value;
+                    case 2:
+                        return item.Qty2.Value;
+                    case 3:
+                        return item.Qty3.Value;
+                    default:
+                        return 0;
+                }
+            }
+        }
+        private static double GetUnitPrice(Item item, bool isDirect)
+        {
+            if (!isDirect)
+            {
+                if (item.ItemType == 2)
+                    return item.Qty1NetTotal.Value;
+                else
+                    return (item.Qty1NetTotal.Value / item.Qty1.Value);
+
+            }
+            else
+            {
+                switch (item.JobSelectedQty)
+                {
+                    case null:
+                        return (item.Qty1NetTotal.Value / item.Qty1.Value);
+                    case 1:
+                        return (item.Qty1NetTotal.Value / item.Qty1.Value);
+                    case 2:
+                        return (item.Qty2NetTotal.Value / item.Qty2.Value);
+                    case 3:
+                        return (item.Qty3NetTotal.Value / item.Qty3.Value);
+                    default:
+                        return 0;
+                }
+            }
+        }
+        private static double GetNetTotal(Item item, bool isDirect)
+        {
+            if (!isDirect)
+            {
+                return item.Qty1NetTotal.Value;
+            }
+            else
+            {
+                switch (item.JobSelectedQty)
+                {
+                    case null:
+                        return item.Qty1NetTotal.Value;
+                    case 1:
+                        return item.Qty1NetTotal.Value;
+                    case 2:
+                        return item.Qty2NetTotal.Value;
+                    case 3:
+                        return item.Qty3NetTotal.Value;
+                    default:
+                        return 0;
+                }
+            }
+        }
+        private static double GetTaxRate(Item item, bool isDirect)
+        {
+            if (!isDirect)
+            {
+                return item.Qty1Tax1Value.Value;
+            }
+            else
+            {
+                switch (item.JobSelectedQty)
+                {
+                    case null:
+                        return item.Qty1Tax1Value.Value;
+                    case 1:
+                        return item.Qty1Tax1Value.Value;
+                    case 2:
+                        return item.Qty2Tax1Value.Value;
+                    case 3:
+                        return item.Qty3Tax1Value.Value;
+                    default:
+                        return 0;
+                }
+            }
+        }
+        private static double GetLineTax(Item item, bool isDirect)
+        {
+            if (!isDirect)
+            {
+                return item.Qty1Tax1Value.Value;
+            }
+            else
+            {
+                switch (item.JobSelectedQty)
+                {
+                    case null:
+                        return item.Qty1Tax1Value.Value;
+                    case 1:
+                        return item.Qty1Tax1Value.Value;
+                    case 2:
+                        return item.Qty2Tax1Value.Value;
+                    case 3:
+                        return item.Qty3Tax1Value.Value;
+                    default:
+                        return 0;
+                }
+            }
+        }
+        private static XeroXmlRefData CalculateOrderRefData(Estimate order, Company customer, List<Item> products)
+        {
+            XeroXmlRefData data = new XeroXmlRefData();
+            double sub, tax, total;
+            sub = 0; tax = 0; total = 0;
+
+            if (!order.isDirectSale.Value)
+            {
+                foreach (Item item in products)
+                {
+                    sub += item.Qty1NetTotal.Value;
+                    tax += item.Qty1Tax1Value.Value;
+                }
+                total = sub + tax;
+
+                data.subTotal = sub.ToString();
+                data.taxTotal = tax.ToString();
+                data.Total = total.ToString();
+            }
+            else
+            {
+                foreach (Item item in products)
+                {
+                    switch (item.JobSelectedQty)
+                    {
+                        case null:
+                            sub += item.Qty1NetTotal.Value;
+                            tax += item.Qty1Tax1Value.Value;
+                            break;
+                        case 1:
+                            sub += item.Qty1NetTotal.Value;
+                            tax += item.Qty1Tax1Value.Value;
+                            break;
+                        case 2:
+                            sub += item.Qty2NetTotal.Value;
+                            tax += item.Qty2Tax1Value.Value;
+                            break;
+                        case 3:
+                            sub += item.Qty3NetTotal.Value;
+                            tax += item.Qty3Tax1Value.Value;
+                            break;
+                    }
+                }
+                total = sub + tax;
+
+                data.subTotal = sub.ToString();
+                data.taxTotal = tax.ToString();
+                data.Total = total.ToString();
+            }
+            return data;
+        }
+        private string CalculatePurchasePrice(Item item, bool isDirectOrder)
+        {
+            ItemSection section = item.ItemSections.FirstOrDefault();
+            long? stockid = section.StockItemID1;
+
+            int? stockSequence =
+                item.ItemStockOptions.Where(o => o.StockId == stockid).Select(o => o.OptionSequence).FirstOrDefault();// this.ObjectContext.tbl_ItemStockOptions.Where(o => o.StockID == stockid).Select(o => o.OptionSequence).FirstOrDefault();
+
+            if (item.SupplierId != null)
+            {
+                ItemPriceMatrix spm = new ItemPriceMatrix();
+                if (item.IsQtyRanged == true)
+                {
+                    if (!isDirectOrder)
+                    {
+                        spm =
+                            item.ItemPriceMatrices.Where(
+                                s =>
+                                    s.SupplierId == item.SupplierId &&
+                                    (item.Qty1.Value >= s.QtyRangeFrom && item.Qty1 <= s.QtyRangeTo))
+                                .FirstOrDefault();
+                        //spm = this.ObjectContext.tbl_items_PriceMatrix.Where(p => p.ItemID == item.ItemID && p.SupplierID == item.SupplierID
+                        //   && (item.Qty1.Value >= p.QtyRangeFrom && item.Qty1.Value <= p.QtyRangeTo)).FirstOrDefault();
+                    }
+                    else
+                    {
+                        switch (item.JobSelectedQty)
+                        {
+                            case null:
+                                spm =
+                            item.ItemPriceMatrices.Where(
+                                s =>
+                                    s.SupplierId == item.SupplierId &&
+                                    (item.Qty1.Value >= s.QtyRangeFrom && item.Qty1 <= s.QtyRangeTo))
+                                .FirstOrDefault();
+                                
+                                break;
+                            case 1:
+                                spm =
+                           item.ItemPriceMatrices.Where(
+                               s =>
+                                   s.SupplierId == item.SupplierId &&
+                                   (item.Qty1.Value >= s.QtyRangeFrom && item.Qty1 <= s.QtyRangeTo))
+                               .FirstOrDefault();
+                                
+                                break;
+                            case 2:
+                                spm =
+                           item.ItemPriceMatrices.Where(
+                               s =>
+                                   s.SupplierId == item.SupplierId &&
+                                   (item.Qty2.Value >= s.QtyRangeFrom && item.Qty2 <= s.QtyRangeTo))
+                               .FirstOrDefault();
+                                break;
+                            case 3:
+                                spm =
+                            item.ItemPriceMatrices.Where(
+                                s =>
+                                    s.SupplierId == item.SupplierId &&
+                                    (item.Qty3.Value >= s.QtyRangeFrom && item.Qty3 <= s.QtyRangeTo))
+                                .FirstOrDefault();
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    if (!isDirectOrder)
+                    {
+                        spm =
+                            item.ItemPriceMatrices.Where(
+                                s =>
+                                    s.SupplierId == item.SupplierId &&
+                                    (item.Qty1.Value >= s.Quantity))
+                                .FirstOrDefault();
+                       
+                    }
+                    else
+                    {
+                        switch (item.JobSelectedQty)
+                        {
+                            case null:
+                                spm =
+                            item.ItemPriceMatrices.Where(
+                                s =>
+                                    s.SupplierId == item.SupplierId &&
+                                    (item.Qty1.Value >= s.Quantity))
+                                .FirstOrDefault();
+                                break;
+                            case 1:
+                                spm =
+                           item.ItemPriceMatrices.Where(
+                               s =>
+                                   s.SupplierId == item.SupplierId &&
+                                   (item.Qty1.Value >= s.Quantity))
+                               .FirstOrDefault();
+                                
+                                break;
+                            case 2:
+                                spm =
+                            item.ItemPriceMatrices.Where(
+                                s =>
+                                    s.SupplierId == item.SupplierId &&
+                                    (item.Qty2.Value >= s.Quantity))
+                                .FirstOrDefault();
+                                break;
+                            case 3:
+                                spm =
+                           item.ItemPriceMatrices.Where(
+                               s =>
+                                   s.SupplierId == item.SupplierId &&
+                                   (item.Qty3.Value >= s.Quantity))
+                               .FirstOrDefault();
+                                break;
+                        }
+                    }
+                }
+
+                if (spm != null)
+                {
+                    switch (stockSequence)
+                    {
+                        case 1:
+                            return Convert.ToString(spm.PricePaperType1);
+                        case 2:
+                            return Convert.ToString(spm.PricePaperType2);
+                        case 3:
+                            return Convert.ToString(spm.PricePaperType3);
+                        case 4:
+                            return Convert.ToString(spm.PriceStockType4);
+                        case 5:
+                            return Convert.ToString(spm.PriceStockType5);
+                        case 6:
+                            return Convert.ToString(spm.PriceStockType6);
+                        case 7:
+                            return Convert.ToString(spm.PriceStockType7);
+                        case 8:
+                            return Convert.ToString(spm.PriceStockType8);
+                        case 9:
+                            return Convert.ToString(spm.PriceStockType9);
+                        case 10:
+                            return Convert.ToString(spm.PriceStockType10);
+                        case 11:
+                            return Convert.ToString(spm.PriceStockType11);
+                        default:
+                            return "0";
+                    }
+                }
+                else
+                {
+                    return "0";
+                }
+            }
+            else
+            {
+                return "0";
+            }
+        }
+        private string CalculateSalesPrice(Item item, bool isDirectOrder)
+        {
+            if (!isDirectOrder)
+            {
+                return Convert.ToString(item.Qty1NetTotal);
+            }
+            else
+            {
+                switch (item.JobSelectedQty)
+                {
+                    case null:
+                        return Convert.ToString(item.Qty1NetTotal);
+                    case 1:
+                        return Convert.ToString(item.Qty1NetTotal);
+                    case 2:
+                        return Convert.ToString(item.Qty2NetTotal);
+                    case 3:
+                        return Convert.ToString(item.Qty3NetTotal);
+                }
+            }
+            return "0";
+        }
+        //private string CalculateHeight(Item item)
+        //{
+        //    ItemSection section = item.ItemSections.FirstOrDefault();
+        //    long? stockid = section.StockItemID1;
+
+        //    StockItem stockItem = stockItemRepository.Find(stockid??0);
+        //    short? isCustom = stockItem!= null ?  stockItem.ItemSizeCustom : 0;
+
+        //    if (isCustom.HasValue)
+        //    {
+        //        if (isCustom == 0)
+        //        {
+        //            if (stockItem.ItemSizeHeight.HasValue)
+        //            {
+        //                return stockItem.ItemSizeHeight.Value.ToString();
+        //            }
+        //            else
+        //            {
+        //                return "0";
+        //            }
+        //        }
+        //        else
+        //        {
+        //            double? height = this.ObjectContext.tbl_papersize.Where(p => p.PaperSizeID == stockItem.ItemSizeID).Select(o => o.Height).FirstOrDefault();
+        //            if (height.HasValue)
+        //            {
+        //                return height.ToString();
+        //            }
+        //            else
+        //            {
+        //                return "0";
+        //            }
+        //        }
+        //    }
+
+        //    return "0";
+        //}
+        //private string CalculateWeight(tbl_items item)
+        //{
+        //    tbl_item_sections section = this.ObjectContext.tbl_item_sections.Where(s => s.ItemID == item.ItemID).FirstOrDefault();
+        //    int stockid = section.StockItemID1.Value;
+
+        //    tbl_stockitems stockItem = this.ObjectContext.tbl_stockitems.Where(s => s.StockItemID == stockid).FirstOrDefault();
+        //    short? isCustom = stockItem.ItemSizeCustom;
+
+        //    if (isCustom.HasValue)
+        //    {
+        //        if (isCustom == 0)
+        //        {
+        //            if (stockItem.ItemSizeWidth.HasValue)
+        //            {
+        //                return stockItem.ItemSizeWidth.Value.ToString();
+        //            }
+        //            else
+        //            {
+        //                return "0";
+        //            }
+        //        }
+        //        else
+        //        {
+        //            double? width = this.ObjectContext.tbl_papersize.Where(p => p.PaperSizeID == stockItem.ItemSizeID).Select(o => o.Width).FirstOrDefault();
+        //            if (width.HasValue)
+        //            {
+        //                return width.ToString();
+        //            }
+        //            else
+        //            {
+        //                return "0";
+        //            }
+        //        }
+        //    }
+
+        //    return "0";
+        //}
+        //private string CalculatePackSize(tbl_items item)
+        //{
+        //    tbl_item_sections section = this.ObjectContext.tbl_item_sections.Where(s => s.ItemID == item.ItemID).FirstOrDefault();
+        //    int stockid = section.StockItemID1.Value;
+
+        //    tbl_stockitems stockItem = this.ObjectContext.tbl_stockitems.Where(s => s.StockItemID == stockid).FirstOrDefault();
+
+        //    if (stockItem.PackageQty.HasValue)
+        //    {
+        //        return stockItem.PackageQty.Value.ToString();
+        //    }
+        //    return "0";
+        //}
+        //private string CalculateReorderLevel(tbl_items item)
+        //{
+        //    tbl_item_sections section = this.ObjectContext.tbl_item_sections.Where(s => s.ItemID == item.ItemID).FirstOrDefault();
+        //    int stockid = section.StockItemID1.Value;
+
+        //    tbl_stockitems stockItem = this.ObjectContext.tbl_stockitems.Where(s => s.StockItemID == stockid).FirstOrDefault();
+
+        //    if (stockItem.ReOrderLevel.HasValue)
+        //    {
+        //        return stockItem.ReOrderLevel.Value.ToString();
+        //    }
+        //    return "0";
+        //}
+        #endregion
+        
     }
 }
