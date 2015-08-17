@@ -16,7 +16,7 @@
         &nbsp;
     </div>
     <div>
-        <div class="col-sm-12" style="padding-right: 6px; padding-left: 6px;">
+        <div class="col-sm-12" style="padding-right:6px;padding-left: 6px;">
             <!-- ko template: { name: 'orderFilterTemplate' } -->
             <!-- /ko -->
             <div class="clearfix">
@@ -103,7 +103,7 @@
                                         <thead>
                                             <tr>
                                                 <th class="col-sm-1"><span>&nbsp;</span></th>
-                                                <th class="col-sm-4"><span>Customer</span></th>
+                                                <th class="col-sm-3"><span>Customer</span></th>
                                                 <th class="col-sm-2"><span>Order Code</span></th>
                                                 <th class="col-sm-2"><span>Order Date</span></th>
                                                 <th class="col-sm-1"><span>Flag</span></th>
@@ -193,7 +193,7 @@
                 <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
             </td>
 
-            <td style="text-align: right">
+            <td style="text-align:right; padding-right:84px;">
                 <span data-bind="text:estimateTotal()!==undefined ? $root.currencySymbol() :''"></span>
                 <span data-bind="numberInput:estimateTotal()!==undefined ? estimateTotal():''"></span>
             </td>
@@ -243,16 +243,16 @@
     @* Tab Items Lists*@
     <script id="tabItemsList" type="text/html">
         <div class="main-box-body main-box clearfix">
-            <div class="table-responsive" style="padding-left: 16px; padding-right: 16px;">
+            <div class="table-responsive" style="padding-left:20px; padding-right:20px;">
                 <table id="OrderListtbl" class="table user-list table-striped table-hover">
                     <thead>
                         <tr>
-                            <th class="col-sm-1"><span>&nbsp;</span></th>
-                            <th class="col-sm-4"><span>Customer</span></th>
+                            <th class="col-sm-1"></th>
+                            <th class="col-sm-3"><span>Customer</span></th>
                             <th class="col-sm-2"><span>Order Code</span></th>
                             <th class="col-sm-2"><span>Order Date</span></th>
-                            <th class="col-sm-1"><span>Flag</span></th>
-                            <th class="col-sm-2" style="text-align: right"><span>Order Total</span></th>
+                            <th class="col-sm-2"><span>Flag</span></th>
+                            <th class="col-sm-2"><span>Order Total</span></th>
                         </tr>
                     </thead>
                     <tbody>
