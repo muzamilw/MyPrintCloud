@@ -29,8 +29,8 @@ namespace MPC.Models.DomainModels
         public int? MinRequiredQty { get; set; }
         public int? MaxRequiredQty { get; set; }
         public bool? IsOrderPriceRequirement { get; set; }
-        public int? MinRequiredOrderPrice { get; set; }
-        public int? MaxRequiredOrderPrice { get; set; }
+        public double? MinRequiredOrderPrice { get; set; }
+        public double? MaxRequiredOrderPrice { get; set; }
         public long? CustomerId { get; set; }
         public bool? IsSingleUseRedeemed { get; set; }
         public bool? IsQtySpan { get; set; }

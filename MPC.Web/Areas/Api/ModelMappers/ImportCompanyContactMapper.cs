@@ -46,7 +46,26 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CanPayByPersonalCreditCard = Convert.ToBoolean(source.CanPayByPersonalCreditCard == "" ? "false" : source.CanPayByPersonalCreditCard),
                 CanSeePrices = Convert.ToBoolean(source.CanSeePrices == "" ? "false" : source.CanSeePrices),
                 HasWebAccess = Convert.ToBoolean(source.HasWebAccess == "" ? "false" : source.HasWebAccess),
-                CanPlaceOrder = Convert.ToBoolean(source.CanPlaceOrder == "" ? "false" : source.CanPlaceOrder) 
+                CanPlaceOrder = Convert.ToBoolean(source.CanPlaceOrder == "" ? "false" : source.CanPlaceOrder) ,
+               // DirectLine = source.DirectLine
+                //RoleId = source.UserRole == "A" ? 1
+                //       : source.UserRole == "M" ? 2
+                //       : source.UserRole == "U" ? 3
+                //       : 0,
+                //UserName = source.UserName,
+                //POBoxAddress = source.POBoxAddress,
+                //CorporateUnit = source.CorporateUnit,
+                //TradingName = source.TradingName,
+                //BPayCRN = source.BPayCRN,
+                //ACN = source.ACN,
+                //ContractorName = source.ContractorName,
+                //ABN = source.ABN,
+                //Notes = source.Notes,
+                //CreditLimit = source.CreditLimit,
+                //SubscribedtoNewsletter = source.SubscribedtoNewsletter,
+                //SubscribedtoEmails = source.SubscribedtoEmails,
+                //isDefaultContact = source.isDefaultContact
+
             };
         }
     }
