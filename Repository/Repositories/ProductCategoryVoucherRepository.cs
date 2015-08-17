@@ -39,7 +39,7 @@ namespace MPC.Repository.Repositories
             if (productCategoryIds != null && productCategoryIds.Count() > 0)
             {
                 List<ProductCategoryVoucher> catVouchers = db.ProductCategoryVouchers.Where(v => productCategoryIds.Contains(v.ProductCategoryId) && v.VoucherId == VoucherId).ToList();
-                if (productCategoryIds != null && productCategoryIds.Count() > 0)
+                if (catVouchers != null && catVouchers.Count() > 0)
                 {
                     return true;
                 }
@@ -67,7 +67,7 @@ namespace MPC.Repository.Repositories
                 if (productCategoryIds != null && productCategoryIds.Count() > 0)
                 {
                     List<ProductCategoryVoucher> catVouchers = db.ProductCategoryVouchers.Where(v => productCategoryIds.Contains(v.ProductCategoryId) && v.VoucherId == VoucherId).ToList();
-                    if (productCategoryIds != null && productCategoryIds.Count() > 0)
+                    if (catVouchers != null && catVouchers.Count() > 0)
                     {
                         if (!filteredItemIds.Contains(i))
                         {
