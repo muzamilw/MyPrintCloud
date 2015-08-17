@@ -13,7 +13,8 @@
         <div id="controlBodyDiv" class="row">
             <div class="feature_product_main_heading  col-md-12 col-lg-12 col-xs-12">
 
-                <label id="lblHeading">If you like @Model.ProductName , you might like</label>
+                <label id="lblHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlifulike", UserCookieManager.WBStoreId,"If you like")) @Model.ProductName , @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlmighlike", UserCookieManager.WBStoreId,"you might like"))
+</label>
                 <label id="lblYoumightLke"></label>
             </div>
             @{
@@ -43,7 +44,7 @@
                     {
                         double calculatedPrice = item.MinPrice;
                         FromMinPrice = Utils.FormatDecimalValueToZeroDecimal(calculatedPrice.ToString(), Model.CurrencySymbol);
-                        MinPrice = "Starts From " + Utils.FormatDecimalValueToZeroDecimal(calculatedPrice.ToString(), Model.CurrencySymbol);
+                        MinPrice = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlstartsfrom", UserCookieManager.WBStoreId, "Starts From")).ToString() + Utils.FormatDecimalValueToZeroDecimal(calculatedPrice.ToString(), Model.CurrencySymbol);
                         <label id="lblPrice">@MinPrice</label>
                     }
 
@@ -57,7 +58,7 @@
                             <div class="paddingTop2px">
                                 &nbsp;
                             </div>
-                            FROM
+                            @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlformcaps", UserCookieManager.WBStoreId,"FROM"))
                             <br />
                             <label id="lblFromMinPrice" style="font-weight:bold;font-size:16px;">@FromMinPrice</label>
                         </div>

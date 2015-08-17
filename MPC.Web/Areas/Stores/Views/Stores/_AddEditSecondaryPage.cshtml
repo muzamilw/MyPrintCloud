@@ -52,7 +52,7 @@
                                                     <div class="col-lg-6">
                                                         <select class="form-control" id="ddPageCat" data-bind="options: $root.pageCategories, optionsText: 'name', optionsValue: 'id',value:categoryId, validationTooltip: categoryId"> </select>
                                                     </div>
-                                                    <div class="col-lg-1">
+                                                    <div class="col-lg-1" style="padding-left:0px;">
                                                         <div data-bind="click:$root.onAddSecondryPageCategory" class="btn btn-primary">
                                                             <i class="fa fa-lg"></i>&nbsp;....
                                                         </div>
@@ -104,7 +104,7 @@
                                                                     <img style="width:240px;height:130px;-o-object-fit: contain; object-fit: contain;" data-bind="visible:imageSrc()===undefined,attr: { src: '@Url.Content("~/")' + pageBannerWithCacheRemoveTechnique() }" />
                                                                     <img style="width:240px;height:130px;-o-object-fit: contain; object-fit: contain;" data-bind="visible:imageSrc()!==undefined,attr: { src: imageSrc }" />
                                                                     <div class="col-lg-12">
-                                                                        <div class="col-lg-6" style="margin-top: 20px;text-align:center;">
+                                                                        <div class="col-lg-6" style="margin-top:15px;text-align:center;">
                                                                             <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromSecondaryPage">
                                                                                 <span>Change Banner </span>
 
@@ -112,7 +112,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-12">
-                                                                        <div class="col-lg-6 ThoumbnailCostCenter" style="margin-top:10px !important;text-align:center">Select a page banner for the user defined page from media files. Considering using page banners with correct dimensions according to selected Store theme.</div>
+                                                                        <div class="col-lg-6 ThoumbnailCostCenter" style="margin-top:5px !important;text-align:center">Select a page banner for the user defined page from media files. Considering using page banners with correct dimensions according to selected Store theme.</div>
                                                                     </div>
 
 
@@ -348,10 +348,12 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer" style="padding-left:5px; padding-right:10px;">
-                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveSecondaryPage, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
-                <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteSecondaryPage, enable:isUserDefined() && $root.selectedSecondaryPage().id() != undefined">Archive</button>
+            <div class="modal-footer" style="padding-left:0px; padding-right:0px;">
+                <div style="padding-left:3px;padding-right:8px;">
+                    <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveSecondaryPage, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+                    <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteSecondaryPage, enable:isUserDefined() && $root.selectedSecondaryPage().id() != undefined">Archive</button>
+                </div>
             </div>
         </div>
     </div>

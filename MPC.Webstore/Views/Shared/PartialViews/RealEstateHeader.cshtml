@@ -72,7 +72,7 @@
                                 <img src="~/Content/Images/logout.png" width="30" height="30" />
                             </td>
                             <td style="padding-left: 20px;font-family: PT Sans; font-size: 15px; color:#666666;">
-                                <label id="lbl_HeaderLogout" style="font-family: PT Sans; font-size: 15px; color:#666666;">@Html.Raw(Html.GetKeyValueFromResourceFile("LogOut", UserCookieManager.WBStoreId))</label>
+                                <label id="lbl_HeaderLogout" style="font-family: PT Sans; font-size: 15px; color:#666666;">@Html.Raw(Html.GetKeyValueFromResourceFile("LogOut", UserCookieManager.WBStoreId, "Sign out"))</label>
                             </td>
                         </tr>
                     </table>
@@ -87,7 +87,7 @@
 
         <div class="HeaderBarRight-Div" align="right">
             <div class="HeaderBarRight-ChildDiv">
-                <input type="text" name="txtSearch" placeholder="Search" style="font-family: PT Sans; width: 95%; height:27px; background-color: #F8CABA; color: black; padding-left: 10px;">
+                <input type="text" name="txtSearch" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSubmit", UserCookieManager.WBStoreId, "Search"))" style="font-family: PT Sans; width: 95%; height:27px; background-color: #F8CABA; color: black; padding-left: 10px;">
             </div>
         </div>
     </div>

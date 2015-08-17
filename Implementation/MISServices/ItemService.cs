@@ -2359,7 +2359,8 @@ namespace MPC.Implementation.MISServices
                     RegionId = category.RegionID,
                     CategoryTypeId = category.CatagoryTypeID,
                     ZoomFactor = category.ZoomFactor,
-                    ScaleFactor = category.ScaleFactor
+                    ScaleFactor = category.ScaleFactor,
+                    OrganisationId = category.CreatedBy
                 }).ToList();
                 categoryRegions = pSc.getCategoryRegions().Select(category => new CategoryRegion
                 {
@@ -2387,7 +2388,7 @@ namespace MPC.Implementation.MISServices
 
             return new ItemDesignerTemplateBaseResponse
             {
-                TemplateCategories = templateCategories,
+                TemplateCategories = templateCategories.Where(c => c.OrganisationId == organizationRepository.OrganisationId || c.OrganisationId == null).ToList(),
                 CategoryRegions = categoryRegions,
                 CategoryTypes = categoryTypes,
                 SmartForms = smartForms
@@ -2483,6 +2484,10 @@ namespace MPC.Implementation.MISServices
             DeleteItem(itemId, itemRepository.OrganisationId);
         }
 
+        public IEnumerable<Item> GetProductsByCompanyId(long? companyId)
+        {
+           return itemRepository.GetProductsByCompanyID(companyId ?? 0);
+        }
         #endregion
 
         #region DeleteProducts

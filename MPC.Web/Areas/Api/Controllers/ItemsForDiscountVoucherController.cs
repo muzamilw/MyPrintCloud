@@ -11,33 +11,27 @@ using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
-    /// <summary>
-    /// Company Product Category API Controller
-    /// </summary>
-    public class CompanyProductCategoryController : ApiController
+    public class ItemsForDiscountVoucherController : ApiController
     {
-        #region Private
+          #region Private
 
         private readonly IItemService itemService;
 
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
-        public CompanyProductCategoryController(IItemService itemService)
+        public ItemsForDiscountVoucherController(IItemService itemService)
         {
-            if (itemService == null)
-            {
-                throw new ArgumentNullException("itemService");
-            }
-
             this.itemService = itemService;
         }
 
         #endregion
 
+        
         #region Public
 
         /// <summary>
@@ -45,7 +39,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore, SecurityAccessRight.CanViewProduct })]
         [CompressFilterAttribute]
-        public IEnumerable<ProductCategoryDropDown> Get(int id)
+        public IEnumerable<Item> Get(int id)
         {
             if (!ModelState.IsValid)
             {
@@ -53,9 +47,13 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
 
             long? companyId = id > 0 ? id : (long?)null;
-            return itemService.GetProductCategoriesForCompany(companyId).CreateFrom();
+            return itemService.GetProductsByCompanyId(companyId).CreateFrom();
+
+           // return itemService.GetProductCategoriesForCompany(companyId).CreateFrom();
         }
 
         #endregion
+
+
     }
 }

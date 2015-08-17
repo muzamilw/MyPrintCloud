@@ -33,6 +33,51 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        public bool isVoucherAppliedOnThisProductCategory(long VoucherId, long ItemId)
+        {
+            List<long?> productCategoryIds = db.ProductCategoryItems.Where(v => v.ItemId == ItemId).Select(c => c.CategoryId).ToList();
+            if (productCategoryIds != null && productCategoryIds.Count() > 0)
+            {
+                List<ProductCategoryVoucher> catVouchers = db.ProductCategoryVouchers.Where(v => productCategoryIds.Contains(v.ProductCategoryId) && v.VoucherId == VoucherId).ToList();
+                if (catVouchers != null && catVouchers.Count() > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public List<long?> GetItemIdsListByCategoryId(long VoucherId, List<int?> ItemIds, List<long?> filteredItemIds)
+        {
+            if (filteredItemIds == null)
+            {
+                filteredItemIds = new List<long?>();
+            }
+            
+            foreach (int? i in ItemIds)
+            {
+                List<long?> productCategoryIds = db.ProductCategoryItems.Where(v => v.ItemId == (int)i).Select(c => c.CategoryId).ToList();
+                if (productCategoryIds != null && productCategoryIds.Count() > 0)
+                {
+                    List<ProductCategoryVoucher> catVouchers = db.ProductCategoryVouchers.Where(v => productCategoryIds.Contains(v.ProductCategoryId) && v.VoucherId == VoucherId).ToList();
+                    if (catVouchers != null && catVouchers.Count() > 0)
+                    {
+                        if (!filteredItemIds.Contains(i))
+                        {
+                            filteredItemIds.Add((long)i);
+                        }
+                    }
+                }
+            }
+            return filteredItemIds;
+        }
         #endregion
     }
 }

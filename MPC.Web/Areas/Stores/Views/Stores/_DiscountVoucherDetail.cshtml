@@ -44,6 +44,7 @@
 
                                 </div>
                             </div>
+                            <!-- ko if: $root.selectedDiscountVoucher().discountType() != 5 -->
                             <div class="form-group ">
                                 <div class="col-sm-4 text-right">
                                     <div class="bs-example-tooltips tooltip-float-width">
@@ -61,6 +62,8 @@
                                     @*<input type="text" class="form-control" id="txtSPTitle" data-bind="value:discountRate,validationTooltip:discountRate">*@
                                 </div>
                             </div>
+
+                            <!-- /ko -->
                             <div class="form-group ">
                                 <div class="col-sm-4 text-right">
                                     <div class="bs-example-tooltips tooltip-float-width">
@@ -88,7 +91,7 @@
                                             <label for="txtSPTitle" class="control-label text-right tooltip-float">Coupon Code</label>
                                         </div>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="txtSPTitle" data-bind="value:couponCode">
+                                            <input type="text" class="form-control" id="txtSPTitle" data-bind="value:couponCode,validationTooltip:couponCode">
                                         </div>
                                     </div>
                                     <div class="form-group ">
@@ -99,7 +102,7 @@
                                             <select class="form-control" id="ddPageCat" data-bind="options: $root.couponUseType, optionsText: 'type', optionsValue: 'id',value:couponUseType"> </select>
                                         </div>
                                     </div>
-                                    <div class="form-group ">
+                                    @*<div class="form-group ">
                                         <div class="col-sm-4 text-right">
                                             <label for="txtSPTitle" class="control-label text-right tooltip-float">Cannot Be Used With Another Coupon</label>
                                         </div>
@@ -110,12 +113,12 @@
                                                 </label>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>*@
                                 </div>
 
                             </div>
-
-                            <div class="form-group">
+                            <!-- ko if: $root.selectedDiscountVoucher().id() > 0 -->
+                            <div class="form-group" style="margin-bottom:8px;">
                                 <div class="col-sm-4 text-right">
                                     <div class="bs-example-tooltips tooltip-float-width">
                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="is Enabled" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
@@ -139,37 +142,43 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- /ko -->
 
-                            <div class="form-group ">
-                                <div class="col-sm-4 text-right">
-                                    <div class="bs-example-tooltips tooltip-float-width">
-                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Categories" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                        </a>
+                            <!-- ko if: $root.selectedDiscountVoucher().discountType() == 1 || $root.selectedDiscountVoucher().discountType() == 3 -->
+                                <div class="form-group " style="margin-bottom:14px;">
+                                    <div class="col-sm-4 text-right">
+                                        <div class="bs-example-tooltips tooltip-float-width">
+                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Categories" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </a>
+                                        </div>
+                                        <label for="txtSPTitle" class="control-label text-right tooltip-float">Categories</label>
                                     </div>
-                                    <label for="txtSPTitle" class="control-label text-right tooltip-float">Categories</label>
-                                </div>
-                                <div class="col-sm-4" style="margin-top: 8px;">
-                                    <label class="control-label" style="text-align: left" data-bind="html:availableProductCategoryVouchers">
-                                    </label>
-                                    <a href="#" class="control-label user-link" data-bind="click:$root.openProductCategoryDialog">Select Categories</a>
-                                </div>
-                            </div>
-                            <div class="form-group ">
-                                <div class="col-sm-4 text-right">
-                                    <div class="bs-example-tooltips tooltip-float-width">
-                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Products" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                        </a>
+                                    <div class="col-sm-4" style="margin-top: 8px;">
+                                        <label class="control-label" style="text-align: left" data-bind="html:availableProductCategoryVouchers">
+                                        </label>
+                                        <a href="#" class="control-label user-link" data-bind="click:$root.openProductCategoryDialog">Select Categories</a>
                                     </div>
-                                    <label for="txtSPTitle" class="control-label text-right tooltip-float">Products </label>
                                 </div>
-                                <div class="col-sm-4" style="margin-top: 8px;">
-                                    <a href="#" class="control-label user-link">Select Products</a>
+                                <div class="form-group ">
+                                    <div class="col-sm-4 text-right">
+                                        <div class="bs-example-tooltips tooltip-float-width">
+                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Products" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                            </a>
+                                        </div>
+                                        <label for="txtSPTitle" class="control-label text-right tooltip-float">Products </label>
+                                    </div>
+                                    <div class="col-sm-4" style="margin-top: 8px;">
+                                        <label class="control-label" style="text-align: left" data-bind="html:availableProductVouchers">
+                                        </label>
+
+                                        <a href="#" class="control-label user-link" data-bind="click:$root.openProductsDialog">Select Products</a>
+                                    </div>
                                 </div>
-                            </div>
+                            <!-- /ko -->
                             <h3 class="group-header" style="margin-top:20px;">
-                                Advance Info
+                                Advanced Info
                             </h3>
                             <div class="form-group ">
                                 <div class="col-sm-4 text-right">
@@ -214,6 +223,7 @@
                                 </div>
 
                             </div>
+                            <!-- ko if: $root.selectedDiscountVoucher().discountType() == 1 || $root.selectedDiscountVoucher().discountType() == 3 -->
                             <div class="form-group ">
                                 <div class="col-sm-4 text-right">
                                     <div class="bs-example-tooltips tooltip-float-width">
@@ -241,7 +251,7 @@
                                             <label for="txtSPTitle" class="control-label text-right tooltip-float">Minimum Quantity</label>
                                         </div>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="txtSPTitle" data-bind="value:minRequiredQty,validationTooltip:minRequiredQty">
+                                            <input type="text" class="form-control" style="text-align:right;" id="txtSPTitle" data-bind="value:minRequiredQty,validationTooltip:minRequiredQty">
                                         </div>
                                     </div>
                                     <div class="form-group ">
@@ -249,24 +259,26 @@
                                             <label for="txtSPTitle" class="control-label text-right tooltip-float">Maximum Quantity</label>
                                         </div>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="txtSPTitle" data-bind="value:maxRequiredQty,validationTooltip:maxRequiredQty">
+                                            <input type="text" class="form-control" style="text-align:right;" id="txtSPTitle" data-bind="value:maxRequiredQty,validationTooltip:maxRequiredQty">
                                         </div>
                                     </div>
-                                    <div class="form-group ">
-                                        <div class="col-sm-4 text-right">
-                                            <label for="txtSPTitle" class="control-label text-right tooltip-float">Span (ie Buy 10 of any product)</label>
-                                        </div>
-                                        <div class="col-sm-4" style="margin-top: 5px;">
-                                            <div class="checkbox-nice">
-                                                <input type="checkbox" id="spanProduct" data-bind="checked:isQtySpan">
-                                                <label for="spanProduct" class="control-label">
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @*<div class="form-group ">
+                    <div class="col-sm-4 text-right">
+                        <label for="txtSPTitle" class="control-label text-right tooltip-float">Span (ie Buy 10 of any product)</label>
+                    </div>
+                    <div class="col-sm-4" style="margin-top: 5px;">
+                        <div class="checkbox-nice">
+                            <input type="checkbox" id="spanProduct" data-bind="checked:isQtySpan">
+                            <label for="spanProduct" class="control-label">
+                            </label>
+                        </div>
+                    </div>
+                </div>*@
                                 </div>
 
                             </div>
+                            <!-- /ko -->
+                            
                             <div class="form-group ">
                                 <div class="col-sm-4 text-right">
                                     <div class="bs-example-tooltips tooltip-float-width">

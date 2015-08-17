@@ -18,6 +18,13 @@ define("common/confirmation.viewModel",
                     defaultConfirmationText = "Do you want to proceed with the request?",
                     // Message Text
                     messageText = ko.observable(defaultConfirmationText),
+
+                    defaultButtonTextYes = "Yes",
+                    yesBtnText = ko.observable(defaultButtonTextYes),
+
+                    defaultButtonTextNo = "No",
+
+                    noBtnText = ko.observable(defaultButtonTextNo),
                     // On Proceed
                     afterProceed = ko.observable(),
                     // On Cancel
@@ -32,6 +39,7 @@ define("common/confirmation.viewModel",
                             afterProceed()();
                         }
                         hide();
+                        
                     },
                     // Reset Dialog
                     resetDialog = function () {
@@ -41,6 +49,8 @@ define("common/confirmation.viewModel",
                         isProceedVisible(true);
                         headingText(defaultHeaderText);
                         messageText(defaultConfirmationText);
+                        yesBtnText(defaultButtonTextYes);
+                        noBtnText(defaultButtonTextNo);
                     },
                     // Show the dialog
                     show = function () {
@@ -69,6 +79,7 @@ define("common/confirmation.viewModel",
                         // Reset Call Backs
                         resetDialog();
                         view.hideWarningPopup();
+                        view.hide();
                     },
                     // Cancel 
                     cancel = function () {
@@ -114,6 +125,8 @@ define("common/confirmation.viewModel",
                     isProceedVisible: isProceedVisible,
                     resetDialog: resetDialog,
                     messageText: messageText,
+                    yesBtnText: yesBtnText,
+                    noBtnText: noBtnText,
                     hide: hide,
                     showWarningPopup: showWarningPopup,
                     hideWarningPopup: hideWarningPopup,

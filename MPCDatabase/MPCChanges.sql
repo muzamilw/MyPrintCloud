@@ -6571,7 +6571,8 @@ FROM         dbo.company INNER JOIN
 
 End
 
-
+---Executed on Europe and USA servers---
+alter table organisation add BillingDate datetime
 
 
 
