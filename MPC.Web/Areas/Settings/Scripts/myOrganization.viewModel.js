@@ -82,7 +82,7 @@ define("myOrganization/myOrganization.viewModel",
 
                     isLanguageEditorVisible = ko.observable(false),
                     isApiDetailVisible = ko.observable(false),
-
+                    isUnleashedApiDetailVisible = ko.observable(false),
                     // for specifice name of screan
                     HeadingName = ko.observable(),
                     // #region Utility Functions
@@ -117,9 +117,12 @@ define("myOrganization/myOrganization.viewModel",
                             isMarkupVisible(true);
                         }
                         else if (page == "api") {
-                            //getMarkupsList();
                             HeadingName("Agile API");
                             isApiDetailVisible(true);
+                        }
+                        else if (page == "xeroapi") {
+                            HeadingName("Unleashed API for Xero");
+                            isUnleashedApiDetailVisible(true);
                         }
                         
                         getBase();
@@ -782,7 +785,8 @@ define("myOrganization/myOrganization.viewModel",
                     pager: pager,
                     isOrganisationVisible: isOrganisationVisible,
                     isMarkupVisible: isMarkupVisible,
-                    isApiDetailVisible:isApiDetailVisible,
+                    isApiDetailVisible: isApiDetailVisible,
+                    isUnleashedApiDetailVisible:isUnleashedApiDetailVisible,
                     isRegionalSettingVisible: isRegionalSettingVisible,
 
                     isLanguageEditorVisible: isLanguageEditorVisible,

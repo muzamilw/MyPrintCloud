@@ -242,6 +242,9 @@ namespace MPC.Implementation.MISServices
             organisationDbVersion.AgileApiKey = organisation.AgileApiKey;
             organisationDbVersion.AgileApiUrl = organisation.AgileApiUrl;
             organisationDbVersion.isAgileActive = organisation.isAgileActive;
+            organisationDbVersion.XeroApiId = organisation.XeroApiId;
+            organisationDbVersion.XeroApiKey = organisation.XeroApiKey;
+            organisationDbVersion.isXeroIntegrationRequired = organisation.isXeroIntegrationRequired;
             if(organisation.IsImperical == true)
             {
                 organisationDbVersion.SystemLengthUnit = 3;

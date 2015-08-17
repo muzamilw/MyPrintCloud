@@ -553,4 +553,11 @@ namespace MPC.Models.Common
         MinQtyProduct = -7,
         MaxQtyProduct = -6
     }
+
+    public enum RequestType
+    {
+        Xml = 0, 
+        Json = 1 
+    
+    }
 }
