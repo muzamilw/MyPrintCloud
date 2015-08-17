@@ -7,7 +7,7 @@
                     <h4 class="modal-title" data-bind="visible: !$root.isCostCenterDialogForShipping()">Add Cost Center</h4>
                     <h4 class="modal-title" data-bind="visible: $root.isCostCenterDialogForShipping()">Select Shipping Option</h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="padding:8px;">
                     <div>
 
                         <div class="filter-body" id="filter">
@@ -15,7 +15,7 @@
                                 <div class="pull-left spanfilterlbl">
                                     &nbsp;
                                 </div>
-                                <div class="form-group pull-right">
+                                <div class="form-group pull-right" style="margin-right:0px;">
                                     <form data-bind="submit:$root.searchCostCenters">
                                         <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.costCenterDialogFilter">
                                         <i class="fa fa-search search-icon" data-bind="click:$root.searchCostCenters"></i>
@@ -27,7 +27,7 @@
                         </div>
                         <div class="row clear-fix">
                             <div class="col-sm-12">
-                                <div class="main-box no-header clearfix">
+                                <div class="main-box no-header clearfix" style="border-left: 1px solid lightgray;">
                                     <div class="main-box-body clearfix">
                                         <div class="table-responsive">
                                             <table id="supplierTablle" class="table table-striped table-hover">

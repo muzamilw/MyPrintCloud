@@ -352,7 +352,7 @@
                             {
                                 if (stockItem.isItemInStock == false)
                                 {
-                                     <div class="InStockContainer" data-isItemInStock="0" data-StockOptionid="@stockItem.StockOptionId" data-isAllowBackOrder="@stockItem.isAllowBackOrder" style="background:red; color:white;display:none;">
+                                     <div class="InStockContainer" data-itemStockVal="@stockItem.InStockValue" data-isItemInStock="0" data-StockOptionid="@stockItem.StockOptionId" data-isAllowBackOrder="@stockItem.isAllowBackOrder" style="background:red; color:white;display:none;">
                                
                                        <label>@stockItem.StockTextToDisplay</label>
                                
@@ -360,7 +360,7 @@
                                 }
                                 else
                                 {
-                                    <div class="InStockContainer" data-isItemInStock="1" data-StockOptionid="@stockItem.StockOptionId" data-isAllowBackOrder="@stockItem.isAllowBackOrder" style="background:#f3f3f3; color:black;display:none;">
+                                    <div class="InStockContainer" data-itemStockVal="@stockItem.InStockValue" data-isItemInStock="1" data-StockOptionid="@stockItem.StockOptionId" data-isAllowBackOrder="@stockItem.isAllowBackOrder" style="background:#f3f3f3; color:black;display:none;">
                                         <label>@stockItem.StockTextToDisplay</label>
                                     </div>
                                 }
@@ -385,7 +385,7 @@
                             @Html.HiddenFor(m => m.JsonAllQuestionQueue, new { id = "VMJsonAddOnsQuestionQueue" })
                             @Html.HiddenFor(m => m.JsonAllInputQueue, new { id = "VMJsonAddOnsInputQueue" })
                             @Html.HiddenFor(m => m.ItemStockOptionId, new { id = "VMItemStockOptionId" })
-    <input type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdtocart",UserCookieManager.WBStoreId,"Add to Cart"))" id="AddTOCart" class="add_to_cart_btn rounded_corners5 MTopM10 background-green" onclick="return ConfirmCart();" />
+                            <input type="submit" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdtocart",UserCookieManager.WBStoreId,"Add to Cart"))' id="AddTOCart" class="add_to_cart_btn rounded_corners5 MTopM10 background-green" onclick="return ConfirmCart();" />
                         }
 
 
@@ -790,6 +790,7 @@
     }
 
     function ConfirmCart() {
+        var MaxstockQty = true;
         if (isPriceSelected == 0) {
             ShowPopUp("Message", "Please check your details to proceed.");
             return false;
@@ -820,11 +821,44 @@
                     ShowPopUp("Message", "Highlighted refining option(s) must be selected to add product in cart.");
                     return false;
                 }else{
-                    return true;
+
+                    $('.InStockContainer').each(function() {
+                        if($(this).attr('data-StockOptionid') == $("#VMItemStockOptionId").val()){
+                            if($(this).attr('data-itemStockVal') < $("#VMQuantityOrdered").val()){
+                                if($(this).attr('data-isAllowBackOrder') == "False"){
+                                    MaxstockQty = false;
+                                }
+                            }
+                        }
+                    });
+
+                    if(MaxstockQty == false){
+                        ShowPopUp("Message", "You cannot place order because the selected quantity is more than stock.");
+                        return false;
+                    }else{
+                        return true;
+                    }
                 }
             }else{
-                ShowLoader();
+                
+                
+                $('.InStockContainer').each(function() {
+                    if($(this).attr('data-StockOptionid') == $("#VMItemStockOptionId").val()){
+                        if($(this).attr('data-itemStockVal') < $("#VMQuantityOrdered").val()){
+                            if($(this).attr('data-isAllowBackOrder') == "False"){
+                                MaxstockQty = false;
+                            }
+                        }
+                    }
+                });
 
+                if(MaxstockQty == false){
+                    ShowPopUp("Message", "You cannot place order because the selected quantity is more than stock.");
+                    return false;
+                }else{
+                    ShowLoader();
+                    return true;
+                }
             }
         }
     }
@@ -866,7 +900,7 @@
             return false;
         }
 
-        var ObjectItemStock = "@ViewBag.ItemStock";
+        @*var ObjectItemStock = "@ViewBag.ItemStock";
 
         if (ObjectItemStock != "") {
             if (ObjectItemStock.InStock > 0) {
@@ -878,7 +912,7 @@
                     }
                 }
             }
-        }
+        }*@
 
         var selectedStockType = StockNo();
 
