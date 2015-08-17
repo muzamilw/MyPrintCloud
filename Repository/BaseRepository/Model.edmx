@@ -1067,8 +1067,8 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="MinRequiredQty" Type="int" />
           <Property Name="MaxRequiredQty" Type="int" />
           <Property Name="IsOrderPriceRequirement" Type="bit" />
-          <Property Name="MinRequiredOrderPrice" Type="int" />
-          <Property Name="MaxRequiredOrderPrice" Type="int" />
+          <Property Name="MinRequiredOrderPrice" Type="float" />
+          <Property Name="MaxRequiredOrderPrice" Type="float" />
           <Property Name="CustomerId" Type="bigint" />
           <Property Name="IsSingleUseRedeemed" Type="bit" />
           <Property Name="IsQtySpan" Type="bit" />
@@ -14969,8 +14969,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="MinRequiredQty" Type="Int32" />
           <Property Name="MaxRequiredQty" Type="Int32" />
           <Property Name="IsOrderPriceRequirement" Type="Boolean" />
-          <Property Name="MinRequiredOrderPrice" Type="Int32" />
-          <Property Name="MaxRequiredOrderPrice" Type="Int32" />
+          <Property Name="MinRequiredOrderPrice" Type="Double" />
+          <Property Name="MaxRequiredOrderPrice" Type="Double" />
           <Property Name="CustomerId" Type="Int64" />
           <Property Name="IsSingleUseRedeemed" Type="Boolean" />
           <Property Name="IsQtySpan" Type="Boolean" />
