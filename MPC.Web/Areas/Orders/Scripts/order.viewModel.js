@@ -968,7 +968,8 @@ define("order/order.viewModel",
                             OrderId: selectedOrder().id()
                         }, {
                             success: function () {
-                                toastr.success("Order successfully deleted!");
+                               
+                                toastr.success("Deleted successfully!");
                                 selectedOrder().reset();
                                 closeOrderEditor();
                                 orderCodeHeader('');
