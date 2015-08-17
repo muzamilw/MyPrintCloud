@@ -1323,7 +1323,7 @@ namespace MPC.Repository.Repositories
                 CEP.OrganisationId = OrganisationId;
                 CEP.AddressId = companyID;
                 CEP.Id = reportNotesID;
-
+                CEP.EstimateId = orderID;
 
                 if (objCompany.IsCustomer == 3)
                 {
@@ -1339,7 +1339,7 @@ namespace MPC.Repository.Repositories
               //  emailBodyGenerator(EventCampaign, ServerSettings, CEP, supplieruser,StoreMode.Corp, "", "", "", SalesManager.Email, "", "", AttachmentList, "", null, "", "", null, "", "", "", 0, "", 0);
             }
         }
-        public void stockNotificationToManagers(List<Guid> mangerList, long CompanyId, Organisation ServerSettings, StoreMode ModeOfStore, long salesId, long itemId, long emailevent, long contactId, long orderedItemid)
+        public void stockNotificationToManagers(List<Guid> mangerList, long CompanyId, Organisation ServerSettings, StoreMode ModeOfStore, long salesId, long itemId, long emailevent, long contactId, long orderedItemid, long StockItemId, long OrderId)
         {
             try
             {
@@ -1358,10 +1358,10 @@ namespace MPC.Repository.Repositories
                         obj.StoreId = CompanyId;
                         obj.CompanyId = CompanyId;
                         obj.OrganisationId = ServerSettings.OrganisationId;
-                        obj.ItemId = (int)itemId;
+                        obj.ItemId = itemId;
                         obj.ContactId = contactId;
                         obj.orderedItemID = (int)orderedItemid;
-
+                        obj.StockItemId = StockItemId;
                         emailBodyGenerator(stockCampaign, ServerSettings, obj, null, ModeOfStore, "", "", "", stRec.Email, stRec.FullName);
 
                     }

@@ -1671,6 +1671,8 @@ namespace MPC.Repository.Repositories
                     double currentStock = tblItemStock.inStock ?? 0;
                     int lastModified = Convert.ToInt32(tblItemStock.inStock) - orderedQty;
                     tblItemStock.inStock = lastModified;
+                    tblItemStock.LastOrderDate = DateTime.Now;
+                    tblItemStock.LastOrderQty = orderedQty;
                     if (tblItemStock.inStock < 0)
                     {
                         tblItemStock.inStock = 0;
@@ -1702,35 +1704,33 @@ namespace MPC.Repository.Repositories
 
                     if (tblItemStock != null)
                     {
-                        if (tblItemStock.inStock < tblItemStock.ThresholdLevel || tblItemStock.ThresholdLevel == null)
+                        long ManagerID = 0;
+                        // send emails to the managers
+                        if (tblItemStock.isAllowBackOrder == true)
                         {
-                            //EmailManager emailmgr = new EmailManager();
-                            long ManagerID = 0;
-                            // send emails to the managers
-                            if (tblItemStock.isAllowBackOrder == true)
-                            {
-                                if (Mode == StoreMode.Corp)
-                                {
-                                    ManagerID = GetContactByRole(companyId, (int)Roles.Manager);
-                                    _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, ItemId, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid);
-
-                                }
-                                else
-                                {
-                                    _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, ItemId, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid);
-
-                                }
-                            }
-
                             if (Mode == StoreMode.Corp)
                             {
                                 ManagerID = GetContactByRole(companyId, (int)Roles.Manager);
-                                _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, ItemId, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid);
+                                _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, ItemId, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid, tblItemStock.StockItemId, OrderId);
+
+                            }
+                            else
+                            {
+                                _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, ItemId, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid, tblItemStock.StockItemId, OrderId);
+
+                            }
+                        }
+                        if (tblItemStock.inStock < tblItemStock.ThresholdLevel)
+                        {
+                            if (Mode == StoreMode.Corp)
+                            {
+                                ManagerID = GetContactByRole(companyId, (int)Roles.Manager);
+                                _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, ItemId, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid, tblItemStock.StockItemId, OrderId);
                             }
 
                             else
                             {
-                                _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, ItemId, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid);
+                                _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, ItemId, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid, tblItemStock.StockItemId, OrderId);
 
                             }
                         }

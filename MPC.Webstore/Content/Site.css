@@ -7153,6 +7153,7 @@ div.wrapper {
     text-align: left;
     margin-top: 25px;
     margin-bottom: 0px;
+    padding-left:11px;
 }
 
 
@@ -14713,7 +14714,7 @@ ul.LogBar li a {
         margin-bottom: 50px;
         padding: 20px;
         background-color: #d6d6d6;
-        height: 255px;
+        height: 300px;
     }
 
     .CAT_ThumbnailPath {
@@ -16845,7 +16846,7 @@ ul.LogBar li a {
         -webkit-border-radius: 10px !important;
         -khtml-border-radius: 10px !important;
         border-radius: 10px !important;
-        height: 255px;
+        height: 300px;
     }
 
     .CAT_Body {
@@ -19199,7 +19200,7 @@ ul.LogBar li a {
         -webkit-border-radius: 10px !important;
         -khtml-border-radius: 10px !important;
         border-radius: 10px !important;
-        height: 255px;
+        height: 300px;
     }
 
     .CAT_Body {
@@ -20298,7 +20299,7 @@ ul.LogBar li a {
         border-radius: 5px;
         padding-left: 5px;
         position: absolute !important;
-        margin-left: -545px;
+        margin-left: -522px;
         display: block;
     }
 
@@ -20694,7 +20695,7 @@ ul.LogBar li a {
     .company_logo {
         float: none;
         /* height: 0px; */
-        padding-left: 0px;
+        padding-left: 9px !important;
         margin-bottom: 0px;
         width: 320px !important;
         text-align: left;
@@ -21782,7 +21783,7 @@ ul.LogBar li a {
         padding: 20px;
         border-radius: 5px;
         background-color: #d6d6d6 !important;
-        height: 255px;
+        height: 300px;
     }
 
     .CAT_Body {
@@ -22889,7 +22890,7 @@ ul.LogBar li a {
         border-radius: 5px;
         padding-left: 5px;
         position: absolute !important;
-        margin-left: -545px;
+        margin-left: -522px;
         display: block;
     }
 
@@ -23285,7 +23286,7 @@ ul.LogBar li a {
     .company_logo {
         float: none;
         /* height: 0px; */
-        padding-left: 0px;
+        padding-left: 9px !important;
         margin-bottom: 0px;
         width: 320px !important;
         text-align: left;
@@ -24373,7 +24374,7 @@ ul.LogBar li a {
         padding: 20px;
         border-radius: 5px;
         background-color: #d6d6d6 !important;
-        height: 255px;
+        height: 300px;
     }
 
     .CAT_Body {
@@ -25702,7 +25703,7 @@ gridViewCheckoutRowStyle td {
 #lnkAllProducts::after {
     position: absolute;
     top: 40%;
-    left: 10%;
+    left: 12%;
     color: BLACK;
     content: '\2e';
     text-shadow: 0 0 transparent;
@@ -25787,7 +25788,7 @@ gridViewCheckoutRowStyle td {
 #lnkRequestQuote::after {
     position: absolute;
     top: 40%;
-    left: 40%;
+    left: 42%;
     color: BLACK;
     content: '\2e';
     text-shadow: 0 0 transparent;
@@ -26000,7 +26001,7 @@ a.btn-watch span:after {
 
 .parentCatsContainer {
     background-color: #e2e2e2;
-    margin-bottom: 40px;
+    /*margin-bottom: 40px;*/
 }
 
 .seasonal_offer h1 {
@@ -27296,7 +27297,7 @@ gridfontStyle {
     margin-top: 10px;
     -webkit-transition: all 200ms ease-out;
     -o-transition: all 200ms ease-out;
-    -moz-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;display:none;
 }
 
 .goto-designer-button {
@@ -27313,7 +27314,7 @@ gridfontStyle {
     margin-top: 10px;
     -webkit-transition: all 200ms ease-out;
     -o-transition: all 200ms ease-out;
-    -moz-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;display:none;
 }
 
     .goto-designer-button:hover {
@@ -27391,6 +27392,18 @@ gridfontStyle {
     font-size: 14px;
 }
 #productOptionBtns {
-display:none;
+
+}
+.checkout-container {
+text-align:left;
+}
+#BillingShiping {
+    margin-bottom: 60px;
+}
+#all-SavedDesign-pg {
+    margin-bottom: 60px;
+}
+.signin_heading_div {
+text-align:left;
 }
 /*************PINK********************/
