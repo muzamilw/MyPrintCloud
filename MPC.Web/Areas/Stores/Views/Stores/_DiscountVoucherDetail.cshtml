@@ -251,7 +251,7 @@
                                             <label for="txtSPTitle" class="control-label text-right tooltip-float">Minimum Quantity</label>
                                         </div>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control" style="text-align:right;" id="txtSPTitle" data-bind="value:minRequiredQty,validationTooltip:minRequiredQty">
+                                            <input type="text" class="form-control" style="text-align:right;" id="txtSPTitle" data-bind="numberValue:minRequiredQty,numberFormat: ist.ordinalFormat, validationTooltip:minRequiredQty">
                                         </div>
                                     </div>
                                     <div class="form-group ">
@@ -259,7 +259,7 @@
                                             <label for="txtSPTitle" class="control-label text-right tooltip-float">Maximum Quantity</label>
                                         </div>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control" style="text-align:right;" id="txtSPTitle" data-bind="value:maxRequiredQty,validationTooltip:maxRequiredQty">
+                                            <input type="text" class="form-control" style="text-align:right;" id="txtSPTitle" data-bind="numberValue:maxRequiredQty,numberFormat: ist.ordinalFormat,validationTooltip:maxRequiredQty">
                                         </div>
                                     </div>
                                     @*<div class="form-group ">
