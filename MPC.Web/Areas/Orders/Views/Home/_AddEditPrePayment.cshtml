@@ -76,12 +76,14 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <hr />
-                @*<button type="button" class="btn btn-danger" data-bind="click: $root.onDeletePrePayment">Delete</button>*@
-                <button type="button" class="btn btn-danger archiveButton" style="margin-left:0px;" data-bind="click:$root.onDeletePrePayment, enable: prePaymentId() > 0">Archive</button>
-                <button type="button" class="btn btn-primary" data-bind="click:$root.onSavePrePayment">Save</button>
-                <button type="button" class="btn btn-default" style="margin-left: 0px;" data-bind="click:$root.onCancelOrderPrePayment">Close</button>
+            <div class="modal-footer" style="padding-left:0px;padding-right:0px;">
+                <hr style="margin-bottom:15px;" />
+                <div style="padding-right:8px;padding-left:8px;">
+                    @*<button type="button" class="btn btn-danger" data-bind="click: $root.onDeletePrePayment">Delete</button>*@
+                    <button type="button" class="btn btn-danger archiveButton" style="margin-left:0px;" data-bind="click:$root.onDeletePrePayment, enable: prePaymentId() > 0">Archive</button>
+                    <button type="button" class="btn btn-primary" data-bind="click:$root.onSavePrePayment">Save</button>
+                    <button type="button" class="btn btn-default" style="margin-left: 0px;" data-bind="click:$root.onCancelOrderPrePayment">Close</button>
+                </div>
             </div>
         </div>
     </div>
