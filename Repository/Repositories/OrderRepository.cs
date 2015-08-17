@@ -1680,7 +1680,7 @@ namespace MPC.Repository.Repositories
                     stockLog.StockItemId = StockID;
                     //stockLog.LastAvailableQty = currentStock;
                     //stockLog.LastOrderedQty = orderedQty;
-                    stockLog.LastModifiedQty = lastModified;
+                    stockLog.LastModifiedQty = orderedQty;// lastModified;
                     stockLog.LastModifiedDate = DateTime.Now;
                     stockLog.OrderID = (int)OrderId;
                     if (lastModified <= 0 && tblItemStock.isAllowBackOrder == true)
