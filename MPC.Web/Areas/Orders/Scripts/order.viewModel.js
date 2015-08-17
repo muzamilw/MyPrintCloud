@@ -970,6 +970,12 @@ define("order/order.viewModel",
                             success: function () {
                                
                                 toastr.success("Deleted successfully!");
+                                if (isEstimateScreen()) {
+                                    var customer = getCompanyByIdFromListView(selectedOrder().id());
+                                    if (customer) {
+                                        orders.remove(customer);
+                                    }
+                                }
                                 selectedOrder().reset();
                                 closeOrderEditor();
                                 orderCodeHeader('');
@@ -977,12 +983,20 @@ define("order/order.viewModel",
                                 itemCodeHeader('');
                                 isSectionDetailVisible(false);
                                 isItemDetailVisible(false);
+                              
                             },
                             error: function (response) {
                                 toastr.error("Failed to delete order!" + response);
                             }
                         });
                     },
+                      // Get Company By Id
+                getCompanyByIdFromListView = function (id) {
+                    return orders.find(function (customer) {
+                        return customer.id() === id;
+                    });
+                },
+
                     selectedSectionCostCenter = ko.observable(),
                     selectedQty = ko.observable(),
                     //Opens Cost Center dialog for Shipping

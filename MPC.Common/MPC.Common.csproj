@@ -68,6 +68,8 @@
     <Compile Include="SerializeHelper.cs" />
     <Compile Include="VariableList.cs" />
     <Compile Include="WebstoreClaimTypes.cs" />
+    <Compile Include="XeroOAuthTokens.cs" />
+    <Compile Include="XeroXmlRefData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

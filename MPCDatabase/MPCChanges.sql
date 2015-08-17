@@ -6576,3 +6576,11 @@ alter table organisation add BillingDate datetime
 
 
 
+------------------------------------------
+
+
+ALTER TABLE discountvoucher
+ALTER COLUMN MinRequiredOrderPrice float
+
+ALTER TABLE discountvoucher
+ALTER COLUMN MaxRequiredOrderPrice float
