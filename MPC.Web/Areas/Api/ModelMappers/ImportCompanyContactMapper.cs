@@ -47,7 +47,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CanSeePrices = Convert.ToBoolean(source.CanSeePrices == "" ? "false" : source.CanSeePrices),
                 HasWebAccess = Convert.ToBoolean(source.HasWebAccess == "" ? "false" : source.HasWebAccess),
                 CanPlaceOrder = Convert.ToBoolean(source.CanPlaceOrder == "" ? "false" : source.CanPlaceOrder) ,
-                DirectLine = source.DirectLine
+               // DirectLine = source.DirectLine
                 //RoleId = source.UserRole == "A" ? 1
                 //       : source.UserRole == "M" ? 2
                 //       : source.UserRole == "U" ? 3
