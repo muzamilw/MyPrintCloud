@@ -209,6 +209,32 @@ namespace MPC.Repository.Repositories
 
 		}
 
+        public long GetCostCentreIdByName(string costCenterName)
+        {
+
+            try
+            {
+
+                try
+                {
+                    db.Configuration.ProxyCreationEnabled = false;
+                    db.Configuration.LazyLoadingEnabled = false;
+                    return db.CostCentres.Where(c => c.Name == costCenterName).Select(c => c.CostCentreId).SingleOrDefault();
+
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("GetCostCentreByName", ex);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetCostCentreByName", ex);
+            }
+
+        }
+
 		/// <summary>
 		/// returns the costcentre resources as datatable
 		/// </summary>

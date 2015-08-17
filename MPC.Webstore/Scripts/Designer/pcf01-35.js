@@ -638,6 +638,7 @@ function f2(c, m, y, k, ColorHex, Sname) {
                     }
                 }
             });
+            $("#imgThumbPreview").attr("src", D1AO.toDataURL());
             //alert();
         }
 
