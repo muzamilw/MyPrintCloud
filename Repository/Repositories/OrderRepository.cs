@@ -6999,10 +6999,21 @@ namespace MPC.Repository.Repositories
                         o.isEstimate == false && o.isDirectSale == isDirectOrder && o.StatusId != 3 && o.OrganisationId == organisationId &&
                         o.CreationDate >= lastMonth && o.CreationDate <= billingDate).OrderBy(o => o.CreationDate).Select(o => o.EstimateId).Take(licensedCount).ToList();
 
-            if (ordersList.Contains(orderId))
+            if (ordersList.Count < licensedCount)
+            {
                 return false;
+            }
+            else if (ordersList.Contains(orderId))
+            {
+                return false;
+            }
             else
+            {
                 return true;
+            }
+           
+                
+            
         }
     }
 }

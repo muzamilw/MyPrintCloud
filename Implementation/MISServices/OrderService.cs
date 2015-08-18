@@ -667,8 +667,8 @@ namespace MPC.Implementation.MISServices
             estimateRepository.SaveChanges();
 
             //If Data not posted to Unleashed(Xero)
-            //if (order.XeroAccessCode == null)
-            //    PostOrderToXero(order.EstimateId);
+            if (order.XeroAccessCode == null)
+                PostOrderToXero(order.EstimateId);
             //Update Purchase Orders
             //Req. Whenever Its Status is inProduction Update Purchase Orders
             if (orderStatusId != (int)OrderStatus.InProduction && estimate.StatusId == (int)OrderStatus.InProduction)
@@ -864,7 +864,8 @@ namespace MPC.Implementation.MISServices
         {
             var org = organisationRepository.GetOrganizatiobByID();
             int ordersCount = isDirectSale ? org.MisOrdersCount??0 : org.WebStoreOrdersCount ?? 0;
-            bool isExtra = orderRepository.IsExtradOrderForBillingCycle(Convert.ToDateTime(org.BillingDate), isDirectSale, ordersCount, orderId, org.OrganisationId);
+            DateTime billingDate = org.BillingDate ?? DateTime.Now;
+            bool isExtra = orderRepository.IsExtradOrderForBillingCycle(billingDate, isDirectSale, ordersCount, orderId, org.OrganisationId);
             return isExtra;
         }
         
@@ -2018,19 +2019,29 @@ namespace MPC.Implementation.MISServices
                     List<Item> products = order.Items.ToList();
 
                     Item curItem = products.FirstOrDefault();
-                    double totaltax = curItem != null ? curItem.Qty1Tax1Value ?? 0 : 0;
-                    int taxid = curItem != null ? curItem.Tax1 ?? 0 : 0;
-                    double taxrate = curItem != null ? curItem.DefaultItemTax ?? 0 : 0;
-
+                    double totaltax = (products.Sum(c => c.Qty1GrossTotal??0) - products.Sum(c => c.Qty1NetTotal??0));
+                    double taxrate = 0;
+                    if (customer.IsCustomer == 3)
+                        taxrate = customer.TaxRate ?? 0;
+                    else
+                    {
+                        var store = companyRepository.GetCustomer(Convert.ToInt32(customer.StoreId ?? 0));
+                        if (store != null)
+                            taxrate = store.TaxRate ?? 0;
+                    }
                     List<Company> suppliers = new List<Company>();
 
                    //// XeroAPI api = new XeroAPI();
                     string apiID = org.XeroApiId;
                     string apiKey = org.XeroApiKey;
 
-
-                    products.ForEach(p => suppliers.Add(companyRepository.GetCustomer(p.SupplierId ?? 0)));
-
+                    foreach (var product in products)
+                    {
+                        var supplier = companyRepository.GetCustomer(product.SupplierId ?? 0);
+                        if(supplier != null)
+                            suppliers.Add(supplier);
+                    }
+                    
                     if (string.IsNullOrEmpty(customer.XeroAccessCode))
                     {
                         //Add Customer to Xero
@@ -2084,8 +2095,8 @@ namespace MPC.Implementation.MISServices
                     //update xero code from referral item
                     foreach (Item item in products)
                     {
-
-                        string xeroCode = itemRepository.Find(item.RefItemId ?? 0).XeroAccessCode;
+                        var refItem = itemRepository.Find(item.RefItemId ?? 0);
+                        string xeroCode = refItem != null ? refItem.XeroAccessCode : string.Empty;
                         if (!string.IsNullOrEmpty(xeroCode))
                         {
                             item.XeroAccessCode = xeroCode;
@@ -2116,6 +2127,7 @@ namespace MPC.Implementation.MISServices
 
 
                             Item refItem = itemRepository.Find(item.RefItemId ?? 0);
+                            
                             CostCentre costcentre = new CostCentre();
                             StockItem stockitem = new StockItem();
                             string CostCenterID = string.Empty;
