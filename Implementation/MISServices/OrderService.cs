@@ -2037,9 +2037,18 @@ namespace MPC.Implementation.MISServices
 
                     foreach (var product in products)
                     {
-                        var supplier = companyRepository.GetCustomer(product.SupplierId ?? 0);
-                        if(supplier != null)
-                            suppliers.Add(supplier);
+                        var item = itemRepository.GetItemById(product.RefItemId?? 0);
+                        if (item != null)
+                        {
+                            var supplier = companyRepository.GetCustomer(item.SupplierId ?? 0);
+                            if (supplier != null)
+                            {
+                                suppliers.Add(supplier);
+                                product.SupplierId = Convert.ToInt32(supplier.CompanyId);
+                            }
+                                
+                        }
+                        
                     }
                     
                     if (string.IsNullOrEmpty(customer.XeroAccessCode))
@@ -2226,7 +2235,7 @@ namespace MPC.Implementation.MISServices
                     Guid invoiceGuid = Guid.NewGuid();
                     try
                     {
-                        string postData = InvoiceXmlData(invoiceGuid, order, customer, taxrate, totaltax, CustomerGuid, products);
+                        string postData = InvoiceXmlData(invoiceGuid, order, customer, taxrate, totaltax, customer.XeroAccessCode, products);
                         PostXml("SalesInvoices", apiID, apiKey, invoiceGuid.ToString(), postData);
 
                     }
