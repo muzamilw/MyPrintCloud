@@ -6585,7 +6585,6 @@ ALTER COLUMN MinRequiredOrderPrice float
 ALTER TABLE discountvoucher
 ALTER COLUMN MaxRequiredOrderPrice float
 
-
 -------------------------------------------
 
 
@@ -6617,5 +6616,6 @@ alter table StagingImportCompanyContactAddress add TradingName nvarchar(500)
        
 	   	alter table StagingImportCompanyContactAddress add IsDefaultContact bit
 
+       
        
 
