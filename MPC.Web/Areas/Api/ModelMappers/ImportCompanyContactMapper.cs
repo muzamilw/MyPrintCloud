@@ -47,13 +47,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CanSeePrices = Convert.ToBoolean(source.CanSeePrices == "" ? "false" : source.CanSeePrices),
                 HasWebAccess = Convert.ToBoolean(source.HasWebAccess == "" ? "false" : source.HasWebAccess),
                 CanPlaceOrder = Convert.ToBoolean(source.CanPlaceOrder == "" ? "false" : source.CanPlaceOrder) ,
-               // DirectLine = source.DirectLine
+                //DirectLine = source.DirectLine,
                 //RoleId = source.UserRole == "A" ? 1
                 //       : source.UserRole == "M" ? 2
                 //       : source.UserRole == "U" ? 3
                 //       : 0,
-                //UserName = source.UserName,
-                //POBoxAddress = source.POBoxAddress,
+                
+                //POAddress = source.POBoxAddress,
                 //CorporateUnit = source.CorporateUnit,
                 //TradingName = source.TradingName,
                 //BPayCRN = source.BPayCRN,
@@ -61,10 +61,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 //ContractorName = source.ContractorName,
                 //ABN = source.ABN,
                 //Notes = source.Notes,
-                //CreditLimit = source.CreditLimit,
-                //SubscribedtoNewsletter = source.SubscribedtoNewsletter,
-                //SubscribedtoEmails = source.SubscribedtoEmails,
-                //isDefaultContact = source.isDefaultContact
+                //CreditLimit = Convert.ToDecimal(source.CreditLimit),
+                //IsNewsLetterSubscription = Convert.ToBoolean(source.IsNewsLetterSubscription == "" ? "false" : source.IsNewsLetterSubscription),
+
+                //IsEmailSubscription = Convert.ToBoolean(source.IsEmailSubscription == "" ? "false" : source.IsEmailSubscription),
+                //IsDefaultContact = Convert.ToBoolean(source.isDefaultContact == "" ? "false" : source.isDefaultContact),
 
             };
         }
