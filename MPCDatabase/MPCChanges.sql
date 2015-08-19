@@ -6576,3 +6576,46 @@ alter table organisation add BillingDate datetime
 
 
 
+------------------------------------------
+
+
+ALTER TABLE discountvoucher
+ALTER COLUMN MinRequiredOrderPrice float
+
+ALTER TABLE discountvoucher
+ALTER COLUMN MaxRequiredOrderPrice float
+
+-------------------------------------------
+
+
+alter table StagingImportCompanyContactAddress add DirectLine nvarchar(30)
+
+alter table StagingImportCompanyContactAddress add CorporateUnit nvarchar(500)
+
+alter table StagingImportCompanyContactAddress add POAddress nvarchar(500)
+
+alter table StagingImportCompanyContactAddress add TradingName nvarchar(500)
+
+
+  alter table StagingImportCompanyContactAddress add BPayCRN nvarchar(500)   
+
+  alter table StagingImportCompanyContactAddress add ACN nvarchar(500)   
+
+        alter table StagingImportCompanyContactAddress add ContractorName nvarchar(500)   
+
+        alter table StagingImportCompanyContactAddress add ABN nvarchar(500)   
+
+  
+        alter table StagingImportCompanyContactAddress add Notes nvarchar(3000)   
+
+		alter table StagingImportCompanyContactAddress add CreditLimit decimal(16,0)   
+
+		alter table StagingImportCompanyContactAddress add IsNewsLetterSubscription bit
+   
+		alter table StagingImportCompanyContactAddress add IsEmailSubscription bit
+       
+	   	alter table StagingImportCompanyContactAddress add IsDefaultContact bit
+
+       
+       
+

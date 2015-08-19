@@ -1013,6 +1013,7 @@ namespace MPC.Repository.Repositories
                 {
                     FirstName = contact.FirstName,
                     LastName = contact.LastName,
+                    image = contact.image,
                     ContactId = contact.ContactId,
                     AddressId = contact.AddressId,
                     CompanyId = contact.CompanyId,

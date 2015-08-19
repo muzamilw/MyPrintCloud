@@ -1,36 +1,5 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function (ko) {
-    ko.bindingHandlers.autoNumeric = {
-        init: function (el, valueAccessor, bindingsAccessor, viewModel) {
-            var $el = $(el),
-              bindings = bindingsAccessor(),
-              settings = bindings.settings,
-              value = valueAccessor();
-
-            $el.autoNumeric(settings);
-            $el.autoNumeric('set', parseFloat(ko.utils.unwrapObservable(value()), 10));
-            $el.change(function () {
-                value(parseFloat($el.autoNumeric('get'), 10));
-            });
-        },
-        update: function (el, valueAccessor, bindingsAccessor, viewModel) {
-            var $el = $(el),
-              newValue = ko.utils.unwrapObservable(valueAccessor()),
-              elementValue = $el.autoNumeric('get'),
-              valueHasChanged = (newValue != elementValue);
-
-            if ((newValue === 0) && (elementValue !== 0) && (elementValue !== "0")) {
-                valueHasChanged = true;
-            }
-
-            if (valueHasChanged) {
-                if (newValue != undefined) {
-                    $el.autoNumeric('set', newValue);
-                }
-
-
-            }
-        }
-    };
+    
 
 
     var CostCenter = function () {

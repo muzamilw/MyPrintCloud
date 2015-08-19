@@ -6501,6 +6501,7 @@ define("stores/stores.viewModel",
                         if (useType) {
                             target.couponUseType(useType.type);
                         }
+                        target.hasCoupon(source.hasCoupon());
                     },
                     //Do Before Save Discount Voucher
                     doBeforeDiscountVoucher = function () {
@@ -6509,6 +6510,23 @@ define("stores/stores.viewModel",
                             selectedDiscountVoucher().errors.showAllMessages();
                             flag = false;
                         }
+                        if (selectedDiscountVoucher().discountType() == 1 || selectedDiscountVoucher().discountType() == 3)
+                        {
+                            if (!selectedDiscountVoucher().availableProductCategoryVouchers() && !selectedDiscountVoucher().availableProductVouchers()) {
+                                confirmation.headingText("Alert");
+                                confirmation.yesBtnText("Ok");
+                                confirmation.noBtnText("Cancel");
+                                confirmation.IsCancelVisible(false);
+                                confirmation.messageText("Important ! Discount Voucher should have atleast one category or product.");
+
+                                confirmation.show();
+                                flag = false;
+                            }
+                        }
+                        //if (selectedDiscountVoucher().hasCoupon() == true) {
+                        //    errorList.push({ name: "Coupon Code is required" });
+                        //    flag = false;
+                        //}
 
                         return flag;
                     },

@@ -15,7 +15,7 @@
                             <th class="col-lg-2"><span>Discount Name</span></th>
                             <th class="col-lg-2"><span>Coupon Code</span></th>
                             <th class="col-lg-2"><span>Discount Type</span></th>
-                            <th class="col-lg-2"><span>Discount Value</span></th>
+                            <th class="col-lg-2"><span style="margin-left:10px">Discount Value</span></th>
                             <th class="col-lg-2"><span>Coupon Usage</span></th>
                             @*<th>&nbsp;</th>*@
                         </tr>
@@ -25,10 +25,28 @@
                         <tr data-bind="click:$root.editDiscountVoucher">
                            
                             <td><a class="store-user-link" data-bind="text:name"></a></td>
-                            <td data-bind="text:couponCode"></td>
+                         
+
+                            <td>
+                                <!-- ko if: hasCoupon() === true -->
+                            <span data-bind="text:couponCode"></span>
+                                <!-- /ko -->
+                            </td>
+                           
                             <td data-bind="text:discountType"></td>
-                            <td data-bind="text:discountRate()+'%'"></td>
-                            <td data-bind="text:couponUseType"></td>
+                          
+                            <td style="text-align:center;" >
+                                <!-- ko if: discountType() != "Free Shipping on ENTIRE ORDER" -->
+                                        <span data-bind="text:discountRate()+'%'"></span>
+                                <!-- /ko -->
+                            </td>
+                          
+                            <td >
+                                <!-- ko if: hasCoupon() === true -->
+                                <span data-bind="text:couponUseType"></span>
+                                <!-- /ko -->
+                            </td>
+                           
                         </tr>
                         <!-- /ko -->
 

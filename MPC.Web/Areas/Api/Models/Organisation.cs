@@ -238,6 +238,20 @@ namespace MPC.MIS.Areas.Api.Models
         /// Agile API Active
         /// </summary>
         public bool? isAgileActive { get; set; }
+        /// <summary>
+        /// is Xero Integration Required
+        /// </summary>
+        public bool? isXeroIntegrationRequired { get; set; }
+
+        /// <summary>
+        /// XeroApiId
+        /// </summary>
+        public string XeroApiId { get; set; }
+
+        /// <summary>
+        /// XeroApiKey
+        /// </summary>
+        public string XeroApiKey { get; set; }
 
         /// <summary>
         /// Image Source

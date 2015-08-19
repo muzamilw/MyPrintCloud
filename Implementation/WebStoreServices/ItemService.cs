@@ -3048,6 +3048,10 @@ namespace MPC.Implementation.WebStoreServices
                                         DiscountAmountToApply = storeDiscountVoucher.DiscountRate;
                                     }
                                 }
+                                else 
+                                {
+                                   // DiscountAmountToApply = (int)DiscountVoucherChecks.RollBackVoucherIfApplied;
+                                }
                             }
                         }
                     }
@@ -3189,7 +3193,7 @@ namespace MPC.Implementation.WebStoreServices
 
             List<int> appliedVoucherTypes = new List<int>();
 
-            List<DiscountVoucher> listOfStoreVouchers = _DVRepository.GetStoreDefaultDiscountVouchers(StoreId, OrganisationId);
+            List<DiscountVoucher> listOfStoreVouchers = _DVRepository.GetStoreDefaultDiscountVouchers(StoreId, OrganisationId).ToList();
             List<Item> CartItems = _OrderRepository.GetOrderItems(OrderId);
 
             if (order != null && order.DiscountVoucherID > 0)
@@ -3311,6 +3315,39 @@ namespace MPC.Implementation.WebStoreServices
 
                 }
             }
+            if (listOfStoreVouchers != null && listOfStoreVouchers.Count() == 0) // remove store discount on each item applied
+            {
+                if (CartItems != null && CartItems.Count > 0)
+                {
+                    foreach (Item citem in CartItems)
+                    {
+                        if (citem.DiscountVoucherID != null && _DVRepository.isCouponVoucher(Convert.ToInt64(citem.DiscountVoucherID)))
+                        {
+                            citem.Tax1 = Convert.ToInt32(StoreTaxRate);
+
+                            ItemBaseCharge = (citem.Qty1NetTotal ?? 0) + (citem.Qty1CostCentreProfit ?? 0);
+
+                            citem.Qty1Tax1Value = _ItemRepository.CalculatePercentage(ItemBaseCharge, StoreTaxRate);
+
+                            citem.Qty1GrossTotal = ItemBaseCharge + citem.Qty1Tax1Value;
+
+                            citem.Qty1BaseCharge1 = ItemBaseCharge;
+
+                            citem.Qty1NetTotal = ItemBaseCharge;
+
+                            citem.Qty1CostCentreProfit = null;
+
+                            citem.DiscountVoucherID = null;
+
+                            citem.Qty2CostCentreProfit = null;
+
+                            _ItemRepository.SaveChanges();
+
+                        }
+                    }
+                }
+            }
+            
             errorMes = "";
             return Convert.ToInt64(order.DiscountVoucherID);
         }

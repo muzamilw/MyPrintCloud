@@ -1,7 +1,12 @@
 ﻿
-
 define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (ko) {
+
     var
+       
+
+
+
+
     // #region ____________ S T O R E   L I S T    V I E W____________________
 
         // ReSharper disable once InconsistentNaming
@@ -4806,7 +4811,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     };
     // #endregion ______________ Smart Form   _________________
     // #region ______________  Discount Voucher _________________
-    var discountVoucherListView = function (specifiedSmartFormId, specifiedName, specifiedCode, specifiedDtype, dRate, dusetype) {
+    var discountVoucherListView = function (specifiedSmartFormId, specifiedName, specifiedCode, specifiedDtype, dRate, dusetype,specifiedhasCoupon) {
         var self,
             id = ko.observable(specifiedSmartFormId),
             name = ko.observable(specifiedName),
@@ -4814,6 +4819,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             discountType = ko.observable(specifiedDtype),
             discountRate = ko.observable(dRate || 0),
             couponUseType = ko.observable(dusetype),
+            hasCoupon = ko.observable(specifiedhasCoupon || false),
             // Errors
             errors = ko.validation.group({
                 name: name,
@@ -4842,6 +4848,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             discountType: discountType,
             discountRate: discountRate,
             couponUseType: couponUseType,
+            hasCoupon: hasCoupon,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -4856,7 +4863,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.CouponCode,
             source.DiscountType,
             source.DiscountRate,
-            source.CouponUseType);
+            source.CouponUseType,source.HasCoupon);
     };
 
     DiscountVoucher = function (spcDiscountVoucherId, spcVoucherName, spcCouponCode, spcDiscountType, spcDiscountRate, spcCouponUseType, spcHasCoupon,
@@ -4865,20 +4872,35 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         var self,
             id = ko.observable(spcDiscountVoucherId),
             name = ko.observable(spcVoucherName).extend({ required: true }),
-            couponCode = ko.observable(spcCouponCode),
+              hasCoupon = ko.observable(spcHasCoupon || false),
+            couponCode = ko.observable(spcCouponCode).extend({
+                   required: {
+                       onlyIf: function () {
+                           return hasCoupon() === true;
+                       }
+                   }
+               }),
             discountType = ko.observable(spcDiscountType),
-            discountRate = ko.observable(spcDiscountRate || 0).extend({ number: true }),
+             discountRate = ko.observable(spcDiscountRate || 0).extend({ number : true,
+                 required: {
+                     onlyIf: function () {
+                         return discountType() !== 5;
+                     }
+                 }
+             }),
+            //discountRate = ko.observable(spcDiscountRate || 0).extend({ number: true }),
             couponUseType = ko.observable(spcCouponUseType),
-            hasCoupon = ko.observable(spcHasCoupon || false),
+          
+             
             isOrderPriceRequirement = ko.observable(spcIsOrderPriceRequirement),
             isQtyRequirement = ko.observable(spcIsQtyRequirement),
             isQtySpan = ko.observable(spcIsQtySpan || false),
             isTimeLimit = ko.observable(spcIsTimeLimit),
             isUseWithOtherCoupon = ko.observable(spcIsUseWithOtherCoupon || false),
             maxRequiredOrderPrice = ko.observable(spcMaxRequiredOrderPrice).extend({ numberInput: ist.numberFormat }),
-            maxRequiredQty = ko.observable(spcMaxRequiredQty).extend({ number: true }),
+            maxRequiredQty = ko.observable(spcMaxRequiredQty),
             minRequiredOrderPrice = ko.observable(spcMinRequiredOrderPrice).extend({ numberInput: ist.numberFormat }),
-            minRequiredQty = ko.observable(spcMinRequiredQty).extend({ number: true }),
+            minRequiredQty = ko.observable(spcMinRequiredQty),
             validFromDate = ko.observable(spcValidFromDate ? moment(spcValidFromDate).toDate() : moment().toDate()),
             validUptoDate = ko.observable(spcValidUptoDate ? moment(spcValidUptoDate).toDate() : moment().toDate()),
             companyId = ko.observable(spcCompanyId),
@@ -5087,6 +5109,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 discountRate: discountRate,
                 maxRequiredQty: maxRequiredQty,
                 minRequiredQty: minRequiredQty,
+                couponCode: couponCode,
+                discountRate: discountRate,
             }),
             // Is Valid 
             isValid = ko.computed(function () {

@@ -59,7 +59,7 @@ namespace MPC.Repository.Repositories
                 return DbSet.Where(
               cmspage =>
               cmspage.isUserDefined == false && cmspage.OrganisationId == OrganisationId &&
-              cmspage.CompanyId == companyId).ToList();
+              cmspage.CompanyId == companyId).OrderBy(c => c.PageTitle).ToList();
             }
             catch (Exception ex)
             {

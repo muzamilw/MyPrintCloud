@@ -10,6 +10,7 @@ using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
+using MPC.ExceptionHandling;
 
 namespace MPC.Repository.Repositories
 {
@@ -173,7 +174,17 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                if (discountVoucher.HasCoupon == true)
+                {
+                    // Check for Code Duplication
+                    bool isDuplicateCode = IsDuplicateCouponCode(discountVoucher.CouponCode, discountVoucher.CompanyId,discountVoucher.DiscountVoucherId);
+                    if (isDuplicateCode)
+                    {
+                        throw new MPCException("Coupon Code already exist.", OrganisationId);
+                    }
 
+                }
+              
                 DiscountVoucher discountVoucherDbVersion = db.DiscountVouchers.Where(c => c.DiscountVoucherId == discountVoucher.DiscountVoucherId).FirstOrDefault();
                 if (discountVoucherDbVersion != null)
                 {
@@ -342,8 +353,23 @@ namespace MPC.Repository.Repositories
             try
             {
                 discountVoucher.VoucherCode = Guid.NewGuid().ToString();
-
+                discountVoucher.OrganisationId = OrganisationId;
                 discountVoucher.IsEnabled = true;
+
+                // Check for Code Duplication
+                if(discountVoucher.HasCoupon == true)
+                {
+                    bool isDuplicateCode = IsDuplicateCouponCode(discountVoucher.CouponCode, discountVoucher.CompanyId,discountVoucher.DiscountVoucherId);
+                    if (isDuplicateCode)
+                    {
+                        throw new MPCException("Coupon Code already exist.", OrganisationId);
+                    }
+                    
+                }
+               
+
+
+
                 db.DiscountVouchers.Add(discountVoucher);
 
                 db.SaveChanges();
@@ -401,6 +427,25 @@ namespace MPC.Repository.Repositories
 
             }
         }
+
+
+        /// <summary>
+        /// Check if coupon code provided already exists
+        /// </summary>
+        public bool IsDuplicateCouponCode(string CouponCode, long? companyId,long DiscountVoucherId)
+        {
+            try
+            {
+                return db.DiscountVouchers.Any(c => c.CouponCode == CouponCode && c.CompanyId == companyId && c.DiscountVoucherId != DiscountVoucherId);
+               
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
          public long IsDiscountVoucherApplied(long StoreId, long OrganisationId)
         {
             try
@@ -421,7 +466,34 @@ namespace MPC.Repository.Repositories
             }
 
         }
+         public bool isCouponVoucher(long DiscountVoucherId)
+         {
+             try
+             {
+                 if (DiscountVoucherId > 0)
+                 {
+                     DiscountVoucher voucher = db.DiscountVouchers.Where(d => d.DiscountVoucherId == DiscountVoucherId).FirstOrDefault();
+                     if (voucher != null && (voucher.HasCoupon == false || voucher.HasCoupon == null))
+                     {
+                         return true;
+                     }
+                     else 
+                     {
+                         return false;
+                     }
+                 }
+                 else 
+                 {
+                     return false;
+                 }
+                  
+             }
+             catch (Exception ex)
+             {
+                 throw ex;
+             }
 
+         }
         #endregion
     }
 }

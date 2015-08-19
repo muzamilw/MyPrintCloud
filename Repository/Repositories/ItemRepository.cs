@@ -4559,9 +4559,9 @@ namespace MPC.Repository.Repositories
             try
             {
                 db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
 
-
-                return db.Items.Where(c => c.CompanyId == CompanyId && (c.IsPublished == null || c.IsPublished == true) && (c.IsArchived == null || c.IsArchived == false)).ToList();
+                return db.Items.Where(c => c.CompanyId == CompanyId && (c.IsPublished == null || c.IsPublished == true) && (c.IsArchived == null || c.IsArchived == false) && c.EstimateId == null).OrderBy(c => c.ProductName).ToList();
                 
             }
             catch(Exception ex)
