@@ -104,8 +104,11 @@ namespace MPC.Webstore.Controllers
                     {
                         string VErrorMesg = "";
                         DiscountVoucher voucher = _ItemService.GetDiscountVoucherById(DisVId);
-                        _ItemService.ApplyDiscountOnCartProducts(voucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), ref FreeShippingVoucherId,ref VErrorMesg);
-                        VErrorMesg = "";
+                        if(voucher != null)
+                        {
+                            _ItemService.ApplyDiscountOnCartProducts(voucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), ref FreeShippingVoucherId, ref VErrorMesg);
+                            VErrorMesg = "";
+                        }
                     }
 
                     if (FreeShippingVoucherId > 0)
@@ -154,16 +157,51 @@ namespace MPC.Webstore.Controllers
 
                 // no Redeem Voucher options AT ALL for corporate customers
 
-                if (StoreBaseResopnse.Company.ShowPrices ?? true)
+                if (StoreBaseResopnse.Company.ShowPrices == true)
                 {
                     ViewBag.IsShowPrices = true;
-
+                    if(UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                    {
+                        if (_myClaimHelper.loginContactID() > 0)
+                        {
+                            if (UserCookieManager.ShowPriceOnWebstore == true)
+                            {
+                                ViewBag.IsShowPrices = true;
+                            }
+                            else
+                            {
+                                ViewBag.IsShowPrices = false;
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.IsShowPrices = true;
+                        }
+                    }
+                   
                 }
                 else
                 {
                     ViewBag.IsShowPrices = false;
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                    {
+                        if (_myClaimHelper.loginContactID() > 0)
+                        {
+                            if (UserCookieManager.ShowPriceOnWebstore == true)
+                            {
+                                ViewBag.IsShowPrices = true;
+                            }
+                            else
+                            {
+                                ViewBag.IsShowPrices = false;
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.IsShowPrices = false;
+                        }
+                    }
                 }
-
                 if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
                     SetLastItemTemplateMatchingSets(shopCart, StoreBaseResopnse);
 

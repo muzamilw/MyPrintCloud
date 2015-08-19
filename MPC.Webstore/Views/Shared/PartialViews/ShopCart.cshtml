@@ -246,7 +246,7 @@
                                             <td class="PadTop5" align="left" style="width:5%;" valign="top">
                                                 <span id="lblItemQuantity" class="fntQtyPrice" style="font-weight:bold;">@prod.Qty1</span>
                                             </td>
-                                            @if (ViewBag.IsShowPrices)
+                                            @if (ViewBag.IsShowPrices == true)
                                             {
                                                 
                                                 _vatTotal += prod.Qty1Tax1Value ?? 0;
@@ -390,7 +390,7 @@
                             </div>
 
                             <input type="submit" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" onclick="return ifNoAnEnterKay(event);" /><br />
-                            <button id="btn_ContinueShopping" type="button" onclick="return ContinueShopping();" class="btn_brown  rounded_corners5" style="float: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.WBStoreId))</button>
+                            <button id="btn_ContinueShopping" type="button" onclick="return ContinueShopping(event);" class="btn_brown  rounded_corners5" style="float: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.WBStoreId))</button>
                             <div class="clearBoth">
                                 &nbsp;
                             </div>

@@ -5,7 +5,7 @@
    Layout = null; 
  }
 @using MPC.Webstore.Common;
-@{
+
 
 <div class="content_area container left_right_padding PDM7-CS  QCMainContainer">
     <div id="QuickCalcFrame" class=" QuickCalcFrame">
@@ -67,6 +67,8 @@
 <div class="clearBoth">
     &nbsp;
 </div>
+@*<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>*@
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
 <script type="text/javascript">
     var temp;
     var PriceData = null;
@@ -81,7 +83,7 @@
     var TaxRate=@ViewBag.TaxRate;
     var SelectedMatrixID;
     var SelectedPriceMatrix;
-    $(document).ready(function () {
+    //$(document).ready(function () {
         $.getJSON("/QuickCalculator/GetAllProducts?cID=" + cID + "&mode=" + smode,
 		        function (xdata) {
 		            ProductData = xdata;
@@ -95,7 +97,7 @@
 		                    $('#QuickCalcFrameLoader').hide();
 		                });
 		        });
-    });
+    //});
 
 
     function makeInitSelection() {

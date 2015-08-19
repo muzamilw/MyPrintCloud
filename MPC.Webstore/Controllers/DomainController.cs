@@ -31,6 +31,7 @@ using System.Web.Http;
 using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
@@ -152,6 +153,20 @@ namespace MPC.Webstore.Controllers
             return View();
         }
 
-       
+        public void ClearCacheObject()
+        {
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+            CacheItemPolicy policy = null;
+
+            policy = new CacheItemPolicy();
+            policy.Priority = CacheItemPriority.NotRemovable;
+           
+            policy.RemovedCallback = null;
+
+            Dictionary<long, MyCompanyDomainBaseReponse> stores = new Dictionary<long, MyCompanyDomainBaseReponse>();
+            cache.Set(CacheKeyName, stores, policy);
+        }
+
     }
 }
