@@ -29,7 +29,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 DiscountType = source.DiscountType,
                 DiscountRate = source.DiscountRate,
                 CouponUseType = source.CouponUseType,
-                HasCoupon = source.HasCoupon
+                HasCoupon = source.HasCoupon,
+                DiscountTypeId = source.DiscountType,
             };
         }
 
