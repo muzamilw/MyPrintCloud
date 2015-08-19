@@ -92,6 +92,7 @@ namespace MPC.Webstore.Controllers
                     cep.AddressId = (int)NewInqury.CompanyId;
                     cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
                     cep.StoreId = UserCookieManager.WBStoreId;
+                    cep.CompanyId = UserCookieManager.WBStoreId;
 
                     SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
                     
@@ -147,6 +148,7 @@ namespace MPC.Webstore.Controllers
                 cep.AddressId = (int)NewInqury.CompanyId;
                 cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
                 cep.StoreId = UserCookieManager.WBStoreId;
+                cep.CompanyId = UserCookieManager.WBStoreId;
 
                 SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(loginUserCompany.SalesAndOrderManagerId1.Value);
                 

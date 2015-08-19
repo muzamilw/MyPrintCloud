@@ -437,6 +437,34 @@ define("stores/stores.view",
                         }
                     });
                 },
+
+
+                 // Update Input Checked States for products
+                updateInputCheckedStatesForProduct = function () {
+                    $.each($("#itemsDialogProducts").find("input:checkbox"), function (index, inputElement) {
+                        var categoryliElement = $(inputElement).closest('li')[0];
+                        if (categoryliElement) {
+                            var categoryId = getCategoryIdFromliElement(categoryliElement);
+                            if (categoryId) {
+                                var category = viewModel.products.find(function (productCategory) {
+                                    return productCategory.id === categoryId;
+                                });
+
+                                if (category) {
+                                    if (category.isSelected()) {
+                                        $(inputElement).prop('checked', true);
+                                    }
+                                    else {
+                                        $(inputElement).prop('checked', false);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+
+
+
                 toggleChildCategories = function (event) {
 
                 if (!event) {
@@ -471,6 +499,15 @@ define("stores/stores.view",
                 hideProductCategoryDialog = function () {
                     $("#productCategoryDialogForDiscountVoucher").modal("hide");
                 },
+                 // Show Product dialog for DV
+                showItemDialog = function () {
+                    $("#itemsDialogForDiscountVoucher").modal("show");
+                },
+                // Hide Product dialog for DV
+                hideItemDialog = function () {
+                    $("#itemsDialogForDiscountVoucher").modal("hide");
+                },
+
                 //#endregion
             // Initialize
             initialize = function () {
@@ -535,7 +572,10 @@ define("stores/stores.view",
                 hideDiscountVoucherDetailDialog: hideDiscountVoucherDetailDialog,
                 showProductCategoryDialog: showProductCategoryDialog,
                 hideProductCategoryDialog: hideProductCategoryDialog,
+                showItemDialog: showItemDialog,
+                hideItemDialog: hideItemDialog,
                 updateInputCheckedStates: updateInputCheckedStates,
+                updateInputCheckedStatesForProduct: updateInputCheckedStatesForProduct,
                 toggleChildCategories: toggleChildCategories,
                 getCategoryIdFromliElement: getCategoryIdFromliElement,
                 getCategoryIdFromElement: getCategoryIdFromElement,

@@ -795,7 +795,8 @@ namespace MPC.Models.ModelMappers
             target.InvoiceDescription = source.InvoiceDescription;
             target.ItemNotes = source.ItemNotes;
             target.ItemId = source.ItemId;
-
+            target.SupplierId = source.SupplierId;
+            target.SupplierId2 = source.SupplierId2;
             if (source.RefItemId != null)
             {
                 target.RefItemId = source.RefItemId;

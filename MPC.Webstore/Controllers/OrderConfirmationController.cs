@@ -147,12 +147,12 @@ namespace MPC.Webstore.Controllers
                             result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingOrder, StoreMode.Retail, baseResponse.Organisation, StockManagerIds, UserCookieManager.WBStoreId);
                             Estimate updatedOrder = _OrderService.GetOrderByID(OrderId);
                             UserCookieManager.WEBOrderId = 0;
-                            string AttachmentPath = "";// _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
+                            string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
                             SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
 
-                            _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", null);
+                            _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
                             _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
                      
 
@@ -444,15 +444,50 @@ namespace MPC.Webstore.Controllers
 
                     }
 
-                    if (StoreBaseResopnse.Company.ShowPrices ?? true)
+                    if (StoreBaseResopnse.Company.ShowPrices == true)
                     {
                         ViewBag.IsShowPrices = true;
-                        //do nothing because pricing are already visible.
+                        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                        {
+                            if (_myClaimHelper.loginContactID() > 0)
+                            {
+                                if (UserCookieManager.ShowPriceOnWebstore == true)
+                                {
+                                    ViewBag.IsShowPrices = true;
+                                }
+                                else
+                                {
+                                    ViewBag.IsShowPrices = false;
+                                }
+                            }
+                            else
+                            {
+                                ViewBag.IsShowPrices = true;
+                            }
+                        }
+
                     }
                     else
                     {
                         ViewBag.IsShowPrices = false;
-                        //  cntRightPricing1.Visible = false;
+                        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                        {
+                            if (_myClaimHelper.loginContactID() > 0)
+                            {
+                                if (UserCookieManager.ShowPriceOnWebstore == true)
+                                {
+                                    ViewBag.IsShowPrices = true;
+                                }
+                                else
+                                {
+                                    ViewBag.IsShowPrices = false;
+                                }
+                            }
+                            else
+                            {
+                                ViewBag.IsShowPrices = false;
+                            }
+                        }
                     }
 
                     ViewBag.Currency = StoreBaseResopnse.Currency;

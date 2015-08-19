@@ -4,6 +4,7 @@
 @{
     Layout = null;
 }
+
 @using (Html.BeginForm())
 {
 
@@ -11,7 +12,7 @@
         <div class="left_right_padding row">
             <div class="signin_heading_div">
 
-                <label id="lblTitle" class="sign_in_heading">Request A Quote</label>
+                <label id="lblTitle" class="sign_in_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("hlRequestQuote", UserCookieManager.WBStoreId, "Request a Quote"))</label>
 
             </div>
 
@@ -28,7 +29,12 @@
                     </div>
                     <div class="TTL widthAvenior">
 
-                        @Html.TextBoxFor(model => model.FirstName, new { id = "txtBoxUserName", @class = "newTxtBox", placeholder = "FirstName", maxlength = 500 })
+                        @Html.TextBoxFor(model => model.FirstName, new
+                   {
+                       id = "txtBoxUserName",
+                       @class = "newTxtBox",
+                       placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("Fname", UserCookieManager.WBStoreId, "First Name"))
+, maxlength = 500 })
                     </div>
                     <div class="clearBoth">
                     </div>
@@ -42,7 +48,7 @@
                     </div>
                     <div class="TTL widthAvenior">
 
-                        @Html.TextBoxFor(model => model.LastName, new { id = "txtBoxLastName", @class = "newTxtBox", placeholder = "LastName", maxlength = 500 })
+                        @Html.TextBoxFor(model => model.LastName, new { id = "txtBoxLastName", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("Lname", UserCookieManager.WBStoreId, "Last Name")), maxlength = 500 })
                     </div>
                     <div class="clearBoth">
                     </div>
@@ -55,7 +61,7 @@
                     </div>
                     <div class="TTL widthAvenior">
 
-                        @Html.TextBoxFor(model => model.Email, new { id = "txtBoxUserEmail", @class = "newTxtBox", placeholder = "Email", maxlength = 500 })
+                        @Html.TextBoxFor(model => model.Email, new { id = "txtBoxUserEmail", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email")), maxlength = 500 })
                     </div>
                     <div class="clearBoth">
                     </div>
@@ -68,7 +74,7 @@
                     </div>
                     <div class="TTL widthAvenior">
 
-                        @Html.TextBoxFor(model => model.Mobile, new { id = "txtPhone", @class = "newTxtBox", placeholder = "Phone", maxlength = 500 })
+                        @Html.TextBoxFor(model => model.Mobile, new { id = "txtPhone", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlphone", UserCookieManager.WBStoreId, "Phone")), maxlength = 500 })
                     </div>
                     <div class="clearBoth">
                     </div>
@@ -91,7 +97,7 @@
                     </div>
                     <div class="TTL widthAvenior">
 
-                        @Html.TextBoxFor(model => model.FirstName, new { id = "txtBoxUserName", @class = "newTxtBox", placeholder = "FirstName", maxlength = 500 })
+                        @Html.TextBoxFor(model => model.FirstName, new { id = "txtBoxUserName", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("Fname", UserCookieManager.WBStoreId, "First Name")), maxlength = 500 })
                     </div>
                     <div class="clearBoth">
                     </div>
@@ -105,7 +111,12 @@
                     </div>
                     <div class="TTL widthAvenior">
 
-                        @Html.TextBoxFor(model => model.LastName, new { id = "LastName", @class = "newTxtBox", placeholder = "LastName", maxlength = 500 })
+                        @Html.TextBoxFor(model => model.LastName, new
+                   {
+                       id = "LastName",
+                       @class = "newTxtBox",
+                       placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name"))
+, maxlength = 500 })
                     </div>
                     <div class="clearBoth">
                     </div>
@@ -118,7 +129,7 @@
                     </div>
                     <div class="TTL widthAvenior">
 
-                        @Html.TextBoxFor(model => model.Email, new { id = "UserEmail", @class = "newTxtBox", placeholder = "Email", maxlength = 500 })
+                        @Html.TextBoxFor(model => model.Email, new { id = "UserEmail", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId,"Email")), maxlength = 500 })
                     </div>
                     <div class="clearBoth">
                     </div>
@@ -131,7 +142,7 @@
                     </div>
                     <div class="TTL widthAvenior">
 
-                        @Html.TextBoxFor(model => model.Mobile, new { id = "Phone", @class = "newTxtBox", placeholder = "Phone", maxlength = 500 })
+                        @Html.TextBoxFor(model => model.Mobile, new { id = "Phone", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlphone", UserCookieManager.WBStoreId, "Phone")), maxlength = 500 })
                     </div>
                     <div class="clearBoth">
                     </div>
@@ -152,13 +163,13 @@
                 </div>
                 <div class="TTL widthAvenior">
 
-                    @Html.TextBoxFor(model => model.Title, new { id = "txtInquiryTitle", @class = "newTxtBox", placeholder = "Inquiry Title", maxlength = 500 })
+                    @Html.TextBoxFor(model => model.Title, new { id = "txtInquiryTitle", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinquirytitle", UserCookieManager.WBStoreId, "Inquiry Title ")), maxlength = 500 })
                 </div>
                 <div class="clearBoth">
                 </div>
                 <div class="smallContctUsAvenior float_left_simple">
 
-                    <span id="ltrlinquiryAttachement">Inquiry Attachment's :</span>
+                    <span id="ltrlinquiryAttachement">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinquiryAttachement", UserCookieManager.WBStoreId, "Inquiry Attachment's")) :</span>
                 </div>
                 <div class="TTL widthAvenior">
                     <input id="InquiryAttachment" type="file" name="uploadFile" class="newTxtBox" multiple accept="psd,pdd,bmp,rle,dib,gif,eps,jpg,jpeg,jpe,pcx,pdf,pdp,pct,pict,pxr,png,raw,sct,tiff,tif,svc,bmp,doc,docx,xls,ppt,pptx,xlsx" max="4" />
@@ -184,7 +195,7 @@
                         </div>
                         <div class="TTL widthAvenior">
 
-                            @Html.TextBoxFor(model => model.InquiryItemTitle1, new { id = "txtTitle1", @class = "newTxtBox", placeholder = "Item Title", maxlength = 500 })
+                            @Html.TextBoxFor(model => model.InquiryItemTitle1, new { id = "txtTitle1", @class = "newTxtBox", placeholder =@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemtitleee", UserCookieManager.WBStoreId, "Item Title")), maxlength = 500 })
                         </div>
                         <div class="clear smallContctUsAvenior float_left_simple">
 
@@ -192,7 +203,7 @@
                         </div>
                         <div class="TTL widthAvenior">
 
-                            @Html.TextBoxFor(model => model.InquiryItemNotes1, new { id = "txtItemNote1", placeholder = "Item Notes", @class = "newTxtBox", maxlength = 500 })
+                            @Html.TextBoxFor(model => model.InquiryItemNotes1, new { id = "txtItemNote1", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemnotes", UserCookieManager.WBStoreId, "")), @class = "newTxtBox", maxlength = 500 })
                         </div>
                         <div class="clear smallContctUsAvenior float_left_simple">
 
@@ -205,7 +216,7 @@
                             <div id="test"></div>
                             <div id="datepicker"></div>
 
-                            @Html.TextBoxFor(model => model.InquiryItemDeliveryDate1, new { id = "txtInquiryDate1", @class = "newTxtBox Jdatepicker", placeholder = "Desired Delivery", maxlength = 500, @readonly = "readonly" })
+                            @Html.TextBoxFor(model => model.InquiryItemDeliveryDate1, new { id = "txtInquiryDate1", @class = "newTxtBox Jdatepicker", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrldeliverydate", UserCookieManager.WBStoreId, "Desired Delivery")), maxlength = 500, @readonly = "readonly" })
                         </div>
                         <div class="clearBoth">
                         </div>
@@ -230,7 +241,7 @@
                         </div>
                         <div class="TTL widthAvenior">
 
-                            @Html.TextBoxFor(model => model.InquiryItemTitle2, new { id = "txtTitle2", @class = "newTxtBox", placeholder = "Item Title", maxlength = 500 })
+                            @Html.TextBoxFor(model => model.InquiryItemTitle2, new { id = "txtTitle2", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemtitleee", UserCookieManager.WBStoreId, "Item Title")), maxlength = 500 })
 
                         </div>
                         <div class="exit_container_RQ">
@@ -243,7 +254,7 @@
                         </div>
                         <div class="TTL widthAvenior">
 
-                            @Html.TextBoxFor(model => model.InquiryItemNotes2, new { id = "itemnotes2", placeholder = "Item Notes", @class = "newTxtBox", maxlength = 500 })
+                            @Html.TextBoxFor(model => model.InquiryItemNotes2, new { id = "itemnotes2", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemnotess", UserCookieManager.WBStoreId, "Item Notes")), @class = "newTxtBox", maxlength = 500 })
                         </div>
                         <div class="clear smallContctUsAvenior float_left_simple">
 
@@ -255,7 +266,7 @@
 
                         <div class="TTL widthAvenior">
 
-                            @Html.TextBoxFor(model => model.InquiryItemDeliveryDate2, new { id = "txtInquiryDate2", @class = "newTxtBox", placeholder = "Desired Delivery", maxlength = 500, @readonly = "readonly" })
+                            @Html.TextBoxFor(model => model.InquiryItemDeliveryDate2, new { id = "txtInquiryDate2", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrldeliverydate", UserCookieManager.WBStoreId, "Desired Delivery")), maxlength = 500, @readonly = "readonly" })
 
                         </div>
                         <div class="clearBoth">
@@ -278,7 +289,7 @@
                         </div>
                         <div class="TTL widthAvenior">
 
-                            @Html.TextBoxFor(model => model.InquiryItemTitle3, new { id = "txtTitle3", @class = "newTxtBox", placeholder = "Item Title", maxlength = 500, })
+                            @Html.TextBoxFor(model => model.InquiryItemTitle3, new { id = "txtTitle3", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemtitleee", UserCookieManager.WBStoreId, "Item Title")), maxlength = 500, })
                         </div>
                         <div class="exit_container_RQ">
                             <div class="exit_popup" title="Click to remove item." id="Remove3">
@@ -290,7 +301,7 @@
                         </div>
                         <div class="TTL widthAvenior">
 
-                            @Html.TextBoxFor(model => model.InquiryItemNotes3, new { id = "txtItemNote3", placeholder = "Item Notes", @class = "newTxtBox", maxlength = 500 })
+                            @Html.TextBoxFor(model => model.InquiryItemNotes3, new { id = "txtItemNote3", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemnotess", UserCookieManager.WBStoreId,"Item Notes")), @class = "newTxtBox", maxlength = 500 })
                         </div>
                         <div class="clear smallContctUsAvenior float_left_simple">
 
@@ -302,7 +313,7 @@
 
                         <div class="TTL widthAvenior">
 
-                            @Html.TextBoxFor(model => model.InquiryItemDeliveryDate3, new { id = "txtInquiryDate3", @class = "newTxtBox", placeholder = "Desired Delivery", maxlength = 500, @readonly = "readonly" })
+                            @Html.TextBoxFor(model => model.InquiryItemDeliveryDate3, new { id = "txtInquiryDate3", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrldeliverydate", UserCookieManager.WBStoreId, "Desired Delivery")), maxlength = 500, @readonly = "readonly" })
 
                         </div>
                         <div class="clearBoth">
@@ -315,17 +326,17 @@
             </div>
             <div class="float_left_simple colorBlack">
 
-                <a id="AddNewInquiryItemList" class="colorBlack"><input id="btnSend" class="add-inquiry-btn rounded_corners5" value="Add item" type="button" /></a>
+                <a id="AddNewInquiryItemList" class="colorBlack"><input id="btnSend" class="add-inquiry-btn rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladditem", UserCookieManager.WBStoreId, "Add item"))" type="button" /></a>
             </div>
             <div class="quote_control_sec_btnsDiv float_left">
 
                 <div class="quote_send_button">
 
-                    <input id="btnSend" class="start_creating_btn rounded_corners5 background-green" type="button" value="Send" onclick="Submit();" />
+                    <input id="btnSend" class="start_creating_btn rounded_corners5 background-green" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSubmitPassword", UserCookieManager.WBStoreId, "Send"))" onclick="Submit();" />
                 </div>
                 <div class="quote_cancel_button">
                     <a href="/">
-                        <input id="btnCancel" class="start_creating_btn rounded_corners5" type="button" value="Cancel" />
+                        <input id="btnCancel" class="start_creating_btn rounded_corners5" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnCancel", UserCookieManager.WBStoreId, "Cancel"))" />
                     </a>
 
                 </div>

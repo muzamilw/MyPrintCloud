@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace MPC.Models.DomainModels
 {
     /// <summary>
@@ -9,7 +10,8 @@ namespace MPC.Models.DomainModels
         public long ItemVoucherId { get; set; }
         public long? ItemId { get; set; }
         public long? VoucherId { get; set; }
-
+        [NotMapped]
+        public string ProductName { get; set; }
         public virtual DiscountVoucher DiscountVoucher { get; set; }
     }
 }

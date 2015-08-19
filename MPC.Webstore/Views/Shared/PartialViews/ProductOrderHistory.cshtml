@@ -17,13 +17,13 @@
     <div class="left_right_padding">
         <div class="col-md-12 col-lg-12 col-xs-12">
             <div class="signin_heading_div float_left_simple ">
-                <label class="sign_in_heading" id="HistryBtn">Order History</label>
+                <label class="sign_in_heading" id="HistryBtn">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlorderhistory",UserCookieManager.WBStoreId,"Order history"))</label>
             </div>
             <div class="dashBoardRetrunLink dashboard_heading_signin">
                 <div class=" left_align">
                     <h1>
                         <a href="/Dashboard" class="left_align" title="Back to my dashboard" onclick="ShowLoader();">
-                            Back to my dashboard
+                            @Html.Raw(Html.GetKeyValueFromResourceFile("BackToDashboardlbl",UserCookieManager.WBStoreId,"Back to my dashboard"))
                         </a>
                     </h1>
                     <div class="clearBoth"></div>
@@ -45,16 +45,16 @@
 
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-xs-2">
-                                    <span id="spntdfromdate" class="heading_h8">From Date</span>
+                                    <span id="spntdfromdate" class="heading_h8">@Html.Raw(Html.GetKeyValueFromResourceFile("tdfromdate",UserCookieManager.WBStoreId,"From Date"))</span>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-xs-2">
-                                    <span id="spntodate" class="heading_h8">To Date</span>
+                                    <span id="spntodate" class="heading_h8">@Html.Raw(Html.GetKeyValueFromResourceFile("todate",UserCookieManager.WBStoreId,"To Date"))</span>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-xs-2">
-                                    <span id="spntdorderref" class="heading_h8">Order Ref</span>
+                                    <span id="spntdorderref" class="heading_h8">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlorderref", UserCookieManager.WBStoreId,"Order Ref"))</span>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-xs-2">
-                                    <span id="spntdorderstatus" class="heading_h8">Status</span>
+                                    <span id="spntdorderstatus" class="heading_h8">@Html.Raw(Html.GetKeyValueFromResourceFile("gvlblstatusname", UserCookieManager.WBStoreId,"Status"))</span>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-xs-2">
                                     <span id="spcClientStatus" class="heading_h8" style="visibility:hidden;">Client Status</span>
@@ -66,25 +66,25 @@
 
                                 </div>
                                 <div class="col-lg-1 col-md-1 col-xs-1">
-                                    <span id="HistryBtn" class="ltrlSearchOrder">Search Orders</span>
+                                    <span id="HistryBtn" class="ltrlSearchOrder">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsearchhhorder",UserCookieManager.WBStoreId,"Search Orders"))</span>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-xs-2">
-                                    @Html.TextBoxFor(model => model.FromData, new { id = "txtFromDate", @class = "text_box150 rounded_corners5", placeholder = "From Date", maxlength = 500, @readonly = "readonly" })
+                                    @Html.TextBoxFor(model => model.FromData, new { id = "txtFromDate", @class = "text_box150 rounded_corners5", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("tdfromdate",UserCookieManager.WBStoreId,"From Date")), maxlength = 500, @readonly = "readonly" })
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-xs-2">
-                                    @Html.TextBoxFor(model => model.ToDate, new { id = "txtToDate", @class = "text_box150 rounded_corners5", placeholder = "To Date", maxlength = 500, @readonly = "readonly" })
+                                    @Html.TextBoxFor(model => model.ToDate, new { id = "txtToDate", @class = "text_box150 rounded_corners5", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("todate",UserCookieManager.WBStoreId,"To Date")), maxlength = 500, @readonly = "readonly" })
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-xs-2">
-                                    @Html.TextBoxFor(model => model.poSearch, new { id = "txtOrderRefrence", @class = "text_box150 rounded_corners5", placeholder = "PO Search", maxlength = 500 })
+                                    @Html.TextBoxFor(model => model.poSearch, new { id = "txtOrderRefrence", @class = "text_box150 rounded_corners5", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlposeach", UserCookieManager.WBStoreId,"PO Search")), maxlength = 500 })
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-xs-2">
-                                    @Html.DropDownListFor(model => model.SelectedOrder, (IEnumerable<SelectListItem>)@Model.DDOderStatus, "All", new { @class = "dropdown rounded_corners5", @id = "DDOderStatus" })
+                                    @Html.DropDownListFor(model => model.SelectedOrder, (IEnumerable<SelectListItem>)@Model.DDOderStatus, @Html.Raw(Html.GetKeyValueFromResourceFile("lblAll", UserCookieManager.WBStoreId,"All")).ToString(), new { @class = "dropdown rounded_corners5", @id = "DDOderStatus" })
                                 </div>
                                 <div class="search-order-Go" style="">
-                                    <input type="submit" value="Go" id="btnSearchOrders" class="order_history_btn rounded_corners5" />
+                                    <input type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lrlGo", UserCookieManager.WBStoreId, "Go"))" id="btnSearchOrders" class="order_history_btn rounded_corners5" />
                                 </div>
                                 <div class="search-order-clear" style="">
-                                    <input type="button" id="btnClear" class="order_history_btn rounded_corners5" onclick="ClearTextBoxes();" value="Clear" />
+                                    <input type="button" id="btnClear" class="order_history_btn rounded_corners5" onclick="ClearTextBoxes();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnClear",UserCookieManager.WBStoreId,"Clear"))" />
                                 </div>
                                 <div class="clearBoth">
 
@@ -163,7 +163,7 @@
                         <tbody>
                             <tr>
                                 <td class="textAlignRight" style="width: 149px">
-                                    <span class="simpleTextBold" id="spnordernum">Order Number:</span>
+                                    <span class="simpleTextBold" id="spnordernum">@Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderNumHeadingTxt", UserCookieManager.WBStoreId,"Order Number")):</span>
                                 </td>
                                 <td class="textAlignLeft simpleText">
 
@@ -173,7 +173,7 @@
                                     &nbsp;
                                 </td>
                                 <td class="textAlignRight">
-                                    <span class="simpleTextBold" id="spnorderstatus">Status:</span>
+                                    <span class="simpleTextBold" id="spnorderstatus">@Html.Raw(Html.GetKeyValueFromResourceFile("lblStatusHeadingTxt", UserCookieManager.WBStoreId,"Status")):</span>
                                 </td>
                                 <td class="textAlignLeft simpleText" style="width: 200px">
 
@@ -183,7 +183,7 @@
                             </tr>
                             <tr>
                                 <td class="textAlignRight">
-                                    <span class="simpleTextBold" id="spnorderdate">Order Date:</span>
+                                    <span class="simpleTextBold" id="spnorderdate">@Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderDateHeadingTxt", UserCookieManager.WBStoreId,"Order Date")):</span>
                                 </td>
                                 <td class="textAlignLeft simpleText">
 
@@ -193,7 +193,7 @@
                                     &nbsp;
                                 </td>
                                 <td class="textAlignRight">
-                                    <span class="simpleTextBold" id="spndileverydate">Delivery Date:</span>
+                                    <span class="simpleTextBold" id="spndileverydate">@Html.Raw(Html.GetKeyValueFromResourceFile("spndileverydate", UserCookieManager.WBStoreId,"Delivery Date:"))</span>
                                 </td>
                                 <td class="textAlignLeft simpleText">
                                     @*<label id="lblOrderDeliveryStartDate" class="txtBold marginTopforDate" />*@
@@ -204,7 +204,7 @@
                             </tr>
                             <tr>
                                 <td class="textAlignRight">
-                                    <span class="simpleTextBold" id="Span1">Placed By:</span>
+                                    <span class="simpleTextBold" id="Span1">@Html.Raw(Html.GetKeyValueFromResourceFile("spnplacedby", UserCookieManager.WBStoreId, "Placed by:"))</span>
                                 </td>
                                 <td class="textAlignLeft simpleText">
 
@@ -246,7 +246,8 @@
                                     <tr>
 
                                         <th>
-                                            <label id="lblMainControlHeading" class="heading_small">Billing Address:</label>
+                                            <label id="lblMainControlHeading" class="heading_small">@Html.Raw(Html.GetKeyValueFromResourceFile("baddresss", UserCookieManager.WBStoreId,"Billing Address"))
+:</label>
                                         </th>
                                         <th style="height: 25px; text-align: left;">
 
@@ -331,7 +332,7 @@
                                 <thead>
                                     <tr>
                                         <th style="height: 25px; text-align: left;">
-                                            <label id="Label1" class="heading_small">Shipping Address:</label>
+                                            <label id="Label1" class="heading_small">@Html.Raw(Html.GetKeyValueFromResourceFile("shippinadresss", UserCookieManager.WBStoreId, "Shipping Address")):</label>
                                         </th>
                                         <th>
 
@@ -433,7 +434,7 @@
                             <table border="0" cellpadding="3" cellspacing="0" width="200px">
                                 <tr>
                                     <td align="left">
-                                        <span id="spnsubtotal">Sub Total:</span>
+                                        <span id="spnsubtotal">@Html.Raw(Html.GetKeyValueFromResourceFile("spnsubtotal", UserCookieManager.WBStoreId, "Sub Total:"))</span>
                                     </td>
                                     <td>
                                         <label id="lblSubTotal"><span id="subtotal"></span></label>
@@ -442,7 +443,7 @@
                                 </tr>
                                 <tr>
                                     <td align="left" style="width: 80%">
-                                        <span id="spnDeliveryoptn">Delivery Cost:</span>
+                                        <span id="spnDeliveryoptn">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrldelcost", UserCookieManager.WBStoreId,"Delivery Cost")):</span>
                                     </td>
                                     <td>
                                         <label id="lblDeliveryCost"><span id="DelCharge"></span></label>
@@ -450,7 +451,7 @@
                                 </tr>
                                 <tr>
                                     <td align="left" style="width: 80%">
-                                        <span id="spnvattotal">VAT:</span>
+                                        <span id="spnvattotal">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVatHeadingText", UserCookieManager.WBStoreId,"VAT")):</span>
                                     </td>
                                     <td>
                                         <label id="lblVatTotal"><span id="Vat"></span></label>
@@ -458,7 +459,7 @@
                                 </tr>
                                 <tr>
                                     <td align="left">
-                                        <span class="CartFonts" id="spngrndtotal">Grand Total:</span>
+                                        <span class="CartFonts" id="spngrndtotal">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgrandtotal", UserCookieManager.WBStoreId, "Grand Total")):</span>
                                     </td>
                                     <td>
 

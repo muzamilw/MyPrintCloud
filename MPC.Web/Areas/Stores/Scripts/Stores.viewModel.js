@@ -164,7 +164,7 @@ define("stores/stores.viewModel",
                     priceFlags = ko.observableArray([]),
                     // List
 
-                    discountTypes = [{ id: 1, type: "Dollar amount off a PRODUCT" }, { id: 2, type: "Dollar amount off ENTIRE ORDER " }, { id: 3, type: "Percent off a PRODUCT" }, { id: 4, type: "Percent off ENTIRE ORDER" }, { id: 5, type: "Free Shipping on ENTIRE ORDER" }],
+                    discountTypes = [{ id: 1, type: "Amount off a PRODUCT" }, { id: 2, type: "Amount off ENTIRE ORDER " }, { id: 3, type: "Percent off a PRODUCT" }, { id: 4, type: "Percent off ENTIRE ORDER" }, { id: 5, type: "Free Shipping on ENTIRE ORDER" }],
                     couponUseType = [{ id: 1, type: "Unlimited Use" }, { id: 2, type: "One-Time Use Per Customer" }, { id: 3, type: "One-Time Use Coupon" }],
                     //#endregion
 
@@ -1580,7 +1580,7 @@ define("stores/stores.viewModel",
                     
                     validateStoreLiveHandler = function () {
                         var isLive = selectedStore().isStoreSetLive();
-                        if (isLive == 'true' || isLive == true && storeDbStatus() == false) {
+                        if (isLive == 'true' || isLive == true && (storeDbStatus() == false || storeDbStatus() == null)) {
                             dataservice.validateLiveStoresCount({
                                 success: function (data) {
                                     if (data != null) {
@@ -1602,7 +1602,8 @@ define("stores/stores.viewModel",
                         }
                         return true;
                     },
-                    showLicenseUpgradeDialog = function() {
+                    showLicenseUpgradeDialog = function () {
+                        confirmation.messageText("Important ! You are already reached live stores limit.");
                         confirmation.afterProceed(function () {
                             var uri = encodeURI("https://myprintcloud.com/dashboard");
                             window.location.href = uri;
@@ -6444,8 +6445,41 @@ define("stores/stores.viewModel",
 
                     // Save Discount Voucher
                     onSaveDiscountVoucher = function (discountVoucher) {
+                        //if (selectedDiscountVoucher().discountType() != 5) {
+                        //    if (selectedDiscountVoucher().discountRate() == "" || selectedDiscountVoucher().discountRate() == null || selectedDiscountVoucher().discountRate() == 0)
+                        //    {
+
+                        //        $('#amountRate').addClass('errorFill');
+                        //        return;
+                        //    }
+                        //}
+                        if (selectedDiscountVoucher().discountType() != 5) {
+                            if (!selectedDiscountVoucher().discountRate() == 0)
+                            {
+                                if (selectedDiscountVoucher().discountRate() == "" || selectedDiscountVoucher().discountRate() == null) {
+
+                                    confirmation.headingText("Alert");
+                                    confirmation.yesBtnText("OK");
+                                    confirmation.noBtnText("Cancel");
+                                    confirmation.IsCancelVisible(false);
+                                    confirmation.messageText("Important ! Discount Rate is required.");
+
+                                    confirmation.show();
+                                    return;
+
+                                }
+                            }
+                           
+                             
+                               
+                            
+                        }
                         if (!doBeforeDiscountVoucher()) {
                             return;
+                        }
+                        if (selectedDiscountVoucher().discountType() == 5)
+                        {
+                            selectedDiscountVoucher().discountRate(0);
                         }
                         saveDiscountVoucher();
 
@@ -6500,6 +6534,8 @@ define("stores/stores.viewModel",
                         if (useType) {
                             target.couponUseType(useType.type);
                         }
+                        target.hasCoupon(source.hasCoupon());
+                        target.discountTypeId(source.discountType())
                     },
                     //Do Before Save Discount Voucher
                     doBeforeDiscountVoucher = function () {
@@ -6508,6 +6544,23 @@ define("stores/stores.viewModel",
                             selectedDiscountVoucher().errors.showAllMessages();
                             flag = false;
                         }
+                        if (selectedDiscountVoucher().discountType() == 1 || selectedDiscountVoucher().discountType() == 3)
+                        {
+                            if (!selectedDiscountVoucher().availableProductCategoryVouchers() && !selectedDiscountVoucher().availableProductVouchers()) {
+                                confirmation.headingText("Alert");
+                                confirmation.yesBtnText("OK");
+                                confirmation.noBtnText("Cancel");
+                                confirmation.IsCancelVisible(false);
+                                confirmation.messageText("Important ! Discount Voucher should have atleast one category or product.");
+
+                                confirmation.show();
+                                flag = false;
+                            }
+                        }
+                        //if (selectedDiscountVoucher().hasCoupon() == true) {
+                        //    errorList.push({ name: "Coupon Code is required" });
+                        //    flag = false;
+                        //}
 
                         return flag;
                     },
@@ -6589,21 +6642,25 @@ define("stores/stores.viewModel",
                         });
                     },
                     openProductsDialog = function () {
-                        getProductCategories(selectedStore().companyId(), function () {
-                            initializeProductCategoryDialog();
-                            view.showProductCategoryDialog();
+                        getProductforDV(selectedStore().companyId(), function () {
+                            initializeProductDialog();
+                            view.showItemDialog();
                         });
                     }
                     // open Product Category Dialog
                     closeProductCategoryDialog = function () {
                         view.hideProductCategoryDialog();
                     },
+                // open Product Category Dialog
+                    closeItemDialog = function () {
+                        view.hideItemDialog();
+                    },
                   // Initialize Product Category Dialog
                     initializeProductCategoryDialog = function () {
                         // Set Product Category true/false for popup
                         productCategories.each(function (productCategory) {
                             var productCategoryItem = selectedDiscountVoucher().productCategoryVouchers.find(function (pci) {
-                                return pci.productCategoryId === productCategory.id;
+                                return pci.categoryId() === productCategory.id;
                             });
 
                             if (productCategoryItem) {
@@ -6617,6 +6674,26 @@ define("stores/stores.viewModel",
                         // Update Input Checked States in Bindings
                         view.updateInputCheckedStates();
                     },
+                    // Initialize Product Dialog
+                    initializeProductDialog = function () {
+                        // Set Product Category true/false for popup
+                        products.each(function (item) {
+                            var oproductCategoryItem = selectedDiscountVoucher().itemsVoucher.find(function (pci) {
+                                return pci.itemId() === item.id;
+                            });
+
+                            if (oproductCategoryItem) {
+                                item.isSelected(oproductCategoryItem.isSelected());
+                            }
+                            else {
+                                item.isSelected(false);
+                            }
+                        });
+
+                        // Update Input Checked States in Bindings
+                        view.updateInputCheckedStatesForProduct();
+                    },
+
                     // Get Product Categories
                     getProductCategories = function (id, callback) {
                         productDataservice.getProductCategories({
@@ -6640,6 +6717,27 @@ define("stores/stores.viewModel",
                     },
 
                
+                   // Get Products
+                    getProductforDV = function (id, callback) {
+                        productDataservice.getProducts({
+                            id: id ? id : 0,
+                        }, {
+                            success: function (data) {
+                                products.removeAll();
+                                if (data != null) {
+                                    // Map Product Categories
+                                    mapProducts(data);
+                                }
+
+                                if (callback && typeof callback === "function") {
+                                    callback();
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Error: Failed To load Categories " + response);
+                            }
+                        });
+                    },
 
                 
                     //changeIcon = function (event) {
@@ -6674,14 +6772,14 @@ define("stores/stores.viewModel",
                             success: function (data) {
                                 if (data.ProductCategories != null) {
                                     // Update Product Category Items
-                                    //selectedProduct().updateProductCategoryItems(productCategories());
+                                    selectedDiscountVoucher().updateProductCategoryVoucher(productCategories());
 
                                     _.each(data.ProductCategories, function (productCategory) {
                                         productCategory.ParentCategoryId = id;
                                         var category = model.ProductCategoryForDialog.Create(productCategory);
                                         if (selectedDiscountVoucher()) {
                                             var productCategoryItem = selectedDiscountVoucher().productCategoryVouchers.find(function (pCatItem) {
-                                                return pCatItem.productCategoryId === category.id;
+                                                return pCatItem.categoryId() === category.id;
                                             });
 
                                             if (productCategoryItem) {
@@ -6700,7 +6798,7 @@ define("stores/stores.viewModel",
                             }
                         });
                     },
-                    // Update Product Categories to Selected Product
+                    // Update Product Categories to Selected Products
                     updateProductCategories = function () {
                         selectedProduct().updateProductCategoryVoucher(productCategories());
                         view.hideProductCategoryDialog();
@@ -6709,6 +6807,11 @@ define("stores/stores.viewModel",
 
                         selectedDiscountVoucher().updateProductCategoryVoucher(productCategories());
                         view.hideProductCategoryDialog();
+                    }
+                    updateProductDV = function () {
+
+                        selectedDiscountVoucher().updateItemsVoucher(products());
+                        view.hideItemDialog();
                     }
                     // update Checked state for category
                     updateCheckedStateForCategory = function (data, event) {
@@ -6742,8 +6845,23 @@ define("stores/stores.viewModel",
                         ko.utils.arrayPushAll(productCategories(), itemsList);
                         productCategories.valueHasMutated();
                     },
+                   // Map Products
+                    mapProducts = function (data) {
+                        var itemsList = [];
+                        _.each(data, function (item) {
+                            itemsList.push(model.ProductForDialog.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(products(), itemsList);
+                        products.valueHasMutated();
+                    },
+
                     // Product Categories
                     productCategories = ko.observableArray([]),
+
+                    // Products
+                    products = ko.observableArray([]),
                     // Parent Product Categories
                     parentProductCategories = ko.computed(function () {
                         if (!productCategories) {
@@ -6754,6 +6872,16 @@ define("stores/stores.viewModel",
                             return !productCategory.parentCategoryId;
                         });
                     }),
+                   //// Products Date
+                   // ProductDate = ko.computed(function () {
+                   //     if (!products) {
+                   //         return [];
+                   //     }
+
+                   //     return products.filter(function (product) {
+                   //         return !product.id;
+                   //     });
+                   // }),
 
                     // In your Store = function
                     // Product Category Items
@@ -7357,17 +7485,19 @@ define("stores/stores.viewModel",
                     discountTypes: discountTypes,
                     editDiscountVoucher: editDiscountVoucher,
                     openProductCategoryDialog: openProductCategoryDialog,
+                    openProductsDialog: openProductsDialog,
                     closeProductCategoryDialog: closeProductCategoryDialog,
+                    closeItemDialog: closeItemDialog,
                     getProductCategories: getProductCategories,
                     parentProductCategories: parentProductCategories,
                     updateProductCategories: updateProductCategories,
                     //updateProductCategoriesDiscountVoucher : updateProductCategoriesDiscountVoucher,
                     toggleChildCategories: toggleChildCategories,
                     updateProductCategoriesDV: updateProductCategoriesDV,
+                    updateProductDV: updateProductDV,
+                    updateCheckedStateForCategory: updateCheckedStateForCategory,
+                    products: products,
                     validateStoreLiveHandler: validateStoreLiveHandler
-
-                   
-
                 };
                 //#endregion
             })()

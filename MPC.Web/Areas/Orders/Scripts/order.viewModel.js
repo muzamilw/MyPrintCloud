@@ -968,7 +968,14 @@ define("order/order.viewModel",
                             OrderId: selectedOrder().id()
                         }, {
                             success: function () {
-                                toastr.success("Order successfully deleted!");
+                               
+                                toastr.success("Deleted successfully!");
+                                if (isEstimateScreen()) {
+                                    var customer = getCompanyByIdFromListView(selectedOrder().id());
+                                    if (customer) {
+                                        orders.remove(customer);
+                                    }
+                                }
                                 selectedOrder().reset();
                                 closeOrderEditor();
                                 orderCodeHeader('');
@@ -976,12 +983,20 @@ define("order/order.viewModel",
                                 itemCodeHeader('');
                                 isSectionDetailVisible(false);
                                 isItemDetailVisible(false);
+                              
                             },
                             error: function (response) {
                                 toastr.error("Failed to delete order!" + response);
                             }
                         });
                     },
+                      // Get Company By Id
+                getCompanyByIdFromListView = function (id) {
+                    return orders.find(function (customer) {
+                        return customer.id() === id;
+                    });
+                },
+
                     selectedSectionCostCenter = ko.observable(),
                     selectedQty = ko.observable(),
                     //Opens Cost Center dialog for Shipping
@@ -2444,9 +2459,14 @@ define("order/order.viewModel",
 
 
                     },
-                    checkStoreLive = function() {
-                        if (!isStoreLive()) {
-                           // confirmation.messageText("Important ! You can not " + message + " for the offline store. Please make it live or upgrade your package.");
+                    checkStoreLive = function () {
+                        var sMessage = "";
+                        if (!isStoreLive())
+                            sMessage = "Store is not live.";
+                        else if (selectedOrder().isExtraOrder() == true)
+                            sMessage = "Your have reached the current plans limits Upgrade for more !!";
+                        if (!isStoreLive() || selectedOrder().isExtraOrder() == true) {
+                            confirmation.messageText("Important !! " + sMessage);
                             confirmation.afterProceed(function () {
                                 var uri = encodeURI("https://myprintcloud.com/dashboard");
                                 window.location.href = uri;

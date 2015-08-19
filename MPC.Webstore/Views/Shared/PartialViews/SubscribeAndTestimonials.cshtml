@@ -13,7 +13,7 @@
 
                     <div id="social_icon" class="panel panel-info">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Go Social</h3>
+                            <h3 class="panel-title">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgosocial", UserCookieManager.WBStoreId, "Go Social"))</h3>
                         </div>
                         <div class="panel-body">
                             <div class="social"><a href="https://www.facebook.com" target="_blank">
@@ -33,7 +33,7 @@
 
                     <div class="panel panel-info" id="Div2">
                         <div class="panel-heading">
-                            <h3 class="panel-title" id="lblOurNews">Subscribe to our newsletter</h3>
+                            <h3 class="panel-title" id="lblOurNews">@Html.Raw(Html.GetKeyValueFromResourceFile("divsubs2newsl", UserCookieManager.WBStoreId, "Subscribe to our Newsletters "))</h3>
                         </div>
                         @using (Html.BeginForm())
                         {
@@ -42,12 +42,12 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><span class="fa fa-envelope"></span></span>
 
-                                        <input id="txtEmailbox" value="Enter email address..."
+                                        <input id="txtEmailbox" value="@Html.Raw(Html.GetKeyValueFromResourceFile("EemailAdd", UserCookieManager.WBStoreId, "Enter email address..."))"
                                                class="form-control btn-rounded" />
 
                                     </div>
-                                    <asp:label id="lblerrorMsg" cssclass="error-block text-danger"></asp:label>
-            <p class="help-block" id="Nwsdesc">@Html.Raw(Html.GetKeyValueFromResourceFile("NewsLetterDescription", UserCookieManager.WBStoreId))</p>
+                                    <label id="lblerrorMsg" class="error-block text-danger"></label>
+            <p class="help-block" id="Nwsdesc">@Html.Raw(Html.GetKeyValueFromResourceFile("NewsLetterDescription", UserCookieManager.WBStoreId, "Sign up to our newsletters, and you’ll get a wealth of business tips, inspirational ideas, exclusive special offers and discounts."))</p>
         </div>
         <input id="btnSendNews" type="submit"
                class="btn btn-primary btn-rounded" value="Subscribe" />
@@ -58,7 +58,7 @@
                         <div class="col-xs-12 col-md-6">
                             <div class="panel panel-info" id="testimonials">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Testimonials</h3>
+                                    <h3 class="panel-title">@Html.Raw(Html.GetKeyValueFromResourceFile("testiiiii", UserCookieManager.WBStoreId, "Testimonials"))</h3>
                                 </div>
                                 <div class="panel-body">
                                     <div id="testimonial-sidebar-1189832456" data-interval="6000" class="carousel slide testimonial-panel">

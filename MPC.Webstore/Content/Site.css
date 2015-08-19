@@ -1747,7 +1747,7 @@ ul.nav li.selectedLava a {
 
 .contact_us_heading {
     padding: 20px 0px 0px 0px;
-    text-align: center;
+    text-align: left;
     font-size: 25px;
     color: #E83e48;
     text-shadow: none;
@@ -1780,7 +1780,7 @@ ul.nav li.selectedLava a {
     color: black;
     padding-top: 15px;
     padding-bottom: 15px;
-    text-align: center;
+    text-align: left;
     height: 15px;
     display: none;
 }
@@ -5813,8 +5813,8 @@ width: 520px*/
 }
 
 .PDTC {
-    min-height: 200px;
-    padding: 25px;
+    min-height: 158px;
+    padding: 19px;
     cursor: pointer;
 }
 
@@ -7118,14 +7118,13 @@ div.wrapper {
 }
 
 .product_detail_image_heading_CAT {
-    /* font-weight: bold;*/
-    font-size: 16px;
-    color: Black;
-    padding: 20px 10px 5px 10px;
+   
+    font-size: 13px;
+    color: #E83e48;
+    padding: 20px 0px 5px 0px;
     height: 30px;
-    margin-left: -5px;
-    margin-right: -5px;
-    display: none;
+    display: block;
+    text-align: left;
 }
 
 
@@ -7151,9 +7150,10 @@ div.wrapper {
     text-shadow: none;
     font-weight: bold;
     font-size: 25px;
-    text-align: center;
+    text-align: left;
     margin-top: 25px;
     margin-bottom: 0px;
+    padding-left:11px;
 }
 
 
@@ -11564,7 +11564,7 @@ ul.LogBar li a {
 .trspclInstr {
     background: #f3f3f3;
     padding: 20px 20px 20px 15px;
-    min-height: 73px;
+    height: 73px;
 }
 
 .btnReorderSavedDesigns {
@@ -12475,7 +12475,7 @@ ul.LogBar li a {
 
 
 .FI {
-    height: 200px;
+    height: 158px;
     width: 100% !important;
     background: #efeff1;
     text-align: center;
@@ -14714,7 +14714,7 @@ ul.LogBar li a {
         margin-bottom: 50px;
         padding: 20px;
         background-color: #d6d6d6;
-        height: 395px;
+        height: 300px;
     }
 
     .CAT_ThumbnailPath {
@@ -14733,7 +14733,7 @@ ul.LogBar li a {
         margin-bottom: 50px;
         padding: 20px;
         background-color: #d6d6d6 !important;
-        min-height: 315px;
+        min-height: 270px;
     }
 
     .cntParentCategDesc {
@@ -14959,7 +14959,7 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
-        min-height: 470px;
+        min-height: 315px;
     }
 
     .FI_TL {
@@ -16846,7 +16846,7 @@ ul.LogBar li a {
         -webkit-border-radius: 10px !important;
         -khtml-border-radius: 10px !important;
         border-radius: 10px !important;
-        height: 395px;
+        height: 300px;
     }
 
     .CAT_Body {
@@ -16864,7 +16864,7 @@ ul.LogBar li a {
         -webkit-border-radius: 10px !important;
         -khtml-border-radius: 10px !important;
         border-radius: 10px !important;
-        min-height: 315px;
+        min-height: 270px;
     }
 
     .CAT_ThumbnailPath {
@@ -17046,7 +17046,7 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
-        min-height: 470px;
+        min-height: 315px;
     }
 
     .FI_TL {
@@ -17946,7 +17946,7 @@ ul.LogBar li a {
     }
 
     .BreadCrumbMenu {
-        text-align: center !important;
+        text-align: left !important;
     }
 
     .BillShipAddressesControl {
@@ -19200,7 +19200,7 @@ ul.LogBar li a {
         -webkit-border-radius: 10px !important;
         -khtml-border-radius: 10px !important;
         border-radius: 10px !important;
-        height: 395px;
+        height: 300px;
     }
 
     .CAT_Body {
@@ -19218,7 +19218,7 @@ ul.LogBar li a {
         -webkit-border-radius: 10px !important;
         -khtml-border-radius: 10px !important;
         border-radius: 10px !important;
-        min-height: 315px;
+        min-height: 270px;
     }
 
     .CAT_ThumbnailPath {
@@ -19389,7 +19389,7 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
-        min-height: 470px;
+        min-height: 315px;
     }
 
     .FI_TL {
@@ -19712,8 +19712,8 @@ ul.LogBar li a {
 
     #lblEstimatedDeliveryMethod {
         position: absolute;
-        margin-left: 95px;
-        margin-top: -7px;
+        margin-left: 0px;
+        margin-top: -6px;
         font-size: 12px !important;
     }
 
@@ -20235,7 +20235,7 @@ ul.LogBar li a {
     }
 
     .BreadCrumbMenu {
-        text-align: center !important;
+        text-align: left !important;
     }
 
     .BillShipAddressesControl {
@@ -20299,7 +20299,7 @@ ul.LogBar li a {
         border-radius: 5px;
         padding-left: 5px;
         position: absolute !important;
-        margin-left: -545px;
+        margin-left: -522px;
         display: block;
     }
 
@@ -20526,9 +20526,9 @@ ul.LogBar li a {
 
 
     .cntrightMenu {
-        width: 1000px !important;
-        margin-top: 20px;
-        text-align: center;
+        width: 595px !important;
+        margin-top: 40px;
+        text-align: left;
     }
 
     .cntTemplatePages {
@@ -20695,10 +20695,10 @@ ul.LogBar li a {
     .company_logo {
         float: none;
         /* height: 0px; */
-        padding-left: 0px;
+        padding-left: 9px !important;
         margin-bottom: 0px;
-        width: 1000px !important;
-        text-align: center;
+        width: 320px !important;
+        text-align: left;
         margin-top: 20px;
     }
 
@@ -20736,7 +20736,7 @@ ul.LogBar li a {
 
 
     .TopHeaderMenu a {
-        margin-right: 38px;
+        margin-right: 18px;
         margin-left: 32px;
     }
 
@@ -21783,7 +21783,7 @@ ul.LogBar li a {
         padding: 20px;
         border-radius: 5px;
         background-color: #d6d6d6 !important;
-        height: 395px;
+        height: 300px;
     }
 
     .CAT_Body {
@@ -21797,7 +21797,7 @@ ul.LogBar li a {
         padding: 20px;
         border-radius: 10px !important;
         background-color: #d6d6d6 !important;
-        min-height: 315px;
+        min-height: 270px;
     }
 
     .CAT_ThumbnailPath {
@@ -21982,7 +21982,7 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
-        min-height: 470px;
+        min-height: 315px;
     }
 
 
@@ -22276,8 +22276,8 @@ ul.LogBar li a {
 
     #lblEstimatedDeliveryMethod {
         position: absolute;
-        margin-left: 95px;
-        margin-top: -7px;
+        margin-left: 0px;
+        margin-top: -6px;
         font-size: 12px !important;
     }
 
@@ -22826,7 +22826,7 @@ ul.LogBar li a {
     }
 
     .BreadCrumbMenu {
-        text-align: center !important;
+        text-align: left !important;
     }
 
     .BillShipAddressesControl {
@@ -22890,7 +22890,7 @@ ul.LogBar li a {
         border-radius: 5px;
         padding-left: 5px;
         position: absolute !important;
-        margin-left: -545px;
+        margin-left: -522px;
         display: block;
     }
 
@@ -23117,9 +23117,9 @@ ul.LogBar li a {
 
 
     .cntrightMenu {
-        width: 1000px !important;
-        margin-top: 20px;
-        text-align: center;
+        width: 595px !important;
+        margin-top: 40px;
+        text-align: left;
     }
 
     .cntTemplatePages {
@@ -23286,10 +23286,10 @@ ul.LogBar li a {
     .company_logo {
         float: none;
         /* height: 0px; */
-        padding-left: 0px;
+        padding-left: 9px !important;
         margin-bottom: 0px;
-        width: 1000px !important;
-        text-align: center;
+        width: 320px !important;
+        text-align: left;
         margin-top: 20px;
     }
 
@@ -23327,7 +23327,7 @@ ul.LogBar li a {
 
 
     .TopHeaderMenu a {
-        margin-right: 38px;
+        margin-right: 18px;
         margin-left: 32px;
     }
 
@@ -24374,7 +24374,7 @@ ul.LogBar li a {
         padding: 20px;
         border-radius: 5px;
         background-color: #d6d6d6 !important;
-        height: 395px;
+        height: 300px;
     }
 
     .CAT_Body {
@@ -24388,7 +24388,7 @@ ul.LogBar li a {
         padding: 20px;
         border-radius: 10px !important;
         background-color: #d6d6d6 !important;
-        min-height: 315px;
+        min-height: 270px;
     }
 
     .CAT_ThumbnailPath {
@@ -24573,7 +24573,7 @@ ul.LogBar li a {
         transition: all 0.4s ease-in-out 0s;
         -webkit-transition: all 0.4s ease-in-out 0s;
         -o-transition: all 0.4s ease-in-out 0s;
-        min-height: 470px;
+        min-height: 315px;
     }
 
 
@@ -25703,7 +25703,7 @@ gridViewCheckoutRowStyle td {
 #lnkAllProducts::after {
     position: absolute;
     top: 40%;
-    left: 30%;
+    left: 12%;
     color: BLACK;
     content: '\2e';
     text-shadow: 0 0 transparent;
@@ -25722,7 +25722,7 @@ gridViewCheckoutRowStyle td {
     font-size: 15px;
     display: inline-block;
     position: absolute;
-    left: 24.1%;
+    left: 2.1%;
     margin-top: 2px;
 }
 
@@ -25788,7 +25788,7 @@ gridViewCheckoutRowStyle td {
 #lnkRequestQuote::after {
     position: absolute;
     top: 40%;
-    left: 49%;
+    left: 42%;
     color: BLACK;
     content: '\2e';
     text-shadow: 0 0 transparent;
@@ -25808,7 +25808,7 @@ gridViewCheckoutRowStyle td {
     font-size: 15px;
     display: inline-block;
     position: absolute;
-    left: 41.5%;
+    left: 28.5%;
     margin-top: 1px;
 }
 
@@ -25894,7 +25894,7 @@ gridViewCheckoutRowStyle td {
     font-size: 15px;
     display: inline-block;
     position: absolute;
-    left: 62.5%;
+    left: 59.9%;
     margin-top: 1px;
 }
 
@@ -26001,7 +26001,7 @@ a.btn-watch span:after {
 
 .parentCatsContainer {
     background-color: #e2e2e2;
-    margin-bottom: 40px;
+    /*margin-bottom: 40px;*/
 }
 
 .seasonal_offer h1 {
@@ -27174,7 +27174,7 @@ gridfontStyle {
 }
 
 #designFormateimg {
-    width: 100%;
+    /*width: 100%;*/
     margin-bottom: 10px;
     height: 155px;
 }
@@ -27248,7 +27248,7 @@ gridfontStyle {
 }
 
 .orderReceiptTitle {
-    text-align: center;
+    text-align: left;
     font-size: 25px;
     color: #E83e48;
     text-shadow: none;
@@ -27297,7 +27297,7 @@ gridfontStyle {
     margin-top: 10px;
     -webkit-transition: all 200ms ease-out;
     -o-transition: all 200ms ease-out;
-    -moz-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;display:none;
 }
 
 .goto-designer-button {
@@ -27314,7 +27314,7 @@ gridfontStyle {
     margin-top: 10px;
     -webkit-transition: all 200ms ease-out;
     -o-transition: all 200ms ease-out;
-    -moz-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;display:none;
 }
 
     .goto-designer-button:hover {
@@ -27390,5 +27390,20 @@ gridfontStyle {
     margin-top: 11px;
     font-weight: bold;
     font-size: 14px;
+}
+#productOptionBtns {
+
+}
+.checkout-container {
+text-align:left;
+}
+#BillingShiping {
+    margin-bottom: 60px;
+}
+#all-SavedDesign-pg {
+    margin-bottom: 60px;
+}
+.signin_heading_div {
+text-align:left;
 }
 /*************PINK********************/

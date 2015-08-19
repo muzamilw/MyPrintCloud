@@ -215,6 +215,10 @@ namespace MPC.Models.DomainModels
         /// MIS Order Count
         /// </summary>
         public int? MisOrdersCount { get; set; }
+        /// <summary>
+        /// Billing Date
+        /// </summary>
+        public DateTime? BillingDate { get; set; }
         #endregion
         
         #region Reference Properties

@@ -68,6 +68,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreationTime = source.CreationTime,
                 RefEstimateId = source.RefEstimateId,
                 InvoiceStatus = source.InvoiceStatus,
+                IsExtraOrder = source.IsExtraOrder,
                 Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()).OrderBy(item => item.ProductName).ToList() :
                 new List<OrderItem>(),
                 ItemsCount = source.Items != null ? source.Items.Count : 0,
@@ -90,6 +91,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             // ReSharper restore SuggestUseVarKeywordEvident
             {
                 EstimateId = source.EstimateId,
+
                 EstimateCode = source.Estimate_Code,
                 StatusId = source.StatusId,
                 EstimateName = source.Estimate_Name,
@@ -99,6 +101,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreatedBy = source.Created_by,
                 CreationDate = source.Order_Date,
                 CreationTime = source.CreationTime,
+                
                 SectionFlagId = source.SectionFlagId,
                 OrderCode = source.Order_Code,
                 IsEstimate = source.isEstimate,
@@ -176,7 +179,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new OrdersForCrmResponse
             {
                 RowCount = source.RowCount,
-                OrdersList = source.Orders.Select(order => order.CreateFromForListView())
+                OrdersList = source.Orders.Select(order => order.CreateFromForListView()),
+                CurrencySymbol = source.CurrecySymbol
             };
         }
 

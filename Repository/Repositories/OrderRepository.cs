@@ -1097,7 +1097,14 @@ namespace MPC.Repository.Repositories
                     {
                         userOrder.DeliveryMethod = db.CostCentres.Where(c => c.CostCentreId == Order.DeliveryCostCenterId).Select(n => n.Name).FirstOrDefault();
                     }
-
+                    if (Order.ContactId != null)
+                    {
+                        userOrder.CompanyContact = db.CompanyContacts.Where(c => c.ContactId == (long)Order.ContactId).FirstOrDefault();
+                        if (userOrder.CompanyContact != null)
+                        {
+                            userOrder.PlacedBy = userOrder.CompanyContact.FirstName + " " + userOrder.CompanyContact.LastName;
+                        }
+                    }
                 }
 
             }
@@ -1359,12 +1366,12 @@ namespace MPC.Repository.Repositories
                         item.StatusId = (short)itemStatus;
 
                     db.Configuration.LazyLoadingEnabled = false;
-                    Item ActualItem = db.Items.Include("ItemSections").Where(i => i.ItemId == item.RefItemId).FirstOrDefault();
+                    Item ActualItem = db.Items.Where(i => i.ItemId == item.RefItemId).FirstOrDefault();
                     if (ActualItem != null)
                     {
                         if (ActualItem.IsStockControl == true && ActualItem.ProductType == (int)ProductType.NonPrintProduct)
                         {
-                            ItemSection FirstItemSection = ActualItem.ItemSections.Where(sec => sec.SectionNo == 1 && sec.ItemId == ActualItem.ItemId).FirstOrDefault();
+                            ItemSection FirstItemSection = db.ItemSections.Where(sec => sec.SectionNo == 1 && sec.ItemId == item.ItemId).FirstOrDefault();
                             if (FirstItemSection != null)
                             {
                                 updateStockAndSendNotification(FirstItemSection.StockItemID1 ?? 0, ActualItem.ItemId, Mode, tblOrder.CompanyId, Convert.ToInt32(item.Qty1), Convert.ToInt32(tblOrder.ContactId), item.ItemId, tblOrder.EstimateId, MgrIds, org);
@@ -1671,6 +1678,8 @@ namespace MPC.Repository.Repositories
                     double currentStock = tblItemStock.inStock ?? 0;
                     int lastModified = Convert.ToInt32(tblItemStock.inStock) - orderedQty;
                     tblItemStock.inStock = lastModified;
+                    tblItemStock.LastOrderDate = DateTime.Now;
+                    tblItemStock.LastOrderQty = orderedQty;
                     if (tblItemStock.inStock < 0)
                     {
                         tblItemStock.inStock = 0;
@@ -1680,7 +1689,7 @@ namespace MPC.Repository.Repositories
                     stockLog.StockItemId = StockID;
                     //stockLog.LastAvailableQty = currentStock;
                     //stockLog.LastOrderedQty = orderedQty;
-                    stockLog.LastModifiedQty = lastModified;
+                    stockLog.LastModifiedQty = orderedQty;// lastModified;
                     stockLog.LastModifiedDate = DateTime.Now;
                     stockLog.OrderID = (int)OrderId;
                     if (lastModified <= 0 && tblItemStock.isAllowBackOrder == true)
@@ -1702,35 +1711,33 @@ namespace MPC.Repository.Repositories
 
                     if (tblItemStock != null)
                     {
-                        if (tblItemStock.inStock < tblItemStock.ThresholdLevel || tblItemStock.ThresholdLevel == null)
+                        long ManagerID = 0;
+                        // send emails to the managers
+                        if (tblItemStock.isAllowBackOrder == true)
                         {
-                            //EmailManager emailmgr = new EmailManager();
-                            long ManagerID = 0;
-                            // send emails to the managers
-                            if (tblItemStock.isAllowBackOrder == true)
-                            {
-                                if (Mode == StoreMode.Corp)
-                                {
-                                    ManagerID = GetContactByRole(companyId, (int)Roles.Manager);
-                                    _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, ItemId, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid);
-
-                                }
-                                else
-                                {
-                                    _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, ItemId, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid);
-
-                                }
-                            }
-
                             if (Mode == StoreMode.Corp)
                             {
                                 ManagerID = GetContactByRole(companyId, (int)Roles.Manager);
-                                _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, ItemId, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid);
+                                _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, ItemId, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid, tblItemStock.StockItemId, OrderId);
+
+                            }
+                            else
+                            {
+                                _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, ItemId, (int)Events.BackOrder_Notifiaction_To_Manager, contactId, orderedItemid, tblItemStock.StockItemId, OrderId);
+
+                            }
+                        }
+                        if (tblItemStock.inStock < tblItemStock.ThresholdLevel)
+                        {
+                            if (Mode == StoreMode.Corp)
+                            {
+                                ManagerID = GetContactByRole(companyId, (int)Roles.Manager);
+                                _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Corp, ManagerID, ItemId, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid, tblItemStock.StockItemId, OrderId);
                             }
 
                             else
                             {
-                                _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, ItemId, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid);
+                                _campaignRepository.stockNotificationToManagers(MgrIds, companyId, org, StoreMode.Retail, companyId, ItemId, (int)Events.ThresholdLevelReached_Notification_To_Manager, contactId, orderedItemid, tblItemStock.StockItemId, OrderId);
 
                             }
                         }
@@ -6981,6 +6988,40 @@ namespace MPC.Repository.Repositories
                 return db.Estimates.Where(e => e.EstimateId == OrderId).Select(t => t.Estimate_Total).FirstOrDefault();
         }
 
+        public List<long> GetOrdersForBillingCycle(DateTime billingDate, bool isDirectOrder)
+        {
+            List<long> ordersList = DbSet.Where(
+                    o =>
+                        o.isEstimate == false && o.isDirectSale == isDirectOrder && o.StatusId != 3 &&
+                        o.CreationDate >= billingDate.AddMonths(-1) && o.CreationDate <= billingDate).OrderByDescending(o => o.CreationDate).Select(o => o.EstimateId).ToList();
+            
+            return ordersList;
+        }
+
+        public bool IsExtradOrderForBillingCycle(DateTime billingDate, bool isDirectOrder, int licensedCount, long orderId, long organisationId)
+        {
+            DateTime lastMonth = billingDate.AddMonths(-1);
+            List<long> ordersList = DbSet.Where(
+                    o =>
+                        o.isEstimate == false && o.isDirectSale == isDirectOrder && o.StatusId != 3 && o.OrganisationId == organisationId &&
+                        o.CreationDate >= lastMonth && o.CreationDate <= billingDate).OrderBy(o => o.CreationDate).Select(o => o.EstimateId).Take(licensedCount).ToList();
+
+            if (ordersList.Count < licensedCount)
+            {
+                return false;
+            }
+            else if (ordersList.Contains(orderId))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+           
+                
+            
+        }
     }
 }
 

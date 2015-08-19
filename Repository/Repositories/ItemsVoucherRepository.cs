@@ -46,6 +46,18 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        public List<long?> GetListOfItemIdsByVoucherId(long VoucherId, List<int?> ItemIds)
+        {
+            List<ItemsVoucher> vItem = db.ItemsVouchers.Where(v => ItemIds.Contains((int)v.ItemId) && v.VoucherId == VoucherId).ToList();
+            if (vItem != null && vItem.Count() > 0)
+            {
+                return vItem.Select(i => i.ItemId).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
         #endregion
     }
 }

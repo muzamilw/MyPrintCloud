@@ -210,7 +210,7 @@
                                             }
                                         </div>
                                         <div class="product_detail_image_heading_IRI">
-                                            <p style="  width: 180px;  float: left;  word-wrap: break-word;">
+                                            <p style="  width: 100%;  float: left;  word-wrap: break-word;">
                                                 @item.ProductName
                                             </p>
                                             <div class="clearBoth">
@@ -239,50 +239,53 @@
                                     }
 
 
-
-
-                                    <table id="productPricetbl" class="productPricetbl" width="80%" cellpadding="5" cellspacing="0" style="">
-                                        <tr>
-                                            <td class="Metroprod_table_cell prod_table_cell procu_detail_grid_cell wdthWrp"
-                                                style="text-align: left;">
-                                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.WBStoreId))
-                                            </td>
-                                            <td id="tdStockOpt1" class="prod_table_cell Metroprod_table_cell procu_detail_grid_cell wdthWrp"
-                                                style="text-align: right;">
-                                                <label id="lblStockOpt1">@stockLabel</label>
-                                            </td>
-                                        </tr>
-                                        @if (matrix != null)
-                                        {
-                                            foreach (var Objmatrix in matrix)
+                                    if (ViewBag.IsShowPrices == true)
+                                    {
+                                        <table id="productPricetbl" class="productPricetbl" width="80%" cellpadding="5" cellspacing="0" style="">
+                                            <tr>
+                                                <td class="Metroprod_table_cell prod_table_cell procu_detail_grid_cell wdthWrp"
+                                                    style="text-align: left;">
+                                                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.WBStoreId, "Quantity"))
+                                                </td>
+                                                <td id="tdStockOpt1" class="prod_table_cell Metroprod_table_cell procu_detail_grid_cell wdthWrp"
+                                                    style="text-align: right;">
+                                                    <label id="lblStockOpt1">@stockLabel</label>
+                                                </td>
+                                            </tr>
+                                            @if (matrix != null)
                                             {
-                                                <tr>
-                                                    <td id="tdQty1" class="product_detail_item_cell procu_detail_grid_cell" style="text-align: left;">
+                                                foreach (var Objmatrix in matrix)
+                                                {
+                                                    <tr>
+                                                        <td id="tdQty1" class="product_detail_item_cell procu_detail_grid_cell" style="text-align: left;">
 
-                                                        <label id="spanQuantity">@Objmatrix.Quantity</label>
-                                                    </td>
-                                                    <td id="tdPrice1" class="product_detail_item_cell procu_detail_grid_cell"
-                                                        style="text-align: right;">
-                                                        <div id="matrixItemColumn1">
+                                                            <label id="spanQuantity">@Objmatrix.Quantity</label>
+                                                        </td>
+                                                        <td id="tdPrice1" class="product_detail_item_cell procu_detail_grid_cell"
+                                                            style="text-align: right;">
+                                                            <div id="matrixItemColumn1">
 
-                                                            <label id="lblPrice1">@Objmatrix.Price</label>
+                                                                <label id="lblPrice1">@Objmatrix.Price</label>
 
 
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                }
+
+
+
 
                                             }
+                                        </table>
+                                    }
 
 
-
-
-                                        }
-                                    </table>
                                 }
-                                        }
+}
 
-                                        <div>
+                                        <div id="productOptionBtns">
                                             @if (item.ProductType == (int)ProductType.PrintProduct)
                                             {
 
@@ -307,13 +310,13 @@
                                                 {
 
                                                     <a href="/MarketingBrief/@item.ProductName/@item.ItemId/@Model.ProductCategoryId" onclick="ShowLoader();">
-                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId))" class="place-inquiry-button rounded_corners" />
+                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId, "Submit Inquiry"))" class="place-inquiry-button rounded_corners" />
                                                     </a>
                                                 }
                                                 else
                                                 {
                                                     <a onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@Utils.specialCharactersEncoder(item.ProductName)','@item.ItemId','@Model.ProductCategoryId');">
-                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId))" class="place-inquiry-button rounded_corners" />
+                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId, "Submit Inquiry"))" class="place-inquiry-button rounded_corners" />
                                                     </a>
 
                                                 }
@@ -370,7 +373,7 @@
                                                 <div class="paddingTop2px">
                                                     &nbsp;
                                                 </div>
-                                                @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom", UserCookieManager.WBStoreId))
+                                                @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom", UserCookieManager.WBStoreId, "From"))
                                                 <br />
                                                 <label id="lblFromMinPrice" style="font-size:16px;">@item.MinPrice</label>
                                             </div>
@@ -385,9 +388,9 @@
                         </div>
 
                         <div id="PopupProofScreen" hidden="hidden" class="FileUploaderPopup_Mesgbox  rounded_corners">
-                            <label id="lbl_Proof" class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass lblPopupCorpHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProof", UserCookieManager.WBStoreId))</label>
+                            <label id="lbl_Proof" class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass lblPopupCorpHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProof", UserCookieManager.WBStoreId, "Proof"))</label>
                             <div id="Div1" onclick="hidePopup2()" class="MesgBoxBtnsDisplay rounded_corners5">
-                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblClose", UserCookieManager.WBStoreId))
+                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblClose", UserCookieManager.WBStoreId, "Close"))
                             </div>
                             <div class="clearBoth">
                                 &nbsp;
@@ -402,7 +405,7 @@
                                 <div class="divTxtProofing">
                                     <div class="ConfirmPopupProof">
                                         <label id="lbl_spelling_Details">
-                                            @Html.Raw(Html.GetKeyValueFromResourceFile("lblspellingDetails", UserCookieManager.WBStoreId))
+                                            @Html.Raw(Html.GetKeyValueFromResourceFile("lblspellingDetails", UserCookieManager.WBStoreId, "Check Spelling and Details"))
                                         </label>
                                         <input id="chkCheckSpelling" name="chkCheckSpelling" class="simpleText regular-checkbox"
                                                type="checkbox" />
@@ -445,11 +448,11 @@
 <section id="MainLoader" class="dialogContainer dialogProof" style="display:none;">
     <div class="mask on"></div>
     <div class="dialog" style="top: 93.5px; /*height: 184px;*/  height: 135px;">
-        <h2 id="loaderTitleMsg">Generating artwork for your approval to order...</h2>
+        <h2 id="loaderTitleMsg">@Html.Raw(Html.GetKeyValueFromResourceFile("genartwork", UserCookieManager.WBStoreId, "Generating artwork for your approval to order..."))</h2>
         <div class="content">
             <div class="exporting">
                 <div class="progress"><span class="progressValue" style="width: 1%;"><span class="text">95%</span><span class="innerDesigner"></span></span></div>
-                <p id="paraLoaderMsg" style="display:none;">You can add different layouts to your design, you can also add images, text content,  background Color and image to your design. </p>
+                <p id="paraLoaderMsg" style="display:none;">@Html.Raw(Html.GetKeyValueFromResourceFile("layoutdes", UserCookieManager.WBStoreId, "You can add different layouts to your design, you can also add images, text content,  background Color and image to your design.")) </p>
             </div>
         </div>
     </div>
@@ -459,7 +462,7 @@
         Close
     </div>
     <div class="previewerTitle">
-        <span class="lightGray">Approval for </span> <span class="productTitle"></span>
+        <span class="lightGray">@Html.Raw(Html.GetKeyValueFromResourceFile("approvelfor", UserCookieManager.WBStoreId, "Approval for")) </span> <span class="productTitle"></span>
     </div>
     <div class="sliderLine">
     </div>
@@ -471,10 +474,10 @@
         <div id="previewProofingDesigner">
             <div class="divTxtProofingDesigner">
                 <div class="ConfirmPopupProofDesigner">
-                    <label class="lblChkSpellings" runat="server" id="lblConfirmSpellings" style="vertical-align:super">
-                        Confirm spelling and details
+                    <label class="lblChkSpellings"  id="lblConfirmSpellings" style="vertical-align:super">
+                        @Html.Raw(Html.GetKeyValueFromResourceFile("confirmspell", UserCookieManager.WBStoreId, "Confirm spelling and details"))
                     </label>
-                    <input id="chkCheckSpelling" name="chkCheckSpelling" runat="server" class="regular-checkbox-new"
+                    <input id="chkCheckSpelling" name="chkCheckSpelling" class="regular-checkbox-new"
                            type="checkbox" />
                     <label for="chkCheckSpelling" style="display: inline; height:35px" id="lblCheckSpelling">
                     </label>
@@ -482,7 +485,7 @@
 
             </div>
             <button id="btnNextProofing" class="btnBlueProofing buttonDesigner previewfontStyles">
-                Progress to options
+                @Html.Raw(Html.GetKeyValueFromResourceFile("poption", UserCookieManager.WBStoreId, "Progress to options"))
             </button>
         </div>
     </div>

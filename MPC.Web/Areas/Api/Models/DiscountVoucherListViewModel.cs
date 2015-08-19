@@ -12,6 +12,10 @@ namespace MPC.MIS.Areas.Api.Models
         public double DiscountRate { get; set; }
 
         public int? CouponUseType { get; set; }
+
+        public bool? HasCoupon { get; set; }
+        public int? DiscountTypeId { get; set; }
+
      
     }
 }

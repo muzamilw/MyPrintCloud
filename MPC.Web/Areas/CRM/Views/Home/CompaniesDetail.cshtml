@@ -173,18 +173,18 @@
                                             <img style="margin-left:34%" src="/mis/Content/Images/Company_Default.png">
                                             <!--/ko-->
                                             <!-- ko if: storeImageFileBinary() -->
-                                            <img style="width:240px;height:130px;-o-object-fit: contain; object-fit: contain;" id="idCompanyimage" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
-                                            <img style="width: 240px; height: 130px; -o-object-fit: contain; object-fit: contain;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
+                                            <img style="width:220px;height:130px;-o-object-fit: contain; object-fit: contain;" id="idCompanyimage" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
+                                            <img style="width: 220px; height: 130px; -o-object-fit: contain; object-fit: contain;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
 
                                             <!--/ko-->
-                                            <div class="col-lg-12" style="margin-top:5px;text-align:center;width:240px;">
+                                            <div class="col-lg-12" style="margin-top:12px;text-align:center;width:220px;">
                                                 <div class="fileUpload btn btn-primary">
-                                                    <span>Upload </span>
+                                                    <span>Upload</span>
                                                     <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                 </div>
 
                                             </div>
-                                            <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:10px !important;width:240px;">Upload a Logo (PNG,JPG,GIF) for profile</div>
+                                            <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:5px !important;width:220px;">Upload a Logo (PNG,JPG,GIF) for profile</div>
                                             <div class="profile-stars">
                                                 <span data-bind="value: type"></span>
                                             </div>
@@ -913,10 +913,12 @@
                                                     <table class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th><span>Name</span></th>
-                                                                <th><span>Code</span></th>
-                                                                <th><span>Status</span></th>
-                                                                <th><span>Total</span></th>
+                                                                <th class="col-lg-1"></th>
+                                                                <th class="col-lg-3"><span>Title</span></th>
+                                                                <th class="col-lg-2"><span>Order Code</span></th>
+                                                                <th class="col-lg-2"><span>Status</span></th>
+                                                                <th class="col-lg-2" style="text-align:right;"><span>Order Total</span></th>
+                                                                <th>&nbsp;</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -947,10 +949,12 @@
                                                     <table class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th><span>Name</span></th>
-                                                                <th><span>Code</span></th>
-                                                                <th><span>Status</span></th>
-                                                                <th><span>Total</span></th>
+                                                                <th class="col-lg-1">&nbsp;</th>
+                                                                <th class="col-lg-3"><span>Title</span></th>
+                                                                <th class="col-lg-2"><span>Invoice Code</span></th>
+                                                                <th class="col-lg-2"><span>Status</span></th>
+                                                                <th class="col-lg-2" style="text-align:right;"><span>Invoice Total</span></th>
+                                                                <th class="col-lg-2">&nbsp;</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -981,10 +985,12 @@
                                                     <table class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th><span>Name</span></th>
-                                                                <th><span>Code</span></th>
-                                                                <th><span>Purchase Date</span></th>
-                                                                <th><span>Price</span></th>
+                                                                <th class="col-lg-1"></th>
+                                                                <th class="col-lg-3"><span>REF.No</span></th>
+                                                                <th class="col-lg-2"><span>PURCHASE CODE</span></th>
+                                                                <th class="col-lg-2"><span>Purchase Date</span></th>
+                                                                <th class="col-lg-2" style="text-align:right;"><span>Purchase Total</span></th>
+                                                                <th class="col-lg-2"></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -1015,10 +1021,12 @@
                                                     <table class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th><span>Name</span></th>
-                                                                <th><span>Code</span></th>
-                                                                <th><span>Received Date</span></th>
-                                                                <th><span>Price</span></th>
+                                                                <th class="col-lg-1">&nbsp;</th>
+                                                                <th class="col-lg-3"><span>REF.No</span></th>
+                                                                <th class="col-lg-2"><span>GRN Code</span></th>
+                                                                <th class="col-lg-2"><span>Received Date</span></th>
+                                                                <th class="col-lg-2" style="text-align:right;"><span>GRN Total</span></th>
+                                                                <th class="col-lg-2"></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -1061,33 +1069,43 @@
     </script>
     <script id="orderTemplate" type="text/html">
         <tr>
+            <td>&nbsp;</td>
             <td>
-                <span data-bind="text:companyName"></span> |
-                <span data-bind="text:isDirectSaleUi"></span>
+                <span data-bind="text:name"></span> 
+                <span data-bind="">(1) items</span>
             </td>
             <td>
-                <span data-bind="text:name"></span> |
                 <span data-bind="text:code"></span>
             </td>
             <td data-bind="text: status"></td>
-            <td data-bind="text: estimateTotal"></td>
+            <td style="text-align:right;">
+                <span data-bind="text: $root.currencySymbol"></span>
+                <span data-bind="text: estimateTotal"></span>
+                
+            </td>
+            <td>&nbsp;</td>
         </tr>
     </script>
     <script id="invoiceTemplate" type="text/html">
         <tr>
+            <td>&nbsp;</td>
             @*<td><span data-bind="style: { 'background-color':flagColor }" class=" label label-success"></span>x</td>*@
             <td>
-                <b><span data-bind="text:companyName"></span></b>  <br />
-                    <span data-bind="text:contact"></span>
+                
+                <span data-bind="text:invoiceName"></span>
             </td>
             <td>                
-                <span data-bind="text:invoiceName"></span>(<span data-bind="text:invoiceCode"></span>)<br />
-                    <span data-bind="dateString:invoiceDate, datePattern: 'DD/MM/YYYY'"></span>
+                <span data-bind="text:invoiceCode"></span>
+                
             </td>
             <td>
                 <span data-bind="text:status"></span>
             </td>
-            <td><span data-bind="text:invoiceTotal"></span></td>
+            <td style="text-align:right;">
+                <span data-bind="text: $root.currencySymbol"></span>
+                <span data-bind="text:invoiceTotal"></span>
+            </td>
+            <td>&nbsp;</td>
         </tr>
     </script>
     <script id="itemCompanyTerritoryTemplate" type="text/html">
@@ -1240,18 +1258,31 @@
     </script>
     <script id="purchaseTemplate" type="text/html">
         <tr>
+            <td>&nbsp;</td>
             <td data-bind="text: supplierName"></td>
             <td data-bind="text:code"></td>
-            <td data-bind="text: datePurchase"></td>
-            <td data-bind="text: totalPrice"></td>
+            @*<td data-bind="text: datePurchase"></td>*@
+            <td data-bind="dateString: datePurchase, datePattern: 'DD/MM/YYYY'"></td>
+            <td style="text-align:right;">
+                <span data-bind="text:$root.currencySymbol"></span>
+                <span data-bind="text:totalPrice"></span>
+            </td>
+           
+            <td>&nbsp;</td>
         </tr>
     </script>
     <script id="goodRecievedNotesTemplate" type="text/html">
         <tr>
+            <td>&nbsp;</td>
             <td data-bind="text: supplierName"></td>
             <td data-bind="text:code"></td>
-            <td data-bind="text: dateReceived"></td>
-            <td data-bind="text: totalPrice"></td>
+       
+            <td data-bind="dateString: dateReceived, datePattern: 'DD/MM/YYYY'"></td>
+            <td style="text-align:right;">
+                <span data-bind="text:$root.currencySymbol"></span>
+                <span data-bind="text: totalPrice"></span>
+            </td>
+            <td>&nbsp;</td>
         </tr>
     </script>
 </div>

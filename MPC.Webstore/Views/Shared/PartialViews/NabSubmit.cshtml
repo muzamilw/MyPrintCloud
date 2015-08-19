@@ -10,7 +10,7 @@
         @Html.Raw(ViewBag.ErrorMessage)
     </div>
 }
-
+@using MPC.Webstore.Common;
 
 @using (Html.BeginForm())
 {
@@ -21,7 +21,7 @@
             <div class="white-container-lightgrey-border rounded_corners">
                 <div class="pad20">
                     <div class="headingsAvenior float_left_simple" id="lblHead">
-                        Please enter your Credit Card details:
+                        @Html.Raw(Html.GetKeyValueFromResourceFile("enterCreditcardDetail", UserCookieManager.WBStoreId, "Please enter your Credit Card details:"))
                     </div>
 
                     @*<div class="headingsAvenior float_left_simple">Please enter your Credit Card details:</div>*@
@@ -108,8 +108,8 @@
                         </div>
                         <div class="TTL CCtxtPanel">
                             
-                            <input type="submit" class="start_creating_btn rounded_corners5" value="Pay" />
-                            <input id="cmdReset" class="start_creating_btn rounded_corners5" type="button" value="Cancel" onclick="return ResetData();" />
+                            <input type="submit" class="start_creating_btn rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("payyyy", UserCookieManager.WBStoreId, "Pay"))" />
+                            <input id="cmdReset" class="start_creating_btn rounded_corners5" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnCancel", UserCookieManager.WBStoreId,""))" onclick="return ResetData();" />
                             
                         </div>
                     </div>

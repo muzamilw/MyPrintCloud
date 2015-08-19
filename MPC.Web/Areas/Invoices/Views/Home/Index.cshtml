@@ -52,7 +52,7 @@
                                         </ul>
                                         <div class="tab-content">
                                             <div class="tab-pane fade in active" id="tab-All">
-                                                <div class="tabsdescriptions" style="margin-left:7px;">
+                                                <div class="tabsdescriptions" style="margin-left:8px;">
                                                     <span class="group-header-description">Review all proccessed invoices, to find invoices fast, select from the Flag dropdown and then Search for the invoice. </span>
                                                 </div>
                                                 <!-- ko template: { name: 'tabItemsList' } -->
@@ -157,7 +157,7 @@
                         @* Tab Items Lists*@
                         <script id="tabItemsList" type="text/html">
                             <div>
-                                <div class="table-responsive" style="padding-left:5px;padding-right:5px;">
+                                <div class="table-responsive" style="padding-left:10px;padding-right:5px;">
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>
@@ -165,8 +165,8 @@
                                                 <th class="col-sm-3"><span>Customer</span></th>
                                                 <th class="col-sm-2"><span>Invoice Code</span></th>
                                                 <th class="col-sm-2"><span>Invoice Date</span></th>
-                                                <th class="col-sm-2"><span>Flag</span></th>
-                                                <th class="col-sm-2" style=" width: 1%;" data-bind="visible:$root.isShowStatusCloumn"><span>Status</span></th>
+                                                <th class="col-sm-1"><span>Flag</span></th>
+                                                <th class="col-sm-1" data-bind="visible:$root.isShowStatusCloumn"><span>Status</span></th>
                                                 <th class="col-sm-2" style="text-align: right;"><span>Invoice Total</span></th>
                                             </tr>
                                         </thead>

@@ -1,21 +1,23 @@
 ﻿@using MPC.Models.DomainModels;
 @{ 
     string thumbname = "Thumb.png";
+    string artworkattachmentThumbPath = "mpc_content/Attachments/"+ UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/Products/";
 }
 @{
     Layout = null;
 }
+@using MPC.Webstore.Common;
 <div id="controlBodyDiv" >
     <div class="container content_area" id="all-SavedDesign-pg">
         <div class="left_right_padding">
             <div class="signin_heading_div float_left_simple dashboard_heading_signin col-md-12 col-lg-12 col-xs-12">
-                <label id="lblCategoriesLinks1" class="sign_in_heading">My saved designs</label>
+                <label id="lblCategoriesLinks1" class="sign_in_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblCategoriesLinks1", UserCookieManager.WBStoreId, "My saved designs"))</label>
             </div>
             <div class="dashBoardRetrunLink dashboard_heading_signin">
                 <div class=" left_align">
                     <h1>
                         <a href="/Dashboard" class="left_align" title="Back to my dashboard" onclick="ShowLoader();">
-                            Back to my dashboard
+                            @Html.Raw(Html.GetKeyValueFromResourceFile("BackToDashboardlbl", UserCookieManager.WBStoreId, "Back to my dashboard"))
                         </a>
                     </h1>
                     <div class="clearBoth"></div>
@@ -35,8 +37,15 @@
                                 <div class="pad5">
                                     <div class="PDTCWB">
                                         <div class="PDTC_SD FISaved" style="display: block;">
-
-                                            <img id="imgThumbnail" class="svdDesignImgThumb" src="@saveDesign.AttachmentFolderPath/@saveDesign.AttachmentFileName@thumbname" />
+                                            @if (saveDesign.AttachmentFolderPath.Contains("/Production"))
+                                            {
+                                                <img id="imgThumbnail" class="svdDesignImgThumb" src="/@artworkattachmentThumbPath@saveDesign.ItemID/@saveDesign.AttachmentFileName@thumbname" />
+                                            }
+                                            else
+                                            {
+                                                <img id="imgThumbnail" class="svdDesignImgThumb" src="@saveDesign.AttachmentFolderPath/@saveDesign.AttachmentFileName@thumbname" />
+                                            }
+                                            
                                         </div>
                                     </div>
                                     <div class="LCLB product_detail_image_heading rounded_corners">
@@ -69,7 +78,7 @@
                     }
                     @if (ViewData["SaveDesignView"] == null)
                     {
-                        <label id="lblProductNotFound" class="simpleTextLarge">You have No saved templates</label>
+                        <label id="lblProductNotFound" class="simpleTextLarge">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlhavenosavdesign", UserCookieManager.WBStoreId, "You have No saved templates"))</label>
                     }
                     <div class="clearBoth">
                         &nbsp;

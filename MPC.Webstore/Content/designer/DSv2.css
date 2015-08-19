@@ -1143,25 +1143,7 @@ body:not(.compactHeader) .documentMenu.undoDisabled .menuItemContainer {
     -webkit-transform: matrix(1, 0, 0, 1, 495, 368);
 }
 
-#documentMenuHelp {
-    float: right;
-    height: 34px;
-    margin: 0 0 0 .8em;
-    padding: 0 1em 0 1em !important;
-    background-color: #fc813b !important;
-    color: #fff;
-    text-decoration: none;
-    -webkit-transition: all .6s linear;
-    transition: all .6s linear;
-    position: fixed;
-    right: 30px;
-    bottom: 0;
-    z-index: 5000;
-    border-radius: 0;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-    line-height: 38px;
-}
+
 
 body:not(.compactHeader) #documentTitleAndMenu {
     right: 130px;
@@ -1325,13 +1307,7 @@ body:not(.compactHeader) .documentMenu {
         text-overflow: ellipsis;
     }
 
-.compactHeader #documentTitleAndMenu #documentMenuHelp {
-    position: fixed;
-    bottom: 0;
-    right: 30px;
-    border-radius: 4px 4px 0 0;
-    z-index: 5000;
-}
+
 
 .compactHeader .menuItemContainer {
     font-size: 0;
@@ -6593,10 +6569,10 @@ label {
 }
 
     .divVarList .titletxt {
-        color: White;
-        text-align: left;
-        font-size: 12px;
-        margin-top: 6px;
+           color: white;
+    text-align: left;
+    font-size: 14px;
+    margin-top: 6px;
     }
 
 .divVariableContainer {
@@ -6611,18 +6587,28 @@ label {
 }
 
 .divVar {
-    text-align: left;
-    font-size: 14px;
-    color: orange;
+      text-align: left;
+    font-size: 13px;
     margin-left: 15px;
     cursor: pointer;
     margin-top: 5px;
+    z-index: 999999;
+    width: auto;
+    height: 32px;
+    border-radius: 12px;
+    padding: 0;
+    background-color: #fc813b;
+    color: #fff;
+    line-height: 34px;
+    white-space: nowrap;
+    padding-left: 10px;
+    min-width: 200px;
+    margin-left: 0px;
 }
 
 #titleVarList {
-    text-align: left;
-    margin-top: 11px;
-    font-size: 12px;
+       margin-top: 7px;
+    font-size: 14px;
     font-weight: bold;
 }
 
@@ -7277,4 +7263,30 @@ input[type="radio"] {
 {
     height:400px;
     width:auto;
+}
+
+#documentMenuHelp {
+    opacity:1;
+    float: right;
+    height: 34px;
+    margin: 0 0 0 .8em;
+    padding: 0 1em!important;
+    background-color: #fc813b !important;
+    color: #fff;
+    text-decoration: none;
+    transition: all .15s linear;
+    border-radius: 0;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    line-height: 38px;
+
+    position: fixed;
+    bottom: 0;
+    right: 30px;
+    border-radius: 4px 4px 0 0;
+    z-index: 5000
+}
+#documentMenuHelp:hover {
+    height: 38px;
+    background-color:#fca26f;
 }

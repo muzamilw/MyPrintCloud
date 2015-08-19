@@ -36,7 +36,7 @@ using Newtonsoft.Json.Linq;
 
 namespace MPC.Webstore.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         #region Private
 
@@ -69,6 +69,7 @@ namespace MPC.Webstore.Controllers
         /// </summary>
         public HomeController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker, ICostCentreService CostCentreService
             , IOrderService OrderService, IOrganisationRepository organisationRepository, ICurrencyRepository currencyRepository)
+            : base(myCompanyService, webstoreAuthorizationChecker)
         {
             if (myCompanyService == null)
             {
@@ -124,55 +125,54 @@ namespace MPC.Webstore.Controllers
                 //iqra to fix the route of error page, consult khurram if required to get it propper.
                 if (UserCookieManager.WBStoreId != 0)
                 {
-                    Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse> domainResponse = (cache.Get(CacheKeyName)) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>;
+                    //Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse> domainResponse = (cache.Get(CacheKeyName)) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>;
 
-                    if (domainResponse == null)
-                    {
-                        if (UserCookieManager.WBStoreId > 0)
-                        {
-                            _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId);
-                        }
-                        else 
-                        {
-                            TempData["ErrorMessage"] = "There is some problem while performing the operation. Please enter valid url to proceed.";
-                            return RedirectToAction("Error");
-                        }
-                    }
-                    else 
-                    {
-                        // if company not found in cache then rebuild the cache
-                        if (!domainResponse.ContainsKey(UserCookieManager.WBStoreId))
-                        {
-                            _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId);
-                        }
+                    //if (domainResponse == null)
+                    //{
+                    //    if (UserCookieManager.WBStoreId > 0)
+                    //    {
+                    //        _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId);
+                    //    }
+                    //    else 
+                    //    {
+                    //        TempData["ErrorMessage"] = "There is some problem while performing the operation. Please enter valid url to proceed.";
+                    //        return RedirectToAction("Error");
+                    //    }
+                    //}
+                    //else 
+                    //{
+                    //    // if company not found in cache then rebuild the cache
+                    //    if (!domainResponse.ContainsKey(UserCookieManager.WBStoreId))
+                    //    {
+                    //        _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId);
+                    //    }
 
-                        MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.WBStoreId];
-                        if (StoreBaseResopnse != null)
+                       // MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.WBStoreId];
+                    if (StoreCachedData != null)
                         {
                             string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
                             if (!_webstoreAuthorizationChecker.isUserLoggedIn())
                             {
-                                if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
+                                if ((StoreCachedData.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
                                 {
                                     Response.Redirect("/Login");
                                 }
                             }
-                            else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
+                            else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreCachedData.Company.IsCustomer == (int)StoreMode.Corp)
                             {
                                 Response.Redirect("/");
 
                             }
 
-                            model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse);
-                            StoreBaseResopnse = null;
-                            
+                            model = GetWidgetsByPageName(StoreCachedData.SystemPages, pageRouteValue.Split('/')[0], StoreCachedData.CmsSkinPageWidgets, StoreCachedData.StoreDetaultAddress, StoreCachedData);
+                           
                         }
                         else
                         {
                             TempData["ErrorMessage"] = "There is some problem while performing the operation.";
                             return RedirectToAction("Error");
                         }
-                    }
+                   // }
                 }
                 else
                 {
@@ -652,7 +652,7 @@ namespace MPC.Webstore.Controllers
             }
         }
 
-        public ActionResult ReceiptPlain(string OrderId, string StoreId, string IsPrintReceipt)
+        public ActionResult ReceiptPlain(string OrderId, string StoreId, string IsPrintReceipt, string loginUserId)
         {
 
             MPC.Models.DomainModels.Company oCompany = _myCompanyService.GetCompanyByCompanyID(Convert.ToInt64(StoreId));
@@ -660,15 +660,20 @@ namespace MPC.Webstore.Controllers
             if(oCompany != null)
             {
                 MPC.Models.DomainModels.Organisation oOrganisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
-
-                if (oCompany.ShowPrices ?? true)
+                
+                if (oCompany.ShowPrices == true)
                 {
-                    ViewBag.IsShowPrices = true;
+                   
+                   ViewBag.IsShowPrices = true;
+                    
                 }
                 else
                 {
-                    ViewBag.IsShowPrices = false;
+                  
+                   ViewBag.IsShowPrices = false;
+                    
                 }
+                
 
                 ViewBag.TaxLabel = oCompany.TaxLabel;
 
@@ -719,6 +724,8 @@ namespace MPC.Webstore.Controllers
                 {
                     ViewBag.Currency = "";
                 }
+
+
             }
 
             OrderDetail order = _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
@@ -734,6 +741,21 @@ namespace MPC.Webstore.Controllers
                 ViewBag.Print = "";
             }
 
+            if(oCompany.IsCustomer == (int)CustomerTypes.Corporate)
+            {
+                if (order != null && order.CompanyContact != null)
+                {
+                    if (order.CompanyContact.IsPricingshown == true)
+                    {
+                        ViewBag.IsShowPrices = true;
+                    }
+                    else
+                    {
+                        ViewBag.IsShowPrices = false;
+                    }
+                }
+            }
+          
             return View(order);
         }
 

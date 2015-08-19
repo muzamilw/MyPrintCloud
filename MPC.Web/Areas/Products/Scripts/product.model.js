@@ -1509,7 +1509,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 if (itemStockOptionInvalid) {
                     if (itemStockOptionInvalid.label.error) {
                         var labelElement = itemStockOptionInvalid.label.domElement;
-                        validationSummaryList.push({ name: labelElement.name, element: labelElement });
+                        validationSummaryList.push({ name: labelElement.name + " is required", element: labelElement });
                     }
                 }
                 // Show Template Errors
