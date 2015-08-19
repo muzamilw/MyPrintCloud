@@ -411,6 +411,7 @@
                         @using (Html.BeginForm())
                         {
                             <input type="hidden" id="buttonType" name="buttonType" />
+                            <input type="submit" id="submitFormUsingPopUp" name="submitFormUsingPopUp" style="display:none;" />
                             if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                             {
                                 if (ViewBag.LoginUser.IsPayByPersonalCreditCard == true)
@@ -419,7 +420,7 @@
                                     {
                                         <div class="pad10" id="myyyyy" style="padding-right: 0px !important;">
                                             <div class="float_right marginLeft directDepositcs">
-                                                <input type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("payviadeeposit", UserCookieManager.WBStoreId, "Pay Via Direct Deposite"))" id="btnDirectDeposit" class="start_creating_btn_SApp rounded_corners5" onclick="setButtonType('2'); ShowReceiptLoader();" />
+                                                <input type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("payviadeeposit", UserCookieManager.WBStoreId, "Pay Via Direct Deposite"))" id="btnDirectDeposit" class="start_creating_btn_SApp rounded_corners5" onclick="return setButtonType('2'); " />
                                             </div>
                                         </div>
                                         <div class="clearBoth">
@@ -427,7 +428,7 @@
                                     }
                                     <div class="pad10" id="kkkkk" style="padding-right: 0px !important;">
                                         <div class="float_right marginLeft">
-                                            <input id="btnPlaceOrderUsingCreditCard" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("payviaccarddd", UserCookieManager.WBStoreId, "Pay by Credit Card"))" onclick="setButtonType('1'); ShowLoader();" />
+                                            <input id="btnPlaceOrderUsingCreditCard" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("payviaccarddd", UserCookieManager.WBStoreId, "Pay by Credit Card"))" onclick="return setButtonType('1'); ShowLoader();" />
                                         </div>
                                         <div class="float_right">
                                             <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("backtoshipppp", UserCookieManager.WBStoreId, "BACK TO SHOPPING"))" id="btnShopCart" class="btn_brown rounded_corners5"
@@ -444,7 +445,7 @@
                                 {
                                     <div class="pad10" id="oo" style="padding-right: 0px !important;">
                                         <div class="float_right marginLeft">
-                                            <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplacordr", UserCookieManager.WBStoreId, "Place Order"))" onclick="setButtonType('1'); ShowReceiptLoader();" />
+                                            <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplacordr", UserCookieManager.WBStoreId, "Place Order"))" onclick="return setButtonType('1');" />
                                         </div>
                                         <div class="float_right">
                                             <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("backtoshipppp", UserCookieManager.WBStoreId, "BACK TO SHOPPING"))" id="btnShopCart" class="btn_brown rounded_corners5"
@@ -460,7 +461,7 @@
                                 {
                                     <div class="pad10" id="mine" style="padding-right: 0px !important;">
                                         <div class="float_right marginLeft">
-                                            <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubmitforappr", UserCookieManager.WBStoreId, "Submit for Approval"))" onclick="setButtonType('1'); ShowReceiptLoader();" />
+                                            <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubmitforappr", UserCookieManager.WBStoreId, "Submit for Approval"))" onclick="return setButtonType('1');" />
                                         </div>
                                         <div class="float_right">
                                             <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("backtoshipppp", UserCookieManager.WBStoreId, "BACK TO SHOPPING"))" id="btnShopCart" class="btn_brown rounded_corners5"
@@ -477,7 +478,7 @@
                             {
                                 <div class="pad10" style="padding-right: 0px !important;">
                                     <div class="float_right marginLeft">
-                                        <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplacordr", UserCookieManager.WBStoreId, "Place Order"))" onclick="setButtonType('1'); ShowReceiptLoader();" />
+                                        <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplacordr", UserCookieManager.WBStoreId, "Place Order"))" onclick="return setButtonType('1');" />
                                     </div>
                                     <div class="float_right">
                                         <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("backtoshipppp", UserCookieManager.WBStoreId, "BACK TO SHOPPING"))" id="btnShopCart" class="btn_brown rounded_corners5"
@@ -497,12 +498,68 @@
 
     </div>
 </div>
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
             <script>
+                $(document).ready(function () {
+                    $("#btnPlaceOrder").off('click', setButtonType);
+                    $("#btnPlaceOrder").on('click', Warning);
+                });
                 function setButtonType(Type) {
-
+                    ShowReceiptLoader();
                     $("#buttonType").val(Type);
+                    return true;
                 }
                 function BackToShopping(OrderId) {
                     window.location.href = "/ShopCart?OrderId=" + OrderId;
                 }
+                function Warning() {
+                    $("#buttonType").val(1);
+
+                    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">Warning!</h4></div><div class="modal-body" style="text-align:left; font-size: 12px;"><ul><li>Please check the aspect ratio of your artwork proof before ordering. Make sure the image you have created is not stretched vertically or horizontally.</li><li>This order is for an Indoor installation – for all External installations please contact POG directly.</li></ul><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="button" class="btn btn-primary" onclick=ContinueOrder(); value="Yes" /><button type="button" onclick=HideMessagePopUp(); class="btn btn-primary">No</button></div></div></div>';
+
+                    var bws = getBrowserHeight();
+                    var shadow = document.getElementById("innerLayer");
+                    document.getElementById("layer").style.width = bws.width + "px";
+                    document.getElementById("layer").style.height = bws.height + "px";
+
+                    var left = 0;
+                    var top = parseInt((bws.height - 170) / 2);
+
+                    if (bws.width < 640) {
+                        document.getElementById("innerLayer").style.width = (bws.width) + "px";
+
+                    } else {
+                        left = parseInt((bws.width - 500) / 2);
+                        document.getElementById("innerLayer").style.width = "500px";
+                    }
+                    document.getElementById("innerLayer").innerHTML = container;
+
+                    document.getElementById("innerLayer").style.top = top + "px";
+                    document.getElementById("innerLayer").style.left = left + "px";
+
+                    document.getElementById("innerLayer").style.width = "500px";
+                    document.getElementById("innerLayer").style.height = "170px";
+                    document.getElementById("innerLayer").style.position = "fixed";
+                    document.getElementById("innerLayer").style.zIndex = "9999";
+
+                    document.getElementById("layer").style.display = "block";
+                    document.getElementById("innerLayer").style.display = "block";
+
+                    return false;
+
+                }
+                function HideMessagePopUp() {
+
+                    document.getElementById("innerLayer").innerHTML = "";
+                    document.getElementById("layer").style.display = "none";
+                    document.getElementById("innerLayer").style.display = "none";
+                    return false;
+                }
+                function ContinueOrder() {
+                    HideMessagePopUp();
+                    ShowReceiptLoader();
+                    $("#submitFormUsingPopUp").click();
+                    return true;
+                }
             </script>
+
