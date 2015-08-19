@@ -63,6 +63,9 @@
                     </div>
                     <label id="lblTel" style="color: black; font-family: 'Open Sans Condensed', sans-serif; font-weight: bold; font-style: normal; font-weight: bold; font-size: 18px; line-height: 16px; float: left; margin-top: 6px; margin-left: 10px;">@ViewBag.oStoreDefaultAddress.Tel</label>
                 </div>
+                <div style="clear:both;">
+                    &nbsp;
+                </div>
                 <div style="width: 66.66666666666666%;float:left;">
                     &nbsp;
                 </div>
@@ -411,17 +414,13 @@
                     @if (_DiscountAmountTotal > 0)
                     {
                         <tr>
-                            <td width="30%" align="left">
-                                &nbsp;
+                            <td style="width: 26%;"></td>
+                            <td style="width: 29%;"></td>
+                            <td style="width: 14%;" align="left">
+                                <span id="lbl_Delivery" style="font-weight: bold; font-size: 13px; color: red;">Discount:</span>
                             </td>
-                            <td width="35%">
-                                &nbsp;
-                            </td>
-                            <td width="20%" align="left" class="fontWeightNormal Fsize13" id="td2" style="text-align:right;">
-                                <span id="lbl_Delivery" style="  line-height: 2;font-size: 13px; color: red;">Discount:</span>
-                            </td>
-                            <td align="right" width="20%">
-                                <span id="lblDiscountV" style="font-weight: bold; font-size: 14px; color: red;">@Utils.FormatDecimalValueToTwoDecimal((_DiscountAmountTotal).ToString(), ViewBag.Currency)</span>
+                            <td style="width: 40%;">
+                                <span id="lblDiscountV" style="font-weight: bold; font-size: 13px; color: red;">@Utils.FormatDecimalValueToTwoDecimal((_DiscountAmountTotal).ToString(), ViewBag.Currency)</span>
                             </td>
                         </tr>
                     }
