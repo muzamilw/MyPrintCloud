@@ -3243,7 +3243,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial, int MisOrdersCount, int WebStoreOrdersCount)
+        public void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial, int MisOrdersCount, int WebStoreOrdersCount, DateTime billingDate)
         {
             Organisation org = GetOrganizatiobByID(organisationId);
             if (org != null)
@@ -3252,6 +3252,7 @@ namespace MPC.Repository.Repositories
                 org.LiveStoresCount = storesCount;
                 org.MisOrdersCount = MisOrdersCount;
                 org.WebStoreOrdersCount = WebStoreOrdersCount;
+                org.BillingDate = billingDate;
             }
             SaveChanges();
         }
