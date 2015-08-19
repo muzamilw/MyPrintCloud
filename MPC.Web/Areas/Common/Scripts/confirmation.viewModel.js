@@ -25,6 +25,10 @@ define("common/confirmation.viewModel",
                     defaultButtonTextNo = "No",
 
                     noBtnText = ko.observable(defaultButtonTextNo),
+
+                    defaultIsCancelVisible = true;
+
+                   IsCancelVisible = ko.observable(defaultIsCancelVisible),
                     // On Proceed
                     afterProceed = ko.observable(),
                     // On Cancel
@@ -51,6 +55,7 @@ define("common/confirmation.viewModel",
                         messageText(defaultConfirmationText);
                         yesBtnText(defaultButtonTextYes);
                         noBtnText(defaultButtonTextNo);
+                        IsCancelVisible(defaultIsCancelVisible);
                     },
                     // Show the dialog
                     show = function () {
@@ -127,6 +132,7 @@ define("common/confirmation.viewModel",
                     messageText: messageText,
                     yesBtnText: yesBtnText,
                     noBtnText: noBtnText,
+                    IsCancelVisible: IsCancelVisible,
                     hide: hide,
                     showWarningPopup: showWarningPopup,
                     hideWarningPopup: hideWarningPopup,

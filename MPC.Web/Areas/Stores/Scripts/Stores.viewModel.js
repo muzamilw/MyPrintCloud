@@ -6516,6 +6516,7 @@ define("stores/stores.viewModel",
                                 confirmation.headingText("Alert");
                                 confirmation.yesBtnText("Ok");
                                 confirmation.noBtnText("Cancel");
+                                confirmation.IsCancelVisible(false);
                                 confirmation.messageText("Important ! Discount Voucher should have atleast one category or product.");
 
                                 confirmation.show();

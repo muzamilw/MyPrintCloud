@@ -3397,6 +3397,19 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="CanSeePrices" Type="bit" />
           <Property Name="HasWebAccess" Type="bit" />
           <Property Name="CanPlaceOrder" Type="bit" />
+          <Property Name="DirectLine" Type="nvarchar" MaxLength="30" />
+          <Property Name="CorporateUnit" Type="nvarchar" MaxLength="500" />
+          <Property Name="TradingName" Type="nvarchar" MaxLength="500" />
+          <Property Name="BPayCRN" Type="nvarchar" MaxLength="500" />
+          <Property Name="ACN" Type="nvarchar" MaxLength="500" />
+          <Property Name="ContractorName" Type="nvarchar" MaxLength="500" />
+          <Property Name="ABN" Type="nvarchar" MaxLength="500" />
+          <Property Name="Notes" Type="nvarchar" MaxLength="3000" />
+          <Property Name="CreditLimit" Type="decimal" Precision="16" Scale="0" />
+          <Property Name="IsNewsLetterSubscription" Type="bit" />
+          <Property Name="IsEmailSubscription" Type="bit" />
+          <Property Name="IsDefaultContact" Type="bit" />
+          <Property Name="POAddress" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="State">
           <Key>
@@ -14675,6 +14688,19 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="CanSeePrices" Type="Boolean" />
           <Property Name="HasWebAccess" Type="Boolean" />
           <Property Name="CanPlaceOrder" Type="Boolean" />
+          <Property Name="DirectLine" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="CorporateUnit" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="TradingName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="BPayCRN" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ACN" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ContractorName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ABN" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Notes" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="CreditLimit" Type="Decimal" Precision="16" Scale="0" />
+          <Property Name="IsNewsLetterSubscription" Type="Boolean" />
+          <Property Name="IsEmailSubscription" Type="Boolean" />
+          <Property Name="IsDefaultContact" Type="Boolean" />
+          <Property Name="POAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_GoodsReceivedNote_Company">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
@@ -19528,6 +19554,19 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="StagingImportCompanyContactAddresses">
             <EntityTypeMapping TypeName="DomainModels.StagingImportCompanyContactAddress">
               <MappingFragment StoreEntitySet="StagingImportCompanyContactAddress">
+                <ScalarProperty Name="POAddress" ColumnName="POAddress" />
+                <ScalarProperty Name="IsDefaultContact" ColumnName="IsDefaultContact" />
+                <ScalarProperty Name="IsEmailSubscription" ColumnName="IsEmailSubscription" />
+                <ScalarProperty Name="IsNewsLetterSubscription" ColumnName="IsNewsLetterSubscription" />
+                <ScalarProperty Name="CreditLimit" ColumnName="CreditLimit" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="ABN" ColumnName="ABN" />
+                <ScalarProperty Name="ContractorName" ColumnName="ContractorName" />
+                <ScalarProperty Name="ACN" ColumnName="ACN" />
+                <ScalarProperty Name="BPayCRN" ColumnName="BPayCRN" />
+                <ScalarProperty Name="TradingName" ColumnName="TradingName" />
+                <ScalarProperty Name="CorporateUnit" ColumnName="CorporateUnit" />
+                <ScalarProperty Name="DirectLine" ColumnName="DirectLine" />
                 <ScalarProperty Name="CanPlaceOrder" ColumnName="CanPlaceOrder" />
                 <ScalarProperty Name="HasWebAccess" ColumnName="HasWebAccess" />
                 <ScalarProperty Name="CanSeePrices" ColumnName="CanSeePrices" />
