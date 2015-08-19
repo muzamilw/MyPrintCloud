@@ -51,7 +51,7 @@ namespace MPC.MIS.Areas.Api.Models
 
         //public string CorporateUnit { get; set; }
 
-        
+
 
         //public string TradingName { get; set; }
         //public string BPayCRN { get; set; }
@@ -61,17 +61,17 @@ namespace MPC.MIS.Areas.Api.Models
 
         //public string ContractorName { get; set; }
 
-        // public string ABN { get; set; }
+        //public string ABN { get; set; }
 
         //public string Notes { get; set; }
 
         //public string CreditLimit { get; set; }
 
-        //public string SubscribedtoNewsletter { get; set; }
+        //public string IsNewsLetterSubscription { get; set; }
 
-        // public string SubscribedtoEmails { get; set; }
+        //public string IsEmailSubscription { get; set; }
 
-        // public string isDefaultContact { get; set; }
+        //public string isDefaultContact { get; set; }
 
 
     }
