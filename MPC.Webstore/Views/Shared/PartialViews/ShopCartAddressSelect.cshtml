@@ -399,7 +399,7 @@
                                                 <th align="center" scope="col" class="hidden-xs">&nbsp;</th>
                                                 <th align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProductTxt", UserCookieManager.WBStoreId, "Product"))</th>
                                                 <th align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantityHeaderTxt", UserCookieManager.WBStoreId, "Quantity"))</th>
-                                                @if (UserCookieManager.ShowPriceOnWebstore)
+                                                @if (ViewBag.IsShowPrices)
                                                 {
                                                     <th align="right" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPriceHeaderTxt", UserCookieManager.WBStoreId, "Price"))</th>
                                                 }
@@ -476,7 +476,7 @@
                                                         <td class="PaddingToCells" align="left" valign="top">
                                                             <span id="lblTotalItemQuantity" class="Fsize14" style="font-weight:bold;">@shopcart.Qty1</span>
                                                         </td>
-                                                        @if (UserCookieManager.ShowPriceOnWebstore)
+                                                        @if (ViewBag.IsShowPrices)
                                                         {
                                                             <td class="PaddingToCells" align="right" valign="top" style="  padding-right: 0px !important;">
                                                                 @{

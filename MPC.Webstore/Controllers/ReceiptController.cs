@@ -18,9 +18,10 @@ namespace MPC.Webstore.Controllers
     public class ReceiptController : Controller
     {
         private readonly IOrderService _OrderService;
-        private readonly ICompanyService _myCompanyService;
+        private readonly ICompanyService _myCompanyService; 
+        private readonly IWebstoreClaimsHelperService _myClaimHelper;
 
-        public ReceiptController(IOrderService OrderService, ICompanyService myCompanyService)
+        public ReceiptController(IOrderService OrderService, ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper)
         {
             if (myCompanyService == null)
             {
@@ -32,6 +33,7 @@ namespace MPC.Webstore.Controllers
             }
             this._myCompanyService = myCompanyService;
             this._OrderService = OrderService;
+            this._myClaimHelper = myClaimHelper;
         }
         // GET: Receipt
         public ActionResult Index(string OrderId)
@@ -46,16 +48,52 @@ namespace MPC.Webstore.Controllers
 
 
 
-            if (StoreBaseResopnse.Company.ShowPrices ?? true)
+            if (StoreBaseResopnse.Company.ShowPrices == true)
             {
                 ViewBag.IsShowPrices = true;
-                //do nothing because pricing are already visible.
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                {
+                    if (_myClaimHelper.loginContactID() > 0)
+                    {
+                        if (UserCookieManager.ShowPriceOnWebstore == true)
+                        {
+                            ViewBag.IsShowPrices = true;
+                        }
+                        else
+                        {
+                            ViewBag.IsShowPrices = false;
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.IsShowPrices = true;
+                    }
+                }
+
             }
             else
             {
                 ViewBag.IsShowPrices = false;
-                //  cntRightPricing1.Visible = false;
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                {
+                    if (_myClaimHelper.loginContactID() > 0)
+                    {
+                        if (UserCookieManager.ShowPriceOnWebstore == true)
+                        {
+                            ViewBag.IsShowPrices = true;
+                        }
+                        else
+                        {
+                            ViewBag.IsShowPrices = false;
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.IsShowPrices = false;
+                    }
+                }
             }
+
             if (!string.IsNullOrEmpty(StoreBaseResopnse.Currency))
             {
                 ViewBag.Currency = StoreBaseResopnse.Currency;

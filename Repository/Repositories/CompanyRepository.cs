@@ -1772,6 +1772,8 @@ namespace MPC.Repository.Repositories
 
                 ContactCompany.StoreId = StoreId;
 
+                
+
                 Markup OrgMarkup = db.Markups.Where(m => m.OrganisationId == OrganisationId && m.IsDefault == true).FirstOrDefault();
 
                 if (OrgMarkup != null)
@@ -1823,6 +1825,7 @@ namespace MPC.Repository.Repositories
                     ContactPerson.quickWebsite = contact.quickWebsite;
                     ContactPerson.TerritoryId = ContactTerritory.TerritoryId;
                     ContactPerson.OrganisationId = OrganisationId;
+                    ContactPerson.IsPricingshown = true;
                     if (!string.IsNullOrEmpty(RegWithSocialMedia))
                     {
                         ContactPerson.twitterScreenName = RegWithSocialMedia;

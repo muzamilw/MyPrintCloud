@@ -1097,7 +1097,14 @@ namespace MPC.Repository.Repositories
                     {
                         userOrder.DeliveryMethod = db.CostCentres.Where(c => c.CostCentreId == Order.DeliveryCostCenterId).Select(n => n.Name).FirstOrDefault();
                     }
-
+                    if (Order.ContactId != null)
+                    {
+                        userOrder.CompanyContact = db.CompanyContacts.Where(c => c.ContactId == (long)Order.ContactId).FirstOrDefault();
+                        if (userOrder.CompanyContact != null)
+                        {
+                            userOrder.PlacedBy = userOrder.CompanyContact.FirstName + " " + userOrder.CompanyContact.LastName;
+                        }
+                    }
                 }
 
             }
