@@ -2464,9 +2464,9 @@ define("order/order.viewModel",
                         if (!isStoreLive())
                             sMessage = "Store is not live.";
                         else if (selectedOrder().isExtraOrder() == true)
-                            sMessage = "Your orders exceeds the limit.";
+                            sMessage = "Your have reached the current plans limits Upgrade for more !!";
                         if (!isStoreLive() || selectedOrder().isExtraOrder() == true) {
-                            confirmation.messageText("Important ! " + sMessage);
+                            confirmation.messageText("Important !! " + sMessage);
                             confirmation.afterProceed(function () {
                                 var uri = encodeURI("https://myprintcloud.com/dashboard");
                                 window.location.href = uri;

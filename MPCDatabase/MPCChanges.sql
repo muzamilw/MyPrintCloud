@@ -6617,3 +6617,5 @@ alter table StagingImportCompanyContactAddress add TradingName nvarchar(500)
 	   	alter table StagingImportCompanyContactAddress add IsDefaultContact bit
 
        
+       
+

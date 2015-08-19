@@ -104,8 +104,11 @@ namespace MPC.Webstore.Controllers
                     {
                         string VErrorMesg = "";
                         DiscountVoucher voucher = _ItemService.GetDiscountVoucherById(DisVId);
-                        _ItemService.ApplyDiscountOnCartProducts(voucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), ref FreeShippingVoucherId,ref VErrorMesg);
-                        VErrorMesg = "";
+                        if(voucher != null)
+                        {
+                            _ItemService.ApplyDiscountOnCartProducts(voucher, OrderId, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), ref FreeShippingVoucherId, ref VErrorMesg);
+                            VErrorMesg = "";
+                        }
                     }
 
                     if (FreeShippingVoucherId > 0)

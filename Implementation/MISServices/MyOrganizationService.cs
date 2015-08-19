@@ -242,6 +242,9 @@ namespace MPC.Implementation.MISServices
             organisationDbVersion.AgileApiKey = organisation.AgileApiKey;
             organisationDbVersion.AgileApiUrl = organisation.AgileApiUrl;
             organisationDbVersion.isAgileActive = organisation.isAgileActive;
+            organisationDbVersion.XeroApiId = organisation.XeroApiId;
+            organisationDbVersion.XeroApiKey = organisation.XeroApiKey;
+            organisationDbVersion.isXeroIntegrationRequired = organisation.isXeroIntegrationRequired;
             if(organisation.IsImperical == true)
             {
                 organisationDbVersion.SystemLengthUnit = 3;
@@ -691,9 +694,9 @@ namespace MPC.Implementation.MISServices
             return markupRepository.GetAll();
         }
 
-        public void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial, int misOrdersCount, int webStoreOrdersCount)
+        public void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial, int misOrdersCount, int webStoreOrdersCount, DateTime billingDate)
         {
-            organisationRepository.UpdateOrganisationLicensing(organisationId, storesCount, isTrial, misOrdersCount, webStoreOrdersCount);
+            organisationRepository.UpdateOrganisationLicensing(organisationId, storesCount, isTrial, misOrdersCount, webStoreOrdersCount, billingDate);
             if (!isTrial)
             {
                 _companyRepository.UpdateLiveStores(organisationId, storesCount);
@@ -705,7 +708,7 @@ namespace MPC.Implementation.MISServices
             var livestores = _companyRepository.GetLiveStoresCount(organisationRepository.OrganisationId);
             var org = organisationRepository.GetOrganizatiobByID();
 
-            if (livestores < org.LiveStoresCount)
+            if (livestores < (org.LiveStoresCount ?? 0))
                 return true;
             else
                 return false;

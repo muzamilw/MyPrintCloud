@@ -443,6 +443,7 @@
     <Compile Include="Controllers\SubscribeAndContactController.cs" />
     <Compile Include="Controllers\SubscribeAndTestimonialsController.cs" />
     <Compile Include="Controllers\TwitterController.cs" />
+    <Compile Include="Controllers\UserManagerController.cs" />
     <Compile Include="Controllers\ZoomSliderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -992,6 +993,7 @@
     <Content Include="Views\Domain\ClearCache.cshtml" />
     <Content Include="Views\Shared\PartialViews\HeaderWithCategoriesAndProducts.cshtml" />
     <Content Include="Views\Shared\PartialViews\BlackAndWhiteHeaderMenu.cshtml" />
+    <Content Include="Views\Shared\PartialViews\UserManager.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1002,6 +1004,7 @@
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
     <Folder Include="Views\BlackAndWhiteHeaderMenu\" />
     <Folder Include="Views\FutureFormHeader\" />
+    <Folder Include="Views\UserManager\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

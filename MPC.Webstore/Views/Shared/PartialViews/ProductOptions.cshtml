@@ -128,10 +128,9 @@
 
                                                 <label class="margin5 colorBlack">@costcenter.AddOnName</label>
                                                 <div class="extra_pricing float_right">
-                                                    @*@if (costcenter.Type != 4)@ViewBag.Currency@costcenter.AddOnPrice
-                                                        {*@
+                                                  
                                                     <label id="lblAddOnPrice"> </label>
-                                                    @*}*@
+                                                   
                                                 </div>
                                                 <label class="checkBoxAdOnDesc marginLeft">@costcenter.WebStoreDesc</label>
                                                 <div class="clearBoth">
@@ -222,7 +221,7 @@
                                     </div>
                             </div>
                                 <div class="cntuploadfilebtns">
-                                    <input type="button" class="btn_upload_files_Prod_Land rounded_corners5" onclick="ShowArtworkPanel();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("front", UserCookieManager.WBStoreId,"upload file"))" />
+                                    <input type="button" class="btn_upload_files_Prod_Land rounded_corners5" value='@Html.Raw(Html.GetKeyValueFromResourceFile("front", UserCookieManager.WBStoreId,"upload file"))' onclick="ShowArtworkPanel();" />
 
                                 </div>
 
@@ -249,7 +248,7 @@
                                                 </div>
                                                 <div class="modify_button_container" style="position: absolute; padding: 0px; margin-top: -34px;">
                                                     <div>
-                                                        <input type="button" class="btn_brown_small" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnside1modify",UserCookieManager.WBStoreId,"Modify"))" onclick="RediredToDesigner('@templateItem.TemplateName',@templateItem.TemplateId,@templateItem.ItemId,@templateItem.CustomerId,@templateItem.ContactId,@templateItem.isCalledFrom,@templateItem.OrganisationID,@templateItem.printCropMarks.ToString().ToLower(),@templateItem.printWaterMark.ToString().ToLower(),@templateItem.isEmbedded.ToString().ToLower(),@templateItem.CategoryId);" />
+                                                        <input type="button" class="btn_brown_small" value='@Html.Raw(Html.GetKeyValueFromResourceFile("btnside1modify",UserCookieManager.WBStoreId,"Modify"))' onclick="RediredToDesigner('@templateItem.TemplateName',@templateItem.TemplateId,@templateItem.ItemId,@templateItem.CustomerId,@templateItem.ContactId,@templateItem.isCalledFrom,@templateItem.OrganisationID,@templateItem.printCropMarks.ToString().ToLower(),@templateItem.printWaterMark.ToString().ToLower(),@templateItem.isEmbedded.ToString().ToLower(),@templateItem.CategoryId);" />
 
                                                     </div>
                                                 </div>
@@ -385,7 +384,7 @@
                             @Html.HiddenFor(m => m.JsonAllQuestionQueue, new { id = "VMJsonAddOnsQuestionQueue" })
                             @Html.HiddenFor(m => m.JsonAllInputQueue, new { id = "VMJsonAddOnsInputQueue" })
                             @Html.HiddenFor(m => m.ItemStockOptionId, new { id = "VMItemStockOptionId" })
-                            <input type="submit" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdtocart",UserCookieManager.WBStoreId,"Add to Cart"))' id="AddTOCart" class="add_to_cart_btn rounded_corners5 MTopM10 background-green" onclick="return ConfirmCart();" />
+                            <input type="submit" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdtocart",UserCookieManager.WBStoreId, "Add to cart"))' id="AddTOCart" class="add_to_cart_btn rounded_corners5 MTopM10 background-green" onclick="return ConfirmCart();" />
                         }
 
 
@@ -701,7 +700,7 @@
         </div>
         <div class="float_left_simple UploadsGuidLineContainer">
             <input type="file" name="imageUploader" id="imageUploader" class="imageUploader" />
-            <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlupload",UserCookieManager.WBStoreId, "Upload"))" class="Uplod_PCS rounded_corners5 background-green" id="btnOpenUploadDailog" onclick="openDailog();" />
+            <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlupload",UserCookieManager.WBStoreId, "Upload"))' class="Uplod_PCS rounded_corners5 background-green" id="btnOpenUploadDailog" onclick="openDailog();" />
 
             <div id="lbl_PremittedFormat" class="float_left_simple Fsize12" style="width: 175px; text-align: left; margin-bottom: 5px; margin-top: 10px;">
                 @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_PremittedFormat",UserCookieManager.WBStoreId))
@@ -738,6 +737,87 @@
     var isPriceSelected = 0;
     var mandatoryRefiningOptIds = "";
     var isImageUploadedOnLandingPage = 0;
+
+    function ConfirmCart() {
+
+        var MaxstockQty = true;
+        if (isPriceSelected == 0) {
+            ShowPopUp("Message", "Please check your details to proceed.");
+            return false;
+        } else {
+            console.log(@ViewBag.ItemModel.isUploadImage);
+            console.log(isImageUploadedOnLandingPage);
+            if(@ViewBag.ItemModel.isUploadImage == 1){
+                if(isImageUploadedOnLandingPage == 0){
+                    ShowPopUp("Message", "Please upload your artwork to proceed.");
+                    return false;
+                }
+            }
+
+            var noRefiningOptSelected = 1;
+            if(mandatoryRefiningOptIds != ""){
+                var ListOfOptnToCheck = mandatoryRefiningOptIds.split(',');
+
+                $(ListOfOptnToCheck).each(function(i, val) {
+                    if($("#" + val).is(':checked')){
+                    }else{
+                        $("#" + val).parent().parent().css("background-color", "rgb(228, 180, 182)");
+                        noRefiningOptSelected = 0;
+                    }
+
+                });
+
+                if(noRefiningOptSelected == 0){
+                    ShowPopUp("Message", "Highlighted refining option(s) must be selected to add product in cart.");
+                    return false;
+                }else{
+                    console.log($("#VMQuantityOrdered").val());
+                    console.log($("#VMItemStockOptionId").val());
+                    $('.InStockContainer').each(function() {
+                        if($(this).attr('data-StockOptionid') == $("#VMItemStockOptionId").val()){
+                            if(parseInt($(this).attr('data-itemStockVal')) < parseInt($("#VMQuantityOrdered").val())){
+                               
+                                if($(this).attr('data-isAllowBackOrder') == "False"){
+                                    MaxstockQty = false;
+                                }
+                            }
+                        }
+                    });
+
+                    if(MaxstockQty == false){
+                        ShowPopUp("Message", "You cannot place order because the selected quantity is more than stock.");
+                        return false;
+                    }else{
+                        return true;
+                    }
+                }
+            }else{
+                
+                console.log($("#VMQuantityOrdered").val());
+                console.log($("#VMItemStockOptionId").val());
+                $('.InStockContainer').each(function() { 
+                    
+                    if($(this).attr('data-StockOptionid') == $("#VMItemStockOptionId").val()){
+                        if(parseInt($(this).attr('data-itemStockVal')) < parseInt($("#VMQuantityOrdered").val())){
+                            
+                            if($(this).attr('data-isAllowBackOrder') == "False"){
+                                MaxstockQty = false;
+                            }
+                        }
+                    }
+                });
+
+                if(MaxstockQty == false){
+                    ShowPopUp("Message", "You cannot place order because the selected quantity is more than stock.");
+                    return false;
+                }else{
+                    ShowLoader();
+                    return true;
+                }
+            }
+        }
+    }
+
     $(document).ready(function() {
 
         isImageUploadedOnLandingPage = @ViewBag.AttachmentCount;
@@ -789,79 +869,7 @@
         }
     }
 
-    function ConfirmCart() {
-        var MaxstockQty = true;
-        if (isPriceSelected == 0) {
-            ShowPopUp("Message", "Please check your details to proceed.");
-            return false;
-        } else {
-            console.log(@ViewBag.ItemModel.isUploadImage);
-            console.log(isImageUploadedOnLandingPage);
-            if(@ViewBag.ItemModel.isUploadImage == 1){
-                if(isImageUploadedOnLandingPage == 0){
-                    ShowPopUp("Message", "Please upload your artwork to proceed.");
-                    return false;
-                }
-            }
 
-            var noRefiningOptSelected = 1;
-            if(mandatoryRefiningOptIds != ""){
-                var ListOfOptnToCheck = mandatoryRefiningOptIds.split(',');
-
-                $(ListOfOptnToCheck).each(function(i, val) {
-                    if($("#" + val).is(':checked')){
-                    }else{
-                        $("#" + val).parent().parent().css("background-color", "rgb(228, 180, 182)");
-                        noRefiningOptSelected = 0;
-                    }
-
-                });
-
-                if(noRefiningOptSelected == 0){
-                    ShowPopUp("Message", "Highlighted refining option(s) must be selected to add product in cart.");
-                    return false;
-                }else{
-
-                    $('.InStockContainer').each(function() {
-                        if($(this).attr('data-StockOptionid') == $("#VMItemStockOptionId").val()){
-                            if($(this).attr('data-itemStockVal') < $("#VMQuantityOrdered").val()){
-                                if($(this).attr('data-isAllowBackOrder') == "False"){
-                                    MaxstockQty = false;
-                                }
-                            }
-                        }
-                    });
-
-                    if(MaxstockQty == false){
-                        ShowPopUp("Message", "You cannot place order because the selected quantity is more than stock.");
-                        return false;
-                    }else{
-                        return true;
-                    }
-                }
-            }else{
-                
-                
-                $('.InStockContainer').each(function() {
-                    if($(this).attr('data-StockOptionid') == $("#VMItemStockOptionId").val()){
-                        if($(this).attr('data-itemStockVal') < $("#VMQuantityOrdered").val()){
-                            if($(this).attr('data-isAllowBackOrder') == "False"){
-                                MaxstockQty = false;
-                            }
-                        }
-                    }
-                });
-
-                if(MaxstockQty == false){
-                    ShowPopUp("Message", "You cannot place order because the selected quantity is more than stock.");
-                    return false;
-                }else{
-                    ShowLoader();
-                    return true;
-                }
-            }
-        }
-    }
 
     function MatrixToggle() {
 
@@ -900,19 +908,6 @@
             return false;
         }
 
-        @*var ObjectItemStock = "@ViewBag.ItemStock";
-
-        if (ObjectItemStock != "") {
-            if (ObjectItemStock.InStock > 0) {
-                if (ObjectItemStock.isAllowBackOrder == false) {
-                    var StockLevel = parseInt(ObjectItemStock.InStock);
-                    if (QuantityOrdered > StockLevel) {
-                        ShowPopUp('Message', "You cannot place order because the selected quantity is more than stock.");
-                        return false;
-                    }
-                }
-            }
-        }*@
 
         var selectedStockType = StockNo();
 
