@@ -1362,6 +1362,7 @@ namespace MPC.Repository.Repositories
                         obj.ContactId = contactId;
                         obj.orderedItemID = (int)orderedItemid;
                         obj.StockItemId = StockItemId;
+                        obj.EstimateId = OrderId;
                         emailBodyGenerator(stockCampaign, ServerSettings, obj, null, ModeOfStore, "", "", "", stRec.Email, stRec.FullName);
 
                     }

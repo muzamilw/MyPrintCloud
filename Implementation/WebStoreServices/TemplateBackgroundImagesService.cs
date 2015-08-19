@@ -574,45 +574,53 @@ namespace MPC.Implementation.WebStoreServices
                                 //ImageWidth = Convert.ToInt32(width);
                                 //ImageHeight = Convert.ToInt32(height);
                             }
-                            if (System.IO.Path.GetExtension(uploadPath).Contains("jpg"))
+                            try
                             {
-                                ClippingPath = "~/MPC_Content/Designer/"+ ClippingPath + "/"  + clipName + "__clip_mpc.png";// +System.IO.Path.GetExtension(fileID);
-                                //  imgpath += "/" + fileID;
-                                string uploadedClippingPath = HttpContext.Current.Server.MapPath(ClippingPath);
-                                using (var reader = new JpegReader(uploadPath))
-                                using (var bitmap = reader.Frames[0].GetBitmap())
-                                using (var maskBitmap = new agm.Bitmap(bitmap.Width, bitmap.Height, agm.PixelFormat.Format8bppGrayscale, new agm.GrayscaleColor(0)))
-                                using (var graphics = maskBitmap.GetAdvancedGraphics())
+
+                                if (System.IO.Path.GetExtension(uploadPath).Contains("jpg"))
                                 {
-                                    try
+                                    ClippingPath = "~/MPC_Content/Designer/" + ClippingPath + "/" + clipName + "__clip_mpc.png";// +System.IO.Path.GetExtension(fileID);
+                                    //  imgpath += "/" + fileID;
+                                    string uploadedClippingPath = HttpContext.Current.Server.MapPath(ClippingPath);
+                                    using (var reader = new JpegReader(uploadPath))
+                                    using (var bitmap = reader.Frames[0].GetBitmap())
+                                    using (var maskBitmap = new agm.Bitmap(bitmap.Width, bitmap.Height, agm.PixelFormat.Format8bppGrayscale, new agm.GrayscaleColor(0)))
+                                    using (var graphics = maskBitmap.GetAdvancedGraphics())
                                     {
-                                        if (reader.ClippingPaths != null && reader.ClippingPaths.Count > 0)
+                                        try
                                         {
-                                            containsClippingPath = true;
-                                            var graphicsPath = reader.ClippingPaths[0].CreateGraphicsPath(reader.Width, reader.Height);
+                                            if (reader.ClippingPaths != null && reader.ClippingPaths.Count > 0)
+                                            {
+                                                containsClippingPath = true;
+                                                var graphicsPath = reader.ClippingPaths[0].CreateGraphicsPath(reader.Width, reader.Height);
 
-                                            graphics.FillPath(new agmAD.SolidBrush(new agm.GrayscaleColor(255)), Aurigma.GraphicsMill.AdvancedDrawing.Path.Create(graphicsPath));
+                                                graphics.FillPath(new agmAD.SolidBrush(new agm.GrayscaleColor(255)), Aurigma.GraphicsMill.AdvancedDrawing.Path.Create(graphicsPath));
 
-                                            bitmap.Channels.SetAlpha(maskBitmap);
+                                                bitmap.Channels.SetAlpha(maskBitmap);
 
-                                            bitmap.Save(uploadedClippingPath);
+                                                bitmap.Save(uploadedClippingPath);
 
-                                            string sp = uploadedClippingPath;
-                                            //string ext = Path.GetExtension(uploadPath);
-                                            string[] results = sp.Split(new string[] { ".png" }, StringSplitOptions.None);
-                                            string destPath = results[0] + "_thumb" + ".png";
-                                            GenerateThumbNail(sp, destPath, 98);
+                                                string sp = uploadedClippingPath;
+                                                //string ext = Path.GetExtension(uploadPath);
+                                                string[] results = sp.Split(new string[] { ".png" }, StringSplitOptions.None);
+                                                string destPath = results[0] + "_thumb" + ".png";
+                                                GenerateThumbNail(sp, destPath, 98);
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("no path found");
+                                            }
                                         }
-                                        else
+                                        catch (Exception ex)
                                         {
-                                            Console.WriteLine("no path found");
+                                          //  throw ex;
                                         }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        throw ex;
                                     }
                                 }
+                            }
+                            catch (Exception ex)
+                            {
+                                // licence expired 
                             }
 
                             if (containsClippingPath)
