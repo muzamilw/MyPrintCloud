@@ -64,11 +64,11 @@ namespace MPC.MIS.Areas.Api.Controllers
         #endregion
         [ApiException]
         //[ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
-        public bool Post(int organisationId, int storesCount, bool isTrial, int misOrderCount, int webOrderCount)
+        public bool Post(int organisationId, int storesCount, bool isTrial, int misOrderCount, int webOrderCount, DateTime billingDate)
         {
             try
             {
-                _myOrganizationService.UpdateOrganisationLicensing(organisationId, storesCount, isTrial, misOrderCount, webOrderCount);
+                _myOrganizationService.UpdateOrganisationLicensing(organisationId, storesCount, isTrial, misOrderCount, webOrderCount, billingDate);
                 return true;
 
             }
