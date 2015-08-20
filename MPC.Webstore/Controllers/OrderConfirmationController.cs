@@ -14,6 +14,7 @@ using System.Net;
 using System.IO;
 using WebSupergoo.ABCpdf8;
 using System.Configuration;
+using MPC.Models.ResponseModels;
 namespace MPC.Webstore.Controllers
 {
     public class OrderConfirmationController : Controller
@@ -103,9 +104,10 @@ namespace MPC.Webstore.Controllers
         private ShoppingCart PlaceOrder(int modOverride, long OrderId)
         {
             ShoppingCart shopCart = null;
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse baseResponse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
 
             bool result = false;
@@ -363,65 +365,13 @@ namespace MPC.Webstore.Controllers
         }
 
 
-        //public string OrderConfirmationPDF(long OrderId, long StoreId)
-        //{
-        //    try
-        //    {
-        //        UserCookieManager.WEBOrderId = 0;
-
-        //        string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ReceiptPlain?OrderId=" + OrderId + "&StoreId=" + StoreId + "&IsPrintReceipt=0";
-
-        //        string FileName = OrderId + "_OrderReceipt.pdf";
-        //        string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/" + FileName);
-        //        string AttachmentPath = "/mpc_content/EmailAttachments/" + FileName;
-        //        using (Doc theDoc = new Doc())
-        //        {
-        //            string AddGeckoKey = ConfigurationManager.AppSettings["AddEngineTypeGecko"];
-        //            if (AddGeckoKey == "1")
-        //            {
-        //                theDoc.HtmlOptions.Engine = EngineType.Gecko;
-        //            }
-                   
-        //            theDoc.FontSize = 22;
-        //            int objid = theDoc.AddImageUrl(URl);
-
-
-        //            while (true)
-        //            {
-        //                theDoc.FrameRect();
-        //                if (!theDoc.Chainable(objid))
-        //                    break;
-        //                theDoc.Page = theDoc.AddPage();
-        //                objid = theDoc.AddImageToChain(objid);
-        //            }
-        //            string physicalFolderPath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/");
-        //            if (!Directory.Exists(physicalFolderPath))
-        //                Directory.CreateDirectory(physicalFolderPath);
-        //            theDoc.Save(FilePath);
-        //            theDoc.Clear();
-        //        }
-        //        if (System.IO.File.Exists(FilePath))
-        //            return AttachmentPath;
-        //        else
-        //            return null;
-        //    }
-        //    catch (Exception e)
-        //    {
-              
-        //        //   LoggingManager.LogBLLException(e);
-        //       // string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/exe.txt" );
-        //       // System.IO.File.WriteAllText(FilePath, e.InnerException.ToString() + "\n" + e.StackTrace.ToString());
-        //      throw e;
-        //      return null;
-        //    }
-        //}
-
         private ShoppingCart LoadOrderDetail(string OrderId)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             long OrderID = Convert.ToInt64(OrderId);
             if (OrderID > 0)
@@ -444,15 +394,50 @@ namespace MPC.Webstore.Controllers
 
                     }
 
-                    if (StoreBaseResopnse.Company.ShowPrices ?? true)
+                    if (StoreBaseResopnse.Company.ShowPrices == true)
                     {
                         ViewBag.IsShowPrices = true;
-                        //do nothing because pricing are already visible.
+                        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                        {
+                            if (_myClaimHelper.loginContactID() > 0)
+                            {
+                                if (UserCookieManager.ShowPriceOnWebstore == true)
+                                {
+                                    ViewBag.IsShowPrices = true;
+                                }
+                                else
+                                {
+                                    ViewBag.IsShowPrices = false;
+                                }
+                            }
+                            else
+                            {
+                                ViewBag.IsShowPrices = true;
+                            }
+                        }
+
                     }
                     else
                     {
                         ViewBag.IsShowPrices = false;
-                        //  cntRightPricing1.Visible = false;
+                        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                        {
+                            if (_myClaimHelper.loginContactID() > 0)
+                            {
+                                if (UserCookieManager.ShowPriceOnWebstore == true)
+                                {
+                                    ViewBag.IsShowPrices = true;
+                                }
+                                else
+                                {
+                                    ViewBag.IsShowPrices = false;
+                                }
+                            }
+                            else
+                            {
+                                ViewBag.IsShowPrices = false;
+                            }
+                        }
                     }
 
                     ViewBag.Currency = StoreBaseResopnse.Currency;

@@ -6148,6 +6148,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
         <Function Name="usp_ChartEstimateToOrderConversionCount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="OrganisationId" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="usp_ChartMonthlyEarningsbyStore" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrganisationId" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="usp_ChartMonthlyOrdersCount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="OrganisationId" Type="bigint" Mode="In" />
         </Function>
@@ -8254,6 +8257,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <FunctionImport Name="usp_OrderReport" ReturnType="Collection(DomainModels.usp_OrderReport_Result)">
             <Parameter Name="organisationId" Mode="In" Type="Int64" />
             <Parameter Name="OrderID" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_ChartMonthlyEarningsbyStore" ReturnType="Collection(DomainModels.usp_ChartMonthlyEarningsbyStore_Result)">
+            <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Company">
@@ -15121,6 +15127,13 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="String" Name="Estimate_Code" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="UserNotes" Nullable="true" MaxLength="Max" />
         </ComplexType>
+        <ComplexType Name="usp_ChartMonthlyEarningsbyStore_Result">
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
+          <Property Type="Double" Name="TotalEarning" Nullable="true" />
+          <Property Type="String" Name="MonthName" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="Month" Nullable="true" />
+          <Property Type="Int32" Name="Year" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -19935,6 +19948,17 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="EstimateCodeLabel" ColumnName="EstimateCodeLabel" />
                 <ScalarProperty Name="Estimate_Code" ColumnName="Estimate_Code" />
                 <ScalarProperty Name="UserNotes" ColumnName="UserNotes" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_ChartMonthlyEarningsbyStore" FunctionName="DomainModels.Store.usp_ChartMonthlyEarningsbyStore">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DomainModels.usp_ChartMonthlyEarningsbyStore_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TotalEarning" ColumnName="TotalEarning" />
+                <ScalarProperty Name="MonthName" ColumnName="MonthName" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

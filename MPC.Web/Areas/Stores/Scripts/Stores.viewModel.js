@@ -164,7 +164,7 @@ define("stores/stores.viewModel",
                     priceFlags = ko.observableArray([]),
                     // List
 
-                    discountTypes = [{ id: 1, type: "Dollar amount off a PRODUCT" }, { id: 2, type: "Dollar amount off ENTIRE ORDER " }, { id: 3, type: "Percent off a PRODUCT" }, { id: 4, type: "Percent off ENTIRE ORDER" }, { id: 5, type: "Free Shipping on ENTIRE ORDER" }],
+                    discountTypes = [{ id: 1, type: "Amount off a PRODUCT" }, { id: 2, type: "Amount off ENTIRE ORDER " }, { id: 3, type: "Percent off a PRODUCT" }, { id: 4, type: "Percent off ENTIRE ORDER" }, { id: 5, type: "Free Shipping on ENTIRE ORDER" }],
                     couponUseType = [{ id: 1, type: "Unlimited Use" }, { id: 2, type: "One-Time Use Per Customer" }, { id: 3, type: "One-Time Use Coupon" }],
                     //#endregion
 
@@ -6445,8 +6445,41 @@ define("stores/stores.viewModel",
 
                     // Save Discount Voucher
                     onSaveDiscountVoucher = function (discountVoucher) {
+                        //if (selectedDiscountVoucher().discountType() != 5) {
+                        //    if (selectedDiscountVoucher().discountRate() == "" || selectedDiscountVoucher().discountRate() == null || selectedDiscountVoucher().discountRate() == 0)
+                        //    {
+
+                        //        $('#amountRate').addClass('errorFill');
+                        //        return;
+                        //    }
+                        //}
+                        if (selectedDiscountVoucher().discountType() != 5) {
+                            if (!selectedDiscountVoucher().discountRate() == 0)
+                            {
+                                if (selectedDiscountVoucher().discountRate() == "" || selectedDiscountVoucher().discountRate() == null) {
+
+                                    confirmation.headingText("Alert");
+                                    confirmation.yesBtnText("OK");
+                                    confirmation.noBtnText("Cancel");
+                                    confirmation.IsCancelVisible(false);
+                                    confirmation.messageText("Important ! Discount Rate is required.");
+
+                                    confirmation.show();
+                                    return;
+
+                                }
+                            }
+                           
+                             
+                               
+                            
+                        }
                         if (!doBeforeDiscountVoucher()) {
                             return;
+                        }
+                        if (selectedDiscountVoucher().discountType() == 5)
+                        {
+                            selectedDiscountVoucher().discountRate(0);
                         }
                         saveDiscountVoucher();
 
@@ -6502,6 +6535,7 @@ define("stores/stores.viewModel",
                             target.couponUseType(useType.type);
                         }
                         target.hasCoupon(source.hasCoupon());
+                        target.discountTypeId(source.discountType())
                     },
                     //Do Before Save Discount Voucher
                     doBeforeDiscountVoucher = function () {
@@ -6514,7 +6548,7 @@ define("stores/stores.viewModel",
                         {
                             if (!selectedDiscountVoucher().availableProductCategoryVouchers() && !selectedDiscountVoucher().availableProductVouchers()) {
                                 confirmation.headingText("Alert");
-                                confirmation.yesBtnText("Ok");
+                                confirmation.yesBtnText("OK");
                                 confirmation.noBtnText("Cancel");
                                 confirmation.IsCancelVisible(false);
                                 confirmation.messageText("Important ! Discount Voucher should have atleast one category or product.");

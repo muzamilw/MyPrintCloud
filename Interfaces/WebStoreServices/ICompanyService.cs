@@ -12,6 +12,8 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        List<ItemPriceMatrix> GetRetailProductsPriceMatrix(long CompanyID);
+        List<ProductItem> GetAllRetailDisplayProductsQuickCalc(long CompanyID);
         List<CompanyContact> GetContactsByTerritory(long contactCompanyId, long territoryID);
         List<CompanyContact> GetSearched_Contacts(long contactCompanyId, String searchtxt, long territoryID);
         List<CompanyContactRole> GetContactRolesExceptAdmin(int AdminRole);
@@ -241,5 +243,6 @@ namespace MPC.Interfaces.WebStoreServices
         bool IsVoucherUsedByCustomer(long contactId, long companyId, long DiscountVoucherId);
         double? GetOrderTotalById(long OrderId);
         void AddReedem(long contactId, long companyId, long DiscountVoucherId);
+        MyCompanyDomainBaseReponse GetStoreCachedObject(long StoreId);
     }
 }

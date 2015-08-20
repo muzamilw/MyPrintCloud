@@ -13,7 +13,7 @@ namespace MPC.Models.ResponseModels
         /// Count of Orders
         /// </summary>
         public int RowCount { get; set; }
-
+        public string CurrecySymbol { get; set; }
         /// <summary>
         /// List of Orders
         /// </summary>

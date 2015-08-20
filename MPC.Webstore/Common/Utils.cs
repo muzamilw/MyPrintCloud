@@ -23,6 +23,8 @@ namespace MPC.Webstore.Common
     {
         private readonly ICompanyService _myCompanyService;
         private static XmlDocument rexcFiel = null;
+        private static string CacheKeyName = "CompanyBaseResponse";
+        
         public Utils(ICompanyService myCompanyService)
         {
             if (myCompanyService == null)
@@ -133,7 +135,7 @@ namespace MPC.Webstore.Common
         }
         public static string GetKeyValueFromResourceFile(string key, long StoreId, string KeyValue = "")
         {
-            string CacheKeyName = "CompanyBaseResponse";
+            
             ObjectCache cache = MemoryCache.Default;
 
             if (StoreId > 0)
@@ -254,7 +256,7 @@ namespace MPC.Webstore.Common
             queryString += string.Format("{0}{1}{2}", CategoryName, "/", CategoryId);
             return queryString;
         }
-      
+        
     }
 
     public static class CloneList

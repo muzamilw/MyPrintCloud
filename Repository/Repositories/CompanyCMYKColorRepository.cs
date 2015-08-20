@@ -30,6 +30,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<CompanyCMYKColor> GetAll()
         {
+           
             return DbSet.ToList();
         }
     }

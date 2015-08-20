@@ -91,6 +91,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             // ReSharper restore SuggestUseVarKeywordEvident
             {
                 EstimateId = source.EstimateId,
+
                 EstimateCode = source.Estimate_Code,
                 StatusId = source.StatusId,
                 EstimateName = source.Estimate_Name,
@@ -100,6 +101,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreatedBy = source.Created_by,
                 CreationDate = source.Order_Date,
                 CreationTime = source.CreationTime,
+                
                 SectionFlagId = source.SectionFlagId,
                 OrderCode = source.Order_Code,
                 IsEstimate = source.isEstimate,
@@ -177,7 +179,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new OrdersForCrmResponse
             {
                 RowCount = source.RowCount,
-                OrdersList = source.Orders.Select(order => order.CreateFromForListView())
+                OrdersList = source.Orders.Select(order => order.CreateFromForListView()),
+                CurrencySymbol = source.CurrecySymbol
             };
         }
 

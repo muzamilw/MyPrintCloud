@@ -19,13 +19,13 @@ namespace MigrationUtility
     public partial class Form1 : Form
     {
 
-        long OrganizationId = 1;
+        long OrganizationId = 96;
         string MPCContentBasePath = @"E:\Development\MyPrintCloud\MyPrintCloud.Cloud\MyPrintCloud\MPC.Web\MPC_Content\";
 
-        string PinkCardsStoredImagesBasePath = @"E:\eazyprint_storedImages\";
+        string PinkCardsStoredImagesBasePath = @"E:\Digital_central_StoredImages\Digital_central_StoredImages\";
 
 
-        string goldwelldesignerbasePath = @"E:\goldwell templates\goldwell templates\";
+        string goldwelldesignerbasePath = @"E:\Digital_central_designer\products\";
 
 
         public Form1()
@@ -1111,6 +1111,13 @@ namespace MigrationUtility
                 //Mapper.CreateMap<tbl_costcentres, CostCentre>();
 
 
+                output.Text += "Getting designer v2 categories list;" + Environment.NewLine;
+
+
+                DesignerV2.TemplateSvcSPClient oSvcClient = new DesignerV2.TemplateSvcSPClient();
+                var DesignerCategories = oSvcClient.GetCategories();
+
+
 
                 output.Text += "Start Retail Store Import;" + Environment.NewLine;
 
@@ -1291,7 +1298,7 @@ namespace MigrationUtility
                                     MPCContext.SaveChanges();
                                     output.Text += "Campaigns system emails" + Environment.NewLine;
                                 }
-                                /////////////////////////////////////////// Retail store CATS
+                                /////////////////////////////////////////// Retail store CATS ///////////////////////////////////////////////////////////
 
 
 
@@ -1410,7 +1417,7 @@ namespace MigrationUtility
 
                                 output.Text += "Retail Store Categories" + Environment.NewLine;
 
-                                /////////////////////////////////////////// Retail store Products
+                                /////////////////////////////////////////// Retail store Products///////////////////////////////////////////
 
 
                                 ///mpc_content/Products/OrganisationId/ItemId/ItemId_ImageName
@@ -1451,6 +1458,7 @@ namespace MigrationUtility
                                     //}
 
 
+
                                     //////deleting the irrelevent matrix
                                     ////foreach (var soption in item.tbl_ItemStockOptions)
                                     ////{
@@ -1468,6 +1476,9 @@ namespace MigrationUtility
                                     oItem.CompanyId = RetailStoreId;
                                     oItem.Tax3 = item.ItemID; ////saving old itemid for ref
                                     oItem.FlagId = 716;
+
+
+                                    //oItem.DesignerCategoryId = item.TemplateDesignerMappedCategoryName
 
 
 
@@ -1534,6 +1545,14 @@ namespace MigrationUtility
                                         oItem.ProductCategoryItems.Add(oProductCategoryItem);
 
                                         MPCContext.SaveChanges();
+
+                                        //searching for V2 designer category by name
+
+                                        var oDesignerCategory = DesignerCategories.Where(g => g.CategoryName == targetCategory.TemplateDesignerMappedCategoryName).SingleOrDefault();
+                                        if ( oDesignerCategory != null)
+                                        {
+                                            oItem.DesignerCategoryId = oDesignerCategory.ProductCategoryID;
+                                        }
                                     }
 
                                     oItem.TemplateType = 3;
@@ -1769,7 +1788,7 @@ namespace MigrationUtility
 
                                 dbContextTransaction.Commit();
 
-
+                                output.Text += "done dona done" + Environment.NewLine;
                                 MessageBox.Show("done");
 
                                 //costcentres
@@ -1847,7 +1866,7 @@ namespace MigrationUtility
 
 
                        Preview.Company oCorpStore = Mapper.Map<tbl_contactcompanies, Company>(otbl_contactcompanies);
-                        oCorpStore.Name = "Corproate Store 11";
+                       oCorpStore.Name = otbl_contactcompanies.Name;
                         
                         oCorpStore.IsCustomer = 3;
                         oCorpStore.TypeId = 52;
@@ -2017,8 +2036,15 @@ namespace MigrationUtility
 
 
                                 }
-                                oProductCategory.ImagePath = pcCategory.ImagePath.Replace(item.ProductCategoryID.ToString(), oProductCategory.ProductCategoryId.ToString()).Substring(0, 100);
-                                oProductCategory.ImagePath = oProductCategory.ImagePath.Replace("/StoredImages/ProductCategoryImages/", "/mpc_content/assets/" + OrganizationId.ToString() + "/" + CorpStoreId.ToString() + "/ProductCategories/").Substring(0, 100);
+                                if (pcCategory.ImagePath.Replace(item.ProductCategoryID.ToString(), oProductCategory.ProductCategoryId.ToString()).Length > 100)
+                                    oProductCategory.ImagePath = pcCategory.ImagePath.Replace(item.ProductCategoryID.ToString(), oProductCategory.ProductCategoryId.ToString()).Substring(0, 100);
+                                else
+                                    oProductCategory.ImagePath = pcCategory.ImagePath.Replace(item.ProductCategoryID.ToString(), oProductCategory.ProductCategoryId.ToString());
+
+                                if (oProductCategory.ImagePath.Replace("/StoredImages/ProductCategoryImages/", "/mpc_content/assets/" + OrganizationId.ToString() + "/" + CorpStoreId.ToString() + "/ProductCategories/").Length > 100)
+                                    oProductCategory.ImagePath = oProductCategory.ImagePath.Replace("/StoredImages/ProductCategoryImages/", "/mpc_content/assets/" + OrganizationId.ToString() + "/" + CorpStoreId.ToString() + "/ProductCategories/").Substring(0, 100);
+                                else
+                                    oProductCategory.ImagePath = oProductCategory.ImagePath.Replace("/StoredImages/ProductCategoryImages/", "/mpc_content/assets/" + OrganizationId.ToString() + "/" + CorpStoreId.ToString() + "/ProductCategories/");
 
                             }
 
@@ -2035,8 +2061,16 @@ namespace MigrationUtility
 
 
                                 }
-                                oProductCategory.ThumbnailPath = pcCategory.ThumbnailPath.Replace(item.ProductCategoryID.ToString(), oProductCategory.ProductCategoryId.ToString()).Substring(0,100);
-                                oProductCategory.ThumbnailPath = oProductCategory.ThumbnailPath.Replace("/StoredImages/ProductCategoryImages/", "/mpc_content/assets/" + OrganizationId.ToString() + "/" + CorpStoreId.ToString() + "/ProductCategories/").Substring(0, 100);
+                                if (pcCategory.ThumbnailPath.Replace(item.ProductCategoryID.ToString(), oProductCategory.ProductCategoryId.ToString()).Length > 100)
+                                    oProductCategory.ThumbnailPath = pcCategory.ThumbnailPath.Replace(item.ProductCategoryID.ToString(), oProductCategory.ProductCategoryId.ToString()).Substring(0, 100);
+                                else
+                                    oProductCategory.ThumbnailPath = pcCategory.ThumbnailPath.Replace(item.ProductCategoryID.ToString(), oProductCategory.ProductCategoryId.ToString());
+
+
+                                if (oProductCategory.ThumbnailPath.Replace("/StoredImages/ProductCategoryImages/", "/mpc_content/assets/" + OrganizationId.ToString() + "/" + CorpStoreId.ToString() + "/ProductCategories/").Length > 100)
+                                    oProductCategory.ThumbnailPath = oProductCategory.ThumbnailPath.Replace("/StoredImages/ProductCategoryImages/", "/mpc_content/assets/" + OrganizationId.ToString() + "/" + CorpStoreId.ToString() + "/ProductCategories/").Substring(0, 100);
+                                else
+                                    oProductCategory.ThumbnailPath = oProductCategory.ThumbnailPath.Replace("/StoredImages/ProductCategoryImages/", "/mpc_content/assets/" + OrganizationId.ToString() + "/" + CorpStoreId.ToString() + "/ProductCategories/");
 
                             }
 
@@ -2060,8 +2094,31 @@ namespace MigrationUtility
                         }
 
 
-                        output.Text += "Corp Store Categories" + Environment.NewLine;
+                        output.Text += "Corp Store Categories complete" + Environment.NewLine;
 
+
+                        output.Text += "Corp Store /fonts" + Environment.NewLine;
+
+                        var fonts = PCContext.TemplateFonts.Where(g => g.CustomerID == corpCustomerID).ToList();
+                        foreach (var item in fonts)
+                        {
+
+                            Preview.TemplateFont oNewfont = Mapper.Map<TemplateFont, Preview.TemplateFont>(item);
+                            oNewfont.CustomerId = oCorpStore.CompanyId;
+                            oNewfont.FontPath = "Organisation" + OrganizationId.ToString() + "/WebFonts/" + oCorpStore.CompanyId.ToString() + "/";
+
+                            MPCContext.TemplateFonts.Add(oNewfont);
+
+                            MPCContext.SaveChanges();
+
+                            //renaming the folter
+
+                            if (Directory.Exists(MPCContentBasePath + "\\designer\\Organisation" + OrganizationId.ToString() + "\\WebFonts\\" + item.CustomerID.ToString()))
+                                Directory.Move(MPCContentBasePath + "\\designer\\Organisation" + OrganizationId.ToString() + "\\WebFonts\\" + item.CustomerID.ToString(), MPCContentBasePath + "\\designer\\Organisation" + OrganizationId.ToString() + "\\WebFonts\\" + oCorpStore.CompanyId.ToString());
+
+                        }
+
+                        output.Text += "Corp Store /fonts complete" + Environment.NewLine;
                         /////////////////////////////////////////// Retail store Products
 
 
@@ -2115,6 +2172,7 @@ namespace MigrationUtility
                             oItem.CompanyId = CorpStoreId;
                             oItem.Tax3 = item.ItemID; ////saving old itemid for ref
                             oItem.TemplateType = 2;
+                            oItem.ProductType = 1;
 
 
 
@@ -2123,13 +2181,23 @@ namespace MigrationUtility
                                 if (itemsection.PressId != null)
                                 {
                                     var machine = PCContext.tbl_machines.Where(g => g.MachineID == itemsection.PressId).Single();
-                                    itemsection.PressId = MPCContext.Machines.Where(g => g.MachineName == machine.MachineName).Single().MachineId;
+
+                                    var targetmachine = MPCContext.Machines.Where(g => g.MachineName == machine.MachineName && g.OrganisationId == OrganizationId).SingleOrDefault();
+                                    if (targetmachine != null)
+                                        itemsection.PressId = targetmachine.MachineId;
+                                    else
+                                        itemsection.PressId  = MPCContext.Machines.Where(g => g.OrganisationId == OrganizationId && g.MachineCatId != 4).First().MachineId;
 
                                 }
                                 if (itemsection.GuillotineId != null)
                                 {
                                     var guillotine = PCContext.tbl_machines.Where(g => g.MachineID == itemsection.GuillotineId).Single();
-                                    itemsection.GuillotineId = MPCContext.Machines.Where(g => g.MachineName == guillotine.MachineName).Single().MachineId;
+
+                                    var targetguillotine = MPCContext.Machines.Where(g => g.MachineName == guillotine.MachineName && g.OrganisationId == OrganizationId).SingleOrDefault();
+                                    if (targetguillotine != null)
+                                        itemsection.GuillotineId = targetguillotine.MachineId;
+                                    else
+                                        itemsection.GuillotineId = MPCContext.Machines.Where(g => g.OrganisationId == OrganizationId && g.MachineCatId == 4).First().MachineId;
                                 }
                                 var paper = PCContext.tbl_stockitems.Where(g => g.StockItemID == itemsection.StockItemID1).Single();
                                 itemsection.StockItemID1 = MPCContext.StockItems.Where(g => g.ItemName == paper.ItemName && g.ItemCode == paper.ItemCode && g.OrganisationId == OrganizationId).Single().StockItemId;
@@ -2287,7 +2355,12 @@ namespace MigrationUtility
 
 
                                 var stock = PCContext.tbl_stockitems.Where(g => g.StockItemID == ootbl_ItemStockOptions.StockID).Single();
-                                oItemStockOption.StockId = MPCContext.StockItems.Where(g => g.ItemName == stock.ItemName && g.ItemCode == stock.ItemCode && g.OrganisationId == OrganizationId).Single().StockItemId;
+                                var targetStock = MPCContext.StockItems.Where(g => g.ItemName == stock.ItemName && g.ItemCode == stock.ItemCode && g.OrganisationId == OrganizationId).FirstOrDefault();
+                                
+                                if(targetStock != null)
+                                    oItemStockOption.StockId = targetStock.StockItemId;
+                                else
+                                    oItemStockOption.StockId = MPCContext.StockItems.Where(g => g.OrganisationId == OrganizationId).First().StockItemId;
 
                                 MPCContext.ItemStockOptions.Add(oItemStockOption);
 
@@ -2324,12 +2397,15 @@ namespace MigrationUtility
 
                                 ItemAddonCostCentre oItemAddonCostCentre = Mapper.Map<tbl_Items_AddonCostCentres, ItemAddonCostCentre>(oaddon);
                                 var opcCostCent = PCContext.tbl_costcentres.Where(g => g.CostCentreID == oaddon.CostCentreID).Single();
-                                var oCostCent = MPCContext.CostCentres.Where(g => g.Name == opcCostCent.Name).Single();
-                                oItemAddonCostCentre.CostCentreId = oCostCent.CostCentreId;
-                                oItemAddonCostCentre.Sequence = icount;
-                                oItemAddonCostCentre.IsMandatory = false;
-                                oFirstOption.ItemAddonCostCentres.Add(oItemAddonCostCentre);
-                                icount += 1;
+                                var oCostCent = MPCContext.CostCentres.Where(g => g.Name == opcCostCent.Name).SingleOrDefault();
+                                if (oCostCent != null)
+                                {
+                                    oItemAddonCostCentre.CostCentreId = oCostCent.CostCentreId;
+                                    oItemAddonCostCentre.Sequence = icount;
+                                    oItemAddonCostCentre.IsMandatory = false;
+                                    oFirstOption.ItemAddonCostCentres.Add(oItemAddonCostCentre);
+                                    icount += 1;
+                                }
                             }
 
                             MPCContext.SaveChanges();
@@ -2389,10 +2465,8 @@ namespace MigrationUtility
 
 
 
-
-
                                 //tempalte pages
-                                foreach (var oBackground in oTemplate.TemplatePages)
+                                foreach (var oBackground in oMPCTemplate.TemplatePages)
                                 {
                                     if (oBackground.BackGroundType == 1)
                                     {
@@ -2415,13 +2489,23 @@ namespace MigrationUtility
 
                                 }
 
+
+                                //template objects
+                                foreach (var oNewObject in oMPCTemplate.TemplateObjects)
+                                {
+                                    var pageno = oTemplate.TemplatePages.Where(g => g.ProductPageId == oNewObject.ProductPageId).Single().PageNo;
+                                    oNewObject.ProductPageId = oMPCTemplate.TemplatePages.Where(g => g.PageNo == pageno).Single().ProductPageId;
+
+                                }
+
                                 //tempalte pages
-                                foreach (var oBackground in oTemplate.TemplateBackgroundImages)
+                                foreach (var oBackground in oMPCTemplate.TemplateBackgroundImages)
                                 {
 
-                                    var sourcepath = goldwelldesignerbasePath + oBackground.ImageName;
+                                    var sourcepath = goldwelldesignerbasePath + oBackground.ImageName.Replace("/", "\\");
                                     var destPath = MPCContentBasePath + "designer\\Organisation" + OrganizationId.ToString() + "\\Templates\\" + oMPCTemplate.ProductId.ToString() + "\\" + System.IO.Path.GetFileName(oBackground.ImageName);
-                                    File.Copy(sourcepath, destPath);
+                                    if (File.Exists(sourcepath) && File.Exists(destPath) == false)
+                                        File.Copy(sourcepath, destPath);
                                     oBackground.ImageName = oTemplate.ProductID.ToString() + "/" + System.IO.Path.GetFileName(oBackground.ImageName);
                                     oBackground.Name = oTemplate.ProductID.ToString() + "/" + System.IO.Path.GetFileName(oBackground.ImageName);
 
@@ -2431,8 +2515,9 @@ namespace MigrationUtility
                                 }
 
                             }
-                            
 
+
+                           
 
                             //fonts
 
@@ -2441,13 +2526,13 @@ namespace MigrationUtility
                             //TempalteObjects ContentString
 
                             //861//Side1.pdf 
-                            output.Text += "Retail Store Items" + Environment.NewLine;
+                            output.Text += "Corproate Store Items" + Environment.NewLine;
 
 
 
                         }
 
-                        output.Text += "Retail Store Items" + Environment.NewLine;
+                        output.Text += "Corproate Store Items" + Environment.NewLine;
 
 
 
@@ -2800,6 +2885,166 @@ namespace MigrationUtility
             }
         }
 
+
+
+
+
+
+
+        public void StockImport()
+        {
+            if (txtOrganisationId.Text != string.Empty)
+            {
+                OrganizationId = Convert.ToInt64(txtOrganisationId.Text);
+            }
+
+            using (pinkcardsEntities PCContext = new pinkcardsEntities())
+            {
+                PCContext.Configuration.LazyLoadingEnabled = false;
+                using (MPCPreviewEntities1 MPCContext = new MPCPreviewEntities1())
+                {
+                    MPCContext.Configuration.LazyLoadingEnabled = false;
+
+                    ///////////////////////////////////////////////////////////////stock category
+                    output.Text += "Importing categories" + Environment.NewLine;
+                    List<tbl_stockcategories> otbl_stockcategories = PCContext.tbl_stockcategories.Include("tbl_stocksubcategories").ToList();
+                    foreach (var item in otbl_stockcategories)
+                    {
+
+                        //check to detect if cat already exists
+                        var newcat = MPCContext.StockCategories.Where(g => g.Name == item.Name && g.OrganisationId == OrganizationId).SingleOrDefault();
+                        if (newcat == null)
+                        {
+
+                            Preview.StockCategory oStockCategory = Mapper.Map<tbl_stockcategories, StockCategory>(item);
+                            oStockCategory.OrganisationId = OrganizationId;
+                            MPCContext.StockCategories.Add(oStockCategory);
+
+
+                            output.Text += "cat import : " + oStockCategory.Name + Environment.NewLine;
+                        }
+
+                    }
+
+                    MPCContext.SaveChanges();
+
+                    output.Text += "Stock Category Completed" + Environment.NewLine;
+
+
+                    ///////////////////////////////////////////////////////////////supplier
+                    //CreateNestedMappers(typeof(tbl_contactcompanies), typeof(Company));
+                    using (var dbContextTransaction = MPCContext.Database.BeginTransaction())
+                    {
+                        try
+                        {
+
+                            List<tbl_contactcompanies> otbl_contactcompanies = PCContext.tbl_contactcompanies.Where(g => g.IsCustomer == 2).ToList();
+                            foreach (var item in otbl_contactcompanies)
+                            {
+                                Preview.Company oCompany = Mapper.Map<tbl_contactcompanies, Company>(item);
+                                oCompany.OrganisationId = OrganizationId;
+                                MPCContext.Companies.Add(oCompany);
+
+                            }
+
+                            MPCContext.SaveChanges();
+
+                            output.Text += "suppliers done" + Environment.NewLine;
+
+
+
+                            ///////////////////////////////////////////////////////////////Stock
+                            //CreateNestedMappers(typeof(tbl_stockitems), typeof(StockItem));
+                            List<tbl_stockitems> otbl_stockitems = PCContext.tbl_stockitems.Include("tbl_stock_cost_and_price").Include("tbl_stockitems_colors").ToList();
+                            foreach (var item in otbl_stockitems)
+                            {
+
+                                output.Text += "Stock import :" +item.ItemName+ Environment.NewLine;
+                                Preview.StockItem oStockItem = Mapper.Map<tbl_stockitems, StockItem>(item);
+                                string suppliername = "";
+                                    
+                                    var oSupplier = PCContext.tbl_contactcompanies.Where(g => g.ContactCompanyID == item.SupplierID).SingleOrDefault();
+
+                                    var newsupplier = MPCContext.Companies.Where(g => g.Name == suppliername && g.OrganisationId == OrganizationId).SingleOrDefault();
+
+                                    if (newsupplier != null)
+                                    {
+                                        suppliername = oSupplier.Name;
+                                        oStockItem.SupplierId = newsupplier.CompanyId;
+                                    }
+                                    else
+                                    {
+                                        oStockItem.SupplierId = MPCContext.Companies.Where(g => g.OrganisationId == OrganizationId && g.IsCustomer == 2).First().CompanyId;
+                                    }
+
+
+                                output.Text += "Stock import retrieve orig cat:" + item.ItemName + Environment.NewLine;
+                                var ocat = PCContext.tbl_stockcategories.Where(g => g.CategoryID == item.CategoryID).Single();
+                                string categoryname = ocat.Name;
+                                int catid = ocat.CategoryID;
+                                output.Text += "Stock import retrieve new cat:" + item.ItemName + Environment.NewLine;
+                                var newcat = MPCContext.StockCategories.Where(g => g.Name == categoryname && g.OrganisationId == OrganizationId).SingleOrDefault();
+                                long newcatid = 0;
+                                if (newcat == null)
+                                {
+                                    oStockItem.CategoryId = MPCContext.StockCategories.Where(g => g.OrganisationId == OrganizationId).First().CategoryId;
+                                    newcatid = oStockItem.CategoryId.Value;
+                                }
+                                else
+                                {
+                                    oStockItem.CategoryId = newcat.CategoryId;
+                                    newcatid = newcat.CategoryId;
+                                }
+
+                                output.Text += "setting subcat for:" + item.ItemName + Environment.NewLine;
+                                string subcategoryname = "";
+                                if (item.SubCategoryID.HasValue)
+                                {
+                                    subcategoryname = PCContext.tbl_stocksubcategories.Where(g => g.SubCategoryID == item.SubCategoryID).First().Name;
+                                    string subcategorycode = PCContext.tbl_stocksubcategories.Where(g => g.SubCategoryID == item.SubCategoryID).First().Code;
+
+                                    var newsubcat  = MPCContext.StockSubCategories.Where(g => g.Name == subcategoryname && g.Code == subcategorycode && g.CategoryId == newcatid).SingleOrDefault();
+                                    if (newsubcat != null)
+                                    {
+                                        oStockItem.SubCategoryId = newsubcat.SubCategoryId;
+                                    }
+                                    else
+                                    {
+                                        var newsubcatdef = MPCContext.StockSubCategories.Where(g => g.CategoryId == newcatid).FirstOrDefault();
+
+                                        if (newsubcatdef != null)
+                                            oStockItem.SubCategoryId = newsubcat.SubCategoryId;
+                                        else
+                                            oStockItem.SubCategoryId = null;
+                                    }
+
+                                }
+                               
+                                oStockItem.OrganisationId = OrganizationId;
+                                MPCContext.StockItems.Add(oStockItem);
+
+                            }
+
+                            MPCContext.SaveChanges();
+                            dbContextTransaction.Commit();
+                            output.Text += "Stock Items complete" + Environment.NewLine;
+
+                        }
+                        catch (Exception)
+                        {
+                            dbContextTransaction.Rollback();
+                            throw;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            StockImport();
+        }
       
     }
 }

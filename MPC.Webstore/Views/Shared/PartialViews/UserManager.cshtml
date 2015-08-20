@@ -128,6 +128,73 @@
                         &nbsp;
                     </div>
 
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+            <div class="normalTextStyle rounded_corners territory_row_padding_header">
+                <div class="user_name_corp_div checked_design">
+                    <asp:Literal ID="ltrlname" runat="server" Text="Name"></asp:Literal>
+                </div>
+                <div class="user_email_div checked_design">
+                    <asp:Literal ID="ltremail" runat="server" Text="Email"></asp:Literal>
+                </div>
+                <div class="territory_corp_div checked_design" id="divteritory2" runat="server">
+                    <asp:Literal ID="ltrlterritory2" runat="server" Text="Territory"></asp:Literal>
+                </div>
+                <div class="order_limit_corp_div checked_design">
+                    <asp:Literal ID="ltrlorderlimit" runat="server" Text="Order Limit"></asp:Literal>
+                </div>
+                <div class="can_order_corp_div checked_design">
+                    <asp:Literal ID="ltrlcanorder" runat="server" Text="Can Order"></asp:Literal>
+                </div>
+                <div class="user_phone_div checked_design">
+                    <asp:Literal ID="ltrphone" runat="server" Text="Can pay by credit card"></asp:Literal>
+                </div>
+                <div class="user_phone_div checked_design">
+                    <asp:Literal ID="ltrlUserRoles" runat="server" Text="Role"></asp:Literal>
+                </div>
+            </div>
+            <asp:UpdatePanel ID="upnUser" runat="server" UpdateMode="Always">
+                <contenttemplate>
+                    <asp:Repeater ID="rptrUsers" runat="server" OnItemDataBound="rptrUsers_ItemDataBound"
+                                  OnItemCommand="rptrUsers_ItemCommand">
+                        <itemtemplate>
+                            <div class="territory_row_padding" title="Click to edit record">
+                                <div id="divContainer" runat="server" class=" dottedBorderStyle" style="border-top: 1px dotted #CCCCCC;">
+                                    <div class="user_name_corp_div checked_design">
+                                        <%# Eval("FirstName")%>&nbsp;
+                                    </div>
+                                    <div class="user_email_div checked_design">
+                                        <asp:Label ID="lblemail" runat="server" Text='<%# Eval("Email")%>' Width="160px"></asp:Label>&nbsp;
+                                    </div>
+                                    <div class="territory_corp_div checked_design">
+                                        <asp:Label ID="lblTerritoryName" runat="server"></asp:Label>&nbsp;
+                                    </div>
+                                    <div class="order_limit_corp_div checked_design">
+                                        <asp:Label ID="lblOrderLimit" runat="server" Text='<%# Eval("CreditLimit") %>'></asp:Label>&nbsp;
+                                    </div>
+                                    <div class="can_order_corp_div checked_design">
+                                        <asp:Label ID="lblCanOrder" runat="server"></asp:Label>&nbsp;
+                                    </div>
+                                    <div class="user_phone_div_card checked_design">
+                                        <asp:Label ID="lblPayByCredirCard" runat="server"></asp:Label>&nbsp;
+                                    </div>
+                                    <div class="user_phone_div_card checked_design" style="width:100px;">
+                                        <asp:Label ID="lblUserRoles" runat="server"></asp:Label>&nbsp;
+                                    </div>
+                                </div>
+                                <div class="float_right" style="padding: 7px 0px 0px 0px;">
+                                    <asp:ImageButton ID="imgBtnEdit" runat="server" CssClass="rounded_corners" ImageUrl="~/images/edit.png" Height="24" Width="24"
+                                                     ToolTip="Click to edit record" CommandName="EditRecord" CommandArgument='<%# Eval("ContactID") %>' />
+                                    <asp:ImageButton ID="btnDelete" runat="server" OnClientClick="return confirm('Are you sure you want to remove this user? The order history of this user will also be removed..');" CssClass="rounded_corners" ImageUrl="~/images/delete.png" Height="28" Width="28"
+                                                     ToolTip="Delete User" CommandName="DeleteRecord" CommandArgument='<%# Eval("ContactID") %>' />
+                                </div>
+                            </div>
+                            <div class="clearBoth">
+                                &nbsp;
+                            </div>
+                        </itemtemplate>
+                    </asp:Repeater>
                     <div class="clearBoth">
                         &nbsp;
                     </div>

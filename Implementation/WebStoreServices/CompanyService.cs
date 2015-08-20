@@ -116,6 +116,7 @@ namespace MPC.Implementation.WebStoreServices
 
                 policy = new CacheItemPolicy();
                 policy.Priority = CacheItemPriority.NotRemovable;
+               
                 //policy.SlidingExpiration =
                 //    TimeSpan.FromMinutes(5);
                 policy.RemovedCallback = null;
@@ -1559,6 +1560,42 @@ namespace MPC.Implementation.WebStoreServices
             }
 
         }
+
+        public MyCompanyDomainBaseReponse GetStoreCachedObject(long StoreId)
+        {
+            MyCompanyDomainBaseReponse StoreCachedData = null;
+
+            ObjectCache cache = MemoryCache.Default;
+
+            Dictionary<long, MyCompanyDomainBaseReponse> cachedObject = (cache.Get("CompanyBaseResponse")) as Dictionary<long, MyCompanyDomainBaseReponse>;
+
+            if (cachedObject == null)
+            {
+                if (StoreId > 0)
+                {
+                    StoreCachedData = GetStoreFromCache(StoreId);
+
+                }
+                else
+                {
+                    //TempData["ErrorMessage"] = "Your session is expired. Please re-enter your domain URL.";
+                    //RedirectToAction("Error");
+                }
+            }
+            else
+            {
+                // if company not found in cache then rebuild the cache
+                if (!cachedObject.ContainsKey(StoreId))
+                {
+                    StoreCachedData = GetStoreFromCache(StoreId);
+                }
+                else
+                {
+                    StoreCachedData = cachedObject.Where(i => i.Key == StoreId).FirstOrDefault().Value;
+                }
+            }
+            return StoreCachedData;
+        }
         public IEnumerable<CompanyTerritory> GetAllCompanyTerritories(long companyId)
         {
            return  _CompanyTerritoryRepository.GetAllCompanyTerritories(companyId);
@@ -1584,6 +1621,13 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _CompanyContactRepository.GetContactsByTerritory(contactCompanyId, territoryID);
         }
-
+        public List<ProductItem> GetAllRetailDisplayProductsQuickCalc(long CompanyID)
+        {
+            return _itemRepository.GetAllRetailDisplayProductsQuickCalc(CompanyID);
+        }
+        public List<ItemPriceMatrix> GetRetailProductsPriceMatrix(long CompanyID)
+        {
+            return _itemRepository.GetRetailProductsPriceMatrix(CompanyID);
+        }
     }
 }

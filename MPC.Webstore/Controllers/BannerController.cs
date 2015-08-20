@@ -9,6 +9,7 @@ using MPC.Webstore.Common;
 using MPC.Webstore.ModelMappers;
 using MPC.Webstore.Models;
 using MPC.Webstore.ResponseModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
@@ -26,6 +27,7 @@ namespace MPC.Webstore.Controllers
         /// Constructor
         /// </summary>
         public BannerController(ICompanyService myCompanyService)
+            
         {
             if (myCompanyService == null)
             {
@@ -39,11 +41,12 @@ namespace MPC.Webstore.Controllers
         #region Public
         public ActionResult Index()
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-            
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-            
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
+
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
             return PartialView("PartialViews/Banner", StoreBaseResopnse.Banners);
         }
 

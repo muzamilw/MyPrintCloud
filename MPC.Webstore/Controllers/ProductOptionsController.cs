@@ -16,6 +16,7 @@ using System.IO;
 using MPC.Webstore.Models;
 using Newtonsoft.Json;
 using System.Runtime.Caching;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
@@ -91,12 +92,14 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index(string CategoryId, string ItemId, string ItemMode, string TemplateId)
         {
             Item clonedItem = null;
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
             long OrderID = 0;
             long referenceItemId = 0;
             long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
             if (ItemMode == "UploadDesign")
             {
 
@@ -250,13 +253,15 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(ItemCartViewModel cartObject, string ReferenceItemId)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
             var ITemMode = TempData["ItemMode"];
             string CostCentreJsonQueue = "";
             string QuestionJsonQueue = cartObject.JsonAllQuestionQueue;
             string InputJsonQueue = cartObject.JsonAllInputQueue;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
             if (!string.IsNullOrEmpty(cartObject.ItemPrice) || !string.IsNullOrEmpty(cartObject.JsonPriceMatrix) || !string.IsNullOrEmpty(cartObject.StockId) || !string.IsNullOrEmpty(cartObject.ItemStockOptionId))
             {
 
@@ -663,7 +668,7 @@ namespace MPC.Webstore.Controllers
 
             ViewBag.JasonPriceMatrix = PriceMatrixObjectList;
 
-            MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId).CreateFromCurrency();
+            MyCompanyDomainBaseReponse baseResponse =  _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId); //_myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId).CreateFromCurrency();
             ViewBag.Currency = baseResponse.Currency;
 
             if (referenceItem.IsStockControl == true)
@@ -876,6 +881,51 @@ namespace MPC.Webstore.Controllers
 
             SetPageMEtaTitle(referenceItem.ProductName, referenceItem.MetaDescription, referenceItem.MetaKeywords, referenceItem.MetaTitle, StoreBaseResopnse);
 
+            if (StoreBaseResopnse.Company.ShowPrices == true)
+            {
+                ViewBag.IsShowPrices = true;
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                {
+                    if (_myClaimHelper.loginContactID() > 0)
+                    {
+                        if (UserCookieManager.ShowPriceOnWebstore == true)
+                        {
+                            ViewBag.IsShowPrices = true;
+                        }
+                        else
+                        {
+                            ViewBag.IsShowPrices = false;
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.IsShowPrices = true;
+                    }
+                }
+
+            }
+            else
+            {
+                ViewBag.IsShowPrices = false;
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                {
+                    if (_myClaimHelper.loginContactID() > 0)
+                    {
+                        if (UserCookieManager.ShowPriceOnWebstore == true)
+                        {
+                            ViewBag.IsShowPrices = true;
+                        }
+                        else
+                        {
+                            ViewBag.IsShowPrices = false;
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.IsShowPrices = false;
+                    }
+                }
+            }
             referenceItem = null;
         }
         private void BindTemplatesList(long TemplateId, List<ItemAttachment> attachmentList, long ItemId, int DesignerCategoryId, string ProductName)

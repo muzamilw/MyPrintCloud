@@ -177,7 +177,7 @@ namespace MigrationUtility
         public virtual DbSet<tbl_pipeline_source> tbl_pipeline_source { get; set; }
         public virtual DbSet<tbl_prefixes> tbl_prefixes { get; set; }
         public virtual DbSet<tbl_PrePayments> tbl_PrePayments { get; set; }
-        public virtual DbSet<tbl_ProductCategoryFoldLines> tbl_ProductCategoryFoldLines { get; set; }
+        public virtual DbSet<tbl_ProductCategoryFoldLiness> tbl_ProductCategoryFoldLines { get; set; }
         public virtual DbSet<tbl_ProductMarketBriefAnswers> tbl_ProductMarketBriefAnswers { get; set; }
         public virtual DbSet<tbl_ProductMarketBriefQuestions> tbl_ProductMarketBriefQuestions { get; set; }
         public virtual DbSet<tbl_ProductPaperType> tbl_ProductPaperType { get; set; }

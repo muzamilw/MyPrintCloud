@@ -217,8 +217,23 @@ define("dashboard.viewModel",
                         _.each(data, function (tUser) {
                             var item = dummyUsers()[tUser.Month - 1];
                             if (tUser.Month != currentMonth) {
+                                if (chartLabelsdummy()[0] == tUser.Name) {
+                                    item.totalStore1 = tUser.TotalContacts;
+                                }
+                                if (chartLabelsdummy()[1] == tUser.Name) {
+                                    item.totalStore2 = tUser.TotalContacts;
+                                }
+                                if (chartLabelsdummy()[2] == tUser.Name) {
+                                    item.totalStore3 = tUser.TotalContacts;
+                                }
+                                if (chartLabelsdummy()[3] == tUser.Name) {
+                                    item.totalStore4 = tUser.TotalContacts;
+                                }
+                                if (chartLabelsdummy()[4] == tUser.Name) {
+                                    item.totalStore5 = tUser.TotalContacts;
+                                }
+
                                 currentMonth = tUser.Month;
-                                item.totalStore1 = tUser.TotalContacts;
                                 item.month = currentMonth;
                                 item.monthname = tUser.Year + "-0" + currentMonth;
                                 uCounter = 1;
@@ -228,17 +243,21 @@ define("dashboard.viewModel",
                                 
                                 uCounter = uCounter + 1;
                                 _.each(tempUsers(), function (user) {
-                                    if (user.month == currentMonth && uCounter == 2) {
+                                    if (user.month == currentMonth && chartLabelsdummy()[1] == tUser.Name) {
                                         user.totalStore2 = tUser.TotalContacts;
+                                        user.month = tUser.Month;
                                     }
-                                    if (user.month == currentMonth && uCounter == 3) {
+                                    if (user.month == currentMonth && chartLabelsdummy()[2] == tUser.Name) {
                                         user.totalStore3 = tUser.TotalContacts;
+                                        user.month = tUser.Month;
                                     }
-                                    if (user.month == currentMonth && uCounter == 4) {
+                                    if (user.month == currentMonth && chartLabelsdummy()[3] == tUser.Name) {
                                         user.totalStore4 = tUser.TotalContacts;
+                                        user.month = tUser.Month;
                                     }
-                                    if (user.month == currentMonth && uCounter == 5) {
+                                    if (user.month == currentMonth && chartLabelsdummy()[0] == tUser.Name) {
                                         user.totalStore5 = tUser.TotalContacts;
+                                        user.month = tUser.Month;
                                     }
                                     
                                 });

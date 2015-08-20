@@ -2,6 +2,7 @@
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using MPC.Webstore.Common;
 using Newtonsoft.Json;
 using System;
@@ -58,9 +59,11 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             Order order = _orderService.GetOrderAndDetails(orderID);
             Address BillingAddress = _orderService.GetBillingAddress(order.BillingAddressID);
             Address ShippingAddress = _orderService.GetdeliveryAddress(order.DeliveryAddressID);
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _companyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
             CalculateProductDescription(order, out GrandTotal, out Subtotal, out vat);
             JasonResponseObject obj = new JasonResponseObject();
             obj.order = order;

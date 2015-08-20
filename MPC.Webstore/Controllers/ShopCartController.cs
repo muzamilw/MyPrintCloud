@@ -11,6 +11,7 @@ using MPC.Webstore.ResponseModels;
 using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ViewModels;
 using System.Runtime.Caching;
+using MPC.Models.ResponseModels;
 namespace MPC.Webstore.Controllers
 {
     public class ShopCartController : Controller
@@ -47,9 +48,11 @@ namespace MPC.Webstore.Controllers
             string voucherAppliedMesg = Request.QueryString["VCId"];
             long OrderId = 0;
             ShoppingCart shopCart = null;
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
             if (string.IsNullOrEmpty(optionalOrderId)) // check if parameter have order id
             {
                 if (UserCookieManager.WEBOrderId == 0) // cookie contains order id
@@ -157,16 +160,51 @@ namespace MPC.Webstore.Controllers
 
                 // no Redeem Voucher options AT ALL for corporate customers
 
-                if (StoreBaseResopnse.Company.ShowPrices ?? true)
+                if (StoreBaseResopnse.Company.ShowPrices == true)
                 {
                     ViewBag.IsShowPrices = true;
-
+                    if(UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                    {
+                        if (_myClaimHelper.loginContactID() > 0)
+                        {
+                            if (UserCookieManager.ShowPriceOnWebstore == true)
+                            {
+                                ViewBag.IsShowPrices = true;
+                            }
+                            else
+                            {
+                                ViewBag.IsShowPrices = false;
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.IsShowPrices = true;
+                        }
+                    }
+                   
                 }
                 else
                 {
                     ViewBag.IsShowPrices = false;
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                    {
+                        if (_myClaimHelper.loginContactID() > 0)
+                        {
+                            if (UserCookieManager.ShowPriceOnWebstore == true)
+                            {
+                                ViewBag.IsShowPrices = true;
+                            }
+                            else
+                            {
+                                ViewBag.IsShowPrices = false;
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.IsShowPrices = false;
+                        }
+                    }
                 }
-
                 if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
                     SetLastItemTemplateMatchingSets(shopCart, StoreBaseResopnse);
 
@@ -211,9 +249,11 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index()
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
             string IsCallFrom = Request.Form["hfIsCallFrom"];
             string OrderID = Request.Form["hfOrderID"].ToString();
             string ItemID = Request.Form["hfItemID"].ToString();
@@ -481,10 +521,11 @@ namespace MPC.Webstore.Controllers
             bool result = false;
             List<ArtWorkAttatchment> itemAttatchments = null;
             Template clonedTempldateFiles = null;
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             result = _ItemService.RemoveCloneItem(ItemID, out itemAttatchments, out clonedTempldateFiles);
 
@@ -504,116 +545,6 @@ namespace MPC.Webstore.Controllers
             return null;
 
         }
-        //public ActionResult ApplyDiscountVoucherCode(string DiscountVoucher, int OrderID)
-        //{
-        //    string CacheKeyName = "CompanyBaseResponse";
-        //    ObjectCache cache = MemoryCache.Default;
-
-        //    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-
-        //    string voucherCode = DiscountVoucher.Trim();
-        //    double voucherDiscRate = 0;
-        //    double voucherDiscountedAmount = 0;
-        //    ShoppingCart shopCart = null;
-        //    if (!string.IsNullOrEmpty(voucherCode))
-        //    {
-        //        bool Result = false;
-
-        //        Result = _OrderService.IsVoucherValid(voucherCode);
-
-
-
-        //        if (Result == true)
-        //        {
-
-        //            Estimate RecordOfOrderIfDiscuntApplied = _OrderService.CheckDiscountApplied(OrderID);
-        //            if (RecordOfOrderIfDiscuntApplied.DiscountVoucherID.HasValue && RecordOfOrderIfDiscuntApplied.VoucherDiscountRate > 0)
-        //            {
-        //                double taxRate = UserCookieManager.TaxRate;
-        //                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-        //                {
-        //                    _OrderService.RollBackDiscountedItems(OrderID, taxRate, StoreMode.Corp);
-        //                }
-        //                else
-        //                {
-        //                    _OrderService.RollBackDiscountedItems(OrderID, taxRate, StoreMode.Retail);
-        //                }
-
-
-        //            }
-        //            double VDiscountRate = _OrderService.SaveVoucherCodeAndRate(OrderID, voucherCode);
-        //            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-        //            {
-        //                voucherDiscountedAmount = _OrderService.PerformVoucherdiscountOnEachItem(OrderID, OrderStatus.ShoppingCart, UserCookieManager.TaxRate, VDiscountRate, StoreMode.Corp);
-        //            }
-        //            else
-        //            {
-        //                voucherDiscountedAmount = _OrderService.PerformVoucherdiscountOnEachItem(OrderID, OrderStatus.ShoppingCart, UserCookieManager.TaxRate, VDiscountRate, StoreMode.Retail);
-
-        //            }
-        //            ViewBag.DiscAmount = Utils.FormatDecimalValueToTwoDecimal(voucherDiscountedAmount.ToString(), StoreBaseResopnse.Currency);
-
-
-
-        //        }
-        //        else
-        //        {
-        //            // voucher invalid case
-
-        //            if (StoreBaseResopnse.Company.ShowPrices ?? true)
-        //            {
-        //                ViewBag.IsShowPrices = true;
-        //                //do nothing because pricing are already visible.
-        //            }
-        //            else
-        //            {
-        //                ViewBag.IsShowPrices = false;
-        //                //  cntRightPricing1.Visible = false;
-        //            }
-
-
-
-        //            //  SetLastItemTemplateMatchingSets(shopCart);
-
-
-
-        //            if (StoreBaseResopnse.Company.isIncludeVAT.Value == false)
-        //            {
-        //                ViewBag.isIncludeVAT = false;
-        //            }
-        //            else
-        //            {
-        //                ViewBag.isIncludeVAT = true;
-        //            }
-        //            shopCart = LoadShoppingCart(OrderID);
-        //            BindGridView(shopCart, StoreBaseResopnse, StoreBaseResopnse.Company.ShowPrices ?? false);
-
-
-        //        }
-
-        //    }
-        //    StoreBaseResopnse = null;
-        //    return View("PartialView/ShopCart", shopCart);
-        //}
-
-        //public ActionResult RemoveDiscountVoucherCode(long OrderID)
-        //{
-
-        //    if (RecordOfOrderIfDiscuntApplied.DiscountVoucherID.HasValue)
-        //    {
-        //        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-        //        {
-        //            _OrderService.RollBackDiscountedItems(OrderID, UserCookieManager.TaxRate, StoreMode.Corp);
-        //        }
-        //        else
-        //        {
-        //            _OrderService.RollBackDiscountedItems(OrderID, UserCookieManager.TaxRate, StoreMode.Retail);
-        //        }
-
-        //    }
-
-        //    return View("PartialViews/ShopCart", shopCart);
-        //}
 
         private void SetLastItemTemplateMatchingSets(ShoppingCart shopCart, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse)
         {

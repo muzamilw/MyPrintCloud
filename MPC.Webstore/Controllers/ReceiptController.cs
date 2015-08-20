@@ -12,15 +12,17 @@ using System.Runtime.Caching;
 using MPC.Webstore.Models;
 using System.Net;
 using System.IO;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
     public class ReceiptController : Controller
     {
         private readonly IOrderService _OrderService;
-        private readonly ICompanyService _myCompanyService;
+        private readonly ICompanyService _myCompanyService; 
+        private readonly IWebstoreClaimsHelperService _myClaimHelper;
 
-        public ReceiptController(IOrderService OrderService, ICompanyService myCompanyService)
+        public ReceiptController(IOrderService OrderService, ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper)
         {
             if (myCompanyService == null)
             {
@@ -32,30 +34,68 @@ namespace MPC.Webstore.Controllers
             }
             this._myCompanyService = myCompanyService;
             this._OrderService = OrderService;
+            this._myClaimHelper = myClaimHelper;
         }
         // GET: Receipt
         public ActionResult Index(string OrderId)
         {
             UserCookieManager.WEBOrderId = 0;
 
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
 
-
-            if (StoreBaseResopnse.Company.ShowPrices ?? true)
+            if (StoreBaseResopnse.Company.ShowPrices == true)
             {
                 ViewBag.IsShowPrices = true;
-                //do nothing because pricing are already visible.
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                {
+                    if (_myClaimHelper.loginContactID() > 0)
+                    {
+                        if (UserCookieManager.ShowPriceOnWebstore == true)
+                        {
+                            ViewBag.IsShowPrices = true;
+                        }
+                        else
+                        {
+                            ViewBag.IsShowPrices = false;
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.IsShowPrices = true;
+                    }
+                }
+
             }
             else
             {
                 ViewBag.IsShowPrices = false;
-                //  cntRightPricing1.Visible = false;
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                {
+                    if (_myClaimHelper.loginContactID() > 0)
+                    {
+                        if (UserCookieManager.ShowPriceOnWebstore == true)
+                        {
+                            ViewBag.IsShowPrices = true;
+                        }
+                        else
+                        {
+                            ViewBag.IsShowPrices = false;
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.IsShowPrices = false;
+                    }
+                }
             }
+
             if (!string.IsNullOrEmpty(StoreBaseResopnse.Currency))
             {
                 ViewBag.Currency = StoreBaseResopnse.Currency;

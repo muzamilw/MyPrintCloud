@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using MPC.Webstore.ResponseModels;
 using MPC.Webstore.ModelMappers;
 using System.Runtime.Caching;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
@@ -99,8 +100,8 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(ProductItem Model, string hfInqueryMesg)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
             List<string> Attachments = null;
             
@@ -139,7 +140,8 @@ namespace MPC.Webstore.Controllers
            // MyCompanyDomainBaseResponse baseResponse = _ICompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
 
           //  MyCompanyDomainBaseResponse baseResponseorg = _ICompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _ICompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             string ContactMobile = _ICompanyService.GetContactMobile(_myClaimHelper.loginContactID());
 

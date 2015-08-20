@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using MPC.Models.DomainModels;
 using System.Runtime.Caching;
 using MPC.Webstore.Common;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
@@ -40,14 +41,15 @@ namespace MPC.Webstore.Controllers
 
         private readonly IListingService _myListingService;
         private readonly IWebstoreClaimsHelperService _webstoreclaimHelper;
-
+        private readonly ICompanyService _myCompanyService;
         #endregion
 
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        public RealEstateSmartFormController(IListingService myListingService, IWebstoreClaimsHelperService webstoreClaimHelper)
+        public RealEstateSmartFormController(IListingService myListingService, IWebstoreClaimsHelperService webstoreClaimHelper
+            , ICompanyService myCompanyService)
         {
 
             if (webstoreClaimHelper == null)
@@ -62,6 +64,7 @@ namespace MPC.Webstore.Controllers
 
             this._myListingService = myListingService;
             this._webstoreclaimHelper = webstoreClaimHelper;
+            this._myCompanyService = myCompanyService;
         }
 
         #endregion
@@ -69,10 +72,11 @@ namespace MPC.Webstore.Controllers
         // GET: RealEstateSmartForm
         public ActionResult Index(long listingId, long itemId)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-            
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
             //SessionParameters.CustomerContact.ContactID;
             //SessionParameters.ContactCompany.ContactCompanyID;
             //SessionParameters.CustomerContact.AddressID;
