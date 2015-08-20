@@ -19,13 +19,12 @@ namespace MPC.Webstore.Controllers
     public class QuickCalculatorController : Controller
     {
         // GET: QuickCalculator
-        private readonly IItemRepository _itemRepository;
+        
         private readonly ICompanyService _myCompanyService;
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
-        public QuickCalculatorController(IItemRepository _itemRepository, IWebstoreClaimsHelperService _webstoreAuthorizationChecker
+        public QuickCalculatorController(IWebstoreClaimsHelperService _webstoreAuthorizationChecker
             , ICompanyService myCompanyService)
         {
-            this._itemRepository = _itemRepository;
             this._webstoreAuthorizationChecker = _webstoreAuthorizationChecker;
             this._myCompanyService = myCompanyService;
         }
@@ -56,7 +55,8 @@ namespace MPC.Webstore.Controllers
         [HttpGet]
         public JsonResult GetAllProducts(string cID,string mode)
         {
-            var Products = _itemRepository.GetAllRetailDisplayProductsQuickCalc(UserCookieManager.WBStoreId).OrderBy(p=>p.SortOrder);
+            
+            var Products = _myCompanyService.GetAllRetailDisplayProductsQuickCalc(UserCookieManager.WBStoreId).OrderBy(p => p.SortOrder);
             //foreach (var item in Products)
             // {
 
@@ -92,7 +92,8 @@ namespace MPC.Webstore.Controllers
         [HttpGet]
         public JsonResult GetQuantityPrises(string cID, string mode)
         {
-            var QuantityPrizes = _itemRepository.GetRetailProductsPriceMatrix(UserCookieManager.WBStoreId);
+            var QuantityPrizes = _myCompanyService.GetRetailProductsPriceMatrix(UserCookieManager.WBStoreId);
+            
             return Json(QuantityPrizes, JsonRequestBehavior.AllowGet);
             
         }
