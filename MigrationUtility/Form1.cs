@@ -1815,6 +1815,9 @@ namespace MigrationUtility
         private void CorporateStoreImport()
         {
             OrganizationId = Convert.ToInt64(txtOrganisationId.Text);
+            if (txtDesignerBasePath.Text != string.Empty)
+                goldwelldesignerbasePath = txtDesignerBasePath.Text;
+
             try
             {
 
@@ -1937,10 +1940,16 @@ namespace MigrationUtility
                             Address onewaddress = Mapper.Map<tbl_addresses, Address>(oaddress);
                             onewaddress.CompanyId = oCorpStore.CompanyId;
                             onewaddress.OrganisationId = OrganizationId;
-                            
 
-                            var oOldterritory  = territories.Where ( g=> g.TerritoryID == onewaddress.TerritoryId).Single();
-                            onewaddress.TerritoryId = MPCContext.CompanyTerritories.Where(g => g.TerritoryCode == oOldterritory.TerritoryCode).Single().TerritoryId;
+                            if (onewaddress.TerritoryId != null)
+                            {
+                                var oOldterritory = territories.Where(g => g.TerritoryID == onewaddress.TerritoryId).Single();
+                                onewaddress.TerritoryId = MPCContext.CompanyTerritories.Where(g => g.TerritoryCode == oOldterritory.TerritoryCode && g.CompanyId == oCorpStore.CompanyId).Single().TerritoryId;
+                            }
+                            else
+                            {
+                                onewaddress.TerritoryId = MPCContext.CompanyTerritories.Where(g => g.CompanyId == oCorpStore.CompanyId).First().TerritoryId;
+                            }
                             MPCContext.Addresses.Add(onewaddress);
                         }
                         MPCContext.SaveChanges();
@@ -1958,13 +1967,25 @@ namespace MigrationUtility
                             var oOldAddress = addresses.Where(g => g.AddressID == oNewContact.AddressId).Single();
                             oNewContact.AddressId = MPCContext.Addresses.Where(g => g.CompanyId == oCorpStore.CompanyId && g.AddressName == oOldAddress.AddressName && g.Address1 == oOldAddress.Address1).First().AddressId;
 
+                            if (oNewContact.ShippingAddressId != null)
+                            {
+                                var oOldShippingAddress = addresses.Where(g => g.AddressID == oNewContact.ShippingAddressId).Single();
+                                oNewContact.ShippingAddressId = MPCContext.Addresses.Where(g => g.CompanyId == oCorpStore.CompanyId && g.AddressName == oOldAddress.AddressName && g.Address1 == oOldAddress.Address1).First().AddressId;
+                            }
+                            else
+                            {
+                                oNewContact.ShippingAddressId = MPCContext.Addresses.Where(g => g.CompanyId == oCorpStore.CompanyId).First().AddressId;
+                            }
 
-                            var oOldShippingAddress = addresses.Where(g => g.AddressID == oNewContact.ShippingAddressId).Single();
-                            oNewContact.ShippingAddressId = MPCContext.Addresses.Where(g => g.CompanyId == oCorpStore.CompanyId && g.AddressName == oOldAddress.AddressName && g.Address1 == oOldAddress.Address1).First().AddressId;
-
-
-                            var oOldterritory = territories.Where(g => g.TerritoryID == oNewContact.TerritoryId).Single();
-                            oNewContact.TerritoryId = MPCContext.CompanyTerritories.Where(g => g.TerritoryCode == oOldterritory.TerritoryCode && g.CompanyId == oCorpStore.CompanyId).Single().TerritoryId;
+                            if (oNewContact.TerritoryId != null)
+                            {
+                                var oOldterritory = territories.Where(g => g.TerritoryID == oNewContact.TerritoryId).Single();
+                                oNewContact.TerritoryId = MPCContext.CompanyTerritories.Where(g => g.TerritoryCode == oOldterritory.TerritoryCode && g.CompanyId == oCorpStore.CompanyId).Single().TerritoryId;
+                            }
+                            else
+                            {
+                                oNewContact.TerritoryId = MPCContext.CompanyTerritories.Where(g => g.CompanyId == oCorpStore.CompanyId).First().TerritoryId;
+                            }
                             MPCContext.CompanyContacts.Add(oNewContact);
                         }
 
@@ -2257,7 +2278,7 @@ namespace MigrationUtility
                                         itemsection.GuillotineId = MPCContext.Machines.Where(g => g.OrganisationId == OrganizationId && g.MachineCatId == 4).First().MachineId;
                                 }
                                 var paper = PCContext.tbl_stockitems.Where(g => g.StockItemID == itemsection.StockItemID1).Single();
-                                itemsection.StockItemID1 = MPCContext.StockItems.Where(g => g.ItemName == paper.ItemName && g.ItemCode == paper.ItemCode && g.OrganisationId == OrganizationId).Single().StockItemId;
+                                itemsection.StockItemID1 = MPCContext.StockItems.Where(g => g.ItemName == paper.ItemName && g.ItemCode == paper.ItemCode && g.OrganisationId == OrganizationId).First().StockItemId;
 
 
 
@@ -2454,7 +2475,7 @@ namespace MigrationUtility
 
                                 ItemAddonCostCentre oItemAddonCostCentre = Mapper.Map<tbl_Items_AddonCostCentres, ItemAddonCostCentre>(oaddon);
                                 var opcCostCent = PCContext.tbl_costcentres.Where(g => g.CostCentreID == oaddon.CostCentreID).Single();
-                                var oCostCent = MPCContext.CostCentres.Where(g => g.Name == opcCostCent.Name).SingleOrDefault();
+                                var oCostCent = MPCContext.CostCentres.Where(g => g.Name == opcCostCent.Name && g.OrganisationId == OrganizationId).SingleOrDefault();
                                 if (oCostCent != null)
                                 {
                                     oItemAddonCostCentre.CostCentreId = oCostCent.CostCentreId;
@@ -2527,9 +2548,11 @@ namespace MigrationUtility
                                 {
                                     if (oBackground.BackGroundType == 1)
                                     {
-                                        var sourcepath = goldwelldesignerbasePath + oBackground.BackgroundFileName;
+                                        var sourcepath = goldwelldesignerbasePath + oBackground.BackgroundFileName.Replace("/","\\");
                                         var destPath = MPCContentBasePath + "designer\\Organisation" + OrganizationId.ToString() + "\\Templates\\" + oMPCTemplate.ProductId.ToString() + "\\Side" + oBackground.PageNo.ToString() + ".pdf";
-                                        File.Copy(sourcepath, destPath);
+                                        
+                                        if (File.Exists(sourcepath))
+                                            File.Copy(sourcepath, destPath);
                                         oBackground.BackgroundFileName = oTemplate.ProductID.ToString() + "/Side" + oBackground.PageNo.ToString() + ".pdf";
 
                                         //templatImgBk1.jpg
@@ -2607,7 +2630,7 @@ namespace MigrationUtility
                             ItemRelatedItem oItemRelatedItem = Mapper.Map<tbl_items_RelatedItems, ItemRelatedItem>(item);
                             oItemRelatedItem.ItemId = MPCContext.Items.Where(g => g.Tax3 == item.ItemID).Single().ItemId;
 
-                            var relateditem = MPCContext.Items.Where(g => g.Tax3 == item.RelatedItemID).SingleOrDefault();
+                            var relateditem = MPCContext.Items.Where(g => g.Tax3 == item.RelatedItemID).FirstOrDefault();
                             if (relateditem != null)
                             {
                                 oItemRelatedItem.RelatedItemId = relateditem.ItemId;
