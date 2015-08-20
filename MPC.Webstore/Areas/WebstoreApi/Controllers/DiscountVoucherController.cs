@@ -11,6 +11,7 @@ using MPC.Models.DomainModels;
 using MPC.Webstore.Common;
 using System.Runtime.Caching;
 using MPC.Models.Common;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 {
@@ -44,10 +45,12 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             {
                 DiscountVoucher storeDiscountVoucher = _ItemService.GetDiscountVoucherByCouponCode(DiscountVoucher, StoreId, OrganisationId);
 
-                string CacheKeyName = "CompanyBaseResponse";
-                ObjectCache cache = MemoryCache.Default;
+                //string CacheKeyName = "CompanyBaseResponse";
+                //ObjectCache cache = MemoryCache.Default;
 
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+
+                MyCompanyDomainBaseReponse StoreBaseResopnse = _companyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
                 if (storeDiscountVoucher != null)
                 {

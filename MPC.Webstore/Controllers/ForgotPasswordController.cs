@@ -13,6 +13,7 @@ using System.Text;
 using MPC.Webstore.Models;
 using MPC.Webstore.Common;
 using System.Runtime.Caching;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
@@ -56,10 +57,12 @@ namespace MPC.Webstore.Controllers
 
             if (!string.IsNullOrEmpty(model.Email))
             {
-                string CacheKeyName = "CompanyBaseResponse";
-                ObjectCache cache = MemoryCache.Default;
+                //string CacheKeyName = "CompanyBaseResponse";
+                //ObjectCache cache = MemoryCache.Default;
 
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
                 if (StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
                 {
                     curUser = _myCompanyService.GetContactByEmailAndMode(model.Email, Convert.ToInt32(CustomerTypes.Corporate), StoreBaseResopnse.Company.CompanyId);

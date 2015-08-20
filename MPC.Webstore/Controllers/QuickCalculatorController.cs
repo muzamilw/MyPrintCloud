@@ -2,6 +2,7 @@
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using MPC.Webstore.Common;
 using MPC.Webstore.Models;
 using System;
@@ -19,17 +20,22 @@ namespace MPC.Webstore.Controllers
     {
         // GET: QuickCalculator
         private readonly IItemRepository _itemRepository;
+        private readonly ICompanyService _myCompanyService;
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
-        public QuickCalculatorController(IItemRepository _itemRepository, IWebstoreClaimsHelperService _webstoreAuthorizationChecker)
+        public QuickCalculatorController(IItemRepository _itemRepository, IWebstoreClaimsHelperService _webstoreAuthorizationChecker
+            , ICompanyService myCompanyService)
         {
             this._itemRepository = _itemRepository;
             this._webstoreAuthorizationChecker = _webstoreAuthorizationChecker;
+            this._myCompanyService = myCompanyService;
         }
         public ActionResult Index()
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
             if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
             {
                 if (StoreBaseResopnse.Company.isIncludeVAT == true)

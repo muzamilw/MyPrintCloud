@@ -235,5 +235,6 @@ namespace MPC.Interfaces.WebStoreServices
         bool IsVoucherUsedByCustomer(long contactId, long companyId, long DiscountVoucherId);
         double? GetOrderTotalById(long OrderId);
         void AddReedem(long contactId, long companyId, long DiscountVoucherId);
+        MyCompanyDomainBaseReponse GetStoreCachedObject(long StoreId);
     }
 }
