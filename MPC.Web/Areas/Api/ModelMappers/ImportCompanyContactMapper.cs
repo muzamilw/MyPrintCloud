@@ -47,25 +47,25 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CanSeePrices = Convert.ToBoolean(source.CanSeePrices == "" ? "false" : source.CanSeePrices),
                 HasWebAccess = Convert.ToBoolean(source.HasWebAccess == "" ? "false" : source.HasWebAccess),
                 CanPlaceOrder = Convert.ToBoolean(source.CanPlaceOrder == "" ? "false" : source.CanPlaceOrder) ,
-                //DirectLine = source.DirectLine,
-                //RoleId = source.UserRole == "A" ? 1
-                //       : source.UserRole == "M" ? 2
-                //       : source.UserRole == "U" ? 3
-                //       : 0,
                 
-                //POAddress = source.POBoxAddress,
-                //CorporateUnit = source.CorporateUnit,
-                //TradingName = source.TradingName,
-                //BPayCRN = source.BPayCRN,
-                //ACN = source.ACN,
-                //ContractorName = source.ContractorName,
-                //ABN = source.ABN,
-                //Notes = source.Notes,
-                //CreditLimit = Convert.ToDecimal(source.CreditLimit),
-                //IsNewsLetterSubscription = Convert.ToBoolean(source.IsNewsLetterSubscription == "" ? "false" : source.IsNewsLetterSubscription),
+                RoleId = source.UserRole == "A" ? 1
+                       : source.UserRole == "M" ? 2
+                       : source.UserRole == "U" ? 3
+                       : 0,
 
-                //IsEmailSubscription = Convert.ToBoolean(source.IsEmailSubscription == "" ? "false" : source.IsEmailSubscription),
-                //IsDefaultContact = Convert.ToBoolean(source.isDefaultContact == "" ? "false" : source.isDefaultContact),
+                POAddress = source.POBoxAddress,
+                CorporateUnit = source.CorporateUnit,
+                TradingName = source.TradingName,
+                BPayCRN = source.BPayCRN,
+                ACN = source.ACN,
+                ContractorName = source.ContractorName,
+                ABN = source.ABN,
+               
+                CreditLimit = Convert.ToDecimal(source.CreditLimit == "" ? "0" : source.CreditLimit),
+                IsNewsLetterSubscription = Convert.ToBoolean(source.IsNewsLetterSubscription == "" ? "false" : source.IsNewsLetterSubscription),
+
+                IsEmailSubscription = Convert.ToBoolean(source.IsEmailSubscription == "" ? "false" : source.IsEmailSubscription),
+               
 
             };
         }

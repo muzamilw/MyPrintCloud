@@ -39,6 +39,7 @@
             this.rdRetailStoreTargetNew = new System.Windows.Forms.RadioButton();
             this.rdRetailStoreTargetExisting = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtStatus = new System.Windows.Forms.TextBox();
             this.txtMPCContentBasePath = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtPinkCardsStoredImagesBasePath = new System.Windows.Forms.TextBox();
@@ -48,7 +49,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.txtOrganisationId = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtStatus = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -74,7 +75,7 @@
             // 
             // btnCorporateStoreImport
             // 
-            this.btnCorporateStoreImport.Location = new System.Drawing.Point(438, 158);
+            this.btnCorporateStoreImport.Location = new System.Drawing.Point(444, 158);
             this.btnCorporateStoreImport.Name = "btnCorporateStoreImport";
             this.btnCorporateStoreImport.Size = new System.Drawing.Size(122, 23);
             this.btnCorporateStoreImport.TabIndex = 2;
@@ -88,7 +89,7 @@
             this.txtCorpStoreId.Name = "txtCorpStoreId";
             this.txtCorpStoreId.Size = new System.Drawing.Size(100, 20);
             this.txtCorpStoreId.TabIndex = 3;
-            this.txtCorpStoreId.Text = "10492";
+            this.txtCorpStoreId.Text = "10817";
             // 
             // btnStoreWidgetExport
             // 
@@ -162,6 +163,13 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
             // 
+            // txtStatus
+            // 
+            this.txtStatus.Location = new System.Drawing.Point(572, 20);
+            this.txtStatus.Name = "txtStatus";
+            this.txtStatus.Size = new System.Drawing.Size(155, 20);
+            this.txtStatus.TabIndex = 10;
+            // 
             // txtMPCContentBasePath
             // 
             this.txtMPCContentBasePath.Location = new System.Drawing.Point(180, 49);
@@ -224,7 +232,7 @@
             this.txtOrganisationId.Name = "txtOrganisationId";
             this.txtOrganisationId.Size = new System.Drawing.Size(100, 20);
             this.txtOrganisationId.TabIndex = 17;
-            this.txtOrganisationId.Text = "1";
+            this.txtOrganisationId.Text = "96";
             // 
             // label3
             // 
@@ -235,18 +243,22 @@
             this.label3.TabIndex = 18;
             this.label3.Text = "OrganisationID";
             // 
-            // txtStatus
+            // button3
             // 
-            this.txtStatus.Location = new System.Drawing.Point(572, 20);
-            this.txtStatus.Name = "txtStatus";
-            this.txtStatus.Size = new System.Drawing.Size(155, 20);
-            this.txtStatus.TabIndex = 10;
+            this.button3.Location = new System.Drawing.Point(444, 198);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(122, 23);
+            this.button3.TabIndex = 19;
+            this.button3.Text = "Import Inventory";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1251, 672);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtOrganisationId);
             this.Controls.Add(this.button2);
@@ -295,6 +307,7 @@
         private System.Windows.Forms.TextBox txtOrganisationId;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtStatus;
+        private System.Windows.Forms.Button button3;
     }
 }
 
