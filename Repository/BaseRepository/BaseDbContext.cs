@@ -1158,6 +1158,15 @@ namespace MPC.Repository.BaseRepository
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ChartTop10PerfomingCustomers_Result>("usp_ChartTop10PerfomingCustomers", organisationidParameter);
         }
+        public ObjectResult<usp_ChartMonthlyEarningsbyStore_Result> usp_ChartMonthlyEarningsbyStore(long? organisationid)
+        // ReSharper restore InconsistentNaming
+        {
+            var organisationidParameter = organisationid.HasValue ?
+                new ObjectParameter("OrganisationId", organisationid) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ChartMonthlyEarningsbyStore_Result>("usp_ChartMonthlyEarningsbyStore", organisationidParameter);
+        }
         #endregion
     }
 }

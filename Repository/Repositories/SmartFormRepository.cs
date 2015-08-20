@@ -253,6 +253,7 @@ namespace MPC.Repository.Repositories
                     {
                         listOptions.AddRange(obj.FieldVariable.VariableOptions);
                     }
+                    obj.FieldVariable.Company = null;
                 }
             };
             foreach(var option in listOptions)
