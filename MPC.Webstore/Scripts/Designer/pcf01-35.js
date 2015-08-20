@@ -3153,9 +3153,31 @@ function pcl42_UpdateTO() {
                     variableTagUpperCase= obj.FieldVariable.VariableTag.toUpperCase();
                 var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
                 if (obj.FieldVariable.VariableTag != null)
-                    variableTagLowerCase =obj.FieldVariable.VariableTag.toLowerCase();
+                    variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
+
+                var prefix = "_&*)_*!!£$";
+                var prefixLower = "_&*)_*!!£$";
+                var prefixCap = "_&*)_*!!£$";
+                var postFix = "_&*)_*!!£$";
+                var postFixLower = "_&*)_*!!£$";
+                var postFixCap = "_&*)_*!!£$";
+
+                if (variableTagUpperCase != "_&*)_*!!£$")
+                {
+                    var tag = variableTag.replace("{{", "");
+                    tag = tag.replace("}}", "");
+                    prefix = "{{" + tag + "_pre}}";
+                    prefixLower = prefix.toLowerCase();
+                    prefixCap = prefix.toUpperCase();
+
+                    postFix = "{{" + tag + "_post}}";
+                    postFixCap = postFix.toLowerCase();
+                    postFixLower = postFix.toUpperCase();
+                }
+               
+
                 if (IT.originalContentString != null) {
-                    if (IT.originalContentString.indexOf(variableTag) != -1 || IT.originalContentString.indexOf(variableTagUpperCase) != -1 || IT.originalContentString.indexOf(variableTagLowerCase) != -1) {
+                    if (IT.originalContentString.indexOf(variableTag) != -1 || IT.originalContentString.indexOf(variableTagUpperCase) != -1 || IT.originalContentString.indexOf(variableTagLowerCase) != -1 || IT.originalContentString.indexOf(prefix) != -1 || IT.originalContentString.indexOf(prefixCap) != -1 || IT.originalContentString.indexOf(prefixLower) != -1 || IT.originalContentString.indexOf(postFix) != -1 || IT.originalContentString.indexOf(postFixCap) != -1 || IT.originalContentString.indexOf(postFixLower) != -1) {
                         IT.ContentString = IT.originalContentString;
                         IT.textStyles = IT.originalTextStyles;
                         if (IT.originalTextStyles != null) {
@@ -3246,6 +3268,7 @@ function pcl42_UpdateTO() {
     }
     else {
         $.each(TO, function (i, IT) {
+            
             $.each(smartFormData.scopeVariables, function (i, obj) {
                 var variableTag = obj.FieldVariable.VariableTag;
                 var variableTagUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
