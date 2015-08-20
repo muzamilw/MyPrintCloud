@@ -1911,9 +1911,66 @@ namespace MigrationUtility
 
 
                         output.Text += "Corproate Store" + Environment.NewLine;
-                        /////////////////////////////////////////// Retail store Pages
+
+                        /////////////////////////////////////////// corproate Territories
+                        output.Text += "Corproate Store territories start" + Environment.NewLine;
+
+                        var territories = PCContext.tbl_ContactCompanyTerritories.Where(g => g.ContactCompanyID == corpCustomerID).ToList();
+
+                        foreach (var oTerritory in territories)
+                        {
+                            CompanyTerritory oNewTerritory = Mapper.Map<tbl_ContactCompanyTerritories, CompanyTerritory>(oTerritory);
+                            oNewTerritory.CompanyId = oCorpStore.CompanyId;
+                            
+                            MPCContext.CompanyTerritories.Add(oNewTerritory);
+                        }
+                         MPCContext.SaveChanges();
+                        output.Text += "Corproate Store territories end" + Environment.NewLine;
 
 
+                        /////////////////////////////////////////// corproate Addresses
+                        output.Text += "Corproate Store address start" + Environment.NewLine;
+                        var addresses = PCContext.tbl_addresses.Where(g => g.ContactCompanyID == corpCustomerID).ToList();
+
+                        foreach (var oaddress in addresses)
+                        {
+                            Address onewaddress = Mapper.Map<tbl_addresses, Address>(oaddress);
+                            onewaddress.CompanyId = oCorpStore.CompanyId;
+                            onewaddress.OrganisationId = OrganizationId;
+                            
+
+                            var oOldterritory  = territories.Where ( g=> g.TerritoryID == onewaddress.TerritoryId).Single();
+                            onewaddress.TerritoryId = MPCContext.CompanyTerritories.Where(g => g.TerritoryCode == oOldterritory.TerritoryCode).Single().TerritoryId;
+                            MPCContext.Addresses.Add(onewaddress);
+                        }
+                        MPCContext.SaveChanges();
+                        output.Text += "Corproate Store address end" + Environment.NewLine;
+                        /////////////////////////////////////////// corproate contacts
+                        output.Text += "Corproate Store contact start" + Environment.NewLine;
+                        var contacts = PCContext.tbl_contacts.Where(g => g.ContactCompanyID == corpCustomerID).ToList();
+
+                        foreach (var oContact in contacts)
+                        {
+                            CompanyContact oNewContact = Mapper.Map<tbl_contacts, CompanyContact>(oContact);
+                            oNewContact.CompanyId = oCorpStore.CompanyId;
+                            oNewContact.OrganisationId = OrganizationId;
+
+                            var oOldAddress = addresses.Where(g => g.AddressID == oNewContact.AddressId).Single();
+                            oNewContact.AddressId = MPCContext.Addresses.Where(g => g.CompanyId == oCorpStore.CompanyId && g.AddressName == oOldAddress.AddressName && g.Address1 == oOldAddress.Address1).First().AddressId;
+
+
+                            var oOldShippingAddress = addresses.Where(g => g.AddressID == oNewContact.ShippingAddressId).Single();
+                            oNewContact.ShippingAddressId = MPCContext.Addresses.Where(g => g.CompanyId == oCorpStore.CompanyId && g.AddressName == oOldAddress.AddressName && g.Address1 == oOldAddress.Address1).First().AddressId;
+
+
+                            var oOldterritory = territories.Where(g => g.TerritoryID == oNewContact.TerritoryId).Single();
+                            oNewContact.TerritoryId = MPCContext.CompanyTerritories.Where(g => g.TerritoryCode == oOldterritory.TerritoryCode && g.CompanyId == oCorpStore.CompanyId).Single().TerritoryId;
+                            MPCContext.CompanyContacts.Add(oNewContact);
+                        }
+
+                        output.Text += "Corproate Store contacts end" + Environment.NewLine;
+
+                        /////////////////////////////////////////// pages
 
                         List<tbl_cmsPages> otbl_cmsPages = PCContext.tbl_cmsPages.Where(g => g.isUserDefined == true).ToList();
 
@@ -2221,7 +2278,7 @@ namespace MigrationUtility
 
                             ProductCategoryItem oProductCategoryItem = new ProductCategoryItem();
                             string scatid = item.ProductCategoryID.ToString();
-                            oProductCategoryItem.CategoryId = MPCContext.ProductCategories.Where(g => g.ContentType == scatid).Single().ProductCategoryId;
+                            oProductCategoryItem.CategoryId = MPCContext.ProductCategories.Where(g => g.ContentType == scatid && g.CompanyId == oCorpStore.CompanyId).Single().ProductCategoryId;
                             oProductCategoryItem.ItemId = oItem.ItemId;
 
                             oItem.ProductCategoryItems.Add(oProductCategoryItem);
@@ -2693,10 +2750,14 @@ namespace MigrationUtility
             .ForMember(x => x.isShowGoogleMap, opt => opt.Ignore());
 
 
-            Mapper.CreateMap<tbl_addresses, Address>();
-            Mapper.CreateMap<tbl_contacts, CompanyContact>();
-            Mapper.CreateMap<tbl_ContactCompanyTerritories, tbl_ContactCompanyTerritories>();
+            Mapper.CreateMap<tbl_addresses, Address>()
+                .ForMember(x => x.State, opt => opt.Ignore())
+                .ForMember(x => x.Country, opt => opt.Ignore());
 
+            Mapper.CreateMap<tbl_contacts, CompanyContact>();
+            Mapper.CreateMap<tbl_ContactCompanyTerritories, CompanyTerritory>();
+            Mapper.CreateMap<tbl_state, State>();
+            Mapper.CreateMap<tbl_country, Country>();
 
             Mapper.CreateMap<tbl_report_notes, ReportNote>();
             Mapper.CreateMap<tbl_prefixes, prefix>()
