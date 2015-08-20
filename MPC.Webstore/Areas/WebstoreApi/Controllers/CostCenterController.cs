@@ -3,6 +3,7 @@ using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using MPC.Webstore.Common;
 using Newtonsoft.Json;
 using System;
@@ -63,22 +64,25 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                 try
                 {
-                    string CacheKeyName = "CompanyBaseResponse";
-                    ObjectCache cache = MemoryCache.Default;
+                    //string CacheKeyName = "CompanyBaseResponse";
+                    //ObjectCache cache = MemoryCache.Default;
 
 // ReSharper disable SuggestUseVarKeywordEvident
-                    Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse> companyBaseResponse =
-// ReSharper restore SuggestUseVarKeywordEvident
-                        (cache.Get(CacheKeyName) as
-                            Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>);
+//                    Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse> companyBaseResponse =
+//// ReSharper restore SuggestUseVarKeywordEvident
+//                        (cache.Get(CacheKeyName) as
+//                            Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>);
+
+                    MyCompanyDomainBaseReponse companyBaseResponse = _companyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
                     string orgName = string.Empty;
-                    if (companyBaseResponse != null && UserCookieManager.WBStoreId != 0)
+                    if (companyBaseResponse != null)// && UserCookieManager.WBStoreId != 0
                     {
-                        MPC.Models.ResponseModels.MyCompanyDomainBaseReponse myCompanyBaseResponseFromCache = companyBaseResponse[UserCookieManager.WBStoreId];    
-                        if (myCompanyBaseResponseFromCache != null && myCompanyBaseResponseFromCache.Organisation != null)
-                        {
-                            orgName = myCompanyBaseResponseFromCache.Organisation.OrganisationName;
-                        }
+                        //MyCompanyDomainBaseReponse myCompanyBaseResponseFromCache = companyBaseResponse[UserCookieManager.WBStoreId];    
+                        //if (myCompanyBaseResponseFromCache != null && myCompanyBaseResponseFromCache.Organisation != null)
+                        //{
+                        orgName = companyBaseResponse.Organisation.OrganisationName;
+                        //}
                     }
                     else
                     {

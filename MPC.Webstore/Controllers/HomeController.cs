@@ -32,11 +32,12 @@ using DotNetOpenAuth.ApplicationBlock;
 using DotNetOpenAuth.ApplicationBlock.Facebook;
 using DotNetOpenAuth.OAuth2;
 using Newtonsoft.Json.Linq;
+using MPC.Models.ResponseModels;
 
 
 namespace MPC.Webstore.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
         #region Private
 
@@ -69,7 +70,7 @@ namespace MPC.Webstore.Controllers
         /// </summary>
         public HomeController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker, ICostCentreService CostCentreService
             , IOrderService OrderService, IOrganisationRepository organisationRepository, ICurrencyRepository currencyRepository)
-            : base(myCompanyService, webstoreAuthorizationChecker)
+            //: base(myCompanyService, webstoreAuthorizationChecker)
         {
             if (myCompanyService == null)
             {
@@ -119,8 +120,8 @@ namespace MPC.Webstore.Controllers
 
 
 
-                string CacheKeyName = "CompanyBaseResponse";
-                ObjectCache cache = MemoryCache.Default;
+                //string CacheKeyName = "CompanyBaseResponse";
+                //ObjectCache cache = MemoryCache.Default;
 
                 //iqra to fix the route of error page, consult khurram if required to get it propper.
                 if (UserCookieManager.WBStoreId != 0)
@@ -147,24 +148,26 @@ namespace MPC.Webstore.Controllers
                     //        _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId);
                     //    }
 
-                       // MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.WBStoreId];
-                    if (StoreCachedData != null)
+                    //    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.WBStoreId];
+                    MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+    
+                    if (StoreBaseResopnse != null)
                         {
                             string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
                             if (!_webstoreAuthorizationChecker.isUserLoggedIn())
                             {
-                                if ((StoreCachedData.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
+                                if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
                                 {
                                     Response.Redirect("/Login");
                                 }
                             }
-                            else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreCachedData.Company.IsCustomer == (int)StoreMode.Corp)
+                            else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
                             {
                                 Response.Redirect("/");
 
                             }
 
-                            model = GetWidgetsByPageName(StoreCachedData.SystemPages, pageRouteValue.Split('/')[0], StoreCachedData.CmsSkinPageWidgets, StoreCachedData.StoreDetaultAddress, StoreCachedData);
+                            model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse);
                            
                         }
                         else
@@ -172,7 +175,7 @@ namespace MPC.Webstore.Controllers
                             TempData["ErrorMessage"] = "There is some problem while performing the operation.";
                             return RedirectToAction("Error");
                         }
-                   // }
+                    //}
                 }
                 else
                 {
@@ -652,7 +655,8 @@ namespace MPC.Webstore.Controllers
             }
         }
 
-        public ActionResult ReceiptPlain(string OrderId, string StoreId, string IsPrintReceipt, string loginUserId)
+        [AllowAnonymous]
+        public ActionResult ReceiptPlain(string OrderId, string StoreId, string IsPrintReceipt)
         {
 
             MPC.Models.DomainModels.Company oCompany = _myCompanyService.GetCompanyByCompanyID(Convert.ToInt64(StoreId));

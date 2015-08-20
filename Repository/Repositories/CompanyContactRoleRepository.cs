@@ -3,7 +3,8 @@ using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
-
+using System.Collections.Generic;
+using System.Linq;
 namespace MPC.Repository.Repositories
 {
     public class CompanyContactRoleRepository : BaseRepository<CompanyContactRole>, ICompanyContactRoleRepository
@@ -23,6 +24,14 @@ namespace MPC.Repository.Repositories
                 return db.CompanyContactRoles;
             }
         }
+        public List<CompanyContactRole> GetContactRolesExceptAdmin(int AdminRole)
+        {
+            return db.CompanyContactRoles.Where(c => c.ContactRoleId != AdminRole).ToList();
+        }
 
+        public List<CompanyContactRole> GetAllContactRoles()
+        {
+            return db.CompanyContactRoles.ToList();
+        }
     }
 }

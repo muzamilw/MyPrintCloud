@@ -8,6 +8,7 @@ using MPC.Webstore.Models;
 using MPC.Models.DomainModels;
 using System.Runtime.Caching;
 using System.Collections.Generic;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
@@ -36,10 +37,11 @@ namespace MPC.Webstore.Controllers
         // GET: ContactUs
         public ActionResult Index()
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             SetDefaultAddress(StoreBaseResopnse);
             return PartialView("PartialViews/ContactUs");
@@ -48,8 +50,8 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(ContactViewModel model)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
             try
             {
                 string smtpUser = null;
@@ -57,7 +59,9 @@ namespace MPC.Webstore.Controllers
                 string smtpPassword = null;
                 string fromName = null;
                 string fromEmail = null;
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
                 ViewBag.Organisation = StoreBaseResopnse.StoreDetaultAddress;
                 string MesgBody = "";
                 if (StoreBaseResopnse.Organisation != null)

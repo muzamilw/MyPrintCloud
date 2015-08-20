@@ -1,6 +1,7 @@
 ﻿using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using MPC.Webstore.Common;
 using System;
 using System.Collections.Generic;
@@ -117,10 +118,12 @@ namespace MPC.Webstore.Controllers
         
         private void approveOrRejectEmailToUser(long userID, long orderID,int Event)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
             CompanyContact userRec = _CompanyService.GetContactByID(userID);
             MPC.Models.DomainModels.Company loginUserCompany = _CompanyService.GetCompanyByCompanyID(_myClaimHelper.loginContactCompanyID());
             SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
@@ -144,20 +147,24 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public void ApporRejectOrder(long OrderID)
         { 
-             string CacheKeyName = "CompanyBaseResponse";
-             ObjectCache cache = MemoryCache.Default;
+             //string CacheKeyName = "CompanyBaseResponse";
+             //ObjectCache cache = MemoryCache.Default;
 
-             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-             long ID = _CompanyService.ApproveOrRejectOrder(OrderID, _myClaimHelper.loginContactID(), OrderStatus.RejectOrder, StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+             //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+ 
+            long ID = _CompanyService.ApproveOrRejectOrder(OrderID, _myClaimHelper.loginContactID(), OrderStatus.RejectOrder, StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
              approveOrRejectEmailToUser(ID, OrderID, (int)Events.Order_Approval_By_Manager);
         
         }
         [HttpPost]
         public void Save(long OrderID, string PO)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
             SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
             long ContactID = _CompanyService.ApproveOrRejectOrder(OrderID, _myClaimHelper.loginContactID(), OrderStatus.PendingOrder, StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value,PO);
            

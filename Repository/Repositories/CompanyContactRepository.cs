@@ -1724,6 +1724,58 @@ namespace MPC.Repository.Repositories
 
 
         }
+        public  List<CompanyContact> GetSearched_Contacts(long contactCompanyId, String searchtxt, long territoryID)
+        {
+            try
+            {
+               
+                    if (territoryID > 0)
+                    {
+                        return (from c in db.CompanyContacts.Include("CompanyTerritories")
+                                where (c.CompanyId == contactCompanyId) && (c.FirstName.Contains(searchtxt) || c.Email.Contains(searchtxt))
+                                && c.TerritoryId == territoryID
+                                select c).ToList();
+                    }
+                    else
+                    {
+                        return (from c in db.CompanyContacts.Include("CompanyTerritories")
+                                where (c.CompanyId == contactCompanyId) && (c.FirstName.Contains(searchtxt) || c.Email.Contains(searchtxt))
+                                select c).ToList();
+                    }
+                
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CompanyContact> GetContactsByTerritory(long contactCompanyId, long territoryID)
+        {
+            try
+            {
+                
+                
+                    if (territoryID > 0)
+                    {
+                        return (from c in db.CompanyContacts.Include("CompanyTerritories")
+                                where c.CompanyId == contactCompanyId && c.TerritoryId == territoryID
+                                select c).ToList();
+                    }
+                    else
+                    {
+                        return (from c in db.CompanyContacts.Include("CompanyTerritories")
+                                where c.CompanyId == contactCompanyId
+                                select c).ToList();
+                    }
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 
 }
