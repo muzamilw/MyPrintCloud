@@ -199,7 +199,16 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                 this.AllUserScopeVariables = AllUserScopeVariables;
             }
          
-
+            foreach(var item in this.scopeVariables)
+            {
+                if (item.FieldVariable != null)
+                    item.FieldVariable.Company = null;
+            }
+            foreach(var item in this.smartFormObjs)
+            {
+                if (item.FieldVariable != null)
+                    item.FieldVariable.Company = null;
+            }
           
 
             
@@ -214,6 +223,11 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         {
             this.scopeVariables = scopeVariables;
             this.variableExtensions = variableExtensions;
+            foreach (var item in this.scopeVariables)
+            {
+                if (item.FieldVariable != null)
+                    item.FieldVariable.Company = null;
+            }
         }
     }
 }

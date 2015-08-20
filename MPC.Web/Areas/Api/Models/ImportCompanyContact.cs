@@ -45,7 +45,7 @@ namespace MPC.MIS.Areas.Api.Models
 
         public string UserRole { get; set; }
 
-        public string UserName { get; set; }
+      
 
         public string POBoxAddress { get; set; }
 
@@ -71,7 +71,7 @@ namespace MPC.MIS.Areas.Api.Models
 
         public string IsEmailSubscription { get; set; }
 
-        public string isDefaultContact { get; set; }
+        public string IsDefaultContact { get; set; }
 
 
     }
