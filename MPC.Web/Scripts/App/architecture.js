@@ -785,7 +785,7 @@ require(["ko", "knockout-validation"], function (ko) {
             }
         }
     };
-        
+  
     // number formatting for input fields
     ko.bindingHandlers.numberValue = {
         init: function (element, valueAccessor, allBindingsAccessor) {

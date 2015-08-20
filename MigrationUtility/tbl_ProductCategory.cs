@@ -18,7 +18,7 @@ namespace MigrationUtility
         {
             this.tbl_items = new HashSet<tbl_items>();
             this.Templates = new HashSet<Template>();
-            this.tbl_ProductCategoryFoldLines = new HashSet<tbl_ProductCategoryFoldLines>();
+            this.tbl_ProductCategoryFoldLines = new HashSet<tbl_ProductCategoryFoldLiness>();
         }
     
         public int ProductCategoryID { get; set; }
@@ -59,6 +59,6 @@ namespace MigrationUtility
         public virtual tbl_contactcompanies tbl_contactcompanies { get; set; }
         public virtual ICollection<tbl_items> tbl_items { get; set; }
         public virtual ICollection<Template> Templates { get; set; }
-        public virtual ICollection<tbl_ProductCategoryFoldLines> tbl_ProductCategoryFoldLines { get; set; }
+        public virtual ICollection<tbl_ProductCategoryFoldLiness> tbl_ProductCategoryFoldLines { get; set; }
     }
 }

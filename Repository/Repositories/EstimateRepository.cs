@@ -191,6 +191,7 @@ namespace MPC.Repository.Repositories
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
+            string CurrencySymbol = string.Empty;
 
             Expression<Func<Estimate, bool>> query =
                 item =>
@@ -209,10 +210,17 @@ namespace MPC.Repository.Repositories
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList();
+            long CurrencyId = db.Organisations.Where(c => c.OrganisationId == OrganisationId).Select(c => c.CurrencyId ?? 0).FirstOrDefault();
+           if (CurrencyId > 0)
+           {
+               CurrencySymbol = db.Currencies.Where(c => c.CurrencyId == CurrencyId).Select(c => c.CurrencySymbol).FirstOrDefault();   
+           }
             return new OrdersForCrmResponse
             {
                 RowCount = DbSet.Count(query),
-                Orders = items
+                Orders = items,
+                CurrecySymbol = CurrencySymbol
+
             };
         }
 

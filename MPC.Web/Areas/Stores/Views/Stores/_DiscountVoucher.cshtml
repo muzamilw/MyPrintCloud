@@ -13,10 +13,11 @@
                     <thead>
                         <tr>
                             <th class="col-lg-2"><span>Discount Name</span></th>
-                            <th class="col-lg-2"><span>Coupon Code</span></th>
+                            <th class="col-lg-2" style="width: 11%;"><span>Coupon Code</span></th>
                             <th class="col-lg-2"><span>Discount Type</span></th>
-                            <th class="col-lg-2"><span style="margin-left:10px">Discount Value</span></th>
-                            <th class="col-lg-2"><span>Coupon Usage</span></th>
+                            <th class="col-lg-2" style="width: 13%; text-align: right;"><span style="margin-left:10px">Discount Value</span></th>
+                            <th class="col-lg-1"></th>
+                            <th class="col-lg-2" style="text-align:left;"><span>Coupon Usage</span></th>
                             @*<th>&nbsp;</th>*@
                         </tr>
                     </thead>
@@ -35,13 +36,22 @@
                            
                             <td data-bind="text:discountType"></td>
                           
-                            <td style="text-align:center;" >
-                                <!-- ko if: discountType() != "Free Shipping on ENTIRE ORDER" -->
+                            <td style="text-align: right;" >
+                                <!-- ko if: discountTypeId() != 5 -->
+
+                                      <!-- ko if: discountTypeId() === 3 ||  discountTypeId() === 4 -->
                                         <span data-bind="text:discountRate()+'%'"></span>
+                                     <!-- /ko -->
+                                    <!-- ko if: discountTypeId() === 1 ||  discountTypeId() === 2 -->
+                                <span data-bind="text: $root.currencySymbol() + ' ' + discountRate()"></span>
+                                    <!-- /ko -->
+
                                 <!-- /ko -->
                             </td>
-                          
-                            <td >
+                            <td>
+                              
+                            </td>
+                            <td style="text-align: left;">
                                 <!-- ko if: hasCoupon() === true -->
                                 <span data-bind="text:couponUseType"></span>
                                 <!-- /ko -->

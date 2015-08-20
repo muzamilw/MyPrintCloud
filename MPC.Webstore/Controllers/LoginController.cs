@@ -201,7 +201,7 @@ namespace MPC.Webstore.Controllers
                     UserCookieManager.WEBContactFirstName = user.FirstName;
                     UserCookieManager.WEBContactLastName = user.LastName == null ? "" : user.LastName;
                     UserCookieManager.ContactCanEditProfile = user.CanUserEditProfile ?? false;
-                    UserCookieManager.ShowPriceOnWebstore = user.IsPricingshown ?? true;
+                    UserCookieManager.ShowPriceOnWebstore = user.IsPricingshown ?? false;
 
                     UserCookieManager.WEBEmail = user.Email;
 

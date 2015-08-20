@@ -418,18 +418,56 @@ namespace MPC.Webstore.Controllers
             {
                 AddressSelectModel.TaxLabel = baseresponseComp.TaxLabel + " :";
             }
+
             AddressSelectModel.chkBoxDeliverySameAsBilling = "True";
             AddressSelectModel.Warning = "warning"; // Utils.GetKeyValueFromResourceFile("lnkWarnMesg", UserCookieManager.StoreId) + " " + baseresponseOrg.Organisation.Country + "."; // (string)GetGlobalResourceObject("MyResource", "lnkWarnMesg") + " " + companySite.Country + ".";
-            if (baseresponseComp.ShowPrices ?? true)
+
+            if (baseresponseComp.ShowPrices == true)
             {
                 ViewBag.IsShowPrices = true;
-                //do nothing because pricing are already visible.
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                {
+                    if (_myClaimHelper.loginContactID() > 0)
+                    {
+                        if (UserCookieManager.ShowPriceOnWebstore == true)
+                        {
+                            ViewBag.IsShowPrices = true;
+                        }
+                        else
+                        {
+                            ViewBag.IsShowPrices = false;
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.IsShowPrices = true;
+                    }
+                }
+
             }
             else
             {
                 ViewBag.IsShowPrices = false;
-                //  cntRightPricing1.Visible = false;
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                {
+                    if (_myClaimHelper.loginContactID() > 0)
+                    {
+                        if (UserCookieManager.ShowPriceOnWebstore == true)
+                        {
+                            ViewBag.IsShowPrices = true;
+                        }
+                        else
+                        {
+                            ViewBag.IsShowPrices = false;
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.IsShowPrices = false;
+                    }
+                }
             }
+
         }
 
         private List<CostCentre> GetDeliveryCostCenterList()

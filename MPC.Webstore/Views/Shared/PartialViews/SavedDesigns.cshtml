@@ -1,6 +1,7 @@
 ﻿@using MPC.Models.DomainModels;
 @{ 
     string thumbname = "Thumb.png";
+    string artworkattachmentThumbPath = "mpc_content/Attachments/"+ UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/Products/";
 }
 @{
     Layout = null;
@@ -36,8 +37,15 @@
                                 <div class="pad5">
                                     <div class="PDTCWB">
                                         <div class="PDTC_SD FISaved" style="display: block;">
-
-                                            <img id="imgThumbnail" class="svdDesignImgThumb" src="@saveDesign.AttachmentFolderPath/@saveDesign.AttachmentFileName@thumbname" />
+                                            @if (saveDesign.AttachmentFolderPath.Contains("/Production"))
+                                            {
+                                                <img id="imgThumbnail" class="svdDesignImgThumb" src="/@artworkattachmentThumbPath@saveDesign.ItemID/@saveDesign.AttachmentFileName@thumbname" />
+                                            }
+                                            else
+                                            {
+                                                <img id="imgThumbnail" class="svdDesignImgThumb" src="@saveDesign.AttachmentFolderPath/@saveDesign.AttachmentFileName@thumbname" />
+                                            }
+                                            
                                         </div>
                                     </div>
                                     <div class="LCLB product_detail_image_heading rounded_corners">

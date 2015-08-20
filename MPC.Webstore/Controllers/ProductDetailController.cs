@@ -59,18 +59,55 @@ namespace MPC.Webstore.Controllers
 
 
                 organisationID = StoreBaseResopnse.Organisation.OrganisationId;
-
                 if (StoreBaseResopnse.Company.ShowPrices == true)
                 {
-                    ViewBag.IsShowPrices = true;
                     IsShowPrices = true;
+                    if(UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                    {
+                        if (_myClaimHelper.loginContactID() > 0)
+                        {
+                            if (UserCookieManager.ShowPriceOnWebstore == true)
+                            {
+                                IsShowPrices = true;
+                            }
+                            else
+                            {
+                                IsShowPrices = false;
+                            }
+                        }
+                        else
+                        {
+                            IsShowPrices = true;
+                        }
+                    }
+                    
                 }
                 else
                 {
-                    ViewBag.IsShowPrices = false;
                     IsShowPrices = false;
-
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                    {
+                        if (_myClaimHelper.loginContactID() > 0)
+                        {
+                            if (UserCookieManager.ShowPriceOnWebstore == true)
+                            {
+                                IsShowPrices = true;
+                            }
+                            else
+                            {
+                                IsShowPrices = false;
+                            }
+                        }
+                        else
+                        {
+                            IsShowPrices = false;
+                        }
+                    }
+                   
                 }
+
+                ViewBag.IsShowPrices = IsShowPrices;
+                
                 Item ItemRecord = _IItemService.GetItemById(ItemID);
 
 
@@ -85,7 +122,7 @@ namespace MPC.Webstore.Controllers
                     if (ItemRecord.TemplateId != null && ItemRecord.TemplateId > 0)
                     {
                         ViewBag.TemplateID = ItemRecord.TemplateId;
-                        SetLastItemTemplateMatchingSets(ItemRecord, StoreBaseResopnse, Convert.ToInt64(ItemRecord.TemplateId));
+                        SetLastItemTemplateMatchingSets(ItemRecord, StoreBaseResopnse, Convert.ToInt64(ItemRecord.TemplateId), IsShowPrices);
                         PopulateTemplateObject(Convert.ToInt64(ItemRecord.TemplateId), ItemRecord, ItemID, StoreBaseResopnse.Organisation.OrganisationId);
                     }
                     else
@@ -418,7 +455,7 @@ namespace MPC.Webstore.Controllers
         /// <param name="baseresponseOrg"></param>
         /// <param name="baseresponseCurrency"></param>
         /// <param name="baseresponseCompany"></param>
-        private void SetLastItemTemplateMatchingSets(Item Product, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseresponse, long tempID)
+        private void SetLastItemTemplateMatchingSets(Item Product, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseresponse, long tempID, bool isShowPrices)
         {
 
             MatchingSetViewModel MSViewModel = new MatchingSetViewModel();
@@ -459,15 +496,7 @@ namespace MPC.Webstore.Controllers
                             isIncludeVAT = true;
                         }
 
-                        bool isShowPrices;
-                        if (baseresponse.Company.ShowPrices ?? true)
-                        {
-                            isShowPrices = true;
-                        }
-                        else
-                        {
-                            isShowPrices = false;
-                        }
+                      
 
                         if (res != null && res.Count > 0)
                         {

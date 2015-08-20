@@ -444,15 +444,50 @@ namespace MPC.Webstore.Controllers
 
                     }
 
-                    if (StoreBaseResopnse.Company.ShowPrices ?? true)
+                    if (StoreBaseResopnse.Company.ShowPrices == true)
                     {
                         ViewBag.IsShowPrices = true;
-                        //do nothing because pricing are already visible.
+                        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                        {
+                            if (_myClaimHelper.loginContactID() > 0)
+                            {
+                                if (UserCookieManager.ShowPriceOnWebstore == true)
+                                {
+                                    ViewBag.IsShowPrices = true;
+                                }
+                                else
+                                {
+                                    ViewBag.IsShowPrices = false;
+                                }
+                            }
+                            else
+                            {
+                                ViewBag.IsShowPrices = true;
+                            }
+                        }
+
                     }
                     else
                     {
                         ViewBag.IsShowPrices = false;
-                        //  cntRightPricing1.Visible = false;
+                        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                        {
+                            if (_myClaimHelper.loginContactID() > 0)
+                            {
+                                if (UserCookieManager.ShowPriceOnWebstore == true)
+                                {
+                                    ViewBag.IsShowPrices = true;
+                                }
+                                else
+                                {
+                                    ViewBag.IsShowPrices = false;
+                                }
+                            }
+                            else
+                            {
+                                ViewBag.IsShowPrices = false;
+                            }
+                        }
                     }
 
                     ViewBag.Currency = StoreBaseResopnse.Currency;
