@@ -48,6 +48,8 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IRaveReviewRepository _raveReviewRepository;
         private readonly IOrderRepository _orderrepository;
         private readonly ICompanyVoucherRedeemRepository _companyVoucherReedemRepository;
+        private readonly IRegistrationQuestionRepository _questionRepository;
+        private readonly ICompanyContactRoleRepository _companycontactRoleRepo;
         private string pageTitle = string.Empty;
         private string MetaKeywords = string.Empty;
         private string MetaDEsc = string.Empty;
@@ -65,9 +67,10 @@ namespace MPC.Implementation.WebStoreServices
             , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository, IItemRepository itemRepository, IAddressRepository addressRepository, IMarkupRepository markuprepository
             , ICountryRepository countryRepository, IStateRepository stateRepository, IFavoriteDesignRepository favoriteRepository, IStateRepository StateRepository, ICompanyTerritoryRepository CompanyTerritoryRepository
             , INewsLetterSubscriberRepository newsLetterSubscriberRepository, IRaveReviewRepository raveReviewRepository, IOrderRepository _orderrepository
-            , ICompanyVoucherRedeemRepository companyVoucherReedemRepository)
+            , ICompanyVoucherRedeemRepository companyVoucherReedemRepository, IRegistrationQuestionRepository _questionRepository, ICompanyContactRoleRepository _companycontactRoleRepo)
         {
             this._CompanyRepository = companyRepository;
+            this._questionRepository = _questionRepository;
             this._widgetRepository = widgetRepository;
             this._companyBannerRepository = companyBannerRepository;
             this._productCategoryRepository = productCategoryRepository;
@@ -89,6 +92,7 @@ namespace MPC.Implementation.WebStoreServices
             this._raveReviewRepository = raveReviewRepository;
             this._orderrepository = _orderrepository;
             this._companyVoucherReedemRepository = companyVoucherReedemRepository;
+            this._companycontactRoleRepo = _companycontactRoleRepo; 
         }
 
         #endregion
@@ -1555,5 +1559,31 @@ namespace MPC.Implementation.WebStoreServices
             }
 
         }
+        public IEnumerable<CompanyTerritory> GetAllCompanyTerritories(long companyId)
+        {
+           return  _CompanyTerritoryRepository.GetAllCompanyTerritories(companyId);
+        
+        }
+        public IEnumerable<RegistrationQuestion> GetAllQuestions()
+        {
+            return _questionRepository.GetAll();
+        }
+        public List<CompanyContactRole> GetContactRolesExceptAdmin(int AdminRole)
+        {
+            return _companycontactRoleRepo.GetContactRolesExceptAdmin(AdminRole);
+        }
+        public List<CompanyContactRole> GetAllContactRoles()
+        {
+            return _companycontactRoleRepo.GetAllContactRoles();
+        }
+        public List<CompanyContact> GetSearched_Contacts(long contactCompanyId, String searchtxt, long territoryID)
+        {
+            return _CompanyContactRepository.GetSearched_Contacts(contactCompanyId, searchtxt, territoryID);
+        }
+        public List<CompanyContact> GetContactsByTerritory(long contactCompanyId, long territoryID)
+        {
+            return _CompanyContactRepository.GetContactsByTerritory(contactCompanyId, territoryID);
+        }
+
     }
 }
