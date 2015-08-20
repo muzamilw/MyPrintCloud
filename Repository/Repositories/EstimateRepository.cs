@@ -284,6 +284,7 @@ namespace MPC.Repository.Repositories
         public DashBoardChartsResponse GetChartsForDashboard()
         {
             var now = DateTime.Now;
+            
             return new DashBoardChartsResponse
             {
                  

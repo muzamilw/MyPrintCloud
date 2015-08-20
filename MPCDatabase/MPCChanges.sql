@@ -7035,7 +7035,7 @@ END
 
 	   /*Execution date 19/08/2015*/
 
-	   USE [MPCLive]
+	  
 GO
 /****** Object:  StoredProcedure [dbo].[sp_cloneTemplate]    Script Date: 08/19/2015 17:04:31 ******/
 SET ANSI_NULLS ON
@@ -7380,7 +7380,7 @@ BEGIN
 	END
 
 /*Execution date 19/08/2015*/
-
+Go
 ALTER VIEW [dbo].[vw_SaveDesign]
 AS
  SELECT  item.ItemID, ItemAttach.ItemID AS AttachmentItemId,ItemAttach.FileName AS AttachmentFileName, 
@@ -7425,3 +7425,4 @@ select sum(EstimateTotal) as EstimateTotal, sum(ConvertedTotal) as ConvertedTota
 
 group by month,monthname,year
 order by ConvertedTotal desc
+End
