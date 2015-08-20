@@ -12,6 +12,14 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        List<ItemPriceMatrix> GetRetailProductsPriceMatrix(long CompanyID);
+        List<ProductItem> GetAllRetailDisplayProductsQuickCalc(long CompanyID);
+        List<CompanyContact> GetContactsByTerritory(long contactCompanyId, long territoryID);
+        List<CompanyContact> GetSearched_Contacts(long contactCompanyId, String searchtxt, long territoryID);
+        List<CompanyContactRole> GetContactRolesExceptAdmin(int AdminRole);
+        List<CompanyContactRole> GetAllContactRoles();
+        IEnumerable<RegistrationQuestion> GetAllQuestions();
+        IEnumerable<CompanyTerritory> GetAllCompanyTerritories(long companyId);
         int GetSavedDesignCountByContactId(long ContactID);
         CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode);
         long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "");
