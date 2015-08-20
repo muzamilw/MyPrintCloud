@@ -51,7 +51,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 RoleId = source.UserRole == "A" ? 1
                        : source.UserRole == "M" ? 2
                        : source.UserRole == "U" ? 3
-                       : 0,
+                       : 3,
 
                 POAddress = source.POBoxAddress,
                 CorporateUnit = source.CorporateUnit,
