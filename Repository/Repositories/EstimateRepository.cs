@@ -293,8 +293,8 @@ namespace MPC.Repository.Repositories
                 MonthlyOrdersCount = db.usp_ChartMonthlyOrdersCount(OrganisationId),
                 EstimateToOrderConversion = db.usp_ChartEstimateToOrderConversion(OrganisationId),
                 EstimateToOrderConversionCount = db.usp_ChartEstimateToOrderConversionCount(OrganisationId),
-                Top10PerformingCustomers = db.usp_ChartTop10PerfomingCustomers(OrganisationId)
-            
+                Top10PerformingCustomers = db.usp_ChartTop10PerfomingCustomers(OrganisationId),
+                MonthlyEarningsbyStore = db.usp_ChartMonthlyEarningsbyStore(OrganisationId)
                
             };
         }
