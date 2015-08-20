@@ -2110,12 +2110,21 @@ namespace MPC.Implementation.WebStoreServices
                 }
 
                 MPC.Models.DomainModels.Estimate oCookieOrder = _orderService.GetOrderByOrderID(OrderIdFromCookie);
-
-                if (oCookieOrder.StatusId != (int)OrderStatus.ShoppingCart)
+               
+                if (oCookieOrder != null)
+                {
+                    if (oCookieOrder.StatusId != (int)OrderStatus.ShoppingCart)
+                    {
+                        OrderIdFromCookie = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, ModeOfStore, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                        itemCloneObj.OrderId = OrderIdFromCookie;
+                    }
+                }
+                else 
                 {
                     OrderIdFromCookie = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, ModeOfStore, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                     itemCloneObj.OrderId = OrderIdFromCookie;
                 }
+               
 
                 item = CloneItem(ItemId, 0, OrderIdFromCookie, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId);
 
