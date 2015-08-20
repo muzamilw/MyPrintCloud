@@ -514,7 +514,7 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         foreach (TemplateBackgroundImage obj in uploadedPdfRecords)
                         {
-                            
+                            bgImg = new TemplateBackgroundImage();
                             bgImg.Name = UploadPathForPDF + obj.Name;
                             bgImg.ImageName = UploadPathForPDF + obj.Name;
                             bgImg.ProductId = productId;

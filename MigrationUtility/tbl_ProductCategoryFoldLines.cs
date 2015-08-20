@@ -12,7 +12,7 @@ namespace MigrationUtility
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_ProductCategoryFoldLines
+    public partial class tbl_ProductCategoryFoldLiness
     {
         public int FoldLineID { get; set; }
         public Nullable<int> ProductCategoryID { get; set; }

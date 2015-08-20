@@ -14,7 +14,7 @@
     <UseSerializerForFaults>true</UseSerializerForFaults>
     <ReferenceAllAssemblies>false</ReferenceAllAssemblies>
     <ReferencedAssemblies>
-      <ReferencedAssembly AssemblyName="MPC.Models" />
+      <ReferencedAssembly AssemblyName="EntityFramework" />
     </ReferencedAssemblies>
     <ReferencedDataContractTypes />
     <ServiceContractMappings />

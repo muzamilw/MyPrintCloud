@@ -16,6 +16,7 @@ define("crm/crm.viewModel",
                     prospectPager = ko.observable(),
                     // Determines Company type
                     companyType = ko.observable(2),
+                    currencySymbol = ko.observable(),
                     orderPager = ko.observable(),
                     purchaseOrderPager = ko.observable(),
                     goodsReceivedNotePager = ko.observable(),
@@ -2111,6 +2112,7 @@ define("crm/crm.viewModel",
                 getDataForOrderTab = function () {
                     dataservice.getOrdersData({
                         CompanyId: selectedStore().companyId(),
+                        
                         PageSize: orderPager().pageSize(),
                         PageNo: orderPager().currentPage(),
                         IsProspectOrCustomer: isProspectOrCustomerScreen(),
@@ -2124,7 +2126,9 @@ define("crm/crm.viewModel",
                                 _.each(data.OrdersList, function (order) {
                                     var newOrder = new model.Estimate.Create(order);
                                     ordersList.push(newOrder);
+
                                 });
+                                currencySymbol(data.CurrencySymbol);
                                 orderPager().totalCount(data.RowCount);
                             }
                         },
@@ -2140,6 +2144,7 @@ define("crm/crm.viewModel",
                 purchaseOrdersTabClickHandler = function (data) {
                     isPurchaseOrderTab(true);
                     purchaseOrderPager().reset();
+                    ordersTabClickHandler();
                     getDataForPurchaseOrderTab(data);
                 },
                 // Gets purchase orders for list view
@@ -2175,7 +2180,9 @@ define("crm/crm.viewModel",
                    goodRecievedNotesTabClickHandler = function (data) {
                        isGoodsReceivedNoteTab(true);
                        goodsReceivedNotePager().reset();
+                       ordersTabClickHandler();
                        getDataForGoodsReceivedNoteTab(data);
+                       
                    },
                     // Gets customers for list view
                 getDataForGoodsReceivedNoteTab = function () {
@@ -2213,6 +2220,7 @@ define("crm/crm.viewModel",
                        }
                        isInvoiceTab(true);
                        invoicePager().reset();
+                       getDataForOrderTab();
                        getsDataForInvoiceTab();
                    },
                   // Gets Invoices data
@@ -2416,6 +2424,7 @@ define("crm/crm.viewModel",
 
                    ko.applyBindings(view.viewModel, view.bindingRoot);
                    var callback = null;
+                   
                    if (isProspectOrCustomerScreen()) {
                        prospectPager(new pagination.Pagination({ PageSize: 5 }, customersForListView, getCustomers));
                        var companyIdFromDashboard = $('#CompanyId').val();
@@ -2427,12 +2436,14 @@ define("crm/crm.viewModel",
                        else
                        {
                            getCustomers();
+                          
                        }
                       
                    }
                    else {
                        supplierpager(new pagination.Pagination({ PageSize: 5 }, suppliers, getSuppliers));
                        getSuppliers();
+                   
                    }
 
                    orderPager(new pagination.Pagination({ PageSize: 5 }, ordersList, getDataForOrderTab));
@@ -2447,6 +2458,7 @@ define("crm/crm.viewModel",
                 return {
                     initialize: initialize,
                     //#region Supplier Screen
+                    currencySymbol : currencySymbol,
                     supplierpager: supplierpager,
                     isLoadingSuppliers: isLoadingSuppliers,
                     searchSupplierFilter: searchSupplierFilter,
