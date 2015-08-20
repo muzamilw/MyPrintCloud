@@ -6619,3 +6619,117 @@ alter table StagingImportCompanyContactAddress add TradingName nvarchar(500)
        
        
 
+
+/****** Object:  StoredProcedure [dbo].[usp_ChartTopPerformingStores]    Script Date: 8/19/2015 11:15:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--exec usp_ChartTopPerformingStores 1
+
+ALTER PROCEDURE [dbo].[usp_ChartTopPerformingStores]--1
+	(@OrganisationId bigint)
+AS
+ BEGIN
+ 
+ declare @PreviousMonth int, @CurrentMonth int, @CurrentYear int
+
+set @PreviousMonth = datepart(month, dateadd(month, -1, getdate()))
+set @CurrentMonth = datepart(month, getdate())
+set @CurrentYear = DATEPART(year, getdate())
+
+----------------------------------Retails Stores-----------------------------------
+select *, 'Jan' as MonthName,2015 as year,1 as Month  from (
+select 
+		(select CurrentMonthEarn from (select sum(Estimate_Total) as CurrentMonthEarn, r.RetailStoreName 
+			from estimate e 
+			inner join (select reg.CompanyId, store.Name as RetailStoreName 
+						from Company reg 
+						inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4) r
+			on r.CompanyId = e.CompanyId
+			where e.StatusId <> 3 and datepart(month, e.CreationDate) = @CurrentMonth and datepart(year, e.CreationDate) = @CurrentYear
+			group by RetailStoreName) dt 
+			where dt.RetailStoreName = retail.RetailStoreName) as CurrentMonthEarning, sum(Estimate_Total) as LastMonthEarning, retail.RetailStoreName as Name
+ from estimate e 
+ inner join (--Retail Customers
+			select reg.CompanyId, store.Name as RetailStoreName 
+			from Company reg 
+			inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4) retail
+			on retail.CompanyId = e.CompanyId
+			where e.StatusId <> 3 and datepart(month, e.CreationDate) = @PreviousMonth and datepart(year, e.CreationDate) = @CurrentYear
+			group by RetailStoreName
+
+
+union
+----------------------------------Corporate Stores-----------------------------------
+select 
+		(select CurrentMonthEarn from (select sum(Estimate_Total) as CurrentMonthEarn, r.CorporateStore 
+			from estimate e 
+			inner join (select companyId, Name as CorporateStore from company where organisationID = @OrganisationId and IsCustomer = 3) r
+			on r.CompanyId = e.CompanyId
+			where e.StatusId <> 3 and datepart(month, e.CreationDate) = @CurrentMonth and datepart(year, e.CreationDate) = @CurrentYear
+			group by CorporateStore) dt 
+			where dt.CorporateStore = retail.CorporateStore) as CurrentMonthEarning, sum(Estimate_Total) as LastMonthEarning, retail.CorporateStore as Name
+ from estimate e 
+ inner join (select companyId, Name as CorporateStore from company where organisationID = @OrganisationId and IsCustomer = 3) retail
+			on retail.CompanyId = e.CompanyId
+			where e.StatusId <> 3 and datepart(month, e.CreationDate) = @PreviousMonth and datepart(year, e.CreationDate) = @CurrentYear
+			group by CorporateStore
+) p
+order by CurrentMonthEarning desc
+
+
+end 
+
+
+/****** Object:  StoredProcedure [dbo].[usp_ChartMonthlyEarningsbyStore]    Script Date: 8/19/2015 4:02:51 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Muhammad Naveed
+-- Create date: 2015 07 30
+-- Description:	To Get Charts data of Monthly Earnings by store
+-- =============================================
+-- Exec [usp_ChartMonthlyEarningsbyStore] 1
+ALTER PROCEDURE [dbo].[usp_ChartMonthlyEarningsbyStore]
+	@OrganisationId bigint
+AS
+BEGIN
+
+		
+--------------------------Retails Stores--------------------------------
+					select  RetailStoreName as Name,sum(Estimate_Total)as TotalEarning, MonthName, Month, Year 
+						from (select	Estimate_Total, retail.RetailStoreName, DATENAME(MONTH, CreationDate) as MonthName, DATEPart(MONTH,CreationDate) as Month,
+										DATEPart(Year,CreationDate) as Year 
+									from estimate e inner join
+										(--Retail Stores
+											select reg.CompanyId, store.Name as RetailStoreName 
+												from Company reg 
+												inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4) retail
+												on retail.CompanyId = e.CompanyId
+												where e.StatusId <> 3 
+										) ct
+					group by RetailStoreName, MonthName, Month, year
+
+					Union
+--------------------------Corporate Stores--------------------------------
+					select  CorporateStore as Name ,sum(Estimate_Total)as TotalEarning, MonthName, Month, Year 
+					from (select	Estimate_Total, corp.CorporateStore, DATENAME(MONTH, CreationDate) as MonthName, DATEPart(MONTH,CreationDate) as Month,
+									DATEPart(Year,CreationDate) as Year 
+							from estimate e inner join
+								(--Corporate Stores
+									select companyId, Name as CorporateStore from company where organisationID = @OrganisationId and IsCustomer = 3) corp
+									on corp.CompanyId = e.CompanyId
+									where e.StatusId <> 3 
+								) ct
+					group by CorporateStore, MonthName, Month, year
+					order by TotalEarning desc
+
+			RETURN 
+	END
+
+
+
+
