@@ -2149,7 +2149,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Estimate Factory
     Estimate.Create = function (source) {
         var estimate = new Estimate(source.EstimateId, source.OrderCode, source.EstimateName, source.CompanyName,
-            source.CreationDate, source.SectionFlagId, source.OrderCode, source.Status, source.EstimateTotal + '$', source.IsDirectOrder,source.ItemsCount);
+            source.CreationDate, source.SectionFlagId, source.OrderCode, source.Status, source.EstimateTotal, source.IsDirectOrder,source.ItemsCount);
         return estimate;
     };
 
