@@ -8,9 +8,10 @@ namespace MPC.Models.DomainModels
 {
     public class usp_ChartEstimateToOrderConversionCount_Result
     {
-        public Nullable<int> TotalEstimateCount { get; set; }
-        public Nullable<int> Month { get; set; }
-        public string monthname { get; set; }
-        public Nullable<int> year { get; set; }
+        public int? EstimateCount { get; set; }
+        public int? ConvertedCount { get; set; }
+        public int? Month { get; set; }
+        public string MonthName { get; set; }
+        public int? Year { get; set; }
     }
 }
