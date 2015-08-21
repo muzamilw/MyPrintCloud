@@ -147,6 +147,8 @@ namespace MPC.MIS.Areas.Api.Models
 
         public List<ScopeVariable> ScopeVariables { get; set; }
         public bool? isStoreLive { get; set; }
+        public bool? CanUserUpdateAddress { get; set; }
+
         #endregion
 
         #region Public List Properties
