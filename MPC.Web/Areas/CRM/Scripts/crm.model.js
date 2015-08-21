@@ -2072,7 +2072,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // ReSharper disable once UnusedLocals
     var Estimate = function (specifiedId, specifiedCode, specifiedName, specifiedCompanyName, specifiedCreationDate,
-        specifiedFlagColor, specifiedOrderCode, specifiedStstud, specifiedestimateTotal, specifiedisDirectOrder) {
+        specifiedFlagColor, specifiedOrderCode, specifiedStstud, specifiedestimateTotal, specifiedisDirectOrder,specifiedItemsCount) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -2089,6 +2089,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             creationDate = ko.observable(specifiedCreationDate || undefined),
             flagColor = ko.observable(specifiedFlagColor || undefined),
             orderCode = ko.observable(specifiedOrderCode || undefined),
+            itemscount = ko.observable(specifiedItemsCount),
             isDirectSaleUi = ko.computed(function () {
                 return isDirectOrder() ? "Direct Order" : "Online Order";
             }),
@@ -2141,13 +2142,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             reset: reset,
+            itemscount:  itemscount,
             setValidationSummary: setValidationSummary,
         };
     };
     // Estimate Factory
     Estimate.Create = function (source) {
         var estimate = new Estimate(source.EstimateId, source.OrderCode, source.EstimateName, source.CompanyName,
-            source.CreationDate, source.SectionFlagId, source.OrderCode, source.Status, source.EstimateTotal + '$', source.IsDirectOrder);
+            source.CreationDate, source.SectionFlagId, source.OrderCode, source.Status, source.EstimateTotal, source.IsDirectOrder,source.ItemsCount);
         return estimate;
     };
 
@@ -2221,6 +2223,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             reset: reset,
+            itemscount:  itemscount,
             setValidationSummary: setValidationSummary,
         };
     };

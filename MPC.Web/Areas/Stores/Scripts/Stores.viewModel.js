@@ -3421,6 +3421,26 @@ define("stores/stores.viewModel",
                         });
                     },
 
+                  
+                      ExportCSVForCompanyContacts = function (file, data) {
+                          dataservice.exportCompanyContacts({
+                              id: selectedStore().companyId()
+                          }, {
+                              success: function (data) {
+                                  if (data != null) {
+                                      var host = window.location.host;
+                                      var uri = encodeURI("http://" + host + data);
+                                      window.open(uri, "_blank");
+                                  }
+                                  toastr.success("Company Contacts exported successfully!");
+                                  searchCompanyContact();
+                              },
+                              error: function (response) {
+                                  toastr.error("Company Contacts failed to export! " + response);
+                              }
+                          });
+                      },
+
                     getAddressByAddressId = function (addressId) {
                         var result = _.find(allCompanyAddressesList(), function (address) {
                             return address.addressId() == parseInt(addressId);
@@ -7497,7 +7517,8 @@ define("stores/stores.viewModel",
                     updateProductDV: updateProductDV,
                     updateCheckedStateForCategory: updateCheckedStateForCategory,
                     products: products,
-                    validateStoreLiveHandler: validateStoreLiveHandler
+                    validateStoreLiveHandler: validateStoreLiveHandler,
+                    ExportCSVForCompanyContacts: ExportCSVForCompanyContacts
                 };
                 //#endregion
             })()
