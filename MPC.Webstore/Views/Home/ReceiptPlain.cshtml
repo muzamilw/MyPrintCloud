@@ -27,7 +27,7 @@
 
             <div style="font-family: 'Open Sans Condensed', sans-serif; font-style: normal; text-align: left; font-weight: normal; -moz-border-radius: 10px; -webkit-border-radius: 10px; -khtml-border-radius: 10px; border-radius: 10px; font-size: large;">
                 <div>
-                    <label id="lbl_Receipt">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlreceipt", CookieStoreId))</label>
+                    <label id="lbl_Receipt">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlreceipt", CookieStoreId, "Order Receipt"))</label>
                     &nbsp;<label id="lblReceiptNumber" />
                 </div>
 
@@ -38,10 +38,10 @@
         </div>
         <div style=" background-color: White;   padding: 10px;    text-align: left;    padding-left: 0px;padding-right: 0px;    -moz-border-radius: 10px;    -webkit-border-radius: 10px;    -khtml-border-radius: 10px;    border-radius: 10px;     ">
             <div style="width: 100%; display: none; text-align: center; font-size: 16px; font-weight: bold; color: #C72965;">
-                <label id="lbl_ThankYou">@Html.Raw(Html.GetKeyValueFromResourceFile("lblThankYou", CookieStoreId))</label>
+                <label id="lbl_ThankYou">@Html.Raw(Html.GetKeyValueFromResourceFile("lblThankYou", CookieStoreId, "Thank you"))</label>
             </div>
             <div style="width: 100%; display: none; text-align: center; font-size: 16px; font-weight: bold; color: #C72965;">
-                <label id="lbl_DelivaryConformationMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("lblDelivaryConformationMessage", CookieStoreId))</label>
+                <label id="lbl_DelivaryConformationMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("lblDelivaryConformationMessage", CookieStoreId, ""))</label>
             </div>
             @if (ViewBag.oStoreDefaultAddress != null)
             {
@@ -70,7 +70,7 @@
                     &nbsp;
                 </div>
                 <div id="trVatNumb" style="width: 33.33333333333333%;height: 30px;float:left;">
-                    <label style="font-weight: bold;">@Html.Raw(Html.GetKeyValueFromResourceFile("VatResgNo", CookieStoreId))</label>
+                    <label style="font-weight: bold;">@Html.Raw(Html.GetKeyValueFromResourceFile("VatResgNo", CookieStoreId, "ABN: "))</label>
                     <label style="font-weight: bold;">@ViewBag.Company.VATRegNumber</label>
                 </div>
                 <div style="clear:both;border-top: 2px solid #f3f3f3;">
@@ -81,7 +81,7 @@
                 <div style="height:257px;">
                     <div style="width: 100px;  text-align: right !important;  float: left;  clear: both;">
                         <span id="lbl_OrderDate" style=" color: #333333;    font-family: 'Open Sans Condensed', sans-serif;    font-style: normal;    font-weight: bold;    font-size: 13px;    line-height: 2.4;    text-align: right;">
-                                @Html.Raw(Html.GetKeyValueFromResourceFile("spnorderdate", CookieStoreId))</span>
+                                @Html.Raw(Html.GetKeyValueFromResourceFile("spnorderdate", CookieStoreId, "Order Date:"))</span>
                     </div>
                     <label id="lblOrderDate" style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@OrderDate</label>
                     <div style="clear:both;">
@@ -90,7 +90,7 @@
                     <div style="width: 100px;         text-align: right !important;              float: left;                    clear: both;                    ">
                         <span id="lbl_OrderCode" style=" color: #333333;            font-family: 'Open Sans Condensed', sans-serif;
                         font-style: normal;   font-weight: bold;         font-size: 13px;  line-height: 2.4;  text-align: right;">
-                        @Html.Raw(Html.GetKeyValueFromResourceFile("spnordernum", CookieStoreId))</span>
+                        @Html.Raw(Html.GetKeyValueFromResourceFile("spnordernum", CookieStoreId, "Order Number:"))</span>
                     </div>
                     <label id="lblOrderCode" style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@Model.OrderCode</label>
                     <div style="clear:both;">
@@ -107,7 +107,7 @@
                         font-weight: bold;
                         font-size: 13px;
                         line-height: 2.4;
-                        text-align: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("spninvoicedate", CookieStoreId))</span>
+                        text-align: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("spninvoicedate", CookieStoreId, "Invoice date:"))</span>
                     </div>
                     <label id="lblInvoiceDate" style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@OrderDate</label>
                     <div style="clear:both;">
@@ -124,7 +124,7 @@
                         font-weight: bold;
                         font-size: 13px;
                         line-height: 2.4;
-                        text-align: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnplacedby", CookieStoreId))</span>
+                        text-align: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnplacedby", CookieStoreId, "Placed by:"))</span>
                     </div>
                     <label id="lblPlacedBy" style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@Model.PlacedBy</label>
                     <div style="clear:both;">
@@ -141,7 +141,7 @@
                         font-weight: bold;
                         font-size: 13px;
                         line-height: 2.4;
-                        text-align: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltlReference", CookieStoreId))</span>
+                        text-align: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltlReference", CookieStoreId, "Reference:"))</span>
                     </div>
                     <label id="lblYourRefNum" style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 34px; margin-left: 5px;">@Model.YourRef</label>
 
@@ -151,7 +151,7 @@
                   padding-top: 20px;
               padding-bottom: 20px;
                 height: 35px;   width: 100%;">
-                <span id="lbl_SpecialInstructions" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; margin-left: 22px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnspeacilinstruction", CookieStoreId))</span><br />
+                <span id="lbl_SpecialInstructions" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; margin-left: 22px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnspeacilinstruction", CookieStoreId, "Additional information:"))</span><br />
                 &nbsp;
                 <label id="lblSpecialInstructions" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px;">@Model.SpecialInstNotes</label>
             </div>
@@ -163,7 +163,7 @@
           font-family: 'Open Sans Condensed', sans-serif;
           font-style: normal;
           font-weight: bold;
-          font-size: 13px !important;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnbilledto", CookieStoreId))</span><br />
+          font-size: 13px !important;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnbilledto", CookieStoreId, "Billed To:"))</span><br />
         <label id="lblCustName" style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
         <label id="lblBAddressLine1" style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address1</label><br />
         @if (!string.IsNullOrEmpty(Model.BillingAdress.Address2))
@@ -186,7 +186,7 @@
         @if (!string.IsNullOrEmpty(Model.BillingAdress.Tel1))
         {
             <span>
-                <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Tel", CookieStoreId))</label>
+                <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", CookieStoreId, "Tel:"))</label>
             </span>
             <label id="lblBTel" style="color: #A8A8A8;  font-style: normal; font-weight: normal; font-size: 12px;">@Model.BillingAdress.Tel1</label>
         }
@@ -201,7 +201,7 @@
              padding-top: 20px;
           padding-bottom: 20px;
             height: 35px;   width: 100%;">
-            <span id="lbl_EstimatedDate" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnestimateddispatchdate", CookieStoreId))</span><br />
+            <span id="lbl_EstimatedDate" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnestimateddispatchdate", CookieStoreId, "Estimated dispatch date:"))</span><br />
             <label id="lblEstimatedDispatchDate" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px; margin-left: 0px;">@EstimatedDispatchDate</label>
         </div>
         </div>
@@ -212,7 +212,7 @@
           font-family: 'Open Sans Condensed', sans-serif;
           font-style: normal;
           font-weight: bold;
-          font-size: 13px !important;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnshippedto", CookieStoreId))</span><br />
+          font-size: 13px !important;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnshippedto", CookieStoreId, "Shipped To:"))</span><br />
         <label id="lblSCusName" style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
         <label id="lblSAddLine1" style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Address1</label><br />
         @if (!string.IsNullOrEmpty(Model.ShippingAddress.Address2))
@@ -237,7 +237,7 @@
 
         @if (!string.IsNullOrEmpty(Model.ShippingAddress.Tel1))
         {
-            <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Tel", CookieStoreId))</label>
+            <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", CookieStoreId, "Tel:"))</label>
             <label id="lblSTel" style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Tel1</label>
         }
 
@@ -260,7 +260,7 @@
         </div>
 
         <div style="height: 35px; padding: 3px; margin-top: 5px; font-size: 15px; font-weight: bold" class="col-md-12 col-lg-12 col-xs-12">
-            <span id="lbl_itemsOrdered">@Html.Raw(Html.GetKeyValueFromResourceFile("lblitemsOrdered", CookieStoreId))</span>
+            <span id="lbl_itemsOrdered">@Html.Raw(Html.GetKeyValueFromResourceFile("lblitemsOrdered", CookieStoreId, "Ordered items:"))</span>
         </div>
         <div style="padding-bottom: 20px;" class="col-md-12 col-lg-12 col-xs-12">
 
@@ -403,7 +403,7 @@
                         <td style="width: 26%;"></td>
                         <td style="width: 29%;"></td>
                         <td style="width: 14%;" align="left">
-                            <span id="lbl_SubTotal" style="font-weight: bold; font-size: 13px; color: Black;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", CookieStoreId)):</span>
+                            <span id="lbl_SubTotal" style="font-weight: bold; font-size: 13px; color: Black;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", CookieStoreId, "Sub Total")):</span>
                         </td>
                         <td style="width: 40%;">
 
@@ -428,7 +428,7 @@
                         <td></td>
                         <td align="left"></td>
                         <td align="left">
-                            <span id="lbl_Delivery" style="font-weight: bold; font-size: 13px; color: Black;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", CookieStoreId)):</span>
+                            <span id="lbl_Delivery" style="font-weight: bold; font-size: 13px; color: Black;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", CookieStoreId, "Delivery")):</span>
                         </td>
                         <td>
                             @if (Model.DeliveryDiscountVoucherId == null)
