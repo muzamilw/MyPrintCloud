@@ -14868,10 +14868,11 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="Double" Name="ConvertedTotal" Nullable="true" />
         </ComplexType>
         <ComplexType Name="usp_ChartEstimateToOrderConversionCount_Result">
-          <Property Type="Int32" Name="TotalEstimateCount" Nullable="true" />
+          <Property Type="Int32" Name="EstimateCount" Nullable="true" />
           <Property Type="Int32" Name="Month" Nullable="true" />
-          <Property Type="String" Name="monthname" Nullable="true" MaxLength="30" />
-          <Property Type="Int32" Name="year" Nullable="true" />
+          <Property Type="String" Name="MonthName" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="Year" Nullable="true" />
+          <Property Type="Int32" Name="ConvertedCount" Nullable="true" />
         </ComplexType>
         <ComplexType Name="usp_ChartMonthlyOrdersCount_Result">
           <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="100" />
@@ -19692,10 +19693,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <FunctionImportMapping FunctionImportName="usp_ChartEstimateToOrderConversionCount" FunctionName="DomainModels.Store.usp_ChartEstimateToOrderConversionCount">
             <ResultMapping>
               <ComplexTypeMapping TypeName="DomainModels.usp_ChartEstimateToOrderConversionCount_Result">
-                <ScalarProperty Name="TotalEstimateCount" ColumnName="TotalEstimateCount" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="monthname" ColumnName="monthname" />
-                <ScalarProperty Name="year" ColumnName="year" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
