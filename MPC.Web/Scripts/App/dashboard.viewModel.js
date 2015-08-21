@@ -411,6 +411,7 @@ define("dashboard.viewModel",
                  ko.utils.arrayPushAll(estimateToOrderConversion(), tempUsers());
                  estimateToOrderConversion.valueHasMutated();
              },
+              
                 // Map Orders 
                 mapTotalEarnings = function (data) {
                     //totalEarnings.removeAll();
@@ -462,6 +463,7 @@ define("dashboard.viewModel",
                             
 
                             // chart 1 top performing stores
+                           // mapTopPerformingStores(data.TopPerformingStores);
                             topPerformingStores.removeAll();
                             ko.utils.arrayPushAll(topPerformingStores(), data.TopPerformingStores);
                             topPerformingStores.valueHasMutated();
