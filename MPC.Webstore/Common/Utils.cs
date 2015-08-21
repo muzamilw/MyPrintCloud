@@ -135,13 +135,22 @@ namespace MPC.Webstore.Common
         }
         public static string GetKeyValueFromResourceFile(string key, long StoreId, string KeyValue = "")
         {
-            
             ObjectCache cache = MemoryCache.Default;
 
+            MyCompanyDomainBaseReponse stores = null;
+               
             if (StoreId > 0)
             {
-                MyCompanyDomainBaseReponse stores = (cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>)[StoreId];
+                Dictionary<long, MyCompanyDomainBaseReponse> cachedObject = (cache.Get("CompanyBaseResponse")) as Dictionary<long, MyCompanyDomainBaseReponse>;
 
+                if (cachedObject != null)
+                {
+                    if (cachedObject.ContainsKey(StoreId))
+                    {
+                        stores = cachedObject.Where(i => i.Key == StoreId).FirstOrDefault().Value;
+                    }
+                }
+                
                 XmlDocument resxFile = null;
 
                 if (stores != null)

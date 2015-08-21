@@ -184,6 +184,21 @@ namespace MPC.Webstore.Controllers
                     else
                     {
                         OrderID = UserCookieManager.WEBOrderId;
+
+                        MPC.Models.DomainModels.Estimate oCookieOrder = _IOrderService.GetOrderByOrderID(OrderID);
+                        if (oCookieOrder != null)
+                        {
+                            if (oCookieOrder.StatusId != (int)OrderStatus.ShoppingCart)
+                            {
+                                OrderID = _IOrderService.CreateNewOrder(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), OrganisationID, string.Empty);
+                                UserCookieManager.WEBOrderId = OrderID;
+                            }
+                        }
+                        else 
+                        {
+                            OrderID = _IOrderService.CreateNewOrder(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), OrganisationID, string.Empty);
+                            UserCookieManager.WEBOrderId = OrderID;
+                        }
                     }
 
                     Item clonedItem = null;
@@ -193,8 +208,6 @@ namespace MPC.Webstore.Controllers
                     // Code to copy item attachments ..
                     Estimate objOrder = _IOrderService.GetOrderByID(OrderID);
              
-                   // _ItemService.CopyAttachments(ExistingProduct.ItemID, clonedItem, objOrder.Order_Code, false, objOrder.CreationDate ?? DateTime.Now);
-
                     _ItemService.CopyAttachments(ExistingProduct.ItemID, clonedItem, objOrder.Order_Code, false, objOrder.CreationDate ?? DateTime.Now, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), StoreBaseResopnse.Company.CompanyId);
 
                     string URL = "/ProductOptions/0/" + clonedItem.ItemId + "/SaveOrder/" + clonedItem.TemplateId;
