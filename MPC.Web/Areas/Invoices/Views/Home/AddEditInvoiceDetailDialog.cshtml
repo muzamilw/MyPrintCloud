@@ -114,10 +114,12 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <hr />
-                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveInvoiceDetail, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
-                <button type="button" class="btn btn-default" style="margin-left: 0px;" data-bind="click:$root.closeInvoiceDetailDialog">Close</button>
+            <div class="modal-footer" style="padding-right:0px;padding-left:0px;">
+                <hr style="margin-bottom:15px;margin-top:0px;" />
+                <div style="padding-right:10px;">
+                    <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveInvoiceDetail, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                    <button type="button" class="btn btn-default" style="margin-left: 0px;" data-bind="click:$root.closeInvoiceDetailDialog">Close</button>
+                </div>
             </div>
         </div>
     </div>
