@@ -3677,5 +3677,10 @@ function showMBPage(pPageID)
 {
     var is = canvas.toDataURL('jpeg');
     $("#MbImg" + SP).attr('src', is);
-    d5(pPageID);
+    $.each(TP, function (i, IT) {
+        if (IT.IsPrintable != false && IT.ProductPageId == pPageID)
+        {
+            d5(pPageID);
+        }
+    });
 }
