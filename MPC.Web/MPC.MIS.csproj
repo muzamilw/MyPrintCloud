@@ -17,10 +17,14 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
-    <IISExpressSSLPort>44300</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -346,6 +350,7 @@
     <Compile Include="Areas\Api\Controllers\CopyEstimateController.cs" />
     <Compile Include="Areas\Api\Controllers\DiscountVaoucherDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\DownloadReportController.cs" />
+    <Compile Include="Areas\Api\Controllers\ExportController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemsForDiscountVoucherController.cs" />
     <Compile Include="Areas\Api\Controllers\OrganisationLicensingController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductChildCategoryController.cs" />

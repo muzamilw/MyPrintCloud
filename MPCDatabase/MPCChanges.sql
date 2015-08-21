@@ -7035,7 +7035,7 @@ END
 
 	   /*Execution date 19/08/2015*/
 
-	   USE [MPCLive]
+	  
 GO
 /****** Object:  StoredProcedure [dbo].[sp_cloneTemplate]    Script Date: 08/19/2015 17:04:31 ******/
 SET ANSI_NULLS ON
@@ -7380,7 +7380,7 @@ BEGIN
 	END
 
 /*Execution date 19/08/2015*/
-
+Go
 ALTER VIEW [dbo].[vw_SaveDesign]
 AS
  SELECT  item.ItemID, ItemAttach.ItemID AS AttachmentItemId,ItemAttach.FileName AS AttachmentFileName, 
@@ -7425,3 +7425,33 @@ select sum(EstimateTotal) as EstimateTotal, sum(ConvertedTotal) as ConvertedTota
 
 group by month,monthname,year
 order by ConvertedTotal desc
+End
+
+
+/****** Object:  StoredProcedure [dbo].[usp_ChartEstimateToOrderConversionCount]    Script Date: 8/20/2015 6:40:29 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--[usp_ChartEstimateToOrderConversionCount]1
+ALTER PROCEDURE [dbo].[usp_ChartEstimateToOrderConversionCount]
+	@OrganisationId bigint
+AS
+BEGIN
+
+
+select count(EstimateId) as EstimateCount, count(ConvertedEstimate) as ConvertedCount,Month,MonthName,Year
+	from
+	(	select	EstimateId,
+				(select EstimateId from estimate es where es.EstimateId = e.EstimateId and Order_Code is not null) as ConvertedEstimate,
+				(convert(varchar, datepart(year, e.Order_Date)) + '-' + convert(varchar, datepart(month, e.Order_Date))) as [MonthName],
+				DATEPART(MONTH,e.Order_Date) as [Month],
+				DATEPART(YEAR,e.Order_Date) as [Year]
+		from	estimate e where Estimate_Code is not null and OrganisationId = @OrganisationId
+	) data
+
+group by month,monthname,year
+order by Month 
+
+
+	END

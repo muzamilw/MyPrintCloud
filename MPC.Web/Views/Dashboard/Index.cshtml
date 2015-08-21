@@ -253,7 +253,8 @@
                                     <div class="form-group" style="margin-left:10px">
                                         @*<img src="~/Content/Images/chart_05.png" style="width: 100%;" />*@
                                         <div class="graph-box lightgray-bg">
-                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'month',xLabelMargin: 3,ykeys: ['a', 'b'],labels: 'abc',xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>
+                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.estimateToOrderConversion, xkey: 'MonthName',xLabelMargin: 6,ykeys: ['a', 'b'],labels: ['Estimate Total', 'Converted Total'],xLabelFormat :xLabelFormat = function (x) {return $root.months[x.getMonth()];}, dateFormat: function(x) {var month = $root.months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>
+                                            @*<div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'month',xLabelMargin: 3,ykeys: ['a', 'b'],labels: 'abc',xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>*@
                                         </div>
 
                                     </div>
@@ -288,7 +289,7 @@
                                     <h2 class="graphheaderright">Estimate to Order Conversion Count</h2>
                                     <div class="form-group" style="margin-right:10px">
                                         <div class="graph-box lightgray-bg">
-                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'month',xLabelMargin: 3,ykeys: ['a', 'b'],labels: 'abc',xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>
+                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'MonthName',xLabelMargin: 3,ykeys: ['a', 'b'],labels: 'abc',xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>
                                         </div>
 
                                         @*<img src="~/Content/Images/chart_06.png" style="width: 100%;" d />*@

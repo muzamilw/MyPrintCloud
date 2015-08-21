@@ -84,21 +84,21 @@ define("dashboard.viewModel",
                     sortIsAsc = ko.observable(true),
                     // Pending Orders Count
                     pendingOrdersCount = ko.observable(0),
-                // months = ['jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+                 months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 line = ko.observable([
 
-                                { month: '2015-01-01', a: 100, b: 110, c: 120, d:130, e:140 },
-                                { month: '2015-02-02', a: 120, b: 130, c: 140, d: 140, e: 150},
-                                { month: '2015-03', a: 130, b: 140, c: 160, d: 150, e: 160 },
-                                { month: '2015-04', a: 120, b: 190, c: 170, d: 160, e: 170 },
-                                { month: '2015-05', a: 100, b: 120, c: 180, d: 170, e: 180},
-                                { month: '2015-06', a: 100, b: 110, c: 110, d: 160, e: 190 },
-                                { month: '2015-07', a: 105, b: 90, c: 110, d: 170, e: 120 },
-                                { month: '2015-08', a: 100, b: 90, c: 80, d: 130, e: 200 },
-                                { month: '2015-09', a: 100, b: 90, c: 60, d: 180, e: 210 },
-                                { month: '2015-10', a: 100, b: 90, c: 100, d: 190, e: 220 },
-                                { month: '2015-11', a: 300, b: 90, c: 90, d: 180, e: 225},
-                                { month: '2015-12', a: 100, b: 90, c: 130, d: 170, e: 230 }
+                                //{ MonthName: '2015-1', a: 100, b: 110, c: 120, d: 130, e: 140 },
+                                //{ MonthName: '2015-2', a: 120, b: 130, c: 140, d: 140, e: 150 },
+                                //{ MonthName: '2015-3', a: 130, b: 140, c: 160, d: 150, e: 160 },
+                                { MonthName: '2015-4', a: 120, b: 190, c: 170, d: 160, e: 170 },
+                                { MonthName: '2015-5', a: 100, b: 120, c: 180, d: 170, e: 180 },
+                                { MonthName: '2015-6', a: 100, b: 110, c: 110, d: 160, e: 190 },
+                                { MonthName: '2015-7', a: 105, b: 90, c: 110, d: 170, e: 120 },
+                                { MonthName: '2015-8', a: 100, b: 90, c: 80, d: 130, e: 200 },
+                                { MonthName: '2015-9', a: 100, b: 90, c: 60, d: 180, e: 210 },
+                                { MonthName: '2015-10', a: 100, b: 90, c: 100, d: 190, e: 220 },
+                                { MonthName: '2015-11', a: 300, b: 90, c: 90, d: 180, e: 225 },
+                                { MonthName: '2015-12', a: 100, b: 90, c: 130, d: 170, e: 230 }
                     
                 ]),
                 //line = ko.observable([
@@ -118,18 +118,18 @@ define("dashboard.viewModel",
                 //]),
                  line1 = ko.observable([
 
-                     { month: 'January', a: 100, b: 90 },
-                    { month: 'February', a: 110, b: 90 },
-                    { month: 'March', a: 200, b: 90 },
-                    { month: 'April', a: 60, b: 90 },
-                    { month: 'May', a: 90, b: 90 },
-                    { month: 'June', a: 100, b: 90 },
-                    { month: 'July', a: 150, b: 90 },
-                    { month: 'August', a: 170, b: 90 },
-                    { month: 'September', a: 190, b: 90 },
-                    { month: 'October', a: 120, b: 90 },
-                    { month: 'November', a: 180, b: 90 },
-                 { month: 'December', a: 195, b: 90 }
+                                { MonthName: '2015-1', a: 0, b: 0 },
+                                { MonthName: '2015-2', a: 0, b: 0 },
+                                { MonthName: '2015-3', a: 0, b: 0},
+                                { MonthName: '2015-4', a: 0, b: 0 },
+                                { MonthName: '2015-5', a: 0, b: 0 },
+                                { MonthName: '2015-6', a: 0, b: 0 },
+                                { MonthName: '2015-7', a: 0, b: 0},
+                                { MonthName: '2015-8', a: 0, b: 0},
+                                { MonthName: '2015-9', a: 0, b: 0 },
+                                { MonthName: '2015-10', a: 0, b: 0 },
+                                { MonthName: '2015-11', a: 0, b: 0},
+                                { MonthName: '2015-12', a: 0, b: 0}
 
 
                  ]),
@@ -399,6 +399,17 @@ define("dashboard.viewModel",
                  });
                  ko.utils.arrayPushAll(monthlyOrdersCount(), tempUsers());
                  monthlyOrdersCount.valueHasMutated();
+            },
+             mapEstimateToOrderConversion = function (data) {
+                 tempUsers.removeAll();
+                 _.each(data, function (tUser) {
+                     var item = tUser;
+                     item.EstimateTotal = tUser.EstimateTotal.toFixed(2);
+                     item.ConvertedTotal = tUser.ConvertedTotal.toFixed(2);
+                     tempUsers.push(item);
+                 });
+                 ko.utils.arrayPushAll(estimateToOrderConversion(), tempUsers());
+                 estimateToOrderConversion.valueHasMutated();
              },
                 // Map Orders 
                 mapTotalEarnings = function (data) {
@@ -462,10 +473,11 @@ define("dashboard.viewModel",
                             mapMonthlyOrdersCountByStore(data.MonthlyOrdersCount);
                             
 
-                            // estimate to order
-                            estimateToOrderConversion.removeAll();
-                            ko.utils.arrayPushAll(estimateToOrderConversion(), data.EstimateToOrderConversion);
-                            estimateToOrderConversion.valueHasMutated();
+                            // Chart 5 Estimate To Orders Conversion
+                            mapEstimateToOrderConversion(data.EstimateToOrderConversion);
+                            //estimateToOrderConversion.removeAll();
+                            //ko.utils.arrayPushAll(estimateToOrderConversion(), data.EstimateToOrderConversion);
+                            //estimateToOrderConversion.valueHasMutated();
 
                             // estimate to order count
                             estimateToOrderConversionCount.removeAll();
@@ -548,8 +560,8 @@ define("dashboard.viewModel",
                     yAxisPoints: yAxisPoints,
                     chartLabels: chartLabels,
                     line1: line1,
+                    months:months,
                     topPerformingStores: topPerformingStores,
-
                     monthlyOrdersCount: monthlyOrdersCount,
                     monthlyOrderStoresList:monthlyOrderStoresList,
                     estimateToOrderConversion: estimateToOrderConversion,

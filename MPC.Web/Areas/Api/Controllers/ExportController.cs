@@ -1,45 +1,36 @@
-﻿using System;
+﻿using MPC.Interfaces.Data;
+using MPC.Interfaces.MISServices;
+using MPC.WebBase.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web;
 using System.Web.Http;
-using MPC.Interfaces.Data;
-using MPC.Interfaces.MISServices;
-using MPC.MIS.Areas.Api.ModelMappers;
-using MPC.MIS.Areas.Api.Models;
-using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
-    public class ItemsForDiscountVoucherController : ApiController
+    public class ExportController : ApiController
     {
-          #region Private
-
-        private readonly IItemService itemService;
+        #region Private
+        private readonly ICompanyContactService companyContactService;
 
         #endregion
-
         #region Constructor
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public ItemsForDiscountVoucherController(IItemService itemService)
+        public ExportController(ICompanyContactService CompanyContactService)
         {
-            this.itemService = itemService;
+            this.companyContactService = CompanyContactService;
         }
-
         #endregion
 
-        
-        #region Public
 
         /// <summary>
         /// Get Product Categories for Company
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore, SecurityAccessRight.CanViewProduct })]
         [CompressFilterAttribute]
-        public IEnumerable<Item> Get(int id)
+        public string Get(long id)
         {
             if (!ModelState.IsValid)
             {
@@ -47,13 +38,12 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
 
             long? companyId = id > 0 ? id : (long?)null;
-            return itemService.GetProductsByCompanyId(companyId).CreateFrom();
 
+           return companyContactService.ExportCSV(companyId ?? 0);
             // return itemService.GetProductCategoriesForCompany(companyId).CreateFrom();
         }
 
-        #endregion
-
+        
 
     }
 }
