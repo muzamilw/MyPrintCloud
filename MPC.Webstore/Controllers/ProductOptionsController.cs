@@ -681,7 +681,18 @@ namespace MPC.Webstore.Controllers
             }
             ViewBag.DesignServiceUrl = Utils.GetAppBasePath();
 
-            ViewBag.Order = _orderService.GetOrderByID(OrderId);
+            Estimate userOrder = _orderService.GetOrderByID(OrderId);
+            if (userOrder != null)
+            {
+                ViewBag.Order = userOrder;
+            }
+            else 
+            {
+                userOrder = _orderService.GetOrderByID(UserCookieManager.WEBOrderId);
+                ViewBag.Order = userOrder;
+            }
+
+            
 
             PriceMatrixObjectList = null;
             AddonObjectList = null;
