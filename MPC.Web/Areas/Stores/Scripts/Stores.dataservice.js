@@ -312,6 +312,13 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to export Company Contact Csv
+                    amplify.request.define('exportCompanyContacts', 'ajax', {
+                     
+                        url: ist.siteUrl + '/Api/Export',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to Delete Company Address
                     amplify.request.define('deleteCompanyAddress', 'ajax', {
                         url: ist.siteUrl + '/Api/Address',
@@ -763,6 +770,17 @@
                     data: param
                 });
             },
+            
+        // export Company Contacts
+        exportCompanyContacts = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'exportCompanyContacts',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
             // Delete Company Territory
             deleteCompanyTerritory = function (param, callbacks) {
                 initialize();
@@ -933,6 +951,7 @@
             saveAddress: saveAddress,
             saveCompanyContact: saveCompanyContact,
             importCompanyContact: importCompanyContact,
+            exportCompanyContacts: exportCompanyContacts,
             deleteCompanyTerritory: deleteCompanyTerritory,
             deleteCompanyAddress: deleteCompanyAddress,
             deleteCompanyContact: deleteCompanyContact,

@@ -40,5 +40,7 @@ namespace MPC.Interfaces.MISServices
 
         CompanyContact GetContactByContactId(long ContactId);
 
+        string ExportCSV(long CompanyId);
+
     }
 }

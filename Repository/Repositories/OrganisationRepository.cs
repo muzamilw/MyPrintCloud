@@ -928,7 +928,8 @@ namespace MPC.Repository.Repositories
                                     objPh = phrase;
                                     objPh.PhraseId = 0;
                                     objPh.FieldId = objPF.FieldId;
-                                    objPh.CompanyId = OrganisationID;
+                                    objPh.CompanyId = null;
+                                    objPh.OrganisationId = OrganisationID;
                                     db.Phrases.Add(phrase);
                                     // PF.Phrases.Add(objPh);
 
