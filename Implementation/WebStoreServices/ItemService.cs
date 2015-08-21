@@ -3450,6 +3450,15 @@ namespace MPC.Implementation.WebStoreServices
 
             return FreeShippingId;
         }
+        public void UpdateOrderIdInItem(long itemId, long OrderId)
+        {
+            Item cloneditem = _ItemRepository.GetItemByItemID(itemId);
+            if(cloneditem != null)
+            {
+                cloneditem.EstimateId = OrderId;
+                _ItemRepository.SaveChanges();
+            }
+        }
         #endregion
     }
 }
