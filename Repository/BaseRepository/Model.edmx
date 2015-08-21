@@ -493,6 +493,7 @@
           <Property Name="ActiveBannerSetId" Type="bigint" />
           <Property Name="CurrentThemeId" Type="bigint" />
           <Property Name="isStoreLive" Type="bit" />
+          <Property Name="CanUserUpdateAddress" Type="bit" />
         </EntityType>
         <EntityType Name="CompanyBanner">
           <Key>
@@ -8259,7 +8260,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <Parameter Name="OrderID" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_ChartMonthlyEarningsbyStore" ReturnType="Collection(DomainModels.usp_ChartMonthlyEarningsbyStore_Result)">
-            <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
+          <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Company">
@@ -8399,6 +8400,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Purchases" Relationship="DomainModels.FK_Purchase_Company" FromRole="Company" ToRole="Purchase" />
           <NavigationProperty Name="GoodsReceivedNotes" Relationship="DomainModels.FK_GoodsReceivedNote_Company" FromRole="Company" ToRole="GoodsReceivedNote" />
           <Property Name="isStoreLive" Type="Boolean" />
+          <Property Name="CanUserUpdateAddress" Type="Boolean" />
         </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -15145,6 +15147,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="DomainModels.Company">
               <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="CanUserUpdateAddress" ColumnName="CanUserUpdateAddress" />
                 <ScalarProperty Name="isStoreLive" ColumnName="isStoreLive" />
                 <ScalarProperty Name="CurrentThemeId" ColumnName="CurrentThemeId" />
                 <ScalarProperty Name="ActiveBannerSetId" ColumnName="ActiveBannerSetId" />

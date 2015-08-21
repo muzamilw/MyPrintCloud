@@ -111,7 +111,7 @@ namespace MPC.Repository.Repositories
             listTemplateObjs = null;
             if(template != null)
             {
-                listPages = db.TemplatePages.Where(g => g.ProductId == productID).ToList();
+                listPages = db.TemplatePages.Where(g => g.ProductId == productID && g.IsPrintable != false).ToList();
                 listTemplateObjs = db.TemplateObjects.Where(g => g.ProductId == productID).ToList();
             }
             // add default cutting margin if not available 

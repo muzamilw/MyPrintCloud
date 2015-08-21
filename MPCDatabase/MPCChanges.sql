@@ -7455,3 +7455,6 @@ order by Month
 
 
 	END
+
+	-------------Executed on USA server on 20150821----------
+	alter table Company add CanUserUpdateAddress bit
