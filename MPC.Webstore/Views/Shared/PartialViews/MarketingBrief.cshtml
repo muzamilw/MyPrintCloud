@@ -63,111 +63,114 @@
                     {
 
                         List<MPC.Models.DomainModels.ProductMarketBriefAnswer> answers = ViewData["Answers"] as List<MPC.Models.DomainModels.ProductMarketBriefAnswer>;
-                        answers = answers.Where(a => a.MarketBriefQuestionId == question.MarketBriefQuestionId).ToList();
-                        QNo++;
-
-                        string groupName = QNo + "radioGroup";
-
-
-
-                        divID = "radio" + QNo;
-
-
-                        var AnsCOnt = "AnsCont" + QNo;
-                        <div class="float_left_simple LGBC rounded_corners paddingLeft5px Mleft10 MB_MainCont">
-                            <div class="white_background rounded_corners MB_InnerCont">
-
-                                <div id="questionCont" class="MB_QtnsCont">
-                                    @QNo.@question.QuestionDetail
-                                </div>
-
-                                @{
-                        if (question.IsMultipleSelection == true)
+                        if (answers != null && answers.Count() > 0)
                         {
+                            answers = answers.Where(a => a.MarketBriefQuestionId == question.MarketBriefQuestionId).ToList();
+                            QNo++;
 
-                            <div id="answersCont" class="MB_AnsCont">
-                                <div id="@divID" class=@AnsCOnt data-type="1">
+                            string groupName = QNo + "radioGroup";
+
+
+
+                            divID = "radio" + QNo;
+
+
+                            var AnsCOnt = "AnsCont" + QNo;
+                            <div class="float_left_simple LGBC rounded_corners paddingLeft5px Mleft10 MB_MainCont">
+                                <div class="white_background rounded_corners MB_InnerCont">
+
+                                    <div id="questionCont" class="MB_QtnsCont">
+                                        @QNo.@question.QuestionDetail
+                                    </div>
+
                                     @{
-                            int Anscount = 1;
-
-                            foreach (var i in answers)
+                            if (question.IsMultipleSelection == true)
                             {
-                                string radiobtnID = "Q" + QNo + "RadioBtn" + Anscount;
-                                string className = "Q" + QNo + "RadioBtn" + Anscount;
+
+                                <div id="answersCont" class="MB_AnsCont">
+                                    <div id="@divID" class=@AnsCOnt data-type="1">
+                                        @{
+                                int Anscount = 1;
+
+                                foreach (var i in answers)
+                                {
+                                    string radiobtnID = "Q" + QNo + "RadioBtn" + Anscount;
+                                    string className = "Q" + QNo + "RadioBtn" + Anscount;
 
 
-                                <div class=float_left_simple style="height:inherit;"> <input type=checkbox id="@i.MarketBriefAnswerId" class=@className name=@groupName style="position:absolute;opacity:0;" /><label for="@i.MarketBriefAnswerId" class="grayRadiantbtn" onclick=TickCheckBox('@radiobtnID');> @i.AnswerDetail </label> </div>
-                                Anscount += 1;
-                            }
-                                    }
+                                    <div class=float_left_simple style="height:inherit;"> <input type=checkbox id="@i.MarketBriefAnswerId" class=@className name=@groupName style="position:absolute;opacity:0;" /><label for="@i.MarketBriefAnswerId" class="grayRadiantbtn" onclick=TickCheckBox('@radiobtnID');> @i.AnswerDetail </label> </div>
+                                    Anscount += 1;
+                                }
+                                        }
+                                    </div>
+
                                 </div>
-
-                            </div>
-                        }
-                        else
-                        {
-                            <div id="answersCont" class="MB_AnsCont">
-                                <div id="@divID" class=@AnsCOnt data-type="2">
-                                    @{
-                            int Anscount = 1;
-
-                            foreach (var i in answers)
-                            {
-                                var radiobtnID = "Q" + QNo + "RadioBtn" + Anscount;
-                                string className = "Q" + QNo + "RadioBtn" + Anscount;
-
-
-                                <div class=float_left_simple style="height:inherit;" onclick=TickRadio('@radiobtnID');> <input type=radio id="@i.MarketBriefAnswerId" class=@className name=@groupName style=" position:absolute;opacity:0;" onchange=TickRadio('@radiobtnID'); /><label for="@i.MarketBriefAnswerId" class="grayRadiantbtn" onclick=TickRadio('@radiobtnID');>@i.AnswerDetail</label> </div>
-                                Anscount += 1;
-                            }
-                                    }
-                                </div>
-
-                            </div>
-                        }
-
-                        if (answers.Count > 0 & answers != null)
-                        {
-
-
-                            HFGroupCount++;
-
-
-
-                            if (!string.IsNullOrEmpty(hfTotalGroups))
-                            {
-                                hfTotalGroups = hfTotalGroups + "," + groupName;
                             }
                             else
                             {
-                                hfTotalGroups = groupName;
+                                <div id="answersCont" class="MB_AnsCont">
+                                    <div id="@divID" class=@AnsCOnt data-type="2">
+                                        @{
+                                int Anscount = 1;
+
+                                foreach (var i in answers)
+                                {
+                                    var radiobtnID = "Q" + QNo + "RadioBtn" + Anscount;
+                                    string className = "Q" + QNo + "RadioBtn" + Anscount;
+
+
+                                    <div class=float_left_simple style="height:inherit;" onclick=TickRadio('@radiobtnID');> <input type=radio id="@i.MarketBriefAnswerId" class=@className name=@groupName style=" position:absolute;opacity:0;" onchange=TickRadio('@radiobtnID'); /><label for="@i.MarketBriefAnswerId" class="grayRadiantbtn" onclick=TickRadio('@radiobtnID');>@i.AnswerDetail</label> </div>
+                                    Anscount += 1;
+                                }
+                                        }
+                                    </div>
+
+                                </div>
+                            }
+
+                            if (answers.Count > 0 & answers != null)
+                            {
+
+
+                                HFGroupCount++;
+
+
+
+                                if (!string.IsNullOrEmpty(hfTotalGroups))
+                                {
+                                    hfTotalGroups = hfTotalGroups + "," + groupName;
+                                }
+                                else
+                                {
+                                    hfTotalGroups = groupName;
+                                }
+
+
+                            }
+                            if (!string.IsNullOrEmpty(hfHaveNoAns))
+                            {
+                                hfHaveNoAns = hfHaveNoAns + "," + AnsCOnt;
+                            }
+                            else
+                            {
+                                hfHaveNoAns = AnsCOnt;
                             }
 
 
-                        }
-                        if (!string.IsNullOrEmpty(hfHaveNoAns))
-                        {
-                            hfHaveNoAns = hfHaveNoAns + "," + AnsCOnt;
-                        }
-                        else
-                        {
-                            hfHaveNoAns = AnsCOnt;
-                        }
+                                    }
 
+                                    <div class="clearBoth">
+                                        &nbsp;
+                                    </div>
+                                    <div class="MB_AddInfoCOnt">
+                                        <label id="lbl_AdditionalInformation" class="MB_AddInfoColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lblAdditionalInformation", UserCookieManager.WBStoreId))</label>
+                                        <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile(" btnideas", usercookiemanager.wbstoreid, "Additional Information" ))"></textarea>
+                                    </div>
 
-                                }
-
-                                <div class="clearBoth">
-                                    &nbsp;
                                 </div>
-                                <div class="MB_AddInfoCOnt">
-                                    <label id="lbl_AdditionalInformation" class="MB_AddInfoColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lblAdditionalInformation", UserCookieManager.WBStoreId))</label>
-                                    <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("btnideas", UserCookieManager.WBStoreId, "Additional Information"))
-                                              "></textarea>
-                                </div>
-
                             </div>
-                        </div>
+                        }
+
                     }
                     <input type="hidden" id="hfGroupsCount" value="@HFGroupCount" />
                         <input id="hfHaveNoAns" type="hidden" value="@hfHaveNoAns" />
