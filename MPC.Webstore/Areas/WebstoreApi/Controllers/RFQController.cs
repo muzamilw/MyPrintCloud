@@ -2,6 +2,7 @@
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using MPC.Webstore.Common;
 using Newtonsoft.Json;
 using System;
@@ -53,10 +54,12 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         {
             int count = HttpContext.Current.Request.Files.Count;
             int Contentlength = HttpContext.Current.Request.ContentLength;
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _companyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
             Inquiry NewInqury = new Inquiry();
 
             NewInqury.Title = Title;

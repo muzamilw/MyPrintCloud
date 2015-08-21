@@ -9,6 +9,7 @@ using System.Runtime.Caching;
 using System.Web;
 using System.Web.Mvc;
 using MPC.Webstore.Models;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
@@ -44,9 +45,10 @@ namespace MPC.Webstore.Controllers
         {
             AddressViewModel oAddress = null;
 
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             if (StoreBaseResopnse.StoreDetaultAddress != null)
             {
@@ -87,11 +89,12 @@ namespace MPC.Webstore.Controllers
 
                 if (subscriber == null)
                 {
-                    string CacheKeyName = "CompanyBaseResponse";
-                    ObjectCache cache = MemoryCache.Default;
+                    //string CacheKeyName = "CompanyBaseResponse";
+                    //ObjectCache cache = MemoryCache.Default;
 
 
-                    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                    //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                    MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
                     string SubscriberEmail = "";
                     string subscriptionCode = Guid.NewGuid().ToString();

@@ -1428,3 +1428,36 @@ function HideMessagePopUpGeneric() {
     document.getElementById("layer").style.display = "none";
     document.getElementById("popupLayer").style.display = "none";
 }
+
+function CustomPOPUP(Header, Body) {
+
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Header + '</h4></div><div class="modal-body" style="text-align:left; font-size: 12px;">' + Body + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="button" class="btn btn-primary" onclick=ContinueOrder(); value="Yes" /><button type="button" onclick=HideMessagePopUp(); class="btn btn-primary">No</button></div></div></div>';
+
+    var bws = getBrowserHeight();
+    var shadow = document.getElementById("innerLayer");
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = 0;
+    var top = parseInt((bws.height - 170) / 2);
+
+    if (bws.width < 640) {
+        document.getElementById("innerLayer").style.width = (bws.width) + "px";
+
+    } else {
+        left = parseInt((bws.width - 500) / 2);
+        document.getElementById("innerLayer").style.width = "500px";
+    }
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.top = top + "px";
+    document.getElementById("innerLayer").style.left = left + "px";
+
+    document.getElementById("innerLayer").style.width = "500px";
+    document.getElementById("innerLayer").style.height = "170px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+}

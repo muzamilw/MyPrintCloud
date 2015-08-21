@@ -17,6 +17,7 @@ define("crm/crm.viewModel",
                     // Determines Company type
                     companyType = ko.observable(2),
                     currencySymbol = ko.observable(),
+                    ordersItemsCount = ko.observable(),
                     orderPager = ko.observable(),
                     purchaseOrderPager = ko.observable(),
                     goodsReceivedNotePager = ko.observable(),
@@ -2126,9 +2127,12 @@ define("crm/crm.viewModel",
                                 _.each(data.OrdersList, function (order) {
                                     var newOrder = new model.Estimate.Create(order);
                                     ordersList.push(newOrder);
+                                    
 
+                                    
                                 });
                                 currencySymbol(data.CurrencySymbol);
+                                
                                 orderPager().totalCount(data.RowCount);
                             }
                         },
@@ -2458,7 +2462,8 @@ define("crm/crm.viewModel",
                 return {
                     initialize: initialize,
                     //#region Supplier Screen
-                    currencySymbol : currencySymbol,
+                    currencySymbol: currencySymbol,
+                    ordersItemsCount:ordersItemsCount,
                     supplierpager: supplierpager,
                     isLoadingSuppliers: isLoadingSuppliers,
                     searchSupplierFilter: searchSupplierFilter,

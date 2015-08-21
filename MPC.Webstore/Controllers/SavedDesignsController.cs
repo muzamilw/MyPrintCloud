@@ -2,6 +2,7 @@
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using MPC.Webstore.Common;
 using System;
 using System.Collections.Generic;
@@ -35,10 +36,11 @@ namespace MPC.Webstore.Controllers
             long OrganisationID = 0;
             try
             {
-                string CacheKeyName = "CompanyBaseResponse";
-                ObjectCache cache = MemoryCache.Default;
+                //string CacheKeyName = "CompanyBaseResponse";
+                //ObjectCache cache = MemoryCache.Default;
 
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
                 OrganisationID = StoreBaseResopnse.Organisation.OrganisationId;
 
@@ -79,11 +81,12 @@ namespace MPC.Webstore.Controllers
             long OrganisationID = 0;
             try
             {
-                string CacheKeyName = "CompanyBaseResponse";
-                ObjectCache cache = MemoryCache.Default;
+                //string CacheKeyName = "CompanyBaseResponse";
+                //ObjectCache cache = MemoryCache.Default;
 
 
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
                 OrganisationID = StoreBaseResopnse.Organisation.OrganisationId;
                 List<ArtWorkAttatchment> itemAttatchments = null;
@@ -123,11 +126,13 @@ namespace MPC.Webstore.Controllers
              long OrganisationID = 0;
              try
              {
-                 string CacheKeyName = "CompanyBaseResponse";
-                 ObjectCache cache = MemoryCache.Default;
+                 //string CacheKeyName = "CompanyBaseResponse";
+                 //ObjectCache cache = MemoryCache.Default;
 
 
-                 MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                 //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                 MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
                  OrganisationID = StoreBaseResopnse.Organisation.OrganisationId;
 
                  List<SaveDesignView> productList = _ItemService.GetSavedDesigns(_myClaimHelper.loginContactID());
@@ -179,6 +184,21 @@ namespace MPC.Webstore.Controllers
                     else
                     {
                         OrderID = UserCookieManager.WEBOrderId;
+
+                        MPC.Models.DomainModels.Estimate oCookieOrder = _IOrderService.GetOrderByOrderID(OrderID);
+                        if (oCookieOrder != null)
+                        {
+                            if (oCookieOrder.StatusId != (int)OrderStatus.ShoppingCart)
+                            {
+                                OrderID = _IOrderService.CreateNewOrder(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), OrganisationID, string.Empty);
+                                UserCookieManager.WEBOrderId = OrderID;
+                            }
+                        }
+                        else 
+                        {
+                            OrderID = _IOrderService.CreateNewOrder(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), OrganisationID, string.Empty);
+                            UserCookieManager.WEBOrderId = OrderID;
+                        }
                     }
 
                     Item clonedItem = null;
@@ -188,8 +208,6 @@ namespace MPC.Webstore.Controllers
                     // Code to copy item attachments ..
                     Estimate objOrder = _IOrderService.GetOrderByID(OrderID);
              
-                   // _ItemService.CopyAttachments(ExistingProduct.ItemID, clonedItem, objOrder.Order_Code, false, objOrder.CreationDate ?? DateTime.Now);
-
                     _ItemService.CopyAttachments(ExistingProduct.ItemID, clonedItem, objOrder.Order_Code, false, objOrder.CreationDate ?? DateTime.Now, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), StoreBaseResopnse.Company.CompanyId);
 
                     string URL = "/ProductOptions/0/" + clonedItem.ItemId + "/SaveOrder/" + clonedItem.TemplateId;

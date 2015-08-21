@@ -23,6 +23,8 @@ namespace MPC.Webstore.Common
     {
         private readonly ICompanyService _myCompanyService;
         private static XmlDocument rexcFiel = null;
+        private static string CacheKeyName = "CompanyBaseResponse";
+        
         public Utils(ICompanyService myCompanyService)
         {
             if (myCompanyService == null)
@@ -133,13 +135,22 @@ namespace MPC.Webstore.Common
         }
         public static string GetKeyValueFromResourceFile(string key, long StoreId, string KeyValue = "")
         {
-            string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
 
+            MyCompanyDomainBaseReponse stores = null;
+               
             if (StoreId > 0)
             {
-                MyCompanyDomainBaseReponse stores = (cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>)[StoreId];
+                Dictionary<long, MyCompanyDomainBaseReponse> cachedObject = (cache.Get("CompanyBaseResponse")) as Dictionary<long, MyCompanyDomainBaseReponse>;
 
+                if (cachedObject != null)
+                {
+                    if (cachedObject.ContainsKey(StoreId))
+                    {
+                        stores = cachedObject.Where(i => i.Key == StoreId).FirstOrDefault().Value;
+                    }
+                }
+                
                 XmlDocument resxFile = null;
 
                 if (stores != null)
@@ -254,7 +265,7 @@ namespace MPC.Webstore.Common
             queryString += string.Format("{0}{1}{2}", CategoryName, "/", CategoryId);
             return queryString;
         }
-      
+        
     }
 
     public static class CloneList

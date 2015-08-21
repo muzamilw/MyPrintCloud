@@ -2,6 +2,7 @@
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using MPC.Webstore.Areas.DesignerApi.Controllers;
 using MPC.Webstore.Common;
 using System;
@@ -156,9 +157,11 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
                 cep.StoreId = UserCookieManager.WBStoreId;
                 Company GetCompany = _companyService.GetCompanyByCompanyID(UserCookieManager.WBStoreId);
-                string CacheKeyName = "CompanyBaseResponse";
-                ObjectCache cache = MemoryCache.Default;
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                //string CacheKeyName = "CompanyBaseResponse";
+                //ObjectCache cache = MemoryCache.Default;
+                //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                MyCompanyDomainBaseReponse StoreBaseResopnse = _companyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
                 SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
 
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)

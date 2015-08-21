@@ -9,11 +9,12 @@ using MPC.Webstore.Common;
 using MPC.Webstore.ModelMappers;
 using MPC.Webstore.Models;
 using MPC.Webstore.ResponseModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
 
-    public class BannerController : BaseController
+    public class BannerController : Controller
     {
          #region Private
 
@@ -25,8 +26,8 @@ namespace MPC.Webstore.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public BannerController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker)
-            : base(myCompanyService, webstoreAuthorizationChecker)
+        public BannerController(ICompanyService myCompanyService)
+            
         {
             if (myCompanyService == null)
             {
@@ -42,10 +43,11 @@ namespace MPC.Webstore.Controllers
         {
             //string CacheKeyName = "CompanyBaseResponse";
             //ObjectCache cache = MemoryCache.Default;
-            
-            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
-            return PartialView("PartialViews/Banner", StoreCachedData.Banners);
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
+            return PartialView("PartialViews/Banner", StoreBaseResopnse.Banners);
         }
 
         #endregion

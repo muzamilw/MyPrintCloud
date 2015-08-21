@@ -10,7 +10,7 @@ using System.Net;
 using System.Net.Http;
 using System.Runtime.Caching;
 using System.Web.Http;
-
+using MPC.Models.ResponseModels;
 namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 {
     public class ApplyDeliveryMethodController : ApiController
@@ -20,14 +20,17 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         private readonly ICostCentreService _CostCentreService;
         private readonly IOrderService _orderService;
         private readonly IItemService _ItemService;
-     
+        private readonly ICompanyService _myCompanyService;
         #endregion
         #region Constructor
-        public ApplyDeliveryMethodController(ICostCentreService CostCentreService, IItemService ItemService, IOrderService _orderService)
+        public ApplyDeliveryMethodController(ICostCentreService CostCentreService, 
+            IItemService ItemService, IOrderService orderService
+            , ICompanyService myCompanyService)
         {
             this._CostCentreService = CostCentreService;
             this._ItemService = ItemService;
-            this._orderService = _orderService;
+            this._orderService = orderService;
+            this._myCompanyService = myCompanyService;
         }
 
         #endregion
@@ -38,11 +41,11 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         {
             List<string> messages = new List<string>();
 
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             double Baseamount = 0;
             double SurchargeAmount = 0;

@@ -360,205 +360,210 @@ namespace MPC.Implementation.MISServices
                              string IsNewsLetterSubscription = string.Empty;
                             string IsEmailSubscription = string.Empty;
                             string IsDefaultContact = string.Empty;
-                 
-                            foreach(var contact in companyContacts)
-                            {
-                                string data = string.Empty;
-                                OrganisationId = contact.OrganisationId ?? 0;
-                                if(contact.Address != null)
-                                {
-                                    AddressName = contact.Address.AddressName;
-                                    Address1 = contact.Address.Address1;
-                                    Address2 = contact.Address.Address2;
-                                    City =  contact.Address.City;
-                                    if(contact.Address.State != null)
-                                    {
-                                        State = contact.Address.State.StateName;
-                                        Postcode = contact.Address.PostCode;
-                                    }
-                                    Fax = contact.Address.Fax;
-                                }
-                                if(contact.CompanyTerritory != null)
-                                {
-                                    TerritoryName = contact.CompanyTerritory.TerritoryName;
-                                }
 
-                                if(!string.IsNullOrEmpty(contact.FirstName))
-                                    FirstName = contact.FirstName;
+                 if(companyContacts != null && companyContacts.Count() > 0)
+                 {
+                     foreach (var contact in companyContacts)
+                     {
+                         string data = string.Empty;
+                         OrganisationId = contact.OrganisationId ?? 0;
+                         if (contact.Address != null)
+                         {
+                             AddressName = contact.Address.AddressName;
+                             Address1 = contact.Address.Address1;
+                             Address2 = contact.Address.Address2;
+                             City = contact.Address.City;
+                             if (contact.Address.State != null)
+                             {
+                                 State = contact.Address.State.StateName;
+                                 Postcode = contact.Address.PostCode;
+                             }
+                             Fax = contact.Address.Fax;
+                         }
+                         if (contact.CompanyTerritory != null)
+                         {
+                             TerritoryName = contact.CompanyTerritory.TerritoryName;
+                         }
 
-                                 if(!string.IsNullOrEmpty(contact.LastName))
-                                    LastName = contact.LastName;
+                         if (!string.IsNullOrEmpty(contact.FirstName))
+                             FirstName = contact.FirstName;
 
-                                if(!string.IsNullOrEmpty(contact.JobTitle))
-                                    JobTitle = contact.JobTitle;
+                         if (!string.IsNullOrEmpty(contact.LastName))
+                             LastName = contact.LastName;
 
-                                 if(!string.IsNullOrEmpty(contact.HomeTel1))
-                                    HomeTel = contact.HomeTel1;
+                         if (!string.IsNullOrEmpty(contact.JobTitle))
+                             JobTitle = contact.JobTitle;
 
-                                if(!string.IsNullOrEmpty(contact.Email))
-                                    Email = contact.Email;
+                         if (!string.IsNullOrEmpty(contact.HomeTel1))
+                             HomeTel = contact.HomeTel1;
 
-                                 if(!string.IsNullOrEmpty(contact.Mobile))
-                                    Mobile = contact.Mobile;
+                         if (!string.IsNullOrEmpty(contact.Email))
+                             Email = contact.Email;
 
-                                if(!string.IsNullOrEmpty(contact.FAX))
-                                    ContactFax = contact.FAX;
+                         if (!string.IsNullOrEmpty(contact.Mobile))
+                             Mobile = contact.Mobile;
 
-                                 if(!string.IsNullOrEmpty(contact.AdditionalField1))
-                                   AddField1 = contact.AdditionalField1;
+                         if (!string.IsNullOrEmpty(contact.FAX))
+                             ContactFax = contact.FAX;
 
-                                 if(!string.IsNullOrEmpty(contact.AdditionalField2))
-                                    AddField2 = contact.AdditionalField2;
+                         if (!string.IsNullOrEmpty(contact.AdditionalField1))
+                             AddField1 = contact.AdditionalField1;
 
-                                 if(!string.IsNullOrEmpty(contact.AdditionalField3))
-                                    AddField3 = contact.AdditionalField3;
+                         if (!string.IsNullOrEmpty(contact.AdditionalField2))
+                             AddField2 = contact.AdditionalField2;
 
-                                 if(!string.IsNullOrEmpty(contact.AdditionalField4))
-                                    AddField4 = contact.AdditionalField4;
+                         if (!string.IsNullOrEmpty(contact.AdditionalField3))
+                             AddField3 = contact.AdditionalField3;
 
-                                 if(!string.IsNullOrEmpty(contact.AdditionalField5))
-                                    AddField5 = contact.AdditionalField5;
+                         if (!string.IsNullOrEmpty(contact.AdditionalField4))
+                             AddField4 = contact.AdditionalField4;
 
-
-                                 if (!string.IsNullOrEmpty(contact.SkypeId))
-                                     SkypeId = contact.SkypeId;
-
-                                 if (!string.IsNullOrEmpty(contact.LinkedinURL))
-                                     LinkedIn = contact.LinkedinURL;
-
-                                 if (!string.IsNullOrEmpty(contact.FacebookURL))
-                                     FacebookURL = contact.FacebookURL;
-
-                                 if (!string.IsNullOrEmpty(contact.TwitterURL))
-                                     TwitterURL = contact.TwitterURL;
-
-                                 if (!string.IsNullOrEmpty(contact.POBoxAddress))
-                                     POBoxAddress = contact.POBoxAddress;
+                         if (!string.IsNullOrEmpty(contact.AdditionalField5))
+                             AddField5 = contact.AdditionalField5;
 
 
-                                 if (!string.IsNullOrEmpty(contact.CorporateUnit))
-                                     CorporateUnit = contact.CorporateUnit;
+                         if (!string.IsNullOrEmpty(contact.SkypeId))
+                             SkypeId = contact.SkypeId;
 
-                                 if (!string.IsNullOrEmpty(contact.OfficeTradingName))
-                                     OfficeTradingName = contact.OfficeTradingName;
+                         if (!string.IsNullOrEmpty(contact.LinkedinURL))
+                             LinkedIn = contact.LinkedinURL;
 
-                                 if (!string.IsNullOrEmpty(contact.BPayCRN))
-                                     BPayCRN = contact.BPayCRN;
+                         if (!string.IsNullOrEmpty(contact.FacebookURL))
+                             FacebookURL = contact.FacebookURL;
 
-                                 if (!string.IsNullOrEmpty(contact.ACN))
-                                     ACN = contact.ACN;
+                         if (!string.IsNullOrEmpty(contact.TwitterURL))
+                             TwitterURL = contact.TwitterURL;
 
-                                 if (!string.IsNullOrEmpty(contact.ContractorName))
-                                     ContractorName = contact.ContractorName;
-
-                                 if (!string.IsNullOrEmpty(contact.ABN))
-                                     ABN = contact.ABN;
-
-                                 if (!string.IsNullOrEmpty(contact.Notes))
-                                     Notes = contact.Notes;
+                         if (!string.IsNullOrEmpty(contact.POBoxAddress))
+                             POBoxAddress = contact.POBoxAddress;
 
 
-                                if(contact.CanUserEditProfile ?? false)
-                                   CanUserEditProfile = "True";
-                                else
-                                     CanUserEditProfile = "False";
+                         if (!string.IsNullOrEmpty(contact.CorporateUnit))
+                             CorporateUnit = contact.CorporateUnit;
+
+                         if (!string.IsNullOrEmpty(contact.OfficeTradingName))
+                             OfficeTradingName = contact.OfficeTradingName;
+
+                         if (!string.IsNullOrEmpty(contact.BPayCRN))
+                             BPayCRN = contact.BPayCRN;
+
+                         if (!string.IsNullOrEmpty(contact.ACN))
+                             ACN = contact.ACN;
+
+                         if (!string.IsNullOrEmpty(contact.ContractorName))
+                             ContractorName = contact.ContractorName;
+
+                         if (!string.IsNullOrEmpty(contact.ABN))
+                             ABN = contact.ABN;
+
+                         if (!string.IsNullOrEmpty(contact.Notes))
+                             Notes = contact.Notes;
 
 
-
-                                 if(contact.canUserPlaceOrderWithoutApproval ?? false)
-                                   CanPlaceOrderWithoutApproval = "True";
-                                else
-                                     CanPlaceOrderWithoutApproval = "False";
-
-                
-                                 if(contact.canPlaceDirectOrder ?? false)
-                                   CanPlaceDirectOrder = "True";
-                                else
-                                     CanPlaceDirectOrder = "False";
+                         if (contact.CanUserEditProfile ?? false)
+                             CanUserEditProfile = "True";
+                         else
+                             CanUserEditProfile = "False";
 
 
 
-                                if(contact.IsPayByPersonalCreditCard ?? false)
-                                   CanPayByPersonalCreditCard = "True";
-                                else
-                                     CanPayByPersonalCreditCard = "False";
+                         if (contact.canUserPlaceOrderWithoutApproval ?? false)
+                             CanPlaceOrderWithoutApproval = "True";
+                         else
+                             CanPlaceOrderWithoutApproval = "False";
 
-                                  if(contact.IsPricingshown ?? false)
-                                   CanSeePrices = "True";
-                                else
-                                     CanSeePrices = "False";
 
-                                 if(contact.isWebAccess ?? false)
-                                   HasWebAccess = "True";
-                                else
-                                     HasWebAccess = "False";
-
-                                  if(contact.canPlaceDirectOrder ?? false)
-                                   CanPlaceOrder = "True";
-                                else
-                                     CanPlaceOrder = "False";
-
-                                 if(contact.ContactRoleId == 1)
-                                   Role = "A";
-                                else if(contact.ContactRoleId == 2)
-                                     Role = "B";
-                                 else
-                                     Role = "C";
-
-                                if(contact.IsNewsLetterSubscription ?? false)
-                                   IsNewsLetterSubscription = "True";
-                                else
-                                     IsNewsLetterSubscription = "False";
-
-                                  if(contact.IsEmailSubscription ?? false)
-                                   IsEmailSubscription = "True";
-                                else
-                                     IsEmailSubscription = "False";
-
-                                  if(contact.IsDefaultContact == 1)
-                                   IsDefaultContact = "True";
-                                else
-                                     IsDefaultContact = "False";
+                         if (contact.canPlaceDirectOrder ?? false)
+                             CanPlaceDirectOrder = "True";
+                         else
+                             CanPlaceDirectOrder = "False";
 
 
 
+                         if (contact.IsPayByPersonalCreditCard ?? false)
+                             CanPayByPersonalCreditCard = "True";
+                         else
+                             CanPayByPersonalCreditCard = "False";
+
+                         if (contact.IsPricingshown ?? false)
+                             CanSeePrices = "True";
+                         else
+                             CanSeePrices = "False";
+
+                         if (contact.isWebAccess ?? false)
+                             HasWebAccess = "True";
+                         else
+                             HasWebAccess = "False";
+
+                         if (contact.canPlaceDirectOrder ?? false)
+                             CanPlaceOrder = "True";
+                         else
+                             CanPlaceOrder = "False";
+
+                         if (contact.ContactRoleId == 1)
+                             Role = "A";
+                         else if (contact.ContactRoleId == 2)
+                             Role = "B";
+                         else
+                             Role = "C";
+
+                         if (contact.IsNewsLetterSubscription ?? false)
+                             IsNewsLetterSubscription = "True";
+                         else
+                             IsNewsLetterSubscription = "False";
+
+                         if (contact.IsEmailSubscription ?? false)
+                             IsEmailSubscription = "True";
+                         else
+                             IsEmailSubscription = "False";
+
+                         if (contact.IsDefaultContact == 1)
+                             IsDefaultContact = "True";
+                         else
+                             IsDefaultContact = "False";
 
 
 
 
-                                  data = AddressName + "|" + Address1 + "|" + Address2 + "|" + City + "|" + State + "|" + Postcode + "|" +
-                                      TerritoryName + "|" + Fax
-                                      + "|" + FirstName + "|" + LastName + "|" +
-                                      JobTitle + "|" + HomeTel 
-                                      + "|" + Email + "|" 
-                                      + Mobile  + "|" 
-                                      + ContactFax
-                                      + "|" + AddField1
-                                      + "|" + AddField2 + "|" +
-                                      AddField3 
-                                      + "|" + AddField4
-                                      + "|" + AddField5 
-                                      + "|" + SkypeId + "|" 
-                                      + LinkedIn + "|"
-                                      + FacebookURL
-                                      + "|" + TwitterURL + "|" 
-                                      + CanUserEditProfile + "|" + CanPlaceOrderWithoutApproval + "|" + CanPlaceDirectOrder
-                                      + "|" + CanPayByPersonalCreditCard + "|" + CanSeePrices + "|" + HasWebAccess + "|"
-                                      + CanPlaceOrder + "|" + HomeTel 
-                                      + "|" + Role + "|" + POBoxAddress + "|" +
-                                      CorporateUnit
-                                      + "|" + OfficeTradingName + "|" + BPayCRN + "|" + ACN + "|" + ContractorName + "|" + ABN + "|" + Notes + "|" + IsNewsLetterSubscription + '|' + IsEmailSubscription + "|" + IsDefaultContact + "\r\n";
-                    
 
-                                ////Add new line.
-                                //csv += "\r\n";
 
-                                CSV.Append(data);
 
-                                //sr.WriteLine(csv);
+                         data = AddressName + "|" + Address1 + "|" + Address2 + "|" + City + "|" + State + "|" + Postcode + "|" +
+                             TerritoryName + "|" + Fax
+                             + "|" + FirstName + "|" + LastName + "|" +
+                             JobTitle + "|" + HomeTel
+                             + "|" + Email + "|"
+                             + Mobile + "|"
+                             + ContactFax
+                             + "|" + AddField1
+                             + "|" + AddField2 + "|" +
+                             AddField3
+                             + "|" + AddField4
+                             + "|" + AddField5
+                             + "|" + SkypeId + "|"
+                             + LinkedIn + "|"
+                             + FacebookURL
+                             + "|" + TwitterURL + "|"
+                             + CanUserEditProfile + "|" + CanPlaceOrderWithoutApproval + "|" + CanPlaceDirectOrder
+                             + "|" + CanPayByPersonalCreditCard + "|" + CanSeePrices + "|" + HasWebAccess + "|"
+                             + CanPlaceOrder + "|" + HomeTel
+                             + "|" + Role + "|" + POBoxAddress + "|" +
+                             CorporateUnit
+                             + "|" + OfficeTradingName + "|" + BPayCRN + "|" + ACN + "|" + ContractorName + "|" + ABN + "|" + Notes + "|" + IsNewsLetterSubscription + '|' + IsEmailSubscription + "|" + IsDefaultContact + "\r\n";
 
-                                //csv = string.Empty;
-                            }
+
+                         ////Add new line.
+                         //csv += "\r\n";
+
+                         CSV.Append(data);
+
+                         //sr.WriteLine(csv);
+
+                         //csv = string.Empty;
+                     }
+
+                 }
+                         
 
                           
 

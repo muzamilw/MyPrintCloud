@@ -1,6 +1,7 @@
 ﻿using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using MPC.Webstore.Common;
 using System;
 using System.Collections.Generic;
@@ -33,10 +34,12 @@ namespace MPC.Webstore.Controllers
             List<ProductCategory> lstParentCategories = new List<ProductCategory>();
             List<ProductCategory> AllRetailCat = new List<ProductCategory>();
             MPC.Models.DomainModels.Company model = null;
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
             //   MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
             if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
             {
                 Int64 roleid = _myClaimHelper.loginContactRoleID();
@@ -98,11 +101,12 @@ namespace MPC.Webstore.Controllers
                 NewsLetterSubscriber subscriber = _myCompanyService.GetSubscriber(txtEmailbox, UserCookieManager.WBStoreId);
                 if (subscriber == null)
                 {
-                    string CacheKeyName = "CompanyBaseResponse";
-                    ObjectCache cache = MemoryCache.Default;
+                    //string CacheKeyName = "CompanyBaseResponse";
+                    //ObjectCache cache = MemoryCache.Default;
 
 
-                    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                    //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                    MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
                     string SubscriberEmail = "";
                     string subscriptionCode = Guid.NewGuid().ToString();
