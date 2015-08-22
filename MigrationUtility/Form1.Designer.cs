@@ -91,7 +91,7 @@
             this.txtCorpStoreId.Name = "txtCorpStoreId";
             this.txtCorpStoreId.Size = new System.Drawing.Size(100, 20);
             this.txtCorpStoreId.TabIndex = 3;
-            this.txtCorpStoreId.Text = "10817";
+            this.txtCorpStoreId.Text = "10815";
             // 
             // btnStoreWidgetExport
             // 
@@ -236,7 +236,7 @@
             this.txtOrganisationId.Name = "txtOrganisationId";
             this.txtOrganisationId.Size = new System.Drawing.Size(100, 20);
             this.txtOrganisationId.TabIndex = 17;
-            this.txtOrganisationId.Text = "96";
+            this.txtOrganisationId.Text = "904";
             // 
             // label3
             // 

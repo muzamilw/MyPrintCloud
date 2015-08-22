@@ -1815,8 +1815,16 @@ namespace MigrationUtility
         private void CorporateStoreImport()
         {
             OrganizationId = Convert.ToInt64(txtOrganisationId.Text);
+
             if (txtDesignerBasePath.Text != string.Empty)
                 goldwelldesignerbasePath = txtDesignerBasePath.Text;
+
+             if (txtMPCContentBasePath.Text != string.Empty)
+                    MPCContentBasePath = txtMPCContentBasePath.Text;
+
+            if (txtPinkCardsStoredImagesBasePath.Text != string.Empty)
+                PinkCardsStoredImagesBasePath = txtPinkCardsStoredImagesBasePath.Text;
+
 
             try
             {
@@ -2105,14 +2113,20 @@ namespace MigrationUtility
                             //StoredImages/ProductCategoryImages/XXStationery_193_catDetail.png
                             if (pcCategory.ImagePath != null)
                             {
-                                if (File.Exists(System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + pcCategory.ImagePath.Replace("/StoredImages/", ""))))
+                                if (File.Exists(System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + pcCategory.ImagePath.Replace("/StoredImages/", "").Replace("/", "\\"))))
                                 {
-                                    string sourcePath = System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + pcCategory.ImagePath.Replace("/StoredImages/", ""));
+
+                                    string sourcePath = System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + pcCategory.ImagePath.Replace("/StoredImages/", "").Replace("/", "\\"));
                                     string targetPath = targetCatBasePath + pcCategory.ImagePath.Replace(item.ProductCategoryID.ToString(), oProductCategory.ProductCategoryId.ToString());
                                     targetPath = targetPath.Replace("/StoredImages/ProductCategoryImages/", "");
                                     File.Copy(sourcePath, targetPath);
 
 
+                                }
+                                else
+                                {
+                                    output.Text += "corp cat image not found : " + System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + pcCategory.ImagePath.Replace("/StoredImages/", "").Replace("/", "\\")) +  Environment.NewLine;
+                                    
                                 }
                                 if (pcCategory.ImagePath.Replace(item.ProductCategoryID.ToString(), oProductCategory.ProductCategoryId.ToString()).Length > 100)
                                     oProductCategory.ImagePath = pcCategory.ImagePath.Replace(item.ProductCategoryID.ToString(), oProductCategory.ProductCategoryId.ToString()).Substring(0, 100);
@@ -2130,15 +2144,20 @@ namespace MigrationUtility
 
                             if (pcCategory.ThumbnailPath != null)
                             {
-                                if (File.Exists(System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + pcCategory.ThumbnailPath.Replace("/StoredImages/", ""))))
+                                if (File.Exists(System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + pcCategory.ThumbnailPath.Replace("/StoredImages/", "").Replace("/", "\\"))))
                                 {
-                                    string sourcePath = System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + pcCategory.ThumbnailPath.Replace("/StoredImages/", ""));
+                                    string sourcePath = System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + pcCategory.ThumbnailPath.Replace("/StoredImages/", "").Replace("/", "\\"));
                                     string targetPath = targetCatBasePath + pcCategory.ThumbnailPath.Replace(item.ProductCategoryID.ToString(), oProductCategory.ProductCategoryId.ToString());
                                     targetPath = targetPath.Replace("/StoredImages/ProductCategoryImages/", "");
                                     File.Copy(sourcePath, targetPath);
 
 
                                 }
+                                else
+                                {
+                                    output.Text += "corp cat thumb not found : " + System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + pcCategory.ThumbnailPath.Replace("/StoredImages/", "").Replace("/", "\\")) + Environment.NewLine;
+                                }
+
                                 if (pcCategory.ThumbnailPath.Replace(item.ProductCategoryID.ToString(), oProductCategory.ProductCategoryId.ToString()).Length > 100)
                                     oProductCategory.ThumbnailPath = pcCategory.ThumbnailPath.Replace(item.ProductCategoryID.ToString(), oProductCategory.ProductCategoryId.ToString()).Substring(0, 100);
                                 else
@@ -2323,9 +2342,9 @@ namespace MigrationUtility
                             ///mpc_content/Products/OrganisationId/ItemId/ItemId_ImageName
                             if (oItem.ImagePath != null)
                             {
-                                if (File.Exists(System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + item.ImagePath.Replace("/StoredImages/", ""))))
+                                if (File.Exists(System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + item.ImagePath.Replace("/StoredImages/", "").Replace("/", "\\"))))
                                 {
-                                    string sourcePath = System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + item.ImagePath.Replace("/StoredImages/", ""));
+                                    string sourcePath = System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + item.ImagePath.Replace("/StoredImages/", "").Replace("/", "\\"));
                                     string targetPath = targetProductBasePath + item.ImagePath.Replace(item.ItemID.ToString(), oItem.ItemId.ToString());
                                     targetPath = targetPath.Replace("/StoredImages/ProductImages/", "");
                                     File.Copy(sourcePath, targetPath);
@@ -2341,9 +2360,9 @@ namespace MigrationUtility
 
                             if (oItem.ThumbnailPath != null)
                             {
-                                if (File.Exists(System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + item.ThumbnailPath.Replace("/StoredImages/", ""))))
+                                if (File.Exists(System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + item.ThumbnailPath.Replace("/StoredImages/", "").Replace("/","\\"))))
                                 {
-                                    string sourcePath = System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + item.ThumbnailPath.Replace("/StoredImages/", ""));
+                                    string sourcePath = System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + item.ThumbnailPath.Replace("/StoredImages/", "").Replace("/", "\\"));
                                     string targetPath = targetProductBasePath + item.ThumbnailPath.Replace(item.ItemID.ToString(), oItem.ItemId.ToString());
                                     targetPath = targetPath.Replace("/StoredImages/ProductImages/", "");
                                     File.Copy(sourcePath, targetPath);
@@ -2357,9 +2376,9 @@ namespace MigrationUtility
 
                             if (oItem.GridImage != null)
                             {
-                                if (File.Exists(System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + item.GridImage.Replace("/StoredImages/", ""))))
+                                if (File.Exists(System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + item.GridImage.Replace("/StoredImages/", "").Replace("/", "\\"))))
                                 {
-                                    string sourcePath = System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + item.GridImage.Replace("/StoredImages/", ""));
+                                    string sourcePath = System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + item.GridImage.Replace("/StoredImages/", "").Replace("/", "\\"));
                                     string targetPath = targetProductBasePath + item.GridImage.Replace(item.ItemID.ToString(), oItem.ItemId.ToString());
                                     targetPath = targetPath.Replace("/StoredImages/ProductImages/", "");
                                     File.Copy(sourcePath, targetPath);
@@ -2374,9 +2393,9 @@ namespace MigrationUtility
 
                             if (oItem.IconPath != null)
                             {
-                                if (File.Exists(System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + item.IconPath.Replace("/StoredImages/", ""))))
+                                if (File.Exists(System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + item.IconPath.Replace("/StoredImages/", "").Replace("/", "\\"))))
                                 {
-                                    string sourcePath = System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + item.IconPath.Replace("/StoredImages/", ""));
+                                    string sourcePath = System.IO.Path.GetFullPath(PinkCardsStoredImagesBasePath + item.IconPath.Replace("/StoredImages/", "").Replace("/", "\\"));
                                     string targetPath = targetProductBasePath + item.IconPath.Replace(item.ItemID.ToString(), oItem.ItemId.ToString());
                                     targetPath = targetPath.Replace("/StoredImages/ProductImages/", "");
                                     File.Copy(sourcePath, targetPath);
