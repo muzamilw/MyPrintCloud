@@ -165,9 +165,11 @@ namespace MPC.Repository.Repositories
                     {
                         foreach (var size in Sets.ExportOrganisationSet1.PaperSizes)
                         {
+                            int OldPaperId = size.PaperSizeId;
                             PaperSize Osize = new PaperSize();
                             Osize = size;
                             Osize.PaperSizeId = 0;
+                            Osize.SizeMeasure = OldPaperId;
                             size.OrganisationId = OrganisationID;
                             db.PaperSizes.Add(size);
 
@@ -1159,7 +1161,7 @@ namespace MPC.Repository.Repositories
                          List<StockItem> stockitems = db.StockItems.Where(c => c.OrganisationId == OrganisationID).ToList();
                          List<Machine> machines = db.Machines.Where(c => c.OrganisationId == OrganisationID).ToList();
                          List<Company> Suppliers = db.Companies.Where(s => s.OrganisationId == OrganisationID && s.IsCustomer == 2).ToList();
-
+                         List<PaperSize> paperSizes = db.PaperSizes.Where(c => c.OrganisationId == OrganisationID).ToList();
                          List<Item> items = Sets.ExportStore3;
                          if (items != null && items.Count > 0)
                          {
@@ -1201,6 +1203,34 @@ namespace MPC.Repository.Repositories
 
 
                                              }
+                                         }
+                                         if (paperSizes != null && paperSizes.Count > 0)
+                                         {
+                                             int PID = paperSizes.Where(c => c.SizeMeasure == itm.SectionSizeId).Select(c => c.PaperSizeId).FirstOrDefault();
+                                             if (PID > 0)
+                                             {
+                                                 itm.SectionSizeId = PID;
+                                             }
+                                             else
+                                             {
+                                                 PID = paperSizes.Select(s => s.PaperSizeId).FirstOrDefault();
+                                                 itm.SectionSizeId = PID;
+
+
+                                             }
+                                             int ISID = paperSizes.Where(c => c.SizeMeasure == itm.ItemSizeId).Select(c => c.PaperSizeId).FirstOrDefault();
+                                             if (ISID > 0)
+                                             {
+                                                 itm.ItemSizeId = ISID;
+                                             }
+                                             else
+                                             {
+                                                 ISID = paperSizes.Select(s => s.PaperSizeId).FirstOrDefault();
+                                                 itm.ItemSizeId = ISID;
+
+
+                                             }
+
                                          }
                                          if (machines != null && machines.Count > 0)
                                          {
