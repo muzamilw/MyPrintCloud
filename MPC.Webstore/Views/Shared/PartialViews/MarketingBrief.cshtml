@@ -5,7 +5,7 @@
     Layout = null;
 }
 @{
-   
+
     string hfTotalGroups = string.Empty;
 }
 
@@ -164,13 +164,32 @@
                                     </div>
                                     <div class="MB_AddInfoCOnt">
                                         <label id="lbl_AdditionalInformation" class="MB_AddInfoColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lblAdditionalInformation", UserCookieManager.WBStoreId))</label>
-                                        <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile(" btnideas", usercookiemanager.wbstoreid, "Additional Information" ))"></textarea>
+                                        <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder='@Html.Raw(Html.GetKeyValueFromResourceFile(" btnideas", UserCookieManager.WBStoreId, "Additional Information"))'></textarea>
                                     </div>
 
                                 </div>
                             </div>
                         }
+                        else
+                        {
+                            <div class="float_left_simple LGBC rounded_corners paddingLeft5px Mleft10 MB_MainCont">
+                                <div class="white_background rounded_corners MB_InnerCont">
 
+                                    <div id="questionCont" class="MB_QtnsCont">
+                                        @QNo.@question.QuestionDetail
+                                    </div>
+                                    <div id="answersCont" class="MB_AnsCont">
+                                    </div>
+                                    <div class="clearBoth">
+                                        &nbsp;
+                                    </div>
+                                    <div class="MB_AddInfoCOnt">
+                                        <label id="lbl_AdditionalInformation" class="MB_AddInfoColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lblAdditionalInformation", UserCookieManager.WBStoreId))</label>
+                                        <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder='@Html.Raw(Html.GetKeyValueFromResourceFile("btnideas", UserCookieManager.WBStoreId, "Additional Information"))'></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     }
                     <input type="hidden" id="hfGroupsCount" value="@HFGroupCount" />
                         <input id="hfHaveNoAns" type="hidden" value="@hfHaveNoAns" />
@@ -216,14 +235,17 @@
                     <div class="float_left_simple LGBC rounded_corners paddingLeft5px Mleft10 MB_InnerRightCont">
                         <div class="white_background rounded_corners MB_RightInnerPnl">
                             <div class="MB_GrayBack">
-                                <label id="lbl_Reply_Message" class="Fsize15">@Html.Raw(Html.GetKeyValueFromResourceFile("replybacktome", UserCookieManager.WBStoreId,"Reply back to me by"))
-</label>
+                                <label id="lbl_Reply_Message" class="Fsize15">
+                                    @Html.Raw(Html.GetKeyValueFromResourceFile("replybacktome", UserCookieManager.WBStoreId, "Reply back to me by"))
+                                </label>
                                 <div class="left_align">
                                     <span id="lbl_Email" class="MB_EMailtxtColor Fsize13">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email")): <span>@MPC.Webstore.Common.UserCookieManager.WEBEmail</span></span>
                                 </div>
                                 <div style="margin-top: 10px; text-align: left;">
-                                    <span id="lblTelText" class="MB_EMailtxtColor Fsize13">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:"))
- <span>@ViewBag.Phone</span></span>
+                                    <span id="lblTelText" class="MB_EMailtxtColor Fsize13">
+                                        @Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:"))
+                                        <span>@ViewBag.Phone</span>
+                                    </span>
                                 </div>
                                 <a id="lbl_Change" href="#" style="float: right; cursor: pointer; color:#73a8ac; clear: both; display:none;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblChange", UserCookieManager.WBStoreId))</a>
                                 <div class="clearBoth">
@@ -232,7 +254,7 @@
                             </div>
                             <div style="margin: 5px; margin-top: 15px;">
                                 <input type="submit" class="MB_SendINqBtn rounded_corners5" id="SendINqBtn"
-                                       onclick="return GetAllinputElementIDS(); ShowLoader();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnmarketingbrief", UserCookieManager.WBStoreId,"Submit Inquiry"))" />
+                                       onclick="return GetAllinputElementIDS(); ShowLoader();" value="@Html.Raw(Html.GetKeyValueFromResourceFile(" btnmarketingbrief", UserCookieManager.WBStoreId, "submit inquiry"))" />
                             </div>
                         </div>
                     </div>
@@ -254,7 +276,7 @@
 
 @section scripts {
     <script src="~/Scripts/PopUp.js"></script>
-<script src="~/Scripts/jquery.MultiFile.js"></script>
+    <script src="~/Scripts/jquery.MultiFile.js"></script>
     <script>
 
         $(document).ready(function () {
@@ -297,7 +319,7 @@
                 $.each(EachAnswer, function (i, element) {
 
                     var TypeOfAns = $('.' + element + '').attr("data-Type");
-                    
+
                     if ($('.' + element + '').children().html() == null) {
 
                         if (AdditionalAnsList == "") {
@@ -308,20 +330,20 @@
                         }
                     } else {
                         if (TypeOfAns == 1) { //case of checkbox
-                           
+
                             var isCheckedd = 0;
                             var AnswerList = "";
                             var GroupName = $('.' + element + '').children().children().attr("name");
-                           
+
                             $('input:checkbox[name=' + GroupName + ']').each(function () {
-                                
+
                                 if ($(this).attr('checked') == "checked") {
                                     if (AnswerList == "") {
                                         AnswerList = $(this).next().text();
                                     } else {
                                         AnswerList = AnswerList + ", " + $(this).next().text();
                                     }
-                                  
+
                                     if (isCheckedd == 0) {
                                         isCheckedd = 1;
                                         selectedradioBtnsCount = selectedradioBtnsCount + 1;
@@ -400,7 +422,7 @@
         }
 
         function TickCheckBox(CheckBoxClassName) {
-    
+
             var idOfBtn = $('input:checkbox[class=' + CheckBoxClassName + ']').attr('id');
             console.log($('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked'));
             if ($('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked')) {
