@@ -2,6 +2,7 @@
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using MPC.Webstore.Common;
 using Newtonsoft.Json;
 using System;
@@ -161,7 +162,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 {
                     file = httpPostedFile;
                 }
-
             }
             return file;
         }
@@ -175,6 +175,109 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 {
                     Utils.DeleteFile(ServerPath);
                 }
+            }
+        }
+        [HttpPost]
+        private void UpdateDataForSystemUser(long CreditLimit, int ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool isWebAccess, bool isPlaceOrder, bool IsPayByPersonalCreditCard, bool IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int QuestionId, string SecretAnswer, long TerritoryId, long AddressId, long ShippingAddressId, string Password, long ContactId)
+        {
+            try
+            {
+                var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
+                CompanyContact con = new CompanyContact();
+                con.FirstName = FirstName;
+                con.LastName = LastName;
+                con.ContactId = ContactId;
+                con.image = UpdateImage(httpPostedFile);
+                con.CreditLimit = CreditLimit;
+                con.ContactRoleId = ContactRoleId;
+                con.Email = Email;
+                con.FAX = Fax;
+                con.FirstName = FirstName;
+                con.HomeTel1 = HomeTel1;
+                con.isWebAccess = isWebAccess;
+                con.isArchived = false;
+                con.isPlaceOrder = isPlaceOrder;
+                con.IsPayByPersonalCreditCard = IsPayByPersonalCreditCard;
+                con.IsPricingshown = IsPricingshown;
+                con.JobTitle = JobTitle;
+                con.LastName = LastName;
+                con.Mobile = Mobile;
+                con.Notes = Notes;
+                con.QuestionId = QuestionId;
+                con.SecretAnswer = SecretAnswer;
+                con.TerritoryId = TerritoryId;
+                con.AddressId = AddressId;
+                con.ShippingAddressId = ShippingAddressId;
+                con.Password = Password;
+                _companyService.UpdateDataSystemUser(con);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        [HttpPost]
+        private void AddDataForSystemUser(string FirstName,string LastName,long CreditLimit, int ContactRoleId, string Email, string Fax,string HomeTel1, bool isWebAccess, bool isPlaceOrder, bool IsPayByPersonalCreditCard, bool IsPricingshown, string JobTitle, string Mobile, string Notes, int QuestionId, string SecretAnswer, long TerritoryId, long AddressId, long ShippingAddressId, string Password, bool chkHasWebAccess)
+        {
+            CompanyContact ExistingContact = _companyService.GetContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+            var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
+            if (ExistingContact != null)
+            {
+
+                return;
+            }
+            CompanyContact NewContact = new CompanyContact();
+            NewContact.CompanyId = UserCookieManager.WBStoreId;
+            NewContact.isWebAccess = true;
+            NewContact.image = UpdateImage(httpPostedFile);
+            NewContact.CreditLimit = CreditLimit;
+            NewContact.ContactRoleId = ContactRoleId;
+            NewContact.Email = Email;
+            NewContact.FAX = Fax;
+            NewContact.FirstName = FirstName;
+            NewContact.HomeTel1 = HomeTel1;
+            NewContact.isWebAccess = isWebAccess;
+            NewContact.isArchived = false;
+            NewContact.isPlaceOrder = isPlaceOrder;
+            NewContact.IsPayByPersonalCreditCard = IsPayByPersonalCreditCard;
+            NewContact.IsPricingshown = IsPricingshown;
+            NewContact.JobTitle = JobTitle;
+            NewContact.LastName = LastName;
+            NewContact.Mobile = Mobile;
+            NewContact.Notes = Notes;
+            NewContact.QuestionId = QuestionId;
+            NewContact.SecretAnswer = SecretAnswer;
+            NewContact.TerritoryId = TerritoryId;
+            NewContact.AddressId = AddressId;
+            NewContact.ShippingAddressId = ShippingAddressId;
+            NewContact.Password = Password;
+            _companyService.AddDataSystemUser(NewContact);
+            if (chkHasWebAccess == true)
+            {
+                MyCompanyDomainBaseReponse StoreBaseResopnse = _companyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+                CampaignEmailParams cep = new CampaignEmailParams();
+                SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+
+
+                cep.ContactId = NewContact.ContactId;
+                cep.CompanyId = UserCookieManager.WBStoreId;
+                cep.SalesManagerContactID = NewContact.ContactId;
+
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                {
+                    cep.AddressId = UserCookieManager.WBStoreId;
+                    cep.StoreId = UserCookieManager.WBStoreId;
+                }
+                else
+                {
+                    cep.AddressId = UserCookieManager.WBStoreId;
+                    cep.StoreId = UserCookieManager.WBStoreId;
+                }
+
+
+                Campaign SuccessCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.CorpUserSuccessfulRegistration, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+                _campaignService.emailBodyGenerator(SuccessCampaign, cep, NewContact, StoreMode.Corp, (int)UserCookieManager.WEBOrganisationID, "", "", "", EmailOFSM.Email, "", "", null, "");
+              
             }
         }
 

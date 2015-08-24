@@ -1759,17 +1759,93 @@ namespace MPC.Repository.Repositories
                 
                     if (territoryID > 0)
                     {
-                        return (from c in db.CompanyContacts.Include("CompanyTerritories")
+                        return (from c in db.CompanyContacts.Include("CompanyTerritory")
                                 where c.CompanyId == contactCompanyId && c.TerritoryId == territoryID
                                 select c).ToList();
                     }
                     else
                     {
-                        return (from c in db.CompanyContacts.Include("CompanyTerritories")
+                        return (from c in db.CompanyContacts.Include("CompanyTerritory")
                                 where c.CompanyId == contactCompanyId
                                 select c).ToList();
                     }
                 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void UpdateDataSystemUser(CompanyContact Contact)
+        {
+            try
+            {
+                CompanyContact con = db.CompanyContacts.Where(i => i.ContactId == Contact.ContactId).FirstOrDefault();
+                con.FileName = Contact.FirstName;
+                con.LastName = Contact.LastName;
+                con.image = Contact.image;
+                con.CreditLimit = Contact.CreditLimit;
+                con.ContactRoleId = Contact.ContactRoleId;
+                con.Email = Contact.Email;
+                con.FAX = Contact.FAX;
+                con.FirstName = Contact.FirstName;
+                con.HomeTel1 = Contact.HomeTel1;
+                con.isWebAccess = Contact.isWebAccess;
+                con.isArchived = false;
+                con.isPlaceOrder = Contact.isPlaceOrder;
+                con.IsPayByPersonalCreditCard = Contact.IsPayByPersonalCreditCard;
+                con.IsPricingshown = Contact.IsPricingshown;
+                con.JobTitle = Contact.JobTitle;
+                con.LastName = Contact.LastName;
+                con.Mobile = Contact.Mobile;
+                con.Notes = Contact.Notes;
+                con.QuestionId = Contact.QuestionId;
+                con.SecretAnswer = Contact.SecretAnswer;
+                con.TerritoryId = Contact.TerritoryId;
+                con.AddressId = Contact.AddressId;
+                con.ShippingAddressId = Contact.ShippingAddressId;
+                con.Password = Contact.Password;
+                db.CompanyContacts.Attach(con);
+                db.Entry(con).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void AddDataSystemUser(CompanyContact Contact)
+        {
+            try
+            {
+                CompanyContact con = new CompanyContact();
+                con.CompanyId = Contact.CompanyId;
+                con.isWebAccess = Contact.isWebAccess;
+                con.image = Contact.image;
+                con.CreditLimit = Contact.CreditLimit;
+                con.ContactRoleId = Contact.ContactRoleId;
+                con.Email = Contact.Email;
+                con.FAX = Contact.FAX;
+                con.FirstName = Contact.FirstName;
+                con.HomeTel1 = Contact.HomeTel1;
+                con.isWebAccess = Contact.isWebAccess;
+                con.isArchived = false;
+                con.isPlaceOrder = Contact.isPlaceOrder;
+                con.IsPayByPersonalCreditCard = Contact.IsPayByPersonalCreditCard;
+                con.IsPricingshown = Contact.IsPricingshown;
+                con.JobTitle = Contact.JobTitle;
+                con.LastName = Contact.LastName;
+                con.Mobile = Contact.Mobile;
+                con.Notes = Contact.Notes;
+                con.QuestionId = Contact.QuestionId;
+                con.SecretAnswer = Contact.SecretAnswer;
+                con.TerritoryId = Contact.TerritoryId;
+                con.AddressId = Contact.AddressId;
+                con.ShippingAddressId = Contact.ShippingAddressId;
+                con.Password = Contact.Password;
+                db.CompanyContacts.Add(con);
+                db.SaveChanges();
             }
             catch (Exception ex)
             {

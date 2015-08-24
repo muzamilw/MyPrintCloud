@@ -1,15 +1,16 @@
-﻿@{
-    var grid = new WebGrid(source: ViewBag.Contacts, canSort: false, rowsPerPage: 15);
-    grid.Pager(WebGridPagerModes.NextPrevious);
-    string Result = ViewBag.res;
-    var Contacts = ViewBag.Contacts as MPC.Models.DomainModels.CompanyContact;
-} 
+﻿ 
 @using MPC.Models.Common;
 @using MPC.Webstore.WebGridExtension;  
 @using MPC.Webstore.Common;
+@model MPC.Models.DomainModels.CompanyContact
+
+@model IEnumerable<MPC.Models.DomainModels.CompanyContact>
 @{
-    int ContactRoleId = ViewBag.LoginContactRoleID;
-    
+    long ContactRoleId =ViewBag.LoginContactRoleID;
+    var grid = new WebGrid(source:Model, canSort: false, rowsPerPage: 15);
+    grid.Pager(WebGridPagerModes.NextPrevious);
+    string Result = ViewBag.res;
+    //var Contacts = ViewBag.Contacts as MPC.Models.DomainModels.CompanyContact;
 }
 <div class="content_area container" style="margin-bottom: 40px">
     <div class="left_right_padding row">
@@ -62,7 +63,7 @@
         </div>
         <div class="PadingTop white_background  rounded_corners">
             <div class="PadingTop textAlignLeft">
-                <label id="lblmatchingrecord" class="matchingTxtclass" />
+                <label id="lblmatchingrecord" class="matchingTxtclass">@ViewBag.TotalRecords</label>
             </div>
             <div ID="MainUSerProfileContainer">
                 
@@ -88,8 +89,9 @@
                 }</p>,style:"hidden-xs"),
 
     grid.Column("Order Limit",format:@<p>NA</p>,style:"hidden-xs"),
-                
-    grid.Column("Can Order",format:@<p>@if(item.isPlaceOrder.HasValue||item.isPlaceOrder.Value){
+               
+    grid.Column("Can Order",format:@<p>@if(Model.isPlaceOrder.HasValue||Model.isPlaceOrder.Value)
+                                       {
                                            <p>yes</p>
                                        }
                                        else
@@ -98,23 +100,23 @@
                                        }
                 </p>,style:"hidden-xs "),
                 
-    grid.Column("can pay by credit card",format:@<p>@if(item.IsPayByPersonalCreditCard.HasValue||item.IsPayByPersonalCreditCard.Value){<p>yes</p>}else{<p>No</p>}</p>,style:"hidden-xs "),
+    grid.Column("can pay by credit card",format:@<p>@if(Model.IsPayByPersonalCreditCard.HasValue||Model.IsPayByPersonalCreditCard.Value){<p>yes</p>}else{<p>No</p>}</p>,style:"hidden-xs "),
                 
-    grid.Column("Role",format:@<p>@if(item.ContactRoleID==1){<p>Admin</p>}else if(item.ContactRoleID==2){<p>Manager</p>}else{<p>User</p>}</p>,style:"hidden-xs"),
+    grid.Column("Role",format:@<p>@if(Model.ContactRoleId==1){<p>Admin</p>}else if(Model.ContactRoleId==2){<p>Manager</p>}else{<p>User</p>}</p>,style:"hidden-xs"),
 
                             
       grid.Column(header:Result, format:@<text>@if (ContactRoleId == 1)
       {
           if (item.ContactRoleID == 2)
           {
-            <input type="button" value="Download" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
-          background-color: transparent;" class="rounded_corners" onclick="DownLoadArtworkFile(@item.ContactId)" />
+            <input type="button" value="Edit" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
+          background-color: transparent;" class="rounded_corners" onclick="updateSystemUSerProfile(@Model.ContactId)" />
           }
 
       }
         
       </text>),
-     grid.Column( format:@<text>@if(item.ContactRoleID != 1 || item.IsDefaultContact!=1){<input type="button" id="view" value="View" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ViewOrder(@item.ContactId)"/>
+     grid.Column( format:@<text>@if(Model.ContactRoleId != 1 ||Model.IsDefaultContact!=1){<input type="button" id="view" value="Delete" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="DeleteReord(@Model.ContactId)"/>
      }</text>)
        }
       )
@@ -131,78 +133,12 @@
             <div class="clearBoth">
                 &nbsp;
             </div>
-            <div class="normalTextStyle rounded_corners territory_row_padding_header">
-                <div class="user_name_corp_div checked_design">
-                    <asp:Literal ID="ltrlname" runat="server" Text="Name"></asp:Literal>
-                </div>
-                <div class="user_email_div checked_design">
-                    <asp:Literal ID="ltremail" runat="server" Text="Email"></asp:Literal>
-                </div>
-                <div class="territory_corp_div checked_design" id="divteritory2" runat="server">
-                    <asp:Literal ID="ltrlterritory2" runat="server" Text="Territory"></asp:Literal>
-                </div>
-                <div class="order_limit_corp_div checked_design">
-                    <asp:Literal ID="ltrlorderlimit" runat="server" Text="Order Limit"></asp:Literal>
-                </div>
-                <div class="can_order_corp_div checked_design">
-                    <asp:Literal ID="ltrlcanorder" runat="server" Text="Can Order"></asp:Literal>
-                </div>
-                <div class="user_phone_div checked_design">
-                    <asp:Literal ID="ltrphone" runat="server" Text="Can pay by credit card"></asp:Literal>
-                </div>
-                <div class="user_phone_div checked_design">
-                    <asp:Literal ID="ltrlUserRoles" runat="server" Text="Role"></asp:Literal>
-                </div>
+            
             </div>
-            <asp:UpdatePanel ID="upnUser" runat="server" UpdateMode="Always">
-                <contenttemplate>
-                    <asp:Repeater ID="rptrUsers" runat="server" OnItemDataBound="rptrUsers_ItemDataBound"
-                                  OnItemCommand="rptrUsers_ItemCommand">
-                        <itemtemplate>
-                            <div class="territory_row_padding" title="Click to edit record">
-                                <div id="divContainer" runat="server" class=" dottedBorderStyle" style="border-top: 1px dotted #CCCCCC;">
-                                    <div class="user_name_corp_div checked_design">
-                                        <%# Eval("FirstName")%>&nbsp;
-                                    </div>
-                                    <div class="user_email_div checked_design">
-                                        <asp:Label ID="lblemail" runat="server" Text='<%# Eval("Email")%>' Width="160px"></asp:Label>&nbsp;
-                                    </div>
-                                    <div class="territory_corp_div checked_design">
-                                        <asp:Label ID="lblTerritoryName" runat="server"></asp:Label>&nbsp;
-                                    </div>
-                                    <div class="order_limit_corp_div checked_design">
-                                        <asp:Label ID="lblOrderLimit" runat="server" Text='<%# Eval("CreditLimit") %>'></asp:Label>&nbsp;
-                                    </div>
-                                    <div class="can_order_corp_div checked_design">
-                                        <asp:Label ID="lblCanOrder" runat="server"></asp:Label>&nbsp;
-                                    </div>
-                                    <div class="user_phone_div_card checked_design">
-                                        <asp:Label ID="lblPayByCredirCard" runat="server"></asp:Label>&nbsp;
-                                    </div>
-                                    <div class="user_phone_div_card checked_design" style="width:100px;">
-                                        <asp:Label ID="lblUserRoles" runat="server"></asp:Label>&nbsp;
-                                    </div>
-                                </div>
-                                <div class="float_right" style="padding: 7px 0px 0px 0px;">
-                                    <asp:ImageButton ID="imgBtnEdit" runat="server" CssClass="rounded_corners" ImageUrl="~/images/edit.png" Height="24" Width="24"
-                                                     ToolTip="Click to edit record" CommandName="EditRecord" CommandArgument='<%# Eval("ContactID") %>' />
-                                    <asp:ImageButton ID="btnDelete" runat="server" OnClientClick="return confirm('Are you sure you want to remove this user? The order history of this user will also be removed..');" CssClass="rounded_corners" ImageUrl="~/images/delete.png" Height="28" Width="28"
-                                                     ToolTip="Delete User" CommandName="DeleteRecord" CommandArgument='<%# Eval("ContactID") %>' />
-                                </div>
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                        </itemtemplate>
-                    </asp:Repeater>
-                    <div class="clearBoth">
-                        &nbsp;
-                    </div>
-        </div>
     </div>
     
     
-    <div ID="pnlUser" style="width:950px;" Class="FileUploaderPopup_corp LCLB rounded_corners"
+    <div id="pnlUser" style="width:950px;" Class="FileUploaderPopup_corp LCLB rounded_corners"
                Style="display: none">
         <div class="white_background">
             
@@ -346,7 +282,7 @@
                                 <label ID="Literal1">Shipping Address</label>
                             </div>
                             <div class="user_contol_area2">
-                                <select ID="ddlShippingAddress" style="width:210px;"  Class="rounded_corners5 dropdown"
+                                <select ID="ddlShippingAddress" style="width:210px;"  Class="rounded_corners5 dropdown">
                                                    
                                 </select>
                             </div>
@@ -449,7 +385,6 @@
                             </div>
 
                         </div>
-                
         </div>
         <div class="clearBoth">
             &nbsp;
@@ -459,9 +394,192 @@
 
         </div>
 <script type="text/javascript">
+    
+    $(document).ready(function () {
+
+         buidPopup();
+        $("#popupBody").append($("#pnlUser"));
+    });
+    function buidPopup() {
+        //popupBody
+        //modelTitle
+        var bws = getBrowserHeight();
+
+        var shadow = document.getElementById("innerLayer");
+
+        document.getElementById("layer").style.width = bws.width + "px";
+        document.getElementById("layer").style.height = bws.height + "px";
+        var left = 0;
+        var container = "";
+        if (bws.width < 700 && bws.width > 640) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body"  id="popupBody" style="height:500px;overflow-y:scroll;"></div></div>';
+
+        }
+        else if (bws.width == 640) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:500px;"></div></div>';
+
+        }
+        else if (bws.width < 640 && bws.width > 600) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:550px;"></div></div>';
+
+        }
+        else if (bws.width < 600 && bws.width > 500) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:350px;"></div></div>';
+
+        } else if (bws.width < 500) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:300px;"></div></div>';
+        }
+        else {
+
+            left = parseInt((bws.width - 730) / 2);
+            document.getElementById("innerLayer").style.width = "730px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:500px;overflow-y:scroll;" ></div></div>';
+        }
+
+
+
+        // document.getElementById("innerLayer").style.width = (bws.width) + "px";
+        document.getElementById("innerLayer").innerHTML = container;
+
+        document.getElementById("innerLayer").style.left = left + "px";
+        document.getElementById("innerLayer").style.top = "0px";
+
+        document.getElementById("innerLayer").style.position = "fixed";
+        document.getElementById("innerLayer").style.zIndex = "9999";
+
+
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
+    }
+    function HideMessagePopUpCustom() {
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
+    }
     function ShowChangePassword() {
         $('.pass').css('display', 'block');
-        $('#<%=btnChangePassword.ClientID %>').css('display', 'none');
+        $('#btnChangePassword').css('display', 'none');
         return false;
     }
+    function LoadAllData()
+    {
+        $.getJSON("/UserManager/UserProfileData",
+                      function (xdata) {
+                          document.getElementById("layer").style.display = "block";
+                          document.getElementById("innerLayer").style.display = "block";
+        });
+    }
+
+    function LoadDDTerritories(objTer,SelectedTerritory)
+    {
+
+    }
+    function LoadDDQuestions(objQues,SelectedQuestions)
+    {
+    }
+    function loadDDBillingAddresses(objBill,SelectedBillingAddress)
+    {
+
+    }
+    function loadDDShippingAddress(objShip,SelectedShippingAddress)
+    {
+
+    }
+    function updateSystemUSerProfile(ContactID)
+    {
+        var FirstName = $("#txtFirstName").val();
+        var txtLastName=$("#txtLastName").val();
+        var Email = $("#txtUserEmaile").val();
+        var JobTitle = $("#txtJobTitle").val();
+
+        var HomeTel1 = $("#txtDirectLine").val();
+
+
+        var Mobile = $("#txtCellNumber").val();
+
+
+        var FAX = $("#txtFax").val();
+
+        var CreditLimit= $("#txtCreditLimit").val();
+
+        var ddSecretQuestion=$("#ddlSecretQuestions").val();
+
+        var SecretAnswer = $("#txtSecretAnswer").val();
+
+        var ddTerritory = $("#ddlTerritory").val();
+
+        var ddRoles=$("#ddlRole").val();
+
+        var ddbillingAddress = $("#ddlBusinessAddress").val();
+
+        var ddShippingAddess = $("#ddlShippingAddress").val();
+
+        var BillAddressDetail = $("#txtAddress").val();
+
+        var ShipAddressDetail = $("#txtShippingAddress").val();
+
+        var Notes = $("#txtNotes").val();
+
+        
+        var canOrder = $("#chkCanOrder")[0].checked;
+        var CanByCredit = $("#chkCanByCredit")[0].checked;
+        var ShowPricesForProduct = $("#chkShowPricesForProduct")[0].checked;
+
+        var HasWebAccess = $("#chkHasWebAccess")[0].checked;
+
+        
+        var Image = $("#fuImageUpload").val();
+
+        var IsEmailSubscription = $("#Select")[0].checked;
+        var IsNewsLetterSubscription = $("#News")[0].checked;
+        var ConfirmPassword = $("#txtConfirmPassword").val();
+        var ContactID = ContactID;
+        var data = new FormData();
+                
+        if($("#fuImageUpload").val()!=null)
+        {
+            var files = $("#fuImageUpload").get(0).files;
+
+            if (files.length > 0) {
+                data.append("UploadedImage", files[0]);
+            }
+        }
+     
+        var Model = { FirstName: FirstName, LastName: txtLastName, CreditLimit: CreditLimit, ContactRoleId: ddRoles, Email: Email, Fax: FAX, FirstName: FirstName, HomeTel1: HomeTel1, isWebAccess: HasWebAccess, isPlaceOrder: canOrder, IsPayByPersonalCreditCard: CanByCredit, IsPricingshown: ShowPricesForProduct, JobTitle: JobTitle, Mobile: Mobile, Notes: Notes, QuestionId: ddSecretQuestion, SecretAnswer: SecretAnswer, TerritoryId: ddTerritory, AddressId: ddbillingAddress, ShippingAddressId: ddShippingAddess, Password: ConfirmPassword, ContactId: ContactId };
+
+        $.ajax({
+            type: "POST",
+            url: "/webstoreapi/ContactImageUploader/AddDataForSystemUser?FirstName=" + FirstName + "&LastName=" + LastName + "&Email=" + Email + "&JobTitle=" + JobTitle + "&HomeTel1=" + HomeTel1 + "&Mobile=" + Mobile + "&FAX=" + FAX + "&CompanyName= " + CompanyName + "" + "&quickWebsite=" + quickWebsite + "&POBoxAddress=" + POBoxAddress + "&CorporateUnit=" + CorporateUnit + "&OfficeTradingName=" + OfficeTradingName + "&ContractorName=" + ContractorName + "&BPayCRN=" + BPayCRN + "&ABN=" + ABN + "&ACN=" + ACN + "&AdditionalField1=" + AdditionalField1 + "&AdditionalField2=" + AdditionalField2 + "&AdditionalField3=" + AdditionalField3 + "&AdditionalField4=" + AdditionalField4 + "&AdditionalField5=" + AdditionalField5 + "&IsEmailSubscription=" + IsEmailSubscription + "&IsNewsLetterSubscription=" + IsNewsLetterSubscription + "",
+            contentType: false,
+            data: data,
+            async: true,
+            processData: false,
+            success: function (response) {
+
+                $("#messgetodisply").css('display', 'block');
+                $("#messgetodisply").html('Profile Updated Sucessfuly!');
+
+                
+                HideLoader();
+                
+                $('html, body').animate({
+                    scrollTop: $("#messgetodisply").offset().top
+                }, 500);
+            },
+            error: function (error) {
+                
+            }
+        });
+    }
+    function DeleteReord(ContactId)
+    {}
 </script>

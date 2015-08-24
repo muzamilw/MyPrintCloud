@@ -33,5 +33,9 @@ namespace MPC.Repository.Repositories
         {
             return db.CompanyContactRoles.ToList();
         }
+        public CompanyContactRole GetRoleByID(int RoleID)
+        {
+            return db.CompanyContactRoles.Where(i => i.ContactRoleId == RoleID).FirstOrDefault();
+        }
     }
 }

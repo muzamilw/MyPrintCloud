@@ -13,6 +13,9 @@ namespace MPC.Interfaces.Repository
 {
     public interface ICompanyContactRepository : IBaseRepository<CompanyContact, long>
     {
+        void AddDataSystemUser(CompanyContact Contact);
+        void UpdateDataSystemUser(CompanyContact Contact);
+        
         List<CompanyContact> GetContactsByTerritory(long contactCompanyId, long territoryID);
         List<CompanyContact> GetSearched_Contacts(long contactCompanyId, String searchtxt, long territoryID);
         bool ValidatEmail(string email);
