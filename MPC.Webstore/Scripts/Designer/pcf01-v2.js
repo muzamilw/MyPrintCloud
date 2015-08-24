@@ -2025,10 +2025,14 @@ function fu07(is2ndLoad) {
                 //         '<img src="' + baseUrl + 'p'+ite.PageNo+'.png" alt="" class="MultiBackPageLS-ActlImg" /></div> </div>';
                 //} else 
                 //{
+                var textVale = "Disabled";
+                if (ite.IsPrintable == false) {
+                    textVale = "Enable";
+                }
                     addClasses += ite.ProductPageID + " ";
                     html = '<div class="MultiBackPage MultiBackPage-type-zoom"> <a class="MultiBackPage-hover" '+
                         'onclick="showMBPage(' + ite.ProductPageID + ');toggleMbPanel();"> <div class="MultiBackPage-info"> <div class="headline"> ' +
-                        ite.PageName + '<div class="line"></div> <div class="date"> <button class=" MultiBack-Btn mbButton' + ite.ProductPageID + '" onClick="togglePage(' + ite.ProductPageID + ')">Disable</button></div> </div> </div> <div class="mask"></div> </a> <div class="MultiBackPage-img">' +
+                        ite.PageName + '<div class="line"></div> <div class="date"> <button class=" MultiBack-Btn mbButton' + ite.ProductPageID + '" onClick="togglePage(' + ite.ProductPageID + ')">' + textVale + '</button></div> </div> </div> <div class="mask"></div> </a> <div class="MultiBackPage-img">' +
                         '<img src="' + baseUrl + 'p' + ite.PageNo + '.png" alt="" class="MultiBackPage-ActlImg" id="MbImg' + ite.ProductPageID + '" /></div> </div>';
                 //}
                 $('.multiBackCarouselLayer').append(html);
@@ -2143,7 +2147,7 @@ function togglePage(pId) {
         $(".tempPreviewImg").attr("src", "http://designerv2.myprintcloud.com//designer/products/" + gtID + "/TemplateThumbnail1.jpg");
         $(".tempPreviewImg").fadeIn()
            .css({ height: "0px"})
-           .animate({ height: ($(window).height() - 180) }, 800, function () {
+           .animate({ height: ($(window).height() - 280) }, 800, function () {
                //$(".multiBackCarouselContainer").css("display", "none");
            });
     }
