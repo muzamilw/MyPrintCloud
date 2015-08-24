@@ -1775,14 +1775,13 @@ ul.nav li.selectedLava a {
 }
 
 .product_detail_image_heading_IRI {
-    /* font-weight: bold; padding: 20px 10px 5px 10px;*/
-    font-size: 16px;
+    font-size: 13px;
     color: black;
     padding-top: 15px;
     padding-bottom: 15px;
-    text-align: left;
+    text-align: center;
     height: 15px;
-    display: none;
+    display: block;
 }
 
 .product_detail_image_Pricing {
@@ -7118,7 +7117,6 @@ div.wrapper {
 }
 
 .product_detail_image_heading_CAT {
-   
     font-size: 13px;
     color: #E83e48;
     padding: 20px 0px 5px 0px;
@@ -7153,7 +7151,7 @@ div.wrapper {
     text-align: left;
     margin-top: 25px;
     margin-bottom: 0px;
-    padding-left:11px;
+    padding-left: 11px;
 }
 
 
@@ -12743,6 +12741,17 @@ ul.LogBar li a {
 }
 
 @media (min-width:320px) { /* smartphones, iPhone, portrait 480x320 phones */
+    .delivery-toBeCaltext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 105px;
+        margin-left: 35px;
+        margin-top: 1px;
+        font-size: 12px !important;
+    }
+
     .srFirstTd {
         width: 34%;
     }
@@ -14714,7 +14723,7 @@ ul.LogBar li a {
         margin-bottom: 50px;
         padding: 20px;
         background-color: #d6d6d6;
-        height: 300px;
+        height: 375px;
     }
 
     .CAT_ThumbnailPath {
@@ -15271,6 +15280,17 @@ ul.LogBar li a {
 }
 
 @media (min-width:481px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+    .delivery-toBeCaltext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 105px;
+        margin-left: -35px;
+        margin-top: 1px;
+        font-size: 12px !important;
+    }
+
     .srFirstTd {
         width: 34%;
     }
@@ -16846,7 +16866,7 @@ ul.LogBar li a {
         -webkit-border-radius: 10px !important;
         -khtml-border-radius: 10px !important;
         border-radius: 10px !important;
-        height: 300px;
+        height: 375px;
     }
 
     .CAT_Body {
@@ -17276,6 +17296,17 @@ ul.LogBar li a {
 }
 
 @media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+    .delivery-toBeCaltext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 105px;
+        margin-left: -35px;
+        margin-top: 1px;
+        font-size: 12px !important;
+    }
+
     .srFirstTd {
         width: 25%;
     }
@@ -19200,7 +19231,7 @@ ul.LogBar li a {
         -webkit-border-radius: 10px !important;
         -khtml-border-radius: 10px !important;
         border-radius: 10px !important;
-        height: 300px;
+        height: 375px;
     }
 
     .CAT_Body {
@@ -19597,6 +19628,16 @@ ul.LogBar li a {
 
 
 @media (min-width:992px) {
+    .delivery-toBeCaltext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 105px;
+        margin-left: -40px;
+        margin-top: 1px;
+    }
+
     .srFirstTd {
         width: 34%;
     }
@@ -21783,7 +21824,7 @@ ul.LogBar li a {
         padding: 20px;
         border-radius: 5px;
         background-color: #d6d6d6 !important;
-        height: 300px;
+        height: 375px;
     }
 
     .CAT_Body {
@@ -22157,6 +22198,16 @@ ul.LogBar li a {
 }
 
 @media (min-width:1025px) {
+    .delivery-toBeCaltext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 105px;
+        margin-left: -40px;
+        margin-top: 1px;
+    }
+
     .srFirstTd {
         width: 34%;
     }
@@ -24374,7 +24425,7 @@ ul.LogBar li a {
         padding: 20px;
         border-radius: 5px;
         background-color: #d6d6d6 !important;
-        height: 300px;
+        height: 375px;
     }
 
     .CAT_Body {
@@ -27297,7 +27348,8 @@ gridfontStyle {
     margin-top: 10px;
     -webkit-transition: all 200ms ease-out;
     -o-transition: all 200ms ease-out;
-    -moz-transition: all 200ms ease-out;display:none;
+    -moz-transition: all 200ms ease-out;
+    display: none;
 }
 
 .goto-designer-button {
@@ -27314,7 +27366,8 @@ gridfontStyle {
     margin-top: 10px;
     -webkit-transition: all 200ms ease-out;
     -o-transition: all 200ms ease-out;
-    -moz-transition: all 200ms ease-out;display:none;
+    -moz-transition: all 200ms ease-out;
+    display: none;
 }
 
     .goto-designer-button:hover {
@@ -27391,19 +27444,23 @@ gridfontStyle {
     font-weight: bold;
     font-size: 14px;
 }
-#productOptionBtns {
 
+#productOptionBtns {
 }
+
 .checkout-container {
-text-align:left;
+    text-align: left;
 }
+
 #BillingShiping {
     margin-bottom: 60px;
 }
+
 #all-SavedDesign-pg {
     margin-bottom: 60px;
 }
+
 .signin_heading_div {
-text-align:left;
+    text-align: left;
 }
 /*************PINK********************/

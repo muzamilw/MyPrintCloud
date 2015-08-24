@@ -2039,10 +2039,11 @@ namespace MPC.Implementation.WebStoreServices
             long CompanyID = CompanyIdFromClaim;
             itemCloneObj.OrderId = OrderIdFromCookie;
             itemCloneObj.TemporaryCustomerId = TemporaryRetailCompanyIdFromCookie;
+            long TemporaryRetailCompanyId = 0;
             if (OrderIdFromCookie == 0)
             {
                 long OrderID = 0;
-                long TemporaryRetailCompanyId = 0;
+               
                 if (ModeOfStore == StoreMode.Retail)
                 {
                     TemporaryRetailCompanyId = TemporaryRetailCompanyIdFromCookie;
@@ -2086,7 +2087,7 @@ namespace MPC.Implementation.WebStoreServices
             {
                 if (TemporaryRetailCompanyIdFromCookie == 0 && ModeOfStore == StoreMode.Retail && ContactID == 0)
                 {
-                    long TemporaryRetailCompanyId = TemporaryRetailCompanyIdFromCookie;
+                    TemporaryRetailCompanyId = TemporaryRetailCompanyIdFromCookie;
 
                     // create new order
 
@@ -2107,6 +2108,24 @@ namespace MPC.Implementation.WebStoreServices
                     CompanyID = TemporaryRetailCompanyIdFromCookie;
                     ContactID = _myCompanyService.GetContactIdByCompanyId(CompanyID);
                 }
+
+                MPC.Models.DomainModels.Estimate oCookieOrder = _orderService.GetOrderByOrderID(OrderIdFromCookie);
+               
+                if (oCookieOrder != null)
+                {
+                    if (oCookieOrder.StatusId != (int)OrderStatus.ShoppingCart)
+                    {
+                        OrderIdFromCookie = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, ModeOfStore, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                        itemCloneObj.OrderId = OrderIdFromCookie;
+                    }
+                }
+                else 
+                {
+                    OrderIdFromCookie = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, ModeOfStore, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    itemCloneObj.OrderId = OrderIdFromCookie;
+                }
+               
+
                 item = CloneItem(ItemId, 0, OrderIdFromCookie, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId);
 
                 if (item != null)
@@ -3430,6 +3449,15 @@ namespace MPC.Implementation.WebStoreServices
             }
 
             return FreeShippingId;
+        }
+        public void UpdateOrderIdInItem(long itemId, long OrderId)
+        {
+            Item cloneditem = _ItemRepository.GetItemByItemID(itemId);
+            if(cloneditem != null)
+            {
+                cloneditem.EstimateId = OrderId;
+                _ItemRepository.SaveChanges();
+            }
         }
         #endregion
     }

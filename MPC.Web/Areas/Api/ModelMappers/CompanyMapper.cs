@@ -142,6 +142,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PriceFlagId = source.PriceFlagId,
                 StoreId = source.StoreId,
                isStoreLive = source.isStoreLive,
+               CanUserUpdateAddress = source.CanUserUpdateAddress,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 TemplateColorStyles =
@@ -396,6 +397,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PriceFlagId = source.PriceFlagId,
                 StoreId = source.StoreId,
                 isStoreLive = source.isStoreLive,
+                CanUserUpdateAddress = source.CanUserUpdateAddress,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 TemplateColorStyles =

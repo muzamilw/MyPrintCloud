@@ -20,16 +20,16 @@ define("dashboard.viewModel",
 
                        // monthly order count
                     monthlyOrdersCount = ko.observableArray([]),
-
+                    monthlyOrderStoresList = ko.observableArray([]),
                        // Total Earnings
                     estimateToOrderConversion = ko.observableArray([]),
                     tempUsers = ko.observableArray([]),
                        // Total Earnings
                     estimateToOrderConversionCount = ko.observableArray([]),
                     dummyUsers = ko.observableArray([
-                        { monthname: '2015-01', totalStore1: 10, totalStore2: 20, totalStore3: 30, totalStore4: 40, totalStore5: 50, month: 1, year: 2015 },
-                        { monthname: '2015-02', totalStore1: 25, totalStore2: 35, totalStore3: 45, totalStore4: 50, totalStore5: 60, month: 2, year: 2015 },
-                        { monthname: '2015-03', totalStore1: 40, totalStore2: 60, totalStore3: 70, totalStore4: 80, totalStore5: 80, month: 3, year: 2015 },
+                        { monthname: '2015-01', totalStore1: 0, totalStore2: 0, totalStore3: 0, totalStore4: 0, totalStore5: 0, month: 1, year: 2015 },
+                        { monthname: '2015-02', totalStore1: 0, totalStore2: 0, totalStore3: 0, totalStore4: 0, totalStore5: 0, month: 2, year: 2015 },
+                        { monthname: '2015-03', totalStore1: 0, totalStore2: 0, totalStore3: 0, totalStore4: 0, totalStore5: 0, month: 3, year: 2015 },
                         { monthname: '2015-04', totalStore1: 0, totalStore2: 0, totalStore3: 0, totalStore4: 0, totalStore5: 0, month: 4, year: 2015 },
                         { monthname: '2015-05', totalStore1: 0, totalStore2: 0, totalStore3: 0, totalStore4: 0, totalStore5: 0, month: 5, year: 2015 },
                         { monthname: '2015-06', totalStore1: 0, totalStore2: 0, totalStore3: 0, totalStore4: 0, totalStore5: 0, month: 6, year: 2015 },
@@ -45,7 +45,8 @@ define("dashboard.viewModel",
 
                        // Total Earnings
                     top10PerformingStores = ko.observableArray([]),
-
+                    monthlyEarningsByStore = ko.observableArray([]),
+                    monthlyEarningStores = ko.observableArray([]),
                     date = new Date(),
                     year = date.getFullYear(),
                     counter = 1,
@@ -83,21 +84,21 @@ define("dashboard.viewModel",
                     sortIsAsc = ko.observable(true),
                     // Pending Orders Count
                     pendingOrdersCount = ko.observable(0),
-                // months = ['jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+                 months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 line = ko.observable([
 
-                                { month: '2015-01', a: 100, b: 110, c: 120, d:130, e:140 },
-                                { month: '2015-02', a: 120, b: 130, c: 140, d: 140, e: 150},
-                                { month: '2015-03', a: 130, b: 140, c: 160, d: 150, e: 160 },
-                                { month: '2015-04', a: 120, b: 190, c: 170, d: 160, e: 170 },
-                                { month: '2015-05', a: 100, b: 120, c: 180, d: 170, e: 180},
-                                { month: '2015-06', a: 100, b: 110, c: 110, d: 160, e: 190 },
-                                { month: '2015-07', a: 105, b: 90, c: 110, d: 170, e: 120 },
-                                { month: '2015-08', a: 100, b: 90, c: 80, d: 130, e: 200 },
-                                { month: '2015-09', a: 100, b: 90, c: 60, d: 180, e: 210 },
-                                { month: '2015-10', a: 100, b: 90, c: 100, d: 190, e: 220 },
-                                { month: '2015-11', a: 300, b: 90, c: 90, d: 180, e: 225},
-                                { month: '2015-12', a: 100, b: 90, c: 130, d: 170, e: 230 }
+                                //{ MonthName: '2015-1', a: 100, b: 110, c: 120, d: 130, e: 140 },
+                                //{ MonthName: '2015-2', a: 120, b: 130, c: 140, d: 140, e: 150 },
+                                //{ MonthName: '2015-3', a: 130, b: 140, c: 160, d: 150, e: 160 },
+                                { MonthName: '2015-4', a: 120, b: 190, c: 170, d: 160, e: 170 },
+                                { MonthName: '2015-5', a: 100, b: 120, c: 180, d: 170, e: 180 },
+                                { MonthName: '2015-6', a: 100, b: 110, c: 110, d: 160, e: 190 },
+                                { MonthName: '2015-7', a: 105, b: 90, c: 110, d: 170, e: 120 },
+                                { MonthName: '2015-8', a: 100, b: 90, c: 80, d: 130, e: 200 },
+                                { MonthName: '2015-9', a: 100, b: 90, c: 60, d: 180, e: 210 },
+                                { MonthName: '2015-10', a: 100, b: 90, c: 100, d: 190, e: 220 },
+                                { MonthName: '2015-11', a: 300, b: 90, c: 90, d: 180, e: 225 },
+                                { MonthName: '2015-12', a: 100, b: 90, c: 130, d: 170, e: 230 }
                     
                 ]),
                 //line = ko.observable([
@@ -117,18 +118,18 @@ define("dashboard.viewModel",
                 //]),
                  line1 = ko.observable([
 
-                     { month: 'January', a: 100, b: 90 },
-                    { month: 'February', a: 110, b: 90 },
-                    { month: 'March', a: 200, b: 90 },
-                    { month: 'April', a: 60, b: 90 },
-                    { month: 'May', a: 90, b: 90 },
-                    { month: 'June', a: 100, b: 90 },
-                    { month: 'July', a: 150, b: 90 },
-                    { month: 'August', a: 170, b: 90 },
-                    { month: 'September', a: 190, b: 90 },
-                    { month: 'October', a: 120, b: 90 },
-                    { month: 'November', a: 180, b: 90 },
-                 { month: 'December', a: 195, b: 90 }
+                                { MonthName: '2015-1', a: 0, b: 0 },
+                                { MonthName: '2015-2', a: 0, b: 0 },
+                                { MonthName: '2015-3', a: 0, b: 0},
+                                { MonthName: '2015-4', a: 0, b: 0 },
+                                { MonthName: '2015-5', a: 0, b: 0 },
+                                { MonthName: '2015-6', a: 0, b: 0 },
+                                { MonthName: '2015-7', a: 0, b: 0},
+                                { MonthName: '2015-8', a: 0, b: 0},
+                                { MonthName: '2015-9', a: 0, b: 0 },
+                                { MonthName: '2015-10', a: 0, b: 0 },
+                                { MonthName: '2015-11', a: 0, b: 0},
+                                { MonthName: '2015-12', a: 0, b: 0}
 
 
                  ]),
@@ -171,33 +172,6 @@ define("dashboard.viewModel",
             //Map Registered Users
                     //select Name, count(*) as TotalContacts, Month, MonthName, Year 
             mapRegisteredUsers = function(data) {
-                //var rCounter = 0;
-                //var currentMonth = 0;
-                //_.each(data, function (tUser) {
-                //    if (tUser.Month != currentMonth) {
-                //        currentMonth = tUser.Month;
-                //        rCounter = rCounter + 1;
-                //    }
-
-                //    if (tUser.Month !== null && tUser.Month !== 0) {
-                //        var item = dummyUsers()[tUser.Month - 1];
-                //        if (item !== undefined && item !== null) {
-                //            var duplicateItem = model.RegisteredUser.Create(tUser, rCounter);
-                //            var category = _.filter(yAxisPointdummy(), function (tData) {
-                //                return duplicateItem.monthname !== null && tData.monthname !== null && tData.monthname.toLowerCase() === duplicateItem.monthname.toLowerCase();
-                //            });
-                //            if (category.length > 0) {
-                //                duplicateItem.month = item.month;
-                //                duplicateItem[category[0].y] = duplicateItem.totalStore1;
-                //                dummyUsers.push(duplicateItem);
-                //            }
-
-                //        }
-                //    }
-                //});
-                //ko.utils.arrayPushAll(RegisteredUsers(), dummyUsers());
-                //RegisteredUsers.valueHasMutated();
-                
                 
                  transposeUsersData(data);
                
@@ -243,6 +217,10 @@ define("dashboard.viewModel",
                                 
                                 uCounter = uCounter + 1;
                                 _.each(tempUsers(), function (user) {
+                                    if (user.month == currentMonth && chartLabelsdummy()[0] == tUser.Name) {
+                                        user.totalStore1 = tUser.TotalContacts;
+                                        user.month = tUser.Month;
+                                    }
                                     if (user.month == currentMonth && chartLabelsdummy()[1] == tUser.Name) {
                                         user.totalStore2 = tUser.TotalContacts;
                                         user.month = tUser.Month;
@@ -255,7 +233,7 @@ define("dashboard.viewModel",
                                         user.totalStore4 = tUser.TotalContacts;
                                         user.month = tUser.Month;
                                     }
-                                    if (user.month == currentMonth && chartLabelsdummy()[0] == tUser.Name) {
+                                    if (user.month == currentMonth && chartLabelsdummy()[4] == tUser.Name) {
                                         user.totalStore5 = tUser.TotalContacts;
                                         user.month = tUser.Month;
                                     }
@@ -270,7 +248,170 @@ define("dashboard.viewModel",
                         RegisteredUsers.valueHasMutated();
                     },
                     
+            mapMonthlyEarningByStore = function (data) {
+                var currentMonth = 0;
+                var uCounter = 1;
+                monthlyEarningStores.removeAll();
+                _.each(data, function (item) {
+                    var store = _.filter(monthlyEarningStores(), function (label) {
+                        return store !== null && label.toLowerCase() === item.Name.toLowerCase();
+                    });
+                    if (monthlyEarningStores().length === 0 || store.length === 0) {
+                        monthlyEarningStores().push(item.Name);
+                    }
+                });
+                _.each(data, function (tUser) {
+                    var item = dummyUsers()[tUser.Month - 1];
+                    if (tUser.Month != currentMonth) {
+                        if (monthlyEarningStores()[0] == tUser.Name) {
+                            item.totalStore1 = tUser.TotalEarning.toFixed(2);
+                        }
+                        if (monthlyEarningStores()[1] == tUser.Name) {
+                            item.totalStore2 = tUser.TotalEarning.toFixed(2);
+                        }
+                        if (monthlyEarningStores()[2] == tUser.Name) {
+                            item.totalStore3 = tUser.TotalEarning.toFixed(2);
+                        }
+                        if (monthlyEarningStores()[3] == tUser.Name) {
+                            item.totalStore4 = tUser.TotalEarning.toFixed(2);
+                        }
+                        if (monthlyEarningStores()[4] == tUser.Name) {
+                            item.totalStore5 = tUser.TotalEarning.toFixed(2);
+                        }
 
+                        currentMonth = tUser.Month;
+                        item.month = currentMonth;
+                        item.monthname = tUser.Year + "-0" + currentMonth;
+                        uCounter = 1;
+                        // chartLabelsdummy().push(tUser.Name);
+                        tempUsers.push(item);
+                    } else {
+
+                        uCounter = uCounter + 1;
+                        _.each(tempUsers(), function (user) {
+                            if (user.month == currentMonth && monthlyEarningStores()[0] == tUser.Name) {
+                                user.totalStore1 = tUser.TotalEarning.toFixed(2);
+                                user.month = tUser.Month;
+                            }
+                            if (user.month == currentMonth && monthlyEarningStores()[1] == tUser.Name) {
+                                user.totalStore2 = tUser.TotalEarning.toFixed(2);
+                                user.month = tUser.Month;
+                            }
+                            if (user.month == currentMonth && monthlyEarningStores()[2] == tUser.Name) {
+                                user.totalStore3 = tUser.TotalEarning.toFixed(2);
+                                user.month = tUser.Month;
+                            }
+                            if (user.month == currentMonth && monthlyEarningStores()[3] == tUser.Name) {
+                                user.totalStore4 = tUser.TotalEarning.toFixed(2);
+                                user.month = tUser.Month;
+                            }
+                            if (user.month == currentMonth && monthlyEarningStores()[4] == tUser.Name) {
+                                user.totalStore5 = tUser.TotalEarning.toFixed(2);
+                                user.month = tUser.Month;
+                            }
+
+                        });
+
+                    }
+
+
+                });
+                ko.utils.arrayPushAll(monthlyEarningsByStore(), tempUsers());
+                monthlyEarningsByStore.valueHasMutated();
+            },
+            
+            mapMonthlyOrdersCountByStore = function (data) {
+                 var currentMonth = 0;
+                 var uCounter = 1;
+                 monthlyOrderStoresList.removeAll();
+                 tempUsers.removeAll();
+                _.each(dummyUsers(), function(dum) {
+                    dum.totalStore1 = 0;
+                    dum.totalStore2 = 0;
+                    dum.totalStore3 = 0;
+                    dum.totalStore4 = 0;
+                    dum.totalStore5 = 0;
+                });
+                 _.each(data, function (item) {
+                     var store = _.filter(monthlyOrderStoresList(), function (label) {
+                         return store !== null && label.toLowerCase() === item.CompanyName.toLowerCase();
+                     });
+                     if (monthlyOrderStoresList().length === 0 || store.length === 0) {
+                         monthlyOrderStoresList().push(item.CompanyName);
+                     }
+                 });
+                 _.each(data, function (tUser) {
+                     var item = dummyUsers()[tUser.Month - 1];
+                     if (tUser.Month != currentMonth) {
+                         if (monthlyOrderStoresList()[0] == tUser.CompanyName) {
+                             item.totalStore1 = tUser.TotalOrders;
+                         }
+                         if (monthlyOrderStoresList()[1] == tUser.CompanyName) {
+                             item.totalStore2 = tUser.TotalOrders;
+                         }
+                         if (monthlyOrderStoresList()[2] == tUser.CompanyName) {
+                             item.totalStore3 = tUser.TotalOrders;
+                         }
+                         if (monthlyOrderStoresList()[3] == tUser.CompanyName) {
+                             item.totalStore4 = tUser.TotalOrders;
+                         }
+                         if (monthlyOrderStoresList()[4] == tUser.CompanyName) {
+                             item.totalStore5 = tUser.TotalOrders;
+                         }
+
+                         currentMonth = tUser.Month;
+                         item.month = currentMonth;
+                         item.monthname = tUser.year + "-0" + currentMonth;
+                         uCounter = 1;
+                         // chartLabelsdummy().push(tUser.Name);
+                         tempUsers.push(item);
+                         
+                     } else {
+
+                         uCounter = uCounter + 1;
+                         _.each(tempUsers(), function (user) {
+                             if (user.month == currentMonth && monthlyOrderStoresList()[0] == tUser.CompanyName) {
+                                 user.totalStore1 = tUser.TotalOrders;
+                                 user.month = tUser.Month;
+                             }
+                             if (user.month == currentMonth && monthlyOrderStoresList()[1] == tUser.CompanyName) {
+                                 user.totalStore2 = tUser.TotalOrders;
+                                 user.month = tUser.Month;
+                             }
+                             if (user.month == currentMonth && monthlyOrderStoresList()[2] == tUser.CompanyName) {
+                                 user.totalStore3 = tUser.TotalOrders;
+                                 user.month = tUser.Month;
+                             }
+                             if (user.month == currentMonth && monthlyOrderStoresList()[3] == tUser.CompanyName) {
+                                 user.totalStore4 = tUser.TotalOrders;
+                                 user.month = tUser.Month;
+                             }
+                             if (user.month == currentMonth && monthlyOrderStoresList()[4] == tUser.CompanyName) {
+                                 user.totalStore5 = tUser.TotalOrders;
+                                 user.month = tUser.Month;
+                             }
+
+                         });
+
+                     }
+
+
+                 });
+                 ko.utils.arrayPushAll(monthlyOrdersCount(), tempUsers());
+                 monthlyOrdersCount.valueHasMutated();
+            },
+             mapEstimateToOrderConversion = function (data) {
+                 tempUsers.removeAll();
+                 _.each(data, function (tUser) {
+                     var item = tUser;
+                     item.EstimateTotal = tUser.EstimateTotal.toFixed(2);
+                     item.ConvertedTotal = tUser.ConvertedTotal.toFixed(2);
+                     tempUsers.push(item);
+                 });
+                 ko.utils.arrayPushAll(estimateToOrderConversion(), tempUsers());
+                 estimateToOrderConversion.valueHasMutated();
+             },
+              
                 // Map Orders 
                 mapTotalEarnings = function (data) {
                     //totalEarnings.removeAll();
@@ -317,26 +458,28 @@ define("dashboard.viewModel",
                             ko.utils.arrayPushAll(totalEarnings(), data.TotalEarningResult);
                             totalEarnings.valueHasMutated();
 
-                            //  registered users
+                            // chart 2 Registered Users By Store
                             mapRegisteredUsers(data.RegisteredUserByStores);
-                            //RegisteredUsers.removeAll();
-                            //ko.utils.arrayPushAll(RegisteredUsers(), data.RegisteredUserByStores);
-                            //RegisteredUsers.valueHasMutated();
+                            
 
-                            // top performing stores
+                            // chart 1 top performing stores
+                           // mapTopPerformingStores(data.TopPerformingStores);
                             topPerformingStores.removeAll();
                             ko.utils.arrayPushAll(topPerformingStores(), data.TopPerformingStores);
                             topPerformingStores.valueHasMutated();
+                            
+                            //chart 3 Monthly Earning By Store
+                            mapMonthlyEarningByStore(data.MonthlyEarningsbyStore);
 
-                            //monthly orders
-                            monthlyOrdersCount.removeAll();
-                            ko.utils.arrayPushAll(monthlyOrdersCount(), data.MonthlyOrdersCount);
-                            monthlyOrdersCount.valueHasMutated();
+                            //Chart 4 Monthly Orders Count
+                            mapMonthlyOrdersCountByStore(data.MonthlyOrdersCount);
+                            
 
-                            // estimate to order
-                            estimateToOrderConversion.removeAll();
-                            ko.utils.arrayPushAll(estimateToOrderConversion(), data.EstimateToOrderConversion);
-                            estimateToOrderConversion.valueHasMutated();
+                            // Chart 5 Estimate To Orders Conversion
+                            mapEstimateToOrderConversion(data.EstimateToOrderConversion);
+                            //estimateToOrderConversion.removeAll();
+                            //ko.utils.arrayPushAll(estimateToOrderConversion(), data.EstimateToOrderConversion);
+                            //estimateToOrderConversion.valueHasMutated();
 
                             // estimate to order count
                             estimateToOrderConversionCount.removeAll();
@@ -419,16 +562,19 @@ define("dashboard.viewModel",
                     yAxisPoints: yAxisPoints,
                     chartLabels: chartLabels,
                     line1: line1,
+                    months:months,
                     topPerformingStores: topPerformingStores,
-
                     monthlyOrdersCount: monthlyOrdersCount,
+                    monthlyOrderStoresList:monthlyOrderStoresList,
                     estimateToOrderConversion: estimateToOrderConversion,
 
                     estimateToOrderConversionCount: estimateToOrderConversionCount,
                     RegisteredUsers: RegisteredUsers,
                     top10PerformingStores: top10PerformingStores,
                     yAxisPointdummy: yAxisPointdummy,
-                    chartLabelsdummy: chartLabelsdummy
+                    chartLabelsdummy: chartLabelsdummy,
+                    monthlyEarningStores: monthlyEarningStores,
+                    monthlyEarningsByStore: monthlyEarningsByStore
                     // xLabelFormat: xLabelFormat
                 };
             })()

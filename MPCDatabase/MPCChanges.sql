@@ -7035,7 +7035,7 @@ END
 
 	   /*Execution date 19/08/2015*/
 
-	   USE [MPCLive]
+	  
 GO
 /****** Object:  StoredProcedure [dbo].[sp_cloneTemplate]    Script Date: 08/19/2015 17:04:31 ******/
 SET ANSI_NULLS ON
@@ -7336,3 +7336,125 @@ select @NewTemplateID
 END
 
 
+
+/****** Object:  StoredProcedure [dbo].[usp_ChartMonthlyOrdersCount]    Script Date: 8/20/2015 1:10:19 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[usp_ChartMonthlyOrdersCount]
+	@OrganisationId bigint
+AS
+BEGIN
+
+	
+		
+--------------------------Retails Stores--------------------------------
+					select  RetailStoreName as CompanyName,count(Estimate_Total)as TotalOrders, Month, MonthName,  Year 
+						from (select	Estimate_Total, retail.RetailStoreName, DATENAME(MONTH, CreationDate) as MonthName, DATEPart(MONTH,CreationDate) as Month,
+										DATEPart(Year,CreationDate) as Year 
+									from estimate e inner join
+										(--Retail Stores
+											select reg.CompanyId, store.Name as RetailStoreName 
+												from Company reg 
+												inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4) retail
+												on retail.CompanyId = e.CompanyId
+												where e.StatusId <> 3 
+										) ct
+					group by RetailStoreName, MonthName, Month, year
+
+					Union
+--------------------------Corporate Stores--------------------------------
+					select  CorporateStore as CompanyName ,count(Estimate_Total)as TotalOrders, Month, MonthName, Year 
+					from (select	Estimate_Total, corp.CorporateStore, DATENAME(MONTH, CreationDate) as MonthName, DATEPart(MONTH,CreationDate) as Month,
+									DATEPart(Year,CreationDate) as Year 
+							from estimate e inner join
+								(--Corporate Stores
+									select companyId, Name as CorporateStore from company where organisationID = @OrganisationId and IsCustomer = 3) corp
+									on corp.CompanyId = e.CompanyId
+									where e.StatusId <> 3 
+								) ct
+					group by CorporateStore, MonthName, Month, year
+					order by TotalOrders desc
+
+	END
+
+/*Execution date 19/08/2015*/
+Go
+ALTER VIEW [dbo].[vw_SaveDesign]
+AS
+ SELECT  item.ItemID, ItemAttach.ItemID AS AttachmentItemId,ItemAttach.FileName AS AttachmentFileName, 
+ ItemAttach.FolderPath AS AttachmentFolderPath, 
+item.EstimateID, item.ProductName, --PCat.CategoryName AS ProductCategoryName, PCat.ProductCategoryID, PCat.ParentCategoryID, 
+                      ISNULL(dbo.funGetMiniumProductValue(item.RefItemID), 0.0) AS MinPrice,  
+                      item.IsEnabled, item.IsPublished,item.IsArchived, item.InvoiceID, contact.ContactID, contact.CompanyId, company.IsCustomer ,item.RefItemID, status_Check.StatusID, status_Check.StatusName,
+                       item.IsOrderedItem, item.ItemCreationDateTime,item.TemplateID
+FROM         Items AS item Inner JOIN
+				      dbo.ItemAttachment AS ItemAttach ON ItemAttach.ItemID = item.ItemID INNER JOIN
+                      dbo.Template AS temp ON temp.ProductID = item.TemplateID INNER JOIN
+                      dbo.Estimate AS est ON item.EstimateID = est.EstimateID INNER JOIN
+                      dbo.Status AS status_Check ON item.Status = status_Check.StatusID INNER JOIN
+                      dbo.CompanyContact AS contact ON contact.ContactID = est.ContactID INNER JOIN
+                      dbo.Company As company ON contact.CompanyId = company.CompanyId
+				
+
+GO
+
+
+
+/****** Object:  StoredProcedure [dbo].[usp_ChartEstimateToOrderConversion]    Script Date: 8/20/2015 3:00:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--[usp_ChartEstimateToOrderConversion] 1
+ALTER PROCEDURE [dbo].[usp_ChartEstimateToOrderConversion]
+	@OrganisationId bigint
+AS
+BEGIN
+
+select sum(EstimateTotal) as EstimateTotal, sum(ConvertedTotal) as ConvertedTotal,Month,MonthName,Year
+	from
+	(	select	estimate_total as EstimateTotal,
+				(select estimate_total from estimate es where es.EstimateId = e.RefEstimateId) as ConvertedTotal,
+				DATENAME(MONTH,e.Order_Date) as [MonthName],
+				DATEPART(MONTH,e.Order_Date) as [Month],
+				DATEPART(YEAR,e.Order_Date) as [Year]
+		from	estimate e where RefEstimateId is not null and Order_Code is not null and OrganisationId = @OrganisationId
+	) data
+
+group by month,monthname,year
+order by ConvertedTotal desc
+End
+
+
+/****** Object:  StoredProcedure [dbo].[usp_ChartEstimateToOrderConversionCount]    Script Date: 8/20/2015 6:40:29 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--[usp_ChartEstimateToOrderConversionCount]1
+ALTER PROCEDURE [dbo].[usp_ChartEstimateToOrderConversionCount]
+	@OrganisationId bigint
+AS
+BEGIN
+
+
+select count(EstimateId) as EstimateCount, count(ConvertedEstimate) as ConvertedCount,Month,MonthName,Year
+	from
+	(	select	EstimateId,
+				(select EstimateId from estimate es where es.EstimateId = e.EstimateId and Order_Code is not null) as ConvertedEstimate,
+				(convert(varchar, datepart(year, e.Order_Date)) + '-' + convert(varchar, datepart(month, e.Order_Date))) as [MonthName],
+				DATEPART(MONTH,e.Order_Date) as [Month],
+				DATEPART(YEAR,e.Order_Date) as [Year]
+		from	estimate e where Estimate_Code is not null and OrganisationId = @OrganisationId
+	) data
+
+group by month,monthname,year
+order by Month 
+
+
+	END
+
+	-------------Executed on USA server on 20150821----------
+	alter table Company add CanUserUpdateAddress bit

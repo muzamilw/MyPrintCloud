@@ -509,7 +509,13 @@
                 function BackToShopping(OrderId) {
                     window.location.href = "/ShopCart?OrderId=" + OrderId;
                 }
-
+                
+                function ContinueOrder() {
+                    HideMessagePopUp();
+                    ShowReceiptLoader();
+                    $("#submitFormUsingPopUp").click();
+                    return true;
+                }
              
             </script>
 

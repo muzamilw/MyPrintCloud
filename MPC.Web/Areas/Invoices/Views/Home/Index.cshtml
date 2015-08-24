@@ -35,7 +35,7 @@
                             &nbsp;
                         </div>
                         <div>
-                            <div class="col-sm-12" style="padding-left:16px;padding-right:16px;margin-top:7px;">
+                            <div class="col-sm-12" style="padding-left:16px;padding-right:16px;margin-top:4px;">
                                 <!-- ko template: { name: 'orderFilterTemplate' } -->
                                 <!-- /ko -->
                                 <div class="clearfix">
@@ -98,14 +98,14 @@
                         <script id="orderFilterTemplate" type="text/html">
                             <div class="filter-body">
                                 <form data-bind="submit: $root.getInvoicesOfCurrentScreen">
-                                    <div class="filter-block pull-right" style="margin-top:6px;margin-bottom:6px;">
+                                    <div class="filter-block pull-right" style="margin-top:3px;margin-bottom:3px;">
                                         <div class="form-group pull-left">
                                             <select style="width:87px;" class="form-control col-sm-4" data-bind="options:$root.orderType,optionsText:'name',optionsValue:'value', value: $root.orderTypeFilter, event:{change:$root.getInvoicesOfCurrentScreen}"></select>
                                         </div>
                                         <div class="form-group pull-left">
                                             <select class="form-control" style="width:220px;" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag, event:{change:$root.getInvoicesOfCurrentScreen}"></select>
                                         </div>
-                                        <div class="form-group pull-left" style="margin-right:-3px;">
+                                        <div class="form-group pull-left" style="margin-right:0px;">
                                             <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
                                             <i class="fa fa-search search-icon" data-bind="click: $root.getInvoicesOfCurrentScreen"></i>
                                         </div>
@@ -149,7 +149,7 @@
                                 <td data-bind="visible:$root.isShowStatusCloumn">
                                     <span data-bind="text: status"></span>
                                 </td>
-                                <td style="text-align: right;">
+                                <td style="text-align: right;padding-right:76px;">
                                     <span data-bind="text:invoiceTotal()!==undefined ? $root.currencySymbol:''"></span><span data-bind="numberInput:invoiceTotal "></span>
                                 </td>
                             </tr>
@@ -157,7 +157,7 @@
                         @* Tab Items Lists*@
                         <script id="tabItemsList" type="text/html">
                             <div>
-                                <div class="table-responsive" style="padding-left:10px;padding-right:5px;">
+                                <div class="table-responsive" style="padding-left:10px;padding-right:10px;">
                                     <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>
@@ -165,9 +165,9 @@
                                                 <th class="col-sm-3"><span>Customer</span></th>
                                                 <th class="col-sm-2"><span>Invoice Code</span></th>
                                                 <th class="col-sm-2"><span>Invoice Date</span></th>
-                                                <th class="col-sm-1"><span>Flag</span></th>
-                                                <th class="col-sm-1" data-bind="visible:$root.isShowStatusCloumn"><span>Status</span></th>
-                                                <th class="col-sm-2" style="text-align: right;"><span>Invoice Total</span></th>
+                                                <th class="col-sm-2"><span>Flag</span></th>
+                                                <th data-bind="visible:$root.isShowStatusCloumn"><span>Status</span></th>
+                                                <th class="col-sm-2"><span>Invoice Total</span></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -177,7 +177,7 @@
                                     </table>
                                 </div>
                             </div>
-                            <div id="pagerDiv" class="pull-right">
+                            <div id="pagerDiv" class="pull-right" style="padding-right:10px;">
                                 <!-- ko with: pager -->
                                 @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                                 <!-- /ko -->

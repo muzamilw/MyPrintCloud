@@ -116,7 +116,7 @@ namespace MPC.Webstore.Controllers
 
                     MPC.Models.DomainModels.Estimate oCookieOrder = _orderService.GetOrderByOrderID(OrderID);
 
-                    if (oCookieOrder.StatusId != (int)OrderStatus.ShoppingCart)
+                    if (oCookieOrder != null && oCookieOrder.StatusId != (int)OrderStatus.ShoppingCart)
                     {
                         OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, _myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), ref TemporaryRetailCompanyId);
                         UserCookieManager.WEBOrderId = OrderID;
@@ -681,7 +681,18 @@ namespace MPC.Webstore.Controllers
             }
             ViewBag.DesignServiceUrl = Utils.GetAppBasePath();
 
-            ViewBag.Order = _orderService.GetOrderByID(OrderId);
+            Estimate userOrder = _orderService.GetOrderByID(OrderId);
+            if (userOrder != null)
+            {
+                ViewBag.Order = userOrder;
+            }
+            else 
+            {
+                userOrder = _orderService.GetOrderByID(UserCookieManager.WEBOrderId);
+                ViewBag.Order = userOrder;
+            }
+
+            
 
             PriceMatrixObjectList = null;
             AddonObjectList = null;
