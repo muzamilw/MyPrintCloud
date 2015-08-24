@@ -915,6 +915,7 @@ namespace MPC.Repository.Repositories
             }
             return UserScopeVariables;
         }
+      
         public bool SaveUserProfilesData(Dictionary<long, List<ScopeVariable>> obj)
         {
             bool result = false;
@@ -923,6 +924,11 @@ namespace MPC.Repository.Repositories
                 long contactId = item.Key;
                 List<ScopeVariable> contactVariables = item.Value;
                 var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
+                Company objCompany = null;
+                if (contact != null)
+                {
+                    objCompany = db.Companies.Where(g => g.CompanyId == contact.CompanyId).SingleOrDefault();
+                }
                 foreach (var scope in contactVariables)
                 {
                     FieldVariable variable = db.FieldVariables.Where(g => g.VariableId == scope.VariableId).SingleOrDefault();
@@ -958,61 +964,64 @@ namespace MPC.Repository.Repositories
                                    //     fieldValue = DynamicQueryToSetRecord(variable.CriteriaFieldName, variable.RefTableName, variable.KeyField, contact.CompanyId, scope.Value);
                                         break;
                                     case "Address":
-                                        //if (variable.CriteriaFieldName == "State")
-                                        //{
-                                        //    var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
-                                        //    if (address != null)
-                                        //    {
-                                        //        if (address.StateId.HasValue)
-                                        //        {
-                                        //            var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
-                                        //            if (state != null)
-                                        //            {
-                                        //                state.StateName = scope.Value;
-                                        //            }
-                                        //        }
-                                        //        db.SaveChanges();
+                                        if (objCompany != null && objCompany.CanUserUpdateAddress.HasValue && objCompany.CanUserUpdateAddress.Value == true)
+                                        {
+                                            if (variable.CriteriaFieldName == "State")
+                                            {
+                                                var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                                if (address != null)
+                                                {
+                                                    if (address.StateId.HasValue)
+                                                    {
+                                                        var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                        if (state != null)
+                                                        {
+                                                            state.StateName = scope.Value;
+                                                        }
+                                                    }
+                                                    db.SaveChanges();
 
-                                        //    }
-                                        //}
-                                        //else if (variable.CriteriaFieldName == "StateAbbr")
-                                        //{
-                                        //    var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
-                                        //    if (address != null)
-                                        //    {
-                                        //        if (address.StateId.HasValue)
-                                        //        {
-                                        //            var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
-                                        //            if (state != null)
-                                        //            {
-                                        //                state.StateCode = scope.Value;
-                                        //            }
-                                        //        }
-                                        //        db.SaveChanges();
+                                                }
+                                            }
+                                            else if (variable.CriteriaFieldName == "StateAbbr")
+                                            {
+                                                var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                                if (address != null)
+                                                {
+                                                    if (address.StateId.HasValue)
+                                                    {
+                                                        var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                        if (state != null)
+                                                        {
+                                                            state.StateCode = scope.Value;
+                                                        }
+                                                    }
+                                                    db.SaveChanges();
 
-                                        //    }
-                                        //}
-                                        //else if (variable.CriteriaFieldName == "Country")
-                                        //{
-                                        //    var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
-                                        //    if (address != null)
-                                        //    {
-                                        //        if (address.CountryId.HasValue)
-                                        //        {
-                                        //            var country = db.Countries.Where(g => g.CountryId == address.CountryId.Value).SingleOrDefault();
-                                        //            if (country != null)
-                                        //            {
-                                        //                country.CountryName = scope.Value;
-                                        //            }
-                                        //        }
-                                        //        db.SaveChanges();
-                                        //    }
-                                        //}
-                                        //else
-                                        //{
-                                        //    fieldValue = DynamicQueryToSetRecord(variable.CriteriaFieldName, variable.RefTableName, variable.KeyField, contact.AddressId, scope.Value);
+                                                }
+                                            }
+                                            else if (variable.CriteriaFieldName == "Country")
+                                            {
+                                                var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                                if (address != null)
+                                                {
+                                                    if (address.CountryId.HasValue)
+                                                    {
+                                                        var country = db.Countries.Where(g => g.CountryId == address.CountryId.Value).SingleOrDefault();
+                                                        if (country != null)
+                                                        {
+                                                            country.CountryName = scope.Value;
+                                                        }
+                                                    }
+                                                    db.SaveChanges();
+                                                }
+                                            }
+                                            else
+                                            {
+                                                fieldValue = DynamicQueryToSetRecord(variable.CriteriaFieldName, variable.RefTableName, variable.KeyField, contact.AddressId, scope.Value);
 
-                                        //}
+                                            }
+                                        }
                                      break;
                                     default:
                                         break;
@@ -1026,19 +1035,22 @@ namespace MPC.Repository.Repositories
                                 //int scopeId = variable.Scope.Value;
                                 if (variable.Scope.Value == (int)FieldVariableScopeType.Address)
                                 {
-                                    //if (contact != null)
-                                    //{
-                                    //    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contact.AddressId).FirstOrDefault();
-                                    //    if (scopeObj != null)
-                                    //    {
-                                    //        scopeObj.Value = scope.Value;
-                                    //    }
-                                    //    else
-                                    //    {
-                                    //        scope.FieldVariable = null;
-                                    //        db.ScopeVariables.Add(scope);
-                                    //    }
-                                    //}
+                                    if (objCompany != null && objCompany.CanUserUpdateAddress.HasValue && objCompany.CanUserUpdateAddress.Value == true)
+                                    {
+                                        if (contact != null)
+                                        {
+                                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contact.AddressId).FirstOrDefault();
+                                            if (scopeObj != null)
+                                            {
+                                                scopeObj.Value = scope.Value;
+                                            }
+                                            else
+                                            {
+                                                scope.FieldVariable = null;
+                                                db.ScopeVariables.Add(scope);
+                                            }
+                                        }
+                                    }
                                 }
                                 else if (variable.Scope.Value == (int)FieldVariableScopeType.Contact)
                                 {

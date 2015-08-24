@@ -3264,7 +3264,7 @@ namespace MPC.Repository.Repositories
                         //ArtWorkAttatchment oPage1Attachment = oLstAttachments.Where(g => g.FileTitle == oPage.PageName).Single();
                         if (oPage1Attachment != null)
                         {
-                            string fileName = oPage1Attachment.FileName;
+                            string fileName = oPage1Attachment.FileName + oPage1Attachment.FileExtention;
                             string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
                             string sourcePath = DesignerPath + templateID.ToString() + "/pages.pdf";
                             if (fileName.Contains("overlay"))

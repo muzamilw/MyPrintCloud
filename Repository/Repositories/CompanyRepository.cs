@@ -230,6 +230,7 @@ namespace MPC.Repository.Repositories
                         c.PriceFlagId,
                         c.StoreId,
                         c.isStoreLive,
+                        c.CanUserUpdateAddress,
                         RaveReviews = c.RaveReviews.OrderBy(r => r.SortOrder).ToList(),
                         CmsPages = c.CmsPages.Where(page => page.isUserDefined == true).Take(5).Select(cms => new
                         {
@@ -360,6 +361,7 @@ namespace MPC.Repository.Repositories
                         TaxRate = c.TaxRate,
                         StoreId = c.StoreId,
                         isStoreLive = c.isStoreLive,
+                        CanUserUpdateAddress = c.CanUserUpdateAddress,
                         CmsPages = c.CmsPages.Select(cms => new CmsPage
                         {
                             PageId = cms.PageId,

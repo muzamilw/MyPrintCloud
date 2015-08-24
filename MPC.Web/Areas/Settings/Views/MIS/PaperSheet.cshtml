@@ -16,13 +16,13 @@
                     <h1 class="pull-left" style="padding-left:0px;">Sheet Sizes</h1>
                 </div>
                 <div class="pull-right top-page-ui">
-                    <a href="~/Settings" class="btn  btn-default" style="float: right;margin-bottom: 10px;margin-left:5px;">Close</a>
+                    <a href="~/Settings" class="btn  btn-default" style="float: right;margin-bottom:10px;margin-left:5px;margin-right:-2px;">Close</a>
                     &nbsp;
                     <a data-toggle="modal" data-bind="click: $root.createNewPaperSheet" class=" btn btn-primary">
                         Add New Sheet Size
                     </a>
                 </div>
-                <div style="margin-top:25px; ">
+                <div style="margin-top:35px; ">
                     &nbsp;
                 </div>
                 <!-- ko template: { name: 'filterTemplate' } -->
@@ -35,21 +35,21 @@
             <div class="col-lg-12">
                 <div class="main-box no-header clearfix">
                     <div class="main-box-body clearfix">
+                        <h3>Create and set sheets sizes widths and lengths</h3>
+                        <span>Create and Manage sheet sizes for use within estimates and products.Enter width and length as well as unit of preferred measurement</span>
+                        <div style="height:20px;">
+                            &nbsp;
+                        </div>
                         <div class="table-responsive">
-                            <h3>Create and set sheets sizes widths and lengths</h3>
-                            <span>Create and Manage sheet sizes for use within estimates and products.Enter width and length as well as unit of preferred measurement</span>
-                            <div style="height:20px;">
-                                &nbsp;
-                            </div>
-                           
-                            <br />
-                            <table class="table table-striped table-hover">
+                           <table class="table table-striped table-hover">
                                 <thead>
-                                    <tr class="">
-                                        <th class="col-lg-6"><span id="0">Sheet Size</span></th>
-                                        <th class="col-lg-2" style="text-align:right;"><span id="1">Sheet Height</span></th>
-                                        <th class="col-lg-2" style="text-align:right;"><span id="2">Sheet Width</span></th>
-                                        <th class="col-lg-2" style="text-align:center;"><span id="3">Unit</span></th>
+                                    <tr>
+                                        <th class="col-lg-1"></th>
+                                        <th class="col-lg-3"><span id="0">Sheet Size</span></th>
+                                        <th class="col-lg-2"><span id="1">Sheet Height</span></th>
+                                        <th class="col-lg-2"><span id="2">Sheet Width</span></th>
+                                        <th class="col-lg-2"><span id="3">Unit</span></th>
+                                        <th class="col-lg-2">&nbsp;</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -90,21 +90,21 @@
     </script>
     <script id="itemPaperSheet" type="text/html">
         <tr data-bind=" click: $root.onEditItem" style="cursor: pointer">
-            <td class="col-lg-6"><a href="#" class="store-user-link" data-bind="text: name, click : $root.onEditItem"></a></td>
-            <td class="col-lg-2" data-bind="text: height" style="text-align:right;"></td>
-            <td class="col-lg-2" data-bind="text: width" style="text-align:right;"></td>
+            <td>&nbsp;</td>
+            <td><a href="#" class="store-user-link" data-bind="text: name, click : $root.onEditItem"></a></td>
+            <td data-bind="text: height" style="text-align:right;padding-right:80px;"></td>
+            <td data-bind="text: width" style="text-align:right;padding-right:90px;"></td>
             <!-- ko if: IsImperical() -->
-            <td style="text-align:center;">inch</td>
+            <td>inch</td>
             <!-- /ko -->
             <!-- ko ifnot: IsImperical() -->
-            <td style="text-align:center;">mm</td>
+            <td>mm</td>
             <!-- /ko -->
-      
-           
-            <td class="col-lg-2" id="actionColumn">
+            <td id="actionColumn">
                 @*<!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                 <!-- /ko -->*@
             </td>
+            
         </tr>
     </script>
     @* Filter Template *@
@@ -112,7 +112,7 @@
         <div class="filter-body" id="filter" style="margin-bottom:11px">
             <form data-bind="submit:$root.getPaperSheetsByFilter">
                 <div class=" filter-block pull-right">
-                    <div class="form-group pull-right">
+                    <div class="form-group pull-right" style="margin-right:0px;">
                         <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
                         <i class="fa fa-search search-icon" data-bind="click:$root.getPaperSheetsByFilter"></i>
                     </div>

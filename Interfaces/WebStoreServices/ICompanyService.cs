@@ -12,6 +12,9 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        void AddDataSystemUser(CompanyContact Contact);
+        void UpdateDataSystemUser(CompanyContact Contact);
+        CompanyContactRole GetRoleByID(int RoleID);
         List<ItemPriceMatrix> GetRetailProductsPriceMatrix(long CompanyID);
         List<ProductItem> GetAllRetailDisplayProductsQuickCalc(long CompanyID);
         List<CompanyContact> GetContactsByTerritory(long contactCompanyId, long territoryID);
@@ -244,5 +247,6 @@ namespace MPC.Interfaces.WebStoreServices
         double? GetOrderTotalById(long OrderId);
         void AddReedem(long contactId, long companyId, long DiscountVoucherId);
         MyCompanyDomainBaseReponse GetStoreCachedObject(long StoreId);
+        RegistrationQuestion GetSecretQuestionByID(int QuestionID);
     }
 }

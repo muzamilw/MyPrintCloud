@@ -104,6 +104,8 @@ namespace MPC.Models.DomainModels
         public double? TaxRate { get; set; }
         public bool? IsDisplayDiscountVoucherCode { get; set; }
         public bool? IsDisplayCorporateBinding { get; set; }
+
+        public bool? CanUserUpdateAddress { get; set; }
         public long? CurrentThemeId { get; set; }
         /// <summary>
         /// Is Store Live

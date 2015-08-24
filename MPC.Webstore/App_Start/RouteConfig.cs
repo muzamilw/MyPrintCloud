@@ -44,6 +44,12 @@ namespace MPC.Webstore
               , new { controller = "Home", action = "Index", name = "" 
             });
 
+             routes.MapRoute(
+                "UserManager"
+              , "UserManager"
+              , new { controller = "Home", action = "Index", name = "" 
+            });
+
             routes.MapRoute(
                 "BillingShippingAddressManager"
               , "BillingShippingAddressManager"
@@ -68,6 +74,12 @@ namespace MPC.Webstore
                 "BillingShippingAddressManager/IntellisenceData",
                 new { controller = "BillingShippingAddressManager", action = "IntellisenceData", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+               "loadSystemUserData",
+               "UserManager/UserProfileData",
+               new { controller = "UserManager", action = "UserProfileData", id = UrlParameter.Optional }
+           );
 
             routes.MapRoute(
                 "OxfordTop",

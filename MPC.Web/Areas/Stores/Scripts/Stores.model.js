@@ -206,6 +206,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             canUserEditProfile = ko.observable(undefined),
             isWhiteLabel = ko.observable(undefined),
             showPrices = ko.observable(undefined),
+            canUserUpdateAddress = ko.observable(undefined),
             // isDeliveryTaxAble = ko.observable(specifiedIsDeliveryTaxAble),
             // is Delivery TaxAble
             isDeliveryTaxAble = ko.observable(undefined),
@@ -385,7 +386,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isAllowRegistrationFromWeb: isAllowRegistrationFromWeb,
             canUserEditProfile: canUserEditProfile,
             priceFlagId: priceFlagId,
-            isStoreSetLive: isStoreSetLive
+            isStoreSetLive: isStoreSetLive,
+            canUserUpdateAddress: canUserUpdateAddress
             //#endregion
         }),
         // Has Changes
@@ -457,6 +459,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             result.isWhiteLabel = source.isWhiteLabel();
             result.ShowPrices = source.showPrices();
             result.isStoreLive = source.isStoreSetLive();
+            result.CanUserUpdateAddress = source.canUserUpdateAddress();
             result.RaveReviews = [];
             result.PaymentGateways = [];
             result.CompanyContacts = [];
@@ -638,7 +641,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isWhiteLabel: isWhiteLabel,
             showPrices: showPrices,
             priceFlagId: priceFlagId,
-            isStoreSetLive:isStoreSetLive
+            isStoreSetLive: isStoreSetLive,
+            canUserUpdateAddress: canUserUpdateAddress
             //#endregion
         };
         return self;
@@ -792,6 +796,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         store.showPrices(source.ShowPrices);
         store.priceFlagId(source.PriceFlagId);
         store.isStoreSetLive(source.isStoreLive);
+        store.canUserUpdateAddress(source.CanUserUpdateAddress);
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}

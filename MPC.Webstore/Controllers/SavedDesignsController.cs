@@ -124,6 +124,8 @@ namespace MPC.Webstore.Controllers
         public ActionResult ReOrder(long ItemID)
         {
              long OrganisationID = 0;
+             long OrderID = 0;
+             bool isCreateNewOrder = false;
              try
              {
                  //string CacheKeyName = "CompanyBaseResponse";
@@ -141,7 +143,74 @@ namespace MPC.Webstore.Controllers
                 if (ExistingProduct.StatusID == 3 && ExistingProduct.IsOrderedItem == true)
                 {
                     //In Cart - Added to Cart but not ordered/Check out
+                    if (ExistingProduct.EstimateID.HasValue && ExistingProduct.EstimateID.Value > 0)
+                    {
+                        MPC.Models.DomainModels.Estimate oCookieOrder = _IOrderService.GetOrderByOrderID(ExistingProduct.EstimateID.Value);
+                        if (oCookieOrder != null)
+                        {
+                            if (oCookieOrder.StatusId != (int)OrderStatus.ShoppingCart)
+                            {
+                                if (UserCookieManager.WEBOrderId > 0 && UserCookieManager.WEBOrderId != oCookieOrder.EstimateId)
+                                {
+                                    oCookieOrder = _IOrderService.GetOrderByOrderID(UserCookieManager.WEBOrderId);
+                                    if (oCookieOrder != null)
+                                    {
+                                        if (oCookieOrder.StatusId != (int)OrderStatus.ShoppingCart)
+                                        {
+                                            isCreateNewOrder = true;
+                                        }
+                                        else
+                                        {
+                                            _ItemService.UpdateOrderIdInItem(ExistingProduct.ItemID, UserCookieManager.WEBOrderId);
+                                        }
+                                    }
+                                    else 
+                                    {
+                                        isCreateNewOrder = true;
+                                    }
+                                    
+                                }
+                                else
+                                {
+                                    isCreateNewOrder = true;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (UserCookieManager.WEBOrderId > 0)
+                            {
+                                oCookieOrder = _IOrderService.GetOrderByOrderID(UserCookieManager.WEBOrderId);
+                                if (oCookieOrder != null)
+                                {
+                                    if (oCookieOrder.StatusId != (int)OrderStatus.ShoppingCart)
+                                    {
+                                        isCreateNewOrder = true;
+                                    }
+                                    else 
+                                    {
+                                        _ItemService.UpdateOrderIdInItem(ExistingProduct.ItemID, UserCookieManager.WEBOrderId);
+                                    }
+                                }
+                                else
+                                {
+                                    isCreateNewOrder = true;
+                                }
+                            }
+                           
+                        }
+                    }
 
+                    if (isCreateNewOrder == true) 
+                    {
+                        OrderID = _IOrderService.GetOrderID(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), string.Empty, OrganisationID);
+                        if (OrderID == 0)
+                        {
+                            OrderID = _IOrderService.CreateNewOrder(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), OrganisationID, string.Empty);
+                        }
+                        _ItemService.UpdateOrderIdInItem(ExistingProduct.ItemID, OrderID);
+                        UserCookieManager.WEBOrderId = OrderID;
+                    }
                     string URL = "/ProductOptions/0/" + ExistingProduct.ItemID + "/Modify/" + ExistingProduct.TemplateID;
                         //
                    
@@ -151,6 +220,73 @@ namespace MPC.Webstore.Controllers
                 }
                 else if (ExistingProduct.IsOrderedItem == false)
                 {
+                    if (ExistingProduct.EstimateID.HasValue && ExistingProduct.EstimateID.Value > 0)
+                    {
+                        MPC.Models.DomainModels.Estimate oCookieOrder = _IOrderService.GetOrderByOrderID(ExistingProduct.EstimateID.Value);
+                        if (oCookieOrder != null)
+                        {
+                            if (oCookieOrder.StatusId != (int)OrderStatus.ShoppingCart)
+                            {
+                                if (UserCookieManager.WEBOrderId > 0 && UserCookieManager.WEBOrderId != oCookieOrder.EstimateId)
+                                {
+                                    oCookieOrder = _IOrderService.GetOrderByOrderID(UserCookieManager.WEBOrderId);
+                                    if (oCookieOrder != null)
+                                    {
+                                        if (oCookieOrder.StatusId != (int)OrderStatus.ShoppingCart)
+                                        {
+                                            isCreateNewOrder = true;
+                                        }
+                                        else
+                                        {
+                                            _ItemService.UpdateOrderIdInItem(ExistingProduct.ItemID, UserCookieManager.WEBOrderId);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        isCreateNewOrder = true;
+                                    }
+
+                                }
+                                else
+                                {
+                                    isCreateNewOrder = true;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (UserCookieManager.WEBOrderId > 0)
+                            {
+                                oCookieOrder = _IOrderService.GetOrderByOrderID(UserCookieManager.WEBOrderId);
+                                if (oCookieOrder != null)
+                                {
+                                    if (oCookieOrder.StatusId != (int)OrderStatus.ShoppingCart)
+                                    {
+                                        isCreateNewOrder = true;
+                                    }
+                                    else
+                                    {
+                                        _ItemService.UpdateOrderIdInItem(ExistingProduct.ItemID, UserCookieManager.WEBOrderId);
+                                    }
+                                }
+                                else
+                                {
+                                    isCreateNewOrder = true;
+                                }
+                            }
+                        }
+                    }
+
+                    if (isCreateNewOrder == true)
+                    {
+                        OrderID = _IOrderService.GetOrderID(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), string.Empty, OrganisationID);
+                        if (OrderID == 0)
+                        {
+                            OrderID = _IOrderService.CreateNewOrder(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), OrganisationID, string.Empty);
+                        }
+                        _ItemService.UpdateOrderIdInItem(ExistingProduct.ItemID, OrderID);
+                        UserCookieManager.WEBOrderId = OrderID;
+                    }
                     //In Progress - Template Selected designed and saved template but not added to the cart.
 
                     //(Go Landing Page and Add it to Cart)
@@ -169,7 +305,7 @@ namespace MPC.Webstore.Controllers
                     //Confirmed Order - Template from the Confirmed Order
                     //(Go Landing page and re order for the selected template and associate this templateID to new ordered item.
 
-                    long OrderID = 0;
+                   
 
                     if (UserCookieManager.WEBOrderId == null || UserCookieManager.WEBOrderId == 0)
                     {
