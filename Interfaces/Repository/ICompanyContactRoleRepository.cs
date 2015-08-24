@@ -6,5 +6,6 @@ namespace MPC.Interfaces.Repository
     {
         List<CompanyContactRole> GetContactRolesExceptAdmin(int AdminRole);
         List<CompanyContactRole> GetAllContactRoles();
+        CompanyContactRole GetRoleByID(int RoleID);
     }
 }
