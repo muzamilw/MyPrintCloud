@@ -46,6 +46,7 @@ namespace MPC.Webstore.Controllers
         // GET: Dashboard
         public ActionResult Index()
         {
+            long contactId = _webstoreclaimHelper.loginContactID();
             List<DashboardViewModel> BCDashBordItems = new List<DashboardViewModel>();
             if (_webstoreclaimHelper.isUserLoggedIn())
             {
@@ -131,6 +132,7 @@ namespace MPC.Webstore.Controllers
                     BCDetail.PageNavigateURl = "/ProductOrderHistory";
                     BCDashBordItems.Add(BCDetail);
 
+                    
                 }
 
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && (_webstoreclaimHelper.loginContactRoleID() == (int)Roles.Adminstrator || _webstoreclaimHelper.loginContactRoleID() == (int)Roles.Manager))
@@ -160,9 +162,7 @@ namespace MPC.Webstore.Controllers
                         //{
                             BCDetail.Name = "Orders Pending Approval" + CorpCustomerPendingOrdersCount(); // (string)GetGlobalResourceObject("MyResource", "lblPendingApprovalsBtn") + CorpCustomerPendingOrdersCount();
                       //  }
-
                         BCDetail.PageNavigateURl = "/ProductPendingOrders";
-
                         BCDetail.IsChangePassword = false;
                         BCDashBordItems.Add(BCDetail);
                         BCDetail = new DashboardViewModel(3);
@@ -173,7 +173,13 @@ namespace MPC.Webstore.Controllers
                         BCDetail.PageNavigateURl = "/ProductOrderHistory";
                         BCDetail.IsChangePassword = false;
                         BCDashBordItems.Add(BCDetail);
-                        
+
+                        BCDetail.Name = "System User Manger"; // (string)GetGlobalResourceObject("MyResource", "lblOrderProductnBtn") + UpdateOrdersInProductionCount();
+                        BCDetail.Description = "SystemManger";//(string)GetGlobalResourceObject("MyResource", "lblViewCurOrderStatus");
+                        BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";
+                        BCDetail.PageNavigateURl = "/UserManager";
+                        BCDetail.IsChangePassword = false;
+                        BCDashBordItems.Add(BCDetail);
                     }
 
                 }

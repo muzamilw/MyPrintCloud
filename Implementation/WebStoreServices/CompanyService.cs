@@ -362,18 +362,7 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-        public List<Address> GetAddressesByTerritoryID(Int64 TerritoryID)
-        {
-            try
-            {
-                return _addressRepository.GetAddressesByTerritoryID(TerritoryID);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-        }
+        
         public CompanyContact CreateCorporateContact(long CustomerId, CompanyContact regContact, string TwitterScreenName, long OrganisationId)
         {
             try
@@ -1628,6 +1617,33 @@ namespace MPC.Implementation.WebStoreServices
         public List<ItemPriceMatrix> GetRetailProductsPriceMatrix(long CompanyID)
         {
             return _itemRepository.GetRetailProductsPriceMatrix(CompanyID);
+        }
+        public RegistrationQuestion GetSecretQuestionByID(int QuestionID)
+        {
+            return _questionRepository.GetSecretQuestionByID(QuestionID);
+        }
+        public CompanyContactRole GetRoleByID(int RoleID)
+        {
+            return _companycontactRoleRepo.GetRoleByID(RoleID);
+        }
+        public void UpdateDataSystemUser(CompanyContact Contact)
+        {
+            _CompanyContactRepository.UpdateDataSystemUser(Contact);
+        }
+        public void AddDataSystemUser(CompanyContact Contact)
+        {
+            _CompanyContactRepository.AddDataSystemUser(Contact);
+        }
+        public List<Address> GetAddressesByTerritoryID(Int64 TerritoryID)
+        {
+            try
+            {
+                return _addressRepository.GetAddressesByTerritoryID(TerritoryID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
