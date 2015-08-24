@@ -4,10 +4,10 @@
 @using MPC.Webstore.Common;
 @model MPC.Models.DomainModels.CompanyContact
 
-@model IEnumerable<MPC.Models.DomainModels.CompanyContact>
+@*@model IEnumerable<MPC.Models.DomainModels.CompanyContact>*@
 @{
     long ContactRoleId =ViewBag.LoginContactRoleID;
-    var grid = new WebGrid(source:Model, canSort: false, rowsPerPage: 15);
+    var grid = new WebGrid(source:ViewBag.aab, canSort: false, rowsPerPage: 15);
     grid.Pager(WebGridPagerModes.NextPrevious);
     string Result = ViewBag.res;
     //var Contacts = ViewBag.Contacts as MPC.Models.DomainModels.CompanyContact;
