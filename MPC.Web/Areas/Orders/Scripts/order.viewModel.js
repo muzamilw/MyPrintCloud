@@ -2462,9 +2462,9 @@ define("order/order.viewModel",
                     checkStoreLive = function () {
                         var sMessage = "";
                         if (!isStoreLive())
-                            sMessage = "Store is not live.";
+                            sMessage = "Upgrade now to download order details.";
                         else if (selectedOrder().isExtraOrder() == true)
-                            sMessage = "Your have reached the current plans limits Upgrade for more !!";
+                            sMessage = "Upgrade now to download order details.";
                         if (!isStoreLive() || selectedOrder().isExtraOrder() == true) {
                             confirmation.messageText("Important !! " + sMessage);
                             confirmation.afterProceed(function () {
