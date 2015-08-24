@@ -23,6 +23,12 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<usp_ChartTop10PerfomingCustomers_Result> Top10PerformingCustomers { get; set; }
 
         public IEnumerable<usp_ChartMonthlyEarningsbyStore_Result> MonthlyEarningsbyStore { get; set; }
+        public string CurrencySymbol { get; set; }
+
+        public int SixMonthRegisteredUsers { get; set; }
+        public int SixMonthOrdersProcessed { get; set; }
+        public double SixMonthDirectOrdersTotal { get; set; }
+        public double SixMonthOnlineOrdersTotal { get; set; }
 
     }
 }

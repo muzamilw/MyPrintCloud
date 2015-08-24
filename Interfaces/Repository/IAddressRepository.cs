@@ -6,6 +6,7 @@ namespace MPC.Interfaces.Repository
 {
     public interface IAddressRepository : IBaseRepository<Address, long>
     {
+        
         List<State> GetAllStates();
         Country GetCountryByCountryID(long CountryID);
         List<Country> GetAllCountries();

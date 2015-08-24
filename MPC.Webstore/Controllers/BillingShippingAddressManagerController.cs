@@ -30,7 +30,7 @@ namespace MPC.Webstore.Controllers
             List<Address> Manageraddresses = new List<Address>();
             List<CompanyContact> ContactTerritoriesIDs = new List<CompanyContact>();
             List<int> AddressIDs = new List<int>();
-
+            
             CompanyTerritory Territory = new CompanyTerritory();
             int BillingAddressID = 0;
             int ShippingAddressID = 0;
