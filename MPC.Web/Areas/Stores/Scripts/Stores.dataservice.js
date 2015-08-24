@@ -368,7 +368,12 @@
                         dataType: 'json',
                         type: 'GET'
                     });
-
+                    // Define request to verify Store save
+                    amplify.request.define('validateCanStoreSaveById', 'ajax', {
+                        url: ist.siteUrl + '/Api/OrganisationLicensing',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
 
                     isInitialized = true;
                 }
@@ -901,7 +906,17 @@
                     success: callbacks.success,
                     error: callbacks.error
                 });
+          },
+            validateCanStoreSaveById = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'validateCanStoreSaveById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
             },
+            
             getProductforDV = function (params, callbacks) {
                 initialize();
                 return amplify.request({
@@ -977,7 +992,8 @@
             getDiscountVouchers: getDiscountVouchers,
             saveDiscountVoucher: saveDiscountVoucher,
             getDiscountVaoucherById: getDiscountVaoucherById,
-            validateLiveStoresCount: validateLiveStoresCount
+            validateLiveStoresCount: validateLiveStoresCount,
+            validateCanStoreSaveById: validateCanStoreSaveById
         };
     })();
 

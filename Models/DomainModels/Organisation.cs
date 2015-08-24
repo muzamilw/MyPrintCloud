@@ -219,6 +219,7 @@ namespace MPC.Models.DomainModels
         /// Billing Date
         /// </summary>
         public DateTime? BillingDate { get; set; }
+        public int? OfflineStoreClicks { get; set; }
         #endregion
         
         #region Reference Properties

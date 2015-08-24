@@ -2679,6 +2679,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="WebStoreOrdersCount" Type="int" />
           <Property Name="MisOrdersCount" Type="int" />
           <Property Name="BillingDate" Type="datetime" />
+          <Property Name="OfflineStoreClicks" Type="int" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -8556,6 +8557,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="WebStoreOrdersCount" Type="Int32" />
           <Property Name="MisOrdersCount" Type="Int32" />
           <Property Name="BillingDate" Type="DateTime" Precision="3" />
+          <Property Name="OfflineStoreClicks" Type="Int32" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -15350,6 +15352,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="OfflineStoreClicks" ColumnName="OfflineStoreClicks" />
                 <ScalarProperty Name="BillingDate" ColumnName="BillingDate" />
                 <ScalarProperty Name="MisOrdersCount" ColumnName="MisOrdersCount" />
                 <ScalarProperty Name="WebStoreOrdersCount" ColumnName="WebStoreOrdersCount" />
