@@ -537,7 +537,7 @@
                     $("#GridTable").html(InnerHtml);
                     var panelHtml = $("#Vorder").html();
                     console.log(panelHtml);
-                    ViewOrderPopUp("View Order", panelHtml);
+                    ViewOrderPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlvieworder", UserCookieManager.WBStoreId, "View Order"))', panelHtml);
                 }
 
             });

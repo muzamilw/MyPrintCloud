@@ -456,42 +456,45 @@ namespace MPC.Webstore.Controllers
             {
                 case ErrorSummary.InvalidCardTypeNumber:
                     {
-                        ViewBag.ErrorMessage = "Sorry, your credit Card Type and Number is not valid";
+                        ViewBag.ErrorMessage = Utils.GetKeyValueFromResourceFile("ltrlsorryinvalid", UserCookieManager.WBStoreId, "Sorry, your credit Card Type and Number is not valid");
                         break;
                     }
                 case ErrorSummary.InvalidCardType:
                     {
-                        ViewBag.ErrorMessage = "Sorry, Please Select Valid Card Type.";
+                        ViewBag.ErrorMessage =
+Utils.GetKeyValueFromResourceFile("lrlselectvalidcardtype", UserCookieManager.WBStoreId, "Sorry, Please Select Valid Card Type.")
+;
                         break;
                     }
                 case ErrorSummary.InvalidCardNumber:
                     {
-                        ViewBag.ErrorMessage = "Sorry, Please Enter a Valid Card Number.";
+                        ViewBag.ErrorMessage = Utils.GetKeyValueFromResourceFile("ltrlentervalidcardnumber", UserCookieManager.WBStoreId, "Sorry, Please Enter a Valid Card Number.");
                         break;
                     }
                 case ErrorSummary.InvalidPaymentGateway:
                     {
-                        ViewBag.ErrorMessage = "Payment Gateway is not set.";
+                        ViewBag.ErrorMessage = Utils.GetKeyValueFromResourceFile("ltrlpaymentgateway", UserCookieManager.WBStoreId, "Sorry,Payment Gateway is not set");
                         break;
                     }
                 case ErrorSummary.InvalidOrder:
                     {
-                        ViewBag.ErrorMessage = "Invalid Order";
+                        ViewBag.ErrorMessage = Utils.GetKeyValueFromResourceFile("ltrlinvalidorder", UserCookieManager.WBStoreId, "Invalid Order");
                         break;
                     }
                 case ErrorSummary.statusResponseMessage:
                     {
-                        ViewBag.ErrorMessage = "statusResponseMessage.";
+                        ViewBag.ErrorMessage = Utils.GetKeyValueFromResourceFile("ltrlstatusrespmessage", UserCookieManager.WBStoreId, "status Response Message.");
                         break;
                     }
                 case ErrorSummary.Error:
                     {
-                        ViewBag.ErrorMessage = "Error occurred while processing.";
+                        ViewBag.ErrorMessage = Utils.GetKeyValueFromResourceFile("ltrleror", UserCookieManager.WBStoreId, "Error occurred while processing.");
                         break;
                     }
                 default:
                     {
-                        ViewBag.ErrorMessage = "null";
+                        ViewBag.ErrorMessage = Utils.GetKeyValueFromResourceFile("ltrlnull", UserCookieManager.WBStoreId, "null");
+
                         break;
                     }
 

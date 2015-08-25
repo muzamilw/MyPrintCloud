@@ -149,7 +149,7 @@
                  id="tdcompanyopolicy">
 
                 <div class="orederPCnt">
-                    Ordering Policy Statement
+                    @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlorderingpolicystat", UserCookieManager.WBStoreId, "Ordering Policy Statement"))
                     <br />
 
                     @if (ViewBag.CorpCompany.CorporateOrderingPolicy != null && ViewBag.CorpCompany.CorporateOrderingPolicy != string.Empty)

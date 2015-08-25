@@ -26,11 +26,13 @@ namespace MPC.Webstore.Controllers
         }
         public ActionResult Index()
         {
+            string best = Utils.GetKeyValueFromResourceFile("ltrlbestregard", UserCookieManager.WBStoreId, "");
+
             Messages();
             RaveReview resultOfReviews = _MyCompanyService.GetRaveReview();
             if (resultOfReviews != null)
             {
-               ViewBag.lblRaveReview = "<br /> " + resultOfReviews.Review + "<br /> Best regards,<br /> &nbsp;";
+                ViewBag.lblRaveReview = "<br /> " + resultOfReviews.Review + "<br />,<br /> &nbsp;";
                ViewBag.lblReviewBy = resultOfReviews.ReviewBy;
             }
             else

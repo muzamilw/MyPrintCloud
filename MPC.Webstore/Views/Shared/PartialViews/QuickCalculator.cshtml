@@ -87,7 +87,7 @@
         $.getJSON("/QuickCalculator/GetAllProducts?cID=" + cID + "&mode=" + smode,
 		        function (xdata) {
 		            ProductData = xdata;
-		            
+
 		            $.getJSON("/QuickCalculator/GetQuantityPrises?cID=" + cID + "&mode=" + smode,
 		                function (xdata) {
 		                    PriceData = xdata;
@@ -109,17 +109,17 @@
                SelectedProduct=p;
             }
                 $("#DDProduct").append($('<option></option>').val(p.ItemID).html(p.ProductName));
-           
+
                 //if (p.ItemID == ProductID) {
 
-                  
+
                 //    SelectedProduct=p;
                 //    return;
                 //}
 
             tm++;
         });
-        
+
         ShowPrice(SelectedPriceMatrix.PricePaperType1, SelectedProduct.BrokerMarkup, SelectedProduct.ContactMarkup, SelectedProduct.IsQtyRanged, SelectedPriceMatrix.QtyRangeFrom);
         Hide();
     }
@@ -139,13 +139,13 @@
 
         }
     function ShowSelectedQtyPrice() {
-       
+
         var SelectedMatrixID = $("#ddlQuantity").val();
-        var val=$('#ddlQuantity').find(":selected").val(); 
-      
-           
+        var val=$('#ddlQuantity').find(":selected").val();
+
+
         $.each(PriceData, function (i, p) {
-           
+
             if (p.PriceMatrixId == SelectedMatrixID) {
                 ShowPrice(p.PricePaperType1, SelectedProduct.BrokerMarkup, SelectedProduct.ContactMarkup, SelectedProduct.IsQtyRanged, p.QtyRangeFrom);
                 return;
@@ -170,21 +170,21 @@
     //});
 
     $("#ddlQuantity").change(function (sender) {
-        
+
       ShowSelectedQtyPrice();
-   
+
    });
 
     $("#DDProduct").change(function (sender) {
-   
+
         $('select[id$=ddlQuantity] > option').remove();
         ShowProductData();
 
     });
     function Hide()
     {
-        
-        if (SelectedProduct.IsQtyRanged== false) { 
+
+        if (SelectedProduct.IsQtyRanged== false) {
             $("#ddlQuantity").show();
             $("#lblQuickCalcQty").show();
             $("#QuickQtyRanged").hide();
@@ -195,13 +195,13 @@
             $("#lblQuickCalcQty").hide();
         }
     }
-    function ShowPrice(BasePrice, M1, M2, IsQtyRanged, PriceFrom) 
+    function ShowPrice(BasePrice, M1, M2, IsQtyRanged, PriceFrom)
     {
         var Tax =TaxRate;
         var FromClause ='';
         if (IsQtyRanged == true) {
             BasePrice = BasePrice / PriceFrom;
-            $('#QuickCalcOnlinePrice').html("Online Unit price");
+            $('#QuickCalcOnlinePrice').html('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlonlineunitprice", UserCookieManager.WBStoreId, "Online Unit price"))');
             $("#QuickCalcFrom").css("display", "block");
         }
         else {
@@ -244,12 +244,12 @@
         var counter = 0;
         var bIsOverridedPriceFound = false;
         $.each(PriceData, function (i, p) {
-            
+
             if (p.ItemId== SelectedProductID) {
-               
+
                 $("#ddlQuantity").append("<option value='" + p.PriceMatrixId+"'>" + p.Quantity + "</option>");
-                    
-              
+
+
                 if (counter == 0) {
 
                     ShowPrice(p.PricePaperType1, SelectedProduct.BrokerMarkup, SelectedProduct.ContactMarkup, SelectedProduct.IsQtyRanged, p.QtyRangeFrom);

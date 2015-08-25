@@ -824,19 +824,20 @@
     <script type="text/javascript">
 
 
-        function ShowMessage() {
-            var type = $('#hfEditTempType').val();
-            // alert(type);
-            if (type == "NoTemplate") {
-                showProgress();
-                return true;
-            } else if (type == "SameTemplate") {
-                //alert("2");
-                ShowPopup2("Alert!", "You already have the same template in designer mode Would you like to resume your design or start from scratch ?");
-                return false;
-            } else if (type == "SameItem") {
-                // alert();
-                ShowPopup2("Alert!", "you already have another template in designer mode. Would you like to continue modifiing the design or create new ");
+    function ShowMessage() {
+        var type = $('#hfEditTempType').val();
+        // alert(type);
+        if (type == "NoTemplate") {
+            showProgress();
+            return true;
+        } else if (type == "SameTemplate") {
+            //alert("2");
+            ShowPopup2('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlalert", UserCookieManager.WBStoreId, "Alert!"))',('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgg", UserCookieManager.WBStoreId, "You already have the same template in designer mode Would you like to resume your design or start from scratch ?"))');
+            return false;
+        } else if (type == "SameItem") {
+            // alert();
+            ShowPopup2('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlalert", UserCookieManager.WBStoreId, "Alert!"))',('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrldescreatnew", UserCookieManager.WBStoreId, "you already have another template in designer mode. Would you like to continue modifiing the design or create new"))');
+
                 return false;
             }
             return false;
@@ -882,58 +883,58 @@
             var ItemID = "@Model.ItemId";
             var TempID = "@ViewBag.TemplateID";
 
-                if (EditType == "NoTemplate") {
-                    window.location.href = "/EditDesign/''/" + EditType + "/" + ItemID + "/" + TempID;
+            if (EditType == "NoTemplate") {
+                window.location.href = "/EditDesign/''/" + EditType + "/" + ItemID + "/" + TempID;
 
-                } else if (EditType == "SameTemplate") {
-                    //alert("2");
-                    ShowPopUpDesignNow('Alert!', 'You already have the same template in designer mode Would you like to resume your design or start from scratch ?','SameTemplate',ItemID,TempID)
+            } else if (EditType == "SameTemplate") {
+                //alert("2");
+                ShowPopUpDesignNow('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlalert", UserCookieManager.WBStoreId, "Alert!"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgg", UserCookieManager.WBStoreId, "You already have the same template in designer mode Would you like to resume your design or start from scratch ?"))','SameTemplate',ItemID,TempID)
 
 
-                } else if (EditType == "SameItem") {
-                    // alert();
-                    ShowPopUpDesignNow('Alert!', 'you already have another template in designer mode. Would you like to continue modifying the design or create new','SameItem',ItemID,TempID)
+            } else if (EditType == "SameItem") {
+                // alert();
+                ShowPopUpDesignNow('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlalert", UserCookieManager.WBStoreId, "Alert!"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrllllffdf", UserCookieManager.WBStoreId, "Message"))','SameItem',ItemID,TempID)
 
-                }
-                return false;
             }
-        }
-        function GoToDesigner(Header, Message) {
-            var ItemID = "@Model.ItemId";
-            var Path = "/Category/CloneItem/" + ItemID;
-            Header = "Alert!";
-            Message = "Are you sure you want to remove this item from your cart?"
-            var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Header + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="submit" class="btn btn-primary" onclick=ConfirmRemove(' + ItemID + ',' + OrderID + '); value="Yes" /><button type="button" onclick=HideMessagePopUp(); class="btn btn-primary">No</button></div></div></div>';
-
-            var bws = getBrowserHeight();
-            var shadow = document.getElementById("innerLayer");
-            document.getElementById("layer").style.width = bws.width + "px";
-            document.getElementById("layer").style.height = bws.height + "px";
-
-            var left = 0;
-            var top = parseInt((bws.height - 170) / 2);
-
-            if (bws.width < 640) {
-                document.getElementById("innerLayer").style.width = (bws.width) + "px";
-
-            } else {
-                left = parseInt((bws.width - 500) / 2);
-                document.getElementById("innerLayer").style.width = "500px";
-            }
-            document.getElementById("innerLayer").innerHTML = container;
-
-            document.getElementById("innerLayer").style.top = top + "px";
-            document.getElementById("innerLayer").style.left = left + "px";
-
-            document.getElementById("innerLayer").style.width = "500px";
-            document.getElementById("innerLayer").style.height = "170px";
-            document.getElementById("innerLayer").style.position = "fixed";
-            document.getElementById("innerLayer").style.zIndex = "9999";
-
-            document.getElementById("layer").style.display = "block";
-            document.getElementById("innerLayer").style.display = "block";
-
             return false;
         }
+    }
+    function GoToDesigner(Header, Message) {
+        var ItemID = "@Model.ItemId";
+        var Path = "/Category/CloneItem/" + ItemID;
+        Header = "Alert!";
+        Message ='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsureremveitemfromcart", UserCookieManager.WBStoreId, "Are you sure you want to remove this item from your cart?"))');
+        var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Header + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="submit" class="btn btn-primary" onclick=ConfirmRemove(' + ItemID + ',' + OrderID + '); value="Yes" /><button type="button" onclick=HideMessagePopUp(); class="btn btn-primary">No</button></div></div></div>';
+
+        var bws = getBrowserHeight();
+        var shadow = document.getElementById("innerLayer");
+        document.getElementById("layer").style.width = bws.width + "px";
+        document.getElementById("layer").style.height = bws.height + "px";
+
+        var left = 0;
+        var top = parseInt((bws.height - 170) / 2);
+
+        if (bws.width < 640) {
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+
+        } else {
+            left = parseInt((bws.width - 500) / 2);
+            document.getElementById("innerLayer").style.width = "500px";
+        }
+        document.getElementById("innerLayer").innerHTML = container;
+
+        document.getElementById("innerLayer").style.top = top + "px";
+        document.getElementById("innerLayer").style.left = left + "px";
+
+        document.getElementById("innerLayer").style.width = "500px";
+        document.getElementById("innerLayer").style.height = "170px";
+        document.getElementById("innerLayer").style.position = "fixed";
+        document.getElementById("innerLayer").style.zIndex = "9999";
+
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+
+        return false;
+    }
     </script>
 

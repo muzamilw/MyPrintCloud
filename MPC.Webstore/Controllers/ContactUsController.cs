@@ -82,14 +82,16 @@ namespace MPC.Webstore.Controllers
                 StoreName = StoreBaseResopnse.StoreDetaultAddress.AddressName;
 
 
-                MesgBody += "Dear " + salesManager.FullName + ",<br>";
-                MesgBody += "An enquiry has been submitted to you with the details:<br>";
-                MesgBody += "Name: " + model.YourName + "<br>";
-                MesgBody += "Company Name: " + model.CompanyName + "<br>";
-                MesgBody += "Store Name: " + StoreName + "<br>";
-                MesgBody += "Email: " + model.Email + "<br>";
-                MesgBody += "Nature of Enquiry: General <br>";
-                MesgBody += "Enquiry: " + model.YourEnquiry + "<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("ltrlDear", UserCookieManager.WBStoreId, "Dear") + salesManager.FullName + ",<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("ltrlinqsub", UserCookieManager.WBStoreId, "An enquiry has been submitted to you with the details:") + "<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("ltrlnamee", UserCookieManager.WBStoreId, "Name:") + model.YourName + "<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("ltrlcompanynamee", UserCookieManager.WBStoreId, "Company Name:") + model.CompanyName + "<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("ltrlStoreNamee", UserCookieManager.WBStoreId, "Store Name:") + StoreName + "<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("ltrlllEmail", UserCookieManager.WBStoreId, "Email:")
+ + model.Email + "<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("ltrlnaturofinq", UserCookieManager.WBStoreId, "Nature of Enquiry: General:") + "<br>"
+;
+                MesgBody += Utils.GetKeyValueFromResourceFile("ltrlinqq", UserCookieManager.WBStoreId, "Enquiry:") + model.YourEnquiry + "<br>";
                 bool result = _myCompainservice.AddMsgToTblQueue(salesManager.Email, "", salesManager.FullName, MesgBody, fromName, fromEmail, smtpUser, smtpPassword, smtpserver, model.YourEnquiry + " Contact enquiry from " + StoreName, null, 0);
 
                  if (result)
@@ -98,7 +100,7 @@ namespace MPC.Webstore.Controllers
                     model.YourName = "";
                     model.CompanyName = "";
                     model.Email = "";
-                    ViewBag.Message = "Thank you for submitting a request. Someone will contact you shortly.";
+                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlsubmitt", UserCookieManager.WBStoreId, "Thank you for submitting a request. Someone will contact you shortly.");
                 }
                 else
                 {

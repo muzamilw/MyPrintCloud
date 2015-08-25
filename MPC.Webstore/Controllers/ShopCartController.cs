@@ -220,7 +220,7 @@ namespace MPC.Webstore.Controllers
             }
             if (!string.IsNullOrEmpty(PayPalMessage))
             {
-                ViewBag.CancelPaymentMessage = "The Order payment processing has been cancelled";
+                ViewBag.CancelPaymentMessage = Utils.GetKeyValueFromResourceFile("ltrlpaymentprocesscac", UserCookieManager.WBStoreId, "The Order payment processing has been cancelled");
             }
             else
             {
