@@ -482,47 +482,47 @@
 <script src="/LightBox/Js/jquery.fancybox.js"></script>
 
     <script type="text/javascript">
-        //var $=jQuery.noConflict();
-        $(".fancybox").fancybox();
-        $(document).ready(function () {
+    //var $=jQuery.noConflict();
+    $(".fancybox").fancybox();
+    $(document).ready(function () {
 
-            $("#txtFromDate").datepicker();
-            $("#txtToDate").datepicker();
-           
+        $("#txtFromDate").datepicker();
+        $("#txtToDate").datepicker();
+
+    });
+
+    function ClearTextBoxes() {
+        $("#txtFromDate").val("");
+        $("#txtToDate").val("");
+        $("#txtOrderRefrence").val("");
+    }
+    function ReOrder(orderId) {
+        ShowLoader();
+        var d = { OrderId: orderId, OrderType: "ReOrder" }
+        $.ajax({
+            type: "POST",
+            url: "/ProductOrderHistory/OrderResult",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(d),
+            success: function (response) {
+
+                createCookie("WEBOrderId", response);
+                window.location.href = "/ShopCart";
+            }
         });
+    }
 
-        function ClearTextBoxes() {
-            $("#txtFromDate").val("");
-            $("#txtToDate").val("");
-            $("#txtOrderRefrence").val("");
-        }
-        function ReOrder(orderId) {
-            ShowLoader();
-            var d = { OrderId: orderId, OrderType: "ReOrder" }
-            $.ajax({
-                type: "POST",
-                url: "/ProductOrderHistory/OrderResult",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(d),
-                success: function (response) {
+    function DownLoadArtworkFile(orderId) {
+        ShowLoader();
+        $.get("/mis/api/DownloadArtwork?OrderId=" + orderId + "&OrganisationId=" + @UserCookieManager.WEBOrganisationID, function (DT) {
 
-                    createCookie("WEBOrderId", response);
-                    window.location.href = "/ShopCart";
-                }
-            });
-        }
-
-        function DownLoadArtworkFile(orderId) {
-            ShowLoader();
-            $.get("/mis/api/DownloadArtwork?OrderId=" + orderId + "&OrganisationId=" + @UserCookieManager.WEBOrganisationID, function (DT) {
-               
                 DT = DT.replace("\"","");
                 DT = DT.replace("\"","");
-                console.log(DT); 
+                console.log(DT);
                 window.location.href = DT;
                 HideLoader();
             });
-            
+
             //var d = { OrderId: orderId, OrderType: "Download" }
             //$.ajax({
             //    type: "POST",
@@ -539,11 +539,11 @@
             //            window.location.href = response;
             //            //window.open(response,'_blank');
             //        }
-                   
+
             //    },
             //    error: function(xhr, ajaxOptions, thrownError) {
             //        //alert("Error while invoking the Web API");
-                 
+
             //        alert(thrownError);
             //        HideLoader();
             //    }
@@ -653,14 +653,15 @@
                     $("#GridTable").html(InnerHtml);
                     var panelHtml = $("#Vorder").html();
 
-                    ViewOrderPopUp("View Order", panelHtml);
+                    ViewOrderPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlvieworder", UserCookieManager.WBStoreId, "View Order"))', panelHtml);
+
                 }
 
             });
 
         }
         function ShowImage(ImagePath) {
-           
+
         }
         function createCookie(name, value, days) {
             if (days) {

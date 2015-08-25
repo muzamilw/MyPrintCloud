@@ -137,12 +137,12 @@ namespace MPC.Webstore.Controllers
             }
             if (ordersList == null || ordersList.Count == 0)
             {
-                TempData["Status"] = "No Records Found";
+                TempData["Status"] = Utils.GetKeyValueFromResourceFile("ltrlNoRecFound", UserCookieManager.WBStoreId, "No Records Found");
                 TempData["HeaderStatus"] = false;
             }
             else
             {
-                TempData["Status"] = ordersList.Count + "    " + " Record Match ";
+                TempData["Status"] = ordersList.Count + "    " + Utils.GetKeyValueFromResourceFile("ltrlrocrdsmatch", UserCookieManager.WBStoreId, "Record Match");
                 TempData["HeaderStatus"] = true;
             }
             ViewBag.OrderList = ordersList;
@@ -299,11 +299,11 @@ namespace MPC.Webstore.Controllers
             List<Status> list = new List<Status>();
             Status newStatus1 = new Status();
             newStatus1.StatusId = 38;
-            newStatus1.StatusName = "In Progress";
+            newStatus1.StatusName = Utils.GetKeyValueFromResourceFile("ltrlprogress", UserCookieManager.WBStoreId, "In Progress");
             list.Add(newStatus1);
             Status newStatus2 = new Status();
             newStatus2.StatusId = 37;
-            newStatus2.StatusName = "Completed";
+            newStatus2.StatusName = Utils.GetKeyValueFromResourceFile("ltrlCompleted", UserCookieManager.WBStoreId, "Completed");
             list.Add(newStatus2);
             return list;
 

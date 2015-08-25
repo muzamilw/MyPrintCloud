@@ -25,7 +25,7 @@ namespace MPC.Webstore.Controllers
 
            //List <CompanyTerritory> cmpterritory = _mycompanyservice.GetAllCompanyTerritories(UserCookieManager.WEBOrganisationID).ToList();
            // List<RegistrationQuestion> questions = _mycompanyservice.GetAllQuestions().ToList();
-
+            long loginID = _myClaimHelper.loginContactID();
             List<CompanyContact> contacts = null;
             if (_myClaimHelper.loginContactRoleID() == (int)Roles.Manager)
             {
@@ -34,6 +34,10 @@ namespace MPC.Webstore.Controllers
             else
             {
                 contacts = _mycompanyservice.GetContactsByTerritory(UserCookieManager.WBStoreId, 0);
+                foreach (var conta in contacts)
+                {
+                    var a = conta.isPlaceOrder.HasValue;
+                }
             }
             
             ViewBag.Contacts = contacts;

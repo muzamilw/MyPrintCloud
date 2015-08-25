@@ -229,12 +229,8 @@
                                     </div>
                             </div>
                                 <div class="cntuploadfilebtns">
-                                    <input type="button" class="btn_upload_files_Prod_Land rounded_corners5" value='@Html.Raw(Html.GetKeyValueFromResourceFile("front", UserCookieManager.WBStoreId,"upload file"))' onclick="ShowArtworkPanel();" />
-
+                                    <input type="button" class="btn_upload_files_Prod_Land rounded_corners5" value=@Html.Raw(Html.GetKeyValueFromResourceFile("front",UserCookieManager.WBStoreId,"upload file")) onclick="ShowArtworkPanel();" />
                                 </div>
-
-
-
                             }
                             else if (ViewData["Templates"] != null)
                             {
@@ -257,7 +253,6 @@
                                                 <div class="modify_button_container" style="position: absolute; padding: 0px; margin-top: -34px;">
                                                     <div>
                                                         <input type="button" class="btn_brown_small" value='@Html.Raw(Html.GetKeyValueFromResourceFile("btnside1modify",UserCookieManager.WBStoreId,"Modify"))' onclick="RediredToDesigner('@templateItem.TemplateName',@templateItem.TemplateId,@templateItem.ItemId,@templateItem.CustomerId,@templateItem.ContactId,@templateItem.isCalledFrom,@templateItem.OrganisationID,@templateItem.printCropMarks.ToString().ToLower(),@templateItem.printWaterMark.ToString().ToLower(),@templateItem.isEmbedded.ToString().ToLower(),@templateItem.CategoryId);" />
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -270,8 +265,6 @@
                             }
                         </div>
                     </div>
-
-
                 </div>
             }
         </div>
@@ -350,7 +343,6 @@
                         @if (ViewBag.IsShowPrices == true)
                         {
                             <label id="lblTaxLabel" class="Fsize13 float_right marginLeft" style="margin-top:8px;">@ViewBag.VATLabel</label>
-
                             <label id="lblGrossTotal" class="float_right"> 0.00</label>
                             <label class="float_right">@ViewBag.Currency</label>
                         }
@@ -687,11 +679,10 @@
         @if (!string.IsNullOrEmpty(ViewBag.ItemModel.File1) || !string.IsNullOrEmpty(ViewBag.ItemModel.File2) || !string.IsNullOrEmpty(ViewBag.ItemModel.File3) || !string.IsNullOrEmpty(ViewBag.ItemModel.File4))
         {
             <div id="lbl_DownloadTemplates" class="DownloadExmContainer">
-                @Html.Raw(Html.GetKeyValueFromResourceFile("downloadExmp",UserCookieManager.WBStoreId,"Download examples:"))
+                @Html.Raw(Html.GetKeyValueFromResourceFile("downloadExmp", UserCookieManager.WBStoreId, "Download examples:"))
             </div>
             <div id="lbl_CreateUploadTemplates" class="DExmlbl">
-                @Html.Raw(Html.GetKeyValueFromResourceFile("lblDEmple",UserCookieManager.WBStoreId,"Download templates as a starting reference to creating and uploading your own designs."))
-
+                @Html.Raw(Html.GetKeyValueFromResourceFile("lblDEmple", UserCookieManager.WBStoreId, "Download templates as a starting reference to creating and uploading your own designs."))
             </div>
 
             <div id="PnlUploaderDownloadIcons" style="text-align: left;">
@@ -738,7 +729,7 @@
         {
             <div id="formatDesignContainer">
                 <div class="DesgnFormatelbl">
-                    <label id="lbl_DesignSize_Format" class="Fsize13">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrldesignformat", UserCookieManager.WBStoreId,"Design sizes & format"))</label>
+                    <label id="lbl_DesignSize_Format" class="Fsize13">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrldesignformat", UserCookieManager.WBStoreId, "Design sizes & format"))</label>
                 </div>
                 <div class="white_background rounded_corners left_align">
                     <img id="designFormateimg" src="/@ViewBag.ItemModel.GridImage" />
@@ -842,7 +833,7 @@
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script src="~/Scripts/PopUp.js"></script>
     <script>
-
+    var  Message=@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"));
     var isRanged = "@ViewBag.ItemModel.IsQtyRanged.ToString()" == "False" ? 0 : 1;
     var TotalItemPrice = 0;
     var data = "";
@@ -850,19 +841,23 @@
     var isPriceSelected = 0;
     var mandatoryRefiningOptIds = "";
     var isImageUploadedOnLandingPage = 0;
-
+    var chkdetails='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcheckdetails", UserCookieManager.WBStoreId, "Please check your details to proceed."))';
+    var  uploadartworkmes='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrluploadartworkk", UserCookieManager.WBStoreId, "Please upload your artwork to proceed."))';
+    var  refiningopt='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlrefiningoption", UserCookieManager.WBStoreId, "Highlighted refining option(s) must be selected to add product in cart."))';
+    var mes='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcannotplaceorder", UserCookieManager.WBStoreId, "You cannot place order because the selected quantity is more than stock."))';
+    var opt='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlselectedquantitygreater", UserCookieManager.WBStoreId, "You cannot place order because the selected quantity is more than stock."))';
     function ConfirmCart() {
-       
         var MaxstockQty = true;
         if (isPriceSelected == 0) {
-            ShowPopUp("Message", "Please check your details to proceed.");
+            ShowPopUp(Message,chkdetails);
+
             return false;
         } else {
             console.log(@ViewBag.ItemModel.isUploadImage);
             console.log(isImageUploadedOnLandingPage);
             if(@ViewBag.ItemModel.isUploadImage == 1){
                 if(isImageUploadedOnLandingPage == 0){
-                    ShowPopUp("Message", "Please upload your artwork to proceed.");
+                    ShowPopUp(Message,uploadartworkmes);
                     return false;
                 }
             }
@@ -881,7 +876,8 @@
                 });
 
                 if(noRefiningOptSelected == 0){
-                    ShowPopUp("Message", "Highlighted refining option(s) must be selected to add product in cart.");
+                    ShowPopUp(Message,refiningopt);
+
                     return false;
                 }else{
                     console.log($("#VMQuantityOrdered").val());
@@ -889,7 +885,7 @@
                     $('.InStockContainer').each(function() {
                         if($(this).attr('data-StockOptionid') == $("#VMItemStockOptionId").val()){
                             if(parseInt($(this).attr('data-itemStockVal')) < parseInt($("#VMQuantityOrdered").val())){
-                               
+
                                 if($(this).attr('data-isAllowBackOrder') == "False"){
                                     MaxstockQty = false;
                                 }
@@ -898,21 +894,21 @@
                     });
 
                     if(MaxstockQty == false){
-                        ShowPopUp("Message", "You cannot place order because the selected quantity is more than stock.");
+                        ShowPopUp(Message,mes);
                         return false;
                     }else{
                         return true;
                     }
                 }
             }else{
-                
+
                 console.log($("#VMQuantityOrdered").val());
                 console.log($("#VMItemStockOptionId").val());
-                $('.InStockContainer').each(function() { 
-                    
+                $('.InStockContainer').each(function() {
+
                     if($(this).attr('data-StockOptionid') == $("#VMItemStockOptionId").val()){
                         if(parseInt($(this).attr('data-itemStockVal')) < parseInt($("#VMQuantityOrdered").val())){
-                            
+
                             if($(this).attr('data-isAllowBackOrder') == "False"){
                                 MaxstockQty = false;
                             }
@@ -921,7 +917,7 @@
                 });
 
                 if(MaxstockQty == false){
-                    ShowPopUp("Message", "You cannot place order because the selected quantity is more than stock.");
+                    ShowPopUp(Message,opt);
                     return false;
                 }else{
                     ShowLoader();
@@ -1008,16 +1004,16 @@
 
         if (isNaN(QuantityOrdered) === true) {
 
-            ShowPopUp("Message", "Please enter numeric characters only.");
+            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlonlynumericcharter", UserCookieManager.WBStoreId, "Please enter numeric characters only."))');
             return false;
         } else if (QuantityOrdered == 0) {
-            ShowPopUp("Message", "Please enter correct quantity.");
+            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlentercorrectquantity", UserCookieManager.WBStoreId, "Please enter correct quantity."))');
             return false;
         } else if (QuantityOrdered.toString().indexOf(".") != -1) {
-            ShowPopUp("Message", "Please enter correct quantity.");
+            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlentercorrectquantity", UserCookieManager.WBStoreId, "Please enter correct quantity."))');
             return false;
         } else if (QuantityOrdered < 0) {
-            ShowPopUp("Message", "Please enter correct quantity.");
+            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlentercorrectquantity", UserCookieManager.WBStoreId, "Please enter correct quantity."))');
             return false;
         }
 
@@ -1038,7 +1034,7 @@
             }
 
             if (QuantityOrdered < JsonFirstObject.QtyRangeFrom || QuantityOrdered > JsonLastObject.QtyRangeTo) {
-                ShowPopUp('Message', "Your quantity exceeds the normal amount, please contact us for a special price.");
+                ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlqunatityexceeds", UserCookieManager.WBStoreId, "Your quantity exceeds the normal amount, please contact us for a special price."))');
                 return false;
             } else {
                 count = $(JsonData).length;
@@ -1072,7 +1068,7 @@
                 }
             }
         } else {
-            ShowPopUp("Message", "Please enter quantity.");
+            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("plzenterquant", UserCookieManager.WBStoreId, "Please enter quantity."))');
             return false;
         }
     }
@@ -1529,11 +1525,11 @@
     }
 
     function ShowArtworkPanel() {
-     //   var panelHtml = $("#pnlArtworkUploader").html();
-        CreateGenericPopup("Upload Artwork","pnlArtworkUploader");
+        //   var panelHtml = $("#pnlArtworkUploader").html();
+        CreateGenericPopup('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrluploadartwork", UserCookieManager.WBStoreId, "Upload Artwork"))',"pnlArtworkUploader");
         $("#pnlArtworkUploader").css("display","block");
         // ShowArtWorkPopup("Upload Artwork", panelHtml);
-        $('.imageUploader').change(function () { 
+        $('.imageUploader').change(function () {
             data = new FormData();
             var files = $(this)[0].files;
 
@@ -1624,11 +1620,11 @@
         else
         {
             HideMessagePopUpGeneric();
-            ShowPopUp("Message", "You cannot upload file except of pdf,jpg,eps,tiff,csv,xls,xlsx.");
+            ShowPopUp(Message,'@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcanupload", UserCookieManager.WBStoreId, "You cannot upload file except of pdf,jpg,eps,tiff,csv,xls,xlsx."))');
         }
 
     }
-    
+
 
     function RediredToDesigner(ProductName, TemplateID, ItemID, CompanyID, ContactID, isCalledFrom, OrganisationID, printCropMarks, printWaterMark, isEmbedded, TempDesignerID) {
 
@@ -1677,7 +1673,7 @@
 
                     },
                     error: function(msg) {
-                        alert("Error occured ");
+                        alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerroroccured", UserCookieManager.WBStoreId, "Error occured"))');
                         console.log(msg);
                     }
                 };
@@ -1744,12 +1740,12 @@
                             }
                         }
                         if(isQueueExistOnModify == false){// queue is not populating
-                            alert("Error:Queue is not populating.");
+                            alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlquenopopulating", UserCookieManager.WBStoreId, "Error:Queue is not populating."))');
                         }
 
                     },
                     error: function(msg) {
-                        alert("Error occured ");
+                        alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerroroccured", UserCookieManager.WBStoreId, "Error occured"))');
                         console.log(msg);
                     }
                 };
@@ -1808,7 +1804,7 @@
                                 }
                             }
                             if(isQueueExist == false){// queue is not populating
-                                alert("Error:Queue is not populating.");
+                                alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlquenopopulating", UserCookieManager.WBStoreId, "Error:Queue is not populating."))');
                                 HideLoader();
                             }
                         });
@@ -1910,7 +1906,7 @@
                             }
                         },
                         error: function(msg) {
-                            alert("Error occured ");
+                            alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerroroccured", UserCookieManager.WBStoreId, "Error occured"))');
                             console.log(msg);
                         }
                     };
@@ -2048,35 +2044,35 @@
         displayTotalPrice(TotalItemPrice, ReCalTotalVal);
     }
 
-        function DeleteArtWork(AttachmentId, ItemId) {
-            ShowLoader();
+    function DeleteArtWork(AttachmentId, ItemId) {
+        ShowLoader();
 
-            var to;
-            to = "/webstoreapi/DeleteAttachment/DeleteArtworkAttachment?AttachmentId=" + AttachmentId + "&ItemId=" + ItemId;
-            var options = {
-                type: "POST",
-                url: to,
-                data: "",
-                contentType: "application/json",
-                async: true,
-                success: function (response) {
+        var to;
+        to = "/webstoreapi/DeleteAttachment/DeleteArtworkAttachment?AttachmentId=" + AttachmentId + "&ItemId=" + ItemId;
+        var options = {
+            type: "POST",
+            url: to,
+            data: "",
+            contentType: "application/json",
+            async: true,
+            success: function (response) {
 
-                    if (response[0] == "Success") {
-                        $("#attachmentUploadContainer").html(response[1]);
-                        isImageUploadedOnLandingPage = 1;
-                        HideLoader();
-                    } else if (response[0] == "NoFiles") {
-                        $("#attachmentUploadContainer").html("");
-                        isImageUploadedOnLandingPage = 0;
-                        HideLoader();
-                    }
-
-                },
-                error: function (msg) {
-                    alert("Error occured ");
-                    console.log(msg);
+                if (response[0] == "Success") {
+                    $("#attachmentUploadContainer").html(response[1]);
+                    isImageUploadedOnLandingPage = 1;
+                    HideLoader();
+                } else if (response[0] == "NoFiles") {
+                    $("#attachmentUploadContainer").html("");
+                    isImageUploadedOnLandingPage = 0;
+                    HideLoader();
                 }
-            };
-            var returnText = $.ajax(options).responseText;
-        }
+
+            },
+            error: function (msg) {
+                alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerroroccured", UserCookieManager.WBStoreId, "Error occured"))');
+                console.log(msg);
+            }
+        };
+        var returnText = $.ajax(options).responseText;
+    }
 </script>

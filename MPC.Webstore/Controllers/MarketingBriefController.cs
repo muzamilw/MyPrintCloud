@@ -148,16 +148,16 @@ namespace MPC.Webstore.Controllers
             Organisation org = _ICompanyService.GetOrganisatonById(StoreBaseResopnse.Organisation.OrganisationId);
             if (Item != null)
             {
-                MEsg += "Product : " + Item.ProductName + "<br />";
-                MEsg += "Product Category : " + Item.ProductCategoryName + "<br />";
+                MEsg += Utils.GetKeyValueFromResourceFile("ltrlproductsss", UserCookieManager.WBStoreId, "Product :") + Item.ProductName + "<br />";
+                MEsg += Utils.GetKeyValueFromResourceFile("ltrlprocatgg", UserCookieManager.WBStoreId, "Product Category :") + Item.ProductCategoryName + "<br />";
             }
 
 
-            MEsg += "Customer name :  " + StoreBaseResopnse.Company.Name + "<br />";
-            MEsg += "Contact/user :   " + UserCookieManager.WEBContactFirstName + " " + UserCookieManager.WEBContactLastName + "<br />";
-            MEsg += "Email  :  " + UserCookieManager.WEBEmail + "<br />";
-            MEsg += "Phone  :  " + ContactMobile + "<br /> <br />";
-            MEsg += "Marketing Brief submitted on  :  " + DateTime.Now.ToString("MMMM dd, yyyy") + "<br /> <br />";
+            MEsg += Utils.GetKeyValueFromResourceFile("ltrlcustname", UserCookieManager.WBStoreId, "Customer name :") + StoreBaseResopnse.Company.Name + "<br />";
+            MEsg += Utils.GetKeyValueFromResourceFile("ltrlcontusers", UserCookieManager.WBStoreId, "Contact/user :") + UserCookieManager.WEBContactFirstName + " " + UserCookieManager.WEBContactLastName + "<br />";
+            MEsg += Utils.GetKeyValueFromResourceFile("ltrllemail", UserCookieManager.WBStoreId, "Email  :") + UserCookieManager.WEBEmail + "<br />";
+            MEsg += Utils.GetKeyValueFromResourceFile("ltrlphh", UserCookieManager.WBStoreId, "Phone  :") + ContactMobile + "<br /> <br />";
+            MEsg += Utils.GetKeyValueFromResourceFile("lrlmaeketinbr", UserCookieManager.WBStoreId, "Marketing Brief submitted on  :") + DateTime.Now.ToString("MMMM dd, yyyy") + "<br /> <br />";
 
           
 
@@ -174,7 +174,7 @@ namespace MPC.Webstore.Controllers
 
             if (Attachments != null)
             {
-                MEsg += "Please also see the attachments." + "<br />";
+                MEsg += Utils.GetKeyValueFromResourceFile("plzseeAtt", UserCookieManager.WBStoreId, "Please also see the attachments.") + "<br />";
             }
 
          

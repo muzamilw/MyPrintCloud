@@ -54,8 +54,8 @@ namespace MPC.Webstore.Controllers
                 DashboardViewModel Detail = new DashboardViewModel(1);
 
                 // Contact Details
-                Detail.Name = "My Profile"; //(string)GetGlobalResourceObject("MyResource", "ltrlcontactdetails");
-                Detail.Description = "Change your profile picture and settings"; //(string)GetGlobalResourceObject("MyResource", "ltrlupdateurcontactdeatails");
+                Detail.Name = Utils.GetKeyValueFromResourceFile("myprofile", UserCookieManager.WBStoreId, "My Profile"); //(string)GetGlobalResourceObject("MyResource", "ltrlcontactdetails");
+                Detail.Description = Utils.GetKeyValueFromResourceFile("ltrlchngepic", UserCookieManager.WBStoreId, "Change your profile picture and settings"); //(string)GetGlobalResourceObject("MyResource", "ltrlupdateurcontactdeatails");
                 Detail.ImageURL = "<i class='fa fa-user'></i>";
                 Detail.PageNavigateURl = "/ContactDetail";
                 Detail.IsChangePassword = false;
@@ -64,8 +64,10 @@ namespace MPC.Webstore.Controllers
 
                 Detail = new DashboardViewModel(6);
                 // Reset Password
-                Detail.Name = "Change Password";//(string)GetGlobalResourceObject("MyResource", "ltrlchangepassword");
-                Detail.Description = "Change your current password"; //(string)GetGlobalResourceObject("MyResource", "ltrlresetnchangeaccpassword");
+                Detail.Name = Utils.GetKeyValueFromResourceFile("SpnChangePass", UserCookieManager.WBStoreId, "Change Password");//(string)GetGlobalResourceObject("MyResource", "ltrlchangepassword");
+                Detail.Description =
+                  Utils.GetKeyValueFromResourceFile("ltrlchngecurrentpass", UserCookieManager.WBStoreId, "Change your current password")
+; //(string)GetGlobalResourceObject("MyResource", "ltrlresetnchangeaccpassword");
                 Detail.ImageURL = "<i class='fa fa-key'></i>";
                 Detail.PageNavigateURl = "";
                 Detail.IsChangePassword = true;
@@ -74,8 +76,8 @@ namespace MPC.Webstore.Controllers
 
                     // Shooping Cart details
                     Detail = new DashboardViewModel(7);
-                    Detail.Name = "Cart"; //(string)GetGlobalResourceObject("MyResource", "ltrlshoppingcart");
-                    Detail.Description = "View or edit your cart details";// (string)GetGlobalResourceObject("MyResource", "ltrlviewitemnshppngcart");
+                    Detail.Name = Utils.GetKeyValueFromResourceFile("ShoppingCartlbl", UserCookieManager.WBStoreId, "Cart"); //(string)GetGlobalResourceObject("MyResource", "ltrlshoppingcart");
+                    Detail.Description = Utils.GetKeyValueFromResourceFile("ltrlabc", UserCookieManager.WBStoreId, "View or edit your cart details");// (string)GetGlobalResourceObject("MyResource", "ltrlviewitemnshppngcart");
                     Detail.ImageURL = "<i class='fa fa-shopping-cart'></i>";
                     Detail.IsChangePassword = false;
 
@@ -84,8 +86,8 @@ namespace MPC.Webstore.Controllers
                     BCDashBordItems.Add(Detail);
                     // Saved Desgn
                     Detail = new DashboardViewModel(5);
-                    Detail.Name = "My Saved Designs";// (string)GetGlobalResourceObject("MyResource", "ltrlsavedesign") + UpdateSavedDesignCount();
-                    Detail.Description = "View or reorder your saved designs"; //(string)GetGlobalResourceObject("MyResource", "ltrlmanagenviewsd");
+                    Detail.Name = Utils.GetKeyValueFromResourceFile("ltrlDashsaved", UserCookieManager.WBStoreId, "My Saved Designs");// (string)GetGlobalResourceObject("MyResource", "ltrlsavedesign") + UpdateSavedDesignCount();
+                    Detail.Description = Utils.GetKeyValueFromResourceFile("ltrlldashsav", UserCookieManager.WBStoreId, "View or reorder your saved designs"); //(string)GetGlobalResourceObject("MyResource", "ltrlmanagenviewsd");
                     Detail.ImageURL = "<i class='fa fa-pencil-square-o'></i>";
                     Detail.PageNavigateURl = "/SavedDesigns";
                     Detail.IsChangePassword = false;
@@ -95,7 +97,7 @@ namespace MPC.Webstore.Controllers
                 {
                     Detail = new DashboardViewModel(4);
                     // Address Details
-                    Detail.Name = "Address Manager";// (string)GetGlobalResourceObject("MyResource", "anchorAddressMgr");
+                    Detail.Name = Utils.GetKeyValueFromResourceFile("ltrldash", UserCookieManager.WBStoreId, "Address Manager");// (string)GetGlobalResourceObject("MyResource", "anchorAddressMgr");
                     Detail.Description = "Create and modify your default addresses";
                     Detail.ImageURL = "<i class='fa fa-rocket'></i>";
                     Detail.PageNavigateURl = "/BillingShippingAddressManager";
@@ -120,13 +122,13 @@ namespace MPC.Webstore.Controllers
                     BCDetail = new DashboardViewModel(1);
                     if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                     {
-                        BCDetail.Name = "My Orders" + " (" + MyOrders() + ")"; //(string)GetGlobalResourceObject("MyResource", "lblORderTracking") + " (" + MyOrders() + ")";
-                        BCDetail.Description = "View order details and attachments";
+                        BCDetail.Name = Utils.GetKeyValueFromResourceFile("ltrldashMyorders", UserCookieManager.WBStoreId, "My Orders") + "(" + MyOrders() + ")"; //(string)GetGlobalResourceObject("MyResource", "lblORderTracking") + " (" + MyOrders() + ")";
+                        BCDetail.Description = Utils.GetKeyValueFromResourceFile("ltrlvieworderdetailsatt", UserCookieManager.WBStoreId, "View order details and attachments");
                     }
                     else
                     {
-                        BCDetail.Name = "My Orders" + " (" + MyOrders() + ")";//(string)GetGlobalResourceObject("MyResource", "lblOrderList") + " (" + MyOrders() + ")";
-                        BCDetail.Description = "View order details and attachments"; //(string)GetGlobalResourceObject("MyResource", "ltrlviewrocompletedo");
+                        BCDetail.Name = Utils.GetKeyValueFromResourceFile("ltrldashMyorders", UserCookieManager.WBStoreId, "My Orders") + " (" + MyOrders() + ")";//(string)GetGlobalResourceObject("MyResource", "lblOrderList") + " (" + MyOrders() + ")";
+                        BCDetail.Description = Utils.GetKeyValueFromResourceFile("ltrlvieworderdetailsatt", UserCookieManager.WBStoreId, "View order details and attachments"); //(string)GetGlobalResourceObject("MyResource", "ltrlviewrocompletedo");
                     }
                     BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";
                     BCDetail.PageNavigateURl = "/ProductOrderHistory";
@@ -152,7 +154,8 @@ namespace MPC.Webstore.Controllers
                         //// Pending Approvals
                         BCDetail = new DashboardViewModel(3);
 
-                        BCDetail.Description = "Orders Pending Approval"; //(string)GetGlobalResourceObject("MyResource", "lblOrderApprovalDesc");
+                        BCDetail.Description = Utils.GetKeyValueFromResourceFile("lblPendingApprovalsBtn", UserCookieManager.WBStoreId, "Orders Pending Approval")
+; //(string)GetGlobalResourceObject("MyResource", "lblOrderApprovalDesc");
                         BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";
                        // if (_webstoreclaimHelper.loginContactRoleID() == (int)Roles.Manager)
                         //{
@@ -160,22 +163,25 @@ namespace MPC.Webstore.Controllers
                        // }
                        // else
                         //{
-                            BCDetail.Name = "Orders Pending Approval" + CorpCustomerPendingOrdersCount(); // (string)GetGlobalResourceObject("MyResource", "lblPendingApprovalsBtn") + CorpCustomerPendingOrdersCount();
+                        BCDetail.Name = Utils.GetKeyValueFromResourceFile("lblPendingApprovalsBtn", UserCookieManager.WBStoreId, "Orders Pending Approval") + CorpCustomerPendingOrdersCount(); // (string)GetGlobalResourceObject("MyResource", "lblPendingApprovalsBtn") + CorpCustomerPendingOrdersCount();
                       //  }
                         BCDetail.PageNavigateURl = "/ProductPendingOrders";
                         BCDetail.IsChangePassword = false;
                         BCDashBordItems.Add(BCDetail);
                         BCDetail = new DashboardViewModel(3);
                         // Order In production
-                        BCDetail.Name = "Products Order History" + UpdateOrdersInProductionCount(); // (string)GetGlobalResourceObject("MyResource", "lblOrderProductnBtn") + UpdateOrdersInProductionCount();
-                        BCDetail.Description = "Description";//(string)GetGlobalResourceObject("MyResource", "lblViewCurOrderStatus");
+                        BCDetail.Name = Utils.GetKeyValueFromResourceFile("ltrlproductordhis", UserCookieManager.WBStoreId, "Products Order History") + UpdateOrdersInProductionCount(); // (string)GetGlobalResourceObject("MyResource", "lblOrderProductnBtn") + UpdateOrdersInProductionCount();
+                        BCDetail.Description =
+Utils.GetKeyValueFromResourceFile("btnProductDetails", UserCookieManager.WBStoreId, "Description")
+;//(string)GetGlobalResourceObject("MyResource", "lblViewCurOrderStatus");
                         BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";
                         BCDetail.PageNavigateURl = "/ProductOrderHistory";
                         BCDetail.IsChangePassword = false;
                         BCDashBordItems.Add(BCDetail);
 
-                        BCDetail.Name = "System User Manger"; // (string)GetGlobalResourceObject("MyResource", "lblOrderProductnBtn") + UpdateOrdersInProductionCount();
-                        BCDetail.Description = "SystemManger";//(string)GetGlobalResourceObject("MyResource", "lblViewCurOrderStatus");
+                        BCDetail.Name = Utils.GetKeyValueFromResourceFile("ltrlsystemusermanger", UserCookieManager.WBStoreId, "System User Manger"); // (string)GetGlobalResourceObject("MyResource", "lblOrderProductnBtn") + UpdateOrdersInProductionCount();
+                        BCDetail.Description = Utils.GetKeyValueFromResourceFile("ltrlsystemmanger", UserCookieManager.WBStoreId, "System Manger");
+//(string)GetGlobalResourceObject("MyResource", "lblViewCurOrderStatus");
                         BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";
                         BCDetail.PageNavigateURl = "/UserManager";
                         BCDetail.IsChangePassword = false;
@@ -255,8 +261,8 @@ namespace MPC.Webstore.Controllers
                         {
                             BCDetail = new DashboardViewModel(2);
                             // User manger
-                            BCDetail.Name = "Address Manager"; //(string)GetGlobalResourceObject("MyResource", "anchorAddressMgr");
-                            BCDetail.Description = "Create and modify your default addresses";
+                            BCDetail.Name = Utils.GetKeyValueFromResourceFile("ltrldash", UserCookieManager.WBStoreId, "Address Manager"); //(string)GetGlobalResourceObject("MyResource", "anchorAddressMgr");
+                            BCDetail.Description = Utils.GetKeyValueFromResourceFile("ltrladdes", UserCookieManager.WBStoreId, "Create and modify your default addresses");
                             BCDetail.ImageURL = "<i class='fa fa-truck'></i>";
                             BCDetail.PageNavigateURl = "/BillingShippingAddressManager";
                             BCDashBordItems.Add(BCDetail);
