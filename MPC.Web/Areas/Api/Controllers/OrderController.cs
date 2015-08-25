@@ -69,7 +69,8 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
-            return orderService.GetAll(request).CreateFrom();
+            GetOrdersResponse  ff = orderService.GetAll(request).CreateFrom();
+            return ff;
         }
 
         /// <summary>

@@ -103,7 +103,7 @@
                                         <thead>
                                             <tr>
                                                 <th class="col-sm-1"><span>&nbsp;</span></th>
-                                                <th class="col-sm-3"><span>Customer</span></th>
+                                                <th class="col-sm-3"><span>Customer / Store</span></th>
                                                 <th class="col-sm-2"><span>Order Code</span></th>
                                                 <th class="col-sm-2"><span>Order Date</span></th>
                                                 <th class="col-sm-1"><span>Flag</span></th>
@@ -177,6 +177,12 @@
             </td>
             <td>
                 <a href="#" data-bind="text: companyName, click: undefined" style="cursor:pointer;" class="user-link"></a>
+                <!-- ko if: storeName()-->
+                <span>(</span>
+                <span data-bind="text: storeName"></span>
+                <span>)</span>
+                <!-- /ko -->
+                <br />
                 <span class="user-subhead">
                     <span data-bind="text: name"></span>
                     <span data-bind="text: ' '"></span>
@@ -213,8 +219,15 @@
             </td>
             <td>
                 <a href="#" data-bind="text: companyName, click: undefined" style="cursor:pointer;" class="user-link"></a>
+                <!-- ko if: storeName()-->
+                <span>(</span>
+                <span data-bind="text: storeName"></span>
+                <span>)</span>
+                <!-- /ko -->
+                <br />
                 <span class="user-subhead">
                     <span data-bind="text: name"></span>
+                    
                     <span data-bind="text: ' '"></span>
                     <span data-bind="text: noOfItemsUi"></span>
                 </span>
