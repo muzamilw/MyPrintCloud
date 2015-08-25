@@ -5660,5 +5660,8 @@ namespace MPC.Repository.Repositories
             return store != null && store.isStoreLive == true ? true : false;
         }
 
+        
+
+
     }
 }

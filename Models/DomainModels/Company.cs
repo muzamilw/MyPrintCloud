@@ -111,6 +111,8 @@ namespace MPC.Models.DomainModels
         /// Is Store Live
         /// </summary>
         public bool? isStoreLive { get; set; }
+        [NotMapped]
+        public bool IsClickReached { get; set; }
         /// <summary>
         /// Map Image Url
         /// </summary>
