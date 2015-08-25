@@ -177,6 +177,13 @@
             </td>
             <td>
                 <a href="#" data-bind="text: companyName, click: undefined" style="cursor:pointer;" class="user-link"></a>
+                
+                <!-- ko if: storeName()-->
+                <span>(</span>
+                <span data-bind="text: storeName"></span>
+                <span>)</span>
+                <!-- /ko -->
+                <br />
                 <span class="user-subhead">
                     <span data-bind="text: name"></span>
                     <span data-bind="text: ' '"></span>
