@@ -586,9 +586,28 @@ namespace MPC.Implementation.MISServices
         public GetOrdersResponse GetAll(GetOrdersRequest request)
         {
 
-            return estimateRepository.GetOrders(request);
+           var result = estimateRepository.GetOrders(request);
 
+            foreach (var single in result.Orders)
+            {
+                if (single.Company != null)
+                {
+                    if (single.Company.IsCustomer == 3)
+                    {
+                        single.Status.StatusName = single.Status.StatusName;
+                        single.Company.StoreName = single.Company.Name;
+                    }
+                    else
+                    {
+                        long storeid = Convert.ToInt64(single.Company.StoreId);
+                        single.Status.StatusName = single.Status.StatusName;
+                        single.Company.StoreName = companyRepository.GetStoreById(storeid).Name;
+                    }
+                }
 
+            }
+
+            return result;
         }
         /// <summary>
         /// Get Orders For Estimates List View
