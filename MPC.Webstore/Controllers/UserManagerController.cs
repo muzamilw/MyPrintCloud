@@ -110,10 +110,10 @@ namespace MPC.Webstore.Controllers
                
             }
         }
-       
-        [HttpGet]
-       
-        private JsonResult UserProfileData()
+
+
+       [HttpGet]
+        public JsonResult UserProfileData()
         {
             jsonResponse obj = new jsonResponse();
             obj.CompanyTerritory = _mycompanyservice.GetAllCompanyTerritories(UserCookieManager.WEBOrganisationID).ToList();
