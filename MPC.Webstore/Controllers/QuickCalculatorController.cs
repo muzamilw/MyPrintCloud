@@ -55,7 +55,6 @@ namespace MPC.Webstore.Controllers
         [HttpGet]
         public JsonResult GetAllProducts(string cID,string mode)
         {
-            
             var Products = _myCompanyService.GetAllRetailDisplayProductsQuickCalc(UserCookieManager.WBStoreId).OrderBy(p => p.SortOrder);
             //foreach (var item in Products)
             // {
