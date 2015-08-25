@@ -75,7 +75,8 @@ namespace MPC.Webstore.Controllers
                     ViewBag.OrderList = ordersList;
                     ViewBag.TotalOrders = ordersList.Count;
 
-                     TempData["Status"] = "No Records Found";
+                    TempData["Status"] = Utils.GetKeyValueFromResourceFile("ltrlNoRecFound", UserCookieManager.WBStoreId, "No Records Found")
+;
                      TempData["HeaderStatus"] = false;
                 }
                 else

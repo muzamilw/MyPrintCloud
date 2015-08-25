@@ -14,6 +14,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -3225,12 +3226,19 @@ namespace MPC.Implementation.WebStoreServices
         public string OrderConfirmationPDF(long OrderId, long StoreId)
         {
             Doc theDoc = new Doc();
+            string htmlCode = "";
             try
             {
+                string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/Receipt/Home?OrderId=" + OrderId + "&StoreId=" + StoreId + "&IsPrintReceipt=0";
 
+                using (WebClient client = new WebClient()) // WebClient class inherits IDisposable
+                {
+                    // Or you can get the file content without saving it:
+                    htmlCode = client.DownloadString(URl);
+                    //...
+                }
 
-                string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ReceiptPlain?OrderId=" + OrderId + "&StoreId=" + StoreId + "&IsPrintReceipt=0";
-
+               
                 string FileName = OrderId + "_OrderReceipt.pdf";
                 string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/" + FileName);
                 string AttachmentPath = "/mpc_content/EmailAttachments/" + FileName;
@@ -3242,7 +3250,7 @@ namespace MPC.Implementation.WebStoreServices
                 }
 
                 theDoc.FontSize = 22;
-                int objid = theDoc.AddImageUrl(URl);
+                int objid = theDoc.AddHtml(htmlCode);
 
 
                 while (true)

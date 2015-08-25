@@ -2,12 +2,12 @@
 @using MPC.Models.Common;
 @using MPC.Webstore.WebGridExtension;  
 @using MPC.Webstore.Common;
-@model MPC.Models.DomainModels.CompanyContact
+@*@model MPC.Models.DomainModels.CompanyContact*@
 
-@*@model IEnumerable<MPC.Models.DomainModels.CompanyContact>*@
+@model IEnumerable<MPC.Models.DomainModels.CompanyContact>
 @{
     long ContactRoleId =ViewBag.LoginContactRoleID;
-    var grid = new WebGrid(source:ViewBag.aab, canSort: false, rowsPerPage: 15);
+    var grid = new WebGrid(source:Model, canSort: false, rowsPerPage: 15);
     grid.Pager(WebGridPagerModes.NextPrevious);
     string Result = ViewBag.res;
     //var Contacts = ViewBag.Contacts as MPC.Models.DomainModels.CompanyContact;
@@ -81,7 +81,7 @@
     grid.Column("Territory",format:@<p>
                 @if(item.CompanyTerritory!=null)
                 {
-                    <p>@item.CompanyTerritory</p>
+                    <p>@item.CompanyTerritory.TerritoryName</p>
                 
                 }
                 else{
@@ -90,7 +90,7 @@
 
     grid.Column("Order Limit",format:@<p>NA</p>,style:"hidden-xs"),
                
-    grid.Column("Can Order",format:@<p>@if(Model.isPlaceOrder.HasValue||Model.isPlaceOrder.Value)
+    grid.Column("Can Order",format:@<p>@if (item.isPlaceOrder!=null)
                                        {
                                            <p>yes</p>
                                        }
@@ -100,9 +100,13 @@
                                        }
                 </p>,style:"hidden-xs "),
                 
-    grid.Column("can pay by credit card",format:@<p>@if(Model.IsPayByPersonalCreditCard.HasValue||Model.IsPayByPersonalCreditCard.Value){<p>yes</p>}else{<p>No</p>}</p>,style:"hidden-xs "),
+    grid.Column("can pay by credit card",format:@<p>@if (item.IsPayByPersonalCreditCard!=null)
+                                                    {<p>yes</p>}else{<p>No</p>}</p>,style:"hidden-xs "),
                 
-    grid.Column("Role",format:@<p>@if(Model.ContactRoleId==1){<p>Admin</p>}else if(Model.ContactRoleId==2){<p>Manager</p>}else{<p>User</p>}</p>,style:"hidden-xs"),
+    grid.Column("Role",format:@<p>@if (item.ContactRoleId == 1)
+                                  {<p>Admin</p>}
+                                  else if (item.ContactRoleId == 2)
+                                  {<p>Manager</p>}else{<p>User</p>}</p>,style:"hidden-xs"),
 
                             
       grid.Column(header:Result, format:@<text>@if (ContactRoleId == 1)
@@ -110,13 +114,14 @@
           if (item.ContactRoleID == 2)
           {
             <input type="button" value="Edit" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
-          background-color: transparent;" class="rounded_corners" onclick="updateSystemUSerProfile(@Model.ContactId)" />
+          background-color: transparent;" class="rounded_corners" onclick="LoadAllData(@item.ContactId)" />
           }
 
       }
         
       </text>),
-     grid.Column( format:@<text>@if(Model.ContactRoleId != 1 ||Model.IsDefaultContact!=1){<input type="button" id="view" value="Delete" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="DeleteReord(@Model.ContactId)"/>
+     grid.Column( format:@<text>@if (item.ContactRoleId != 1 || item.IsDefaultContact != 1)
+                                {<input type="button" id="view" value="Delete" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="DeleteReord(@item.ContactId)"/>
      }</text>)
        }
       )
@@ -138,267 +143,243 @@
     </div>
     
     
-    <div id="pnlUser" style="width:950px;" Class="FileUploaderPopup_corp LCLB rounded_corners"
-               Style="display: none">
-        <div class="white_background">
-            
-                    <div class="SolidBorderCS left_align pad20 mrginBtm">
-                        <Label id="lblHeader"Class="FileUploadHeaderText"></Label>
+        <div id="pnlUser" style="width:950px;" class="pop_body_MesgPopUp">
+
+            <div class="white_background">
+
+                <div class="SolidBorderCS left_align pad20 mrginBtm">
+                    <label id="lblHeader" class="FileUploadHeaderText"></label>
+                </div>
+                <div class="pop_body_corp">
+                    <div class="left_user_popup_area">
+                        <div class="address_label_area1">
+                            <label id="ltrlfname">First Name:</label>
+                        </div>
+                        <div class="address_contol_area1">
+                            <input type="text" id="tboxfirstname" class="text_box200 rounded_corners5"
+                                   maxlength="50" tabindex="1" placeholder="First Name" />
+                        </div>
+                        <div class="user_label_area2">
+                            <label id="ltrljobtitle">Job Title:</label>
+                        </div>
+                        <div class="user_contol_area2">
+                            <input type="text" id="txtJobTitle" class="text_box200 rounded_corners5"
+                                   maxlength="50" tabindex="14" placeholder="Job Title" />
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="address_label_area1">
+                            <label id="ltrllname">Last Name:</label>
+                        </div>
+                        <div class="address_contol_area1">
+                            <input id="tboxLastName" class="text_box200 rounded_corners5"
+                                   maxlength="50" tabindex="2" placeholder="Last Name" />
+                        </div>
+                        <div class="user_label_area2">
+                            <label id="ltrldirectline">Direct Line</label>
+                        </div>
+                        <div class="user_contol_area2">
+                            <input id="txtDirectLine" class="text_box200 rounded_corners5"
+                                   maxlength="30" tabindex="4" placeholder="Direct Line" />
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="address_label_area1">
+                            <label id="ltrlcellnumber">Cell Number:</label>
+                        </div>
+                        <div class="address_contol_area1">
+                            <input type="text" id="txtCellNumber" class="text_box200 rounded_corners5"
+                                   maxlength="30" tabindex="3" placeholder="Cell Number" />
+                        </div>
+                        <div class="user_label_area2 ">
+                            <label id="ltrlfax">Fax:</label>
+                        </div>
+                        <div class="user_contol_area2">
+                            <input id="txtFax" class="text_box200 rounded_corners5" maxlength="30"
+                                   tabindex="5" placeholder="Fax" />
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="address_label_area1">
+                            <label id="ltrlemaill">Email:</label>
+                        </div>
+                        <div class="address_contol_area1">
+                            <input id="tboxEmail" class="text_box200 rounded_corners5"
+                                   maxlength="30" tabindex="6" placeholder="Email" />
+                        </div>
+                        <div class="user_label_area2">
+                            <label id="ltrlcreditlimit">Credit Limit</label>
+                        </div>
+                        <div class="user_contol_area2">
+                            <input type="text" id="txtCreditLimit" class="text_box200 rounded_corners5 float_input"
+                                   maxlength="8" tabindex="19" placeholder="Credit Limit" />
+                        </div>
+                        <div class="address_label_area1">
+                            <label id="ltrlsecrquestion">Secret Question:</label>
+                        </div>
+                        <div class="address_contol_area1">
+                            <select style="width:210px;" id="ddlSecretQuestions" class="rounded_corners5 dropdown"
+                                    tabindex="7" ></select>
+                        </div>
+                        <div class="user_label_area2">
+                            <label id="ltrlSecretAnswer">Secret Answer:</label>
+                        </div>
+                        <div class="user_contol_area2">
+                            <input id="txtSecretAnswer" class="text_box200 rounded_corners5"
+                                   maxlength="200" tabindex="8" placeholder="Secret Answer" />
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+
+
+                        <div class="address_label_area1 height30px">
+                            <label id="ltrlteritory">Territory:</label>
+                        </div>
+                        <div class="address_contol_area1 height30px">
+                            <select id="ddlTerritory" style="width:210px;" class="rounded_corners5 dropdown"></select>
+                        </div>
+                        <div class="user_label_area2">
+                            <label id="ltrlrole">Role:</label>
+                        </div>
+                        <div class="user_contol_area2">
+                            <select id="ddlRole" class="rounded_corners5 dropdown"
+                                    style="width:210px;" tabindex="10"></select>
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="address_label_area1">
+                            <label id="ltrlbusinaddress">Billing Address</label>
+                        </div>
+                        <div class="address_contol_area1 height30px">
+                            <select id="ddlBusinessAddress" class="rounded_corners5 dropdown" style="width:210px;"></select>
+                        </div>
+                        <div class="user_label_area2">
+                            <label id="Literal1">Shipping Address</label>
+                        </div>
+                        <div class="user_contol_area2">
+                            <select id="ddlShippingAddress" style="width:210px;" class="rounded_corners5 dropdown"></select>
+                        </div>
+                        <div class="address_label_area1">
+                            <label id="ltrlBilladdress">Billing Detail</label>
+
+                        </div>
+                        <div class="address_contol_area1">
+                            <textarea id="txtAddress" name="Text1" cols="40" rows="5" class="text_box200 rounded_corners5" maxlength="250" style="height:60px;" placeholder="Billing Detail"></textarea>
+                        </div>
+                        <div class="user_label_area2">
+                            <label id="ltrlShipAddrs">Shipping Detail</label>
+                        </div>
+                        <div class="user_contol_area2">
+                            <textarea id="txtShippingAddress" cols="40" rows="5" class="text_box200 rounded_corners5"
+                                      style="height:60px;" placeholder="Shipping Detail"></textarea>
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="address_label_area1">
+                            <label id="ltrlnotes">Notes:</label>
+                        </div>
+                        <div class="left_multiline_text_box" style="padding-left: 0px;">
+                            <textarea id="txtNotes" cols="40" rows="5" class="rounded_corners5 text_box"
+                                      style="height:40px;width:550px;" placeholder="Notes"></textarea>
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="address_label_area1">
+                            &nbsp;
+                        </div>
+                        <div class="left_multiline_text_box">
+                            <input type="checkbox" id="chkCanOrder" value="&nbsp;&nbsp;&nbsp;Can Place Order" tabindex="12" />
+                        </div>
+                        <div class="right_multiline_text_box">
+                            <input id="chkCanByCredit" type="checkbox" tabindex="13" value="&nbsp;&nbsp;&nbsp;Can Pay By Credit Card" />
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="address_label_area1">
+                            &nbsp;
+                        </div>
+                        <div class="left_multiline_text_box">
+                            <input type="checkbox" id="chkShowPricesForProduct" value="&nbsp;&nbsp;&nbsp;Show Prices on Products" tabindex="14" />
+                        </div>
+                        <div class="right_multiline_text_box">
+                            <input id="chkHasWebAccess" type="checkbox" value="&nbsp;&nbsp;Has Web Access" tabindex="12" />
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="button_contol_area1_corp">
+                            <div class="float_left" style="padding-left: 0px;">
+                                <button id="btnSaveUser" class="start_creating_btn rounded_corners5" onclick="btnSaveUser_Click" tabindex="23">Save</button>
+                            </div>
+                            <div class="float_left">
+                                <button id="btnCancelUser" value="Cancel" class="start_creating_btn rounded_corners5" tabindex="24"></button>
+                            </div>
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
                     </div>
-                    <div class="pop_body_corp">
-
-                        <div class="left_user_popup_area">
-                            <div class="address_label_area1">
-                                <label ID="ltrlfname" >First Name:</label>
-                            </div>
-                            <div class="address_contol_area1">
-                                <input type="text" ID="txtFirstName" Class="text_box200 rounded_corners5"
-                                             MaxLength="50" TabIndex="1"/>
-                            </div>
-                            <div class="user_label_area2">
-                                <label ID="ltrljobtitle">Job Title:</label>
-                            </div>
-                            <div class="user_contol_area2">
-                                <input type="text" ID="txtJobTitle"Class="text_box200 rounded_corners5"
-                                             MaxLength="50" TabIndex="14"/>
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div class="address_label_area1">
-                                <label ID="ltrllname">Last Name:</label>
-                            </div>
-                            <div class="address_contol_area1">
-                                <input ID="txtLastName" Class="text_box200 rounded_corners5"
-                                             MaxLength="50" TabIndex="2"/>
-                            </div>
-                            <div class="user_label_area2">
-                                <label ID="ltrldirectline">Direct Line</label>
-
-                            </div>
-                            <div class="user_contol_area2">
-                                <input ID="txtDirectLine" Class="text_box200 rounded_corners5"
-                                             MaxLength="30" TabIndex="4"/>
-
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div class="address_label_area1">
-                                <label ID="ltrlcellnumber" >Cell Number:</label>
-                            </div>
-                            <div class="address_contol_area1">
-                                <input type="text" ID="txtCellNumber" Class="text_box200 rounded_corners5"
-                                             MaxLength="30" TabIndex="3"/>
-                            </div>
-                            <div class="user_label_area2 ">
-                                <label ID="ltrlfax" >Fax:</label>
-
-                            </div>
-                            <div class="user_contol_area2">
-                                <input id="txtFax" Class="text_box200 rounded_corners5" MaxLength="30"
-                                             TabIndex="5"/>
-
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div class="address_label_area1">
-                                <label ID="ltrlemaill">Email:</label>
-
-                            </div>
-                            <div class="address_contol_area1">
-                                <input ID="txtEmail" Class="text_box200 rounded_corners5"
-                                             MaxLength="30" TabIndex="6"/>
-
-                            </div>
-
-                            <div class="user_label_area2">
-                                <label ID="ltrlcreditlimit" >Credit Limit</label>
-
-                            </div>
-                            <div class="user_contol_area2">
-                                <input type="text" id="txtCreditLimit"  Class="text_box200 rounded_corners5 float_input"
-                                             MaxLength="8" TabIndex="19"/>
-
-                            </div>
-
-                            <div class="address_label_area1">
-                                <label ID="ltrlsecrquestion" >Secret Question:</label>
-
-                            </div>
-                            <div class="address_contol_area1">
-                                <select style="width:210px;" ID="ddlSecretQuestions"  Class="rounded_corners5 dropdown"
-                                                  TabIndex="7">
-                                </select>
-
-                            </div>
-
-                            <div class="user_label_area2">
-                                <label ID="ltrlSecretAnswer" >Secret Answer:</label>
-
-                            </div>
-                            <div class="user_contol_area2">
-                                <input ID="txtSecretAnswer" Class="text_box200 rounded_corners5"
-                                             MaxLength="200" TabIndex="8"/>
-
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-
-
-
-
-                            <div class="address_label_area1 height30px">
-                                <label ID="ltrlteritory" >Territory:</label>
-                            </div>
-                            <div class="address_contol_area1 height30px">
-                                <select ID="ddlTerritory"  style="width:210px;" Class="rounded_corners5 dropdown">
-                                                  
-                                </select>
-                            </div>
-                            <div class="user_label_area2">
-                                <label ID="ltrlrole" >Role:</label>
-                            </div>
-                            <div class="user_contol_area2">
-                                <select ID="ddlRole" Class="rounded_corners5 dropdown"
-                                                 style="width:210px;" TabIndex="10">
-                                </select>
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div class="address_label_area1">
-                                <label ID="ltrlbusinaddress" >Billing Address</label>
-                            </div>
-                            <div class="address_contol_area1 height30px">
-                                <select ID="ddlBusinessAddress" Class="rounded_corners5 dropdown" style="width:210px;">
-                                                  
-                                </select>
-                            </div>
-
-                            <div class="user_label_area2">
-                                <label ID="Literal1">Shipping Address</label>
-                            </div>
-                            <div class="user_contol_area2">
-                                <select ID="ddlShippingAddress" style="width:210px;"  Class="rounded_corners5 dropdown">
-                                                   
-                                </select>
-                            </div>
-
-                            <div class="address_label_area1">
-                                <label ID="ltrlBilladdress" >Address Detail</label>
-
-
-                            </div>
-                            <div class="address_contol_area1">
-                                <textarea id="txtAddress" name="Text1" cols="40" rows="5" class="text_box200 rounded_corners5" maxlength="250" style="height:60px;"></textarea>
-                            </div>
-                            <div class="user_label_area2">
-                                <label ID="ltrlShipAddrs" >Address Detail</label>
-                            </div>
-                            <div class="user_contol_area2">
-                                <textarea id="txtShippingAddress" cols="40" rows="5" class="text_box200 rounded_corners5"
-                                          style="height:60px;"></textarea>
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div class="address_label_area1">
-                                <label ID="ltrlnotes">Notes:</label>
-                            </div>
-                            <div class="left_multiline_text_box" style="padding-left: 0px;">
-                                <textarea id="txtNotes" cols="40" rows="5" class="rounded_corners5 text_box"
-                                          style="height:40px;width:550px;"></textarea>
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div class="address_label_area1">
-                                &nbsp;
-                            </div>
-                            <div class="left_multiline_text_box">
-                                <input type="checkbox" id="chkCanOrder" value="&nbsp;&nbsp;&nbsp;Can Place Order" tabindex="12" />
-                            </div>
-                            <div class="right_multiline_text_box">
-                                <input id="chkCanByCredit" type="checkbox" tabindex="13" value="&nbsp;&nbsp;&nbsp;Can Pay By Credit Card" />
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div class="address_label_area1">
-                                &nbsp;
-                            </div>
-                            <div class="left_multiline_text_box">
-                                <input type="checkbox" id="chkShowPricesForProduct" value="&nbsp;&nbsp;&nbsp;Show Prices on Products" tabindex="14" />
-                            </div>
-                            <div class="right_multiline_text_box">
-                                <input id="chkHasWebAccess" type="checkbox" value="&nbsp;&nbsp;Has Web Access" tabindex="12" />
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div class="button_contol_area1_corp">
-                                <div class="float_left" style="padding-left: 0px;">
-                                    <button id="btnSaveUser" class="start_creating_btn rounded_corners5" onclick="btnSaveUser_Click" tabindex="23">Save</button> 
-                                </div>
-                                <div class="float_left">
-                                    <button id="btnCancelUser" class="start_creating_btn rounded_corners5" tabindex="24"></button>
-                                </div>
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
+                    <div class="right_user_popup_area">
+                        <div class="user_contact_popup_image_container">
+                            <img id="imgContactPicture" class="user_image_container" />
+                            <br />
+                            <br />
+                            <input type="file" style="width:200px;" id="fuImageUpload" name="fuImageUpload" class="file_upload_box rounded_corners5" tabindex="23" onchange="ShowPreview(this)" />
+                            <br />
+                            <br />
                         </div>
-                        <div class="right_user_popup_area">
-                            <div class="user_contact_popup_image_container">
-                                <img ID="imgContactPicture" Class="user_image_container" />
-                                <br />
-                                <br />
-                                <input type="file" style="width:200px;" id="fuImageUpload" name="fuImageUpload" class="file_upload_box rounded_corners5" tabindex="23" onchange="ShowPreview(this)" />
-                                <br />
-                                <br />
-                            </div>
-                            <button id="btnChangePassword" Class="start_creating_btn rounded_corners5"
-                                         value="Change Password" 
-                                        TabIndex="25" Style="width: 145px; float: right; margin-right: 25px;"></button>
-                            <div id="divPass"  class="pass" style="text-align: left; margin-left: 5px;">
-                                <label ID="ltrlPassword" >Password:</label>
-                            </div>
-                            <div id="divPassContr"  class="user_contol_area2 pass">
-                                <input type="text" ID="txtPassword" Class="text_box200 rounded_corners5"
-                                             MaxLength="200"  TabIndex="20"/>
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div id="divConfirmPass"  class="pass" style="text-align: left; margin-left: 5px;">
-                                <label ID="ltrlconfirmpass">Confirm Password:</label>
-                            </div>
-                            <div id="divConfirmPassContr"  class="user_contol_area2 pass">
-                                <input type="text" ID="txtConfirmPassword"  Class="text_box200 rounded_corners5"
-                                             MaxLength="200" TabIndex="21"/>
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-
+                        <button id="btnChangePassword" class="start_creating_btn rounded_corners5"
+                                value="Change Password"
+                                tabindex="25" style="width: 145px; float: right; margin-right: 25px;"></button>
+                        <div id="divPass" class="pass" style="text-align: left; margin-left: 5px;">
+                            <label id="ltrlPassword">Password:</label>
                         </div>
-        </div>
-        <div class="clearBoth">
-            &nbsp;
-        </div>
-</div>
+                        <div id="divPassContr" class="user_contol_area2 pass">
+                            <input type="text" id="txtPassword" class="text_box200 rounded_corners5"
+                                   maxlength="200" tabindex="20" placeholder="Password" />
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div id="divConfirmPass" class="pass" style="text-align: left; margin-left: 5px;">
+                            <label id="ltrlconfirmpass">Confirm Password:</label>
+                        </div>
+                        <div id="divConfirmPassContr" class="user_contol_area2 pass">
+                            <input type="text" id="txtConfirmPassword" class="text_box200 rounded_corners5"
+                                   maxlength="200" tabindex="21" placeholder="Confirm Password" />
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+                <div class="clearBoth">
+                    &nbsp;
+                </div>
+            </div>
 
-
         </div>
+
+<script src="/Scripts/jquery.MultiFile.js"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+        <link href="@Href("~/Content/NewBootstrapClass.css")" rel="stylesheet" type="text/css" />
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 <script type="text/javascript">
-    
+   
     $(document).ready(function () {
-
-         buidPopup();
-        $("#popupBody").append($("#pnlUser"));
+    buidPopup();
+    $("#popupBody").append($("#pnlUser"));
+        
     });
     function buidPopup() {
         //popupBody
@@ -470,12 +451,15 @@
         $('#btnChangePassword').css('display', 'none');
         return false;
     }
-    function LoadAllData()
+    function LoadAllData(ContactID)
     {
+        alert();
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+
         $.getJSON("/UserManager/UserProfileData",
                       function (xdata) {
-                          document.getElementById("layer").style.display = "block";
-                          document.getElementById("innerLayer").style.display = "block";
+                          alert(xdata);
         });
     }
 
@@ -496,6 +480,9 @@
     }
     function updateSystemUSerProfile(ContactID)
     {
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
         var FirstName = $("#txtFirstName").val();
         var txtLastName=$("#txtLastName").val();
         var Email = $("#txtUserEmaile").val();

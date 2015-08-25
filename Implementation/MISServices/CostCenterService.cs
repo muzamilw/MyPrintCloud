@@ -1450,7 +1450,7 @@ namespace MPC.Implementation.MISServices
                     sSuperCode.Append(sCode);
 
                 }
-
+                costcenter.CodeFileName = "CLS_" + _CostCentreID.ToString();
                 costcenter.CompleteCode = sCode.ToString();
                 _costCenterRepository.UpdateCostCentre(costcenter);
 

@@ -50,51 +50,8 @@ namespace MPC.Webstore.Controllers
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
 
-            if (StoreBaseResopnse.Company.ShowPrices == true)
-            {
-                ViewBag.IsShowPrices = true;
-                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                {
-                    if (_myClaimHelper.loginContactID() > 0)
-                    {
-                        if (UserCookieManager.ShowPriceOnWebstore == true)
-                        {
-                            ViewBag.IsShowPrices = true;
-                        }
-                        else
-                        {
-                            ViewBag.IsShowPrices = false;
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.IsShowPrices = true;
-                    }
-                }
+            ViewBag.IsShowPrices = _myCompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
 
-            }
-            else
-            {
-                ViewBag.IsShowPrices = false;
-                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                {
-                    if (_myClaimHelper.loginContactID() > 0)
-                    {
-                        if (UserCookieManager.ShowPriceOnWebstore == true)
-                        {
-                            ViewBag.IsShowPrices = true;
-                        }
-                        else
-                        {
-                            ViewBag.IsShowPrices = false;
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.IsShowPrices = false;
-                    }
-                }
-            }
 
             if (!string.IsNullOrEmpty(StoreBaseResopnse.Currency))
             {

@@ -32,7 +32,7 @@ namespace MPC.Interfaces.Repository
         /// <param name="companyId"></param>
         /// <returns></returns>
         Company GetStoreById(long companyId);
-
+        Company GetStoreReceiptPage(long companyId);
         long CreateCustomer(string CompanyName, bool isEmailSubscriber, bool isNewsLetterSubscriber, CompanyTypes customerType, string RegWithSocialMedia, long OrganisationId,long StoreId, CompanyContact contact = null);
         /// <summary>
         /// Get Company Price Flag id for Price Matrix in webstore

@@ -46,13 +46,13 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
 
         }
-        
-        public bool Get(int organisationId, int storesCount, bool isTrial, int misOrderCount, int webOrderCount)
+
+        public bool Get(long id)
         {
             try
             {
-               
-                return false;
+                //return _myOrganizationService.CanSaveStore(id);
+                return true;
             }
             catch (Exception ex)
             {

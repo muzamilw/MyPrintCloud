@@ -88,6 +88,8 @@ namespace MPC.Models.Common
         public List<ProductCategory> ProductCategory { get; set; }
 
         public List<TemplateFont> TemplateFonts { get; set; }
+
+        //public List<DiscountVoucher> DiscountVouchers { get; set; }
         public List<Item> Items { get; set; }
         public List<ItemAttachment> ItemAttachment { get; set; }
         public List<ItemSection> ItemSection { get; set; }

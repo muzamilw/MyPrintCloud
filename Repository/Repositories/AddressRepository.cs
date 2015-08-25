@@ -92,6 +92,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                db.Configuration.LazyLoadingEnabled = false;
                 return db.Addesses.Where(s => s.CompanyId == StoreID && s.IsDefaultAddress == true).FirstOrDefault();
             }
             catch (Exception ex)

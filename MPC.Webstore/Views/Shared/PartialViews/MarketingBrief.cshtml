@@ -279,109 +279,109 @@
     <script src="~/Scripts/jquery.MultiFile.js"></script>
     <script>
 
-        $(document).ready(function () {
-            CreateMultipleUpload();
+    $(document).ready(function () {
+        CreateMultipleUpload();
 
-        });
+    });
 
-        function CreateMultipleUpload() {
-            //set up the file upload
-            $("#fuImageUpload").MultiFile(
-              {
-                  max: 4,
-                  accept: 'jpg,png,pdf,gif,jpeg',
-                  afterFileSelect: function (element, value, master_element) {
+    function CreateMultipleUpload() {
+        //set up the file upload
+        $("#fuImageUpload").MultiFile(
+          {
+              max: 4,
+              accept: 'jpg,png,pdf,gif,jpeg',
+              afterFileSelect: function (element, value, master_element) {
 
-                  },
-                  afterFileRemove: function (element, value, master_element) {
+              },
+              afterFileRemove: function (element, value, master_element) {
 
-                  }
-              });
-        }
+              }
+          });
+    }
 
-        function ShowUploader() {
-            $("#fuImageUpload").click();
-        }
+    function ShowUploader() {
+        $("#fuImageUpload").click();
+    }
 
-        function GetAllinputElementIDS() {
+    function GetAllinputElementIDS() {
 
-            var selectedradioBtnsCount = 0;
-            var groupCount = $("#hfGroupsCount").val();
-            var txtVal = "";
-            var idList = "";
-            var AdditionalAnsList = "";
+        var selectedradioBtnsCount = 0;
+        var groupCount = $("#hfGroupsCount").val();
+        var txtVal = "";
+        var idList = "";
+        var AdditionalAnsList = "";
 
-            var AllAnswers = $("#hfHaveNoAns").val();
+        var AllAnswers = $("#hfHaveNoAns").val();
 
-            if (AllAnswers != '') {
-                var EachAnswer = AllAnswers.split(',');
+        if (AllAnswers != '') {
+            var EachAnswer = AllAnswers.split(',');
 
-                $.each(EachAnswer, function (i, element) {
+            $.each(EachAnswer, function (i, element) {
 
-                    var TypeOfAns = $('.' + element + '').attr("data-Type");
+                var TypeOfAns = $('.' + element + '').attr("data-Type");
 
-                    if ($('.' + element + '').children().html() == null) {
+                if ($('.' + element + '').children().html() == null) {
 
-                        if (AdditionalAnsList == "") {
-                            AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
-                        } else {
-                            AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
-
-                        }
+                    if (AdditionalAnsList == "") {
+                        AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
                     } else {
-                        if (TypeOfAns == 1) { //case of checkbox
+                        AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
 
-                            var isCheckedd = 0;
-                            var AnswerList = "";
-                            var GroupName = $('.' + element + '').children().children().attr("name");
-
-                            $('input:checkbox[name=' + GroupName + ']').each(function () {
-
-                                if ($(this).attr('checked') == "checked") {
-                                    if (AnswerList == "") {
-                                        AnswerList = $(this).next().text();
-                                    } else {
-                                        AnswerList = AnswerList + ", " + $(this).next().text();
-                                    }
-
-                                    if (isCheckedd == 0) {
-                                        isCheckedd = 1;
-                                        selectedradioBtnsCount = selectedradioBtnsCount + 1;
-                                    }
-                                }
-                            });
-                            if (AdditionalAnsList == "") {
-                                AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().next().next().next().next().children().next().val();
-                            } else {
-                                AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().next().next().next().next().children().next().val();
-                            }
-
-                        } else { // case of radio
-
-                            $('input[type=radio]').each(function () {
-                                if ($(this).is(':checked')) {
-                                    var ClassOFSelectedRadio = $(this).parent().parent().attr("class");
-
-                                    if (ClassOFSelectedRadio == element) {
-                                        selectedradioBtnsCount = selectedradioBtnsCount + 1;
-                                        if (AdditionalAnsList == "") {
-                                            AdditionalAnsList = AdditionalAnsList + "Q" + $(this).parent().parent().parent().prev().text() + " \n " + "Selected Answer : " + $(this).next().text() + " \n " + "Additional Information :  " + $(this).parent().parent().parent().next().next().children().next().val();
-                                        } else {
-                                            AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $(this).parent().parent().parent().prev().text() + " \n " + "Selected Answer : " + $(this).next().text() + " \n " + "Additional Information :  " + $(this).parent().parent().parent().next().next().children().next().val();
-                                        }
-                                        return;
-                                    }
-                                }
-                            });
-                        }
                     }
+                } else {
+                    if (TypeOfAns == 1) { //case of checkbox
 
-                });
-            }
+                        var isCheckedd = 0;
+                        var AnswerList = "";
+                        var GroupName = $('.' + element + '').children().children().attr("name");
 
-            if (selectedradioBtnsCount < groupCount) {
+                        $('input:checkbox[name=' + GroupName + ']').each(function () {
 
-                ShowPopUp('Message', 'Please select an option in the highlighted questions to submit your inquiry.');
+                            if ($(this).attr('checked') == "checked") {
+                                if (AnswerList == "") {
+                                    AnswerList = $(this).next().text();
+                                } else {
+                                    AnswerList = AnswerList + ", " + $(this).next().text();
+                                }
+
+                                if (isCheckedd == 0) {
+                                    isCheckedd = 1;
+                                    selectedradioBtnsCount = selectedradioBtnsCount + 1;
+                                }
+                            }
+                        });
+                        if (AdditionalAnsList == "") {
+                            AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().next().next().next().next().children().next().val();
+                        } else {
+                            AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().next().next().next().next().children().next().val();
+                        }
+
+                    } else { // case of radio
+
+                        $('input[type=radio]').each(function () {
+                            if ($(this).is(':checked')) {
+                                var ClassOFSelectedRadio = $(this).parent().parent().attr("class");
+
+                                if (ClassOFSelectedRadio == element) {
+                                    selectedradioBtnsCount = selectedradioBtnsCount + 1;
+                                    if (AdditionalAnsList == "") {
+                                        AdditionalAnsList = AdditionalAnsList + "Q" + $(this).parent().parent().parent().prev().text() + " \n " + "Selected Answer : " + $(this).next().text() + " \n " + "Additional Information :  " + $(this).parent().parent().parent().next().next().children().next().val();
+                                    } else {
+                                        AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $(this).parent().parent().parent().prev().text() + " \n " + "Selected Answer : " + $(this).next().text() + " \n " + "Additional Information :  " + $(this).parent().parent().parent().next().next().children().next().val();
+                                    }
+                                    return;
+                                }
+                            }
+                        });
+                    }
+                }
+
+            });
+        }
+
+        if (selectedradioBtnsCount < groupCount) {
+
+            ShowPopUp(@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message")),@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubmitinquiry", UserCookieManager.WBStoreId, "Please select an option in the highlighted questions to submit your inquiry.")));
                 var AllGroups = $("#hfTotalGroups").val();
 
                 var EachGroup = AllGroups.split(',');

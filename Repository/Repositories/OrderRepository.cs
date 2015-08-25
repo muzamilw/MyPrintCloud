@@ -1057,6 +1057,7 @@ namespace MPC.Repository.Repositories
 
             try
             {
+                db.Configuration.LazyLoadingEnabled = false;
                 Order = db.Estimates.Where(estm => estm.EstimateId == orderID).FirstOrDefault();
                 if (Order != null)
                 {
@@ -1078,8 +1079,7 @@ namespace MPC.Repository.Repositories
                         //InvoiceDate
                         YourRef = Order.CustomerPO,
                         SpecialInstNotes = Order.UserNotes,
-                        PlacedBy = string.Format("{0} {1}", Order.CompanyContact == null ? "" : Order.CompanyContact.FirstName, Order.CompanyContact == null ? "" : Order.CompanyContact.LastName),
-
+                        
                     };
                     //order details or shopping details
                     ShoppingCart shopCart = this.ExtractShoppingCart(Order);
