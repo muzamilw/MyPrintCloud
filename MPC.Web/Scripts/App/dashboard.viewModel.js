@@ -24,6 +24,7 @@ define("dashboard.viewModel",
                        // Total Earnings
                     estimateToOrderConversion = ko.observableArray([]),
                     tempUsers = ko.observableArray([]),
+                    currencySymbol = ko.observable(),
                        // Total Earnings
                     estimateToOrderConversionCount = ko.observableArray([]),
                     dummyUsers = ko.observableArray([
@@ -452,7 +453,7 @@ define("dashboard.viewModel",
                 dataservice.getTotalEarnings({
                     success: function (data) {
                         if (data != null) {
-                            
+                            currencySymbol(data.CurrencySymbol);
                             // totalEarning
                             totalEarnings.removeAll();
                             ko.utils.arrayPushAll(totalEarnings(), data.TotalEarningResult);
@@ -490,6 +491,7 @@ define("dashboard.viewModel",
                             top10PerformingStores.removeAll();
                             ko.utils.arrayPushAll(top10PerformingStores(), data.Top10PerformingCustomers);
                             top10PerformingStores.valueHasMutated();
+                            
 
                         }
                         //load the tour
@@ -574,7 +576,8 @@ define("dashboard.viewModel",
                     yAxisPointdummy: yAxisPointdummy,
                     chartLabelsdummy: chartLabelsdummy,
                     monthlyEarningStores: monthlyEarningStores,
-                    monthlyEarningsByStore: monthlyEarningsByStore
+                    monthlyEarningsByStore: monthlyEarningsByStore,
+                    currencySymbol:currencySymbol
                     // xLabelFormat: xLabelFormat
                 };
             })()

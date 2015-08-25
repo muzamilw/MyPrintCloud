@@ -95,12 +95,12 @@ namespace MPC.Webstore.Controllers
             }
             if (ordersList == null || ordersList.Count == 0)
             {
-                TempData["Status"] = "No Records Found";
+                TempData["Status"] = Utils.GetKeyValueFromResourceFile("ltrlNoRecFound", UserCookieManager.WBStoreId, "No Records Found");
                 TempData["HeaderStatus"] = false;
             }
             else
             {
-                TempData["Status"] = ordersList.Count + "    " + " Record Match ";
+                TempData["Status"] = ordersList.Count + "    " + Utils.GetKeyValueFromResourceFile("ltrlrocrdsmatch", UserCookieManager.WBStoreId, "Record Match");
                 TempData["HeaderStatus"] = true;
             }
             ViewBag.OrderList = ordersList;

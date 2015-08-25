@@ -143,6 +143,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StoreId = source.StoreId,
                isStoreLive = source.isStoreLive,
                CanUserUpdateAddress = source.CanUserUpdateAddress,
+               IsClickReached = source.IsClickReached,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 TemplateColorStyles =

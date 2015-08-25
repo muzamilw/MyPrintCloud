@@ -284,10 +284,11 @@ namespace MPC.Repository.Repositories
         public DashBoardChartsResponse GetChartsForDashboard()
         {
             var now = DateTime.Now;
-            
-            return new DashBoardChartsResponse
+
+            string currencysymbol = db.Organisations.Where(c => c.OrganisationId == OrganisationId).FirstOrDefault().Currency.CurrencySymbol;
+            var response = new DashBoardChartsResponse
             {
-                 
+
                 TotalEarningResult = db.usp_TotalEarnings(new DateTime(now.Year, 01, 01), new DateTime(now.Year, 12, 31), OrganisationId),
                 RegisteredUserByStores = db.usp_ChartRegisteredUserByStores(OrganisationId),
                 TopPerformingStores = db.usp_ChartTopPerformingStores(OrganisationId),
@@ -295,9 +296,11 @@ namespace MPC.Repository.Repositories
                 EstimateToOrderConversion = db.usp_ChartEstimateToOrderConversion(OrganisationId),
                 EstimateToOrderConversionCount = db.usp_ChartEstimateToOrderConversionCount(OrganisationId),
                 Top10PerformingCustomers = db.usp_ChartTop10PerfomingCustomers(OrganisationId),
-                MonthlyEarningsbyStore = db.usp_ChartMonthlyEarningsbyStore(OrganisationId)
-               
+                MonthlyEarningsbyStore = db.usp_ChartMonthlyEarningsbyStore(OrganisationId),
+                CurrencySymbol = currencysymbol
+
             };
+            return response;
         }
 
 

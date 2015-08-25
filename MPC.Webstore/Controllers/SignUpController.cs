@@ -131,7 +131,7 @@ namespace MPC.Webstore.Controllers
 
                         if (_myCompanyService.GetCorporateContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
                         {
-                            ViewBag.Message = "You indicated that you are a new customer but an account already exist with this email address " + model.Email;
+                            ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address") + model.Email;
 
                             return View("PartialViews/SignUp");
                         }
@@ -159,7 +159,7 @@ namespace MPC.Webstore.Controllers
                     {
                         if (_myCompanyService.GetContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
                         {
-                            ViewBag.Message = "You indicated that you are a new customer but an account already exist with this email address " + model.Email;
+                            ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address") + model.Email;
 
                             return View("PartialViews/SignUp");
                         }
@@ -377,7 +377,7 @@ namespace MPC.Webstore.Controllers
 
                 _campaignService.SendPendingCorporateUserRegistrationEmailToAdmins((int)CorpContact.ContactId, (int)UserCookieManager.WBStoreId, (int)StoreBaseResopnse.Company.OrganisationId);
                 StoreBaseResopnse = null;
-                ViewBag.Message = "You are successfully registered on store but your account does not have the web access enabled. Please contact your Order Manager.";
+                ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlwebacces", UserCookieManager.WBStoreId, "You are successfully registered on store but your account does not have the web access enabled. Please contact your Order Manager.");
                 return;
             }
 

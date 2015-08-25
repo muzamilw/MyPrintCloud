@@ -1212,7 +1212,7 @@
                 $("#hfPageIsValid").val(0);
                 isValid = false;
                 $("#MessgeToDisply").css("display", "block");
-                $("#ltrlMessge").text("Please enter in the highlighted fields below.");
+                $("#ltrlMessge").text('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlenterhighlightedfields", UserCookieManager.WBStoreId, "Please enter in the highlighted fields below."))');
                 $('html, body').animate({
                     scrollTop: $("#maincntCheckout").offset().top
                 }, 500);
@@ -1230,12 +1230,12 @@
                     scrollTop: $("#maincntCheckout").offset().top
                 }, 500);
                 $("#MessgeToDisply").css("display", "block");
-                $("#ltrlMessge").text("Please enter in the highlighted fields below.");
+                $("#ltrlMessge").text('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlenterhighlightedfields", UserCookieManager.WBStoreId, "Please enter in the highlighted fields below."))');
             } else if (isContainBlanksInShipping == 1) {
                 $("#hfPageIsValid").val(0);
                 isValid = false;
                 $("#MessgeToDisply").css("display", "block");
-                $("#ltrlMessge").text("Please enter in the highlighted fields below.");
+                $("#ltrlMessge").text('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlenterhighlightedfields", UserCookieManager.WBStoreId, "Please enter in the highlighted fields below."))');
                 $('html, body').animate({
                     scrollTop: $("#maincntCheckout").offset().top
                 }, 500);
@@ -1496,30 +1496,30 @@
     function ShowAllStates()
     {
         var jsonData = (@Html.Raw(Json.Encode(Model.BillingStates))) ;
-            if(jsonData != null)
+        if(jsonData != null)
+        {
+            var billingddp = $('#ddBillingState');
+            billingddp.empty();
+            for(var i = 0; i <jsonData.length;i++)
             {
-                var billingddp = $('#ddBillingState');
-                billingddp.empty();
-                for(var i = 0; i <jsonData.length;i++)
-                {
-                    var cAdrres = jsonData[i];
+                var cAdrres = jsonData[i];
 
-                    billingddp.append(
-                           $('<option/>', {
-                               value: cAdrres.StateId,
-                               html: cAdrres.StateName
-                           })
-                       );
-                }
+                billingddp.append(
+                       $('<option/>', {
+                           value: cAdrres.StateId,
+                           html: cAdrres.StateName
+                       })
+                   );
             }
         }
+    }
 
-        function ApplyDeliveryMethod() {
+    function ApplyDeliveryMethod() {
 
-            ShowLoader();
-            console.log(@UserCookieManager.FreeShippingVoucherId);
-            var to;
-            to = "/webstoreapi/ApplyDeliveryMethod/AddDelivery?DeliveryMethodId=" + $("#ddlDeliveyCostCenter option:selected").val() + "&FreeShippingVoucherId=" + @UserCookieManager.FreeShippingVoucherId;
+        ShowLoader();
+        console.log(@UserCookieManager.FreeShippingVoucherId);
+        var to;
+        to = "/webstoreapi/ApplyDeliveryMethod/AddDelivery?DeliveryMethodId=" + $("#ddlDeliveyCostCenter option:selected").val() + "&FreeShippingVoucherId=" + @UserCookieManager.FreeShippingVoucherId;
         var options = {
             type: "POST",
             url: to,
@@ -1538,7 +1538,7 @@
         var returnText = $.ajax(options).responseText;
 
     }
-    </script>
+</script>
 
 
 

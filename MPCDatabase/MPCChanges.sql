@@ -7458,3 +7458,47 @@ order by Month
 
 	-------------Executed on USA server on 20150821----------
 	alter table Company add CanUserUpdateAddress bit
+
+	
+/****** Object:  StoredProcedure [dbo].[usp_ChartTop10PerfomingCustomers]    Script Date: 8/24/2015 12:10:27 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- usp_ChartTop10PerfomingCustomers 1
+ALTER PROCEDURE [dbo].[usp_ChartTop10PerfomingCustomers]
+	@OrganisationId bigint
+AS
+BEGIN
+
+	declare @PreviousMonth int, @CurrentMonth int, @CurrentYear int
+set @PreviousMonth = datepart(month, dateadd(month, -1, getdate()))
+set @CurrentMonth = datepart(month, getdate())
+set @CurrentYear = DATEPART(year, getdate())
+
+select top 5 isnull(c.firstname,'') + ' ' + isnull(c.lastName,'') as ContactName, isnull(sum(e.Estimate_Total), 0) as CurrentMonthOrders,
+	(select Orders from (select cc.ContactId, sum(e.Estimate_Total) as Orders from 
+						estimate e inner join (
+						select reg.CompanyId, store.Name as RetailStoreName 
+						from Company reg 
+						inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4
+					) cust on cust.CompanyId = e.CompanyId
+			inner join CompanyContact cc on cc.ContactId = e.ContactId
+			where e.StatusId <> 3 and datepart(month, e.CreationDate) = @PreviousMonth and datepart(year, e.CreationDate) = @CurrentYear
+			group by cc.ContactId) curOrders where curOrders.ContactId = c.ContactId) as LastMonthOrders
+	from 
+	estimate e inner join (
+						select reg.CompanyId, store.Name as RetailStoreName 
+						from Company reg 
+						inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4
+					) cust on cust.CompanyId = e.CompanyId
+			inner join CompanyContact c on c.ContactId = e.ContactId
+			where e.StatusId <> 3 and datepart(month, e.CreationDate) = @CurrentMonth and datepart(year, e.CreationDate) = @CurrentYear
+			group by firstname, lastName, c.ContactId
+			order by CurrentMonthOrders Desc		
+			
+
+
+	END
+
+alter table organisation add OfflineStoreClicks int
