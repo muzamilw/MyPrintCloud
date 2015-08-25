@@ -453,19 +453,23 @@
     }
     function LoadAllData(ContactID)
     {
-        alert();
+        
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
 
-        $.getJSON("/UserManager/UserProfileData",
+        $.getJSON("/webstoreapi/UM/UserProfileData?ContactID=" + ContactID + "",
                       function (xdata) {
-                          alert(xdata);
+                          
         });
     }
 
     function LoadDDTerritories(objTer,SelectedTerritory)
     {
-
+        CountriesDD.html('');
+        CountriesDD.append($('<option></option>').val(0).html('Select Country'));
+        $.each(response.Country, function (id, option) {
+            CountriesDD.append($('<option></option>').val(option.CountryId).html(option.CountryName));
+        });
     }
     function LoadDDQuestions(objQues,SelectedQuestions)
     {

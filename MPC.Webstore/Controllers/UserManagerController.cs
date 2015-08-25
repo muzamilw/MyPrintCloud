@@ -113,14 +113,16 @@ namespace MPC.Webstore.Controllers
 
 
        [HttpGet]
-        public JsonResult UserProfileData()
+        public JsonResult UserProfileData(long ContactID)
         {
             jsonResponse obj = new jsonResponse();
+            CompanyContact LoginContact = _mycompanyservice.GetContactByID(ContactID);
+
             obj.CompanyTerritory = _mycompanyservice.GetAllCompanyTerritories(UserCookieManager.WEBOrganisationID).ToList();
             obj.RegistrationQuestions = _mycompanyservice.GetAllQuestions().ToList();
-            obj.Addresses = _mycompanyservice.GetAddressesByTerritoryID(_myClaimHelper.loginContactTerritoryID());
+            obj.Addresses = _mycompanyservice.GetAddressesByTerritoryID(LoginContact.TerritoryId??0);
             List<CompanyContactRole> roles = null;
-            if (_myClaimHelper.loginContactRoleID() == (int)Roles.Manager)
+            if (LoginContact.ContactRoleId == (int)Roles.Manager)
             {
                 roles = _mycompanyservice.GetContactRolesExceptAdmin((int)Roles.Adminstrator);
             }
@@ -129,7 +131,7 @@ namespace MPC.Webstore.Controllers
                 roles = _mycompanyservice.GetAllContactRoles();
             }
             obj.CompanyContactRoles = roles;
-            CompanyContact LoginContact = _mycompanyservice.GetContactByID(_myClaimHelper.loginContactID());
+            
             Address LoginContactAddress = _mycompanyservice.GetAddressByID(LoginContact.AddressId);
             obj.LoginContactAddress = LoginContactAddress;
             obj.SelectedShippingAddress =_mycompanyservice.GetAddressByID(LoginContact.ShippingAddressId??0);

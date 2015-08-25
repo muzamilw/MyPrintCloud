@@ -74,5 +74,9 @@ namespace MPC.Repository.Repositories
             }
 
         }
+        public IEnumerable<CompanyTerritory> GetAllCompanyTerritoriesWithStoreID(long companyId,long StoreID)
+        {
+            return DbSet.Where(x =>x.CompanyId == companyId).ToList();
+        }
     }
 }

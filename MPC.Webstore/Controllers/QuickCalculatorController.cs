@@ -55,38 +55,9 @@ namespace MPC.Webstore.Controllers
         [HttpGet]
         public JsonResult GetAllProducts(string cID,string mode)
         {
-            
+
             var Products = _myCompanyService.GetAllRetailDisplayProductsQuickCalc(UserCookieManager.WBStoreId).OrderBy(p => p.SortOrder);
-            //foreach (var item in Products)
-            // {
-
-            //     Dictionary<string, string> pagParams = new Dictionary<string, string>();
-
-            //     pagParams.Add(ParameterName.CATEGORY_ID, item.ProductCategoryID.ToString());
-            //     pagParams.Add(ParameterName.ITEM_ID, item.ItemID.ToString());
-
-            //     if (item.IsFinishedGoods == true)
-            //     {
-            //         pagParams.Add(ParameterName.Mode, ConstantsValues.UploadDesign);
-
-            //         item.NavPath = Utils.BuildQueryStringForFinishedGood("pd", item.ProductName, pagParams);
-            //     }
-            //     else
-            //     {
-            //         item.NavPath = Utils.BuilQueryStringProduct("p", item.ProductName, pagParams);
-            //     }
-
-
-            //     if (item.ProductCategoryID == Convert.ToInt32(ConfigurationManager.AppSettings["BizCardCategory"]))
-            //     {
-            //         item.IsSelectedBizCard = 1;
-            //     }
-            //     else
-            //     {
-            //         item.IsSelectedBizCard = 0;
-            //     }
-
-            // }
+            
             return Json(Products, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]

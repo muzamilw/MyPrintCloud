@@ -36,11 +36,11 @@
         </div>
         <div id="QuickPriceBox" class="QuickCalcPriceBox">
             <div id="QuickCalcOnlinePrice" class="QuickCalcPriceLbl">
-                @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlonlineprice", UserCookieManager.WBStoreId, "Online price"))
+                @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOnlinePrice", UserCookieManager.WBStoreId, "Online price"))
             </div>
             <div id="QuickCalcFrom" class="QuickCalcPriceLbl" style="display:none;">
                 &nbsp;@Html.Raw(Html.GetKeyValueFromResourceFile("lblQtyFrom", UserCookieManager.WBStoreId,"From"))
-&nbsp;
+               &nbsp;
             </div>
             <div id="QuickPrice" class="QuickCalcPrice">
             </div>
@@ -215,6 +215,7 @@
         }
 
         $("#QuickPrice").html(currencySymbol + '' + BasePrice.toFixed(2));
+        alert(currencySymbol);
     }
 
     function ShowProductData() {
