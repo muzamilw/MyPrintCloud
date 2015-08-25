@@ -1138,7 +1138,26 @@ namespace MPC.Repository.Repositories
                     }
 
                 }
+
                 ObjExportOrg.RetailTemplateFonts = templateFonts;
+
+                //Mapper.CreateMap<DiscountVoucher, DiscountVoucher>();
+            
+                //List<DiscountVoucher> DiscountVouchers = new List<DiscountVoucher>();
+                //List<DiscountVoucher> lstDiscountVouchers = db.DiscountVouchers.Include("ProductCategoryVouchers").Include("ItemsVouchers").Where(c => c.CustomerId == CompanyId).ToList();
+
+                //if (lstDiscountVouchers != null && lstDiscountVouchers.Count > 0)
+                //{
+                //    foreach (var vouch in lstDiscountVouchers)
+                //    {
+                       
+                //        var omappedItem = Mapper.Map<DiscountVoucher, DiscountVoucher>(vouch);
+                //        DiscountVouchers.Add(omappedItem);
+                //    }
+                //}
+                //ObjExportOrg.DiscountVouchers = DiscountVouchers;
+
+
 
                 string JsonRetail = JsonConvert.SerializeObject(ObjExportOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                 // export json file
@@ -1648,6 +1667,25 @@ namespace MPC.Repository.Repositories
 
                 }
                 ObjExportOrg.TemplateFonts = templateFonts;
+
+
+
+                //Mapper.CreateMap<DiscountVoucher, DiscountVoucher>();
+                
+                //List<DiscountVoucher> DiscountVouchers = new List<DiscountVoucher>();
+                //List<DiscountVoucher> lstDiscountVouchers = db.DiscountVouchers.Include("ProductCategoryVouchers").Include("ItemsVouchers").Where(c => c.CustomerId == CompanyId).ToList();
+
+                //if (lstDiscountVouchers != null && lstDiscountVouchers.Count > 0)
+                //{
+                //    foreach (var vouch in lstDiscountVouchers)
+                //    {
+                //        var omappedItem = Mapper.Map<DiscountVoucher, DiscountVoucher>(vouch);
+                //        DiscountVouchers.Add(omappedItem);
+                //    }
+                //}
+                //ObjExportOrg.DiscountVouchers = DiscountVouchers;
+
+
 
                 TemplateColorStyle = null;
                 templateFonts = null;
@@ -2465,7 +2503,7 @@ namespace MPC.Repository.Repositories
                             status += "product cat done";
                             //  import items
                             List<StockItem> stockitems = db.StockItems.Where(c => c.OrganisationId == OrganisationID).ToList();
-
+                            List<PaperSize> paperSizes = db.PaperSizes.Where(c => c.OrganisationId == OrganisationID).ToList();
                             List<Item> items = Sets.ExportRetailStore3;
                             if (items != null && items.Count > 0)
                             {
@@ -2506,6 +2544,35 @@ namespace MPC.Repository.Repositories
 
 
                                                 }
+                                            }
+                                            // for SectionSizeId
+                                            if(paperSizes != null && paperSizes.Count > 0)
+                                            {
+                                                int PID = paperSizes.Where(c => c.SizeMeasure == itm.SectionSizeId).Select(c => c.PaperSizeId).FirstOrDefault();
+                                                if (PID > 0)
+                                                {
+                                                    itm.SectionSizeId = PID;
+                                                }
+                                                else
+                                                {
+                                                    PID = paperSizes.Select(s => s.PaperSizeId).FirstOrDefault();
+                                                    itm.SectionSizeId = PID;
+
+
+                                                }
+                                                int ISID = paperSizes.Where(c => c.SizeMeasure == itm.ItemSizeId).Select(c => c.PaperSizeId).FirstOrDefault();
+                                                if (ISID > 0)
+                                                {
+                                                    itm.ItemSizeId = ISID;
+                                                }
+                                                else
+                                                {
+                                                    ISID = paperSizes.Select(s => s.PaperSizeId).FirstOrDefault();
+                                                    itm.ItemSizeId = ISID;
+
+
+                                                }
+
                                             }
                                             if (machines != null && machines.Count > 0)
                                             {
@@ -2844,7 +2911,7 @@ namespace MPC.Repository.Repositories
                             }
                             //  import items
                             List<StockItem> stockitems = db.StockItems.Where(c => c.OrganisationId == OrganisationID).ToList();
-
+                            List<PaperSize> paperSizes = db.PaperSizes.Where(c => c.OrganisationId == OrganisationID).ToList();
                             List<Item> items = Sets.ExportRetailStore3WOP;
                             if (items != null && items.Count > 0)
                             {
@@ -2885,6 +2952,34 @@ namespace MPC.Repository.Repositories
 
 
                                                 }
+                                            }
+                                            if (paperSizes != null && paperSizes.Count > 0)
+                                            {
+                                                int PID = paperSizes.Where(c => c.SizeMeasure == itm.SectionSizeId).Select(c => c.PaperSizeId).FirstOrDefault();
+                                                if (PID > 0)
+                                                {
+                                                    itm.SectionSizeId = PID;
+                                                }
+                                                else
+                                                {
+                                                    PID = paperSizes.Select(s => s.PaperSizeId).FirstOrDefault();
+                                                    itm.SectionSizeId = PID;
+
+
+                                                }
+                                                int ISID = paperSizes.Where(c => c.SizeMeasure == itm.ItemSizeId).Select(c => c.PaperSizeId).FirstOrDefault();
+                                                if (ISID > 0)
+                                                {
+                                                    itm.ItemSizeId = ISID;
+                                                }
+                                                else
+                                                {
+                                                    ISID = paperSizes.Select(s => s.PaperSizeId).FirstOrDefault();
+                                                    itm.ItemSizeId = ISID;
+
+
+                                                }
+
                                             }
                                             if (machines != null && machines.Count > 0)
                                             {
@@ -3229,7 +3324,7 @@ namespace MPC.Repository.Repositories
 
                             //  import items
                             List<StockItem> stockitems = db.StockItems.Where(c => c.OrganisationId == OrganisationID).ToList();
-
+                            List<PaperSize> paperSizes = db.PaperSizes.Where(c => c.OrganisationId == OrganisationID).ToList();
                             List<Item> items = Sets.ExportStore3;
                             if (items != null && items.Count > 0)
                             {
@@ -3270,6 +3365,34 @@ namespace MPC.Repository.Repositories
 
 
                                                 }
+                                            }
+                                            if (paperSizes != null && paperSizes.Count > 0)
+                                            {
+                                                int PID = paperSizes.Where(c => c.SizeMeasure == itm.SectionSizeId).Select(c => c.PaperSizeId).FirstOrDefault();
+                                                if (PID > 0)
+                                                {
+                                                    itm.SectionSizeId = PID;
+                                                }
+                                                else
+                                                {
+                                                    PID = paperSizes.Select(s => s.PaperSizeId).FirstOrDefault();
+                                                    itm.SectionSizeId = PID;
+
+
+                                                }
+                                                int ISID = paperSizes.Where(c => c.SizeMeasure == itm.ItemSizeId).Select(c => c.PaperSizeId).FirstOrDefault();
+                                                if (ISID > 0)
+                                                {
+                                                    itm.ItemSizeId = ISID;
+                                                }
+                                                else
+                                                {
+                                                    ISID = paperSizes.Select(s => s.PaperSizeId).FirstOrDefault();
+                                                    itm.ItemSizeId = ISID;
+
+
+                                                }
+
                                             }
                                             if (machines != null && machines.Count > 0)
                                             {
@@ -3644,6 +3767,7 @@ namespace MPC.Repository.Repositories
 
 
                             List<StockItem> stockitems = db.StockItems.Where(c => c.OrganisationId == OrganisationID).ToList();
+                            List<PaperSize> paperSizes = db.PaperSizes.Where(c => c.OrganisationId == OrganisationID).ToList();
                             //  import items
                             List<Item> items = Sets.ExportStore3WOP;
                             if (items != null && items.Count > 0)
@@ -3686,6 +3810,34 @@ namespace MPC.Repository.Repositories
 
 
                                                 }
+                                            }
+                                            if (paperSizes != null && paperSizes.Count > 0)
+                                            {
+                                                int PID = paperSizes.Where(c => c.SizeMeasure == itm.SectionSizeId).Select(c => c.PaperSizeId).FirstOrDefault();
+                                                if (PID > 0)
+                                                {
+                                                    itm.SectionSizeId = PID;
+                                                }
+                                                else
+                                                {
+                                                    PID = paperSizes.Select(s => s.PaperSizeId).FirstOrDefault();
+                                                    itm.SectionSizeId = PID;
+
+
+                                                }
+                                                int ISID = paperSizes.Where(c => c.SizeMeasure == itm.ItemSizeId).Select(c => c.PaperSizeId).FirstOrDefault();
+                                                if (ISID > 0)
+                                                {
+                                                    itm.ItemSizeId = ISID;
+                                                }
+                                                else
+                                                {
+                                                    ISID = paperSizes.Select(s => s.PaperSizeId).FirstOrDefault();
+                                                    itm.ItemSizeId = ISID;
+
+
+                                                }
+
                                             }
                                             if (machines != null && machines.Count > 0)
                                             {
@@ -5507,6 +5659,9 @@ namespace MPC.Repository.Repositories
             var store = DbSet.Where(s => s.CompanyId == storeId && (s.isArchived == false || s.isArchived == null)).FirstOrDefault();
             return store != null && store.isStoreLive == true ? true : false;
         }
+
+        
+
 
     }
 }
