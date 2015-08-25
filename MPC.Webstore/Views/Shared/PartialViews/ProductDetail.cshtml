@@ -126,7 +126,7 @@
                                 <label id="lblCategoryCode2" class="marginall5">@ViewBag.lblCategoryCode2</label>
                                 <br />
                                 <p class="marginall5">
-                                    <label id="ltrlCatDesc2">@ViewBag.ltrlCatDesc2</label>
+                                    <label id="ltrlCatDesc2">@Html.Raw(ViewBag.ltrlCatDesc2)</label>
                                 </p>
                                 <br />
                                 @if (ViewData["CostCentersList"] != null)

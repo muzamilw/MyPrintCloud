@@ -9,8 +9,8 @@
     string CurrencySymbol = ViewBag.CurrencySymbol;
 }
 <script src="~/Scripts/jquery-1.10.2.js"></script>
-
-@using (Html.BeginForm())
+@if(Model != null){
+using (Html.BeginForm())
 {
 
     <div id="PDetailDiv" class="container rounded_corners">
@@ -192,7 +192,7 @@
 </div>
 
 
-
+}
 
     <script type="text/javascript">
 

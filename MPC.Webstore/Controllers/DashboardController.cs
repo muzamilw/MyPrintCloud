@@ -173,7 +173,7 @@ namespace MPC.Webstore.Controllers
                         BCDetail.PageNavigateURl = "/ProductOrderHistory";
                         BCDetail.IsChangePassword = false;
                         BCDashBordItems.Add(BCDetail);
-
+                        BCDetail = new DashboardViewModel(4);
                         BCDetail.Name = "System User Manger"; // (string)GetGlobalResourceObject("MyResource", "lblOrderProductnBtn") + UpdateOrdersInProductionCount();
                         BCDetail.Description = "SystemManger";//(string)GetGlobalResourceObject("MyResource", "lblViewCurOrderStatus");
                         BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";

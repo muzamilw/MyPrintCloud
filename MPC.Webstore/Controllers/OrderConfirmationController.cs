@@ -395,51 +395,7 @@ namespace MPC.Webstore.Controllers
 
                     }
 
-                    if (StoreBaseResopnse.Company.ShowPrices == true)
-                    {
-                        ViewBag.IsShowPrices = true;
-                        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                        {
-                            if (_myClaimHelper.loginContactID() > 0)
-                            {
-                                if (UserCookieManager.ShowPriceOnWebstore == true)
-                                {
-                                    ViewBag.IsShowPrices = true;
-                                }
-                                else
-                                {
-                                    ViewBag.IsShowPrices = false;
-                                }
-                            }
-                            else
-                            {
-                                ViewBag.IsShowPrices = true;
-                            }
-                        }
-
-                    }
-                    else
-                    {
-                        ViewBag.IsShowPrices = false;
-                        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                        {
-                            if (_myClaimHelper.loginContactID() > 0)
-                            {
-                                if (UserCookieManager.ShowPriceOnWebstore == true)
-                                {
-                                    ViewBag.IsShowPrices = true;
-                                }
-                                else
-                                {
-                                    ViewBag.IsShowPrices = false;
-                                }
-                            }
-                            else
-                            {
-                                ViewBag.IsShowPrices = false;
-                            }
-                        }
-                    }
+                    ViewBag.IsShowPrices = _myCompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
 
                     ViewBag.Currency = StoreBaseResopnse.Currency;
                     ViewBag.TaxLabel = StoreBaseResopnse.Company.TaxLabel;
