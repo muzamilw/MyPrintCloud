@@ -143,5 +143,7 @@ namespace MPC.Interfaces.Repository
         /// Load Property
         /// </summary>
         void LoadProperty<T>(object entity, Expression<Func<T>> propertyExpression, bool isCollection = false);
+
+        List<CompanyContact> GetRetailContacts();
     }
 }

@@ -71,15 +71,15 @@ namespace MPC.Webstore.Controllers
 
                     if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Tel1))
                     {
-                        oAddress.Tel = "Tel: " + StoreBaseResopnse.StoreDetaultAddress.Tel1;
+                        oAddress.Tel = Utils.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:") + StoreBaseResopnse.StoreDetaultAddress.Tel1;
                     }
                     if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Fax))
                     {
-                        oAddress.Fax = "Fax: " + StoreBaseResopnse.StoreDetaultAddress.Fax;
+                        oAddress.Fax = Utils.GetKeyValueFromResourceFile("ltrlfaxx", UserCookieManager.WBStoreId, "Fax:") + StoreBaseResopnse.StoreDetaultAddress.Fax;
                     }
                     if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Email))
                     {
-                        oAddress.Email = "Email: " + StoreBaseResopnse.StoreDetaultAddress.Email;
+                        oAddress.Email = Utils.GetKeyValueFromResourceFile("ltrlllEmail", UserCookieManager.WBStoreId, "Email:") + StoreBaseResopnse.StoreDetaultAddress.Email;
                     }
                 }
             }

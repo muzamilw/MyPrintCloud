@@ -285,19 +285,25 @@ namespace MPC.Implementation.MISServices
            return companyContactRepository.GetContactByContactId(ContactId);
         }
 
-        public string ExportCSV(long CompanyId)
+        public string ExportCSV(long CompanyId,bool isFromCRM)
         {
-            SaveFileDialog csvDialog = new SaveFileDialog();
-            csvDialog.Filter = "CSV Files| *.csv";
-            csvDialog.DefaultExt = "csv";
 
             List<string> FileHeader = new List<string>();
+            long OrganisationId = 0;
+            IEnumerable<CompanyContact> companyContacts = null;
              // List<string> FileHeader = new List<string>();
 
-            FileHeader = HeaderList(FileHeader);
-
-            long OrganisationId = 0;
-            IEnumerable<CompanyContact> companyContacts = companyContactRepository.GetContactsByCompanyId(CompanyId);
+            if(isFromCRM)
+            {
+                FileHeader = HeaderList(FileHeader, true);
+                companyContacts = companyContactRepository.GetRetailContacts();
+            }
+            else
+            {
+                FileHeader = HeaderList(FileHeader,false);
+                companyContacts = companyContactRepository.GetContactsByCompanyId(CompanyId);
+            }
+           
 
 
             StringBuilder CSV = new StringBuilder();
@@ -360,6 +366,10 @@ namespace MPC.Implementation.MISServices
                              string IsNewsLetterSubscription = string.Empty;
                             string IsEmailSubscription = string.Empty;
                             string IsDefaultContact = string.Empty;
+                            string StoreName = string.Empty;
+                            string UniqueAccessCode = string.Empty;
+
+
 
                  if(companyContacts != null && companyContacts.Count() > 0)
                  {
@@ -384,6 +394,14 @@ namespace MPC.Implementation.MISServices
                          {
                              TerritoryName = contact.CompanyTerritory.TerritoryName;
                          }
+
+                         if (contact.Company != null)
+                         {
+                             StoreName = contact.Company.StoreName;
+                             UniqueAccessCode = contact.Company.WebAccessCode;
+                         }
+
+                        
 
                          if (!string.IsNullOrEmpty(contact.FirstName))
                              FirstName = contact.FirstName;
@@ -526,31 +544,60 @@ namespace MPC.Implementation.MISServices
 
 
 
+                         if(isFromCRM)
+                         {
+                             data = StoreName + "|" + UniqueAccessCode + "|" + AddressName + "|" + Address1 + "|" + Address2 + "|" + City + "|" + State + "|" + Postcode + "|" +
+                            TerritoryName + "|" + Fax
+                            + "|" + FirstName + "|" + LastName + "|" +
+                            JobTitle + "|" + HomeTel
+                            + "|" + Email + "|"
+                            + Mobile + "|"
+                            + ContactFax
+                            + "|" + AddField1
+                            + "|" + AddField2 + "|" +
+                            AddField3
+                            + "|" + AddField4
+                            + "|" + AddField5
+                            + "|" + SkypeId + "|"
+                            + LinkedIn + "|"
+                            + FacebookURL
+                            + "|" + TwitterURL + "|"
+                            + CanUserEditProfile + "|" + CanPlaceOrderWithoutApproval + "|" + CanPlaceDirectOrder
+                            + "|" + CanPayByPersonalCreditCard + "|" + CanSeePrices + "|" + HasWebAccess + "|"
+                            + CanPlaceOrder + "|" + HomeTel
+                            + "|" + Role + "|" + POBoxAddress + "|" +
+                            CorporateUnit
+                            + "|" + OfficeTradingName + "|" + BPayCRN + "|" + ACN + "|" + ContractorName + "|" + ABN + "|" + Notes + "|" + IsNewsLetterSubscription + '|' + IsEmailSubscription + "|" + IsDefaultContact + "\r\n";
 
+                         }
+                         else
+                         {
+                             data = AddressName + "|" + Address1 + "|" + Address2 + "|" + City + "|" + State + "|" + Postcode + "|" +
+                                                         TerritoryName + "|" + Fax
+                                                         + "|" + FirstName + "|" + LastName + "|" +
+                                                         JobTitle + "|" + HomeTel
+                                                         + "|" + Email + "|"
+                                                         + Mobile + "|"
+                                                         + ContactFax
+                                                         + "|" + AddField1
+                                                         + "|" + AddField2 + "|" +
+                                                         AddField3
+                                                         + "|" + AddField4
+                                                         + "|" + AddField5
+                                                         + "|" + SkypeId + "|"
+                                                         + LinkedIn + "|"
+                                                         + FacebookURL
+                                                         + "|" + TwitterURL + "|"
+                                                         + CanUserEditProfile + "|" + CanPlaceOrderWithoutApproval + "|" + CanPlaceDirectOrder
+                                                         + "|" + CanPayByPersonalCreditCard + "|" + CanSeePrices + "|" + HasWebAccess + "|"
+                                                         + CanPlaceOrder + "|" + HomeTel
+                                                         + "|" + Role + "|" + POBoxAddress + "|" +
+                                                         CorporateUnit
+                                                         + "|" + OfficeTradingName + "|" + BPayCRN + "|" + ACN + "|" + ContractorName + "|" + ABN + "|" + Notes + "|" + IsNewsLetterSubscription + '|' + IsEmailSubscription + "|" + IsDefaultContact + "\r\n";
 
-                         data = AddressName + "|" + Address1 + "|" + Address2 + "|" + City + "|" + State + "|" + Postcode + "|" +
-                             TerritoryName + "|" + Fax
-                             + "|" + FirstName + "|" + LastName + "|" +
-                             JobTitle + "|" + HomeTel
-                             + "|" + Email + "|"
-                             + Mobile + "|"
-                             + ContactFax
-                             + "|" + AddField1
-                             + "|" + AddField2 + "|" +
-                             AddField3
-                             + "|" + AddField4
-                             + "|" + AddField5
-                             + "|" + SkypeId + "|"
-                             + LinkedIn + "|"
-                             + FacebookURL
-                             + "|" + TwitterURL + "|"
-                             + CanUserEditProfile + "|" + CanPlaceOrderWithoutApproval + "|" + CanPlaceDirectOrder
-                             + "|" + CanPayByPersonalCreditCard + "|" + CanSeePrices + "|" + HasWebAccess + "|"
-                             + CanPlaceOrder + "|" + HomeTel
-                             + "|" + Role + "|" + POBoxAddress + "|" +
-                             CorporateUnit
-                             + "|" + OfficeTradingName + "|" + BPayCRN + "|" + ACN + "|" + ContractorName + "|" + ABN + "|" + Notes + "|" + IsNewsLetterSubscription + '|' + IsEmailSubscription + "|" + IsDefaultContact + "\r\n";
+                         }
 
+                        
 
                          ////Add new line.
                          //csv += "\r\n";
@@ -598,8 +645,16 @@ namespace MPC.Implementation.MISServices
         }
 
 
-        public List<string> HeaderList(List<string> FileHeader)
+
+
+        public List<string> HeaderList(List<string> FileHeader,bool isFromCRM)
         {
+            if(isFromCRM)
+            {
+                FileHeader.Add("StoreName");
+                FileHeader.Add("UniqueAccessCode");
+
+            }
 
             FileHeader.Add("AddressName");
             FileHeader.Add("Address1");

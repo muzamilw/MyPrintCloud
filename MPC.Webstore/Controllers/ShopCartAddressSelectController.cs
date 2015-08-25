@@ -424,51 +424,8 @@ namespace MPC.Webstore.Controllers
             AddressSelectModel.chkBoxDeliverySameAsBilling = "True";
             AddressSelectModel.Warning = "warning"; // Utils.GetKeyValueFromResourceFile("lnkWarnMesg", UserCookieManager.StoreId) + " " + baseresponseOrg.Organisation.Country + "."; // (string)GetGlobalResourceObject("MyResource", "lnkWarnMesg") + " " + companySite.Country + ".";
 
-            if (baseresponseComp.ShowPrices == true)
-            {
-                ViewBag.IsShowPrices = true;
-                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                {
-                    if (_myClaimHelper.loginContactID() > 0)
-                    {
-                        if (UserCookieManager.ShowPriceOnWebstore == true)
-                        {
-                            ViewBag.IsShowPrices = true;
-                        }
-                        else
-                        {
-                            ViewBag.IsShowPrices = false;
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.IsShowPrices = true;
-                    }
-                }
+            ViewBag.IsShowPrices = _myCompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, baseresponseComp.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
 
-            }
-            else
-            {
-                ViewBag.IsShowPrices = false;
-                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                {
-                    if (_myClaimHelper.loginContactID() > 0)
-                    {
-                        if (UserCookieManager.ShowPriceOnWebstore == true)
-                        {
-                            ViewBag.IsShowPrices = true;
-                        }
-                        else
-                        {
-                            ViewBag.IsShowPrices = false;
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.IsShowPrices = false;
-                    }
-                }
-            }
 
         }
 

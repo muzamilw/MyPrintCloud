@@ -51,6 +51,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         CompanyContact CreateCorporateContact(long CustomerId, CompanyContact regContact, string TwitterScreenName, long OrganisationId);
         Company GetCompanyByCompanyID(Int64 companyID);
+        Company GetStoreReceiptPage(long companyId);
 
         CompanyContact GetContactByID(long contactID);
 
@@ -248,5 +249,6 @@ namespace MPC.Interfaces.WebStoreServices
         void AddReedem(long contactId, long companyId, long DiscountVoucherId);
         MyCompanyDomainBaseReponse GetStoreCachedObject(long StoreId);
         RegistrationQuestion GetSecretQuestionByID(int QuestionID);
+        bool ShowPricesOnStore(int storeModeFromCookie, bool PriceFlagOfStore, long loginContactId, bool PriceFlagFromCookie);
     }
 }

@@ -1852,6 +1852,133 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+        public List<CompanyContact> GetRetailContacts()
+        {
+            try
+            {
+
+
+                List<CompanyContact> query = (from contact in db.CompanyContacts
+                             from cmp in db.Companies.Where(c => c.CompanyId == contact.Company.StoreId).DefaultIfEmpty()
+                             where (contact.isArchived == false || contact.isArchived == null) && contact.OrganisationId == OrganisationId && cmp.IsCustomer == 3
+                             select contact).ToList();
+
+
+
+                return query;
+
+
+                //var que = query.Distinct().OrderBy(x => x.FirstName).Skip(fromRow).Take(toRow).ToList();
+                //int rowCount = query.Distinct().Count();
+                //return new CompanyContactResponse
+                //{
+                //    RowCount = rowCount,
+                //    CompanyContacts = que.Select(contact => new CompanyContact
+                //    {
+                //        FirstName = contact.FirstName,
+                //        LastName = contact.LastName,
+                //        image = contact.image,
+                //        ContactId = contact.ContactId,
+                //        AddressId = contact.AddressId,
+                //        CompanyId = contact.CompanyId,
+                //        Title = contact.Title,
+                //        HomeTel1 = contact.HomeTel1,
+                //        HomeTel2 = contact.HomeTel2,
+                //        HomeExtension1 = contact.HomeExtension1,
+                //        HomeExtension2 = contact.HomeExtension2,
+                //        Mobile = contact.Mobile,
+                //        Email = contact.Email,
+                //        FAX = contact.FAX,
+                //        JobTitle = contact.JobTitle,
+                //        DOB = contact.DOB,
+                //        Notes = contact.Notes,
+                //        IsDefaultContact = contact.IsDefaultContact,
+                //        HomeAddress1 = contact.HomeAddress1,
+                //        HomeAddress2 = contact.HomeAddress2,
+                //        HomeCity = contact.HomeCity,
+                //        HomeState = contact.HomeState,
+                //        HomePostCode = contact.HomePostCode,
+                //        HomeCountry = contact.HomeCountry,
+                //        SecretQuestion = contact.SecretQuestion,
+                //        SecretAnswer = contact.SecretAnswer,
+                //        Password = contact.Password,
+                //        URL = contact.URL,
+                //        IsEmailSubscription = contact.IsEmailSubscription,
+                //        IsNewsLetterSubscription = contact.IsNewsLetterSubscription,
+                //        quickFullName = contact.quickFullName,
+                //        quickTitle = contact.quickTitle,
+                //        quickCompanyName = contact.quickCompanyName,
+                //        quickAddress1 = contact.quickAddress1,
+                //        quickAddress2 = contact.quickAddress2,
+                //        quickAddress3 = contact.quickAddress3,
+                //        quickPhone = contact.quickPhone,
+                //        quickFax = contact.quickFax,
+                //        quickEmail = contact.quickEmail,
+                //        quickWebsite = contact.quickWebsite,
+                //        quickCompMessage = contact.quickCompMessage,
+                //        QuestionId = contact.QuestionId,
+                //        IsApprover = contact.IsApprover,
+                //        isWebAccess = contact.isWebAccess,
+                //        isPlaceOrder = contact.isPlaceOrder,
+                //        CreditLimit = contact.CreditLimit,
+                //        isArchived = contact.isArchived,
+                //        ContactRoleId = contact.ContactRoleId,
+                //        TerritoryId = contact.TerritoryId,
+                //        ClaimIdentifer = contact.ClaimIdentifer,
+                //        AuthentifiedBy = contact.AuthentifiedBy,
+                //        IsPayByPersonalCreditCard = contact.IsPayByPersonalCreditCard,
+                //        IsPricingshown = contact.IsPricingshown,
+                //        SkypeId = contact.SkypeId,
+                //        LinkedinURL = contact.LinkedinURL,
+                //        FacebookURL = contact.FacebookURL,
+                //        TwitterURL = contact.TwitterURL,
+                //        authenticationToken = contact.authenticationToken,
+                //        twitterScreenName = contact.twitterScreenName,
+                //        ShippingAddressId = contact.ShippingAddressId,
+                //        isUserLoginFirstTime = contact.isUserLoginFirstTime,
+                //        quickMobileNumber = contact.quickMobileNumber,
+                //        quickTwitterId = contact.quickTwitterId,
+                //        quickFacebookId = contact.quickFacebookId,
+                //        quickLinkedInId = contact.quickLinkedInId,
+                //        quickOtherId = contact.quickOtherId,
+                //        POBoxAddress = contact.POBoxAddress,
+                //        CorporateUnit = contact.CorporateUnit,
+                //        OfficeTradingName = contact.OfficeTradingName,
+                //        ContractorName = contact.ContractorName,
+                //        BPayCRN = contact.BPayCRN,
+                //        ABN = contact.ABN,
+                //        ACN = contact.ACN,
+                //        AdditionalField1 = contact.AdditionalField1,
+                //        AdditionalField2 = contact.AdditionalField2,
+                //        AdditionalField3 = contact.AdditionalField3,
+                //        AdditionalField4 = contact.AdditionalField4,
+                //        AdditionalField5 = contact.AdditionalField5,
+                //        canUserPlaceOrderWithoutApproval = contact.canUserPlaceOrderWithoutApproval,
+                //        CanUserEditProfile = contact.CanUserEditProfile,
+                //        canPlaceDirectOrder = contact.canPlaceDirectOrder,
+                //        OrganisationId = contact.OrganisationId,
+                //        //RoleName = contact.CompanyContactRole != null ? contact.CompanyContactRole.ContactRoleName : string.Empty,
+                //        //FileName = fileName,
+                //        SecondaryEmail = contact.SecondaryEmail,
+                //        Company = new Company
+                //        {
+                //            CompanyId = contact.Company.CompanyId,
+                //            Name = contact.Company.Name,
+                //            StoreId = contact.Company.StoreId,
+                //            StoreName = contact.Company.StoreName,
+                //            IsCustomer = contact.Company.IsCustomer
+                //        }
+                //    }).ToList()
+                //};
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 
 }

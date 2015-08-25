@@ -127,7 +127,7 @@
 
             buidPopup();
             $("#popupBody").append($("#UpdateModelPopUp"));
-            
+
 
             $("#txtCurPass").focus();
 
@@ -287,7 +287,7 @@
 
                         if (passwordnew != Confirmpassword) {
                             $("#errorMesg").css("display", "block");
-                            $("#errorMesg").text("New and confirm password does not match");
+                            $("#errorMesg").text('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlnoroldpass", UserCookieManager.WBStoreId, "New and confirm password does not match"))');
                             IsValid = false;
                             $("#resetErrorMessageContainer").css("display", "block");
                             $("#txtNewPassword").css("border", "2px solid red");

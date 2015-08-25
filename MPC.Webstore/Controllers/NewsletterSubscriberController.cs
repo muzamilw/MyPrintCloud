@@ -115,7 +115,7 @@ namespace MPC.Webstore.Controllers
                     string sConfirmation = Utils.GetKeyValueFromResourceFile("ConfirmSubscriptionMesg", UserCookieManager.WBStoreId);
                     if (string.IsNullOrEmpty(sConfirmation))
                     {
-                        ViewBag.Message = "To confirm your subscription please follow instructions which have been sent to provided email.";
+                        ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlsubps", UserCookieManager.WBStoreId, "To confirm your subscription please follow instructions which have been sent to provided email.");
                     }
                     else
                     {
@@ -130,7 +130,8 @@ namespace MPC.Webstore.Controllers
                     string sConfirmation = Utils.GetKeyValueFromResourceFile("SubscriptionErrorMesg", UserCookieManager.WBStoreId);
                     if (string.IsNullOrEmpty(sConfirmation))
                     {
-                        ViewBag.Message = "Someone is already subscribed with provided email. Please use a different email.";
+                        ViewBag.Message = Utils.GetKeyValueFromResourceFile("SubscriptionErrorMesg", UserCookieManager.WBStoreId, "Someone is already subscribed with provided email. Please use a different email.")
+;
                     }
                     else
                     {
@@ -140,7 +141,9 @@ namespace MPC.Webstore.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Message = "Error in subscription. Please try again.";
+                ViewBag.Message =
+Utils.GetKeyValueFromResourceFile("ltrlerrorinsubs", UserCookieManager.WBStoreId, "Error in subscription. Please try again.")
+;
                 throw ex;
 
             }

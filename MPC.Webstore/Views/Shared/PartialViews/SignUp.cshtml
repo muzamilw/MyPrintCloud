@@ -190,12 +190,12 @@
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script>
 
-        $(document).ready(function () {
-            $('#txtFirstName').val("First Name");
-            $('#txtLastName').val('Last Name');
-            $('#txtEmail').val("Email");
-            $('#txtPassword').val('Password');
-            $('#txtPhone').val("Phone");
+    $(document).ready(function () {
+        $('#txtFirstName').val('@Html.Raw(Html.GetKeyValueFromResourceFile("divfname", UserCookieManager.WBStoreId, "First Name"))');
+            $('#txtLastName').val('@Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name"))');
+        $('#txtEmail').val('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))');
+        $('#txtPassword').val('@Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password"))');
+        $('#txtPhone').val('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrllphone", UserCookieManager.WBStoreId, "Phone"))');
         });
 
         $('#txtFirstName').focus(function () {
