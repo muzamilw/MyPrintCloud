@@ -22,7 +22,7 @@
                 <div class="get_in_touch_box_RFQ rounded_corners" id="divUserInfo" style="display:none">
                     <div class="smallContctUsAvenior float_left_simple">
 
-                        @*<label id="ltrlYourName">First Name :</label>*@
+                    
                         <div id="divYourNameRq" class="error_star" style="display: none;">
                             *
                         </div>
@@ -40,7 +40,7 @@
                     </div>
                     <div class="smallContctUsAvenior float_left_simple">
 
-                        @*<label id="ltrlLastName">Last Name :</label>*@
+                     
 
                         <div id="ltrlLastNameRQ" class="error_star" style="display: none;">
                             *
@@ -53,7 +53,7 @@
                     <div class="clearBoth">
                     </div>
                     <div class="smallContctUsAvenior float_left_simple">
-                        @*<label id="ltrlLastName">Email :</label>*@
+                      
 
                         <div id="divEmailRq" class="error_star" style="display: none;">
                             *
@@ -67,7 +67,6 @@
                     </div>
                     <div class="smallContctUsAvenior float_left_simple">
 
-                        @*<label id="ltrlLastName">Phone :</label>*@
                         <div id="div1" class="error_star" style="display: none;">
                             *
                         </div>
@@ -90,7 +89,7 @@
                 <div class="get_in_touch_box_RFQ rounded_corners" id="divUserInfo">
                     <div class="smallContctUsAvenior float_left_simple">
 
-                        @*<label id="ltrlYourName">First Name :</label>*@
+                       
                         <div id="divYourNameRq" class="error_star" style="display: none;">
                             *
                         </div>
@@ -103,7 +102,6 @@
                     </div>
                     <div class="smallContctUsAvenior float_left_simple">
 
-                        @*<label id="ltrlLastName">Last Name :</label>*@
 
                         <div id="ltrlLastNameRQ" class="error_star" style="display: none;">
                             *
@@ -121,7 +119,7 @@
                     <div class="clearBoth">
                     </div>
                     <div class="smallContctUsAvenior float_left_simple">
-                        @*<label id="ltrlLastName">Email :</label>*@
+                  
 
                         <div id="divEmailRq" class="error_star" style="display: none;">
                             *
@@ -207,11 +205,11 @@
                         </div>
                         <div class="clear smallContctUsAvenior float_left_simple">
 
-                            @*<span id="ltrldeliverydate"></span>*@
+                            <div id="DesiredDeldate1" class="error_star" style="display: none;">
+                                *
+                            </div>
                         </div>
-                        <div id="DesiredDeldate1" class="error_star" style="display: none;">
-                            *
-                        </div>
+                       
                         <div class="TTL widthAvenior">
                             <div id="test"></div>
                             <div id="datepicker"></div>
@@ -258,11 +256,11 @@
                         </div>
                         <div class="clear smallContctUsAvenior float_left_simple">
 
-                            @*<span id="ltrldeliverydate2">Desired Delivery  :</span>*@
+                            <div id="DesiredDeldate2" class="error_star" style="display: none;">
+                                *
+                            </div>
                         </div>
-                        <div id="DesiredDeldate2" class="error_star" style="display: none;">
-                            *
-                        </div>
+                        
 
                         <div class="TTL widthAvenior">
 
@@ -304,13 +302,12 @@
                             @Html.TextBoxFor(model => model.InquiryItemNotes3, new { id = "txtItemNote3", placeholder =Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemnotess", UserCookieManager.WBStoreId,"Item Notes")), @class = "newTxtBox", maxlength = 500 })
                         </div>
                         <div class="clear smallContctUsAvenior float_left_simple">
-
-                            @*<span id="ltrldeliverydate3">Desired Delivery  :</span>*@
+                            <div id="DesiredDeldate3" class="error_star" style="display: none;">
+                                *
+                            </div>
                         </div>
-                        <div id="DesiredDeldate3" class="error_star" style="display: none;">
-                            *
-                        </div>
-
+                       
+              
                         <div class="TTL widthAvenior">
 
                             @Html.TextBoxFor(model => model.InquiryItemDeliveryDate3, new { id = "txtInquiryDate3", @class = "newTxtBox", placeholder =Html.Raw(Html.GetKeyValueFromResourceFile("ltrldeliverydate", UserCookieManager.WBStoreId, "Desired Delivery")), maxlength = 500, @readonly = "readonly" })
@@ -393,7 +390,7 @@
     });
     function Remove(recNo) {
         //Remove the view and Show the add new button
-        var Areusureuwnt2remove =' @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlareusureremoveitem", UserCookieManager.WBStoreId, "Are you sure you want to remove this item?"))';
+        var Areusureuwnt2remove = ' @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlareusureremoveitem", UserCookieManager.WBStoreId, "Are you sure you want to remove this item?"))';
         if (confirm(Areusureuwnt2remove)) {
             $('#' + recNo).css('display', 'none');
             $('#divAddNew').css('display', 'block');
@@ -453,7 +450,7 @@
             var errorMessage = '';
             var isValid = true;
             if ($("#txtTitle2").val().trim() == '') {
-                var itemtitle2xreq ='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemtitlerequired", UserCookieManager.WBStoreId, "Item Title is Required"))';
+                var itemtitle2xreq = '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemtitlerequired", UserCookieManager.WBStoreId, "Item Title is Required"))';
                 errorMessage = errorMessage + itemtitle2xreq + "<br>";
                 $("#ItemTitleInd2").css('display', 'block');
                 isValid = false;
@@ -486,10 +483,8 @@
         }
     }
 
-    function Submit()
-    {
-        if (ValidateRec())
-        {
+    function Submit() {
+        if (ValidateRec()) {
             SubmitData();
         }
 
@@ -501,7 +496,7 @@
         var isValid = true;
         if ($("#hfIsUserLoggedIn").val() == "false") {
             if ($("#txtBoxUserName").val().trim() == '') {
-                var inquirytitlexreq ='@Html.Raw(Html.GetKeyValueFromResourceFile("divfname", UserCookieManager.WBStoreId, "First Name"))';
+                var inquirytitlexreq = '@Html.Raw(Html.GetKeyValueFromResourceFile("divfname", UserCookieManager.WBStoreId, "First Name"))';
                 errorMessage = errorMessage + inquirytitlexreq;
                 $('#divYourNameRq').css('display', 'block');
                 isValid = false;
@@ -513,7 +508,7 @@
                 if (errorMessage == '') {
                     errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name"))';
                 } else {
-                    errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name"))';
+                    errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name"))';
                 }
 
                 $('#ltrlLastNameRQ').css('display', 'block');
@@ -525,9 +520,9 @@
             //yourNameRequiredLast
             if ($("#UserEmail").val() == '') {
                 if (errorMessage == '') {
-                    errorMessage = errorMessage +'@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))';
+                    errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))';
                 } else {
-                    errorMessage = errorMessage + ,'@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))';
+                    errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))';
                 }
 
                 $('#divEmailRq').css('display', 'block');
@@ -544,7 +539,7 @@
                         if (errorMessage == '') {
                             errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlvalidemailadd", UserCookieManager.WBStoreId, "valid Email Address"))';
                         } else {
-                            errorMessage = errorMessage +  ,'@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlvalidemailadd", UserCookieManager.WBStoreId, "valid Email Address"))';
+                            errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlvalidemailadd", UserCookieManager.WBStoreId, "valid Email Address"))';
                         }
 
                         isValid = false;
@@ -557,7 +552,7 @@
             if (errorMessage == '') {
                 errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinquirytitle", UserCookieManager.WBStoreId, "Inquiry Title"))';
             } else {
-                errorMessage = errorMessage + ,'@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinquirytitle", UserCookieManager.WBStoreId, "Inquiry Title"))';
+                errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinquirytitle", UserCookieManager.WBStoreId, "Inquiry Title"))';
             }
 
 
@@ -571,7 +566,7 @@
             if (errorMessage == '') {
                 errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqitem", UserCookieManager.WBStoreId, "Inquiry Item"))';
             } else {
-                errorMessage = errorMessage + ,'@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqitem", UserCookieManager.WBStoreId, "Inquiry Item"))';
+                errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqitem", UserCookieManager.WBStoreId, "Inquiry Item"))';
             }
 
             $('#ItemTitleInd1').css('display', 'block');
@@ -581,13 +576,25 @@
             $('#ItemTitleInd1').css('display', 'none');
         }
 
+        if ($("#txtInquiryDate1").val().trim() == '') {
+            if (errorMessage == '') {
+                errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqDD1", UserCookieManager.WBStoreId, "Desired Delivery"))';
+            } else {
+                errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqDD1", UserCookieManager.WBStoreId, "Desired Delivery"))';
+            }
+            $('#DesiredDeldate1').css('display', 'block');
+            isValid = false; 
+        } else {
+            $('#DesiredDeldate1').css('display', 'none');
+        }
+
         if (val == 2) {
 
             if ($("#txtTitle2").val().trim() == '') {
                 if (errorMessage == '') {
                     errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsecondinq", UserCookieManager.WBStoreId, "Second Inquiry Item"))';
                 } else {
-                    errorMessage = errorMessage + ,'@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsecondinq", UserCookieManager.WBStoreId, "Second Inquiry Item"))';
+                    errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsecondinq", UserCookieManager.WBStoreId, "Second Inquiry Item"))';
                 }
 
                 $("#ItemTitleInd2").css('display', 'block');
@@ -597,13 +604,25 @@
                 $("#InquiryTitleInd2").css('display', 'none');
             }
 
+            if ($("#txtInquiryDate2").val().trim() == '') {
+                if (errorMessage == '') {
+                    errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqDD2", UserCookieManager.WBStoreId, "Second inquiry item desired delivery"))';
+                } else {
+                    errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqDD2", UserCookieManager.WBStoreId, "Second inquiry item desired delivery"))';
+                }
+                $("#DesiredDeldate2").css('display', 'block');
+                isValid = false;
+            } else {
+                $("#DesiredDeldate2").css('display', 'none');
+            }
+
         }
         if (val == 3) {
             if ($("#txtTitle2").val().trim() == '') {
                 if (errorMessage == '') {
                     errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsecondinq", UserCookieManager.WBStoreId, "Second Inquiry Item"))';
                 } else {
-                    errorMessage = errorMessage + ,'@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsecondinq", UserCookieManager.WBStoreId, "Second Inquiry Item"))';
+                    errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsecondinq", UserCookieManager.WBStoreId, "Second Inquiry Item"))';
                 }
                 $("#ItemTitleInd2").css('display', 'block');
                 isValid = false;
@@ -614,9 +633,9 @@
 
             if ($("#txtTitle3").val().trim() == '') {
                 if (errorMessage == '') {
-                    errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlthirdinq", UserCookieManager.WBStoreId, "Third Inquiry Item"))';
+                    errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlthirdinq", UserCookieManager.WBStoreId, "Third inquiry item"))';
                 } else {
-                    errorMessage = errorMessage + ,'@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlthirdinq", UserCookieManager.WBStoreId, "Third Inquiry Item"))';
+                    errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlthirdinq", UserCookieManager.WBStoreId, "Third inquiry item"))';
                 }
 
                 $("#ItemTitleInd3").css('display', 'block');
@@ -625,11 +644,22 @@
             else {
                 $("#ItemTitleInd3").css('display', 'none');
             }
-
+             
+             if ($("#txtInquiryDate3").val().trim() == '') {
+                if (errorMessage == '') {
+                    errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqDD3", UserCookieManager.WBStoreId, "Third inquiry item desired delivery"))';
+                } else {
+                    errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqDD3", UserCookieManager.WBStoreId, "Third inquiry item desired delivery"))';
+                }
+                 $("#DesiredDeldate3").css('display', 'block');
+                isValid = false;
+            } else {
+                 $("#DesiredDeldate3").css('display', 'none');
+            }
 
         }
 
-        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplzenter", UserCookieManager.WBStoreId, "Please enter"))' + errorMessage + ' '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrltoproceed", UserCookieManager.WBStoreId, "to proceed."))');
+        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplzenter", UserCookieManager.WBStoreId, "Please enter ")) ' + errorMessage + ' @Html.Raw(Html.GetKeyValueFromResourceFile("ltrltoproceed", UserCookieManager.WBStoreId, "to proceed."))');
         return isValid;
 
     }
@@ -675,14 +705,13 @@
 
                 HideLoader();
 
-                if (response == 'gs')
-                {
-                    ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrluploadsmallersize", UserCookieManager.WBStoreId, "Please upload smaller size Attachments!"))');
+                if (response == 'gs') {
+                    ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrluploadsmallersize", UserCookieManager.WBStoreId, "Please upload smaller size Attachments!"))');
                 }
                 else
                     if (response == false) {
 
-                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlalreadysubscribed", UserCookieManager.WBStoreId, "Sorry,you have already subscribed with this email!"))');
+                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlalreadysubscribed", UserCookieManager.WBStoreId, "Sorry, you have already subscribed with this email!"))');
                     }
                     else {
                         $("#txtBoxUserName").val(''); $("#LastName").val(''); $("#UserEmail").val(''); $("#Phone").val('');
@@ -692,14 +721,14 @@
                         $("#hfNoOfRec").val(1);
                         $("#InquiryAttachment").val('');
 
-                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqsubsucces", UserCookieManager.WBStoreId, "Inquiry submitted successfully!"))');
+                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqsubsucces", UserCookieManager.WBStoreId, "Inquiry submitted successfully!"))');
                     }
 
             },
             error: function (error) {
                 HideLoader();
                 ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))'
-,'@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerrrorocc", UserCookieManager.WBStoreId, "Error occured while processing!"))');
+, '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerrrorocc", UserCookieManager.WBStoreId, "Error occured while processing!"))');
 
             }
         });
@@ -720,8 +749,7 @@
         }
         return isValid;
     }
-    function CancelBtn()
-    {
+    function CancelBtn() {
         ShowLoader();
         window.location.href = "/";
     }
