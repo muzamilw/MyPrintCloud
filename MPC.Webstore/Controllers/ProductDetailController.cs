@@ -61,52 +61,8 @@ namespace MPC.Webstore.Controllers
                 MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
                 organisationID = StoreBaseResopnse.Organisation.OrganisationId;
-                if (StoreBaseResopnse.Company.ShowPrices == true)
-                {
-                    IsShowPrices = true;
-                    if(UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                    {
-                        if (_myClaimHelper.loginContactID() > 0)
-                        {
-                            if (UserCookieManager.ShowPriceOnWebstore == true)
-                            {
-                                IsShowPrices = true;
-                            }
-                            else
-                            {
-                                IsShowPrices = false;
-                            }
-                        }
-                        else
-                        {
-                            IsShowPrices = true;
-                        }
-                    }
-                    
-                }
-                else
-                {
-                    IsShowPrices = false;
-                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                    {
-                        if (_myClaimHelper.loginContactID() > 0)
-                        {
-                            if (UserCookieManager.ShowPriceOnWebstore == true)
-                            {
-                                IsShowPrices = true;
-                            }
-                            else
-                            {
-                                IsShowPrices = false;
-                            }
-                        }
-                        else
-                        {
-                            IsShowPrices = false;
-                        }
-                    }
-                   
-                }
+                
+                IsShowPrices = _myCompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
 
                 ViewBag.IsShowPrices = IsShowPrices;
                 

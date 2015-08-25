@@ -40,7 +40,7 @@ namespace MPC.Webstore
         private static IUnityContainer container;
         private ICompanyService companyService;
         private ICampaignService campaignService;
-
+        private IUserManagerService userManagerService;
         /// <summary>
         /// Configure Logger
         /// </summary>
@@ -215,8 +215,10 @@ namespace MPC.Webstore
             routeData.Values["action"] = "Index";
             routeData.Values["errorType"] = 10; //this is your error code. Can this be retrieved from your error controller instead?
             routeData.Values["exception"] = exception;
-
-            using (Controller controller = new ErrorController())
+            userManagerService = container.Resolve<IUserManagerService>();
+            companyService = container.Resolve<ICompanyService>();
+            campaignService = container.Resolve<ICampaignService>();
+            using (Controller controller = new ErrorController(companyService, campaignService, userManagerService))
             {
                 ((IController)controller).Execute(new RequestContext(new HttpContextWrapper(httpContext), routeData));
             }
