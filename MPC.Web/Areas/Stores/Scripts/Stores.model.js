@@ -4816,7 +4816,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     };
     // #endregion ______________ Smart Form   _________________
     // #region ______________  Discount Voucher _________________
-    var discountVoucherListView = function (specifiedSmartFormId, specifiedName, specifiedCode, specifiedDtype, dRate, dusetype,specifiedhasCoupon,specifiedDiscountTypeId) {
+    var discountVoucherListView = function (specifiedSmartFormId, specifiedName, specifiedCode, specifiedDtype, dRate, dusetype,specifiedhasCoupon,specifiedDiscountTypeId,specifiedisEnabled) {
         var self,
             id = ko.observable(specifiedSmartFormId),
             name = ko.observable(specifiedName),
@@ -4826,6 +4826,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             couponUseType = ko.observable(dusetype),
             hasCoupon = ko.observable(specifiedhasCoupon || false),
             discountTypeId = ko.observable(specifiedDiscountTypeId || 0),
+            isEnabled = ko.observable(specifiedisEnabled || 0),
             // Errors
             errors = ko.validation.group({
                 name: name,
@@ -4856,6 +4857,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             couponUseType: couponUseType,
             hasCoupon: hasCoupon,
             discountTypeId: discountTypeId,
+            isEnabled: isEnabled,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -4870,7 +4872,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.CouponCode,
             source.DiscountType,
             source.DiscountRate,
-            source.CouponUseType,source.HasCoupon,source.DiscountTypeId);
+            source.CouponUseType,source.HasCoupon,source.DiscountTypeId,source.IsEnabled);
     };
 
     DiscountVoucher = function (spcDiscountVoucherId, spcVoucherName, spcCouponCode, spcDiscountType, spcDiscountRate, spcCouponUseType, spcHasCoupon,

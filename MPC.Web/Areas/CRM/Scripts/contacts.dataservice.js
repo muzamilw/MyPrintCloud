@@ -33,6 +33,14 @@
                         dataType: 'json',
                         type: 'DELETE'
                     });
+
+                    // Define request to export Company Contact Csv
+                    amplify.request.define('exportCompanyContacts', 'ajax', {
+
+                        url: ist.siteUrl + '/Api/ExportCRMContacts',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     amplify.request.define('saveCompanyContact', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyContact',
                         dataType: 'json',
@@ -82,6 +90,16 @@
                     data: params
                 });
             },
+          // export Company Contacts
+        exportCompanyContacts = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'exportCompanyContacts',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
             // get contact list of list view
             deleteContact = function(params, callbacks) {
                 initialize();
@@ -108,7 +126,8 @@
             deleteContact: deleteContact,
             getContactsDetail: getContactsDetail,
             saveCompanyContact: saveCompanyContact,
-            deleteCompanyContact: deleteCompanyContact
+            deleteCompanyContact: deleteCompanyContact,
+            exportCompanyContacts: exportCompanyContacts
         };
     })();
 
