@@ -355,6 +355,7 @@
     <Compile Include="Areas\DesignerApi\Controllers\UploadController.cs" />
     <Compile Include="Areas\DesignerApi\DesignerApiAreaRegistration.cs" />
     <Compile Include="Areas\Designer\Controllers\DesignerController.cs" />
+    <Compile Include="Areas\Designer\Controllers\ReceiptController.cs" />
     <Compile Include="Areas\Designer\DesignerAreaRegistration.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\AddressController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\ApplyDeliveryMethodController.cs" />
@@ -797,6 +798,7 @@
     <Content Include="Areas\Designer\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Designer\Views\Designer\Index.cshtml" />
     <Content Include="Areas\WebstoreApi\Views\web.config" />
+    <Content Include="Areas\Designer\Views\Receipt\Index.cshtml" />
     <None Include="Properties\PublishProfiles\MPC.Webstore  MZ.pubxml" />
     <None Include="Properties\PublishProfiles\MPCPublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
