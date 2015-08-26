@@ -18,6 +18,7 @@
                             <th class="col-lg-2" style="width: 13%; text-align: right;"><span style="margin-left:10px">Discount Value</span></th>
                             <th class="col-lg-1"></th>
                             <th class="col-lg-2" style="text-align:left;"><span>Coupon Usage</span></th>
+                            <th class="text-center"><span>Status</span></th>
                             @*<th>&nbsp;</th>*@
                         </tr>
                     </thead>
@@ -55,6 +56,9 @@
                                 <!-- ko if: hasCoupon() === true -->
                                 <span data-bind="text:couponUseType"></span>
                                 <!-- /ko -->
+                            </td>
+                            <td class="text-center">
+                                <span class="label" data-bind="text: isEnabled() ? 'Enable' : 'Disable', css:{ 'label-success': isEnabled, 'label-danger': !isEnabled() }"></span>
                             </td>
                            
                         </tr>

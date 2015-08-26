@@ -6563,7 +6563,8 @@ define("stores/stores.viewModel",
                             target.couponUseType(useType.type);
                         }
                         target.hasCoupon(source.hasCoupon());
-                        target.discountTypeId(source.discountType())
+                        target.discountTypeId(source.discountType());
+                        target.isEnabled(source.isEnabled());
                     },
                     //Do Before Save Discount Voucher
                     doBeforeDiscountVoucher = function () {
