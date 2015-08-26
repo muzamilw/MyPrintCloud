@@ -7502,4 +7502,82 @@ select top 5 isnull(c.firstname,'') + ' ' + isnull(c.lastName,'') as ContactName
 	END
 
 alter table organisation add OfflineStoreClicks int
-------------- Executed on all servers on 20150805-----
+------------- Executed on all servers on 20150805-----------------------------------------------------
+
+alter table widgets add WidgetCss varchar(Max)
+alter table Widgets add ThumbnailUrl varchar(255)
+alter table Widgets add Description varchar(500)
+
+
+/****** Object:  StoredProcedure [dbo].[usp_ChartMonthlyOrdersCount]    Script Date: 8/26/2015 12:53:26 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--[usp_DashboardROICounter]1
+Create PROCEDURE [dbo].[usp_DashboardROICounter]
+	@OrganisationId bigint
+AS
+BEGIN
+	
+declare @LastSixMonths int, @CurrentMonth int, @CurrentYear int
+
+set @LastSixMonths = datepart(month, dateadd(month, -6, getdate()))
+set @CurrentMonth = datepart(month, getdate())
+set @CurrentYear = DATEPART(year, getdate())
+
+select 
+-----------------------------Registered Users Count----------------------------------------
+	(select sum(RegisterCount) as RegUsersCount
+		from(
+				select count(reg.CompanyId) as RegisterCount, store.Name as RetailStoreName 
+				from Company reg 
+				inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4
+				where datepart(month, reg.CreationDate) >= @LastSixMonths and datepart(year, reg.CreationDate) = @CurrentYear
+				group by store.Name
+			) RegisterUsers) as RegisteredUsersCount,
+
+--------------------------------------Orders Count----------------------------------------
+		(select sum(TotalOrders) As OrdersCount from(
+				select RetailStoreName, count(EstimateID)as TotalOrders, Month, year 
+						from (select EstimateID, retail.RetailStoreName, DATEPart(MONTH,CreationDate) as Month,
+										DATEPart(Year,CreationDate) as Year 
+									from estimate e inner join
+										(--Retail Stores
+											select reg.CompanyId, store.Name as RetailStoreName 
+												from Company reg 
+												inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4) retail
+												on retail.CompanyId = e.CompanyId
+												where e.StatusId <> 3										
+										) ct
+					where ct.EstimateId >= @LastSixMonths and ct.Year = @CurrentYear
+					group by RetailStoreName, Month, year
+					
+					Union
+--------------------------Corporate Stores------------------------------------------------
+					select CorporateStore, count(EstimateID)as TotalOrders, Month,  year 
+					from (select	EstimateID, corp.CorporateStore, DATEPart(MONTH,CreationDate) as Month,
+									DATEPart(Year,CreationDate) as Year 
+							from estimate e inner join
+								(--Corporate Stores
+									select companyId, Name as CorporateStore from company where organisationID = @OrganisationId and IsCustomer = 3) corp
+									on corp.CompanyId = e.CompanyId
+									where e.StatusId <> 3 
+								) ct
+					where ct.EstimateId >= @LastSixMonths and ct.Year = @CurrentYear
+					group by CorporateStore, Month, year
+					) OrgTotalOrders) As TotalOrdersCount,
+
+--------------------------------------------------Directs Ordrs Total---------------------
+			(select	sum(estimate_Total) as DirectOrdersTotal 
+			from	estimate e 
+			where	organisationid = @OrganisationId and isDirectSale = 1 and isEstimate = 0 
+			and		datepart(month, e.CreationDate) >= @LastSixMonths and datepart(year, e.CreationDate) = @CurrentYear) as DirectOrdersTotal,
+
+-----------------------------------------------Online Orders Total-------------------------
+			(select sum(estimate_Total) as OnlineOrdersTotal from estimate e 
+			 where	organisationid = @OrganisationId and isDirectSale = 0 and isEstimate = 0 
+			 and	datepart(month, e.CreationDate) >= @LastSixMonths and datepart(year, e.CreationDate) = @CurrentYear) as OnlineOrdesTotal
+	
+	END
+
