@@ -71,7 +71,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             string mapPath = HostingEnvironment.MapPath("~/" + savePath);
             if (mapPath != null)
             {
-                // ReSharper disable once PossiblyMistakenUseOfParamsMethod
+                // ReSharper disable once PossiblyMistakenUseOfParamsMethods
                 var filePath = Path.Combine(mapPath);
                 FileHelperEngine<ImportCRMCompanyContact> engine = new FileHelperEngine<ImportCRMCompanyContact>();
 
