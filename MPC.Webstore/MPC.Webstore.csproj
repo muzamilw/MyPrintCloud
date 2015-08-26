@@ -432,6 +432,7 @@
     <Compile Include="Controllers\RealStateFooterController.cs" />
     <Compile Include="Controllers\ReceiptController.cs" />
     <Compile Include="Controllers\pagesController.cs" />
+    <Compile Include="Controllers\ReceiptPlainController.cs" />
     <Compile Include="Controllers\RequestQuoteController.cs" />
     <Compile Include="Controllers\RSSController.cs" />
     <Compile Include="Controllers\SavedDesignsController.cs" />
@@ -994,6 +995,7 @@
     <Content Include="Views\Shared\PartialViews\HeaderWithCategoriesAndProducts.cshtml" />
     <Content Include="Views\Shared\PartialViews\BlackAndWhiteHeaderMenu.cshtml" />
     <Content Include="Views\Shared\PartialViews\UserManager.cshtml" />
+    <Content Include="Views\ReceiptPlain\ReceiptPlain.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
