@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 namespace MPC.MIS.Areas.Api.Controllers
@@ -24,7 +25,18 @@ namespace MPC.MIS.Areas.Api.Controllers
 
 
 
-     
+        public string Get(long id)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+
+            long? companyId = id > 0 ? id : (long?)null;
+
+            return companyContactService.ExportCRMContacts();
+            // return itemService.GetProductCategoriesForCompany(companyId).CreateFrom();
+        }
 
     }
 }

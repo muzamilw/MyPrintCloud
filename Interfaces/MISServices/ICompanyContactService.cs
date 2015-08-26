@@ -42,5 +42,7 @@ namespace MPC.Interfaces.MISServices
 
         string ExportCSV(long CompanyId,bool isFromCRM);
 
+        string ExportCRMContacts();
+
     }
 }
