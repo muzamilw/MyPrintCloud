@@ -61,12 +61,12 @@
                 {
                     foreach (var question in ViewData["QuestionsList"] as List<MPC.Models.DomainModels.ProductMarketBriefQuestion>)
                     {
-
+                        QNo++;
                         List<MPC.Models.DomainModels.ProductMarketBriefAnswer> answers = ViewData["Answers"] as List<MPC.Models.DomainModels.ProductMarketBriefAnswer>;
                         if (answers != null && answers.Count() > 0)
                         {
                             answers = answers.Where(a => a.MarketBriefQuestionId == question.MarketBriefQuestionId).ToList();
-                            QNo++;
+                           
 
                             string groupName = QNo + "radioGroup";
 
@@ -168,7 +168,7 @@
                                     </div>
                                     <div class="MB_AddInfoCOnt">
                                         <label id="lbl_AdditionalInformation" class="MB_AddInfoColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lblAdditionalInformation", UserCookieManager.WBStoreId))</label>
-                                        <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder=@Html.Raw(Html.GetKeyValueFromResourceFile("btnideas", UserCookieManager.WBStoreId, "Additional Information"))></textarea>
+                                        <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder='@Html.Raw(Html.GetKeyValueFromResourceFile("btnideas", UserCookieManager.WBStoreId, "Additional Information"))'></textarea>
                                     </div>
 
                                 </div>
