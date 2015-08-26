@@ -356,14 +356,14 @@
                                 {
                                      <div class="InStockContainer" data-itemStockVal="@stockItem.InStockValue" data-isItemInStock="0" data-StockOptionid="@stockItem.StockOptionId" data-isAllowBackOrder="@stockItem.isAllowBackOrder" style="background:red; color:white;display:none;">
                                
-                                       <label>@stockItem.StockTextToDisplay</label>
+                                      @stockItem.StockTextToDisplay
                                
                                     </div>
                                 }
                                 else
                                 {
                                     <div class="InStockContainer" data-itemStockVal="@stockItem.InStockValue" data-isItemInStock="1" data-StockOptionid="@stockItem.StockOptionId" data-isAllowBackOrder="@stockItem.isAllowBackOrder" style="background:#f3f3f3; color:black;display:none;">
-                                        <label>@stockItem.StockTextToDisplay</label>
+                                       @stockItem.StockTextToDisplay
                                     </div>
                                 }
                             }
