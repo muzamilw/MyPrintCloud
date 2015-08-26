@@ -298,36 +298,43 @@
                                         @*<img src="~/Content/Images/chart_06.png" style="width: 100%;" d />*@
                                     </div>
                                     <h2 class="graphheaderright">ROI - 6 months</h2>
-                                    <div class="form-group" style="margin-left: -7px;">
-                                        <div class="col-lg-6 text-right">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Registered Customers</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <span data-bind="text: $root.roiRegisteredUsersCount()"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Orders Processed Count</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <span data-bind="text: $root.roiOrdersProcessedCount()"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Direct Orders Total</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <span data-bind="text: $root.currencySymbol()"></span>  <span data-bind="text: $root.roiDirectOrdersTotal()"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
 
-                                            <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Registered Customers</label>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            @*<label style="font-weight: bold">$100</label>*@
-                                            <span data-bind="text: $root.roiRegisteredUsersCount()"></span>
-                                        </div>
-                                        <div class="col-lg-6 text-right">
-
-                                            <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Orders Processed Count</label>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <span data-bind="text: $root.roiOrdersProcessedCount()"></span>
+                                                <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Online Orders Total</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <span data-bind="text: $root.currencySymbol()"></span>  <span data-bind="text: $root.roiOnlineOrdersTotal()"></span>
+                                            </div>
                                         </div>
 
-                                        <div class="col-lg-6 text-right">
-                                            <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Direct Orders Total</label>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <span data-bind="text: $root.currencySymbol()"></span>  <span data-bind="text: $root.roiDirectOrdersTotal()"></span>
-                                        </div>
-                                        <div class="col-lg-6 text-right">
-
-                                            <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Online Orders Total</label>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <span data-bind="text: $root.currencySymbol()"></span>  <span data-bind="text: $root.roiOnlineOrdersTotal()"></span>
-                                        </div>
+                                        
+                                        
                                     </div>
                                 </div>
 

@@ -284,7 +284,7 @@ namespace MPC.Repository.Repositories
         public DashBoardChartsResponse GetChartsForDashboard()
         {
             var now = DateTime.Now;
-
+            
             string currencysymbol = db.Organisations.Where(c => c.OrganisationId == OrganisationId).FirstOrDefault().Currency.CurrencySymbol;
             var response = new DashBoardChartsResponse
             {
@@ -297,17 +297,17 @@ namespace MPC.Repository.Repositories
                 EstimateToOrderConversionCount = db.usp_ChartEstimateToOrderConversionCount(OrganisationId),
                 Top10PerformingCustomers = db.usp_ChartTop10PerfomingCustomers(OrganisationId),
                 MonthlyEarningsbyStore = db.usp_ChartMonthlyEarningsbyStore(OrganisationId),
-                RoiCounter = db.usp_DashboardROICounter(OrganisationId),
                 CurrencySymbol = currencysymbol
 
             };
-            if (response.RoiCounter != null)
+            IEnumerable<usp_DashboardROICounter_Result> RoiCounter = db.usp_DashboardROICounter(OrganisationId);
+            if (RoiCounter != null)
             {
-                var counter = response.RoiCounter.FirstOrDefault();
+                var counter = RoiCounter.FirstOrDefault();
                 if (counter != null)
                 {
                     response.DirectOrdersTotal = counter.DirectOrdersTotal;
-                    response.OnlineOrdersTotal = counter.OnlineOrdesTotal;
+                    response.OnlineOrdersTotal = Math.Round(counter.OnlineOrdesTotal, 2);
                     response.OrdersProcessedCount = counter.TotalOrdersCount;
                     response.RegisteredUsersCount = counter.RegisteredUsersCount;
                 }

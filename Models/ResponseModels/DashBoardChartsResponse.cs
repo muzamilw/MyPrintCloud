@@ -23,7 +23,7 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<usp_ChartTop10PerfomingCustomers_Result> Top10PerformingCustomers { get; set; }
 
         public IEnumerable<usp_ChartMonthlyEarningsbyStore_Result> MonthlyEarningsbyStore { get; set; }
-        public IEnumerable<usp_DashboardROICounter_Result> RoiCounter { get; set; }
+       // public IEnumerable<usp_DashboardROICounter_Result> RoiCounter { get; set; }
         public string CurrencySymbol { get; set; }
 
         public int RegisteredUsersCount { get; set; }
