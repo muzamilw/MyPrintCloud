@@ -399,7 +399,7 @@ namespace MPC.Webstore
             routes.MapRoute(
                 "ReceiptPlain",
                 "ReceiptPlain/{OrderId}/{StoreId}/{IsPrintReceipt}",
-                new { controller = "Home", action = "ReceiptPlain", OrderId = UrlParameter.Optional, StoreId = UrlParameter.Optional, IsPrintReceipt = UrlParameter.Optional }
+                new { controller = "ReceiptPlain", action = "ReceiptPlain", OrderId = UrlParameter.Optional, StoreId = UrlParameter.Optional, IsPrintReceipt = UrlParameter.Optional }
             );
 
             routes.MapRoute(

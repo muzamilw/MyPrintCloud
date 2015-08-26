@@ -57,6 +57,13 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             double Subtotal = 0;
             double vat = 0;
             Order order = _orderService.GetOrderAndDetails(orderID);
+            if(order != null)
+            {
+                if (order.OrderDetails.CartItemsList != null && order.OrderDetails.CartItemsList.Count() > 0) 
+                {
+                    order.OrderDetails.CartItemsList = order.OrderDetails.CartItemsList.Where(i => i.Status != (int)OrderStatus.ShoppingCart).ToList();
+                }
+            }
             Address BillingAddress = _orderService.GetBillingAddress(order.BillingAddressID);
             Address ShippingAddress = _orderService.GetdeliveryAddress(order.DeliveryAddressID);
             //string CacheKeyName = "CompanyBaseResponse";

@@ -82,6 +82,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
             return addressService.Save(address.CreateFrom()).CreateFrom();
         }
+
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         [CompressFilterAttribute]
         public bool Delete(CompanyAddressDeleteModel request)

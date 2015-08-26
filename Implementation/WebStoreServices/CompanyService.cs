@@ -1709,5 +1709,9 @@ namespace MPC.Implementation.WebStoreServices
                 }
             }
         }
+        public string GetCurrencySymbolById(long currencyId)
+        {
+            return _currencyRepository.GetCurrencySymbolById(currencyId);
+        }
     }
 }

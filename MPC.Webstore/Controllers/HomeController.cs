@@ -8,8 +8,6 @@ using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Webstore.Common;
-using MPC.Webstore.ModelMappers;
-using MPC.Webstore.ResponseModels;
 using MPC.Webstore.Models;
 using DotNetOpenAuth.OAuth2;
 using Microsoft.Owin.Security;
@@ -19,19 +17,10 @@ using System.Text;
 using System.Security.Claims;
 using ICompanyService = MPC.Interfaces.WebStoreServices.ICompanyService;
 using MPC.Models.Common;
-using MPC.Interfaces.Common;
-using System.Reflection;
 using MPC.Models.DomainModels;
-using MPC.WebBase.UnityConfiguration;
 using System.Runtime.Caching;
-using System.Web.Security;
 using WebSupergoo.ABCpdf8;
 using System.Globalization;
-using MPC.Interfaces.Repository;
-using DotNetOpenAuth.ApplicationBlock;
-using DotNetOpenAuth.ApplicationBlock.Facebook;
-using DotNetOpenAuth.OAuth2;
-using Newtonsoft.Json.Linq;
 using MPC.Models.ResponseModels;
 
 
@@ -48,10 +37,6 @@ namespace MPC.Webstore.Controllers
         private ICostCentreService _CostCentreService;
 
         private readonly IOrderService _OrderService;
-
-        //private readonly IOrganisationRepository _organisationRepository;
-
-        private readonly ICurrencyRepository _currencyRepository;
         #endregion
         [Dependency]
         public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
@@ -69,7 +54,7 @@ namespace MPC.Webstore.Controllers
         /// Constructor
         /// </summary>
         public HomeController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker, ICostCentreService CostCentreService
-            , IOrderService OrderService, ICurrencyRepository currencyRepository)
+            , IOrderService OrderService)
             //: base(myCompanyService, webstoreAuthorizationChecker)
         {
             if (myCompanyService == null)
@@ -92,7 +77,7 @@ namespace MPC.Webstore.Controllers
             this._myCompanyService = myCompanyService;
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
             this._OrderService = OrderService;
-            this._currencyRepository = currencyRepository;
+          
         }
 
         #endregion
@@ -714,10 +699,10 @@ namespace MPC.Webstore.Controllers
 
                 string currency = "";
 
-                if (oOrganisation != null)
-                {
-                   currency = _currencyRepository.GetCurrencySymbolById(Convert.ToInt64(oOrganisation.CurrencyId));
-                }
+                //if (oOrganisation != null)
+                //{
+                //   currency = _currencyRepository.GetCurrencySymbolById(Convert.ToInt64(oOrganisation.CurrencyId));
+                //}
 
                 if (!string.IsNullOrEmpty(currency))
                 {
