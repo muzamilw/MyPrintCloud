@@ -355,8 +355,9 @@
     <Compile Include="Areas\DesignerApi\Controllers\UploadController.cs" />
     <Compile Include="Areas\DesignerApi\DesignerApiAreaRegistration.cs" />
     <Compile Include="Areas\Designer\Controllers\DesignerController.cs" />
-    <Compile Include="Areas\Designer\Controllers\ReceiptController.cs" />
     <Compile Include="Areas\Designer\DesignerAreaRegistration.cs" />
+    <Compile Include="Areas\OrderReceipt\Controllers\OrderReceiptController.cs" />
+    <Compile Include="Areas\OrderReceipt\OrderReceiptAreaRegistration.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\AddressController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\ApplyDeliveryMethodController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\ContactImageUploaderController.cs" />
@@ -799,7 +800,10 @@
     <Content Include="Areas\Designer\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Designer\Views\Designer\Index.cshtml" />
     <Content Include="Areas\WebstoreApi\Views\web.config" />
-    <Content Include="Areas\Designer\Views\Receipt\Index.cshtml" />
+    <Content Include="Areas\OrderReceipt\Views\web.config" />
+    <Content Include="Areas\OrderReceipt\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\OrderReceipt\Views\OrderReceipt\Index.cshtml" />
+    <Content Include="Areas\OrderReceipt\Views\Shared\_Layout.cshtml" />
     <None Include="Properties\PublishProfiles\MPC.Webstore  MZ.pubxml" />
     <None Include="Properties\PublishProfiles\MPCPublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -1004,6 +1008,7 @@
     <Folder Include="Areas\DesignerApi\Models\" />
     <Folder Include="Areas\DesignerApi\Views\Shared\" />
     <Folder Include="Areas\Designer\Models\" />
+    <Folder Include="Areas\OrderReceipt\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
     <Folder Include="Views\BlackAndWhiteHeaderMenu\" />
