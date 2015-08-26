@@ -164,7 +164,7 @@
                                     </div>
                                     <div class="MB_AddInfoCOnt">
                                         <label id="lbl_AdditionalInformation" class="MB_AddInfoColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lblAdditionalInformation", UserCookieManager.WBStoreId))</label>
-                                        <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder='@Html.Raw(Html.GetKeyValueFromResourceFile(" btnideas", UserCookieManager.WBStoreId, "Additional Information"))'></textarea>
+                                        <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder=@Html.Raw(Html.GetKeyValueFromResourceFile("btnideas", UserCookieManager.WBStoreId, "Additional Information"))></textarea>
                                     </div>
 
                                 </div>
@@ -254,7 +254,7 @@
                             </div>
                             <div style="margin: 5px; margin-top: 15px;">
                                 <input type="submit" class="MB_SendINqBtn rounded_corners5" id="SendINqBtn"
-                                       onclick="return GetAllinputElementIDS(); ShowLoader();" value="@Html.Raw(Html.GetKeyValueFromResourceFile(" btnmarketingbrief", UserCookieManager.WBStoreId, "submit inquiry"))" />
+                                       onclick="return GetAllinputElementIDS(); ShowLoader();" value=@Html.Raw(Html.GetKeyValueFromResourceFile("btnmarketingbrief", UserCookieManager.WBStoreId, "submit inquiry")) />
                             </div>
                         </div>
                     </div>
@@ -379,7 +379,7 @@
 
         if (selectedradioBtnsCount < groupCount) {
 
-            ShowPopUp(@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message")),@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubmitinquiry", UserCookieManager.WBStoreId, "Please select an option in the highlighted questions to submit your inquiry.")));
+            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubmitinquiry", UserCookieManager.WBStoreId, "Please select an option in the highlighted questions to submit your inquiry."))');
                 var AllGroups = $("#hfTotalGroups").val();
 
                 var EachGroup = AllGroups.split(',');
