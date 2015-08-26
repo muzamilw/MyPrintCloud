@@ -27,6 +27,7 @@ define("dashboard.viewModel",
                     currencySymbol = ko.observable(),
                        // Total Earnings
                     estimateToOrderConversionCount = ko.observableArray([]),
+                    
                     dummyUsers = ko.observableArray([
                         { monthname: '2015-01', totalStore1: 0, totalStore2: 0, totalStore3: 0, totalStore4: 0, totalStore5: 0, month: 1, year: 2015 },
                         { monthname: '2015-02', totalStore1: 0, totalStore2: 0, totalStore3: 0, totalStore4: 0, totalStore5: 0, month: 2, year: 2015 },
@@ -144,6 +145,10 @@ define("dashboard.viewModel",
             totalEarning = ko.observable(undefined).extend({ numberInput: ist.numberFormat }),
                 // Live Stores
             liveStoresCount = ko.observable(0),
+            roiRegisteredUsersCount = ko.observable(0),
+            roiOrdersProcessedCount = ko.observable(0),
+            roiDirectOrdersTotal = ko.observable(0),
+            roiOnlineOrdersTotal = ko.observable(0),
                 //Order Search String
             orderSearchString = ko.observable(),
                 // current Month Orders Count
@@ -454,6 +459,10 @@ define("dashboard.viewModel",
                     success: function (data) {
                         if (data != null) {
                             currencySymbol(data.CurrencySymbol);
+                            roiRegisteredUsersCount(data.RegisteredUsersCount);
+                            roiOrdersProcessedCount(data.OrdersProcessedCount);
+                            roiDirectOrdersTotal(data.DirectOrdersTotal);
+                            roiOnlineOrdersTotal(data.OnlineOrdersTotal);
                             // totalEarning
                             totalEarnings.removeAll();
                             ko.utils.arrayPushAll(totalEarnings(), data.TotalEarningResult);
@@ -577,7 +586,11 @@ define("dashboard.viewModel",
                     chartLabelsdummy: chartLabelsdummy,
                     monthlyEarningStores: monthlyEarningStores,
                     monthlyEarningsByStore: monthlyEarningsByStore,
-                    currencySymbol:currencySymbol
+                    currencySymbol: currencySymbol,
+                    roiRegisteredUsersCount: roiRegisteredUsersCount,
+                    roiOrdersProcessedCount: roiOrdersProcessedCount,
+                    roiDirectOrdersTotal: roiDirectOrdersTotal,
+                    roiOnlineOrdersTotal: roiOnlineOrdersTotal
                     // xLabelFormat: xLabelFormat
                 };
             })()

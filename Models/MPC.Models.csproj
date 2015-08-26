@@ -238,6 +238,7 @@
     <Compile Include="DomainModels\usp_ChartRegisteredUserByStores_Result.cs" />
     <Compile Include="DomainModels\usp_ChartTop10PerfomingCustomers_Result.cs" />
     <Compile Include="DomainModels\usp_ChartTopPerformingStores_Result.cs" />
+    <Compile Include="DomainModels\usp_DashboardROICounter_Result.cs" />
     <Compile Include="DomainModels\usp_DeliveryReport_Result.cs" />
     <Compile Include="DomainModels\usp_EstimateReport_Result.cs" />
     <Compile Include="DomainModels\usp_InvoiceReport_Result.cs" />

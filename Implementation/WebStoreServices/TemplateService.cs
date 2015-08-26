@@ -3230,8 +3230,8 @@ namespace MPC.Implementation.WebStoreServices
             {
 
 
-                string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ReceiptPlain?OrderId=" + OrderId + "&StoreId=" + StoreId + "&IsPrintReceipt=0";
-
+//                string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ReceiptPlain?OrderId=" + OrderId + "&StoreId=" + StoreId + "&IsPrintReceipt=0";
+                string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/OrderReceipt/" + OrderId + "/" + StoreId + "/0";
                 string FileName = OrderId + "_OrderReceipt.pdf";
                 string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/" + FileName);
                 string AttachmentPath = "/mpc_content/EmailAttachments/" + FileName;

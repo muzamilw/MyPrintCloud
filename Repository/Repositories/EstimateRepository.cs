@@ -297,9 +297,21 @@ namespace MPC.Repository.Repositories
                 EstimateToOrderConversionCount = db.usp_ChartEstimateToOrderConversionCount(OrganisationId),
                 Top10PerformingCustomers = db.usp_ChartTop10PerfomingCustomers(OrganisationId),
                 MonthlyEarningsbyStore = db.usp_ChartMonthlyEarningsbyStore(OrganisationId),
+                RoiCounter = db.usp_DashboardROICounter(OrganisationId),
                 CurrencySymbol = currencysymbol
 
             };
+            if (response.RoiCounter != null)
+            {
+                var counter = response.RoiCounter.FirstOrDefault();
+                if (counter != null)
+                {
+                    response.DirectOrdersTotal = counter.DirectOrdersTotal;
+                    response.OnlineOrdersTotal = counter.OnlineOrdesTotal;
+                    response.OrdersProcessedCount = counter.TotalOrdersCount;
+                    response.RegisteredUsersCount = counter.RegisteredUsersCount;
+                }
+            }
             return response;
         }
 
