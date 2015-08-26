@@ -2083,7 +2083,7 @@ function togglePage(pId) {
         if (IT.ProductPageId == pId) {
             if(IT.IsPrintable != false)
             {
-                IT.IsPrintable = false; console.log($(".mbButton" + IT.ProductPageId).text());
+                IT.IsPrintable = false; 
                 $(".mbButton" + IT.ProductPageId).text('Enable');
                 $("#thumbPage" + IT.ProductPageId).css("display", "none");
             } else 
@@ -2523,28 +2523,28 @@ function togglePage(pId) {
                                 IH = IT.ImageHeight;
                                 var originalWidth = IW;
                                 var originalHeight = IH;
-                                var wd = D1AO.getWidth();
-                                var he = D1AO.getHeight();
+                                var wd = D1AO.getWidth() / dfZ1l;
+                                var he = D1AO.getHeight() / dfZ1l;
                                 var bestPer = 1;
-                                if (IW >= D1AO.getWidth() && IH >= D1AO.getHeight())
+                                if (IW >= wd && IH >= he )
                                 {
-                                    while (originalWidth > D1AO.getWidth() && originalHeight > D1AO.getHeight()) {
+                                    while (originalWidth > wd  && originalHeight > he ) {
                                         bestPer -= 0.10;
                                         originalHeight =IH * bestPer;
                                         originalWidth =IW *  bestPer;
                                     }
-                                    bestPer += 0.10;
+                                 //   bestPer += 0.10;
                                 }else 
                                 {
-                                    while (originalWidth <= D1AO.getWidth() || originalHeight <= D1AO.getHeight()) {
+                                    while (originalWidth <= wd  || originalHeight <= he ) {
                                         bestPer += 0.10;
                                         originalHeight = IH * bestPer;
                                         originalWidth = IW * bestPer;
                                     }
-                                    bestPer -= 0.10;
+                                 //   bestPer -= 0.10;
                                 }
-                                var wdth = parseInt(D1AO.getWidth()/ bestPer);
-                                var hght = parseInt(D1AO.getHeight() / bestPer);
+                                var wdth = parseInt(wd / bestPer);
+                                var hght = parseInt(he / bestPer);
                                 var XML = new XMLWriter();
                                 XML.BeginNode("Cropped");
                                 XML.Node("sx", "0");

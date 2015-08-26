@@ -604,7 +604,11 @@ namespace MPC.Implementation.MISServices
                         single.Status.StatusName = single.Status.StatusName;
                         // Getting Store Type
                         long storeid = Convert.ToInt64(single.Company.StoreId);
-                        single.Company.StoreName = companyRepository.GetStoreById(storeid).Name;
+                        
+                        if(storeid > 0)
+                        { 
+                            single.Company.StoreName = companyRepository.GetStoreById(storeid).Name;
+                        }
                     }
                 }
 

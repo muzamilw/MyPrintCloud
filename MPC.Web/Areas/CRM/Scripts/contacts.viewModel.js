@@ -370,6 +370,26 @@ define("crm/contacts.viewModel",
                              });
                      }
                  },
+                    ExportCSVForCompanyContacts = function (file, data) {
+                        dataservice.exportCompanyContacts({
+                            id: 0
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+                                    var host = window.location.host;
+                                    var uri = encodeURI("http://" + host + data);
+                                    window.open(uri, "_blank");
+
+                                }
+                                toastr.success("Company Contacts exported successfully!");
+                                searchCompanyContact();
+                            },
+                            error: function (response) {
+                                toastr.error("Company Contacts failed to export! " + response);
+                            }
+                        });
+                    },
+
                 // ReSharper disable once InconsistentNaming
                  UserProfileImageFileLoadedCallback = function (file, data) {
                      selectedCompanyContact().image(data);
@@ -432,7 +452,8 @@ define("crm/contacts.viewModel",
                     allCompanyAddressesList: allCompanyAddressesList,
                     onDeleteCompanyContact: onDeleteCompanyContact,
                     addContact: addContact,
-                    initializeForCalendar: initializeForCalendar
+                    initializeForCalendar: initializeForCalendar,
+                    ExportCSVForCompanyContacts: ExportCSVForCompanyContacts
                 };
             })()
         };
