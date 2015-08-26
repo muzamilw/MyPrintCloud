@@ -88,13 +88,17 @@
 	background-position: 0 -108px;
 	opacity: 0.8;
 	cursor: pointer;
-	z-index: 11111118030;
+	z-index: 11111118030;    border-radius: 5px;
 }
 
 #fancybox-loading div {
-	width: 44px;
-	height: 44px;
+	width: 30px;
+	height: 30px;
 	background: url("../Images/fancybox_loading.gif");
+        margin-top: 4px;
+    margin-left: 5px;
+    border-radius:5px;
+    background-repeat:no-repeat;
 }
 
 .fancybox-close {

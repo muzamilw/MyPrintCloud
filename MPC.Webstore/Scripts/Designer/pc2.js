@@ -244,6 +244,8 @@ var croppedInstance = null;
           this.img_top = result.img_top;
           this.$image.css({ width: this.img_width, left: this.img_left, top: this.img_top });
           this.update();
+       //   this.zoomIn();
+          this.zoomOut();
          // this.drag({ startX: 0, startY: 0, dx: result.sx, dy: result.sy }, true);
           //this.update();
       },

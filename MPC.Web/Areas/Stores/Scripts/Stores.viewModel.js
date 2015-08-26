@@ -5205,7 +5205,7 @@ define("stores/stores.viewModel",
                                         if (widget.widgetId() === 14) {
                                             _.each(item.CmsSkinPageWidgetParams, function (params) {
                                                 widget.cmsSkinPageWidgetParam(model.CmsSkinPageWidgetParam.Create(params));
-                                                widget.htmlData(widget.cmsSkinPageWidgetParam().paramValue());
+                                                //widget.htmlData(widget.cmsSkinPageWidgetParam().paramValue());
                                             });
                                         }
                                         pageSkinWidgets.push(widget);

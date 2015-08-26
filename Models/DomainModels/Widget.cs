@@ -12,6 +12,9 @@ namespace MPC.Models.DomainModels
         public string WidgetCode { get; set; }
         public string WidgetName { get; set; }
         public string WidgetControlName { get; set; }
+        public string WidgetCss { get; set; }
+        public string ThumbnailUrl { get; set; }
+        public string Description { get; set; }
 
         public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
     }
