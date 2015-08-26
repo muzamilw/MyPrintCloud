@@ -44,8 +44,12 @@
                     <label style="visibility:hidden;">specialNotes</label>
                 </div>
                 <div style="width: 33.33333333333333%; float:right;">
-                    <img id="Companyimg" style="height: 70px;max-width: 235px;margin-bottom: 10px;" src="/@ViewBag.Company.Image" /><br />
-                    <label style="font-size: 18px; font-weight: bold;">@ViewBag.Company.Name</label><br />
+                    @if (ViewBag.Company != null)
+                    {
+                        <img id="Companyimg" style="height: 70px;max-width: 235px;margin-bottom: 10px;" src="/@ViewBag.Company.Image" /><br />
+                        <label style="font-size: 18px; font-weight: bold;">@ViewBag.Company.Name</label><br />
+                    }
+                  
                     <label style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.Address1</label>
                     <label style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.Address2</label><br />
                     <label style="color: #A8A8A8;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.City</label>
@@ -56,6 +60,9 @@
                         Tel:
                     </div>
                     <label id="lblTel" style="color: black; font-family: 'Open Sans Condensed', sans-serif; font-weight: bold; font-style: normal; font-weight: bold; font-size: 18px; line-height: 16px; float: left; margin-top: 6px; margin-left: 10px;">@ViewBag.oStoreDefaultAddress.Tel</label>
+                    <div style="clear:both;">
+                        &nbsp;
+                    </div>
                 </div>
                 <div style="clear:both;">
                     &nbsp;
