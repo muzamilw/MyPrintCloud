@@ -75,12 +75,16 @@ namespace MPC.Models.ModelMappers
             {
                 targetLine = target.InquiryItems.FirstOrDefault(pre => pre.InquiryItemId == sourceInquiryItem.InquiryItemId);
             }
-
-            sourceInquiryItem.UpdateTo(targetLine);
+            if(targetLine != null)
+                sourceInquiryItem.UpdateTo(targetLine);
         }
         private static bool IsNewInquiryItem(DomainModels.InquiryItem sourceInquiryItem)
         {
-            return sourceInquiryItem.InquiryItemId == 0;
+            if (sourceInquiryItem.InquiryItemId <= 0)
+                return true;
+            else
+                return false;
+           // return sourceInquiryItem.InquiryItemId == 0;
         }
         private static void DeleteInquiryItems(DomainModels.Inquiry source, DomainModels.Inquiry target, InquiryMapperActions actions)
         {
