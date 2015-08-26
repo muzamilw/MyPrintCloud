@@ -304,29 +304,29 @@
                                             <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Registered Customers</label>
                                         </div>
                                         <div class="col-lg-6">
-                                            <label style="font-weight: bold">$100</label>
+                                            @*<label style="font-weight: bold">$100</label>*@
+                                            <span data-bind="text: $root.roiRegisteredUsersCount()"></span>
                                         </div>
                                         <div class="col-lg-6 text-right">
 
                                             <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Orders Processed Count</label>
                                         </div>
                                         <div class="col-lg-6">
-                                            <label style="font-weight: bold">$200</label>
+                                            <span data-bind="text: $root.roiOrdersProcessedCount()"></span>
                                         </div>
 
                                         <div class="col-lg-6 text-right">
-
                                             <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Direct Orders Total</label>
                                         </div>
                                         <div class="col-lg-6">
-                                            <label style="font-weight: bold">$300</label>
+                                            <span data-bind="text: $root.currencySymbol()"></span>  <span data-bind="text: $root.roiDirectOrdersTotal()"></span>
                                         </div>
                                         <div class="col-lg-6 text-right">
 
                                             <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Online Orders Total</label>
                                         </div>
                                         <div class="col-lg-6">
-                                            <label style="font-weight: bold">$400</label>
+                                            <span data-bind="text: $root.currencySymbol()"></span>  <span data-bind="text: $root.roiOnlineOrdersTotal()"></span>
                                         </div>
                                     </div>
                                 </div>

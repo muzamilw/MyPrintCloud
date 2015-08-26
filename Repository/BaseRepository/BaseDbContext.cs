@@ -1167,6 +1167,15 @@ namespace MPC.Repository.BaseRepository
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ChartMonthlyEarningsbyStore_Result>("usp_ChartMonthlyEarningsbyStore", organisationidParameter);
         }
+        public ObjectResult<usp_DashboardROICounter_Result> usp_DashboardROICounter(long? organisationid)
+        // ReSharper restore InconsistentNaming
+        {
+            var organisationidParameter = organisationid.HasValue ?
+                new ObjectParameter("OrganisationId", organisationid) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_DashboardROICounter_Result>("usp_DashboardROICounter", organisationidParameter);
+        }
         #endregion
     }
 }
