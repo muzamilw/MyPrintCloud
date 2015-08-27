@@ -542,6 +542,13 @@ namespace MPC.Repository.Repositories
                         CompanyTerritories = c.CompanyTerritories.Take(1).ToList(),
                         Addresses = c.Addresses.Where(address => (!address.isArchived.HasValue || !address.isArchived.Value)).Take(1).ToList(),
                         CompanyContacts = c.CompanyContacts.Take(1).ToList(),
+                        CMSPages = c.CmsPages.Select(p => new CmsPage
+                        {
+                            PageTitle = p.PageTitle,
+                            Meta_Title = p.Meta_Title,
+                            CategoryId = p.CategoryId,
+                            isEnabled = p.isEnabled
+                        }).ToList(),
                         c.Image,
                         c.ActiveBannerSetId,
                         c.OrganisationId
@@ -631,7 +638,9 @@ namespace MPC.Repository.Repositories
                         OrganisationId = c.OrganisationId,
                         CompanyTerritories = c.CompanyTerritories.ToList(),
                         Addresses = c.Addresses.ToList(),
-                        CompanyContacts = c.CompanyContacts.ToList()
+                        CompanyContacts = c.CompanyContacts.ToList(),
+                        CmsPages = c.CMSPages.ToList()
+                        
                     }).FirstOrDefault();
 
 
