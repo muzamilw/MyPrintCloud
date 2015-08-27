@@ -1806,7 +1806,7 @@ namespace MPC.Repository.Repositories
                 con.TerritoryId = Contact.TerritoryId;
                 con.AddressId = Contact.AddressId;
                 con.ShippingAddressId = Contact.ShippingAddressId;
-                con.Password = ComputeHashSHA1(Contact.Password);
+                con.Password = HashingManager.ComputeHashSHA1(Contact.Password);
                 db.CompanyContacts.Attach(con);
                 db.Entry(con).State = EntityState.Modified;
                 db.SaveChanges();
@@ -1845,7 +1845,7 @@ namespace MPC.Repository.Repositories
                 con.TerritoryId = Contact.TerritoryId;
                 con.AddressId = Contact.AddressId;
                 con.ShippingAddressId = Contact.ShippingAddressId;
-                con.Password =ComputeHashSHA1(Contact.Password);
+                con.Password = HashingManager.ComputeHashSHA1(Contact.Password);
                 db.CompanyContacts.Add(con);
                 db.SaveChanges();
             }
@@ -1864,6 +1864,7 @@ namespace MPC.Repository.Repositories
                 var query = (from contact in db.CompanyContacts
                              from cmp in db.Companies.Where(c => c.CompanyId == contact.Company.StoreId).DefaultIfEmpty()
                              where (contact.isArchived == false || contact.isArchived == null) && contact.OrganisationId == OrganisationId && cmp.IsCustomer == 4
+
 
                              select new 
                              {
@@ -2165,139 +2166,6 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public  string ComputeHashSHA1(string plainText)
-        {
-            try
-            {
-                string salt = string.Empty;
-
-
-                salt = ComputeHash(plainText, "SHA1", null);
-
-                return salt;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-        }
-        public  HashAlgorithm CreateHashAlgoFactory(string hashAlgorithm)
-        {
-            try
-            {
-                HashAlgorithm hash = null; ;
-                // Initialize appropriate hashing algorithm class.
-                switch (hashAlgorithm)
-                {
-                    case "SHA1":
-                        hash = new SHA1Managed();
-                        break;
-
-                    case "SHA256":
-                        hash = new SHA256Managed();
-                        break;
-
-                    case "SHA384":
-                        hash = new SHA384Managed();
-                        break;
-
-                    case "SHA512":
-                        hash = new SHA512Managed();
-                        break;
-
-                    default:
-                        hash = new MD5CryptoServiceProvider(); // mdf default
-                        break;
-                }
-                return hash;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-        }
-
-        public  string ComputeHash(string plainText,
-                                   string hashAlgorithm,
-                                   byte[] saltBytes)
-        {
-            try
-            {
-                // If salt is not specified, generate it on the fly.
-                if (saltBytes == null)
-                {
-                    // Define min and max salt sizes.
-                    int minSaltSize = 4;
-                    int maxSaltSize = 8;
-
-                    // Generate a random number for the size of the salt.
-                    Random random = new Random();
-                    int saltSize = random.Next(minSaltSize, maxSaltSize);
-
-                    // Allocate a byte array, which will hold the salt.
-                    saltBytes = new byte[saltSize];
-
-                    // Initialize a random number generator.
-                    RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-
-                    // Fill the salt with cryptographically strong byte values.
-                    rng.GetNonZeroBytes(saltBytes);
-                }
-
-                // Convert plain text into a byte array.
-                byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
-
-                // Allocate array, which will hold plain text and salt.
-                byte[] plainTextWithSaltBytes =
-                        new byte[plainTextBytes.Length + saltBytes.Length];
-
-                // Copy plain text bytes into resulting array.
-                for (int i = 0; i < plainTextBytes.Length; i++)
-                    plainTextWithSaltBytes[i] = plainTextBytes[i];
-
-                // Append salt bytes to the resulting array.
-                for (int i = 0; i < saltBytes.Length; i++)
-                    plainTextWithSaltBytes[plainTextBytes.Length + i] = saltBytes[i];
-
-                // Because we support multiple hashing algorithms, we must define
-                // hash object as a common (abstract) base class. We will specify the
-                // actual hashing algorithm class later during object creation.
-                HashAlgorithm hash;
-
-                // Make sure hashing algorithm name is specified.
-                //if (hashAlgorithm == null)
-                //    hashAlgorithm = "";
-                hash = CreateHashAlgoFactory(hashAlgorithm);
-
-                // Compute hash value of our plain text with appended salt.
-                byte[] hashBytes = hash.ComputeHash(plainTextWithSaltBytes);
-
-                // Create array which will hold hash and original salt bytes.
-                byte[] hashWithSaltBytes = new byte[hashBytes.Length +
-                                                    saltBytes.Length];
-
-                // Copy hash bytes into resulting array.
-                for (int i = 0; i < hashBytes.Length; i++)
-                    hashWithSaltBytes[i] = hashBytes[i];
-
-                // Append salt bytes to the result.
-                for (int i = 0; i < saltBytes.Length; i++)
-                    hashWithSaltBytes[hashBytes.Length + i] = saltBytes[i];
-
-                // Convert result into a base64-encoded string.
-                string hashValue = Convert.ToBase64String(hashWithSaltBytes);
-
-                // Return the result.
-                return hashValue;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-        }
     }
 
 }

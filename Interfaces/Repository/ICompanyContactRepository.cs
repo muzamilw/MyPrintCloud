@@ -14,11 +14,7 @@ namespace MPC.Interfaces.Repository
 {
     public interface ICompanyContactRepository : IBaseRepository<CompanyContact, long>
     {
-         HashAlgorithm CreateHashAlgoFactory(string hashAlgorithm);
-        string ComputeHash(string plainText,
-                                   string hashAlgorithm,
-                                   byte[] saltBytes);
-        string ComputeHashSHA1(string plainText);
+        
         void AddDataSystemUser(CompanyContact Contact);
         void UpdateDataSystemUser(CompanyContact Contact);
         
