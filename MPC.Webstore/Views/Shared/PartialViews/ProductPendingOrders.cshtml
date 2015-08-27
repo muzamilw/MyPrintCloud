@@ -528,6 +528,7 @@
                             var filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + IT.Attatchment._fileName + "Thumb.png";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                             if ('@ViewBag.IsShowPrices' == "True")
                             {
                                 
@@ -539,6 +540,8 @@
                                 InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">','', '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + parseFloat(IT.Qty1Tax1Value).toFixed(2), '</label></td><td><label id="Total">', response.CurrencySymbol + "" + parseFloat(IT.Qty1GrossTotal).toFixed(2), '</label></td></tr>');
                                //org InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><img src="/Content/Images/art.png" class="imgArtWorkIcon" onclick="ShowImage(' + filePathOfAttachment + ')" /></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', "", '</label></td> <td><label id="VAT">', "" , '</label></td><td><label id="Total">',  "" , '</label></td></tr>')
 =======
+=======
+>>>>>>> 09d7e51b4c4e963436511349ab3b0aed072e9139
                             if ("@ViewBag.IsShowPrices" == "True")
                             {
                                 InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><img src="/Content/Images/art.png" class="imgArtWorkIcon" onclick="ShowImage(' + filePathOfAttachment + ')" /></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + IT.Qty1BaseCharge1, '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + IT.Qty1Tax1Value, '</label></td><td><label id="Total">', response.CurrencySymbol + "" + IT.Qty1GrossTotal, '</label></td></tr>')
@@ -546,6 +549,9 @@
                             else
                             {
                                 InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><img src="/Content/Images/art.png" class="imgArtWorkIcon" onclick="ShowImage(' + filePathOfAttachment + ')" /></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', "", '</label></td> <td><label id="VAT">', "" , '</label></td><td><label id="Total">',  "" , '</label></td></tr>')
+<<<<<<< HEAD
+>>>>>>> 09d7e51b4c4e963436511349ab3b0aed072e9139
+=======
 >>>>>>> 09d7e51b4c4e963436511349ab3b0aed072e9139
                             }
                             

@@ -1864,7 +1864,10 @@ namespace MPC.Repository.Repositories
                 var query = (from contact in db.CompanyContacts
                              from cmp in db.Companies.Where(c => c.CompanyId == contact.Company.StoreId).DefaultIfEmpty()
                              where (contact.isArchived == false || contact.isArchived == null) && contact.OrganisationId == OrganisationId && cmp.IsCustomer == 4
+<<<<<<< HEAD
 
+=======
+>>>>>>> 09d7e51b4c4e963436511349ab3b0aed072e9139
 
                              select new 
                              {
