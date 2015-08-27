@@ -286,7 +286,7 @@ namespace MPC.Implementation.MISServices
            return companyContactRepository.GetContactByContactId(ContactId);
         }
 
-        public string ExportCSV(long CompanyId,bool isFromCRM)
+        public string ExportCSV(long CompanyId)
         {
 
             List<string> FileHeader = new List<string>();
@@ -294,22 +294,10 @@ namespace MPC.Implementation.MISServices
             IEnumerable<CompanyContact> companyContacts = null;
              // List<string> FileHeader = new List<string>();
 
-            if(isFromCRM)
-            {
-                FileHeader = HeaderList(FileHeader, true);
-                CompanyContactResponse response = companyContactRepository.GetRetailContacts();
-
-                if(response != null)
-                {
-                    companyContacts = response.CompanyContacts;
-                }
-                     
-            }
-            else
-            {
-                FileHeader = HeaderList(FileHeader,false);
-                companyContacts = companyContactRepository.GetContactsByCompanyId(CompanyId);
-            }
+          
+             FileHeader = HeaderList(FileHeader,false);
+            companyContacts = companyContactRepository.GetContactsByCompanyId(CompanyId);
+            
            
 
 
@@ -335,7 +323,9 @@ namespace MPC.Implementation.MISServices
                              string Address2 = string.Empty;
                              string City = string.Empty;
                              string State = string.Empty;
-                             string Postcode = string.Empty;
+                             string Country = string.Empty;
+                             string PostCode = string.Empty;
+                             string AddressPhone = string.Empty;
                             string TerritoryName = string.Empty;
                             string Fax = string.Empty;
                             string FirstName = string.Empty;
@@ -375,6 +365,7 @@ namespace MPC.Implementation.MISServices
                             string IsDefaultContact = string.Empty;
                             string StoreName = string.Empty;
                             string UniqueAccessCode = string.Empty;
+            decimal CreditLimit = 0;
 
 
 
@@ -390,10 +381,19 @@ namespace MPC.Implementation.MISServices
                              Address1 = contact.Address.Address1;
                              Address2 = contact.Address.Address2;
                              City = contact.Address.City;
+                             PostCode = contact.Address.PostCode;
+                             AddressPhone = contact.Address.Tel1;
                              if (contact.Address.State != null)
                              {
                                  State = contact.Address.State.StateName;
-                                 Postcode = contact.Address.PostCode;
+                               
+
+                             }
+                             if (contact.Address.Country != null)
+                             {
+                                 Country = contact.Address.Country.CountryName;
+
+
                              }
                              Fax = contact.Address.Fax;
                          }
@@ -484,6 +484,8 @@ namespace MPC.Implementation.MISServices
                          if (!string.IsNullOrEmpty(contact.Notes))
                              Notes = contact.Notes;
 
+                         
+                             CreditLimit = contact.CreditLimit ?? 0;
 
                          if (contact.CanUserEditProfile ?? false)
                              CanUserEditProfile = "True";
@@ -551,36 +553,8 @@ namespace MPC.Implementation.MISServices
 
 
 
-                         if(isFromCRM)
-                         {
-                             data = StoreName + "|" + UniqueAccessCode + "|" + AddressName + "|" + Address1 + "|" + Address2 + "|" + City + "|" + State + "|" + Postcode + "|" +
-                            TerritoryName + "|" + Fax
-                            + "|" + FirstName + "|" + LastName + "|" +
-                            JobTitle + "|" + HomeTel
-                            + "|" + Email + "|"
-                            + Mobile + "|"
-                            + ContactFax
-                            + "|" + AddField1
-                            + "|" + AddField2 + "|" +
-                            AddField3
-                            + "|" + AddField4
-                            + "|" + AddField5
-                            + "|" + SkypeId + "|"
-                            + LinkedIn + "|"
-                            + FacebookURL
-                            + "|" + TwitterURL + "|"
-                            + CanUserEditProfile + "|" + CanPlaceOrderWithoutApproval + "|" + CanPlaceDirectOrder
-                            + "|" + CanPayByPersonalCreditCard + "|" + CanSeePrices + "|" + HasWebAccess + "|"
-                            + CanPlaceOrder + "|" + HomeTel
-                            + "|" + Role + "|" + POBoxAddress + "|" +
-                            CorporateUnit
-                            + "|" + OfficeTradingName + "|" + BPayCRN + "|" + ACN + "|" + ContractorName + "|" + ABN + "|" + Notes + "|" + IsNewsLetterSubscription + '|' + IsEmailSubscription + "|" + IsDefaultContact + "\r\n";
-
-                         }
-                         else
-                         {
-                             data = AddressName + "|" + Address1 + "|" + Address2 + "|" + City + "|" + State + "|" + Postcode + "|" +
-                                                         TerritoryName + "|" + Fax
+                             data = AddressName + "|" + Address1 + "|" + Address2 + "|" + City + "|" + State + "|" + Country + "|" +
+                                                         PostCode + "|" + AddressPhone + "|" + Fax + "|" + TerritoryName
                                                          + "|" + FirstName + "|" + LastName + "|" +
                                                          JobTitle + "|" + HomeTel
                                                          + "|" + Email + "|"
@@ -600,9 +574,9 @@ namespace MPC.Implementation.MISServices
                                                          + CanPlaceOrder + "|" + HomeTel
                                                          + "|" + Role + "|" + POBoxAddress + "|" +
                                                          CorporateUnit
-                                                         + "|" + OfficeTradingName + "|" + BPayCRN + "|" + ACN + "|" + ContractorName + "|" + ABN + "|" + Notes + "|" + IsNewsLetterSubscription + '|' + IsEmailSubscription + "|" + IsDefaultContact + "\r\n";
+                                                         + "|" + OfficeTradingName + "|" + BPayCRN + "|" + ACN + "|" + ContractorName + "|" + ABN + "|" + Notes + "|" + CreditLimit + "|" + IsNewsLetterSubscription + '|' + IsEmailSubscription + "|" + IsDefaultContact + "\r\n";
 
-                         }
+                         
 
                         
 
@@ -705,7 +679,10 @@ namespace MPC.Implementation.MISServices
                              string Address2 = string.Empty;
                              string City = string.Empty;
                              string State = string.Empty;
-                             string Postcode = string.Empty;
+                            
+                             string PostCode = string.Empty;
+                             string AddressPhone = string.Empty;
+                                  string Country = string.Empty;
                             string TerritoryName = string.Empty;
                             string Fax = string.Empty;
                             string FirstName = string.Empty;
@@ -745,7 +722,7 @@ namespace MPC.Implementation.MISServices
                             string IsDefaultContact = string.Empty;
                             string StoreName = string.Empty;
                             string UniqueAccessCode = string.Empty;
-
+                            decimal CreditLimit = 0;
 
 
                             if (companyContacts != null && companyContacts.Count() > 0)
@@ -761,10 +738,21 @@ namespace MPC.Implementation.MISServices
                                         Address1 = contact.Address.Address1;
                                         Address2 = contact.Address.Address2;
                                         City = contact.Address.City;
+                                        PostCode = contact.Address.PostCode;
+                                        AddressPhone = contact.Address.Tel1;
+                                       
+                                       
                                         if (contact.Address.State != null)
                                         {
                                             State = contact.Address.State.StateName;
-                                            Postcode = contact.Address.PostCode;
+
+
+                                        }
+                                        if (contact.Address.Country != null)
+                                        {
+                                            Country = contact.Address.Country.CountryName;
+
+
                                         }
                                         Fax = contact.Address.Fax;
                                     }
@@ -855,6 +843,7 @@ namespace MPC.Implementation.MISServices
                                     if (!string.IsNullOrEmpty(contact.Notes))
                                         Notes = contact.Notes;
 
+                                    CreditLimit = contact.CreditLimit ?? 0;
 
                                     if (contact.CanUserEditProfile ?? false)
                                         CanUserEditProfile = "True";
@@ -923,28 +912,30 @@ namespace MPC.Implementation.MISServices
 
 
 
-                                    data = StoreName + "|" + UniqueAccessCode + "|" + AddressName + "|" + Address1 + "|" + Address2 + "|" + City + "|" + State + "|" + Postcode + "|" +
-                                   TerritoryName + "|" + Fax
-                                   + "|" + FirstName + "|" + LastName + "|" +
-                                   JobTitle + "|" + HomeTel
-                                   + "|" + Email + "|"
-                                   + Mobile + "|"
-                                   + ContactFax
-                                   + "|" + AddField1
-                                   + "|" + AddField2 + "|" +
-                                   AddField3
-                                   + "|" + AddField4
-                                   + "|" + AddField5
-                                   + "|" + SkypeId + "|"
-                                   + LinkedIn + "|"
-                                   + FacebookURL
-                                   + "|" + TwitterURL + "|"
-                                   + CanUserEditProfile + "|" + CanPlaceOrderWithoutApproval + "|" + CanPlaceDirectOrder
-                                   + "|" + CanPayByPersonalCreditCard + "|" + CanSeePrices + "|" + HasWebAccess + "|"
-                                   + CanPlaceOrder + "|" + HomeTel
-                                   + "|" + Role + "|" + POBoxAddress + "|" +
-                                   CorporateUnit
-                                   + "|" + OfficeTradingName + "|" + BPayCRN + "|" + ACN + "|" + ContractorName + "|" + ABN + "|" + Notes + "|" + IsNewsLetterSubscription + '|' + IsEmailSubscription + "|" + IsDefaultContact + "\r\n";
+                                   
+
+                             data = StoreName + "|" + UniqueAccessCode + "|" + AddressName + "|" + Address1 + "|" + Address2 + "|" + City + "|" + State + "|" + Country + "|" +
+                                                         PostCode + "|" + AddressPhone + "|" + Fax + "|" + TerritoryName
+                                                         + "|" + FirstName + "|" + LastName + "|" +
+                                                         JobTitle + "|" + HomeTel
+                                                         + "|" + Email + "|"
+                                                         + Mobile + "|"
+                                                         + ContactFax
+                                                         + "|" + AddField1
+                                                         + "|" + AddField2 + "|" +
+                                                         AddField3
+                                                         + "|" + AddField4
+                                                         + "|" + AddField5
+                                                         + "|" + SkypeId + "|"
+                                                         + LinkedIn + "|"
+                                                         + FacebookURL
+                                                         + "|" + TwitterURL + "|"
+                                                         + CanUserEditProfile + "|" + CanPlaceOrderWithoutApproval + "|" + CanPlaceDirectOrder
+                                                         + "|" + CanPayByPersonalCreditCard + "|" + CanSeePrices + "|" + HasWebAccess + "|"
+                                                         + CanPlaceOrder + "|" + HomeTel
+                                                         + "|" + Role + "|" + POBoxAddress + "|" +
+                                                         CorporateUnit
+                                                         + "|" + OfficeTradingName + "|" + BPayCRN + "|" + ACN + "|" + ContractorName + "|" + ABN + "|" + Notes + "|" + CreditLimit + "|" + IsNewsLetterSubscription + '|' + IsEmailSubscription + "|" + IsDefaultContact + "\r\n";
 
 
 
@@ -955,28 +946,28 @@ namespace MPC.Implementation.MISServices
 
                                     // for comma seperated 
 
-                                    cdata = StoreName + "," + UniqueAccessCode + "," + AddressName + "," + Address1 + "," + Address2 + "," + City + "," + State + "," + Postcode + "," +
-                                  TerritoryName + "," + Fax
-                                  + "," + FirstName + "," + LastName + "," +
-                                  JobTitle + "," + HomeTel
-                                  + "," + Email + ","
-                                  + Mobile + ","
-                                  + ContactFax
-                                  + "," + AddField1
-                                  + "," + AddField2 + "," +
-                                  AddField3
-                                  + "," + AddField4
-                                  + "," + AddField5
-                                  + "," + SkypeId + ","
-                                  + LinkedIn + ","
-                                  + FacebookURL
-                                  + "," + TwitterURL + ","
-                                  + CanUserEditProfile + "," + CanPlaceOrderWithoutApproval + "," + CanPlaceDirectOrder
-                                  + "," + CanPayByPersonalCreditCard + "," + CanSeePrices + "," + HasWebAccess + ","
-                                  + CanPlaceOrder + "," + HomeTel
-                                  + "," + Role + "," + POBoxAddress + "," +
-                                  CorporateUnit
-                                  + "," + OfficeTradingName + "," + BPayCRN + "," + ACN + "," + ContractorName + "," + ABN + "," + Notes + "," + IsNewsLetterSubscription + ',' + IsEmailSubscription + "," + IsDefaultContact + "\r\n";
+                                    cdata = StoreName + "," + UniqueAccessCode + "," + AddressName + "," + Address1 + "," + Address2 + "," + City + "," + State + "," + Country + "," +
+                                                       PostCode + "," + AddressPhone + "," + Fax + "," + TerritoryName
+                                                       + "," + FirstName + "," + LastName + "," +
+                                                       JobTitle + "," + HomeTel
+                                                       + "," + Email + ","
+                                                       + Mobile + ","
+                                                       + ContactFax
+                                                       + "," + AddField1
+                                                       + "," + AddField2 + "," +
+                                                       AddField3
+                                                       + "," + AddField4
+                                                       + "," + AddField5
+                                                       + "," + SkypeId + ","
+                                                       + LinkedIn + ","
+                                                       + FacebookURL
+                                                       + "," + TwitterURL + ","
+                                                       + CanUserEditProfile + "," + CanPlaceOrderWithoutApproval + "," + CanPlaceDirectOrder
+                                                       + "," + CanPayByPersonalCreditCard + "," + CanSeePrices + "," + HasWebAccess + ","
+                                                       + CanPlaceOrder + "," + HomeTel
+                                                       + "," + Role + "," + POBoxAddress + "," +
+                                                       CorporateUnit
+                                                       + "," + OfficeTradingName + "," + BPayCRN + "," + ACN + "," + ContractorName + "," + ABN + "," + Notes + "," + CreditLimit + "," + IsNewsLetterSubscription + ',' + IsEmailSubscription + "," + IsDefaultContact + "\r\n";
 
 
                                     CSV.Append(cdata);
@@ -996,7 +987,7 @@ namespace MPC.Implementation.MISServices
                                 PSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyContactsPipeSeperated.csv");
                                 PReturnPath = "/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyContactsPipeSeperated.csv";
 
-                                CSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyContactsPipeCommaSeperated.csv");
+                                CSVSavePath = HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyContactsCommaSeperated.csv");
                                 CReturnPath = "/MPC_Content/Reports/" + OrganisationId + "/" + OrganisationId + "_CompanyContactsCommaSeperated.csv";
 
 
@@ -1011,8 +1002,12 @@ namespace MPC.Implementation.MISServices
                                 CReturnPath = "/MPC_Content/Reports/" + OrganisationId + "_CompanyContactsCommaSeperated.csv";
 
                             }
-
-
+                            
+                              string DirectoryPath =  HttpContext.Current.Server.MapPath("/MPC_Content/Reports/" + OrganisationId);
+                            if(!Directory.Exists(DirectoryPath))
+                            {
+                               Directory.CreateDirectory(DirectoryPath);
+                            }
 
 
                             StreamWriter sw = new StreamWriter(PSVSavePath, false, Encoding.UTF8);
@@ -1075,21 +1070,23 @@ namespace MPC.Implementation.MISServices
             FileHeader.Add("Address2");
             FileHeader.Add("City");
             FileHeader.Add("State");
-            FileHeader.Add("Postcode");
-            FileHeader.Add("TerritoryName");
+            FileHeader.Add("Country");
+            FileHeader.Add("ZipCode");
+            FileHeader.Add("AddressPhone");
             FileHeader.Add("AddressFax");
+            FileHeader.Add("Territory");
             FileHeader.Add("ContactFirstName");
             FileHeader.Add("ContactLastName");
             FileHeader.Add("JobTitle");
-            FileHeader.Add("ContactPhone");
-            FileHeader.Add("Email");
-            FileHeader.Add("Mobile");
+            FileHeader.Add("ContactTelNumber");
+            FileHeader.Add("ContactE-mail");
+            FileHeader.Add("Contact Cell");
             FileHeader.Add("ContactFax");
-            FileHeader.Add("AddInfo1");
-            FileHeader.Add("AddInfo2");
-            FileHeader.Add("AddInfo3");
-            FileHeader.Add("AddInfo4");
-            FileHeader.Add("AddInfo5");
+            FileHeader.Add("Additional Info 1");
+            FileHeader.Add("Additional Info 2");
+            FileHeader.Add("Additional Info 3");
+            FileHeader.Add("Additional Info 4");
+            FileHeader.Add("Additional Info 5");
             FileHeader.Add("SkypeId");
             FileHeader.Add("LinkedInUrl");
             FileHeader.Add("FacebookUrl");
@@ -1110,12 +1107,13 @@ namespace MPC.Implementation.MISServices
             FileHeader.Add("CorporateUnit");
             FileHeader.Add("TradingName");
             FileHeader.Add("BPayCRN");
-            FileHeader.Add("ACN");
+            FileHeader.Add("CAN");
+           
             FileHeader.Add("ContractorName");
             FileHeader.Add("ABN");
             FileHeader.Add("Notes");
 
-            FileHeader.Add("CreditLimit");
+            FileHeader.Add("Credit Limit");
             FileHeader.Add("IsNewsLetterSubscription");
             FileHeader.Add("IsEmailSubscription");
             FileHeader.Add("IsDefaultContact");

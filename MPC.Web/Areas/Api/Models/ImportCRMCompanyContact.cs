@@ -11,7 +11,7 @@ namespace MPC.MIS.Areas.Api.Models
     public class ImportCRMCompanyContact
     {
         public string StoreName { get; set; }
-        public string WebAccessCode { get; set; }
+        public string UniqueAccessCode { get; set; }
         public string AddressName { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
@@ -26,7 +26,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string ContactLastName { get; set; }
         public string JobTitle { get; set; }
         public string ContactPhone { get; set; }
-        public string Email { get; set; }
+        public string Email { get; set; } // 17
         public string Mobile { get; set; }
         public string ContactFax { get; set; }
         public string AddInfo1 { get; set; }
@@ -48,7 +48,7 @@ namespace MPC.MIS.Areas.Api.Models
 
         public string DirectLine { get; set; }
 
-        public string UserRole { get; set; }
+        public string UserRole { get; set; } // 37
 
 
 

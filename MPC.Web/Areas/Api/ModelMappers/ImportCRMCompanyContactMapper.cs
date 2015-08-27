@@ -68,6 +68,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsNewsLetterSubscription = Convert.ToBoolean(source.IsNewsLetterSubscription == "" ? "false" : source.IsNewsLetterSubscription),
 
                 IsEmailSubscription = Convert.ToBoolean(source.IsEmailSubscription == "" ? "false" : source.IsEmailSubscription),
+                StoreName = source.StoreName,
+                WebAccessCode = source.UniqueAccessCode,
 
 
             };

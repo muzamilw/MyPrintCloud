@@ -2040,7 +2040,7 @@ namespace MPC.Repository.Repositories
                              RoleName = contact.CompanyContactRole != null ? contact.CompanyContactRole.ContactRoleName : string.Empty,
                              contact.SecondaryEmail,
                                  contact.Address,
-
+                                 contact.CompanyTerritory,
                                  Company = new
                                  {
 
@@ -2144,6 +2144,7 @@ namespace MPC.Repository.Repositories
                         //FileName = fileName,
                         SecondaryEmail = contact.SecondaryEmail,
                         Address = contact.Address,
+                        CompanyTerritory = contact.CompanyTerritory,
                         Company = new Company
                         {
                             //CompanyId = contact.Company.CompanyId,
