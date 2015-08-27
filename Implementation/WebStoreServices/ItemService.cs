@@ -2906,7 +2906,7 @@ namespace MPC.Implementation.WebStoreServices
 
                 if (storeDiscountVoucher.DiscountType == (int)DiscountTypes.DollarAmountOffProduct || storeDiscountVoucher.DiscountType == (int)DiscountTypes.PercentoffaProduct)
                 {
-                    if (storeDiscountVoucher.IsQtyRequirement.Value == true)
+                    if (storeDiscountVoucher.IsQtyRequirement.HasValue && storeDiscountVoucher.IsQtyRequirement.Value == true)
                     {
                         if ((storeDiscountVoucher.MinRequiredQty.HasValue && storeDiscountVoucher.MinRequiredQty > 0))
                         {
@@ -2964,7 +2964,7 @@ namespace MPC.Implementation.WebStoreServices
                 }
                 else
                 {
-                    if (storeDiscountVoucher.IsOrderPriceRequirement == true)
+                    if (storeDiscountVoucher.IsOrderPriceRequirement.HasValue && storeDiscountVoucher.IsOrderPriceRequirement.Value == true)
                     {
                         if (storeDiscountVoucher.MinRequiredOrderPrice.HasValue && storeDiscountVoucher.MinRequiredOrderPrice.Value > 0)
                         {

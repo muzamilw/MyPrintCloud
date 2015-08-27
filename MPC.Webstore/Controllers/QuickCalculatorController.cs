@@ -57,7 +57,8 @@ namespace MPC.Webstore.Controllers
         {
 
             var Products = _myCompanyService.GetAllRetailDisplayProductsQuickCalc(UserCookieManager.WBStoreId).OrderBy(p => p.SortOrder);
-            
+
+           
             return Json(Products, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]

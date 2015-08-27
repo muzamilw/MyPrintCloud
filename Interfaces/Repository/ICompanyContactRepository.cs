@@ -8,11 +8,17 @@ using MPC.Models.DomainModels;
 using MPC.Models.Common;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using System.Security.Cryptography;
 
 namespace MPC.Interfaces.Repository
 {
     public interface ICompanyContactRepository : IBaseRepository<CompanyContact, long>
     {
+         HashAlgorithm CreateHashAlgoFactory(string hashAlgorithm);
+        string ComputeHash(string plainText,
+                                   string hashAlgorithm,
+                                   byte[] saltBytes);
+        string ComputeHashSHA1(string plainText);
         void AddDataSystemUser(CompanyContact Contact);
         void UpdateDataSystemUser(CompanyContact Contact);
         
@@ -143,5 +149,7 @@ namespace MPC.Interfaces.Repository
         /// Load Property
         /// </summary>
         void LoadProperty<T>(object entity, Expression<Func<T>> propertyExpression, bool isCollection = false);
+
+        List<CompanyContact> GetRetailContacts();
     }
 }

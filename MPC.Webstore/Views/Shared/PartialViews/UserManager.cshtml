@@ -3,7 +3,9 @@
 @using MPC.Webstore.WebGridExtension;  
 @using MPC.Webstore.Common;
 @*@model MPC.Models.DomainModels.CompanyContact*@
-
+@{
+    Layout = null;
+}
 @model IEnumerable<MPC.Models.DomainModels.CompanyContact>
 @{
     long ContactRoleId =ViewBag.LoginContactRoleID;
@@ -27,7 +29,7 @@
         <div class="clearBoth">
 
         </div>
-        <div class="cursor_pointer" onclick="AddNewPostBackForUser();">
+        <div class="cursor_pointer" >
             <div class="float_left">
                 @*<asp:ImageButton ID="imgAddNew" CssClass="add_new" ToolTip="Add New User" runat="server"
                                  ImageUrl="~/images/AddNew.png" OnClick="imgAddNew_Click" />*@
@@ -42,24 +44,27 @@
         </div>
         <div class="divSearchBar_corp normalTextStyle usermanager_padding_header rounded_corners "
              style="padding: 15px 15px 15px 15px;">
+@using (Html.BeginForm())
+                        {
             <table style="width: auto; border-collapse: separate; border-spacing: 2px;">
                 <tr>
                     <td>
                         <label ID="ltrlSearchrecords">Search Records</label>
                     </td>
                     <td style="padding-left: 10px;">
-                        <input type="text" style="width:200px;" id="txtsearch"Class="text_box150 rounded_corners5"/>
+                        <input type="text" style="width:200px;" id="txtsearch" class="text_box150 rounded_corners5" name="SearchString" />
                     </td>
                     <td style="padding-left: 10px;">
                         <button type="submit" id="btnsearch" value="Go" class="start_creating_btn rounded_corners5"
-                                    OnClick="btnsearch_Click" ></button>
+                                 style="display:none;" ></button>
                     </td>
                     <td style="padding-left: 10px;">
                         <button type="button" id="btnReset" value="Reset" class="start_creating_btn rounded_corners5"
-                                onclick="btnReset_Click"></button>
+                                onclick="btnReset_Click" style="display:none;"></button>
                     </td>
                 </tr>
             </table>
+    }
         </div>
         <div class="PadingTop white_background  rounded_corners">
             <div class="PadingTop textAlignLeft">
@@ -256,7 +261,7 @@
                             <label id="ltrlbusinaddress">Billing Address</label>
                         </div>
                         <div class="address_contol_area1 height30px">
-                            <select id="ddlBusinessAddress" class="rounded_corners5 dropdown" style="width:210px;"></select>
+                            <select id="ddlBillingAddress" class="rounded_corners5 dropdown" style="width:210px;"></select>
                         </div>
                         <div class="user_label_area2">
                             <label id="Literal1">Shipping Address</label>
@@ -292,13 +297,15 @@
                             &nbsp;
                         </div>
                         <div class="address_label_area1">
-                            &nbsp;
+                            &nbsp; 
                         </div>
                         <div class="left_multiline_text_box">
                             <input type="checkbox" id="chkCanOrder" value="&nbsp;&nbsp;&nbsp;Can Place Order" tabindex="12" />
+                            <label id="porder">Can Place Order</label>
                         </div>
                         <div class="right_multiline_text_box">
                             <input id="chkCanByCredit" type="checkbox" tabindex="13" value="&nbsp;&nbsp;&nbsp;Can Pay By Credit Card" />
+                            <label id="canpaycreditcard">Can Pay By Credit Card</label>
                         </div>
                         <div class="clearBoth">
                             &nbsp;
@@ -308,19 +315,21 @@
                         </div>
                         <div class="left_multiline_text_box">
                             <input type="checkbox" id="chkShowPricesForProduct" value="&nbsp;&nbsp;&nbsp;Show Prices on Products" tabindex="14" />
+                            <label id="showpricesonPro">Show Prices on Products</label>
                         </div>
                         <div class="right_multiline_text_box">
                             <input id="chkHasWebAccess" type="checkbox" value="&nbsp;&nbsp;Has Web Access" tabindex="12" />
+                            <label id="haswebaccess">Has Web Access</label>
                         </div>
                         <div class="clearBoth">
                             &nbsp;
                         </div>
                         <div class="button_contol_area1_corp">
                             <div class="float_left" style="padding-left: 0px;">
-                                <button id="btnSaveUser" class="start_creating_btn rounded_corners5" onclick="btnSaveUser_Click" tabindex="23">Save</button>
+                                <button id="btnSaveUser" class="start_creating_btn rounded_corners5" onclick="SaveCall();" tabindex="23">Save</button>
                             </div>
                             <div class="float_left">
-                                <button id="btnCancelUser" value="Cancel" class="start_creating_btn rounded_corners5" tabindex="24"></button>
+                                <button id="btnCancelUser" value="Cancel" class="start_creating_btn rounded_corners5" tabindex="24" onclick="HideMessagePopUpCustom();">Cancel</button>
                             </div>
                         </div>
                         <div class="clearBoth">
@@ -332,18 +341,18 @@
                             <img id="imgContactPicture" class="user_image_container" />
                             <br />
                             <br />
-                            <input type="file" style="width:200px;" id="fuImageUpload" name="fuImageUpload" class="file_upload_box rounded_corners5" tabindex="23" onchange="ShowPreview(this)" />
+                            <input type="file" style="width:200px;" id="fuImageUpload" name="fuImageUpload" class="file_upload_box rounded_corners5" tabindex="23" />
                             <br />
                             <br />
                         </div>
                         <button id="btnChangePassword" class="start_creating_btn rounded_corners5"
                                 value="Change Password"
-                                tabindex="25" style="width: 145px; float: right; margin-right: 25px;"></button>
+                                tabindex="25" style="width: 145px; float: right; margin-right: 25px;" onclick="ShowChangePassword();">Change Password</button>
                         <div id="divPass" class="pass" style="text-align: left; margin-left: 5px;">
                             <label id="ltrlPassword">Password:</label>
                         </div>
                         <div id="divPassContr" class="user_contol_area2 pass">
-                            <input type="text" id="txtPassword" class="text_box200 rounded_corners5"
+                            <input type="text" id="tboxPassword" class="text_box200 rounded_corners5"
                                    maxlength="200" tabindex="20" placeholder="Password" />
                         </div>
                         <div class="clearBoth">
@@ -375,12 +384,111 @@
         <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 <script type="text/javascript">
-   
+    var ddTerritoriesDD = $("#ddlTerritory");
+    var ddRolesDD = $("#ddlRole");
+    var ddSecretQuestionDD = $("#ddlSecretQuestions");
+    var ddBillingAddress = $("#ddlBillingAddress");
+    var ddlShippingAddress = $("#ddlShippingAddress");
+    var UpdateStatus = true;
+    var ContactID = 0;
+
+    $("#txtsearch").autocomplete({
+        source: function (request, response) {
+            // your ajax code
+            $.ajax({
+                url: "/UserManager/GetContactsIntellicence",
+                data: "{ 'prefixText': '" + request.term + "' }",
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    response(data.split(":"))
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerrorAutocomp", UserCookieManager.WBStoreId, "Error occured while autocomplete."))');
+                }
+            });
+        },
+        select: function (event, ui) {
+
+
+        },
+        minLength: 1,
+        change: function (event, ui) {
+            if ($("#txtsearch").val() == '') {
+                
+            }
+            $("#btnsearch").trigger('click');
+
+        }
+
+    });
     $(document).ready(function () {
     buidPopup();
     $("#popupBody").append($("#pnlUser"));
         
     });
+    function ResetTextboxes() {
+        UpdateStatus = false;
+        //  var PHtml = $("#UpdateModelPopUp").html();
+        //  ShippingBillingDetails("Add New Address", PHtml);
+        $("#modelTitle").text("Add New  Contact");
+        $("#tboxfirstname").val('');
+        $("#tboxLastName").val('');
+        $("#tboxEmail").val('');
+        $("#txtJobTitle").val('');
+
+        $("#txtDirectLine").val('');
+
+
+        $("#txtCellNumber").val('');
+
+
+        $("#txtFax").val('');
+
+         $("#txtCreditLimit").val('');
+
+         $("#ddlSecretQuestions").val('');
+
+        $("#txtSecretAnswer").val('');
+
+        $("#ddlTerritory").empty();
+
+        $("#ddlRole").empty();
+
+        $("#ddlBillingAddress").empty();
+
+        $("#ddlShippingAddress").empty();
+
+         $("#txtAddress").val('');
+
+         $("#txtShippingAddress").val('');
+
+         $("#txtNotes").val('');
+
+
+         $("#chkCanOrder")[0].checked=false;
+         $("#chkCanByCredit")[0].checked=false;
+         $("#chkShowPricesForProduct")[0].checked=false;
+
+         $("#chkHasWebAccess")[0].checked=false;
+
+
+         $("#fuImageUpload").val('');
+
+
+         $("#tboxPassword").val('');
+        LoadDropdowns();
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+
+    }
+    function ShowChangePassword() {
+        $('.pass').css('display', 'block');
+        $('#<%=btnChangePassword.ClientID %>').css('display', 'none');
+        return false;
+    }
     function buidPopup() {
         //popupBody
         //modelTitle
@@ -451,45 +559,334 @@
         $('#btnChangePassword').css('display', 'none');
         return false;
     }
+    function AddAndUpdate(ContactID) {
+
+        if (UpdateStatus == true) {
+            updateSystemUSerProfile();
+        }
+        else {
+            
+            AddNewContact();
+          //  AddNewAddress();
+        }
+    }
+    function SaveCall() {
+        if (Validation() == true) {
+            
+                AddAndUpdate();
+                
+            }
+    }
+    function Validation() {
+
+        var IsValid = true;
+        var errorMessage = '';
+
+        if ($("#tboxfirstname").val() == '') {
+            var AddressNAme = "First Name Is Required";
+            errorMessage = errorMessage + AddressNAme + "<br>";
+            $("#tboxfirstname").css("border", "2px solid red");
+
+            IsValid = false;
+        }
+        else {
+            //$("#divAddressName").css('display', 'none');
+
+            $("#tboxfirstname").css("border", "1px solid #c1c6cc");
+        }
+
+        if ($("#txtSecretAnswer").val() == '') {
+            var Address1 = "Secret Answer is Ruquired";
+            errorMessage = errorMessage + Address1 + "<br>";
+            $("#txtSecretAnswer").css("border", "2px solid red");
+            IsValid = false;
+        }
+        else {
+
+            //$("#divAddress1").css('display', 'none');
+            $("#txtSecretAnswer").css("border", "1px solid #c1c6cc");
+        }
+
+        if ($("#tboxEmail").val() == '') {
+            var City = "Email is Ruquired";
+            errorMessage = errorMessage + City + "<br>";
+            $("#tboxEmail").css("border", "2px solid red");
+            IsValid = false;
+        }
+        else {
+            //$("#divCity").css('display', 'none');
+            $("#tboxEmail").css("border", "1px solid #c1c6cc");
+        }
+        //if (IsValid == false)
+        //{
+        //    ShowPopUp('Message', errorMessage);
+        //}
+        if ($("#tboxPassword").val() == '') {
+            var City = "Password is Ruquired";
+            errorMessage = errorMessage + City + "<br>";
+            $("#tboxPassword").css("border", "2px solid red");
+            IsValid = false;
+        }
+        else {
+            //$("#divCity").css('display', 'none');
+            $("#tboxPassword").css("border", "1px solid #c1c6cc");
+        }
+        return IsValid;
+
+    }
+
+    $(document).on('change', '#ddlBillingAddress', function () {
+        var AddressID = $(this).val();
+        $.getJSON("/UserManager/getAddress?AddressID=" + AddressID + "",
+                     function (xdata) {
+                         $("#txtAddress").val("Address : " + xdata.Address.AddressName + '\n' + "City : " + xdata.Address.City + '\n' + "State : " + xdata.StateName);
+
+                     });
+    });
+    $(document).on('change', '#ddlShippingAddress', function () {
+        var AddressID = $(this).val();
+        $.getJSON("/UserManager/getAddress?AddressID=" + AddressID + "",
+                     function (xdata) {
+                         $("#txtShippingAddress").val("Address : " + xdata.Address.AddressName + "\n" + "City : " + xdata.Address.City + "\n" + "State : " + xdata.StateName);
+
+                     });
+    });
+    $(document).on('change', '#ddlTerritory', function () {
+        var TeID = $(this).val();
+        $.getJSON("/UserManager/GetAddressesByTerritorID?TerritoryID=" + TeID + "",
+                     function (xdata) {
+                         loadDDBillingAddresses(xdata,0);
+                         loadDDShippingAddress(xdata,0);
+                     });
+    });
+
     function LoadAllData(ContactID)
+    {
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        $("#modelTitle").text("Update Contact");
+        $.getJSON("/webstoreapi/UM/UserProfileData?ContactID=" + ContactID + "",
+                      function (xdata) {
+                          
+                          LoadDDTerritories(xdata.CompanyTerritory, xdata.setSelectedTerritory.TerritoryId);
+                          LoadDDQuestions(xdata.RegistrationQuestions,xdata.SelectedQuestion.QuestionId);
+                          loadDDBillingAddresses(xdata.Addresses, xdata.SelectedBillingAddress.AddressId);
+                          loadDDShippingAddress(xdata.Addresses, xdata.SelectedShippingAddress.AddressId);
+                          loadDDRoles(xdata.CompanyContactRoles, xdata.SelectedRole.ContactRoleId);
+                          LoadUserContact(xdata.LoginContact, xdata.SelectedBillingState, xdata.SelectedShipppingState, xdata.SelectedBillingAddress.AddressName, xdata.SelectedShippingAddress.AddressName, xdata.SelectedBillingAddress.City, xdata.SelectedShippingAddress.City);
+        });
+    }
+    function LoadDropdowns()
+    {
+        $.getJSON("/webstoreapi/UM/LoadDDData",
+                      function (xdata) {
+                          LoadDDTerritories(xdata.CompanyTerritory, 0);
+                          LoadDDQuestions(xdata.RegistrationQuestions,0);
+                          loadDDBillingAddresses(xdata.Addresses,0);
+                          loadDDShippingAddress(xdata.Addresses,0);
+                          loadDDRoles(xdata.CompanyContactRoles,0);
+                      });
+    }
+    function LoadUserContact(LoginContactAddress, BillStateName,shipStateName,BillAddName,ShipAddName,BillCity,shipCity)
+    {
+        $('.pass').css('display', 'none');
+
+        ContactID = LoginContactAddress.ContactId;
+        $("#tboxfirstname").val(LoginContactAddress.FirstName);
+        $("#tboxLastName").val(LoginContactAddress.LastName);
+        
+        $("#tboxEmail").val(LoginContactAddress.Email);
+        $("#txtJobTitle").val(LoginContactAddress.JobTitle);
+
+        $("#txtDirectLine").val(LoginContactAddress.HomeTel1);
+
+
+        $("#txtCellNumber").val(LoginContactAddress.Mobile);
+
+
+        $("#txtFax").val(LoginContactAddress.FAX);
+
+        $("#txtCreditLimit").val(LoginContactAddress.CreditLimit);
+
+        //$("#ddlSecretQuestions").val();
+
+        $("#txtSecretAnswer").val(LoginContactAddress.SecretAnswer);
+
+         //$("#ddlTerritory").val();
+
+         //$("#ddlRole").val();
+
+        //var ddbillingAddress = $("#ddlBusinessAddress").val();
+
+        //var ddShippingAddess = $("#ddlShippingAddress").val();
+
+        $("#txtAddress").val("Address : " + BillAddName + '\n' + "City : " + BillCity + '\n' + "State : " + BillStateName);
+
+        $("#txtShippingAddress").val("Address : " + ShipAddName + "\n" + "City : " + shipCity + "\n" + "State : " + shipStateName);
+
+        $("#txtNotes").val(LoginContactAddress.Notes);
+
+        $("#chkCanOrder")[0].checked = LoginContactAddress.isPlaceOrder;
+        $("#chkCanByCredit")[0].checked = LoginContactAddress.IsPayByPersonalCreditCard;
+        $("#chkShowPricesForProduct")[0].checked = LoginContactAddress.IsPricingshown;
+
+        $("#chkHasWebAccess")[0].checked = LoginContactAddress.isWebAccess;
+        $("#imgContactPicture").attr('src', LoginContactAddress.image);
+        
+        //$('.postentry img').attr('src', LoginContactAddress.image);
+        // $("#Select")[0].checked=LoginContactAddress;
+        // $("#News")[0].checked=LoginContactAddress;
+
+    }
+    function LoadDDTerritories(objTer, TerritoryID)
+    {
+        
+        ddTerritoriesDD.html('');
+        ddTerritoriesDD.append($('<option></option>').val(0).html('Select Territory'));
+        $.each(objTer, function (id, option) {
+            ddTerritoriesDD.append($('<option></option>').val(option.TerritoryId).html(option.TerritoryName));
+        });
+        if (UpdateStatus == true) {
+            if (TerritoryID > 0) {
+               
+                SetSelectedTerritory(objTer, TerritoryID);
+            }
+            else {
+                ddTerritoriesDD[0].selectedIndex = 0;
+            }
+        }
+    }
+    function SetSelectedTerritory(obj,TerritoryID)
+    {
+        var index = 1;
+        $.each(obj, function (id, option) {
+            if (option.TerritoryId== TerritoryID) {
+                
+                ddTerritoriesDD[0].selectedIndex = index;
+            }
+            index++;
+        });
+    }
+
+    function LoadDDQuestions(objQues,SelectedQuestionsID)
+    {
+        ddSecretQuestionDD.html('');
+        ddSecretQuestionDD.append($('<option></option>').val(0).html('Select Secret Question'));
+        $.each(objQues, function (id, option) {
+            ddSecretQuestionDD.append($('<option></option>').val(option.QuestionId).html(option.Question));
+        });
+        if (UpdateStatus == true) {
+            if (SelectedQuestionsID > 0) {
+                SetSelectedQuestion(objQues, SelectedQuestionsID);
+            }
+            else {
+                ddSecretQuestionDD[0].selectedIndex = 0;
+            }
+        }
+    }
+
+    function SetSelectedQuestion(obj,QuestionID)
+    {
+        var index = 1;
+        $.each(obj, function (id, option) {
+            if (option.QuestionId == QuestionID) {
+
+                ddSecretQuestionDD[0].selectedIndex = index;
+            }
+            index++;
+        });
+    }
+    function loadDDBillingAddresses(objBill,BillingID)
+    {
+        ddBillingAddress.html('');
+        ddBillingAddress.append($('<option></option>').val(0).html('Select Billing Address'));
+        $.each(objBill, function (id, option) {
+            
+            ddBillingAddress.append($('<option></option>').val(option.AddressId).html(option.AddressName));
+        });
+        if (UpdateStatus == true) {
+            if (BillingID > 0) {
+                SetSelectedBillingAddress(objBill, BillingID);
+            }
+            else {
+                ddBillingAddress[0].selectedIndex=0;
+            }
+        }
+    }
+    function SetSelectedBillingAddress(obj, BillingID) {
+        var index = 1;
+        $.each(obj, function (id, option) {
+            if (option.AddressId == BillingID) {
+                ddBillingAddress[0].selectedIndex = index;
+            }
+            index++;
+        });
+      }
+
+    function loadDDShippingAddress(objShip,ShippingID)
+    {
+        ddlShippingAddress.html('');
+        ddlShippingAddress.append($('<option></option>').val(0).html('Select Shipping Address'));
+        $.each(objShip, function (id, option) {
+            ddlShippingAddress.append($('<option></option>').val(option.AddressId).html(option.AddressName));
+        });
+        if (UpdateStatus == true) {
+            if (ShippingID > 0) {
+                SetSelectedShippingAddress(objShip, ShippingID);
+            }
+            else {
+                ddlShippingAddress[0].selectedIndex = 0;
+            }
+        }
+    }
+    function SetSelectedShippingAddress(obj, ShippingID) {
+        
+        var index = 1;
+        $.each(obj, function (id, option) {
+            if (option.AddressId == ShippingID) {
+               
+                ddlShippingAddress[0].selectedIndex = index;
+            }
+            index++;
+        });
+    }
+
+    function loadDDRoles(objRoles, RoleID) {
+        ddRolesDD.html('');
+        ddRolesDD.append($('<option></option>').val(0).html('Select  Role'));
+        $.each(objRoles, function (id, option) {
+            
+            ddRolesDD.append($('<option></option>').val(option.ContactRoleId).html(option.ContactRoleName));
+        });
+        if (UpdateStatus == true) {
+            if (RoleID > 0) {
+                
+                SetSelectedRole(objRoles, RoleID);
+            }
+            else {
+                ddRolesDD[0].selectedIndex = 0;
+            }
+        }
+    }
+    function SetSelectedRole(obj, RoleID) {
+        var index = 1;
+        $.each(obj, function (id, option) {
+            if (option.ContactRoleId == RoleID) {
+                
+                ddRolesDD[0].selectedIndex = index;
+            }
+            index++;
+        });
+    }
+    function updateSystemUSerProfile()
     {
         
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
-
-        $.getJSON("/webstoreapi/UM/UserProfileData?ContactID=" + ContactID + "",
-                      function (xdata) {
-                          
-        });
-    }
-
-    function LoadDDTerritories(objTer,SelectedTerritory)
-    {
-        CountriesDD.html('');
-        CountriesDD.append($('<option></option>').val(0).html('Select Country'));
-        $.each(response.Country, function (id, option) {
-            CountriesDD.append($('<option></option>').val(option.CountryId).html(option.CountryName));
-        });
-    }
-    function LoadDDQuestions(objQues,SelectedQuestions)
-    {
-    }
-    function loadDDBillingAddresses(objBill,SelectedBillingAddress)
-    {
-
-    }
-    function loadDDShippingAddress(objShip,SelectedShippingAddress)
-    {
-
-    }
-    function updateSystemUSerProfile(ContactID)
-    {
-        document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
-        document.getElementById("innerLayer").style.display = "block";
-        var FirstName = $("#txtFirstName").val();
-        var txtLastName=$("#txtLastName").val();
-        var Email = $("#txtUserEmaile").val();
+        var FirstName = $("#tboxfirstname").val();
+        var txtLastName = $("#tboxLastName").val();
+        var Email = $("#tboxEmail").val();
         var JobTitle = $("#txtJobTitle").val();
 
         var HomeTel1 = $("#txtDirectLine").val();
@@ -510,7 +907,7 @@
 
         var ddRoles=$("#ddlRole").val();
 
-        var ddbillingAddress = $("#ddlBusinessAddress").val();
+        var ddbillingAddress = $("#ddlBillingAddress").val();
 
         var ddShippingAddess = $("#ddlShippingAddress").val();
 
@@ -530,10 +927,9 @@
         
         var Image = $("#fuImageUpload").val();
 
-        var IsEmailSubscription = $("#Select")[0].checked;
-        var IsNewsLetterSubscription = $("#News")[0].checked;
-        var ConfirmPassword = $("#txtConfirmPassword").val();
-        var ContactID = ContactID;
+        
+        var ConfirmPassword = $("#tboxPassword").val();
+        
         var data = new FormData();
                 
         if($("#fuImageUpload").val()!=null)
@@ -545,11 +941,12 @@
             }
         }
      
-        var Model = { FirstName: FirstName, LastName: txtLastName, CreditLimit: CreditLimit, ContactRoleId: ddRoles, Email: Email, Fax: FAX, FirstName: FirstName, HomeTel1: HomeTel1, isWebAccess: HasWebAccess, isPlaceOrder: canOrder, IsPayByPersonalCreditCard: CanByCredit, IsPricingshown: ShowPricesForProduct, JobTitle: JobTitle, Mobile: Mobile, Notes: Notes, QuestionId: ddSecretQuestion, SecretAnswer: SecretAnswer, TerritoryId: ddTerritory, AddressId: ddbillingAddress, ShippingAddressId: ddShippingAddess, Password: ConfirmPassword, ContactId: ContactId };
-
+      //  var Model = { FirstName: FirstName, LastName: txtLastName, CreditLimit: CreditLimit, ContactRoleId: ddRoles, Email: Email, Fax: FAX, FirstName: FirstName, HomeTel1: HomeTel1, isWebAccess: HasWebAccess, isPlaceOrder: canOrder, IsPayByPersonalCreditCard: CanByCredit, IsPricingshown: ShowPricesForProduct, JobTitle: JobTitle, Mobile: Mobile, Notes: Notes, QuestionId: ddSecretQuestion, SecretAnswer: SecretAnswer, TerritoryId: ddTerritory, AddressId: ddbillingAddress, ShippingAddressId: ddShippingAddess, Password: ConfirmPassword, ContactId: ContactID };
+        
         $.ajax({
             type: "POST",
-            url: "/webstoreapi/ContactImageUploader/AddDataForSystemUser?FirstName=" + FirstName + "&LastName=" + LastName + "&Email=" + Email + "&JobTitle=" + JobTitle + "&HomeTel1=" + HomeTel1 + "&Mobile=" + Mobile + "&FAX=" + FAX + "&CompanyName= " + CompanyName + "" + "&quickWebsite=" + quickWebsite + "&POBoxAddress=" + POBoxAddress + "&CorporateUnit=" + CorporateUnit + "&OfficeTradingName=" + OfficeTradingName + "&ContractorName=" + ContractorName + "&BPayCRN=" + BPayCRN + "&ABN=" + ABN + "&ACN=" + ACN + "&AdditionalField1=" + AdditionalField1 + "&AdditionalField2=" + AdditionalField2 + "&AdditionalField3=" + AdditionalField3 + "&AdditionalField4=" + AdditionalField4 + "&AdditionalField5=" + AdditionalField5 + "&IsEmailSubscription=" + IsEmailSubscription + "&IsNewsLetterSubscription=" + IsNewsLetterSubscription + "",
+            url: "/webstoreapi/ContactImageUploader/UpdateDataForSystemUser?CreditLimit=" + CreditLimit + "&ContactRoleId=" + ddRoles + "&Email=" + Email + "&Fax=" + FAX + "&FirstName=" + FirstName + "&HomeTel1=" + HomeTel1 + "&isWebAccess=" + HasWebAccess + "&isPlaceOrder=" + canOrder + "&IsPayByPersonalCreditCard=" + CanByCredit + "&IsPricingshown=" + ShowPricesForProduct + "&JobTitle=" + JobTitle + "&LastName=" + txtLastName + "&Mobile=" + Mobile + "&Notes=" + Notes + "&QuestionId=" + ddSecretQuestion + "&SecretAnswer=" + SecretAnswer + "&TerritoryId=" + ddTerritory + "&AddressId=" + ddbillingAddress + "&ShippingAddressId=" + ddShippingAddess + "&Password=" + ConfirmPassword + "&ContactId=" + ContactID + "",
+
             contentType: false,
             data: data,
             async: true,
@@ -571,6 +968,100 @@
             }
         });
     }
+
+    function AddNewContact() {
+        $('.pass').css('display', 'block');
+        if (UpdateStatus == true) {
+            //  var PHtml = $("#UpdateModelPopUp").html();
+            //  ShippingBillingDetails("", PHtml);
+            $("#modelTitle").text("");
+
+        }
+        else {
+            $("#modelTitle").text("Add New Contact");
+        }
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        var FirstName = $("#tboxfirstname").val();
+        var txtLastName = $("#tboxLastName").val();
+        var Email = $("#tboxEmail").val();
+        var JobTitle = $("#txtJobTitle").val();
+
+        var HomeTel1 = $("#txtDirectLine").val();
+
+
+        var Mobile = $("#txtCellNumber").val();
+
+
+        var FAX = $("#txtFax").val();
+
+        var CreditLimit = $("#txtCreditLimit").val();
+
+        var ddSecretQuestion = $("#ddlSecretQuestions").val();
+
+        var SecretAnswer = $("#txtSecretAnswer").val();
+
+        var ddTerritory = $("#ddlTerritory").val();
+
+        var ddRoles = $("#ddlRole").val();
+
+        var ddbillingAddress = $("#ddlBillingAddress").val();
+
+        var ddShippingAddess = $("#ddlShippingAddress").val();
+
+        var BillAddressDetail = $("#txtAddress").val();
+
+        var ShipAddressDetail = $("#txtShippingAddress").val();
+
+        var Notes = $("#txtNotes").val();
+
+
+        var canOrder = $("#chkCanOrder")[0].checked;
+        var CanByCredit = $("#chkCanByCredit")[0].checked;
+        var ShowPricesForProduct = $("#chkShowPricesForProduct")[0].checked;
+
+        var HasWebAccess = $("#chkHasWebAccess")[0].checked;
+
+
+        var Image = $("#fuImageUpload").val();
+
+
+        var ConfirmPassword = $("#tboxPassword").val();
+
+        var data = new FormData();
+
+        if ($("#fuImageUpload").val() != null) {
+            var files = $("#fuImageUpload").get(0).files;
+
+            if (files.length > 0) {
+                data.append("UploadedImage", files[0]);
+            }
+        }
+
+        //  var Model = { FirstName: FirstName, LastName: txtLastName, CreditLimit: CreditLimit, ContactRoleId: ddRoles, Email: Email, Fax: FAX, FirstName: FirstName, HomeTel1: HomeTel1, isWebAccess: HasWebAccess, isPlaceOrder: canOrder, IsPayByPersonalCreditCard: CanByCredit, IsPricingshown: ShowPricesForProduct, JobTitle: JobTitle, Mobile: Mobile, Notes: Notes, QuestionId: ddSecretQuestion, SecretAnswer: SecretAnswer, TerritoryId: ddTerritory, AddressId: ddbillingAddress, ShippingAddressId: ddShippingAddess, Password: ConfirmPassword, ContactId: ContactID };
+
+        $.ajax({
+            type: "POST",
+            url: "/webstoreapi/ContactImageUploader/AddDataForSystemUser?CreditLimit=" + CreditLimit + "&ContactRoleId=" + ddRoles + "&Email=" + Email + "&Fax=" + FAX + "&FirstName=" + FirstName + "&HomeTel1=" + HomeTel1 + "&isWebAccess=" + HasWebAccess + "&isPlaceOrder=" + canOrder + "&IsPayByPersonalCreditCard=" + CanByCredit + "&IsPricingshown=" + ShowPricesForProduct + "&JobTitle=" + JobTitle + "&LastName=" + txtLastName + "&Mobile=" + Mobile + "&Notes=" + Notes + "&QuestionId=" + ddSecretQuestion + "&SecretAnswer=" + SecretAnswer + "&TerritoryId=" + ddTerritory + "&AddressId=" + ddbillingAddress + "&ShippingAddressId=" + ddShippingAddess + "&Password=" + ConfirmPassword + "&ContactId=" + ContactID + "",
+
+            contentType: false,
+            data: data,
+            async: true,
+            processData: false,
+            success: function (response) {
+                if(response!='Ok')
+                {
+                    alert();
+                    ShowPopUp('Message', response);
+                    }
+            },
+            error: function (error) {
+
+            }
+        });
+    }
+
     function DeleteReord(ContactId)
     {}
 </script>

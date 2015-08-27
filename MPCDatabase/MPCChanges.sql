@@ -7502,3 +7502,4 @@ select top 5 isnull(c.firstname,'') + ' ' + isnull(c.lastName,'') as ContactName
 	END
 
 alter table organisation add OfflineStoreClicks int
+------------- Executed on all servers on 20150805-----

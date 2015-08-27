@@ -49,7 +49,7 @@ namespace MPC.Webstore.Controllers
 
         private readonly IOrderService _OrderService;
 
-        private readonly IOrganisationRepository _organisationRepository;
+        //private readonly IOrganisationRepository _organisationRepository;
 
         private readonly ICurrencyRepository _currencyRepository;
         #endregion
@@ -69,7 +69,7 @@ namespace MPC.Webstore.Controllers
         /// Constructor
         /// </summary>
         public HomeController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker, ICostCentreService CostCentreService
-            , IOrderService OrderService, IOrganisationRepository organisationRepository, ICurrencyRepository currencyRepository)
+            , IOrderService OrderService, ICurrencyRepository currencyRepository)
             //: base(myCompanyService, webstoreAuthorizationChecker)
         {
             if (myCompanyService == null)
@@ -92,7 +92,6 @@ namespace MPC.Webstore.Controllers
             this._myCompanyService = myCompanyService;
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
             this._OrderService = OrderService;
-            this._organisationRepository = organisationRepository;
             this._currencyRepository = currencyRepository;
         }
 
@@ -659,11 +658,11 @@ namespace MPC.Webstore.Controllers
         public ActionResult ReceiptPlain(string OrderId, string StoreId, string IsPrintReceipt)
         {
 
-            MPC.Models.DomainModels.Company oCompany = _myCompanyService.GetCompanyByCompanyID(Convert.ToInt64(StoreId));
+            MPC.Models.DomainModels.Company oCompany = _myCompanyService.GetStoreReceiptPage(Convert.ToInt64(StoreId));
 
             if(oCompany != null)
             {
-                MPC.Models.DomainModels.Organisation oOrganisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
+              MPC.Models.DomainModels.Organisation oOrganisation = _myCompanyService.GetOrganisatonById(Convert.ToInt64(oCompany.OrganisationId));
                 
                 if (oCompany.ShowPrices == true)
                 {
@@ -745,7 +744,7 @@ namespace MPC.Webstore.Controllers
                 ViewBag.Print = "";
             }
 
-            if(oCompany.IsCustomer == (int)CustomerTypes.Corporate)
+            if (oCompany.IsCustomer == (int)CustomerTypes.Corporate)
             {
                 if (order != null && order.CompanyContact != null)
                 {

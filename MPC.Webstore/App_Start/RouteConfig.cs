@@ -68,7 +68,16 @@ namespace MPC.Webstore
                 new { controller = "RealestateSideBarWithSlider", action = "LogOut", id = UrlParameter.Optional }
             );
 
-
+            routes.MapRoute(
+               "loadaddWithTerritory",
+               "UserManager/GetAddressesByTerritorID",
+               new { controller = "UserManager", action = "GetAddressesByTerritorID", id = UrlParameter.Optional }
+           );
+            routes.MapRoute(
+               "loadaddContactsIntellicence",
+               "UserManager/GetContactsIntellicence",
+               new { controller = "UserManager", action = "GetContactsIntellicence", id = UrlParameter.Optional }
+           );
             routes.MapRoute(
                 "BillingShippingIntellisenceData",
                 "BillingShippingAddressManager/IntellisenceData",
@@ -80,6 +89,11 @@ namespace MPC.Webstore
                "UserManager/UserProfileData",
                new { controller = "UserManager", action = "UserProfileData", id = UrlParameter.Optional }
            );
+            routes.MapRoute(
+             "loadSystemUserDataAddress",
+             "UserManager/getAddress",
+             new { controller = "UserManager", action = "getAddress", id = UrlParameter.Optional }
+         );
 
             routes.MapRoute(
                 "OxfordTop",

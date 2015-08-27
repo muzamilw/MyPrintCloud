@@ -7,7 +7,8 @@ using System.Web.Mvc;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Webstore.Common;
-
+using System.Collections;
+using System.Text;
 namespace MPC.Webstore.Controllers
 {
     public class UserManagerController : Controller
@@ -55,7 +56,34 @@ namespace MPC.Webstore.Controllers
             return View("PartialViews/UserManager", contacts);
 
         }
-  
+        [HttpPost]
+        public ActionResult Index(string SearchString)
+        {
+            
+            List<CompanyContact> contacts = null;
+            if (_myClaimHelper.loginContactRoleID() == (int)Roles.Manager)
+            {
+                contacts = _mycompanyservice.GetSearched_Contacts(UserCookieManager.WBStoreId, SearchString, _myClaimHelper.loginContactTerritoryID());
+            }
+            else
+            {
+                contacts = _mycompanyservice.GetSearched_Contacts(UserCookieManager.WBStoreId, SearchString, 0);
+            }
+
+           
+            ViewBag.Contacts = contacts;
+            ViewBag.TotalRecords = contacts.Count.ToString() + " matches found";
+            if (contacts.Count == 0 || contacts == null)
+            {
+                TempData["HeaderStatus"] = false;
+            }
+            else
+            {
+                TempData["HeaderStatus"] = true;
+            }
+            ViewBag.LoginContactRoleID = _myClaimHelper.loginContactRoleID();
+            return View("PartialViews/UserManager",contacts);
+        }
         private void SearchedData(string textt)
         {
             List<CompanyContact> contacts = null;
@@ -112,54 +140,67 @@ namespace MPC.Webstore.Controllers
         }
 
 
-       [HttpGet]
-        public JsonResult UserProfileData(long ContactID)
-        {
-            jsonResponse obj = new jsonResponse();
-            CompanyContact LoginContact = _mycompanyservice.GetContactByID(ContactID);
-
-            obj.CompanyTerritory = _mycompanyservice.GetAllCompanyTerritories(UserCookieManager.WEBOrganisationID).ToList();
-            obj.RegistrationQuestions = _mycompanyservice.GetAllQuestions().ToList();
-            obj.Addresses = _mycompanyservice.GetAddressesByTerritoryID(LoginContact.TerritoryId??0);
-            List<CompanyContactRole> roles = null;
-            if (LoginContact.ContactRoleId == (int)Roles.Manager)
-            {
-                roles = _mycompanyservice.GetContactRolesExceptAdmin((int)Roles.Adminstrator);
-            }
-            else
-            {
-                roles = _mycompanyservice.GetAllContactRoles();
-            }
-            obj.CompanyContactRoles = roles;
-            
-            Address LoginContactAddress = _mycompanyservice.GetAddressByID(LoginContact.AddressId);
-            obj.LoginContactAddress = LoginContactAddress;
-            obj.SelectedShippingAddress =_mycompanyservice.GetAddressByID(LoginContact.ShippingAddressId??0);
-            obj.SelectedBillingAddress = _mycompanyservice.GetAddressByID(LoginContact.AddressId);
-            obj.SelectedQuestion=_mycompanyservice.GetSecretQuestionByID(LoginContact.QuestionId??0);
-            obj.setSelectedTerritory = _mycompanyservice.GetTerritoryById(_myClaimHelper.loginContactTerritoryID());
-            obj.SelectedRole=_mycompanyservice.GetRoleByID(LoginContact.ContactRoleId??0);
-            return Json(obj, JsonRequestBehavior.AllowGet);
-         }
+       
         [HttpPost]
         private void UpdateRecord(CompanyContact contact)
         {
             _mycompanyservice.UpdateDataSystemUser(contact);
         
         }
+        [HttpGet]
+        public JsonResult getAddress(long AddressID)
+        {
+            jsonResponse obj = new jsonResponse();
+            Address Address = _mycompanyservice.GetAddressByID(AddressID);
+            obj.Address = Address;
+            obj.StateName = _mycompanyservice.GetStateNameById(Address.StateId ?? 0);
+            return Json(obj, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public JsonResult GetAddressesByTerritorID(long TerritoryID)
+        {
+             List <Address> address = _mycompanyservice.GetAddressesByTerritoryID(TerritoryID);
+             return Json(address, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult GetContactsIntellicence(string prefixText)
+        {
+            StringBuilder sb = new StringBuilder();
+            List<CompanyContact> contacts = null;
+            if (_myClaimHelper.loginContactRoleID() == (int)Roles.Manager)
+            {
+                contacts = _mycompanyservice.GetSearched_Contacts(UserCookieManager.WBStoreId, prefixText, _myClaimHelper.loginContactTerritoryID());
+            }
+            else
+            {
+                contacts = _mycompanyservice.GetSearched_Contacts(UserCookieManager.WBStoreId, prefixText, 0);
+            }
+            foreach (var cont in contacts)
+            {
+                sb.AppendFormat("{0}:", cont.FirstName);
+            }
+            //recCount = contacts.Count;
+            //lblmatchingrecord.Text = recCount.ToString() + " matches found";
+            //pagedData.DataSource = contacts;
+            //ViewBag.Contacts = contacts;
+            //ViewBag.TotalRecords = contacts.Count.ToString() + " matches found";
+            //if (contacts.Count == 0 || contacts == null)
+            //{
+            //    TempData["HeaderStatus"] = false;
+            //}
+            //else
+            //{
+            //    TempData["HeaderStatus"] = true;
+            //}
+
+            return Json(sb.ToString(), JsonRequestBehavior.DenyGet);
+        }
         
     }
     public class jsonResponse
     {
-       public List<CompanyTerritory> CompanyTerritory;
-       public List<RegistrationQuestion> RegistrationQuestions;
-       public List<Address> Addresses;
-       public List<CompanyContactRole> CompanyContactRoles;
-       public Address LoginContactAddress;
-       public Address SelectedShippingAddress;
-       public Address SelectedBillingAddress;
-       public RegistrationQuestion SelectedQuestion;
-       public CompanyTerritory setSelectedTerritory;
-       public CompanyContactRole SelectedRole;
+      
+       public Address Address;
+       public string StateName;
     }
 }

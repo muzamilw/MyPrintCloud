@@ -900,12 +900,33 @@ namespace MPC.Repository.Repositories
             try
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                return db.Companies.FirstOrDefault(c => c.CompanyId == companyId);
+                return db.Companies.Where(c => c.CompanyId == companyId).FirstOrDefault();
             }
             catch (Exception ex)
             {
                 throw ex;
 
+            }
+
+        }
+        public Company GetStoreReceiptPage(long companyId)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                var obj = db.Companies.Where(c => c.CompanyId == companyId).FirstOrDefault();
+                Company objC = new Company();
+                objC.OrganisationId = obj.OrganisationId;
+                objC.StoreId = obj.StoreId;
+                objC.ShowPrices = obj.ShowPrices;
+                objC.TaxLabel = obj.TaxLabel;
+                objC.isWhiteLabel = obj.isWhiteLabel;
+                objC.IsCustomer = obj.IsCustomer;
+                return objC;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
 
         }

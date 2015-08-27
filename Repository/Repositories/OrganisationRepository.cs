@@ -61,6 +61,7 @@ namespace MPC.Repository.Repositories
 
         public Organisation GetOrganizatiobByID(long organisationId)
         {
+            db.Configuration.LazyLoadingEnabled = false;
             return DbSet.FirstOrDefault(cs => cs.OrganisationId == organisationId);
         }
 

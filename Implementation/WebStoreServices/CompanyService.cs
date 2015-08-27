@@ -348,7 +348,17 @@ namespace MPC.Implementation.WebStoreServices
             }
 
         }
-
+        public Company GetStoreReceiptPage(long companyId)
+        {
+            try
+            {
+                return _CompanyRepository.GetStoreReceiptPage(companyId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public CompanyContact GetContactByID(Int64 ContactID)
         {
             try
@@ -1643,6 +1653,60 @@ namespace MPC.Implementation.WebStoreServices
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public bool ShowPricesOnStore(int storeModeFromCookie, bool PriceFlagOfStore, long loginContactId, bool PriceFlagFromCookie)
+        {
+            if (PriceFlagOfStore == true)
+            {
+                if (storeModeFromCookie == (int)StoreMode.Corp)
+                {
+                    if (loginContactId > 0)
+                    {
+                        if (PriceFlagFromCookie == true)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (storeModeFromCookie == (int)StoreMode.Corp)
+                {
+                    if (loginContactId > 0)
+                    {
+                        if (PriceFlagFromCookie == true)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
     }
