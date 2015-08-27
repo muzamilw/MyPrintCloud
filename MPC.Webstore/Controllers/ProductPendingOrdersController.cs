@@ -99,7 +99,7 @@ namespace MPC.Webstore.Controllers
                         }
                         if (ManagerordersList == null || ManagerordersList.Count == 0)
                         {
-
+                            ViewBag.OrderList = new List<Order>(); 
                         }
                         else
                         {
