@@ -2508,6 +2508,23 @@ namespace MigrationUtility
                             MPCContext.SaveChanges();
 
 
+                            if ( item.isMarketingBrief == true)
+                            {
+                                //setting the product type to 2 as marketing brief
+                                 oItem.ProductType = 2;
+
+                                var mrktQuestions = PCContext.tbl_ProductMarketBriefQuestions.Include("tbl_ProductMarketBriefAnswers").Where( g=> g.ItemID == item.ItemID).ToList();
+                                foreach (var question in mrktQuestions)
+                                {
+                                    Preview.ProductMarketBriefQuestion oNewQuestion = Mapper.Map<tbl_ProductMarketBriefQuestions, Preview.ProductMarketBriefQuestion>(question);
+                                    oNewQuestion.ItemId = Convert.ToInt64( oItem.ItemId);
+
+                                    MPCContext.ProductMarketBriefQuestions.Add(oNewQuestion);
+
+                                }
+                            }
+                            MPCContext.SaveChanges();
+
                             /////////////////////////////////////////////////// item template
                             Template oTemplate = PCContext.Templates.Include("TemplatePages").Include("TemplateObjects").Include("TemplateColorStyles").Include("TemplateFonts").Include("TemplateBackgroundImages").Where(g => g.ProductID == item.TemplateID).SingleOrDefault();
 
@@ -2921,6 +2938,9 @@ namespace MigrationUtility
             Mapper.CreateMap<TemplateBackgroundImage, Preview.TemplateBackgroundImage>();
 
 
+            Mapper.CreateMap<tbl_ProductMarketBriefQuestions, Preview.ProductMarketBriefQuestion>();
+
+            Mapper.CreateMap<tbl_ProductMarketBriefAnswers, Preview.ProductMarketBriefAnswer>();
 
             Item ooo = new Item();
 

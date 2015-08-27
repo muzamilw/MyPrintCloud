@@ -91,7 +91,7 @@
             this.txtCorpStoreId.Name = "txtCorpStoreId";
             this.txtCorpStoreId.Size = new System.Drawing.Size(100, 20);
             this.txtCorpStoreId.TabIndex = 3;
-            this.txtCorpStoreId.Text = "10815";
+            this.txtCorpStoreId.Text = "0";
             // 
             // btnStoreWidgetExport
             // 
@@ -126,7 +126,7 @@
             this.txtTargetRetailStoreId.Name = "txtTargetRetailStoreId";
             this.txtTargetRetailStoreId.Size = new System.Drawing.Size(100, 20);
             this.txtTargetRetailStoreId.TabIndex = 7;
-            this.txtTargetRetailStoreId.Text = "63399";
+            this.txtTargetRetailStoreId.Text = "0";
             // 
             // rdRetailStoreTargetNew
             // 
@@ -195,7 +195,7 @@
             this.txtPinkCardsStoredImagesBasePath.Name = "txtPinkCardsStoredImagesBasePath";
             this.txtPinkCardsStoredImagesBasePath.Size = new System.Drawing.Size(565, 20);
             this.txtPinkCardsStoredImagesBasePath.TabIndex = 13;
-            this.txtPinkCardsStoredImagesBasePath.Text = "D:\\wwwRoot\\digitalcentral\\mis\\StoredImages\\";
+            this.txtPinkCardsStoredImagesBasePath.Text = "D:\\wwwRoot\\SunnyLand\\mis\\StoredImages\\";
             // 
             // label2
             // 
@@ -236,7 +236,7 @@
             this.txtOrganisationId.Name = "txtOrganisationId";
             this.txtOrganisationId.Size = new System.Drawing.Size(100, 20);
             this.txtOrganisationId.TabIndex = 17;
-            this.txtOrganisationId.Text = "904";
+            this.txtOrganisationId.Text = "447";
             // 
             // label3
             // 
@@ -263,7 +263,7 @@
             this.txtDesignerBasePath.Name = "txtDesignerBasePath";
             this.txtDesignerBasePath.Size = new System.Drawing.Size(565, 20);
             this.txtDesignerBasePath.TabIndex = 20;
-            this.txtDesignerBasePath.Text = "D:\\wwwRoot\\digitalcentral\\DesignEngine\\designer\\products\\";
+            this.txtDesignerBasePath.Text = "D:\\wwwRoot\\SunnyLand\\DesignEngine\\designer\\products\\";
             // 
             // label4
             // 
