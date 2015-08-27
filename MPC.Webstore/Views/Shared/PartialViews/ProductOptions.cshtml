@@ -356,14 +356,14 @@
                                 {
                                      <div class="InStockContainer" data-itemStockVal="@stockItem.InStockValue" data-isItemInStock="0" data-StockOptionid="@stockItem.StockOptionId" data-isAllowBackOrder="@stockItem.isAllowBackOrder" style="background:red; color:white;display:none;">
                                
-                                       <label>@stockItem.StockTextToDisplay</label>
+                                      @stockItem.StockTextToDisplay
                                
                                     </div>
                                 }
                                 else
                                 {
                                     <div class="InStockContainer" data-itemStockVal="@stockItem.InStockValue" data-isItemInStock="1" data-StockOptionid="@stockItem.StockOptionId" data-isAllowBackOrder="@stockItem.isAllowBackOrder" style="background:#f3f3f3; color:black;display:none;">
-                                        <label>@stockItem.StockTextToDisplay</label>
+                                       @stockItem.StockTextToDisplay
                                     </div>
                                 }
                             }
@@ -833,7 +833,7 @@
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script src="~/Scripts/PopUp.js"></script>
     <script>
-    var  Message=@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"));
+    var  Message='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))';
     var isRanged = "@ViewBag.ItemModel.IsQtyRanged.ToString()" == "False" ? 0 : 1;
     var TotalItemPrice = 0;
     var data = "";
