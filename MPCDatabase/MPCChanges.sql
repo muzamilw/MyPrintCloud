@@ -7581,3 +7581,185 @@ select
 	
 	END
 
+
+
+-------------------------------- procedure to import crm contacts -----------------------
+
+
+/****** Object:  StoredProcedure [dbo].[usp_importCRMCompanyContacts]    Script Date: 8/27/2015 10:21:56 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+ Create Procedure [dbo].[usp_importCRMCompanyContacts]
+		@OrganisationId bigint
+		
+	 
+	 as 
+	Begin
+		
+		BEGIN TRY	
+		Begin Transaction		
+		update StagingImportCompanyContactAddress set  OrganisationId = @OrganisationId,
+		 password = 'xjMtQdRX7BYzjc5fW0UwEpfSMnKkSUWNCQ==', canPlaceORder = 1
+		update StagingImportCompanyContactAddress set Address2 = '' where Address2 is null
+		update StagingImportCompanyContactAddress set Address3 = '' where Address3 is null		
+		--update Country Id by country name
+		update StagingImportCompanyContactAddress set CountryId = c.CountryId
+		from StagingImportCompanyContactAddress i , country c
+		where c.CountryName = i.Country
+		--update StateId by State Name 
+		update StagingImportCompanyContactAddress set StateId = c.StateId
+		from StagingImportCompanyContactAddress i , State c
+		where c.StateCode = i.State
+		--update TerritoryId from Territory Name
+		update StagingImportCompanyContactAddress set TerritoryId = c.TerritoryId
+		from StagingImportCompanyContactAddress i , CompanyTerritory c
+		where c.TerritoryCode = i.TerritoryName
+
+			declare @SystemUserId varchar(100)
+
+			select @SystemUserId = (select top 1 systemuserid from systemuser where OrganizationId = @OrganisationId)
+					Declare @count int = (select count(*) from StagingImportCompanyContactAddress)
+					Declare @counter int = 1
+					Declare @StagingId bigint, @AddressId bigint, @TerritoryId bigint, @AddrssName varchar(200), @Address1 varchar(200), @Address2 varchar(200), @City varchar(100),
+					@TerritoryName varchar(200), @isNewTerritory bit
+
+						While @counter <= @count
+						Begin
+							set @isNewTerritory = 0
+							select @AddrssName = AddressName, @Address1 = Address1, @Address2 = Address2, @City = City, @TerritoryName = TerritoryName from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+							where r = @counter
+						
+
+						-- check whether company exist or not
+						declare @WebAccessCode varchar(500)
+						declare @CompanyId bigint
+						
+						declare @Typeid bigint
+						select @WebAccessCode = WebAccessCode from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+						where r = @counter 
+
+						
+						if(exists(select WebAccessCode from company where WebAccessCode = @WebAccessCode and organisationid = @organisationId))
+						begin
+
+						select @CompanyId = companyid from company where WebAccessCode = @WebAccessCode and organisationid = @organisationId
+							--Insert New Contact
+						declare @currEmail varchar(255)
+						select @currEmail = email from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+						where r = @counter 
+						if(not exists(select email from companycontact where CompanyId in (select CompanyId from company where storeid = @CompanyId) and email = @currEmail))
+						begin
+							
+								-- insert company
+						
+
+						select @Typeid = TypeId from company where WebAccessCode = @WebAccessCode and organisationid = @organisationId 
+
+						declare @NewCompanyID bigint
+
+						
+
+
+
+								insert into Company(OrganisationId, StoreId, Name, TypeId, DefaultNominalCode, DefaultMarkupId,AccountManagerId, Status, IsCustomer, AccountStatusId, 
+							IsDisabled, LockedBy, AccountBalance, CreationDate
+							)
+							values
+							(@OrganisationId,@CompanyId,'Import Customer',@Typeid,0,0,@SystemUserId,0,0,0,0,0,0,GETDATE())
+
+							
+							
+							select @NewCompanyID = SCOPE_IDENTITY()
+
+							--Check Territory Exist otherwise Insert Territory
+							if(exists(select * from CompanyTerritory where companyId = @NewCompanyID and TerritoryName = @TerritoryName))
+							begin
+								set @TerritoryId = (select top 1 TerritoryId from CompanyTerritory where companyId = @NewCompanyID and TerritoryName = @TerritoryName)
+							end
+							else
+							begin
+								insert into CompanyTerritory(CompanyID, TerritoryCode, TerritoryName)
+								select @NewCompanyID, 'TCImport', TerritoryName   from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) xx
+								where r = @counter
+								set @TerritoryId = (select SCOPE_IDENTITY())
+								set @isNewTerritory = 1
+							end
+
+
+						--Check If Address Exist otherwise insert Address
+						if(exists(select * from Address where companyId = @NewCompanyID and addressname = @AddrssName and Address1 = @Address1 and Address2 = @Address2 and City = @City))
+						begin
+							set @AddressID = (select top 1 AddressId from Address where companyId = @NewCompanyID and addressname = @AddrssName and Address1 = @Address1 and Address2 = @Address2 and City = @City)
+						end
+						else
+						begin
+							insert into Address(OrganisationId, CompanyID, AddressName, Address1, Address2, Address3, City, StateId, PostCode, TerritoryID, fax, CountryId, Tel1, isDefaultTerrorityBilling, isDefaultTerrorityShipping, isArchived, IsDefaultAddress)
+							select @OrganisationId, @NewCompanyID, AddressName, Address1, Address2, Address3, City, StateId,Postcode, @TerritoryId, AddressFax, CountryId, ContactPhone, 0, 0, 0, 0   from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+							where r = @counter
+							set @Addressid = (select SCOPE_IDENTITY())
+						if(@isNewTerritory = 1 and @TerritoryId > 0)
+						Begin
+							update address set isDefaultTerrorityBilling = 1, isDefaultTerrorityShipping = 1 where AddressId = @AddressId
+						End
+						end
+
+
+
+							insert into CompanyContact(OrganisationId, CompanyId, TerritoryID, AddressID, ShippingAddressID, FirstName, LastName, Email, Password, 
+							HomePostCode, Mobile, isArchived, ContactRoleID, JobTitle, HomeTel1, Fax, Notes, IsDefaultContact, isWebAccess, canPlaceDirectOrder, 
+							canUserPlaceOrderWithoutApproval, IsPricingshown, SkypeId, LinkedinURL, FacebookURL, TwitterURL, CanUserEditProfile, IsPayByPersonalCreditCard,
+							SecondaryEmail,isPlaceOrder, AdditionalField1, AdditionalField2,AdditionalField3, AdditionalField4, AdditionalField5,CorporateUnit,OfficeTradingName,BPayCRN,
+							ACN,ContractorName,ABN,CreditLimit,IsNewsLetterSubscription,IsEmailSubscription,POBoxAddress
+							)
+
+
+							select @OrganisationId, @NewCompanyID, TerritoryId, @Addressid, @Addressid, ContactFirstName, ContactLastName, Email,password, 
+							postcode, Mobile,0, RoleId, substring(JobTitle, 1, 49), ContactPhone, ContactFax, 'contact import for this store, default password is password', 0, HasWebAccess, CanPlaceDirectOrder, 
+							CanPlaceOrderWithoutApproval, CanSeePrices, SkypeId, LinkedInUrl, FacebookUrl,  TwitterUrl, CanEditProfile, CanPayByPersonalCreditCard,
+							Email, 1, AddInfo1, AddInfo2, AddInfo3, AddInfo4, AddInfo5,CorporateUnit,TradingName,BPayCRN,ACN,ContractorName,ABN,CreditLimit,IsNewsLetterSubscription,IsEmailSubscription,POAddress
+							from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+							where r = @counter
+						End
+						else
+						Begin
+							update CompanyContact set FirstName = i.ContactFirstName,
+							LastName = i.ContactLastName, HomePostCode = i.Postcode, Mobile = i.Mobile, JobTitle = substring(i.JobTitle, 1, 49),
+							HomeTel1 = i.ContactPhone, Fax = i.ContactFax, isWebAccess = i.HasWebAccess, canPlaceDirectOrder = i.CanPlaceDirectOrder,
+							canUserPlaceOrderWithoutApproval = i.CanPlaceOrderWithoutApproval, IsPricingshown = i.CanSeePrices,
+							SkypeId = i.SkypeId, LinkedinURL = i.LinkedInUrl, FacebookURL = i.FacebookUrl, TwitterURL = i.TwitterUrl,
+							CanUserEditProfile = i.CanEditProfile, IsPayByPersonalCreditCard = i.CanPayByPersonalCreditCard,
+							CorporateUnit = i.CorporateUnit,OfficeTradingName = i.TradingName,BPayCRN = i.BPayCRN,
+							ACN = i.ACN,ContractorName = i.ContractorName,ABN = i.ABN,CreditLimit = i.CreditLimit,IsNewsLetterSubscription = i.IsNewsLetterSubscription,IsEmailSubscription = i.IsEmailSubscription,POBoxAddress = i.POAddress,ContactRoleId = i.RoleId
+
+							from CompanyContact c, (select ContactFirstName, ContactLastName, Email,
+							postcode, Mobile, JobTitle, ContactPhone, ContactFax, HasWebAccess, CanPlaceDirectOrder, 
+							CanPlaceOrderWithoutApproval, CanSeePrices, SkypeId, LinkedInUrl, FacebookUrl,  TwitterUrl, CanEditProfile, CanPayByPersonalCreditCard,CorporateUnit,TradingName,BPayCRN,ACN,ContractorName,ABN,CreditLimit,IsNewsLetterSubscription,IsEmailSubscription,POAddress,RoleId
+							from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+							where r = @counter) i
+							where c.Email = i.Email
+						End
+
+
+
+
+						end
+			
+						
+						
+					set @counter = @counter + 1;
+					
+				End -- End of Loop
+		Commit Transaction
+		End Try
+		
+		BEGIN CATCH
+			IF @@TRANCOUNT > 0
+			ROLLBACK
+		END CATCH
+End --End of Procedure Begin
+
