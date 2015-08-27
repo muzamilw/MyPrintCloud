@@ -31,18 +31,27 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
             byte[] spriteBytes = null;
             string spritePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/sprite.png");
-            if (File.Exists(spritePath))
-            {
-                spriteBytes = File.ReadAllBytes(spritePath);
-            }
+            string spriteRelativePath = "MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId +
+                                        "/sprite.png?" + DateTime.Now.ToString();
+            //Code Commented by Naveed on 20150827
+            //if (File.Exists(spritePath))
+            //{
+            //    spriteBytes = File.ReadAllBytes(spritePath);
+            //}
+            string defaultSpritePath = HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png");
+            
             byte[] defaultSpriteBytes = null;
-            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png")))
-            {
-                defaultSpriteBytes = File.ReadAllBytes(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png"));
-            }
+            //Code Commented by Naveed on 20150827
+            //if (File.Exists(defaultSpritePath))
+            //{
+            //    defaultSpriteBytes = File.ReadAllBytes(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png"));
+            //}
             string defaultCss = string.Empty;
+            string defaultCssPath =
+                HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" +
+                                                   source.CompanyId + "/site.css");
 
-            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/site.css")))
+            if (File.Exists(defaultCssPath))
             {
                 defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/site.css"));
             }
@@ -162,7 +171,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x => x.CreateFrom()).ToList() : null,
                 ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Where(x => x.ParentCategoryId == null && x.isArchived != true).Select(x => x.ListViewModelCreateFrom()).ToList().OrderBy(x => x.DisplayOrder).ToList() : null,
                 StoreBackgroundImage = source.StoreBackgroundImage,
-                DefaultSpriteImage = defaultSpriteBytes,
+                DefaultSpriteSource = spriteRelativePath,
+                //DefaultSpriteImage = defaultSpriteBytes,
                 UserDefinedSpriteImage = spriteBytes,
                 MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
                 CompanyDomains = source.CompanyDomains != null ? source.CompanyDomains.Select(x => x.CreateFrom()).ToList() : null,

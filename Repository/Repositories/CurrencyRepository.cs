@@ -33,7 +33,16 @@ namespace MPC.Repository.Repositories
 
         public string GetCurrencySymbolById(long currencyId)
         {
-            return db.Currencies.Where(c => c.CurrencyId == currencyId).Select(n => n.CurrencySymbol).FirstOrDefault();
+            Currency oCurr = db.Currencies.Where(c => c.CurrencyId == currencyId).FirstOrDefault();
+            if (oCurr != null)
+            {
+                return oCurr.CurrencySymbol;
+            }
+            else 
+            {
+                return "";
+            }
+            
         }
 
         public Currency GetCurrencySymbolByOrganisationId(long OrganisationID)

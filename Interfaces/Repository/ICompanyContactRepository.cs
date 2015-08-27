@@ -150,6 +150,6 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         void LoadProperty<T>(object entity, Expression<Func<T>> propertyExpression, bool isCollection = false);
 
-        List<CompanyContact> GetRetailContacts();
+        CompanyContactResponse GetRetailContacts();
     }
 }

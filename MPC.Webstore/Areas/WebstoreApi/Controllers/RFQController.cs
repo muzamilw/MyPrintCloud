@@ -200,7 +200,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 string folderPath = "mpc_content/Attachments/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/" + inquiryID + "/";
                 string virtualFolderPth = string.Empty;
 
-                virtualFolderPth = HttpContext.Current.Server.MapPath(folderPath);
+                string folderPathToMap = "/" + folderPath;
+
+                virtualFolderPth = HttpContext.Current.Server.MapPath(folderPathToMap);
                 if (!System.IO.Directory.Exists(virtualFolderPth))
                     System.IO.Directory.CreateDirectory(virtualFolderPth);
 

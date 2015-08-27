@@ -250,5 +250,6 @@ namespace MPC.Interfaces.WebStoreServices
         MyCompanyDomainBaseReponse GetStoreCachedObject(long StoreId);
         RegistrationQuestion GetSecretQuestionByID(int QuestionID);
         bool ShowPricesOnStore(int storeModeFromCookie, bool PriceFlagOfStore, long loginContactId, bool PriceFlagFromCookie);
+        string GetCurrencySymbolById(long currencyId);
     }
 }

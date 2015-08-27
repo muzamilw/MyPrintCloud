@@ -103,11 +103,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @*<div class="col-lg-2" style="margin-top:-2px;">
+                                        <div class="col-lg-2" style="margin-top:-2px;">
                                             <a data-toggle="modal" data-bind="click: $root.ExportCSVForCompanyContacts" class="btn btn-primary">
                                                 Export Contacts
                                             </a>
-                                        </div>*@
+                                        </div>
+                                        <div class="fileUpload btn btn-primary">
+                                            <span>Import Contacts</span>
+                                            <input type="file" class="upload" id="csv_files" accept=".csv " data-bind="files: {onLoaded: $root.selectedCsvFileForCompanyContact }" />
+                                        </div>
                                     </div>
                                    
                                 </div>

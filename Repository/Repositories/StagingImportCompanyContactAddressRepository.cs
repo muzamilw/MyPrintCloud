@@ -32,5 +32,11 @@ namespace MPC.Repository.Repositories
             var result = db.usp_DeleteStagingImportCompanyContactAddress();
             return true;
         }
+        public bool RunCRMProcedure()
+        {
+            db.usp_importCRMCompanyContacts(OrganisationId);
+            return true;
+
+        }
     }
 }

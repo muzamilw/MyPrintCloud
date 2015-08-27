@@ -94,7 +94,7 @@
     <br />
 </div>
 
-<div id="Vorder" class="popupInnerContainer rounded_corners" style="height: 530px; overflow-y:scroll; z-index:0; margin-top:10px; visibility:hidden">
+<div id="Vorder" class="popupInnerContainer rounded_corners" style="height: 530px; overflow-y:scroll; z-index:0; margin-top:10px; display:none;">
     <table border="0" width="100%" cellpadding="4" cellspacing="0" id="Mytable" style="background-color:#F6F6F7;">
         <tbody>
             <tr>
@@ -146,7 +146,7 @@
                                 </td>
 
                                 @*</td>*@
-                            </tr>
+                            
                             <tr>
                                 <td class="textAlignRight">
                                     <span class="simpleTextBold" id="Span1">@Html.Raw(Html.GetKeyValueFromResourceFile("spnplacedby", UserCookieManager.WBStoreId, "Placed by:"))</span>
@@ -354,6 +354,8 @@
                 <td>
                     &nbsp;
                 </td>
+               @if (ViewBag.IsShowPrices == true)
+               {
                 <td align="right" valign="top">
 
                     <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
@@ -361,44 +363,47 @@
                             <table border="0" cellpadding="3" cellspacing="0" width="200px">
                                 <tr>
                                     <td align="left">
-                                        <span id="spnsubtotal">@Html.Raw(Html.GetKeyValueFromResourceFile("spnsubtotal", UserCookieManager.WBStoreId, "Sub Total:"))
-</span>
-                                    </td>
-                                    <td>
-                                        <label id="lblSubTotal"><span id="subtotal"></span></label>
+                                        <span id="spnsubtotal">
+                                            @Html.Raw(Html.GetKeyValueFromResourceFile("spnsubtotal", UserCookieManager.WBStoreId, "Sub Total:"))
+                                    </span>
+                                </td>
+                                <td>
+                                    <label id="lblSubTotal"><span id="subtotal"></span></label>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="left" style="width: 80%">
-                                        <span id="spnDeliveryoptn">@Html.Raw(Html.GetKeyValueFromResourceFile("spnDeliveryoptn", UserCookieManager.WBStoreId, "Deivery Cost:"))</span>
-                                    </td>
-                                    <td>
-                                        <label id="lblDeliveryCost"><span id="DelCharge"></span></label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="left" style="width: 80%">
-                                        <span id="spnvattotal">@Html.Raw(Html.GetKeyValueFromResourceFile("spnvattotal", UserCookieManager.WBStoreId, "Vat Total:"))</span>
-                                    </td>
-                                    <td>
-                                        <label id="lblVatTotal"><span id="Vat"></span></label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="left">
-                                        <span class="CartFonts" id="spngrndtotal">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgrandtotal", UserCookieManager.WBStoreId, "Grand Total")):</span>
-                                    </td>
-                                    <td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" style="width: 80%">
+                                    <span id="spnDeliveryoptn">@Html.Raw(Html.GetKeyValueFromResourceFile("spnDeliveryoptn", UserCookieManager.WBStoreId, "Deivery Cost:"))</span>
+                                </td>
+                                <td>
+                                    <label id="lblDeliveryCost"><span id="DelCharge"></span></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" style="width: 80%">
+                                    <span id="spnvattotal">@Html.Raw(Html.GetKeyValueFromResourceFile("spnvattotal", UserCookieManager.WBStoreId, "Vat Total:"))</span>
+                                </td>
+                                <td>
+                                    <label id="lblVatTotal"><span id="Vat"></span></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left">
+                                    <span class="CartFonts" id="spngrndtotal">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgrandtotal", UserCookieManager.WBStoreId, "Grand Total")):</span>
+                                </td>
+                                <td>
 
-                                        <label class="CartFonts txtBold" id="lblGrandTotal"><span id="Grandtotal"></span></label>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-
+                                    <label class="CartFonts txtBold" id="lblGrandTotal"><span id="Grandtotal"></span></label>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
-                </td>
+
+                </div>
+            </td>
+               }
+                
 
             </tr>
         </tbody>
@@ -407,29 +412,29 @@
 
 
 
- <script src="/Scripts/jquery-1.10.1.min.js"></script>
+ @*<script src="/Scripts/jquery-1.10.1.min.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 <link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
 <link href="/LightBox/Css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="Screen" />
 <script src="/LightBox/Js/jquery.fancybox.pack.js"></script>
-<script src="/LightBox/Js/jquery.fancybox.js"></script>      
-<script>
+<script src="/LightBox/Js/jquery.fancybox.js"></script>*@      
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+<link href="/Content/NewBootstrapClass.css" rel="stylesheet" />
+<link href="/LightBox/Css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="Screen" />
+<script src="/LightBox/Js/jquery.fancybox.pack.js"></script>
+<script src="/LightBox/Js/jquery.fancybox.js"></script>
+<script type="text/javascript">
 
-
-
-        var NewOrderID;
-        var SaveFlag=false;
+        $(".fancybox").fancybox();
         $(document).ready(function () {
 
             $("#txtFromDate").datepicker();
             $("#txtToDate").datepicker();
 
-            //else
-            //{
-            //    HideLoader();
-            //}
         });
 
+        var NewOrderID;
+        var SaveFlag = false;
 
         function ViewOrder(orderId) {
             ShowLoader();
@@ -441,16 +446,16 @@
                 async: true,
                 success: function (response) {
 
-                    $("#Grandtotal").text(response.CurrencySymbol + "" + response.GrossTotal);
-                    $("#subtotal").text(response.CurrencySymbol + "" + response.SubTotal);
-                    $("#Vat").text(response.CurrencySymbol + "" + response.VAT);
+                    $("#Grandtotal").text(response.GrossTotal);
+                    $("#subtotal").text(response.SubTotal);
+                    $("#Vat").text(response.VAT);
 
                     $("#OrderCode").text(response.order.OrderCode);
                     $("#OrderStatus").text(response.order.StatusName);
                     $("#OrderDate").text(response.OrderDateValue);
                     $("#OrderPlaceBy").text(response.order.PlacedBy + "" + '(' + response.order.CompanyName + ')');
                     $("#OrderDeliveryDate").text(response.DeliveryDateValue);
-                    $("#DelCharge").text(response.CurrencySymbol+""+response.DeliveryCostCharges);
+                    $("#DelCharge").text(response.DeliveryCostCharges);
                     $("#BillingAddressName").text(response.billingAddress.AddressName);
                     if (response.billingAddress.Address1 != null || response.billingAddress.Address1 != '') {
                         $("#BillingAddressline1").text(response.billingAddress.Address1);
@@ -520,8 +525,20 @@
                     $.each(GridItems, function (i, IT) {
                         {
                             //InnerHtml += '<tr>';
+                            var filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + IT.Attatchment._fileName + "Thumb.png";
 
-                            InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><img src="/Content/Images/art.png" class="imgArtWorkIcon" onclick="ShowImage(' + IT.ImagePath + ')" /></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + IT.Qty1BaseCharge1, '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + IT.Qty1Tax1Value, '</label></td><td><label id="Total">', response.CurrencySymbol + "" + IT.Qty1GrossTotal, '</label></td></tr>')
+                            if ('@ViewBag.IsShowPrices' == "True")
+                            {
+                                
+                                InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + parseFloat(IT.Qty1BaseCharge1).toFixed(2), '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + parseFloat(IT.Qty1Tax1Value).toFixed(2), '</label></td><td><label id="Total">', response.CurrencySymbol + "" + parseFloat(IT.Qty1GrossTotal).toFixed(2), '</label></td></tr>');
+                                //orgInnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><img src="/Content/Images/art.png" class="imgArtWorkIcon" onclick="ShowImage(' + filePathOfAttachment + ')" /></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + IT.Qty1BaseCharge1, '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + IT.Qty1Tax1Value, '</label></td><td><label id="Total">', response.CurrencySymbol + "" + IT.Qty1GrossTotal, '</label></td></tr>')
+                            }
+                            else
+                            {
+                                InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">','', '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + parseFloat(IT.Qty1Tax1Value).toFixed(2), '</label></td><td><label id="Total">', response.CurrencySymbol + "" + parseFloat(IT.Qty1GrossTotal).toFixed(2), '</label></td></tr>');
+                               //org InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><img src="/Content/Images/art.png" class="imgArtWorkIcon" onclick="ShowImage(' + filePathOfAttachment + ')" /></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', "", '</label></td> <td><label id="VAT">', "" , '</label></td><td><label id="Total">',  "" , '</label></td></tr>')
+                            }
+                            
                             //'<td><img src=' + IT.ImagePath + ' /></td>' +
                             //'<td><label id="Productname">' + IT.ProductName + '</label></td>' +
                             //'<td><label id="Qty">' + IT.Qty1 + '</label></td>' +

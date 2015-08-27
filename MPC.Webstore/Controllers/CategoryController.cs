@@ -68,9 +68,17 @@ namespace MPC.Webstore.Controllers
             ViewBag.organisationId = StoreBaseResopnse.Organisation.OrganisationId;
          
             ViewBag.CompanyID = _myClaimHelper.loginContactCompanyID();
-            long CategoryID = Convert.ToInt64(id);
-            ProductCategory Category = _myCompanyService.GetCategoryById(CategoryID);
+            long CategoryID = 0;
+            bool result = Int64.TryParse(id, out CategoryID);
+            
+            ProductCategory Category = null;
+            if (result)
+            {
+                CategoryID = Convert.ToInt64(id);
+                Category = _myCompanyService.GetCategoryById(CategoryID);
 
+            }
+           
             if (Category != null)
             {
                 SetCategoryMEtaTitle(Category, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse);

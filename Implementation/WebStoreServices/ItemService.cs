@@ -2560,9 +2560,9 @@ namespace MPC.Implementation.WebStoreServices
 
                             SelectedtblISectionCostCenteres = this.PopulateTblSectionCostCenteres(addonCostCenter);
                             SelectedtblISectionCostCenteres.IsOptionalExtra = 1; //1 tells that it is the Additional AddOn 
-
-                            SelectedtblItemSectionOne.SectionCostcentres.Add(SelectedtblISectionCostCenteres);
-
+                            SelectedtblISectionCostCenteres.ItemSectionId = SelectedtblItemSectionOne.ItemSectionId;
+                           // SelectedtblItemSectionOne.SectionCostcentres.Add(SelectedtblISectionCostCenteres);
+                            _ItemSectionCostCentreRepository.Add(SelectedtblISectionCostCenteres);
                         }
                     }
                 }

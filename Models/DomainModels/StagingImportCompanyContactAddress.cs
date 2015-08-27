@@ -6,7 +6,6 @@ namespace MPC.Models.DomainModels
     /// </summary>
     public class StagingImportCompanyContactAddress
     {
-
         public long StagingId { get; set; }
         public string CompanyName { get; set; }
         public Nullable<long> CompanyId { get; set; }
@@ -64,7 +63,8 @@ namespace MPC.Models.DomainModels
         public Nullable<bool> IsNewsLetterSubscription { get; set; }
         public Nullable<bool> IsEmailSubscription { get; set; }
         public Nullable<bool> IsDefaultContact { get; set; }
-
         public string POAddress { get; set; }
+        public string StoreName { get; set; }
+        public string WebAccessCode { get; set; }
     }
 }
