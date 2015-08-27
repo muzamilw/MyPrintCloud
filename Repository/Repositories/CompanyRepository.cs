@@ -922,6 +922,8 @@ namespace MPC.Repository.Repositories
                 objC.TaxLabel = obj.TaxLabel;
                 objC.isWhiteLabel = obj.isWhiteLabel;
                 objC.IsCustomer = obj.IsCustomer;
+                objC.Image = obj.Image;
+                objC.Name = obj.Name;
                 return objC;
             }
             catch (Exception ex)
