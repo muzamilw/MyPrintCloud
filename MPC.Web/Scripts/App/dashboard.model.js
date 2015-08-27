@@ -14,7 +14,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedTargetPrintDate, specifiedOrderCreationDateTime, specifiedOrderManagerId, specifiedSalesPersonId, specifiedSourceId,
         specifiedCreditLimitForJob, specifiedCreditLimitSetBy, specifiedCreditLimitSetOnDateTime, specifiedIsJobAllowedWOCreditCheck,
         specifiedAllowJobWOCreditCheckSetOnDateTime, specifiedAllowJobWOCreditCheckSetBy, specifiedCustomerPo, specifiedOfficialOrderSetBy,
-        specifiedOfficialOrderSetOnDateTime, specifiedFootNotes, specifiedStatus) {
+        specifiedOfficialOrderSetOnDateTime, specifiedFootNotes, specifiedStatus, specifiedEstimateTotal) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -41,7 +41,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Flag Color
             flagColor = ko.observable(specifiedFlagColor || undefined),
              // Estimate Total
-            estimateTotal = ko.observable(undefined).extend({ numberInput: ist.numberFormat }),
+            estimateTotal = ko.observable(specifiedEstimateTotal || undefined).extend({ numberInput: ist.numberFormat }),
             // Flag Id
             sectionFlagId = ko.observable(specifiedSectionFlagId || undefined),
             // Order Code
@@ -434,7 +434,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         source.ArtworkByDate, source.DataByDate, source.PaperByDate, source.TargetBindDate, source.XeroAccessCode, source.TargetPrintDate,
         source.OrderCreationDateTime, source.SalesAndOrderManagerId, source.SalesPersonId, source.SourceId, source.CreditLimitForJob, source.CreditLimitSetBy,
         source.CreditLimitSetOnDateTime, source.IsJobAllowedWOCreditCheck, source.AllowJobWOCreditCheckSetOnDateTime, source.AllowJobWOCreditCheckSetBy,
-        source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime);
+        source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime, source.FootNotes, source.Status, source.EstimateTotal);
         estimate.statusId(source.StatusId);
         estimate.status(source.Status || undefined);
         estimate.flagColor(source.SectionFlagColor || undefined);

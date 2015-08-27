@@ -902,7 +902,7 @@ namespace MPC.Repository.Repositories
                     ||
                     (contact.Email.Contains(request.SearchFilter)) ||
                     contact.Company.Name.Contains(request.SearchFilter)) &&
-                    (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 1) &&
+                   // (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 1) &&
                     (contact.isArchived == false || contact.isArchived == null) && contact.OrganisationId == OrganisationId
 
 
@@ -1101,7 +1101,7 @@ namespace MPC.Repository.Repositories
                         CompanyId = contact.Company.CompanyId,
                         Name = contact.Company.Name,
                         StoreId = contact.Company.StoreId,
-                        StoreName = contact.Company.StoreName,
+                        StoreName = string.IsNullOrEmpty(contact.Company.StoreName) ?  contact.Company.Name: contact.Company.StoreName,
                         IsCustomer = contact.Company.IsCustomer
                     }
                 }).ToList()
@@ -1690,6 +1690,8 @@ namespace MPC.Repository.Repositories
             //db.Configuration.LazyLoadingEnabled = false;
             var contact = db.CompanyContacts.Where(c => c.ContactId == ContactId).FirstOrDefault();
             contact.Company.StoreName = GetStoreNameByStoreId(contact.Company.StoreId ?? 0);
+            if (string.IsNullOrEmpty(contact.Company.StoreName))
+                contact.Company.StoreName = contact.Company.Name;
             return contact;
 
 
