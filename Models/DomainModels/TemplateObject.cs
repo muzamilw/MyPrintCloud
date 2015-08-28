@@ -70,6 +70,7 @@
         public bool? autoCollapseText { get; set; }
         public bool? hasClippingPath { get; set; }
         public bool? isBulletPoint { get; set; }
+        public int? textPaddingTop { get; set; }
         public virtual Template Template { get; set; }
     }
 }
