@@ -4284,7 +4284,7 @@ namespace MPC.Repository.Repositories
                 db.Configuration.LazyLoadingEnabled = false;
                 return db.Items.Where(
                      i =>
-                         i.EstimateId == null && i.IsPublished == true && i.IsEnabled == true && i.CompanyId == CompanyId &&
+                         i.EstimateId == null && i.IsPublished == true && i.IsEnabled == true && (i.IsArchived == null || i.IsArchived == false) && i.CompanyId == CompanyId &&
                          i.OrganisationId == OrganisationId).ToList();
 
             }

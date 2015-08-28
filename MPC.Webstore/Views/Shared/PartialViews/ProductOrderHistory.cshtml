@@ -636,31 +636,22 @@
 
                     $("#DeliveryAddressContactNo").text(response.shippingAddress.ContactMobile)
                     var GridItems = response.order.OrderDetails.CartItemsList;
-                    var InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
+                    var InnerHtml = "";// "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
                     $.each(GridItems, function (i, IT) {
                         {
                             var filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + IT.Attatchment._fileName + "Thumb.png";
                             //InnerHtml += '<tr>';
                             if("@ViewBag.IsShowPrices" == "True")
                             {
-                               
+                                InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
                                 InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + parseFloat(IT.Qty1BaseCharge1).toFixed(2), '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + parseFloat(IT.Qty1Tax1Value).toFixed(2), '</label></td><td><label id="Total">', response.CurrencySymbol + "" + parseFloat(IT.Qty1GrossTotal).toFixed(2), '</label></td></tr>')
                             }
                             else
                             {
-                               
+                                InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th></th><th></th><th></th></tr></thead>";
                                 InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">',  "" , '</label></td> <td><label id="VAT">',  "" , '</label></td><td><label id="Total">',  "" , '</label></td></tr>')
                             }
                             
-                            //'<td><img src=' + IT.ImagePath + ' /></td>' +
-                            //'<td><label id="Productname">' + IT.ProductName + '</label></td>' +
-                            //'<td><label id="Qty">' + IT.Qty1 + '</label></td>' +
-                            //  alert(IT.Qty1);
-                            // '<td><label id="Price">'+ IT.Qty1BaseCharge1+'</label></td>' +
-                            //  alert(IT.Qty1BaseCharge1);
-                            // '<td><label id="VAT">' + IT.Qty1Tax1Value + '</label></td>' +
-                            // '<td><label id="Total">' + IT.Qty1GrossTotal + '</label></td>'
-                            //+'</tr>'
                         }
                     });
                     InnerHtml += '</table>';

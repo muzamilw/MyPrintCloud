@@ -12676,7 +12676,7 @@ ul.LogBar li a {
         -moz-border-radius: 0px !important;
         -webkit-border-radius: 0px !important;
         -khtml-border-radius: 0px !important;
-        border-radius: 0px !important;
+        border-radius: 0px !important;  
     }
 
     .cntTopLevelCategory:before {
@@ -12689,7 +12689,7 @@ ul.LogBar li a {
 
 
     DIV.parentCatsContainer DIV.content_area:first-child:before {
-        Content: 'Welcome to TFE Hotels';
+        Content: 'Welcome to TFE Hotels Brand Asset Hub';
         color: white;
         margin-left: 20px;
         position: absolute;
@@ -13235,7 +13235,7 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         font-size: 11px !important;
         line-height: 12px;
-        background-color: #10a8bd;
+        background-color: #392e2c;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -14642,7 +14642,7 @@ ul.LogBar li a {
         -moz-border-radius: 0px !important;
         -webkit-border-radius: 0px !important;
         -khtml-border-radius: 0px !important;
-        border-radius: 0px !important;
+        border-radius: 0px !important;  
     }
 
     .PDTC_TL {
@@ -14662,7 +14662,7 @@ ul.LogBar li a {
 
 
     DIV.parentCatsContainer DIV.content_area:first-child:before {
-        Content: 'Welcome to TFE Hotels';
+        Content: 'Welcome to TFE Hotels Brand Asset Hub';
         color: white;
         margin-left: 33px;
         position: absolute;
@@ -15291,7 +15291,7 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         font-size: 14px !important;
         line-height: 12px;
-        background-color: #10a8bd;
+        background-color: #392e2c;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -16151,7 +16151,7 @@ ul.LogBar li a {
         -moz-border-radius: 0px !important;
         -webkit-border-radius: 0px !important;
         -khtml-border-radius: 0px !important;
-        border-radius: 0px !important;
+        border-radius: 0px !important; 
     }
 
     .cntTopLevelCategory:before {
@@ -16164,7 +16164,7 @@ ul.LogBar li a {
 
 
     DIV.parentCatsContainer DIV.content_area:first-child:before {
-        Content: 'Welcome to TFE Hotels';
+        Content: 'Welcome to TFE Hotels Brand Asset Hub';
         color: white;
         margin-left: 58px;
         position: absolute;
@@ -16237,7 +16237,7 @@ ul.LogBar li a {
     }
 
     .dashboardIcons {
-        padding-top: 8px;
+        padding-top:12px;
         box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
         background: white;
         border-radius: 33px;
@@ -17079,7 +17079,7 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         font-size: 14px !important;
         line-height: 12px;
-        background-color: #10a8bd;
+        background-color: #392e2c;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -17920,7 +17920,7 @@ ul.LogBar li a {
 
 
     DIV.parentCatsContainer DIV.content_area:first-child:before {
-        Content: 'Welcome to TFE Hotels';
+        Content: 'Welcome to TFE Hotels Brand Asset Hub';
         color: white;
         margin-left: 98px;
         position: absolute;
@@ -17936,7 +17936,7 @@ ul.LogBar li a {
         text-align: center;
         cursor: pointer;
         color: black;
-        width: 160px;
+        width: 295px;
         border: none;
     }
 
@@ -18010,7 +18010,7 @@ ul.LogBar li a {
         border-radius: 5px;
         padding-left: 5px;
         position: absolute !important;
-        margin-left: -497px;
+        margin-left: 397px;
         display: block;
     }
 
@@ -18339,7 +18339,7 @@ ul.LogBar li a {
         height: 65px;
         max-width: 290px;
         position: absolute;
-        margin-top: 15px;
+        margin-top: -50px;
     }
 
     .SpecsContainer {
@@ -18442,7 +18442,7 @@ ul.LogBar li a {
     }
 
     .PDTC_TL {
-        height: 200px;
+        height: 180px;
         padding: 10px;
         cursor: pointer;
     }
@@ -18686,7 +18686,7 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         font-size: 14px !important;
         line-height: 12px;
-        background-color: #10a8bd;
+        background-color: #392e2c;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -18926,7 +18926,7 @@ ul.LogBar li a {
     .BD_PCS {
         float: left;
         text-align: center;
-        width: 160px !important;
+        width: 295px !important;
         margin-right: 1px;
         margin-left: 5px;
         margin-bottom: 10px;
@@ -19623,7 +19623,7 @@ ul.LogBar li a {
         float: left;
         border: 1px;
         text-align: left;
-        width: 195px !important;
+        width: 224px !important;
         margin-right: 0px !important;
         margin-bottom: 0px !important;
         background-color: transparent;
@@ -19640,7 +19640,7 @@ ul.LogBar li a {
         width: 100%;
         border: 2px solid white;
         padding-left: 83px !important;
-        padding-top: 95px !important;
+        padding-top: 105px !important;
         padding-bottom: 20px !important;
         background: #5f5651 !important;
     }
@@ -19954,7 +19954,7 @@ ul.LogBar li a {
 
 
     DIV.parentCatsContainer DIV.content_area:first-child:before {
-        Content: 'Welcome to TFE Hotels';
+        Content: 'Welcome to TFE Hotels Brand Asset Hub';
         color: white;
         margin-left: 98px;
         position: absolute;
@@ -19970,7 +19970,7 @@ ul.LogBar li a {
         text-align: center;
         cursor: pointer;
         color: black;
-        width: 160px;
+        width: 295px;
         border: none;
     }
 
@@ -20014,7 +20014,7 @@ ul.LogBar li a {
         padding: 5px;
         background-image: url('Images/text_box_back.png');
         background-repeat: repeat-x;
-        width: 150px;
+        width: 130px;
         color: black;
     }
 
@@ -20026,7 +20026,7 @@ ul.LogBar li a {
     }
 
     #USerInfoContainer {
-        width: 625px;
+        width: 630px;
     }
 
     .cartli {
@@ -20044,7 +20044,7 @@ ul.LogBar li a {
         border-radius: 5px;
         padding-left: 5px;
         position: absolute !important;
-        margin-left: 390px;
+        margin-left: 397px;
         display: block;
     }
 
@@ -20211,7 +20211,7 @@ ul.LogBar li a {
     }
 
     .Top_Cat_ThumbnailPath {
-        max-width: 185px;
+        max-width: 170px;
         height: auto !important;
         max-height: 270px;
         border: 0px;
@@ -20219,7 +20219,7 @@ ul.LogBar li a {
         -moz-border-radius: 0px !important;
         -webkit-border-radius: 0px !important;
         -khtml-border-radius: 0px !important;
-        border-radius: 0px !important;
+        border-radius: 0px !important;  
     }
 
     .firstDyContainer {
@@ -20386,7 +20386,7 @@ ul.LogBar li a {
         height: 65px;
         max-width: 290px;
         position: absolute;
-        margin-top: 15px;
+        margin-top: -50px;
     }
 
     .SpecsContainer {
@@ -20489,7 +20489,7 @@ ul.LogBar li a {
     }
 
     .PDTC_TL {
-        height: 200px;
+        height: 180px;
         padding: 10px;
         cursor: pointer;
     }
@@ -20729,7 +20729,7 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         font-size: 14px !important;
         line-height: 12px;
-        background-color: #10a8bd;
+        background-color: #392e2c;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -20969,7 +20969,7 @@ ul.LogBar li a {
     .BD_PCS {
         float: left;
         text-align: center;
-        width: 160px !important;
+        width: 295px !important;
         margin-right: 1px;
         margin-left: 5px;
         margin-bottom: 10px;
@@ -21645,7 +21645,7 @@ ul.LogBar li a {
         float: left;
         border: 1px;
         text-align: left;
-        width: 195px !important;
+        width: 224px !important;
         margin-right: 0px !important;
         margin-bottom: 0px !important;
         background-color: transparent;
@@ -21662,7 +21662,7 @@ ul.LogBar li a {
         width: 100%;
         border: 2px solid white;
         padding-left: 83px !important;
-        padding-top: 95px !important;
+        padding-top: 105px !important;
         padding-bottom: 20px !important;
         background: #5f5651 !important;
     }
@@ -24163,7 +24163,7 @@ label {
 .LOgo_ImgeP {
     z-index: 1;
     border-style: none;
-    padding-left: 18px;
+     padding-left:18px;
 }
 
 .top_header_ex {
@@ -24715,10 +24715,7 @@ DIV.signup_width DIV.BackgroundColor {
     border: 2px solid white;
     padding-top: 50px;
     background: #5f5651 !important;
-}
-
-ul.LogBar > li:nth-child(3) {
-    margin-right: 113px !important;
+        padding-bottom: 30px;
 }
 
 .lblRecepFreeShipping {
@@ -24741,6 +24738,8 @@ ul.LogBar > li:nth-child(3) {
 
 #divBilling + div {
     color: white !important;
+        font-size: 16px !important;
+            width: 100% !important;
 }
 .receiptcontainer{
 margin-top: 15px;
@@ -24748,3 +24747,50 @@ margin-top: 15px;
 #lbl_PrintReceipt {
       color: white !important;
 }
+.cntTopLevelCategory > div:nth-child(3) {
+    clear:left;
+}
+#Select + label {
+     color: white !important;
+}
+#News + label {
+     color: white !important;
+}
+#all-pendingOrder-pg {
+    border: 2px solid white;
+    padding-top: 50px;
+    background: #5f5651 !important;
+}
+#btnCopyProduct {
+display:none;
+}
+ul.LogBar > li:nth-child(3) {
+   
+ margin-right: 113px !important;
+}
+/***Home styles
+    
+    
+    
+    <style type="text/css">@media (min-width:1025px) {
+
+#USerInfoContainer {
+    width: 630px !important;
+}
+
+ul.LogBar > li:nth-child(3) {
+   
+ margin-right: 113px !important;
+}
+.classicLoginCart {
+   
+    margin-left: 397px ;!important;
+ 
+}
+
+}
+</style>
+
+    
+    
+    **/
