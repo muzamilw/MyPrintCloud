@@ -3684,3 +3684,12 @@ function showMBPage(pPageID)
         }
     });
 }
+function pcL07_vAl(id) {
+    var D1AO = canvas.getActiveObject();
+    if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
+        if (D1AO.IsTextEditable != true) {
+            D1AO.VAllignment = id; 
+            canvas.renderAll();
+        }
+    }
+}

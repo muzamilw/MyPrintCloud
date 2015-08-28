@@ -2282,3 +2282,13 @@ $(".mainLeftMenu li").click(function (event) {
 $("#btnDeleteGroupObjs").click(function (event) {
     pcL03();
 });
+
+$("#BtnValignTxt1").click(function (ev) {
+    pcL07_vAl(1);
+});
+$("#BtnValignTxt2").click(function (ev) {
+    pcL07_vAl(2);
+});
+$("#BtnValignTxt3").click(function (ev) {
+    pcL07_vAl(3);
+});
