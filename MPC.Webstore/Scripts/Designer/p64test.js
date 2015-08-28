@@ -19667,7 +19667,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
 	'textBackgroundColor',
 	'useNative',
 	'path',
-	'maxWidth', 'customStyles',
+	'maxWidth', 'customStyles','textPaddingTop',
 		'maxHeight',
 		'charSpacing', 'clippedText', 'IsPositionLocked', 'IsEditable', 'autoCollapseText',
     'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'hasInlineFontStyle', 'IsOverlayObject', 'IsQuickText', 'textCase', 'IsUnderlinedText', 'isBulletPoint','bullets'
@@ -19951,6 +19951,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
         shadow: null,
         // added  by saqib 
         maxWidth: 300,
+        textPaddingTop :0,
         customStyles: [],
         maxHeight: 300,
         IsQuickText: false,

@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MPC.Repository.Repositories
 {
@@ -1730,22 +1732,19 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-               
                     if (territoryID > 0)
                     {
-                        return (from c in db.CompanyContacts.Include("CompanyTerritories")
-                                where (c.CompanyId == contactCompanyId) && (c.FirstName.Contains(searchtxt) || c.Email.Contains(searchtxt))
+                        return (from c in db.CompanyContacts.Include("CompanyTerritory")
+                                where (c.CompanyId == contactCompanyId) && (c.FirstName.Contains(searchtxt.Trim()) || c.FirstName.Equals(searchtxt.Trim()) || c.Email.Contains(searchtxt.Trim()))
                                 && c.TerritoryId == territoryID
                                 select c).ToList();
                     }
                     else
                     {
-                        return (from c in db.CompanyContacts.Include("CompanyTerritories")
-                                where (c.CompanyId == contactCompanyId) && (c.FirstName.Contains(searchtxt) || c.Email.Contains(searchtxt))
+                        return (from c in db.CompanyContacts.Include("CompanyTerritory")
+                                where (c.CompanyId == contactCompanyId) && (c.FirstName.Contains(searchtxt.Trim()) ||c.FirstName.Equals(searchtxt.Trim())|| c.Email.Contains(searchtxt.Trim()))
                                 select c).ToList();
                     }
-                
-                
             }
             catch (Exception ex)
             {
@@ -1807,7 +1806,7 @@ namespace MPC.Repository.Repositories
                 con.TerritoryId = Contact.TerritoryId;
                 con.AddressId = Contact.AddressId;
                 con.ShippingAddressId = Contact.ShippingAddressId;
-                con.Password = Contact.Password;
+                con.Password = HashingManager.ComputeHashSHA1(Contact.Password);
                 db.CompanyContacts.Attach(con);
                 db.Entry(con).State = EntityState.Modified;
                 db.SaveChanges();
@@ -1819,6 +1818,7 @@ namespace MPC.Repository.Repositories
         }
         public void AddDataSystemUser(CompanyContact Contact)
         {
+            
             try
             {
                 CompanyContact con = new CompanyContact();
@@ -1845,7 +1845,7 @@ namespace MPC.Repository.Repositories
                 con.TerritoryId = Contact.TerritoryId;
                 con.AddressId = Contact.AddressId;
                 con.ShippingAddressId = Contact.ShippingAddressId;
-                con.Password = Contact.Password;
+                con.Password = HashingManager.ComputeHashSHA1(Contact.Password);
                 db.CompanyContacts.Add(con);
                 db.SaveChanges();
             }
@@ -1864,6 +1864,7 @@ namespace MPC.Repository.Repositories
                 var query = (from contact in db.CompanyContacts
                              from cmp in db.Companies.Where(c => c.CompanyId == contact.Company.StoreId).DefaultIfEmpty()
                              where (contact.isArchived == false || contact.isArchived == null) && contact.OrganisationId == OrganisationId && cmp.IsCustomer == 4
+
 
                              select new 
                              {
@@ -2042,7 +2043,7 @@ namespace MPC.Repository.Repositories
                              RoleName = contact.CompanyContactRole != null ? contact.CompanyContactRole.ContactRoleName : string.Empty,
                              contact.SecondaryEmail,
                                  contact.Address,
-
+                                 contact.CompanyTerritory,
                                  Company = new
                                  {
 
@@ -2146,6 +2147,7 @@ namespace MPC.Repository.Repositories
                         //FileName = fileName,
                         SecondaryEmail = contact.SecondaryEmail,
                         Address = contact.Address,
+                        CompanyTerritory = contact.CompanyTerritory,
                         Company = new Company
                         {
                             //CompanyId = contact.Company.CompanyId,

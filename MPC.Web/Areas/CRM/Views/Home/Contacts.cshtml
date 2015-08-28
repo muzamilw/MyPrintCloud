@@ -108,6 +108,10 @@
                                                 Export Contacts
                                             </a>
                                         </div>
+                                        <div class="fileUpload btn btn-primary">
+                                            <span>Import Contacts</span>
+                                            <input type="file" class="upload" id="csv_files" accept=".csv " data-bind="files: {onLoaded: $root.selectedCsvFileForCompanyContact }" />
+                                        </div>
                                     </div>
                                    
                                 </div>

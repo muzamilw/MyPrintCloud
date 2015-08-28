@@ -8,11 +8,13 @@ using MPC.Models.DomainModels;
 using MPC.Models.Common;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using System.Security.Cryptography;
 
 namespace MPC.Interfaces.Repository
 {
     public interface ICompanyContactRepository : IBaseRepository<CompanyContact, long>
     {
+        
         void AddDataSystemUser(CompanyContact Contact);
         void UpdateDataSystemUser(CompanyContact Contact);
         

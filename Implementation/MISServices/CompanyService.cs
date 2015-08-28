@@ -3646,13 +3646,28 @@ namespace MPC.Implementation.MISServices
                 companyContact.OrganisationId = stagingImportCompanyContactRepository.OrganisationId;
                 stagingImportCompanyContactRepository.Add(companyContact);
             }
-            companyContactRepository.SaveChanges();
+            stagingImportCompanyContactRepository.SaveChanges();
             stagingImportCompanyContactRepository.RunProcedure(stagingImportCompanyContactRepository.OrganisationId,
                 stagingImportCompanyContact.FirstOrDefault().CompanyId);
 
             return true;
         }
 
+        public bool SaveCRMImportedCompanyContact(IEnumerable<StagingImportCompanyContactAddress> stagingImportCompanyContact)
+        {
+            //Calling Stored Procedure to delete all records in staging company contact table
+            stagingImportCompanyContactRepository.RunProcedureToDeleteAllStagingCompanyContact();
+
+            foreach (var companyContact in stagingImportCompanyContact)
+            {
+                companyContact.OrganisationId = stagingImportCompanyContactRepository.OrganisationId;
+                stagingImportCompanyContactRepository.Add(companyContact);
+            }
+            stagingImportCompanyContactRepository.SaveChanges();
+            stagingImportCompanyContactRepository.RunCRMProcedure();
+
+            return true;
+        }
 
         /// <summary>
         /// Add/Update Discount Voucher

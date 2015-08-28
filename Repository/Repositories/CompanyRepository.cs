@@ -445,7 +445,7 @@ namespace MPC.Repository.Repositories
             try
             {
                 CompanyResponse companyResponse = new CompanyResponse();
-                var company = db.Companies.Include(c => c.CmsPages)
+                var company = db.Companies//.Include(c => c.CmsPages)
                     .Include(c => c.Addresses)
                     .Include(c => c.CompanyContacts)
                     .Include(c => c.CompanyTerritories)
@@ -632,6 +632,7 @@ namespace MPC.Repository.Repositories
                         CompanyTerritories = c.CompanyTerritories.ToList(),
                         Addresses = c.Addresses.ToList(),
                         CompanyContacts = c.CompanyContacts.ToList()
+                        
                     }).FirstOrDefault();
 
 
