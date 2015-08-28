@@ -494,6 +494,11 @@
           <Property Name="CurrentThemeId" Type="bigint" />
           <Property Name="isStoreLive" Type="bit" />
           <Property Name="CanUserUpdateAddress" Type="bit" />
+          <Property Name="IsRegisterAccessWebStore" Type="bit" />
+          <Property Name="IsRegisterPlaceOrder" Type="bit" />
+          <Property Name="IsRegisterPayOnlyByCreditCard" Type="bit" />
+          <Property Name="IsRegisterPlaceDirectOrder" Type="bit" />
+          <Property Name="IsRegisterPlaceOrderWithoutApproval" Type="bit" />
         </EntityType>
         <EntityType Name="CompanyBanner">
           <Key>
@@ -3766,6 +3771,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="autoCollapseText" Type="bit" />
           <Property Name="hasClippingPath" Type="bit" />
           <Property Name="isBulletPoint" Type="bit" />
+          <Property Name="TextPaddingTop" Type="int" />
         </EntityType>
         <EntityType Name="TemplatePage">
           <Key>
@@ -8278,7 +8284,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_importCRMCompanyContacts">
-            <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
+          <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Company">
@@ -8419,6 +8425,11 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="GoodsReceivedNotes" Relationship="DomainModels.FK_GoodsReceivedNote_Company" FromRole="Company" ToRole="GoodsReceivedNote" />
           <Property Name="isStoreLive" Type="Boolean" />
           <Property Name="CanUserUpdateAddress" Type="Boolean" />
+          <Property Name="IsRegisterAccessWebStore" Type="Boolean" />
+          <Property Name="IsRegisterPlaceOrder" Type="Boolean" />
+          <Property Name="IsRegisterPayOnlyByCreditCard" Type="Boolean" />
+          <Property Name="IsRegisterPlaceDirectOrder" Type="Boolean" />
+          <Property Name="IsRegisterPlaceOrderWithoutApproval" Type="Boolean" />
         </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -11687,6 +11698,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="autoCollapseText" Type="Boolean" />
           <Property Name="hasClippingPath" Type="Boolean" />
           <Property Name="isBulletPoint" Type="Boolean" />
+          <Property Name="TextPaddingTop" Type="Int32" />
         </EntityType>
         <Association Name="FK_Objects_Products">
           <End Type="DomainModels.Template" Role="Template" Multiplicity="0..1" />
@@ -15173,6 +15185,11 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="DomainModels.Company">
               <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="IsRegisterPlaceOrderWithoutApproval" ColumnName="IsRegisterPlaceOrderWithoutApproval" />
+                <ScalarProperty Name="IsRegisterPlaceDirectOrder" ColumnName="IsRegisterPlaceDirectOrder" />
+                <ScalarProperty Name="IsRegisterPayOnlyByCreditCard" ColumnName="IsRegisterPayOnlyByCreditCard" />
+                <ScalarProperty Name="IsRegisterPlaceOrder" ColumnName="IsRegisterPlaceOrder" />
+                <ScalarProperty Name="IsRegisterAccessWebStore" ColumnName="IsRegisterAccessWebStore" />
                 <ScalarProperty Name="CanUserUpdateAddress" ColumnName="CanUserUpdateAddress" />
                 <ScalarProperty Name="isStoreLive" ColumnName="isStoreLive" />
                 <ScalarProperty Name="CurrentThemeId" ColumnName="CurrentThemeId" />
@@ -17616,6 +17633,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="TemplateObjects">
             <EntityTypeMapping TypeName="DomainModels.TemplateObject">
               <MappingFragment StoreEntitySet="TemplateObject">
+                <ScalarProperty Name="TextPaddingTop" ColumnName="TextPaddingTop" />
                 <ScalarProperty Name="isBulletPoint" ColumnName="isBulletPoint" />
                 <ScalarProperty Name="hasClippingPath" ColumnName="hasClippingPath" />
                 <ScalarProperty Name="autoCollapseText" ColumnName="autoCollapseText" />
