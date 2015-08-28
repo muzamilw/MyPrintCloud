@@ -7581,3 +7581,9 @@ select
 	
 	END
 
+
+
+
+
+
+	alter table templateObject add textPaddingTop int null 
