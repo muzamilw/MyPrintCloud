@@ -16,9 +16,10 @@ define("dashboard.view",
                   goToCustomer = function (customerId) {
                       window.open('/mis/CRM/home?id=' + customerId, "_blank");
                   },
-                bindLogoUrl = function(oUrl) {
+                bindLogoUrl = function (oUrl) {
+                    var host = window.location.host;
                     $("#header-logo")
-                    .attr('src', oUrl);
+                    .attr('src', "http://" + host +"/mis/"+ oUrl);
                 },
                 // Initialize
                 initialize = function() {

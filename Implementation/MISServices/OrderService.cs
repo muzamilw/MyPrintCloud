@@ -82,6 +82,7 @@ namespace MPC.Implementation.MISServices
         {
             string orderCode = !isEstimate ? prefixRepository.GetNextOrderCodePrefix() : prefixRepository.GetNextEstimateCodePrefix();
             Estimate itemTarget = estimateRepository.Create();
+            
             estimateRepository.Add(itemTarget);
             itemTarget.CreationDate = itemTarget.CreationTime = DateTime.Now;
             if (isEstimate)
@@ -643,7 +644,17 @@ namespace MPC.Implementation.MISServices
             // Get Order if exists else create new
             Estimate order = GetById(estimate.EstimateId) ?? CreateNewOrder(estimate.isEstimate == true);
 
-            var orderStatusId = order.StatusId;
+            if (estimate.EstimateId == 0 && estimate.isEstimate == true)
+            {
+                var flags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Estimate);
+                if (flags != null)
+                {
+                    estimate.SectionFlag = flags.FirstOrDefault();
+                    estimate.SectionFlagId = flags.FirstOrDefault().SectionFlagId;
+                }
+            }
+            
+            var orderStatusId = estimate.StatusId;
 
             // Update Order
             estimate.UpdateTo(order, new OrderMapperActions
@@ -676,10 +687,11 @@ namespace MPC.Implementation.MISServices
             estimateRepository.SaveChanges();
 
             //If Data not posted to Unleashed(Xero)
-            if (order.XeroAccessCode == null)
+            if (estimate.isEstimate == false && estimate.XeroAccessCode == null)
                 PostOrderToXero(order.EstimateId);
             //Update Purchase Orders
             //Req. Whenever Its Status is inProduction Update Purchase Orders
+            
             if (orderStatusId != (int)OrderStatus.InProduction && estimate.StatusId == (int)OrderStatus.InProduction)
             {
                 try

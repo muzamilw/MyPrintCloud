@@ -2703,7 +2703,14 @@ define("order/order.viewModel",
                             success: function (data) {
                                 data.CompanyName = selectedInquiry().companyName();
                                 selectedInquiry(model.Inquiry.Create(data), { SystemUsers: systemUsers(), PipelineSources: pipelineSources() });
+                                var newInquiry = _.filter(inquiries(), function (inqId) {
+                                    return newInquiry !== null && inqId.inquiryId() === selectedInquiry().inquiryId();
+                                });
+                                if (newInquiry.length === 0) {
+                                    inquiries().splice(0, 0, selectedInquiry());
+                                }
                                 _.each(inquiries(), function (inq) {
+                                    
                                     if (inq && inq.inquiryId() == selectedInquiry().inquiryId()) {
                                         inq.companyName(selectedInquiry().companyName());
                                         inq.requireByDate(selectedInquiry().requireByDate());
