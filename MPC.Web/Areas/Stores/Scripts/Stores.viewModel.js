@@ -505,8 +505,8 @@ define("stores/stores.viewModel",
                     },
                     //Restore sprite Image
                     restoreSpriteImage = function() {
-                        selectedStore().userDefinedSpriteImageSource(selectedStore().defaultSpriteImageSource());
-                        selectedStore().userDefinedSpriteImageFileName("default.jpg");
+                        selectedStore().userDefinedSpriteImageSource(undefined);
+                        //selectedStore().userDefinedSpriteImageFileName("default.jpg");
                     },
                     spriteImageLoadedCallback = function(file, data) {
                         selectedStore().userDefinedSpriteImageSource(data);

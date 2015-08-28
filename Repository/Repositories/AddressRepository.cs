@@ -33,6 +33,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                db.Configuration.LazyLoadingEnabled = false;
                 return db.Addesses.Where(a => a.TerritoryId == TerritoryID && (a.isArchived == null || a.isArchived.Value == false) && (a.isPrivate == false || a.isPrivate == null)).ToList();
             }
             catch(Exception ex)

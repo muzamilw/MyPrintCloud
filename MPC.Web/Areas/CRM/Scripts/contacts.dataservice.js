@@ -47,6 +47,13 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to Import Company Contact Csv
+                    amplify.request.define('importCompanyContact', 'ajax', {
+                        url: ist.siteUrl + '/Api/ExportCRMContacts',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                 };
             },
 
@@ -110,6 +117,18 @@
                     data: params
                 });
             },
+             // import Company Contacts
+            importCompanyContact = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'importCompanyContact',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
+
+
             // Save Company Contact
             saveCompanyContact = function(param, callbacks) {
                 initialize();
@@ -127,7 +146,8 @@
             getContactsDetail: getContactsDetail,
             saveCompanyContact: saveCompanyContact,
             deleteCompanyContact: deleteCompanyContact,
-            exportCompanyContacts: exportCompanyContacts
+            exportCompanyContacts: exportCompanyContacts,
+            importCompanyContact: importCompanyContact,
         };
     })();
 
