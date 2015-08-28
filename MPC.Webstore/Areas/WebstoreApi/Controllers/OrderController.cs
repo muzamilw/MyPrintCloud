@@ -73,11 +73,22 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
             CalculateProductDescription(order, out GrandTotal, out Subtotal, out vat);
             JasonResponseObject obj = new JasonResponseObject();
+            obj.CurrencySymbol = "";
+            if (StoreBaseResopnse != null) 
+            {
+                if (StoreBaseResopnse.Organisation != null) 
+                {
+                    obj.CurrencySymbol = _companyService.GetCurrencySymbolById(Convert.ToInt64(StoreBaseResopnse.Organisation.CurrencyId));
+                }
+               
+            }
+            
+            
             obj.order = order;
-            obj.SubTotal = Utils.FormatDecimalValueToTwoDecimal(Subtotal.ToString(), StoreBaseResopnse.Currency);
-            obj.GrossTotal = Utils.FormatDecimalValueToTwoDecimal(GrandTotal.ToString(), StoreBaseResopnse.Currency);
-            obj.VAT = Utils.FormatDecimalValueToTwoDecimal(vat.ToString(), StoreBaseResopnse.Currency);
-            obj.DeliveryCostCharges = Utils.FormatDecimalValueToTwoDecimal(order.DeliveryCost.ToString(), StoreBaseResopnse.Currency);
+            obj.SubTotal = Utils.FormatDecimalValueToTwoDecimal(Subtotal.ToString(), obj.CurrencySymbol);
+            obj.GrossTotal = Utils.FormatDecimalValueToTwoDecimal(GrandTotal.ToString(), obj.CurrencySymbol);
+            obj.VAT = Utils.FormatDecimalValueToTwoDecimal(vat.ToString(), obj.CurrencySymbol);
+            obj.DeliveryCostCharges = Utils.FormatDecimalValueToTwoDecimal(order.DeliveryCost.ToString(), obj.CurrencySymbol);
             obj.billingAddress = BillingAddress;
             obj.shippingAddress = ShippingAddress;
             if (BillingAddress.CountryId != null && BillingAddress.CountryId > 0)
@@ -114,7 +125,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             {
                 obj.ShippingState = string.Empty;
             }
-            obj.CurrencySymbol = StoreBaseResopnse.Currency;
+           
             obj.OrderDateValue = Utils.FormatDateValue(order.OrderDate);
             obj.DeliveryDateValue = Utils.FormatDateValue(order.DeliveryDate);
             var formatter = new JsonMediaTypeFormatter();

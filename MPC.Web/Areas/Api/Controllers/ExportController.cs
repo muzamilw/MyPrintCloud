@@ -39,7 +39,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
             long? companyId = id > 0 ? id : (long?)null;
 
-            return companyContactService.ExportCSV(companyId ?? 0, true);
+            return companyContactService.ExportCSV(companyId ?? 0);
             // return itemService.GetProductCategoriesForCompany(companyId).CreateFrom();
         }
 

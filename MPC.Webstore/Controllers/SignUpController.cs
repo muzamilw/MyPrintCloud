@@ -145,14 +145,14 @@ namespace MPC.Webstore.Controllers
                             else
                             {
                                 SetRegisterCustomer(model);
-
+                               
                             }
                         }
                         else
                         {
 
                             SetRegisterCustomer(model);
-
+                            
                         }
                     }
                     else
@@ -173,14 +173,14 @@ namespace MPC.Webstore.Controllers
                             else
                             {
                                 SetRegisterCustomer(model);
-
+                                return null;
                             }
                         }
                         else
                         {
 
                             SetRegisterCustomer(model);
-
+                            return null;
                         }
                     }
                 }
@@ -311,11 +311,42 @@ namespace MPC.Webstore.Controllers
                     if (OrderId > 0)
                     {
                         UserCookieManager.TemporaryCompanyId = 0;
-                        Response.Redirect("/ShopCart?OrderId=" + OrderId);
+                        if (!string.IsNullOrEmpty(Request.QueryString["ReturnURL"]))
+                        {
+                            if (Url.IsLocalUrl(Request.QueryString["ReturnURL"]))
+                            {
+                                ControllerContext.HttpContext.Response.Redirect(Request.QueryString["ReturnURL"]);
+                            }
+                            else 
+                            {
+                                Response.Redirect("/ShopCart?OrderId=" + OrderId);
+                            }
+                        }
+                        else
+                        {
+                            Response.Redirect("/ShopCart?OrderId=" + OrderId);
+                        }
+                       
+                      
                     }
                     else
                     {
-                        Response.Redirect("/");
+                        if (!string.IsNullOrEmpty(Request.QueryString["ReturnURL"]))
+                        {
+                            if (Url.IsLocalUrl(Request.QueryString["ReturnURL"]))
+                            {
+                                ControllerContext.HttpContext.Response.Redirect(Request.QueryString["ReturnURL"]);
+                            }
+                            else
+                            {
+                                Response.Redirect("/");
+                            }
+                        }
+                        else
+                        {
+                            Response.Redirect("/");
+                        }
+                       
                     }
 
                 }
@@ -324,18 +355,6 @@ namespace MPC.Webstore.Controllers
                     isContactCreate = false;
                 }
                 StoreBaseResopnse = null;
-
-                if (!string.IsNullOrEmpty(Request.QueryString["ReturnURL"]))
-                {
-                    if (Url.IsLocalUrl(Request.QueryString["ReturnURL"]))
-                    {
-                        ControllerContext.HttpContext.Response.Redirect(Request.QueryString["ReturnURL"]);
-                    }
-                }
-                else
-                {
-                    Response.Redirect("/");
-                }
 
                 return;
             }

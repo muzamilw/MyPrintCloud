@@ -395,6 +395,22 @@ define("crm/contacts.viewModel",
                      selectedCompanyContact().image(data);
                      selectedCompanyContact().fileName(file.name);
                  },
+                 // import companyContacts
+                  selectedCsvFileForCompanyContact = function (file, data) {
+                      dataservice.importCompanyContact({
+                          FileName: file.name,
+                          FileBytes: data,
+                          CompanyId: 0
+                      }, {
+                          success: function (successData) {
+                              toastr.success("Company Contacts imported successfully!");
+                              searchCompanyContact();
+                          },
+                          error: function (response) {
+                              toastr.error("Company Contacts failed to import! " + response);
+                          }
+                      });
+                  },
                 // Close contact button handerl
                  onCloseCompanyContact = function () {
                      selectedCompanyContact(undefined);
@@ -453,7 +469,8 @@ define("crm/contacts.viewModel",
                     onDeleteCompanyContact: onDeleteCompanyContact,
                     addContact: addContact,
                     initializeForCalendar: initializeForCalendar,
-                    ExportCSVForCompanyContacts: ExportCSVForCompanyContacts
+                    ExportCSVForCompanyContacts: ExportCSVForCompanyContacts,
+                    selectedCsvFileForCompanyContact: selectedCsvFileForCompanyContact
                 };
             })()
         };

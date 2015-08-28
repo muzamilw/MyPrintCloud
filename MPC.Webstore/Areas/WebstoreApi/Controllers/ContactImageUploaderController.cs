@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Web;
 using System.Web.Http;
 
@@ -177,8 +178,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 }
             }
         }
-        [HttpPost]
-        private void UpdateDataForSystemUser(long CreditLimit, int ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool isWebAccess, bool isPlaceOrder, bool IsPayByPersonalCreditCard, bool IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int QuestionId, string SecretAnswer, long TerritoryId, long AddressId, long ShippingAddressId, string Password, long ContactId)
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public void UpdateDataForSystemUser(long CreditLimit, int ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool isWebAccess, bool isPlaceOrder, bool IsPayByPersonalCreditCard, bool IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int QuestionId, string SecretAnswer, long TerritoryId, long AddressId, long ShippingAddressId, string Password, long ContactId)
         {
             try
             {
@@ -200,7 +202,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 con.IsPayByPersonalCreditCard = IsPayByPersonalCreditCard;
                 con.IsPricingshown = IsPricingshown;
                 con.JobTitle = JobTitle;
-                con.LastName = LastName;
                 con.Mobile = Mobile;
                 con.Notes = Notes;
                 con.QuestionId = QuestionId;
@@ -216,15 +217,25 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 throw ex;
             }
         }
-        [HttpPost]
-        private void AddDataForSystemUser(string FirstName,string LastName,long CreditLimit, int ContactRoleId, string Email, string Fax,string HomeTel1, bool isWebAccess, bool isPlaceOrder, bool IsPayByPersonalCreditCard, bool IsPricingshown, string JobTitle, string Mobile, string Notes, int QuestionId, string SecretAnswer, long TerritoryId, long AddressId, long ShippingAddressId, string Password, bool chkHasWebAccess)
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage AddDataForSystemUser(long CreditLimit, int ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool isWebAccess, bool isPlaceOrder, bool IsPayByPersonalCreditCard, bool IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int QuestionId, string SecretAnswer, long TerritoryId, long AddressId, long ShippingAddressId, string Password, long ContactId)
         {
+            string Message=string.Empty;
             CompanyContact ExistingContact = _companyService.GetContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
             var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
             if (ExistingContact != null)
             {
-
-                return;
+                var formatter = new JsonMediaTypeFormatter();
+                var json = formatter.SerializerSettings;
+                json.Formatting = Newtonsoft.Json.Formatting.Indented;
+                json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                Message="Sorry, There is Already Exits User with this Email";
+                return Request.CreateResponse(HttpStatusCode.OK, Message, formatter);
+            }
+            else
+            {
+              Message="Ok";
             }
             CompanyContact NewContact = new CompanyContact();
             NewContact.CompanyId = UserCookieManager.WBStoreId;
@@ -252,7 +263,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             NewContact.ShippingAddressId = ShippingAddressId;
             NewContact.Password = Password;
             _companyService.AddDataSystemUser(NewContact);
-            if (chkHasWebAccess == true)
+            if (isWebAccess == true)
             {
                 MyCompanyDomainBaseReponse StoreBaseResopnse = _companyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
                 CampaignEmailParams cep = new CampaignEmailParams();
@@ -277,9 +288,14 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                 Campaign SuccessCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.CorpUserSuccessfulRegistration, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
                 _campaignService.emailBodyGenerator(SuccessCampaign, cep, NewContact, StoreMode.Corp, (int)UserCookieManager.WEBOrganisationID, "", "", "", EmailOFSM.Email, "", "", null, "");
-              
+                
             }
+               var formatterr = new JsonMediaTypeFormatter();
+               var jsons = formatterr.SerializerSettings;
+                jsons.Formatting = Newtonsoft.Json.Formatting.Indented;
+                jsons.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                return Request.CreateResponse(HttpStatusCode.OK, Message, formatterr);
         }
-
+                
     }
 }

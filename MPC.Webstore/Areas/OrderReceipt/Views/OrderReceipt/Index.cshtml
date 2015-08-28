@@ -150,10 +150,10 @@
                 <div style=" background: #f3f3f3;
                   padding-top: 20px;
               padding-bottom: 20px;
-                height: 35px;   width: 100%;">
+                height: 35px;   width: 100%; line-height:30px;">
                     <span id="lbl_SpecialInstructions" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; margin-left: 22px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnspeacilinstruction", CookieStoreId, "Additional information:"))</span><br />
                     &nbsp;
-                    <label id="lblSpecialInstructions" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px;">@Model.SpecialInstNotes</label>
+                    <label id="lblSpecialInstructions" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px; margin-left: 22px;">@Model.SpecialInstNotes</label>
                 </div>
             </div>
             <div style="width: 33.33333333333333%;line-height: 30px; float:left;">
@@ -427,8 +427,8 @@
             
             line-height: 1;
             text-align: left;
-            /* width: 105px; */
-            margin-left: -45px;
+            
+            margin-left: 0px;
             margin-top: 11px;
             font-weight: bold;
             font-size: 14px;">Free Shipping</span>

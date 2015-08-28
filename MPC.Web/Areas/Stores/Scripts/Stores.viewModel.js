@@ -22,6 +22,7 @@ define("stores/stores.viewModel",
                     selectedCurrentPageId = ko.observable(),
                     selectedCurrentPageCopy = ko.observable(),
                     ckEditorOpenFrom = ko.observable("Campaign"),
+                    htmlData = ko.observable(),
                     storeStatus = ko.observable(),
                     productStatus = ko.observable(''),
                     //Active Widget (use for dynamic controll)
@@ -504,8 +505,8 @@ define("stores/stores.viewModel",
                     },
                     //Restore sprite Image
                     restoreSpriteImage = function() {
-                        selectedStore().userDefinedSpriteImageSource(selectedStore().defaultSpriteImageSource());
-                        selectedStore().userDefinedSpriteImageFileName("default.jpg");
+                        selectedStore().userDefinedSpriteImageSource(undefined);
+                        //selectedStore().userDefinedSpriteImageFileName("default.jpg");
                     },
                     spriteImageLoadedCallback = function(file, data) {
                         selectedStore().userDefinedSpriteImageSource(data);
@@ -5325,6 +5326,7 @@ define("stores/stores.viewModel",
                         ckEditorOpenFrom("StoreLayout");
                         widget.cmsSkinPageWidgetParam().pageWidgetId(widget.pageWidgetId());
                         //widget.cmsSkinPageWidgetParam().editorId("editor" + newAddedWidgetIdCounter());
+                        
                         selectedWidget(widget.cmsSkinPageWidgetParam());
                         view.showCkEditorDialogDialog();
                     },
@@ -7528,7 +7530,8 @@ define("stores/stores.viewModel",
                     products: products,
                     validateStoreLiveHandler: validateStoreLiveHandler,
                     ExportCSVForCompanyContacts: ExportCSVForCompanyContacts,
-                    validateCanStoreSave: validateCanStoreSave
+                    validateCanStoreSave: validateCanStoreSave,
+                    htmlData: htmlData
                 };
                 //#endregion
             })()

@@ -11,8 +11,10 @@
     string SkipDesignerPopUp = "";
 }
 
-
-@if (!string.IsNullOrEmpty(Model.ImagePath))
+@if (Model != null)
+{
+    
+if (!string.IsNullOrEmpty(Model.ImagePath))
 {
     <div id="divbg" style="background:url(@Model.ImagePath)  no-repeat center center" class="categorydivBG">&nbsp;</div>
 }
@@ -633,3 +635,4 @@
 
     }
 </script>
+    }

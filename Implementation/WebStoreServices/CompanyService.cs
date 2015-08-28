@@ -131,26 +131,32 @@ namespace MPC.Implementation.WebStoreServices
                     List<CmsPageModel> AllPages = _cmsPageRepositary.GetSystemPagesAndSecondaryPages(companyId);
 
                     Company oCompany = GetCompanyByCompanyID(companyId);
+                    if (oCompany != null)
+                    {
+                        CacheEntryRemovedCallback callback = null;
+                        MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
+                        oStore.Company = oCompany;
+                        oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
+                        oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
+                        oStore.Banners = _companyBannerRepository.GetCompanyBannersById(Convert.ToInt64(oCompany.ActiveBannerSetId));
+                        oStore.SystemPages = AllPages.Where(s => s.isUserDefined == false).ToList();
+                        oStore.SecondaryPages = AllPages.Where(s => s.isUserDefined == true).ToList();
+                        oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
+                        oStore.Currency = _currencyRepository.GetCurrencySymbolById(Convert.ToInt64(oStore.Organisation.CurrencyId));
+                        oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
+                        oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
+                        stores.Add(oCompany.CompanyId, oStore);
 
-                    CacheEntryRemovedCallback callback = null;
-
-                    MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
-                    oStore.Company = oCompany;
-                    oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
-                    oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
-                    oStore.Banners = _companyBannerRepository.GetCompanyBannersById(Convert.ToInt64(oCompany.ActiveBannerSetId));
-                    oStore.SystemPages = AllPages.Where(s => s.isUserDefined == false).ToList();
-                    oStore.SecondaryPages = AllPages.Where(s => s.isUserDefined == true).ToList();
-                    oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
-                    oStore.Currency = _currencyRepository.GetCurrencySymbolById(Convert.ToInt64(oStore.Organisation.CurrencyId));
-                    oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
-                    oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
-                    stores.Add(oCompany.CompanyId, oStore);
 
 
+                        cache.Set(CacheKeyName, stores, policy);
+                        return stores[oCompany.CompanyId];
+                    }
+                    else 
+                    {
+                        return null;
+                    }
 
-                    cache.Set(CacheKeyName, stores, policy);
-                    return stores[oCompany.CompanyId];
                 }
                 else // there are some stores already in cache.
                 {
