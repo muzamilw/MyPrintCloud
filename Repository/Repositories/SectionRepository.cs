@@ -60,7 +60,24 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<Section> GetSectionsByParentId(long parentId)
         {
-            return DbSet.Where(s => s.ParentId == parentId).OrderBy(s => s.SectionName).ToList();
+            // to get sections which are using
+            List<int> SectionIds = new List<int>();
+           
+            SectionIds.Add(1);
+            SectionIds.Add(3);
+            SectionIds.Add(4);
+            SectionIds.Add(7);
+            SectionIds.Add(10);
+            SectionIds.Add(13);
+            SectionIds.Add(17);
+            SectionIds.Add(20);
+            SectionIds.Add(23);
+            SectionIds.Add(43);
+             SectionIds.Add(54);
+             SectionIds.Add(57);
+             SectionIds.Add(58);
+
+            return DbSet.Where(s => s.ParentId == parentId && SectionIds.Contains(s.SectionId)).OrderBy(s => s.SectionName).ToList();
         }
 
         /// <summary>
