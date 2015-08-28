@@ -361,7 +361,21 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     oPdf.HPos = 1.0;
                 }
-
+                if (ooBject.VAllignment.HasValue)
+                {
+                    if (ooBject.VAllignment == 1)
+                    {
+                        oPdf.VPos = 0.0;
+                    }
+                    else if (ooBject.VAllignment == 2)
+                    {
+                        oPdf.VPos = 0.5;
+                    }
+                    else if (ooBject.VAllignment == 3)
+                    {
+                        oPdf.VPos = 1.0;
+                    }
+                }
                 if (ooBject.RotationAngle != 0)
                 {
 
