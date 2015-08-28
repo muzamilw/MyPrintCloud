@@ -7763,3 +7763,9 @@ GO
 			ROLLBACK
 		END CATCH
 End --End of Procedure Begin
+
+alter table Company add IsRegisterAccessWebStore bit null
+alter table Company add IsRegisterPlaceOrder bit null
+alter table Company add IsRegisterPayOnlyByCreditCard bit null
+alter table Company add IsRegisterPlaceDirectOrder bit null
+alter table Company add IsRegisterPlaceOrderWithoutApproval bit null
