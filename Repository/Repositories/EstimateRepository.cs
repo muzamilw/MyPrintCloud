@@ -106,7 +106,40 @@ namespace MPC.Repository.Repositories
                    .Take(toRow)
                    .ToList();
 
-            return new GetOrdersResponse { Orders = items, TotalCount = DbSet.Count(query) };
+
+
+
+            foreach (var single in items)
+            {
+                if (single.Company != null)
+                {
+                    // Condition on StoreType
+                    if (single.Company.IsCustomer == 3)
+                    {
+                        single.Status.StatusName = single.Status.StatusName;
+                        // Getting Store Type 
+                        single.Company.StoreName = null;
+
+                    }
+                    else
+                    {
+                        single.Company.Name = single.Company.Name;
+                        single.Status.StatusName = single.Status.StatusName;
+                        // Getting Store Type
+                        long storeid = Convert.ToInt64(single.Company.StoreId);
+
+                        if (storeid > 0)
+                        {
+                            single.Company.StoreName = db.Companies.Where(c => c.CompanyId == storeid).Select(c => c.Name).FirstOrDefault();
+                        }
+                    }
+                }
+
+
+
+            }
+
+                return new GetOrdersResponse { Orders = items, TotalCount = DbSet.Count(query) };
         }
 
         /// <summary>
@@ -136,6 +169,7 @@ namespace MPC.Repository.Repositories
             return new GetOrdersResponse { Orders = items, TotalCount = DbSet.Count(query) };
         }
 
+     
         /// <summary>
         /// Gives count of new orders by given number of last dats
         /// </summary>
