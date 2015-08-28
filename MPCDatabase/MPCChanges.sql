@@ -7583,9 +7583,10 @@ select
 
 
 
--------------------------------- procedure to import crm contacts -----------------------
 
 
+
+	alter table templateObject add textPaddingTop int null 
 /****** Object:  StoredProcedure [dbo].[usp_importCRMCompanyContacts]    Script Date: 8/27/2015 10:21:56 AM ******/
 SET ANSI_NULLS ON
 GO
@@ -7762,4 +7763,3 @@ GO
 			ROLLBACK
 		END CATCH
 End --End of Procedure Begin
-
