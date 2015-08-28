@@ -113,6 +113,12 @@ namespace MPC.Models.DomainModels
         public bool? isStoreLive { get; set; }
         [NotMapped]
         public bool IsClickReached { get; set; }
+        public bool? IsRegisterAccessWebStore { get; set; }
+        public bool? IsRegisterPlaceOrder { get; set; }
+        public bool? IsRegisterPayOnlyByCreditCard { get; set; }
+        public bool? IsRegisterPlaceDirectOrder { get; set; }
+        public bool? IsRegisterPlaceOrderWithoutApproval { get; set; }
+
         /// <summary>
         /// Map Image Url
         /// </summary>
