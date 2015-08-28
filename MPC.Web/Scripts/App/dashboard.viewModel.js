@@ -25,6 +25,7 @@ define("dashboard.viewModel",
                     estimateToOrderConversion = ko.observableArray([]),
                     tempUsers = ko.observableArray([]),
                     currencySymbol = ko.observable(),
+                    logoUrl = ko.observable(),
                        // Total Earnings
                     estimateToOrderConversionCount = ko.observableArray([]),
                     
@@ -458,6 +459,8 @@ define("dashboard.viewModel",
                 dataservice.getTotalEarnings({
                     success: function (data) {
                         if (data != null) {
+                            logoUrl(data.MisLogoUrl);
+                            
                             currencySymbol(data.CurrencySymbol);
                             roiRegisteredUsersCount(data.RegisteredUsersCount);
                             roiOrdersProcessedCount(data.OrdersProcessedCount);
@@ -590,7 +593,8 @@ define("dashboard.viewModel",
                     roiRegisteredUsersCount: roiRegisteredUsersCount,
                     roiOrdersProcessedCount: roiOrdersProcessedCount,
                     roiDirectOrdersTotal: roiDirectOrdersTotal,
-                    roiOnlineOrdersTotal: roiOnlineOrdersTotal
+                    roiOnlineOrdersTotal: roiOnlineOrdersTotal,
+                    logoUrl: logoUrl
                     // xLabelFormat: xLabelFormat
                 };
             })()

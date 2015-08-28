@@ -320,6 +320,9 @@ namespace MPC.Repository.Repositories
             var now = DateTime.Now;
             
             string currencysymbol = db.Organisations.Where(c => c.OrganisationId == OrganisationId).FirstOrDefault().Currency.CurrencySymbol;
+            string misLogoUrl = db.Organisations.Where(c => c.OrganisationId == OrganisationId).Select(c => c.MISLogo).FirstOrDefault();
+            if (string.IsNullOrEmpty(misLogoUrl))
+                misLogoUrl = "Content/themes/Centaurus/img/logo.png";
             var response = new DashBoardChartsResponse
             {
 
@@ -331,7 +334,8 @@ namespace MPC.Repository.Repositories
                 EstimateToOrderConversionCount = db.usp_ChartEstimateToOrderConversionCount(OrganisationId),
                 Top10PerformingCustomers = db.usp_ChartTop10PerfomingCustomers(OrganisationId),
                 MonthlyEarningsbyStore = db.usp_ChartMonthlyEarningsbyStore(OrganisationId),
-                CurrencySymbol = currencysymbol
+                CurrencySymbol = currencysymbol,
+                MisLogoUrl = misLogoUrl
 
             };
             IEnumerable<usp_DashboardROICounter_Result> RoiCounter = db.usp_DashboardROICounter(OrganisationId);
