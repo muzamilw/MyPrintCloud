@@ -20314,10 +20314,10 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
 
             if (this.VAllignment == 2)
             {  // middle
-                this.textPaddingTop = (BoxHeight - MaxHeight) / 2;
+                this.textPaddingTop = parseInt((BoxHeight - MaxHeight) / 2);
             } else if (this.VAllignment == 3)
             {   // bottom
-                this.textPaddingTop = (BoxHeight - MaxHeight);
+                this.textPaddingTop = parseInt(BoxHeight - MaxHeight);
             }
 
             if (txtOverflow)
@@ -21703,10 +21703,12 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
               charHeight = this.getCurrentCharFontSize(lineIndex, charIndex);
             ctx.fillStyle = this.getCurrentCharColor(lineIndex, charIndex);
             ctx.globalAlpha = this._currentCursorOpacity;
-
+            var topOffset = 0;
+            if (this.VAllignment != 1)
+                topOffset += this.textPaddingTop;
             ctx.fillRect(
             boundaries.left + boundaries.leftOffset,
-            boundaries.top + boundaries.topOffset,
+            boundaries.top + boundaries.topOffset + topOffset,
             this.cursorWidth / this.scaleX,
             charHeight);
 
@@ -21720,7 +21722,9 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
         */
         renderSelection: function (chars, boundaries) {
             var ctx = this.ctx;
-
+            var topOffset = 0;
+            if (this.VAllignment != 1)
+                topOffset += this.textPaddingTop;
             ctx.save();
 
             ctx.fillStyle = this.selectionColor;
@@ -21751,7 +21755,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
 
                     ctx.fillRect(
                 boundaries.left + boundaries.leftOffset + lineOffset,
-                boundaries.top + boundaries.topOffset,
+                boundaries.top + boundaries.topOffset + topOffset,
                 charWidth,
                 this._getHeightOfLine(ctx, lineIndex));
 
