@@ -19667,7 +19667,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
 	'textBackgroundColor',
 	'useNative',
 	'path',
-	'maxWidth', 'customStyles','textPaddingTop',
+	'maxWidth', 'customStyles', 'textPaddingTop', 'VAllignment',
 		'maxHeight',
 		'charSpacing', 'clippedText', 'IsPositionLocked', 'IsEditable', 'autoCollapseText',
     'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'hasInlineFontStyle', 'IsOverlayObject', 'IsQuickText', 'textCase', 'IsUnderlinedText', 'isBulletPoint','bullets'
@@ -19951,7 +19951,8 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
         shadow: null,
         // added  by saqib 
         maxWidth: 300,
-        textPaddingTop :0,
+        textPaddingTop: 0,
+        VAllignment:1,
         customStyles: [],
         maxHeight: 300,
         IsQuickText: false,
@@ -20304,14 +20305,23 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                         y += lineHeight;
                     }
                 } else {
-                    //if (isLoading == false) {
-                    //    //  pcL23("Increase frame size to show missing content.");
-                    //}
                     if ((MaxHeight) > BoxHeight) {
                         txtOverflow = true;
                     }
                 }
             }
+           
+
+            if (this.VAllignment == 2)
+            {  // middle
+                this.textPaddingTop = parseInt((BoxHeight - MaxHeight) / 2);
+            } else if (this.VAllignment == 3)
+            {   // bottom
+                this.textPaddingTop = parseInt(BoxHeight - MaxHeight);
+            }
+
+            if (txtOverflow)
+                this.textPaddingTop = 0;
             if (this.AutoShrinkText && txtOverflow == true) {
 
                 if (this != undefined && this.fontSize > 4) {
@@ -20358,7 +20368,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
             this.clipTo && fabric.util.clipContext(this, ctx);
             var textLines = "";
             if (this._cachedObject != null && this.AutoShrinkText != true) {
-                if (this._cachedObject.maxWidth == this.maxWidth && this._cachedObject.maxHeight == this.maxHeight && this._cachedObject.customStyles == this.customStyles && this._cachedObject.fontFamily == this.fontFamily && this._cachedObject.fontSize == this.fontSize && this._cachedObject.fontStyle == this.fontStyle && this._cachedObject.fontWeight == this.fontWeight && this._cachedObject.lineHeight == this.lineHeight && this._cachedObject.charSpacing == this.charSpacing && this.text == this._cachedObject.text && this.isBulletPoint == this._cachedObject.isBulletPoint) {
+                if (this._cachedObject.maxWidth == this.maxWidth && this._cachedObject.maxHeight == this.maxHeight && this._cachedObject.customStyles == this.customStyles && this._cachedObject.fontFamily == this.fontFamily && this._cachedObject.fontSize == this.fontSize && this._cachedObject.fontStyle == this.fontStyle && this._cachedObject.fontWeight == this.fontWeight && this._cachedObject.lineHeight == this.lineHeight && this._cachedObject.charSpacing == this.charSpacing && this.text == this._cachedObject.text && this.isBulletPoint == this._cachedObject.isBulletPoint && this.VAllignment == this._cachedObject.VAllignment) {
                     textLines = this.clippedText.split(this._reNewline);
                 } else {
                     textLines = this._performClipping(ctx, this.text, this);
@@ -20540,6 +20550,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
         */
         _renderTextLine: function (method, ctx, line, left, top, lineIndex) {
             // lift the line by quarter of fontSize
+
             top -= this.fontSize / 4;
             top += (this.fontSize / 21)
             // short-circuit
@@ -20596,10 +20607,10 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
         */
         _renderTextFill: function (ctx, textLines) {
             if (!this.fill && !this._skipFillStrokeCheck) return;
-
             this._boundaries = [];
-            var lineHeights = 0;
-
+            var lineHeights = 0 ;  // adding by saqib for vertical allignment
+            if (this.VAllignment != 1)
+                lineHeights += +this.textPaddingTop;
             for (var i = 0, len = textLines.length; i < len; i++) {
                 var heightOfLine = this.fontSize * this.lineHeight;
                 if (this.customStyles != null && this.customStyles != undefined && this.customStyles.length != 0 && !this.isEmptyStyles()) {
@@ -21692,10 +21703,12 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
               charHeight = this.getCurrentCharFontSize(lineIndex, charIndex);
             ctx.fillStyle = this.getCurrentCharColor(lineIndex, charIndex);
             ctx.globalAlpha = this._currentCursorOpacity;
-
+            var topOffset = 0;
+            if (this.VAllignment != 1)
+                topOffset += this.textPaddingTop;
             ctx.fillRect(
             boundaries.left + boundaries.leftOffset,
-            boundaries.top + boundaries.topOffset,
+            boundaries.top + boundaries.topOffset + topOffset,
             this.cursorWidth / this.scaleX,
             charHeight);
 
@@ -21709,7 +21722,9 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
         */
         renderSelection: function (chars, boundaries) {
             var ctx = this.ctx;
-
+            var topOffset = 0;
+            if (this.VAllignment != 1)
+                topOffset += this.textPaddingTop;
             ctx.save();
 
             ctx.fillStyle = this.selectionColor;
@@ -21740,7 +21755,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
 
                     ctx.fillRect(
                 boundaries.left + boundaries.leftOffset + lineOffset,
-                boundaries.top + boundaries.topOffset,
+                boundaries.top + boundaries.topOffset + topOffset,
                 charWidth,
                 this._getHeightOfLine(ctx, lineIndex));
 

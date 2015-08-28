@@ -361,7 +361,21 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     oPdf.HPos = 1.0;
                 }
-
+                if (ooBject.VAllignment.HasValue)
+                {
+                    if (ooBject.VAllignment == 1)
+                    {
+                        oPdf.VPos = 0.0;
+                    }
+                    else if (ooBject.VAllignment == 2)
+                    {
+                        oPdf.VPos = 0.5;
+                    }
+                    else if (ooBject.VAllignment == 3)
+                    {
+                        oPdf.VPos = 1.0;
+                    }
+                }
                 if (ooBject.RotationAngle != 0)
                 {
 
@@ -2175,7 +2189,31 @@ namespace MPC.Implementation.WebStoreServices
                                 TemplatePage objPage = new TemplatePage();
                                 objPage.PageNo = i;
                                 objPage.ProductId = ProductID;
-                                objPage.PageName = "Front";
+                                objPage.PageName = "Page " + i;
+                                if (theDoc.PageCount == 2 && i == 1)
+                                {
+                                    objPage.PageName = "Front";
+                                }
+                                else if (theDoc.PageCount == 2 && i == 2)
+                                {
+                                    objPage.PageName = "Back";
+                                }
+                                else if (theDoc.PageCount == 4 && i == 1)
+                                {
+                                    objPage.PageName = "Front";
+                                }
+                                else if (theDoc.PageCount == 4 && i == 2)
+                                {
+                                    objPage.PageName = "Inside Front";
+                                }
+                                else if (theDoc.PageCount == 4 && i == 3)
+                                {
+                                    objPage.PageName = "Inside Back";
+                                }
+                                else if (theDoc.PageCount == 4 && i == 2)
+                                {
+                                    objPage.PageName = "Back";
+                                }
                                 objPage.BackgroundFileName = ProductID + "/Side" + (i).ToString() + ".pdf";
                                 listNewTemplatePages.Add(objPage);
                                
@@ -2281,7 +2319,31 @@ namespace MPC.Implementation.WebStoreServices
                             TemplatePage objPage = new TemplatePage();
                             objPage.PageNo = i;
                             objPage.ProductId = ProductID;
-                            objPage.PageName = "Front";
+                            objPage.PageName = "Page " + i;
+                            if (theDoc.PageCount == 2 && i == 1)
+                            {
+                                objPage.PageName = "Front";
+                            }
+                            else if (theDoc.PageCount == 2 && i == 2)
+                            {
+                                objPage.PageName = "Back";
+                            }
+                            else if (theDoc.PageCount == 4 && i == 1)
+                            {
+                                objPage.PageName = "Front";
+                            }
+                            else if (theDoc.PageCount == 4 && i == 2)
+                            {
+                                objPage.PageName = "Inside Front";
+                            }
+                            else if (theDoc.PageCount == 4 && i == 3)
+                            {
+                                objPage.PageName = "Inside Back";
+                            }
+                            else if (theDoc.PageCount == 4 && i == 2)
+                            {
+                                objPage.PageName = "Back";
+                            }
                             objPage.BackgroundFileName = ProductID + "/Side" + (i).ToString() + ".pdf";
                             listPages.Add(objPage);
                             //int templatePage = SaveTemplatePage(i, TemplateID, "Front", TemplateID + "/Side" + (i).ToString() + ".pdf");
