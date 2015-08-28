@@ -1221,9 +1221,11 @@ ul.nav li.selectedLava a {
 .confirm_order_detail_div {
     clear: both;
     border-top: 1px solid #a8a8a8;
-    padding-top: 10px;
+    padding-top: 30px;
     padding-left: 15px;
     padding-right: 15px;
+    padding-bottom: 30px;
+    background-color: #fff;
 }
 
 .confirm_order_heading {
@@ -1852,23 +1854,19 @@ ul.nav li.selectedLava a {
 }
 
 .btn_blue_back_small {
-    border: 1px solid #24648F;
+    border: none;
     height: 32px;
-    background: #2493ad;
+    background: green;
     background-repeat: repeat-x;
     width: 70px;
     color: White;
+    margin-bottom: 8px;
 }
 
-.btn_blue_back_small_Remove {
-    border: 1px solid #24648F;
-    height: 26px;
-    background: #2493ad;
-    background-repeat: repeat-x;
-    color: white;
-    width: 178px;
-    margin-left: 103px;
-}
+    .btn_blue_back_small:hover {
+        background: rgb(5, 82, 5);
+    }
+
 
 .page_border_div {
     background-color: white;
@@ -3515,7 +3513,7 @@ width: 520px*/
 
 .strikeThrough {
     text-decoration: line-through;
-    color: color: rgb(102,102,102);
+    color: red;
 }
 
 .ControlFooter {
@@ -4693,6 +4691,7 @@ width: 520px*/
 
 .procu_detail_grid_cell {
     padding: 6px;
+    color: #fff;
 }
 
 .tblContainerInner {
@@ -9040,7 +9039,7 @@ a.PinkRegBack:active {
 }
 
 .hyperlinkCart {
-    width: 140px;
+    width: 76px;
     height: 40px;
 }
 
@@ -10363,7 +10362,7 @@ a.PinkRegBack:active {
     font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
     font-style: normal;
     font-weight: bold;
-    padding-left: 40px;
+    padding-left: 0px;
     font-size: 13px;
     line-height: 16px;
 }
@@ -11751,21 +11750,16 @@ ul.LogBar li a {
     width: 28.5%;
 }
 
-.srFirstTd {
-    width: 34%;
-}
 
 .srScdTd {
     width: 20%;
 }
 
 .srThirdTd {
-    width: 15%;
+    width: 20%;
 }
 
-.srForthtd {
-    width: 40%;
-}
+
 
 #MainContent_lblTotalpayable {
     line-height: 2;
@@ -11831,12 +11825,12 @@ ul.LogBar li a {
 
 .matchingTxtclass {
     font-size: 12px;
-  font-weight: bold;
-  float: left;
-  margin-bottom: 10px;
-  margin-left: 10px;
-  color: black;
-  margin-top: 10px;
+    font-weight: bold;
+    float: left;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    color: black;
+    margin-top: 10px;
 }
 
 .imgMagnifyingGlass {
@@ -12529,6 +12523,115 @@ ul.LogBar li a {
 
 
 @media (min-width:320px) { /* smartphones, iPhone, portrait 480x320 phones */
+    .cnttotalPayablesAS {
+        float: none;
+        width: 100%;
+    }
+
+    .cntsubHeadingsAS {
+        width: 40% !important;
+        float: left;
+    }
+
+    .cnttotalsAS {
+        width: 55%;
+        float: right;
+        text-align: right;
+        line-height: 1.5;
+    }
+
+    .delivery-toBeCaltext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 105px;
+        margin-left: 35px;
+        margin-top: 1px;
+        font-size: 12px !important;
+    }
+
+    .srFirstTd {
+        width: 34%;
+    }
+
+    .srForthtd {
+        width: 30%;
+    }
+
+    .OCnfmtd1 {
+        width: 10%;
+    }
+
+    .OCnfmtd4 {
+        width: 40%;
+    }
+
+    .delivery-OCnfntext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 105px;
+        margin-left: -76px;
+        margin-top: 11px;
+        font-size: 12px !important;
+    }
+
+    .delivery-checkouttext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: right;
+        width: 88px;
+        margin-left: 43px;
+        margin-top: 1px;
+    }
+
+    .btn_blue_back_small_Remove {
+        border: none;
+        height: 34px;
+        background-color: #E83e48;
+        background-repeat: repeat-x;
+        color: white;
+        width: 178px;
+        margin-left: 46px;
+        margin-bottom: 20px;
+    }
+
+    .txtCouponCode {
+        width: 148px;
+        border: 1px solid #c1c6cc;
+        padding: 5px;
+        background-image: url('Images/text_box_back.png');
+        background-repeat: repeat-x;
+        margin-bottom: 8px;
+        margin-left: 0px;
+    }
+
+    #panelCouponCode {
+        width: 100%;
+        text-align: left;
+        float: right;
+    }
+
+    .delivery-codetext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 88px;
+        margin-left: 38px;
+        margin-top: 0px;
+    }
+
+    #lblEstimatedDeliveryMethod {
+        position: absolute;
+        margin-left: -13px;
+        margin-top: -8px;
+        font-size: 10px !important;
+    }
+
     .upload-panel-margin {
         margin-left: 0px;
     }
@@ -12573,7 +12676,7 @@ ul.LogBar li a {
         -moz-border-radius: 0px !important;
         -webkit-border-radius: 0px !important;
         -khtml-border-radius: 0px !important;
-        border-radius: 0px !important;
+        border-radius: 0px !important;  
     }
 
     .cntTopLevelCategory:before {
@@ -12586,7 +12689,7 @@ ul.LogBar li a {
 
 
     DIV.parentCatsContainer DIV.content_area:first-child:before {
-        Content: 'Welcome to TFE Hotels';
+        Content: 'Welcome to TFE Hotels Brand Asset Hub';
         color: white;
         margin-left: 20px;
         position: absolute;
@@ -12657,7 +12760,7 @@ ul.LogBar li a {
     }
 
     .hyperlinkCart {
-        width: 145px;
+        width: 76px;
         height: 40px;
     }
 
@@ -13118,7 +13221,7 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         font-size: 11px !important;
         line-height: 12px;
-        background-color: #10a8bd;
+        background-color: #392e2c;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -13132,7 +13235,7 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         font-size: 11px !important;
         line-height: 12px;
-        background-color: #10a8bd;
+        background-color: #392e2c;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -13571,7 +13674,7 @@ ul.LogBar li a {
     }
 
     .rptContainers {
-         width: auto !important;
+        width: auto !important;
         float: none;
         height: auto;
     }
@@ -13849,7 +13952,7 @@ ul.LogBar li a {
         margin-bottom: 50px;
         padding: 20px;
         border: 1px solid white;
-        height: 378px;
+        height: 382px;
     }
 
     .CAT_ThumbnailPath {
@@ -13896,12 +13999,12 @@ ul.LogBar li a {
 
     .dashboard_item_detail {
         font-size: 10px !important;
-        color: #666666;
+        color: #ffffff;
     }
 
         .dashboard_item_detail:link {
             font-size: 10px !important;
-            color: #666666;
+            color: #ffffff;
         }
 
     .contact_log {
@@ -14073,7 +14176,8 @@ ul.LogBar li a {
         margin: 0px !important;
         width: 100%;
         border: 2px solid white;
-        padding-top: 100px !important;  background: #5f5651 !important;
+        padding-top: 100px !important;
+        background: #5f5651 !important;
     }
 
     .Top_Cat_Body {
@@ -14388,6 +14492,112 @@ ul.LogBar li a {
 }
 
 @media (min-width:481px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+    .cnttotalPayablesAS {
+        float: right;
+        width: 45%;
+    }
+
+    .cntsubHeadingsAS {
+        width: 60% !important;
+        float: left;
+    }
+
+    .cnttotalsAS {
+        width: 30%;
+        float: right;
+        text-align: right;
+        line-height: 1.5;
+    }
+
+    .delivery-toBeCaltext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 105px;
+        margin-left: -35px;
+        margin-top: 1px;
+        font-size: 12px !important;
+    }
+
+    .srFirstTd {
+        width: 34%;
+    }
+
+    .srForthtd {
+        width: 30%;
+    }
+
+    .OCnfmtd1 {
+        width: 10%;
+    }
+
+    .OCnfmtd4 {
+        width: 40%;
+    }
+
+    .delivery-OCnfntext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 105px;
+        margin-left: -85px;
+        margin-top: 11px;
+        font-size: 13px !important;
+    }
+
+    .delivery-checkouttext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: right;
+        width: 88px;
+        margin-left: -38px;
+        margin-top: 1px;
+    }
+
+    .btn_blue_back_small_Remove {
+        border: none;
+        height: 34px;
+        background-color: #E83e48;
+        background-repeat: repeat-x;
+        color: white;
+        width: 178px;
+        margin-left: 0px;
+    }
+
+    .txtCouponCode {
+        width: 148px;
+        border: 1px solid #c1c6cc;
+        padding: 5px;
+        background-image: url('Images/text_box_back.png');
+        background-repeat: repeat-x;
+        margin-bottom: 8px;
+        margin-left: 0px;
+    }
+
+    #panelCouponCode {
+        width: 100%;
+        text-align: left;
+        float: right;
+    }
+
+    .delivery-codetext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 88px;
+        margin-left: -32px;
+        margin-top: 0px;
+    }
+
+    .cntsubHeadingsAS {
+        width: 44% !important;
+        float: left;
+    }
+
     .upload-panel-margin {
         margin-left: 0px;
     }
@@ -14432,7 +14642,7 @@ ul.LogBar li a {
         -moz-border-radius: 0px !important;
         -webkit-border-radius: 0px !important;
         -khtml-border-radius: 0px !important;
-        border-radius: 0px !important;
+        border-radius: 0px !important;  
     }
 
     .PDTC_TL {
@@ -14452,7 +14662,7 @@ ul.LogBar li a {
 
 
     DIV.parentCatsContainer DIV.content_area:first-child:before {
-        Content: 'Welcome to TFE Hotels';
+        Content: 'Welcome to TFE Hotels Brand Asset Hub';
         color: white;
         margin-left: 33px;
         position: absolute;
@@ -14540,7 +14750,7 @@ ul.LogBar li a {
     }
 
     .hyperlinkCart {
-        width: 145px;
+        width: 76px;
         height: 40px;
     }
 
@@ -15067,7 +15277,7 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         font-size: 14px !important;
         line-height: 12px;
-        background-color: #10a8bd;
+        background-color: #392e2c;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -15081,7 +15291,7 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         font-size: 14px !important;
         line-height: 12px;
-        background-color: #10a8bd;
+        background-color: #392e2c;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -15366,7 +15576,7 @@ ul.LogBar li a {
         /*margin-left: 5px; border: 10px;*/
         margin-bottom: 50px;
         border: 1px solid white;
-        height: 350px;
+        height: 382px;
     }
 
     .CAT_Body {
@@ -15414,12 +15624,12 @@ ul.LogBar li a {
 
     .dashboard_item_detail {
         font-size: 10px !important;
-        color: #666666;
+        color: #ffffff;
     }
 
         .dashboard_item_detail:link {
             font-size: 10px !important;
-            color: #666666;
+            color: #ffffff;
         }
 
     .contact_log {
@@ -15553,7 +15763,8 @@ ul.LogBar li a {
         width: 100%;
         border: 2px solid white;
         padding-top: 100px !important;
-        padding-bottom: 20px;  background: #5f5651 !important;
+        padding-bottom: 20px;
+        background: #5f5651 !important;
     }
 
     .Top_Cat_Body {
@@ -15724,12 +15935,13 @@ ul.LogBar li a {
     }
 
     .cntdispatchDelivery {
-        width: 55% !important;
-        float: right;
+        width: 46% !important;
+        float: left;
+        margin-top: 0px;
     }
 
     .cntsubHeadings {
-        width: 60% !important;
+        width: 48% !important;
         float: left;
     }
 
@@ -15793,6 +16005,107 @@ ul.LogBar li a {
 }
 
 @media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+    .cnttotalPayablesAS {
+        float: right;
+        width: 32%;
+    }
+
+    .cntsubHeadingsAS {
+        width: 33% !important;
+        float: left;
+    }
+
+    .cnttotalsAS {
+        width: 30%;
+        float: right;
+        text-align: right;
+        line-height: 1.5;
+    }
+
+    .delivery-toBeCaltext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 105px;
+        margin-left: -35px;
+        margin-top: 1px;
+        font-size: 12px !important;
+    }
+
+    .srFirstTd {
+        width: 25%;
+    }
+
+    .srForthtd {
+        width: 46%;
+    }
+
+    .OCnfmtd1 {
+        width: 10%;
+    }
+
+    .OCnfmtd4 {
+        width: 13%;
+    }
+
+    .delivery-OCnfntext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 105px;
+        margin-left: -85px;
+        margin-top: 11px;
+        font-size: 13px !important;
+    }
+
+    .delivery-checkouttext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: right;
+        width: 88px;
+        margin-left: -28px;
+        margin-top: 1px;
+    }
+
+    .btn_blue_back_small_Remove {
+        border: none;
+        height: 34px;
+        background-color: #E83e48;
+        background-repeat: repeat-x;
+        color: white;
+        width: 178px;
+        margin-left: 0px;
+    }
+
+    .txtCouponCode {
+        width: 148px;
+        border: 1px solid #c1c6cc;
+        padding: 5px;
+        background-image: url('Images/text_box_back.png');
+        background-repeat: repeat-x;
+        margin-bottom: 8px;
+        margin-left: 0px;
+    }
+
+    #panelCouponCode {
+        width: 100%;
+        text-align: left;
+        float: right;
+    }
+
+    .delivery-codetext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 88px;
+        margin-left: -32px;
+        margin-top: 0px;
+    }
+
     .upload-panel-margin {
         margin-left: 0px;
     }
@@ -15838,7 +16151,7 @@ ul.LogBar li a {
         -moz-border-radius: 0px !important;
         -webkit-border-radius: 0px !important;
         -khtml-border-radius: 0px !important;
-        border-radius: 0px !important;
+        border-radius: 0px !important; 
     }
 
     .cntTopLevelCategory:before {
@@ -15851,7 +16164,7 @@ ul.LogBar li a {
 
 
     DIV.parentCatsContainer DIV.content_area:first-child:before {
-        Content: 'Welcome to TFE Hotels';
+        Content: 'Welcome to TFE Hotels Brand Asset Hub';
         color: white;
         margin-left: 58px;
         position: absolute;
@@ -15924,7 +16237,7 @@ ul.LogBar li a {
     }
 
     .dashboardIcons {
-        padding-top: 8px;
+        padding-top:12px;
         box-shadow: inset 0 2px 2px #cccccc,0 0 0 1px #cccccc,0 1px 1px #aaa;
         background: white;
         border-radius: 33px;
@@ -15941,7 +16254,7 @@ ul.LogBar li a {
     }
 
     .hyperlinkCart {
-        width: 145px;
+        width: 76px;
         height: 40px;
     }
 
@@ -16399,7 +16712,8 @@ ul.LogBar li a {
         width: 100%;
         border: 2px solid white;
         padding-top: 95px !important;
-        padding-bottom: 22px !important;  background: #5f5651 !important;
+        padding-bottom: 22px !important;
+        background: #5f5651 !important;
     }
 
     .temSelPnlTxtBck {
@@ -16575,12 +16889,12 @@ ul.LogBar li a {
     }
 
     .cntuploadfilebtns {
-      width: 100% !important;
+        width: 100% !important;
         text-align: center !important;
     }
 
     .rptContainers {
-           width: 100% !important;
+        width: 100% !important;
         float: none;
         height: auto;
     }
@@ -16751,7 +17065,7 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         font-size: 14px !important;
         line-height: 12px;
-        background-color: #10a8bd;
+        background-color: #392e2c;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -16765,7 +17079,7 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         font-size: 14px !important;
         line-height: 12px;
-        background-color: #10a8bd;
+        background-color: #392e2c;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -16816,7 +17130,7 @@ ul.LogBar li a {
     .tdDelivery {
         /*width: 312px;*/
         float: left;
-        width: 100% !important;
+        width: 60% !important;
     }
 
     .cntsubHeadings {
@@ -16825,14 +17139,15 @@ ul.LogBar li a {
     }
 
     .cntdispatchDelivery {
-        width: 51% !important;
+        width: 68% !important;
         float: left;
+        margin-top: 0px;
     }
 
     .tdDispatchDate {
         /*width: 90px;*/
         width: 40%;
-        float: none !important;
+        float: left !important;
         line-height: 4;
     }
 
@@ -17071,7 +17386,7 @@ ul.LogBar li a {
         /*margin-left: 5px; border: 10px;*/
         margin-bottom: 50px;
         border: 1px solid white;
-        height: 375px;
+        height: 382px;
     }
 
     .CAT_Body {
@@ -17119,12 +17434,12 @@ ul.LogBar li a {
 
     .dashboard_item_detail {
         font-size: 10px !important;
-        color: #666666;
+        color: #ffffff;
     }
 
         .dashboard_item_detail:link {
             font-size: 10px !important;
-            color: #666666;
+            color: #ffffff;
         }
 
     .contact_log {
@@ -17458,6 +17773,107 @@ ul.LogBar li a {
 
 
 @media (min-width:992px) {
+    .cntsubHeadingsAS {
+        margin-left: 0px;
+        width: 40% !important;
+        float: left;
+    }
+
+    .cnttotalPayablesAS {
+        float: right;
+        width: 19%;
+    }
+
+    .cnttotalsAS {
+        width: 30%;
+        float: right;
+        text-align: right;
+        line-height: 1.5;
+        margin-right: 1px;
+    }
+
+    .delivery-toBeCaltext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 105px;
+        margin-left: -40px;
+        margin-top: 1px;
+    }
+
+    .srFirstTd {
+        width: 34%;
+    }
+
+    .srForthtd {
+        width: 30%;
+    }
+
+    .OCnfmtd1 {
+        width: 10%;
+    }
+
+    .OCnfmtd4 {
+        width: 10%;
+    }
+
+    .delivery-OCnfntext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 105px;
+        margin-left: -86px;
+        margin-top: 10px;
+    }
+
+    .delivery-checkouttext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: right;
+        width: 88px;
+        margin-left: 7px;
+        margin-top: 1px;
+    }
+
+    .btn_blue_back_small_Remove {
+        border: none;
+        height: 34px;
+        background-color: #E83e48;
+        background-repeat: repeat-x;
+        color: white;
+        width: 178px;
+        margin-left: 0px;
+    }
+
+    .txtCouponCode {
+        width: 160px;
+        border: 1px solid #c1c6cc;
+        padding: 5px;
+        background-image: url('Images/text_box_back.png');
+        background-repeat: repeat-x;
+        margin-bottom: 8px;
+        margin-left: 0px;
+    }
+
+    #panelCouponCode {
+        width: 100%;
+        text-align: left;
+        float: left;
+    }
+
+    .delivery-codetext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 88px;
+        margin-left: -33px;
+        margin-top: 1px;
+    }
+
     .upload-panel-margin {
         margin-left: 10px;
     }
@@ -17504,7 +17920,7 @@ ul.LogBar li a {
 
 
     DIV.parentCatsContainer DIV.content_area:first-child:before {
-        Content: 'Welcome to TFE Hotels';
+        Content: 'Welcome to TFE Hotels Brand Asset Hub';
         color: white;
         margin-left: 98px;
         position: absolute;
@@ -17520,7 +17936,7 @@ ul.LogBar li a {
         text-align: center;
         cursor: pointer;
         color: black;
-        width: 160px;
+        width: 295px;
         border: none;
     }
 
@@ -17547,7 +17963,7 @@ ul.LogBar li a {
     }
 
     .order_history_btn {
-            height: 33px;
+        height: 33px;
         border: 0px;
         text-align: center;
         color: white;
@@ -17594,7 +18010,7 @@ ul.LogBar li a {
         border-radius: 5px;
         padding-left: 5px;
         position: absolute !important;
-        margin-left: -497px;
+        margin-left: 397px;
         display: block;
     }
 
@@ -17923,7 +18339,7 @@ ul.LogBar li a {
         height: 65px;
         max-width: 290px;
         position: absolute;
-        margin-top: 15px;
+        margin-top: -50px;
     }
 
     .SpecsContainer {
@@ -18026,7 +18442,7 @@ ul.LogBar li a {
     }
 
     .PDTC_TL {
-        height: 200px;
+        height: 180px;
         padding: 10px;
         cursor: pointer;
     }
@@ -18256,7 +18672,7 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         font-size: 14px !important;
         line-height: 12px;
-        background-color: #10a8bd;
+        background-color: #392e2c;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -18270,7 +18686,7 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         font-size: 14px !important;
         line-height: 12px;
-        background-color: #10a8bd;
+        background-color: #392e2c;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -18374,13 +18790,14 @@ ul.LogBar li a {
     }
 
     .cntdispatchDelivery {
-        width: 52% !important;
+        width: 80% !important;
         float: left;
+        margin-top: 0px;
     }
 
     .tdDispatchDate {
         /*width: 90px;*/
-        width: 40%;
+        width: 38%;
         float: left !important;
         line-height: 4;
     }
@@ -18509,14 +18926,14 @@ ul.LogBar li a {
     .BD_PCS {
         float: left;
         text-align: center;
-        width: 160px !important;
+        width: 295px !important;
         margin-right: 1px;
         margin-left: 5px;
         margin-bottom: 10px;
     }
 
     .cntuploadfilebtns {
-       width: 100% !important;
+        width: 100% !important;
         text-align: center !important;
     }
 
@@ -18785,7 +19202,7 @@ ul.LogBar li a {
     }
 
     .rptContainers {
-      width: 100% !important;
+        width: 100% !important;
         float: none;
         height: auto;
     }
@@ -19026,7 +19443,7 @@ ul.LogBar li a {
         padding: 0px;
         border-radius: 10px;
         border: 1px solid white;
-        height: 350px;
+        height: 382px;
     }
 
     .CAT_Body {
@@ -19076,7 +19493,7 @@ ul.LogBar li a {
 
     .dashboard_item_detail {
         font-size: 12px !important;
-        color: #666666;
+        color: #ffffff;
     }
 
     .contact_log {
@@ -19206,7 +19623,7 @@ ul.LogBar li a {
         float: left;
         border: 1px;
         text-align: left;
-        width: 195px !important;
+        width: 224px !important;
         margin-right: 0px !important;
         margin-bottom: 0px !important;
         background-color: transparent;
@@ -19223,8 +19640,9 @@ ul.LogBar li a {
         width: 100%;
         border: 2px solid white;
         padding-left: 83px !important;
-        padding-top: 95px !important;
-        padding-bottom: 20px !important;  background: #5f5651 !important;
+        padding-top: 105px !important;
+        padding-bottom: 20px !important;
+        background: #5f5651 !important;
     }
 
 
@@ -19389,6 +19807,107 @@ ul.LogBar li a {
 }
 
 @media (min-width:1025px) {
+    .cntsubHeadingsAS {
+        margin-left: 0px;
+        width: 40% !important;
+        float: left;
+    }
+
+    .cnttotalPayablesAS {
+        float: right;
+        width: 19%;
+    }
+
+    .cnttotalsAS {
+        width: 30%;
+        float: right;
+        text-align: right;
+        line-height: 1.5;
+        margin-right: 1px;
+    }
+
+    .delivery-toBeCaltext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 105px;
+        margin-left: -40px;
+        margin-top: 1px;
+    }
+
+    .srFirstTd {
+        width: 34%;
+    }
+
+    .srForthtd {
+        width: 30%;
+    }
+
+    .OCnfmtd1 {
+        width: 10%;
+    }
+
+    .OCnfmtd4 {
+        width: 10%;
+    }
+
+    .delivery-OCnfntext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 105px;
+        margin-left: -86px;
+        margin-top: 10px;
+    }
+
+    .delivery-checkouttext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: right;
+        width: 88px;
+        margin-left: 7px;
+        margin-top: 1px;
+    }
+
+    .btn_blue_back_small_Remove {
+        border: none;
+        height: 34px;
+        background-color: #E83e48;
+        background-repeat: repeat-x;
+        color: white;
+        width: 178px;
+        margin-left: 0px;
+    }
+
+    .txtCouponCode {
+        width: 160px;
+        border: 1px solid #c1c6cc;
+        padding: 5px;
+        background-image: url('Images/text_box_back.png');
+        background-repeat: repeat-x;
+        margin-bottom: 8px;
+        margin-left: 0px;
+    }
+
+    #panelCouponCode {
+        width: 100%;
+        text-align: left;
+        float: left;
+    }
+
+    .delivery-codetext {
+        color: red !important;
+        position: absolute;
+        line-height: 1;
+        text-align: left;
+        width: 88px;
+        margin-left: -33px;
+        margin-top: 1px;
+    }
+
     .upload-panel-margin {
         margin-left: 10px;
     }
@@ -19435,7 +19954,7 @@ ul.LogBar li a {
 
 
     DIV.parentCatsContainer DIV.content_area:first-child:before {
-        Content: 'Welcome to TFE Hotels';
+        Content: 'Welcome to TFE Hotels Brand Asset Hub';
         color: white;
         margin-left: 98px;
         position: absolute;
@@ -19451,7 +19970,7 @@ ul.LogBar li a {
         text-align: center;
         cursor: pointer;
         color: black;
-        width: 160px;
+        width: 295px;
         border: none;
     }
 
@@ -19478,7 +19997,7 @@ ul.LogBar li a {
     }
 
     .order_history_btn {
-            height: 33px;
+        height: 33px;
         border: 0px;
         text-align: center;
         color: white;
@@ -19495,7 +20014,7 @@ ul.LogBar li a {
         padding: 5px;
         background-image: url('Images/text_box_back.png');
         background-repeat: repeat-x;
-        width: 150px;
+        width: 130px;
         color: black;
     }
 
@@ -19507,7 +20026,7 @@ ul.LogBar li a {
     }
 
     #USerInfoContainer {
-        width: 535px;
+        width: 630px;
     }
 
     .cartli {
@@ -19518,14 +20037,14 @@ ul.LogBar li a {
         float: right !important;
         width: 0px;
         height: 0px !important;
-        margin-top: 2px;
+        margin-top: 0px;
         -moz-border-radius: 5px;
         -webkit-border-radius: 5px;
         -khtml-border-radius: 5px;
         border-radius: 5px;
         padding-left: 5px;
         position: absolute !important;
-        margin-left: -497px;
+        margin-left: 397px;
         display: block;
     }
 
@@ -19692,7 +20211,7 @@ ul.LogBar li a {
     }
 
     .Top_Cat_ThumbnailPath {
-        max-width: 185px;
+        max-width: 170px;
         height: auto !important;
         max-height: 270px;
         border: 0px;
@@ -19700,7 +20219,7 @@ ul.LogBar li a {
         -moz-border-radius: 0px !important;
         -webkit-border-radius: 0px !important;
         -khtml-border-radius: 0px !important;
-        border-radius: 0px !important;
+        border-radius: 0px !important;  
     }
 
     .firstDyContainer {
@@ -19867,7 +20386,7 @@ ul.LogBar li a {
         height: 65px;
         max-width: 290px;
         position: absolute;
-        margin-top: 15px;
+        margin-top: -50px;
     }
 
     .SpecsContainer {
@@ -19970,7 +20489,7 @@ ul.LogBar li a {
     }
 
     .PDTC_TL {
-        height: 200px;
+        height: 180px;
         padding: 10px;
         cursor: pointer;
     }
@@ -20196,7 +20715,7 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         font-size: 14px !important;
         line-height: 12px;
-        background-color: #10a8bd;
+        background-color: #392e2c;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -20210,7 +20729,7 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         font-size: 14px !important;
         line-height: 12px;
-        background-color: #10a8bd;
+        background-color: #392e2c;
         height: 42px;
         color: white;
         -moz-border-radius: 10px;
@@ -20314,13 +20833,14 @@ ul.LogBar li a {
     }
 
     .cntdispatchDelivery {
-        width: 52% !important;
+        width: 80% !important;
         float: left;
+        margin-top: 0px;
     }
 
     .tdDispatchDate {
         /*width: 90px;*/
-        width: 40%;
+        width: 38%;
         float: left !important;
         line-height: 4;
     }
@@ -20449,14 +20969,14 @@ ul.LogBar li a {
     .BD_PCS {
         float: left;
         text-align: center;
-        width: 160px !important;
+        width: 295px !important;
         margin-right: 1px;
         margin-left: 5px;
         margin-bottom: 10px;
     }
 
     .cntuploadfilebtns {
-         width: 100% !important;
+        width: 100% !important;
         text-align: center !important;
     }
 
@@ -20724,7 +21244,7 @@ ul.LogBar li a {
     }
 
     .rptContainers {
-       width: 100% !important;
+        width: 100% !important;
         float: none;
         height: auto;
     }
@@ -20965,7 +21485,7 @@ ul.LogBar li a {
         padding: 0px;
         border-radius: 10px;
         border: 1px solid white;
-        height: 350px;
+        height: 382px;
     }
 
     .CAT_Body {
@@ -21016,7 +21536,7 @@ ul.LogBar li a {
 
     .dashboard_item_detail {
         font-size: 12px !important;
-        color: #666666;
+        color: #ffffff;
     }
 
     .contact_log {
@@ -21125,7 +21645,7 @@ ul.LogBar li a {
         float: left;
         border: 1px;
         text-align: left;
-        width: 195px !important;
+        width: 224px !important;
         margin-right: 0px !important;
         margin-bottom: 0px !important;
         background-color: transparent;
@@ -21142,8 +21662,9 @@ ul.LogBar li a {
         width: 100%;
         border: 2px solid white;
         padding-left: 83px !important;
-        padding-top: 95px !important;
-        padding-bottom: 20px !important;  background: #5f5651 !important;
+        padding-top: 105px !important;
+        padding-bottom: 20px !important;
+        background: #5f5651 !important;
     }
 
 
@@ -22812,7 +23333,7 @@ gridViewCheckoutRowStyle td {
     font-weight: bold;
     font-size: 20px;
     line-height: 13px;
-    color: black;
+    color: white;
     float: left;
 }
 
@@ -23642,7 +24163,7 @@ label {
 .LOgo_ImgeP {
     z-index: 1;
     border-style: none;
-    padding-left: 18px;
+     padding-left:18px;
 }
 
 .top_header_ex {
@@ -24115,6 +24636,7 @@ label {
     margin-left: 12px;
     margin-top: 10px;
 }
+
 .goto-designer-button:hover {
     background: #DFC003;
 }
@@ -24138,50 +24660,137 @@ DIV.LoginBarContainer DIV.content_area {
 
 #all-category-pg {
     border: 2px solid white;
-      background: #5f5651 !important;
+    background: #5f5651 !important;
 }
+
 #Orderhistory {
-  border: 2px solid white;
-  padding-top: 50px;
+    border: 2px solid white;
+    padding-top: 50px;
     background: #5f5651 !important;
 }
+
 #all-contactDetail-pg {
-  border: 2px solid white;
-  padding-top: 50px;
+    border: 2px solid white;
+    padding-top: 50px;
     background: #5f5651 !important;
 }
+
 #ContactDetailsMainContainer {
-      background-color: transparent !important;
+    background-color: transparent !important;
 }
+
 DIV#controlBodyDiv DIV.content_area {
-  
-  padding-top: 50px;
+    padding-top: 50px;
 }
+
 #all-forgorPass-pg {
-     border: 2px solid white;
-  padding-top: 50px;
+    border: 2px solid white;
+    padding-top: 50px;
     background: #5f5651 !important;
 }
+
 #all-signUp-pg {
-       border: 2px solid white;
-  padding-top: 50px;
+    border: 2px solid white;
+    padding-top: 50px;
     background: #5f5651 !important;
 }
+
 DIV.signup_width DIV.BackgroundColor {
-  background-color:transparent !important;
+    background-color: transparent !important;
 }
+
 #all-dashboard-pg {
-          border: 2px solid white;
-  padding-top: 50px;
+    border: 2px solid white;
+    padding-top: 50px;
     background: #5f5651 !important;
 }
+
 #all-orderHistory-pg {
-            border: 2px solid white;
-  padding-top: 50px;
+    border: 2px solid white;
+    padding-top: 50px;
     background: #5f5651 !important;
 }
+
 #BillingShiping {
-         border: 2px solid white;
-  padding-top: 50px;
+    border: 2px solid white;
+    padding-top: 50px;
+    background: #5f5651 !important;
+        padding-bottom: 30px;
+}
+
+.lblRecepFreeShipping {
+    color: red !important;
+    position: absolute;
+    line-height: 1;
+    text-align: left;
+    margin-top: 11px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.checkout-container {
+    text-align: center;
+}
+
+#lblCheckBox {
+    color: white !important;
+}
+
+#divBilling + div {
+    color: white !important;
+        font-size: 16px !important;
+            width: 100% !important;
+}
+.receiptcontainer{
+margin-top: 15px;
+}
+#lbl_PrintReceipt {
+      color: white !important;
+}
+.cntTopLevelCategory > div:nth-child(3) {
+    clear:left;
+}
+#Select + label {
+     color: white !important;
+}
+#News + label {
+     color: white !important;
+}
+#all-pendingOrder-pg {
+    border: 2px solid white;
+    padding-top: 50px;
     background: #5f5651 !important;
 }
+#btnCopyProduct {
+display:none;
+}
+ul.LogBar > li:nth-child(3) {
+   
+ margin-right: 113px !important;
+}
+/***Home styles
+    
+    
+    
+    <style type="text/css">@media (min-width:1025px) {
+
+#USerInfoContainer {
+    width: 630px !important;
+}
+
+ul.LogBar > li:nth-child(3) {
+   
+ margin-right: 113px !important;
+}
+.classicLoginCart {
+   
+    margin-left: 397px ;!important;
+ 
+}
+
+}
+</style>
+
+    
+    
+    **/

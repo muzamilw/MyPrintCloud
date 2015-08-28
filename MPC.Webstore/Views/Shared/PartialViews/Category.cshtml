@@ -241,8 +241,8 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                     }
 
 
-                                    if (ViewBag.IsShowPrices == true)
-                                    {
+                                    
+                                    
                                         <table id="productPricetbl" class="productPricetbl" width="80%" cellpadding="5" cellspacing="0" style="">
                                             <tr>
                                                 <td class="Metroprod_table_cell prod_table_cell procu_detail_grid_cell wdthWrp"
@@ -251,7 +251,11 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                                 </td>
                                                 <td id="tdStockOpt1" class="prod_table_cell Metroprod_table_cell procu_detail_grid_cell wdthWrp"
                                                     style="text-align: right;">
-                                                    <label id="lblStockOpt1">@stockLabel</label>
+                                                    @if (ViewBag.IsShowPrices == true)
+                                                    {
+                                                        <label id="lblStockOpt1">@stockLabel</label>
+                                                    }
+                                                    
                                                 </td>
                                             </tr>
                                             @if (matrix != null)
@@ -266,9 +270,12 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                                         <td id="tdPrice1" class="product_detail_item_cell procu_detail_grid_cell"
                                                             style="text-align: right;">
                                                             <div id="matrixItemColumn1">
+                                                                @if (ViewBag.IsShowPrices == true)
+                                                                {
+                                                                    <label id="lblPrice1">@Objmatrix.Price</label>
 
-                                                                <label id="lblPrice1">@Objmatrix.Price</label>
-
+                                                                }
+                                                                
 
                                                             </div>
                                                         </td>
@@ -281,7 +288,7 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
 
                                             }
                                         </table>
-                                    }
+                                    
 
 
                                 }
@@ -334,8 +341,8 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                                 }
                                                 else
                                                 {
-                                                    <a href="@Url.Action("CloneItem", "Category", new { id = item.ItemId })" onclick="ShowLoader();">
-                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))" class="goto-designer-button rounded_corners" />
+                                                    <a href='@Url.Action("CloneItem", "Category", new { id = item.ItemId })' onclick="ShowLoader();">
+                                                        <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))' class="goto-designer-button rounded_corners" />
                                                     </a>
                                                 }
 
