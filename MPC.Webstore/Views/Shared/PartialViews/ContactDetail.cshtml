@@ -496,7 +496,7 @@
             if (errorMessage == '') {
                 errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name"))';
             } else {
-                errorMessage = errorMessage + ,'@Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name"))';
+                errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name"))';
             }
             isValid = false;
         }
@@ -504,7 +504,7 @@
             if (errorMessage == '') {
                 errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("divcompanyname", UserCookieManager.WBStoreId, "Company Name"))';
             } else {
-                errorMessage = errorMessage + ,'@Html.Raw(Html.GetKeyValueFromResourceFile("divcompanyname", UserCookieManager.WBStoreId, "Company Name"))';
+                errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("divcompanyname", UserCookieManager.WBStoreId, "Company Name"))';
             }
             isValid = false;
         }

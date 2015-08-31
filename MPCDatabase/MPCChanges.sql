@@ -7583,9 +7583,10 @@ select
 
 
 
--------------------------------- procedure to import crm contacts -----------------------
 
 
+
+	alter table templateObject add textPaddingTop int null 
 /****** Object:  StoredProcedure [dbo].[usp_importCRMCompanyContacts]    Script Date: 8/27/2015 10:21:56 AM ******/
 SET ANSI_NULLS ON
 GO
@@ -7763,3 +7764,8 @@ GO
 		END CATCH
 End --End of Procedure Begin
 
+alter table Company add IsRegisterAccessWebStore bit null
+alter table Company add IsRegisterPlaceOrder bit null
+alter table Company add IsRegisterPayOnlyByCreditCard bit null
+alter table Company add IsRegisterPlaceDirectOrder bit null
+alter table Company add IsRegisterPlaceOrderWithoutApproval bit null

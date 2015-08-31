@@ -2735,7 +2735,12 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public List<Item> GetItemsForWidgets()
         {
-            return DbSet.Where(i => i.IsPublished.HasValue && i.OrganisationId == OrganisationId).ToList();
+            return
+                DbSet.Where(
+                    i =>
+                        i.IsPublished == true && i.IsArchived == false && i.EstimateId == null && i.IsFeatured == true &&
+                        i.OrganisationId == OrganisationId).ToList().OrderBy(c => c.ProductName).ToList();
+
         }
 
         public List<Item> GetItemsByOrderID(long OrderID)
@@ -4284,7 +4289,7 @@ namespace MPC.Repository.Repositories
                 db.Configuration.LazyLoadingEnabled = false;
                 return db.Items.Where(
                      i =>
-                         i.EstimateId == null && i.IsPublished == true && i.IsEnabled == true && i.CompanyId == CompanyId &&
+                         i.EstimateId == null && i.IsPublished == true && i.IsEnabled == true && (i.IsArchived == null || i.IsArchived == false) && i.CompanyId == CompanyId &&
                          i.OrganisationId == OrganisationId).ToList();
 
             }

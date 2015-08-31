@@ -150,6 +150,11 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? isStoreLive { get; set; }
         public bool? CanUserUpdateAddress { get; set; }
         public bool IsClickReached { get; set; }
+        public bool? IsRegisterAccessWebStore { get; set; }
+        public bool? IsRegisterPlaceOrder { get; set; }
+        public bool? IsRegisterPayOnlyByCreditCard { get; set; }
+        public bool? IsRegisterPlaceDirectOrder { get; set; }
+        public bool? IsRegisterPlaceOrderWithoutApproval { get; set; }
         #endregion
 
         #region Public List Properties

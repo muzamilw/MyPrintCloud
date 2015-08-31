@@ -3089,7 +3089,7 @@ namespace MPC.Common
         }
         private void IntColor()
         {
-            clrData = new ColorData[3011];
+            clrData = new ColorData[3012];
             int i = 0;
             #region ""
 
@@ -4565,6 +4565,7 @@ namespace MPC.Common
             clrData[i] = new ColorData(5, 15, 0, 20, "C3B5C4"); i++;
             clrData[i] = new ColorData(3, 5, 0, 15, "D2CFD7"); i++;
             clrData[i] = new ColorData(50, 100, 0, 0, "91278F"); i++;
+            clrData[i] = new ColorData(57, 55, 61, 31, "4C4F45"); i++;
             clrData[i] = new ColorData(40, 80, 0, 0, "A154A1"); i++;
             clrData[i] = new ColorData(35, 70, 0, 0, "A968AB"); i++;
             clrData[i] = new ColorData(30, 60, 0, 0, "B27AB4"); i++;
