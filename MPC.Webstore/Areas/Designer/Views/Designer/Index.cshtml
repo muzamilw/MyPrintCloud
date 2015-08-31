@@ -9,6 +9,7 @@
     @*<link href="~/Scripts/Designer/a12/a66.css" rel="stylesheet" />*@
   
 }
+@using MPC.Webstore.Common;
 
 <section id="content" class="preparing ">
     <section class="mainMenuBKLayer"></section>
@@ -1367,7 +1368,7 @@
                 <div class="divTxtProofingDesigner">
                     <div class="ConfirmPopupProofDesigner">
                         <label class="lblChkSpellings" runat="server" id="lblConfirmSpellings" style="vertical-align:super">
-                            Confirm spelling and details
+                            @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDesinerProofMsg", UserCookieManager.WBStoreId, " Confirm spelling and details"))   
                         </label>
                         <input id="chkCheckSpelling" name="chkCheckSpelling" runat="server" class="regular-checkbox-new"
                                type="checkbox" />

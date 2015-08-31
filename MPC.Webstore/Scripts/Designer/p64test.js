@@ -20256,6 +20256,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                     if (this.customStyles != null && this.customStyles != undefined && this.customStyles.length != 0 && !this.isEmptyStyles()) {
                         maxWidthLastLine = this._getWidthOfLine(context, demoLines.length - 1, demoLines);
                         maxHeightLastLine = this._getHeightOfLineCustom(context, demoLines.length - 1, demoLines);
+                       
                     } else {
                         var metrics = context.measureText(testLine);
                         maxWidthLastLine = metrics.width;
@@ -20292,6 +20293,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                     else {
                         line = testLine + " ";
                     }
+                    console.log(maxHeightLastLine + " " + demoLines);
                 }
                 CalcWidthChars = chars + testLine;
                 var demoLines = CalcWidthChars.split(/\r\n|\r|\n/);

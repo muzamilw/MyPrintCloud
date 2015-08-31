@@ -1543,7 +1543,7 @@ function fu02UI() {
     });
     if (organisationId == 1679)
     {
-        $("#lblConfirmSpellings").text("Confirm spelling and details/ managers approval");
+     //   $("#lblConfirmSpellings").text("Confirm spelling, details and management approval");
     }
     $(".PreviewerDownloadPDF").css("display", "none");
     $("#divLayersPanelRetail").draggable({
