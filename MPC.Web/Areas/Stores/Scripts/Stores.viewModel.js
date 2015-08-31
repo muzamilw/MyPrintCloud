@@ -5348,11 +5348,11 @@ define("stores/stores.viewModel",
                     //#region _________WIDGETS IN Themes & Widgets Tab _________________
                     //Open Dialog from Featured Product Row
                     openItemsForWidgetsDialogFromFeatured = function () {
+                        selectedOfferType(1);
+                        
                         productsFilterHeading("Featured Products");
-
                         productsFilterSubHeadingAll("All Featured Products");
                         productsFilterSubHeadingSelected("Selected Featured Products");
-                        selectedOfferType(1);
                         resetItems();
                         view.showItemsForWidgetsDialog();
                     },

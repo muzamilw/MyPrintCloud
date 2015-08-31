@@ -2735,7 +2735,12 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public List<Item> GetItemsForWidgets()
         {
-            return DbSet.Where(i => i.IsPublished.HasValue && i.OrganisationId == OrganisationId).ToList();
+            return
+                DbSet.Where(
+                    i =>
+                        i.IsPublished == true && i.IsArchived == false && i.EstimateId == null && i.IsFeatured == true &&
+                        i.OrganisationId == OrganisationId).ToList().OrderBy(c => c.ProductName).ToList();
+
         }
 
         public List<Item> GetItemsByOrderID(long OrderID)
