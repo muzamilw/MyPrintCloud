@@ -1428,6 +1428,36 @@ namespace MPC.Repository.Repositories
                 foreach(var variable in lstVariables)
                 {
                     obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag, variable.Value);
+                    obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag.ToUpper(), variable.Value.ToUpper());
+                    obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag.ToLower(), variable.Value.ToLower());
+                    // replace prefix and postFixes 
+
+                    string tag = variable.FieldVariable.VariableTag.Replace("{{", "").Replace("}}","");
+                    string preFix  = "{{" + tag + "_pre}}"; ;
+                    string postFix = "{{" + tag + "_post}}";
+
+                    var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
+                    if(contact != null)
+                    {
+                        var ext = db.VariableExtensions.Where(g => g.CompanyId == contact.CompanyId && g.FieldVariableId == variable.FieldVariable.VariableId).SingleOrDefault();
+                        if (ext != null)
+                        {
+                            obj.ContentString = obj.ContentString.Replace(preFix,ext.VariablePrefix);
+                            obj.ContentString = obj.ContentString.Replace(preFix.ToUpper(), ext.VariablePrefix.ToUpper());
+                            obj.ContentString = obj.ContentString.Replace(preFix.ToLower(), ext.VariablePrefix.ToLower());
+
+
+
+                            obj.ContentString = obj.ContentString.Replace(postFix, ext.VariablePostfix);
+                            obj.ContentString = obj.ContentString.Replace(postFix.ToUpper(), ext.VariablePostfix.ToUpper());
+                            obj.ContentString = obj.ContentString.Replace(postFix.ToLower(), ext.VariablePostfix.ToLower());
+
+
+                           
+                        }
+                    }
+                   
+                    
                 }
                 if (obj.ObjectType == 8)
                 {
