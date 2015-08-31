@@ -180,7 +180,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         }
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public void UpdateDataForSystemUser(long CreditLimit, int ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool isWebAccess, bool isPlaceOrder, bool IsPayByPersonalCreditCard, bool IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int QuestionId, string SecretAnswer, long TerritoryId, long AddressId, long ShippingAddressId, string Password, long ContactId)
+        public void UpdateDataForSystemUser(long CreditLimit, int ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool isWebAccess, bool isPlaceOrder, bool ?IsPayByPersonalCreditCard, bool IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int QuestionId, string SecretAnswer, long TerritoryId, long AddressId, long ShippingAddressId, string Password, long ContactId)
         {
             try
             {
@@ -219,7 +219,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         }
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage AddDataForSystemUser(long CreditLimit, int ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool isWebAccess, bool isPlaceOrder, bool IsPayByPersonalCreditCard, bool IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int QuestionId, string SecretAnswer, long TerritoryId, long AddressId, long ShippingAddressId, string Password, long ContactId)
+        public HttpResponseMessage AddDataForSystemUser(long? CreditLimit, int? ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool? isWebAccess, bool? isPlaceOrder, bool? IsPayByPersonalCreditCard, bool? IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int? QuestionId, string SecretAnswer, long? TerritoryId, long AddressId, long? ShippingAddressId, string Password, long ContactId)
         {
             string Message=string.Empty;
             CompanyContact ExistingContact = _companyService.GetContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
