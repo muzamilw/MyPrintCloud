@@ -1785,7 +1785,14 @@ namespace MPC.Repository.Repositories
                 CompanyContact con = db.CompanyContacts.Where(i => i.ContactId == Contact.ContactId).FirstOrDefault();
                 con.FileName = Contact.FirstName;
                 con.LastName = Contact.LastName;
-                con.image = Contact.image;
+                if (Contact.image == null)
+                {
+
+                }
+                else
+                {
+                    con.image = Contact.image;
+                }
                 con.CreditLimit = Contact.CreditLimit;
                 con.ContactRoleId = Contact.ContactRoleId;
                 con.Email = Contact.Email;
@@ -1806,7 +1813,14 @@ namespace MPC.Repository.Repositories
                 con.TerritoryId = Contact.TerritoryId;
                 con.AddressId = Contact.AddressId;
                 con.ShippingAddressId = Contact.ShippingAddressId;
-                con.Password = HashingManager.ComputeHashSHA1(Contact.Password);
+                if (Contact.Password == null)
+                {
+                    
+                }
+                else
+                {
+                    con.Password = HashingManager.ComputeHashSHA1(Contact.Password);
+                }
                 db.CompanyContacts.Attach(con);
                 db.Entry(con).State = EntityState.Modified;
                 db.SaveChanges();

@@ -214,6 +214,7 @@
                         <div class="address_contol_area1">
                             <input id="tboxEmail" class="text_box200 rounded_corners5"
                                    maxlength="30" tabindex="6" placeholder="Email" />
+                            <span id="EmailErrorMsg" style="color:red;font-size:8px;display:none;">please,enter valid email</span>
                         </div>
                         <div class="user_label_area2">
                             <label id="ltrlcreditlimit">Credit Limit</label>
@@ -341,7 +342,7 @@
                             <img id="imgContactPicture" class="user_image_container" />
                             <br />
                             <br />
-                            <input type="file" style="width:200px;" id="fuImageUpload" name="fuImageUpload" class="file_upload_box rounded_corners5" tabindex="23" />
+                            <input type="file" style="width:200px;" id="fuImageUpload" name="fuImageUpload" class="file_upload_box rounded_corners5" tabindex="23" onchange="ShowPreview(this)" />
                             <br />
                             <br />
                         </div>
@@ -427,8 +428,18 @@
     $(document).ready(function () {
     buidPopup();
     $("#popupBody").append($("#pnlUser"));
-        
+        // $("#btnChangePassword").css("display", "none");
     });
+    function ShowPreview(input) {
+        $("#imgContactPicture").css('display', 'block');
+        if (input.files && input.files[0]) {
+            var ImageDir = new FileReader();
+            ImageDir.onload = function (e) {
+                $('#imgContactPicture').attr('src', e.target.result);
+            }
+            ImageDir.readAsDataURL(input.files[0]);
+        }
+    }
     function ResetTextboxes() {
         UpdateStatus = false;
         //  var PHtml = $("#UpdateModelPopUp").html();
@@ -479,10 +490,19 @@
 
 
          $("#tboxPassword").val('');
-        LoadDropdowns();
+         LoadDropdowns();
+         $("#tboxfirstname").css("border", "1px solid #c1c6cc");
+         $("#txtSecretAnswer").css("border", "1px solid #c1c6cc");
+         $("#tboxEmail").css("border", "1px solid #c1c6cc");
+         $("#tboxPassword").css("border", "1px solid #c1c6cc");
+        
+         $('#imgContactPicture').attr('src', '');
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
 
+        $('.pass').css('display', 'block');
+        $("#btnChangePassword").css('display', 'none');
+        $("#imgContactPicture").css('display', 'none');
     }
     function ShowChangePassword() {
         $('.pass').css('display', 'block');
@@ -492,6 +512,7 @@
     function buidPopup() {
         //popupBody
         //modelTitle
+        
         var bws = getBrowserHeight();
 
         var shadow = document.getElementById("innerLayer");
@@ -560,25 +581,31 @@
         return false;
     }
     function AddAndUpdate(ContactID) {
-
+        
+        
         if (UpdateStatus == true) {
-            updateSystemUSerProfile();
+            if (Validation(true) == true) {
+                
+                updateSystemUSerProfile();
+            }
         }
         else {
-            
-            AddNewContact();
+            if (Validation(false) == true) {
+                
+                AddNewContact();
+            }
           //  AddNewAddress();
         }
     }
     function SaveCall() {
-        if (Validation() == true) {
+       // if (Validation() == true) {
             
                 AddAndUpdate();
                 
-            }
+           // }
     }
-    function Validation() {
-
+    function Validation(UpdateStatus) {
+        
         var IsValid = true;
         var errorMessage = '';
 
@@ -612,27 +639,56 @@
             errorMessage = errorMessage + City + "<br>";
             $("#tboxEmail").css("border", "2px solid red");
             IsValid = false;
+          
         }
         else {
             //$("#divCity").css('display', 'none');
-            $("#tboxEmail").css("border", "1px solid #c1c6cc");
+            if (ValidateEmail($("#tboxEmail").val()) == false) {
+                IsValid = false;
+
+                $("#EmailErrorMsg").css("display", "block");
+
+            }
+            else {
+                $("#tboxEmail").css("border", "1px solid #c1c6cc");
+            }
         }
         //if (IsValid == false)
         //{
         //    ShowPopUp('Message', errorMessage);
         //}
-        if ($("#tboxPassword").val() == '') {
-            var City = "Password is Ruquired";
-            errorMessage = errorMessage + City + "<br>";
-            $("#tboxPassword").css("border", "2px solid red");
-            IsValid = false;
-        }
-        else {
-            //$("#divCity").css('display', 'none');
-            $("#tboxPassword").css("border", "1px solid #c1c6cc");
+        if (UpdateStatus == false) {
+            
+            if ($("#tboxPassword").val() == '') {
+                var City = "Password is Ruquired";
+                errorMessage = errorMessage + City + "<br>";
+                $("#tboxPassword").css("border", "2px solid red");
+                IsValid = false;
+                $('.pass').css('display', 'block');
+            }
+            else {
+                //$("#divCity").css('display', 'none');
+                $("#tboxPassword").css("border", "1px solid #c1c6cc");
+                $('.pass').css('display', 'block');
+            }
         }
         return IsValid;
 
+    }
+    function ValidateEmail(email) {
+        var isValid = true;
+        if (email == '') {
+
+            isValid = false;
+        }
+        else {
+            var re = new RegExp("^[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$");
+            if (!re.test(email)) {
+
+                isValid = false;
+            }
+        }
+        return isValid;
     }
 
     $(document).on('change', '#ddlBillingAddress', function () {
@@ -660,14 +716,48 @@
                      });
     });
 
+    function updateBillAndShipBoxes()
+    {
+        
+            var BillID =$("#ddlBillingAddress").val();
+            $.getJSON("/UserManager/getAddress?AddressID=" + BillID + "",
+                         function (xdata) {
+                             $("#txtAddress").val("Address : " + xdata.Address.AddressName + '\n' + "City : " + xdata.Address.City + '\n' + "State : " + xdata.StateName);
+
+                         });
+        
+        
+            var ShipID = $("#ddlShippingAddress").val();
+            $.getJSON("/UserManager/getAddress?AddressID=" + ShipID + "",
+                         function (xdata) {
+                             $("#txtShippingAddress").val("Address : " + xdata.Address.AddressName + "\n" + "City : " + xdata.Address.City + "\n" + "State : " + xdata.StateName);
+
+                         });
+        
+        
+            var TeID = $("#ddlTerritory").val();
+            $.getJSON("/UserManager/GetAddressesByTerritorID?TerritoryID=" + TeID + "",
+                         function (xdata) {
+                             loadDDBillingAddresses(xdata, 0);
+                             loadDDShippingAddress(xdata, 0);
+                         });
+        
+    }
     function LoadAllData(ContactID)
     {
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
+        $('.pass').css('display', 'none');
+        $("#btnChangePassword").css('display', 'block');
+
+        $("#tboxfirstname").css("border", "1px solid #c1c6cc");
+        $("#txtSecretAnswer").css("border", "1px solid #c1c6cc");
+        $("#tboxEmail").css("border", "1px solid #c1c6cc");
+        $("#tboxPassword").css("border", "1px solid #c1c6cc");
         $("#modelTitle").text("Update Contact");
+       // ShowLoader();
         $.getJSON("/webstoreapi/UM/UserProfileData?ContactID=" + ContactID + "",
                       function (xdata) {
-                          
                           LoadDDTerritories(xdata.CompanyTerritory, xdata.setSelectedTerritory.TerritoryId);
                           LoadDDQuestions(xdata.RegistrationQuestions,xdata.SelectedQuestion.QuestionId);
                           loadDDBillingAddresses(xdata.Addresses, xdata.SelectedBillingAddress.AddressId);
@@ -684,13 +774,12 @@
                           LoadDDQuestions(xdata.RegistrationQuestions,0);
                           loadDDBillingAddresses(xdata.Addresses,0);
                           loadDDShippingAddress(xdata.Addresses,0);
-                          loadDDRoles(xdata.CompanyContactRoles,0);
+                          loadDDRoles(xdata.CompanyContactRoles, 0);
+                          updateBillAndShipBoxes();
                       });
     }
     function LoadUserContact(LoginContactAddress, BillStateName,shipStateName,BillAddName,ShipAddName,BillCity,shipCity)
     {
-        $('.pass').css('display', 'none');
-
         ContactID = LoginContactAddress.ContactId;
         $("#tboxfirstname").val(LoginContactAddress.FirstName);
         $("#tboxLastName").val(LoginContactAddress.LastName);
@@ -725,7 +814,7 @@
         $("#txtShippingAddress").val("Address : " + ShipAddName + "\n" + "City : " + shipCity + "\n" + "State : " + shipStateName);
 
         $("#txtNotes").val(LoginContactAddress.Notes);
-
+        
         $("#chkCanOrder")[0].checked = LoginContactAddress.isPlaceOrder;
         $("#chkCanByCredit")[0].checked = LoginContactAddress.IsPayByPersonalCreditCard;
         $("#chkShowPricesForProduct")[0].checked = LoginContactAddress.IsPricingshown;
@@ -742,7 +831,7 @@
     {
         
         ddTerritoriesDD.html('');
-        ddTerritoriesDD.append($('<option></option>').val(0).html('Select Territory'));
+        //ddTerritoriesDD.append($('<option></option>').val(0).html('Select Territory'));
         $.each(objTer, function (id, option) {
             ddTerritoriesDD.append($('<option></option>').val(option.TerritoryId).html(option.TerritoryName));
         });
@@ -758,7 +847,7 @@
     }
     function SetSelectedTerritory(obj,TerritoryID)
     {
-        var index = 1;
+        var index = 0;
         $.each(obj, function (id, option) {
             if (option.TerritoryId== TerritoryID) {
                 
@@ -771,7 +860,7 @@
     function LoadDDQuestions(objQues,SelectedQuestionsID)
     {
         ddSecretQuestionDD.html('');
-        ddSecretQuestionDD.append($('<option></option>').val(0).html('Select Secret Question'));
+        //ddSecretQuestionDD.append($('<option></option>').val(0).html('Select Secret Question'));
         $.each(objQues, function (id, option) {
             ddSecretQuestionDD.append($('<option></option>').val(option.QuestionId).html(option.Question));
         });
@@ -787,7 +876,7 @@
 
     function SetSelectedQuestion(obj,QuestionID)
     {
-        var index = 1;
+        var index = 0;
         $.each(obj, function (id, option) {
             if (option.QuestionId == QuestionID) {
 
@@ -799,7 +888,7 @@
     function loadDDBillingAddresses(objBill,BillingID)
     {
         ddBillingAddress.html('');
-        ddBillingAddress.append($('<option></option>').val(0).html('Select Billing Address'));
+        //ddBillingAddress.append($('<option></option>').val(0).html('Select Billing Address'));
         $.each(objBill, function (id, option) {
             
             ddBillingAddress.append($('<option></option>').val(option.AddressId).html(option.AddressName));
@@ -814,7 +903,7 @@
         }
     }
     function SetSelectedBillingAddress(obj, BillingID) {
-        var index = 1;
+        var index = 0;
         $.each(obj, function (id, option) {
             if (option.AddressId == BillingID) {
                 ddBillingAddress[0].selectedIndex = index;
@@ -826,7 +915,7 @@
     function loadDDShippingAddress(objShip,ShippingID)
     {
         ddlShippingAddress.html('');
-        ddlShippingAddress.append($('<option></option>').val(0).html('Select Shipping Address'));
+        //ddlShippingAddress.append($('<option></option>').val(0).html('Select Shipping Address'));
         $.each(objShip, function (id, option) {
             ddlShippingAddress.append($('<option></option>').val(option.AddressId).html(option.AddressName));
         });
@@ -841,7 +930,7 @@
     }
     function SetSelectedShippingAddress(obj, ShippingID) {
         
-        var index = 1;
+        var index = 0;
         $.each(obj, function (id, option) {
             if (option.AddressId == ShippingID) {
                
@@ -853,7 +942,7 @@
 
     function loadDDRoles(objRoles, RoleID) {
         ddRolesDD.html('');
-        ddRolesDD.append($('<option></option>').val(0).html('Select  Role'));
+        //ddRolesDD.append($('<option></option>').val(0).html('Select  Role'));
         $.each(objRoles, function (id, option) {
             
             ddRolesDD.append($('<option></option>').val(option.ContactRoleId).html(option.ContactRoleName));
@@ -869,7 +958,7 @@
         }
     }
     function SetSelectedRole(obj, RoleID) {
-        var index = 1;
+        var index = 0;
         $.each(obj, function (id, option) {
             if (option.ContactRoleId == RoleID) {
                 
@@ -970,6 +1059,7 @@
     }
 
     function AddNewContact() {
+       
         $('.pass').css('display', 'block');
         if (UpdateStatus == true) {
             //  var PHtml = $("#UpdateModelPopUp").html();
@@ -1050,11 +1140,17 @@
             async: true,
             processData: false,
             success: function (response) {
-                if(response!='Ok')
-                {
-                    alert();
+                alert(response);
+                if (response == 'Ok') {
+                    
+                    HideLoader();
+                    RebindGrid();
+                    
+                }
+                else {
                     ShowPopUp('Message', response);
-                    }
+                    
+                }
             },
             error: function (error) {
 
@@ -1063,5 +1159,9 @@
     }
 
     function DeleteReord(ContactId)
-    {}
+    { }
+    function RebindGrid() {
+
+        window.location.href = "/UserManager";
+    }
 </script>
