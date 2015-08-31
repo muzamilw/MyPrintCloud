@@ -42,7 +42,7 @@ namespace MPC.Webstore.Controllers
             }
             
             ViewBag.Contacts = contacts;
-            ViewBag.TotalRecords = contacts.Count.ToString() + " matches found";
+            ViewBag.TotalRecords = contacts.Count.ToString() + Utils.GetKeyValueFromResourceFile("lblTotalRecords", UserCookieManager.WBStoreId, Utils.GetKeyValueFromResourceFile("lblTotalRecords", UserCookieManager.WBStoreId, "matches found"));
             if (contacts.Count == 0 || contacts == null)
             {
                 TempData["HeaderStatus"] = false;
@@ -72,7 +72,7 @@ namespace MPC.Webstore.Controllers
 
            
             ViewBag.Contacts = contacts;
-            ViewBag.TotalRecords = contacts.Count.ToString() + " matches found";
+            ViewBag.TotalRecords = contacts.Count.ToString() + Utils.GetKeyValueFromResourceFile("lblTotalRecords", UserCookieManager.WBStoreId, "matches found");
             if (contacts.Count == 0 || contacts == null)
             {
                 TempData["HeaderStatus"] = false;
@@ -103,7 +103,7 @@ namespace MPC.Webstore.Controllers
                 //lblmatchingrecord.Text = recCount.ToString() + " matches found";
                 //pagedData.DataSource = contacts;
                 ViewBag.Contacts = contacts;
-                ViewBag.TotalRecords = contacts.Count.ToString() + " matches found";
+                ViewBag.TotalRecords = contacts.Count.ToString() + Utils.GetKeyValueFromResourceFile("lblTotalRecords", UserCookieManager.WBStoreId, "matches found");
                 if (contacts.Count == 0 || contacts == null)
                 {
                     TempData["HeaderStatus"] = false;
@@ -125,7 +125,7 @@ namespace MPC.Webstore.Controllers
                     contacts = _mycompanyservice.GetContactsByTerritory(UserCookieManager.WBStoreId, 0);
                 }
                 ViewBag.Contacts = contacts;
-                ViewBag.TotalRecords = contacts.Count.ToString() + " matches found";
+                ViewBag.TotalRecords = contacts.Count.ToString() + Utils.GetKeyValueFromResourceFile("lblTotalRecords", UserCookieManager.WBStoreId, "matches found");
                 if (contacts.Count == 0 || contacts == null)
                 {
                     TempData["HeaderStatus"] = false;
