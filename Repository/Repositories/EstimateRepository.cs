@@ -105,10 +105,6 @@ namespace MPC.Repository.Repositories
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList();
-
-
-
-
             foreach (var single in items)
             {
                 if (single.Company != null)
@@ -134,9 +130,6 @@ namespace MPC.Repository.Repositories
                         }
                     }
                 }
-
-
-
             }
 
                 return new GetOrdersResponse { Orders = items, TotalCount = DbSet.Count(query) };

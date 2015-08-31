@@ -587,18 +587,8 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public GetOrdersResponse GetAll(GetOrdersRequest request)
         {
-
             var result = estimateRepository.GetOrders(request);
-
-            
-
-
-
-          
-
             return result;
-           
-        
         }
         /// <summary>
         /// Get Orders For Estimates List View
