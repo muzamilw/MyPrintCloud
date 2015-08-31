@@ -20638,7 +20638,8 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
             if (!this.stroke && !this._skipFillStrokeCheck) return;
 
             var lineHeights = 0;
-
+            if (this.VAllignment != 1)
+                lineHeights += +this.textPaddingTop;
             ctx.save();
             if (this.strokeDashArray) {
                 // Spec requires the concatenation of two copies the dash list when the number of elements is odd
@@ -23403,6 +23404,8 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
         //    for(var imt = 0; imt < textLines.length; imt++){
         //        textLines[imt] += '\n';
         //    }
+        if (this.VAllignment != 1)
+            height += this.textPaddingTop;
         for (var i = 0, len = textLines.length; i < len; i++) {
 
             height += this._getHeightOfLine(this.ctx, i) * this.scaleY;
