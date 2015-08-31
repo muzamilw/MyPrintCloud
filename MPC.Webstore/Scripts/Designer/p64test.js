@@ -20256,6 +20256,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                     if (this.customStyles != null && this.customStyles != undefined && this.customStyles.length != 0 && !this.isEmptyStyles()) {
                         maxWidthLastLine = this._getWidthOfLine(context, demoLines.length - 1, demoLines);
                         maxHeightLastLine = this._getHeightOfLineCustom(context, demoLines.length - 1, demoLines);
+                       
                     } else {
                         var metrics = context.measureText(testLine);
                         maxWidthLastLine = metrics.width;
@@ -20292,6 +20293,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                     else {
                         line = testLine + " ";
                     }
+                    console.log(maxHeightLastLine + " " + demoLines);
                 }
                 CalcWidthChars = chars + testLine;
                 var demoLines = CalcWidthChars.split(/\r\n|\r|\n/);
@@ -20638,7 +20640,8 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
             if (!this.stroke && !this._skipFillStrokeCheck) return;
 
             var lineHeights = 0;
-
+            if (this.VAllignment != 1)
+                lineHeights += +this.textPaddingTop;
             ctx.save();
             if (this.strokeDashArray) {
                 // Spec requires the concatenation of two copies the dash list when the number of elements is odd
@@ -23403,6 +23406,8 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
         //    for(var imt = 0; imt < textLines.length; imt++){
         //        textLines[imt] += '\n';
         //    }
+        if (this.VAllignment != 1)
+            height += this.textPaddingTop;
         for (var i = 0, len = textLines.length; i < len; i++) {
 
             height += this._getHeightOfLine(this.ctx, i) * this.scaleY;
