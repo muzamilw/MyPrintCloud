@@ -1,6 +1,7 @@
 ﻿using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using MPC.Webstore.Common;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,8 @@ namespace MPC.Webstore.Controllers
             {
                 if (_myClaimHelper.isUserLoggedIn())
                 {
+                    MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
                     bool ApproveOrders = false;
                     CompanyContact LoginContact = _CompanyService.GetContactByID(_myClaimHelper.loginContactID());
                     if (LoginContact != null)
@@ -51,6 +54,7 @@ namespace MPC.Webstore.Controllers
                         }
                     }
                     BindGrid(ApproveOrders, _myClaimHelper.loginContactID(), LoginContact);
+                    ViewBag.IsShowPrices = _CompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
                 }
                 
             }
@@ -74,7 +78,8 @@ namespace MPC.Webstore.Controllers
                     ViewBag.OrderList = ordersList;
                     ViewBag.TotalOrders = ordersList.Count;
 
-                     TempData["Status"] = "No Records Found";
+                    TempData["Status"] = Utils.GetKeyValueFromResourceFile("ltrlNoRecFound", UserCookieManager.WBStoreId, "No Records Found")
+;
                      TempData["HeaderStatus"] = false;
                 }
                 else
@@ -94,7 +99,7 @@ namespace MPC.Webstore.Controllers
                         }
                         if (ManagerordersList == null || ManagerordersList.Count == 0)
                         {
-
+                            ViewBag.OrderList = new List<Order>(); 
                         }
                         else
                         {
@@ -117,10 +122,12 @@ namespace MPC.Webstore.Controllers
         
         private void approveOrRejectEmailToUser(long userID, long orderID,int Event)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
             CompanyContact userRec = _CompanyService.GetContactByID(userID);
             MPC.Models.DomainModels.Company loginUserCompany = _CompanyService.GetCompanyByCompanyID(_myClaimHelper.loginContactCompanyID());
             SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
@@ -144,20 +151,19 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public void ApporRejectOrder(long OrderID)
         { 
-             string CacheKeyName = "CompanyBaseResponse";
-             ObjectCache cache = MemoryCache.Default;
-
-             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-             long ID = _CompanyService.ApproveOrRejectOrder(OrderID, _myClaimHelper.loginContactID(), OrderStatus.RejectOrder, StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+          
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+ 
+            long ID = _CompanyService.ApproveOrRejectOrder(OrderID, _myClaimHelper.loginContactID(), OrderStatus.RejectOrder, StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
              approveOrRejectEmailToUser(ID, OrderID, (int)Events.Order_Approval_By_Manager);
-        
+             ViewBag.IsShowPrices = _CompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
         }
         [HttpPost]
         public void Save(long OrderID, string PO)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+          
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
             SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
             long ContactID = _CompanyService.ApproveOrRejectOrder(OrderID, _myClaimHelper.loginContactID(), OrderStatus.PendingOrder, StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value,PO);
            
@@ -167,6 +173,7 @@ namespace MPC.Webstore.Controllers
                 _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager,_myClaimHelper.loginContactID(),_myClaimHelper.loginContactCompanyID(), 0, UserCookieManager.WEBOrganisationID, ManagerID, StoreMode.Corp, UserCookieManager.WBStoreId, EmailOFSM);
             }
              approveOrRejectEmailToUser(ContactID, OrderID, (int)Events.Order_Approval_By_Manager);
+             ViewBag.IsShowPrices = _CompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
         }
     }
 }

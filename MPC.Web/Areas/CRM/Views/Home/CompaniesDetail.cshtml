@@ -986,7 +986,7 @@
                                                         <thead>
                                                             <tr>
                                                                 <th class="col-lg-1"></th>
-                                                                <th class="col-lg-3"><span>REF.No</span></th>
+                                                                <th class="col-lg-3"><span>TITLE</span></th>
                                                                 <th class="col-lg-2"><span>PURCHASE CODE</span></th>
                                                                 <th class="col-lg-2"><span>Purchase Date</span></th>
                                                                 <th class="col-lg-2" style="text-align:right;"><span>Purchase Total</span></th>
@@ -1022,7 +1022,7 @@
                                                         <thead>
                                                             <tr>
                                                                 <th class="col-lg-1">&nbsp;</th>
-                                                                <th class="col-lg-3"><span>REF.No</span></th>
+                                                                <th class="col-lg-3"><span>TITLE</span></th>
                                                                 <th class="col-lg-2"><span>GRN Code</span></th>
                                                                 <th class="col-lg-2"><span>Received Date</span></th>
                                                                 <th class="col-lg-2" style="text-align:right;"><span>GRN Total</span></th>
@@ -1072,7 +1072,13 @@
             <td>&nbsp;</td>
             <td>
                 <span data-bind="text:name"></span> 
-                <span data-bind="">(1) items</span>
+                <br />
+                <span style="font-size:0.875em;font-style:italic;">
+                    <span>(</span>
+                    <span data-bind="text:itemscount"></span>
+                    <span>) Items</span>
+                </span>
+              
             </td>
             <td>
                 <span data-bind="text:code"></span>
@@ -1081,7 +1087,6 @@
             <td style="text-align:right;">
                 <span data-bind="text: $root.currencySymbol"></span>
                 <span data-bind="text: estimateTotal"></span>
-                
             </td>
             <td>&nbsp;</td>
         </tr>
@@ -1259,9 +1264,13 @@
     <script id="purchaseTemplate" type="text/html">
         <tr>
             <td>&nbsp;</td>
+            <!--ko if:supplierName()-->
             <td data-bind="text: supplierName"></td>
+            <!--/ko-->
+            <!--ko ifnot:supplierName()-->
+            <td>N/A</td>
+            <!--/ko-->
             <td data-bind="text:code"></td>
-            @*<td data-bind="text: datePurchase"></td>*@
             <td data-bind="dateString: datePurchase, datePattern: 'DD/MM/YYYY'"></td>
             <td style="text-align:right;">
                 <span data-bind="text:$root.currencySymbol"></span>
@@ -1274,7 +1283,12 @@
     <script id="goodRecievedNotesTemplate" type="text/html">
         <tr>
             <td>&nbsp;</td>
+            <!--ko if:supplierName()-->
             <td data-bind="text: supplierName"></td>
+            <!--/ko-->
+            <!--ko ifnot:supplierName()-->
+            <td>N/A</td>
+            <!--/ko-->
             <td data-bind="text:code"></td>
        
             <td data-bind="dateString: dateReceived, datePattern: 'DD/MM/YYYY'"></td>

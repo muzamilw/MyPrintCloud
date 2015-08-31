@@ -95,18 +95,21 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 EstimateCode = source.Estimate_Code,
                 StatusId = source.StatusId,
                 EstimateName = source.Estimate_Name,
+               
+
                 EnquiryId = source.EnquiryId,
                 CompanyId = source.CompanyId,
-                CompanyName = source.Company != null ? source.Company.Name : string.Empty,
+                CompanyName = source.Company == null ? string.Empty : source.Company.Name,
                 CreatedBy = source.Created_by,
                 CreationDate = source.Order_Date,
                 CreationTime = source.CreationTime,
                 
                 SectionFlagId = source.SectionFlagId,
+                StoreName = source.Company != null ? source.Company.StoreName : string.Empty,
                 OrderCode = source.Order_Code,
                 IsEstimate = source.isEstimate,
                 ItemsCount = source.Items != null ? source.Items.Count : 0,
-                Status = source.Status.StatusName,
+                Status = source.Status != null ? source.Status.StatusName : string.Empty,
                 EstimateTotal = source.Estimate_Total,
                 IsDirectSale = source.isDirectSale,
                 SectionFlagColor = source.SectionFlag != null ? source.SectionFlag.FlagColor : null,

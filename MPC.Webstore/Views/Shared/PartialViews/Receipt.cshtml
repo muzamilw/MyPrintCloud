@@ -20,19 +20,19 @@
 
     <div class="left_right_padding">
         <ul class="bonhamsOption navM cursor_pointer" style="display:none;">
-            <li id="lbl_SelectReceipt">
-                @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_SelectReceipt", UserCookieManager.WBStoreId))
+            <li>
+                1. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlSelect", UserCookieManager.WBStoreId, "Select"))
             </li>
-            <li id="lbl_EditReceipt">
-                @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_EditReceipt", UserCookieManager.WBStoreId))
-            </li>
-            <li id="lbl_ConfirmOrderPaymentReceipt">
-                @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_ConfirmOrderPaymentReceipt", UserCookieManager.WBStoreId))
-            </li>
-            <li id="lbl_OrderSummaryReceipt" class="bonhamSelectedOption">
-                @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_OrderSummaryReceipt", UserCookieManager.WBStoreId))
+            <li>
+                2. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrledit", UserCookieManager.WBStoreId, "Edit"))
             </li>
 
+            <li >
+                3. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmorder", UserCookieManager.WBStoreId, "Confirm order & payment"))
+            </li>
+            <li class="bonhamSelectedOption">
+                4. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOrderSumm", UserCookieManager.WBStoreId, "Order Summary"))
+            </li>
         </ul>
         <div class="col-md-12 col-lg-12 col-xs-12 receiptcontainer">
 
@@ -152,7 +152,7 @@
                             @if (!string.IsNullOrEmpty(Model.BillingAdress.Tel1))
                             {
                                 <span>
-                                    <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId))</label>
+                                    <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:"))</label>
                                 </span>
                                 <label id="lblBTel" style="color: black;  font-style: normal; font-weight: normal; font-size: 12px;">@Model.BillingAdress.Tel1</label>
                             }
@@ -162,7 +162,7 @@
                    @if (Model.ShippingAddress != null)
                    {
                     <div class="col-md-4 col-lg-4 col-xs-12 receiptShippingDeliverycnt" style="line-height: 30px;">
-                        <span id="lbl_ShippedTo" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("spnshippedto", UserCookieManager.WBStoreId))</span><br />
+                        <span id="lbl_ShippedTo" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("spnshippedto", UserCookieManager.WBStoreId, "Shipped To:"))</span><br />
                         <label id="lblSCusName" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
                         <label id="lblSAddLine1" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Address1</label><br />
                         @if (!string.IsNullOrEmpty(Model.ShippingAddress.Address2))
@@ -187,7 +187,7 @@
 
                         @if (!string.IsNullOrEmpty(Model.ShippingAddress.Tel1))
                         {
-                            <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId))</label>
+                            <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:"))</label>
                             <label id="lblSTel" style="color: black;  font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Tel1</label>
                         }
 
@@ -214,7 +214,7 @@
                 <div class="clearBoth">
                 </div>
                 <div style="height: 35px; padding: 3px; margin-top: 5px; font-size: 15px; font-weight: bold" class="col-md-12 col-lg-12 col-xs-12">
-                    <span id="lbl_itemsOrdered">@Html.Raw(Html.GetKeyValueFromResourceFile("lblitemsOrdered", UserCookieManager.WBStoreId))</span>
+                    <span id="lbl_itemsOrdered">@Html.Raw(Html.GetKeyValueFromResourceFile("lblitemsOrdered", UserCookieManager.WBStoreId, "Ordered items:"))</span>
                 </div>
                 <div style="padding-bottom: 20px;" class="col-md-12 col-lg-12 col-xs-12">
 
@@ -347,8 +347,8 @@
                             <tr>
                                 <td class="srFirstTd hidden-xs"></td>
                                 <td class="srScdTd"></td>
-                                <td class="srThirdTd" align="left">
-                                    <span id="lbl_SubTotal" style="  line-height: 2;font-size: 13px; color: Black;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId)):</span>
+                                <td class="srThirdTd" align="right">
+                                    <span id="lbl_SubTotal" style="  line-height: 2;font-size: 13px; color: Black;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId, "Sub Total")):</span>
                                 </td>
                                 <td class="srForthtd" >
 

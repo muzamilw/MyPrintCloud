@@ -11,8 +11,10 @@
     string SkipDesignerPopUp = "";
 }
 
-
-@if (!string.IsNullOrEmpty(Model.ImagePath))
+@if (Model != null)
+{
+    
+if (!string.IsNullOrEmpty(Model.ImagePath))
 {
     <div id="divbg" style="background:url(@Model.ImagePath)  no-repeat center center" class="categorydivBG">&nbsp;</div>
 }
@@ -239,8 +241,8 @@
                                     }
 
 
-                                    if (ViewBag.IsShowPrices == true)
-                                    {
+                                    
+                                    
                                         <table id="productPricetbl" class="productPricetbl" width="80%" cellpadding="5" cellspacing="0" style="">
                                             <tr>
                                                 <td class="Metroprod_table_cell prod_table_cell procu_detail_grid_cell wdthWrp"
@@ -249,7 +251,11 @@
                                                 </td>
                                                 <td id="tdStockOpt1" class="prod_table_cell Metroprod_table_cell procu_detail_grid_cell wdthWrp"
                                                     style="text-align: right;">
-                                                    <label id="lblStockOpt1">@stockLabel</label>
+                                                    @if (ViewBag.IsShowPrices == true)
+                                                    {
+                                                        <label id="lblStockOpt1">@stockLabel</label>
+                                                    }
+                                                    
                                                 </td>
                                             </tr>
                                             @if (matrix != null)
@@ -264,9 +270,12 @@
                                                         <td id="tdPrice1" class="product_detail_item_cell procu_detail_grid_cell"
                                                             style="text-align: right;">
                                                             <div id="matrixItemColumn1">
+                                                                @if (ViewBag.IsShowPrices == true)
+                                                                {
+                                                                    <label id="lblPrice1">@Objmatrix.Price</label>
 
-                                                                <label id="lblPrice1">@Objmatrix.Price</label>
-
+                                                                }
+                                                                
 
                                                             </div>
                                                         </td>
@@ -279,7 +288,7 @@
 
                                             }
                                         </table>
-                                    }
+                                    
 
 
                                 }
@@ -327,20 +336,20 @@
                                                 if (item.isTemplateDesignMode == (int)TemplateMode.DoNotLoadDesigner)
                                                 {
                                                     <a onclick="StartDesignerLoader(); SkipDesignerGenerateProof(@item.ItemId,@item.TemplateId , @ViewBag.ContactId ,'@item.ProductName');">
-                                                        <input type="button" value="Design Now" class="goto-designer-button" />
+                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))" class="goto-designer-button" />
                                                     </a>
                                                 }
                                                 else
                                                 {
-                                                    <a href="@Url.Action("CloneItem", "Category", new { id = item.ItemId })" onclick="ShowLoader();">
-                                                        <input type="button" value="Design Now" class="goto-designer-button rounded_corners" />
+                                                    <a href='@Url.Action("CloneItem", "Category", new { id = item.ItemId })' onclick="ShowLoader();">
+                                                        <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))' class="goto-designer-button rounded_corners" />
                                                     </a>
                                                 }
 
                                                 if (item.isUploadImage == true)
                                                 {
                                                     <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/UploadDesign" onclick="ShowLoader();">
-                                                        <input type="button" value="Upload your design" class="create-design-button rounded_corners" />
+                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lnkUploadfilesprices", UserCookieManager.WBStoreId, "Upload your design"))" class="create-design-button rounded_corners" />
                                                     </a>
                                                 }
 
@@ -352,13 +361,13 @@
                                                 if (item.isUploadImage == true)
                                                 {
                                                     <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/UploadDesign" onclick="ShowLoader();">
-                                                        <input type="button" value="Upload your design" class="create-design-button rounded_corners" />
+                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lnkUploadfilesprices", UserCookieManager.WBStoreId, "Upload your design"))" class="create-design-button rounded_corners" />
                                                     </a>
                                                 }
                                                 else
                                                 {
                                                     <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/UploadDesign" onclick="ShowLoader();">
-                                                        <input type="button" value="Add to Cart" class="create-design-button rounded_corners" />
+                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdtocart", UserCookieManager.WBStoreId, "Add to Cart"))" class="create-design-button rounded_corners" />
                                                     </a>
                                                 }
 
@@ -596,7 +605,7 @@
                   window.location.href = DT;// + "&CategoryId=" + CategoryId + "&ProductName=" + document.getElementById('txtDesignName').value + emailParameters;
               });
         } else {
-            alert("Please Confirm spellings and details!");
+            alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmspell", UserCookieManager.WBStoreId, "Please Confirm spellings and details!"))');
             return false;
         }
     });
@@ -604,7 +613,7 @@
         loaderLoading = true;
         var3 = 1;
         if (msg == null || msg == "") {
-            msg = "Please wait while we generate proof of your design...";
+            msg = '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgenerateproof", UserCookieManager.WBStoreId, "Please wait while we generate proof of your design..."))';
         }
         $("#paraLoaderMsg").text(msg);
         $("#MainLoader").css("display", "block");
@@ -633,3 +642,4 @@
 
     }
 </script>
+    }

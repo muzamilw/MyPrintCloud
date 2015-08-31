@@ -3288,7 +3288,13 @@ namespace MPC.Implementation.MISServices
 
         public Company SaveCompany(CompanySavingModel companyModel)
         {
+            if (!CanSaveStore(companyModel.Company))
+            {
+                companyModel.Company.IsClickReached = true;
+                return companyModel.Company;
+            }
             Company companyDbVersion = companyRepository.Find(companyModel.Company.CompanyId);
+            
 
             if (CheckDuplicateExistenceOfCompanyDomains(companyModel))
             {
@@ -3409,7 +3415,31 @@ namespace MPC.Implementation.MISServices
             }
         }
 
+        private bool CanSaveStore(Company comp)
+        {
+            string allowedOfflineClicks = ConfigurationManager.AppSettings["OfflineStoreClicks"];
+            var org = organisationRepository.GetOrganizatiobByID();
+            int liveStoresCount = org.LiveStoresCount ?? 0;
+            if (comp.IsCustomer == 3 || comp.IsCustomer == 4)
+            {
+                if (liveStoresCount <= 0)
+                {
+                    if ((org.OfflineStoreClicks ?? 0) >= Convert.ToInt32(allowedOfflineClicks))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        org.OfflineStoreClicks = (org.OfflineStoreClicks ?? 0) + 1;
+                        organisationRepository.Update(org);
+                        organisationRepository.SaveChanges();
+                        return true;
+                    }
+                }
+            }
 
+            return true;
+        }
         /// <summary>
         /// Get Field Variables
         /// </summary>
@@ -3481,7 +3511,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public void ApplyTheme(int themeId, string themeName, long companyId)
         {
-            //DeleteMediaFiles(companyId);
+            DeleteMediaFiles(companyId);
             string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyId);
             if (directoryPath != null && !Directory.Exists(directoryPath))
             {
@@ -3616,13 +3646,28 @@ namespace MPC.Implementation.MISServices
                 companyContact.OrganisationId = stagingImportCompanyContactRepository.OrganisationId;
                 stagingImportCompanyContactRepository.Add(companyContact);
             }
-            companyContactRepository.SaveChanges();
+            stagingImportCompanyContactRepository.SaveChanges();
             stagingImportCompanyContactRepository.RunProcedure(stagingImportCompanyContactRepository.OrganisationId,
                 stagingImportCompanyContact.FirstOrDefault().CompanyId);
 
             return true;
         }
 
+        public bool SaveCRMImportedCompanyContact(IEnumerable<StagingImportCompanyContactAddress> stagingImportCompanyContact)
+        {
+            //Calling Stored Procedure to delete all records in staging company contact table
+            stagingImportCompanyContactRepository.RunProcedureToDeleteAllStagingCompanyContact();
+
+            foreach (var companyContact in stagingImportCompanyContact)
+            {
+                companyContact.OrganisationId = stagingImportCompanyContactRepository.OrganisationId;
+                stagingImportCompanyContactRepository.Add(companyContact);
+            }
+            stagingImportCompanyContactRepository.SaveChanges();
+            stagingImportCompanyContactRepository.RunCRMProcedure();
+
+            return true;
+        }
 
         /// <summary>
         /// Add/Update Discount Voucher
@@ -3655,6 +3700,8 @@ namespace MPC.Implementation.MISServices
             DiscountVoucher voucher = discountVoucherRepository.UpdateVoucher(discountVoucher);
             return voucher;
         }
+
+        
         #endregion
 
         #region ExportOrganisation

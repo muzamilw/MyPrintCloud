@@ -38,15 +38,15 @@
     <script type="text/javascript">
 
 
-        $(document).ready(function () {
-            $("#txtEmailbox").attr("placeholder", "Enter email address...");
+    $(document).ready(function () {
+        $("#txtEmailbox").attr("placeholder", '@Html.Raw(Html.GetKeyValueFromResourceFile("EemailAdd", UserCookieManager.WBStoreId, "Enter email address..."))');
 
-            var addEvent = function (elem, type, fn) {
-                if (elem.addEventListener) elem.addEventListener(type, fn, false);
-                else if (elem.attachEvent) elem.attachEvent('on' + type, fn);
-            },
-            textField = document.getElementById('txtEmailbox'),
-            placeholder = "Enter email address...";
+        var addEvent = function (elem, type, fn) {
+            if (elem.addEventListener) elem.addEventListener(type, fn, false);
+            else if (elem.attachEvent) elem.attachEvent('on' + type, fn);
+        },
+        textField = document.getElementById('txtEmailbox'),
+        placeholder = '@Html.Raw(Html.GetKeyValueFromResourceFile("EemailAdd", UserCookieManager.WBStoreId, "Enter email address..."))';
             addEvent(textField, 'focus', function () {
                 if (this.value === placeholder) this.value = '';
             });
@@ -79,19 +79,19 @@
         function ValidateEmail(email) {
             var isValid = true;
             if (email == '') {
-               
+
                 $('#errorMsg').css("display", "block");
-                $('#errorMsg').html("Email Id is required");
+                $('#errorMsg').html('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailreq", UserCookieManager.WBStoreId, "Email Id is required"))');
                 isValid = false;
             }
             else {
                 var re = new RegExp("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)");
                 if (!re.test(email)) {
-                    $('#errorMsg').html("Please enter valid email address.");
-                    isValid = false;
-                }
+                    $('#errorMsg').html('@Html.Raw(Html.GetKeyValueFromResourceFile("EemailAdd", UserCookieManager.WBStoreId, "Enter email address..."))');
+                isValid = false;
             }
-            return isValid;
         }
+        return isValid;
+    }
     </script>
 

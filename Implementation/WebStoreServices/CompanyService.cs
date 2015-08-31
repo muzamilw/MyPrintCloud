@@ -48,6 +48,8 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IRaveReviewRepository _raveReviewRepository;
         private readonly IOrderRepository _orderrepository;
         private readonly ICompanyVoucherRedeemRepository _companyVoucherReedemRepository;
+        private readonly IRegistrationQuestionRepository _questionRepository;
+        private readonly ICompanyContactRoleRepository _companycontactRoleRepo;
         private string pageTitle = string.Empty;
         private string MetaKeywords = string.Empty;
         private string MetaDEsc = string.Empty;
@@ -65,9 +67,10 @@ namespace MPC.Implementation.WebStoreServices
             , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository, IItemRepository itemRepository, IAddressRepository addressRepository, IMarkupRepository markuprepository
             , ICountryRepository countryRepository, IStateRepository stateRepository, IFavoriteDesignRepository favoriteRepository, IStateRepository StateRepository, ICompanyTerritoryRepository CompanyTerritoryRepository
             , INewsLetterSubscriberRepository newsLetterSubscriberRepository, IRaveReviewRepository raveReviewRepository, IOrderRepository _orderrepository
-            , ICompanyVoucherRedeemRepository companyVoucherReedemRepository)
+            , ICompanyVoucherRedeemRepository companyVoucherReedemRepository, IRegistrationQuestionRepository _questionRepository, ICompanyContactRoleRepository _companycontactRoleRepo)
         {
             this._CompanyRepository = companyRepository;
+            this._questionRepository = _questionRepository;
             this._widgetRepository = widgetRepository;
             this._companyBannerRepository = companyBannerRepository;
             this._productCategoryRepository = productCategoryRepository;
@@ -89,6 +92,7 @@ namespace MPC.Implementation.WebStoreServices
             this._raveReviewRepository = raveReviewRepository;
             this._orderrepository = _orderrepository;
             this._companyVoucherReedemRepository = companyVoucherReedemRepository;
+            this._companycontactRoleRepo = _companycontactRoleRepo; 
         }
 
         #endregion
@@ -112,6 +116,7 @@ namespace MPC.Implementation.WebStoreServices
 
                 policy = new CacheItemPolicy();
                 policy.Priority = CacheItemPriority.NotRemovable;
+               
                 //policy.SlidingExpiration =
                 //    TimeSpan.FromMinutes(5);
                 policy.RemovedCallback = null;
@@ -126,26 +131,32 @@ namespace MPC.Implementation.WebStoreServices
                     List<CmsPageModel> AllPages = _cmsPageRepositary.GetSystemPagesAndSecondaryPages(companyId);
 
                     Company oCompany = GetCompanyByCompanyID(companyId);
+                    if (oCompany != null)
+                    {
+                        CacheEntryRemovedCallback callback = null;
+                        MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
+                        oStore.Company = oCompany;
+                        oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
+                        oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
+                        oStore.Banners = _companyBannerRepository.GetCompanyBannersById(Convert.ToInt64(oCompany.ActiveBannerSetId));
+                        oStore.SystemPages = AllPages.Where(s => s.isUserDefined == false).ToList();
+                        oStore.SecondaryPages = AllPages.Where(s => s.isUserDefined == true).ToList();
+                        oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
+                        oStore.Currency = _currencyRepository.GetCurrencySymbolById(Convert.ToInt64(oStore.Organisation.CurrencyId));
+                        oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
+                        oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
+                        stores.Add(oCompany.CompanyId, oStore);
 
-                    CacheEntryRemovedCallback callback = null;
-
-                    MyCompanyDomainBaseReponse oStore = new MyCompanyDomainBaseReponse();
-                    oStore.Company = oCompany;
-                    oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
-                    oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
-                    oStore.Banners = _companyBannerRepository.GetCompanyBannersById(Convert.ToInt64(oCompany.ActiveBannerSetId));
-                    oStore.SystemPages = AllPages.Where(s => s.isUserDefined == false).ToList();
-                    oStore.SecondaryPages = AllPages.Where(s => s.isUserDefined == true).ToList();
-                    oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
-                    oStore.Currency = _currencyRepository.GetCurrencySymbolById(Convert.ToInt64(oStore.Organisation.CurrencyId));
-                    oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
-                    oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
-                    stores.Add(oCompany.CompanyId, oStore);
 
 
+                        cache.Set(CacheKeyName, stores, policy);
+                        return stores[oCompany.CompanyId];
+                    }
+                    else 
+                    {
+                        return null;
+                    }
 
-                    cache.Set(CacheKeyName, stores, policy);
-                    return stores[oCompany.CompanyId];
                 }
                 else // there are some stores already in cache.
                 {
@@ -343,7 +354,17 @@ namespace MPC.Implementation.WebStoreServices
             }
 
         }
-
+        public Company GetStoreReceiptPage(long companyId)
+        {
+            try
+            {
+                return _CompanyRepository.GetStoreReceiptPage(companyId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public CompanyContact GetContactByID(Int64 ContactID)
         {
             try
@@ -357,18 +378,7 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-        public List<Address> GetAddressesByTerritoryID(Int64 TerritoryID)
-        {
-            try
-            {
-                return _addressRepository.GetAddressesByTerritoryID(TerritoryID);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-        }
+        
         public CompanyContact CreateCorporateContact(long CustomerId, CompanyContact regContact, string TwitterScreenName, long OrganisationId)
         {
             try
@@ -1556,6 +1566,158 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-       
+        public MyCompanyDomainBaseReponse GetStoreCachedObject(long StoreId)
+        {
+            MyCompanyDomainBaseReponse StoreCachedData = null;
+
+            ObjectCache cache = MemoryCache.Default;
+
+            Dictionary<long, MyCompanyDomainBaseReponse> cachedObject = (cache.Get("CompanyBaseResponse")) as Dictionary<long, MyCompanyDomainBaseReponse>;
+
+            if (cachedObject == null)
+            {
+                if (StoreId > 0)
+                {
+                    StoreCachedData = GetStoreFromCache(StoreId);
+
+                }
+                else
+                {
+                    //TempData["ErrorMessage"] = "Your session is expired. Please re-enter your domain URL.";
+                    //RedirectToAction("Error");
+                }
+            }
+            else
+            {
+                // if company not found in cache then rebuild the cache
+                if (!cachedObject.ContainsKey(StoreId))
+                {
+                    StoreCachedData = GetStoreFromCache(StoreId);
+                }
+                else
+                {
+                    StoreCachedData = cachedObject.Where(i => i.Key == StoreId).FirstOrDefault().Value;
+                }
+            }
+            return StoreCachedData;
+        }
+        public IEnumerable<CompanyTerritory> GetAllCompanyTerritories(long companyId)
+        {
+           return  _CompanyTerritoryRepository.GetAllCompanyTerritories(companyId);
+        
+        }
+        public IEnumerable<RegistrationQuestion> GetAllQuestions()
+        {
+            return _questionRepository.GetAll();
+        }
+        public List<CompanyContactRole> GetContactRolesExceptAdmin(int AdminRole)
+        {
+            return _companycontactRoleRepo.GetContactRolesExceptAdmin(AdminRole);
+        }
+        public List<CompanyContactRole> GetAllContactRoles()
+        {
+            return _companycontactRoleRepo.GetAllContactRoles();
+        }
+        public List<CompanyContact> GetSearched_Contacts(long contactCompanyId, String searchtxt, long territoryID)
+        {
+            return _CompanyContactRepository.GetSearched_Contacts(contactCompanyId, searchtxt, territoryID);
+        }
+        public List<CompanyContact> GetContactsByTerritory(long contactCompanyId, long territoryID)
+        {
+            return _CompanyContactRepository.GetContactsByTerritory(contactCompanyId, territoryID);
+        }
+        public List<ProductItem> GetAllRetailDisplayProductsQuickCalc(long CompanyID)
+        {
+            return _itemRepository.GetAllRetailDisplayProductsQuickCalc(CompanyID);
+        }
+        public List<ItemPriceMatrix> GetRetailProductsPriceMatrix(long CompanyID)
+        {
+            return _itemRepository.GetRetailProductsPriceMatrix(CompanyID);
+        }
+        public RegistrationQuestion GetSecretQuestionByID(int QuestionID)
+        {
+            return _questionRepository.GetSecretQuestionByID(QuestionID);
+        }
+        public CompanyContactRole GetRoleByID(int RoleID)
+        {
+            return _companycontactRoleRepo.GetRoleByID(RoleID);
+        }
+        public void UpdateDataSystemUser(CompanyContact Contact)
+        {
+            _CompanyContactRepository.UpdateDataSystemUser(Contact);
+        }
+        public void AddDataSystemUser(CompanyContact Contact)
+        {
+            _CompanyContactRepository.AddDataSystemUser(Contact);
+        }
+        public List<Address> GetAddressesByTerritoryID(Int64 TerritoryID)
+        {
+            try
+            {
+                return _addressRepository.GetAddressesByTerritoryID(TerritoryID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool ShowPricesOnStore(int storeModeFromCookie, bool PriceFlagOfStore, long loginContactId, bool PriceFlagFromCookie)
+        {
+            if (PriceFlagOfStore == true)
+            {
+                if (storeModeFromCookie == (int)StoreMode.Corp)
+                {
+                    if (loginContactId > 0)
+                    {
+                        if (PriceFlagFromCookie == true)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (storeModeFromCookie == (int)StoreMode.Corp)
+                {
+                    if (loginContactId > 0)
+                    {
+                        if (PriceFlagFromCookie == true)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        public string GetCurrencySymbolById(long currencyId)
+        {
+            return _currencyRepository.GetCurrencySymbolById(currencyId);
+        }
     }
 }

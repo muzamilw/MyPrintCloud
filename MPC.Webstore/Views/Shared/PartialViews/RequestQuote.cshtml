@@ -22,7 +22,7 @@
                 <div class="get_in_touch_box_RFQ rounded_corners" id="divUserInfo" style="display:none">
                     <div class="smallContctUsAvenior float_left_simple">
 
-                        @*<label id="ltrlYourName">First Name :</label>*@
+                    
                         <div id="divYourNameRq" class="error_star" style="display: none;">
                             *
                         </div>
@@ -40,7 +40,7 @@
                     </div>
                     <div class="smallContctUsAvenior float_left_simple">
 
-                        @*<label id="ltrlLastName">Last Name :</label>*@
+                     
 
                         <div id="ltrlLastNameRQ" class="error_star" style="display: none;">
                             *
@@ -48,12 +48,12 @@
                     </div>
                     <div class="TTL widthAvenior">
 
-                        @Html.TextBoxFor(model => model.LastName, new { id = "txtBoxLastName", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("Lname", UserCookieManager.WBStoreId, "Last Name")), maxlength = 500 })
+                        @Html.TextBoxFor(model => model.LastName, new { id = "txtBoxLastName", @class = "newTxtBox", placeholder =Html.Raw(Html.GetKeyValueFromResourceFile("Lname", UserCookieManager.WBStoreId, "Last Name")), maxlength = 500 })
                     </div>
                     <div class="clearBoth">
                     </div>
                     <div class="smallContctUsAvenior float_left_simple">
-                        @*<label id="ltrlLastName">Email :</label>*@
+                      
 
                         <div id="divEmailRq" class="error_star" style="display: none;">
                             *
@@ -61,20 +61,19 @@
                     </div>
                     <div class="TTL widthAvenior">
 
-                        @Html.TextBoxFor(model => model.Email, new { id = "txtBoxUserEmail", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email")), maxlength = 500 })
+                        @Html.TextBoxFor(model => model.Email, new { id = "txtBoxUserEmail", @class = "newTxtBox", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email")), maxlength = 500 })
                     </div>
                     <div class="clearBoth">
                     </div>
                     <div class="smallContctUsAvenior float_left_simple">
 
-                        @*<label id="ltrlLastName">Phone :</label>*@
                         <div id="div1" class="error_star" style="display: none;">
                             *
                         </div>
                     </div>
                     <div class="TTL widthAvenior">
 
-                        @Html.TextBoxFor(model => model.Mobile, new { id = "txtPhone", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlphone", UserCookieManager.WBStoreId, "Phone")), maxlength = 500 })
+                        @Html.TextBoxFor(model => model.Mobile, new { id = "txtPhone", @class = "newTxtBox", placeholder =Html.Raw(Html.GetKeyValueFromResourceFile("ltrlphone", UserCookieManager.WBStoreId, "Phone")), maxlength = 500 })
                     </div>
                     <div class="clearBoth">
                     </div>
@@ -90,20 +89,19 @@
                 <div class="get_in_touch_box_RFQ rounded_corners" id="divUserInfo">
                     <div class="smallContctUsAvenior float_left_simple">
 
-                        @*<label id="ltrlYourName">First Name :</label>*@
+                       
                         <div id="divYourNameRq" class="error_star" style="display: none;">
                             *
                         </div>
                     </div>
                     <div class="TTL widthAvenior">
 
-                        @Html.TextBoxFor(model => model.FirstName, new { id = "txtBoxUserName", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("Fname", UserCookieManager.WBStoreId, "First Name")), maxlength = 500 })
+                        @Html.TextBoxFor(model => model.FirstName, new { id = "txtBoxUserName", @class = "newTxtBox", placeholder =Html.Raw(Html.GetKeyValueFromResourceFile("Fname", UserCookieManager.WBStoreId, "First Name")), maxlength = 500 })
                     </div>
                     <div class="clearBoth">
                     </div>
                     <div class="smallContctUsAvenior float_left_simple">
 
-                        @*<label id="ltrlLastName">Last Name :</label>*@
 
                         <div id="ltrlLastNameRQ" class="error_star" style="display: none;">
                             *
@@ -115,13 +113,13 @@
                    {
                        id = "LastName",
                        @class = "newTxtBox",
-                       placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name"))
+                       placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name"))
 , maxlength = 500 })
                     </div>
                     <div class="clearBoth">
                     </div>
                     <div class="smallContctUsAvenior float_left_simple">
-                        @*<label id="ltrlLastName">Email :</label>*@
+                  
 
                         <div id="divEmailRq" class="error_star" style="display: none;">
                             *
@@ -129,7 +127,7 @@
                     </div>
                     <div class="TTL widthAvenior">
 
-                        @Html.TextBoxFor(model => model.Email, new { id = "UserEmail", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId,"Email")), maxlength = 500 })
+                        @Html.TextBoxFor(model => model.Email, new { id = "UserEmail", @class = "newTxtBox", placeholder =Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId,"Email")), maxlength = 500 })
                     </div>
                     <div class="clearBoth">
                     </div>
@@ -142,7 +140,7 @@
                     </div>
                     <div class="TTL widthAvenior">
 
-                        @Html.TextBoxFor(model => model.Mobile, new { id = "Phone", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlphone", UserCookieManager.WBStoreId, "Phone")), maxlength = 500 })
+                        @Html.TextBoxFor(model => model.Mobile, new { id = "Phone", @class = "newTxtBox", placeholder =Html.Raw(Html.GetKeyValueFromResourceFile("ltrlphone", UserCookieManager.WBStoreId, "Phone")), maxlength = 500 })
                     </div>
                     <div class="clearBoth">
                     </div>
@@ -163,7 +161,7 @@
                 </div>
                 <div class="TTL widthAvenior">
 
-                    @Html.TextBoxFor(model => model.Title, new { id = "txtInquiryTitle", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinquirytitle", UserCookieManager.WBStoreId, "Inquiry Title ")), maxlength = 500 })
+                    @Html.TextBoxFor(model => model.Title, new { id = "txtInquiryTitle", @class = "newTxtBox", placeholder =Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinquirytitle", UserCookieManager.WBStoreId, "Inquiry Title ")), maxlength = 500 })
                 </div>
                 <div class="clearBoth">
                 </div>
@@ -195,7 +193,7 @@
                         </div>
                         <div class="TTL widthAvenior">
 
-                            @Html.TextBoxFor(model => model.InquiryItemTitle1, new { id = "txtTitle1", @class = "newTxtBox", placeholder =@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemtitleee", UserCookieManager.WBStoreId, "Item Title")), maxlength = 500 })
+                            @Html.TextBoxFor(model => model.InquiryItemTitle1, new { id = "txtTitle1", @class = "newTxtBox", placeholder =Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemtitleee", UserCookieManager.WBStoreId, "Item Title")), maxlength = 500 })
                         </div>
                         <div class="clear smallContctUsAvenior float_left_simple">
 
@@ -203,20 +201,20 @@
                         </div>
                         <div class="TTL widthAvenior">
 
-                            @Html.TextBoxFor(model => model.InquiryItemNotes1, new { id = "txtItemNote1", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemnotes", UserCookieManager.WBStoreId, "")), @class = "newTxtBox", maxlength = 500 })
+                            @Html.TextBoxFor(model => model.InquiryItemNotes1, new { id = "txtItemNote1", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemnotes", UserCookieManager.WBStoreId, "")), @class = "newTxtBox", maxlength = 500 })
                         </div>
                         <div class="clear smallContctUsAvenior float_left_simple">
 
-                            @*<span id="ltrldeliverydate"></span>*@
+                            <div id="DesiredDeldate1" class="error_star" style="display: none;">
+                                *
+                            </div>
                         </div>
-                        <div id="DesiredDeldate1" class="error_star" style="display: none;">
-                            *
-                        </div>
+                       
                         <div class="TTL widthAvenior">
                             <div id="test"></div>
                             <div id="datepicker"></div>
 
-                            @Html.TextBoxFor(model => model.InquiryItemDeliveryDate1, new { id = "txtInquiryDate1", @class = "newTxtBox Jdatepicker", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrldeliverydate", UserCookieManager.WBStoreId, "Desired Delivery")), maxlength = 500, @readonly = "readonly" })
+                            @Html.TextBoxFor(model => model.InquiryItemDeliveryDate1, new { id = "txtInquiryDate1", @class = "newTxtBox Jdatepicker", placeholder =Html.Raw(Html.GetKeyValueFromResourceFile("ltrldeliverydate", UserCookieManager.WBStoreId, "Desired Delivery")), maxlength = 500, @readonly = "readonly" })
                         </div>
                         <div class="clearBoth">
                         </div>
@@ -241,7 +239,7 @@
                         </div>
                         <div class="TTL widthAvenior">
 
-                            @Html.TextBoxFor(model => model.InquiryItemTitle2, new { id = "txtTitle2", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemtitleee", UserCookieManager.WBStoreId, "Item Title")), maxlength = 500 })
+                            @Html.TextBoxFor(model => model.InquiryItemTitle2, new { id = "txtTitle2", @class = "newTxtBox", placeholder =Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemtitleee", UserCookieManager.WBStoreId, "Item Title")), maxlength = 500 })
 
                         </div>
                         <div class="exit_container_RQ">
@@ -254,19 +252,19 @@
                         </div>
                         <div class="TTL widthAvenior">
 
-                            @Html.TextBoxFor(model => model.InquiryItemNotes2, new { id = "itemnotes2", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemnotess", UserCookieManager.WBStoreId, "Item Notes")), @class = "newTxtBox", maxlength = 500 })
+                            @Html.TextBoxFor(model => model.InquiryItemNotes2, new { id = "itemnotes2", placeholder =Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemnotess", UserCookieManager.WBStoreId, "Item Notes")), @class = "newTxtBox", maxlength = 500 })
                         </div>
                         <div class="clear smallContctUsAvenior float_left_simple">
 
-                            @*<span id="ltrldeliverydate2">Desired Delivery  :</span>*@
+                            <div id="DesiredDeldate2" class="error_star" style="display: none;">
+                                *
+                            </div>
                         </div>
-                        <div id="DesiredDeldate2" class="error_star" style="display: none;">
-                            *
-                        </div>
+                        
 
                         <div class="TTL widthAvenior">
 
-                            @Html.TextBoxFor(model => model.InquiryItemDeliveryDate2, new { id = "txtInquiryDate2", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrldeliverydate", UserCookieManager.WBStoreId, "Desired Delivery")), maxlength = 500, @readonly = "readonly" })
+                            @Html.TextBoxFor(model => model.InquiryItemDeliveryDate2, new { id = "txtInquiryDate2", @class = "newTxtBox", placeholder =Html.Raw(Html.GetKeyValueFromResourceFile("ltrldeliverydate", UserCookieManager.WBStoreId, "Desired Delivery")), maxlength = 500, @readonly = "readonly" })
 
                         </div>
                         <div class="clearBoth">
@@ -289,7 +287,7 @@
                         </div>
                         <div class="TTL widthAvenior">
 
-                            @Html.TextBoxFor(model => model.InquiryItemTitle3, new { id = "txtTitle3", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemtitleee", UserCookieManager.WBStoreId, "Item Title")), maxlength = 500, })
+                            @Html.TextBoxFor(model => model.InquiryItemTitle3, new { id = "txtTitle3", @class = "newTxtBox", placeholder =Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemtitleee", UserCookieManager.WBStoreId, "Item Title")), maxlength = 500, })
                         </div>
                         <div class="exit_container_RQ">
                             <div class="exit_popup" title="Click to remove item." id="Remove3">
@@ -301,19 +299,18 @@
                         </div>
                         <div class="TTL widthAvenior">
 
-                            @Html.TextBoxFor(model => model.InquiryItemNotes3, new { id = "txtItemNote3", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemnotess", UserCookieManager.WBStoreId,"Item Notes")), @class = "newTxtBox", maxlength = 500 })
+                            @Html.TextBoxFor(model => model.InquiryItemNotes3, new { id = "txtItemNote3", placeholder =Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemnotess", UserCookieManager.WBStoreId,"Item Notes")), @class = "newTxtBox", maxlength = 500 })
                         </div>
                         <div class="clear smallContctUsAvenior float_left_simple">
-
-                            @*<span id="ltrldeliverydate3">Desired Delivery  :</span>*@
+                            <div id="DesiredDeldate3" class="error_star" style="display: none;">
+                                *
+                            </div>
                         </div>
-                        <div id="DesiredDeldate3" class="error_star" style="display: none;">
-                            *
-                        </div>
-
+                       
+              
                         <div class="TTL widthAvenior">
 
-                            @Html.TextBoxFor(model => model.InquiryItemDeliveryDate3, new { id = "txtInquiryDate3", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrldeliverydate", UserCookieManager.WBStoreId, "Desired Delivery")), maxlength = 500, @readonly = "readonly" })
+                            @Html.TextBoxFor(model => model.InquiryItemDeliveryDate3, new { id = "txtInquiryDate3", @class = "newTxtBox", placeholder =Html.Raw(Html.GetKeyValueFromResourceFile("ltrldeliverydate", UserCookieManager.WBStoreId, "Desired Delivery")), maxlength = 500, @readonly = "readonly" })
 
                         </div>
                         <div class="clearBoth">
@@ -375,31 +372,31 @@
 
     //$(document).ready(function () {
 
-        $("#txtInquiryDate1").datepicker();
-        $("#txtInquiryDate2").datepicker();
-        $("#txtInquiryDate3").datepicker();
-        $("#AddNewInquiryItemList").click(function () {
-            AddNew();
-        });
-        $("#Remove2").click(function () {
+    $("#txtInquiryDate1").datepicker();
+    $("#txtInquiryDate2").datepicker();
+    $("#txtInquiryDate3").datepicker();
+    $("#AddNewInquiryItemList").click(function () {
+        AddNew();
+    });
+    $("#Remove2").click(function () {
 
-            Remove(2);
+        Remove(2);
 
 
-        });
-        $("#Remove3").click(function () {
+    });
+    $("#Remove3").click(function () {
 
-            Remove(3);
-        });
-        function Remove(recNo) {
-            //Remove the view and Show the add new button
-            var Areusureuwnt2remove = "Are you sure you want to remove this item?";
-            if (confirm(Areusureuwnt2remove)) {
-                $('#' + recNo).css('display', 'none');
-                $('#divAddNew').css('display', 'block');
-                $("#hfNoOfRec").val((recNo - 1));
-            }
+        Remove(3);
+    });
+    function Remove(recNo) {
+        //Remove the view and Show the add new button
+        var Areusureuwnt2remove = ' @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlareusureremoveitem", UserCookieManager.WBStoreId, "Are you sure you want to remove this item?"))';
+        if (confirm(Areusureuwnt2remove)) {
+            $('#' + recNo).css('display', 'none');
+            $('#divAddNew').css('display', 'block');
+            $("#hfNoOfRec").val((recNo - 1));
         }
+    }
     //});
     function ShowGUI() {
 
@@ -419,7 +416,7 @@
 
         var isValid = true;
 
-       if (isValid) {
+        if (isValid) {
             var currentRec = parseInt($("#hfNoOfRec").val());
             var numOfRec = currentRec + 1;
             $("#hfNoOfRec").val(numOfRec);
@@ -453,7 +450,7 @@
             var errorMessage = '';
             var isValid = true;
             if ($("#txtTitle2").val().trim() == '') {
-                var itemtitle2xreq = "Item Title is Required";
+                var itemtitle2xreq = '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlitemtitlerequired", UserCookieManager.WBStoreId, "Item Title is Required"))';
                 errorMessage = errorMessage + itemtitle2xreq + "<br>";
                 $("#ItemTitleInd2").css('display', 'block');
                 isValid = false;
@@ -462,7 +459,7 @@
                 $('#ItemTitleInd2').css('display', 'none');
             }
             if (!isValid) {
-                ShowPopup('Message', errorMessage);
+                ShowPopup('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', errorMessage);
             }
             return isValid;
         }
@@ -480,16 +477,14 @@
                 $('#ItemTitleInd3').css('display', 'none');
             }
             if (!isValid) {
-                ShowPopup('Message', errorMessage);
+                ShowPopup('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', errorMessage);
             }
             return isValid;
         }
     }
 
-    function Submit()
-    {
-        if (ValidateRec())
-        {
+    function Submit() {
+        if (ValidateRec()) {
             SubmitData();
         }
 
@@ -501,7 +496,7 @@
         var isValid = true;
         if ($("#hfIsUserLoggedIn").val() == "false") {
             if ($("#txtBoxUserName").val().trim() == '') {
-                var inquirytitlexreq = "First Name";
+                var inquirytitlexreq = '@Html.Raw(Html.GetKeyValueFromResourceFile("divfname", UserCookieManager.WBStoreId, "First Name"))';
                 errorMessage = errorMessage + inquirytitlexreq;
                 $('#divYourNameRq').css('display', 'block');
                 isValid = false;
@@ -511,11 +506,11 @@
             }
             if ($("#LastName").val() == '') {
                 if (errorMessage == '') {
-                    errorMessage = errorMessage + "Last Name";
-                    } else {
-                    errorMessage = errorMessage + ", Last Name";
+                    errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name"))';
+                } else {
+                    errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name"))';
                 }
-               
+
                 $('#ltrlLastNameRQ').css('display', 'block');
                 isValid = false;
             }
@@ -525,11 +520,11 @@
             //yourNameRequiredLast
             if ($("#UserEmail").val() == '') {
                 if (errorMessage == '') {
-                    errorMessage = errorMessage + "Email";
+                    errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))';
                 } else {
-                    errorMessage = errorMessage + ", Email";
+                    errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email"))';
                 }
-                
+
                 $('#divEmailRq').css('display', 'block');
                 isValid = false;
             }
@@ -542,25 +537,25 @@
                     }
                     else {
                         if (errorMessage == '') {
-                            errorMessage = errorMessage + "valid Email Address";
+                            errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlvalidemailadd", UserCookieManager.WBStoreId, "valid Email Address"))';
                         } else {
-                            errorMessage = errorMessage + ", valid Email Address";
+                            errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlvalidemailadd", UserCookieManager.WBStoreId, "valid Email Address"))';
                         }
-                       
+
                         isValid = false;
                     }
-                    
+
                 }
             }
         }
         if ($("#txtInquiryTitle").val().trim() == '') {
             if (errorMessage == '') {
-                errorMessage = errorMessage + "Inquiry Title";
+                errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinquirytitle", UserCookieManager.WBStoreId, "Inquiry Title"))';
             } else {
-                errorMessage = errorMessage + ", Inquiry Title";
+                errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinquirytitle", UserCookieManager.WBStoreId, "Inquiry Title"))';
             }
 
-           
+
             $('#InquiryTitleInd2').css('display', 'block');
             isValid = false;
         }
@@ -569,41 +564,65 @@
         }
         if ($("#txtTitle1").val().trim() == '') {
             if (errorMessage == '') {
-                errorMessage = errorMessage + "Inquiry Item";
+                errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqitem", UserCookieManager.WBStoreId, "Inquiry Item"))';
             } else {
-                errorMessage = errorMessage + ", Inquiry Item";
+                errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqitem", UserCookieManager.WBStoreId, "Inquiry Item"))';
             }
-           
+
             $('#ItemTitleInd1').css('display', 'block');
             isValid = false;
         }
         else {
             $('#ItemTitleInd1').css('display', 'none');
         }
-       
+
+        if ($("#txtInquiryDate1").val().trim() == '') {
+            if (errorMessage == '') {
+                errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqDD1", UserCookieManager.WBStoreId, "Desired Delivery"))';
+            } else {
+                errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqDD1", UserCookieManager.WBStoreId, "Desired Delivery"))';
+            }
+            $('#DesiredDeldate1').css('display', 'block');
+            isValid = false; 
+        } else {
+            $('#DesiredDeldate1').css('display', 'none');
+        }
+
         if (val == 2) {
 
             if ($("#txtTitle2").val().trim() == '') {
                 if (errorMessage == '') {
-                    errorMessage = errorMessage + "Second Inquiry Item";
+                    errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsecondinq", UserCookieManager.WBStoreId, "Second Inquiry Item"))';
                 } else {
-                    errorMessage = errorMessage + ", Second Inquiry Item";
+                    errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsecondinq", UserCookieManager.WBStoreId, "Second Inquiry Item"))';
                 }
-               
+
                 $("#ItemTitleInd2").css('display', 'block');
                 isValid = false;
             }
             else {
                 $("#InquiryTitleInd2").css('display', 'none');
             }
-           
+
+            if ($("#txtInquiryDate2").val().trim() == '') {
+                if (errorMessage == '') {
+                    errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqDD2", UserCookieManager.WBStoreId, "Second inquiry item desired delivery"))';
+                } else {
+                    errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqDD2", UserCookieManager.WBStoreId, "Second inquiry item desired delivery"))';
+                }
+                $("#DesiredDeldate2").css('display', 'block');
+                isValid = false;
+            } else {
+                $("#DesiredDeldate2").css('display', 'none');
+            }
+
         }
         if (val == 3) {
             if ($("#txtTitle2").val().trim() == '') {
                 if (errorMessage == '') {
-                    errorMessage = errorMessage + "Second Inquiry Item";
+                    errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsecondinq", UserCookieManager.WBStoreId, "Second Inquiry Item"))';
                 } else {
-                    errorMessage = errorMessage + ", Second Inquiry Item";
+                    errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsecondinq", UserCookieManager.WBStoreId, "Second Inquiry Item"))';
                 }
                 $("#ItemTitleInd2").css('display', 'block');
                 isValid = false;
@@ -614,22 +633,33 @@
 
             if ($("#txtTitle3").val().trim() == '') {
                 if (errorMessage == '') {
-                    errorMessage = errorMessage + "Third Inquiry Item";
+                    errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlthirdinq", UserCookieManager.WBStoreId, "Third inquiry item"))';
                 } else {
-                    errorMessage = errorMessage + ", Third Inquiry Item";
+                    errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlthirdinq", UserCookieManager.WBStoreId, "Third inquiry item"))';
                 }
-               
+
                 $("#ItemTitleInd3").css('display', 'block');
                 isValid = false;
             }
             else {
                 $("#ItemTitleInd3").css('display', 'none');
             }
+             
+             if ($("#txtInquiryDate3").val().trim() == '') {
+                if (errorMessage == '') {
+                    errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqDD3", UserCookieManager.WBStoreId, "Third inquiry item desired delivery"))';
+                } else {
+                    errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqDD3", UserCookieManager.WBStoreId, "Third inquiry item desired delivery"))';
+                }
+                 $("#DesiredDeldate3").css('display', 'block');
+                isValid = false;
+            } else {
+                 $("#DesiredDeldate3").css('display', 'none');
+            }
 
-          
         }
 
-        ShowPopUp('Message', 'Please enter ' + errorMessage + ' to proceed.');
+        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplzenter", UserCookieManager.WBStoreId, "Please enter ")) ' + errorMessage + ' @Html.Raw(Html.GetKeyValueFromResourceFile("ltrltoproceed", UserCookieManager.WBStoreId, "to proceed."))');
         return isValid;
 
     }
@@ -658,11 +688,11 @@
         var data = new FormData();
         if (files.length > 0) {
             for (i = 0; i < files.length; i++) {
-               
+
                 data.append("UploadedFile" + i, files[i]);
             }
         }
-     
+
         $.ajax({
             type: "POST",
             @*"/api/AttachmentUploader/" + url + "/" + FileName + "/" + @ViewBag.ClonedItem.ItemId + "/" + @ViewBag.Order.ContactId + "/" + @ViewBag.Order.CompanyId,*@
@@ -672,17 +702,16 @@
             async: true,
             processData: false,
             success: function (response) {
-                
+
                 HideLoader();
-                
-                if (response == 'gs')
-                {
-                    ShowPopUp("Message", "Please upload smaller size Attachments!");
+
+                if (response == 'gs') {
+                    ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrluploadsmallersize", UserCookieManager.WBStoreId, "Please upload smaller size Attachments!"))');
                 }
                 else
                     if (response == false) {
-                        
-                        ShowPopUp("Message", "Sorry,you have already subscribed with this email!");
+
+                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlalreadysubscribed", UserCookieManager.WBStoreId, "Sorry, you have already subscribed with this email!"))');
                     }
                     else {
                         $("#txtBoxUserName").val(''); $("#LastName").val(''); $("#UserEmail").val(''); $("#Phone").val('');
@@ -691,14 +720,15 @@
                         $("#txtTitle3").val(''); $("#txtItemNote3").val(''); $("#txtInquiryDate3").val('');
                         $("#hfNoOfRec").val(1);
                         $("#InquiryAttachment").val('');
-                        
-                        ShowPopUp("Message", "Inquiry submitted successfully!");
+
+                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlinqsubsucces", UserCookieManager.WBStoreId, "Inquiry submitted successfully!"))');
                     }
-               
+
             },
             error: function (error) {
                 HideLoader();
-                ShowPopUp("Message", "Error occured while processing!");
+                ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))'
+, '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerrrorocc", UserCookieManager.WBStoreId, "Error occured while processing!"))');
 
             }
         });
@@ -707,20 +737,19 @@
     function ValidateEmail(email) {
         var isValid = true;
         if (email == '') {
-         
+
             isValid = false;
         }
         else {
             var re = new RegExp("^[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$");
             if (!re.test(email)) {
-              
+
                 isValid = false;
             }
         }
         return isValid;
     }
-    function CancelBtn()
-    {
+    function CancelBtn() {
         ShowLoader();
         window.location.href = "/";
     }

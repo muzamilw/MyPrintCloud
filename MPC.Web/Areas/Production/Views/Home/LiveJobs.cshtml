@@ -22,7 +22,7 @@
                             &nbsp;
                         </div>
                         <div>
-                            <div class="col-lg-12" style="padding-left:18px;padding-right:19px;">
+                            <div class="col-lg-12" style="padding-left:15px;padding-right:16px;">
                                 <div style="margin-top: 35px;"></div>
                                 <!-- ko template: { name: 'liveJobFilterTemplate' } -->
                                 <!-- /ko -->
@@ -80,7 +80,7 @@
 <script id="liveJobFilterTemplate" type="text/html">
     <div class="filter-body">
         <div class="filter-block pull-right">
-            <div class="form-group pull-left">
+            <div class="form-group pull-left" style="margin-right:-5px;">
                 <div class="form-group pull-left" data-bind="enable:$root.enableDownloadArtwork()">
                     @using (Ajax.BeginForm("LiveJobsDownload", "Home", new AjaxOptions { HttpMethod = "POST" }))
                     {
@@ -100,7 +100,7 @@
                     }
                 </div>
             </div>
-            <div class="form-group pull-left">
+            <div class="form-group pull-left" style="margin-right:0px;">
                 <form data-bind="submit: $root.getItems">
                     <input type="text" class="form-control" placeholder="Search..." data-bind="value:$root.searchFilter">
                     <i class="fa fa-search search-icon" data-bind="click: $root.getItems"></i>

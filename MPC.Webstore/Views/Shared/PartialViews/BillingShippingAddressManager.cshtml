@@ -149,7 +149,7 @@ grid.Column("Default Shipping",format:@<p>
         </div>
     </div>
 
-<div id="UpdateModelPopUp" class="pop_body_MesgPopUp" >
+<div id="UpdateModelPopUp"  >
     <div id="MainContent_CRUDShippingAddress1_upnlBody">
         <div id="container" style="margin-left:60px;">
         @*<div class="address_label_area1 ">
@@ -332,7 +332,7 @@ grid.Column("Default Shipping",format:@<p>
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 <script type="text/javascript">
-  
+
     var AdRessID;
     var CountryID;
     var StateID;
@@ -368,7 +368,7 @@ grid.Column("Default Shipping",format:@<p>
                     response(data.split(":"))
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert('Error occured while autocomplete');
+                    alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerrorAutocomp", UserCookieManager.WBStoreId, "Error occured while autocomplete."))');
                 }
             });
         },
@@ -382,7 +382,7 @@ grid.Column("Default Shipping",format:@<p>
                 alert('Empty');
             }
             $("#btnsearch").trigger('click');
-            
+
         }
 
     });
@@ -414,7 +414,7 @@ grid.Column("Default Shipping",format:@<p>
         });
     }
     function ShowBillingShippingDetails(AddressID) {
-       // ShowLoader();
+        // ShowLoader();
         UpdateStatus = true;
         AdRessID = AddressID;
         var data = { AddressId: AddressID }
@@ -425,7 +425,8 @@ grid.Column("Default Shipping",format:@<p>
             data: data,
             async: true,
             success: function (response) {
-               // var PHtml = $("#UpdateModelPopUp").html();
+                // var PHtml = $("#UpdateModelPopUp").html();
+
 
                 //    ShippingBillingDetails("Update Address", PHtml);
                 $("#modelTitle").text("Update Address");
@@ -448,8 +449,8 @@ grid.Column("Default Shipping",format:@<p>
                 CountryID = response.CountryId;
                 LoadCountries();
                 LoadStates();
-                    document.getElementById("layer").style.display = "block";
-                    document.getElementById("innerLayer").style.display = "block";
+                document.getElementById("layer").style.display = "block";
+                document.getElementById("innerLayer").style.display = "block";
             }
         });
 
@@ -525,8 +526,8 @@ grid.Column("Default Shipping",format:@<p>
     }
     function ResetTextboxes() {
         UpdateStatus = false;
-      //  var PHtml = $("#UpdateModelPopUp").html();
-      //  ShippingBillingDetails("Add New Address", PHtml);
+        //  var PHtml = $("#UpdateModelPopUp").html();
+        //  ShippingBillingDetails("Add New Address", PHtml);
         $("#modelTitle").text("Add New  Address");
         $("#txtAddressName").val('');
         $("#txtFAO").val('');
@@ -549,7 +550,7 @@ grid.Column("Default Shipping",format:@<p>
         LoadCountries();
         LoadStates();   document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
-    
+
     }
 
     function AddNewAddress() {
@@ -587,7 +588,7 @@ grid.Column("Default Shipping",format:@<p>
 
         //public bool? DisplayOnContactUs { get; set; }
         if (UpdateStatus == true) {
-          //  var PHtml = $("#UpdateModelPopUp").html();
+            //  var PHtml = $("#UpdateModelPopUp").html();
             //  ShippingBillingDetails("", PHtml);
             $("#modelTitle").text("");
             document.getElementById("layer").style.display = "block";
@@ -633,293 +634,290 @@ grid.Column("Default Shipping",format:@<p>
                 RebindGrid();
             },
             error: function (error) {
-                ShowPopUp('Error Occured While Adding Address', error);
+                ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerroraddaddress", UserCookieManager.WBStoreId, "Error Occured While Adding Address,"))', error);
             }
         });
-    }
-    function UpdateAddress() {
-        //var PHtml = $("#UpdateModelPopUp").html();
-        //ShippingBillingDetails("", PHtml);
-        $("#modelTitle").text("");
-        var AddressName = $("#txtAddressName").val();
-        var FAO = $("#txtFAO").val();
-        var Address1 = $('#txtAddress1').val();
-        var Reference = $("#txtReference").val();
-        var Address2 = $("#txtAddress2").val();
-        var Tel1 = $("#txtTel1").val();
-        var Extension1 = $("#txtExt1").val();
-        var Address3 = $("#txtAddress3").val();
-        var Tel2 = $("#txtTel2").val();
-        var Extension2 = $("#txtExt2").val();
-        var City = $("#txtCity").val();
-        var Fax = $("#txtFax").val();
-        var GeoLatitude = $("#txtLatitude").val();
-        var GeoLongitude = $("#txtLongitude").val();
-        var PostCode = $("#txtPostalCode").val();
-        var StateId = $("#DDSate").val();
-        var CountryId = $("#DDCountry").val();
-        var TerritoryId = $("#TerritoryDD").val();
-        //var CountryName = $("#DDCountry option:selected").text();
-        //var StateName = $("#DDSate option:selected").text();
-        //if (CountryName == null)
-        //{
-        //    CountryName ='';
-        //}
+        }
+        function UpdateAddress() {
+            //var PHtml = $("#UpdateModelPopUp").html();
+            //ShippingBillingDetails("", PHtml);
+            $("#modelTitle").text("");
+            var AddressName = $("#txtAddressName").val();
+            var FAO = $("#txtFAO").val();
+            var Address1 = $('#txtAddress1').val();
+            var Reference = $("#txtReference").val();
+            var Address2 = $("#txtAddress2").val();
+            var Tel1 = $("#txtTel1").val();
+            var Extension1 = $("#txtExt1").val();
+            var Address3 = $("#txtAddress3").val();
+            var Tel2 = $("#txtTel2").val();
+            var Extension2 = $("#txtExt2").val();
+            var City = $("#txtCity").val();
+            var Fax = $("#txtFax").val();
+            var GeoLatitude = $("#txtLatitude").val();
+            var GeoLongitude = $("#txtLongitude").val();
+            var PostCode = $("#txtPostalCode").val();
+            var StateId = $("#DDSate").val();
+            var CountryId = $("#DDCountry").val();
+            var TerritoryId = $("#TerritoryDD").val();
+            //var CountryName = $("#DDCountry option:selected").text();
+            //var StateName = $("#DDSate option:selected").text();
+            //if (CountryName == null)
+            //{
+            //    CountryName ='';
+            //}
 
-        //if (StateName == null)
-        //{
-        //    StateName = '';
-        //}
+            //if (StateName == null)
+            //{
+            //    StateName = '';
+            //}
 
-        var data = { AddressName: AddressName, FAO: FAO, Address1: Address1, Reference: Reference, Address2: Address2, Tel1: Tel1, Extension1: Extension1, Address3: Address3, Tel2: Tel2, Extension2: Extension2, City: City, Fax: Fax, GeoLatitude: GeoLatitude, GeoLongitude: GeoLongitude, PostCode: PostCode, StateId: StateId, CountryId: CountryId, TerritoryId: TerritoryId, AddressId: AdRessID, TerritoryId: TerritoryId };
-        $.ajax({
-            type: "POST",
-            url: "/BillingShippingAddressManager/UpdateAddress",
-            contentType: "application/json",
-            data: JSON.stringify(data),
-            async: true,
-            success: function (response) {
+            var data = { AddressName: AddressName, FAO: FAO, Address1: Address1, Reference: Reference, Address2: Address2, Tel1: Tel1, Extension1: Extension1, Address3: Address3, Tel2: Tel2, Extension2: Extension2, City: City, Fax: Fax, GeoLatitude: GeoLatitude, GeoLongitude: GeoLongitude, PostCode: PostCode, StateId: StateId, CountryId: CountryId, TerritoryId: TerritoryId, AddressId: AdRessID, TerritoryId: TerritoryId };
+            $.ajax({
+                type: "POST",
+                url: "/BillingShippingAddressManager/UpdateAddress",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                async: true,
+                success: function (response) {
 
-                HideLoader();
-                RebindGrid();
-            },
-            error: function (error) {
-                ShowPopUp('Error Occured While Updating Address', error);
-            }
-        });
-    }
-    function SetSelectedCountry(obj, countryid) {
-        var index = 1;
-        $.each(obj, function (id, option) {
-            if (option.CountryId == countryid) {
+                    HideLoader();
+                    RebindGrid();
+                },
+                error: function (error) {
+                    ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerroroccuredupdateaddress", UserCookieManager.WBStoreId, "Error Occured While Adding Address,"))', error);
+                }
+            });
+        }
+        function SetSelectedCountry(obj, countryid) {
+            var index = 1;
+            $.each(obj, function (id, option) {
+                if (option.CountryId == countryid) {
 
-                $("#DDCountry")[0].selectedIndex = index;
-            }
-            index++;
-        });
-    }
-    function SetSelectedState(obj, stateId) {
+                    $("#DDCountry")[0].selectedIndex = index;
+                }
+                index++;
+            });
+        }
+        function SetSelectedState(obj, stateId) {
 
-        var index = 0;
-        $.each(obj, function (id, option) {
-            if (option.StateId == stateId) {
+            var index = 0;
+            $.each(obj, function (id, option) {
+                if (option.StateId == stateId) {
 
-                $("#DDSate")[0].selectedIndex = index;
-            }
-            index++;
-        });
-    }
+                    $("#DDSate")[0].selectedIndex = index;
+                }
+                index++;
+            });
+        }
 
-    function SetStateSelection() {
-        var obj = loadCountryStates(CountryID);
-        SetSelectedState(obj, StateID);
+        function SetStateSelection() {
+            var obj = loadCountryStates(CountryID);
+            SetSelectedState(obj, StateID);
 
-        if (UpdateStatus == true) {
-            if (StateID > 0) {
+            if (UpdateStatus == true) {
+                if (StateID > 0) {
 
-                SetSelectedState(response.State, StateID);
+                    SetSelectedState(response.State, StateID);
+                }
+                else {
+
+                    $("#DDSate")[0].selectedIndex = 0;
+                }
             }
             else {
-
                 $("#DDSate")[0].selectedIndex = 0;
             }
         }
-        else {
-            $("#DDSate")[0].selectedIndex = 0;
+
+        function LoadCountryStatesOnLoad(CountryID) {
+            var data = { CountryId: CountryID }
+            $.ajax({
+                type: "GET",
+                url: "/BillingShippingAddressManager/LoadStatesByCountryID",
+                contentType: "application/json",
+                data: data,
+                async: true,
+                success: function (response) {
+
+                    var StatesDD = $("#DDSate");
+                    StatesDD.html('');
+                    //StatesDD.append($('<option></option>').val(0).html('Select State'));
+                    $.each(response.State, function (id, option) {
+
+                        StatesDD.append($('<option></option>').val(option.StateId).html(option.StateName));
+
+                    });
+
+                    SetSelectedState(response.State, StateID);
+                }
+            });
+
         }
-    }
+        function LoadAllStates() {
+            $.ajax({
+                type: "GET",
+                url: "/BillingShippingAddressManager/LoadAllStates",
+                contentType: "application/json",
+                async: true,
+                success: function (response) {
+                    var States = $("#DDSate");
+                    States.html('');
+                    States.append($('<option></option>').val(0).html('Select State'));
+                    $.each(response.State, function (id, option) {
+                        States.append($('<option></option>').val(option.StateId).html(option.StateName));
+                    });
+                }
+            });
+        }
+        $(document).on('change', '#DDCountry', function () {
+            var CountryID = $(this).val();
 
-    function LoadCountryStatesOnLoad(CountryID) {
-        var data = { CountryId: CountryID }
-        $.ajax({
-            type: "GET",
-            url: "/BillingShippingAddressManager/LoadStatesByCountryID",
-            contentType: "application/json",
-            data: data,
-            async: true,
-            success: function (response) {
+            if (CountryID > 0) {
 
-                var StatesDD = $("#DDSate");
-                StatesDD.html('');
-                //StatesDD.append($('<option></option>').val(0).html('Select State'));
-                $.each(response.State, function (id, option) {
-
-                    StatesDD.append($('<option></option>').val(option.StateId).html(option.StateName));
-
-                });
-
-                SetSelectedState(response.State, StateID);
+                loadCountryStates(CountryID);
+            }
+            if (CountryID == 0) {
+                LoadAllStates();
             }
         });
+        function RebindGrid() {
 
-    }
-    function LoadAllStates() {
-        $.ajax({
-            type: "GET",
-            url: "/BillingShippingAddressManager/LoadAllStates",
-            contentType: "application/json",
-            async: true,
-            success: function (response) {
-                var States = $("#DDSate");
-                States.html('');
-                States.append($('<option></option>').val(0).html('Select State'));
-                $.each(response.State, function (id, option) {
-                    States.append($('<option></option>').val(option.StateId).html(option.StateName));
-                });
+            window.location.href = "/BillingShippingAddressManager";
+        }
+
+        function myFunction() {
+            HideLoader();
+        }
+
+
+        function Validation() {
+
+            var IsValid = true;
+            var errorMessage = '';
+
+            if ($("#txtAddressName").val().trim() == '') {
+                var AddressNAme = "Address Name Is Required";
+                errorMessage = errorMessage + AddressNAme + "<br>";
+                $("#txtAddressName").css("border", "2px solid red");
+
+                IsValid = false;
             }
+            else {
+                //$("#divAddressName").css('display', 'none');
+
+                $("#txtAddressName").css("border", "1px solid #c1c6cc");
+            }
+
+            if ($("#txtAddress1").val().trim() == '') {
+                var Address1 = "Address1 is Ruquired";
+                errorMessage = errorMessage + Address1 + "<br>";
+                $("#txtAddress1").css("border", "2px solid red");
+                IsValid = false;
+            }
+            else {
+
+                //$("#divAddress1").css('display', 'none');
+                $("#txtAddress1").css("border", "1px solid #c1c6cc");
+            }
+
+            if ($("#txtCity").val().trim() == '') {
+                var City = "City is Ruquired";
+                errorMessage = errorMessage + City + "<br>";
+                $("#txtCity").css("border", "2px solid red");
+                IsValid = false;
+            }
+            else {
+                //$("#divCity").css('display', 'none');
+                $("#txtCity").css("border", "1px solid #c1c6cc");
+            }
+            //if (IsValid == false)
+            //{
+            //    ShowPopUp('Message', errorMessage);
+            //}
+
+            return IsValid;
+
+        }
+
+        function SaveCall() {
+
+            if (Validation() == true) {
+                AddAndUpdate();
+            }
+
+        }
+        function HideMessagePopUpCustom() {
+            document.getElementById("layer").style.display = "none";
+            document.getElementById("innerLayer").style.display = "none";
+        }
+        function buidPopup() {
+            //popupBody
+            //modelTitle
+            var bws = getBrowserHeight();
+
+            var shadow = document.getElementById("innerLayer");
+
+            document.getElementById("layer").style.width = bws.width + "px";
+            document.getElementById("layer").style.height = bws.height + "px";
+            var left = 0;
+            var container = "";
+            if (bws.width < 700 && bws.width > 640) {
+                //left = parseInt((bws.width) / 2);
+                document.getElementById("innerLayer").style.width = (bws.width) + "px";
+                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body"  id="popupBody" style="height:500px;overflow-y:scroll;"></div></div>';
+
+            }
+            else if (bws.width == 640) {
+                //left = parseInt((bws.width) / 2);
+                document.getElementById("innerLayer").style.width = (bws.width) + "px";
+                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:500px;"></div></div>';
+
+            }
+            else if (bws.width < 640 && bws.width > 600) {
+                //left = parseInt((bws.width) / 2);
+                document.getElementById("innerLayer").style.width = (bws.width) + "px";
+                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:550px;"></div></div>';
+
+            }
+            else if (bws.width < 600 && bws.width > 500) {
+                //left = parseInt((bws.width) / 2);
+                document.getElementById("innerLayer").style.width = (bws.width) + "px";
+                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:350px;"></div></div>';
+
+            } else if (bws.width < 500) {
+                //left = parseInt((bws.width) / 2);
+                document.getElementById("innerLayer").style.width = (bws.width) + "px";
+                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:300px;"></div></div>';
+            }
+            else {
+
+                left = parseInt((bws.width - 730) / 2);
+                document.getElementById("innerLayer").style.width = "730px";
+                container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:500px;overflow-y:scroll;" ></div></div>';
+            }
+
+
+
+            // document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            document.getElementById("innerLayer").innerHTML = container;
+
+            document.getElementById("innerLayer").style.left = left + "px";
+            document.getElementById("innerLayer").style.top = "0px";
+
+            document.getElementById("innerLayer").style.position = "fixed";
+            document.getElementById("innerLayer").style.zIndex = "9999";
+
+
+            document.getElementById("layer").style.display = "none";
+            document.getElementById("innerLayer").style.display = "none";
+        }
+        $(document).ready(function () {
+
+            buidPopup();
+            $("#popupBody").append($("#UpdateModelPopUp"));
         });
-    }
-    $(document).on('change', '#DDCountry', function () {
-        var CountryID = $(this).val();
 
-        if (CountryID > 0) {
-
-            loadCountryStates(CountryID);
-        }
-        if (CountryID == 0) {
-            LoadAllStates();
-        }
-    });
-    function RebindGrid() {
-
-        window.location.href = "/BillingShippingAddressManager";
-    }
-
-    function myFunction() {
-        HideLoader();
-    }
-
-
-    function Validation() {
-        
-        var IsValid = true;
-        var errorMessage = '';
-
-        if ($("#txtAddressName").val().trim() == '') {
-            var AddressNAme = "Address Name Is Required";
-            errorMessage = errorMessage + AddressNAme + "<br>";
-            $("#txtAddressName").css("border", "2px solid red");
-            
-            IsValid = false;
-        }
-        else {
-            //$("#divAddressName").css('display', 'none');
-
-            $("#txtAddressName").css("border", "1px solid #c1c6cc");
-        }
-
-        if ($("#txtAddress1").val().trim() == '') {
-            var Address1 = "Address1 is Ruquired";
-            errorMessage = errorMessage + Address1 + "<br>";
-            $("#txtAddress1").css("border", "2px solid red");
-            IsValid = false;
-        }
-        else {
-
-            //$("#divAddress1").css('display', 'none');
-            $("#txtAddress1").css("border", "1px solid #c1c6cc");
-        }
-
-        if ($("#txtCity").val().trim() == '') {
-            var City = "City is Ruquired";
-            errorMessage = errorMessage + City + "<br>";
-            $("#txtCity").css("border", "2px solid red");
-            IsValid = false;
-        }
-        else {
-            //$("#divCity").css('display', 'none');
-            $("#txtCity").css("border", "1px solid #c1c6cc");
-        }
-        //if (IsValid == false)
-        //{
-        //    ShowPopUp('Message', errorMessage);
-        //}
-
-        return IsValid;
-      
-    }
-
-    function SaveCall() {
-        
-        if (Validation() == true) {
-            AddAndUpdate();
-        }
-
-    }
-    function HideMessagePopUpCustom() {
-        document.getElementById("layer").style.display = "none";
-        document.getElementById("innerLayer").style.display = "none";
-    }
-    function buidPopup() {
-        //popupBody
-        //modelTitle
-        var bws = getBrowserHeight();
-
-        var shadow = document.getElementById("innerLayer");
-
-        document.getElementById("layer").style.width = bws.width + "px";
-        document.getElementById("layer").style.height = bws.height + "px";
-        var left = 0;
-        var container = "";
-        if (bws.width < 700 && bws.width > 640) {
-            //left = parseInt((bws.width) / 2);
-            document.getElementById("innerLayer").style.width = (bws.width) + "px";
-            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body"  id="popupBody" style="height:500px;overflow-y:scroll;"></div></div>';
-
-        }
-        else if (bws.width == 640) {
-            //left = parseInt((bws.width) / 2);
-            document.getElementById("innerLayer").style.width = (bws.width) + "px";
-            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:500px;"></div></div>';
-
-        }
-        else if (bws.width < 640 && bws.width > 600) {
-            //left = parseInt((bws.width) / 2);
-            document.getElementById("innerLayer").style.width = (bws.width) + "px";
-            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:550px;"></div></div>';
-
-        }
-        else if (bws.width < 600 && bws.width > 500) {
-            //left = parseInt((bws.width) / 2);
-            document.getElementById("innerLayer").style.width = (bws.width) + "px";
-            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:350px;"></div></div>';
-
-        } else if (bws.width < 500) {
-            //left = parseInt((bws.width) / 2);
-            document.getElementById("innerLayer").style.width = (bws.width) + "px";
-            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:300px;"></div></div>';
-        }
-        else {
-
-            left = parseInt((bws.width - 730) / 2);
-            document.getElementById("innerLayer").style.width = "730px";
-            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:500px;overflow-y:scroll;" ></div></div>';
-        }
-
-
-
-        // document.getElementById("innerLayer").style.width = (bws.width) + "px";
-        document.getElementById("innerLayer").innerHTML = container;
-
-        document.getElementById("innerLayer").style.left = left + "px";
-        document.getElementById("innerLayer").style.top = "0px";
-
-        document.getElementById("innerLayer").style.position = "fixed";
-        document.getElementById("innerLayer").style.zIndex = "9999";
-
-  
-        document.getElementById("layer").style.display = "none";
-        document.getElementById("innerLayer").style.display = "none";
-    }
-    $(document).ready(function () {
-
-        buidPopup();
-        $("#popupBody").append($("#UpdateModelPopUp"));
-
-
-
-    });
-  
 </script>
 
     

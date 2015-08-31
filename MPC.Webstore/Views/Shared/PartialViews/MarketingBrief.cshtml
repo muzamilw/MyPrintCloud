@@ -5,7 +5,7 @@
     Layout = null;
 }
 @{
-   
+
     string hfTotalGroups = string.Empty;
 }
 
@@ -61,113 +61,139 @@
                 {
                     foreach (var question in ViewData["QuestionsList"] as List<MPC.Models.DomainModels.ProductMarketBriefQuestion>)
                     {
-
-                        List<MPC.Models.DomainModels.ProductMarketBriefAnswer> answers = ViewData["Answers"] as List<MPC.Models.DomainModels.ProductMarketBriefAnswer>;
-                        answers = answers.Where(a => a.MarketBriefQuestionId == question.MarketBriefQuestionId).ToList();
                         QNo++;
-
-                        string groupName = QNo + "radioGroup";
-
-
-
-                        divID = "radio" + QNo;
-
-
-                        var AnsCOnt = "AnsCont" + QNo;
-                        <div class="float_left_simple LGBC rounded_corners paddingLeft5px Mleft10 MB_MainCont">
-                            <div class="white_background rounded_corners MB_InnerCont">
-
-                                <div id="questionCont" class="MB_QtnsCont">
-                                    @QNo.@question.QuestionDetail
-                                </div>
-
-                                @{
-                        if (question.IsMultipleSelection == true)
+                        List<MPC.Models.DomainModels.ProductMarketBriefAnswer> answers = ViewData["Answers"] as List<MPC.Models.DomainModels.ProductMarketBriefAnswer>;
+                        if (answers != null && answers.Count() > 0)
                         {
+                            answers = answers.Where(a => a.MarketBriefQuestionId == question.MarketBriefQuestionId).ToList();
+                           
 
-                            <div id="answersCont" class="MB_AnsCont">
-                                <div id="@divID" class=@AnsCOnt data-type="1">
+                            string groupName = QNo + "radioGroup";
+
+
+
+                            divID = "radio" + QNo;
+
+
+                            var AnsCOnt = "AnsCont" + QNo;
+                            <div class="float_left_simple LGBC rounded_corners paddingLeft5px Mleft10 MB_MainCont">
+                                <div class="white_background rounded_corners MB_InnerCont">
+
+                                    <div id="questionCont" class="MB_QtnsCont">
+                                        @QNo.@question.QuestionDetail
+                                    </div>
+
                                     @{
-                            int Anscount = 1;
-
-                            foreach (var i in answers)
+                            if (question.IsMultipleSelection == true)
                             {
-                                string radiobtnID = "Q" + QNo + "RadioBtn" + Anscount;
-                                string className = "Q" + QNo + "RadioBtn" + Anscount;
+
+                                <div id="answersCont" class="MB_AnsCont">
+                                    <div id="@divID" class=@AnsCOnt data-type="1">
+                                        @{
+                                int Anscount = 1;
+
+                                foreach (var i in answers)
+                                {
+                                    string radiobtnID = "Q" + QNo + "RadioBtn" + Anscount;
+                                    string className = "Q" + QNo + "RadioBtn" + Anscount;
 
 
-                                <div class=float_left_simple style="height:inherit;"> <input type=checkbox id="@i.MarketBriefAnswerId" class=@className name=@groupName style="position:absolute;opacity:0;" /><label for="@i.MarketBriefAnswerId" class="grayRadiantbtn" onclick=TickCheckBox('@radiobtnID');> @i.AnswerDetail </label> </div>
-                                Anscount += 1;
-                            }
-                                    }
+                                    <div class=float_left_simple style="height:inherit;"> <input type=checkbox id="@i.MarketBriefAnswerId" class=@className name=@groupName style="position:absolute;opacity:0;" /><label for="@i.MarketBriefAnswerId" class="grayRadiantbtn" onclick="TickCheckBox('@radiobtnID');"> @i.AnswerDetail </label> </div>
+                                    Anscount += 1;
+                                }
+                                        }
+                                    </div>
+                                    <div class="clearBoth;">
+                                        &nbsp;
+                                    </div>
                                 </div>
-
-                            </div>
-                        }
-                        else
-                        {
-                            <div id="answersCont" class="MB_AnsCont">
-                                <div id="@divID" class=@AnsCOnt data-type="2">
-                                    @{
-                            int Anscount = 1;
-
-                            foreach (var i in answers)
-                            {
-                                var radiobtnID = "Q" + QNo + "RadioBtn" + Anscount;
-                                string className = "Q" + QNo + "RadioBtn" + Anscount;
-
-
-                                <div class=float_left_simple style="height:inherit;" onclick=TickRadio('@radiobtnID');> <input type=radio id="@i.MarketBriefAnswerId" class=@className name=@groupName style=" position:absolute;opacity:0;" onchange=TickRadio('@radiobtnID'); /><label for="@i.MarketBriefAnswerId" class="grayRadiantbtn" onclick=TickRadio('@radiobtnID');>@i.AnswerDetail</label> </div>
-                                Anscount += 1;
-                            }
-                                    }
-                                </div>
-
-                            </div>
-                        }
-
-                        if (answers.Count > 0 & answers != null)
-                        {
-
-
-                            HFGroupCount++;
-
-
-
-                            if (!string.IsNullOrEmpty(hfTotalGroups))
-                            {
-                                hfTotalGroups = hfTotalGroups + "," + groupName;
                             }
                             else
                             {
-                                hfTotalGroups = groupName;
+                                <div id="answersCont" class="MB_AnsCont">
+                                    <div id="@divID" class=@AnsCOnt data-type="2">
+                                        @{
+                                int Anscount = 1;
+
+                                foreach (var i in answers)
+                                {
+                                    var radiobtnID = "Q" + QNo + "RadioBtn" + Anscount;
+                                    string className = "Q" + QNo + "RadioBtn" + Anscount;
+
+
+                                    <div class=float_left_simple style="height:inherit;" onclick=TickRadio('@radiobtnID');> <input type=radio id="@i.MarketBriefAnswerId" class=@className name=@groupName style=" position:absolute;opacity:0;" onchange=TickRadio('@radiobtnID'); /><label for="@i.MarketBriefAnswerId" class="grayRadiantbtn" onclick=TickRadio('@radiobtnID');>@i.AnswerDetail</label> </div>
+                                    Anscount += 1;
+                                }
+                                        }
+                                    </div>
+                                    <div class="clearBoth;">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                            }
+
+                            if (answers.Count > 0 & answers != null)
+                            {
+
+
+                                HFGroupCount++;
+
+
+
+                                if (!string.IsNullOrEmpty(hfTotalGroups))
+                                {
+                                    hfTotalGroups = hfTotalGroups + "," + groupName;
+                                }
+                                else
+                                {
+                                    hfTotalGroups = groupName;
+                                }
+
+
+                            }
+                            if (!string.IsNullOrEmpty(hfHaveNoAns))
+                            {
+                                hfHaveNoAns = hfHaveNoAns + "," + AnsCOnt;
+                            }
+                            else
+                            {
+                                hfHaveNoAns = AnsCOnt;
                             }
 
 
-                        }
-                        if (!string.IsNullOrEmpty(hfHaveNoAns))
-                        {
-                            hfHaveNoAns = hfHaveNoAns + "," + AnsCOnt;
+                                    }
+
+                                    <div class="clearBoth">
+                                        &nbsp;
+                                    </div>
+                                    <div class="MB_AddInfoCOnt">
+                                        <label id="lbl_AdditionalInformation" class="MB_AddInfoColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lblAdditionalInformation", UserCookieManager.WBStoreId))</label>
+                                        <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder='@Html.Raw(Html.GetKeyValueFromResourceFile("btnideas", UserCookieManager.WBStoreId, "Additional Information"))'></textarea>
+                                    </div>
+
+                                </div>
+                            </div>
                         }
                         else
                         {
-                            hfHaveNoAns = AnsCOnt;
-                        }
+                            <div class="float_left_simple LGBC rounded_corners paddingLeft5px Mleft10 MB_MainCont">
+                                <div class="white_background rounded_corners MB_InnerCont">
 
-
-                                }
-
-                                <div class="clearBoth">
-                                    &nbsp;
+                                    <div id="questionCont" class="MB_QtnsCont">
+                                        @QNo.@question.QuestionDetail
+                                    </div>
+                                    <div id="answersCont" class="MB_AnsCont">
+                                    </div>
+                                    <div class="clearBoth">
+                                        &nbsp;
+                                    </div>
+                                    <div class="MB_AddInfoCOnt">
+                                        <label id="lbl_AdditionalInformation" class="MB_AddInfoColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lblAdditionalInformation", UserCookieManager.WBStoreId))</label>
+                                        <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder='@Html.Raw(Html.GetKeyValueFromResourceFile("btnideas", UserCookieManager.WBStoreId, "Additional Information"))'></textarea>
+                                    </div>
                                 </div>
-                                <div class="MB_AddInfoCOnt">
-                                    <label id="lbl_AdditionalInformation" class="MB_AddInfoColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lblAdditionalInformation", UserCookieManager.WBStoreId))</label>
-                                    <textarea id="txtAddAns" class="rounded_corners MB_txtbxInfo" cols="10" rows="3" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("btnideas", UserCookieManager.WBStoreId, "Additional Information"))
-                                              "></textarea>
-                                </div>
-
                             </div>
-                        </div>
+                        }
                     }
                     <input type="hidden" id="hfGroupsCount" value="@HFGroupCount" />
                         <input id="hfHaveNoAns" type="hidden" value="@hfHaveNoAns" />
@@ -213,14 +239,17 @@
                     <div class="float_left_simple LGBC rounded_corners paddingLeft5px Mleft10 MB_InnerRightCont">
                         <div class="white_background rounded_corners MB_RightInnerPnl">
                             <div class="MB_GrayBack">
-                                <label id="lbl_Reply_Message" class="Fsize15">@Html.Raw(Html.GetKeyValueFromResourceFile("replybacktome", UserCookieManager.WBStoreId,"Reply back to me by"))
-</label>
+                                <label id="lbl_Reply_Message" class="Fsize15">
+                                    @Html.Raw(Html.GetKeyValueFromResourceFile("replybacktome", UserCookieManager.WBStoreId, "Reply back to me by"))
+                                </label>
                                 <div class="left_align">
                                     <span id="lbl_Email" class="MB_EMailtxtColor Fsize13">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email")): <span>@MPC.Webstore.Common.UserCookieManager.WEBEmail</span></span>
                                 </div>
                                 <div style="margin-top: 10px; text-align: left;">
-                                    <span id="lblTelText" class="MB_EMailtxtColor Fsize13">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:"))
- <span>@ViewBag.Phone</span></span>
+                                    <span id="lblTelText" class="MB_EMailtxtColor Fsize13">
+                                        @Html.Raw(Html.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:"))
+                                        <span>@ViewBag.Phone</span>
+                                    </span>
                                 </div>
                                 <a id="lbl_Change" href="#" style="float: right; cursor: pointer; color:#73a8ac; clear: both; display:none;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblChange", UserCookieManager.WBStoreId))</a>
                                 <div class="clearBoth">
@@ -229,7 +258,7 @@
                             </div>
                             <div style="margin: 5px; margin-top: 15px;">
                                 <input type="submit" class="MB_SendINqBtn rounded_corners5" id="SendINqBtn"
-                                       onclick="return GetAllinputElementIDS(); ShowLoader();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnmarketingbrief", UserCookieManager.WBStoreId,"Submit Inquiry"))" />
+                                       onclick="return GetAllinputElementIDS(); ShowLoader();" value=@Html.Raw(Html.GetKeyValueFromResourceFile("btnmarketingbrief", UserCookieManager.WBStoreId, "submit inquiry")) />
                             </div>
                         </div>
                     </div>
@@ -248,115 +277,113 @@
 </div>
 
 
-
-@section scripts {
     <script src="~/Scripts/PopUp.js"></script>
-<script src="~/Scripts/jquery.MultiFile.js"></script>
+    <script src="~/Scripts/jquery.MultiFile.js"></script>
     <script>
 
-        $(document).ready(function () {
-            CreateMultipleUpload();
+    $(document).ready(function () {
+        CreateMultipleUpload();
 
-        });
+    });
 
-        function CreateMultipleUpload() {
-            //set up the file upload
-            $("#fuImageUpload").MultiFile(
-              {
-                  max: 4,
-                  accept: 'jpg,png,pdf,gif,jpeg',
-                  afterFileSelect: function (element, value, master_element) {
+    function CreateMultipleUpload() {
+        //set up the file upload
+        $("#fuImageUpload").MultiFile(
+          {
+              max: 4,
+              accept: 'jpg,png,pdf,gif,jpeg',
+              afterFileSelect: function (element, value, master_element) {
 
-                  },
-                  afterFileRemove: function (element, value, master_element) {
+              },
+              afterFileRemove: function (element, value, master_element) {
 
-                  }
-              });
-        }
+              }
+          });
+    }
 
-        function ShowUploader() {
-            $("#fuImageUpload").click();
-        }
+    function ShowUploader() {
+        $("#fuImageUpload").click();
+    }
 
-        function GetAllinputElementIDS() {
+    function GetAllinputElementIDS() {
 
-            var selectedradioBtnsCount = 0;
-            var groupCount = $("#hfGroupsCount").val();
-            var txtVal = "";
-            var idList = "";
-            var AdditionalAnsList = "";
+        var selectedradioBtnsCount = 0;
+        var groupCount = $("#hfGroupsCount").val();
+        var txtVal = "";
+        var idList = "";
+        var AdditionalAnsList = "";
 
-            var AllAnswers = $("#hfHaveNoAns").val();
+        var AllAnswers = $("#hfHaveNoAns").val();
 
-            if (AllAnswers != '') {
-                var EachAnswer = AllAnswers.split(',');
+        if (AllAnswers != '') {
+            var EachAnswer = AllAnswers.split(',');
 
-                $.each(EachAnswer, function (i, element) {
+            $.each(EachAnswer, function (i, element) {
 
-                    var TypeOfAns = $('.' + element + '').attr("data-Type");
-                    
-                    if ($('.' + element + '').children().html() == null) {
+                var TypeOfAns = $('.' + element + '').attr("data-Type");
 
-                        if (AdditionalAnsList == "") {
-                            AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
-                        } else {
-                            AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
+                if ($('.' + element + '').children().html() == null) {
 
-                        }
+                    if (AdditionalAnsList == "") {
+                        AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
                     } else {
-                        if (TypeOfAns == 1) { //case of checkbox
-                           
-                            var isCheckedd = 0;
-                            var AnswerList = "";
-                            var GroupName = $('.' + element + '').children().children().attr("name");
-                           
-                            $('input:checkbox[name=' + GroupName + ']').each(function () {
-                                
-                                if ($(this).attr('checked') == "checked") {
-                                    if (AnswerList == "") {
-                                        AnswerList = $(this).next().text();
-                                    } else {
-                                        AnswerList = AnswerList + ", " + $(this).next().text();
-                                    }
-                                  
-                                    if (isCheckedd == 0) {
-                                        isCheckedd = 1;
-                                        selectedradioBtnsCount = selectedradioBtnsCount + 1;
-                                    }
-                                }
-                            });
-                            if (AdditionalAnsList == "") {
-                                AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().next().next().next().next().children().next().val();
-                            } else {
-                                AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().next().next().next().next().children().next().val();
-                            }
+                        AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
 
-                        } else { // case of radio
-
-                            $('input[type=radio]').each(function () {
-                                if ($(this).is(':checked')) {
-                                    var ClassOFSelectedRadio = $(this).parent().parent().attr("class");
-
-                                    if (ClassOFSelectedRadio == element) {
-                                        selectedradioBtnsCount = selectedradioBtnsCount + 1;
-                                        if (AdditionalAnsList == "") {
-                                            AdditionalAnsList = AdditionalAnsList + "Q" + $(this).parent().parent().parent().prev().text() + " \n " + "Selected Answer : " + $(this).next().text() + " \n " + "Additional Information :  " + $(this).parent().parent().parent().next().next().children().next().val();
-                                        } else {
-                                            AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $(this).parent().parent().parent().prev().text() + " \n " + "Selected Answer : " + $(this).next().text() + " \n " + "Additional Information :  " + $(this).parent().parent().parent().next().next().children().next().val();
-                                        }
-                                        return;
-                                    }
-                                }
-                            });
-                        }
                     }
+                } else {
+                    if (TypeOfAns == 1) { //case of checkbox
 
-                });
-            }
+                        var isCheckedd = 0;
+                        var AnswerList = "";
+                        var GroupName = $('.' + element + '').children().children().attr("name");
 
-            if (selectedradioBtnsCount < groupCount) {
+                        $('input:checkbox[name=' + GroupName + ']').each(function () {
 
-                ShowPopUp('Message', 'Please select an option in the highlighted questions to submit your inquiry.');
+                            if ($(this).attr('checked') == "checked") {
+                                if (AnswerList == "") {
+                                    AnswerList = $(this).next().text();
+                                } else {
+                                    AnswerList = AnswerList + ", " + $(this).next().text();
+                                }
+
+                                if (isCheckedd == 0) {
+                                    isCheckedd = 1;
+                                    selectedradioBtnsCount = selectedradioBtnsCount + 1;
+                                }
+                            }
+                        });
+                        if (AdditionalAnsList == "") {
+                            AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().next().next().next().next().children().next().val();
+                        } else {
+                            AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().next().next().next().next().children().next().val();
+                        }
+
+                    } else { // case of radio
+
+                        $('input[type=radio]').each(function () {
+                            if ($(this).is(':checked')) {
+                                var ClassOFSelectedRadio = $(this).parent().parent().attr("class");
+
+                                if (ClassOFSelectedRadio == element) {
+                                    selectedradioBtnsCount = selectedradioBtnsCount + 1;
+                                    if (AdditionalAnsList == "") {
+                                        AdditionalAnsList = AdditionalAnsList + "Q" + $(this).parent().parent().parent().prev().text() + " \n " + "Selected Answer : " + $(this).next().text() + " \n " + "Additional Information :  " + $(this).parent().parent().parent().next().next().children().next().val();
+                                    } else {
+                                        AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $(this).parent().parent().parent().prev().text() + " \n " + "Selected Answer : " + $(this).next().text() + " \n " + "Additional Information :  " + $(this).parent().parent().parent().next().next().children().next().val();
+                                    }
+                                    return;
+                                }
+                            }
+                        });
+                    }
+                }
+
+            });
+        }
+
+        if (selectedradioBtnsCount < groupCount) {
+
+            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubmitinquiry", UserCookieManager.WBStoreId, "Please select an option in the highlighted questions to submit your inquiry."))');
                 var AllGroups = $("#hfTotalGroups").val();
 
                 var EachGroup = AllGroups.split(',');
@@ -397,7 +424,7 @@
         }
 
         function TickCheckBox(CheckBoxClassName) {
-    
+
             var idOfBtn = $('input:checkbox[class=' + CheckBoxClassName + ']').attr('id');
             console.log($('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked'));
             if ($('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked')) {
@@ -435,4 +462,4 @@
             }
         }
     </script>
-}
+

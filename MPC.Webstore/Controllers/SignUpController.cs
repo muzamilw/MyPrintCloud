@@ -12,6 +12,7 @@ using MPC.Webstore.ResponseModels;
 using MPC.Webstore.ModelMappers;
 using System.Runtime.Caching;
 using MPC.ExceptionHandling;
+using MPC.Models.ResponseModels;
 namespace MPC.Webstore.Controllers
 {
     public class SignUpController : Controller
@@ -44,11 +45,12 @@ namespace MPC.Webstore.Controllers
         // GET: SignUp///
         public ActionResult Index(string FirstName, string LastName, string Email, string ReturnURL)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppKey))
             {
@@ -90,9 +92,10 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(RegisterViewModel model)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             try
             {
@@ -128,7 +131,7 @@ namespace MPC.Webstore.Controllers
 
                         if (_myCompanyService.GetCorporateContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
                         {
-                            ViewBag.Message = "You indicated that you are a new customer but an account already exist with this email address " + model.Email;
+                            ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address") + model.Email;
 
                             return View("PartialViews/SignUp");
                         }
@@ -142,21 +145,21 @@ namespace MPC.Webstore.Controllers
                             else
                             {
                                 SetRegisterCustomer(model);
-
+                               
                             }
                         }
                         else
                         {
 
                             SetRegisterCustomer(model);
-
+                            
                         }
                     }
                     else
                     {
                         if (_myCompanyService.GetContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId) != null)
                         {
-                            ViewBag.Message = "You indicated that you are a new customer but an account already exist with this email address " + model.Email;
+                            ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlnewcuts", UserCookieManager.WBStoreId, "You indicated that you are a new customer but an account already exist with this email address") + model.Email;
 
                             return View("PartialViews/SignUp");
                         }
@@ -170,14 +173,14 @@ namespace MPC.Webstore.Controllers
                             else
                             {
                                 SetRegisterCustomer(model);
-
+                                return null;
                             }
                         }
                         else
                         {
 
                             SetRegisterCustomer(model);
-
+                            return null;
                         }
                     }
                 }
@@ -216,8 +219,8 @@ namespace MPC.Webstore.Controllers
 
         private void SetRegisterCustomer(RegisterViewModel model)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
             CampaignEmailParams cep = new CampaignEmailParams();
 
@@ -238,7 +241,8 @@ namespace MPC.Webstore.Controllers
             if (isSocial == "1")
                 TwitterScreenName = model.FirstName;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+           // MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             if (StoreBaseResopnse.Organisation != null)
             {
@@ -307,11 +311,42 @@ namespace MPC.Webstore.Controllers
                     if (OrderId > 0)
                     {
                         UserCookieManager.TemporaryCompanyId = 0;
-                        Response.Redirect("/ShopCart?OrderId=" + OrderId);
+                        if (!string.IsNullOrEmpty(Request.QueryString["ReturnURL"]))
+                        {
+                            if (Url.IsLocalUrl(Request.QueryString["ReturnURL"]))
+                            {
+                                ControllerContext.HttpContext.Response.Redirect(Request.QueryString["ReturnURL"]);
+                            }
+                            else 
+                            {
+                                Response.Redirect("/ShopCart?OrderId=" + OrderId);
+                            }
+                        }
+                        else
+                        {
+                            Response.Redirect("/ShopCart?OrderId=" + OrderId);
+                        }
+                       
+                      
                     }
                     else
                     {
-                        Response.Redirect("/");
+                        if (!string.IsNullOrEmpty(Request.QueryString["ReturnURL"]))
+                        {
+                            if (Url.IsLocalUrl(Request.QueryString["ReturnURL"]))
+                            {
+                                ControllerContext.HttpContext.Response.Redirect(Request.QueryString["ReturnURL"]);
+                            }
+                            else
+                            {
+                                Response.Redirect("/");
+                            }
+                        }
+                        else
+                        {
+                            Response.Redirect("/");
+                        }
+                       
                     }
 
                 }
@@ -320,18 +355,6 @@ namespace MPC.Webstore.Controllers
                     isContactCreate = false;
                 }
                 StoreBaseResopnse = null;
-
-                if (!string.IsNullOrEmpty(Request.QueryString["ReturnURL"]))
-                {
-                    if (Url.IsLocalUrl(Request.QueryString["ReturnURL"]))
-                    {
-                        ControllerContext.HttpContext.Response.Redirect(Request.QueryString["ReturnURL"]);
-                    }
-                }
-                else
-                {
-                    Response.Redirect("/");
-                }
 
                 return;
             }
@@ -373,7 +396,7 @@ namespace MPC.Webstore.Controllers
 
                 _campaignService.SendPendingCorporateUserRegistrationEmailToAdmins((int)CorpContact.ContactId, (int)UserCookieManager.WBStoreId, (int)StoreBaseResopnse.Company.OrganisationId);
                 StoreBaseResopnse = null;
-                ViewBag.Message = "You are successfully registered on store but your account does not have the web access enabled. Please contact your Order Manager.";
+                ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlwebacces", UserCookieManager.WBStoreId, "You are successfully registered on store but your account does not have the web access enabled. Please contact your Order Manager.");
                 return;
             }
 

@@ -105,8 +105,34 @@ namespace MPC.Repository.Repositories
                    .Skip(fromRow)
                    .Take(toRow)
                    .ToList();
+            foreach (var single in items)
+            {
+                if (single.Company != null)
+                {
+                    // Condition on StoreType
+                    if (single.Company.IsCustomer == 3)
+                    {
+                        single.Status.StatusName = single.Status.StatusName;
+                        // Getting Store Type 
+                        single.Company.StoreName = null;
 
-            return new GetOrdersResponse { Orders = items, TotalCount = DbSet.Count(query) };
+                    }
+                    else
+                    {
+                        single.Company.Name = single.Company.Name;
+                        single.Status.StatusName = single.Status.StatusName;
+                        // Getting Store Type
+                        long storeid = Convert.ToInt64(single.Company.StoreId);
+
+                        if (storeid > 0)
+                        {
+                            single.Company.StoreName = db.Companies.Where(c => c.CompanyId == storeid).Select(c => c.Name).FirstOrDefault();
+                        }
+                    }
+                }
+            }
+
+                return new GetOrdersResponse { Orders = items, TotalCount = DbSet.Count(query) };
         }
 
         /// <summary>
@@ -136,6 +162,7 @@ namespace MPC.Repository.Repositories
             return new GetOrdersResponse { Orders = items, TotalCount = DbSet.Count(query) };
         }
 
+     
         /// <summary>
         /// Gives count of new orders by given number of last dats
         /// </summary>
@@ -284,19 +311,39 @@ namespace MPC.Repository.Repositories
         public DashBoardChartsResponse GetChartsForDashboard()
         {
             var now = DateTime.Now;
-            return new DashBoardChartsResponse
+            
+            string currencysymbol = db.Organisations.Where(c => c.OrganisationId == OrganisationId).FirstOrDefault().Currency.CurrencySymbol;
+            string misLogoUrl = db.Organisations.Where(c => c.OrganisationId == OrganisationId).Select(c => c.MISLogo).FirstOrDefault();
+            if (string.IsNullOrEmpty(misLogoUrl))
+                misLogoUrl = "Content/themes/Centaurus/img/logo.png";
+            var response = new DashBoardChartsResponse
             {
-                 
+
                 TotalEarningResult = db.usp_TotalEarnings(new DateTime(now.Year, 01, 01), new DateTime(now.Year, 12, 31), OrganisationId),
                 RegisteredUserByStores = db.usp_ChartRegisteredUserByStores(OrganisationId),
                 TopPerformingStores = db.usp_ChartTopPerformingStores(OrganisationId),
                 MonthlyOrdersCount = db.usp_ChartMonthlyOrdersCount(OrganisationId),
                 EstimateToOrderConversion = db.usp_ChartEstimateToOrderConversion(OrganisationId),
                 EstimateToOrderConversionCount = db.usp_ChartEstimateToOrderConversionCount(OrganisationId),
-                Top10PerformingCustomers = db.usp_ChartTop10PerfomingCustomers(OrganisationId)
-            
-               
+                Top10PerformingCustomers = db.usp_ChartTop10PerfomingCustomers(OrganisationId),
+                MonthlyEarningsbyStore = db.usp_ChartMonthlyEarningsbyStore(OrganisationId),
+                CurrencySymbol = currencysymbol,
+                MisLogoUrl = misLogoUrl
+
             };
+            IEnumerable<usp_DashboardROICounter_Result> RoiCounter = db.usp_DashboardROICounter(OrganisationId);
+            if (RoiCounter != null)
+            {
+                var counter = RoiCounter.FirstOrDefault();
+                if (counter != null)
+                {
+                    response.DirectOrdersTotal = counter.DirectOrdersTotal;
+                    response.OnlineOrdersTotal = Math.Round(counter.OnlineOrdesTotal, 2);
+                    response.OrdersProcessedCount = counter.TotalOrdersCount;
+                    response.RegisteredUsersCount = counter.RegisteredUsersCount;
+                }
+            }
+            return response;
         }
 
 

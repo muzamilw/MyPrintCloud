@@ -12,6 +12,17 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        void AddDataSystemUser(CompanyContact Contact);
+        void UpdateDataSystemUser(CompanyContact Contact);
+        CompanyContactRole GetRoleByID(int RoleID);
+        List<ItemPriceMatrix> GetRetailProductsPriceMatrix(long CompanyID);
+        List<ProductItem> GetAllRetailDisplayProductsQuickCalc(long CompanyID);
+        List<CompanyContact> GetContactsByTerritory(long contactCompanyId, long territoryID);
+        List<CompanyContact> GetSearched_Contacts(long contactCompanyId, String searchtxt, long territoryID);
+        List<CompanyContactRole> GetContactRolesExceptAdmin(int AdminRole);
+        List<CompanyContactRole> GetAllContactRoles();
+        IEnumerable<RegistrationQuestion> GetAllQuestions();
+        IEnumerable<CompanyTerritory> GetAllCompanyTerritories(long companyId);
         int GetSavedDesignCountByContactId(long ContactID);
         CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode);
         long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "");
@@ -40,6 +51,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         CompanyContact CreateCorporateContact(long CustomerId, CompanyContact regContact, string TwitterScreenName, long OrganisationId);
         Company GetCompanyByCompanyID(Int64 companyID);
+        Company GetStoreReceiptPage(long companyId);
 
         CompanyContact GetContactByID(long contactID);
 
@@ -235,5 +247,9 @@ namespace MPC.Interfaces.WebStoreServices
         bool IsVoucherUsedByCustomer(long contactId, long companyId, long DiscountVoucherId);
         double? GetOrderTotalById(long OrderId);
         void AddReedem(long contactId, long companyId, long DiscountVoucherId);
+        MyCompanyDomainBaseReponse GetStoreCachedObject(long StoreId);
+        RegistrationQuestion GetSecretQuestionByID(int QuestionID);
+        bool ShowPricesOnStore(int storeModeFromCookie, bool PriceFlagOfStore, long loginContactId, bool PriceFlagFromCookie);
+        string GetCurrencySymbolById(long currencyId);
     }
 }

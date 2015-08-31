@@ -12,6 +12,7 @@ using System.Runtime.Caching;
 using MPC.Webstore.Models;
 using System.Net;
 using System.IO;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
@@ -40,59 +41,17 @@ namespace MPC.Webstore.Controllers
         {
             UserCookieManager.WEBOrderId = 0;
 
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
 
+            ViewBag.IsShowPrices = _myCompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
 
-            if (StoreBaseResopnse.Company.ShowPrices == true)
-            {
-                ViewBag.IsShowPrices = true;
-                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                {
-                    if (_myClaimHelper.loginContactID() > 0)
-                    {
-                        if (UserCookieManager.ShowPriceOnWebstore == true)
-                        {
-                            ViewBag.IsShowPrices = true;
-                        }
-                        else
-                        {
-                            ViewBag.IsShowPrices = false;
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.IsShowPrices = true;
-                    }
-                }
-
-            }
-            else
-            {
-                ViewBag.IsShowPrices = false;
-                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                {
-                    if (_myClaimHelper.loginContactID() > 0)
-                    {
-                        if (UserCookieManager.ShowPriceOnWebstore == true)
-                        {
-                            ViewBag.IsShowPrices = true;
-                        }
-                        else
-                        {
-                            ViewBag.IsShowPrices = false;
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.IsShowPrices = false;
-                    }
-                }
-            }
 
             if (!string.IsNullOrEmpty(StoreBaseResopnse.Currency))
             {

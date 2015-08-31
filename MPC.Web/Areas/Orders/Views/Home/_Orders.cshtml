@@ -103,7 +103,7 @@
                                         <thead>
                                             <tr>
                                                 <th class="col-sm-1"><span>&nbsp;</span></th>
-                                                <th class="col-sm-3"><span>Customer</span></th>
+                                                <th class="col-sm-3"><span>Customer / Store</span></th>
                                                 <th class="col-sm-2"><span>Order Code</span></th>
                                                 <th class="col-sm-2"><span>Order Date</span></th>
                                                 <th class="col-sm-1"><span>Flag</span></th>
@@ -176,13 +176,26 @@
                 <!-- /ko -->
             </td>
             <td>
-                <a href="#" data-bind="text: companyName, click: undefined" style="cursor:pointer;" class="user-link"></a>
-                <span class="user-subhead">
-                    <span data-bind="text: name"></span>
-                    <span data-bind="text: ' '"></span>
-                    <span data-bind="text: noOfItemsUi"></span>
-                </span>
-            </td>
+                <div style="float:left;display:inline;">
+                    <a href="#" data-bind="text: companyName, click: undefined" style="cursor:pointer;" class="user-link"></a>
+                </div>
+                <div style="float:left;display:inline;margin-top:5px;margin-left:5px;">
+                    <!-- ko if: storeName()-->
+                    <span>(</span>
+                    <span data-bind="text: storeName"></span>
+                    <span>)</span>
+                    <!-- /ko -->
+                 </div>
+                 <br />
+                 <br />
+                <div>
+                    <span class="user-subhead">
+                        <span data-bind="text: name"></span>
+                        <span data-bind="text: ' '"></span>
+                        <span data-bind="text: noOfItemsUi"></span>
+                    </span>
+                </div>
+                </td>
             <td>
                 <span data-bind="text: orderCode"></span>
             </td>
@@ -212,12 +225,26 @@
                 <!-- /ko -->
             </td>
             <td>
-                <a href="#" data-bind="text: companyName, click: undefined" style="cursor:pointer;" class="user-link"></a>
-                <span class="user-subhead">
-                    <span data-bind="text: name"></span>
-                    <span data-bind="text: ' '"></span>
-                    <span data-bind="text: noOfItemsUi"></span>
-                </span>
+                <div style="float:left;display:inline;">
+                    <a href="#" data-bind="text: companyName, click: undefined" style="cursor:pointer;" class="user-link"></a>
+                </div>
+                <div style="float:left;display:inline;margin-top:5px;margin-left:5px;">
+                    <!-- ko if: storeName() -->
+                    <span>(</span>
+                    <span data-bind="text: storeName"></span>
+                    <span>)</span>
+                    <!-- /ko -->
+                </div>
+                <br />
+                <br />
+                <div>
+                    <span class="user-subhead">
+                        <span data-bind="text: name"></span>
+
+                        <span data-bind="text: ' '"></span>
+                        <span data-bind="text: noOfItemsUi"></span>
+                    </span>
+                </div>
             </td>
             <td>
                 <span data-bind="text: orderCode"></span>

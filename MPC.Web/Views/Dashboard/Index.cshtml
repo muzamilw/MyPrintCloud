@@ -73,8 +73,8 @@
         <table style="height: 70px; width: 320px;">
             <tr>
                 <td style="padding-left: 10px;width: 150px;text-align:center;">
-                    <span style="color: red; font-weight: bold;">@ViewBag.TrialCount Days</span>&nbsp;<span style="color: gray;">left in your trial</span>
-                    <span style="color: gray; font-size: 12px;">Questions ?</span>&nbsp;<a href="mailto:support@myprintcloud.com"> <span style="color: blue; font-size: 12px;">Email Us!</span></a>
+                    @*<span style="color: red; font-weight: bold;">@ViewBag.TrialCount Days</span>&nbsp;<span style="color: gray;">left in your trial</span>*@
+                    <span style="color: gray; font-size: 12px;"> Got Questions ?</span>&nbsp;<a href="mailto:support@myprintcloud.com"> <span style="color: blue; font-size: 12px;">Email Us!</span></a>
                 </td>
                 <td style="width: 120px; text-align: right; padding-right: 10px;">
                     <a href="https://myprintcloud.com/dashboard" class="btn" style="background-color:#608C36;border-color:#3F651B;color:white;">Upgrade  Now</a>
@@ -236,7 +236,7 @@
                         <div class="main-box">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <h2 class="graphheaderleft">Top Performing Stores</h2>
+                                    <h2 class="graphheaderleft">Top 5 Performing Stores</h2>
                                     <div class="form-group" style="margin-left:10px">
                                         <div class="graph-box lightgray-bg">
                                             <div class="graph" id="graph-line" data-bind="morris: {type: 'Bar', data: $root.topPerformingStores, xkey: 'Name', ykeys:['CurrentMonthEarning', 'LastMonthEarning'], labels: ['Current Month Earning', 'Last Month Earning'],gridTextColor: 'gray',horizontal: true}"></div>
@@ -245,34 +245,35 @@
                                     <h2 class="graphheaderleft">Monthly Earnings by Store</h2>
                                     <div class="form-group" style="margin-left:10px">
                                         <div class="graph-box lightgray-bg">
-                                            @*<div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'year', ykeys:'value', labels: 'Retail Store',gridTextColor: '#ffffff',resize: true}"
-                     style="max-height: 335px;">
-                </div>*@
-                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'month',xLabelMargin: 3,ykeys: ['a', 'b'],labels: 'abc',xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>
+                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.monthlyEarningsByStore, xkey: 'monthname',xLabelMargin: 3,ykeys: $root.yAxisPointdummy,labels: $root.monthlyEarningStores,xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true, preUnits: $root.currencySymbol}"></div>
+                                            @*<div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'month',xLabelMargin: 3,ykeys: ['a', 'b'],labels: 'abc',xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>*@
                                         </div>
                                     </div>
                                     <h2 class="graphheaderleft">Estimate to Order Conversion</h2>
                                     <div class="form-group" style="margin-left:10px">
                                         @*<img src="~/Content/Images/chart_05.png" style="width: 100%;" />*@
                                         <div class="graph-box lightgray-bg">
-                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'month',xLabelMargin: 3,ykeys: ['a', 'b'],labels: 'abc',xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>
+                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.estimateToOrderConversion, xkey: 'MonthName',xLabelMargin: 2,ykeys: ['EstimateTotal', 'ConvertedTotal'],labels: ['Estimate Total', 'Converted Total'],xLabelFormat :xLabelFormat = function (x) {return $root.months[x.getMonth()];}, dateFormat: function(x) {var month = $root.months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>
+                                            @*<div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'month',xLabelMargin: 3,ykeys: ['a', 'b'],labels: 'abc',xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>*@
                                         </div>
 
                                     </div>
-                                    <h2 class="graphheaderleft">Top 10 Performing Customers</h2>
+                                    <h2 class="graphheaderleft">Top 5 Performing Customers</h2>
                                     <div class="form-group" style="margin-left:10px">
                                         <div class="graph-box lightgray-bg">
-                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Bar', data: $root.line, xkey: 'month', ykeys:['a', 'b'],barGap:1, labels: ['Series A', 'Series B'],gridTextColor: 'gray',resize: true, grid: false}"></div>
+                                            
+                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Bar', data: $root.top10PerformingStores, xkey: 'ContactName', ykeys:['CurrentMonthOrders', 'LastMonthOrders'],barGap:1, labels: ['Current Month Ordes', 'Last Month Orders'],gridTextColor: 'gray',horizontal: true}"></div>
+                                            @*<div class="graph" id="graph-line" data-bind="morris: {type: 'Bar', data: $root.line, xkey: 'month', ykeys:['a', 'b'],barGap:1, labels: ['Series A', 'Series B'],gridTextColor: 'gray',resize: true, grid: false}"></div>*@
                                         </div>
                                         @*<img src="~/Content/Images/chart_07.png" style="width: 100%;" />*@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <h2 class="graphheaderright">Registered Users by Store</h2>
-                                   
+
                                     <div class="form-group" style="margin-right:10px">
                                         @*<div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.totalEarnings, xkey: 'month', ykeys:$root.yAxisPoints, labels: $root.chartLabels,gridTextColor: '#ffffff',resize: true}"
-                                             style="max-height: 335px;"></div>*@
+                                            style="max-height: 335px;"></div>*@
 
                                         <div class="graph-box lightgray-bg">
                                             <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.RegisteredUsers, xkey: 'monthname',xLabelMargin: 3,ykeys: $root.yAxisPointdummy,labels: $root.chartLabelsdummy,xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>
@@ -281,7 +282,8 @@
                                     <h2 class="graphheaderright">Monthly Orders Count</h2>
                                     <div class="form-group" style="margin-right:10px">
                                         <div class="graph-box lightgray-bg">
-                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'month',xLabelMargin: 3,ykeys: ['a', 'b'],labels: 'abc',xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>
+                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.monthlyOrdersCount, xkey: 'monthname',xLabelMargin: 3,ykeys: $root.yAxisPointdummy,labels: $root.monthlyOrderStoresList,xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>
+                                            @*<div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'month',xLabelMargin: 3,ykeys: ['a', 'b'],labels: 'abc',xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>*@
                                         </div>
 
                                         @*<img src="~/Content/Images/chart_04.png" style="width: 100%;" />*@
@@ -289,42 +291,50 @@
                                     <h2 class="graphheaderright">Estimate to Order Conversion Count</h2>
                                     <div class="form-group" style="margin-right:10px">
                                         <div class="graph-box lightgray-bg">
-                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'month',xLabelMargin: 3,ykeys: ['a', 'b'],labels: 'abc',xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>
+                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.estimateToOrderConversionCount, xkey: 'MonthName',xLabelMargin: 3,ykeys: ['EstimateCount', 'ConvertedCount'],labels: ['Estimates', 'Orders'],xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>
+                                            @*<div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'MonthName',xLabelMargin: 3,ykeys: ['a', 'b'],labels: 'abc',xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>*@
                                         </div>
 
                                         @*<img src="~/Content/Images/chart_06.png" style="width: 100%;" d />*@
                                     </div>
                                     <h2 class="graphheaderright">ROI - 6 months</h2>
-                                    <div class="form-group" style="margin-left: -7px;">
-                                        <div class="col-lg-6 text-right">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Registered Customers</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <span data-bind="text: $root.roiRegisteredUsersCount()"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Orders Processed Count</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <span data-bind="text: $root.roiOrdersProcessedCount()"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Direct Orders Total</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <span data-bind="text: $root.currencySymbol()"></span>  <span data-bind="text: $root.roiDirectOrdersTotal()"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
 
-                                            <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Registered Customers</label>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label style="font-weight: bold">$100</label>
-                                        </div>
-                                        <div class="col-lg-6 text-right">
-
-                                            <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Orders Processed Count</label>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label style="font-weight: bold">$200</label>
+                                                <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Online Orders Total</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <span data-bind="text: $root.currencySymbol()"></span>  <span data-bind="text: $root.roiOnlineOrdersTotal()"></span>
+                                            </div>
                                         </div>
 
-                                        <div class="col-lg-6 text-right">
-
-                                            <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Direct Orders Total</label>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label style="font-weight: bold">$300</label>
-                                        </div>
-                                        <div class="col-lg-6 text-right">
-
-                                            <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Online Orders Total</label>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label style="font-weight: bold">$400</label>
-                                        </div>
+                                        
+                                        
                                     </div>
                                 </div>
 
@@ -337,40 +347,40 @@
                     <div class="col-md-4 col-lg-4">
 
                         @*<div class="row">
-                            <div class="main-box clearfix">
-                                <header class="main-box-header clearfix">
-                                    <h2 class="pull-left">Useful Resources</h2>
+                                <div class="main-box clearfix">
+                                    <header class="main-box-header clearfix">
+                                        <h2 class="pull-left">Useful Resources</h2>
 
-                                </header>
-                                <div class="main-box-body clearfix">
-                                    <div class="table-responsive clearfix">
-                                        <p style="line-height:2">
+                                    </header>
+                                    <div class="main-box-body clearfix">
+                                        <div class="table-responsive clearfix">
+                                            <p style="line-height:2">
 
 
-                                            <a href="http://www.onlinemeetingnow.com/register/?id=rflm0y9eq7" target="_blank">
-                                                Attend Daily Webinars
-                                            </a>
+                                                <a href="http://www.onlinemeetingnow.com/register/?id=rflm0y9eq7" target="_blank">
+                                                    Attend Daily Webinars
+                                                </a>
 
-                                            <br />
-                                            <a href="http://blog.myprintcloud.com/tutorials-quickstart/" target="_blank">
-                                                Find Tutorials and Implementation Guides
-                                            </a>
-                                            <br />
+                                                <br />
+                                                <a href="http://blog.myprintcloud.com/tutorials-quickstart/" target="_blank">
+                                                    Find Tutorials and Implementation Guides
+                                                </a>
+                                                <br />
 
-                                            <a href="http://www.w3schools.com/" target="_blank">Learn More About CSS and Modifying Stores</a>
-                                            <br />
-                                            <a href="http://blog.myprintcloud.com/updates-releases/" target="_blank"> View the Latest Updates & Release Notes</a>
-                                            <br />
-                                            <a href="http://www.speedtest.net" target="_blank">Test Your Internet Connection Speed</a>.
-                                            <br />
-                                            <a href="https://myprintcloud.com/Dashboard/contacts" target="_blank">Add Users to Your MyPrintCloud Account.</a>.
-                                            <br />
+                                                <a href="http://www.w3schools.com/" target="_blank">Learn More About CSS and Modifying Stores</a>
+                                                <br />
+                                                <a href="http://blog.myprintcloud.com/updates-releases/" target="_blank"> View the Latest Updates & Release Notes</a>
+                                                <br />
+                                                <a href="http://www.speedtest.net" target="_blank">Test Your Internet Connection Speed</a>.
+                                                <br />
+                                                <a href="https://myprintcloud.com/Dashboard/contacts" target="_blank">Add Users to Your MyPrintCloud Account.</a>.
+                                                <br />
 
-                                        </p>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>*@
+                            </div>*@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="main-box clearfix">
@@ -515,7 +525,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="main-box clearfix">
@@ -562,7 +572,7 @@
                                                         </td>
                                                         <td style="text-align: right"><i class=" fa fa-eye fa-lg" style="font-size: 20px;"></i></td>
                                                     </tr>
-                                                    
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -572,57 +582,57 @@
                         </div>
 
                         @*<div class="row">
-                            <div class="main-box clearfix" style="background-color:transparent !important">
-                                <header class="main-box-header clearfix">
-                                    <h2 class="pull-left">Management Reports</h2>
+                                <div class="main-box clearfix" style="background-color:transparent !important">
+                                    <header class="main-box-header clearfix">
+                                        <h2 class="pull-left">Management Reports</h2>
 
-                                </header>
-                                <div class="main-box-body clearfix" style="padding-left:0px;padding-right:0px;">
+                                    </header>
+                                    <div class="main-box-body clearfix" style="padding-left:0px;padding-right:0px;">
 
-                                    <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
-                                        <div class="main-box infographic-box inner-box">
-                                            <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
-                                            <span class="span-dashboard-widgets">Top 5 Customers by revenue</span>
-                                            <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
-                                        </div>
-                                    </a>
+                                        <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
+                                            <div class="main-box infographic-box inner-box">
+                                                <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
+                                                <span class="span-dashboard-widgets">Top 5 Customers by revenue</span>
+                                                <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
+                                            </div>
+                                        </a>
 
-                                    <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
-                                        <div class="main-box infographic-box inner-box">
-                                            <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
-                                            <span class="span-dashboard-widgets">Most popular product sold by revenue</span>
-                                            <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
-                                        </div>
-                                    </a>
+                                        <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
+                                            <div class="main-box infographic-box inner-box">
+                                                <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
+                                                <span class="span-dashboard-widgets">Most popular product sold by revenue</span>
+                                                <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
+                                            </div>
+                                        </a>
 
-                                    <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
-                                        <div class="main-box infographic-box inner-box">
-                                            <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
-                                            <span class="span-dashboard-widgets">Most active customers</span>
-                                            <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
-                                        </div>
-                                    </a>
+                                        <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
+                                            <div class="main-box infographic-box inner-box">
+                                                <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
+                                                <span class="span-dashboard-widgets">Most active customers</span>
+                                                <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
+                                            </div>
+                                        </a>
 
-                                    <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
-                                        <div class="main-box infographic-box inner-box">
-                                            <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
-                                            <span class="span-dashboard-widgets">Carts that haven't checked-Out</span>
-                                            <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
-                                        </div>
-                                    </a>
+                                        <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
+                                            <div class="main-box infographic-box inner-box">
+                                                <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
+                                                <span class="span-dashboard-widgets">Carts that haven't checked-Out</span>
+                                                <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
+                                            </div>
+                                        </a>
 
-                                    <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
-                                        <div class="main-box infographic-box inner-box">
-                                            <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
-                                            <span class="span-dashboard-widgets">Active Order Statuses</span>
-                                            <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
-                                        </div>
-                                    </a>
+                                        <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
+                                            <div class="main-box infographic-box inner-box">
+                                                <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
+                                                <span class="span-dashboard-widgets">Active Order Statuses</span>
+                                                <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
+                                            </div>
+                                        </a>
 
+                                    </div>
                                 </div>
-                            </div>
 
-                        </div>*@
+                            </div>*@
 
                     </div>
 
@@ -653,7 +663,7 @@
                     <td> <span data-bind="dateString: creationDate, datePattern: 'DD/MM/YYYY'"></span></td>
                     <td> <span data-bind="text: status"></span></td>*@
                 <td style="text-align: right">
-                    <span data-bind="text: '$'"></span>
+                    <span data-bind="text: $root.currencySymbol"></span>
                     <span data-bind="numberInput: estimateTotal() == undefined ? '' :  estimateTotal()"></span>
                 </td>
             </tr>
@@ -680,7 +690,7 @@
                 </td>
             </tr>
         </script>
-       
+
     </div>
 </div>
 @section Scripts {
@@ -1360,20 +1370,17 @@
 
     </script>
 
-<!-- ClickDesk Live Chat Service for websites -->
-<script type='text/javascript'>
-    var _glc = _glc || []; _glc.push('all_ag9zfmNsaWNrZGVza2NoYXRyDwsSBXVzZXJzGJD1qYkMDA');
-    var glcpath = (('https:' == document.location.protocol) ? 'https://my.clickdesk.com/clickdesk-ui/browser/' :
-    'http://my.clickdesk.com/clickdesk-ui/browser/');
-    var glcp = (('https:' == document.location.protocol) ? 'https://' : 'http://');
-    var glcspt = document.createElement('script'); glcspt.type = 'text/javascript';
-    glcspt.async = true; glcspt.src = glcpath + 'livechat-new.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(glcspt, s);
-</script>
-<!-- End of ClickDesk -->
-
-
-
+    <!-- ClickDesk Live Chat Service for websites -->
+    <script type='text/javascript'>
+        var _glc = _glc || []; _glc.push('all_ag9zfmNsaWNrZGVza2NoYXRyDwsSBXVzZXJzGJD1qYkMDA');
+        var glcpath = (('https:' == document.location.protocol) ? 'https://my.clickdesk.com/clickdesk-ui/browser/' :
+        'http://my.clickdesk.com/clickdesk-ui/browser/');
+        var glcp = (('https:' == document.location.protocol) ? 'https://' : 'http://');
+        var glcspt = document.createElement('script'); glcspt.type = 'text/javascript';
+        glcspt.async = true; glcspt.src = glcpath + 'livechat-new.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(glcspt, s);
+    </script>
+    <!-- End of ClickDesk -->
 }
 
 

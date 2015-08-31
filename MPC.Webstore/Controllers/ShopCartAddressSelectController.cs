@@ -18,6 +18,7 @@ using System.IO;
 using System.Xml;
 using System.Text;
 using System.Runtime.Caching;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
@@ -103,10 +104,11 @@ namespace MPC.Webstore.Controllers
 
             UserCookieManager.WEBOrderId = OrderID;
 
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
 
             Organisation baseresponseOrg = StoreBaseResopnse.Organisation;
@@ -422,51 +424,8 @@ namespace MPC.Webstore.Controllers
             AddressSelectModel.chkBoxDeliverySameAsBilling = "True";
             AddressSelectModel.Warning = "warning"; // Utils.GetKeyValueFromResourceFile("lnkWarnMesg", UserCookieManager.StoreId) + " " + baseresponseOrg.Organisation.Country + "."; // (string)GetGlobalResourceObject("MyResource", "lnkWarnMesg") + " " + companySite.Country + ".";
 
-            if (baseresponseComp.ShowPrices == true)
-            {
-                ViewBag.IsShowPrices = true;
-                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                {
-                    if (_myClaimHelper.loginContactID() > 0)
-                    {
-                        if (UserCookieManager.ShowPriceOnWebstore == true)
-                        {
-                            ViewBag.IsShowPrices = true;
-                        }
-                        else
-                        {
-                            ViewBag.IsShowPrices = false;
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.IsShowPrices = true;
-                    }
-                }
+            ViewBag.IsShowPrices = _myCompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, baseresponseComp.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
 
-            }
-            else
-            {
-                ViewBag.IsShowPrices = false;
-                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                {
-                    if (_myClaimHelper.loginContactID() > 0)
-                    {
-                        if (UserCookieManager.ShowPriceOnWebstore == true)
-                        {
-                            ViewBag.IsShowPrices = true;
-                        }
-                        else
-                        {
-                            ViewBag.IsShowPrices = false;
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.IsShowPrices = false;
-                    }
-                }
-            }
 
         }
 
@@ -701,11 +660,12 @@ namespace MPC.Webstore.Controllers
         {
             try
             {
-                string CacheKeyName = "CompanyBaseResponse";
-                ObjectCache cache = MemoryCache.Default;
+                //string CacheKeyName = "CompanyBaseResponse";
+                //ObjectCache cache = MemoryCache.Default;
 
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-          
+                //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
                 OrganisationID = StoreBaseResopnse.Organisation.OrganisationId;
 
                 //int id = model.SelectedDeliveryAddress;

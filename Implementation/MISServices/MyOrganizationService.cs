@@ -12,6 +12,7 @@ using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
 using System.Resources;
 using MPC.Models.Common;
+using System.Configuration;
 
 
 namespace MPC.Implementation.MISServices
@@ -409,7 +410,7 @@ namespace MPC.Implementation.MISServices
             #endregion
 
             organisation.MISLogo = SaveMiSLogo(organisation);
-            //organisationRepository.Update(organisation);
+            organisationRepository.Update(organisation);
             organisationRepository.SaveChanges();
             UpdateLanguageResource(organisation);
             return new MyOrganizationSaveResponse
@@ -714,6 +715,7 @@ namespace MPC.Implementation.MISServices
                 return false;
             
         }
+        
 
 
         #endregion

@@ -44,6 +44,12 @@ namespace MPC.Webstore
               , new { controller = "Home", action = "Index", name = "" 
             });
 
+             routes.MapRoute(
+                "UserManager"
+              , "UserManager"
+              , new { controller = "Home", action = "Index", name = "" 
+            });
+
             routes.MapRoute(
                 "BillingShippingAddressManager"
               , "BillingShippingAddressManager"
@@ -62,12 +68,32 @@ namespace MPC.Webstore
                 new { controller = "RealestateSideBarWithSlider", action = "LogOut", id = UrlParameter.Optional }
             );
 
-
+            routes.MapRoute(
+               "loadaddWithTerritory",
+               "UserManager/GetAddressesByTerritorID",
+               new { controller = "UserManager", action = "GetAddressesByTerritorID", id = UrlParameter.Optional }
+           );
+            routes.MapRoute(
+               "loadaddContactsIntellicence",
+               "UserManager/GetContactsIntellicence",
+               new { controller = "UserManager", action = "GetContactsIntellicence", id = UrlParameter.Optional }
+           );
             routes.MapRoute(
                 "BillingShippingIntellisenceData",
                 "BillingShippingAddressManager/IntellisenceData",
                 new { controller = "BillingShippingAddressManager", action = "IntellisenceData", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+               "loadSystemUserData",
+               "UserManager/UserProfileData",
+               new { controller = "UserManager", action = "UserProfileData", id = UrlParameter.Optional }
+           );
+            routes.MapRoute(
+             "loadSystemUserDataAddress",
+             "UserManager/getAddress",
+             new { controller = "UserManager", action = "getAddress", id = UrlParameter.Optional }
+         );
 
             routes.MapRoute(
                 "OxfordTop",
@@ -387,7 +413,7 @@ namespace MPC.Webstore
             routes.MapRoute(
                 "ReceiptPlain",
                 "ReceiptPlain/{OrderId}/{StoreId}/{IsPrintReceipt}",
-                new { controller = "Home", action = "ReceiptPlain", OrderId = UrlParameter.Optional, StoreId = UrlParameter.Optional, IsPrintReceipt = UrlParameter.Optional }
+                new { controller = "ReceiptPlain", action = "ReceiptPlain", OrderId = UrlParameter.Optional, StoreId = UrlParameter.Optional, IsPrintReceipt = UrlParameter.Optional }
             );
 
             routes.MapRoute(

@@ -1,434 +1,1167 @@
-﻿@*<div class="content_area container" style="margin-bottom: 40px">
+﻿ 
+@using MPC.Models.Common;
+@using MPC.Webstore.WebGridExtension;  
+@using MPC.Webstore.Common;
+@*@model MPC.Models.DomainModels.CompanyContact*@
+@{
+    Layout = null;
+}
+@model IEnumerable<MPC.Models.DomainModels.CompanyContact>
+@{
+    long ContactRoleId =ViewBag.LoginContactRoleID;
+    var grid = new WebGrid(source:Model, canSort: false, rowsPerPage: 15);
+    grid.Pager(WebGridPagerModes.NextPrevious);
+    string Result = ViewBag.res;
+    //var Contacts = ViewBag.Contacts as MPC.Models.DomainModels.CompanyContact;
+}
+<div class="content_area container" style="margin-bottom: 40px">
     <div class="left_right_padding row">
         <div class="signin_heading_div float_left_simple dashboard_heading_signin">
-            <asp:Label ID="HistryBtn" runat="server" Text="User Manager" CssClass="sign_in_heading"></asp:Label>
+            <label id="HistryBtn" class="sign_in_heading">User Manager</label>
         </div>
         <div class="dashBoardRetrunLink">
-            <uc1:BreadCrumbMenu ID="BreadCumbMenuCategory" runat="server" WorkMode="MyAccount"
-                                MyAccountCurrentPage="Store Users" MyAccountCurrentPageUrl="UserManager.aspx" />
+            <h1>
+                <a href="/Dashboard" class="left_align" title="Back to my dashboard" onclick="ShowLoader();">
+                    @Html.Raw(Html.GetKeyValueFromResourceFile("BackToDashboardlbl", UserCookieManager.WBStoreId, "Back to my dashboard"))
+                </a>
+            </h1>
         </div>
         <div class="clearBoth">
 
         </div>
-        <div class="cursor_pointer" onclick="AddNewPostBackForUser();">
+        <div class="cursor_pointer" >
             <div class="float_left">
-                <asp:ImageButton ID="imgAddNew" CssClass="add_new" ToolTip="Add New User" runat="server"
-                                 ImageUrl="~/images/AddNew.png" OnClick="imgAddNew_Click" />
+                @*<asp:ImageButton ID="imgAddNew" CssClass="add_new" ToolTip="Add New User" runat="server"
+                                 ImageUrl="~/images/AddNew.png" OnClick="imgAddNew_Click" />*@
+
+                <input type="button" id="btnCopyProduct" class="add-address-btn" onclick="ResetTextboxes()" value="@Html.Raw(Html.GetKeyValueFromResourceFile("AddAddress", UserCookieManager.WBStoreId, "Add new address"))">
             </div>
             <div class="new_caption">
-                <asp:Literal ID="ltrlnew" runat="server" Text="New"></asp:Literal>
+                @*<asp:Literal ID="ltrlnew" runat="server" Text="New"></asp:Literal>*@
             </div>
             <div class="clearBoth">
             </div>
         </div>
         <div class="divSearchBar_corp normalTextStyle usermanager_padding_header rounded_corners "
              style="padding: 15px 15px 15px 15px;">
+@using (Html.BeginForm())
+                        {
             <table style="width: auto; border-collapse: separate; border-spacing: 2px;">
                 <tr>
                     <td>
-                        <asp:Literal ID="ltrlSearchrecords" runat="server" Text=" Search Records"></asp:Literal>
+                        <label ID="ltrlSearchrecords">Search Records</label>
                     </td>
                     <td style="padding-left: 10px;">
-                        <asp:TextBox ID="txtsearch" runat="server" Width="200px" CssClass="text_box150 rounded_corners5"></asp:TextBox>
+                        <input type="text" style="width:200px;" id="txtsearch" class="text_box150 rounded_corners5" name="SearchString" />
                     </td>
                     <td style="padding-left: 10px;">
-                        <asp:Button ID="btnsearch" runat="server" Text="Go" CssClass="start_creating_btn rounded_corners5"
-                                    OnClick="btnsearch_Click" />
+                        <button type="submit" id="btnsearch" value="Go" class="start_creating_btn rounded_corners5"
+                                 style="display:none;" ></button>
                     </td>
                     <td style="padding-left: 10px;">
-                        <asp:Button ID="btnReset" runat="server" Text="Reset" CssClass="start_creating_btn rounded_corners5"
-                                    OnClick="btnReset_Click" />
+                        <button type="button" id="btnReset" value="Reset" class="start_creating_btn rounded_corners5"
+                                onclick="btnReset_Click" style="display:none;"></button>
                     </td>
                 </tr>
             </table>
+    }
         </div>
         <div class="PadingTop white_background  rounded_corners">
             <div class="PadingTop textAlignLeft">
-                <asp:Label ID="lblmatchingrecord" runat="server" CssClass="matchingTxtclass" />
+                <label id="lblmatchingrecord" class="matchingTxtclass">@ViewBag.TotalRecords</label>
             </div>
-            <div class="clearBoth">
-                &nbsp;
-            </div>
-            <div class="normalTextStyle rounded_corners territory_row_padding_header">
-                <div class="user_name_corp_div checked_design">
-                    <asp:Literal ID="ltrlname" runat="server" Text="Name"></asp:Literal>
-                </div>
-                <div class="user_email_div checked_design">
-                    <asp:Literal ID="ltremail" runat="server" Text="Email"></asp:Literal>
-                </div>
-                <div class="territory_corp_div checked_design" id="divteritory2" runat="server">
-                    <asp:Literal ID="ltrlterritory2" runat="server" Text="Territory"></asp:Literal>
-                </div>
-                <div class="order_limit_corp_div checked_design">
-                    <asp:Literal ID="ltrlorderlimit" runat="server" Text="Order Limit"></asp:Literal>
-                </div>
-                <div class="can_order_corp_div checked_design">
-                    <asp:Literal ID="ltrlcanorder" runat="server" Text="Can Order"></asp:Literal>
-                </div>
-                <div class="user_phone_div checked_design">
-                    <asp:Literal ID="ltrphone" runat="server" Text="Can pay by credit card"></asp:Literal>
-                </div>
-                <div class="user_phone_div checked_design">
-                    <asp:Literal ID="ltrlUserRoles" runat="server" Text="Role"></asp:Literal>
-                </div>
-            </div>
-            <asp:UpdatePanel ID="upnUser" runat="server" UpdateMode="Always">
-                <contenttemplate>
-                    <asp:Repeater ID="rptrUsers" runat="server" OnItemDataBound="rptrUsers_ItemDataBound"
-                                  OnItemCommand="rptrUsers_ItemCommand">
-                        <itemtemplate>
-                            <div class="territory_row_padding" title="Click to edit record">
-                                <div id="divContainer" runat="server" class=" dottedBorderStyle" style="border-top: 1px dotted #CCCCCC;">
-                                    <div class="user_name_corp_div checked_design">
-                                        <%# Eval("FirstName")%>&nbsp;
-                                    </div>
-                                    <div class="user_email_div checked_design">
-                                        <asp:Label ID="lblemail" runat="server" Text='<%# Eval("Email")%>' Width="160px"></asp:Label>&nbsp;
-                                    </div>
-                                    <div class="territory_corp_div checked_design">
-                                        <asp:Label ID="lblTerritoryName" runat="server"></asp:Label>&nbsp;
-                                    </div>
-                                    <div class="order_limit_corp_div checked_design">
-                                        <asp:Label ID="lblOrderLimit" runat="server" Text='<%# Eval("CreditLimit") %>'></asp:Label>&nbsp;
-                                    </div>
-                                    <div class="can_order_corp_div checked_design">
-                                        <asp:Label ID="lblCanOrder" runat="server"></asp:Label>&nbsp;
-                                    </div>
-                                    <div class="user_phone_div_card checked_design">
-                                        <asp:Label ID="lblPayByCredirCard" runat="server"></asp:Label>&nbsp;
-                                    </div>
-                                    <div class="user_phone_div_card checked_design" style="width:100px;">
-                                        <asp:Label ID="lblUserRoles" runat="server"></asp:Label>&nbsp;
-                                    </div>
-                                </div>
-                                <div class="float_right" style="padding: 7px 0px 0px 0px;">
-                                    <asp:ImageButton ID="imgBtnEdit" runat="server" CssClass="rounded_corners" ImageUrl="~/images/edit.png" Height="24" Width="24"
-                                                     ToolTip="Click to edit record" CommandName="EditRecord" CommandArgument='<%# Eval("ContactID") %>' />
-                                    <asp:ImageButton ID="btnDelete" runat="server" OnClientClick="return confirm('Are you sure you want to remove this user? The order history of this user will also be removed..');" CssClass="rounded_corners" ImageUrl="~/images/delete.png" Height="28" Width="28"
-                                                     ToolTip="Delete User" CommandName="DeleteRecord" CommandArgument='<%# Eval("ContactID") %>' />
-                                </div>
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                        </itemtemplate>
-                    </asp:Repeater>
+            <div ID="MainUSerProfileContainer">
+                
+                @grid.Table(displayHeader: Convert.ToBoolean(TempData["HeaderStatus"]),
+    htmlAttributes: new { id = "OrderGrid" },
+    tableStyle: "WebGridTableStyle",
+    fillEmptyRows: false,
+    headerStyle: "WebGridheader",
+    rowStyle: "gridViewRowStyleForWebGrid",
+    alternatingRowStyle: "gridViewRowStyleForWebGrid",
+    columns: new[] {
+
+    grid.Column("Name",format:@<p>@item.FirstName</p>),
+    grid.Column("Email",format:@<p>@item.Email</p>,style:"hidden-xs"),
+    grid.Column("Territory",format:@<p>
+                @if(item.CompanyTerritory!=null)
+                {
+                    <p>@item.CompanyTerritory.TerritoryName</p>
+                
+                }
+                else{
+                    <p>N/A</p>
+                }</p>,style:"hidden-xs"),
+
+    grid.Column("Order Limit",format:@<p>NA</p>,style:"hidden-xs"),
+               
+    grid.Column("Can Order",format:@<p>@if (item.isPlaceOrder!=null)
+                                       {
+                                           <p>yes</p>
+                                       }
+                                       else
+                                       {
+                                          <p>No</p>
+                                       }
+                </p>,style:"hidden-xs "),
+                
+    grid.Column("can pay by credit card",format:@<p>@if (item.IsPayByPersonalCreditCard!=null)
+                                                    {<p>yes</p>}else{<p>No</p>}</p>,style:"hidden-xs "),
+                
+    grid.Column("Role",format:@<p>@if (item.ContactRoleId == 1)
+                                  {<p>Admin</p>}
+                                  else if (item.ContactRoleId == 2)
+                                  {<p>Manager</p>}else{<p>User</p>}</p>,style:"hidden-xs"),
+
+                            
+      grid.Column(header:Result, format:@<text>@if (ContactRoleId == 1)
+      {
+          if (item.ContactRoleID == 2)
+          {
+            <input type="button" value="Edit" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
+          background-color: transparent;" class="rounded_corners" onclick="LoadAllData(@item.ContactId)" />
+          }
+
+      }
+        
+      </text>),
+     grid.Column( format:@<text>@if (item.ContactRoleId != 1 || item.IsDefaultContact != 1)
+                                {<input type="button" id="view" value="Delete" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="DeleteReord(@item.ContactId)"/>
+     }</text>)
+       }
+      )
+                @if (Convert.ToInt32(ViewBag.totalcount) > 15)
+                {
+                    <div id="footerr" class="pagination pagination-small pagination-right">
+                        @WebGridExt.PagerList(grid, mode: WebGridPagerModes.All)
+                    </div>
+                }
                     <div class="clearBoth">
                         &nbsp;
                     </div>
-        </div>
-        <asp:HiddenField ID="hfContactId" runat="server" Value="0" />
-        </ContentTemplate>
-        </asp:UpdatePanel>
+
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+            
+            </div>
     </div>
-    <div id="PnlPagerControl" class="Width100Percent" runat="server">
-        <table border="0" cellpadding="0" cellspacing="0" class="Width100Percent textAlignRight">
-            <tr>
-                <td>
-                    <div id="PagerRighArea">
-                        <div class="divTblLayout Width100Percent">
-                            <div class="tblRow">
-                                <div class="divCell">
-                                    <asp:LinkButton ID="lnkBtnPreviouBullet" runat="server" CssClass="imgPreviousBullet"
-                                                    OnClick="lnkBtnPreviouBullet_Click" Visible="false" />
-                                </div>
-                                <div class="divCell">
-                                    <div id="PagerPageDisplayInfo">
-                                        <asp:Label ID="lblPageInfoDisplay" CssClass="simpleText" runat="server" Text="1 of 1"
-                                                   Visible="false" />
-                                    </div>
-                                </div>
-                                <div class="divCell">
-                                    <asp:LinkButton ID="lnkBtnNextBullet" runat="server" CssClass="imgNextBullet" OnClick="lnkBtnNextBullet_Click"
-                                                    Visible="false" />
-                                </div>
+    
+    
+        <div id="pnlUser" style="width:950px;" class="pop_body_MesgPopUp">
+
+            <div class="white_background">
+
+                <div class="SolidBorderCS left_align pad20 mrginBtm">
+                    <label id="lblHeader" class="FileUploadHeaderText"></label>
+                </div>
+                <div class="pop_body_corp">
+                    <div class="left_user_popup_area">
+                        <div class="address_label_area1">
+                            <label id="ltrlfname">First Name:</label>
+                        </div>
+                        <div class="address_contol_area1">
+                            <input type="text" id="tboxfirstname" class="text_box200 rounded_corners5"
+                                   maxlength="50" tabindex="1" placeholder="First Name" />
+                        </div>
+                        <div class="user_label_area2">
+                            <label id="ltrljobtitle">Job Title:</label>
+                        </div>
+                        <div class="user_contol_area2">
+                            <input type="text" id="txtJobTitle" class="text_box200 rounded_corners5"
+                                   maxlength="50" tabindex="14" placeholder="Job Title" />
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="address_label_area1">
+                            <label id="ltrllname">Last Name:</label>
+                        </div>
+                        <div class="address_contol_area1">
+                            <input id="tboxLastName" class="text_box200 rounded_corners5"
+                                   maxlength="50" tabindex="2" placeholder="Last Name" />
+                        </div>
+                        <div class="user_label_area2">
+                            <label id="ltrldirectline">Direct Line</label>
+                        </div>
+                        <div class="user_contol_area2">
+                            <input id="txtDirectLine" class="text_box200 rounded_corners5"
+                                   maxlength="30" tabindex="4" placeholder="Direct Line" />
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="address_label_area1">
+                            <label id="ltrlcellnumber">Cell Number:</label>
+                        </div>
+                        <div class="address_contol_area1">
+                            <input type="text" id="txtCellNumber" class="text_box200 rounded_corners5"
+                                   maxlength="30" tabindex="3" placeholder="Cell Number" />
+                        </div>
+                        <div class="user_label_area2 ">
+                            <label id="ltrlfax">Fax:</label>
+                        </div>
+                        <div class="user_contol_area2">
+                            <input id="txtFax" class="text_box200 rounded_corners5" maxlength="30"
+                                   tabindex="5" placeholder="Fax" />
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="address_label_area1">
+                            <label id="ltrlemaill">Email:</label>
+                        </div>
+                        <div class="address_contol_area1">
+                            <input id="tboxEmail" class="text_box200 rounded_corners5"
+                                   maxlength="30" tabindex="6" placeholder="Email" />
+                            <span id="EmailErrorMsg" style="color:red;font-size:8px;display:none;">please,enter valid email</span>
+                        </div>
+                        <div class="user_label_area2">
+                            <label id="ltrlcreditlimit">Credit Limit</label>
+                        </div>
+                        <div class="user_contol_area2">
+                            <input type="text" id="txtCreditLimit" class="text_box200 rounded_corners5 float_input"
+                                   maxlength="8" tabindex="19" placeholder="Credit Limit" />
+                        </div>
+                        <div class="address_label_area1">
+                            <label id="ltrlsecrquestion">Secret Question:</label>
+                        </div>
+                        <div class="address_contol_area1">
+                            <select style="width:210px;" id="ddlSecretQuestions" class="rounded_corners5 dropdown"
+                                    tabindex="7" ></select>
+                        </div>
+                        <div class="user_label_area2">
+                            <label id="ltrlSecretAnswer">Secret Answer:</label>
+                        </div>
+                        <div class="user_contol_area2">
+                            <input id="txtSecretAnswer" class="text_box200 rounded_corners5"
+                                   maxlength="200" tabindex="8" placeholder="Secret Answer" />
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+
+
+                        <div class="address_label_area1 height30px">
+                            <label id="ltrlteritory">Territory:</label>
+                        </div>
+                        <div class="address_contol_area1 height30px">
+                            <select id="ddlTerritory" style="width:210px;" class="rounded_corners5 dropdown"></select>
+                        </div>
+                        <div class="user_label_area2">
+                            <label id="ltrlrole">Role:</label>
+                        </div>
+                        <div class="user_contol_area2">
+                            <select id="ddlRole" class="rounded_corners5 dropdown"
+                                    style="width:210px;" tabindex="10"></select>
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="address_label_area1">
+                            <label id="ltrlbusinaddress">Billing Address</label>
+                        </div>
+                        <div class="address_contol_area1 height30px">
+                            <select id="ddlBillingAddress" class="rounded_corners5 dropdown" style="width:210px;"></select>
+                        </div>
+                        <div class="user_label_area2">
+                            <label id="Literal1">Shipping Address</label>
+                        </div>
+                        <div class="user_contol_area2">
+                            <select id="ddlShippingAddress" style="width:210px;" class="rounded_corners5 dropdown"></select>
+                        </div>
+                        <div class="address_label_area1">
+                            <label id="ltrlBilladdress">Billing Detail</label>
+
+                        </div>
+                        <div class="address_contol_area1">
+                            <textarea id="txtAddress" name="Text1" cols="40" rows="5" class="text_box200 rounded_corners5" maxlength="250" style="height:60px;" placeholder="Billing Detail"></textarea>
+                        </div>
+                        <div class="user_label_area2">
+                            <label id="ltrlShipAddrs">Shipping Detail</label>
+                        </div>
+                        <div class="user_contol_area2">
+                            <textarea id="txtShippingAddress" cols="40" rows="5" class="text_box200 rounded_corners5"
+                                      style="height:60px;" placeholder="Shipping Detail"></textarea>
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="address_label_area1">
+                            <label id="ltrlnotes">Notes:</label>
+                        </div>
+                        <div class="left_multiline_text_box" style="padding-left: 0px;">
+                            <textarea id="txtNotes" cols="40" rows="5" class="rounded_corners5 text_box"
+                                      style="height:40px;width:550px;" placeholder="Notes"></textarea>
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="address_label_area1">
+                            &nbsp; 
+                        </div>
+                        <div class="left_multiline_text_box">
+                            <input type="checkbox" id="chkCanOrder" value="&nbsp;&nbsp;&nbsp;Can Place Order" tabindex="12" />
+                            <label id="porder">Can Place Order</label>
+                        </div>
+                        <div class="right_multiline_text_box">
+                            <input id="chkCanByCredit" type="checkbox" tabindex="13" value="&nbsp;&nbsp;&nbsp;Can Pay By Credit Card" />
+                            <label id="canpaycreditcard">Can Pay By Credit Card</label>
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="address_label_area1">
+                            &nbsp;
+                        </div>
+                        <div class="left_multiline_text_box">
+                            <input type="checkbox" id="chkShowPricesForProduct" value="&nbsp;&nbsp;&nbsp;Show Prices on Products" tabindex="14" />
+                            <label id="showpricesonPro">Show Prices on Products</label>
+                        </div>
+                        <div class="right_multiline_text_box">
+                            <input id="chkHasWebAccess" type="checkbox" value="&nbsp;&nbsp;Has Web Access" tabindex="12" />
+                            <label id="haswebaccess">Has Web Access</label>
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div class="button_contol_area1_corp">
+                            <div class="float_left" style="padding-left: 0px;">
+                                <button id="btnSaveUser" class="start_creating_btn rounded_corners5" onclick="SaveCall();" tabindex="23">Save</button>
                             </div>
+                            <div class="float_left">
+                                <button id="btnCancelUser" value="Cancel" class="start_creating_btn rounded_corners5" tabindex="24" onclick="HideMessagePopUpCustom();">Cancel</button>
+                            </div>
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
                         </div>
                     </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <asp:Button ID="btnUserPopup" runat="server" Style="display: none; width: 0px; height: 0px" />
-    <ajaxToolkit:ModalPopupExtender ID="mpeUser" runat="server" BackgroundCssClass="ModalPopupBG"
-                                    PopupControlID="pnlUser" TargetControlID="btnUserPopup" BehaviorID="mpeUser"
-                                    CancelControlID="btnCancelUser" DropShadow="false">
-    </ajaxToolkit:ModalPopupExtender>
-    <asp:Panel ID="pnlUser" runat="server" Width="950px" CssClass="FileUploaderPopup_corp LCLB rounded_corners"
-               Style="display: none">
-        <div class="white_background">
-            <asp:UpdatePanel ID="upnlBody" runat="server" UpdateMode="Conditional">
-                <contenttemplate>
-                    <div class="SolidBorderCS left_align pad20 mrginBtm">
-                        <asp:Label ID="lblHeader" runat="server" CssClass="FileUploadHeaderText"></asp:Label>
+                    <div class="right_user_popup_area">
+                        <div class="user_contact_popup_image_container">
+                            <img id="imgContactPicture" class="user_image_container" />
+                            <br />
+                            <br />
+                            <input type="file" style="width:200px;" id="fuImageUpload" name="fuImageUpload" class="file_upload_box rounded_corners5" tabindex="23" onchange="ShowPreview(this)" />
+                            <br />
+                            <br />
+                        </div>
+                        <button id="btnChangePassword" class="start_creating_btn rounded_corners5"
+                                value="Change Password"
+                                tabindex="25" style="width: 145px; float: right; margin-right: 25px;" onclick="ShowChangePassword();">Change Password</button>
+                        <div id="divPass" class="pass" style="text-align: left; margin-left: 5px;">
+                            <label id="ltrlPassword">Password:</label>
+                        </div>
+                        <div id="divPassContr" class="user_contol_area2 pass">
+                            <input type="text" id="tboxPassword" class="text_box200 rounded_corners5"
+                                   maxlength="200" tabindex="20" placeholder="Password" />
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                        <div id="divConfirmPass" class="pass" style="text-align: left; margin-left: 5px;">
+                            <label id="ltrlconfirmpass">Confirm Password:</label>
+                        </div>
+                        <div id="divConfirmPassContr" class="user_contol_area2 pass">
+                            <input type="text" id="txtConfirmPassword" class="text_box200 rounded_corners5"
+                                   maxlength="200" tabindex="21" placeholder="Confirm Password" />
+                        </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
                     </div>
-                    <div class="pop_body_corp">
+                </div>
+                <div class="clearBoth">
+                    &nbsp;
+                </div>
+            </div>
 
-                        <div class="left_user_popup_area">
-                            <div class="address_label_area1">
-                                <asp:Literal ID="ltrlfname" runat="server" Text="First Name:"></asp:Literal>
-                            </div>
-                            <div class="address_contol_area1">
-                                <asp:TextBox ID="txtFirstName" runat="server" CssClass="text_box200 rounded_corners5"
-                                             MaxLength="50" TabIndex="1"></asp:TextBox>
-                            </div>
-                            <div class="user_label_area2">
-                                <asp:Literal ID="ltrljobtitle" runat="server" Text="Job Title:"></asp:Literal>
-                            </div>
-                            <div class="user_contol_area2">
-                                <asp:TextBox ID="txtJobTitle" runat="server" CssClass="text_box200 rounded_corners5"
-                                             MaxLength="50" TabIndex="14"></asp:TextBox>
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div class="address_label_area1">
-                                <asp:Literal ID="ltrllname" runat="server" Text="Last Name:"></asp:Literal>
-                            </div>
-                            <div class="address_contol_area1">
-                                <asp:TextBox ID="txtLastName" runat="server" CssClass="text_box200 rounded_corners5"
-                                             MaxLength="50" TabIndex="2"></asp:TextBox>
-                            </div>
-                            <div class="user_label_area2">
-                                <asp:Literal ID="ltrldirectline" runat="server" Text="Direct Line"></asp:Literal>
-
-                            </div>
-                            <div class="user_contol_area2">
-                                <asp:TextBox ID="txtDirectLine" runat="server" CssClass="text_box200 rounded_corners5"
-                                             MaxLength="30" TabIndex="4"></asp:TextBox>
-
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div class="address_label_area1">
-                                <asp:Literal ID="ltrlcellnumber" runat="server" Text="Cell Number:"></asp:Literal>
-                            </div>
-                            <div class="address_contol_area1">
-                                <asp:TextBox ID="txtCellNumber" runat="server" CssClass="text_box200 rounded_corners5"
-                                             MaxLength="30" TabIndex="3"></asp:TextBox>
-                            </div>
-                            <div class="user_label_area2 ">
-                                <asp:Literal ID="ltrlfax" runat="server" Text="Fax:"></asp:Literal>
-
-                            </div>
-                            <div class="user_contol_area2">
-                                <asp:TextBox ID="txtFax" runat="server" CssClass="text_box200 rounded_corners5" MaxLength="30"
-                                             TabIndex="5"></asp:TextBox>
-
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div class="address_label_area1">
-                                <asp:Literal ID="ltrlemaill" runat="server" Text="Email:"></asp:Literal>
-
-                            </div>
-                            <div class="address_contol_area1">
-                                <asp:TextBox ID="txtEmail" runat="server" CssClass="text_box200 rounded_corners5"
-                                             MaxLength="30" TabIndex="6"></asp:TextBox>
-
-                            </div>
-
-                            <div class="user_label_area2">
-                                <asp:Literal ID="ltrlcreditlimit" runat="server" Text="Credit Limit"></asp:Literal>
-
-                            </div>
-                            <div class="user_contol_area2">
-                                <asp:TextBox ID="txtCreditLimit" runat="server" CssClass="text_box200 rounded_corners5 float_input"
-                                             MaxLength="8" TabIndex="19"></asp:TextBox>
-
-                            </div>
-
-                            <div class="address_label_area1">
-                                <asp:Literal ID="ltrlsecrquestion" runat="server" Text="Secret Question:"></asp:Literal>
-
-                            </div>
-                            <div class="address_contol_area1">
-                                <asp:DropDownList ID="ddlSecretQuestions" runat="server" CssClass="rounded_corners5 dropdown"
-                                                  Width="210px" TabIndex="7">
-                                </asp:DropDownList>
-
-                            </div>
-
-                            <div class="user_label_area2">
-                                <asp:Literal ID="ltrlSecretAnswer" runat="server" Text="Secret Answer:"></asp:Literal>
-
-                            </div>
-                            <div class="user_contol_area2">
-                                <asp:TextBox ID="txtSecretAnswer" runat="server" CssClass="text_box200 rounded_corners5"
-                                             MaxLength="200" TabIndex="8"></asp:TextBox>
-
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-
-
-
-
-                            <div class="address_label_area1 height30px">
-                                <asp:Literal ID="ltrlteritory" runat="server" Text="Territory:"></asp:Literal>
-                            </div>
-                            <div class="address_contol_area1 height30px">
-                                <asp:DropDownList ID="ddlTerritory" runat="server" CssClass="rounded_corners5 dropdown"
-                                                  OnSelectedIndexChanged="ddlTerritory_SelectedIndexChanged" AutoPostBack="true"
-                                                  Width="210px" TabIndex="9">
-                                </asp:DropDownList>
-                            </div>
-                            <div class="user_label_area2">
-                                <asp:Literal ID="ltrlrole" runat="server" Text="Role:"></asp:Literal>
-                            </div>
-                            <div class="user_contol_area2">
-                                <asp:DropDownList ID="ddlRole" runat="server" CssClass="rounded_corners5 dropdown"
-                                                  Width="210px" TabIndex="10">
-                                </asp:DropDownList>
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div class="address_label_area1">
-                                <asp:Literal ID="ltrlbusinaddress" runat="server" Text="Billing Address"></asp:Literal>
-                            </div>
-                            <div class="address_contol_area1 height30px">
-                                <asp:DropDownList ID="ddlBusinessAddress" runat="server" CssClass="rounded_corners5 dropdown"
-                                                  Width="210px" AutoPostBack="true" OnSelectedIndexChanged="ddlBusinessAddress_SelectedIndexChanged"
-                                                  TabIndex="15">
-                                </asp:DropDownList>
-                            </div>
-
-                            <div class="user_label_area2">
-                                <asp:Literal ID="Literal1" runat="server" Text="Shipping Address"></asp:Literal>
-                            </div>
-                            <div class="user_contol_area2">
-                                <asp:DropDownList ID="ddlShippingAddress" runat="server" CssClass="rounded_corners5 dropdown"
-                                                  Width="210px" AutoPostBack="true" OnSelectedIndexChanged="ddlShippingAddress_SelectedIndexChanged"
-                                                  TabIndex="15">
-                                </asp:DropDownList>
-                            </div>
-
-                            <div class="address_label_area1">
-                                <asp:Literal ID="ltrlBilladdress" runat="server" Text="Address Detail"></asp:Literal>
-
-
-                            </div>
-                            <div class="address_contol_area1">
-                                <asp:TextBox ID="txtAddress" runat="server" CssClass="text_box200 rounded_corners5" TextMode="MultiLine"
-                                             MaxLength="250" Enabled="False" TabIndex="16" Height="60px"></asp:TextBox>
-
-                            </div>
-                            <div class="user_label_area2">
-                                <asp:Literal ID="ltrlShipAddrs" runat="server" Text="Address Detail"></asp:Literal>
-                            </div>
-                            <div class="user_contol_area2">
-                                <asp:TextBox ID="txtShippingAddress" runat="server" CssClass="text_box200 rounded_corners5"
-                                             MaxLength="30" Enabled="False" TabIndex="17" Height="60px" TextMode="MultiLine"></asp:TextBox>
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div class="address_label_area1">
-                                <asp:Literal ID="ltrlnotes" runat="server" Text="Notes:"></asp:Literal>
-                            </div>
-                            <div class="left_multiline_text_box" style="padding-left: 0px;">
-                                <asp:TextBox ID="txtNotes" runat="server" CssClass="rounded_corners5 text_box" TextMode="MultiLine"
-                                             Width="550px" Height="40px" TabIndex="11"></asp:TextBox>
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div class="address_label_area1">
-                                &nbsp;
-                            </div>
-                            <div class="left_multiline_text_box">
-                                <asp:CheckBox ID="chkCanOrder" runat="server" Text="&nbsp;&nbsp;&nbsp;Can Place Order"
-                                              TabIndex="12" />
-
-                            </div>
-                            <div class="right_multiline_text_box">
-                                <asp:CheckBox ID="chkCanByCredit" runat="server" Text="&nbsp;&nbsp;&nbsp;Can Pay By Credit Card"
-                                              TabIndex="13" />
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div class="address_label_area1">
-                                &nbsp;
-                            </div>
-                            <div class="left_multiline_text_box">
-                                <asp:CheckBox ID="chkShowPricesForProduct" runat="server" Text="&nbsp;&nbsp;&nbsp;Show Prices on Products"
-                                              TabIndex="14" />
-                            </div>
-                            <div class="right_multiline_text_box">
-                                <asp:CheckBox ID="chkHasWebAccess" runat="server" Text="&nbsp;&nbsp;Has Web Access"
-                                              TabIndex="12" />
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div class="button_contol_area1_corp">
-                                <div class="float_left" style="padding-left: 0px;">
-                                    <asp:Button ID="btnSaveUser" runat="server" Text="Save" OnClientClick="return ValidateUsers();"
-                                                CssClass="start_creating_btn rounded_corners5" OnClick="btnSaveUser_Click" TabIndex="23" />
-                                </div>
-                                <div class="float_left">
-                                    <asp:Button ID="btnCancelUser" runat="server" Text="Cancel" OnClientClick="HideAddNewUsers(); return false;"
-                                                CssClass="start_creating_btn rounded_corners5" TabIndex="24" />
-                                </div>
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                        </div>
-                        <div class="right_user_popup_area">
-                            <div class="user_contact_popup_image_container">
-                                <asp:Image ID="imgContactPicture" runat="server" CssClass="user_image_container" />
-                                <br />
-                                <br />
-                                <asp:FileUpload ID="fuImageUpload" runat="server" Width="200px" CssClass="file_upload_box rounded_corners5"
-                                                TabIndex="23" />
-                                <br />
-                                <br />
-                            </div>
-                            <asp:Button ID="btnChangePassword" runat="server" CssClass="start_creating_btn rounded_corners5"
-                                        OnClientClick="return ShowChangePassword();" Text="Change Password" Visible="false"
-                                        TabIndex="25" Style="width: 145px; float: right; margin-right: 25px;" />
-                            <div id="divPass" runat="server" class="pass" style="text-align: left; margin-left: 5px;">
-                                <asp:Literal ID="ltrlPassword" runat="server" Text="Password:"></asp:Literal>
-                            </div>
-                            <div id="divPassContr" runat="server" class="user_contol_area2 pass">
-                                <asp:TextBox ID="txtPassword" runat="server" CssClass="text_box200 rounded_corners5"
-                                             MaxLength="200" TextMode="Password" TabIndex="20"></asp:TextBox>
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div id="divConfirmPass" runat="server" class="pass" style="text-align: left; margin-left: 5px;">
-                                <asp:Literal ID="ltrlconfirmpass" runat="server" Text="Confirm Password:"></asp:Literal>
-                            </div>
-                            <div id="divConfirmPassContr" runat="server" class="user_contol_area2 pass">
-                                <asp:TextBox ID="txtConfirmPassword" TextMode="Password" runat="server" CssClass="text_box200 rounded_corners5"
-                                             MaxLength="200" TabIndex="21"></asp:TextBox>
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-
-                        </div>
-                </contenttemplate>
-                <triggers>
-                    <asp:postbacktrigger controlid="btnSaveUser" />
-                </triggers>
-            </asp:UpdatePanel>
         </div>
-        <div class="clearBoth">
-            &nbsp;
-        </div>
-</div>
-            </asp:Panel>
-<asp:HiddenField ID="hfUserDeleted" runat="server" />
-<asp:HiddenField ID="hfUserNotDeleted" runat="server" />
-<asp:HiddenField ID="hfUserIsInuse" runat="server" />
-<asp:HiddenField ID="hfUserNameExist" runat="server" />
-        </div>*@
 
+<script src="/Scripts/jquery.MultiFile.js"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+        <link href="@Href("~/Content/NewBootstrapClass.css")" rel="stylesheet" type="text/css" />
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    var ddTerritoriesDD = $("#ddlTerritory");
+    var ddRolesDD = $("#ddlRole");
+    var ddSecretQuestionDD = $("#ddlSecretQuestions");
+    var ddBillingAddress = $("#ddlBillingAddress");
+    var ddlShippingAddress = $("#ddlShippingAddress");
+    var UpdateStatus = true;
+    var ContactID = 0;
+
+    $("#txtsearch").autocomplete({
+        source: function (request, response) {
+            // your ajax code
+            $.ajax({
+                url: "/UserManager/GetContactsIntellicence",
+                data: "{ 'prefixText': '" + request.term + "' }",
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    response(data.split(":"))
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerrorAutocomp", UserCookieManager.WBStoreId, "Error occured while autocomplete."))');
+                }
+            });
+        },
+        select: function (event, ui) {
+
+
+        },
+        minLength: 1,
+        change: function (event, ui) {
+            if ($("#txtsearch").val() == '') {
+                
+            }
+            $("#btnsearch").trigger('click');
+
+        }
+
+    });
+    $(document).ready(function () {
+    buidPopup();
+    $("#popupBody").append($("#pnlUser"));
+        // $("#btnChangePassword").css("display", "none");
+    });
+    function ShowPreview(input) {
+        $("#imgContactPicture").css('display', 'block');
+        if (input.files && input.files[0]) {
+            var ImageDir = new FileReader();
+            ImageDir.onload = function (e) {
+                $('#imgContactPicture').attr('src', e.target.result);
+            }
+            ImageDir.readAsDataURL(input.files[0]);
+        }
+    }
+    function ResetTextboxes() {
+        UpdateStatus = false;
+        //  var PHtml = $("#UpdateModelPopUp").html();
+        //  ShippingBillingDetails("Add New Address", PHtml);
+        $("#modelTitle").text("Add New  Contact");
+        $("#tboxfirstname").val('');
+        $("#tboxLastName").val('');
+        $("#tboxEmail").val('');
+        $("#txtJobTitle").val('');
+
+        $("#txtDirectLine").val('');
+
+
+        $("#txtCellNumber").val('');
+
+
+        $("#txtFax").val('');
+
+         $("#txtCreditLimit").val('');
+
+         $("#ddlSecretQuestions").val('');
+
+        $("#txtSecretAnswer").val('');
+
+        $("#ddlTerritory").empty();
+
+        $("#ddlRole").empty();
+
+        $("#ddlBillingAddress").empty();
+
+        $("#ddlShippingAddress").empty();
+
+         $("#txtAddress").val('');
+
+         $("#txtShippingAddress").val('');
+
+         $("#txtNotes").val('');
+
+
+         $("#chkCanOrder")[0].checked=false;
+         $("#chkCanByCredit")[0].checked=false;
+         $("#chkShowPricesForProduct")[0].checked=false;
+
+         $("#chkHasWebAccess")[0].checked=false;
+
+
+         $("#fuImageUpload").val('');
+
+
+         $("#tboxPassword").val('');
+         LoadDropdowns();
+         $("#tboxfirstname").css("border", "1px solid #c1c6cc");
+         $("#txtSecretAnswer").css("border", "1px solid #c1c6cc");
+         $("#tboxEmail").css("border", "1px solid #c1c6cc");
+         $("#tboxPassword").css("border", "1px solid #c1c6cc");
+        
+         $('#imgContactPicture').attr('src', '');
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+
+        $('.pass').css('display', 'block');
+        $("#btnChangePassword").css('display', 'none');
+        $("#imgContactPicture").css('display', 'none');
+    }
+    function ShowChangePassword() {
+        $('.pass').css('display', 'block');
+        $('#<%=btnChangePassword.ClientID %>').css('display', 'none');
+        return false;
+    }
+    function buidPopup() {
+        //popupBody
+        //modelTitle
+        
+        var bws = getBrowserHeight();
+
+        var shadow = document.getElementById("innerLayer");
+
+        document.getElementById("layer").style.width = bws.width + "px";
+        document.getElementById("layer").style.height = bws.height + "px";
+        var left = 0;
+        var container = "";
+        if (bws.width < 700 && bws.width > 640) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body"  id="popupBody" style="height:500px;overflow-y:scroll;"></div></div>';
+
+        }
+        else if (bws.width == 640) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:500px;"></div></div>';
+
+        }
+        else if (bws.width < 640 && bws.width > 600) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:550px;"></div></div>';
+
+        }
+        else if (bws.width < 600 && bws.width > 500) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:350px;"></div></div>';
+
+        } else if (bws.width < 500) {
+            //left = parseInt((bws.width) / 2);
+            document.getElementById("innerLayer").style.width = (bws.width) + "px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="overflow-y:scroll;height:300px;"></div></div>';
+        }
+        else {
+
+            left = parseInt((bws.width - 730) / 2);
+            document.getElementById("innerLayer").style.width = "730px";
+            container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUpCustom(); >&times;</button><h4 class="modal-title"  id ="modelTitle"></h4></div><div class="modal-body" id="popupBody" style="height:500px;overflow-y:scroll;" ></div></div>';
+        }
+
+
+
+        // document.getElementById("innerLayer").style.width = (bws.width) + "px";
+        document.getElementById("innerLayer").innerHTML = container;
+
+        document.getElementById("innerLayer").style.left = left + "px";
+        document.getElementById("innerLayer").style.top = "0px";
+
+        document.getElementById("innerLayer").style.position = "fixed";
+        document.getElementById("innerLayer").style.zIndex = "9999";
+
+
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
+    }
+    function HideMessagePopUpCustom() {
+        document.getElementById("layer").style.display = "none";
+        document.getElementById("innerLayer").style.display = "none";
+    }
+    function ShowChangePassword() {
+        $('.pass').css('display', 'block');
+        $('#btnChangePassword').css('display', 'none');
+        return false;
+    }
+    function AddAndUpdate(ContactID) {
+        
+        
+        if (UpdateStatus == true) {
+            if (Validation(true) == true) {
+                
+                updateSystemUSerProfile();
+            }
+        }
+        else {
+            if (Validation(false) == true) {
+                
+                AddNewContact();
+            }
+          //  AddNewAddress();
+        }
+    }
+    function SaveCall() {
+       // if (Validation() == true) {
+            
+                AddAndUpdate();
+                
+           // }
+    }
+    function Validation(UpdateStatus) {
+        
+        var IsValid = true;
+        var errorMessage = '';
+
+        if ($("#tboxfirstname").val() == '') {
+            var AddressNAme = "First Name Is Required";
+            errorMessage = errorMessage + AddressNAme + "<br>";
+            $("#tboxfirstname").css("border", "2px solid red");
+
+            IsValid = false;
+        }
+        else {
+            //$("#divAddressName").css('display', 'none');
+
+            $("#tboxfirstname").css("border", "1px solid #c1c6cc");
+        }
+
+        if ($("#txtSecretAnswer").val() == '') {
+            var Address1 = "Secret Answer is Ruquired";
+            errorMessage = errorMessage + Address1 + "<br>";
+            $("#txtSecretAnswer").css("border", "2px solid red");
+            IsValid = false;
+        }
+        else {
+
+            //$("#divAddress1").css('display', 'none');
+            $("#txtSecretAnswer").css("border", "1px solid #c1c6cc");
+        }
+
+        if ($("#tboxEmail").val() == '') {
+            var City = "Email is Ruquired";
+            errorMessage = errorMessage + City + "<br>";
+            $("#tboxEmail").css("border", "2px solid red");
+            IsValid = false;
+          
+        }
+        else {
+            //$("#divCity").css('display', 'none');
+            if (ValidateEmail($("#tboxEmail").val()) == false) {
+                IsValid = false;
+
+                $("#EmailErrorMsg").css("display", "block");
+
+            }
+            else {
+                $("#tboxEmail").css("border", "1px solid #c1c6cc");
+            }
+        }
+        //if (IsValid == false)
+        //{
+        //    ShowPopUp('Message', errorMessage);
+        //}
+        if (UpdateStatus == false) {
+            
+            if ($("#tboxPassword").val() == '') {
+                var City = "Password is Ruquired";
+                errorMessage = errorMessage + City + "<br>";
+                $("#tboxPassword").css("border", "2px solid red");
+                IsValid = false;
+                $('.pass').css('display', 'block');
+            }
+            else {
+                //$("#divCity").css('display', 'none');
+                $("#tboxPassword").css("border", "1px solid #c1c6cc");
+                $('.pass').css('display', 'block');
+            }
+        }
+        return IsValid;
+
+    }
+    function ValidateEmail(email) {
+        var isValid = true;
+        if (email == '') {
+
+            isValid = false;
+        }
+        else {
+            var re = new RegExp("^[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$");
+            if (!re.test(email)) {
+
+                isValid = false;
+            }
+        }
+        return isValid;
+    }
+
+    $(document).on('change', '#ddlBillingAddress', function () {
+        var AddressID = $(this).val();
+        $.getJSON("/UserManager/getAddress?AddressID=" + AddressID + "",
+                     function (xdata) {
+                         $("#txtAddress").val("Address : " + xdata.Address.AddressName + '\n' + "City : " + xdata.Address.City + '\n' + "State : " + xdata.StateName);
+
+                     });
+    });
+    $(document).on('change', '#ddlShippingAddress', function () {
+        var AddressID = $(this).val();
+        $.getJSON("/UserManager/getAddress?AddressID=" + AddressID + "",
+                     function (xdata) {
+                         $("#txtShippingAddress").val("Address : " + xdata.Address.AddressName + "\n" + "City : " + xdata.Address.City + "\n" + "State : " + xdata.StateName);
+
+                     });
+    });
+    $(document).on('change', '#ddlTerritory', function () {
+        var TeID = $(this).val();
+        $.getJSON("/UserManager/GetAddressesByTerritorID?TerritoryID=" + TeID + "",
+                     function (xdata) {
+                         loadDDBillingAddresses(xdata,0);
+                         loadDDShippingAddress(xdata,0);
+                     });
+    });
+
+    function updateBillAndShipBoxes()
+    {
+        
+            var BillID =$("#ddlBillingAddress").val();
+            $.getJSON("/UserManager/getAddress?AddressID=" + BillID + "",
+                         function (xdata) {
+                             $("#txtAddress").val("Address : " + xdata.Address.AddressName + '\n' + "City : " + xdata.Address.City + '\n' + "State : " + xdata.StateName);
+
+                         });
+        
+        
+            var ShipID = $("#ddlShippingAddress").val();
+            $.getJSON("/UserManager/getAddress?AddressID=" + ShipID + "",
+                         function (xdata) {
+                             $("#txtShippingAddress").val("Address : " + xdata.Address.AddressName + "\n" + "City : " + xdata.Address.City + "\n" + "State : " + xdata.StateName);
+
+                         });
+        
+        
+            var TeID = $("#ddlTerritory").val();
+            $.getJSON("/UserManager/GetAddressesByTerritorID?TerritoryID=" + TeID + "",
+                         function (xdata) {
+                             loadDDBillingAddresses(xdata, 0);
+                             loadDDShippingAddress(xdata, 0);
+                         });
+        
+    }
+    function LoadAllData(ContactID)
+    {
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        $('.pass').css('display', 'none');
+        $("#btnChangePassword").css('display', 'block');
+
+        $("#tboxfirstname").css("border", "1px solid #c1c6cc");
+        $("#txtSecretAnswer").css("border", "1px solid #c1c6cc");
+        $("#tboxEmail").css("border", "1px solid #c1c6cc");
+        $("#tboxPassword").css("border", "1px solid #c1c6cc");
+        $("#modelTitle").text("Update Contact");
+       // ShowLoader();
+        $.getJSON("/webstoreapi/UM/UserProfileData?ContactID=" + ContactID + "",
+                      function (xdata) {
+                          LoadDDTerritories(xdata.CompanyTerritory, xdata.setSelectedTerritory.TerritoryId);
+                          LoadDDQuestions(xdata.RegistrationQuestions,xdata.SelectedQuestion.QuestionId);
+                          loadDDBillingAddresses(xdata.Addresses, xdata.SelectedBillingAddress.AddressId);
+                          loadDDShippingAddress(xdata.Addresses, xdata.SelectedShippingAddress.AddressId);
+                          loadDDRoles(xdata.CompanyContactRoles, xdata.SelectedRole.ContactRoleId);
+                          LoadUserContact(xdata.LoginContact, xdata.SelectedBillingState, xdata.SelectedShipppingState, xdata.SelectedBillingAddress.AddressName, xdata.SelectedShippingAddress.AddressName, xdata.SelectedBillingAddress.City, xdata.SelectedShippingAddress.City);
+        });
+    }
+    function LoadDropdowns()
+    {
+        $.getJSON("/webstoreapi/UM/LoadDDData",
+                      function (xdata) {
+                          LoadDDTerritories(xdata.CompanyTerritory, 0);
+                          LoadDDQuestions(xdata.RegistrationQuestions,0);
+                          loadDDBillingAddresses(xdata.Addresses,0);
+                          loadDDShippingAddress(xdata.Addresses,0);
+                          loadDDRoles(xdata.CompanyContactRoles, 0);
+                          updateBillAndShipBoxes();
+                      });
+    }
+    function LoadUserContact(LoginContactAddress, BillStateName,shipStateName,BillAddName,ShipAddName,BillCity,shipCity)
+    {
+        ContactID = LoginContactAddress.ContactId;
+        $("#tboxfirstname").val(LoginContactAddress.FirstName);
+        $("#tboxLastName").val(LoginContactAddress.LastName);
+        
+        $("#tboxEmail").val(LoginContactAddress.Email);
+        $("#txtJobTitle").val(LoginContactAddress.JobTitle);
+
+        $("#txtDirectLine").val(LoginContactAddress.HomeTel1);
+
+
+        $("#txtCellNumber").val(LoginContactAddress.Mobile);
+
+
+        $("#txtFax").val(LoginContactAddress.FAX);
+
+        $("#txtCreditLimit").val(LoginContactAddress.CreditLimit);
+
+        //$("#ddlSecretQuestions").val();
+
+        $("#txtSecretAnswer").val(LoginContactAddress.SecretAnswer);
+
+         //$("#ddlTerritory").val();
+
+         //$("#ddlRole").val();
+
+        //var ddbillingAddress = $("#ddlBusinessAddress").val();
+
+        //var ddShippingAddess = $("#ddlShippingAddress").val();
+
+        $("#txtAddress").val("Address : " + BillAddName + '\n' + "City : " + BillCity + '\n' + "State : " + BillStateName);
+
+        $("#txtShippingAddress").val("Address : " + ShipAddName + "\n" + "City : " + shipCity + "\n" + "State : " + shipStateName);
+
+        $("#txtNotes").val(LoginContactAddress.Notes);
+        
+        $("#chkCanOrder")[0].checked = LoginContactAddress.isPlaceOrder;
+        $("#chkCanByCredit")[0].checked = LoginContactAddress.IsPayByPersonalCreditCard;
+        $("#chkShowPricesForProduct")[0].checked = LoginContactAddress.IsPricingshown;
+
+        $("#chkHasWebAccess")[0].checked = LoginContactAddress.isWebAccess;
+        $("#imgContactPicture").attr('src', LoginContactAddress.image);
+        
+        //$('.postentry img').attr('src', LoginContactAddress.image);
+        // $("#Select")[0].checked=LoginContactAddress;
+        // $("#News")[0].checked=LoginContactAddress;
+
+    }
+    function LoadDDTerritories(objTer, TerritoryID)
+    {
+        
+        ddTerritoriesDD.html('');
+        //ddTerritoriesDD.append($('<option></option>').val(0).html('Select Territory'));
+        $.each(objTer, function (id, option) {
+            ddTerritoriesDD.append($('<option></option>').val(option.TerritoryId).html(option.TerritoryName));
+        });
+        if (UpdateStatus == true) {
+            if (TerritoryID > 0) {
+               
+                SetSelectedTerritory(objTer, TerritoryID);
+            }
+            else {
+                ddTerritoriesDD[0].selectedIndex = 0;
+            }
+        }
+    }
+    function SetSelectedTerritory(obj,TerritoryID)
+    {
+        var index = 0;
+        $.each(obj, function (id, option) {
+            if (option.TerritoryId== TerritoryID) {
+                
+                ddTerritoriesDD[0].selectedIndex = index;
+            }
+            index++;
+        });
+    }
+
+    function LoadDDQuestions(objQues,SelectedQuestionsID)
+    {
+        ddSecretQuestionDD.html('');
+        //ddSecretQuestionDD.append($('<option></option>').val(0).html('Select Secret Question'));
+        $.each(objQues, function (id, option) {
+            ddSecretQuestionDD.append($('<option></option>').val(option.QuestionId).html(option.Question));
+        });
+        if (UpdateStatus == true) {
+            if (SelectedQuestionsID > 0) {
+                SetSelectedQuestion(objQues, SelectedQuestionsID);
+            }
+            else {
+                ddSecretQuestionDD[0].selectedIndex = 0;
+            }
+        }
+    }
+
+    function SetSelectedQuestion(obj,QuestionID)
+    {
+        var index = 0;
+        $.each(obj, function (id, option) {
+            if (option.QuestionId == QuestionID) {
+
+                ddSecretQuestionDD[0].selectedIndex = index;
+            }
+            index++;
+        });
+    }
+    function loadDDBillingAddresses(objBill,BillingID)
+    {
+        ddBillingAddress.html('');
+        //ddBillingAddress.append($('<option></option>').val(0).html('Select Billing Address'));
+        $.each(objBill, function (id, option) {
+            
+            ddBillingAddress.append($('<option></option>').val(option.AddressId).html(option.AddressName));
+        });
+        if (UpdateStatus == true) {
+            if (BillingID > 0) {
+                SetSelectedBillingAddress(objBill, BillingID);
+            }
+            else {
+                ddBillingAddress[0].selectedIndex=0;
+            }
+        }
+    }
+    function SetSelectedBillingAddress(obj, BillingID) {
+        var index = 0;
+        $.each(obj, function (id, option) {
+            if (option.AddressId == BillingID) {
+                ddBillingAddress[0].selectedIndex = index;
+            }
+            index++;
+        });
+      }
+
+    function loadDDShippingAddress(objShip,ShippingID)
+    {
+        ddlShippingAddress.html('');
+        //ddlShippingAddress.append($('<option></option>').val(0).html('Select Shipping Address'));
+        $.each(objShip, function (id, option) {
+            ddlShippingAddress.append($('<option></option>').val(option.AddressId).html(option.AddressName));
+        });
+        if (UpdateStatus == true) {
+            if (ShippingID > 0) {
+                SetSelectedShippingAddress(objShip, ShippingID);
+            }
+            else {
+                ddlShippingAddress[0].selectedIndex = 0;
+            }
+        }
+    }
+    function SetSelectedShippingAddress(obj, ShippingID) {
+        
+        var index = 0;
+        $.each(obj, function (id, option) {
+            if (option.AddressId == ShippingID) {
+               
+                ddlShippingAddress[0].selectedIndex = index;
+            }
+            index++;
+        });
+    }
+
+    function loadDDRoles(objRoles, RoleID) {
+        ddRolesDD.html('');
+        //ddRolesDD.append($('<option></option>').val(0).html('Select  Role'));
+        $.each(objRoles, function (id, option) {
+            
+            ddRolesDD.append($('<option></option>').val(option.ContactRoleId).html(option.ContactRoleName));
+        });
+        if (UpdateStatus == true) {
+            if (RoleID > 0) {
+                
+                SetSelectedRole(objRoles, RoleID);
+            }
+            else {
+                ddRolesDD[0].selectedIndex = 0;
+            }
+        }
+    }
+    function SetSelectedRole(obj, RoleID) {
+        var index = 0;
+        $.each(obj, function (id, option) {
+            if (option.ContactRoleId == RoleID) {
+                
+                ddRolesDD[0].selectedIndex = index;
+            }
+            index++;
+        });
+    }
+    function updateSystemUSerProfile()
+    {
+        
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        var FirstName = $("#tboxfirstname").val();
+        var txtLastName = $("#tboxLastName").val();
+        var Email = $("#tboxEmail").val();
+        var JobTitle = $("#txtJobTitle").val();
+
+        var HomeTel1 = $("#txtDirectLine").val();
+
+
+        var Mobile = $("#txtCellNumber").val();
+
+
+        var FAX = $("#txtFax").val();
+
+        var CreditLimit= $("#txtCreditLimit").val();
+
+        var ddSecretQuestion=$("#ddlSecretQuestions").val();
+
+        var SecretAnswer = $("#txtSecretAnswer").val();
+
+        var ddTerritory = $("#ddlTerritory").val();
+
+        var ddRoles=$("#ddlRole").val();
+
+        var ddbillingAddress = $("#ddlBillingAddress").val();
+
+        var ddShippingAddess = $("#ddlShippingAddress").val();
+
+        var BillAddressDetail = $("#txtAddress").val();
+
+        var ShipAddressDetail = $("#txtShippingAddress").val();
+
+        var Notes = $("#txtNotes").val();
+
+        
+        var canOrder = $("#chkCanOrder")[0].checked;
+        var CanByCredit = $("#chkCanByCredit")[0].checked;
+        var ShowPricesForProduct = $("#chkShowPricesForProduct")[0].checked;
+
+        var HasWebAccess = $("#chkHasWebAccess")[0].checked;
+
+        
+        var Image = $("#fuImageUpload").val();
+
+        
+        var ConfirmPassword = $("#tboxPassword").val();
+        
+        var data = new FormData();
+                
+        if($("#fuImageUpload").val()!=null)
+        {
+            var files = $("#fuImageUpload").get(0).files;
+
+            if (files.length > 0) {
+                data.append("UploadedImage", files[0]);
+            }
+        }
+     
+      //  var Model = { FirstName: FirstName, LastName: txtLastName, CreditLimit: CreditLimit, ContactRoleId: ddRoles, Email: Email, Fax: FAX, FirstName: FirstName, HomeTel1: HomeTel1, isWebAccess: HasWebAccess, isPlaceOrder: canOrder, IsPayByPersonalCreditCard: CanByCredit, IsPricingshown: ShowPricesForProduct, JobTitle: JobTitle, Mobile: Mobile, Notes: Notes, QuestionId: ddSecretQuestion, SecretAnswer: SecretAnswer, TerritoryId: ddTerritory, AddressId: ddbillingAddress, ShippingAddressId: ddShippingAddess, Password: ConfirmPassword, ContactId: ContactID };
+        
+        $.ajax({
+            type: "POST",
+            url: "/webstoreapi/ContactImageUploader/UpdateDataForSystemUser?CreditLimit=" + CreditLimit + "&ContactRoleId=" + ddRoles + "&Email=" + Email + "&Fax=" + FAX + "&FirstName=" + FirstName + "&HomeTel1=" + HomeTel1 + "&isWebAccess=" + HasWebAccess + "&isPlaceOrder=" + canOrder + "&IsPayByPersonalCreditCard=" + CanByCredit + "&IsPricingshown=" + ShowPricesForProduct + "&JobTitle=" + JobTitle + "&LastName=" + txtLastName + "&Mobile=" + Mobile + "&Notes=" + Notes + "&QuestionId=" + ddSecretQuestion + "&SecretAnswer=" + SecretAnswer + "&TerritoryId=" + ddTerritory + "&AddressId=" + ddbillingAddress + "&ShippingAddressId=" + ddShippingAddess + "&Password=" + ConfirmPassword + "&ContactId=" + ContactID + "",
+
+            contentType: false,
+            data: data,
+            async: true,
+            processData: false,
+            success: function (response) {
+
+                $("#messgetodisply").css('display', 'block');
+                $("#messgetodisply").html('Profile Updated Sucessfuly!');
+
+                
+                HideLoader();
+                
+                $('html, body').animate({
+                    scrollTop: $("#messgetodisply").offset().top
+                }, 500);
+            },
+            error: function (error) {
+                
+            }
+        });
+    }
+
+    function AddNewContact() {
+       
+        $('.pass').css('display', 'block');
+        if (UpdateStatus == true) {
+            //  var PHtml = $("#UpdateModelPopUp").html();
+            //  ShippingBillingDetails("", PHtml);
+            $("#modelTitle").text("");
+
+        }
+        else {
+            $("#modelTitle").text("Add New Contact");
+        }
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        var FirstName = $("#tboxfirstname").val();
+        var txtLastName = $("#tboxLastName").val();
+        var Email = $("#tboxEmail").val();
+        var JobTitle = $("#txtJobTitle").val();
+
+        var HomeTel1 = $("#txtDirectLine").val();
+
+
+        var Mobile = $("#txtCellNumber").val();
+
+
+        var FAX = $("#txtFax").val();
+
+        var CreditLimit = $("#txtCreditLimit").val();
+
+        var ddSecretQuestion = $("#ddlSecretQuestions").val();
+
+        var SecretAnswer = $("#txtSecretAnswer").val();
+
+        var ddTerritory = $("#ddlTerritory").val();
+
+        var ddRoles = $("#ddlRole").val();
+
+        var ddbillingAddress = $("#ddlBillingAddress").val();
+
+        var ddShippingAddess = $("#ddlShippingAddress").val();
+
+        var BillAddressDetail = $("#txtAddress").val();
+
+        var ShipAddressDetail = $("#txtShippingAddress").val();
+
+        var Notes = $("#txtNotes").val();
+
+
+        var canOrder = $("#chkCanOrder")[0].checked;
+        var CanByCredit = $("#chkCanByCredit")[0].checked;
+        var ShowPricesForProduct = $("#chkShowPricesForProduct")[0].checked;
+
+        var HasWebAccess = $("#chkHasWebAccess")[0].checked;
+
+
+        var Image = $("#fuImageUpload").val();
+
+
+        var ConfirmPassword = $("#tboxPassword").val();
+
+        var data = new FormData();
+
+        if ($("#fuImageUpload").val() != null) {
+            var files = $("#fuImageUpload").get(0).files;
+
+            if (files.length > 0) {
+                data.append("UploadedImage", files[0]);
+            }
+        }
+
+        //  var Model = { FirstName: FirstName, LastName: txtLastName, CreditLimit: CreditLimit, ContactRoleId: ddRoles, Email: Email, Fax: FAX, FirstName: FirstName, HomeTel1: HomeTel1, isWebAccess: HasWebAccess, isPlaceOrder: canOrder, IsPayByPersonalCreditCard: CanByCredit, IsPricingshown: ShowPricesForProduct, JobTitle: JobTitle, Mobile: Mobile, Notes: Notes, QuestionId: ddSecretQuestion, SecretAnswer: SecretAnswer, TerritoryId: ddTerritory, AddressId: ddbillingAddress, ShippingAddressId: ddShippingAddess, Password: ConfirmPassword, ContactId: ContactID };
+
+        $.ajax({
+            type: "POST",
+            url: "/webstoreapi/ContactImageUploader/AddDataForSystemUser?CreditLimit=" + CreditLimit + "&ContactRoleId=" + ddRoles + "&Email=" + Email + "&Fax=" + FAX + "&FirstName=" + FirstName + "&HomeTel1=" + HomeTel1 + "&isWebAccess=" + HasWebAccess + "&isPlaceOrder=" + canOrder + "&IsPayByPersonalCreditCard=" + CanByCredit + "&IsPricingshown=" + ShowPricesForProduct + "&JobTitle=" + JobTitle + "&LastName=" + txtLastName + "&Mobile=" + Mobile + "&Notes=" + Notes + "&QuestionId=" + ddSecretQuestion + "&SecretAnswer=" + SecretAnswer + "&TerritoryId=" + ddTerritory + "&AddressId=" + ddbillingAddress + "&ShippingAddressId=" + ddShippingAddess + "&Password=" + ConfirmPassword + "&ContactId=" + ContactID + "",
+
+            contentType: false,
+            data: data,
+            async: true,
+            processData: false,
+            success: function (response) {
+                alert(response);
+                if (response == 'Ok') {
+                    
+                    HideLoader();
+                    RebindGrid();
+                    
+                }
+                else {
+                    ShowPopUp('Message', response);
+                    
+                }
+            },
+            error: function (error) {
+
+            }
+        });
+    }
+
+    function DeleteReord(ContactId)
+    { }
+    function RebindGrid() {
+
+        window.location.href = "/UserManager";
+    }
+</script>

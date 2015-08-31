@@ -6,35 +6,7 @@
 @section leftmenue {
 }
 <script src="~/Content/themes/Centaurus/js/jquery.js"></script>
-<script>
-    //$(document).ready(function () {
 
-    //    $(".edit-pertial").hide();
-
-    //    $(".partial-GRN").hide();
-
-
-    //    $(".patial-edit").click(function () {
-    //        $("#main-body").hide();
-    //        $(".edit-pertial").show();
-    //    });
-    //    $("#closeBtn").click(function () {
-    //        $("#main-body").show();
-    //        $(".edit-pertial").hide();
-    //    });
-    //});
-</script>
-
-<script>
-    //$(document).ready(function () {
-    //    setTimeout(function () {
-    //        var spinner = $("div#spinner");
-    //        spinner.stop();
-    //        spinner.fadeOut("fast");
-    //        $.unblockUI(spinner);
-    //    }, 1000);
-    //});
-</script>
 
 
 
@@ -52,7 +24,7 @@
                 </div>
             </div>
             <div class="row" id="main-body" data-bind="visible:!$root.isEditorVisible()">
-                <div class="col-sm-12" style="padding-left:15px;">
+                <div class="col-sm-12" style="padding-left:14px;">
                     <div class="pull-left">
                         <p class="group-header-description">Create and track Purchase order to Suppliers.</p>
                     </div>
@@ -97,7 +69,7 @@
                     </div>
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="tab-Open">
-                            <div style="margin-bottom:15px;margin-top:15px;margin-left:7px;">
+                            <div style="margin-bottom:15px;margin-top:15px;margin-left:12px;">
                                 <div class="tabsdescriptions">
                                     <p class="group-header-description">Review all open Purchase Orders waiting for external suppliers to deliver the goods.</p>
                                 </div>
@@ -132,7 +104,7 @@
                             <!-- ko template: { name: 'tabTemplate' } -->
                             <!-- /ko -->
                         </div>
-                        <div id="pagerDiv" class="pull-right" style="padding-right:16px;margin-bottom:20px;">
+                        <div id="pagerDiv" class="pull-right" style="padding-right:20px;margin-bottom:20px;">
                            
                             <!-- ko with: pager -->
                             @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -171,14 +143,15 @@
 }
 
 <script id="tabTemplate" type="text/html">
-    <div class="table-responsive" style="padding-left:15px;padding-right:15px;">
+    <div class="table-responsive" style="padding-left:20px;padding-right:20px;">
         <table class="table user-list table-striped table-hover">
             <thead>
                 <tr>
-                    <th class="col-sm-4"><span>Supplier</span></th>
+                    <th class="col-lg-1">&nbsp;</th>
+                    <th class="col-sm-3"><span>Supplier</span></th>
                     <th class="col-sm-2"><span>Purchase Code</span></th>
                     <th class="col-sm-2"><span>Purchase Date</span></th>
-                    <th class="col-sm-1 text-center"><span>Flag</span></th>
+                    <th class="col-sm-1"><span>Flag</span></th>
                     <th class="col-sm-1"><span>Status</span></th>
                     <th class="col-sm-2"><span>Purchase Total</span></th>
                 </tr>
@@ -193,6 +166,7 @@
 </script>
 <script id="purchaseListViewTemplate" type="text/html">
     <tr style="cursor: pointer" data-bind="click:$root.onEditPurchaseOrder">
+        <td>&nbsp;</td>
         <td>
             <a href="#" class="user-link patial-edit" data-bind="text:companyName"></a>
             <span class="user-subhead" data-bind="text:refNo"></span>
@@ -203,13 +177,13 @@
         <td>
             <span data-bind="dateString: purchaseOrderDate, datePattern: 'DD/MM/YYYY'"></span>
         </td>
-        <td class="text-center">
+        <td>
             <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
         </td>
         <td>
             <span data-bind="text:statusName"></span>
         </td>
-        <td>
+        <td style="text-align:right;padding-right:60px;">
             <span class="control-label" data-bind="text:$root.currencySymbol">A$</span>
             <span class="control-label" data-bind="numberInput:$root.netTotal">0.00</span>
         </td>

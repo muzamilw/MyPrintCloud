@@ -312,6 +312,13 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to export Company Contact Csv
+                    amplify.request.define('exportCompanyContacts', 'ajax', {
+                     
+                        url: ist.siteUrl + '/Api/Export',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to Delete Company Address
                     amplify.request.define('deleteCompanyAddress', 'ajax', {
                         url: ist.siteUrl + '/Api/Address',
@@ -361,7 +368,12 @@
                         dataType: 'json',
                         type: 'GET'
                     });
-
+                    // Define request to verify Store save
+                    amplify.request.define('validateCanStoreSaveById', 'ajax', {
+                        url: ist.siteUrl + '/Api/OrganisationLicensing',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
 
                     isInitialized = true;
                 }
@@ -763,6 +775,17 @@
                     data: param
                 });
             },
+            
+        // export Company Contacts
+        exportCompanyContacts = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'exportCompanyContacts',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
             // Delete Company Territory
             deleteCompanyTerritory = function (param, callbacks) {
                 initialize();
@@ -883,7 +906,17 @@
                     success: callbacks.success,
                     error: callbacks.error
                 });
+          },
+            validateCanStoreSaveById = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'validateCanStoreSaveById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
             },
+            
             getProductforDV = function (params, callbacks) {
                 initialize();
                 return amplify.request({
@@ -933,6 +966,7 @@
             saveAddress: saveAddress,
             saveCompanyContact: saveCompanyContact,
             importCompanyContact: importCompanyContact,
+            exportCompanyContacts: exportCompanyContacts,
             deleteCompanyTerritory: deleteCompanyTerritory,
             deleteCompanyAddress: deleteCompanyAddress,
             deleteCompanyContact: deleteCompanyContact,
@@ -958,7 +992,8 @@
             getDiscountVouchers: getDiscountVouchers,
             saveDiscountVoucher: saveDiscountVoucher,
             getDiscountVaoucherById: getDiscountVaoucherById,
-            validateLiveStoresCount: validateLiveStoresCount
+            validateLiveStoresCount: validateLiveStoresCount,
+            validateCanStoreSaveById: validateCanStoreSaveById
         };
     })();
 

@@ -8,8 +8,6 @@ using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Webstore.Common;
-using MPC.Webstore.ModelMappers;
-using MPC.Webstore.ResponseModels;
 using MPC.Webstore.Models;
 using DotNetOpenAuth.OAuth2;
 using Microsoft.Owin.Security;
@@ -19,24 +17,16 @@ using System.Text;
 using System.Security.Claims;
 using ICompanyService = MPC.Interfaces.WebStoreServices.ICompanyService;
 using MPC.Models.Common;
-using MPC.Interfaces.Common;
-using System.Reflection;
 using MPC.Models.DomainModels;
-using MPC.WebBase.UnityConfiguration;
 using System.Runtime.Caching;
-using System.Web.Security;
 using WebSupergoo.ABCpdf8;
 using System.Globalization;
-using MPC.Interfaces.Repository;
-using DotNetOpenAuth.ApplicationBlock;
-using DotNetOpenAuth.ApplicationBlock.Facebook;
-using DotNetOpenAuth.OAuth2;
-using Newtonsoft.Json.Linq;
+using MPC.Models.ResponseModels;
 
 
 namespace MPC.Webstore.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
         #region Private
 
@@ -47,10 +37,6 @@ namespace MPC.Webstore.Controllers
         private ICostCentreService _CostCentreService;
 
         private readonly IOrderService _OrderService;
-
-        private readonly IOrganisationRepository _organisationRepository;
-
-        private readonly ICurrencyRepository _currencyRepository;
         #endregion
         [Dependency]
         public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
@@ -68,8 +54,8 @@ namespace MPC.Webstore.Controllers
         /// Constructor
         /// </summary>
         public HomeController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker, ICostCentreService CostCentreService
-            , IOrderService OrderService, IOrganisationRepository organisationRepository, ICurrencyRepository currencyRepository)
-            : base(myCompanyService, webstoreAuthorizationChecker)
+            , IOrderService OrderService)
+            //: base(myCompanyService, webstoreAuthorizationChecker)
         {
             if (myCompanyService == null)
             {
@@ -91,8 +77,7 @@ namespace MPC.Webstore.Controllers
             this._myCompanyService = myCompanyService;
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
             this._OrderService = OrderService;
-            this._organisationRepository = organisationRepository;
-            this._currencyRepository = currencyRepository;
+          
         }
 
         #endregion
@@ -119,8 +104,8 @@ namespace MPC.Webstore.Controllers
 
 
 
-                string CacheKeyName = "CompanyBaseResponse";
-                ObjectCache cache = MemoryCache.Default;
+                //string CacheKeyName = "CompanyBaseResponse";
+                //ObjectCache cache = MemoryCache.Default;
 
                 //iqra to fix the route of error page, consult khurram if required to get it propper.
                 if (UserCookieManager.WBStoreId != 0)
@@ -147,24 +132,26 @@ namespace MPC.Webstore.Controllers
                     //        _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId);
                     //    }
 
-                       // MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.WBStoreId];
-                    if (StoreCachedData != null)
+                    //    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.WBStoreId];
+                    MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+    
+                    if (StoreBaseResopnse != null)
                         {
                             string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
                             if (!_webstoreAuthorizationChecker.isUserLoggedIn())
                             {
-                                if ((StoreCachedData.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
+                                if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
                                 {
                                     Response.Redirect("/Login");
                                 }
                             }
-                            else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreCachedData.Company.IsCustomer == (int)StoreMode.Corp)
+                            else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
                             {
                                 Response.Redirect("/");
 
                             }
 
-                            model = GetWidgetsByPageName(StoreCachedData.SystemPages, pageRouteValue.Split('/')[0], StoreCachedData.CmsSkinPageWidgets, StoreCachedData.StoreDetaultAddress, StoreCachedData);
+                            model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse);
                            
                         }
                         else
@@ -172,7 +159,7 @@ namespace MPC.Webstore.Controllers
                             TempData["ErrorMessage"] = "There is some problem while performing the operation.";
                             return RedirectToAction("Error");
                         }
-                   // }
+                    //}
                 }
                 else
                 {
@@ -652,14 +639,15 @@ namespace MPC.Webstore.Controllers
             }
         }
 
-        public ActionResult ReceiptPlain(string OrderId, string StoreId, string IsPrintReceipt, string loginUserId)
+        [AllowAnonymous]
+        public ActionResult ReceiptPlain(string OrderId, string StoreId, string IsPrintReceipt)
         {
 
-            MPC.Models.DomainModels.Company oCompany = _myCompanyService.GetCompanyByCompanyID(Convert.ToInt64(StoreId));
+            MPC.Models.DomainModels.Company oCompany = _myCompanyService.GetStoreReceiptPage(Convert.ToInt64(StoreId));
 
             if(oCompany != null)
             {
-                MPC.Models.DomainModels.Organisation oOrganisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
+              MPC.Models.DomainModels.Organisation oOrganisation = _myCompanyService.GetOrganisatonById(Convert.ToInt64(oCompany.OrganisationId));
                 
                 if (oCompany.ShowPrices == true)
                 {
@@ -711,10 +699,10 @@ namespace MPC.Webstore.Controllers
 
                 string currency = "";
 
-                if (oOrganisation != null)
-                {
-                   currency = _currencyRepository.GetCurrencySymbolById(Convert.ToInt64(oOrganisation.CurrencyId));
-                }
+                //if (oOrganisation != null)
+                //{
+                //   currency = _currencyRepository.GetCurrencySymbolById(Convert.ToInt64(oOrganisation.CurrencyId));
+                //}
 
                 if (!string.IsNullOrEmpty(currency))
                 {
@@ -741,7 +729,7 @@ namespace MPC.Webstore.Controllers
                 ViewBag.Print = "";
             }
 
-            if(oCompany.IsCustomer == (int)CustomerTypes.Corporate)
+            if (oCompany.IsCustomer == (int)CustomerTypes.Corporate)
             {
                 if (order != null && order.CompanyContact != null)
                 {

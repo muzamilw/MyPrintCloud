@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MPC.Repository.Repositories
 {
@@ -902,7 +904,7 @@ namespace MPC.Repository.Repositories
                     ||
                     (contact.Email.Contains(request.SearchFilter)) ||
                     contact.Company.Name.Contains(request.SearchFilter)) &&
-                    (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 1) &&
+                   // (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 1) &&
                     (contact.isArchived == false || contact.isArchived == null) && contact.OrganisationId == OrganisationId
 
 
@@ -1101,7 +1103,7 @@ namespace MPC.Repository.Repositories
                         CompanyId = contact.Company.CompanyId,
                         Name = contact.Company.Name,
                         StoreId = contact.Company.StoreId,
-                        StoreName = contact.Company.StoreName,
+                        StoreName = string.IsNullOrEmpty(contact.Company.StoreName) ?  contact.Company.Name: contact.Company.StoreName,
                         IsCustomer = contact.Company.IsCustomer
                     }
                 }).ToList()
@@ -1690,6 +1692,8 @@ namespace MPC.Repository.Repositories
             //db.Configuration.LazyLoadingEnabled = false;
             var contact = db.CompanyContacts.Where(c => c.ContactId == ContactId).FirstOrDefault();
             contact.Company.StoreName = GetStoreNameByStoreId(contact.Company.StoreId ?? 0);
+            if (string.IsNullOrEmpty(contact.Company.StoreName))
+                contact.Company.StoreName = contact.Company.Name;
             return contact;
 
 
@@ -1724,6 +1728,458 @@ namespace MPC.Repository.Repositories
 
 
         }
+        public  List<CompanyContact> GetSearched_Contacts(long contactCompanyId, String searchtxt, long territoryID)
+        {
+            try
+            {
+                    if (territoryID > 0)
+                    {
+                        return (from c in db.CompanyContacts.Include("CompanyTerritory")
+                                where (c.CompanyId == contactCompanyId) && (c.FirstName.Contains(searchtxt.Trim()) || c.FirstName.Equals(searchtxt.Trim()) || c.Email.Contains(searchtxt.Trim()))
+                                && c.TerritoryId == territoryID
+                                select c).ToList();
+                    }
+                    else
+                    {
+                        return (from c in db.CompanyContacts.Include("CompanyTerritory")
+                                where (c.CompanyId == contactCompanyId) && (c.FirstName.Contains(searchtxt.Trim()) ||c.FirstName.Equals(searchtxt.Trim())|| c.Email.Contains(searchtxt.Trim()))
+                                select c).ToList();
+                    }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CompanyContact> GetContactsByTerritory(long contactCompanyId, long territoryID)
+        {
+            try
+            {
+                
+                
+                    if (territoryID > 0)
+                    {
+                        return (from c in db.CompanyContacts.Include("CompanyTerritory")
+                                where c.CompanyId == contactCompanyId && c.TerritoryId == territoryID
+                                select c).ToList();
+                    }
+                    else
+                    {
+                        return (from c in db.CompanyContacts.Include("CompanyTerritory")
+                                where c.CompanyId == contactCompanyId
+                                select c).ToList();
+                    }
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void UpdateDataSystemUser(CompanyContact Contact)
+        {
+            try
+            {
+                CompanyContact con = db.CompanyContacts.Where(i => i.ContactId == Contact.ContactId).FirstOrDefault();
+                con.FileName = Contact.FirstName;
+                con.LastName = Contact.LastName;
+                if (Contact.image == null)
+                {
+
+                }
+                else
+                {
+                    con.image = Contact.image;
+                }
+                con.CreditLimit = Contact.CreditLimit;
+                con.ContactRoleId = Contact.ContactRoleId;
+                con.Email = Contact.Email;
+                con.FAX = Contact.FAX;
+                con.FirstName = Contact.FirstName;
+                con.HomeTel1 = Contact.HomeTel1;
+                con.isWebAccess = Contact.isWebAccess;
+                con.isArchived = false;
+                con.isPlaceOrder = Contact.isPlaceOrder;
+                con.IsPayByPersonalCreditCard = Contact.IsPayByPersonalCreditCard;
+                con.IsPricingshown = Contact.IsPricingshown;
+                con.JobTitle = Contact.JobTitle;
+                con.LastName = Contact.LastName;
+                con.Mobile = Contact.Mobile;
+                con.Notes = Contact.Notes;
+                con.QuestionId = Contact.QuestionId;
+                con.SecretAnswer = Contact.SecretAnswer;
+                con.TerritoryId = Contact.TerritoryId;
+                con.AddressId = Contact.AddressId;
+                con.ShippingAddressId = Contact.ShippingAddressId;
+                if (Contact.Password == null)
+                {
+                    
+                }
+                else
+                {
+                    con.Password = HashingManager.ComputeHashSHA1(Contact.Password);
+                }
+                db.CompanyContacts.Attach(con);
+                db.Entry(con).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void AddDataSystemUser(CompanyContact Contact)
+        {
+            
+            try
+            {
+                CompanyContact con = new CompanyContact();
+                con.CompanyId = Contact.CompanyId;
+                con.isWebAccess = Contact.isWebAccess;
+                con.image = Contact.image;
+                con.CreditLimit = Contact.CreditLimit;
+                con.ContactRoleId = Contact.ContactRoleId;
+                con.Email = Contact.Email;
+                con.FAX = Contact.FAX;
+                con.FirstName = Contact.FirstName;
+                con.HomeTel1 = Contact.HomeTel1;
+                con.isWebAccess = Contact.isWebAccess;
+                con.isArchived = false;
+                con.isPlaceOrder = Contact.isPlaceOrder;
+                con.IsPayByPersonalCreditCard = Contact.IsPayByPersonalCreditCard;
+                con.IsPricingshown = Contact.IsPricingshown;
+                con.JobTitle = Contact.JobTitle;
+                con.LastName = Contact.LastName;
+                con.Mobile = Contact.Mobile;
+                con.Notes = Contact.Notes;
+                con.QuestionId = Contact.QuestionId;
+                con.SecretAnswer = Contact.SecretAnswer;
+                con.TerritoryId = Contact.TerritoryId;
+                con.AddressId = Contact.AddressId;
+                con.ShippingAddressId = Contact.ShippingAddressId;
+                con.Password = HashingManager.ComputeHashSHA1(Contact.Password);
+                db.CompanyContacts.Add(con);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public CompanyContactResponse GetRetailContacts()
+        {
+            try
+            {
+
+
+                var query = (from contact in db.CompanyContacts
+                             from cmp in db.Companies.Where(c => c.CompanyId == contact.Company.StoreId).DefaultIfEmpty()
+                             where (contact.isArchived == false || contact.isArchived == null) && contact.OrganisationId == OrganisationId && cmp.IsCustomer == 4
+
+
+                             select new 
+                             {
+                                 //FirstName = contact.FirstName,
+                                 //LastName = contact.LastName,
+                                 //MiddleName = contact.MiddleName,
+                                 //ContactId = contact.ContactId,
+                                 //AddressId = contact.AddressId,
+                                 //CompanyId = contact.CompanyId,
+                                 //image = contact.image,
+                                 //Title = contact.Title,
+                                 //HomeTel1 = contact.HomeTel1,
+                                 //HomeTel2 = contact.HomeTel2,
+                                 //HomeExtension1 = contact.HomeExtension1,
+                                 //HomeExtension2 = contact.HomeExtension2,
+                                 //Mobile = contact.Mobile,
+                                 //Email = contact.Email,
+                                 //FAX = contact.FAX,
+                                 //JobTitle = contact.JobTitle,
+                                 //DOB = contact.DOB,
+                                 //Notes = contact.Notes,
+                                 //IsDefaultContact = contact.IsDefaultContact,
+                                 //HomeAddress1 = contact.HomeAddress1,
+                                 //HomeAddress2 = contact.HomeAddress2,
+                                 //HomeCity = contact.HomeCity,
+                                 //HomeState = contact.HomeState,
+                                 //HomePostCode = contact.HomePostCode,
+                                 //HomeCountry = contact.HomeCountry,
+                                 //SecretQuestion = contact.SecretQuestion,
+                                 //SecretAnswer = contact.SecretAnswer,
+                                 //Password = contact.Password,
+                                 //URL = contact.URL,
+                                 //IsEmailSubscription = contact.IsEmailSubscription,
+                                 //IsNewsLetterSubscription = contact.IsNewsLetterSubscription,
+                                 ////contact.image,
+                                 //quickFullName = contact.quickFullName,
+                                 //quickTitle = contact.quickTitle,
+                                 //quickCompanyName = contact.quickCompanyName,
+                                 //quickAddress1 = contact.quickAddress1,
+                                 //quickAddress2 = contact.quickAddress2,
+                                 //quickAddress3 = contact.quickAddress3,
+                                 //quickPhone = contact.quickPhone,
+                                 //quickFax = contact.quickFax,
+                                 //quickEmail = contact.quickEmail,
+                                 //quickWebsite = contact.quickWebsite,
+                                 //quickCompMessage = contact.quickCompMessage,
+                                 //QuestionId = contact.QuestionId,
+                                 //IsApprover = contact.IsApprover,
+                                 //isWebAccess = contact.isWebAccess,
+                                 //isPlaceOrder = contact.isPlaceOrder,
+                                 //CreditLimit = contact.CreditLimit,
+                                 //isArchived = contact.isArchived,
+                                 //ContactRoleId = contact.ContactRoleId,
+                                 //TerritoryId = contact.TerritoryId,
+                                 //ClaimIdentifer = contact.ClaimIdentifer,
+                                 //AuthentifiedBy = contact.AuthentifiedBy,
+                                 //IsPayByPersonalCreditCard = contact.IsPayByPersonalCreditCard,
+                                 //IsPricingshown = contact.IsPricingshown,
+                                 //SkypeId = contact.SkypeId,
+                                 //LinkedinURL = contact.LinkedinURL,
+                                 //FacebookURL = contact.FacebookURL,
+                                 //TwitterURL = contact.TwitterURL,
+                                 //authenticationToken = contact.authenticationToken,
+                                 //twitterScreenName = contact.twitterScreenName,
+                                 //ShippingAddressId = contact.ShippingAddressId,
+                                 //isUserLoginFirstTime = contact.isUserLoginFirstTime,
+                                 //quickMobileNumber = contact.quickMobileNumber,
+                                 //quickTwitterId = contact.quickTwitterId,
+                                 //quickFacebookId = contact.quickFacebookId,
+                                 //quickLinkedInId = contact.quickLinkedInId,
+                                 //quickOtherId = contact.quickOtherId,
+                                 //POBoxAddress = contact.POBoxAddress,
+                                 //CorporateUnit = contact.CorporateUnit,
+                                 //OfficeTradingName = contact.OfficeTradingName,
+                                 //ContractorName = contact.ContractorName,
+                                 //BPayCRN = contact.BPayCRN,
+                                 //ABN = contact.ABN,
+                                 //ACN = contact.ACN,
+                                 //AdditionalField1 = contact.AdditionalField1,
+                                 //AdditionalField2 = contact.AdditionalField2,
+                                 //AdditionalField3 = contact.AdditionalField3,
+                                 //AdditionalField4 = contact.AdditionalField4,
+                                 //AdditionalField5 = contact.AdditionalField5,
+                                 //canUserPlaceOrderWithoutApproval = contact.canUserPlaceOrderWithoutApproval,
+                                 //CanUserEditProfile = contact.CanUserEditProfile,
+                                 //canPlaceDirectOrder = contact.canPlaceDirectOrder,
+                                 //OrganisationId = contact.OrganisationId,
+
+
+                                 //conta = contact.CompanyContactRole != null ? contact.CompanyContactRole.ContactRoleName : string.Empty,
+                                 //SecondaryEmail = contact.SecondaryEmail,
+                                 contact.FirstName,
+                             contact.LastName,
+                             contact.MiddleName,
+                             contact.ContactId,
+                             contact.AddressId,
+                             contact.CompanyId,
+                             contact.image,
+                             contact.Title,
+                             contact.HomeTel1,
+                             contact.HomeTel2,
+                             contact.HomeExtension1,
+                             contact.HomeExtension2,
+                             contact.Mobile,
+                             contact.Email,
+                             contact.FAX,
+                             contact.JobTitle,
+                             contact.DOB,
+                             contact.Notes,
+                             contact.IsDefaultContact,
+                             contact.HomeAddress1,
+                             contact.HomeAddress2,
+                             contact.HomeCity,
+                             contact.HomeState,
+                             contact.HomePostCode,
+                             contact.HomeCountry,
+                             contact.SecretQuestion,
+                             contact.SecretAnswer,
+                             contact.Password,
+                             contact.URL,
+                             contact.IsEmailSubscription,
+                             contact.IsNewsLetterSubscription,
+                             //contact.image,
+                             contact.quickFullName,
+                             contact.quickTitle,
+                             contact.quickCompanyName,
+                             contact.quickAddress1,
+                             contact.quickAddress2,
+                             contact.quickAddress3,
+                             contact.quickPhone,
+                             contact.quickFax,
+                             contact.quickEmail,
+                             contact.quickWebsite,
+                             contact.quickCompMessage,
+                             contact.QuestionId,
+                             contact.IsApprover,
+                             contact.isWebAccess,
+                             contact.isPlaceOrder,
+                             contact.CreditLimit,
+                             contact.isArchived,
+                             contact.ContactRoleId,
+                             contact.TerritoryId,
+                             contact.ClaimIdentifer,
+                             contact.AuthentifiedBy,
+                             contact.IsPayByPersonalCreditCard,
+                             contact.IsPricingshown,
+                             contact.SkypeId,
+                             contact.LinkedinURL,
+                             contact.FacebookURL,
+                             contact.TwitterURL,
+                             contact.authenticationToken,
+                             contact.twitterScreenName,
+                             contact.ShippingAddressId,
+                             contact.isUserLoginFirstTime,
+                             contact.quickMobileNumber,
+                             contact.quickTwitterId,
+                             contact.quickFacebookId,
+                             contact.quickLinkedInId,
+                             contact.quickOtherId,
+                             contact.POBoxAddress,
+                             contact.CorporateUnit,
+                             contact.OfficeTradingName,
+                             contact.ContractorName,
+                             contact.BPayCRN,
+                             contact.ABN,
+                             contact.ACN,
+                             contact.AdditionalField1,
+                             contact.AdditionalField2,
+                             contact.AdditionalField3,
+                             contact.AdditionalField4,
+                             contact.AdditionalField5,
+                             contact.canUserPlaceOrderWithoutApproval,
+                             contact.CanUserEditProfile,
+                             contact.canPlaceDirectOrder,
+                             contact.OrganisationId,
+                             RoleName = contact.CompanyContactRole != null ? contact.CompanyContactRole.ContactRoleName : string.Empty,
+                             contact.SecondaryEmail,
+                                 contact.Address,
+                                 contact.CompanyTerritory,
+                                 Company = new
+                                 {
+
+                                     StoreName = cmp != null ? cmp.Name : string.Empty,
+                                     WebAccessCode = cmp != null ? cmp.WebAccessCode : string.Empty,
+
+                                 }
+                              
+                             });
+
+                var que = query.Distinct().OrderBy(x => x.FirstName).ToList();
+
+                return new CompanyContactResponse
+                {
+
+                    CompanyContacts = que.Select(contact => new CompanyContact
+                    {
+                        FirstName = contact.FirstName,
+                        LastName = contact.LastName,
+                        image = contact.image,
+                        ContactId = contact.ContactId,
+                        AddressId = contact.AddressId,
+                        CompanyId = contact.CompanyId,
+                        Title = contact.Title,
+                        HomeTel1 = contact.HomeTel1,
+                        HomeTel2 = contact.HomeTel2,
+                        HomeExtension1 = contact.HomeExtension1,
+                        HomeExtension2 = contact.HomeExtension2,
+                        Mobile = contact.Mobile,
+                        Email = contact.Email,
+                        FAX = contact.FAX,
+                        JobTitle = contact.JobTitle,
+                        DOB = contact.DOB,
+                        Notes = contact.Notes,
+                        IsDefaultContact = contact.IsDefaultContact,
+                        HomeAddress1 = contact.HomeAddress1,
+                        HomeAddress2 = contact.HomeAddress2,
+                        HomeCity = contact.HomeCity,
+                        HomeState = contact.HomeState,
+                        HomePostCode = contact.HomePostCode,
+                        HomeCountry = contact.HomeCountry,
+                        SecretQuestion = contact.SecretQuestion,
+                        SecretAnswer = contact.SecretAnswer,
+                        Password = contact.Password,
+                        URL = contact.URL,
+                        IsEmailSubscription = contact.IsEmailSubscription,
+                        IsNewsLetterSubscription = contact.IsNewsLetterSubscription,
+                        quickFullName = contact.quickFullName,
+                        quickTitle = contact.quickTitle,
+                        quickCompanyName = contact.quickCompanyName,
+                        quickAddress1 = contact.quickAddress1,
+                        quickAddress2 = contact.quickAddress2,
+                        quickAddress3 = contact.quickAddress3,
+                        quickPhone = contact.quickPhone,
+                        quickFax = contact.quickFax,
+                        quickEmail = contact.quickEmail,
+                        quickWebsite = contact.quickWebsite,
+                        quickCompMessage = contact.quickCompMessage,
+                        QuestionId = contact.QuestionId,
+                        IsApprover = contact.IsApprover,
+                        isWebAccess = contact.isWebAccess,
+                        isPlaceOrder = contact.isPlaceOrder,
+                        CreditLimit = contact.CreditLimit,
+                        isArchived = contact.isArchived,
+                        ContactRoleId = contact.ContactRoleId,
+                        TerritoryId = contact.TerritoryId,
+                        ClaimIdentifer = contact.ClaimIdentifer,
+                        AuthentifiedBy = contact.AuthentifiedBy,
+                        IsPayByPersonalCreditCard = contact.IsPayByPersonalCreditCard,
+                        IsPricingshown = contact.IsPricingshown,
+                        SkypeId = contact.SkypeId,
+                        LinkedinURL = contact.LinkedinURL,
+                        FacebookURL = contact.FacebookURL,
+                        TwitterURL = contact.TwitterURL,
+                        authenticationToken = contact.authenticationToken,
+                        twitterScreenName = contact.twitterScreenName,
+                        ShippingAddressId = contact.ShippingAddressId,
+                        isUserLoginFirstTime = contact.isUserLoginFirstTime,
+                        quickMobileNumber = contact.quickMobileNumber,
+                        quickTwitterId = contact.quickTwitterId,
+                        quickFacebookId = contact.quickFacebookId,
+                        quickLinkedInId = contact.quickLinkedInId,
+                        quickOtherId = contact.quickOtherId,
+                        POBoxAddress = contact.POBoxAddress,
+                        CorporateUnit = contact.CorporateUnit,
+                        OfficeTradingName = contact.OfficeTradingName,
+                        ContractorName = contact.ContractorName,
+                        BPayCRN = contact.BPayCRN,
+                        ABN = contact.ABN,
+                        ACN = contact.ACN,
+                        AdditionalField1 = contact.AdditionalField1,
+                        AdditionalField2 = contact.AdditionalField2,
+                        AdditionalField3 = contact.AdditionalField3,
+                        AdditionalField4 = contact.AdditionalField4,
+                        AdditionalField5 = contact.AdditionalField5,
+                        canUserPlaceOrderWithoutApproval = contact.canUserPlaceOrderWithoutApproval,
+                        CanUserEditProfile = contact.CanUserEditProfile,
+                        canPlaceDirectOrder = contact.canPlaceDirectOrder,
+                        OrganisationId = contact.OrganisationId,
+                        //RoleName = contact.CompanyContactRole != null ? contact.CompanyContactRole.ContactRoleName : string.Empty,
+                        //FileName = fileName,
+                        SecondaryEmail = contact.SecondaryEmail,
+                        Address = contact.Address,
+                        CompanyTerritory = contact.CompanyTerritory,
+                        Company = new Company
+                        {
+                            //CompanyId = contact.Company.CompanyId,
+                            //Name = contact.Company.Name,
+                            //StoreId = contact.Company.StoreId,
+                            StoreName = contact.Company.StoreName,
+                            WebAccessCode = contact.Company.WebAccessCode,
+                           // IsCustomer = contact.Company.IsCustomer
+                        }
+                    }).ToList()
+                };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 
 }

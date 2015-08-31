@@ -23,7 +23,7 @@ namespace MPC.Webstore.Controllers
         // GET: BlackAndWhiteHeaderMenu
         public ActionResult Index()
         {
-            ViewBag.loggedInUser = "Logged in " + UserCookieManager.WEBContactFirstName + UserCookieManager.WEBContactLastName;
+            ViewBag.loggedInUser = Utils.GetKeyValueFromResourceFile("ltrlLoggedIn", UserCookieManager.WBStoreId, "Logged in") + UserCookieManager.WEBContactFirstName + UserCookieManager.WEBContactLastName;
             if (_webstoreclaimHelper.isUserLoggedIn())
             {
 

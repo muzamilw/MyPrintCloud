@@ -233,10 +233,12 @@
     <Compile Include="DomainModels\TemplateVariableExtension.cs" />
     <Compile Include="DomainModels\usp_ChartEstimateToOrderConversionCount_Result.cs" />
     <Compile Include="DomainModels\usp_ChartEstimateToOrderConversion_Result.cs" />
+    <Compile Include="DomainModels\usp_ChartMonthlyEarningsbyStore_Result.cs" />
     <Compile Include="DomainModels\usp_ChartMonthlyOrdersCount_Result.cs" />
     <Compile Include="DomainModels\usp_ChartRegisteredUserByStores_Result.cs" />
     <Compile Include="DomainModels\usp_ChartTop10PerfomingCustomers_Result.cs" />
     <Compile Include="DomainModels\usp_ChartTopPerformingStores_Result.cs" />
+    <Compile Include="DomainModels\usp_DashboardROICounter_Result.cs" />
     <Compile Include="DomainModels\usp_DeliveryReport_Result.cs" />
     <Compile Include="DomainModels\usp_EstimateReport_Result.cs" />
     <Compile Include="DomainModels\usp_InvoiceReport_Result.cs" />

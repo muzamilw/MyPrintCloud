@@ -33,8 +33,23 @@
                         dataType: 'json',
                         type: 'DELETE'
                     });
+
+                    // Define request to export Company Contact Csv
+                    amplify.request.define('exportCompanyContacts', 'ajax', {
+
+                        url: ist.siteUrl + '/Api/ExportCRMContacts',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     amplify.request.define('saveCompanyContact', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyContact',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+                    // Define request to Import Company Contact Csv
+                    amplify.request.define('importCompanyContact', 'ajax', {
+                        url: ist.siteUrl + '/Api/ExportCRMContacts',
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
@@ -82,6 +97,16 @@
                     data: params
                 });
             },
+          // export Company Contacts
+        exportCompanyContacts = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'exportCompanyContacts',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
             // get contact list of list view
             deleteContact = function(params, callbacks) {
                 initialize();
@@ -92,6 +117,18 @@
                     data: params
                 });
             },
+             // import Company Contacts
+            importCompanyContact = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'importCompanyContact',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
+
+
             // Save Company Contact
             saveCompanyContact = function(param, callbacks) {
                 initialize();
@@ -108,7 +145,9 @@
             deleteContact: deleteContact,
             getContactsDetail: getContactsDetail,
             saveCompanyContact: saveCompanyContact,
-            deleteCompanyContact: deleteCompanyContact
+            deleteCompanyContact: deleteCompanyContact,
+            exportCompanyContacts: exportCompanyContacts,
+            importCompanyContact: importCompanyContact,
         };
     })();
 

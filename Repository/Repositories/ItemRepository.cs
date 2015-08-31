@@ -2735,7 +2735,12 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public List<Item> GetItemsForWidgets()
         {
-            return DbSet.Where(i => i.IsPublished.HasValue && i.OrganisationId == OrganisationId).ToList();
+            return
+                DbSet.Where(
+                    i =>
+                        i.IsPublished == true && i.IsArchived == false && i.EstimateId == null && i.IsFeatured == true &&
+                        i.OrganisationId == OrganisationId).ToList().OrderBy(c => c.ProductName).ToList();
+
         }
 
         public List<Item> GetItemsByOrderID(long OrderID)
@@ -3264,7 +3269,7 @@ namespace MPC.Repository.Repositories
                         //ArtWorkAttatchment oPage1Attachment = oLstAttachments.Where(g => g.FileTitle == oPage.PageName).Single();
                         if (oPage1Attachment != null)
                         {
-                            string fileName = oPage1Attachment.FileName;
+                            string fileName = oPage1Attachment.FileName + oPage1Attachment.FileExtention;
                             string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
                             string sourcePath = DesignerPath + templateID.ToString() + "/pages.pdf";
                             if (fileName.Contains("overlay"))
@@ -4284,7 +4289,7 @@ namespace MPC.Repository.Repositories
                 db.Configuration.LazyLoadingEnabled = false;
                 return db.Items.Where(
                      i =>
-                         i.EstimateId == null && i.IsPublished == true && i.IsEnabled == true && i.CompanyId == CompanyId &&
+                         i.EstimateId == null && i.IsPublished == true && i.IsEnabled == true && (i.IsArchived == null || i.IsArchived == false) && i.CompanyId == CompanyId &&
                          i.OrganisationId == OrganisationId).ToList();
 
             }
@@ -4369,16 +4374,16 @@ namespace MPC.Repository.Repositories
         {
 
             db.Configuration.LazyLoadingEnabled = false;
-            var itemsList = GetAllRetailActiveProducts(CompanyID);
-            var query = from productsList in itemsList
-                        join tblCmsOffer in db.CmsOffers on productsList.ItemId
-                        equals tblCmsOffer.ItemId ?? 0 into ProdTblCmsOfferGroupJoin
-                        where productsList.IsPublished == true
+            //var itemsList = GetAllRetailActiveProducts(CompanyID);
+
+
+
+            var query = from productsList in db.GetCategoryProducts
+                        where productsList.IsPublished == true && productsList.IsEnabled == true
                         && (productsList.IsArchived == null || productsList.IsArchived == false)
-                        && Object.Equals(productsList.EstimateId, null)
-                        && productsList.IsEnabled == true
+                        && productsList.EstimateId == null && productsList.CompanyId == CompanyID
                         orderby productsList.SortOrder
-                        from JTble in ProdTblCmsOfferGroupJoin.DefaultIfEmpty()
+                        
                         select new ProductItem
                         {
                             //OfferID = JTble.OfferID,
@@ -4404,15 +4409,15 @@ namespace MPC.Repository.Repositories
                             //CompleteSpecification = productsList.CompleteSpecification,
                             //TipsAndHints = productsList.TipsAndHints,
                             //TopCategoryID = productsList.TopCategoryID,
-                            IsQtyRanged = productsList.IsQtyRanged,
+                            IsQtyRanged = productsList.isQtyRanged,
                         };
 
-            //var query = db.vw_GetAllRetailStoreActiveProducts.ToList();
-            //List<Model.ProductItem> mylist = new List<Model.ProductItem>();
-            //query.ToList().ForEach(a => mylist.Add(new Model.ProductItem { ItemID = a.ItemID, ProductName = a.ProductName, ProductCategoryName = a.ProductCategoryName, ProductCategoryID = a.ProductCategoryID, ParentCategoryID = a.ParentCategoryID ?? 0, MinPrice = a.MinPrice, IsQtyRanged = a.isQtyRanged,  IsFinishedGoods = a.IsFinishedGoods == 1 || a.IsFinishedGoods == 4 ? true : false }));
+            ////var query = db.vw_GetAllRetailStoreActiveProducts.ToList();
+            ////List<Model.ProductItem> mylist = new List<Model.ProductItem>();
+            ////query.ToList().ForEach(a => mylist.Add(new Model.ProductItem { ItemID = a.ItemID, ProductName = a.ProductName, ProductCategoryName = a.ProductCategoryName, ProductCategoryID = a.ProductCategoryID, ParentCategoryID = a.ParentCategoryID ?? 0, MinPrice = a.MinPrice, IsQtyRanged = a.isQtyRanged,  IsFinishedGoods = a.IsFinishedGoods == 1 || a.IsFinishedGoods == 4 ? true : false }));
 
             return query.ToList<ProductItem>();
-            // return mylist;
+            //// return mylist;
 
         }
 

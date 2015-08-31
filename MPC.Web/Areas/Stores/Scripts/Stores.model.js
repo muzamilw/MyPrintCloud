@@ -206,6 +206,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             canUserEditProfile = ko.observable(undefined),
             isWhiteLabel = ko.observable(undefined),
             showPrices = ko.observable(undefined),
+            canUserUpdateAddress = ko.observable(undefined),
             // isDeliveryTaxAble = ko.observable(specifiedIsDeliveryTaxAble),
             // is Delivery TaxAble
             isDeliveryTaxAble = ko.observable(undefined),
@@ -370,6 +371,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isDisplayBanners: isDisplayBanners,
             storeBackgroudImageImageSource: storeBackgroudImageImageSource,
             storeBackgroudImageFileName: storeBackgroudImageFileName,
+            storeBackgroudImagePath:storeBackgroudImagePath,
             isShowGoogleMap: isShowGoogleMap,
             customCSS: customCSS,
             companyDomains: companyDomains,
@@ -385,7 +387,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isAllowRegistrationFromWeb: isAllowRegistrationFromWeb,
             canUserEditProfile: canUserEditProfile,
             priceFlagId: priceFlagId,
-            isStoreSetLive: isStoreSetLive
+            isStoreSetLive: isStoreSetLive,
+            canUserUpdateAddress: canUserUpdateAddress
             //#endregion
         }),
         // Has Changes
@@ -457,6 +460,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             result.isWhiteLabel = source.isWhiteLabel();
             result.ShowPrices = source.showPrices();
             result.isStoreLive = source.isStoreSetLive();
+            result.CanUserUpdateAddress = source.canUserUpdateAddress();
             result.RaveReviews = [];
             result.PaymentGateways = [];
             result.CompanyContacts = [];
@@ -638,7 +642,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isWhiteLabel: isWhiteLabel,
             showPrices: showPrices,
             priceFlagId: priceFlagId,
-            isStoreSetLive:isStoreSetLive
+            isStoreSetLive: isStoreSetLive,
+            canUserUpdateAddress: canUserUpdateAddress
             //#endregion
         };
         return self;
@@ -766,8 +771,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.ImageSource,
             source.StoreBackgroudImageSource,
             source.isShowGoogleMap,
-            source.DefaultSpriteImageSource,
-            source.UserDefinedSpriteImageSource,
+            //source.DefaultSpriteImageSource,
+            source.DefaultSpriteSource,
+           // source.UserDefinedSpriteImageSource,
+            source.UserDefinedSpriteSource,
             source.UserDefinedSpriteFileName,
             source.CustomCSS,
             source.StoreBackgroundImage,
@@ -792,6 +799,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         store.showPrices(source.ShowPrices);
         store.priceFlagId(source.PriceFlagId);
         store.isStoreSetLive(source.isStoreLive);
+        store.canUserUpdateAddress(source.CanUserUpdateAddress);
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}
@@ -4811,7 +4819,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     };
     // #endregion ______________ Smart Form   _________________
     // #region ______________  Discount Voucher _________________
-    var discountVoucherListView = function (specifiedSmartFormId, specifiedName, specifiedCode, specifiedDtype, dRate, dusetype,specifiedhasCoupon,specifiedDiscountTypeId) {
+    var discountVoucherListView = function (specifiedSmartFormId, specifiedName, specifiedCode, specifiedDtype, dRate, dusetype,specifiedhasCoupon,specifiedDiscountTypeId,specifiedisEnabled) {
         var self,
             id = ko.observable(specifiedSmartFormId),
             name = ko.observable(specifiedName),
@@ -4821,6 +4829,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             couponUseType = ko.observable(dusetype),
             hasCoupon = ko.observable(specifiedhasCoupon || false),
             discountTypeId = ko.observable(specifiedDiscountTypeId || 0),
+            isEnabled = ko.observable(specifiedisEnabled || 0),
             // Errors
             errors = ko.validation.group({
                 name: name,
@@ -4851,6 +4860,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             couponUseType: couponUseType,
             hasCoupon: hasCoupon,
             discountTypeId: discountTypeId,
+            isEnabled: isEnabled,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -4865,7 +4875,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.CouponCode,
             source.DiscountType,
             source.DiscountRate,
-            source.CouponUseType,source.HasCoupon,source.DiscountTypeId);
+            source.CouponUseType,source.HasCoupon,source.DiscountTypeId,source.IsEnabled);
     };
 
     DiscountVoucher = function (spcDiscountVoucherId, spcVoucherName, spcCouponCode, spcDiscountType, spcDiscountRate, spcCouponUseType, spcHasCoupon,

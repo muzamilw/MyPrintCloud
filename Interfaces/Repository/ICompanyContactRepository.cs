@@ -8,11 +8,18 @@ using MPC.Models.DomainModels;
 using MPC.Models.Common;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using System.Security.Cryptography;
 
 namespace MPC.Interfaces.Repository
 {
     public interface ICompanyContactRepository : IBaseRepository<CompanyContact, long>
     {
+        
+        void AddDataSystemUser(CompanyContact Contact);
+        void UpdateDataSystemUser(CompanyContact Contact);
+        
+        List<CompanyContact> GetContactsByTerritory(long contactCompanyId, long territoryID);
+        List<CompanyContact> GetSearched_Contacts(long contactCompanyId, String searchtxt, long territoryID);
         bool ValidatEmail(string email);
         CompanyContact createContact(int CCompanyId, string E, string F, string L, string AccountNumber = "", int questionID = 0, string Answer = "", string Password = "");
         //CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode);
@@ -138,5 +145,7 @@ namespace MPC.Interfaces.Repository
         /// Load Property
         /// </summary>
         void LoadProperty<T>(object entity, Expression<Func<T>> propertyExpression, bool isCollection = false);
+
+        CompanyContactResponse GetRetailContacts();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MPC.Interfaces.WebStoreServices;
+using MPC.Models.ResponseModels;
 using MPC.Webstore.Common;
 using MPC.Webstore.ModelMappers;
 using MPC.Webstore.Models;
@@ -41,12 +42,13 @@ namespace MPC.Webstore.Controllers
         {
             AddressViewModel oAddress = null;
 
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
 
             if (StoreBaseResopnse.Company.isDisplaySecondaryPages == true)
@@ -69,15 +71,15 @@ namespace MPC.Webstore.Controllers
 
                     if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Tel1))
                     {
-                        oAddress.Tel = "Tel: " + StoreBaseResopnse.StoreDetaultAddress.Tel1;
+                        oAddress.Tel = Utils.GetKeyValueFromResourceFile("lblTelTxt", UserCookieManager.WBStoreId, "Tel:") + StoreBaseResopnse.StoreDetaultAddress.Tel1;
                     }
                     if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Fax))
                     {
-                        oAddress.Fax = "Fax: " + StoreBaseResopnse.StoreDetaultAddress.Fax;
+                        oAddress.Fax = Utils.GetKeyValueFromResourceFile("ltrlfaxx", UserCookieManager.WBStoreId, "Fax:") + StoreBaseResopnse.StoreDetaultAddress.Fax;
                     }
                     if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Email))
                     {
-                        oAddress.Email = "Email: " + StoreBaseResopnse.StoreDetaultAddress.Email;
+                        oAddress.Email = Utils.GetKeyValueFromResourceFile("ltrlllEmail", UserCookieManager.WBStoreId, "Email:") + StoreBaseResopnse.StoreDetaultAddress.Email;
                     }
                 }
             }

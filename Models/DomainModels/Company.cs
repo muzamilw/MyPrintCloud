@@ -104,11 +104,21 @@ namespace MPC.Models.DomainModels
         public double? TaxRate { get; set; }
         public bool? IsDisplayDiscountVoucherCode { get; set; }
         public bool? IsDisplayCorporateBinding { get; set; }
+
+        public bool? CanUserUpdateAddress { get; set; }
         public long? CurrentThemeId { get; set; }
         /// <summary>
         /// Is Store Live
         /// </summary>
         public bool? isStoreLive { get; set; }
+        [NotMapped]
+        public bool IsClickReached { get; set; }
+        public bool? IsRegisterAccessWebStore { get; set; }
+        public bool? IsRegisterPlaceOrder { get; set; }
+        public bool? IsRegisterPayOnlyByCreditCard { get; set; }
+        public bool? IsRegisterPlaceDirectOrder { get; set; }
+        public bool? IsRegisterPlaceOrderWithoutApproval { get; set; }
+
         /// <summary>
         /// Map Image Url
         /// </summary>

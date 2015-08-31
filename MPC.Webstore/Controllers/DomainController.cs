@@ -85,7 +85,7 @@ namespace MPC.Webstore.Controllers
             long storeId = _myCompanyService.GetStoreIdFromDomain(url);
             if (storeId == 0)
             {
-                TempData["ErrorMessage"] = "The Domain in requested url does not point to any of the available stores.";
+                TempData["ErrorMessage"] = Utils.GetKeyValueFromResourceFile("ltrldomainerrmess", UserCookieManager.WBStoreId, "The Domain in requested url does not point to any of the available stores.");
                 return RedirectToAction("Error", "Home");
             }
             else
@@ -95,10 +95,10 @@ namespace MPC.Webstore.Controllers
                     UserCookieManager.WBStoreId = storeId;
                 }
 
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = null;
-                if ((cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>) != null && (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>).ContainsKey(storeId))
+                MyCompanyDomainBaseReponse StoreBaseResopnse = null;
+                if ((cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>) != null && (cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>).ContainsKey(storeId))
                 {
-                    StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[storeId];
+                    StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>)[storeId];
                 }
                 else
                 {
@@ -140,7 +140,8 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "The Domain in requested url does not point to any of the available stores.";
+                    TempData["ErrorMessage"] = Utils.GetKeyValueFromResourceFile("ltrldomainerrmess", UserCookieManager.WBStoreId, "The Domain in requested url does not point to any of the available stores.");
+
                     return RedirectToAction("Error", "Home");
                 }
             }

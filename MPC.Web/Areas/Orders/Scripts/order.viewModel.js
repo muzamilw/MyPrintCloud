@@ -2462,9 +2462,9 @@ define("order/order.viewModel",
                     checkStoreLive = function () {
                         var sMessage = "";
                         if (!isStoreLive())
-                            sMessage = "Store is not live.";
+                            sMessage = "Upgrade now to download order details.";
                         else if (selectedOrder().isExtraOrder() == true)
-                            sMessage = "Your have reached the current plans limits Upgrade for more !!";
+                            sMessage = "Upgrade now to download order details.";
                         if (!isStoreLive() || selectedOrder().isExtraOrder() == true) {
                             confirmation.messageText("Important !! " + sMessage);
                             confirmation.afterProceed(function () {
@@ -2634,6 +2634,9 @@ define("order/order.viewModel",
                     },
                     onCreateNewInquiryDetailItem = function () {
                         selectedInquiryItem(model.InquiryItem.Create({}));
+                        if (selectedInquiry().inquiryId() > 0) {
+                            selectedInquiryItem().inquiryId(selectedInquiry().inquiryId());
+                        }
                         selectedInquiryItem().inquiryItemId(inquiryDetailItemCounter);
                         inquiryDetailItemCounter--;
                         view.showInquiryDetailItemDialog();
@@ -2700,7 +2703,23 @@ define("order/order.viewModel",
                             success: function (data) {
                                 data.CompanyName = selectedInquiry().companyName();
                                 selectedInquiry(model.Inquiry.Create(data), { SystemUsers: systemUsers(), PipelineSources: pipelineSources() });
-                                inquiries.splice(0, 0, selectedInquiry());
+                                var newInquiry = _.filter(inquiries(), function (inqId) {
+                                    return newInquiry !== null && inqId.inquiryId() === selectedInquiry().inquiryId();
+                                });
+                                if (newInquiry.length === 0) {
+                                    inquiries().splice(0, 0, selectedInquiry());
+                                }
+                                _.each(inquiries(), function (inq) {
+                                    
+                                    if (inq && inq.inquiryId() == selectedInquiry().inquiryId()) {
+                                        inq.companyName(selectedInquiry().companyName());
+                                        inq.requireByDate(selectedInquiry().requireByDate());
+                                        inq.flagColor(selectedInquiry().flagColor());
+                                        inq.status(selectedInquiry().status());
+                                        inq.title(selectedInquiry().title());
+                                    }
+                                });
+                                //inquiries.splice(0, 0, selectedInquiry());
                                 toastr.success("Saved Successfully !");
                                 closeOrderEditor();
                             },
@@ -2828,12 +2847,14 @@ define("order/order.viewModel",
                         });
                     },
                     viewEstimateFromInquiry = function () {
-                        currentScreen(1);
-                        isDisplayInquiryDetailScreen(false);
                         var id = selectedInquiry().estimateId();
-                        getOrderById(id, openOrderEditor);
-                        $('#estimateListTabs a[href="#tab-All"]').tab('show');
-                        getOrdersOnTabChange(1);
+                        if (id > 0) {
+                            currentScreen(1);
+                            isDisplayInquiryDetailScreen(false);
+                            getOrderById(id, openOrderEditor);
+                            $('#estimateListTabs a[href="#tab-All"]').tab('show');
+                            getOrdersOnTabChange(1);
+                        }
                     },
                     showEstimateNotes = function () {
                         toastr.success('wow');

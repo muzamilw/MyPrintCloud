@@ -10,6 +10,7 @@ using MPC.Webstore.Common;
 using MPC.Webstore.Models;
 using MPC.Models.Common;
 using System.Runtime.Caching;
+using MPC.Models.ResponseModels;
 namespace MPC.Webstore.Controllers
 {
     public class LoginController : Controller
@@ -55,11 +56,12 @@ namespace MPC.Webstore.Controllers
         // GET: Login
         public ActionResult Index(string FirstName, string LastName, string Email, string ReturnURL)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate && StoreBaseResopnse.Company.isAllowRegistrationFromWeb == true) || (StoreBaseResopnse.Company.IsCustomer == 1))
             {
@@ -133,9 +135,11 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index(AccountViewModel model)
         {
 
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
             if (ModelState.IsValid)
             {
                 CompanyContact user = null;
@@ -218,8 +222,11 @@ namespace MPC.Webstore.Controllers
                             }
                             else 
                             {
-                                Response.Redirect("/ShopCart?OrderId=" + Orderid);
+                                RedirectToLocal("/ShopCart?OrderId=" + Orderid);
+                                //RedirectToAction("ShopCart", new { OrderId = Orderid });
+                               // Response.Redirect("/ShopCart?OrderId=" + Orderid);
                             }
+                            return null;
                         }
                     }
 
@@ -230,7 +237,8 @@ namespace MPC.Webstore.Controllers
                     }
                     else
                     {
-                        Response.Redirect("/");
+                        RedirectToLocal("/");
+                        //Response.Redirect("/");
                     
                     }
                     return null;

@@ -54,13 +54,13 @@
         <div class="row" id="prefixesdata" style="float:right;margin-top:-10px;margin-right:5px;">
            
             <div class="input-group">
-                <button data-bind="click:$root.onCloseEditor" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;">&nbsp;Cancel</button>
+                <button data-bind="click:$root.onCloseEditor" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;">Cancel</button>
                 <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedDeliveryNote().isStatus()!==20,click:$root.onSaveDeliveryNotes, enable: ($root.selectedDeliveryNote().hasChanges() && $root.selectedDeliveryNote().isStatus()!==20), css: { 'btn-warning': $root.selectedDeliveryNote().hasChanges() }">
-                    &nbsp;Save
+                    Save
                 </button>
-                <button class="btn  btn-danger" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedDeliveryNote().isStatus()!==20,enable:($root.selectedDeliveryNote().deliveryNoteId()!==undefined && $root.selectedDeliveryNote().isStatus()!==20),click:$root.onDeleteDeliveryNote">&nbsp;Delete</button>
+                <button class="btn  btn-danger" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedDeliveryNote().isStatus()!==20,enable:($root.selectedDeliveryNote().deliveryNoteId()!==undefined && $root.selectedDeliveryNote().isStatus()!==20),click:$root.onDeleteDeliveryNote">Delete</button>
                 @*<button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn" data-bind="enable:$root.selectedDeliveryNote().deliveryNoteId()!==undefined"><i class="fa fa-print fa-sm"></i>&nbsp;Print</button>*@
-                <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedDeliveryNote().isStatus()!==20,enable:($root.selectedDeliveryNote().deliveryNoteId()!==undefined && $root.selectedDeliveryNote().isStatus()!==20),click:$root.onPostDeliveryNote">&nbsp;Post</button>
+                <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedDeliveryNote().isStatus()!==20,enable:($root.selectedDeliveryNote().deliveryNoteId()!==undefined && $root.selectedDeliveryNote().isStatus()!==20),click:$root.onPostDeliveryNote">Post</button>
                 @*<button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:5px">
                     Print
                 </button>*@
@@ -71,7 +71,7 @@
         <div class="col-sm-12" style="margin-top:20px;">
             <div class="main-box clearfix">
                 <div class="col-sm-12 form-horizontal" style="margin-top:20px;">
-                    <h3 class="group-header">General Information</h3>
+                    <h3 class="group-header" style="margin-left:10px;margin-right:10px;">General Information</h3>
                     <div class="col-sm-6">
                         <div class="form-group">
                             <div class="col-sm-4 text-right">

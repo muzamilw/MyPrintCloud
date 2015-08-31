@@ -151,6 +151,20 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
 
         }
+
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage AutoResolveTemplateVariables(long parameter1, long parameter2)
+        {
+            var listVar = smartFormService.AutoResolveTemplateVariables(parameter1, parameter2);
+
+
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, listVar, formatter);
+        }
         #endregion
     }
 
@@ -199,7 +213,16 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                 this.AllUserScopeVariables = AllUserScopeVariables;
             }
          
-
+            foreach(var item in this.scopeVariables)
+            {
+                if (item.FieldVariable != null)
+                    item.FieldVariable.Company = null;
+            }
+            foreach(var item in this.smartFormObjs)
+            {
+                if (item.FieldVariable != null)
+                    item.FieldVariable.Company = null;
+            }
           
 
             
@@ -214,6 +237,11 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         {
             this.scopeVariables = scopeVariables;
             this.variableExtensions = variableExtensions;
+            foreach (var item in this.scopeVariables)
+            {
+                if (item.FieldVariable != null)
+                    item.FieldVariable.Company = null;
+            }
         }
     }
 }
