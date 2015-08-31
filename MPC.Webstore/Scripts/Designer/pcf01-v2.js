@@ -4182,7 +4182,7 @@ function togglePage(pId) {
     }
     function l4(caller) {
         if (llData.length > 0 || IsCalledFrom == 1) {
-            $(".layoutsPanel").css("display", 'list-item');
+          //  $(".layoutsPanel").css("display", 'list-item');
             var html = "";
             var ClName = "";
             var PortCount = 0;
