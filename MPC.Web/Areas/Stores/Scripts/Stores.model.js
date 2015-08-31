@@ -371,6 +371,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isDisplayBanners: isDisplayBanners,
             storeBackgroudImageImageSource: storeBackgroudImageImageSource,
             storeBackgroudImageFileName: storeBackgroudImageFileName,
+            storeBackgroudImagePath:storeBackgroudImagePath,
             isShowGoogleMap: isShowGoogleMap,
             customCSS: customCSS,
             companyDomains: companyDomains,
