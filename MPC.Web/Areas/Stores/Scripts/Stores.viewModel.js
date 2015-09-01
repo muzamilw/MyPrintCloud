@@ -7570,7 +7570,6 @@ define("stores/stores.viewModel",
                     validateStoreLiveHandler: validateStoreLiveHandler,
                     ExportCSVForCompanyContacts: ExportCSVForCompanyContacts,
                     validateCanStoreSave: validateCanStoreSave,
-                    htmlData: htmlData,
                     onDeleteStoreBackground: onDeleteStoreBackground,
                     onCopyStore: onCopyStore
                 };
