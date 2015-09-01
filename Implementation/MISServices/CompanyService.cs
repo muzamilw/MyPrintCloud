@@ -6825,7 +6825,7 @@ namespace MPC.Implementation.MISServices
                 CloneAddresses(source, target);
 
                 // Clone company contacts
-              // CloneCompanyContacts(source, target);
+               CloneCompanyContacts(source, target);
 
                 //// Clone Item Image Items
                 //CloneItemImageItems(source, target);
@@ -7121,6 +7121,7 @@ namespace MPC.Implementation.MISServices
                 targetCompanyContact.CompanyId = target.CompanyId;
                 targetCompanyContact.TerritoryId = NewTerrObj != null ? NewTerrObj.TerritoryId : 0;
                 targetCompanyContact.Address = null;
+                targetCompanyContact.ShippingAddress = null;
                 //if(NewAddressObj != null)
                 //{
                 //    targetCompanyContact.AddressId = NewAddressObj.AddressId;

@@ -7571,7 +7571,7 @@ define("stores/stores.viewModel",
                     ExportCSVForCompanyContacts: ExportCSVForCompanyContacts,
                     validateCanStoreSave: validateCanStoreSave,
                     htmlData: htmlData,
-                    onDeleteStoreBackground: onDeleteStoreBackground
+                    onDeleteStoreBackground: onDeleteStoreBackground,
                     onCopyStore: onCopyStore
                 };
                 //#endregion
