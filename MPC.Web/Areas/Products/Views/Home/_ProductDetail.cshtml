@@ -1025,7 +1025,7 @@
                                         <div class="col-lg-8 text-left">
                                             <div data-bind="visible: isFinishedGoodsUi() === '3'">
                                                 <div class="col-lg-7">
-                                                    <label class="control-label tooltip-float" for="switchStockLevelProduct">Display available stock level on store pricing & selection page</label>
+                                                    <label class="control-label tooltip-float" for="switchStockLevelProduct">Enable Stock control, display available stock information and draw down when order is placed</label>
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <div class="onoffswitch">
@@ -2927,32 +2927,38 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-lg-4 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
+               
+                
+                <!-- ko if: $root.selectedProduct().isFinishedGoodsUi() != '1' -->
+                    <div class="form-group">
+                        
+                        <div class="col-lg-4 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+
+                            </div>
+                            <label for="weight" class="control-label text-right tooltip-float">In Stock</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <label id="inStocks" class="control-label" data-bind="text:inStock"></label>
 
                         </div>
-                        <label for="weight" class="control-label text-right tooltip-float">In Stock</label>
-                    </div>
-                    <div class="col-lg-6">
-                        <label id="inStocks" class="control-label" data-bind="text:inStock"></label>
+                        
+                        </div>
+              
+                    <div class="form-group">
+                        <div class="col-lg-4 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
 
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-4 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
+                            </div>
+                            <label for="weight" class="control-label text-right tooltip-float">Allocated Stock</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <label id="inStock" class="control-label" data-bind="text:allocated"></label>
 
                         </div>
-                        <label for="weight" class="control-label text-right tooltip-float">Allocated Stock</label>
                     </div>
-                    <div class="col-lg-6">
-                        <label id="inStock" class="control-label" data-bind="text:allocated"></label>
-
-                    </div>
-                </div>
-
-
+                <!-- /ko -->
+                
             </div>
             <div class="col-lg-5">
 

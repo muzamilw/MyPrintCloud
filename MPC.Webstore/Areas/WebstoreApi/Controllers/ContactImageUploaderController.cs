@@ -180,7 +180,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         }
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public void UpdateDataForSystemUser(long CreditLimit, int ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool isWebAccess, bool isPlaceOrder, bool IsPayByPersonalCreditCard, bool IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int QuestionId, string SecretAnswer, long TerritoryId, long AddressId, long ShippingAddressId, string Password, long ContactId)
+        public void UpdateDataForSystemUser(long? CreditLimit, int ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool ?isWebAccess, bool ?isPlaceOrder, bool ?IsPayByPersonalCreditCard, bool ?IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int QuestionId, string SecretAnswer, long TerritoryId, long AddressId, long ShippingAddressId, string Password, long ContactId)
         {
             try
             {
@@ -219,83 +219,84 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         }
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage AddDataForSystemUser(long CreditLimit, int ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool isWebAccess, bool isPlaceOrder, bool IsPayByPersonalCreditCard, bool IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int QuestionId, string SecretAnswer, long TerritoryId, long AddressId, long ShippingAddressId, string Password, long ContactId)
+        public HttpResponseMessage AddDataForSystemUser(long? CreditLimit, int? ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool? isWebAccess, bool? isPlaceOrder, bool? IsPayByPersonalCreditCard, bool? IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int? QuestionId, string SecretAnswer, long? TerritoryId, long AddressId, long? ShippingAddressId, string Password, long ContactId)
         {
-            string Message=string.Empty;
+            
+            string Message = string.Empty;
             CompanyContact ExistingContact = _companyService.GetContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
             var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
-            if (ExistingContact != null)
+            if (ExistingContact!= null)
             {
                 var formatter = new JsonMediaTypeFormatter();
                 var json = formatter.SerializerSettings;
                 json.Formatting = Newtonsoft.Json.Formatting.Indented;
                 json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                Message="Sorry, There is Already Exits User with this Email";
+                Message = Utils.GetKeyValueFromResourceFile("ltrlExistsContact", UserCookieManager.WBStoreId, "Sorry, There is already Exits a contact with this Email");
+
                 return Request.CreateResponse(HttpStatusCode.OK, Message, formatter);
             }
             else
             {
-              Message="Ok";
-            }
-            CompanyContact NewContact = new CompanyContact();
-            NewContact.CompanyId = UserCookieManager.WBStoreId;
-            NewContact.isWebAccess = true;
-            NewContact.image = UpdateImage(httpPostedFile);
-            NewContact.CreditLimit = CreditLimit;
-            NewContact.ContactRoleId = ContactRoleId;
-            NewContact.Email = Email;
-            NewContact.FAX = Fax;
-            NewContact.FirstName = FirstName;
-            NewContact.HomeTel1 = HomeTel1;
-            NewContact.isWebAccess = isWebAccess;
-            NewContact.isArchived = false;
-            NewContact.isPlaceOrder = isPlaceOrder;
-            NewContact.IsPayByPersonalCreditCard = IsPayByPersonalCreditCard;
-            NewContact.IsPricingshown = IsPricingshown;
-            NewContact.JobTitle = JobTitle;
-            NewContact.LastName = LastName;
-            NewContact.Mobile = Mobile;
-            NewContact.Notes = Notes;
-            NewContact.QuestionId = QuestionId;
-            NewContact.SecretAnswer = SecretAnswer;
-            NewContact.TerritoryId = TerritoryId;
-            NewContact.AddressId = AddressId;
-            NewContact.ShippingAddressId = ShippingAddressId;
-            NewContact.Password = Password;
-            _companyService.AddDataSystemUser(NewContact);
-            if (isWebAccess == true)
-            {
-                MyCompanyDomainBaseReponse StoreBaseResopnse = _companyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
-                CampaignEmailParams cep = new CampaignEmailParams();
-                SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
-
-
-                cep.ContactId = NewContact.ContactId;
-                cep.CompanyId = UserCookieManager.WBStoreId;
-                cep.SalesManagerContactID = NewContact.ContactId;
-
-                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                Message = "Ok";
+                CompanyContact NewContact = new CompanyContact();
+                NewContact.CompanyId = UserCookieManager.WBStoreId;
+                NewContact.isWebAccess = true;
+                NewContact.image = UpdateImage(httpPostedFile);
+                NewContact.CreditLimit = CreditLimit;
+                NewContact.ContactRoleId = ContactRoleId;
+                NewContact.Email = Email;
+                NewContact.FAX = Fax;
+                NewContact.FirstName = FirstName;
+                NewContact.HomeTel1 = HomeTel1;
+                NewContact.isWebAccess = isWebAccess;
+                NewContact.isArchived = false;
+                NewContact.isPlaceOrder = isPlaceOrder;
+                NewContact.IsPayByPersonalCreditCard = IsPayByPersonalCreditCard;
+                NewContact.IsPricingshown = IsPricingshown;
+                NewContact.JobTitle = JobTitle;
+                NewContact.LastName = LastName;
+                NewContact.Mobile = Mobile;
+                NewContact.Notes = Notes;
+                NewContact.QuestionId = QuestionId;
+                NewContact.SecretAnswer = SecretAnswer;
+                NewContact.TerritoryId = TerritoryId;
+                NewContact.AddressId = AddressId;
+                NewContact.ShippingAddressId = ShippingAddressId;
+                NewContact.Password = Password;
+                _companyService.AddDataSystemUser(NewContact);
+                if (isWebAccess == true)
                 {
-                    cep.AddressId = UserCookieManager.WBStoreId;
-                    cep.StoreId = UserCookieManager.WBStoreId;
-                }
-                else
-                {
-                    cep.AddressId = UserCookieManager.WBStoreId;
-                    cep.StoreId = UserCookieManager.WBStoreId;
-                }
+                    MyCompanyDomainBaseReponse StoreBaseResopnse = _companyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+                    CampaignEmailParams cep = new CampaignEmailParams();
+                    SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
 
 
-                Campaign SuccessCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.CorpUserSuccessfulRegistration, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
-                _campaignService.emailBodyGenerator(SuccessCampaign, cep, NewContact, StoreMode.Corp, (int)UserCookieManager.WEBOrganisationID, "", "", "", EmailOFSM.Email, "", "", null, "");
-                
-            }
-               var formatterr = new JsonMediaTypeFormatter();
-               var jsons = formatterr.SerializerSettings;
+                    cep.ContactId = NewContact.ContactId;
+                    cep.CompanyId = UserCookieManager.WBStoreId;
+                    cep.SalesManagerContactID = NewContact.ContactId;
+
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                    {
+                        cep.AddressId = UserCookieManager.WBStoreId;
+                        cep.StoreId = UserCookieManager.WBStoreId;
+                    }
+                    else
+                    {
+                        cep.AddressId = UserCookieManager.WBStoreId;
+                        cep.StoreId = UserCookieManager.WBStoreId;
+                    }
+
+
+                    Campaign SuccessCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.CorpUserSuccessfulRegistration, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+                    _campaignService.emailBodyGenerator(SuccessCampaign, cep, NewContact, StoreMode.Corp, (int)UserCookieManager.WEBOrganisationID, "", "", "", EmailOFSM.Email, "", "", null, "");
+
+                }
+                var formatterr = new JsonMediaTypeFormatter();
+                var jsons = formatterr.SerializerSettings;
                 jsons.Formatting = Newtonsoft.Json.Formatting.Indented;
                 jsons.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 return Request.CreateResponse(HttpStatusCode.OK, Message, formatterr);
+            }
         }
-                
     }
 }

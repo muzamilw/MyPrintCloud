@@ -460,7 +460,7 @@ define("dashboard.viewModel",
                     success: function (data) {
                         if (data != null) {
                             logoUrl(data.MisLogoUrl);
-                            
+                            //view.bindLogoUrl(logoUrl());
                             currencySymbol(data.CurrencySymbol);
                             roiRegisteredUsersCount(data.RegisteredUsersCount);
                             roiOrdersProcessedCount(data.OrdersProcessedCount);

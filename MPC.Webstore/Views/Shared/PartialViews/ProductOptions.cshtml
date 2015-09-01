@@ -433,7 +433,11 @@
                             }
 
                             <div class="divtxtalgn_CS Width40Px float_right">
-                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblPriceHeaderTxt",UserCookieManager.WBStoreId, "Price"))
+@if (ViewBag.IsShowPrices == true)
+{
+    @Html.Raw(Html.GetKeyValueFromResourceFile("lblPriceHeaderTxt", UserCookieManager.WBStoreId, "Price"))
+}
+                               
                             </div>
                             <div class="clearBoth">
                                 &nbsp;

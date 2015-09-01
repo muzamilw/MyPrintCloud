@@ -116,23 +116,25 @@
     alternatingRowStyle: "gridViewRowStyleForWebGrid",
     columns: new[] {
 
-    grid.Column("OrderCode","Order Code"),
-    grid.Column("YourRef","Your PO reference",style:"hidden-xs"),
-    grid.Column("SOrderDate","Order Date",style:"hidden-xs "),
-    grid.Column("SOrderDeliveryDate","Estimated Delivery",style:"hidden-xs "),
-    grid.Column("StatusName","Status",style:"hidden-xs "),
+    grid.Column("OrderCode",@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOrderCode", UserCookieManager.WBStoreId, "Order Code")).ToString()),
+    grid.Column("YourRef",@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlYourPoReference", UserCookieManager.WBStoreId, "Your PO reference")).ToString(),style:"hidden-xs"),
+    grid.Column("SOrderDate",@Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderDateHeadingTxt", UserCookieManager.WBStoreId, "Order Date")).ToString(),style:"hidden-xs "),
+
+    grid.Column("SOrderDeliveryDate",@Html.Raw(Html.GetKeyValueFromResourceFile("lblDelivDateHeadingTxt", UserCookieManager.WBStoreId, "Estimated Delivery")).ToString(),style:"hidden-xs "),
+
+    grid.Column("StatusName",@Html.Raw(Html.GetKeyValueFromResourceFile("gvlblstatusname", UserCookieManager.WBStoreId, "Status")).ToString(),style:"hidden-xs "),
       grid.Column("Download",header:Result, format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
       {
-        <button  value="Download" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
+        <button value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnDownloadOrderInExcell", UserCookieManager.WBStoreId, "Download"))" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
           background-color: transparent;" class="rounded_corners" onclick="DownLoadArtworkFile(@item.OrderID)" />
       }</text>),
-     grid.Column("View", format:@<text><button id="view" value="View" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" />
+     grid.Column("View", format:@<text><button id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ViewBtn", UserCookieManager.WBStoreId, "View"))" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" />
     </text>),
 
                         @*grid.Column("Download",format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp){*@
 
 
-    grid.Column("Reorder", format:@<text><button id="view" value="Reorder" style="height: 23px; width: 24px; border:none; background: url('Content/Images/re-order.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
+    grid.Column("Reorder", format:@<text><button id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ReOrderBtn", UserCookieManager.WBStoreId, "ReOrder"))" style="height: 23px; width: 24px; border:none; background: url('Content/Images/re-order.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
     </text>),
 
           }
@@ -636,31 +638,22 @@
 
                     $("#DeliveryAddressContactNo").text(response.shippingAddress.ContactMobile)
                     var GridItems = response.order.OrderDetails.CartItemsList;
-                    var InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
+                    var InnerHtml = "";// "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
                     $.each(GridItems, function (i, IT) {
                         {
                             var filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + IT.Attatchment._fileName + "Thumb.png";
                             //InnerHtml += '<tr>';
                             if("@ViewBag.IsShowPrices" == "True")
                             {
-                               
+                                InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
                                 InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + parseFloat(IT.Qty1BaseCharge1).toFixed(2), '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + parseFloat(IT.Qty1Tax1Value).toFixed(2), '</label></td><td><label id="Total">', response.CurrencySymbol + "" + parseFloat(IT.Qty1GrossTotal).toFixed(2), '</label></td></tr>')
                             }
                             else
                             {
-                               
+                                InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th></th><th></th><th></th></tr></thead>";
                                 InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + filePathOfAttachment + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">',  "" , '</label></td> <td><label id="VAT">',  "" , '</label></td><td><label id="Total">',  "" , '</label></td></tr>')
                             }
                             
-                            //'<td><img src=' + IT.ImagePath + ' /></td>' +
-                            //'<td><label id="Productname">' + IT.ProductName + '</label></td>' +
-                            //'<td><label id="Qty">' + IT.Qty1 + '</label></td>' +
-                            //  alert(IT.Qty1);
-                            // '<td><label id="Price">'+ IT.Qty1BaseCharge1+'</label></td>' +
-                            //  alert(IT.Qty1BaseCharge1);
-                            // '<td><label id="VAT">' + IT.Qty1Tax1Value + '</label></td>' +
-                            // '<td><label id="Total">' + IT.Qty1GrossTotal + '</label></td>'
-                            //+'</tr>'
                         }
                     });
                     InnerHtml += '</table>';

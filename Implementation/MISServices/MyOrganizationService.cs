@@ -410,7 +410,7 @@ namespace MPC.Implementation.MISServices
             #endregion
 
             organisation.MISLogo = SaveMiSLogo(organisation);
-            //organisationRepository.Update(organisation);
+            organisationRepository.Update(organisation);
             organisationRepository.SaveChanges();
             UpdateLanguageResource(organisation);
             return new MyOrganizationSaveResponse
