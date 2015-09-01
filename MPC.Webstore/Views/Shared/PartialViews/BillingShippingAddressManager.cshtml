@@ -79,8 +79,9 @@
 
                 </div>
                 <div class="territory_row_paddingNew">
-                    <div id="divContainer" class="cursor_pointer">
-                        @grid.Table(
+                   
+                        <div id="divContainer" class="cursor_pointer">
+                            @grid.Table(
     htmlAttributes: new { id = "BillingShippingGrid" },
     tableStyle: "WebGridTableStyle",
     fillEmptyRows: false,
@@ -93,51 +94,52 @@
     grid.Column("Address Details",format:@<p>@item.Address1</p>),
 grid.Column("Default Shipping",format:@<p>
 
-                            @if (item.IsDefaultShippingAddress == true)
-                            {
-                            <p class="default-address-tickCs"><i class="fa fa-check"></i></p>
-                            }
-                            else
-                            {
-                                if (item.IsDefaultShippingAddress == null || item.IsDefaultShippingAddress == false)
+                                @if (item.IsDefaultShippingAddress == true)
                                 {
-                                    <p></p>
+                                <p class="default-address-tickCs"><i class="fa fa-check"></i></p>
                                 }
-                            }
+                                else
+                                {
+                                    if (item.IsDefaultShippingAddress == null || item.IsDefaultShippingAddress == false)
+                                    {
+                                        <p></p>
+                                    }
+                                }
 
-                            </p>),
+                                </p>),
 
        grid.Column("Default Billing",format:@<p>
 
-                            @if (item.IsDefaultAddress == true)
-                            {
-                            <p class="default-address-tickCs"><i class="fa fa-check"></i></p>
-
-                            }
-                            else
-                            {
-                                if (item.IsDefaultAddress == null || item.IsDefaultAddress == false)
+                                @if (item.IsDefaultAddress == true)
                                 {
-                                    <p></p>
+                                <p class="default-address-tickCs"><i class="fa fa-check"></i></p>
+
+                                }
+                                else
+                                {
+                                    if (item.IsDefaultAddress == null || item.IsDefaultAddress == false)
+                                    {
+                                        <p></p>
+                                    }
+
                                 }
 
-                            }
-
-                            </p>),
+                                </p> ),
 
     grid.Column("Edit", format:@<text> <i class="fa fa-pencil edit-address" onclick="ShowBillingShippingDetails(@item.addressid)"></i>
     </text>,style:"WebGridPadding")
     }
 
-         )
+              )
 
-                        @if (Convert.ToInt32(ViewBag.TotalAddresses) > 13)
-                        {
-                            <div id="footerr" class="pagination pagination-small pagination-right">
-                                @WebGridExt.PagerList(grid, mode: WebGridPagerModes.All)
-                            </div>
-                        }
-                    </div>
+                            @if (Convert.ToInt32(ViewBag.TotalAddresses) > 13)
+                            {
+                                <div id="footerr" class="pagination pagination-small pagination-right">
+                                    @WebGridExt.PagerList(grid, mode: WebGridPagerModes.All)
+                                </div>
+                            }
+                        </div>
+                   
                 </div>
 
                 <div class="float_right"></div>
@@ -152,58 +154,38 @@ grid.Column("Default Shipping",format:@<p>
 <div id="UpdateModelPopUp"  >
     <div id="MainContent_CRUDShippingAddress1_upnlBody">
         <div id="container" style="margin-left:60px;">
-        @*<div class="address_label_area1 ">
-            Address Name:
-            <div id="divAddressName" class="error_star" style="display: none;">
-                *
-            </div>
-        </div>*@
+     
         <div class="address_contol_area1">
             <input type="text" value="Address Name" maxlength="100" id="txtAddressName" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddressName", UserCookieManager.WBStoreId, "Address Name:"))">
         </div>
-        @*<div class="address_label_area2">
-            FAO:
-        </div>*@
+      
         <div class="address_contol_area2">
             <input type="text" maxlength="50" id="txtFAO" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlFAO", UserCookieManager.WBStoreId, "FAO"))">
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-        @*<div class="address_label_area1 ">
-            Address 1:
-            <div id="divAddress1" class="error_star" style="display: none;">
-                *
-            </div>
-        </div>*@
+      
         <div class="address_contol_area1">
             <input type="text" value="Address 1" maxlength="250" id="txtAddress1" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("literalAddress1", UserCookieManager.WBStoreId, "Address 1"))">
         </div>
-        @*<div class="address_label_area2">
-            Reference:
-        </div>*@
+     
         <div class="address_contol_area2">
             <input type="text" maxlength="50" id="txtReference" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltlReference", UserCookieManager.WBStoreId, "Reference"))">
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-        @*<div class="address_label_area1">
-            Address 2:
-        </div>*@
+    
         <div class="address_contol_area1">
             <input type="text" maxlength="250" id="txtAddress2" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddress2", UserCookieManager.WBStoreId, "Address 2"))">
         </div>
-        @*<div class="address_label_area2">
-            Telephone :
-        </div>*@
+      
         <div class="address_contol_area2">
             <div class="float_left_simple">
                 <input type="text" maxlength="30" id="txtTel1" class="newTxtBox" style="width:160px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("label15", UserCookieManager.WBStoreId, "Telephone"))">
             </div>
-            @*<div class="label_area_ext">
-                Ext 1:
-            </div>*@
+          
             <div class="float_left">
                 <input type="text" maxlength="7" id="txtExt1" class="newTxtBox" style="width:97px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("literalExt1", UserCookieManager.WBStoreId, "Ext 1"))">
             </div>
@@ -211,24 +193,16 @@ grid.Column("Default Shipping",format:@<p>
         <div class="clearBoth">
             &nbsp;
         </div>
-        @*<div class="address_label_area1">
-            Address 3:
-
-        </div>*@
+    
         <div class="address_contol_area1">
             <input type="text" maxlength="250" id="txtAddress3" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddress3", UserCookieManager.WBStoreId, "Address 3"))">
         </div>
-        @*<div class="address_label_area2">
-            Tel 2:
-
-        </div>*@
+       
         <div class="address_contol_area2">
             <div class="float_left_simple">
                 <input type="text" maxlength="30" id="txtTel2" class="newTxtBox" style="width:160px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlTel2", UserCookieManager.WBStoreId, "Tel 2"))">
             </div>
-            @*<div class="label_area_ext">
-                Ext 2:
-            </div>*@
+          
             <div class="float_left">
                 <input type="text" maxlength="7" id="txtExt2" class="newTxtBox" style="width:96px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("LiteralExt2", UserCookieManager.WBStoreId, "Ext 2"))">
             </div>
@@ -236,68 +210,45 @@ grid.Column("Default Shipping",format:@<p>
         <div class="clearBoth">
             &nbsp;
         </div>
-        @*<div class="address_label_area1 ">
-            City :
-            <div id="divCity" class="error_star" style="display: none;">
-                *
-            </div>
-        </div>*@
+     
         <div class="address_contol_area1">
             <input type="text" value="City" maxlength="100" id="txtCity" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcity", UserCookieManager.WBStoreId, "City "))">
         </div>
-        @*<div class="address_label_area2">
-
-            Fax:
-        </div>*@
+      
         <div class="address_contol_area2">
             <input type="text" maxlength="30" id="txtFax" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("divfax", UserCookieManager.WBStoreId, "Fax"))">
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-        @*<div class="address_label_area1">
-
-            Country :
-        </div>*@
+     
         <div class="address_contol_area1">
 
 
             <select id="DDCountry" class="newTxtBox"></select>
 
         </div>
-        @*<div class="address_label_area2">
-
-            Latitude:
-        </div>*@
+    
         <div class="address_contol_area2">
             <input type="text" maxlength="100" id="txtLatitude" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("Latitudelbl", UserCookieManager.WBStoreId, "Latitude"))">
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-        @*<div class="address_label_area1">
-
-            State :
-        </div>*@
+       
         <div class="address_contol_area1">
             <select id="DDSate" class="newTxtBox"></select>
 
         </div>
 
-        @*<div class="address_label_area2">
-
-            Longitude:
-        </div>*@
+        
         <div class="address_contol_area2">
             <input type="text" maxlength="100" id="txtLongitude" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlLongitude", UserCookieManager.WBStoreId, "Longitude"))">
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-        @*<div class="address_label_area1">
-            Postal Code:
-
-        </div>*@
+      
         <div class="address_contol_area1">
             <input type="text" value="54000" maxlength="30" id="txtPostalCode" class="newTxtBox" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("LiteralPostalCode", UserCookieManager.WBStoreId, "Postal Code"))">
         </div>

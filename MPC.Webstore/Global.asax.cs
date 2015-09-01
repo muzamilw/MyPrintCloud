@@ -226,8 +226,4 @@ namespace MPC.Webstore
             }
         }
     }
-
-    
-
-  
 }

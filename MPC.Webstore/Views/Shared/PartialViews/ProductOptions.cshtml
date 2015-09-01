@@ -1677,8 +1677,10 @@
 
                     },
                     error: function(msg) {
-                        alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerroroccured", UserCookieManager.WBStoreId, "Error occured"))');
+                        
                         console.log(msg);
+                        ShowPopUp("Error", "'"+ msg.responseText + "'");
+                
                     }
                 };
                 var returnText = $.ajax(options).responseText;
@@ -1749,8 +1751,10 @@
 
                     },
                     error: function(msg) {
-                        alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerroroccured", UserCookieManager.WBStoreId, "Error occured"))');
+                        
                         console.log(msg);
+                        ShowPopUp("Error", "'"+ msg.responseText + "'");
+                
                     }
                 };
                 var returnText = $.ajax(options).responseText;
@@ -1910,8 +1914,10 @@
                             }
                         },
                         error: function(msg) {
-                            alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerroroccured", UserCookieManager.WBStoreId, "Error occured"))');
+                           
                             console.log(msg);
+                            ShowPopUp("Error", "'"+ msg.responseText + "'");
+                
                         }
                     };
                     var returnText = $.ajax(options).responseText;
@@ -2073,8 +2079,10 @@
 
             },
             error: function (msg) {
-                alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerroroccured", UserCookieManager.WBStoreId, "Error occured"))');
+                
                 console.log(msg);
+                ShowPopUp("Error", "'"+ msg.responseText + "'");
+                
             }
         };
         var returnText = $.ajax(options).responseText;
