@@ -281,7 +281,7 @@ namespace MPC.Repository.Repositories
                         oVariable.CategoryId = reader.GetInt32(6);
                         oVariable.IsCriteriaUsed = reader.IsDBNull(7) == true ? "" : reader.GetString(7);
                         oVariable.Type = reader.GetInt16(8);
-                        oVariable.PropertyType = reader.GetInt32(9);
+                        oVariable.PropertyType = reader.IsDBNull(9) == true ? 0 : reader.GetInt32(9);  
                         if (!reader.IsDBNull(10))
                         {
                             oVariable.VariableDescription = reader.GetString(10);
