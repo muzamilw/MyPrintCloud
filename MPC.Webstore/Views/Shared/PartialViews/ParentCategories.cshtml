@@ -13,12 +13,15 @@
 
             @foreach (var categories in Model)
             {
+                
                 <div id="MainContainer" class="Top_Cat_Body  rounded_corners">
                     <div class="LCLB">
-
-                        <a id="hlProductDetail" href="/Category/@Html.ResolveString(categories.CategoryName)/@categories.ProductCategoryId" onclick="ShowLoader();">
+                        @{
+                            var categoryLinkId = "aC" + categories.ProductCategoryId;
+                        }
+                        <a id="@categoryLinkId" href="/Category/@Html.ResolveString(categories.CategoryName)/@categories.ProductCategoryId" onclick="ShowLoader();">
                             <div class="PDTC_TL FI_TL H4B_TL">
-                                <img id="imgThumbnail" class="Top_Cat_ThumbnailPath" src="@Html.GetAppBasePath()@categories.ThumbnailPath" />
+                                <img id="imgThumbnail" class="Top_Cat_ThumbnailPath" src="/@Html.GetAppBasePath()@categories.ThumbnailPath" />
                             </div>
                         </a>
 
@@ -61,3 +64,4 @@
     </div>
 </div>
 
+<script src="/Scripts/jquery-1.10.1.min.js"></script>

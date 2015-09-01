@@ -242,7 +242,15 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.CompanyContacts.Where(c => c.ContactId == CID).Select(s => s.Mobile).FirstOrDefault();
+                CompanyContact contactPerson = db.CompanyContacts.Where(c => c.ContactId == CID).FirstOrDefault();
+                if (contactPerson != null)
+                {
+                    return contactPerson.Mobile;
+                }
+                else 
+                {
+                    return "";
+                }
             }
             catch (Exception ex)
             {
