@@ -24,6 +24,8 @@ define("dashboard.viewModel",
                        // Total Earnings
                     estimateToOrderConversion = ko.observableArray([]),
                     tempUsers = ko.observableArray([]),
+                    tempStores = ko.observableArray([]),
+                    tempCustomers = ko.observableArray([]),
                     currencySymbol = ko.observable(),
                     logoUrl = ko.observable(),
                        // Total Earnings
@@ -418,7 +420,28 @@ define("dashboard.viewModel",
                  ko.utils.arrayPushAll(estimateToOrderConversion(), tempUsers());
                  estimateToOrderConversion.valueHasMutated();
              },
-              
+              mapTopPerformingStores = function (data) {
+                  tempStores.removeAll();
+                  _.each(data, function (tUser) {
+                      var item = tUser;
+                      item.CurrentMonthEarning = tUser.CurrentMonthEarning.toFixed(2);
+                      item.LastMonthEarning = tUser.LastMonthEarning.toFixed(2);
+                      tempStores.push(item);
+                  });
+                  ko.utils.arrayPushAll(topPerformingStores(), tempStores());
+                  topPerformingStores.valueHasMutated();
+              },
+              mapTopPerformingCustomers = function (data) {
+                  tempCustomers.removeAll();
+                  _.each(data, function (tUser) {
+                      var item = tUser;
+                      item.CurrentMonthOrders = tUser.CurrentMonthOrders.toFixed(2);
+                      item.LastMonthOrders = tUser.LastMonthOrders.toFixed(2);
+                      tempCustomers.push(item);
+                  });
+                  ko.utils.arrayPushAll(top10PerformingStores(), tempCustomers());
+                  top10PerformingStores.valueHasMutated();
+              },
                 // Map Orders 
                 mapTotalEarnings = function (data) {
                     //totalEarnings.removeAll();
@@ -460,7 +483,7 @@ define("dashboard.viewModel",
                     success: function (data) {
                         if (data != null) {
                             logoUrl(data.MisLogoUrl);
-                            
+                            //view.bindLogoUrl(logoUrl());
                             currencySymbol(data.CurrencySymbol);
                             roiRegisteredUsersCount(data.RegisteredUsersCount);
                             roiOrdersProcessedCount(data.OrdersProcessedCount);
@@ -476,10 +499,10 @@ define("dashboard.viewModel",
                             
 
                             // chart 1 top performing stores
-                           // mapTopPerformingStores(data.TopPerformingStores);
-                            topPerformingStores.removeAll();
-                            ko.utils.arrayPushAll(topPerformingStores(), data.TopPerformingStores);
-                            topPerformingStores.valueHasMutated();
+                            mapTopPerformingStores(data.TopPerformingStores);
+                            //topPerformingStores.removeAll();
+                            //ko.utils.arrayPushAll(topPerformingStores(), data.TopPerformingStores);
+                            //topPerformingStores.valueHasMutated();
                             
                             //chart 3 Monthly Earning By Store
                             mapMonthlyEarningByStore(data.MonthlyEarningsbyStore);
@@ -500,10 +523,11 @@ define("dashboard.viewModel",
                             estimateToOrderConversionCount.valueHasMutated();
 
                             // top 10 perfoming companies
-                            top10PerformingStores.removeAll();
-                            ko.utils.arrayPushAll(top10PerformingStores(), data.Top10PerformingCustomers);
-                            top10PerformingStores.valueHasMutated();
-                            
+                            mapTopPerformingCustomers(data.Top10PerformingCustomers);
+                            //top10PerformingStores.removeAll();
+                            //ko.utils.arrayPushAll(top10PerformingStores(), data.Top10PerformingCustomers);
+                            //top10PerformingStores.valueHasMutated();
+
 
                         }
                         //load the tour

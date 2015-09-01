@@ -1541,6 +1541,10 @@ function fu02UI() {
             }
         }
     });
+    if (organisationId == 1679)
+    {
+     //   $("#lblConfirmSpellings").text("Confirm spelling, details and management approval");
+    }
     $(".PreviewerDownloadPDF").css("display", "none");
     $("#divLayersPanelRetail").draggable({
         appendTo: "body",
@@ -4178,7 +4182,7 @@ function togglePage(pId) {
     }
     function l4(caller) {
         if (llData.length > 0 || IsCalledFrom == 1) {
-            $(".layoutsPanel").css("display", 'list-item');
+          //  $(".layoutsPanel").css("display", 'list-item');
             var html = "";
             var ClName = "";
             var PortCount = 0;

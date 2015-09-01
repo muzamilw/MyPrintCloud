@@ -175,6 +175,8 @@ namespace MPC.Interfaces.MISServices
 
 
         bool ImportStore(long OrganisationId, string StoreName, string SubDomain);
+
+        Company CloneStore(long companyId);
         #endregion
 
 

@@ -22,7 +22,6 @@ define("stores/stores.viewModel",
                     selectedCurrentPageId = ko.observable(),
                     selectedCurrentPageCopy = ko.observable(),
                     ckEditorOpenFrom = ko.observable("Campaign"),
-                    htmlData = ko.observable(),
                     storeStatus = ko.observable(),
                     productStatus = ko.observable(''),
                     //Active Widget (use for dynamic controll)
@@ -5348,11 +5347,11 @@ define("stores/stores.viewModel",
                     //#region _________WIDGETS IN Themes & Widgets Tab _________________
                     //Open Dialog from Featured Product Row
                     openItemsForWidgetsDialogFromFeatured = function () {
+                        selectedOfferType(1);
+                        
                         productsFilterHeading("Featured Products");
-
                         productsFilterSubHeadingAll("All Featured Products");
                         productsFilterSubHeadingSelected("Selected Featured Products");
-                        selectedOfferType(1);
                         resetItems();
                         view.showItemsForWidgetsDialog();
                     },
@@ -5431,6 +5430,17 @@ define("stores/stores.viewModel",
                     //select remove Item
                     selectRemoveItem = function (item) {
                         selectedItemForRemove(item);
+                    },
+                    
+                    onDeleteStoreBackground = function () {
+                        confirmation.messageText("WARNING - Are you sure you want to remove store background.  There is no undo.");
+                        confirmation.afterProceed(function () {
+                            selectedStore().storeBackgroudImageImageSource(undefined);
+                            selectedStore().storeBackgroudImagePath(undefined);
+                        });
+                        confirmation.afterCancel();
+                        confirmation.show();
+                        
                     },
                     //#endregion
 
@@ -7039,6 +7049,7 @@ define("stores/stores.viewModel",
                             }
                         }
                     },
+                    
                 //#endregion ________ Discount Voucher Detail___________
 
 
@@ -7092,6 +7103,15 @@ define("stores/stores.viewModel",
                     });
                     confirmation.show();
                 },
+                // On Copy Store
+                onCopyStore = function () {
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                    confirmation.afterProceed(function () {
+                        copyFullStore(selectedStore().companyId());
+                    });
+                    confirmation.show();
+                },
+
                 // Get Company By Id
                 getCompanyByIdFromListView = function (id) {
                     return stores.find(function (store) {
@@ -7119,6 +7139,25 @@ define("stores/stores.viewModel",
                     });
                 };
 
+                // copy Company
+                    copyFullStore = function (id) {
+                        dataservice.copyFullStore({ CompanyId: id }, {
+                            success: function () {
+                                toastr.success("Store copy successfully!");
+                                isEditorVisible(false);
+                                if (selectedStore()) {
+                                    var store = getCompanyByIdFromListView(selectedStore().companyId());
+                                    if (store) {
+                                        stores.remove(store);
+                                    }
+                                }
+                                resetStoreEditor();
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to copy store. Error: " + response, "", ist.toastrOptions);
+                            }
+                        });
+                    };
                 //#region _________R E T U R N_____________________
 
                 return {
@@ -7531,7 +7570,9 @@ define("stores/stores.viewModel",
                     validateStoreLiveHandler: validateStoreLiveHandler,
                     ExportCSVForCompanyContacts: ExportCSVForCompanyContacts,
                     validateCanStoreSave: validateCanStoreSave,
-                    htmlData: htmlData
+                    htmlData: htmlData,
+                    onDeleteStoreBackground: onDeleteStoreBackground,
+                    onCopyStore: onCopyStore
                 };
                 //#endregion
             })()

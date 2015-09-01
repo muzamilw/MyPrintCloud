@@ -1416,6 +1416,7 @@ namespace MPC.Repository.Repositories
             long templateID = 0;
             List<ScopeVariable> lstVariables = GetUserTemplateVariables(itemID, contactId);
             var item = db.Items.Where(g=>g.ItemId == itemID).SingleOrDefault();
+            var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
             string[] logos = GetContactImageAndCompanyLogo(contactId);
             if(item != null)
             {
@@ -1427,7 +1428,49 @@ namespace MPC.Repository.Repositories
             {
                 foreach(var variable in lstVariables)
                 {
-                    obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag, variable.Value);
+                    if (variable != null)
+                    {
+
+                        obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag, variable.Value);
+                        if (variable.FieldVariable != null)
+                        {
+                            //if (variable != null && variable.Value != "" && variable.FieldVariable.VariableTag != "")
+                            //{
+                            //    obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag.ToUpper(), variable.Value.ToUpper());
+                            //    obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag.ToLower(), variable.Value.ToLower());
+                            //}
+                            // replace prefix and postFixes 
+                            if (variable.FieldVariable.VariableTag != null)
+                            {
+                                string tag = variable.FieldVariable.VariableTag.Replace("{{", "").Replace("}}", "");
+                                string preFix = "{{" + tag + "_pre}}"; ;
+                                string postFix = "{{" + tag + "_post}}";
+
+
+                                if (contact != null)
+                                {
+                                    var ext = db.VariableExtensions.Where(g => g.CompanyId == contact.CompanyId && g.FieldVariableId == variable.FieldVariable.VariableId).SingleOrDefault();
+                                    if (ext != null)
+                                    {
+                                        if (ext.VariablePrefix != null && ext.VariablePrefix != "")
+                                        {
+                                            obj.ContentString = obj.ContentString.Replace(preFix, ext.VariablePrefix);
+                                            //obj.ContentString = obj.ContentString.Replace(preFix.ToUpper(), ext.VariablePrefix.ToUpper());
+                                            //obj.ContentString = obj.ContentString.Replace(preFix.ToLower(), ext.VariablePrefix.ToLower());
+                                        }
+                                        if (ext.VariablePostfix != null && ext.VariablePostfix != "")
+                                        {
+                                            obj.ContentString = obj.ContentString.Replace(postFix, ext.VariablePostfix);
+                                            //obj.ContentString = obj.ContentString.Replace(postFix.ToUpper(), ext.VariablePostfix.ToUpper());
+                                            //obj.ContentString = obj.ContentString.Replace(postFix.ToLower(), ext.VariablePostfix.ToLower());
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                   
+                    
                 }
                 if (obj.ObjectType == 8)
                 {
