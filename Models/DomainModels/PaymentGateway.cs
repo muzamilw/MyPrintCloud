@@ -26,5 +26,41 @@ namespace MPC.Models.DomainModels
         public virtual PaymentMethod PaymentMethod { get; set; }
 
         public virtual Company Company { get; set; }
+
+
+
+        #region public
+
+
+        /// <summary>
+        /// Makes a copy of Entity
+        /// </summary>
+        ///   
+
+        public void Clone(PaymentGateway target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemProductDetailClone_InvalidItemProductDetail, "target");
+            }
+
+
+
+            target.BusinessEmail = BusinessEmail;
+            target.IdentityToken = IdentityToken;
+            target.isActive = isActive;
+            target.PaymentMethodId = PaymentMethodId;
+            target.SecureHash = SecureHash;
+            target.CancelPurchaseUrl = CancelPurchaseUrl;
+            target.ReturnUrl = ReturnUrl;
+            target.NotifyUrl = NotifyUrl;
+            target.LiveApiUrl = LiveApiUrl;
+            target.TestApiUrl = TestApiUrl;
+            target.UseSandbox = UseSandbox;
+           
+
+        }
+
+        #endregion
     }
 }

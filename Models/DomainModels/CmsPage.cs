@@ -71,5 +71,57 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public string Bytes { get; set; }
         #endregion
+
+        #region public
+
+
+        /// <summary>
+        /// Makes a copy of Entity
+        /// </summary>
+        ///   
+   
+        public void Clone(CmsPage target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemProductDetailClone_InvalidItemProductDetail, "target");
+            }
+
+            target.PageName = PageName;
+            target.PageTitle = PageTitle;
+            target.MenuTitle = MenuTitle;
+            target.description = description;
+            target.PageRelativePath = PageRelativePath;
+            target.SortOrder = SortOrder;
+            target.Meta_KeywordContent = Meta_KeywordContent;
+            target.Meta_DescriptionContent = Meta_DescriptionContent;
+            target.PageName = PageName;
+
+            target.Meta_HiddenDescriptionContent = Meta_HiddenDescriptionContent;
+            target.Meta_CategoryContent = Meta_CategoryContent;
+            target.Meta_RobotsContent = Meta_RobotsContent;
+            target.Meta_AuthorContent = Meta_AuthorContent;
+            target.Meta_DateContent = Meta_DateContent;
+            target.Meta_LanguageContent = Meta_LanguageContent;
+            target.Meta_RevisitAfterContent = Meta_RevisitAfterContent;
+            target.Meta_Title = Meta_Title;
+            target.PageHTML = PageHTML;
+
+            target.isUserDefined = isUserDefined;
+            target.CategoryId = CategoryId;
+            target.isPromotionalOffer = isPromotionalOffer;
+            target.isSepecialOffer = isSepecialOffer;
+            target.isMPCAdd = isMPCAdd;
+            target.LastModifiedDate = LastModifiedDate;
+            target.PageBanner = PageBanner;
+            target.PageKeywords = PageKeywords;
+            target.isEnabled = isEnabled;
+            target.isDisplay = isDisplay;
+            target.OrganisationId = OrganisationId;
+           
+
+        }
+
+        #endregion
     }
 }

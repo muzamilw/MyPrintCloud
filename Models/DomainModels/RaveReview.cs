@@ -18,5 +18,34 @@ namespace MPC.Models.DomainModels
         public Nullable<long> CompanyId { get; set; }
 
         public virtual Company Company { get; set; }
+
+        #region public
+
+
+        /// <summary>
+        /// Makes a copy of Entity
+        /// </summary>
+        ///   
+
+        public void Clone(RaveReview target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemProductDetailClone_InvalidItemProductDetail, "target");
+            }
+
+
+            target.ReviewBy = ReviewBy;
+            target.Review = Review;
+            target.ReviewDate = ReviewDate;
+            target.isDisplay = isDisplay;
+            target.SortOrder = SortOrder;
+            target.OrganisationId = OrganisationId;
+           
+
+
+        }
+
+        #endregion
     }
 }
