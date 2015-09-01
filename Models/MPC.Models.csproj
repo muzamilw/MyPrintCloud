@@ -130,6 +130,7 @@
     <Compile Include="Common\InquiryByColumn.cs" />
     <Compile Include="Common\InvoiceByColumn.cs" />
     <Compile Include="Common\ItemCloneResult.cs" />
+    <Compile Include="Common\LiveStoreDetails.cs" />
     <Compile Include="Common\Order.cs" />
     <Compile Include="Common\IsTrialClaimValue.cs" />
     <Compile Include="Common\OrderMenuCount.cs" />
