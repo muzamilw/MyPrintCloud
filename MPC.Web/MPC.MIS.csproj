@@ -442,6 +442,7 @@
     <Compile Include="Areas\Api\Controllers\ProductMachinesController.cs" />
     <Compile Include="Areas\Api\Controllers\SmartFormController.cs" />
     <Compile Include="Areas\Api\Controllers\StockCategoryController.cs" />
+    <Compile Include="Areas\Api\Controllers\StoreCopyController.cs" />
     <Compile Include="Areas\Api\Controllers\SystemUserController.cs" />
     <Compile Include="Areas\Api\Controllers\SystemVariableController.cs" />
     <Compile Include="Areas\Api\ModelMappers\DiscountVoucherMapper.cs" />

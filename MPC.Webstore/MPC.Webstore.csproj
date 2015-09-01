@@ -723,6 +723,7 @@
     <Content Include="Content\smoothslide.css" />
     <Content Include="Content\smoothslides.theme.css" />
     <Content Include="Content\style.css" />
+    <Content Include="Content\Sunny.css" />
     <Content Include="Content\TFEHotels.css" />
     <Content Include="Content\zoomslider.css" />
     <Content Include="LightBox\Css\jquery.fancybox.css" />

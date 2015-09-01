@@ -17,6 +17,7 @@ using AutoMapper;
 using System.Web;
 using System.IO;
 using System.Configuration;
+using System.Runtime.Serialization.Formatters.Binary;
 
 
 namespace MPC.Repository.Repositories
@@ -5684,8 +5685,7 @@ namespace MPC.Repository.Repositories
             return store != null && store.isStoreLive == true ? true : false;
         }
 
-        
 
-
+       
     }
 }

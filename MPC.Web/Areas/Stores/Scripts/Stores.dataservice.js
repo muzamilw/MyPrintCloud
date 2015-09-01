@@ -351,6 +351,13 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'DELETE'
                     });
+                    // Define request to Delete Company Permanently
+                    amplify.request.define('copyFullStore', 'ajax', {
+                        url: ist.siteUrl + '/Api/StoreCopy',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                     // Define request to Get Paymetn Gateways
                     amplify.request.define('getPaymentGateways', 'ajax', {
                         url: ist.siteUrl + '/Api/PaymentGateway',
@@ -439,12 +446,13 @@
             },
 
             // get Items For Widgets
-            getItemsForWidgets = function (callbacks) {
+            getItemsForWidgets = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getItemsForWidgets',
                     success: callbacks.success,
                     error: callbacks.error,
+                    data: params
                 });
             },
             // get CMS Tags For Load default for CMS Page
@@ -837,6 +845,15 @@
                     data: param
                 });
             },
+             copyFullStore = function (param, callbacks) {
+                 initialize();
+                 return amplify.request({
+                     resourceId: 'copyFullStore',
+                     success: callbacks.success,
+                     error: callbacks.error,
+                     data: param
+                 });
+             },
 
         // save Field Variable
         saveFieldVariable = function (param, callbacks) {
@@ -985,6 +1002,7 @@
             deleteProductCategoryById: deleteProductCategoryById,
             createStore: createStore,
             deleteCompanyPermanent: deleteCompanyPermanent,
+            copyFullStore: copyFullStore,
             deleteMediaLibraryItemById: deleteMediaLibraryItemById,
             saveSecondaryPage: saveSecondaryPage,
             deleteSecondaryPage: deleteSecondaryPage,

@@ -33,6 +33,8 @@ namespace MPC.Webstore.Areas.OrderReceipt.Controllers
 
         #endregion
         // GET: OrderReceipt/OrderReceipt
+
+        [AllowAnonymous]
         public ActionResult Index(string OrderId, string StoreId, string IsPrintReceipt)
         {
             MPC.Models.DomainModels.Company oCompany = _myCompanyService.GetStoreReceiptPage(Convert.ToInt64(StoreId));

@@ -3118,6 +3118,10 @@ namespace MPC.Implementation.MISServices
         {
             return itemRepository.GetItemsForWidgets();
         }
+        public List<Item> GetItemsForWidgetsByStoreId(long storeId)
+        {
+            return itemRepository.GetItemsForWidgetsByStoreId(storeId);
+        }
 
         public CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request)
         {
@@ -3537,8 +3541,10 @@ namespace MPC.Implementation.MISServices
             foreach (var media in mediaLibraries)
             {
 
-                CmsPage cmsPage = cmsPages.FirstOrDefault(cp => cp.PageBanner == media.FilePath);
-                CompanyBanner companyBanner = companyBanners.FirstOrDefault(cp => cp.ImageURL == media.FilePath);
+                //CmsPage cmsPage = cmsPages.FirstOrDefault(cp => cp.PageBanner == media.FilePath);
+                //CompanyBanner companyBanner = companyBanners.FirstOrDefault(cp => cp.ImageURL == media.FilePath);
+                var cmsPage = cmsPages.Where(c => c.PageBanner == media.FilePath).Select(c => c.PageBanner).FirstOrDefault();
+                var companyBanner = companyBanners.Where(c => c.ImageURL == media.FilePath).Select(c => c.ImageURL).FirstOrDefault();
                 if (cmsPage == null && companyBanner == null)
                 {
                     mediaLibrariesForDelete.Add(media);
@@ -6531,7 +6537,7 @@ namespace MPC.Implementation.MISServices
         }
         #endregion
 
-        #region CopyStore
+        #region ImportStore
 
         public bool ImportStore(long OrganisationId, string StoreName, string SubDomain)
         {
@@ -6743,6 +6749,400 @@ namespace MPC.Implementation.MISServices
             }
         }
         #endregion
+
+
+        #region CopyStore
+
+        /// <summary>
+        /// Clone Product
+        /// </summary>
+        public Company CloneStore(long companyId)
+        {
+            // Find Company - Throws Exception if not exist
+            Company source = companyRepository.GetCompanyByCompanyID(companyId);
+
+            // Create New Instance
+           
+            Company target = CreateNewCompany();
+
+            // Clone
+            CloneCompany(source, target);
+
+            // Load Item Full
+           // target = itemRepository.GetItemWithDetails(target.ItemId);
+
+            // Get Updated Minimum Price
+            //target.MinPrice = itemRepository.GetMinimumProductValue(target.ItemId);
+
+            // convert template length to system unit 
+          //  ConvertTemplateLengthToSystemUnit(target);
+
+            // Return Product
+            return target;
+            
+        }
+
+        /// <summary>
+        /// Creates New Item and assigns new generated code
+        /// </summary>
+        private Company CreateNewCompany()
+        {
+
+            Company companyTarget = companyRepository.Create();
+            companyRepository.Add(companyTarget);
+            companyTarget.OrganisationId = companyRepository.OrganisationId;
+            return companyTarget;
+        }
+
+        /// <summary>
+        /// Creates Copy of Product
+        /// </summary>
+        private void CloneCompany(Company source, Company target)
+        {
+            try
+            {
+                // Clone Item
+                source.Clone(target);
+
+                // Clone Company Domains
+                CloneCompanyDomain(source, target);
+
+                // clone Media Library
+                // later
+
+
+
+                // Clone company banners sets and its banner
+                CloneCompanyBannerSet(source, target);
+
+                // Clone cms pages
+                CloneCMSPages(source, target);
+
+                // clone payment gateways
+                ClonePaymentGateways(source, target);
+
+                // Clone Rave Reviews
+                CloneRaveReviews(source, target);
+
+                // Clone Company Territory
+                CloneCompanyTerritory(source, target);
+
+                // Clone Addresses
+                CloneAddresses(source, target);
+
+                // Clone company contacts
+               CloneCompanyContacts(source, target);
+
+                //// Clone Item Image Items
+                //CloneItemImageItems(source, target);
+
+                //// Clone Product Market Brief Questions
+                //CloneProductMarketBriefQuestions(source, target);
+
+                //// Save Changes
+                //itemRepository.SaveChanges();
+
+                //// Copy Files and place them under new Product folder
+                //CloneProductImages(target);
+
+                //// Clone Template - Call CloneTemplate from TemplateService
+                //// That will clone Template deeply
+                //if (source.TemplateId.HasValue)
+                //{
+                //    long templateId = templateService.CopyTemplate(source.TemplateId.Value, 0, string.Empty, target.OrganisationId.HasValue ?
+                //        target.OrganisationId.Value : itemRepository.OrganisationId);
+
+                //    target.TemplateId = templateId;
+                //}
+
+                // Save Changes
+                companyRepository.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+          
+        }
+
+
+
+
+        /// <summary>
+        /// Copy Company Domains
+        /// </summary>
+        public void CloneCompanyDomain(Company source, Company target)
+        {
+            if (source.CompanyDomains == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.CompanyDomains == null)
+            {
+                target.CompanyDomains = new List<CompanyDomain>();
+            }
+
+            foreach (CompanyDomain companyDomain in source.CompanyDomains)
+            {
+                CompanyDomain targetcompanyDomain = companyDomainRepository.Create();
+                companyDomainRepository.Add(targetcompanyDomain);
+                targetcompanyDomain.CompanyId = target.CompanyId;
+                target.CompanyDomains.Add(targetcompanyDomain);
+                companyDomain.Clone(targetcompanyDomain);
+            }
+        }
+
+
+
+        /// <summary>
+        /// Copy company banners
+        /// </summary>
+        private void CloneCompanyBannerSet(Company source, Company target)
+        {
+            if (source.CompanyBannerSets == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.CompanyBannerSets == null)
+            {
+                target.CompanyBannerSets = new List<CompanyBannerSet>();
+            }
+
+            foreach (CompanyBannerSet companyBannerSet in source.CompanyBannerSets)
+            {
+                CompanyBannerSet targetCompanyBannerSet = bannerSetRepository.Create();
+                bannerSetRepository.Add(targetCompanyBannerSet);
+                targetCompanyBannerSet.CompanyId = targetCompanyBannerSet.CompanyId;
+                target.CompanyBannerSets.Add(targetCompanyBannerSet);
+                companyBannerSet.Clone(targetCompanyBannerSet);
+
+                // Clone CompanyBanners
+                if (companyBannerSet.CompanyBanners == null)
+                {
+                    continue;
+                }
+
+                // Copy CompanyBanners
+                CloneCompanyBanners(companyBannerSet, targetCompanyBannerSet);
+            }
+        }
+        /// <summary>
+        /// Creates Copy of company  Banners
+        /// </summary>
+        private void CloneCompanyBanners(CompanyBannerSet companyBannerSets, CompanyBannerSet targetcompanyBannerSets)
+        {
+            if (targetcompanyBannerSets.CompanyBanners == null)
+            {
+                targetcompanyBannerSets.CompanyBanners = new List<CompanyBanner>();
+            }
+
+            foreach (CompanyBanner objcompanyBanners in targetcompanyBannerSets.CompanyBanners.ToList())
+            {
+                CompanyBanner targetCompanyBanner = companyBannerRepository.Create();
+                companyBannerRepository.Add(targetCompanyBanner);
+                targetCompanyBanner.CompanySetId = targetcompanyBannerSets.CompanySetId;
+                targetcompanyBannerSets.CompanyBanners.Add(targetCompanyBanner);
+                objcompanyBanners.Clone(targetCompanyBanner);
+            }
+        }
+
+        /// <summary>
+        /// Copy cms pages
+        /// </summary>
+        private void CloneCMSPages(Company source, Company target)
+        {
+            if (source.CmsPages == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.CmsPages == null)
+            {
+                target.CmsPages = new List<CmsPage>();
+            }
+
+            foreach (CmsPage cmsPage in source.CmsPages)
+            {
+                CmsPage targetCMSPage = cmsPageRepository.Create();
+                cmsPageRepository.Add(targetCMSPage);
+                targetCMSPage.CompanyId = target.CompanyId;
+                target.CmsPages.Add(targetCMSPage);
+                cmsPage.Clone(targetCMSPage);
+            }
+        }
+
+        /// <summary>
+        /// Copy  payment gateways
+        /// </summary>
+        private void ClonePaymentGateways(Company source, Company target)
+        {
+            if (source.PaymentGateways == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.PaymentGateways == null)
+            {
+                target.PaymentGateways = new List<PaymentGateway>();
+            }
+
+            foreach (PaymentGateway paymentGateways in source.PaymentGateways)
+            {
+                PaymentGateway targetpaymentGateway = paymentGatewayRepository.Create();
+                paymentGatewayRepository.Add(targetpaymentGateway);
+                targetpaymentGateway.CompanyId = target.CompanyId;
+                target.PaymentGateways.Add(targetpaymentGateway);
+                paymentGateways.Clone(targetpaymentGateway);
+            }
+        }
+
+
+        /// <summary>
+        /// Copy rave reviews
+        /// </summary>
+        private void CloneRaveReviews(Company source, Company target)
+        {
+            if (source.RaveReviews == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.RaveReviews == null)
+            {
+                target.RaveReviews = new List<RaveReview>();
+            }
+
+            foreach (RaveReview raveReview in source.RaveReviews)
+            {
+                RaveReview targetRaveReviews = raveReviewRepository.Create();
+                raveReviewRepository.Add(targetRaveReviews);
+                targetRaveReviews.CompanyId = target.CompanyId;
+                target.RaveReviews.Add(targetRaveReviews);
+                raveReview.Clone(targetRaveReviews);
+            }
+        }
+
+
+        /// <summary>
+        /// Copy company Territory
+        /// </summary>
+        private void CloneCompanyTerritory(Company source, Company target)
+        {
+            if (source.CompanyTerritories == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.CompanyTerritories == null)
+            {
+                target.CompanyTerritories = new List<CompanyTerritory>();
+            }
+
+            foreach (CompanyTerritory companyTerritory in source.CompanyTerritories)
+            {
+                CompanyTerritory targetCompanyTerritory = companyTerritoryRepository.Create();
+                companyTerritoryRepository.Add(targetCompanyTerritory);
+                targetCompanyTerritory.CompanyId = target.CompanyId;
+                target.CompanyTerritories.Add(targetCompanyTerritory);
+                companyTerritory.Clone(targetCompanyTerritory);
+            }
+        }
+
+        /// <summary>
+        /// Copy ADDRESSES
+        /// </summary>
+        private void CloneAddresses(Company source, Company target)
+        {
+            if (source.Addresses == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.Addresses == null)
+            {
+                target.Addresses = new List<Address>();
+            }
+
+            foreach (Address addresses in source.Addresses)
+            {
+
+                string OldTerritoryName = addresses.CompanyTerritory.TerritoryName;
+                string oldTerritoryCode = addresses.CompanyTerritory.TerritoryCode;
+
+                CompanyTerritory NewTerrObj = target.CompanyTerritories.Where(c => c.TerritoryName == OldTerritoryName && c.TerritoryCode == oldTerritoryCode).FirstOrDefault();
+
+
+                Address targetAddress = addressRepository.Create();
+                addressRepository.Add(targetAddress);
+                targetAddress.CompanyId = target.CompanyId;
+                targetAddress.TerritoryId = NewTerrObj != null ? NewTerrObj.TerritoryId : 0;
+                target.Addresses.Add(targetAddress);
+                addresses.Clone(targetAddress);
+            }
+        }
+
+        /// <summary>
+        /// Copy companyContacts
+        /// </summary>
+        private void CloneCompanyContacts(Company source, Company target)
+        {
+            if (source.CompanyContacts == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.CompanyContacts == null)
+            {
+                target.CompanyContacts = new List<CompanyContact>();
+            }
+
+            foreach (CompanyContact contacts in source.CompanyContacts)
+            {
+
+                string OldTerritoryName = contacts.CompanyTerritory.TerritoryName;
+                string oldTerritoryCode = contacts.CompanyTerritory.TerritoryCode;
+
+                string OldAddressName = contacts.Address.AddressName;
+
+                string OldShippingAddressName = contacts.Address.AddressName;
+
+                CompanyTerritory NewTerrObj = target.CompanyTerritories.Where(c => c.TerritoryName == OldTerritoryName && c.TerritoryCode == oldTerritoryCode).FirstOrDefault();
+
+                Address NewAddressObj = target.Addresses.Where(c => c.AddressName == OldAddressName).FirstOrDefault();
+
+                Address NewShipingAdd = target.Addresses.Where(c => c.AddressName == OldShippingAddressName).FirstOrDefault();
+
+                CompanyContact targetCompanyContact = companyContactRepository.Create();
+                companyContactRepository.Add(targetCompanyContact);
+                targetCompanyContact.CompanyId = target.CompanyId;
+                targetCompanyContact.TerritoryId = NewTerrObj != null ? NewTerrObj.TerritoryId : 0;
+                targetCompanyContact.Address = null;
+                targetCompanyContact.ShippingAddress = null;
+                //if(NewAddressObj != null)
+                //{
+                //    targetCompanyContact.AddressId = NewAddressObj.AddressId;
+                //}
+                //if(NewShipingAdd != null)
+                //{
+                //    targetCompanyContact.ShippingAddressId = NewShipingAdd.AddressId;
+                //}
+                target.CompanyContacts.Add(targetCompanyContact);
+                contacts.Clone(targetCompanyContact);
+            }
+        }
+        #endregion
+
+
 
     }
 }

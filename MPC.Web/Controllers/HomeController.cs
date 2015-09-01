@@ -76,7 +76,7 @@ namespace MPC.MIS.Controllers
             if (System.Web.HttpContext.Current.Request.Url.Authority == "mpc" || System.Web.HttpContext.Current.Request.Url.Authority == "localhost" || System.Web.HttpContext.Current.Request.Url.Authority == "mpcmis")
             {
                 validationInfo = new ValidationInfo();
-                validationInfo.CustomerID = "1";
+                validationInfo.CustomerID = "97";
                 validationInfo.userId = "EA8D4A6B-E88C-41B0-A003-49827D447074";
                 validationInfo.FullName = "Naveed Zahidx";
                 validationInfo.Plan = "light";
