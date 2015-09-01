@@ -446,12 +446,13 @@
             },
 
             // get Items For Widgets
-            getItemsForWidgets = function (callbacks) {
+            getItemsForWidgets = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getItemsForWidgets',
                     success: callbacks.success,
                     error: callbacks.error,
+                    data: params
                 });
             },
             // get CMS Tags For Load default for CMS Page

@@ -3118,6 +3118,10 @@ namespace MPC.Implementation.MISServices
         {
             return itemRepository.GetItemsForWidgets();
         }
+        public List<Item> GetItemsForWidgetsByStoreId(long storeId)
+        {
+            return itemRepository.GetItemsForWidgetsByStoreId(storeId);
+        }
 
         public CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request)
         {
@@ -3537,8 +3541,10 @@ namespace MPC.Implementation.MISServices
             foreach (var media in mediaLibraries)
             {
 
-                CmsPage cmsPage = cmsPages.FirstOrDefault(cp => cp.PageBanner == media.FilePath);
-                CompanyBanner companyBanner = companyBanners.FirstOrDefault(cp => cp.ImageURL == media.FilePath);
+                //CmsPage cmsPage = cmsPages.FirstOrDefault(cp => cp.PageBanner == media.FilePath);
+                //CompanyBanner companyBanner = companyBanners.FirstOrDefault(cp => cp.ImageURL == media.FilePath);
+                var cmsPage = cmsPages.Where(c => c.PageBanner == media.FilePath).Select(c => c.PageBanner).FirstOrDefault();
+                var companyBanner = companyBanners.Where(c => c.ImageURL == media.FilePath).Select(c => c.ImageURL).FirstOrDefault();
                 if (cmsPage == null && companyBanner == null)
                 {
                     mediaLibrariesForDelete.Add(media);

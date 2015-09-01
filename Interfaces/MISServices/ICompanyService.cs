@@ -61,6 +61,8 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         List<Item> GetItemsForWidgets();
 
+        List<Item> GetItemsForWidgetsByStoreId(long storeId);
+
         /// <summary>
         /// Save Field Variable
         /// </summary>

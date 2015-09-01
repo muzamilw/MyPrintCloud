@@ -2738,7 +2738,16 @@ namespace MPC.Repository.Repositories
             return
                 DbSet.Where(
                     i =>
-                        i.IsPublished == true && i.IsArchived == false && i.EstimateId == null && i.IsFeatured == true &&
+                        i.IsPublished == true && i.IsArchived == false && i.EstimateId == null && i.IsFeatured == true && i.IsEnabled == true &&
+                        i.OrganisationId == OrganisationId).ToList().OrderBy(c => c.ProductName).ToList();
+
+        }
+        public List<Item> GetItemsForWidgetsByStoreId(long storeId)
+        {
+            return
+                DbSet.Where(
+                    i =>
+                        i.IsPublished == true && i.IsArchived == false && i.EstimateId == null && i.IsFeatured == true && i.IsEnabled == true && i.CompanyId == storeId &&
                         i.OrganisationId == OrganisationId).ToList().OrderBy(c => c.ProductName).ToList();
 
         }
