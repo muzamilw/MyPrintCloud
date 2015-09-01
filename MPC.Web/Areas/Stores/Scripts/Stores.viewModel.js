@@ -7092,6 +7092,15 @@ define("stores/stores.viewModel",
                     });
                     confirmation.show();
                 },
+                // On Copy Store
+                onCopyStore = function () {
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                    confirmation.afterProceed(function () {
+                        copyFullStore(selectedStore().companyId());
+                    });
+                    confirmation.show();
+                },
+
                 // Get Company By Id
                 getCompanyByIdFromListView = function (id) {
                     return stores.find(function (store) {
@@ -7119,6 +7128,25 @@ define("stores/stores.viewModel",
                     });
                 };
 
+                // copy Company
+                    copyFullStore = function (id) {
+                        dataservice.copyFullStore({ CompanyId: id }, {
+                            success: function () {
+                                toastr.success("Store copy successfully!");
+                                isEditorVisible(false);
+                                if (selectedStore()) {
+                                    var store = getCompanyByIdFromListView(selectedStore().companyId());
+                                    if (store) {
+                                        stores.remove(store);
+                                    }
+                                }
+                                resetStoreEditor();
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to copy store. Error: " + response, "", ist.toastrOptions);
+                            }
+                        });
+                    };
                 //#region _________R E T U R N_____________________
 
                 return {
@@ -7531,7 +7559,8 @@ define("stores/stores.viewModel",
                     validateStoreLiveHandler: validateStoreLiveHandler,
                     ExportCSVForCompanyContacts: ExportCSVForCompanyContacts,
                     validateCanStoreSave: validateCanStoreSave,
-                    htmlData: htmlData
+                    htmlData: htmlData,
+                    onCopyStore: onCopyStore
                 };
                 //#endregion
             })()

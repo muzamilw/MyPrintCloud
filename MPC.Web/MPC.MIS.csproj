@@ -17,10 +17,14 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
-    <IISExpressSSLPort>44300</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -442,6 +446,7 @@
     <Compile Include="Areas\Api\Controllers\ProductMachinesController.cs" />
     <Compile Include="Areas\Api\Controllers\SmartFormController.cs" />
     <Compile Include="Areas\Api\Controllers\StockCategoryController.cs" />
+    <Compile Include="Areas\Api\Controllers\StoreCopyController.cs" />
     <Compile Include="Areas\Api\Controllers\SystemUserController.cs" />
     <Compile Include="Areas\Api\Controllers\SystemVariableController.cs" />
     <Compile Include="Areas\Api\ModelMappers\DiscountVoucherMapper.cs" />
