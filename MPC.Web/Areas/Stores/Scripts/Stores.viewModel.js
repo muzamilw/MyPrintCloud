@@ -342,8 +342,8 @@ define("stores/stores.viewModel",
                             });
                     },
                     //getItemsForWidgets
-                    getItemsForWidgets = function(callBack) {
-                        dataservice.getItemsForWidgets({
+                    getItemsForWidgets = function(companyId) {
+                        dataservice.getItemsForWidgets({ storeId: companyId}, {
                             success: function(data) {
                                 if (data != null) {
                                     itemsForWidgets.removeAll();
@@ -434,7 +434,7 @@ define("stores/stores.viewModel",
                         selectedItemForRemove(undefined);
 
                         if (itemsForWidgets().length === 0) {
-                            getItemsForWidgets();
+                            getItemsForWidgets(selectedStore().companyId());
                         }
                         _.each(systemVariables(), function(item) {
                             fieldVariablesForSmartForm.push(item);
@@ -4582,7 +4582,7 @@ define("stores/stores.viewModel",
                     //Get Store For editting
                     getStoreForEditting = function () {
                         if (itemsForWidgets().length === 0) {
-                            getItemsForWidgets();
+                            getItemsForWidgets(selectedStoreListView().companyId());
                         }
                         dataservice.getStoreById({
                             //dataservice.getStores({
@@ -7570,7 +7570,6 @@ define("stores/stores.viewModel",
                     validateStoreLiveHandler: validateStoreLiveHandler,
                     ExportCSVForCompanyContacts: ExportCSVForCompanyContacts,
                     validateCanStoreSave: validateCanStoreSave,
-                    htmlData: htmlData,
                     onDeleteStoreBackground: onDeleteStoreBackground,
                     onCopyStore: onCopyStore
                 };

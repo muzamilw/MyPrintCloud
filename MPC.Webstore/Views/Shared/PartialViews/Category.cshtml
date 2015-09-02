@@ -110,7 +110,10 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                 <div class="BD_CatProducts rounded_corners">
                                     <div class="pad5">
                                         <div class="LCLB">
-
+                                            @{
+                                                item.ProductName = Utils.specialCharactersEncoder(item.ProductName);
+                                            }
+                                           
                                             @* condition for marketing brief*@
                                             @if (item.ProductType == (int)ProductType.MarketingBrief)
                                             {
@@ -183,7 +186,7 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                                         string ProductName = "'" + item.ProductName + "'";
                                                         string itemID = "'" + item.ItemId + "'";
 
-                                                        <a id="hlProductDetail" onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@Utils.specialCharactersEncoder(item.ProductName)','@item.ItemId','@Model.ProductCategoryId');">
+                                                        <a id="hlProductDetail" onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@item.ProductName','@item.ItemId','@Model.ProductCategoryId');">
 
                                                             <div class="PDTC_CatProd FI_CatProd">
                                                                 @{
@@ -300,7 +303,7 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
 
 
 
-                                                <a id="lnkPRoductdetail" href="/ProductDetail/@MPC.Webstore.Common.Utils.specialCharactersEncoder(item.ProductName)/@Model.ProductCategoryId/@item.ItemId/@item.TemplateId/0/UploadDesign" onclick="ShowLoader();"><input type="button" value="More info" class="more-info-button background-green rounded_corners" /></a>
+                                                <a id="lnkPRoductdetail" href="/ProductDetail/@item.ProductName/@Model.ProductCategoryId/@item.ItemId/@item.TemplateId/0/UploadDesign" onclick="ShowLoader();"><input type="button" value="More info" class="more-info-button background-green rounded_corners" /></a>
 
 
 
@@ -308,7 +311,7 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                             else
                                             {
 
-                                                <a id="lnkPRoductdetail" href="/ProductDetail/@MPC.Webstore.Common.Utils.specialCharactersEncoder(item.ProductName)/@Model.ProductCategoryId/@item.ItemId/0/'0'/'UploadDesign'" onclick="ShowLoader();"><input type="button" value="More info" class="more-info-button background-green rounded_corners" /></a>
+                                                <a id="lnkPRoductdetail" href="/ProductDetail/@item.ProductName/@Model.ProductCategoryId/@item.ItemId/0/'0'/'UploadDesign'" onclick="ShowLoader();"><input type="button" value="More info" class="more-info-button background-green rounded_corners" /></a>
 
 
                                             }

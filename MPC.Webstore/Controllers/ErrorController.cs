@@ -39,7 +39,7 @@ namespace MPC.Webstore.Controllers
 
         #endregion
         // GET: Error
-        public ActionResult Index(Exception exception, int errorType)
+        public ActionResult Index(Exception exception, int errorType, string url)
         {
             Response.TrySkipIisCustomErrors = true;
 
@@ -65,6 +65,7 @@ namespace MPC.Webstore.Controllers
                                 MesgBody += "Organisation Name: " + organisation.OrganisationName + "<br>";
                                 MesgBody += "Store Id: " + company.CompanyId + "<br>";
                                 MesgBody += "Organisation Id: " + organisation.OrganisationId + "<br>";
+                                MesgBody += "Url: " + url + "<br>";
                                 MesgBody += "Stack Trace: " + exception.StackTrace + "<br>";
                                 MesgBody += "Inner Exception: " + exception.InnerException + "<br>";
 
