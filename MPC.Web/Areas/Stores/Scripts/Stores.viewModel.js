@@ -4581,9 +4581,9 @@ define("stores/stores.viewModel",
                     },
                     //Get Store For editting
                     getStoreForEditting = function () {
-                        if (itemsForWidgets().length === 0) {
+                        //if (itemsForWidgets().length === 0) {
                             getItemsForWidgets(selectedStoreListView().companyId());
-                        }
+                        //}
                         dataservice.getStoreById({
                             //dataservice.getStores({
                             companyId: selectedStoreListView().companyId()
