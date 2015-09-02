@@ -169,6 +169,8 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         DiscountVoucher GetDiscountVoucherById(long discountVoucherId);
 
+        string GetLiveStoresJason();
+
         #region exportOrganisation
 
         bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);
