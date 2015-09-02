@@ -171,7 +171,7 @@ function RedirectToSignUp(ReturnURL)
 function ShowLoader() {
 
     //var container = '<div class="fancyLoaderCs"><img src="/Content/Images/fancybox_loading.gif" /></div>';
-    var container = '<div class="cb-onpageLoader cb-pos--center" id="cb-new-table-loading" style="display: block;">loading...</div>'
+    var container = '<div class="mp-onpageLoader mp-loadercenter" style="display: block;">loading...</div>'
     var bws = getBrowserHeight();
     var shadow = document.getElementById("innerLayer");
     document.getElementById("layer").style.width = bws.width + "px";
