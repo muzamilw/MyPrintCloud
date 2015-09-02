@@ -3078,10 +3078,13 @@ namespace MPC.Implementation.WebStoreServices
                     // added for 2 sided business cards 
                     if (oTemplateV2.TemplateType == 2)
                     {
-                        GlobalTemplateDesigner.TemplatePages[] oTemp = new GlobalTemplateDesigner.TemplatePages[2];
-                        oTemp[0] = oTemplatePagesV2[0];
-                        oTemp[1] = oTemplatePagesV2[1];
-                        oTemplatePagesV2 = oTemp;
+                        if (oTemplatePagesV2.Length >= 2)
+                        {
+                            GlobalTemplateDesigner.TemplatePages[] oTemp = new GlobalTemplateDesigner.TemplatePages[2];
+                            oTemp[0] = oTemplatePagesV2[0];
+                            oTemp[1] = oTemplatePagesV2[1];
+                            oTemplatePagesV2 = oTemp;
+                        }
                     }
                     //template type 3 for multiback business cards 
                     Template oTemplate = returnLocalTemplate(oTemplateV2);

@@ -20635,7 +20635,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
             this._boundaries = [];
             var lineHeights = 0 ;  // adding by saqib for vertical allignment
             if (this.VAllignment != 1)
-                lineHeights += +this.textPaddingTop;
+                lineHeights += this.textPaddingTop;
             for (var i = 0, len = textLines.length; i < len; i++) {
                 var heightOfLine = this.fontSize * this.lineHeight;
                 if (this.customStyles != null && this.customStyles != undefined && this.customStyles.length != 0 && !this.isEmptyStyles()) {
