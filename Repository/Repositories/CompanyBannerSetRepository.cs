@@ -6,6 +6,7 @@ using MPC.Interfaces.Repository;
 using MPC.Repository.BaseRepository;
 using System.Data.Entity;
 using System.Collections.Generic;
+using System;
 
 
 namespace MPC.Repository.Repositories
@@ -28,6 +29,31 @@ namespace MPC.Repository.Repositories
         public override IEnumerable<CompanyBannerSet> GetAll()
         {
             return DbSet.Where(c => c.OrganisationId == OrganisationId).ToList();
+        }
+
+        public List<string> GetCompanyBannersByCompanyId(long companyId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            List<string> bannersList = new List<string>();
+            try
+            {
+                var banners = DbSet.Include(c => c.CompanyBanners)
+                    .Where(c => c.CompanyId == companyId)
+                    .Select(c => new
+                    {
+                        BannersList = c.CompanyBanners.ToList()
+                    }).ToList();
+                foreach (var banner in banners)
+                {
+                    banner.BannersList.ForEach(b => bannersList.Add(b.ImageURL));
+                }
+                return bannersList;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>

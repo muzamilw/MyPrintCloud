@@ -2738,7 +2738,7 @@ namespace MPC.Repository.Repositories
             return
                 DbSet.Where(
                     i =>
-                        i.IsPublished == true && i.IsArchived == false && i.EstimateId == null && i.IsFeatured == true && i.IsEnabled == true &&
+                        i.IsPublished == true && i.IsArchived != true  && i.EstimateId == null && i.IsFeatured == true && i.IsEnabled == true &&
                         i.OrganisationId == OrganisationId).ToList().OrderBy(c => c.ProductName).ToList();
 
         }

@@ -1111,10 +1111,10 @@
 
                                                     <img style="width:240px;height:130px;-o-object-fit: contain; object-fit: contain;" id="idCostcenterimage" data-bind="visible:storeBackgroudImageImageSource()==undefined ,attr: { src: '@Url.Content("~/")' + storeBackgroudImagePathWithCacheRemoveTechnique() }" />
                                                     <img style="width:240px;height:130px;-o-object-fit: contain; object-fit: contain;" data-bind="visible:storeBackgroudImageImageSource()!==undefined,attr: { src: storeBackgroudImageImageSource }" />
-                                                    <div class="col-lg-9" style="margin-top: 5px;text-align:center;margin-top:15px;">
+                                                    <div class="col-lg-9" style="text-align:center;margin-top:15px;">
                                                         <div class="fileUpload btn btn-primary">
                                                             @*data-bind="click:$root.showMediaLibraryDialogFromStoreBackground"*@
-                                                            <span>Change Background</span>
+                                                            <span>Upload Background</span>
                                                             <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeBackgroudImageUploadCallback, fileFilter: 'image.*'}" />
                                                         </div>
 
@@ -2169,7 +2169,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             <div class="col-md-3"></div>
 
                                             <div class="col-md-6" style="padding-top:5px;">
-                                                <label style="padding:0px;margin-top:5px;" for="switchProductPrices">Show product pricing on category pages</label>
+                                                <label style="padding:0px;margin-top:5px;" for="switchProductPrices">Show product pricing on store</label>
 
                                             </div>
                                             <div class="col-md-3" style="padding-left:6px;">

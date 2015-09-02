@@ -36,6 +36,8 @@ namespace MPC.Interfaces.Repository
         /// Get Cms Pages By Company Id
         /// </summary>
         List<CmsPage> GetCmsPagesByCompanyId(long companyId);
-       // CmsPage GetCmsPageByName(string )
+
+        List<CmsPage> GetCmsPagesByOrganisationForBanners(long companyId);
+        // CmsPage GetCmsPageByName(string )
     }
 }
