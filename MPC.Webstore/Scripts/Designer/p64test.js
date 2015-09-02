@@ -20230,6 +20230,29 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
 
             return maxHeight * this.lineHeight;
         },
+        _getMaxHeightCustom: function (text, fomrattedLines,lh) { //added by saqib
+            var boxHeight = 0; 
+            for (var nz = 0; nz < fomrattedLines.length; nz++) {
+                var maxHeight = lh;
+                var startIndex = text.indexOf(fomrattedLines[nz]);
+                var endIndex = startIndex + fomrattedLines[nz].length;
+                for (var i = startIndex; i < endIndex; i++) {
+                    if (this.customStyles != null && this.customStyles != undefined && this.customStyles.length != 0 && !this.isEmptyStyles()) {
+                        if (this.customStyles[i]) {
+                            if (this.customStyles[i]['font-Size'] != null) {
+                                var fz = this.lineHeight * parseFloat(this.customStyles[i]['font-Size']);
+                                if (fz > maxHeight)
+                                    maxHeight =fz;
+                            }
+                        }
+                    }
+                }
+                boxHeight += maxHeight;
+            }
+           
+            return boxHeight;
+        },
+
         wrapText: function (context, text, x, y, maxWidth, lineHeight, BoxHeight, charSpacing, textAlign, fontSize, appliedStyles, objThis) {
             var formattedText = [];
             charSpacing = parseFloat(charSpacing);
@@ -20255,8 +20278,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                     var renderFast = false;
                     if (this.customStyles != null && this.customStyles != undefined && this.customStyles.length != 0 && !this.isEmptyStyles()) {
                         maxWidthLastLine = this._getWidthOfLine(context, demoLines.length - 1, demoLines);
-                        maxHeightLastLine = this._getHeightOfLineCustom(context, demoLines.length - 1, demoLines);
-                       
+                      //  maxHeightLastLine = this._getHeightOfLineCustom(context, demoLines.length - 1, demoLines);
                     } else {
                         var metrics = context.measureText(testLine);
                         maxWidthLastLine = metrics.width;
@@ -20293,7 +20315,6 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                     else {
                         line = testLine + " ";
                     }
-                    console.log(maxHeightLastLine + " " + demoLines);
                 }
                 CalcWidthChars = chars + testLine;
                 var demoLines = CalcWidthChars.split(/\r\n|\r|\n/);
@@ -20316,12 +20337,14 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
 
             if (this.VAllignment == 2)
             {  // middle
-                this.textPaddingTop = parseInt((BoxHeight - MaxHeight) / 2);
+                var textHeight = this._getMaxHeightCustom(text, formattedText,lineHeight);
+                this.textPaddingTop = parseInt((BoxHeight - textHeight) / 2);
             } else if (this.VAllignment == 3)
             {   // bottom
-                this.textPaddingTop = parseInt(BoxHeight - MaxHeight);
+                var textHeight = this._getMaxHeightCustom(text, formattedText, lineHeight);
+                this.textPaddingTop = parseInt(BoxHeight - textHeight);
             }
-
+            
             if (txtOverflow)
                 this.textPaddingTop = 0;
             if (this.AutoShrinkText && txtOverflow == true) {
