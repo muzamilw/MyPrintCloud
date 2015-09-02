@@ -5403,11 +5403,19 @@ define("stores/stores.viewModel",
                             _.each(itemsForWidgets(), function (item) {
                                 if (selectedItemForRemove().itemId() === item.id()) {
                                     item.isInSelectedList(false);
+                                    selectedStore().isWidgetItemsChange(true);
                                 }
                             });
                             selectedItemsForOfferList.remove(selectedItemForRemove());
                             selectedItemForRemove(undefined);
                         }
+                    },
+                    onFeaturedDialogOk = function() {
+                        _.each(selectedItemsForOfferList(), function (offerItem) {
+                            if (offerItem.hasChanges() == true) {
+                                selectedStore().isWidgetItemsChange(true);
+                            }
+                        });
                     },
                     //Select Item
                     selectAddItem = function (item) {
@@ -7571,7 +7579,8 @@ define("stores/stores.viewModel",
                     ExportCSVForCompanyContacts: ExportCSVForCompanyContacts,
                     validateCanStoreSave: validateCanStoreSave,
                     onDeleteStoreBackground: onDeleteStoreBackground,
-                    onCopyStore: onCopyStore
+                    onCopyStore: onCopyStore,
+                    onFeaturedDialogOk: onFeaturedDialogOk
                 };
                 //#endregion
             })()
