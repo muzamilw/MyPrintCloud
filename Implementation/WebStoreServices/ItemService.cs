@@ -1653,7 +1653,7 @@ namespace MPC.Implementation.WebStoreServices
                    // }
             }
 
-            if (productsAllList != null)
+            if (productsAllList != null && productsAllList.Count > 0)
                 return productsAllList.OrderBy(i => i.SortOrder).ToList();
             return null;
 
@@ -1664,15 +1664,15 @@ namespace MPC.Implementation.WebStoreServices
             //Note:All promotional or spceial will also be a featured product
             if (isPopularProd == null && isPromotionProduct == null)
             {
-                return _ItemRepository.GetProductsList(CompanyId, OrganisationId, (int)ProductOfferType.FeaturedProducts).OrderBy(i => i.SortOrder).ToList();
+                return _ItemRepository.GetProductsList(CompanyId, OrganisationId, (int)ProductOfferType.FeaturedProducts);
             }
             else if (isPopularProd == true && isPromotionProduct == null)
             {
-                return _ItemRepository.GetProductsList(CompanyId, OrganisationId, (int)ProductOfferType.PopularProducts).OrderBy(i => i.SortOrder).ToList();
+                return _ItemRepository.GetProductsList(CompanyId, OrganisationId, (int)ProductOfferType.PopularProducts);
             }
             else
             {
-                return _ItemRepository.GetProductsList(CompanyId, OrganisationId, (int)ProductOfferType.SpecialProducts).OrderBy(i => i.SortOrder).ToList();
+                return _ItemRepository.GetProductsList(CompanyId, OrganisationId, (int)ProductOfferType.SpecialProducts);
             }
         }
 

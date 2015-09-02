@@ -1,6 +1,6 @@
 ﻿function ShowPopUp(Type,Message) {
    
-    var container = '<div class="md-modal md-effect-7" id="modal-7" style="border-radius:8px;"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="word-wrap:break-word;max-height:116px;overflow-y:scroll;overflow-x:hidden;"  >' + Message + '</div></div>';
+    var container = '<div class="md-modal md-effect-7" id="modal-7" style="border-radius:8px;"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="word-wrap:break-word;max-height:116px;overflow-y:auto;overflow-x:hidden;"  >' + Message + '</div></div>';
    
     var bws = getBrowserHeight();
     var shadow = document.getElementById("innerLayer");
