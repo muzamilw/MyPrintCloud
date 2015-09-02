@@ -373,6 +373,8 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     else if (ooBject.VAllignment == 3)
                     {
+                        
+                      //  OPosY += DesignerUtils.PixelToPoint(Convert.ToDouble(ooBject.TextPaddingTop));
                         oPdf.VPos = 1.0;
                     }
                 }
@@ -1444,7 +1446,7 @@ namespace MPC.Implementation.WebStoreServices
                         double currentX = objObjects.PositionX.Value, currentY = objObjects.PositionY.Value;
 
 
-                        if (VAlign == 1 || VAlign == 2)
+                        if (VAlign == 1 || VAlign == 2 || VAlign == 3)
                             currentY = objObjects.PositionY.Value + objObjects.MaxHeight.Value;
                         bool isTemplateSpot = false;
                         if (objProduct.isSpotTemplate.HasValue == true && objProduct.isSpotTemplate.Value == true)
