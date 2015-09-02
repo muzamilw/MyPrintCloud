@@ -1,4 +1,5 @@
-﻿using MPC.Models.DomainModels;
+﻿using System.Collections.Generic;
+using MPC.Models.DomainModels;
 
 namespace MPC.Interfaces.Repository
 {
@@ -11,5 +12,7 @@ namespace MPC.Interfaces.Repository
         /// Returns Active Banner Set for Specified Company
         /// </summary>
         CompanyBannerSet GetActiveBannerSetForCompany(long companyId);
+
+        List<string> GetCompanyBannersByCompanyId(long companyId);
     }
 }

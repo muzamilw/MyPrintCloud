@@ -2738,7 +2738,7 @@ namespace MPC.Repository.Repositories
             return
                 DbSet.Where(
                     i =>
-                        i.IsPublished == true && i.IsArchived == false && i.EstimateId == null && i.IsFeatured == true && i.IsEnabled == true &&
+                        i.IsPublished == true && i.IsArchived != true  && i.EstimateId == null && i.IsFeatured == true && i.IsEnabled == true &&
                         i.OrganisationId == OrganisationId).ToList().OrderBy(c => c.ProductName).ToList();
 
         }
@@ -4350,10 +4350,13 @@ namespace MPC.Repository.Repositories
                     List<int?> ids = db.CmsOffers.Where(i => listOfActualtemIds.Contains((long)i.ItemId) && i.OfferType == offerType).Select(c => c.ItemId).ToList();
                     if (ids != null && ids.Count() > 0)
                     {
-                        itemsList = itemsList.Where(i => ids.Contains((int)i.ItemId)).ToList();
+                        itemsList = itemsList.Where(i => ids.Contains((int)i.ItemId)).OrderBy(i => i.SortOrder).ToList();
+                        return itemsList;
                     }
-
-                    return itemsList;
+                    else 
+                    {
+                        return null;
+                    }
                 }
                 else 
                 {

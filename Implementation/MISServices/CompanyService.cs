@@ -3534,8 +3534,10 @@ namespace MPC.Implementation.MISServices
         private void DeleteMediaFiles(long companyId)
         {
             IEnumerable<MediaLibrary> mediaLibraries = mediaLibraryRepository.GetMediaLibrariesByCompanyId(companyId);
-            IEnumerable<CmsPage> cmsPages = cmsPageRepository.GetAll();
-            IEnumerable<CompanyBanner> companyBanners = companyBannerRepository.GetAll();
+            List<CmsPage> cmsPages =
+                cmsPageRepository.GetCmsPagesByOrganisationForBanners(companyId);
+           // List<CompanyBanner> companyBanners = companyBannerRepository.GetAll().ToList();
+            List<string> companyBanners = bannerSetRepository.GetCompanyBannersByCompanyId(companyId);
 
             List<MediaLibrary> mediaLibrariesForDelete = new List<MediaLibrary>();
             foreach (var media in mediaLibraries)
@@ -3544,15 +3546,19 @@ namespace MPC.Implementation.MISServices
                 //CmsPage cmsPage = cmsPages.FirstOrDefault(cp => cp.PageBanner == media.FilePath);
                 //CompanyBanner companyBanner = companyBanners.FirstOrDefault(cp => cp.ImageURL == media.FilePath);
                 var cmsPage = cmsPages.Where(c => c.PageBanner == media.FilePath).Select(c => c.PageBanner).FirstOrDefault();
-                var companyBanner = companyBanners.Where(c => c.ImageURL == media.FilePath).Select(c => c.ImageURL).FirstOrDefault();
-                if (cmsPage == null && companyBanner == null)
+                //var companyBanner = companyBanners.Where(c => c.ImageURL == media.FilePath).Select(c => c.ImageURL).FirstOrDefault();
+                var companyBanner = companyBanners.Contains(media.FilePath);
+                if (cmsPage == null && companyBanner == true)
                 {
                     mediaLibrariesForDelete.Add(media);
                 }
             }
+            string target = HttpContext.Current.Server.MapPath("~/MPC_Content/Media/" + companyRepository.OrganisationId + "/" + companyId);
             foreach (var item in mediaLibrariesForDelete)
             {
                 mediaLibraryRepository.Delete(item);
+                if(File.Exists(target +"/"+ item.FilePath))
+                    File.Delete(target + "/" + item.FilePath);
             }
             mediaLibraryRepository.SaveChanges();
         }

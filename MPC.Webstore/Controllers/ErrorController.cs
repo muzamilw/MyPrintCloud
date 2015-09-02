@@ -41,51 +41,55 @@ namespace MPC.Webstore.Controllers
         // GET: Error
         public ActionResult Index(Exception exception, int errorType, string url)
         {
-            Response.TrySkipIisCustomErrors = true;
-
-            string EmailIds =  ConfigurationManager.AppSettings["ErrorReportEmailIDs"];
-            string MesgBody = "";
-            if (!string.IsNullOrEmpty(EmailIds))
+            if(exception != null)
             {
-                if(UserCookieManager.WBStoreId > 0)
+                Response.TrySkipIisCustomErrors = true;
+
+                string EmailIds = ConfigurationManager.AppSettings["ErrorReportEmailIDs"];
+                string MesgBody = "";
+                if (!string.IsNullOrEmpty(EmailIds))
                 {
-                    Company company = _myCompanyService.GetCompanyByCompanyID(UserCookieManager.WBStoreId);
-
-                    if (company != null)
+                    if (UserCookieManager.WBStoreId > 0)
                     {
-                        Organisation organisation = _myCompanyService.GetOrganisatonById(Convert.ToInt64(company.OrganisationId));
-                        if(organisation != null)
-                        {
-                            string[] idsListToSendEmail = EmailIds.Split(',');
-                            foreach (string id in idsListToSendEmail)
-                            {
-                                MesgBody += "Dear ,<br>";
-                                MesgBody += "An error has been occurred:<br>";
-                                MesgBody += "Store Name: " + company.Name + "<br>";
-                                MesgBody += "Organisation Name: " + organisation.OrganisationName + "<br>";
-                                MesgBody += "Store Id: " + company.CompanyId + "<br>";
-                                MesgBody += "Organisation Id: " + organisation.OrganisationId + "<br>";
-                                MesgBody += "Url: " + url + "<br>";
-                                MesgBody += "Stack Trace: " + exception.StackTrace + "<br>";
-                                MesgBody += "Inner Exception: " + exception.InnerException + "<br>";
+                        Company company = _myCompanyService.GetCompanyByCompanyID(UserCookieManager.WBStoreId);
 
-                                SystemUser EmailOFSM = _myUserManagerService.GetSalesManagerDataByID(company.SalesAndOrderManagerId1.Value);
-                                if (EmailOFSM != null)
+                        if (company != null)
+                        {
+                            Organisation organisation = _myCompanyService.GetOrganisatonById(Convert.ToInt64(company.OrganisationId));
+                            if (organisation != null)
+                            {
+                                string[] idsListToSendEmail = EmailIds.Split(',');
+                                foreach (string id in idsListToSendEmail)
                                 {
-                                    _myCampaignService.AddMsgToTblQueue(id, "", id, MesgBody, EmailOFSM.FullName, EmailOFSM.Email, organisation.SmtpUserName, organisation.SmtpPassword, organisation.SmtpServer, "Error Report on " + company.Name, null, 0);
-                                }
-                                else
-                                {
-                                    _myCampaignService.AddMsgToTblQueue(id, "", id, MesgBody, "", "info@myprintcloud.com", organisation.SmtpUserName, organisation.SmtpPassword, organisation.SmtpServer, "Error Report on " + company.Name, null, 0);
+                                    MesgBody += "Dear ,<br>";
+                                    MesgBody += "An error has been occurred:<br>";
+                                    MesgBody += "Store Name: " + company.Name + "<br>";
+                                    MesgBody += "Organisation Name: " + organisation.OrganisationName + "<br>";
+                                    MesgBody += "Store Id: " + company.CompanyId + "<br>";
+                                    MesgBody += "Organisation Id: " + organisation.OrganisationId + "<br>";
+                                    MesgBody += "Url: " + url + "<br>";
+                                    MesgBody += "Stack Trace: " + exception.StackTrace + "<br>";
+                                    MesgBody += "Inner Exception: " + exception.InnerException + "<br>";
+
+                                    SystemUser EmailOFSM = _myUserManagerService.GetSalesManagerDataByID(company.SalesAndOrderManagerId1.Value);
+                                    if (EmailOFSM != null)
+                                    {
+                                        _myCampaignService.AddMsgToTblQueue(id, "", id, MesgBody, EmailOFSM.FullName, EmailOFSM.Email, organisation.SmtpUserName, organisation.SmtpPassword, organisation.SmtpServer, "Error Report on " + company.Name, null, 0);
+                                    }
+                                    else
+                                    {
+                                        _myCampaignService.AddMsgToTblQueue(id, "", id, MesgBody, "", "info@myprintcloud.com", organisation.SmtpUserName, organisation.SmtpPassword, organisation.SmtpServer, "Error Report on " + company.Name, null, 0);
+                                    }
                                 }
                             }
                         }
                     }
                 }
+                ViewBag.Exception = exception.Message;
+                ViewBag.StackTrace = exception.StackTrace;
+                ViewBag.InnerException = exception.InnerException;
             }
-            ViewBag.Exception = exception.Message;
-            ViewBag.StackTrace = exception.StackTrace;
-            ViewBag.InnerException = exception.InnerException;
+           
             return View();
         }
 
