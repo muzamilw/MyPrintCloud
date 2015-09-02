@@ -133,7 +133,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             NewInqury.FlagId = null;
             NewInqury.SourceId = (int)PipelineSource.WebtoPrintSite;
             NewInqury.SystemUserId = StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value;
-           
+            NewInqury.Status = 25; // unproccessed status of inquiry
             int iMaxFileSize = 2097152;
             long result = _ItemService.AddInquiryAndItems(NewInqury, FillItems(InquiryItemDeliveryDate1, InquiryItemDeliveryDate2, InquiryItemDeliveryDate3, InquiryItemTitle1, InquiryItemNotes1, InquiryItemTitle2, InquiryItemNotes2, InquiryItemTitle3, InquiryItemNotes3, Convert.ToInt32(hfNoOfRec)));
             long InquiryId = result;

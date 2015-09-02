@@ -706,6 +706,7 @@
     <Content Include="Content\jquery.mousewheel-3.0.4.pack.js" />
     <Content Include="Content\metroboostrap.css" />
     <Content Include="Content\MetroStyles.css" />
+    <Content Include="Content\mp-loading.gif" />
     <Content Include="Content\NewBootstrapClass.css" />
     <Content Include="Content\oxfordtestimonial.css" />
     <Content Include="Content\RealEstateSlider\css\feature-carousel.css" />

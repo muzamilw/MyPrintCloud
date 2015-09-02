@@ -4350,10 +4350,13 @@ namespace MPC.Repository.Repositories
                     List<int?> ids = db.CmsOffers.Where(i => listOfActualtemIds.Contains((long)i.ItemId) && i.OfferType == offerType).Select(c => c.ItemId).ToList();
                     if (ids != null && ids.Count() > 0)
                     {
-                        itemsList = itemsList.Where(i => ids.Contains((int)i.ItemId)).ToList();
+                        itemsList = itemsList.Where(i => ids.Contains((int)i.ItemId)).OrderBy(i => i.SortOrder).ToList();
+                        return itemsList;
                     }
-
-                    return itemsList;
+                    else 
+                    {
+                        return null;
+                    }
                 }
                 else 
                 {
