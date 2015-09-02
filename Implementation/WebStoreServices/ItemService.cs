@@ -1616,45 +1616,45 @@ namespace MPC.Implementation.WebStoreServices
         {
 
             List<Item> productsAllList = null;
-            List<Item> filteredList = null;
+            //List<Item> filteredList = null;
 
             switch (productWidgetId)
             {
 
                 case ProductWidget.FeaturedProducts:
                     productsAllList = GetDisplayProductsWithDisplaySettings(null, null, CompanyId, OrganisationId);
-                    filteredList = productsAllList;//ProductManager.GetSearchedProducts((int)productWidget, productsAllList);
+                    //filteredList = productsAllList;//ProductManager.GetSearchedProducts((int)productWidget, productsAllList);
 
                     break;
                 case ProductWidget.PopularProducts:
 
                     productsAllList = GetDisplayProductsWithDisplaySettings(true, null, CompanyId, OrganisationId); //popular
 
-                    if (productsAllList != null & productsAllList.Count > 0)
-                        filteredList = productsAllList.ToList();
+                    //if (productsAllList != null & productsAllList.Count > 0)
+                    //    filteredList = productsAllList.ToList();
 
                     break;
                 case ProductWidget.SpecialProducts:
 
                     productsAllList = GetDisplayProductsWithDisplaySettings(null, true, CompanyId, OrganisationId); //promotional or special
-                    if (productsAllList != null & productsAllList.Count > 0)
-                    {
-                        // filteredList = ProductManager.GetSearchedProducts((int)productWidget, productsAllList);
+                    //if (productsAllList != null & productsAllList.Count > 0)
+                    //{
+                    //    // filteredList = ProductManager.GetSearchedProducts((int)productWidget, productsAllList);
 
-                        if (filteredList != null)
-                            filteredList = filteredList.ToList();
+                    //    if (filteredList != null)
+                    //        filteredList = filteredList.ToList();
 
+                    //    break;
+                    //}
+                    //else
+                    //{
+                    //    filteredList = null;
                         break;
-                    }
-                    else
-                    {
-                        filteredList = null;
-                        break;
-                    }
+                   // }
             }
 
-            if (filteredList != null)
-                return filteredList.OrderBy(i => i.SortOrder).ToList();
+            if (productsAllList != null)
+                return productsAllList.OrderBy(i => i.SortOrder).ToList();
             return null;
 
         }
@@ -1664,15 +1664,15 @@ namespace MPC.Implementation.WebStoreServices
             //Note:All promotional or spceial will also be a featured product
             if (isPopularProd == null && isPromotionProduct == null)
             {
-                return _ItemRepository.GetProductsList(CompanyId, OrganisationId).Where(i => i.IsFeatured == true).OrderBy(i => i.SortOrder).ToList();
+                return _ItemRepository.GetProductsList(CompanyId, OrganisationId, (int)ProductOfferType.FeaturedProducts).OrderBy(i => i.SortOrder).ToList();
             }
             else if (isPopularProd == true && isPromotionProduct == null)
             {
-                return _ItemRepository.GetProductsList(CompanyId, OrganisationId).Where(i => i.IsPopular == true).OrderBy(i => i.SortOrder).ToList();
+                return _ItemRepository.GetProductsList(CompanyId, OrganisationId, (int)ProductOfferType.PopularProducts).OrderBy(i => i.SortOrder).ToList();
             }
             else
             {
-                return _ItemRepository.GetProductsList(CompanyId, OrganisationId).Where(i => i.IsSpecialItem == true).OrderBy(i => i.SortOrder).ToList();
+                return _ItemRepository.GetProductsList(CompanyId, OrganisationId, (int)ProductOfferType.SpecialProducts).OrderBy(i => i.SortOrder).ToList();
             }
         }
 

@@ -421,7 +421,7 @@
     <Compile Include="Controllers\ProductOrderHistoryController.cs" />
     <Compile Include="Controllers\ProductParentCategoriesController.cs" />
     <Compile Include="Controllers\ProductPendingOrdersController.cs" />
-    <Compile Include="Controllers\PromotionalProductController.cs" />
+    <Compile Include="Controllers\SpecialProductController.cs" />
     <Compile Include="Controllers\QuickCalculatorController.cs" />
     <Compile Include="Controllers\RaveReviewController.cs" />
     <Compile Include="Controllers\RealEstateBannerController.cs" />
@@ -984,7 +984,7 @@
     <Content Include="Views\Shared\PartialViews\RaveReview.cshtml" />
     <Content Include="Views\Home\ReceiptPlain.cshtml" />
     <Content Include="Views\Shared\PartialViews\PopularProducts.cshtml" />
-    <Content Include="Views\Shared\PartialViews\PromotionalProduct.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SpecialProduct.cshtml" />
     <Content Include="Views\Shared\PartialViews\RSS.cshtml" />
     <Content Include="Views\Shared\PartialViews\Twitter.cshtml" />
     <Content Include="Views\Shared\PartialViews\QuickCalculator.cshtml" />

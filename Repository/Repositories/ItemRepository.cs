@@ -4291,7 +4291,7 @@ namespace MPC.Repository.Repositories
         /// <param name="CompanyId"></param>
         /// <param name="OrganisationId"></param>
         /// <returns></returns>
-        public List<Item> GetProductsList(long CompanyId, long OrganisationId)
+        public List<Item> GetProductsList(long CompanyId, long OrganisationId, int offerType)
         {
             try
             {
@@ -4342,18 +4342,24 @@ namespace MPC.Repository.Repositories
                 List<Item> itemsList = db.Items.Where(
                    i =>
                        i.EstimateId == null && i.IsPublished == true && i.IsEnabled == true && (i.IsArchived == null || i.IsArchived == false) && i.CompanyId == CompanyId &&
-                       i.OrganisationId == OrganisationId).ToList();
+                       i.OrganisationId == OrganisationId && i.IsFeatured == true).ToList();
 
                 if (itemsList != null || itemsList.Count() > 0)
                 {
                     List<long> listOfActualtemIds = itemsList.Select(c => c.ItemId).ToList();
-                    List<int?> ids = db.CmsOffers.Where(i => listOfActualtemIds.Contains((long)i.ItemId)).Select(c => c.ItemId).ToList();
+                    List<int?> ids = db.CmsOffers.Where(i => listOfActualtemIds.Contains((long)i.ItemId) && i.OfferType == offerType).Select(c => c.ItemId).ToList();
                     if (ids != null && ids.Count() > 0)
                     {
                         itemsList = itemsList.Where(i => ids.Contains((int)i.ItemId)).ToList();
                     }
+
+                    return itemsList;
                 }
-                return itemsList;
+                else 
+                {
+                    return null;
+                }
+                
             }
             catch (Exception ex)
             {
