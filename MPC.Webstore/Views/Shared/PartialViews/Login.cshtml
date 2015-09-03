@@ -47,13 +47,13 @@
                     @Html.Raw(Html.GetKeyValueFromResourceFile("lblSignIntoComapny", UserCookieManager.WBStoreId,"Sign In to")) @ViewBag.CompanyName
                 </div>
                 @using (Html.BeginForm())
-                {  
+                {         <br />
                     <div class="errorMesgLoginPage">
                         <div>@ViewBag.Message</div>
                         <div>@Html.ValidationMessageFor(u => u.Email)</div>
                         <div>@Html.ValidationMessageFor(u => u.Password)</div>
                     </div>
-                    <br/>
+             
                     @Html.TextBoxFor(model => model.Email, new { id = "txtEmailId", @class = "txtBoxLoginPage txtEmailBox",  @value = "Email" })
 
                     @Html.TextBoxFor(model => model.Password, new { id = "Password", @class = "txtBoxLoginPage txtPassBox",  @value = "Password" }) <br />
@@ -72,7 +72,7 @@
                            &nbsp;
                         </div>
                         <div class="divwidthset">
-                            <input id="cmdLogin" type="submit" class="start_creating_btn_Login rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("loginnnnn", UserCookieManager.WBStoreId, "Login"))" onclick="ShowLoader();" /><br />
+                            <input id="cmdLogin" type="submit" class="start_creating_btn_Login rounded_corners5" value="@Html.Raw(Html.GetKeyValueFromResourceFile("loginnnnn", UserCookieManager.WBStoreId, "Login"))" onclick="ValidateUserCredentials(); " /><br />
                         </div>
                         <br />
                         <div class="clear divwidthset">
@@ -234,4 +234,14 @@
                 document.getElementById('fb-root').appendChild(e);
             }
         });
+
+        function ValidateUserCredentials() {
+            if ($('#txtEmailId').val() === 'Email' && $('#Password').val() === 'Password') {
+
+                return false;
+            } else {
+                ShowLoader();
+                return true;
+            }
+        }
     </script>

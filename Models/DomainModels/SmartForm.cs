@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MPC.Models.DomainModels
 {
@@ -15,5 +16,34 @@ namespace MPC.Models.DomainModels
 
         public virtual Company Company { get; set; }
         public virtual ICollection<SmartFormDetail> SmartFormDetails { get; set; }
+
+
+
+        #region public
+
+
+        /// <summary>
+        /// Makes a copy of Entity
+        /// </summary>
+        ///   
+
+        public void Clone(SmartForm target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemProductDetailClone_InvalidItemProductDetail, "target");
+            }
+
+
+            target.Name = Name;
+            target.Heading = Heading;
+            target.OrganisationId = OrganisationId;
+          
+
+
+
+        }
+
+        #endregion
     }
 }

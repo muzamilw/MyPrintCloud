@@ -42,6 +42,8 @@ namespace MPC.Implementation.MISServices
         #region Repositories
 
         private readonly ICompanyRepository companyRepository;
+       
+        private readonly ICampaignImageRepository campaignImageRepository;
         private readonly IEstimateRepository estimateRepository;
         private readonly ISystemUserRepository systemUserRepository;
         private readonly IRaveReviewRepository raveReviewRepository;
@@ -60,6 +62,7 @@ namespace MPC.Implementation.MISServices
         private readonly IPaymentGatewayRepository paymentGatewayRepository;
         private readonly IWidgetRepository widgetRepository;
         private readonly ICmsSkinPageWidgetRepository cmsSkinPageWidgetRepository;
+        private readonly ICmsSkinPageWidgetParamRepository cmsSkinPageWidgetParamRepository;
         private readonly IProductCategoryRepository productCategoryRepository;
         private readonly IOrganisationRepository organisationRepository;
         private readonly IGetItemsListViewRepository itemsListViewRepository;
@@ -104,6 +107,11 @@ namespace MPC.Implementation.MISServices
         private readonly IStagingImportCompanyContactAddressRepository stagingImportCompanyContactRepository;
         private readonly ICostCentersService CostCentreService;
         private readonly IDiscountVoucherRepository discountVoucherRepository;
+        private readonly ITemplateVariableRepository templateVariableRepository;
+        private readonly IActivityRepository activityRepository;
+        private readonly IProductCategoryVoucherRepository productcategoryvoucherRepository;
+        private readonly ItemsVoucherRepository itemsVoucherRepository;
+        private readonly ICMSOfferRepository cmsofferRepository;
         #endregion
 
         private bool CheckDuplicateExistenceOfCompanyDomains(CompanySavingModel companySaving)
@@ -2997,7 +3005,8 @@ namespace MPC.Implementation.MISServices
             ICmsTagReporistory cmsTagReporistory, ICompanyBannerSetRepository bannerSetRepository, ICampaignRepository campaignRepository,
             MPC.Interfaces.WebStoreServices.ITemplateService templateService, ITemplateFontsRepository templateFontRepository, IMarkupRepository markupRepository,
             ITemplateColorStylesRepository templateColorStylesRepository, IStagingImportCompanyContactAddressRepository stagingImportCompanyContactRepository,
-            ICostCentersService CostCentreService, IDiscountVoucherRepository discountVoucherRepository)
+            ICostCentersService CostCentreService, IDiscountVoucherRepository discountVoucherRepository, ICampaignImageRepository campaignImageRepository, ICmsSkinPageWidgetParamRepository cmsSkinPageWidgetParamRepository, ITemplateVariableRepository templateVariableRepository,
+            IActivityRepository activityRepository, IProductCategoryVoucherRepository productcategoryvoucherRepository, ItemsVoucherRepository itemsVoucherRepository, ICMSOfferRepository cmsofferRepository)
         {
             if (bannerSetRepository == null)
             {
@@ -3071,6 +3080,14 @@ namespace MPC.Implementation.MISServices
             this.stagingImportCompanyContactRepository = stagingImportCompanyContactRepository;
             this.CostCentreService = CostCentreService;
             this.discountVoucherRepository = discountVoucherRepository;
+            this.campaignImageRepository = campaignImageRepository;
+            this.cmsSkinPageWidgetParamRepository = cmsSkinPageWidgetParamRepository;
+            this.templateVariableRepository = templateVariableRepository;
+            this.activityRepository = activityRepository;
+            this.productcategoryvoucherRepository = productcategoryvoucherRepository;
+            this.itemsVoucherRepository = itemsVoucherRepository;
+            this.cmsofferRepository = cmsofferRepository;
+
 
         }
         #endregion
@@ -6858,27 +6875,61 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public Company CloneStore(long companyId)
         {
-            // Find Company - Throws Exception if not exist
-            Company source = companyRepository.GetCompanyByCompanyID(companyId);
+            try
+            {
+                // company id after clonning
+                long NewCompanyId = 0;
 
-            // Create New Instance
+                // Find Company - Throws Exception if not exist
+                Company source = companyRepository.GetCompanyByCompanyID(companyId);
+
+
+                // Create New Instance
+
+                Company target = CreateNewCompany();
+
+                // Clone
+                NewCompanyId = CloneCompany(source, target);
+
+
+                // insert product categories and items
+                companyRepository.CopyProductByStore(NewCompanyId, companyId);
+
+
+                // insert discount voucher
+                CloneDiscountVouchers(companyId, NewCompanyId);
+
+                // update data
+                Company objCompany = companyRepository.LoadCompanyWithItems(NewCompanyId);
+                if (objCompany != null)
+                {
+                    string SetName = source.CompanyBannerSets.Where(c => c.CompanySetId == source.ActiveBannerSetId).Select(c => c.SetName).FirstOrDefault();
+                    SetValuesAfterClone(objCompany, SetName);
+
+                    // copy All files or images
+
+                }
+
+
+
+                // Load Item Full
+                // target = itemRepository.GetItemWithDetails(target.ItemId);
+
+                // Get Updated Minimum Price
+                //target.MinPrice = itemRepository.GetMinimumProductValue(target.ItemId);
+
+                // convert template length to system unit 
+                //  ConvertTemplateLengthToSystemUnit(target);
+
+                // Return Product
+                companyRepository.SaveChanges();
+                return objCompany;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
            
-            Company target = CreateNewCompany();
-
-            // Clone
-            CloneCompany(source, target);
-
-            // Load Item Full
-           // target = itemRepository.GetItemWithDetails(target.ItemId);
-
-            // Get Updated Minimum Price
-            //target.MinPrice = itemRepository.GetMinimumProductValue(target.ItemId);
-
-            // convert template length to system unit 
-          //  ConvertTemplateLengthToSystemUnit(target);
-
-            // Return Product
-            return target;
             
         }
 
@@ -6897,7 +6948,7 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Creates Copy of Product
         /// </summary>
-        private void CloneCompany(Company source, Company target)
+        private long CloneCompany(Company source, Company target)
         {
             try
             {
@@ -6908,8 +6959,7 @@ namespace MPC.Implementation.MISServices
                 CloneCompanyDomain(source, target);
 
                 // clone Media Library
-                // later
-
+                CloneMediaLibrary(source, target);
 
 
                 // Clone company banners sets and its banner
@@ -6917,6 +6967,8 @@ namespace MPC.Implementation.MISServices
 
                 // Clone cms pages
                 CloneCMSPages(source, target);
+
+                
 
                 // clone payment gateways
                 ClonePaymentGateways(source, target);
@@ -6933,11 +6985,39 @@ namespace MPC.Implementation.MISServices
                 // Clone company contacts
                CloneCompanyContacts(source, target);
 
-                //// Clone Item Image Items
-                //CloneItemImageItems(source, target);
+                // Clone campaignEmails
+                CloneCampaigns(source, target);
 
-                //// Clone Product Market Brief Questions
-                //CloneProductMarketBriefQuestions(source, target);
+                // Clone Pcompany cost centre
+                CloneCompanyCostCentre(source, target);
+
+                // clone template color style
+                CloneTemplateColorStyles(source, target);
+
+                // Clone company cmyk colors
+                CloneCompanyCMYKColor(source, target);
+
+
+                // Clone field variables
+                CloneFieldVariables(source, target);
+
+                // Clone smart forms and its details
+                CloneSmartFom(source, target);
+
+                // clone cms offers
+                CloneCMSOffer(source,target);
+
+                // Clone activities
+                CloneActivities(source, target);
+
+
+                companyRepository.SaveChanges();
+
+                return target.CompanyId;
+               
+
+                // clone cms offer after submet changes because itsm not addup
+
 
                 //// Save Changes
                 //itemRepository.SaveChanges();
@@ -6956,7 +7036,10 @@ namespace MPC.Implementation.MISServices
                 //}
 
                 // Save Changes
-                companyRepository.SaveChanges();
+             
+
+
+
             }
             catch(Exception ex)
             {
@@ -7014,6 +7097,8 @@ namespace MPC.Implementation.MISServices
 
             foreach (CompanyBannerSet companyBannerSet in source.CompanyBannerSets)
             {
+               
+
                 CompanyBannerSet targetCompanyBannerSet = bannerSetRepository.Create();
                 bannerSetRepository.Add(targetCompanyBannerSet);
                 targetCompanyBannerSet.CompanyId = targetCompanyBannerSet.CompanyId;
@@ -7040,7 +7125,7 @@ namespace MPC.Implementation.MISServices
                 targetcompanyBannerSets.CompanyBanners = new List<CompanyBanner>();
             }
 
-            foreach (CompanyBanner objcompanyBanners in targetcompanyBannerSets.CompanyBanners.ToList())
+            foreach (CompanyBanner objcompanyBanners in companyBannerSets.CompanyBanners.ToList())
             {
                 CompanyBanner targetCompanyBanner = companyBannerRepository.Create();
                 companyBannerRepository.Add(targetCompanyBanner);
@@ -7073,9 +7158,69 @@ namespace MPC.Implementation.MISServices
                 targetCMSPage.CompanyId = target.CompanyId;
                 target.CmsPages.Add(targetCMSPage);
                 cmsPage.Clone(targetCMSPage);
+
+                // Clone CompanyBanners
+                if (cmsPage.CmsSkinPageWidgets == null)
+                {
+                    continue;
+                }
+
+                // Copy CompanyBanners
+                CloneCMSSkinPageWidgets(cmsPage, targetCMSPage,target);
+
             }
         }
+        /// <summary>
+        /// Creates Copy of company  Banners
+        /// </summary>
+        private void CloneCMSSkinPageWidgets(CmsPage cmspage, CmsPage targetcmspage,Company targetCompany)
+        {
+            if (targetcmspage.CmsSkinPageWidgets == null)
+            {
+                targetcmspage.CmsSkinPageWidgets = new List<CmsSkinPageWidget>();
+            }
 
+            foreach (CmsSkinPageWidget objcmsSkinPageWidget in cmspage.CmsSkinPageWidgets.ToList())
+            {
+                CmsSkinPageWidget targetCMSSkinPageWidget = cmsSkinPageWidgetRepository.Create();
+                cmsSkinPageWidgetRepository.Add(targetCMSSkinPageWidget);
+                targetCMSSkinPageWidget.PageId = targetcmspage.PageId;
+                targetCMSSkinPageWidget.OrganisationId = cmsSkinPageWidgetRepository.OrganisationId;
+                targetCMSSkinPageWidget.CompanyId = targetCompany.CompanyId;
+                targetcmspage.CmsSkinPageWidgets.Add(targetCMSSkinPageWidget);
+                objcmsSkinPageWidget.Clone(targetCMSSkinPageWidget);
+
+                // Clone params
+                if (objcmsSkinPageWidget.CmsSkinPageWidgetParams == null)
+                {
+                    continue;
+                }
+
+                // Copy params
+                CloneCMSSkinPageWidgetsParams(objcmsSkinPageWidget, targetCMSSkinPageWidget);
+
+            }
+        }
+        private void CloneCMSSkinPageWidgetsParams(CmsSkinPageWidget cmsskinPageWidget, CmsSkinPageWidget targetcmsskinPageWidget)
+        {
+            if (targetcmsskinPageWidget.CmsSkinPageWidgetParams == null)
+            {
+                targetcmsskinPageWidget.CmsSkinPageWidgetParams = new List<CmsSkinPageWidgetParam>();
+            }
+
+            foreach (CmsSkinPageWidgetParam objcmsSkinPageWidgetParams in cmsskinPageWidget.CmsSkinPageWidgetParams.ToList())
+            {
+                CmsSkinPageWidgetParam targetCMSSkinPageWidgetParam = cmsSkinPageWidgetParamRepository.Create();
+                cmsSkinPageWidgetParamRepository.Add(targetCMSSkinPageWidgetParam);
+                objcmsSkinPageWidgetParams.PageWidgetId = targetcmsskinPageWidget.PageWidgetId;
+
+                targetcmsskinPageWidget.CmsSkinPageWidgetParams.Add(targetCMSSkinPageWidgetParam);
+                objcmsSkinPageWidgetParams.Clone(targetCMSSkinPageWidgetParam);
+
+             
+
+            }
+        }
         /// <summary>
         /// Copy  payment gateways
         /// </summary>
@@ -7226,19 +7371,760 @@ namespace MPC.Implementation.MISServices
                 companyContactRepository.Add(targetCompanyContact);
                 targetCompanyContact.CompanyId = target.CompanyId;
                 targetCompanyContact.TerritoryId = NewTerrObj != null ? NewTerrObj.TerritoryId : 0;
-                targetCompanyContact.Address = null;
-                targetCompanyContact.ShippingAddress = null;
-                //if(NewAddressObj != null)
-                //{
-                //    targetCompanyContact.AddressId = NewAddressObj.AddressId;
-                //}
-                //if(NewShipingAdd != null)
-                //{
-                //    targetCompanyContact.ShippingAddressId = NewShipingAdd.AddressId;
-                //}
+               
+                
+                if (NewAddressObj != null)
+                {
+                    targetCompanyContact.Address = NewAddressObj;
+                    targetCompanyContact.AddressId = NewAddressObj.AddressId;
+                }
+                if (NewShipingAdd != null)
+                {
+                    targetCompanyContact.ShippingAddress = NewShipingAdd;
+                    targetCompanyContact.ShippingAddressId = NewShipingAdd.AddressId;
+                }
                 target.CompanyContacts.Add(targetCompanyContact);
                 contacts.Clone(targetCompanyContact);
             }
+        }
+
+        /// <summary>
+        /// Copy campaigns
+        /// </summary>
+        private void CloneCampaigns(Company source, Company target)
+        {
+            if (source.Campaigns == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.Campaigns == null)
+            {
+                target.Campaigns = new List<Campaign>();
+            }
+
+            foreach (Campaign campaigns in source.Campaigns)
+            {
+                Campaign targetCampaigns = campaignRepository.Create();
+                campaignRepository.Add(targetCampaigns);
+                targetCampaigns.CompanyId = target.CompanyId;
+                target.Campaigns.Add(targetCampaigns);
+                campaigns.Clone(targetCampaigns);
+
+
+                // Clone campaign images
+                if (campaigns.CampaignImages == null)
+                {
+                    continue;
+                }
+
+                // Copy Campaign Images
+                CloneCampaignImages(campaigns, targetCampaigns);
+            }
+        }
+
+        /// <summary>
+        /// Creates Copy of company  Banners
+        /// </summary>
+        public void CloneCampaignImages(Campaign campaigns, Campaign targetcampaigns)
+        {
+            if (campaigns.CampaignImages == null)
+            {
+                campaigns.CampaignImages = new List<CampaignImage>();
+            }
+
+            foreach (CampaignImage objcampaignImages in campaigns.CampaignImages.ToList())
+            {
+                CampaignImage targetCampaignImage = campaignImageRepository.Create();
+                campaignImageRepository.Add(targetCampaignImage);
+                targetCampaignImage.CampaignId = targetcampaigns.CampaignId;
+                targetcampaigns.CampaignImages.Add(targetCampaignImage);
+                targetCampaignImage.Clone(targetCampaignImage);
+            }
+        }
+
+        
+        /// <summary>
+        /// Copy company cost centre
+        private void CloneCompanyCostCentre(Company source, Company target)
+        {
+            if (source.CompanyCostCentres == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.CompanyCostCentres == null)
+            {
+                target.CompanyCostCentres = new List<CompanyCostCentre>();
+            }
+
+            foreach (CompanyCostCentre companyCostCentre in source.CompanyCostCentres)
+            {
+                CompanyCostCentre targetCompanyCostCentre = companyCostCenterRepository.Create();
+                companyCostCenterRepository.Add(targetCompanyCostCentre);
+                targetCompanyCostCentre.CompanyId = target.CompanyId;
+                target.CompanyCostCentres.Add(targetCompanyCostCentre);
+                companyCostCentre.Clone(targetCompanyCostCentre);
+            }
+        }
+
+
+        /// <summary>
+        /// Copy cmyk color
+        /// 
+        /// </summary>
+        private void CloneCompanyCMYKColor(Company source, Company target)
+        {
+            if (source.CompanyCMYKColors == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.CompanyCMYKColors == null)
+            {
+                target.CompanyCMYKColors = new List<CompanyCMYKColor>();
+            }
+
+            foreach (CompanyCMYKColor companyCMYKColor in source.CompanyCMYKColors)
+            {
+                CompanyCMYKColor targetCompanyCMYKColor = companyCmykColorRepository.Create();
+                companyCmykColorRepository.Add(targetCompanyCMYKColor);
+                targetCompanyCMYKColor.CompanyId = target.CompanyId;
+                target.CompanyCMYKColors.Add(targetCompanyCMYKColor);
+                companyCMYKColor.Clone(targetCompanyCMYKColor);
+            }
+        }
+
+          /// <summary>
+        /// Copy smart form or its details
+        /// 
+        /// </summary>
+        private void CloneSmartFom(Company source, Company target)
+        {
+            if (source.SmartForms == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.SmartForms == null)
+            {
+                target.SmartForms = new List<SmartForm>();
+            }
+
+            foreach (SmartForm companySmartForm in source.SmartForms)
+            {
+                SmartForm targetSmartForm = smartFormRepository.Create();
+                smartFormRepository.Add(targetSmartForm);
+                targetSmartForm.CompanyId = target.CompanyId;
+                target.SmartForms.Add(targetSmartForm);
+                companySmartForm.Clone(targetSmartForm);
+
+                // Clone smart form details
+                if (companySmartForm.SmartFormDetails == null)
+                {
+                    continue;
+                }
+
+                // Clone smart form details
+                CloneSmartFormDetails(companySmartForm, targetSmartForm,target);
+            }
+
+
+         
+        }
+
+        /// <summary>
+        /// Creates Copy of company  Banners
+        /// </summary>
+        public void CloneSmartFormDetails(SmartForm smartForm, SmartForm targetsmartForm,Company targetCompany)
+        {
+            if (smartForm.SmartFormDetails == null)
+            {
+                smartForm.SmartFormDetails = new List<SmartFormDetail>();
+            }
+
+            foreach (SmartFormDetail objsmartFormDetails in smartForm.SmartFormDetails.ToList())
+            {
+                SmartFormDetail targetsmartFormDetail = smartFormDetailRepository.Create();
+                smartFormDetailRepository.Add(targetsmartFormDetail);
+                targetsmartFormDetail.SmartFormId = targetsmartForm.SmartFormId;
+                string oldVariableName = objsmartFormDetails.FieldVariable != null ? objsmartFormDetails.FieldVariable.VariableName : "";
+
+                FieldVariable objNewFieldVariable = targetCompany.FieldVariables.Where(c => c.VariableName == oldVariableName).FirstOrDefault();
+               
+                if(objNewFieldVariable != null)
+                {
+                    targetsmartFormDetail.FieldVariable = objNewFieldVariable;
+                    targetsmartFormDetail.VariableId = objNewFieldVariable != null ? objNewFieldVariable.VariableId : 0;
+
+                }
+                
+
+                targetsmartForm.SmartFormDetails.Add(targetsmartFormDetail);
+                objsmartFormDetails.Clone(targetsmartFormDetail);
+            }
+        }
+
+        /// <summary>
+        /// Copy smart form or its details
+        /// 
+        /// </summary>
+        private void CloneFieldVariables(Company source, Company target)
+        {
+            if (source.FieldVariables == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.FieldVariables == null)
+            {
+                target.FieldVariables = new List<FieldVariable>();
+            }
+
+            foreach (FieldVariable companyFielVariables in source.FieldVariables)
+            {
+                FieldVariable targetfieldVariables = fieldVariableRepository.Create();
+                fieldVariableRepository.Add(targetfieldVariables);
+                targetfieldVariables.CompanyId = target.CompanyId;
+                target.FieldVariables.Add(targetfieldVariables);
+                companyFielVariables.Clone(targetfieldVariables);
+
+                // Clone variable options
+                if (companyFielVariables.VariableOptions == null)
+                {
+                    continue;
+                }
+
+                // Clone smart form details
+                CloneVariableOption(companyFielVariables, targetfieldVariables);
+
+
+
+
+                // Clone scope variable
+                if (companyFielVariables.ScopeVariables == null)
+                {
+                    continue;
+                }
+
+                // Clone scope variable
+                CloneScopeVariables(companyFielVariables, targetfieldVariables);
+
+
+                // Clone template Variable
+                if (companyFielVariables.TemplateVariables == null)
+                {
+                    continue;
+                }
+
+                // Clone scope variable
+                CloneTemplateVariables(companyFielVariables, targetfieldVariables);
+
+
+
+            }
+
+
+
+        }
+
+
+        public void CloneVariableOption(FieldVariable fieldVariables, FieldVariable targetfieldVariables)
+        {
+            if (fieldVariables.VariableOptions == null)
+            {
+                fieldVariables.VariableOptions = new List<VariableOption>();
+            }
+
+            foreach (VariableOption objvariableOptions in fieldVariables.VariableOptions.ToList())
+            {
+                VariableOption targetvariableOption = variableOptionRepository.Create();
+                variableOptionRepository.Add(targetvariableOption);
+                targetvariableOption.VariableId = targetfieldVariables.VariableId;
+                targetfieldVariables.VariableOptions.Add(targetvariableOption);
+                objvariableOptions.Clone(targetvariableOption);
+            }
+        }
+
+
+
+        public void CloneScopeVariables(FieldVariable fieldVariables, FieldVariable targetfieldVariables)
+        {
+            if (fieldVariables.ScopeVariables == null)
+            {
+                fieldVariables.ScopeVariables = new List<ScopeVariable>();
+            }
+
+            foreach (ScopeVariable objScopeVariable in fieldVariables.ScopeVariables.ToList())
+            {
+                ScopeVariable targetScopeVariable = scopeVariableRepository.Create();
+                scopeVariableRepository.Add(targetScopeVariable);
+                targetScopeVariable.VariableId = targetfieldVariables.VariableId;
+                targetfieldVariables.ScopeVariables.Add(targetScopeVariable);
+                objScopeVariable.Clone(targetScopeVariable);
+            }
+        }
+
+        public void CloneTemplateVariables(FieldVariable fieldVariables, FieldVariable targetfieldVariables)
+        {
+            if (fieldVariables.TemplateVariables == null)
+            {
+                fieldVariables.TemplateVariables = new List<MPC.Models.DomainModels.TemplateVariable>();
+            }
+
+            foreach (MPC.Models.DomainModels.TemplateVariable objtemplateVariable in fieldVariables.TemplateVariables.ToList())
+            {
+                MPC.Models.DomainModels.TemplateVariable targetTemplateVariable = templateVariableRepository.Create();
+                templateVariableRepository.Add(targetTemplateVariable);
+                targetTemplateVariable.VariableId = targetfieldVariables.VariableId;
+                targetfieldVariables.TemplateVariables.Add(targetTemplateVariable);
+                objtemplateVariable.Clone(targetTemplateVariable);
+            }
+        }
+
+
+
+        /// <summary>
+        /// Copy color palletes
+        /// </summary>
+        private void CloneActivities(Company source, Company target)
+        {
+            if (source.Activities == null)
+            {
+                return;
+            }
+          
+            // Initialize List
+            if (target.Activities == null)
+            {
+                target.Activities = new List<Activity>();
+            }
+
+            foreach (Activity companyActivities in source.Activities)
+            {
+
+                Activity targetActivity = activityRepository.Create();
+                activityRepository.Add(targetActivity);
+                targetActivity.CompanyId = target.CompanyId;
+                target.Activities.Add(targetActivity);
+                companyActivities.Clone(targetActivity);
+
+
+
+            }
+
+
+
+        }
+
+        /// <summary>
+        /// Copy template color styles
+        /// </summary>
+        private void CloneTemplateColorStyles(Company source, Company target)
+        {
+            if (source.TemplateColorStyles == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.TemplateColorStyles == null)
+            {
+                target.TemplateColorStyles = new List<TemplateColorStyle>();
+            }
+
+            foreach (TemplateColorStyle templateColorStyles in source.TemplateColorStyles)
+            {
+
+                TemplateColorStyle targetColorStyle = templateColorStylesRepository.Create();
+                templateColorStylesRepository.Add(targetColorStyle);
+                targetColorStyle.CustomerId = target.CompanyId;
+                target.TemplateColorStyles.Add(targetColorStyle);
+                templateColorStyles.Clone(targetColorStyle);
+
+
+
+            }
+
+
+
+        }
+
+        /// <summary>
+        /// Copy cms offer
+        /// </summary>
+        private void CloneCMSOffer(Company source, Company target)
+        {
+            if (source.CmsOffers == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.CmsOffers == null)
+            {
+                target.CmsOffers = new List<CmsOffer>();
+            }
+
+            foreach (CmsOffer cmsOffer in source.CmsOffers)
+            {
+                CmsOffer targetCMSOffer = cmsofferRepository.Create();
+                cmsofferRepository.Add(targetCMSOffer);
+                targetCMSOffer.CompanyId = target.CompanyId;
+                target.CmsOffers.Add(targetCMSOffer);
+                cmsOffer.Clone(targetCMSOffer);
+
+              
+
+            }
+        }
+        /// <summary>
+        /// Copy media library
+        /// </summary>
+        private void CloneMediaLibrary(Company source, Company target)
+        {
+            if (source.MediaLibraries == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.MediaLibraries == null)
+            {
+                target.MediaLibraries = new List<MediaLibrary>();
+            }
+
+            foreach (MediaLibrary mediaLibrary in source.MediaLibraries)
+            {
+                MediaLibrary targetMediaLibrary = mediaLibraryRepository.Create();
+                mediaLibraryRepository.Add(targetMediaLibrary);
+                targetMediaLibrary.CompanyId = target.CompanyId;
+                target.MediaLibraries.Add(targetMediaLibrary);
+                mediaLibrary.Clone(targetMediaLibrary);
+
+
+
+            }
+        }
+
+        // clone discount vouchers
+        public void CloneDiscountVouchers(long OldCompanyid,long NewCompanyId)
+        {
+            List<DiscountVoucher> discountVouchers = discountVoucherRepository.getDiscountVouchersByCompanyId(OldCompanyid);
+
+            if(discountVouchers != null && discountVouchers.Count > 0)
+            {
+                foreach(var voucher in discountVouchers)
+                {
+                    DiscountVoucher targetDiscountVoucher = discountVoucherRepository.Create();
+                    targetDiscountVoucher = voucher;
+                    targetDiscountVoucher.CompanyId = NewCompanyId;
+                    Guid g;
+                    // Create and display the value of two GUIDs.
+                    g = Guid.NewGuid();
+
+
+                    targetDiscountVoucher.VoucherCode = g.ToString();
+                    discountVoucherRepository.Add(targetDiscountVoucher);
+                    
+                    if(voucher.ProductCategoryVouchers != null && voucher.ProductCategoryVouchers.Count > 0)
+                    {
+                        foreach(var pcv in voucher.ProductCategoryVouchers)
+                        {
+                            ProductCategoryVoucher objPCV = productcategoryvoucherRepository.Create();
+                            objPCV = pcv;
+                            objPCV.DiscountVoucher = targetDiscountVoucher;
+                            objPCV.VoucherId = targetDiscountVoucher.DiscountVoucherId;
+
+                            productcategoryvoucherRepository.Add(objPCV);
+
+                        }
+                    }
+
+                    if (voucher.ItemsVouchers != null && voucher.ItemsVouchers.Count > 0)
+                    {
+                        foreach (var iv in voucher.ItemsVouchers)
+                        {
+                            ItemsVoucher objIV = itemsVoucherRepository.Create();
+                            objIV = iv;
+                            objIV.DiscountVoucher = targetDiscountVoucher;
+                            objIV.VoucherId = targetDiscountVoucher.DiscountVoucherId;
+
+                            itemsVoucherRepository.Add(objIV);
+
+                        }
+                    }
+
+                }
+            }
+
+
+        }
+
+        public void SetValuesAfterClone(Company company,string OldSelectedSetName)
+        {
+            // set active banner set id in company
+
+            company.ActiveBannerSetId = company.CompanyBannerSets.Where(c => c.SetName == OldSelectedSetName).Select(c => c.CompanySetId).FirstOrDefault();
+
+
+
+            // set parent category id in productcategories
+            if (company.ProductCategories != null && company.ProductCategories.Count > 0)
+            {
+                foreach (var item in company.ProductCategories)
+                {
+                    if (item.ParentCategoryId > 0) // 11859
+                    {
+
+
+                        //  string scat = item.Description2;
+                        var pCat = company.ProductCategories.Where(g => g.ContentType.Contains(item.ParentCategoryId.Value.ToString())).FirstOrDefault();
+                        if (pCat != null)
+                        {
+                            item.ParentCategoryId = Convert.ToInt32(pCat.ProductCategoryId);
+                          
+                        }
+                    }
+                }
+            }
+
+
+
+            // copy templates in items
+            
+            if(company.Items != null && company.Items.Count > 0)
+            {
+                foreach(var item in company.Items)
+                {
+                    if (item.TemplateId.HasValue)
+                    {
+                        long templateId = templateService.CopyTemplate(item.TemplateId.Value, 0, string.Empty, item.OrganisationId.HasValue ?
+                            item.OrganisationId.Value : itemRepository.OrganisationId);
+
+                        item.TemplateId = templateId;
+                    }
+                }
+            }
+
+          
+        }
+        
+        public void CopyCompanyFiles(Company ObjCompany,long OldCompanyID)
+        {
+            List<string> DestinationsPath = new List<string>();
+           
+            // new CompanyId
+            long oCID = ObjCompany.CompanyId;
+
+           
+            // company logo
+            string CompanyPathOld = string.Empty;
+            string CompanylogoPathNew = string.Empty;
+            if (ObjCompany.Image != null)
+            {
+                CompanyPathOld = Path.GetFileName(ObjCompany.Image);
+
+                CompanylogoPathNew = CompanyPathOld.Replace(OldCompanyID + "_", ObjCompany.CompanyId + "_");
+
+                string DestinationCompanyLogoFilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + ObjCompany.CompanyId + "/" + CompanylogoPathNew);
+                DestinationsPath.Add(DestinationCompanyLogoFilePath);
+                string DestinationCompanyLogoDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + ObjCompany.CompanyId);
+                string CompanyLogoSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + OldCompanyID + "/" + CompanyPathOld);
+                if (!System.IO.Directory.Exists(DestinationCompanyLogoDirectory))
+                {
+                    Directory.CreateDirectory(DestinationCompanyLogoDirectory);
+                    if (Directory.Exists(DestinationCompanyLogoDirectory))
+                    {
+                        if (File.Exists(CompanyLogoSourcePath))
+                        {
+                            if (!File.Exists(DestinationCompanyLogoFilePath))
+                                File.Copy(CompanyLogoSourcePath, DestinationCompanyLogoFilePath);
+                        }
+
+
+                    }
+
+
+                }
+                else
+                {
+                    if (File.Exists(CompanyLogoSourcePath))
+                    {
+                        if (!File.Exists(DestinationCompanyLogoFilePath))
+                            File.Copy(CompanyLogoSourcePath, DestinationCompanyLogoFilePath);
+                    }
+                }
+                ObjCompany.Image = "MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + ObjCompany.CompanyId + "/" + CompanylogoPathNew;
+            }
+
+
+            // copy store background image
+            if (ObjCompany.StoreBackgroundImage != null)
+            {
+                CompanyPathOld = Path.GetFileName(ObjCompany.StoreBackgroundImage);
+
+                CompanylogoPathNew = CompanyPathOld.Replace(OldCompanyID + "_", ObjCompany.CompanyId + "_");
+
+                string DestinationCompanyBackgroundFilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + oCID + "/" + CompanylogoPathNew);
+                DestinationsPath.Add(DestinationCompanyBackgroundFilePath);
+                string DestinationCompanyBackgroundDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + oCID);
+                string CompanyLogoSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + OldCompanyID + "/" + CompanyPathOld);
+                if (!System.IO.Directory.Exists(DestinationCompanyBackgroundDirectory))
+                {
+                    Directory.CreateDirectory(DestinationCompanyBackgroundDirectory);
+                    if (Directory.Exists(DestinationCompanyBackgroundDirectory))
+                    {
+                        if (File.Exists(CompanyLogoSourcePath))
+                        {
+                            if (!File.Exists(DestinationCompanyBackgroundFilePath))
+                                File.Copy(CompanyLogoSourcePath, DestinationCompanyBackgroundFilePath);
+                        }
+
+
+                    }
+
+
+                }
+                else
+                {
+                    if (File.Exists(CompanyLogoSourcePath))
+                    {
+                        if (!File.Exists(DestinationCompanyBackgroundFilePath))
+                            File.Copy(CompanyLogoSourcePath, DestinationCompanyBackgroundFilePath);
+                    }
+                }
+                ObjCompany.StoreBackgroundImage = "MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + oCID + "/" + CompanylogoPathNew;
+            }
+
+            // copy company contacts image
+            if (ObjCompany.CompanyContacts != null && ObjCompany.CompanyContacts.Count > 0)
+            {
+                foreach (var contact in ObjCompany.CompanyContacts)
+                {
+                    string OldContactImage = string.Empty;
+                    string NewContactImage = string.Empty;
+                    string OldContactID = string.Empty;
+                    if (contact.image != null)
+                    {
+                        string name = Path.GetFileName(contact.image);
+                        string[] SplitMain = name.Split('_');
+                        if (SplitMain[0] != string.Empty)
+                        {
+                            OldContactID = SplitMain[0];
+
+                        }
+
+                        OldContactImage = Path.GetFileName(contact.image);
+                        NewContactImage = OldContactImage.Replace(OldContactID + "_", contact.ContactId + "_");
+
+                        string DestinationContactFilesPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + oCID + "/Contacts/" + contact.ContactId + "/" + NewContactImage);
+                        DestinationsPath.Add(DestinationContactFilesPath);
+                        string DestinationContactFilesDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + oCID + "/Contacts/" + contact.ContactId);
+                        string ContactFilesSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Assets/" + companyRepository.OrganisationId + "/" + OldCompanyID + "/Contacts/" + OldContactID + "/" + OldContactImage);
+                        if (!System.IO.Directory.Exists(DestinationContactFilesDirectory))
+                        {
+                            Directory.CreateDirectory(DestinationContactFilesDirectory);
+                            if (Directory.Exists(DestinationContactFilesDirectory))
+                            {
+                                if (File.Exists(ContactFilesSourcePath))
+                                {
+                                    if (!File.Exists(DestinationContactFilesPath))
+                                        File.Copy(ContactFilesSourcePath, DestinationContactFilesPath);
+                                }
+
+
+                            }
+
+
+
+                        }
+                        else
+                        {
+                            if (File.Exists(ContactFilesSourcePath))
+                            {
+                                if (!File.Exists(DestinationContactFilesPath))
+                                    File.Copy(ContactFilesSourcePath, DestinationContactFilesPath);
+                            }
+
+                        }
+                        contact.image = "/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + oCID + "/Contacts/" + contact.ContactId + "/" + NewContactImage;
+                    }
+                }
+            }
+
+            //// copy Media libraries
+            //if (ObjCompany.MediaLibraries != null && ObjCompany.MediaLibraries.Count > 0)
+            //{
+            //    foreach (var media in ObjCompany.MediaLibraries)
+            //    {
+            //        string OldMediaFilePath = string.Empty;
+            //        string NewMediaFilePath = string.Empty;
+            //        string OldMediaID = string.Empty;
+            //        string NewMediaID = string.Empty;
+            //        if (media.FilePath != null)
+            //        {
+            //            string name = Path.GetFileName(media.FilePath);
+            //            string[] SplitMain = name.Split('_');
+            //            if (SplitMain[0] != string.Empty)
+            //            {
+            //                OldMediaID = SplitMain[0];
+
+            //            }
+
+                      
+
+            //            if (media.MediaId > 0)
+            //                NewMediaID = Convert.ToString(media.MediaId);
+
+
+
+            //           // DestinationsPath.Add(OldMediaID, NewMediaID);
+
+            //            OldMediaFilePath = Path.GetFileName(media.FilePath);
+            //            NewMediaFilePath = OldMediaFilePath.Replace(OldMediaID + "_", media.MediaId + "_");
+
+            //            string DestinationMediaFilesPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Media/" + companyRepository.OrganisationId + "/" + oCID + "/" + NewMediaFilePath);
+            //            DestinationsPath.Add(DestinationMediaFilesPath);
+            //            string DestinationMediaFilesDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Media/" + companyRepository.OrganisationId + "/" + oCID);
+            //            string MediaFilesSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Media/" + companyRepository.OrganisationId + "/" + OldCompanyID + "/" + OldMediaFilePath);
+            //            if (!System.IO.Directory.Exists(DestinationMediaFilesDirectory))
+            //            {
+            //                Directory.CreateDirectory(DestinationMediaFilesDirectory);
+            //                if (Directory.Exists(DestinationMediaFilesDirectory))
+            //                {
+            //                    if (File.Exists(MediaFilesSourcePath))
+            //                    {
+            //                        if (!File.Exists(DestinationMediaFilesPath))
+            //                            File.Copy(MediaFilesSourcePath, DestinationMediaFilesPath);
+            //                    }
+
+
+            //                }
+
+
+
+            //            }
+            //            else
+            //            {
+            //                if (File.Exists(MediaFilesSourcePath))
+            //                {
+            //                    if (!File.Exists(DestinationMediaFilesPath))
+            //                        File.Copy(MediaFilesSourcePath, DestinationMediaFilesPath);
+            //                }
+
+            //            }
+            //            media.FilePath = "MPC_Content/Media/" + NewOrgID + "/" + oCID + "/" + NewMediaFilePath;
+            //        }
+
+            //    }
+            //}
+
         }
         #endregion
 
