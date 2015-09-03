@@ -339,6 +339,7 @@
         <EntityTypeShape EntityType="DomainModels.ProductCategoryVoucher" Width="1.5" PointX="44.625" PointY="26.875" />
         <AssociationConnector Association="DomainModels.FK_DiscountVoucher_ItemsVoucher" />
         <AssociationConnector Association="DomainModels.FK_DiscountVoucher_ProductCategoruVoucher" />
+        <EntityTypeShape EntityType="DomainModels.MarketingBriefHistory" Width="1.5" PointX="41.375" PointY="31.125" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

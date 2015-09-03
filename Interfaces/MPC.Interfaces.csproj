@@ -107,6 +107,8 @@
     <Compile Include="MISServices\ISectionService.cs" />
     <Compile Include="MISServices\ISystemUserService.cs" />
     <Compile Include="MISServices\SectionReport.cs" />
+    <Compile Include="Repository\ICampaignImageRepository.cs" />
+    <Compile Include="Repository\ICMSOfferRepository.cs" />
     <Compile Include="Repository\ICompanyVoucherRedeemRepository.cs" />
     <Compile Include="Repository\IDiscountVoucherRepository.cs" />
     <Compile Include="Repository\ICmsTagReporistory.cs" />
