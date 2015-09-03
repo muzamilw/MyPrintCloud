@@ -5686,6 +5686,32 @@ namespace MPC.Repository.Repositories
         }
 
 
-       
+       public void CopyProductByStore(long NewStoreId,long OldStoreId)
+       {
+           try
+           {
+               db.Database.CommandTimeout = 1080;
+               db.usp_CopyStoreProducts(OrganisationId, NewStoreId, OldStoreId);
+           }
+           catch(Exception ex)
+           {
+               throw ex;
+           }
+       }
+
+       public Company LoadCompanyWithItems(long StoreId)
+       {
+           try
+           {
+               db.Configuration.LazyLoadingEnabled = false;
+               db.Configuration.ProxyCreationEnabled = false;
+               return db.Companies.Include("Items").Include("CompanyBannerSets").Include("ProductCategories").Where(c => c.CompanyId == StoreId).FirstOrDefault();
+
+           }
+           catch (Exception ex)
+           {
+               throw ex;
+           }
+       }
     }
 }

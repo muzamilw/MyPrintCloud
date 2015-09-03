@@ -494,6 +494,20 @@ namespace MPC.Repository.Repositories
              }
 
          }
+
+         public List<DiscountVoucher> getDiscountVouchersByCompanyId(long companyId)
+         {
+             try
+             {
+
+                 return db.DiscountVouchers.Include("ProductCategoryVouchers").Include("ItemsVouchers").Where(c => c.CompanyId == companyId).ToList();
+             }
+             catch (Exception ex)
+             {
+                 throw ex;
+             }
+
+         }
         #endregion
     }
 }

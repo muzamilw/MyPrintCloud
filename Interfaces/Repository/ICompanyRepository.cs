@@ -103,6 +103,9 @@ namespace MPC.Interfaces.Repository
         int GetLiveStoresCount(long organisationId);
         bool IsStoreLive(long storeId);
 
+        void CopyProductByStore(long NewStoreId, long OldStoreId);
+
+        Company LoadCompanyWithItems(long StoreId);
      
     }
 }
