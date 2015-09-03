@@ -65,7 +65,7 @@ namespace MPC.Webstore.Controllers
 
                 if (StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
                 {
-                    curUser = _myCompanyService.GetContactByEmailAndMode(model.Email, Convert.ToInt32(CustomerTypes.Corporate), StoreBaseResopnse.Company.CompanyId);
+                    curUser = _myCompanyService.GetCorporateContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId, UserCookieManager.WBStoreId);
                 }
                 else
                 {

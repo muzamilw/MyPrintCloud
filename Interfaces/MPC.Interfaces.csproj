@@ -125,6 +125,7 @@
     <Compile Include="Repository\IItemImageRepository.cs" />
     <Compile Include="Repository\IInkPlateSideRepository.cs" />
     <Compile Include="Repository\IItemsVoucherRepository.cs" />
+    <Compile Include="Repository\IMarketingBriefHistoryRepository.cs" />
     <Compile Include="Repository\IProductCategoryVoucherRepository.cs" />
     <Compile Include="Repository\IProductMarketBriefAnswerRepository.cs" />
     <Compile Include="Repository\IProductMarketBriefQuestionRepository.cs" />

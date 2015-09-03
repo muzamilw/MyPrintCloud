@@ -223,8 +223,7 @@
                                 </div>
                             </div>
                             <div class="MB_fileUploadContainer">
-                                <asp:FileUpload ID="fuImageUpload" runat="server" CssClass="file_upload_box185" />
-                                <input type="file" id="fuImageUpload" class="file_upload_box185" />
+                                <input type="file" id="fuImageUpload" name="fuImageUpload" class="file_upload_box185" />
                             </div>
                         </div>
                     </div>
@@ -347,7 +346,7 @@
                         var GroupName = $('.' + element + '').children().children().attr("name");
 
                         $('input:checkbox[name=' + GroupName + ']').each(function () {
-
+                            debugger;
                             if ($(this).attr('checked') == "checked") {
                                 if (AnswerList == "") {
                                     AnswerList = $(this).next().text();
@@ -362,9 +361,9 @@
                             }
                         });
                         if (AdditionalAnsList == "") {
-                            AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().next().next().next().next().children().next().val();
+                            AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
                         } else {
-                            AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().next().next().next().next().children().next().val();
+                            AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
                         }
 
                     } else { // case of radio

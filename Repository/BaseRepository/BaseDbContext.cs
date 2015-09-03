@@ -712,6 +712,8 @@ namespace MPC.Repository.BaseRepository
         /// Item Vouchers Redeem DbSet
         /// </summary>
         public DbSet<ProductCategoryVoucher> ProductCategoryVouchers { get; set; }
+
+        public DbSet<MarketingBriefHistory> MarketingBriefHistory { get; set; }
         /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>

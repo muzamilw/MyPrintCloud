@@ -116,7 +116,7 @@ namespace MPC.Webstore.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(ProductItem Model, string hfInqueryMesg)
+        public ActionResult Index(ProductItem Model, string hfInqueryMesg, HttpPostedFileBase fuImageUpload)
         {
             MyCompanyDomainBaseReponse StoreBaseResopnse = _ICompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
@@ -198,7 +198,7 @@ namespace MPC.Webstore.Controllers
                 CampaignEmailParams EmailParams = new CampaignEmailParams();
                 EmailParams.ContactId = _myClaimHelper.loginContactID();
                 EmailParams.CompanyId = UserCookieManager.WBStoreId;
-                EmailParams.OrganisationId = 1;
+                EmailParams.OrganisationId = UserCookieManager.WEBOrganisationID;
 
                 EmailParams.MarketingID = 1;
 
