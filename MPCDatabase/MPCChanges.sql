@@ -7770,7 +7770,8 @@ alter table Company add IsRegisterPayOnlyByCreditCard bit null
 alter table Company add IsRegisterPlaceDirectOrder bit null
 alter table Company add IsRegisterPlaceOrderWithoutApproval bit null
 
--------------Executed on All servers---------------------
+
+-------------Executed on All Servers---------------------
 CREATE TABLE [dbo].[MarketingBriefHistory](
  [MarketingBriefHistoryId] [bigint] IDENTITY(1,1) NOT NULL,
  [HtmlMsg] [nvarchar](max) NULL,

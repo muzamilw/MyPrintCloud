@@ -1369,6 +1369,26 @@ namespace MPC.Implementation.MISServices
             File.WriteAllText(savePath, company.CustomCSS);
         }
 
+        public void UpdateCompanyCss(string sCustomCss, long oCompanyId)
+        {
+            Company companyDbVersion = companyRepository.Find(oCompanyId);
+            companyDbVersion.CustomCSS = sCustomCss;
+            companyRepository.Update(companyDbVersion);
+            
+            string directoryPath =
+                HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" +
+                                                   oCompanyId);
+            
+            if (directoryPath != null && !Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            string savePath = directoryPath + "\\site.css";
+            File.WriteAllText(savePath, sCustomCss);
+            companyRepository.SaveChanges();
+        }
+
         /// <summary>
         /// Save Sprite Image
         /// </summary>
@@ -3771,6 +3791,20 @@ namespace MPC.Implementation.MISServices
 
             stores = JsonConvert.SerializeObject(storeDetails, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
             return stores;
+        }
+
+        public string GetCompanyCss(long companyId)
+        {
+            string defaultCss = string.Empty;
+            string defaultCssPath =
+                HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" +
+                                                   companyId + "/site.css");
+
+            if (File.Exists(defaultCssPath))
+            {
+                defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyId + "/site.css"));
+            }
+            return defaultCss;
         }
 
         
