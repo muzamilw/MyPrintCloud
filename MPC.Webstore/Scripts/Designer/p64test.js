@@ -13412,8 +13412,12 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
         var w = this.getWidth(), h = this.getHeight();
 
         var heightOfLine = this.fontSize * this.scaleY * this.lineHeight;
-        var offset = heightOfLine / 2 ;
+        var offset = heightOfLine / 2;
         var sentence = this.bullets.split(/\r\n|\r|\n/);
+        if (this.VAllignment == 3 || this.VAllignment == 2) {
+            var alignOffset = this.textPaddingTop;
+            offset += (alignOffset)*1.20;
+        } 
         for (var i = 0; i < sentence.length; i++) {
                 ctx.fillStyle = this.color;
                 ctx.lineWidth = this.strokeWidth;
