@@ -130,8 +130,7 @@ namespace MPC.Webstore.Controllers
             SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
             if (EmailOFSM != null) 
             {
-                CompanyContact UserContact = _CompanyService.GetContactByID(_myClaimHelper.loginContactID());
-
+              
                 CampaignEmailParams CPE = new CampaignEmailParams();
                 CPE.OrganisationId = 1;
                 CPE.CompanyId = _myClaimHelper.loginContactCompanyID();
@@ -146,7 +145,7 @@ namespace MPC.Webstore.Controllers
                 CPE.SystemUserId = EmailOFSM.SystemUserId;
 
                 Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent(Event, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
-                _campaignService.emailBodyGenerator(RegistrationCampaign, CPE, UserContact, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+                _campaignService.emailBodyGenerator(RegistrationCampaign, CPE, userRec, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
 
             }
            
