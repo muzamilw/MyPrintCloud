@@ -210,6 +210,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             // isDeliveryTaxAble = ko.observable(specifiedIsDeliveryTaxAble),
             // is Delivery TaxAble
             isDeliveryTaxAble = ko.observable(undefined),
+            isNewThemeApplied = ko.observable(false),
             // is Delivery TaxAble ui
             //isDeliveryTaxAbleUi = ko.computed({
             //    read: function () {
@@ -390,7 +391,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             priceFlagId: priceFlagId,
             isStoreSetLive: isStoreSetLive,
             canUserUpdateAddress: canUserUpdateAddress,
-            isWidgetItemsChange: isWidgetItemsChange
+            isWidgetItemsChange: isWidgetItemsChange,
+            isNewThemeApplied: isNewThemeApplied
             //#endregion
         }),
         // Has Changes
@@ -646,7 +648,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             priceFlagId: priceFlagId,
             isStoreSetLive: isStoreSetLive,
             canUserUpdateAddress: canUserUpdateAddress,
-            isWidgetItemsChange: isWidgetItemsChange
+            isWidgetItemsChange: isWidgetItemsChange,
+            isNewThemeApplied: isNewThemeApplied
             //#endregion
         };
         return self;
