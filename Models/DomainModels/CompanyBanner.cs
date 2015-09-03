@@ -25,5 +25,32 @@ namespace MPC.Models.DomainModels
 
         public virtual CompanyBannerSet CompanyBannerSet { get; set; }
 
+        #region Public
+
+        /// <summary>
+        /// Creates Copy of Section Ink Coverage
+        /// </summary>
+        public void Clone(CompanyBanner target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemSectionInkCoverageClone_InvalidInkCoverage, "target");
+            }
+
+            target.PageId = PageId;
+            target.ImageURL = ImageURL;
+            target.Heading = Heading;
+            target.Description = Description;
+            target.ItemURL = ItemURL;
+            target.ButtonURL = ButtonURL;
+            target.isActive = isActive;
+            target.CreatedBy = CreatedBy;
+            target.CreateDate = CreateDate;
+            target.ModifyId = ModifyId;
+            target.ModifyDate = ModifyDate;
+        }
+
+        #endregion
+
     }
 }

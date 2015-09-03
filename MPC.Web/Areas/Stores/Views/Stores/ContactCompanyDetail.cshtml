@@ -49,6 +49,7 @@
                         <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="">
                             Print
                         </button>
+                        @*<button class="btn btn-primary" data-bind="click: $root.onCopyStore, enable: $root.selectedStore().companyId() > 0">Copy</button>*@
                         <button class="btn btn-danger" data-bind="click: $root.onDeletePermanent, enable: $root.selectedStore().companyId() > 0">Delete</button>
                         <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.saveStore, enable: $root.hasChangesOnStore, css: { 'btn-warning': $root.hasChangesOnStore }">Save</button>
                         <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeEditDialog">Close</button>
@@ -1110,10 +1111,10 @@
 
                                                     <img style="width:240px;height:130px;-o-object-fit: contain; object-fit: contain;" id="idCostcenterimage" data-bind="visible:storeBackgroudImageImageSource()==undefined ,attr: { src: '@Url.Content("~/")' + storeBackgroudImagePathWithCacheRemoveTechnique() }" />
                                                     <img style="width:240px;height:130px;-o-object-fit: contain; object-fit: contain;" data-bind="visible:storeBackgroudImageImageSource()!==undefined,attr: { src: storeBackgroudImageImageSource }" />
-                                                    <div class="col-lg-9" style="margin-top: 5px;text-align:center;margin-top:15px;">
+                                                    <div class="col-lg-9" style="text-align:center;margin-top:15px;">
                                                         <div class="fileUpload btn btn-primary">
                                                             @*data-bind="click:$root.showMediaLibraryDialogFromStoreBackground"*@
-                                                            <span>Change Background</span>
+                                                            <span>Upload Background</span>
                                                             <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeBackgroudImageUploadCallback, fileFilter: 'image.*'}" />
                                                         </div>
 
@@ -1745,7 +1746,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Popular Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*. Make sure most popular productcs widget is available on home page in page layout." data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Popular Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*. Make sure most popular products widget is available on home page in page layout." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
@@ -2168,7 +2169,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             <div class="col-md-3"></div>
 
                                             <div class="col-md-6" style="padding-top:5px;">
-                                                <label style="padding:0px;margin-top:5px;" for="switchProductPrices">Show product pricing on category pages</label>
+                                                <label style="padding:0px;margin-top:5px;" for="switchProductPrices">Show product pricing on store</label>
 
                                             </div>
                                             <div class="col-md-3" style="padding-left:6px;">

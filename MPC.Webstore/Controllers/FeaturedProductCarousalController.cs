@@ -45,8 +45,15 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index()
         {
             List<Item> featuredProducts = _itemService.GetProductsWithDisplaySettings(ProductWidget.FeaturedProducts, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
-
-            ViewBag.ProductsCount = featuredProducts.Count;
+            if (featuredProducts != null && featuredProducts.Count > 0)
+            {
+                ViewBag.ProductsCount = featuredProducts.Count;
+            }
+            else 
+            {
+                ViewBag.ProductsCount = 0;
+            }
+           
             return PartialView("PartialViews/FeaturedProductCarousal", featuredProducts);
          
         }

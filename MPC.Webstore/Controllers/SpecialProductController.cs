@@ -10,11 +10,11 @@ using System.Web.Mvc;
 
 namespace MPC.Webstore.Controllers
 {
-    public class PromotionalProductController : Controller
+    public class SpecialProductController : Controller
     {
         // GET: PromotionalProduct
         private readonly IItemService _IItemService;
-        public PromotionalProductController(IItemService _IItemService)
+        public SpecialProductController(IItemService _IItemService)
         {
             this._IItemService = _IItemService;
         }

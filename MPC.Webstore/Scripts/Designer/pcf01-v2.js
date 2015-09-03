@@ -1543,7 +1543,7 @@ function fu02UI() {
     });
     if (organisationId == 1679)
     {
-        $("#lblConfirmSpellings").text("Confirm spelling and details/ managers approval");
+     //   $("#lblConfirmSpellings").text("Confirm spelling, details and management approval");
     }
     $(".PreviewerDownloadPDF").css("display", "none");
     $("#divLayersPanelRetail").draggable({
@@ -3180,6 +3180,7 @@ function togglePage(pId) {
                         } else {
                             setActiveStyle("font-Size", fontSize)
                             canvas.renderAll();
+                            D1AO._performClipping(canvas.contextTop, D1AO.text, D1AO);
                         }
                    
                     }
@@ -3213,7 +3214,9 @@ function togglePage(pId) {
                 }
                 D1A0.hasInlineFontStyle = false;
                 setActiveStyle("font-Size", fontSize)
+             //
                 canvas.renderAll();
+                D1A0._performClipping(canvas.contextTop, D1A0.text, D1A0);
             }
         
         }

@@ -342,8 +342,8 @@ define("stores/stores.viewModel",
                             });
                     },
                     //getItemsForWidgets
-                    getItemsForWidgets = function(callBack) {
-                        dataservice.getItemsForWidgets({
+                    getItemsForWidgets = function(companyId) {
+                        dataservice.getItemsForWidgets({ storeId: companyId}, {
                             success: function(data) {
                                 if (data != null) {
                                     itemsForWidgets.removeAll();
@@ -434,7 +434,7 @@ define("stores/stores.viewModel",
                         selectedItemForRemove(undefined);
 
                         if (itemsForWidgets().length === 0) {
-                            getItemsForWidgets();
+                            getItemsForWidgets(selectedStore().companyId());
                         }
                         _.each(systemVariables(), function(item) {
                             fieldVariablesForSmartForm.push(item);
@@ -4581,9 +4581,9 @@ define("stores/stores.viewModel",
                     },
                     //Get Store For editting
                     getStoreForEditting = function () {
-                        if (itemsForWidgets().length === 0) {
-                            getItemsForWidgets();
-                        }
+                        //if (itemsForWidgets().length === 0) {
+                            getItemsForWidgets(selectedStoreListView().companyId());
+                        //}
                         dataservice.getStoreById({
                             //dataservice.getStores({
                             companyId: selectedStoreListView().companyId()
@@ -5403,11 +5403,19 @@ define("stores/stores.viewModel",
                             _.each(itemsForWidgets(), function (item) {
                                 if (selectedItemForRemove().itemId() === item.id()) {
                                     item.isInSelectedList(false);
+                                    selectedStore().isWidgetItemsChange(true);
                                 }
                             });
                             selectedItemsForOfferList.remove(selectedItemForRemove());
                             selectedItemForRemove(undefined);
                         }
+                    },
+                    onFeaturedDialogOk = function() {
+                        _.each(selectedItemsForOfferList(), function (offerItem) {
+                            if (offerItem.hasChanges() == true) {
+                                selectedStore().isWidgetItemsChange(true);
+                            }
+                        });
                     },
                     //Select Item
                     selectAddItem = function (item) {
@@ -7103,6 +7111,15 @@ define("stores/stores.viewModel",
                     });
                     confirmation.show();
                 },
+                // On Copy Store
+                onCopyStore = function () {
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                    confirmation.afterProceed(function () {
+                        copyFullStore(selectedStore().companyId());
+                    });
+                    confirmation.show();
+                },
+
                 // Get Company By Id
                 getCompanyByIdFromListView = function (id) {
                     return stores.find(function (store) {
@@ -7130,6 +7147,25 @@ define("stores/stores.viewModel",
                     });
                 };
 
+                // copy Company
+                    copyFullStore = function (id) {
+                        dataservice.copyFullStore({ CompanyId: id }, {
+                            success: function () {
+                                toastr.success("Store copy successfully!");
+                                isEditorVisible(false);
+                                if (selectedStore()) {
+                                    var store = getCompanyByIdFromListView(selectedStore().companyId());
+                                    if (store) {
+                                        stores.remove(store);
+                                    }
+                                }
+                                resetStoreEditor();
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to copy store. Error: " + response, "", ist.toastrOptions);
+                            }
+                        });
+                    };
                 //#region _________R E T U R N_____________________
 
                 return {
@@ -7542,7 +7578,9 @@ define("stores/stores.viewModel",
                     validateStoreLiveHandler: validateStoreLiveHandler,
                     ExportCSVForCompanyContacts: ExportCSVForCompanyContacts,
                     validateCanStoreSave: validateCanStoreSave,
-                    onDeleteStoreBackground: onDeleteStoreBackground
+                    onDeleteStoreBackground: onDeleteStoreBackground,
+                    onCopyStore: onCopyStore,
+                    onFeaturedDialogOk: onFeaturedDialogOk
                 };
                 //#endregion
             })()

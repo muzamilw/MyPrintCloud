@@ -61,6 +61,8 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         List<Item> GetItemsForWidgets();
 
+        List<Item> GetItemsForWidgetsByStoreId(long storeId);
+
         /// <summary>
         /// Save Field Variable
         /// </summary>
@@ -167,6 +169,8 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         DiscountVoucher GetDiscountVoucherById(long discountVoucherId);
 
+        string GetLiveStoresJason();
+
         #region exportOrganisation
 
         bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);
@@ -175,6 +179,8 @@ namespace MPC.Interfaces.MISServices
 
 
         bool ImportStore(long OrganisationId, string StoreName, string SubDomain);
+
+        Company CloneStore(long companyId);
         #endregion
 
 

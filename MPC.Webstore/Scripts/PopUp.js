@@ -1,6 +1,6 @@
 ﻿function ShowPopUp(Type,Message) {
    
-    var container = '<div class="md-modal md-effect-7" id="modal-7" style="border-radius:8px;"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">'+ Type +'</h4></div><div class="modal-body">' + Message + '</div></div>';
+    var container = '<div class="md-modal md-effect-7" id="modal-7" style="border-radius:8px;"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body" style="word-wrap:break-word;max-height:116px;overflow-y:auto;overflow-x:hidden;"  >' + Message + '</div></div>';
    
     var bws = getBrowserHeight();
     var shadow = document.getElementById("innerLayer");
@@ -170,8 +170,8 @@ function RedirectToSignUp(ReturnURL)
 }
 function ShowLoader() {
 
-    var container = '<div class="fancyLoaderCs"><img src="/Content/Images/fancybox_loading.gif" /></div>';
-
+    //var container = '<div class="fancyLoaderCs"><img src="/Content/Images/fancybox_loading.gif" /></div>';
+    var container = '<div class="cb-onpageLoader cb-pos--center" id="cb-new-table-loading" style="display: block;">loading...</div>'
     var bws = getBrowserHeight();
     var shadow = document.getElementById("innerLayer");
     document.getElementById("layer").style.width = bws.width + "px";
@@ -185,8 +185,8 @@ function ShowLoader() {
     document.getElementById("innerLayer").style.top = top + "px";
     document.getElementById("innerLayer").style.left = left + "px";
 
-    document.getElementById("innerLayer").style.width = "25px";
-    document.getElementById("innerLayer").style.height = "25px";
+  //  document.getElementById("innerLayer").style.width = "25px";
+   // document.getElementById("innerLayer").style.height = "25px";
 
     document.getElementById("innerLayer").style.position = "fixed";
     document.getElementById("innerLayer").style.zIndex = "9999";
@@ -1102,7 +1102,7 @@ function CustomeAlertBoxDesigner(msg,callbackFuncName) {
 }
 
 function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfQuestion, ItemPrice, CurrencyCode, isPromptAQuestion, TaxRate) {
-    
+    debugger;
     var jsonObjectsOfGlobalQueue = null;
     if ($("#costCentreQueueItems").val() == "" || $("#costCentreQueueItems").val() == "null") {
 
@@ -1178,7 +1178,7 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
         contentType: "application/json",
         async: true,
         success: function (response) {
-
+            debugger;
             ShowLoader();
             
             var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
@@ -1270,7 +1270,9 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
             }
             HideLoader();
         },
-        error: function (msg) { alert("Error occured "); console.log(msg); }
+        error: function (msg) {
+            console.log(msg); ShowPopUp("Error", "'" + msg.responseText + "'");
+        }
     };
     var returnText = $.ajax(options).responseText;
 
@@ -1338,8 +1340,9 @@ function DeleteArtWork(AttachmentId, ItemId) {
 
         },
         error: function (msg) {
-            alert("Error occured ");
-            console.log(msg);
+            
+            console.log(msg); ShowPopUp("Error", "'" + msg.responseText + "'");
+
         }
     };
     var returnText = $.ajax(options).responseText;

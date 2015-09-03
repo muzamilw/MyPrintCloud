@@ -168,7 +168,6 @@ namespace MPC.Webstore.Controllers
                     ViewBag.MapImage = StoreBaseResopnse.Company.MapImageUrl;
                 }
                 ViewBag.DefaultAddress = oAddress;
-               
             }
             else 
             {

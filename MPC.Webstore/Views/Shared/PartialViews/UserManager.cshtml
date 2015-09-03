@@ -17,7 +17,7 @@
 <div class="content_area container" style="margin-bottom: 40px">
     <div class="left_right_padding row">
         <div class="signin_heading_div float_left_simple dashboard_heading_signin">
-            <label id="HistryBtn" class="sign_in_heading">User Manager</label>
+            <label id="HistryBtn" class="sign_in_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlUserManager", UserCookieManager.WBStoreId, "System User Manager"))</label>
         </div>
         <div class="dashBoardRetrunLink">
             <h1>
@@ -34,7 +34,8 @@
                 @*<asp:ImageButton ID="imgAddNew" CssClass="add_new" ToolTip="Add New User" runat="server"
                                  ImageUrl="~/images/AddNew.png" OnClick="imgAddNew_Click" />*@
 
-                <input type="button" id="btnCopyProduct" class="add-address-btn" onclick="ResetTextboxes()" value="@Html.Raw(Html.GetKeyValueFromResourceFile("AddAddress", UserCookieManager.WBStoreId, "Add new address"))">
+                <input type="button" id="btnCopyProduct" class="add-address-btn" onclick="ResetTextboxes()" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddContact", UserCookieManager.WBStoreId, "Add Contact")).ToString().ToUpper()">
+                       
             </div>
             <div class="new_caption">
                 @*<asp:Literal ID="ltrlnew" runat="server" Text="New"></asp:Literal>*@
@@ -49,16 +50,16 @@
             <table style="width: auto; border-collapse: separate; border-spacing: 2px;">
                 <tr>
                     <td>
-                        <label ID="ltrlSearchrecords">Search Records</label>
+                        <label ID="ltrlSearchrecords">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlSearchrecords", UserCookieManager.WBStoreId, "Search Records"))</label>
                     </td>
                     <td style="padding-left: 10px;">
                         <input type="text" style="width:200px;" id="txtsearch" class="text_box150 rounded_corners5" name="SearchString" />
                     </td>
-                    <td style="padding-left: 10px;">
+                    <td style="padding-left: 10px; visibility:hidden">
                         <button type="submit" id="btnsearch" value="Go" class="start_creating_btn rounded_corners5"
                                  style="display:none;" ></button>
                     </td>
-                    <td style="padding-left: 10px;">
+                    <td style="padding-left: 10px;display:none">
                         <button type="button" id="btnReset" value="Reset" class="start_creating_btn rounded_corners5"
                                 onclick="btnReset_Click" style="display:none;"></button>
                     </td>
@@ -81,44 +82,46 @@
     alternatingRowStyle: "gridViewRowStyleForWebGrid",
     columns: new[] {
 
-    grid.Column("Name",format:@<p>@item.FirstName</p>),
-    grid.Column("Email",format:@<p>@item.Email</p>,style:"hidden-xs"),
-    grid.Column("Territory",format:@<p>
+    grid.Column(Html.Raw(Html.GetKeyValueFromResourceFile("ltrlname", UserCookieManager.WBStoreId, "Name")).ToString(),format:@<p>@item.FirstName</p>),
+    grid.Column(Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email")).ToString(),format:@<p>@item.Email</p>,style:"hidden-xs"),
+    grid.Column(Html.Raw(Html.GetKeyValueFromResourceFile("ltrlteritory", UserCookieManager.WBStoreId, "Territory")).ToString()
+,format:@<p>
                 @if(item.CompanyTerritory!=null)
                 {
                     <p>@item.CompanyTerritory.TerritoryName</p>
                 
                 }
                 else{
-                    <p>N/A</p>
+                    <p>@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlnotpressent", UserCookieManager.WBStoreId, "N/A"))</p>
                 }</p>,style:"hidden-xs"),
 
-    grid.Column("Order Limit",format:@<p>NA</p>,style:"hidden-xs"),
+    grid.Column("Order Limit",format:@<p style="margin-top:11px;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlnotpressent", UserCookieManager.WBStoreId, "N/A"))
+</p>,style:"hidden-xs"),
                
     grid.Column("Can Order",format:@<p>@if (item.isPlaceOrder!=null)
                                        {
-                                           <p>yes</p>
+                                           <p>@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlyes", UserCookieManager.WBStoreId, "Yes"))</p>
                                        }
                                        else
                                        {
-                                          <p>No</p>
+                                          <p>@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlNo", UserCookieManager.WBStoreId, "No"))</p>
                                        }
                 </p>,style:"hidden-xs "),
                 
     grid.Column("can pay by credit card",format:@<p>@if (item.IsPayByPersonalCreditCard!=null)
-                                                    {<p>yes</p>}else{<p>No</p>}</p>,style:"hidden-xs "),
+                                                    {<p>@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlyes", UserCookieManager.WBStoreId, "Yes"))</p>}else{<p>@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlNo", UserCookieManager.WBStoreId, "No"))</p>}</p>,style:"hidden-xs "),
                 
     grid.Column("Role",format:@<p>@if (item.ContactRoleId == 1)
-                                  {<p>Admin</p>}
+                                  {<p>@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAdmin", UserCookieManager.WBStoreId, "Admin"))</p>}
                                   else if (item.ContactRoleId == 2)
-                                  {<p>Manager</p>}else{<p>User</p>}</p>,style:"hidden-xs"),
+                                  {<p>@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlManager", UserCookieManager.WBStoreId, "Manager"))</p>}else{<p>@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlUser", UserCookieManager.WBStoreId, "User"))</p>}</p>,style:"hidden-xs"),
 
                             
       grid.Column(header:Result, format:@<text>@if (ContactRoleId == 1)
       {
           if (item.ContactRoleID == 2)
           {
-            <input type="button" value="Edit" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
+            <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnEditRecord", UserCookieManager.WBStoreId, "Edit"))" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
           background-color: transparent;" class="rounded_corners" onclick="LoadAllData(@item.ContactId)" />
           }
 
@@ -126,7 +129,7 @@
         
       </text>),
      grid.Column( format:@<text>@if (item.ContactRoleId != 1 || item.IsDefaultContact != 1)
-                                {<input type="button" id="view" value="Delete" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="DeleteReord(@item.ContactId)"/>
+     {<input type="button" id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelete", UserCookieManager.WBStoreId, "Delete"))" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="DeleteReord(@item.ContactId)" />
      }</text>)
        }
       )
@@ -158,84 +161,84 @@
                 <div class="pop_body_corp">
                     <div class="left_user_popup_area">
                         <div class="address_label_area1">
-                            <label id="ltrlfname">First Name:</label>
+                            <label id="ltrlfname">@Html.Raw(Html.GetKeyValueFromResourceFile("divfname", UserCookieManager.WBStoreId, "First Name")):</label>
                         </div>
                         <div class="address_contol_area1">
                             <input type="text" id="tboxfirstname" class="text_box200 rounded_corners5"
-                                   maxlength="50" tabindex="1" placeholder="First Name" />
+                                   maxlength="50" tabindex="1" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("divfname", UserCookieManager.WBStoreId, "First Name"))" />
                         </div>
                         <div class="user_label_area2">
-                            <label id="ltrljobtitle">Job Title:</label>
+                            <label id="ltrljobtitle">@Html.Raw(Html.GetKeyValueFromResourceFile("divjobtitle", UserCookieManager.WBStoreId, "Job Title")):</label>
                         </div>
                         <div class="user_contol_area2">
                             <input type="text" id="txtJobTitle" class="text_box200 rounded_corners5"
-                                   maxlength="50" tabindex="14" placeholder="Job Title" />
+                                   maxlength="50" tabindex="14" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("divjobtitle", UserCookieManager.WBStoreId, "Job Title"))" />
                         </div>
                         <div class="clearBoth">
                             &nbsp;
                         </div>
                         <div class="address_label_area1">
-                            <label id="ltrllname">Last Name:</label>
+                            <label id="ltrllname">@Html.Raw(Html.GetKeyValueFromResourceFile("Lname", UserCookieManager.WBStoreId, "Last Name")):</label>
                         </div>
                         <div class="address_contol_area1">
                             <input id="tboxLastName" class="text_box200 rounded_corners5"
-                                   maxlength="50" tabindex="2" placeholder="Last Name" />
+                                   maxlength="50" tabindex="2" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("Lname", UserCookieManager.WBStoreId, "Last Name"))" />
                         </div>
                         <div class="user_label_area2">
-                            <label id="ltrldirectline">Direct Line</label>
+                            <label id="ltrldirectline">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrldirectline", UserCookieManager.WBStoreId, "Direct Line"))</label>
                         </div>
                         <div class="user_contol_area2">
                             <input id="txtDirectLine" class="text_box200 rounded_corners5"
-                                   maxlength="30" tabindex="4" placeholder="Direct Line" />
+                                   maxlength="30" tabindex="4" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrldirectline", UserCookieManager.WBStoreId, "Direct Line"))" />
                         </div>
                         <div class="clearBoth">
                             &nbsp;
                         </div>
                         <div class="address_label_area1">
-                            <label id="ltrlcellnumber">Cell Number:</label>
+                            <label id="ltrlcellnumber">@Html.Raw(Html.GetKeyValueFromResourceFile("divcellnumber", UserCookieManager.WBStoreId, "Cell Number")):</label>
                         </div>
                         <div class="address_contol_area1">
                             <input type="text" id="txtCellNumber" class="text_box200 rounded_corners5"
-                                   maxlength="30" tabindex="3" placeholder="Cell Number" />
+                                   maxlength="30" tabindex="3" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("divcellnumber", UserCookieManager.WBStoreId, "Cell Number"))" />
                         </div>
                         <div class="user_label_area2 ">
-                            <label id="ltrlfax">Fax:</label>
+                            <label id="ltrlfax">@Html.Raw(Html.GetKeyValueFromResourceFile("divfax", UserCookieManager.WBStoreId, "Fax")):</label>
                         </div>
                         <div class="user_contol_area2">
                             <input id="txtFax" class="text_box200 rounded_corners5" maxlength="30"
-                                   tabindex="5" placeholder="Fax" />
+                                   tabindex="5" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("divfax", UserCookieManager.WBStoreId, "Fax"))" />
                         </div>
                         <div class="clearBoth">
                             &nbsp;
                         </div>
                         <div class="address_label_area1">
-                            <label id="ltrlemaill">Email:</label>
+                            <label id="ltrlemaill">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email")):</label>
                         </div>
                         <div class="address_contol_area1">
                             <input id="tboxEmail" class="text_box200 rounded_corners5"
                                    maxlength="30" tabindex="6" placeholder="Email" />
-                            <span id="EmailErrorMsg" style="color:red;font-size:8px;display:none;">please,enter valid email</span>
+                            <span id="EmailErrorMsg" style="color:red;font-size:8px;display:none;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplzentervalidemail", UserCookieManager.WBStoreId, "please,enter valid email"))</span>
                         </div>
                         <div class="user_label_area2">
-                            <label id="ltrlcreditlimit">Credit Limit</label>
+                            <label id="ltrlcreditlimit">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcreditlimit", UserCookieManager.WBStoreId, "Credit Limit"))</label>
                         </div>
                         <div class="user_contol_area2">
                             <input type="text" id="txtCreditLimit" class="text_box200 rounded_corners5 float_input"
-                                   maxlength="8" tabindex="19" placeholder="Credit Limit" />
+                                   maxlength="8" tabindex="19" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcreditlimit", UserCookieManager.WBStoreId, "Credit Limit"))" />
                         </div>
                         <div class="address_label_area1">
-                            <label id="ltrlsecrquestion">Secret Question:</label>
+                            <label id="ltrlsecrquestion">@Html.Raw(Html.GetKeyValueFromResourceFile("SecretQuestion", UserCookieManager.WBStoreId, "Secret Question")):</label>
                         </div>
                         <div class="address_contol_area1">
                             <select style="width:210px;" id="ddlSecretQuestions" class="rounded_corners5 dropdown"
                                     tabindex="7" ></select>
                         </div>
                         <div class="user_label_area2">
-                            <label id="ltrlSecretAnswer">Secret Answer:</label>
+                            <label id="ltrlSecretAnswer">@Html.Raw(Html.GetKeyValueFromResourceFile("SecretAnswer", UserCookieManager.WBStoreId, "Secret Answer")):</label>
                         </div>
                         <div class="user_contol_area2">
                             <input id="txtSecretAnswer" class="text_box200 rounded_corners5"
-                                   maxlength="200" tabindex="8" placeholder="Secret Answer" />
+                                   maxlength="200" tabindex="8" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("SecretAnswer", UserCookieManager.WBStoreId, "Secret Answer"))" />
                         </div>
                         <div class="clearBoth">
                             &nbsp;
@@ -243,13 +246,14 @@
 
 
                         <div class="address_label_area1 height30px">
-                            <label id="ltrlteritory">Territory:</label>
+                            <label id="ltrlteritory">@Html.Raw(Html.GetKeyValueFromResourceFile("tttidd", UserCookieManager.WBStoreId, "Territory")):</label>
+
                         </div>
                         <div class="address_contol_area1 height30px">
                             <select id="ddlTerritory" style="width:210px;" class="rounded_corners5 dropdown"></select>
                         </div>
                         <div class="user_label_area2">
-                            <label id="ltrlrole">Role:</label>
+                            <label id="ltrlrole">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlrole", UserCookieManager.WBStoreId, "Role")):</label>
                         </div>
                         <div class="user_contol_area2">
                             <select id="ddlRole" class="rounded_corners5 dropdown"
@@ -259,40 +263,40 @@
                             &nbsp;
                         </div>
                         <div class="address_label_area1">
-                            <label id="ltrlbusinaddress">Billing Address</label>
+                            <label id="ltrlbusinaddress">@Html.Raw(Html.GetKeyValueFromResourceFile("baddresss", UserCookieManager.WBStoreId, "Billing Address"))</label>
                         </div>
                         <div class="address_contol_area1 height30px">
                             <select id="ddlBillingAddress" class="rounded_corners5 dropdown" style="width:210px;"></select>
                         </div>
                         <div class="user_label_area2">
-                            <label id="Literal1">Shipping Address</label>
+                            <label id="Literal1">@Html.Raw(Html.GetKeyValueFromResourceFile("shippinadresss", UserCookieManager.WBStoreId, "Shipping Address"))</label>
                         </div>
                         <div class="user_contol_area2">
                             <select id="ddlShippingAddress" style="width:210px;" class="rounded_corners5 dropdown"></select>
                         </div>
                         <div class="address_label_area1">
-                            <label id="ltrlBilladdress">Billing Detail</label>
+                            <label id="ltrlBilladdress">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlBillingDetail", UserCookieManager.WBStoreId, "Billing Detail"))</label>
 
                         </div>
                         <div class="address_contol_area1">
-                            <textarea id="txtAddress" name="Text1" cols="40" rows="5" class="text_box200 rounded_corners5" maxlength="250" style="height:60px;" placeholder="Billing Detail"></textarea>
+                            <textarea id="txtAddress" name="Text1" cols="40" rows="5" class="text_box200 rounded_corners5" maxlength="250" style="height:60px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlBillingDetail", UserCookieManager.WBStoreId, "Billing Detail"))"></textarea>
                         </div>
                         <div class="user_label_area2">
-                            <label id="ltrlShipAddrs">Shipping Detail</label>
+                            <label id="ltrlShipAddrs">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlShipDetails", UserCookieManager.WBStoreId, "Shipping Detail"))</label>
                         </div>
                         <div class="user_contol_area2">
                             <textarea id="txtShippingAddress" cols="40" rows="5" class="text_box200 rounded_corners5"
-                                      style="height:60px;" placeholder="Shipping Detail"></textarea>
+                                      style="height:60px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlShipDetails", UserCookieManager.WBStoreId, "Shipping Detail"))"></textarea>
                         </div>
                         <div class="clearBoth">
                             &nbsp;
                         </div>
                         <div class="address_label_area1">
-                            <label id="ltrlnotes">Notes:</label>
+                            <label id="ltrlnotes">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlnotes", UserCookieManager.WBStoreId, "Notes")):</label>
                         </div>
                         <div class="left_multiline_text_box" style="padding-left: 0px;">
                             <textarea id="txtNotes" cols="40" rows="5" class="rounded_corners5 text_box"
-                                      style="height:40px;width:550px;" placeholder="Notes"></textarea>
+                                      style="height:40px;width:550px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlnotes", UserCookieManager.WBStoreId, "Notes"))"></textarea>
                         </div>
                         <div class="clearBoth">
                             &nbsp;
@@ -302,11 +306,11 @@
                         </div>
                         <div class="left_multiline_text_box">
                             <input type="checkbox" id="chkCanOrder" value="&nbsp;&nbsp;&nbsp;Can Place Order" tabindex="12" />
-                            <label id="porder">Can Place Order</label>
+                            <label id="porder">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcanPlacOrder", UserCookieManager.WBStoreId, "Can Place Order"))</label>
                         </div>
                         <div class="right_multiline_text_box">
                             <input id="chkCanByCredit" type="checkbox" tabindex="13" value="&nbsp;&nbsp;&nbsp;Can Pay By Credit Card" />
-                            <label id="canpaycreditcard">Can Pay By Credit Card</label>
+                            <label id="canpaycreditcard">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcanPayByCreditCard", UserCookieManager.WBStoreId, "Can Pay By Credit Card"))</label>
                         </div>
                         <div class="clearBoth">
                             &nbsp;
@@ -316,21 +320,21 @@
                         </div>
                         <div class="left_multiline_text_box">
                             <input type="checkbox" id="chkShowPricesForProduct" value="&nbsp;&nbsp;&nbsp;Show Prices on Products" tabindex="14" />
-                            <label id="showpricesonPro">Show Prices on Products</label>
+                            <label id="showpricesonPro">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlShowPricesOnProducts", UserCookieManager.WBStoreId, "Show Prices on Products"))</label>
                         </div>
                         <div class="right_multiline_text_box">
                             <input id="chkHasWebAccess" type="checkbox" value="&nbsp;&nbsp;Has Web Access" tabindex="12" />
-                            <label id="haswebaccess">Has Web Access</label>
+                            <label id="haswebaccess">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlHAsWebAccess", UserCookieManager.WBStoreId, "Has Web Access"))</label>
                         </div>
                         <div class="clearBoth">
                             &nbsp;
                         </div>
                         <div class="button_contol_area1_corp">
                             <div class="float_left" style="padding-left: 0px;">
-                                <button id="btnSaveUser" class="start_creating_btn rounded_corners5" onclick="SaveCall();" tabindex="23">Save</button>
+                                <button id="btnSaveUser" class="start_creating_btn rounded_corners5" onclick="SaveCall();" tabindex="23">@Html.Raw(Html.GetKeyValueFromResourceFile("btnSave", UserCookieManager.WBStoreId, "Save"))</button>
                             </div>
                             <div class="float_left">
-                                <button id="btnCancelUser" value="Cancel" class="start_creating_btn rounded_corners5" tabindex="24" onclick="HideMessagePopUpCustom();">Cancel</button>
+                                <button id="btnCancelUser" value="Cancel" class="start_creating_btn rounded_corners5" tabindex="24" onclick="HideMessagePopUpCustom();">@Html.Raw(Html.GetKeyValueFromResourceFile("btnCancel", UserCookieManager.WBStoreId, "Cancel"))</button>
                             </div>
                         </div>
                         <div class="clearBoth">
@@ -350,21 +354,21 @@
                                 value="Change Password"
                                 tabindex="25" style="width: 145px; float: right; margin-right: 25px;" onclick="ShowChangePassword();">Change Password</button>
                         <div id="divPass" class="pass" style="text-align: left; margin-left: 5px;">
-                            <label id="ltrlPassword">Password:</label>
+                            <label id="ltrlPassword">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password")):</label>
                         </div>
                         <div id="divPassContr" class="user_contol_area2 pass">
-                            <input type="text" id="tboxPassword" class="text_box200 rounded_corners5"
-                                   maxlength="200" tabindex="20" placeholder="Password" />
+                            <input type="password" id="tboxPassword" class="text_box200 rounded_corners5"
+                                   maxlength="200" tabindex="20" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password")):" />
                         </div>
                         <div class="clearBoth">
                             &nbsp;
                         </div>
                         <div id="divConfirmPass" class="pass" style="text-align: left; margin-left: 5px;">
-                            <label id="ltrlconfirmpass">Confirm Password:</label>
+                            <label id="ltrlconfirmpass">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmpass", UserCookieManager.WBStoreId, "Confirm Password")):</label>
                         </div>
                         <div id="divConfirmPassContr" class="user_contol_area2 pass">
-                            <input type="text" id="txtConfirmPassword" class="text_box200 rounded_corners5"
-                                   maxlength="200" tabindex="21" placeholder="Confirm Password" />
+                            <input type="password" id="txtConfirmPassword" class="text_box200 rounded_corners5"
+                                   maxlength="200" tabindex="21" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmpass", UserCookieManager.WBStoreId, "Confirm Password"))" />
                         </div>
                         <div class="clearBoth">
                             &nbsp;
@@ -418,7 +422,7 @@
         minLength: 1,
         change: function (event, ui) {
             if ($("#txtsearch").val() == '') {
-                
+
             }
             $("#btnsearch").trigger('click');
 
@@ -426,8 +430,8 @@
 
     });
     $(document).ready(function () {
-    buidPopup();
-    $("#popupBody").append($("#pnlUser"));
+        buidPopup();
+        $("#popupBody").append($("#pnlUser"));
         // $("#btnChangePassword").css("display", "none");
     });
     function ShowPreview(input) {
@@ -458,9 +462,9 @@
 
         $("#txtFax").val('');
 
-         $("#txtCreditLimit").val('');
+        $("#txtCreditLimit").val('');
 
-         $("#ddlSecretQuestions").val('');
+        $("#ddlSecretQuestions").val('');
 
         $("#txtSecretAnswer").val('');
 
@@ -472,31 +476,31 @@
 
         $("#ddlShippingAddress").empty();
 
-         $("#txtAddress").val('');
+        $("#txtAddress").val('');
 
-         $("#txtShippingAddress").val('');
+        $("#txtShippingAddress").val('');
 
-         $("#txtNotes").val('');
-
-
-         $("#chkCanOrder")[0].checked=false;
-         $("#chkCanByCredit")[0].checked=false;
-         $("#chkShowPricesForProduct")[0].checked=false;
-
-         $("#chkHasWebAccess")[0].checked=false;
+        $("#txtNotes").val('');
 
 
-         $("#fuImageUpload").val('');
+        $("#chkCanOrder")[0].checked = false;
+        $("#chkCanByCredit")[0].checked = false;
+        $("#chkShowPricesForProduct")[0].checked = false;
+
+        $("#chkHasWebAccess")[0].checked = false;
 
 
-         $("#tboxPassword").val('');
-         LoadDropdowns();
-         $("#tboxfirstname").css("border", "1px solid #c1c6cc");
-         $("#txtSecretAnswer").css("border", "1px solid #c1c6cc");
-         $("#tboxEmail").css("border", "1px solid #c1c6cc");
-         $("#tboxPassword").css("border", "1px solid #c1c6cc");
-        
-         $('#imgContactPicture').attr('src', '');
+        $("#fuImageUpload").val('');
+
+
+        $("#tboxPassword").val('');
+        LoadDropdowns();
+        $("#tboxfirstname").css("border", "1px solid #c1c6cc");
+        $("#txtSecretAnswer").css("border", "1px solid #c1c6cc");
+        $("#tboxEmail").css("border", "1px solid #c1c6cc");
+        $("#tboxPassword").css("border", "1px solid #c1c6cc");
+
+        $('#imgContactPicture').attr('src', '');
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
 
@@ -512,7 +516,7 @@
     function buidPopup() {
         //popupBody
         //modelTitle
-        
+
         var bws = getBrowserHeight();
 
         var shadow = document.getElementById("innerLayer");
@@ -581,31 +585,31 @@
         return false;
     }
     function AddAndUpdate(ContactID) {
-        
-        
+
+
         if (UpdateStatus == true) {
             if (Validation(true) == true) {
-                
+
                 updateSystemUSerProfile();
             }
         }
         else {
             if (Validation(false) == true) {
-                
+
                 AddNewContact();
             }
-          //  AddNewAddress();
+            //  AddNewAddress();
         }
     }
     function SaveCall() {
-       // if (Validation() == true) {
-            
-                AddAndUpdate();
-                
-           // }
+        // if (Validation() == true) {
+
+        AddAndUpdate();
+
+        // }
     }
     function Validation(UpdateStatus) {
-        
+
         var IsValid = true;
         var errorMessage = '';
 
@@ -639,7 +643,7 @@
             errorMessage = errorMessage + City + "<br>";
             $("#tboxEmail").css("border", "2px solid red");
             IsValid = false;
-          
+
         }
         else {
             //$("#divCity").css('display', 'none');
@@ -658,7 +662,7 @@
         //    ShowPopUp('Message', errorMessage);
         //}
         if (UpdateStatus == false) {
-            
+
             if ($("#tboxPassword").val() == '') {
                 var City = "Password is Ruquired";
                 errorMessage = errorMessage + City + "<br>";
@@ -711,40 +715,38 @@
         var TeID = $(this).val();
         $.getJSON("/UserManager/GetAddressesByTerritorID?TerritoryID=" + TeID + "",
                      function (xdata) {
-                         loadDDBillingAddresses(xdata,0);
-                         loadDDShippingAddress(xdata,0);
+                         loadDDBillingAddresses(xdata, 0);
+                         loadDDShippingAddress(xdata, 0);
                      });
     });
 
-    function updateBillAndShipBoxes()
-    {
-        
-            var BillID =$("#ddlBillingAddress").val();
-            $.getJSON("/UserManager/getAddress?AddressID=" + BillID + "",
-                         function (xdata) {
-                             $("#txtAddress").val("Address : " + xdata.Address.AddressName + '\n' + "City : " + xdata.Address.City + '\n' + "State : " + xdata.StateName);
+    function updateBillAndShipBoxes() {
 
-                         });
-        
-        
-            var ShipID = $("#ddlShippingAddress").val();
-            $.getJSON("/UserManager/getAddress?AddressID=" + ShipID + "",
-                         function (xdata) {
-                             $("#txtShippingAddress").val("Address : " + xdata.Address.AddressName + "\n" + "City : " + xdata.Address.City + "\n" + "State : " + xdata.StateName);
+        var BillID = $("#ddlBillingAddress").val();
+        $.getJSON("/UserManager/getAddress?AddressID=" + BillID + "",
+                     function (xdata) {
+                         $("#txtAddress").val("Address : " + xdata.Address.AddressName + '\n' + "City : " + xdata.Address.City + '\n' + "State : " + xdata.StateName);
 
-                         });
-        
-        
-            var TeID = $("#ddlTerritory").val();
-            $.getJSON("/UserManager/GetAddressesByTerritorID?TerritoryID=" + TeID + "",
-                         function (xdata) {
-                             loadDDBillingAddresses(xdata, 0);
-                             loadDDShippingAddress(xdata, 0);
-                         });
-        
+                     });
+
+
+        var ShipID = $("#ddlShippingAddress").val();
+        $.getJSON("/UserManager/getAddress?AddressID=" + ShipID + "",
+                     function (xdata) {
+                         $("#txtShippingAddress").val("Address : " + xdata.Address.AddressName + "\n" + "City : " + xdata.Address.City + "\n" + "State : " + xdata.StateName);
+
+                     });
+
+
+        var TeID = $("#ddlTerritory").val();
+        $.getJSON("/UserManager/GetAddressesByTerritorID?TerritoryID=" + TeID + "",
+                     function (xdata) {
+                         loadDDBillingAddresses(xdata, 0);
+                         loadDDShippingAddress(xdata, 0);
+                     });
+
     }
-    function LoadAllData(ContactID)
-    {
+    function LoadAllData(ContactID) {
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
         $('.pass').css('display', 'none');
@@ -755,35 +757,33 @@
         $("#tboxEmail").css("border", "1px solid #c1c6cc");
         $("#tboxPassword").css("border", "1px solid #c1c6cc");
         $("#modelTitle").text("Update Contact");
-       // ShowLoader();
+        // ShowLoader();
         $.getJSON("/webstoreapi/UM/UserProfileData?ContactID=" + ContactID + "",
                       function (xdata) {
                           LoadDDTerritories(xdata.CompanyTerritory, xdata.setSelectedTerritory.TerritoryId);
-                          LoadDDQuestions(xdata.RegistrationQuestions,xdata.SelectedQuestion.QuestionId);
+                          LoadDDQuestions(xdata.RegistrationQuestions, xdata.SelectedQuestion.QuestionId);
                           loadDDBillingAddresses(xdata.Addresses, xdata.SelectedBillingAddress.AddressId);
                           loadDDShippingAddress(xdata.Addresses, xdata.SelectedShippingAddress.AddressId);
                           loadDDRoles(xdata.CompanyContactRoles, xdata.SelectedRole.ContactRoleId);
                           LoadUserContact(xdata.LoginContact, xdata.SelectedBillingState, xdata.SelectedShipppingState, xdata.SelectedBillingAddress.AddressName, xdata.SelectedShippingAddress.AddressName, xdata.SelectedBillingAddress.City, xdata.SelectedShippingAddress.City);
-        });
+                      });
     }
-    function LoadDropdowns()
-    {
+    function LoadDropdowns() {
         $.getJSON("/webstoreapi/UM/LoadDDData",
                       function (xdata) {
                           LoadDDTerritories(xdata.CompanyTerritory, 0);
-                          LoadDDQuestions(xdata.RegistrationQuestions,0);
-                          loadDDBillingAddresses(xdata.Addresses,0);
-                          loadDDShippingAddress(xdata.Addresses,0);
+                          LoadDDQuestions(xdata.RegistrationQuestions, 0);
+                          loadDDBillingAddresses(xdata.Addresses, 0);
+                          loadDDShippingAddress(xdata.Addresses, 0);
                           loadDDRoles(xdata.CompanyContactRoles, 0);
                           updateBillAndShipBoxes();
                       });
     }
-    function LoadUserContact(LoginContactAddress, BillStateName,shipStateName,BillAddName,ShipAddName,BillCity,shipCity)
-    {
+    function LoadUserContact(LoginContactAddress, BillStateName, shipStateName, BillAddName, ShipAddName, BillCity, shipCity) {
         ContactID = LoginContactAddress.ContactId;
         $("#tboxfirstname").val(LoginContactAddress.FirstName);
         $("#tboxLastName").val(LoginContactAddress.LastName);
-        
+
         $("#tboxEmail").val(LoginContactAddress.Email);
         $("#txtJobTitle").val(LoginContactAddress.JobTitle);
 
@@ -801,9 +801,9 @@
 
         $("#txtSecretAnswer").val(LoginContactAddress.SecretAnswer);
 
-         //$("#ddlTerritory").val();
+        //$("#ddlTerritory").val();
 
-         //$("#ddlRole").val();
+        //$("#ddlRole").val();
 
         //var ddbillingAddress = $("#ddlBusinessAddress").val();
 
@@ -814,22 +814,21 @@
         $("#txtShippingAddress").val("Address : " + ShipAddName + "\n" + "City : " + shipCity + "\n" + "State : " + shipStateName);
 
         $("#txtNotes").val(LoginContactAddress.Notes);
-        
+
         $("#chkCanOrder")[0].checked = LoginContactAddress.isPlaceOrder;
         $("#chkCanByCredit")[0].checked = LoginContactAddress.IsPayByPersonalCreditCard;
         $("#chkShowPricesForProduct")[0].checked = LoginContactAddress.IsPricingshown;
 
         $("#chkHasWebAccess")[0].checked = LoginContactAddress.isWebAccess;
         $("#imgContactPicture").attr('src', LoginContactAddress.image);
-        
+
         //$('.postentry img').attr('src', LoginContactAddress.image);
         // $("#Select")[0].checked=LoginContactAddress;
         // $("#News")[0].checked=LoginContactAddress;
 
     }
-    function LoadDDTerritories(objTer, TerritoryID)
-    {
-        
+    function LoadDDTerritories(objTer, TerritoryID) {
+
         ddTerritoriesDD.html('');
         //ddTerritoriesDD.append($('<option></option>').val(0).html('Select Territory'));
         $.each(objTer, function (id, option) {
@@ -837,7 +836,7 @@
         });
         if (UpdateStatus == true) {
             if (TerritoryID > 0) {
-               
+
                 SetSelectedTerritory(objTer, TerritoryID);
             }
             else {
@@ -845,20 +844,18 @@
             }
         }
     }
-    function SetSelectedTerritory(obj,TerritoryID)
-    {
+    function SetSelectedTerritory(obj, TerritoryID) {
         var index = 0;
         $.each(obj, function (id, option) {
-            if (option.TerritoryId== TerritoryID) {
-                
+            if (option.TerritoryId == TerritoryID) {
+
                 ddTerritoriesDD[0].selectedIndex = index;
             }
             index++;
         });
     }
 
-    function LoadDDQuestions(objQues,SelectedQuestionsID)
-    {
+    function LoadDDQuestions(objQues, SelectedQuestionsID) {
         ddSecretQuestionDD.html('');
         //ddSecretQuestionDD.append($('<option></option>').val(0).html('Select Secret Question'));
         $.each(objQues, function (id, option) {
@@ -874,8 +871,7 @@
         }
     }
 
-    function SetSelectedQuestion(obj,QuestionID)
-    {
+    function SetSelectedQuestion(obj, QuestionID) {
         var index = 0;
         $.each(obj, function (id, option) {
             if (option.QuestionId == QuestionID) {
@@ -885,12 +881,11 @@
             index++;
         });
     }
-    function loadDDBillingAddresses(objBill,BillingID)
-    {
+    function loadDDBillingAddresses(objBill, BillingID) {
         ddBillingAddress.html('');
         //ddBillingAddress.append($('<option></option>').val(0).html('Select Billing Address'));
         $.each(objBill, function (id, option) {
-            
+
             ddBillingAddress.append($('<option></option>').val(option.AddressId).html(option.AddressName));
         });
         if (UpdateStatus == true) {
@@ -898,7 +893,7 @@
                 SetSelectedBillingAddress(objBill, BillingID);
             }
             else {
-                ddBillingAddress[0].selectedIndex=0;
+                ddBillingAddress[0].selectedIndex = 0;
             }
         }
     }
@@ -910,10 +905,9 @@
             }
             index++;
         });
-      }
+    }
 
-    function loadDDShippingAddress(objShip,ShippingID)
-    {
+    function loadDDShippingAddress(objShip, ShippingID) {
         ddlShippingAddress.html('');
         //ddlShippingAddress.append($('<option></option>').val(0).html('Select Shipping Address'));
         $.each(objShip, function (id, option) {
@@ -929,11 +923,11 @@
         }
     }
     function SetSelectedShippingAddress(obj, ShippingID) {
-        
+
         var index = 0;
         $.each(obj, function (id, option) {
             if (option.AddressId == ShippingID) {
-               
+
                 ddlShippingAddress[0].selectedIndex = index;
             }
             index++;
@@ -944,12 +938,12 @@
         ddRolesDD.html('');
         //ddRolesDD.append($('<option></option>').val(0).html('Select  Role'));
         $.each(objRoles, function (id, option) {
-            
+
             ddRolesDD.append($('<option></option>').val(option.ContactRoleId).html(option.ContactRoleName));
         });
         if (UpdateStatus == true) {
             if (RoleID > 0) {
-                
+
                 SetSelectedRole(objRoles, RoleID);
             }
             else {
@@ -961,14 +955,13 @@
         var index = 0;
         $.each(obj, function (id, option) {
             if (option.ContactRoleId == RoleID) {
-                
+
                 ddRolesDD[0].selectedIndex = index;
             }
             index++;
         });
     }
-    function updateSystemUSerProfile()
-    {
+    function updateSystemUSerProfile() {
         
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
@@ -986,15 +979,15 @@
 
         var FAX = $("#txtFax").val();
 
-        var CreditLimit= $("#txtCreditLimit").val();
+        var CreditLimit = $("#txtCreditLimit").val();
 
-        var ddSecretQuestion=$("#ddlSecretQuestions").val();
+        var ddSecretQuestion = $("#ddlSecretQuestions").val();
 
         var SecretAnswer = $("#txtSecretAnswer").val();
 
         var ddTerritory = $("#ddlTerritory").val();
 
-        var ddRoles=$("#ddlRole").val();
+        var ddRoles = $("#ddlRole").val();
 
         var ddbillingAddress = $("#ddlBillingAddress").val();
 
@@ -1006,32 +999,31 @@
 
         var Notes = $("#txtNotes").val();
 
-        
+
         var canOrder = $("#chkCanOrder")[0].checked;
         var CanByCredit = $("#chkCanByCredit")[0].checked;
         var ShowPricesForProduct = $("#chkShowPricesForProduct")[0].checked;
 
         var HasWebAccess = $("#chkHasWebAccess")[0].checked;
 
-        
+
         var Image = $("#fuImageUpload").val();
 
-        
+
         var ConfirmPassword = $("#tboxPassword").val();
-        
+
         var data = new FormData();
-                
-        if($("#fuImageUpload").val()!=null)
-        {
+
+        if ($("#fuImageUpload").val() != null) {
             var files = $("#fuImageUpload").get(0).files;
 
             if (files.length > 0) {
                 data.append("UploadedImage", files[0]);
             }
         }
-     
-      //  var Model = { FirstName: FirstName, LastName: txtLastName, CreditLimit: CreditLimit, ContactRoleId: ddRoles, Email: Email, Fax: FAX, FirstName: FirstName, HomeTel1: HomeTel1, isWebAccess: HasWebAccess, isPlaceOrder: canOrder, IsPayByPersonalCreditCard: CanByCredit, IsPricingshown: ShowPricesForProduct, JobTitle: JobTitle, Mobile: Mobile, Notes: Notes, QuestionId: ddSecretQuestion, SecretAnswer: SecretAnswer, TerritoryId: ddTerritory, AddressId: ddbillingAddress, ShippingAddressId: ddShippingAddess, Password: ConfirmPassword, ContactId: ContactID };
-        
+
+        //  var Model = { FirstName: FirstName, LastName: txtLastName, CreditLimit: CreditLimit, ContactRoleId: ddRoles, Email: Email, Fax: FAX, FirstName: FirstName, HomeTel1: HomeTel1, isWebAccess: HasWebAccess, isPlaceOrder: canOrder, IsPayByPersonalCreditCard: CanByCredit, IsPricingshown: ShowPricesForProduct, JobTitle: JobTitle, Mobile: Mobile, Notes: Notes, QuestionId: ddSecretQuestion, SecretAnswer: SecretAnswer, TerritoryId: ddTerritory, AddressId: ddbillingAddress, ShippingAddressId: ddShippingAddess, Password: ConfirmPassword, ContactId: ContactID };
+
         $.ajax({
             type: "POST",
             url: "/webstoreapi/ContactImageUploader/UpdateDataForSystemUser?CreditLimit=" + CreditLimit + "&ContactRoleId=" + ddRoles + "&Email=" + Email + "&Fax=" + FAX + "&FirstName=" + FirstName + "&HomeTel1=" + HomeTel1 + "&isWebAccess=" + HasWebAccess + "&isPlaceOrder=" + canOrder + "&IsPayByPersonalCreditCard=" + CanByCredit + "&IsPricingshown=" + ShowPricesForProduct + "&JobTitle=" + JobTitle + "&LastName=" + txtLastName + "&Mobile=" + Mobile + "&Notes=" + Notes + "&QuestionId=" + ddSecretQuestion + "&SecretAnswer=" + SecretAnswer + "&TerritoryId=" + ddTerritory + "&AddressId=" + ddbillingAddress + "&ShippingAddressId=" + ddShippingAddess + "&Password=" + ConfirmPassword + "&ContactId=" + ContactID + "",
@@ -1041,25 +1033,18 @@
             async: true,
             processData: false,
             success: function (response) {
-
-                $("#messgetodisply").css('display', 'block');
-                $("#messgetodisply").html('Profile Updated Sucessfuly!');
-
-                
                 HideLoader();
-                
-                $('html, body').animate({
-                    scrollTop: $("#messgetodisply").offset().top
-                }, 500);
+                RebindGrid();
+               @*ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlContactUpdatedSucessffuly", UserCookieManager.WBStoreId, "Contact Updated Sucessfully!"))');*@
             },
             error: function (error) {
-                
+
             }
         });
     }
 
     function AddNewContact() {
-       
+        
         $('.pass').css('display', 'block');
         if (UpdateStatus == true) {
             //  var PHtml = $("#UpdateModelPopUp").html();
@@ -1070,6 +1055,7 @@
         else {
             $("#modelTitle").text("Add New Contact");
         }
+        
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
@@ -1140,16 +1126,17 @@
             async: true,
             processData: false,
             success: function (response) {
-                alert(response);
+                
                 if (response == 'Ok') {
-                    
+                    alert(response);
                     HideLoader();
                     RebindGrid();
-                    
+
                 }
                 else {
-                    ShowPopUp('Message', response);
-                    
+                    // HideLoader();
+                   
+                   ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlExistsContact", UserCookieManager.WBStoreId, "Sorry, There is already Exits a contact with this Email!"))');
                 }
             },
             error: function (error) {
