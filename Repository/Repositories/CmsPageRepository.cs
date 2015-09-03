@@ -159,5 +159,17 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(cp => cp.CompanyId == companyId).ToList();
         }
+
+        public List<CmsPage> GetCmsPagesByOrganisationForBanners(long companyId)
+        {
+            var qry = DbSet.Where(c => c.CompanyId == companyId).Select(c => new
+            {
+                Banner = c.PageBanner
+            }).ToList().Select(c => new CmsPage
+            {
+                PageBanner = c.Banner
+            }).ToList();
+            return qry;
+        }
     }
 }

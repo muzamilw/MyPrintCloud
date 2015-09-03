@@ -560,4 +560,12 @@ namespace MPC.Models.Common
         Json = 1 
     
     }
+
+    public enum ProductOfferType
+    {
+        FeaturedProducts = 1,
+        PopularProducts = 2,
+        SpecialProducts = 3,
+        AllProducts = 4
+    }
 }

@@ -285,6 +285,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         userDefinedSpriteImageSource = ko.observable(specifiedUserDefinedSpriteImageSource),
         userDefinedSpriteImageFileName = ko.observable(specifiedUserDefinedSpriteFileName),
         storeLayoutChange = ko.observable(),
+            isWidgetItemsChange = ko.observable(),
         //Is Show Google Map
         isShowGoogleMap = ko.observable(specifiedIsShowGoogleMap != undefined ? specifiedIsShowGoogleMap.toString() : "1"),
         customCSS = ko.observable(specifiedCustomCSS),
@@ -388,7 +389,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             canUserEditProfile: canUserEditProfile,
             priceFlagId: priceFlagId,
             isStoreSetLive: isStoreSetLive,
-            canUserUpdateAddress: canUserUpdateAddress
+            canUserUpdateAddress: canUserUpdateAddress,
+            isWidgetItemsChange: isWidgetItemsChange
             //#endregion
         }),
         // Has Changes
@@ -643,7 +645,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             showPrices: showPrices,
             priceFlagId: priceFlagId,
             isStoreSetLive: isStoreSetLive,
-            canUserUpdateAddress: canUserUpdateAddress
+            canUserUpdateAddress: canUserUpdateAddress,
+            isWidgetItemsChange: isWidgetItemsChange
             //#endregion
         };
         return self;
@@ -4206,6 +4209,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             itemName = ko.observable(specifiedItemName),
             sortOrder = ko.observable(specifiedSortOrder),
             companyId = ko.observable(),
+             dirtyFlag = new ko.dirtyFlag({
+                 itemId: itemId
+             }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
         //Convert To Server
         convertToServerData = function () {
             return {
@@ -4224,6 +4234,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             itemName: itemName,
             sortOrder: sortOrder,
             companyId: companyId,
+            dirtyFlag:dirtyFlag,
+            hasChanges:hasChanges,
             convertToServerData: convertToServerData,
         };
         return self;

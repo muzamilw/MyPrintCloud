@@ -349,6 +349,7 @@
     <Compile Include="Areas\Api\Controllers\ExportController.cs" />
     <Compile Include="Areas\Api\Controllers\ExportCRMContactsController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemsForDiscountVoucherController.cs" />
+    <Compile Include="Areas\Api\Controllers\LiveStoresController.cs" />
     <Compile Include="Areas\Api\Controllers\OrganisationLicensingController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductChildCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForOrderController.cs" />

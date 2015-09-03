@@ -154,7 +154,7 @@ namespace MPC.Interfaces.Repository
         /// <param name="CompanyId"></param>
         /// <param name="OrganisationId"></param>
         /// <returns></returns>
-        List<Item> GetProductsList(long CompanyId, long OrganisationId);
+        List<Item> GetProductsList(long CompanyId, long OrganisationId, int offerType);
 
        
         /// <summary>
