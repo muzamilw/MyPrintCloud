@@ -93,6 +93,7 @@ define("stores/stores.viewModel",
                     isStoreVariableTabOpened = ko.observable(false),
                     //Check Is Base Data Loaded
                     isBaseDataLoaded = ko.observable(false),
+                    bannerButtonCaption = ko.observable(),
                     //#endregion
 
                     //#region ________ O B S E R V A B L E S   A R R A Y S___________
@@ -342,8 +343,8 @@ define("stores/stores.viewModel",
                             });
                     },
                     //getItemsForWidgets
-                    getItemsForWidgets = function(callBack) {
-                        dataservice.getItemsForWidgets({
+                    getItemsForWidgets = function(companyId) {
+                        dataservice.getItemsForWidgets({ storeId: companyId}, {
                             success: function(data) {
                                 if (data != null) {
                                     itemsForWidgets.removeAll();
@@ -434,7 +435,7 @@ define("stores/stores.viewModel",
                         selectedItemForRemove(undefined);
 
                         if (itemsForWidgets().length === 0) {
-                            getItemsForWidgets();
+                            getItemsForWidgets(selectedStore().companyId());
                         }
                         _.each(systemVariables(), function(item) {
                             fieldVariablesForSmartForm.push(item);
@@ -564,6 +565,7 @@ define("stores/stores.viewModel",
                             }, {
                                 success: function(data) {
                                     selectedStore().currentThemeId(selectedTheme());
+                                    selectedStore().isNewThemeApplied(true);
                                     toastr.success("Theme Applied Successfully.");
                                 },
                                 error: function(response) {
@@ -1404,7 +1406,8 @@ define("stores/stores.viewModel",
                     addBannerCount = ko.observable(-1),
                     addBannerSetCount = ko.observable(-1),
                     //Craete Banner
-                    onCreateBanner = function() {
+                    onCreateBanner = function () {
+                        bannerButtonCaption("Add Banner");
                         selectedCompanyBanner(model.CompanyBanner());
                         selectedCompanyBanner().description("");
                         view.showEditBannerDialog();
@@ -1486,7 +1489,8 @@ define("stores/stores.viewModel",
                         return flag;
                     },
                     //Edit Company Banner
-                    onEditCompanyBanner = function(banner) {
+                    onEditCompanyBanner = function (banner) {
+                        bannerButtonCaption("Change Banner");
                         bannerEditorViewModel.selectItem(banner);
                         selectedCompanyBanner().reset();
                         view.showEditBannerDialog();
@@ -4490,10 +4494,10 @@ define("stores/stores.viewModel",
                             });
 
                             //#endregion
-
                             _.each(selectedStore().mediaLibraries(), function (item) {
                                 storeToSave.MediaLibraries.push(item.convertToServerData());
                             });
+                           
 
                             //#region Cost Center
                             //storeToSave().companyCostCenters.removeAll();
@@ -4581,9 +4585,9 @@ define("stores/stores.viewModel",
                     },
                     //Get Store For editting
                     getStoreForEditting = function () {
-                        if (itemsForWidgets().length === 0) {
-                            getItemsForWidgets();
-                        }
+                        //if (itemsForWidgets().length === 0) {
+                            getItemsForWidgets(selectedStoreListView().companyId());
+                        //}
                         dataservice.getStoreById({
                             //dataservice.getStores({
                             companyId: selectedStoreListView().companyId()
@@ -5403,11 +5407,19 @@ define("stores/stores.viewModel",
                             _.each(itemsForWidgets(), function (item) {
                                 if (selectedItemForRemove().itemId() === item.id()) {
                                     item.isInSelectedList(false);
+                                    selectedStore().isWidgetItemsChange(true);
                                 }
                             });
                             selectedItemsForOfferList.remove(selectedItemForRemove());
                             selectedItemForRemove(undefined);
                         }
+                    },
+                    onFeaturedDialogOk = function() {
+                        _.each(selectedItemsForOfferList(), function (offerItem) {
+                            if (offerItem.hasChanges() == true) {
+                                selectedStore().isWidgetItemsChange(true);
+                            }
+                        });
                     },
                     //Select Item
                     selectAddItem = function (item) {
@@ -7572,7 +7584,9 @@ define("stores/stores.viewModel",
                     validateCanStoreSave: validateCanStoreSave,
                    
                     onDeleteStoreBackground: onDeleteStoreBackground,
-                    onCopyStore: onCopyStore
+                    onCopyStore: onCopyStore,
+                    onFeaturedDialogOk: onFeaturedDialogOk,
+                    bannerButtonCaption: bannerButtonCaption
                 };
                 //#endregion
             })()

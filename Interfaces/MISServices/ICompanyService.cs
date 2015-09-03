@@ -61,6 +61,8 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         List<Item> GetItemsForWidgets();
 
+        List<Item> GetItemsForWidgetsByStoreId(long storeId);
+
         /// <summary>
         /// Save Field Variable
         /// </summary>
@@ -166,6 +168,8 @@ namespace MPC.Interfaces.MISServices
         /// Get Discount Voucher By Id
         /// </summary>
         DiscountVoucher GetDiscountVoucherById(long discountVoucherId);
+
+        string GetLiveStoresJason();
 
         #region exportOrganisation
 

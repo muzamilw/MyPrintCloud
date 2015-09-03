@@ -57,43 +57,52 @@ namespace MPC.Webstore.Controllers
 
             ViewBag.Phone = ContactMobile;
             ProductItem Product = _IItemService.GetItemAndDetailsByItemID(ItemID);
-            if (CategoryId == 0)
-            {
-                Product.ProductCategoryName = _IItemService.GetCategoryNameById(0, ItemID);
-                ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(Product.ProductCategoryName) + "/" + CategoryId;
-            }
-            else
-            {
-                Product.ProductCategoryName = _IItemService.GetCategoryNameById(CategoryId, 0);
-                ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(Product.ProductCategoryName) + "/" + CategoryId;
-            }
-            Product.ProductName = ProductName + " - Marketing Brief";
-            Product.ProductCategoryID = CategoryId;
-            List<ProductMarketBriefAnswer> NS = new List<ProductMarketBriefAnswer>();
 
-            List<ProductMarketBriefQuestion> QuestionsList = _IItemService.GetMarketingInquiryQuestionsByItemID(ItemID);
-            if (QuestionsList.Count > 0)
+            if (Product != null)
             {
-                ViewData["QuestionsList"] = QuestionsList;
-                if (QuestionsList != null)
+                if (CategoryId == 0)
                 {
-                    foreach (var question in QuestionsList)
-                    {
-                        List<ProductMarketBriefAnswer> Ans = _IItemService.GetMarketingInquiryAnswersByQID(question.MarketBriefQuestionId);
-                       
-                        foreach(ProductMarketBriefAnswer val in Ans)
-                        {
-                            NS.Add(val);
-                        }
-
-                 
-                    }
-                    if (NS.Count > 0)
-                        ViewData["Answers"] = NS;
+                    Product.ProductCategoryName = _IItemService.GetCategoryNameById(0, ItemID);
+                    ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(Product.ProductCategoryName) + "/" + CategoryId;
                 }
-               
-            }
+                else
+                {
+                    Product.ProductCategoryName = _IItemService.GetCategoryNameById(CategoryId, 0);
+                    ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(Product.ProductCategoryName) + "/" + CategoryId;
+                }
+                Product.ProductName = ProductName + " - Marketing Brief";
+                Product.ProductCategoryID = CategoryId;
+                List<ProductMarketBriefAnswer> NS = new List<ProductMarketBriefAnswer>();
 
+                List<ProductMarketBriefQuestion> QuestionsList = _IItemService.GetMarketingInquiryQuestionsByItemID(ItemID);
+                if (QuestionsList.Count > 0)
+                {
+                    ViewData["QuestionsList"] = QuestionsList;
+                    if (QuestionsList != null)
+                    {
+                        foreach (var question in QuestionsList)
+                        {
+                            List<ProductMarketBriefAnswer> Ans = _IItemService.GetMarketingInquiryAnswersByQID(question.MarketBriefQuestionId);
+
+                            foreach (ProductMarketBriefAnswer val in Ans)
+                            {
+                                NS.Add(val);
+                            }
+
+
+                        }
+                        if (NS.Count > 0)
+                            ViewData["Answers"] = NS;
+                    }
+
+                }
+
+            }
+            else 
+            {
+                throw new Exception("Product not found.");
+            }
+            
             return View("PartialViews/MarketingBrief",Product);
         }
 

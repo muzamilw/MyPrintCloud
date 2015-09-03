@@ -3082,20 +3082,29 @@ namespace MPC.Implementation.MISServices
             MediaLibrary mediaLibraryDbVersion = mediaLibraryRepository.Find(mediaId);
             if (mediaLibraryDbVersion != null)
             {
-                IEnumerable<CmsPage> cmsPages = cmsPageRepository.GetAll();
+                List<CmsPage> cmsPages = cmsPageRepository.GetCmsPagesByOrganisationForBanners(mediaLibraryDbVersion.CompanyId);
+                // List<CompanyBanner> companyBanners = companyBannerRepository.GetAll().ToList();
+                
+                //IEnumerable<CmsPage> cmsPages = cmsPageRepository.GetAll();
                 CmsPage cmsPage = cmsPages.FirstOrDefault(cp => cp.PageBanner == mediaLibraryDbVersion.FilePath);
                 if (cmsPage != null)
                 {
                     throw new MPCException(string.Format(CultureInfo.InvariantCulture, "File is used in CMS page."), companyRepository.OrganisationId);
                 }
-                IEnumerable<CompanyBanner> companyBanners = companyBannerRepository.GetAll();
-                CompanyBanner companyBanner = companyBanners.FirstOrDefault(cp => cp.ImageURL == mediaLibraryDbVersion.FilePath);
-                if (companyBanner != null)
+
+                //IEnumerable<CompanyBanner> companyBanners = companyBannerRepository.GetAll();
+                List<string> companyBanners = bannerSetRepository.GetCompanyBannersByCompanyId(mediaLibraryDbVersion.CompanyId);
+                //CompanyBanner companyBanner = companyBanners.FirstOrDefault(cp => cp.ImageURL == mediaLibraryDbVersion.FilePath);
+                var companyBanner = companyBanners.Contains(mediaLibraryDbVersion.FilePath);
+                if (companyBanner == true)
                 {
                     throw new MPCException(string.Format(CultureInfo.InvariantCulture, "File is used in Banner."), companyRepository.OrganisationId);
                 }
 
                 mediaLibraryRepository.Delete(mediaLibraryDbVersion);
+                string currFile = HttpContext.Current.Server.MapPath("~/" + mediaLibraryDbVersion.FilePath);
+                if (File.Exists(currFile))
+                    File.Delete(currFile);
                 mediaLibraryRepository.SaveChanges();
             }
         }
@@ -3134,6 +3143,10 @@ namespace MPC.Implementation.MISServices
         public List<Item> GetItemsForWidgets()
         {
             return itemRepository.GetItemsForWidgets();
+        }
+        public List<Item> GetItemsForWidgetsByStoreId(long storeId)
+        {
+            return itemRepository.GetItemsForWidgetsByStoreId(storeId);
         }
 
         public CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request)
@@ -3547,23 +3560,32 @@ namespace MPC.Implementation.MISServices
         private void DeleteMediaFiles(long companyId)
         {
             IEnumerable<MediaLibrary> mediaLibraries = mediaLibraryRepository.GetMediaLibrariesByCompanyId(companyId);
-            IEnumerable<CmsPage> cmsPages = cmsPageRepository.GetAll();
-            IEnumerable<CompanyBanner> companyBanners = companyBannerRepository.GetAll();
+            List<CmsPage> cmsPages =
+                cmsPageRepository.GetCmsPagesByOrganisationForBanners(companyId);
+           // List<CompanyBanner> companyBanners = companyBannerRepository.GetAll().ToList();
+            List<string> companyBanners = bannerSetRepository.GetCompanyBannersByCompanyId(companyId);
 
             List<MediaLibrary> mediaLibrariesForDelete = new List<MediaLibrary>();
             foreach (var media in mediaLibraries)
             {
 
-                CmsPage cmsPage = cmsPages.FirstOrDefault(cp => cp.PageBanner == media.FilePath);
-                CompanyBanner companyBanner = companyBanners.FirstOrDefault(cp => cp.ImageURL == media.FilePath);
-                if (cmsPage == null && companyBanner == null)
+                //CmsPage cmsPage = cmsPages.FirstOrDefault(cp => cp.PageBanner == media.FilePath);
+                //CompanyBanner companyBanner = companyBanners.FirstOrDefault(cp => cp.ImageURL == media.FilePath);
+                var cmsPage = cmsPages.Where(c => c.PageBanner == media.FilePath).Select(c => c.PageBanner).FirstOrDefault();
+                //var companyBanner = companyBanners.Where(c => c.ImageURL == media.FilePath).Select(c => c.ImageURL).FirstOrDefault();
+                var companyBanner = companyBanners.Contains(media.FilePath);
+                if (cmsPage == null && companyBanner == true)
                 {
                     mediaLibrariesForDelete.Add(media);
                 }
             }
+            
             foreach (var item in mediaLibrariesForDelete)
             {
                 mediaLibraryRepository.Delete(item);
+                string currFile = HttpContext.Current.Server.MapPath("~/" + item.FilePath);
+                if (File.Exists(currFile))
+                    File.Delete(currFile);
             }
             mediaLibraryRepository.SaveChanges();
         }
@@ -3716,6 +3738,56 @@ namespace MPC.Implementation.MISServices
        
             DiscountVoucher voucher = discountVoucherRepository.UpdateVoucher(discountVoucher);
             return voucher;
+        }
+
+        public string GetLiveStoresJason()
+        {
+            string stores = string.Empty;
+            List<Company> livestores = companyRepository.GetLiveStoresList();
+            List<LiveStoreDetails> storeDetails = new List<LiveStoreDetails>();
+            foreach (var company in livestores)
+            {
+                var address = company.Addresses.FirstOrDefault();
+                string domainName = string.Empty;
+                //mpc/store/Ooo2112
+                if (company.CompanyDomains.Count() > 1)
+                {
+                    var odomain = company.CompanyDomains.Where(c => !c.Domain.Contains("/store/" + company.WebAccessCode)).FirstOrDefault();
+                    domainName = odomain != null
+                        ? odomain.Domain
+                        : company.CompanyDomains.FirstOrDefault() != null
+                            ? company.CompanyDomains.FirstOrDefault().Domain ?? ""
+                            : "";
+                    
+                }
+                else
+                {
+                   var odomain = company.CompanyDomains.FirstOrDefault();
+                    domainName = odomain.Domain != null ? odomain.Domain : string.Empty;
+                }
+                
+                storeDetails.Add(new LiveStoreDetails
+                {
+                    OrganisationId = company.OrganisationId?? 0, 
+                    StoreId = company.CompanyId,
+                    StoreCode  = company.WebAccessCode,
+                    StoreName = company.Name,
+                    StoreType = company.IsCustomer,
+                    LogoUrl = company.Image,
+                    Address1 = address != null ? address.Address1 : string.Empty,
+                    Address2 = address != null ? address.Address2: string.Empty,
+                    AddressName = address != null ? address.AddressName : string.Empty,
+                    City = address != null ? address.City : string.Empty,
+                    Country = address != null ? address.Country != null ? address.Country.CountryName: string.Empty : string.Empty,
+                    State = address != null ? address.State != null? address.State.StateName: string.Empty : string.Empty,
+                    DefaultDomain = domainName,
+                    GeoLatitude = address != null ? address.GeoLatitude : string.Empty,
+                    GeoLongitude = address != null ? address.GeoLongitude : string.Empty
+                });
+            }
+
+            stores = JsonConvert.SerializeObject(storeDetails, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            return stores;
         }
 
         

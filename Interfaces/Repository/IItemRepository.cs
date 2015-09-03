@@ -83,6 +83,8 @@ namespace MPC.Interfaces.Repository
         /// Get Items For Widgets 
         /// </summary>
         List<Item> GetItemsForWidgets();
+
+        List<Item> GetItemsForWidgetsByStoreId(long storeId);
          Item GetItemByOrderID(long OrderID);
           List<Item> GetItemsByOrderID(long OrderID);
          string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string caller, long organisationId);
@@ -152,7 +154,7 @@ namespace MPC.Interfaces.Repository
         /// <param name="CompanyId"></param>
         /// <param name="OrganisationId"></param>
         /// <returns></returns>
-        List<Item> GetProductsList(long CompanyId, long OrganisationId);
+        List<Item> GetProductsList(long CompanyId, long OrganisationId, int offerType);
 
        
         /// <summary>

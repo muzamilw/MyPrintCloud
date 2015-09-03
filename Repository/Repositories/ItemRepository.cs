@@ -2738,7 +2738,16 @@ namespace MPC.Repository.Repositories
             return
                 DbSet.Where(
                     i =>
-                        i.IsPublished == true && i.IsArchived == false && i.EstimateId == null && i.IsFeatured == true &&
+                        i.IsPublished == true && i.IsArchived != true  && i.EstimateId == null && i.IsFeatured == true && i.IsEnabled == true &&
+                        i.OrganisationId == OrganisationId).ToList().OrderBy(c => c.ProductName).ToList();
+
+        }
+        public List<Item> GetItemsForWidgetsByStoreId(long storeId)
+        {
+            return
+                DbSet.Where(
+                    i =>
+                        i.IsPublished == true && i.IsArchived == false && i.EstimateId == null && i.IsFeatured == true && i.IsEnabled == true && i.CompanyId == storeId &&
                         i.OrganisationId == OrganisationId).ToList().OrderBy(c => c.ProductName).ToList();
 
         }
@@ -4282,16 +4291,78 @@ namespace MPC.Repository.Repositories
         /// <param name="CompanyId"></param>
         /// <param name="OrganisationId"></param>
         /// <returns></returns>
-        public List<Item> GetProductsList(long CompanyId, long OrganisationId)
+        public List<Item> GetProductsList(long CompanyId, long OrganisationId, int offerType)
         {
             try
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                return db.Items.Where(
-                     i =>
-                         i.EstimateId == null && i.IsPublished == true && i.IsEnabled == true && (i.IsArchived == null || i.IsArchived == false) && i.CompanyId == CompanyId &&
-                         i.OrganisationId == OrganisationId).ToList();
+                //var query = from productsList in db.Items
+                //            join tblCmsOffer in db.CmsOffers on new { itemid = productsList.ItemId }
+                //            equals new { itemid = tblCmsOffer .ItemId } into p2g
+                //            from p2g1 in p2g.DefaultIfEmpty(null)
+                //            select productsList;
+                //var query = from productsList in db.Items
+                //            join tblCmsOffer in db.CmsOffers on productsList.ItemId
+                //            equals tblCmsOffer.ItemId into ProdTblCmsOfferGroupJoin
+                //            where
+                //            Object.Equals(productsList.EstimateId, null)
+                //            && productsList.IsEnabled == true && productsList.IsArchived == false
 
+                //            from JTble in ProdTblCmsOfferGroupJoin.DefaultIfEmpty()
+
+                //            orderby productsList.SortOrder
+
+
+                //            select new Item
+                //            {
+                              
+                //                ItemID = productsList.ItemID,
+                //                EstimateID = productsList.EstimateID,
+                //                ProductName = productsList.ProductName,
+                //                ImagePath = productsList.ImagePath,
+                //                ThumbnailPath = productsList.ThumbnailPath,
+                              
+                //                IsEnabled = productsList.IsEnabled,
+                //                IsSpecialItem = productsList.IsSpecialItem,
+                //                IsPopular = productsList.IsPopular,
+                //                IsFeatured = productsList.IsFeatured,
+                //                IsPromotional = productsList.IsPromotional,
+                //                IsPublished = productsList.IsPublished,
+                //                ProductType = productsList.ProductType,
+                //                ProductSpecification = productsList.ProductSpecification,
+                //                CompleteSpecification = productsList.CompleteSpecification,
+                //                TipsAndHints = productsList.TipsAndHints,
+                //                SortOrder = productsList.SortOrder ?? 0,
+                //                ProductWebDescription = productsList.WebDescription
+                //            };
+
+
+
+
+                List<Item> itemsList = db.Items.Where(
+                   i =>
+                       i.EstimateId == null && i.IsPublished == true && i.IsEnabled == true && (i.IsArchived == null || i.IsArchived == false) && i.CompanyId == CompanyId &&
+                       i.OrganisationId == OrganisationId && i.IsFeatured == true).ToList();
+
+                if (itemsList != null || itemsList.Count() > 0)
+                {
+                    List<long> listOfActualtemIds = itemsList.Select(c => c.ItemId).ToList();
+                    List<int?> ids = db.CmsOffers.Where(i => listOfActualtemIds.Contains((long)i.ItemId) && i.OfferType == offerType).Select(c => c.ItemId).ToList();
+                    if (ids != null && ids.Count() > 0)
+                    {
+                        itemsList = itemsList.Where(i => ids.Contains((int)i.ItemId)).OrderBy(i => i.SortOrder).ToList();
+                        return itemsList;
+                    }
+                    else 
+                    {
+                        return null;
+                    }
+                }
+                else 
+                {
+                    return null;
+                }
+                
             }
             catch (Exception ex)
             {
@@ -4383,7 +4454,7 @@ namespace MPC.Repository.Repositories
                         && (productsList.IsArchived == null || productsList.IsArchived == false)
                         && productsList.EstimateId == null && productsList.CompanyId == CompanyID
                         orderby productsList.SortOrder
-                        
+
                         select new ProductItem
                         {
                             //OfferID = JTble.OfferID,
@@ -4567,9 +4638,9 @@ namespace MPC.Repository.Repositories
                 db.Configuration.ProxyCreationEnabled = false;
 
                 return db.Items.Where(c => c.CompanyId == CompanyId && (c.IsPublished == null || c.IsPublished == true) && (c.IsArchived == null || c.IsArchived == false) && c.EstimateId == null).OrderBy(c => c.ProductName).ToList();
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
