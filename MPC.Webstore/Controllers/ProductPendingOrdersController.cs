@@ -122,31 +122,34 @@ namespace MPC.Webstore.Controllers
         
         private void approveOrRejectEmailToUser(long userID, long orderID,int Event)
         {
-            //string CacheKeyName = "CompanyBaseResponse";
-            //ObjectCache cache = MemoryCache.Default;
-
-            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+           
             MyCompanyDomainBaseReponse StoreBaseResopnse = _CompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             CompanyContact userRec = _CompanyService.GetContactByID(userID);
             MPC.Models.DomainModels.Company loginUserCompany = _CompanyService.GetCompanyByCompanyID(_myClaimHelper.loginContactCompanyID());
             SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
-            CompanyContact UserContact = _CompanyService.GetContactByID(_myClaimHelper.loginContactID());
-           
-            CampaignEmailParams CPE = new CampaignEmailParams();
-            CPE.OrganisationId = 1;
-            CPE.CompanyId = _myClaimHelper.loginContactCompanyID();
-            CPE.ContactId = userID;
-            CPE.SalesManagerContactID = userID; // this is only dummy data these variables replaced with organization values 
-            
-            CPE.StoreId = UserCookieManager.WBStoreId;
-            
-            CPE.AddressId = _myClaimHelper.loginContactCompanyID();
-            CPE.EstimateId = orderID;
-            CPE.ApprovarID =(int) _myClaimHelper.loginContactID();
-            Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent(Event, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
-            _campaignService.emailBodyGenerator(RegistrationCampaign, CPE, UserContact, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+            if (EmailOFSM != null) 
+            {
+                CompanyContact UserContact = _CompanyService.GetContactByID(_myClaimHelper.loginContactID());
 
+                CampaignEmailParams CPE = new CampaignEmailParams();
+                CPE.OrganisationId = 1;
+                CPE.CompanyId = _myClaimHelper.loginContactCompanyID();
+                CPE.ContactId = userID;
+                CPE.SalesManagerContactID = userID; // this is only dummy data these variables replaced with organization values 
+
+                CPE.StoreId = UserCookieManager.WBStoreId;
+
+                CPE.AddressId = _myClaimHelper.loginContactCompanyID();
+                CPE.EstimateId = orderID;
+                CPE.ApprovarID = (int)_myClaimHelper.loginContactID();
+                CPE.SystemUserId = EmailOFSM.SystemUserId;
+
+                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent(Event, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
+                _campaignService.emailBodyGenerator(RegistrationCampaign, CPE, UserContact, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+
+            }
+           
         }
         [HttpPost]
         public void ApporRejectOrder(long OrderID)

@@ -257,8 +257,17 @@
                                 </div>
                             </div>
                             <div style="margin: 5px; margin-top: 15px;">
-                                <input type="submit" class="MB_SendINqBtn rounded_corners5" id="SendINqBtn"
-                                       onclick="return GetAllinputElementIDS(); ShowLoader();" value=@Html.Raw(Html.GetKeyValueFromResourceFile("btnmarketingbrief", UserCookieManager.WBStoreId, "submit inquiry")) />
+                                @if (ViewBag.isServerSettingsSet == 0)
+                                {
+                                    <input type="button" class="MB_SendINqBtn rounded_corners5" 
+                                           onclick="ShowServerSeetingPopUp();" value='@Html.Raw(Html.GetKeyValueFromResourceFile("btnmarketingbrief", UserCookieManager.WBStoreId, "submit inquiry"))' />
+                                }
+                                else
+                                {
+                                    <input type="submit" class="MB_SendINqBtn rounded_corners5" id="SendINqBtn"
+                                           onclick="return GetAllinputElementIDS(); ShowLoader();" value='@Html.Raw(Html.GetKeyValueFromResourceFile("btnmarketingbrief", UserCookieManager.WBStoreId, "submit inquiry"))' />
+                                }
+                               
                             </div>
                         </div>
                     </div>
@@ -383,83 +392,88 @@
 
         if (selectedradioBtnsCount < groupCount) {
 
-            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubmitinquiry", UserCookieManager.WBStoreId, "Please select an option in the highlighted questions to submit your inquiry."))');
-                var AllGroups = $("#hfTotalGroups").val();
+            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubmitinquiry", UserCookieManager.WBStoreId, "Please select an option in the highlighted questions to submit your inquiry."))');
+            var AllGroups = $("#hfTotalGroups").val();
 
-                var EachGroup = AllGroups.split(',');
-                $.each(EachGroup, function (i, element) {
+            var EachGroup = AllGroups.split(',');
+            $.each(EachGroup, function (i, element) {
 
-                    var i = 0;
-                    var id = "";
-                    var SelecedRadioNotHighlighted = $('input[type="radio"][name="' + element + '"]:checked').attr("id");
-                    if (SelecedRadioNotHighlighted == undefined) {
+                var i = 0;
+                var id = "";
+                var SelecedRadioNotHighlighted = $('input[type="radio"][name="' + element + '"]:checked').attr("id");
+                if (SelecedRadioNotHighlighted == undefined) {
 
-                        $('input:radio[name=' + element + ']').each(function () {
-                            $(this).parent().parent().parent().parent().removeClass('white_background');
-                            $(this).parent().parent().parent().parent().css("background-color", "#ECAAAA");
-                        });
-                        if (i == 0 & id != "") {
+                    $('input:radio[name=' + element + ']').each(function () {
+                        $(this).parent().parent().parent().parent().removeClass('white_background');
+                        $(this).parent().parent().parent().parent().css("background-color", "#ECAAAA");
+                    });
+                    if (i == 0 & id != "") {
 
-                        }
                     }
-                    var SelecedCheckBoxNotHighlighted = $('input[type="checkbox"][name="' + element + '"]:checked').attr("id");
-                    if (SelecedCheckBoxNotHighlighted == undefined) {
+                }
+                var SelecedCheckBoxNotHighlighted = $('input[type="checkbox"][name="' + element + '"]:checked').attr("id");
+                if (SelecedCheckBoxNotHighlighted == undefined) {
 
-                        $('input:checkbox[name=' + element + ']').each(function () {
-                            $(this).parent().parent().parent().parent().removeClass('white_background');
-                            $(this).parent().parent().parent().parent().css("background-color", "#ECAAAA");
-                        });
-                        if (i == 0 & id != "") {
+                    $('input:checkbox[name=' + element + ']').each(function () {
+                        $(this).parent().parent().parent().parent().removeClass('white_background');
+                        $(this).parent().parent().parent().parent().css("background-color", "#ECAAAA");
+                    });
+                    if (i == 0 & id != "") {
 
-                        }
                     }
-                });
-                return false;
-            } else {
+                }
+            });
+            return false;
+        } else {
 
-                $("#hfInqueryMesg").val(AdditionalAnsList);
+            $("#hfInqueryMesg").val(AdditionalAnsList);
 
-                return true;
-            }
+            return true;
         }
+    }
 
-        function TickCheckBox(CheckBoxClassName) {
+    function TickCheckBox(CheckBoxClassName) {
 
-            var idOfBtn = $('input:checkbox[class=' + CheckBoxClassName + ']').attr('id');
-            console.log($('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked'));
-            if ($('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked')) {
+        var idOfBtn = $('input:checkbox[class=' + CheckBoxClassName + ']').attr('id');
+        console.log($('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked'));
+        if ($('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked')) {
 
-                $('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked', false);
-                $('input:checkbox[class=' + CheckBoxClassName + ']').next().removeClass('OrangeGradiantbtn').addClass('grayRadiantbtn');
+            $('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked', false);
+            $('input:checkbox[class=' + CheckBoxClassName + ']').next().removeClass('OrangeGradiantbtn').addClass('grayRadiantbtn');
 
-            } else {
+        } else {
 
-                $('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked', true);
-                $("#" + idOfBtn).next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
-                $("#" + idOfBtn).parent().parent().parent().parent().addClass('white_background');
-                $("#" + idOfBtn).parent().parent().parent().parent().css("background-color", "white");
+            $('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked', true);
+            $("#" + idOfBtn).next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
+            $("#" + idOfBtn).parent().parent().parent().parent().addClass('white_background');
+            $("#" + idOfBtn).parent().parent().parent().parent().css("background-color", "white");
 
-            }
         }
+    }
 
-        function TickRadio(RadioClassName) {
+    function TickRadio(RadioClassName) {
 
-            $('input:radio[class=' + RadioClassName + ']').attr('checked', true);
-            if ($('input:radio[class=' + RadioClassName + ']').is(':checked')) {
+        $('input:radio[class=' + RadioClassName + ']').attr('checked', true);
+        if ($('input:radio[class=' + RadioClassName + ']').is(':checked')) {
 
-                $('input:radio[class=' + RadioClassName + ']').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
+            $('input:radio[class=' + RadioClassName + ']').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
 
-                var name = $('input:radio[class=' + RadioClassName + ']').attr("name");
+            var name = $('input:radio[class=' + RadioClassName + ']').attr("name");
 
-                $('input:radio[name=' + name + ']').each(function () {
-                    if ($(this).is(':checked')) {
-                        $(this).parent().parent().parent().parent().addClass('white_background');
-                        $(this).parent().parent().parent().parent().css("background-color", "white");
-                    } else {
-                        $(this).next().removeClass('OrangeGradiantbtn').addClass('grayRadiantbtn');
-                    }
-                });
-            }
+            $('input:radio[name=' + name + ']').each(function () {
+                if ($(this).is(':checked')) {
+                    $(this).parent().parent().parent().parent().addClass('white_background');
+                    $(this).parent().parent().parent().parent().css("background-color", "white");
+                } else {
+                    $(this).next().removeClass('OrangeGradiantbtn').addClass('grayRadiantbtn');
+                }
+            });
         }
+    }
+
+    function ShowServerSeetingPopUp() {
+        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("msgOrgServSetting", UserCookieManager.WBStoreId, "Critial Error, server settings are not set!"))');
+    }
+
     </script>
 

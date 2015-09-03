@@ -844,6 +844,7 @@ namespace MPC.Repository.Repositories
                 emailQueue.SMTPPassword = ServerPass;
                 emailQueue.AttemptCount = 0;
                 emailQueue.CampaignReportId = CampaignReportID;
+                emailQueue.SendDateTime = DateTime.Now;
                 string fileAttachment = "";
                 if (AttachmentList != null)
                 {
