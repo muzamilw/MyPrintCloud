@@ -13412,8 +13412,12 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
         var w = this.getWidth(), h = this.getHeight();
 
         var heightOfLine = this.fontSize * this.scaleY * this.lineHeight;
-        var offset = heightOfLine / 2 ;
+        var offset = heightOfLine / 2;
         var sentence = this.bullets.split(/\r\n|\r|\n/);
+        if (this.VAllignment == 3 || this.VAllignment == 2) {
+            var alignOffset = this.textPaddingTop;
+            offset += (alignOffset)*1.20;
+        } 
         for (var i = 0; i < sentence.length; i++) {
                 ctx.fillStyle = this.color;
                 ctx.lineWidth = this.strokeWidth;
@@ -20635,7 +20639,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
             this._boundaries = [];
             var lineHeights = 0 ;  // adding by saqib for vertical allignment
             if (this.VAllignment != 1)
-                lineHeights += +this.textPaddingTop;
+                lineHeights += this.textPaddingTop;
             for (var i = 0, len = textLines.length; i < len; i++) {
                 var heightOfLine = this.fontSize * this.lineHeight;
                 if (this.customStyles != null && this.customStyles != undefined && this.customStyles.length != 0 && !this.isEmptyStyles()) {
