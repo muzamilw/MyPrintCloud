@@ -286,6 +286,8 @@ namespace MPC.Repository.BaseRepository
         /// </summary>
         public DbSet<ProductMarketBriefAnswer> ProductMarketBriefAnswers { get; set; }
 
+        
+
         /// <summary>
         /// Role DbSet
         /// </summary>
