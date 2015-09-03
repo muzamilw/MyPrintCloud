@@ -3065,20 +3065,29 @@ namespace MPC.Implementation.MISServices
             MediaLibrary mediaLibraryDbVersion = mediaLibraryRepository.Find(mediaId);
             if (mediaLibraryDbVersion != null)
             {
-                IEnumerable<CmsPage> cmsPages = cmsPageRepository.GetAll();
+                List<CmsPage> cmsPages = cmsPageRepository.GetCmsPagesByOrganisationForBanners(mediaLibraryDbVersion.CompanyId);
+                // List<CompanyBanner> companyBanners = companyBannerRepository.GetAll().ToList();
+                
+                //IEnumerable<CmsPage> cmsPages = cmsPageRepository.GetAll();
                 CmsPage cmsPage = cmsPages.FirstOrDefault(cp => cp.PageBanner == mediaLibraryDbVersion.FilePath);
                 if (cmsPage != null)
                 {
                     throw new MPCException(string.Format(CultureInfo.InvariantCulture, "File is used in CMS page."), companyRepository.OrganisationId);
                 }
-                IEnumerable<CompanyBanner> companyBanners = companyBannerRepository.GetAll();
-                CompanyBanner companyBanner = companyBanners.FirstOrDefault(cp => cp.ImageURL == mediaLibraryDbVersion.FilePath);
-                if (companyBanner != null)
+
+                //IEnumerable<CompanyBanner> companyBanners = companyBannerRepository.GetAll();
+                List<string> companyBanners = bannerSetRepository.GetCompanyBannersByCompanyId(mediaLibraryDbVersion.CompanyId);
+                //CompanyBanner companyBanner = companyBanners.FirstOrDefault(cp => cp.ImageURL == mediaLibraryDbVersion.FilePath);
+                var companyBanner = companyBanners.Contains(mediaLibraryDbVersion.FilePath);
+                if (companyBanner == true)
                 {
                     throw new MPCException(string.Format(CultureInfo.InvariantCulture, "File is used in Banner."), companyRepository.OrganisationId);
                 }
 
                 mediaLibraryRepository.Delete(mediaLibraryDbVersion);
+                string currFile = HttpContext.Current.Server.MapPath("~/" + mediaLibraryDbVersion.FilePath);
+                if (File.Exists(currFile))
+                    File.Delete(currFile);
                 mediaLibraryRepository.SaveChanges();
             }
         }
@@ -3553,12 +3562,13 @@ namespace MPC.Implementation.MISServices
                     mediaLibrariesForDelete.Add(media);
                 }
             }
-            string target = HttpContext.Current.Server.MapPath("~/MPC_Content/Media/" + companyRepository.OrganisationId + "/" + companyId);
+            
             foreach (var item in mediaLibrariesForDelete)
             {
                 mediaLibraryRepository.Delete(item);
-                if(File.Exists(target +"/"+ item.FilePath))
-                    File.Delete(target + "/" + item.FilePath);
+                string currFile = HttpContext.Current.Server.MapPath("~/" + item.FilePath);
+                if (File.Exists(currFile))
+                    File.Delete(currFile);
             }
             mediaLibraryRepository.SaveChanges();
         }

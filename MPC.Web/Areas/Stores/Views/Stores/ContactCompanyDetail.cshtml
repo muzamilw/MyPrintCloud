@@ -1108,10 +1108,18 @@
                                             <div class="col-lg-3">
 
                                                 <div class="clearfix">
-
-                                                    <img style="width:240px;height:130px;-o-object-fit: contain; object-fit: contain;" id="idCostcenterimage" data-bind="visible:storeBackgroudImageImageSource()==undefined ,attr: { src: '@Url.Content("~/")' + storeBackgroudImagePathWithCacheRemoveTechnique() }" />
-                                                    <img style="width:240px;height:130px;-o-object-fit: contain; object-fit: contain;" data-bind="visible:storeBackgroudImageImageSource()!==undefined,attr: { src: storeBackgroudImageImageSource }" />
-                                                    <div class="col-lg-9" style="text-align:center;margin-top:15px;">
+                                                    <div class="photo-box image-link">
+                                                        <img class="photo-box image-link" style="width:240px;height:130px; object-fit: contain;" id="idCostcenterimage" data-bind="visible:storeBackgroudImageImageSource()==undefined ,attr: { src: '@Url.Content("~/")' + storeBackgroudImagePathWithCacheRemoveTechnique() }" />
+                                                        <img class="photo-box image-link" style="width:240px;height:130px; object-fit: contain;" data-bind="visible:storeBackgroudImageImageSource()!==undefined,attr: { src: storeBackgroudImageImageSource }" />
+                                                        <a href="#" class="table-link danger" title="Remove Background" style="color:#e74c3c; cursor: pointer; bottom: 30px;margin-left: 15%;position: relative;" data-bind="click : $root.onDeleteStoreBackground">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                    
+                                                    <div class="col-lg-12" style="text-align:center;">
                                                         <div class="fileUpload btn btn-primary">
                                                             @*data-bind="click:$root.showMediaLibraryDialogFromStoreBackground"*@
                                                             <span>Upload Background</span>
@@ -1119,15 +1127,7 @@
                                                         </div>
 
                                                     </div>
-                                                    <div class="col-lg-3" style="margin-top: 15px;">
-                                                        <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click : $root.onDeleteStoreBackground">
-                                                            <span class="fa-stack">
-                                                                <i class="fa fa-square fa-stack-2x"></i>
-
-                                                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                            </span>
-                                                        </a>
-                                                    </div>
+                                                    
                                                     <div class="col-lg-12 ThoumbnailCostCenter" style="margin-top:5px !important;width:242px;text-align:center">Background image could be a PNG or JPG file. Behaviour of background  image is controlled using CSS.</div>
                                                     <div class="profile-stars">
                                                         <span data-bind="value: type"></span>
@@ -3773,7 +3773,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
     </li>
 </script>
 <script id="mediaLibraryItemTemplate" type="text/html">
-    <li class="col-md-3 col-sm-3 col-xs-6">
+    <li class="col-md-3 col-sm-3 col-xs-6" style="cursor: pointer">
         <div class="photo-box image-link" style="padding-top: 0" data-bind="event:{click:$root.openMediaLibImage}">
             <img class="photo-box image-link" style="object-fit: contain; padding-top: 0; height: 127px !important; background-color: white;" data-bind="visible:fileSource()===undefined,attr: { src: '@Url.Content("~/")' + imageSourcePath() }" alt="" />
             <img class="photo-box image-link" style="object-fit: contain; padding-top: 0; height: 127px !important; background-color: white;" data-bind="visible:fileSource()!==undefined,attr: { src: fileSource }" />
