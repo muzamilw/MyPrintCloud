@@ -199,17 +199,20 @@
                 </div>
                 <div class="clearBoth">
                 </div>
-                <div class="trspclInstr col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt ">
-                    <span id="lbl_SpecialInstructions" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px; margin-left: 0px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnspeacilinstruction", UserCookieManager.WBStoreId, "Additional information:"))</span><br />
-                    <label id="lblSpecialInstructions" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px;">@Model.SpecialInstNotes</label>
-                </div>
-                <div class="trspclInstr col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt">
-                    <span id="lbl_EstimatedDate" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnestimateddispatchdate", UserCookieManager.WBStoreId, "Estimated dispatch date:"))</span><br />
-                    <label id="lblEstimatedDispatchDate" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px; margin-left: 0px;">@EstimatedDispatchDate</label>
-                </div>
-                <div class="trspclInstr col-md-4 col-lg-4 col-xs-12 receiptShippingDeliverycnt">
-                    @*<span id="lbl_DelivaryMethod" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spndilevry", UserCookieManager.WBStoreId))</span><br />*@
-                    &nbsp;
+                <div id="AdditionalInfoCont">
+                    <div class="trspclInstr col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt ">
+                        <span id="lbl_SpecialInstructions" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px; margin-left: 0px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnspeacilinstruction", UserCookieManager.WBStoreId, "Additional information:"))</span><br />
+                        <label id="lblSpecialInstructions" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px;">@Model.SpecialInstNotes</label>
+                    </div>
+                    <div class="trspclInstr col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt">
+                        <span id="lbl_EstimatedDate" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnestimateddispatchdate", UserCookieManager.WBStoreId, "Estimated dispatch date:"))</span><br />
+                        <label id="lblEstimatedDispatchDate" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px; margin-left: 0px;">@EstimatedDispatchDate</label>
+                    </div>
+                    <div class="trspclInstr col-md-4 col-lg-4 col-xs-12 receiptShippingDeliverycnt">
+                        @*<span id="lbl_DelivaryMethod" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spndilevry", UserCookieManager.WBStoreId))</span><br />*@
+                        &nbsp;
+                    </div>
+                    <div class="clearBoth"></div>
                 </div>
                 <div class="clearBoth">
                 </div>
