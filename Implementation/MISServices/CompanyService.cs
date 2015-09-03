@@ -7206,8 +7206,7 @@ namespace MPC.Implementation.MISServices
             if (targetcmsskinPageWidget.CmsSkinPageWidgetParams == null)
             {
                 targetcmsskinPageWidget.CmsSkinPageWidgetParams = new List<CmsSkinPageWidgetParam>();
-            }
-
+            }      
             foreach (CmsSkinPageWidgetParam objcmsSkinPageWidgetParams in cmsskinPageWidget.CmsSkinPageWidgetParams.ToList())
             {
                 CmsSkinPageWidgetParam targetCMSSkinPageWidgetParam = cmsSkinPageWidgetParamRepository.Create();
