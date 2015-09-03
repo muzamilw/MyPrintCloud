@@ -27,5 +27,7 @@ namespace MPC.Interfaces.Repository
 
         DiscountVoucher CreateDiscountVoucher(DiscountVoucher discountVoucher);
         bool isCouponVoucher(long DiscountVoucherId);
+
+        List<DiscountVoucher> getDiscountVouchersByCompanyId(long companyId);
     }
 }

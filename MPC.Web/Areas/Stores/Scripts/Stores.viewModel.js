@@ -93,6 +93,7 @@ define("stores/stores.viewModel",
                     isStoreVariableTabOpened = ko.observable(false),
                     //Check Is Base Data Loaded
                     isBaseDataLoaded = ko.observable(false),
+                    bannerButtonCaption = ko.observable(),
                     //#endregion
 
                     //#region ________ O B S E R V A B L E S   A R R A Y S___________
@@ -564,6 +565,7 @@ define("stores/stores.viewModel",
                             }, {
                                 success: function(data) {
                                     selectedStore().currentThemeId(selectedTheme());
+                                    selectedStore().isNewThemeApplied(true);
                                     toastr.success("Theme Applied Successfully.");
                                 },
                                 error: function(response) {
@@ -1404,7 +1406,8 @@ define("stores/stores.viewModel",
                     addBannerCount = ko.observable(-1),
                     addBannerSetCount = ko.observable(-1),
                     //Craete Banner
-                    onCreateBanner = function() {
+                    onCreateBanner = function () {
+                        bannerButtonCaption("Add Banner");
                         selectedCompanyBanner(model.CompanyBanner());
                         selectedCompanyBanner().description("");
                         view.showEditBannerDialog();
@@ -1486,7 +1489,8 @@ define("stores/stores.viewModel",
                         return flag;
                     },
                     //Edit Company Banner
-                    onEditCompanyBanner = function(banner) {
+                    onEditCompanyBanner = function (banner) {
+                        bannerButtonCaption("Change Banner");
                         bannerEditorViewModel.selectItem(banner);
                         selectedCompanyBanner().reset();
                         view.showEditBannerDialog();
@@ -4490,10 +4494,10 @@ define("stores/stores.viewModel",
                             });
 
                             //#endregion
-
                             _.each(selectedStore().mediaLibraries(), function (item) {
                                 storeToSave.MediaLibraries.push(item.convertToServerData());
                             });
+                           
 
                             //#region Cost Center
                             //storeToSave().companyCostCenters.removeAll();
@@ -7578,9 +7582,11 @@ define("stores/stores.viewModel",
                     validateStoreLiveHandler: validateStoreLiveHandler,
                     ExportCSVForCompanyContacts: ExportCSVForCompanyContacts,
                     validateCanStoreSave: validateCanStoreSave,
+                   
                     onDeleteStoreBackground: onDeleteStoreBackground,
                     onCopyStore: onCopyStore,
-                    onFeaturedDialogOk: onFeaturedDialogOk
+                    onFeaturedDialogOk: onFeaturedDialogOk,
+                    bannerButtonCaption: bannerButtonCaption
                 };
                 //#endregion
             })()

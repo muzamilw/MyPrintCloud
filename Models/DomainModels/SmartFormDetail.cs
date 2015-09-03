@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
@@ -21,6 +22,36 @@ namespace MPC.Models.DomainModels
         #region Additional Properties
         [NotMapped]
         public long? FakeVariableId { get; set; }
+        #endregion
+
+
+        #region public
+
+
+        /// <summary>
+        /// Makes a copy of Entity
+        /// </summary>
+        ///   
+
+        public void Clone(SmartFormDetail target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemProductDetailClone_InvalidItemProductDetail, "target");
+            }
+
+
+            target.ObjectType = ObjectType;
+            target.IsRequired = IsRequired;
+            target.SortOrder = SortOrder;
+            target.VariableId = VariableId;
+            target.SortOrder = SortOrder;
+           // target.CaptionValue = CaptionValue;
+            target.FakeVariableId = FakeVariableId;
+
+
+        }
+
         #endregion
     }
 }

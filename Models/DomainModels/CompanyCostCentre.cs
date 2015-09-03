@@ -1,4 +1,5 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System;
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Company Cost Centre Domain Model
@@ -14,5 +15,34 @@
         public long? OrganisationId { get; set; }
         public virtual Company Company { get; set; }
         public virtual CostCentre CostCentre { get; set; }
+
+
+        #region public
+
+
+        /// <summary>
+        /// Makes a copy of Entity
+        /// </summary>
+        ///   
+
+        public void Clone(CompanyCostCentre target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemProductDetailClone_InvalidItemProductDetail, "target");
+            }
+
+
+            target.CostCentreId = CostCentreId;
+            target.BrokerMarkup = BrokerMarkup;
+            target.ContactMarkup = ContactMarkup;
+            target.isDisplayToUser = isDisplayToUser;
+            target.OrganisationId = OrganisationId;
+            
+
+
+        }
+
+        #endregion
     }
 }
