@@ -7790,11 +7790,8 @@ CREATE TABLE [dbo].[MarketingBriefHistory](
 
 GO
 
-
-
 ALTER TABLE TemplateVariable
 ADD VariableText nvarchar(max) null
-
 
 ALTER TABLE Template
 ADD contactId bigint null

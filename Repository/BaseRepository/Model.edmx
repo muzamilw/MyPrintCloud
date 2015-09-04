@@ -3654,6 +3654,8 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="isCreatedManual" Type="bit" />
           <Property Name="isEditorChoice" Type="bit" />
           <Property Name="ProductCategoryId" Type="bigint" />
+          <Property Name="contactId" Type="bigint" />
+          <Property Name="realEstateId" Type="bigint" />
         </EntityType>
         <EntityType Name="TemplateBackgroundImage">
           <Key>
@@ -11406,6 +11408,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ProductCategoryId" Type="Int64" />
           <NavigationProperty Name="TemplateColorStyles" Relationship="DomainModels.FK_ColorStyles_Products" FromRole="Template" ToRole="TemplateColorStyle" />
           <NavigationProperty Name="TemplateFonts" Relationship="DomainModels.FK_ProductFonts_Products" FromRole="Template" ToRole="TemplateFont" />
+          <Property Name="contactId" Type="Int64" />
+          <Property Name="realEstateId" Type="Int64" />
         </EntityType>
         <EntityType Name="TemplatePage">
           <Key>
@@ -17464,6 +17468,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Templates">
             <EntityTypeMapping TypeName="DomainModels.Template">
               <MappingFragment StoreEntitySet="Template">
+                <ScalarProperty Name="realEstateId" ColumnName="realEstateId" />
+                <ScalarProperty Name="contactId" ColumnName="contactId" />
                 <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
                 <ScalarProperty Name="isEditorChoice" ColumnName="isEditorChoice" />
                 <ScalarProperty Name="isCreatedManual" ColumnName="isCreatedManual" />

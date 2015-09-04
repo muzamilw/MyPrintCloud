@@ -58,6 +58,7 @@ define("dashboard.viewModel",
                     // Y axis point for chart
                     yAxisPoints = [],
                     yAxisPointdummy = ko.observableArray(['totalStore1', 'totalStore2', 'totalStore3', 'totalStore4', 'totalStore5']),
+                    yAxisPointRegUsers = ko.observableArray([]),
                     //chartLabelsdummy = ko.observableArray(['PinkCards.com', 'Goldwell.com', 'saleflow.com', 'yolkpm.com', 'eazyprint.com', 'sunnyland.com', 'printtech.com', 'printmedia.com', 'cloudfusion.com']),
                     chartLabelsdummy = ko.observableArray([]),
                     yAxisPointsWithStoreName = ko.observableArray([]),
@@ -197,6 +198,37 @@ define("dashboard.viewModel",
                                 chartLabelsdummy().push(item.Name);
                             }
                         });
+                        //_.each(chartLabelsdummy(), function (item) {
+                        //    yAxisPointRegUsers().push(item);
+                        //});
+                        var labelsCount = chartLabelsdummy().length;
+                        if (labelsCount == 1) {
+                            yAxisPointRegUsers().push('totalStore1');
+                        }
+                        if (labelsCount == 2) {
+                            yAxisPointRegUsers().push('totalStore1');
+                            yAxisPointRegUsers.push('totalStore2');
+                        }
+
+                        else if (labelsCount == 3) {
+                            yAxisPointRegUsers().push('totalStore1');
+                            yAxisPointRegUsers.push('totalStore2');
+                            yAxisPointRegUsers.push('totalStore3');
+                        }
+
+                        else if (labelsCount == 4) {
+                            yAxisPointRegUsers().push('totalStore1');
+                            yAxisPointRegUsers.push('totalStore2');
+                            yAxisPointRegUsers.push('totalStore3');
+                            yAxisPointRegUsers.push('totalStore4');
+                        }
+                        else if (labelsCount == 5) {
+                            yAxisPointdummy().push('totalStore1');
+                            yAxisPointdummy.push('totalStore2');
+                            yAxisPointdummy.push('totalStore3');
+                            yAxisPointdummy.push('totalStore4');
+                            yAxisPointdummy.push('totalStore5');
+                        }
                         _.each(data, function (tUser) {
                             var item = dummyUsers()[tUser.Month - 1];
                             if (tUser.Month != currentMonth) {
@@ -610,6 +642,7 @@ define("dashboard.viewModel",
                     RegisteredUsers: RegisteredUsers,
                     top10PerformingStores: top10PerformingStores,
                     yAxisPointdummy: yAxisPointdummy,
+                    yAxisPointRegUsers: yAxisPointRegUsers,
                     chartLabelsdummy: chartLabelsdummy,
                     monthlyEarningStores: monthlyEarningStores,
                     monthlyEarningsByStore: monthlyEarningsByStore,
