@@ -987,7 +987,7 @@ namespace MPC.Repository.Repositories
             var template = db.Templates.Where(g => g.ProductId == templateId).SingleOrDefault();
             if(template != null)
             {
-                //template.
+                template.contactId = contactId;
             }
             if(db.SaveChanges() >0 )
             {

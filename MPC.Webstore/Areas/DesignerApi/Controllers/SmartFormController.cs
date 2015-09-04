@@ -69,10 +69,10 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
         }
-        // parameter1 = user id , parameter2 = smartFormId, parameter3 = templateID
+        // parameter1 = user id , parameter2 = smartFormId, parameter3 =parent templateID,parameter 4 = child template id 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage GetSmartFormData(long parameter1,long parameter2,long parameter3)
+        public HttpResponseMessage GetSmartFormData(long parameter1,long parameter2,long parameter3,long parameter4)
         {
             List<SmartFormUserList> usersListData = null;
             SmartFormWebstoreResponse objSmartform = smartFormService.GetSmartForm(parameter2);
@@ -80,7 +80,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             List<SmartFormDetail> smartFormObjs = smartFormService.GetSmartFormObjects(parameter2, out listOptions);
             bool hasContactVariables = false;
             Dictionary<long, List<ScopeVariable>> AllUserScopeVariables = null;
-            List<ScopeVariable> scopeVariable = smartFormService.GetScopeVariables(smartFormObjs,out hasContactVariables,parameter1);
+            List<ScopeVariable> scopeVariable = smartFormService.GetScopeVariables(smartFormObjs, out hasContactVariables, parameter1, parameter4);
             List<ScopeVariable> allTemplateVariables = smartFormService.GetTemplateScopeVariables(parameter3, parameter1);
             List<ScopeVariable> variablesToRemove = new List<ScopeVariable>();
             //  variablesList = variables;
@@ -108,7 +108,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                 if (usersListData != null)
                 {
                     AllUserScopeVariables = new Dictionary<long, List<ScopeVariable>>();
-                    AllUserScopeVariables = smartFormService.GetUserScopeVariables(smartFormObjs, usersListData, parameter3);
+                    AllUserScopeVariables = smartFormService.GetUserScopeVariables(smartFormObjs, usersListData, parameter3, parameter4);
 
                 }
             }

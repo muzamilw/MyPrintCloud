@@ -150,7 +150,7 @@ function fu04_1GetItem(DT)
 
                      if (item.SmartFormId != 0) {
                          $(".QuickTxt").css("visibility", "hidden");
-                         $.getJSON("/designerapi/SmartForm/GetSmartFormData/" + ContactID + "/" + item.SmartFormId + "/" + item.ParentTemplateId,
+                         $.getJSON("/designerapi/SmartForm/GetSmartFormData/" + ContactID + "/" + item.SmartFormId + "/" + item.ParentTemplateId + "/" + tID,
                            function (DT2) {
                                $(".QuickTxt").css("visibility", "visible");
                                pcl41(DT2);
@@ -275,7 +275,7 @@ function fu04_01() {
           pcl42_updateTemplate(DT);
           TO = DT;
           if(smartFormData != null)
-              pcl42_UpdateTO();
+              pcl42_UpdateTO(true);
           fu07();
           fu06();
           // if (firstLoad) {

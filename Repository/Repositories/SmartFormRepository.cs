@@ -266,7 +266,7 @@ namespace MPC.Repository.Repositories
             return objs;
         }
 
-        public List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables,long contactId)
+        public List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables,long contactId,long templateId)
         {
             db.Configuration.LazyLoadingEnabled = false;
             List<ScopeVariable> result = new List<ScopeVariable>();
@@ -602,6 +602,23 @@ namespace MPC.Repository.Repositories
                         }
                     }
                 }
+                var template = db.Templates.Where(g => g.ProductId == templateId).SingleOrDefault();
+                if (template != null)
+                {
+                    if (contactId == template.contactId)
+                    {
+                        List<MPC.Models.DomainModels.TemplateVariable> lstTemplateVariables = db.TemplateVariables.Where(g => g.TemplateId == template.ProductId).ToList();
+                        foreach (var objTVar in lstTemplateVariables)
+                        {
+                            var scopeObj = result.Where(g => g.VariableId == objTVar.VariableId).SingleOrDefault();
+                            if (scopeObj != null)
+                            {
+                                if (objTVar.VariableText != null && objTVar.VariableText != "")
+                                    scopeObj.Value = objTVar.VariableText;
+                            }
+                        }
+                    }
+                }
             }
             
             return result;
@@ -877,13 +894,14 @@ namespace MPC.Repository.Repositories
             return oResult;
         }
 
-        public Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails,List<SmartFormUserList> contacts,long templateId) {
+        public Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, List<SmartFormUserList> contacts, long templateId, long currentTemplateId)
+        {
             bool hasContactVariables = false;
             db.Configuration.LazyLoadingEnabled = false;
             Dictionary<long, List<ScopeVariable>> UserScopeVariables = new Dictionary<long, List<ScopeVariable>>();
             foreach(var contact in contacts)
             {
-                List<ScopeVariable> variables = GetScopeVariables(smartFormDetails, out hasContactVariables, contact.ContactId);
+                List<ScopeVariable> variables = GetScopeVariables(smartFormDetails, out hasContactVariables, contact.ContactId, currentTemplateId);
                 List<ScopeVariable> variablesToRemove = new List<ScopeVariable>();
               //  variablesList = variables;
                 foreach (var variable in variables)
@@ -1410,18 +1428,19 @@ namespace MPC.Repository.Repositories
                     var template = db.Templates.Where(g => g.ProductId == item.TemplateId).SingleOrDefault();
                     if(template != null)
                     {
-                        //if (contactID == template.contactID) { 
-                        List<MPC.Models.DomainModels.TemplateVariable> lstTemplateVariables = db.TemplateVariables.Where(g => g.TemplateId == template.ProductId).ToList();
-                        foreach(var objTVar in lstTemplateVariables)
+                        if (contactID == template.contactId)
                         {
-                            var scopeObj = result.Where(g => g.VariableId == objTVar.VariableId).SingleOrDefault();
-                            if(scopeObj != null)
+                            List<MPC.Models.DomainModels.TemplateVariable> lstTemplateVariables = db.TemplateVariables.Where(g => g.TemplateId == template.ProductId).ToList();
+                            foreach (var objTVar in lstTemplateVariables)
                             {
-                                if (objTVar.VariableText != null && objTVar.VariableText != "")
-                                    scopeObj.Value = objTVar.VariableText;
+                                var scopeObj = result.Where(g => g.VariableId == objTVar.VariableId).SingleOrDefault();
+                                if (scopeObj != null)
+                                {
+                                    if (objTVar.VariableText != null && objTVar.VariableText != "")
+                                        scopeObj.Value = objTVar.VariableText;
+                                }
                             }
                         }
-                        //}
                     }
                 }
             }
