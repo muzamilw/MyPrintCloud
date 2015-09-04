@@ -7786,3 +7786,13 @@ CREATE TABLE [dbo].[MarketingBriefHistory](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
+
+ALTER TABLE TemplateVariable
+ADD VariableText nvarchar(max) null
+
+ALTER TABLE Template
+ADD contactId bigint null
+
+
+ALTER TABLE Template
+ADD realEstateId bigint null
