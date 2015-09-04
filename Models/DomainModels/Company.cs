@@ -342,7 +342,7 @@ namespace MPC.Models.DomainModels
             target.IsGeneral = IsGeneral;
             target.SalesPerson = SalesPerson;
             target.Image = Image;
-            target.WebAccessCode = WebAccessCode + "- Copy";
+            target.WebAccessCode = WebAccessCode + "-Copy";
             target.isArchived = isArchived;
             target.PayByPersonalCredeitCard = PayByPersonalCredeitCard;
             target.PONumberRequired = PONumberRequired;
