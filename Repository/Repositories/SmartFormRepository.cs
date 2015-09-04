@@ -129,7 +129,7 @@ namespace MPC.Repository.Repositories
                               VariableTag = es.VariableTag,
                               VariableID = p.VariableId,
                               TemplateID = p.TemplateId,
-                              VariableText = ""
+                              VariableText = p.VariableText
 
                           };
             List<TemplateVariablesObj> objResult = new List<TemplateVariablesObj>();
@@ -167,6 +167,7 @@ namespace MPC.Repository.Repositories
                             MPC.Models.DomainModels.TemplateVariable objToAdd = new MPC.Models.DomainModels.TemplateVariable();
                             objToAdd.TemplateId = item.TemplateID;
                             objToAdd.VariableId = item.VariableID;
+                            objToAdd.VariableText = item.VariableText;
                             db.TemplateVariables.Add(objToAdd);
                         }
                     }

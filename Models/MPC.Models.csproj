@@ -198,6 +198,7 @@
     <Compile Include="DomainModels\MachineMeterPerHourLookup.cs" />
     <Compile Include="DomainModels\MachinePerHourLookup.cs" />
     <Compile Include="DomainModels\MachineSpeedWeightLookup.cs" />
+    <Compile Include="DomainModels\MarketingBriefHistory.cs" />
     <Compile Include="DomainModels\NewsLetterSubscriber.cs" />
     <Compile Include="DomainModels\OrderReportView.cs" />
     <Compile Include="DomainModels\ProductCategoryVoucher.cs" />

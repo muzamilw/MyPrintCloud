@@ -286,6 +286,8 @@ namespace MPC.Repository.BaseRepository
         /// </summary>
         public DbSet<ProductMarketBriefAnswer> ProductMarketBriefAnswers { get; set; }
 
+        
+
         /// <summary>
         /// Role DbSet
         /// </summary>
@@ -710,6 +712,8 @@ namespace MPC.Repository.BaseRepository
         /// Item Vouchers Redeem DbSet
         /// </summary>
         public DbSet<ProductCategoryVoucher> ProductCategoryVouchers { get; set; }
+
+        public DbSet<MarketingBriefHistory> MarketingBriefHistory { get; set; }
         /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
@@ -1186,6 +1190,25 @@ namespace MPC.Repository.BaseRepository
 
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_importCRMCompanyContacts", organisationIdParameter);
+        }
+
+
+        public int usp_CopyStoreProducts(long? organisationId,long? NewStoreId,long? OldStoreId)
+        // ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("OrganisationId", organisationId) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            var NewstoreIdParameter = NewStoreId.HasValue ?
+              new ObjectParameter("NewStoreId", NewStoreId) :
+              new ObjectParameter("NewStoreId", typeof(long));
+
+            var OldstoreIdParameter = OldStoreId.HasValue ?
+            new ObjectParameter("OldStoreId", OldStoreId) :
+            new ObjectParameter("OldStoreId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_CopyStoreProducts", OldstoreIdParameter, NewstoreIdParameter,organisationIdParameter);
         }
         #endregion
     }

@@ -1134,7 +1134,7 @@ namespace MPC.Repository.Repositories
         {
             var query = (from c in db.CompanyContacts
                          join cc in db.Companies on c.CompanyId equals cc.CompanyId
-                         where c.Email == Email && cc.IsCustomer == Type
+                         where c.Email == Email && cc.IsCustomer == Type && c.CompanyId == customerID
                          select c).FirstOrDefault();
             return query;
 

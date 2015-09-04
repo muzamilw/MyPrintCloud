@@ -3693,3 +3693,33 @@ function pcL07_vAl(id) {
         }
     }
 }
+
+function pcl45_upData() {
+    var listVar = [];
+    $('textarea.qTextInput').each(function (i) {
+        var id = $(this).attr("id");
+        id = id.replace('txtSmart', '');
+        var objToAdd = { "VariableText": $(this).val(), "VariableID": id, "TemplateID": tID };
+        listVar.push(objToAdd);
+    });
+    var to = "/designerApi/SmartForm/SaveTemplateVariables";
+    var jsonObjects = JSON.stringify(listVar, null, 2);
+    var options = {
+        type: "POST",
+        url: to,
+        data: jsonObjects,
+        contentType: "application/json",
+        async: true,
+        complete: function (httpresp, returnstatus) {
+            if (returnstatus == "success") {
+                if (httpresp.responseText == 'true') {
+                    //do nothing
+                }
+                else {
+                    alert(httpresp.responseText);
+                }
+            }
+        }
+    };
+    var returnText = $.ajax(options).responseText;
+}

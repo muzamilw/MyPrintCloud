@@ -610,7 +610,7 @@
 
 			F.hideLoading();
 			
-			el = $('<div class="cb-onpageLoader cb-pos--center" id="fancybox-loading" style="display: block;">loading...</div></div></div>').click(F.cancel).appendTo('body');
+			el = $('<div class="mp-onpageLoader mp-loadercenter" id="fancybox-loading" style="display: block;">loading...</div></div></div>').click(F.cancel).appendTo('body');
 
 			// If user will press the escape-button, the request will be canceled
 			D.bind('keydown.loading', function(e) {

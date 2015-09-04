@@ -232,6 +232,7 @@ namespace MPC.Repository.Repositories
                         c.StoreId,
                         c.isStoreLive,
                         c.CanUserUpdateAddress,
+                        c.MarketingBriefRecipient,
                         RaveReviews = c.RaveReviews.OrderBy(r => r.SortOrder).ToList(),
                         CmsPages = c.CmsPages.Where(page => page.isUserDefined == true).Take(5).Select(cms => new
                         {
@@ -363,6 +364,7 @@ namespace MPC.Repository.Repositories
                         StoreId = c.StoreId,
                         isStoreLive = c.isStoreLive,
                         CanUserUpdateAddress = c.CanUserUpdateAddress,
+                        MarketingBriefRecipient = c.MarketingBriefRecipient,
                         CmsPages = c.CmsPages.Select(cms => new CmsPage
                         {
                             PageId = cms.PageId,
@@ -5719,6 +5721,32 @@ namespace MPC.Repository.Repositories
 
             return companies;
         }
-       
+       public void CopyProductByStore(long NewStoreId,long OldStoreId)
+       {
+           try
+           {
+               db.Database.CommandTimeout = 1080;
+               db.usp_CopyStoreProducts(OrganisationId, NewStoreId, OldStoreId);
+           }
+           catch(Exception ex)
+           {
+               throw ex;
+           }
+       }
+
+       public Company LoadCompanyWithItems(long StoreId)
+       {
+           try
+           {
+               db.Configuration.LazyLoadingEnabled = false;
+               db.Configuration.ProxyCreationEnabled = false;
+               return db.Companies.Include("Items").Include("CompanyBannerSets").Include("ProductCategories").Where(c => c.CompanyId == StoreId).FirstOrDefault();
+
+           }
+           catch (Exception ex)
+           {
+               throw ex;
+           }
+       }
     }
 }

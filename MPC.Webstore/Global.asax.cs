@@ -205,6 +205,10 @@ namespace MPC.Webstore
 
             var httpContext = ((HttpApplication)sender).Context;
             string url = httpContext.Request.Path;
+            if (httpContext.Request.Url != null)
+            {
+                url = httpContext.Request.Url.AbsoluteUri;
+            }
             httpContext.Response.Clear();
             httpContext.ClearError();
             ExecuteErrorController(httpContext, exception, url);

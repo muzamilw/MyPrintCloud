@@ -170,6 +170,8 @@ namespace MPC.Interfaces.MISServices
         DiscountVoucher GetDiscountVoucherById(long discountVoucherId);
 
         string GetLiveStoresJason();
+        string GetCompanyCss(long companyId);
+        void UpdateCompanyCss(string sCustomCss, long oCompanyId);
 
         #region exportOrganisation
 

@@ -7773,5 +7773,32 @@ alter table Company add IsRegisterPlaceOrderWithoutApproval bit null
 
 
 
+
+-------------Executed on All Servers---------------------
+CREATE TABLE [dbo].[MarketingBriefHistory](
+ [MarketingBriefHistoryId] [bigint] IDENTITY(1,1) NOT NULL,
+ [HtmlMsg] [nvarchar](max) NULL,
+ [CompanyId] [bigint] NULL,
+ [OrganisationId] [bigint] NULL,
+ [ContactId] [bigint] NULL,
+ [ItemId] [bigint] NULL,
+ CONSTRAINT [PK_MarketingBriefHistory] PRIMARY KEY CLUSTERED 
+(
+ [MarketingBriefHistoryId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+
+
 ALTER TABLE TemplateVariable
 ADD VariableText nvarchar(max) null
+
+
+ALTER TABLE Template
+ADD contactId bigint null
+
+
+ALTER TABLE Template
+ADD realEstateId bigint null
