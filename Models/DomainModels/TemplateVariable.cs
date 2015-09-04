@@ -9,6 +9,7 @@ namespace MPC.Models.DomainModels
         public long ProductVariableId { get; set; }
         public long? TemplateId { get; set; }
         public long? VariableId { get; set; }
+        public string VariableText { get; set; }
         public virtual FieldVariable FieldVariable { get; set; }
 
 

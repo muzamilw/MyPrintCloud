@@ -58,7 +58,9 @@ define("dashboard.viewModel",
                     // Y axis point for chart
                     yAxisPoints = [],
                     yAxisPointdummy = ko.observableArray(['totalStore1', 'totalStore2', 'totalStore3', 'totalStore4', 'totalStore5']),
-                    //chartLabelsdummy = ko.observableArray(['PinkCards.com', 'Goldwell.com', 'saleflow.com', 'yolkpm.com', 'eazyprint.com', 'sunnyland.com', 'printtech.com', 'printmedia.com', 'cloudfusion.com']),
+                    yAxisPointRegUsers = ko.observableArray([]),
+                    yAxisPointMonthlyEarning = ko.observableArray([]),
+                    yAxisPointMonthlyOrders = ko.observableArray([]),
                     chartLabelsdummy = ko.observableArray([]),
                     yAxisPointsWithStoreName = ko.observableArray([]),
                     chartLabels = [],
@@ -188,6 +190,7 @@ define("dashboard.viewModel",
                     transposeUsersData = function (data) {
                         var currentMonth = 0;
                         var uCounter = 1;
+                        var labelCounter = 1;
                         chartLabelsdummy.removeAll();
                         _.each(data, function (item) {
                             var store = _.filter(chartLabelsdummy(), function (label) {
@@ -195,8 +198,11 @@ define("dashboard.viewModel",
                             });
                             if (chartLabelsdummy().length === 0 || store.length === 0) {
                                 chartLabelsdummy().push(item.Name);
+                                yAxisPointRegUsers().push('totalStore' + labelCounter);
+                                labelCounter++;
                             }
                         });
+                        
                         _.each(data, function (tUser) {
                             var item = dummyUsers()[tUser.Month - 1];
                             if (tUser.Month != currentMonth) {
@@ -260,6 +266,7 @@ define("dashboard.viewModel",
             mapMonthlyEarningByStore = function (data) {
                 var currentMonth = 0;
                 var uCounter = 1;
+                var labelCounter = 1;
                 monthlyEarningStores.removeAll();
                 _.each(data, function (item) {
                     var store = _.filter(monthlyEarningStores(), function (label) {
@@ -267,6 +274,8 @@ define("dashboard.viewModel",
                     });
                     if (monthlyEarningStores().length === 0 || store.length === 0) {
                         monthlyEarningStores().push(item.Name);
+                        yAxisPointMonthlyEarning().push('totalStore' + labelCounter);
+                        labelCounter++;
                     }
                 });
                 _.each(data, function (tUser) {
@@ -332,6 +341,7 @@ define("dashboard.viewModel",
             mapMonthlyOrdersCountByStore = function (data) {
                  var currentMonth = 0;
                  var uCounter = 1;
+                var labelCounter = 1;
                  monthlyOrderStoresList.removeAll();
                  tempUsers.removeAll();
                 _.each(dummyUsers(), function(dum) {
@@ -347,6 +357,8 @@ define("dashboard.viewModel",
                      });
                      if (monthlyOrderStoresList().length === 0 || store.length === 0) {
                          monthlyOrderStoresList().push(item.CompanyName);
+                         yAxisPointMonthlyOrders().push('totalStore' + labelCounter);
+                         labelCounter++;
                      }
                  });
                  _.each(data, function (tUser) {
@@ -610,6 +622,9 @@ define("dashboard.viewModel",
                     RegisteredUsers: RegisteredUsers,
                     top10PerformingStores: top10PerformingStores,
                     yAxisPointdummy: yAxisPointdummy,
+                    yAxisPointRegUsers: yAxisPointRegUsers,
+                    yAxisPointMonthlyEarning: yAxisPointMonthlyEarning,
+                    yAxisPointMonthlyOrders:yAxisPointMonthlyOrders,
                     chartLabelsdummy: chartLabelsdummy,
                     monthlyEarningStores: monthlyEarningStores,
                     monthlyEarningsByStore: monthlyEarningsByStore,
