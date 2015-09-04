@@ -128,13 +128,14 @@ namespace MPC.Repository.Repositories
                           {
                               VariableTag = es.VariableTag,
                               VariableID = p.VariableId,
-                              TemplateID = p.TemplateId
+                              TemplateID = p.TemplateId,
+                              VariableText = ""
 
                           };
             List<TemplateVariablesObj> objResult = new List<TemplateVariablesObj>();
             foreach (var obj in objList.ToList())
             {
-                TemplateVariablesObj objToAdd = new TemplateVariablesObj(obj.VariableTag, obj.VariableID.Value, obj.TemplateID.Value);
+                TemplateVariablesObj objToAdd = new TemplateVariablesObj(obj.VariableTag, obj.VariableID.Value, obj.TemplateID.Value,obj.VariableText);
 
                 objResult.Add(objToAdd);
             }

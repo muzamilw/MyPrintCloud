@@ -7769,3 +7769,9 @@ alter table Company add IsRegisterPlaceOrder bit null
 alter table Company add IsRegisterPayOnlyByCreditCard bit null
 alter table Company add IsRegisterPlaceDirectOrder bit null
 alter table Company add IsRegisterPlaceOrderWithoutApproval bit null
+
+
+
+
+ALTER TABLE TemplateVariable
+ADD VariableText nvarchar(max) null
