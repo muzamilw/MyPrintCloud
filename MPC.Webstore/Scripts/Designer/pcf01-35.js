@@ -3470,6 +3470,7 @@ function pcl42_updateTemplate(DT) {
                 });
             }
         });
+        debugger;
     }
 }
 function getObjectToRemove(stylesCopy,objStyle){
@@ -3702,8 +3703,17 @@ function pcl45_upData() {
         var objToAdd = { "VariableText": $(this).val(), "VariableID": id, "TemplateID": tID };
         listVar.push(objToAdd);
     });
-    var to = "/designerApi/SmartForm/SaveTemplateVariables";
-    var jsonObjects = JSON.stringify(listVar, null, 2);
+    var to = "/designerApi/SmartForm/SaveTemplateVariablesEndUserMode";
+    var cId = ContactID;
+    if ($("#optionRadioOtherProfile").is(':checked')) {
+        cId = $("#smartFormSelectUserProfile").val();
+    }
+    var list = {
+        templateId: tID,
+        contactId: cId,
+        variables: listVar
+    };
+    var jsonObjects = JSON.stringify(list, null, 2);
     var options = {
         type: "POST",
         url: to,

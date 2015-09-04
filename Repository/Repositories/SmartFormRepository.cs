@@ -1407,6 +1407,22 @@ namespace MPC.Repository.Repositories
                             }
                         }
                     }
+                    var template = db.Templates.Where(g => g.ProductId == item.TemplateId).SingleOrDefault();
+                    if(template != null)
+                    {
+                        //if (contactID == template.contactID) { 
+                        List<MPC.Models.DomainModels.TemplateVariable> lstTemplateVariables = db.TemplateVariables.Where(g => g.TemplateId == template.ProductId).ToList();
+                        foreach(var objTVar in lstTemplateVariables)
+                        {
+                            var scopeObj = result.Where(g => g.VariableId == objTVar.VariableId).SingleOrDefault();
+                            if(scopeObj != null)
+                            {
+                                if (objTVar.VariableText != null && objTVar.VariableText != "")
+                                    scopeObj.Value = objTVar.VariableText;
+                            }
+                        }
+                        //}
+                    }
                 }
             }
             return result;

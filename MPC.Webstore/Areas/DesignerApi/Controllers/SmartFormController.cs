@@ -20,6 +20,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
        #region Private
 
         private readonly ISmartFormService smartFormService;
+        private readonly ITemplateService templateService;
         #endregion
         #region Constructor
 
@@ -27,9 +28,10 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         /// Constructor
         /// </summary>
         /// <param name="companyService"></param>
-        public SmartFormController(ISmartFormService smartFormService)
+        public SmartFormController(ISmartFormService smartFormService,ITemplateService templateService)
         {
             this.smartFormService = smartFormService;
+            this.templateService = templateService;
         }
 
         #endregion
@@ -165,14 +167,33 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             return Request.CreateResponse(HttpStatusCode.OK, listVar, formatter);
         }
+
+        [HttpPost]
+        public HttpResponseMessage SaveTemplateVariablesEndUserMode([FromBody]  smartFormPostedVariableList obj)
+        {
+            templateService.updatecontactId(obj.templateId, obj.contactId);
+            var result = smartFormService.SaveTemplateVariables(obj.variables);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
+        }
         #endregion
     }
 
+    public class smartFormPostedVariableList
+    {
+        public long templateId { get; set; }
+        public long contactId { get; set; }
+        public List<TemplateVariablesObj> variables { get; set; }
+    }
     public class smartFormPostedUser
     {
         public long contactId { get; set; }
         public List<ScopeVariable> variables { get; set; }
     }
+
     public class SmartFormUserData
     {
         public List<SmartFormUserList> usersList { get; set; }

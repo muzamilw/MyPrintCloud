@@ -35,5 +35,7 @@ namespace MPC.Interfaces.Repository
 
        
         double ConvertLength(double Input, MPC.Models.Common.LengthUnit InputUnit, MPC.Models.Common.LengthUnit OutputUnit);
+
+        bool updatecontactId(long templateId, long contactId);
     }
 }
