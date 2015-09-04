@@ -28,13 +28,14 @@ namespace MPC.Common
         public string VariableTag { get; set; }
         public long VariableID { get; set; }
         public long TemplateID { get; set; }
+        public string VariableText { get; set; }
 
-        public TemplateVariablesObj (string VaraibaleTag, long VariableId,long TemplateId)
+        public TemplateVariablesObj(string VaraibaleTag, long VariableId, long TemplateId, string VariableText)
         {
             this.VariableTag = VaraibaleTag;
             this.VariableID = VariableId;
             this.TemplateID = TemplateId;
-
+            this.VariableText = VariableText;
         }
     }
 

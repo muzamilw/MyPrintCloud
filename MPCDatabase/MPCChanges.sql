@@ -7771,6 +7771,9 @@ alter table Company add IsRegisterPlaceDirectOrder bit null
 alter table Company add IsRegisterPlaceOrderWithoutApproval bit null
 
 
+
+
+
 -------------Executed on All Servers---------------------
 CREATE TABLE [dbo].[MarketingBriefHistory](
  [MarketingBriefHistoryId] [bigint] IDENTITY(1,1) NOT NULL,
