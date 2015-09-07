@@ -198,6 +198,8 @@
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\CampaignImageRepository.cs" />
+    <Compile Include="Repositories\CMSOfferRepository.cs" />
     <Compile Include="Repositories\CompanyVoucherRedeemRepository.cs" />
     <Compile Include="Repositories\DiscountVoucherRepository.cs" />
     <Compile Include="Repositories\ActivityRepository.cs" />
@@ -230,6 +232,7 @@
     <Compile Include="Repositories\ItemImageRepository.cs" />
     <Compile Include="Repositories\InkPlateSideRepository.cs" />
     <Compile Include="Repositories\ItemsVoucherRepository.cs" />
+    <Compile Include="Repositories\MarketingBriefHistoryRepository.cs" />
     <Compile Include="Repositories\ProductCategoryVoucherRepository.cs" />
     <Compile Include="Repositories\ProductMarketBriefAnswerRepository.cs" />
     <Compile Include="Repositories\ProductMarketBriefQuestionRepository.cs" />

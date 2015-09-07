@@ -104,6 +104,14 @@ namespace MPC.Interfaces.Repository
         bool IsStoreLive(long storeId);
         List<Company> GetLiveStoresList();
 
+        void CopyProductByStore(long NewStoreId, long OldStoreId);
 
+        Company LoadCompanyWithItems(long StoreId);
+
+        void InsertItem(List<Item> items,Company objCompany);
+
+        void InsertProductCategories(List<ProductCategory> prodCats, Company objCompany);
+
+        void InsertProductCategoryItems(Company NewCompany, Company OldCompany);
     }
 }

@@ -16,5 +16,36 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public string ImageByteSource { get; set; }
         #endregion
+
+
+
+        #region public
+
+
+        /// <summary>
+        /// Makes a copy of Entity
+        /// </summary>
+        ///   
+
+        public void Clone(CampaignImage target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemProductDetailClone_InvalidItemProductDetail, "target");
+            }
+
+          
+            target.ImagePath = ImagePath;
+            target.ImageName = ImageName;
+            target.ImageByteSource = ImageByteSource;
+          
+
+
+
+        }
+
+        #endregion
+
+
     }
 }

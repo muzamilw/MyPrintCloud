@@ -243,7 +243,7 @@
                 <td align="left" valign="top">
                     <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText height-140 margnLft">
                         <div class="product_detail_sup_padding" style="width:50%;float:left;">
-                            <table border="0" cellpadding="2" cellspacing="0" width="100%">
+                            <table border="0" cellpadding="2" cellspacing="0" width="100%" style="margin-right:5px;">
                                 <thead>
                                     <tr>
 
@@ -435,7 +435,7 @@
                     <td align="right" valign="top">
                         <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText height-140">
                             <div class="padding10">
-                                <table border="0" cellpadding="3" cellspacing="0" width="200px">
+                                <table border="0" cellpadding="3" cellspacing="0" width="200px" style="margin-right:5px;">
                                     <tr>
                                         <td align="left">
                                             <span id="spnsubtotal">@Html.Raw(Html.GetKeyValueFromResourceFile("spnsubtotal", UserCookieManager.WBStoreId, "Sub Total:"))</span>
@@ -640,7 +640,7 @@
                     var GridItems = response.order.OrderDetails.CartItemsList;
                     console.log(GridItems);
                     var InnerHtml = "";// "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
-                    debugger;
+                  
                     if("@ViewBag.IsShowPrices" == "True")
                     {
                         InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
@@ -652,7 +652,7 @@
                       
                     }
                     $.each(GridItems, function (i, IT) {
-                        { debugger;
+                        { 
                             var filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + IT.Attatchment._fileName + "Thumb.png";
                             //InnerHtml += '<tr>';
                             if("@ViewBag.IsShowPrices" == "True")

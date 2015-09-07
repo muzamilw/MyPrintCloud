@@ -1,4 +1,5 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System;
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Cms Offer Domain Model
@@ -14,5 +15,24 @@
         public long? CompanyId { get; set; }
 
         public virtual Company Company { get; set; }
+
+        /// <summary>
+        /// Makes a copy of Item
+        /// </summary>
+        public void Clone(CmsOffer target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemClone_InvalidItem, "target");
+            }
+
+
+            target.ItemId = ItemId;
+            target.OfferType = OfferType;
+            target.Description = Description;
+            target.ItemName = ItemName;
+            target.SortOrder = SortOrder;
+           
+        }
     }
 }

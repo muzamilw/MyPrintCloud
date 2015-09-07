@@ -67,6 +67,7 @@ define("stores/stores.viewModel",
                     //selectedStore
                     selectedStore = ko.observable(new model.Store),
                     selectedCategoryName = ko.observable("Products"),
+                    selectedStoreCss = ko.observable(),
                     //Selected Company Contact
                     companyContactEditorViewModel = new ist.ViewModel(model.CompanyContact),
                     selectedCompanyContact = companyContactEditorViewModel.itemForEditing,
@@ -93,6 +94,7 @@ define("stores/stores.viewModel",
                     isStoreVariableTabOpened = ko.observable(false),
                     //Check Is Base Data Loaded
                     isBaseDataLoaded = ko.observable(false),
+                    bannerButtonCaption = ko.observable(),
                     //#endregion
 
                     //#region ________ O B S E R V A B L E S   A R R A Y S___________
@@ -564,6 +566,7 @@ define("stores/stores.viewModel",
                             }, {
                                 success: function(data) {
                                     selectedStore().currentThemeId(selectedTheme());
+                                    selectedStore().isNewThemeApplied(true);
                                     toastr.success("Theme Applied Successfully.");
                                 },
                                 error: function(response) {
@@ -1404,7 +1407,8 @@ define("stores/stores.viewModel",
                     addBannerCount = ko.observable(-1),
                     addBannerSetCount = ko.observable(-1),
                     //Craete Banner
-                    onCreateBanner = function() {
+                    onCreateBanner = function () {
+                        bannerButtonCaption("Add Banner");
                         selectedCompanyBanner(model.CompanyBanner());
                         selectedCompanyBanner().description("");
                         view.showEditBannerDialog();
@@ -1486,7 +1490,8 @@ define("stores/stores.viewModel",
                         return flag;
                     },
                     //Edit Company Banner
-                    onEditCompanyBanner = function(banner) {
+                    onEditCompanyBanner = function (banner) {
+                        bannerButtonCaption("Change Banner");
                         bannerEditorViewModel.selectItem(banner);
                         selectedCompanyBanner().reset();
                         view.showEditBannerDialog();
@@ -4297,6 +4302,9 @@ define("stores/stores.viewModel",
                         if (selectedItem.taxRate.error) {
                             errorList.push({ name: selectedItem.taxRate.domElement.name, element: selectedItem.taxRate.domElement });
                         }
+                        if (selectedItem.marketingBriefRecipientEmail.error) {
+                            errorList.push({ name: selectedItem.marketingBriefRecipientEmail.domElement.name, element: selectedItem.marketingBriefRecipientEmail.domElement });
+                        }
                     },
                     // Go To Element
                     gotoElement = function (validation) {
@@ -4490,10 +4498,10 @@ define("stores/stores.viewModel",
                             });
 
                             //#endregion
-
                             _.each(selectedStore().mediaLibraries(), function (item) {
                                 storeToSave.MediaLibraries.push(item.convertToServerData());
                             });
+                           
 
                             //#region Cost Center
                             //storeToSave().companyCostCenters.removeAll();
@@ -5449,6 +5457,38 @@ define("stores/stores.viewModel",
                         confirmation.afterCancel();
                         confirmation.show();
                         
+                    },
+                    onEditCss = function () {
+                        dataservice.getStoreCss({
+                            companyId: selectedStore().companyId()
+                        }, {
+                            success: function (data) {
+                                var currentCss = new model.StoreCss(data);
+                                currentCss.companyId(selectedStore().companyId());
+                                selectedStoreCss(currentCss);
+                                view.showCssDialog();
+                                isLoadingStores(false);
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Failed to Load Store CSS . Error: " + response, "", ist.toastrOptions);
+                            }
+                        });
+                        
+                    },
+                    onSaveCompanyCss = function (callback) {
+                        var cssToSave = model.StoreCss().convertToServerData(selectedStoreCss());
+                        dataservice.updateStoreCss(cssToSave, {
+                            success: function (data) {
+                                toastr.success("Store CSS Updated Successfully.");
+                                isLoadingStores(false);
+                                view.hideCssDialog();
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Failed to Update Store CSS . Error: " + response, "", ist.toastrOptions);
+                            }
+                        });
                     },
                     //#endregion
 
@@ -6486,8 +6526,10 @@ define("stores/stores.viewModel",
                     },
                     // Create Discount Voucher
                     createDiscountVoucher = function () {
+                        
                         selectedDiscountVoucher(model.DiscountVoucher());
                         selectedDiscountVoucher().companyId(selectedStore().companyId());
+                        selectedDiscountVoucher().isEnabled(true);
                         openDiscountVoucherDetailDialog();
                     },
 
@@ -7578,9 +7620,14 @@ define("stores/stores.viewModel",
                     validateStoreLiveHandler: validateStoreLiveHandler,
                     ExportCSVForCompanyContacts: ExportCSVForCompanyContacts,
                     validateCanStoreSave: validateCanStoreSave,
+                   
                     onDeleteStoreBackground: onDeleteStoreBackground,
                     onCopyStore: onCopyStore,
-                    onFeaturedDialogOk: onFeaturedDialogOk
+                    onFeaturedDialogOk: onFeaturedDialogOk,
+                    bannerButtonCaption: bannerButtonCaption,
+                    selectedStoreCss: selectedStoreCss,
+                    onEditCss: onEditCss,
+                    onSaveCompanyCss: onSaveCompanyCss
                 };
                 //#endregion
             })()
