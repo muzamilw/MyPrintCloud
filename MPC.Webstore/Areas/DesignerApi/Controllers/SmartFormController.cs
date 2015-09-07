@@ -20,6 +20,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
        #region Private
 
         private readonly ISmartFormService smartFormService;
+        private readonly ITemplateService templateService;
         #endregion
         #region Constructor
 
@@ -27,9 +28,10 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         /// Constructor
         /// </summary>
         /// <param name="companyService"></param>
-        public SmartFormController(ISmartFormService smartFormService)
+        public SmartFormController(ISmartFormService smartFormService,ITemplateService templateService)
         {
             this.smartFormService = smartFormService;
+            this.templateService = templateService;
         }
 
         #endregion
@@ -67,10 +69,10 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
         }
-        // parameter1 = user id , parameter2 = smartFormId, parameter3 = templateID
+        // parameter1 = user id , parameter2 = smartFormId, parameter3 =parent templateID,parameter 4 = child template id 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage GetSmartFormData(long parameter1,long parameter2,long parameter3)
+        public HttpResponseMessage GetSmartFormData(long parameter1,long parameter2,long parameter3,long parameter4)
         {
             List<SmartFormUserList> usersListData = null;
             SmartFormWebstoreResponse objSmartform = smartFormService.GetSmartForm(parameter2);
@@ -78,7 +80,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             List<SmartFormDetail> smartFormObjs = smartFormService.GetSmartFormObjects(parameter2, out listOptions);
             bool hasContactVariables = false;
             Dictionary<long, List<ScopeVariable>> AllUserScopeVariables = null;
-            List<ScopeVariable> scopeVariable = smartFormService.GetScopeVariables(smartFormObjs,out hasContactVariables,parameter1);
+            List<ScopeVariable> scopeVariable = smartFormService.GetScopeVariables(smartFormObjs, out hasContactVariables, parameter1, parameter4);
             List<ScopeVariable> allTemplateVariables = smartFormService.GetTemplateScopeVariables(parameter3, parameter1);
             List<ScopeVariable> variablesToRemove = new List<ScopeVariable>();
             //  variablesList = variables;
@@ -106,7 +108,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                 if (usersListData != null)
                 {
                     AllUserScopeVariables = new Dictionary<long, List<ScopeVariable>>();
-                    AllUserScopeVariables = smartFormService.GetUserScopeVariables(smartFormObjs, usersListData, parameter3);
+                    AllUserScopeVariables = smartFormService.GetUserScopeVariables(smartFormObjs, usersListData, parameter3, parameter4);
 
                 }
             }
@@ -165,14 +167,33 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             return Request.CreateResponse(HttpStatusCode.OK, listVar, formatter);
         }
+
+        [HttpPost]
+        public HttpResponseMessage SaveTemplateVariablesEndUserMode([FromBody]  smartFormPostedVariableList obj)
+        {
+            templateService.updatecontactId(obj.templateId, obj.contactId);
+            var result = smartFormService.SaveTemplateVariables(obj.variables);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
+        }
         #endregion
     }
 
+    public class smartFormPostedVariableList
+    {
+        public long templateId { get; set; }
+        public long contactId { get; set; }
+        public List<TemplateVariablesObj> variables { get; set; }
+    }
     public class smartFormPostedUser
     {
         public long contactId { get; set; }
         public List<ScopeVariable> variables { get; set; }
     }
+
     public class SmartFormUserData
     {
         public List<SmartFormUserList> usersList { get; set; }
