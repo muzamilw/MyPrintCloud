@@ -787,7 +787,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
            // source.UserDefinedSpriteImageSource,
             source.UserDefinedSpriteSource,
             source.UserDefinedSpriteFileName,
-            source.CustomCSS,
+            //source.CustomCSS,
             source.StoreBackgroundImage,
             source.StoreImagePath
 

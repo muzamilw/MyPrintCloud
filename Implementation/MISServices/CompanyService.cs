@@ -1013,7 +1013,7 @@ namespace MPC.Implementation.MISServices
             companyRepository.SaveChanges();
             //Save Files
             SaveSpriteImage(companySavingModel.Company);
-            SaveCompanyCss(companySavingModel.Company);
+           // SaveCompanyCss(companySavingModel.Company);
             UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);
             UpdateContactProfileImage(companySavingModel, companyDbVersion);
 
