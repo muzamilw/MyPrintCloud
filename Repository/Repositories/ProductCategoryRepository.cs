@@ -156,22 +156,59 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                long catID = db.ProductCategoryItems.Where(p => p.ItemId == ItemID).Select(s => s.CategoryId ?? 0).FirstOrDefault();
-                List<ProductCategory> LstCategories = this.GetPublicCategories(); //get all the categories
-
-                ProductCategory currCategory = LstCategories.Find(category => category.ProductCategoryId == catID); //finds itself
-                CurrentProductCategoryName = currCategory.CategoryName;
-                if (currCategory != null)
+                ProductCategoryItem productCatItem = db.ProductCategoryItems.Where(p => p.ItemId == ItemID).FirstOrDefault();
+                if (productCatItem != null)
                 {
+                    long catID =productCatItem.CategoryId ?? 0;
+                    if (catID > 0) 
+                    {
+                        List<ProductCategory> LstCategories = this.GetPublicCategories(); //get all the categories
 
-                    if ((currCategory.ParentCategoryId ?? 0) > 0)
-                        currCategory = LstCategories.Find(cat => cat.ProductCategoryId == currCategory.ParentCategoryId.Value); // finds the first parent
+                        ProductCategory currCategory = LstCategories.Find(category => category.ProductCategoryId == catID); //finds itself
+                        if (currCategory != null)
+                        {
+                            CurrentProductCategoryName = currCategory.CategoryName;
+                            if (currCategory != null)
+                            {
+                                if (LstCategories != null && LstCategories.Count > 0)
+                                {
+                                    if ((currCategory.ParentCategoryId ?? 0) > 0)
+                                    {
+                                        currCategory = LstCategories.Find(cat => cat.ProductCategoryId == currCategory.ParentCategoryId.Value); // finds the first parent
+                                    }
+                                }
+                                else 
+                                {
+                                    CurrentProductCategoryName = "";
+                                    return string.Empty;
+                                }
+                                    
+                            }
+                            if (currCategory != null)
+                                return currCategory.CategoryName;
+                            else
+                                return string.Empty;
+
+                        }
+                        else 
+                        {
+                            CurrentProductCategoryName = "";
+                            return string.Empty;
+                        }
+                       
+                    }
+                    else
+                    {
+                        CurrentProductCategoryName = "";
+                        return string.Empty;
+                    }
+                   
                 }
-                if (currCategory != null)
-                    return currCategory.CategoryName;
-                else
+                else 
+                {
+                    CurrentProductCategoryName = "";
                     return string.Empty;
-
+                }
             }
             catch (Exception ex)
             {
