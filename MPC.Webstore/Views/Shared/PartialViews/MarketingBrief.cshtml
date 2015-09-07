@@ -441,14 +441,16 @@
                     processData: false,
                     async: false,
                     success: function (response) {
+                        var values = "";
                         $(response).each(function (i, val) {
-                            if (i == 0) {
-                                $("#listOfFileName").val(val);
+                            if (values == "") {
+                                values = val;
                             } else {
-                                $("#listOfFileName").val(val + "|");
+                                values = values + "|" + val;
                             }
                           
                         });
+                        $("#listOfFileName").val(values);
                         console.log($("#listOfFileName").val());
                         return true;
 
@@ -516,7 +518,7 @@
 
 
 <script>
-  
+
 
     var removedFiles = [];
     $(function () {
@@ -535,44 +537,48 @@
 
     function doReCreate() {
         selDiv = document.querySelector("#selectedFiles");
-       
+
         storedFiles = [];
         var FileName = "";
         var files = $("#fileToUpload").get(0).files;
         if (files.length > 0) {
             formData = new FormData();
-            for (i = 0; i < files.length; i++) {
-                var isRemovedFile = false;
-                for(var d=0;d < removedFiles.length;d++)
-                {
-                    if (files[i].name == removedFiles[d])
-                        isRemovedFile = true;
-                }
-                if (!isRemovedFile) {
-                    formData.append("file" + i, files[i]);
-                    mbImagesFiles.append("file" + i, files[i]);
-                    selDiv.innerHTML += "<div style='font-size:10px;'><a onclick='removeAtt(&#34;" + files[i].name + "&#34; ,this )'  style='color:red !important; cursor:pointer;'> X </a>" + files[i].name + "</div>";
-                    FileName = files[i].name;
-                    while (files[i].name.indexOf('/') != -1)
-                        FileName = files[i].name.replace("/", "__")
-                    storedFiles.push(FileName);
+            if (files.length > 4) {
+                ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Please select 4 files only!")
+            } else {
+                for (i = 0; i < files.length; i++) {
+                    var isRemovedFile = false;
+                    for (var d = 0; d < removedFiles.length; d++) {
+                        if (files[i].name == removedFiles[d])
+                            isRemovedFile = true;
+                    }
+                    if (!isRemovedFile) {
+                        formData.append("file" + i, files[i]);
+                        mbImagesFiles.append("file" + i, files[i]);
+                        selDiv.innerHTML += "<div style='font-size:10px;'><a onclick='removeAtt(&#34;" + files[i].name + "&#34; ,this )'  style='color:red !important; cursor:pointer;'> X </a>" + files[i].name + "</div>";
+                        FileName = files[i].name;
+                        while (files[i].name.indexOf('/') != -1)
+                            FileName = files[i].name.replace("/", "__")
+                        storedFiles.push(FileName);
+                    }
                 }
             }
-           
+
+
         }
     }
 
 
 
     function removeAtt(name,t) {
-       
+
         removedFiles.push(name);
         storedFiles = $.grep(storedFiles, function (n, i) {
             return (n != name);
         });
-        
+
         $(t).parent().remove();
-  
+
         doReCreate();
     }
 </script>
