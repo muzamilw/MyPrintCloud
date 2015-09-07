@@ -183,6 +183,16 @@ define("stores/stores.view",
                 hideDiscountVoucherDetailDialog = function () {
                     $("#discountVoucherDetailDialog").modal("hide");
                 },
+                
+                 // Show CSS Dialog
+                showCssDialog = function () {
+                    $("#editStoreCssModal").modal("show");
+                    initializeLabelPopovers();
+                },
+                // Hide CSS Dialog
+                hideCssDialog = function () {
+                    $("#editStoreCssModal").modal("hide");
+                },
                    
 
                 //#endregion
@@ -579,7 +589,9 @@ define("stores/stores.view",
                 toggleChildCategories: toggleChildCategories,
                 getCategoryIdFromliElement: getCategoryIdFromliElement,
                 getCategoryIdFromElement: getCategoryIdFromElement,
-                appendChildCategory: appendChildCategory
+                appendChildCategory: appendChildCategory,
+                showCssDialog: showCssDialog,
+                hideCssDialog: hideCssDialog
             };
         })(storesViewModel);
 

@@ -84,7 +84,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Status = source.Status,
                 IsCustomer = source.IsCustomer,
                 CurrentThemeId = source.CurrentThemeId,
-                CustomCSS = defaultCss,
+                //CustomCSS = defaultCss,
                 Notes = source.Notes,
                 IsDisabled = source.IsDisabled,
                 AccountBalance = source.AccountBalance,
@@ -153,6 +153,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                isStoreLive = source.isStoreLive,
                CanUserUpdateAddress = source.CanUserUpdateAddress,
                IsClickReached = source.IsClickReached,
+               MarketingBriefRecipient = source.MarketingBriefRecipient,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 TemplateColorStyles =
@@ -334,7 +335,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreationDate = source.CreationDate ?? DateTime.Now,
                 CurrentThemeId = source.CurrentThemeId,
                 Terms = source.Terms,
-                CustomCSS = source.CustomCSS,
+               // CustomCSS = source.CustomCSS,
                 TypeId = 52,
                 DefaultNominalCode = source.DefaultNominalCode,
                 DefaultMarkUpId = source.DefaultMarkUpId,
@@ -409,6 +410,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StoreId = source.StoreId,
                 isStoreLive = source.isStoreLive,
                 CanUserUpdateAddress = source.CanUserUpdateAddress,
+                MarketingBriefRecipient = source.MarketingBriefRecipient,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 TemplateColorStyles =

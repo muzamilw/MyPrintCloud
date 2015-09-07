@@ -207,6 +207,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isWhiteLabel = ko.observable(undefined),
             showPrices = ko.observable(undefined),
             canUserUpdateAddress = ko.observable(undefined),
+            marketingBriefRecipientEmail = ko.observable().extend({email: { params: true, message: 'Please enter Valid Marketing Brief Recipient Email!' } }),
             // isDeliveryTaxAble = ko.observable(specifiedIsDeliveryTaxAble),
             // is Delivery TaxAble
             isDeliveryTaxAble = ko.observable(undefined),
@@ -304,7 +305,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             webAccessCode: webAccessCode,
             url: url,
             activeBannerSetId: activeBannerSetId,
-            taxRate: taxRate
+            taxRate: taxRate,
+            marketingBriefRecipientEmail: marketingBriefRecipientEmail
         }),
         // Is Valid 
         isValid = ko.computed(function () {
@@ -392,6 +394,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isStoreSetLive: isStoreSetLive,
             canUserUpdateAddress: canUserUpdateAddress,
             isWidgetItemsChange: isWidgetItemsChange,
+            marketingBriefRecipientEmail:marketingBriefRecipientEmail,
             isNewThemeApplied: isNewThemeApplied
             //#endregion
         }),
@@ -410,8 +413,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             result.URL = source.url();
             result.AccountOpenDate = source.accountOpenDate() ? moment(source.accountOpenDate()).format(ist.utcFormat) + 'Z' : undefined;
             result.AccountManagerId = source.accountManagerId();
-            result.AvatRegNumber = source.avatRegNumber();
-            result.PvatRegReference = source.avatRegReference();
+            result.VATRegNumber = source.avatRegNumber();
+            result.VATRegReference = source.avatRegReference();
             result.PhoneNo = source.phoneNo();
             result.ActiveBannerSetId = source.activeBannerSetId();
             //result.IsCustomer = source.isCustomer();
@@ -465,6 +468,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             result.ShowPrices = source.showPrices();
             result.isStoreLive = source.isStoreSetLive();
             result.CanUserUpdateAddress = source.canUserUpdateAddress();
+            result.MarketingBriefRecipient = source.marketingBriefRecipientEmail();
             result.RaveReviews = [];
             result.PaymentGateways = [];
             result.CompanyContacts = [];
@@ -649,6 +653,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isStoreSetLive: isStoreSetLive,
             canUserUpdateAddress: canUserUpdateAddress,
             isWidgetItemsChange: isWidgetItemsChange,
+            marketingBriefRecipientEmail:marketingBriefRecipientEmail,
             isNewThemeApplied: isNewThemeApplied
             //#endregion
         };
@@ -739,8 +744,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.URL,
             source.AccountOpenDate,
             source.AccountManagerId,
-            source.AvatRegNumber,
-            source.AvatRegReference,
+            source.VATRegNumber,
+            source.VATRegReference,
             source.PhoneNo,
             source.IsCustomer,
             source.Notes,
@@ -806,6 +811,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         store.priceFlagId(source.PriceFlagId);
         store.isStoreSetLive(source.isStoreLive);
         store.canUserUpdateAddress(source.CanUserUpdateAddress);
+        store.marketingBriefRecipientEmail(source.MarketingBriefRecipient);
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}
@@ -5423,10 +5429,38 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     };
     // #endregion ______________  Field Variable   _________________
 
+    // #region ______________  Store CSS _________________
+    var StoreCss = function(specifiedCss) {
+        var self,
+            customCss = ko.observable(specifiedCss),
+            companyId = ko.observable(),
+            dirtyFlag = new ko.dirtyFlag({
+                customCss: customCss
+            }),
+            // True If Has Changes
+            hasChanges = ko.computed(function() {
+                return dirtyFlag.isDirty();
+            }),
+            
+            convertToServerData = function (source) {
+                return {
+                    CompanyId: source.companyId(),
+                    CustomCss: source.customCss()
+                };
+            };
+        
+        self = {
+            customCss: customCss,
+            companyId:companyId,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData
+            
+        };
+        return self;
+    };
 
-
-
-
+    // #endregion ______________  Store CSS   _________________
 
     //#region ______________ R E T U R N ______________
     return {
@@ -5479,7 +5513,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         ProductCategoryForDialog: ProductCategoryForDialog,
         ProductForDialog: ProductForDialog,
         ProductCategoryVoucher: ProductCategoryVoucher,
-        ItemsVouchers: ItemsVouchers
+        ItemsVouchers: ItemsVouchers,
+        StoreCss: StoreCss
        
     };
     // #endregion 

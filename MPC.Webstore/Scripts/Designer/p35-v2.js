@@ -2249,6 +2249,8 @@ $("#BtnSmartFormSave").click(function () {
     pcl42();
     smartFormClicked = true; $(".messageSmartForm").css("display", "none");
     $("#collapseDesignerMenu").click();
+    if(IsCalledFrom != 2)
+       pcl45_upData();
 });
 $("#btnCompanyLogo").click(function () {
     d1CompanyLogoToCanvas();
