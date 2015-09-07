@@ -20,6 +20,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 
                 if (Request.Content.IsMimeMultipartContent())
                 {
+                    //string[] fileList = files.Split(new string[] { "____" }, StringSplitOptions.None);
                     string uploadPath = HttpContext.Current.Server.MapPath("~/MPC_Content/EmailAttachments/" );
                     if (!Directory.Exists(uploadPath))
                         Directory.CreateDirectory(uploadPath);

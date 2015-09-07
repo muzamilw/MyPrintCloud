@@ -296,6 +296,7 @@
     var storedFiles = [];
 
     var formData;
+    var postedFiles = [];
 
     function GetAllinputElementIDS() {
         ShowLoader();
@@ -428,7 +429,19 @@
 
             while (url.indexOf('/') != -1)
                 url = url.replace("/", "__");
+            formData = new FormData();
             debugger;
+            // formData.append("file" + i, files[i]);
+            for (i = 0; i < postedFiles.length; i++) {
+                var isRemovedFile = false;
+                for (var d = 0; d < removedFiles.length; d++) {
+                    if (postedFiles[i].fname == removedFiles[d])
+                        isRemovedFile = true;
+                }
+                if (!isRemovedFile) {
+                    formData.append("file" + i, postedFiles[i].fObj);
+                }
+            }
             if (storedFiles.length > 0) {
                 var fileData = JSON.stringify(storedFiles, null, 2);
                 var to;
@@ -525,7 +538,7 @@
 
         $(":file").attr('title', '  ');
         var $loading = $('#loadingDiv').hide();
-
+        
         $("input[id^='fileToUpload']").change(function (e) {
             removedFiles = [];
             doReCreate();
@@ -537,12 +550,12 @@
 
     function doReCreate() {
         selDiv = document.querySelector("#selectedFiles");
-
+        //formData = new FormData();
         storedFiles = [];
         var FileName = "";
         var files = $("#fileToUpload").get(0).files;
         if (files.length > 0) {
-            formData = new FormData();
+           
             if (files.length > 4) {
                 ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Please select 4 files only!")
             } else {
@@ -553,7 +566,8 @@
                             isRemovedFile = true;
                     }
                     if (!isRemovedFile) {
-                        formData.append("file" + i, files[i]);
+                        postedFiles.push({ fname: files[i].name, fObj: files[i] });
+                       // formData.append("file" + i, files[i]);
                         mbImagesFiles.append("file" + i, files[i]);
                         selDiv.innerHTML += "<div style='font-size:10px;'><a onclick='removeAtt(&#34;" + files[i].name + "&#34; ,this )'  style='color:red !important; cursor:pointer;'> X </a>" + files[i].name + "</div>";
                         FileName = files[i].name;
@@ -579,6 +593,6 @@
 
         $(t).parent().remove();
 
-        doReCreate();
+       // doReCreate();
     }
 </script>
