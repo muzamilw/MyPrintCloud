@@ -3,6 +3,7 @@
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using MPC.Models.Common;
 
 namespace MPC.Interfaces.MISServices
 {
@@ -169,7 +170,7 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         DiscountVoucher GetDiscountVoucherById(long discountVoucherId);
 
-        string GetLiveStoresJason();
+        List<LiveStoreDetails> GetLiveStoresJason();
 
         #region exportOrganisation
 

@@ -3,6 +3,12 @@ using System;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
 using MPC.WebBase.Mvc;
+using System.Collections.Generic;
+using MPC.Models.DomainModels;
+using System.Net.Http;
+using System.Net.Http.Formatting;
+using Newtonsoft.Json;
+using System.Net;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -30,12 +36,23 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         #region Public
         [ApiException]
+        
         //[ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
-        public string Get()
+        public HttpResponseMessage Get()
         {
             try
             {
-                return _CompanyService.GetLiveStoresJason();
+
+                var formatter = new JsonMediaTypeFormatter();
+                var json = formatter.SerializerSettings;
+                json.Formatting = Newtonsoft.Json.Formatting.Indented;
+                json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                return Request.CreateResponse(HttpStatusCode.OK, _CompanyService.GetLiveStoresJason(), formatter);
+
+                    //stores = JsonConvert.SerializeObject(storeDetails, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+                 
+
+                
             }
             catch (Exception ex)
             {

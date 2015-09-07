@@ -3713,7 +3713,7 @@ namespace MPC.Implementation.MISServices
             return voucher;
         }
 
-        public string GetLiveStoresJason()
+        public List<LiveStoreDetails> GetLiveStoresJason()
         {
             string stores = string.Empty;
             List<Company> livestores = companyRepository.GetLiveStoresList();
@@ -3759,8 +3759,8 @@ namespace MPC.Implementation.MISServices
                 });
             }
 
-            stores = JsonConvert.SerializeObject(storeDetails, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
-            return stores;
+
+            return storeDetails;
         }
 
         
