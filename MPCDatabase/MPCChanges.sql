@@ -7925,8 +7925,7 @@ BEGIN
 
 	END
 
-USE [MPCLive]
-GO
+
 /****** Object:  StoredProcedure [dbo].[usp_ChartTop10PerfomingCustomers]    Script Date: 9/4/2015 4:12:39 PM ******/
 SET ANSI_NULLS ON
 GO

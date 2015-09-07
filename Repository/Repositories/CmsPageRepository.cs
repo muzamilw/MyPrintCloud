@@ -157,7 +157,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public List<CmsPage> GetCmsPagesByCompanyId(long companyId)
         {
-            return DbSet.Where(cp => cp.CompanyId == companyId).ToList();
+            return DbSet.Include(c=> c.CmsSkinPageWidgets).Where(cp => cp.CompanyId == companyId).ToList();
         }
 
         public List<CmsPage> GetCmsPagesByOrganisationForBanners(long companyId)
