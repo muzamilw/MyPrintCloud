@@ -640,6 +640,7 @@ namespace MPC.Repository.Repositories
                 oTemplate.CuttingMargin = (DesignerUtils.MMToPoint(5));
                 oTemplate.PDFTemplateHeight =(DesignerUtils.MMToPoint(height));
                 oTemplate.PDFTemplateWidth = (DesignerUtils.MMToPoint(width));
+                oTemplate.isSpotTemplate = false;
                 db.Templates.Add(oTemplate);
                 db.SaveChanges();
 
