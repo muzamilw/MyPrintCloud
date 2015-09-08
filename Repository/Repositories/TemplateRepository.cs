@@ -787,6 +787,21 @@ namespace MPC.Repository.Repositories
             try
             {
                 long result = db.sp_cloneTemplate(TempID, 0, "");
+                // copy template variable mapping table 
+                List<MPC.Models.DomainModels.TemplateVariable> listOldVariables = db.TemplateVariables.Where(g => g.TemplateId == TempID).ToList();
+                if(listOldVariables != null && listOldVariables.Count > 0 && result != 0 )
+                {
+                    foreach(var item in listOldVariables)
+                    {
+                        MPC.Models.DomainModels.TemplateVariable objNewVariable = new Models.DomainModels.TemplateVariable();
+                        objNewVariable.FieldVariable = item.FieldVariable;
+                        objNewVariable.TemplateId = result;
+                        objNewVariable.VariableId = item.VariableId;
+                        objNewVariable.VariableText = item.VariableText;
+                        db.TemplateVariables.Add(objNewVariable);
+                    }
+                    db.SaveChanges();
+                }
                 return result;
             }
             catch (Exception ex)
