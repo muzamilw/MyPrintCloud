@@ -211,15 +211,15 @@
                                 @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_UploadFiles", UserCookieManager.WBStoreId))
                             </div>
                             <div class="MB_UploadContainer">
-                                <label id="lbl_UploadFileGudelines" class="Fsize17">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines", UserCookieManager.WBStoreId))</label><br />
+                                <label id="lbl_UploadFileGudelines" class="Fsize17">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines", UserCookieManager.WBStoreId, "Upload your design"))</label><br />
                                 <br />
                                 <div class="MB_GLContainer">
-                                    <label id="lbl_UploadFileGudelines_Format">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines_Format", UserCookieManager.WBStoreId))</label>
-                                    <label id="lbl_UploadFileGudelines_Format_Types">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines_Format_Types", UserCookieManager.WBStoreId))</label>
+                                    <label id="lbl_UploadFileGudelines_Format">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines_Format", UserCookieManager.WBStoreId, "File formats: "))</label>
+                                    <label id="lbl_UploadFileGudelines_Format_Types">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGudelines_Format_Types", UserCookieManager.WBStoreId, "png, gif, pdf and jpg file formats."))</label>
                                 </div>
                                 <div class="MB_GLContainer">
-                                    <label id="lbl_UploadFileGuideLines_FileSize">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGuideLines_FileSize", UserCookieManager.WBStoreId))</label>
-                                    <label id="lbl_UploadFileGuideLines_FileSize_Bytes">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGuideLinesFileSizeBytes", UserCookieManager.WBStoreId))</label>
+                                    <label id="lbl_UploadFileGuideLines_FileSize">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGuideLines_FileSize", UserCookieManager.WBStoreId, "file size: "))</label>
+                                    <label id="lbl_UploadFileGuideLines_FileSize_Bytes">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadFileGuideLinesFileSizeBytes", UserCookieManager.WBStoreId, "file greater than 4mb is not permitted for upload."))</label>
                                 </div>
                             </div>
                             <div class="MB_fileUploadContainer">
@@ -305,10 +305,10 @@
         var txtVal = "";
         var idList = "";
         var AdditionalAnsList = "";
-
+        debugger;
         var AllAnswers = $("#hfHaveNoAns").val();
 
-        if (AllAnswers != '') {
+        if (AllAnswers != '' && AllAnswers != undefined) {
             var EachAnswer = AllAnswers.split(',');
 
             $.each(EachAnswer, function (i, element) {
@@ -538,9 +538,9 @@
 
         $(":file").attr('title', '  ');
         var $loading = $('#loadingDiv').hide();
-        
+
         $("input[id^='fileToUpload']").change(function (e) {
-            removedFiles = [];
+            //  removedFiles = [];
             doReCreate();
         });
 
@@ -555,30 +555,51 @@
         var FileName = "";
         var files = $("#fileToUpload").get(0).files;
         if (files.length > 0) {
-           
+            console.log(postedFiles.length < (4 + removedFiles.length));
             if (files.length > 4) {
                 ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Please select 4 files only!")
             } else {
-                for (i = 0; i < files.length; i++) {
-                    var isRemovedFile = false;
-                    for (var d = 0; d < removedFiles.length; d++) {
-                        if (files[i].name == removedFiles[d])
-                            isRemovedFile = true;
-                    }
-                    if (!isRemovedFile) {
-                        postedFiles.push({ fname: files[i].name, fObj: files[i] });
-                       // formData.append("file" + i, files[i]);
-                        mbImagesFiles.append("file" + i, files[i]);
-                        selDiv.innerHTML += "<div style='font-size:10px;'><a onclick='removeAtt(&#34;" + files[i].name + "&#34; ,this )'  style='color:red !important; cursor:pointer;'> X </a>" + files[i].name + "</div>";
-                        FileName = files[i].name;
-                        while (files[i].name.indexOf('/') != -1)
-                            FileName = files[i].name.replace("/", "__")
-                        storedFiles.push(FileName);
+                var isAddfile = 1;
+                if (files.length == 1)
+                {
+                    debugger;
+                    var fileext = files[0].name.split('.');
+                    var lastIndex = fileext.length;
+                    var extname = fileext[lastIndex - 1];
+                    if (extname != "png" && extname != "jpg" && extname != "jpeg" && extname != "pdf" && extname != "gif") {
+                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "File format is not allowed!");
+                        isAddfile = 0;
+                    } else {
+                        isAddfile = 1;
                     }
                 }
+                if (isAddfile == 1) {
+
+                    for (i = 0; i < files.length; i++) {
+                        var isRemovedFile = false;
+                        for (var d = 0; d < removedFiles.length; d++) {
+                            if (files[i].name == removedFiles[d])
+                                isRemovedFile = true;
+                        }
+                        if (!isRemovedFile) {
+                            postedFiles.push({ fname: files[i].name, fObj: files[i] });
+                            // formData.append("file" + i, files[i]);
+                            mbImagesFiles.append("file" + i, files[i]);
+                            selDiv.innerHTML += "<div style='font-size:10px;'><a onclick='removeAtt(&#34;" + files[i].name + "&#34; ,this )'  style='color:red !important; cursor:pointer;'> X </a>" + files[i].name + "</div>";
+                            FileName = files[i].name;
+                            while (files[i].name.indexOf('/') != -1)
+                                FileName = files[i].name.replace("/", "__")
+                            storedFiles.push(FileName);
+                        }
+                    }
+                }
+               
             }
 
 
+        }
+        if (postedFiles.length > (3 + removedFiles.length)) {
+            $("#fileToUpload").css("display", "none");
         }
     }
 
@@ -592,7 +613,9 @@
         });
 
         $(t).parent().remove();
-
+        if (postedFiles.length < (4 + removedFiles.length)) {
+            $("#fileToUpload").css("display", "block");
+        }
        // doReCreate();
     }
 </script>

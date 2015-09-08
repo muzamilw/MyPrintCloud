@@ -567,6 +567,7 @@
     <Content Include="Content\Designer\assets-v2\valign2.png" />
     <Content Include="Content\Designer\assets-v2\valign3.png" />
     <Content Include="Content\Images\artwork_arrow_icons.png" />
+    <Content Include="Content\Images\facebookNew.png" />
     <Content Include="Content\Images\fancybox_loading.gif" />
     <Content Include="Content\Designer\assets-v2\bkColor.jpg" />
     <Content Include="Content\Designer\assets-v2\bleed_area.png" />
@@ -666,6 +667,7 @@
     <Content Include="Content\Images\IcoPhotoshop.png" />
     <Content Include="Content\Images\icoPNG.png" />
     <Content Include="Content\Images\linkedin.png" />
+    <Content Include="Content\Images\LinkedInNew.png" />
     <Content Include="Content\Images\linkInShare.PNG" />
     <Content Include="Content\Images\Listing-next-horizoltal.png" />
     <Content Include="Content\Images\Listing-prev-horizoltal.png" />
@@ -696,6 +698,7 @@
     <Content Include="Content\Images\Telephone-Icon-Blue.png" />
     <Content Include="Content\Images\tiger.jpg" />
     <Content Include="Content\Images\topnav_bg.jpg" />
+    <Content Include="Content\Images\TwitterNew.png" />
     <Content Include="Content\Images\Van-Icon-Blue.png" />
     <Content Include="Content\Images\view-order.png" />
     <Content Include="Content\Images\visa_49x31.jpg" />

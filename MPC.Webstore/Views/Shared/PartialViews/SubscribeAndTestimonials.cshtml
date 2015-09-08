@@ -1,6 +1,7 @@
 ﻿@using MPC.Webstore.Common
 @{
     Layout = null;
+    var Company = ViewBag.Company as MPC.Models.DomainModels.Company;
 }
 <div id="footer" class="footer-content spacer-top">
 
@@ -16,17 +17,25 @@
                             <h3 class="panel-title">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgosocial", UserCookieManager.WBStoreId, "Go Social"))</h3>
                         </div>
                         <div class="panel-body">
-                            <div class="social"><a href="https://www.facebook.com" target="_blank">
-                                                    <i class="fa fa-facebook fa-2x"></i>
-                                                </a><a href="https://www.twitter.com" target="_blank">
-                                                        <i class="fa fa-twitter fa-2x"></i>
-                                                    </a><a href="https://www.pinterest.com/" target="_blank">
-                                                            <i class="fa fa-pinterest fa-2x"></i>
-                                                        </a><a href="https://plus.google.com/" target="_blank">
-                                                                <i class="fa fa-google-plus fa-2x"></i>
-                                                            </a><a href="https://www.linkedin.com/" target="_blank">
-                                                                    <i class="fa fa-linkedin fa-2x"></i>
-                                                                </a>
+                            <div class="social">
+                                @if(Company.FacebookURL != null && Company.FacebookURL != string.Empty)
+                                {
+                                    <a href="@Company.FacebookURL" target="_blank">
+                                        <img id="SubFacebook" src="/Content/Images/facebookNew.png" />
+                                    </a>
+                                }
+                                @if(Company.TwitterURL != null && Company.TwitterURL != string.Empty)
+                                {
+                                    <a href="@Company.TwitterURL" target="_blank">
+                                        <img id="SubTwitter" src="/Content/Images/TwitterNew.png" />
+                                    </a>
+                                }
+                                @if (Company.LinkedinURL != null && Company.LinkedinURL != string.Empty)
+                                {
+                                    <a href="@Company.LinkedinURL" target="_blank">
+                                        <img id="LinkedINSub" src="/Content/Images/LinkedInNew.png" />
+                                    </a>
+                                }
                             </div>
                         </div>
                     </div>

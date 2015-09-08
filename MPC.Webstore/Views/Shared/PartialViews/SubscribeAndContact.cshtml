@@ -2,9 +2,11 @@
 @model MPC.Webstore.Models.AddressViewModel
 @{
     Layout = null;
+
+    var Company = ViewBag.Company as MPC.Models.DomainModels.Company;
 }
 @using MPC.Webstore.Common;
-<div id="subscriberfooter" style="background-color:#5b237a !important;">
+<div id="subscriberfooter">
 
     <div class="container ">
         <div class="container">
@@ -75,7 +77,23 @@
         </div>
         <div class="panel-body">
             <p>@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlstayintouc", UserCookieManager.WBStoreId, "Stay in touch with us:"))</p>
-            <p><a href="https://www.facebook.com" target="_blank"><i class="fa fa-facebook fa-2x social-icon"></i></a><a href="https://www.twitter.com" target="_blank"><i class="fa fa-twitter fa-2x social-icon"></i></a><a href="https://www.pinterest.com/" target="_blank"><i class="fa fa-pinterest fa-2x social-icon"></i></a><a href="https://plus.google.com/" target="_blank"><i class="fa fa-google-plus fa-2x social-icon"></i></a><a href="https://www.linkedin.com/" target="_blank"><i class="fa fa-linkedin fa-2x social-icon"></i></a></p>
+            <p>
+                @if(Company.FacebookURL!=null&&Company.FacebookURL!=string.Empty)
+                { 
+                 <a href="@Company.FacebookURL" target="_blank">
+                     <img id="facebookImg" src="/Content/Images/facebookNew.png"/>
+                </a>
+                }
+                @if (Company.TwitterURL != null&&Company.TwitterURL != string.Empty)
+                {
+                    <a href="@Company.TwitterURL" target="_blank"><img id="TwitterImg" src="/Content/Images/TwitterNew.png" /></a>
+  
+                }
+            @if(Company.LinkedinURL != null&&Company.LinkedinURL != string.Empty)
+            { 
+             <a href="@Company.LinkedinURL" target="_blank"><img src="/Content/Images/LinkedInNew.png" /></a>
+            }
+            </p>
         </div>
     </div>
 </div>

@@ -4541,6 +4541,8 @@ function togglePage(pId) {
             html += '<option  id = "option' + IT.ContactId + '" value="' + IT.ContactId + '" >' + IT.ContactName + '</option>';;
         });
         $("#smartFormSelectUserProfile").html(html);
+        
+
     }
     function pcl40_addDropDown(title, varId,options,def,tabindex) {
         var html = "";
