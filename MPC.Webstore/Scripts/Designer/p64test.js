@@ -13393,6 +13393,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
 
         return this;
     },
+ 
     drawBulletsCustom: function (ctx, color,text) {
       
         var padding = this.padding,
@@ -13415,8 +13416,10 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
         var offset = heightOfLine / 2;
         var sentence = this.bullets.split(/\r\n|\r|\n/);
         if (this.VAllignment == 3 || this.VAllignment == 2) {
-            var alignOffset = this.textPaddingTop;
-            offset += (alignOffset)*1.20;
+            var alignOffset = (this.maxHeight * this.scaleY) - (heightOfLine * (sentence.length - 1));
+            if(this.VAllignment == 2)
+                alignOffset =  alignOffset/2;
+            offset += (alignOffset) ;
         } 
         for (var i = 0; i < sentence.length; i++) {
                 ctx.fillStyle = this.color;

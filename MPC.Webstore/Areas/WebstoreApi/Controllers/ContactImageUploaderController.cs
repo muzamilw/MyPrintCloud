@@ -223,7 +223,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         {
             
             string Message = string.Empty;
-            CompanyContact ExistingContact = _companyService.GetContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+           
+           CompanyContact ExistingContact= _companyService.GetCorporateContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
             var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
             if (ExistingContact!= null)
             {

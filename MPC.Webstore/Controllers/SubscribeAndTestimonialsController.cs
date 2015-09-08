@@ -43,8 +43,16 @@ namespace MPC.Webstore.Controllers
         public ActionResult Index()
         {
             ViewData["RaveReview"] = _myCompanyService.GetRaveReview();
+            MPC.Models.DomainModels.Company model = null;
+
+            //  MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+            //  MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+            ViewBag.Company = StoreBaseResopnse.Company;
             return PartialView("PartialViews/SubscribeAndTestimonials");
-         
+            
+
         }
         [HttpPost]
         public ActionResult Index(string txtEmailbox)
@@ -52,7 +60,8 @@ namespace MPC.Webstore.Controllers
             try
             {
 
-
+                MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+                ViewBag.Company = StoreBaseResopnse.Company;
                 NewsLetterSubscriber subscriber = _myCompanyService.GetSubscriber(txtEmailbox, UserCookieManager.WBStoreId);
 
 
