@@ -540,7 +540,7 @@
         var $loading = $('#loadingDiv').hide();
         
         $("input[id^='fileToUpload']").change(function (e) {
-            removedFiles = [];
+          //  removedFiles = [];
             doReCreate();
         });
 
@@ -585,7 +585,7 @@
 
 
     function removeAtt(name,t) {
-
+        debugger;
         removedFiles.push(name);
         storedFiles = $.grep(storedFiles, function (n, i) {
             return (n != name);
