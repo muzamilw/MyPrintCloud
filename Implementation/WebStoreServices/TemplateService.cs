@@ -1428,7 +1428,8 @@ namespace MPC.Implementation.WebStoreServices
                             YFactor = objObjects.PositionY.Value - 7;
                         else
                             YFactor = 0;
-                        XFactor = objObjects.PositionX.Value;
+                        if(objObjects.PositionX.HasValue)
+                          XFactor = objObjects.PositionX.Value;
                     }
 
 
