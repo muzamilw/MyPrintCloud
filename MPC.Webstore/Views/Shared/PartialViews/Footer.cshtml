@@ -39,21 +39,30 @@
                             </div>
                             <table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
+                                    @if(Model.FacebookURL!=null&&Model.FacebookURL!=string.Empty)
+                                    { 
                                     <td valign="top">
-                                        <a id="linkFollowUs1">
-                                            <img id="imgFollowUs1" class="imgFollowUs" height="20" />
+                                        <a id="linkFollowUs1" href="@Model.FacebookURL">
+                                            <img id="imgFollowUs1" src="/Content/Images/facebookNew.png" class="imgFollowUs" height="20" />
                                         </a>
                                     </td>
+                                    }
+                                    @if (Model.TwitterURL != null && Model.TwitterURL != string.Empty)
+                                    { 
                                     <td valign="top">
-                                        <a id="linkFollowUs2">
-                                            <img id="imgFollowUs2" class="imgFollowUs" height="20" />
+                                        <a id="linkFollowUs2" href="@Model.TwitterURL">
+                                            <img id="imgFollowUs2" class="imgFollowUs" height="20" src="/Content/Images/TwitterNew.png" />
                                         </a>
                                     </td>
+                                    }
+                                    @if (Model.LinkedinURL != null && Model.TwitterURL != string.Empty)
+                                    { 
                                     <td valign="top">
-                                        <a id="linkFollowUs3">
-                                            <img id="imgFollowUs3" class="imgFollowUs" height="20" />
+                                        <a id="linkFollowUs3" href="@Model.LinkedinURL">
+                                            <img id="imgFollowUs3" class="imgFollowUs" height="20" src="/Content/Images/LinkedInNew.png" />
                                         </a>
                                     </td>
+                                    }
                                     @*<td valign="top">
                                         <a id="linkFollowUs4">
                                             <img id="imgFollowUs4" class="imgFollowUs" height="20" />

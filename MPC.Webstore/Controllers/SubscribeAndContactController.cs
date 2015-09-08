@@ -49,7 +49,7 @@ namespace MPC.Webstore.Controllers
             //ObjectCache cache = MemoryCache.Default;
             //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
-
+            ViewBag.Company = StoreBaseResopnse.Company;
             if (StoreBaseResopnse.StoreDetaultAddress != null)
             {
                 oAddress = new AddressViewModel();
@@ -85,7 +85,8 @@ Utils.GetKeyValueFromResourceFile("ltrllemail", UserCookieManager.WBStoreId, "Em
             try
             {
 
-
+                MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+                ViewBag.Company = StoreBaseResopnse.Company;
                 NewsLetterSubscriber subscriber = _myCompanyService.GetSubscriber(txtEmailbox, UserCookieManager.WBStoreId);
 
 
