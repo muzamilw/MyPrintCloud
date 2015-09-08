@@ -59,7 +59,7 @@ namespace MPC.Webstore.Controllers
             }
 
             StoreBaseResopnse = null;
-
+           
             //MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(storeId).CreateFromCompany();
 
             return PartialView("PartialViews/Footer", model);
