@@ -2225,24 +2225,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
 
                                         <!--ko if: $root.selectedStore().type() != 4-->
-                                        <div class="form-group">
-                                            <div class="col-md-3"></div>
-
-                                            <div class="col-md-6" style="padding-top:5px;">
-                                                <label style="padding:0px;margin-top:5px;" for="switchRegistrationFromWebsite">Allow new user registrations on store</label>
-
-                                            </div>
-                                            <div class="col-md-3" style="padding-left:6px;">
-                                                <div class="onoffswitch" style="margin-right:0px;">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchRegistrationFromWebsite" data-bind="checked: $root.selectedStore().isAllowRegistrationFromWeb">
-                                                    <label class="onoffswitch-label" for="switchRegistrationFromWebsite">
-                                                        <div class="onoffswitch-inner"></div>
-                                                        <div class="onoffswitch-switch"></div>
-                                                    </label>
-                                                </div>
-
-                                            </div>
-                                        </div>
+                                        
 
 
                                         <div class="form-group">
@@ -2283,25 +2266,137 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 </div>
                                             </div>
                                         </div>
-                                        @*<div class="form-group">
-                                                <div class="col-md-3"></div>
 
-                                                <div class="col-md-6">
-                                                    <label style="padding: 0px;" for="switchEditProfile">Allow users to modify their profile</label>
+                                        <!--ko if: $root.selectedStore().type() != 4-->
+                                        <div class="form-group">
+                                            <div class="col-md-3"></div>
 
+                                            <div class="col-md-6" style="padding-top:5px;">
+                                                <label style="padding:0px;margin-top:5px;" for="switchRegistrationFromWebsite">Allow new user registrations on store</label>
+
+                                            </div>
+                                            <div class="col-md-3" style="padding-left:6px;">
+                                                <div class="onoffswitch" style="margin-right:0px;">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchRegistrationFromWebsite" data-bind="checked: $root.selectedStore().isAllowRegistrationFromWeb">
+                                                    <label class="onoffswitch-label" for="switchRegistrationFromWebsite">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <div class="onoffswitch" style="margin-right:0px;">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchEditProfile" data-bind="checked: $root.selectedStore().canUserEditProfile">
-                                                        <label class="onoffswitch-label" for="switchEditProfile">
-                                                            <div class="onoffswitch-inner"></div>
-                                                            <div class="onoffswitch-switch"></div>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>*@
+
+                                            </div>
+                                        </div>
+                                        <!--/ko-->
                                     </div>
                                 </div>
+                                <!--ko if: $root.selectedStore().isAllowRegistrationFromWeb -->
+                                <div class="col-lg-9">
+                                    
+                                     <div class="form-group">
+                                         <div class="col-md-3"></div>
+                                         <div class="col-lg-6">
+
+                                             <div>
+                                                 <div>
+                                                     <label for="idAccessWebStore">
+                                                         Is Register Access WebStore
+                                                     </label>
+                                                 </div>
+                                             </div>
+                                             <div class="col-lg-2" style="padding-left:10px;">
+                                                 <div class="checkbox-nice">
+                                                     <input type="checkbox" id="idAccessWebStore">
+                                                     <label for="idAccessWebStore">
+
+                                                     </label>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                    
+                                    
+                                           
+                                                
+                                    <div class="form-group">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-lg-6">
+                                            <div>
+                                                <label for="idPlaceOrder">
+                                                    Is Register Place Order
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2" style="padding-left:10px;">
+                                            <div class="checkbox-nice">
+                                                <input type="checkbox" id="idPlaceOrder">
+                                                <label for="idPlaceOrder">
+
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                
+                                    <div class="form-group">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-lg-6">
+                                            <div>
+                                                <label for="idPayOnlyByCreditCard">
+                                                    Is Register Pay Only By Credit Card
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2" style="padding-left:10px;">
+                                            <div class="checkbox-nice">
+                                                <input type="checkbox" id="idPayOnlyByCreditCard">
+                                                <label for="idPayOnlyByCreditCard">
+
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                
+                                    <div class="form-group">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-lg-6">
+                                            <div>
+
+                                                <label for="idPlaceDirectOrder">
+                                                    Is Register Place Direct Order
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2" style="padding-left:10px;">
+                                            <div class="checkbox-nice">
+                                                <input type="checkbox" id="idPlaceDirectOrder">
+                                                <label for="idPlaceDirectOrder">
+
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-3"></div>
+                                                    <div class="col-lg-">
+                                                        <div>
+
+                                                            <label for="idplaceorderwithoutapproval">
+                                                                Is Register Place Order Without Approval
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-2" style="padding-left:10px;">
+                                                        <div class="checkbox-nice">
+                                                            <input type="checkbox" id="idplaceorderwithoutapproval">
+                                                            <label for="idplaceorderwithoutapproval">
+
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                           
+                                       
+                                </div>
+                                <!--/ko-->
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Tax Settings</h3>
                                     <div class="col-lg-12 clearfix">
@@ -3768,7 +3863,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
     <li class="dd-item dd-item-list">
         <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
         <div class="dd-handle">
-            <span data-bind="text: $data.widgetControlName(),drag: $root.dragged" style="cursor: move;z-index: 1000" title="Drag wiget to add to the right panel"></span>
+            <span data-bind="text: $data.widgetControlName(),drag: $root.dragged" style="cursor: move;z-index: 1000" title="Drag widget to add to the right panel"></span>
             <div class="nested-links">
                 <a href="#" class="nested-link" title="Add Widget" data-bind="click:$root.addWidgetToPageLayout"><i class="fa fa-plus"></i></a>
             </div>
