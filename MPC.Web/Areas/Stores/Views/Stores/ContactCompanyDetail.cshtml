@@ -2304,7 +2304,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                             <div class="col-lg-2" style="padding-left:11px;border:1px solid lightgray;border-bottom:none;border-left:none;padding-top:20px;">
                                                 <div class="checkbox-nice">
-                                                    <input type="checkbox" id="idAccessWebStore" data-bind="checked:$root.selectedStore()">
+                                                    <input type="checkbox" id="idAccessWebStore" data-bind="checked:$root.selectedStore().isRegisterAccessWebStore">
                                                     <label for="idAccessWebStore">
                                                     </label>
                                                 </div>
@@ -2326,7 +2326,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
                                         <div class="col-lg-2" style="padding-left:11px;border-right:1px solid lightgray;">
                                             <div class="checkbox-nice">
-                                                <input type="checkbox" id="idPlaceOrder">
+                                                <input type="checkbox" id="idPlaceOrder" data-bind="checked:$root.selectedStore().isRegisterPlaceOrder">
                                                 <label for="idPlaceOrder">
                                                 </label>
                                             </div>
@@ -2346,7 +2346,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
                                             <div class="col-lg-2" style="padding-left:11px;border-right:1px solid lightgray;">
                                                 <div class="checkbox-nice" style="padding-left:11px;">
-                                                    <input type="checkbox" id="idPayOnlyByCreditCard">
+                                                    <input type="checkbox" id="idPayOnlyByCreditCard" data-bind="checked:$root.selectedStore().isRegisterPayOnlyByCreditCard ">
                                                     <label for="idPayOnlyByCreditCard">
                                                     </label>
                                                 </div>
@@ -2366,7 +2366,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
                                         <div class="col-lg-2" style="padding-left:11px;border-right:1px solid lightgray;">
                                             <div class="checkbox-nice">
-                                                <input type="checkbox" id="idPlaceDirectOrder">
+                                                <input type="checkbox" id="idPlaceDirectOrder" data-bind="checked:$root.selectedStore().isRegisterPlaceDirectOrder">
                                                 <label for="idPlaceDirectOrder">
 
                                                 </label>
@@ -2387,7 +2387,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
                                         <div class="col-lg-2" style="padding-left:11px;border-top:none !important;border-left:none !important;border:1px solid lightgray;padding-bottom:22px;">
                                             <div class="checkbox-nice">
-                                                <input type="checkbox" id="idplaceorderwithoutapproval">
+                                                <input type="checkbox" id="idplaceorderwithoutapproval" data-bind="checked:$root.selectedStore().isRegisterPlaceOrderWithoutApproval">
                                                 <label for="idplaceorderwithoutapproval">
 
                                                 </label>
