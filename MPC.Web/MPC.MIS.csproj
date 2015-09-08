@@ -444,6 +444,7 @@
     <Compile Include="Areas\Api\Controllers\SmartFormController.cs" />
     <Compile Include="Areas\Api\Controllers\StockCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\StoreCopyController.cs" />
+    <Compile Include="Areas\Api\Controllers\StoreCssController.cs" />
     <Compile Include="Areas\Api\Controllers\SystemUserController.cs" />
     <Compile Include="Areas\Api\Controllers\SystemVariableController.cs" />
     <Compile Include="Areas\Api\ModelMappers\DiscountVoucherMapper.cs" />
@@ -877,6 +878,7 @@
     <Compile Include="Areas\Api\Models\Template.cs" />
     <Compile Include="Areas\Api\Models\TemplateColorStyle.cs" />
     <Compile Include="Areas\Api\Models\TemplatePage.cs" />
+    <Compile Include="Areas\Api\Models\UpdateCssRequest.cs" />
     <Compile Include="Areas\Api\Models\usp_TotalEarnings_Result.cs" />
     <Compile Include="Areas\Api\Models\VariableExtension.cs" />
     <Compile Include="Areas\Api\Models\VariableOption.cs" />
@@ -2271,6 +2273,7 @@
     <Content Include="Areas\Stores\Views\Stores\_ProductCategoryDialogForDiscountVoucher.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_ProductDialogForDiscountVoucher.cshtml" />
     <Content Include="Areas\Settings\Views\Home\_UnleashedXero.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_EditStoreCss.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>

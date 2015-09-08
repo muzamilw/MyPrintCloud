@@ -381,7 +381,20 @@
                         dataType: 'json',
                         type: 'GET'
                     });
-
+                    // Define request to Get Store CSS
+                    amplify.request.define('getStoreCss', 'ajax', {
+                        url: ist.siteUrl + '/Api/StoreCss',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to Delete Company Permanently
+                    amplify.request.define('updateStoreCss', 'ajax', {
+                        url: ist.siteUrl + '/Api/StoreCss',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+                    
                     isInitialized = true;
                 }
             },
@@ -933,6 +946,25 @@
                     data: param
                 });
             },
+            // get Store by id
+            getStoreCss = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getStoreCss',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+             updateStoreCss = function (param, callbacks) {
+                 initialize();
+                 return amplify.request({
+                     resourceId: 'updateStoreCss',
+                     success: callbacks.success,
+                     error: callbacks.error,
+                     data: param
+                 });
+             },
             
             getProductforDV = function (params, callbacks) {
                 initialize();
@@ -1011,7 +1043,9 @@
             saveDiscountVoucher: saveDiscountVoucher,
             getDiscountVaoucherById: getDiscountVaoucherById,
             validateLiveStoresCount: validateLiveStoresCount,
-            validateCanStoreSaveById: validateCanStoreSaveById
+            validateCanStoreSaveById: validateCanStoreSaveById,
+            getStoreCss: getStoreCss,
+            updateStoreCss: updateStoreCss
         };
     })();
 

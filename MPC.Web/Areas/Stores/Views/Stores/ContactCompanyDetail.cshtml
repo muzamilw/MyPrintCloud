@@ -943,6 +943,15 @@
                                     <div class="col-lg-9 form-horizontal clearfix">
                                         <div class="form-group form-horizontal">
                                             <div class="col-lg-3 text-right">
+                                                <label class="control-label text-right tooltip-float">Marketing Brief Recipient Email</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" name="Please enter Valid Marketing Brief Recipient Email!" id="txtRecipientEmail" data-bind="value: marketingBriefRecipientEmail,validationTooltip: marketingBriefRecipientEmail, validationOnElement: marketingBriefRecipientEmail">
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
                                                 @*<div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select which Internal manager gets notification when Orders are placed.  To add new users access the user manager under settings tab within this MIS" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -1111,14 +1120,14 @@
                                                     <div class="photo-box image-link">
                                                         <img class="photo-box image-link" style="width:240px;height:130px; object-fit: contain;" id="idCostcenterimage" data-bind="visible:storeBackgroudImageImageSource()==undefined ,attr: { src: '@Url.Content("~/")' + storeBackgroudImagePathWithCacheRemoveTechnique() }" />
                                                         <img class="photo-box image-link" style="width:240px;height:130px; object-fit: contain;" data-bind="visible:storeBackgroudImageImageSource()!==undefined,attr: { src: storeBackgroudImageImageSource }" />
-                                                        <a href="#" class="table-link danger" title="Remove Background" style="color:#e74c3c; cursor: pointer; bottom: 30px;margin-left: 15%;position: relative;" data-bind="click : $root.onDeleteStoreBackground">
+                                                        <a href="#" class="table-link danger" title="Remove Background" style="color:#e74c3c; cursor: pointer; position: relative;" data-bind="click : $root.onDeleteStoreBackground">
                                                             <span class="fa-stack">
                                                                 <i class="fa fa-square fa-stack-2x"></i>
                                                                 <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
                                                             </span>
                                                         </a>
                                                     </div>
-                                                    
+
                                                     <div class="col-lg-12" style="text-align:center;">
                                                         <div class="fileUpload btn btn-primary">
                                                             @*data-bind="click:$root.showMediaLibraryDialogFromStoreBackground"*@
@@ -1127,7 +1136,7 @@
                                                         </div>
 
                                                     </div>
-                                                    
+
                                                     <div class="col-lg-12 ThoumbnailCostCenter" style="margin-top:5px !important;width:242px;text-align:center">Background image could be a PNG or JPG file. Behaviour of background  image is controlled using CSS.</div>
                                                     <div class="profile-stars">
                                                         <span data-bind="value: type"></span>
@@ -1429,8 +1438,20 @@
                                 </div>
                                 <div class="col-md-12 form-horizontal">
                                     <h3 class="group-header">Store CSS</h3>
-                                    <p class="group-header-description">Modify look and feel of the selected theme.</p>
-                                    <div class="col-md-9">
+                                    <div class="col-lg-9">
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label class="control-label text-right tooltip-float">Modify CSS of the selected theme</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="btn btn-primary" data-bind="click:$root.onEditCss">
+                                                    Edit CSS
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    @*<div class="col-md-9">
                                         <div class=" form-group">
 
 
@@ -1443,7 +1464,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>*@
 
                                 </div>
                                 <div class="clearfix">
@@ -1473,7 +1494,7 @@
                                                     @*<img alt="" style="float:left; width:240px; height: 130px;-o-object-fit: contain; object-fit: contain;" class="img-responsive center-block" data-bind="attr: { src: userDefinedSpriteImageSource }" />*@
 
 
-                                                   
+
 
                                                     <div class="col-lg-12" style="padding-left:0px;margin-top:10px;">
                                                         <div class="col-lg-6" style="margin-top: 5px;text-align:center;padding-left: 0px;width: 250px;">
@@ -3660,6 +3681,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 @Html.Partial("~/Areas/Stores/Views/Shared/_ChooseUsIcon.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Shared/_ProductCategoryDetail.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Shared/_ViewMediaLibImage.cshtml")
+@Html.Partial("~/Areas/Stores/Views/Stores/_EditStoreCss.cshtml")
 
 <script id="workflowEmailItemTemplate" type="text/html">
     <!-- ko if: campaignType() === 1 -->

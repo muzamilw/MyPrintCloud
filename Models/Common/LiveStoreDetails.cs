@@ -53,6 +53,11 @@ namespace MPC.Models.Common
         /// </summary>
         public string State { get; set; }
         /// <summary>
+        /// Address PostCode
+        /// </summary>
+
+        public string PostCode { get; set; }
+        /// <summary>
         /// Address Country
         /// </summary>
         public string Country { get; set; }
@@ -64,5 +69,17 @@ namespace MPC.Models.Common
         /// Longitude
         /// </summary>
         public string GeoLongitude { get; set; }
+
+        public double OrdersTotalCurrentMonth { get; set; }
+
+        public int OrdersCountCurrentMonth { get; set; }
+
+        public double OrdersTotalLastMonth { get; set; }
+
+        public int OrdersCountLastMonth { get; set; }
+
+        public double OrdersTotalAllTime { get; set; }
+
+        public int OrdersCountAllTime { get; set; }
     }
 }

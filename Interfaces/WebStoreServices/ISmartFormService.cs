@@ -21,9 +21,9 @@ namespace MPC.Interfaces.WebStoreServices
 
         List<SmartFormDetail> GetSmartFormObjects(long smartFormId,out List<VariableOption> listVariables);
 
-        List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables, long contactId);
+        List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables, long contactId, long templateId);
 
-        Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, List<SmartFormUserList> contacts, long templateId);
+        Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, List<SmartFormUserList> contacts, long templateId, long currentTemplateId);
 
         string SaveUserProfilesData(Dictionary<long, List<ScopeVariable>> obj);
         string[] GetContactImageAndCompanyLogo(long contactID);

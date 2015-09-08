@@ -3141,16 +3141,16 @@ function pcl42_updateVariables(data) {
     });
 }
 
-function pcl42_UpdateTO() {
-   
-    $.each(TO, function (i, IT) {
-        $.each(smartFormData.scopeVariables, function (i, obj) {
-            //if(obj.ObjectType == 3)  // replace all the content strings containing variable tag
-            //{
+function pcl42_UpdateTO(isFirstLoad) {
+    if (!isFirstLoad) {
+        $.each(TO, function (i, IT) {
+            $.each(smartFormData.scopeVariables, function (i, obj) {
+                //if(obj.ObjectType == 3)  // replace all the content strings containing variable tag
+                //{
                 var variableTag = obj.FieldVariable.VariableTag;
                 var variableTagUpperCase = "_&*)_*!!£$";  // because we cannot set it to empty otherwise it will go to infinite loop
                 if (obj.FieldVariable.VariableTag != null)
-                    variableTagUpperCase= obj.FieldVariable.VariableTag.toUpperCase();
+                    variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
                 var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
                 if (obj.FieldVariable.VariableTag != null)
                     variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
@@ -3162,8 +3162,7 @@ function pcl42_UpdateTO() {
                 var postFixLower = "_&*)_*!!£$";
                 var postFixCap = "_&*)_*!!£$";
 
-                if (variableTagUpperCase != "_&*)_*!!£$")
-                {
+                if (variableTagUpperCase != "_&*)_*!!£$") {
                     var tag = variableTag.replace("{{", "");
                     tag = tag.replace("}}", "");
                     prefix = "{{" + tag + "_pre}}";
@@ -3174,7 +3173,7 @@ function pcl42_UpdateTO() {
                     postFixCap = postFix.toLowerCase();
                     postFixLower = postFix.toUpperCase();
                 }
-               
+
 
                 if (IT.originalContentString != null) {
                     if (IT.originalContentString.indexOf(variableTag) != -1 || IT.originalContentString.indexOf(variableTagUpperCase) != -1 || IT.originalContentString.indexOf(variableTagLowerCase) != -1 || IT.originalContentString.indexOf(prefix) != -1 || IT.originalContentString.indexOf(prefixCap) != -1 || IT.originalContentString.indexOf(prefixLower) != -1 || IT.originalContentString.indexOf(postFix) != -1 || IT.originalContentString.indexOf(postFixCap) != -1 || IT.originalContentString.indexOf(postFixLower) != -1) {
@@ -3185,9 +3184,10 @@ function pcl42_UpdateTO() {
                         }
                     }
                 }
-            //}
+                //}
+            });
         });
-    });
+    }
     if ($("#optionRadioOtherProfile").is(':checked')) {
         $.each(TO, function (i, IT) {
             $.each(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], function (i, obj) {
@@ -3692,4 +3692,43 @@ function pcL07_vAl(id) {
             canvas.renderAll();
         }
     }
+}
+
+function pcl45_upData() {
+    var listVar = [];
+    $('textarea.qTextInput').each(function (i) {
+        var id = $(this).attr("id");
+        id = id.replace('txtSmart', '');
+        var objToAdd = { "VariableText": $(this).val(), "VariableID": id, "TemplateID": tID };
+        listVar.push(objToAdd);
+    });
+    var to = "/designerApi/SmartForm/SaveTemplateVariablesEndUserMode";
+    var cId = ContactID;
+    if ($("#optionRadioOtherProfile").is(':checked')) {
+        cId = $("#smartFormSelectUserProfile").val();
+    }
+    var list = {
+        templateId: tID,
+        contactId: cId,
+        variables: listVar
+    };
+    var jsonObjects = JSON.stringify(list, null, 2);
+    var options = {
+        type: "POST",
+        url: to,
+        data: jsonObjects,
+        contentType: "application/json",
+        async: true,
+        complete: function (httpresp, returnstatus) {
+            if (returnstatus == "success") {
+                if (httpresp.responseText == 'true') {
+                    //do nothing
+                }
+                else {
+                    alert(httpresp.responseText);
+                }
+            }
+        }
+    };
+    var returnText = $.ajax(options).responseText;
 }

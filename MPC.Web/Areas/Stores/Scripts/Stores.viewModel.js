@@ -67,6 +67,7 @@ define("stores/stores.viewModel",
                     //selectedStore
                     selectedStore = ko.observable(new model.Store),
                     selectedCategoryName = ko.observable("Products"),
+                    selectedStoreCss = ko.observable(),
                     //Selected Company Contact
                     companyContactEditorViewModel = new ist.ViewModel(model.CompanyContact),
                     selectedCompanyContact = companyContactEditorViewModel.itemForEditing,
@@ -4301,6 +4302,9 @@ define("stores/stores.viewModel",
                         if (selectedItem.taxRate.error) {
                             errorList.push({ name: selectedItem.taxRate.domElement.name, element: selectedItem.taxRate.domElement });
                         }
+                        if (selectedItem.marketingBriefRecipientEmail.error) {
+                            errorList.push({ name: selectedItem.marketingBriefRecipientEmail.domElement.name, element: selectedItem.marketingBriefRecipientEmail.domElement });
+                        }
                     },
                     // Go To Element
                     gotoElement = function (validation) {
@@ -5389,15 +5393,15 @@ define("stores/stores.viewModel",
                             selectedItemsForOfferList.push(item);
                             selectedItemForAdd().isInSelectedList(true);
                             //remove items of other offer type from list, if another offer type items add(At a time only one offer type item selected)
-                            var removeOfferList = [];
-                            _.each(selectedItemsForOfferList(), function (offerItem) {
-                                if (selectedOfferType() !== offerItem.offerType()) {
-                                    removeOfferList.push(offerItem);
-                                }
-                            });
-                            _.each(removeOfferList, function (offerItem) {
-                                selectedItemsForOfferList.remove(offerItem);
-                            });
+                            //var removeOfferList = [];
+                            //_.each(selectedItemsForOfferList(), function (offerItem) {
+                            //    if (selectedOfferType() !== offerItem.offerType()) {
+                            //        removeOfferList.push(offerItem);
+                            //    }
+                            //});
+                            //_.each(removeOfferList, function (offerItem) {
+                            //    selectedItemsForOfferList.remove(offerItem);
+                            //});
                             selectedItemForAdd(undefined);
                         }
                     },
@@ -5453,6 +5457,38 @@ define("stores/stores.viewModel",
                         confirmation.afterCancel();
                         confirmation.show();
                         
+                    },
+                    onEditCss = function () {
+                        dataservice.getStoreCss({
+                            companyId: selectedStore().companyId()
+                        }, {
+                            success: function (data) {
+                                var currentCss = new model.StoreCss(data);
+                                currentCss.companyId(selectedStore().companyId());
+                                selectedStoreCss(currentCss);
+                                view.showCssDialog();
+                                isLoadingStores(false);
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Failed to Load Store CSS . Error: " + response, "", ist.toastrOptions);
+                            }
+                        });
+                        
+                    },
+                    onSaveCompanyCss = function (callback) {
+                        var cssToSave = model.StoreCss().convertToServerData(selectedStoreCss());
+                        dataservice.updateStoreCss(cssToSave, {
+                            success: function (data) {
+                                toastr.success("Store CSS Updated Successfully.");
+                                isLoadingStores(false);
+                                view.hideCssDialog();
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Failed to Update Store CSS . Error: " + response, "", ist.toastrOptions);
+                            }
+                        });
                     },
                     //#endregion
 
@@ -6490,8 +6526,10 @@ define("stores/stores.viewModel",
                     },
                     // Create Discount Voucher
                     createDiscountVoucher = function () {
+                        
                         selectedDiscountVoucher(model.DiscountVoucher());
                         selectedDiscountVoucher().companyId(selectedStore().companyId());
+                        selectedDiscountVoucher().isEnabled(true);
                         openDiscountVoucherDetailDialog();
                     },
 
@@ -7586,7 +7624,10 @@ define("stores/stores.viewModel",
                     onDeleteStoreBackground: onDeleteStoreBackground,
                     onCopyStore: onCopyStore,
                     onFeaturedDialogOk: onFeaturedDialogOk,
-                    bannerButtonCaption: bannerButtonCaption
+                    bannerButtonCaption: bannerButtonCaption,
+                    selectedStoreCss: selectedStoreCss,
+                    onEditCss: onEditCss,
+                    onSaveCompanyCss: onSaveCompanyCss
                 };
                 //#endregion
             })()

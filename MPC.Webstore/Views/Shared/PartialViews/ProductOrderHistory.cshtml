@@ -640,7 +640,7 @@
                     var GridItems = response.order.OrderDetails.CartItemsList;
                     console.log(GridItems);
                     var InnerHtml = "";// "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
-                    debugger;
+                  
                     if("@ViewBag.IsShowPrices" == "True")
                     {
                         InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
@@ -652,7 +652,7 @@
                       
                     }
                     $.each(GridItems, function (i, IT) {
-                        { debugger;
+                        { 
                             var filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + IT.Attatchment._fileName + "Thumb.png";
                             //InnerHtml += '<tr>';
                             if("@ViewBag.IsShowPrices" == "True")

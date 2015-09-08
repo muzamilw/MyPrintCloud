@@ -223,8 +223,10 @@
                                 </div>
                             </div>
                             <div class="MB_fileUploadContainer">
-                                <asp:FileUpload ID="fuImageUpload" runat="server" CssClass="file_upload_box185" />
-                                <input type="file" id="fuImageUpload" class="file_upload_box185" />
+                                <input type="file" id="fileToUpload" name="fileUpload" multiple="multiple" class="file_upload_box185" />
+                                <br />
+                                <div id="selectedFiles"></div>
+                                <input id="listOfFileName" name="listOfFileName"  type="hidden"/>
                             </div>
                         </div>
                     </div>
@@ -257,8 +259,17 @@
                                 </div>
                             </div>
                             <div style="margin: 5px; margin-top: 15px;">
-                                <input type="submit" class="MB_SendINqBtn rounded_corners5" id="SendINqBtn"
-                                       onclick="return GetAllinputElementIDS(); ShowLoader();" value=@Html.Raw(Html.GetKeyValueFromResourceFile("btnmarketingbrief", UserCookieManager.WBStoreId, "submit inquiry")) />
+                                @if (ViewBag.isServerSettingsSet == 0)
+                                {
+                                    <input type="button" class="MB_SendINqBtn rounded_corners5" 
+                                           onclick="ShowServerSeetingPopUp();" value='@Html.Raw(Html.GetKeyValueFromResourceFile("btnmarketingbrief", UserCookieManager.WBStoreId, "submit inquiry"))' />
+                                }
+                                else
+                                {
+                                    <input type="submit" class="MB_SendINqBtn rounded_corners5" id="SendINqBtn"
+                                           onclick="return GetAllinputElementIDS(); ShowLoader();" value='@Html.Raw(Html.GetKeyValueFromResourceFile("btnmarketingbrief", UserCookieManager.WBStoreId, "submit inquiry"))' />
+                                }
+                               
                             </div>
                         </div>
                     </div>
@@ -276,37 +287,19 @@
     </div>
 </div>
 
-
-    <script src="~/Scripts/PopUp.js"></script>
-    <script src="~/Scripts/jquery.MultiFile.js"></script>
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+    <script src="/Scripts/PopUp.js"></script>
+  
     <script>
 
-    $(document).ready(function () {
-        CreateMultipleUpload();
+    var mbImagesFiles = new FormData();
+    var storedFiles = [];
 
-    });
-
-    function CreateMultipleUpload() {
-        //set up the file upload
-        $("#fuImageUpload").MultiFile(
-          {
-              max: 4,
-              accept: 'jpg,png,pdf,gif,jpeg',
-              afterFileSelect: function (element, value, master_element) {
-
-              },
-              afterFileRemove: function (element, value, master_element) {
-
-              }
-          });
-    }
-
-    function ShowUploader() {
-        $("#fuImageUpload").click();
-    }
+    var formData;
+    var postedFiles = [];
 
     function GetAllinputElementIDS() {
-
+        ShowLoader();
         var selectedradioBtnsCount = 0;
         var groupCount = $("#hfGroupsCount").val();
         var txtVal = "";
@@ -353,9 +346,9 @@
                             }
                         });
                         if (AdditionalAnsList == "") {
-                            AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().next().next().next().next().children().next().val();
+                            AdditionalAnsList = AdditionalAnsList + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
                         } else {
-                            AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().next().next().next().next().children().next().val();
+                            AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $('.' + element + '').parent().prev().text() + " \n " + "Selected Answer : " + AnswerList + " \n " + "Additional Information :  " + $('.' + element + '').parent().next().next().children().next().val();
                         }
 
                     } else { // case of radio
@@ -379,87 +372,227 @@
                 }
 
             });
+        } else {
+            $('.MB_QtnsCont').each(function (i, val) {
+                if ($(this).next().next().next().children().next().val() != '' && $(this).next().next().next().children().next().val() != undefined) {
+                    if (AdditionalAnsList == "") {
+                        AdditionalAnsList = AdditionalAnsList + "Q" + $(this).text() + " \n "  + "Additional Information :  " + $(this).next().next().next().children().next().val();
+                    } else {
+                        AdditionalAnsList = AdditionalAnsList + "|" + "Q" + $(this).text() + " \n " + "Additional Information :  " + $(this).next().next().next().children().next().val();
+                    }
+                }
+            });
+
         }
 
         if (selectedradioBtnsCount < groupCount) {
 
-            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))','@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubmitinquiry", UserCookieManager.WBStoreId, "Please select an option in the highlighted questions to submit your inquiry."))');
-                var AllGroups = $("#hfTotalGroups").val();
+            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubmitinquiry", UserCookieManager.WBStoreId, "Please select an option in the highlighted questions to submit your inquiry."))');
+            var AllGroups = $("#hfTotalGroups").val();
 
-                var EachGroup = AllGroups.split(',');
-                $.each(EachGroup, function (i, element) {
+            var EachGroup = AllGroups.split(',');
+            $.each(EachGroup, function (i, element) {
 
-                    var i = 0;
-                    var id = "";
-                    var SelecedRadioNotHighlighted = $('input[type="radio"][name="' + element + '"]:checked').attr("id");
-                    if (SelecedRadioNotHighlighted == undefined) {
+                var i = 0;
+                var id = "";
+                var SelecedRadioNotHighlighted = $('input[type="radio"][name="' + element + '"]:checked').attr("id");
+                if (SelecedRadioNotHighlighted == undefined) {
 
-                        $('input:radio[name=' + element + ']').each(function () {
-                            $(this).parent().parent().parent().parent().removeClass('white_background');
-                            $(this).parent().parent().parent().parent().css("background-color", "#ECAAAA");
-                        });
-                        if (i == 0 & id != "") {
+                    $('input:radio[name=' + element + ']').each(function () {
+                        $(this).parent().parent().parent().parent().removeClass('white_background');
+                        $(this).parent().parent().parent().parent().css("background-color", "#ECAAAA");
+                    });
+                    if (i == 0 & id != "") {
 
-                        }
                     }
-                    var SelecedCheckBoxNotHighlighted = $('input[type="checkbox"][name="' + element + '"]:checked').attr("id");
-                    if (SelecedCheckBoxNotHighlighted == undefined) {
+                }
+                var SelecedCheckBoxNotHighlighted = $('input[type="checkbox"][name="' + element + '"]:checked').attr("id");
+                if (SelecedCheckBoxNotHighlighted == undefined) {
 
-                        $('input:checkbox[name=' + element + ']').each(function () {
-                            $(this).parent().parent().parent().parent().removeClass('white_background');
-                            $(this).parent().parent().parent().parent().css("background-color", "#ECAAAA");
-                        });
-                        if (i == 0 & id != "") {
+                    $('input:checkbox[name=' + element + ']').each(function () {
+                        $(this).parent().parent().parent().parent().removeClass('white_background');
+                        $(this).parent().parent().parent().parent().css("background-color", "#ECAAAA");
+                    });
+                    if (i == 0 & id != "") {
 
-                        }
                     }
-                });
-                return false;
+                }
+            });
+            HideLoader();
+            return false;
+        } else {
+
+
+            $("#hfInqueryMesg").val(AdditionalAnsList);
+
+            var url = "/mpc_content/EmailAttachments/";
+
+            while (url.indexOf('/') != -1)
+                url = url.replace("/", "__");
+            formData = new FormData();
+            debugger;
+            // formData.append("file" + i, files[i]);
+            for (i = 0; i < postedFiles.length; i++) {
+                var isRemovedFile = false;
+                for (var d = 0; d < removedFiles.length; d++) {
+                    if (postedFiles[i].fname == removedFiles[d])
+                        isRemovedFile = true;
+                }
+                if (!isRemovedFile) {
+                    formData.append("file" + i, postedFiles[i].fObj);
+                }
+            }
+            if (storedFiles.length > 0) {
+                var fileData = JSON.stringify(storedFiles, null, 2);
+                var to;
+                to = "/webstoreapi/FileUpload/PostAsync/";
+                var options = {
+                    type: "POST",
+                    url: to,
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    async: false,
+                    success: function (response) {
+                        var values = "";
+                        $(response).each(function (i, val) {
+                            if (values == "") {
+                                values = val;
+                            } else {
+                                values = values + "|" + val;
+                            }
+                          
+                        });
+                        $("#listOfFileName").val(values);
+                        console.log($("#listOfFileName").val());
+                        return true;
+
+                    },
+                    error: function(msg) {
+
+                        console.log(msg);
+                        ShowPopUp("Error", "'"+ msg.responseText + "'");
+                        return false;
+                    }
+                };
+                var returnText = $.ajax(options).responseText;
+              
             } else {
-
-                $("#hfInqueryMesg").val(AdditionalAnsList);
-
                 return true;
             }
+
         }
+    }
 
-        function TickCheckBox(CheckBoxClassName) {
+    function TickCheckBox(CheckBoxClassName) {
 
-            var idOfBtn = $('input:checkbox[class=' + CheckBoxClassName + ']').attr('id');
-            console.log($('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked'));
-            if ($('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked')) {
+        var idOfBtn = $('input:checkbox[class=' + CheckBoxClassName + ']').attr('id');
+        console.log($('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked'));
+        if ($('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked')) {
 
-                $('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked', false);
-                $('input:checkbox[class=' + CheckBoxClassName + ']').next().removeClass('OrangeGradiantbtn').addClass('grayRadiantbtn');
+            $('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked', false);
+            $('input:checkbox[class=' + CheckBoxClassName + ']').next().removeClass('OrangeGradiantbtn').addClass('grayRadiantbtn');
 
-            } else {
+        } else {
 
-                $('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked', true);
-                $("#" + idOfBtn).next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
-                $("#" + idOfBtn).parent().parent().parent().parent().addClass('white_background');
-                $("#" + idOfBtn).parent().parent().parent().parent().css("background-color", "white");
+            $('input:checkbox[class=' + CheckBoxClassName + ']').attr('checked', true);
+            $("#" + idOfBtn).next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
+            $("#" + idOfBtn).parent().parent().parent().parent().addClass('white_background');
+            $("#" + idOfBtn).parent().parent().parent().parent().css("background-color", "white");
 
-            }
         }
+    }
 
-        function TickRadio(RadioClassName) {
+    function TickRadio(RadioClassName) {
 
-            $('input:radio[class=' + RadioClassName + ']').attr('checked', true);
-            if ($('input:radio[class=' + RadioClassName + ']').is(':checked')) {
+        $('input:radio[class=' + RadioClassName + ']').attr('checked', true);
+        if ($('input:radio[class=' + RadioClassName + ']').is(':checked')) {
 
-                $('input:radio[class=' + RadioClassName + ']').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
+            $('input:radio[class=' + RadioClassName + ']').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
 
-                var name = $('input:radio[class=' + RadioClassName + ']').attr("name");
+            var name = $('input:radio[class=' + RadioClassName + ']').attr("name");
 
-                $('input:radio[name=' + name + ']').each(function () {
-                    if ($(this).is(':checked')) {
-                        $(this).parent().parent().parent().parent().addClass('white_background');
-                        $(this).parent().parent().parent().parent().css("background-color", "white");
-                    } else {
-                        $(this).next().removeClass('OrangeGradiantbtn').addClass('grayRadiantbtn');
-                    }
-                });
-            }
+            $('input:radio[name=' + name + ']').each(function () {
+                if ($(this).is(':checked')) {
+                    $(this).parent().parent().parent().parent().addClass('white_background');
+                    $(this).parent().parent().parent().parent().css("background-color", "white");
+                } else {
+                    $(this).next().removeClass('OrangeGradiantbtn').addClass('grayRadiantbtn');
+                }
+            });
         }
+    }
+
+    function ShowServerSeetingPopUp() {
+        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("msgOrgServSetting", UserCookieManager.WBStoreId, "Critial Error, server settings are not set!"))');
+    }
+
     </script>
 
+
+<script>
+
+
+    var removedFiles = [];
+    $(function () {
+
+        $(":file").attr('title', '  ');
+        var $loading = $('#loadingDiv').hide();
+        
+        $("input[id^='fileToUpload']").change(function (e) {
+            removedFiles = [];
+            doReCreate();
+        });
+
+
+    });
+
+
+    function doReCreate() {
+        selDiv = document.querySelector("#selectedFiles");
+        //formData = new FormData();
+        storedFiles = [];
+        var FileName = "";
+        var files = $("#fileToUpload").get(0).files;
+        if (files.length > 0) {
+           
+            if (files.length > 4) {
+                ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Please select 4 files only!")
+            } else {
+                for (i = 0; i < files.length; i++) {
+                    var isRemovedFile = false;
+                    for (var d = 0; d < removedFiles.length; d++) {
+                        if (files[i].name == removedFiles[d])
+                            isRemovedFile = true;
+                    }
+                    if (!isRemovedFile) {
+                        postedFiles.push({ fname: files[i].name, fObj: files[i] });
+                       // formData.append("file" + i, files[i]);
+                        mbImagesFiles.append("file" + i, files[i]);
+                        selDiv.innerHTML += "<div style='font-size:10px;'><a onclick='removeAtt(&#34;" + files[i].name + "&#34; ,this )'  style='color:red !important; cursor:pointer;'> X </a>" + files[i].name + "</div>";
+                        FileName = files[i].name;
+                        while (files[i].name.indexOf('/') != -1)
+                            FileName = files[i].name.replace("/", "__")
+                        storedFiles.push(FileName);
+                    }
+                }
+            }
+
+
+        }
+    }
+
+
+
+    function removeAtt(name,t) {
+
+        removedFiles.push(name);
+        storedFiles = $.grep(storedFiles, function (n, i) {
+            return (n != name);
+        });
+
+        $(t).parent().remove();
+
+       // doReCreate();
+    }
+</script>
