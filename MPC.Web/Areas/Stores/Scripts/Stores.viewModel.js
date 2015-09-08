@@ -5393,15 +5393,15 @@ define("stores/stores.viewModel",
                             selectedItemsForOfferList.push(item);
                             selectedItemForAdd().isInSelectedList(true);
                             //remove items of other offer type from list, if another offer type items add(At a time only one offer type item selected)
-                            var removeOfferList = [];
-                            _.each(selectedItemsForOfferList(), function (offerItem) {
-                                if (selectedOfferType() !== offerItem.offerType()) {
-                                    removeOfferList.push(offerItem);
-                                }
-                            });
-                            _.each(removeOfferList, function (offerItem) {
-                                selectedItemsForOfferList.remove(offerItem);
-                            });
+                            //var removeOfferList = [];
+                            //_.each(selectedItemsForOfferList(), function (offerItem) {
+                            //    if (selectedOfferType() !== offerItem.offerType()) {
+                            //        removeOfferList.push(offerItem);
+                            //    }
+                            //});
+                            //_.each(removeOfferList, function (offerItem) {
+                            //    selectedItemsForOfferList.remove(offerItem);
+                            //});
                             selectedItemForAdd(undefined);
                         }
                     },
