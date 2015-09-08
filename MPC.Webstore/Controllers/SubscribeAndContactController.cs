@@ -97,7 +97,7 @@ Utils.GetKeyValueFromResourceFile("ltrllemail", UserCookieManager.WBStoreId, "Em
 
 
                     //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-                    MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+                  //  MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
                     string SubscriberEmail = "";
                     string subscriptionCode = Guid.NewGuid().ToString();
