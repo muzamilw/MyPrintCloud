@@ -6,105 +6,99 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Add/Edit Banner</h4>
             </div>
-            <div class="col-lg-12 form-horizontal outerDiv-Padding">
-                <div class="form-group">
-                    <div class="col-lg-4 text-right">
+            <div class="row">
+                <div class="col-lg-12 clear-fix form-horizontal outerDiv-Padding">
+                    <div class="form-group">
+                        <div class="col-lg-4 text-right">
 
-                    </div>
-                    <div class="col-lg-4">
+                        </div>
+                        <div class="col-lg-4">
 
-                        <div class="clearfix">
+                            <div class="clearfix">
 
-                            <img style="width: 220px; object-fit: contain;height: 130px;" data-bind="visible:imageSource()===undefined,attr: { src: '@Url.Content("~/")' + filePathWithCacheRemoveTechnique() }" />
-                            <img style="width: 220px; object-fit: contain; height: 130px; " data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />
+                                <img style="width: 220px; object-fit: contain;height: 130px;" data-bind="visible:imageSource()===undefined,attr: { src: '@Url.Content("~/")' + filePathWithCacheRemoveTechnique() }" />
+                                <img style="width: 220px; object-fit: contain; height: 130px; " data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />
 
-                            <div class="col-lg-11" style="margin-top:5px;text-align:center;width:220px;margin-top:15px;">
+                                <div class="col-lg-11" style="margin-top:5px;text-align:center;width:220px;margin-top:15px;">
 
-                                <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromCompanyBanner">
-                                    <span data-bind="text:$root.bannerButtonCaption">Change Banner</span>
-                                    
+                                    <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromCompanyBanner">
+                                        <span data-bind="text:$root.bannerButtonCaption">Change Banner</span>
+
+
+                                    </div>
 
                                 </div>
+                                <div class="col-lg-11 ThoumbnailCostCenter" style="margin-top:5px !important;text-align:center;width:220px;">Banner Image.</div>
+
 
                             </div>
-                            <div class="col-lg-11 ThoumbnailCostCenter" style="margin-top:5px !important;text-align:center;width:220px;">Banner Image.</div>
-                           
+                        </div>
+                        <div class="col-lg-1">
+                            @*<div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromCompanyBanner">
+                        <span>....</span>
+
+                    </div>*@
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-4 text-right">
+
+                            <label class="control-label text-right tooltip-float">Banner set</label>
+                        </div>
+                        <div class="col-lg-5">
+                            <select class="form-control" data-bind="options: $root.companyBannerSetList, optionsText: 'setName', optionsValue: 'id',value:companySetId, validationTooltip: companySetId"></select>
+                        </div>
+                        <div class="col-lg-2" style="padding-left:0px;">
+                            <div class="btn btn-primary pull-left" data-bind="click:$root.onAddSetBanner">
+                                Add New Banner Set
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-4 text-right">
+
+                            <label for="txtBannerHead" class="control-label text-right tooltip-float">Banner Heading</label>
 
                         </div>
 
-
-
-
-
-
-                       
-
-                    </div>
-                    <div class="col-lg-1">
-                        @*<div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromCompanyBanner">
-                                <span>....</span>
-
-                            </div>*@
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-4 text-right">
-
-                        <label class="control-label text-right tooltip-float">Banner set</label>
-                    </div>
-                    <div class="col-lg-5">
-                        <select class="form-control" data-bind="options: $root.companyBannerSetList, optionsText: 'setName', optionsValue: 'id',value:companySetId, validationTooltip: companySetId"></select>
-                    </div>
-                    <div class="col-lg-2" style="padding-left:0px;">
-                        <div class="btn btn-primary pull-left" data-bind="click:$root.onAddSetBanner">
-                            Add New Banner Set
+                        <div class="col-lg-5">
+                            <input type="text" class="form-control" id="txtBannerHead" data-bind="value:heading, validationTooltip:heading">
                         </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-4 text-right">
-
-                        <label for="txtBannerHead" class="control-label text-right tooltip-float">Banner Heading</label>
 
                     </div>
+                    <div class="form-group">
+                        <div class="col-lg-4 text-right">
+                            <label for="txtSortOrder" class="control-label text-right tooltip-float">Description</label>
+                        </div>
 
-                    <div class="col-lg-5">
-                        <input type="text" class="form-control" id="txtBannerHead" data-bind="value:heading, validationTooltip:heading">
-                    </div>
+                        <div class="col-lg-5">
+                            <input type="text" class="form-control" id="txtdesc" data-bind="value:description">
+                        </div>
 
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-4 text-right">
-                        <label for="txtSortOrder" class="control-label text-right tooltip-float">Description</label>
                     </div>
+                    <div class="form-group">
+                        <div class="col-lg-4 text-right">
+                            <label for="txtSortOrder" class="control-label text-right tooltip-float">Item URL ( Image URL ) </label>
+                        </div>
 
-                    <div class="col-lg-5">
-                        <input type="text" class="form-control" id="txtdesc" data-bind="value:description">
-                    </div>
+                        <div class="col-lg-5">
+                            <input type="text" class="form-control" id="txtItemUrl" data-bind="value:itemURL">
+                        </div>
 
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-4 text-right">
-                        <label for="txtSortOrder" class="control-label text-right tooltip-float">Item URL ( Image URL ) </label>
                     </div>
+                    <div class="form-group">
+                        <div class="col-lg-4 text-right">
+                            <label class="control-label text-right tooltip-float">Banner Button URL</label>
+                        </div>
+                        <div class="col-lg-5">
+                            <input type="text" class="form-control" id="txtBtnUrl" data-bind="value:buttonURL">
+                        </div>
 
-                    <div class="col-lg-5">
-                        <input type="text" class="form-control" id="txtItemUrl" data-bind="value:itemURL">
                     </div>
-
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-4 text-right">
-                        <label class="control-label text-right tooltip-float">Banner Button URL</label>
-                    </div>
-                    <div class="col-lg-5">
-                        <input type="text" class="form-control" id="txtBtnUrl" data-bind="value:buttonURL">
-                    </div>
-
                 </div>
             </div>
-            <div class="modal-footer" style="padding-left:0px;padding-right:0px;">
-                <hr style="margin-bottom:15px;" />
+           
+            <div class="modal-footer" style="padding-left:0;padding-right:0;">
                 <div style="padding-left:4px;padding-right:8px;">
                     <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveCompanyBanner, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                     <button type="button" class="btn btn-default" data-bind="click:$root.onCloseCompanyBanner" style="margin-left: 0px;">Close</button>

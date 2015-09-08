@@ -20,7 +20,7 @@ namespace MigrationUtility.Preview
         }
     
         public int MarketBriefQuestionId { get; set; }
-        public Nullable<int> ItemId { get; set; }
+        public Nullable<long> ItemId { get; set; }
         public string QuestionDetail { get; set; }
         public int SortOrder { get; set; }
         public Nullable<bool> isMultipleSelction { get; set; }

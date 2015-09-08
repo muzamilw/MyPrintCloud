@@ -982,6 +982,21 @@ namespace MPC.Repository.Repositories
 
         }
 
+        public bool updatecontactId(long templateId, long contactId)
+        {
+            var template = db.Templates.Where(g => g.ProductId == templateId).SingleOrDefault();
+            if(template != null)
+            {
+                template.contactId = contactId;
+            }
+            if(db.SaveChanges() >0 )
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
+        }
 
     #endregion
      

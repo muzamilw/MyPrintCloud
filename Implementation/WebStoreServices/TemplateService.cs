@@ -3347,6 +3347,11 @@ namespace MPC.Implementation.WebStoreServices
                 return null;
             }
         }
+
+        public bool updatecontactId(long templateId, long contactId)
+        {
+           return _templateRepository.updatecontactId(templateId, contactId);
+        }
         #endregion
     }
 

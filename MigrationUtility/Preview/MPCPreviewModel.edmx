@@ -3344,7 +3344,7 @@ warning 6002: The table/view 'mpcpreview.dbo.CustomerUsersRolespage' does not ha
             <PropertyRef Name="MarketBriefQuestionId" />
           </Key>
           <Property Name="MarketBriefQuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ItemId" Type="int" />
+          <Property Name="ItemId" Type="bigint" />
           <Property Name="QuestionDetail" Type="nvarchar" MaxLength="500" />
           <Property Name="SortOrder" Type="int" Nullable="false" />
           <Property Name="isMultipleSelction" Type="bit" />
@@ -10187,7 +10187,7 @@ warning 6002: The table/view 'mpcpreview.dbo.WebProductCategoryItemPrice' does n
             <PropertyRef Name="MarketBriefQuestionId" />
           </Key>
           <Property Name="MarketBriefQuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ItemId" Type="Int32" />
+          <Property Name="ItemId" Type="Int64" />
           <Property Name="QuestionDetail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="SortOrder" Type="Int32" Nullable="false" />
           <Property Name="isMultipleSelction" Type="Boolean" />
