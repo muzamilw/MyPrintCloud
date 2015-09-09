@@ -53,7 +53,9 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<SectionFlag> GetSectionFlagForInventory()
         {
-            return DbSet.Where(sf => sf.SectionId == (int)SectionEnum.Inventory).ToList();
+           
+
+            return DbSet.Where(sf => sf.SectionId == (int)SectionEnum.Inventory && sf.OrganisationId == OrganisationId).ToList();
         }
 
         /// <summary>
@@ -61,7 +63,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<SectionFlag> GetSectionFlagBySectionId(long sectionId)
         {
-            return DbSet.Where(sf => sf.SectionId == sectionId && sf.OrganisationId == OrganisationId).ToList();
+            return DbSet.Where(sf => sf.SectionId == sectionId && sf.OrganisationId == OrganisationId).OrderBy(s => s.FlagName).ToList();
         }
 
         /// <summary>
@@ -79,7 +81,10 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(sf => sf.SectionId == (int)SectionEnum.CustomerPriceMatrix && sf.OrganisationId == OrganisationId).ToList();
         }
-
+        public IEnumerable<SectionFlag> GetDefaultSectionFlags()
+        {
+            return DbSet.Where(sf => sf.SectionId == (int)SectionEnum.CustomerPriceMatrix && sf.OrganisationId == OrganisationId && sf.isDefault == true).ToList();
+        }
         /// <summary>
         /// Get Section Flags for Campaign
         /// </summary>
@@ -122,12 +127,21 @@ namespace MPC.Repository.Repositories
         }
         public SectionFlag GetSectionFlag(long id)
         {
-                    
-                    
              return  db.SectionFlags.Where(a => a.SectionFlagId == id).FirstOrDefault();
-          
         }
 
+        /// <summary>
+        /// Get Defualt Section Flag for Price Matrix in webstore by organisation Id
+        /// </summary>
+        public int GetDefaultSectionFlagId(long OrganisationId)
+        {
+            return DbSet.Where(sf => sf.SectionId == 81 && sf.isDefault == true && sf.OrganisationId == OrganisationId).Select(id => id.SectionFlagId).FirstOrDefault();
+        }
+
+        public IEnumerable<SectionFlag> GetAllSectionFlagName()
+        {
+            return db.SectionFlags.ToList();
+        }
 
         #endregion
     }

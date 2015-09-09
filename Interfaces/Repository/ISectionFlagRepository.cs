@@ -28,7 +28,7 @@ namespace MPC.Interfaces.Repository
         /// Get Section Flag For Customer Price Index Section
         /// </summary>
         IEnumerable<SectionFlag> GetAllForCustomerPriceIndex();
-
+        IEnumerable<SectionFlag> GetDefaultSectionFlags();
         /// <summary>
         /// Get Section Flags for Campaign
         /// </summary>
@@ -36,5 +36,10 @@ namespace MPC.Interfaces.Repository
         List<SectionFlag> GetSectionFlagsByOrganisationID(long OID);
 
         SectionFlag GetSectionFlag(long id);
+
+         /// <summary>
+        /// Get Defualt Section Flag for Price Matrix in webstore by organisation Id
+        /// </summary>
+        int GetDefaultSectionFlagId(long OrganisationId);
     }
 }

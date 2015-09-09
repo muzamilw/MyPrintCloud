@@ -1,0 +1,222 @@
+﻿<div class="modal-content partial-contents" style="background-color:#FFFFFF;border-radius:5px;" id="phraseLibraryDialog">
+    <div class="modal-header" id="child-dialog-title">
+        <span class="modal-title" style="font-size:12pt;">Edit Phrase Library</span>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="col-lg-12">
+        <div class="col-lg-12 clearfix">
+           
+            <h3>Configure text for titles, description and labels </h3>
+            <div>
+                <div class="form-group col-lg-12" style="margin-bottom:0px;">
+                    <div class="col-lg-7" style="margin-top:0px;margin-bottom:0px; padding-left:0px;">
+                        <p class="group-header-description">The phrase library is used to define language terminology for use on estimates and reports</p>
+
+                    </div>
+                    <div class="col-lg-5" style="padding-right:0px;">
+                        <div class="filter-block pull-right" title="Add Phrase">
+                            <button data-bind="click:$root.addPhrase,visible:!$root.isOpenFromPhraseLibrary()" class="btn btn-primary">
+                                Add New Phrase
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5" style="margin-top:20px;padding-left:0px;">
+                
+                <div class="table-responsive">
+                    <table class="table" id="phrase-section-table">
+                        <thead>
+                            <tr>
+                                <th style="border-bottom-width: 0px;padding-bottom: 3px;">
+                                    <span id="phrase-header-phrase">Module</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="border:none;padding-top:7px;">
+                                    <div class="category" id="nestable2" style="margin-top: 0px; border-top-width: 1px;">
+                                        <ol class="dd-list" id="child-phrase">
+                                            <!-- ko template: { name: 'sectionIemTemplate', foreach: $root.sections }-->
+                                            <!-- /ko -->
+                                        </ol>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="table-responsive">
+                    <br />
+
+                    <div style="max-height: 500px !important;overflow-y: auto">
+                        <table class="table table-striped table-hover" id="phrase-records">
+                            <thead>
+                                <tr>
+                                    <th class="col-lg-9"><span id="phrase-header-phrase">Phrases</span></th>
+                                    <th class="col-lg-3"><span></span></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-phrase-records">
+
+                                <!-- ko template: { name: $root.templateToUse , foreach: $root.phrases } -->
+                                <!-- /ko -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer" style="padding-left:0px;padding-right:0px;padding-bottom:5px;">
+        <hr style="margin-bottom:15px;margin-top:0px;" />
+        <div style="padding-right:8px;">
+            <button type="button" class="btn btn-primary" data-bind="click:$root.savePhraseLibrary,visible:!$root.isOpenFromPhraseLibrary()">Save</button>
+            <a class="btn btn-default" aria-hidden="true" data-dismiss="modal" id="phrase-libraryCloseButton" style="float: right;margin-bottom: 10px;visibility:visible;">Close</a>
+        </div>
+
+    </div>
+</div>
+
+<script id="sectionIemTemplate" type="text/html">
+    <li class="dd-item dd-item-list" data-id="15">
+        <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedRow: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-chevron-circle-right"></i></div>
+        <div class="dd-handle" id="SectionName" data-bind="click: $root.selectSection, css: { selectedRow: $root.selectedSection() === $data }" style="cursor: pointer">
+            <span id="SectionNameSpan" data-bind="text: name"></span>
+            <div class="nested-links">
+                <a href="#" class="nested-link" title="Edit Category"></a>
+            </div>
+        </div>
+        <ol class="dd-list" data-bind="visible:isExpanded()">
+            <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }-->
+            <!-- /ko -->
+        </ol>
+    </li>
+</script>
+
+<script id="childSectionIemTemplate" type="text/html">
+    <li class="dd-item dd-item-list" data-bind="click: $root.selectPhraseField, css: { selectedRow: $root.selectedPhraseField() === $data }" data-id="16" style="cursor:pointer;">
+        <div class="dd-handle-list"><i class="fa fa-minus-square"></i></div>
+        <div class="dd-handle txt-blue-hover">
+            <span data-bind="text: fieldName"></span>
+            <div class="nested-links">
+            </div>
+        </div>
+    </li>
+</script>
+
+<script id="phraseEditItemTemplate" type="text/html">
+    <tr class="phrase-rows" data-bind="visible:!isDeleted()">
+        <td>
+            <input type="text" class="form-control" placeholder="Enter Phrase String" data-bind="value:phraseText">
+        </td>
+        <td class="text-right" style="width:50px;">
+            <a href="#" class="table-link danger" data-bind="click:$root.deletePhrase">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        </td>
+    </tr>
+</script>
+
+<script id="phraseItemTemplate" type="text/html">
+    <tr class="phraseHover" data-bind="visible: !isDeleted(), css: { selectedRow: $data === $root.selectedPhrase() }">
+        @*<td style="width:50px;" data-bind="click :$root.selectPhrase">
+                <span>&nbsp;&nbsp;</span>
+            </td>*@
+        <td class="col-lg-7">
+            <input type="text" class="form-control" placeholder="Enter Phrase Name" data-bind="value:phraseText">
+        </td>
+        <td class="text-right col-lg-5">
+            <!-- ko template: { name: 'phraseActionTemplateDelete' } -->
+            <!-- /ko -->
+        </td>
+</tr>
+</script>
+@* Action Template Delete*@
+<script id="phraseActionTemplateDelete" type="text/html">
+
+    <div class=" delPhrase">
+        <a href="#" class="table-link danger" data-bind="click:$root.deletePhrase">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+        <button class="btn btn-success" style="margin-left:5px;" data-bind="click :$root.selectPhrase">Apply</button>
+    </div>
+    
+
+    @*<td style="width:50px;" >
+
+    </td>*@
+</script>
+
+@* Action Template Apply*@
+<script id="phraseActionTemplateDelete" type="text/html">
+    <a href="#" class="table-link danger" data-bind="click:$root.deletePhrase">
+        <span class="fa-stack">
+            <i class="fa fa-square fa-stack-2x"></i>
+            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</script>
+
+
+
+<script src="~/Scripts/jquery.form.js"></script>
+<script src="~/Content/themes/Centaurus/js/CSJSRequestObject.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#phrase-null-span").hide();
+
+        setTimeout(function () {
+            var spinner = $("div#spinner");
+            spinner.stop();
+            spinner.fadeOut("fast");
+            $.unblockUI(spinner);
+        }, 1000);
+
+
+
+        page = Request.QueryString("status").toString();
+
+        if (page != null) {
+            if (page == 'phraselibrary') {
+
+                $(".partial-contents").addClass("main-box-body clearfix");
+                $(".partial-contents").removeClass("modal-content");
+
+                $("#child-dialog-title").hide();
+
+                $("#phrase-libraryCloseButton").css("visibility", "hidden");
+            }
+            else if (page == 'null') {
+
+
+                $(".partial-contents").removeClass("main-box-body clearfix");
+                $(".partial-contents").addClass("modal-content");
+
+                $("#child-dialog-title").show();
+
+                $("#phrase-libraryCloseButton").css("visibility", "visible");
+
+
+            }
+        }
+    });
+
+    function visibleDelApply() {
+        $(this).children().next().children().css("visibility", "visible");
+    }
+    function HideDelApply() {
+        $(this).children().next().children().css("visibility", "hidden");
+    }
+</script>
+

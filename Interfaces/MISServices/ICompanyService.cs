@@ -1,3 +1,4 @@
+
 ﻿using System.Collections.Generic;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
@@ -60,6 +61,8 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         List<Item> GetItemsForWidgets();
 
+        List<Item> GetItemsForWidgetsByStoreId(long storeId);
+
         /// <summary>
         /// Save Field Variable
         /// </summary>
@@ -106,7 +109,7 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Apply Theme
         /// </summary>
-        void ApplyTheme(int themeId,string themeName, long companyId);
+        void ApplyTheme(int themeId, string themeName, long companyId);
 
         /// <summary>
         /// Get Cms Tags For Cms Page Load Default page keywords
@@ -124,6 +127,52 @@ namespace MPC.Interfaces.MISServices
         CrmBaseResponse GetBaseDataForCrm();
 
         CompanyResponse GetCompanyByIdForCrm(long companyId);
+
+        /// <summary>
+        /// Save Cms Page
+        /// </summary>
+        long SaveSecondaryPage(CmsPage cmsPage);
+
+        /// <summary>
+        /// Delete Secondary Page
+        /// </summary>
+        void DeleteSecondaryPage(long pageId);
+
+        /// <summary>
+        /// Delete Field Variable
+        /// </summary>
+        void DeleteFieldVariable(long variableId);
+
+        /// <summary>
+        /// Save Imported Company Contact
+        /// </summary>
+        /// <param name="stagingImportCompanyContact"></param>
+        /// <returns></returns>
+        bool SaveImportedCompanyContact(IEnumerable<StagingImportCompanyContactAddress> stagingImportCompanyContact);
+
+        bool SaveCRMImportedCompanyContact(IEnumerable<StagingImportCompanyContactAddress> stagingImportCompanyContact);
+
+        void DeleteCrmCompanyPermanently(long companyId);
+
+        /// <summary>
+        /// Get System Variables
+        /// </summary>
+        FieldVariableResponse GetSystemVariables(FieldVariableRequestModel request);
+
+        /// <summary>
+        /// Add/Update Discount Voucher
+        /// </summary>
+        DiscountVoucher SaveDiscountVoucher(DiscountVoucher discountVoucher);
+
+        /// <summary>
+        /// Get Discount Voucher By Id
+        /// </summary>
+        DiscountVoucher GetDiscountVoucherById(long discountVoucherId);
+
+        string GetLiveStoresJason();
+        string GetCompanyCss(long companyId);
+        void UpdateCompanyCss(string sCustomCss, long oCompanyId);
+
         #region exportOrganisation
 
         bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);
@@ -131,9 +180,11 @@ namespace MPC.Interfaces.MISServices
         bool ImportOrganisation(long OrganisationId, string SubDomain, bool isCorpStore);
 
 
-        bool ImportStore(long OrganisationId, string StoreName,string SubDomain);
+        bool ImportStore(long OrganisationId, string StoreName, string SubDomain);
+
+        Company CloneStore(long companyId);
         #endregion
 
-       
+
     }
 }

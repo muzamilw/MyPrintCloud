@@ -1,28 +1,28 @@
 ﻿@model MPC.Models.DomainModels.Company
 @using MPC.Webstore.Common;
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 <div class="top_header">
-    <div class="container content_area">
+    <div class="container content_area" id="all-topHEader-pg">
         <div class="left_right_padding">
             <div class="padding_top_bottom_topheader">
-                <div class="company_logo col-md-3 col-lg-3 col-xs-3 col-sm-4 col-xs-12">
+                <div class="company_logo col-md-4 col-lg-4 col-xs-3 col-sm-4 col-xs-12">
                     <a href='@ViewBag.DefaultUrl'>
                         <img src="/@Model.Image" class="pink_company_top_logo LOgo_ImgeP" />
                     </a>
-                    <a id="lbl_PoweredBy" class="MLF" target="_blank" href="http://www.myprintcloud.com/">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlPoweredBy", UserCookieManager.WBStoreId))</a>
+                    @*<a id="lbl_PoweredBy" class="MLF" target="_blank" href="http://www.myprintcloud.com/"></a>*@
 
                 </div>
-                <div style="float: right; padding-left: 0px;" class="col-md-9 col-lg-9 col-xs-3 col-sm-8 col-xs-12 cntrightMenu">
+                <div style="float: right; padding-left: 0px; padding-right: 0px;" class="col-md-8 col-lg-8 col-xs-3 col-sm-8 col-xs-12 cntrightMenu">
 
                     <div id="divTopHeaderMenu" class="TopHeaderMenu float_left_simple">
                         @if (Model.IsCustomer != 3)
                         {
 
-                            <a id="lnkAllProducts" href="/AllProducts" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId))</a><a id="A1" class="piplineClr">&nbsp;|&nbsp;</a>
-                            <a id="lnkRequestQuote" href="/RequestQuote" style="cursor: pointer;" class="iconHover">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId))</a><a id="rfqPipeline" class="piplineClr">&nbsp;|&nbsp;</a>
-                            <a id="lnkContactUs" href="/ContactUs" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId))</a>
+                            <a id="lnkAllProducts" href="/AllProducts" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId, "All Products"))</a><a id="A1" class="piplineClr">&nbsp;|&nbsp;</a>
+                            <a id="lnkRequestQuote" href="/RequestQuote" style="cursor: pointer;" class="iconHover">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId, "Request A Quote"))</a><a id="rfqPipeline" class="piplineClr">&nbsp;|&nbsp;</a>
+                            <a id="lnkContactUs" href="/ContactUs" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId, "Contact Us"))</a>
                         }
 
 
@@ -50,40 +50,25 @@
                 </div>
                 <div class="clearBoth">
                 </div>
-@if (Model.IsCustomer != 3)
-{
-    <div id="collapsedMenu" style="display: none;" class="containerCollapsedMenu col-md-12 col-lg-12 col-xs-12 col-sm-12">
-        <ul id="ulCollapseMenu" style="">
-            <li>
-                <a id="lnk_AllProducts" href="/AllProducts">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId))</a>
-            </li>
-            <li>
-                <a id="lnk_RequestQuote" href="/RequestQuote" style="cursor: pointer;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId))</a>
-            </li>
-            <li>
-                <a id="lnk_ContactUs" href="/ContactUs">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId))</a>
+                @if (Model.IsCustomer != 3)
+                {
+                    <div id="collapsedMenu" style="display: none;" class="containerCollapsedMenu col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                        <ul id="ulCollapseMenu" style="">
+                            <li>
+                                <a id="lnk_AllProducts" href="/AllProducts">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId, "All Products"))</a>
+                            </li>
+                            <li>
+                                <a id="lnk_RequestQuote" href="/RequestQuote" style="cursor: pointer;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId, "Request A Quote"))</a>
+                            </li>
+                            <li>
+                                <a id="lnk_ContactUs" href="/ContactUs">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId, "Contact Us"))</a>
 
-            </li>
-        </ul>
-    </div>
-}
-               
+                            </li>
+                        </ul>
+                    </div>
+                }
+
             </div>
         </div>
     </div>
 </div>
-@section scripts {
-    <script>
-
-        function ToggleMenu() {
-            $("#collapsedMenu").slideToggle();
-
-        }
-
-        function ToggleProfile() {
-            $("#profileMenu").slideToggle();
-
-        }
-
-    </script>
-}

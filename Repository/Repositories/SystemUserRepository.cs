@@ -37,11 +37,12 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<SystemUser> GetAll()
         {
+            
             return DbSet.Where(systemUser => systemUser.OrganizationId == OrganisationId && systemUser.IsAccountDisabled == 0).ToList();
         }
-        public SystemUser GetSalesManagerById(long SytemUserId)
+        public SystemUser GetUserrById(System.Guid SytemUserId)
         {
-            return db.SystemUsers.FirstOrDefault();
+            return db.SystemUsers.Where(g => g.SystemUserId == SytemUserId).SingleOrDefault();
             //db.SystemUsers.Where(s => s.SystemUserId == SytemUserId).FirstOrDefault();
         }
         public bool Add(System.Guid Id, string Email, string FullName, int OrganizationId)
@@ -63,7 +64,7 @@ namespace MPC.Repository.Repositories
                 return false;
             }
         }
-        public bool Update(System.Guid Id, string Email, string FullName)
+        public bool Update(System.Guid Id, string Email, string FullName, int status, string EmailSignature, string EstimateHeadNotes, string EstimateFootNotes)
         {
             //System.Guid SystemId = Id;
 
@@ -71,6 +72,19 @@ namespace MPC.Repository.Repositories
             user.Email = Email;
             user.FullName = FullName;
             user.UserName = Email;
+            user.EmailSignature = EmailSignature;
+            user.EstimateHeadNotes = EstimateHeadNotes;
+            user.EstimateFootNotes = EstimateFootNotes;
+
+
+            if (status == 0)
+                user.IsAccountDisabled = 1;
+            else if ( status == 1)
+                user.IsAccountDisabled = 0;
+            else
+                user.IsAccountDisabled = 1;
+
+
                 if(db.SaveChanges()>0){
                     return true;
                 }else{
@@ -84,6 +98,7 @@ namespace MPC.Repository.Repositories
             return db.SystemUsers.Where(s => s.OrganizationId == OrganisationID).ToList();
             //db.SystemUsers.Where(s => s.SystemUserId == SytemUserId).FirstOrDefault();
         }
+       
         #endregion
     }
 }

@@ -29,12 +29,15 @@ namespace MPC.Models.ResponseModels
 
         public FieldVariableResponse FieldVariableResponse { get; set; }
         public SmartFormResponse SmartFormResponse { get; set; }
+        public DiscountVoucherListViewResponse DiscountVoucherListViewResponse { get; set; }
         public IEnumerable<SectionFlag> PriceFlags { get; set; }
         
         /// <summary>
         /// Organisation Id
         /// </summary>
         public long? OrganisationId { get; set; }
+
+        public string  Currency { get; set; }
 
         // public IEnumerable<Department> Departments { get; set; }
         // public IEnumerable<AccountManager> AccountManagers { get; set; }

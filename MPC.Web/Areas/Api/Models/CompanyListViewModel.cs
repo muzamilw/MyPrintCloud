@@ -16,6 +16,7 @@ namespace MPC.MIS.Areas.Api.Models
         public byte[] Image { get; set; }
         public string ImageBytes { get; set; }
         public string DefaultDomain { get; set; }
+        public bool? IsStoreLive { get; set; }
         /// <summary>
         /// Image Source
         /// </summary>

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
@@ -24,5 +25,27 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public string FakeId { get; set; }
         #endregion
+
+
+        /// <summary>
+        /// Makes a copy of Item
+        /// </summary>
+        public void Clone(MediaLibrary target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemClone_InvalidItem, "target");
+            }
+
+
+            target.FilePath = FilePath;
+            target.FileName = FileName;
+            target.FileType = FileType;
+
+
+
+           
+
+        }
     }
 }

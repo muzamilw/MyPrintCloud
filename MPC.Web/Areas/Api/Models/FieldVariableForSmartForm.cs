@@ -13,6 +13,8 @@
         public string DefaultValue { get; set; }
         public string VariableTitle { get; set; }
         public string WaterMark { get; set; }
+
+        public int? Scope { get; set; }
         public int? Type { get; set; }
     }
 }

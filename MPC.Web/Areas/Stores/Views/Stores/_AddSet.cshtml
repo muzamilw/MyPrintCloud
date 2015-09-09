@@ -15,20 +15,20 @@
                         <div class="form-group">
                             <div class="col-lg-3 text-right">
 
-                                <div class="bs-example-tooltips tooltip-float-width">
+                                @*<div class="bs-example-tooltips tooltip-float-width">
 
                                     <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                     </a>
 
-                                </div>
+                                </div>*@
 
 
                                 <label for="txtSetName" class="control-label text-right tooltip-float">Banner Set Name</label>
 
                             </div>
 
-                            <div class="col-lg-9">
+                            <div class="col-lg-6">
                                 <input type="text" class="form-control" id="txtSetName" value="" data-bind="value:setName, validationTooltip:setName">
                             </div>
 
@@ -39,9 +39,12 @@
                 </div>
             </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveBannerSet">Save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+            <div class="modal-footer" style="padding-left:0px;padding-right:0px;">
+                <hr style="margin-bottom:15px;" />
+                <div style="padding-right:8px;">
+                    <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveBannerSet">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+                </div>
 
             </div>
         </div>

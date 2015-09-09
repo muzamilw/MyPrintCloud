@@ -2480,7 +2480,7 @@ BEGIN
 
 END
 
-
+GO
 ------------------------------------------------------------------------
 
 /****** Object:  UserDefinedFunction [dbo].[fn_GetItemAttachmentsList]    Script Date: 4/16/2015 7:18:50 PM ******/
@@ -2539,7 +2539,7 @@ BEGIN
 
 END
 
-
+GO
 --------------------------------------------------------------------------------------
 
 
@@ -2884,7 +2884,8 @@ GO
 
 --------------------------------------------------------------- update report template
 
-update Report set ReportTemplate = '<?xml version="1.0" encoding="utf-8"?>
+update Report set ReportTemplate = 
+'<?xml version="1.0" encoding="utf-8"?>
 <ActiveReportsLayout Version="3.2" PrintWidth="11203.2" DocumentName="ARNet Document" ScriptLang="C#" MasterReport="0">
   <StyleSheet>
     <Style Name="Normal" Value="font-family: Arial; font-style: normal; text-decoration: none; font-weight: normal; font-size: 10pt; color: Black" />
@@ -2996,3 +2997,5039 @@ update Report set ReportTemplate = '<?xml version="1.0" encoding="utf-8"?>
 /* Execution Date: 22/04/2015 */
 
 update fieldVariable set VariableType = 45 where VariableType = 1 and IsSystem =1 
+
+
+
+/* Execution Date: 23/04/2015 */
+USE [MPCLive]
+GO
+
+/****** Object:  StoredProcedure [dbo].[sp_cloneTemplate]    Script Date: 23/04/2015 05:23:02 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+----------------------------------------- Alter Store Procedure sp_cloneTemplate ----------------------
+ALTER PROCEDURE [dbo].[sp_cloneTemplate] 
+	-- Add the parameters for the stored procedure here
+	@TemplateID bigint,
+	@submittedBy bigint,
+    @submittedByName nvarchar(100)
+AS
+BEGIN
+
+
+      
+	declare @NewTemplateID bigint
+	declare @NewCode nvarchar(10)
+	--DECLARE  @WaterMarkTxt as [dbo].[tbl_company_sites]
+	
+	set @NewCode = ''
+	
+	--INSERT INTO @WaterMarkTxt (CompanySiteName)
+	--Select Top 1 CompanySiteName from tbl_company_sites
+
+	
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+	
+	INSERT INTO [dbo].[Template]
+           ([Code]
+           ,[ProductName]
+           ,[Description]
+           ,[ProductCategoryId]
+           ,[Thumbnail]
+           ,[Image]
+           ,[IsDisabled]
+
+           ,[PDFTemplateWidth]
+           ,[PDFTemplateHeight]
+
+           ,[CuttingMargin]
+           ,[MultiPageCount]
+           ,[Orientation]
+           ,[MatchingSetTheme]
+           ,[BaseColorId]
+           ,[SubmittedBy]
+           ,[SubmittedByName]
+           ,[SubmitDate]
+           ,[Status]
+           ,[ApprovedBy]
+           ,[ApprovedByName]
+           ,[UserRating]
+           ,[UsedCount]
+           ,[MPCRating]
+           ,[RejectionReason]
+           ,[ApprovalDate]
+           ,[IsCorporateEditable]
+           ,[MatchingSetId]
+           ,[TempString],[TemplateType],[isSpotTemplate],[isWatermarkText],[isCreatedManual]
+          )
+     
+
+
+
+   
+	SELECT 
+      @NewCode
+      ,[ProductName] + ' Copy'
+      ,[Description]
+      ,[ProductCategoryID]
+      
+      ,[Thumbnail]
+      ,[Image]
+      ,[IsDisabled]
+
+      ,[PDFTemplateWidth]
+      ,[PDFTemplateHeight]
+
+
+      ,[CuttingMargin]
+      ,[MultiPageCount]
+      ,[Orientation]
+      ,[MatchingSetTheme]
+      ,[BaseColorId]
+      ,@submittedBy
+      ,@submittedByName
+      ,NULL
+      ,1
+      ,NULL
+      ,NULL
+      ,0
+      ,0
+      ,0
+      ,''
+      ,NULL,IsCorporateEditable,MatchingSetId,'',[TemplateType],isSpotTemplate,isWatermarkText,isCreatedManual
+      
+  FROM [dbo].[Template] where productid = @TemplateID
+	
+	
+	set @NewTemplateID = SCOPE_IDENTITY() 
+	
+	-- updating water mark text 
+	UPDATE [dbo].[Template]
+	SET TempString= (Select Top 1 OrganisationName from organisation)
+	WHERE productid = @NewTemplateID
+	
+	--copying the pages
+	INSERT INTO [dbo].[TemplatePage]
+           ([ProductId]
+           ,[PageNo]
+           ,[PageType]
+           ,[Orientation]
+           ,[BackGroundType]
+           ,[BackgroundFileName]
+      ,[ColorC]
+      ,[ColorM]
+      ,[ColorY]
+      ,[ColorK]
+      ,[IsPrintable]
+           ,[PageName],[hasOverlayObjects],[Width],[Height])
+
+SELECT 
+      @NewTemplateID
+      ,[PageNo]
+      ,[PageType]
+      ,[Orientation]
+      ,[BackGroundType]
+      ,[BackgroundFileName]
+      ,[ColorC]
+      ,[ColorM]
+      ,[ColorY]
+      ,[ColorK]
+      ,[IsPrintable]
+      
+      ,[PageName],[hasOverlayObjects],[Width],[Height]
+  FROM [dbo].[TemplatePage]
+where productid = @TemplateID
+
+
+	--copying the objects
+	INSERT INTO [dbo].[TemplateObject]
+           ([ObjectType]
+           ,[Name]
+           ,[IsEditable]
+           ,[IsHidden]
+           ,[IsMandatory]
+           
+           ,[PositionX]
+           ,[PositionY]
+           ,[MaxHeight]
+           ,[MaxWidth]
+           ,[MaxCharacters]
+           ,[RotationAngle]
+           ,[IsFontCustom]
+           ,[IsFontNamePrivate]
+           ,[FontName]
+           ,[FontSize]
+           ,[IsBold]
+           ,[IsItalic]
+           ,[Allignment]
+           ,[VAllignment]
+           ,[Indent]
+           ,[IsUnderlinedText]
+           ,[ColorType]
+ 
+           ,[ColorName]
+           ,[ColorC]
+           ,[ColorM]
+           ,[ColorY]
+           ,[ColorK]
+           ,[Tint]
+           ,[IsSpotColor]
+           ,[SpotColorName]
+           ,[ContentString]
+           ,[ContentCaseType]
+           ,[ProductID]
+           ,[DisplayOrderPdf]
+           ,[DisplayOrderTxtControl]
+           ,[RColor]
+           ,[GColor]
+           ,[BColor]
+           ,[LineSpacing]
+           ,[ProductPageId]
+           ,[ParentId]
+           ,CircleRadiusX
+           ,Opacity
+           ,[ExField1],
+           [IsTextEditable],
+           [IsPositionLocked],
+           [CircleRadiusY]
+          ,[ExField2],
+           ColorHex
+           ,[IsQuickText]
+           ,[QuickTextOrder],
+		   [watermarkText],
+		   [textStyles],[charspacing],[AutoShrinkText],
+		   [IsOverlayObject],[ClippedInfo],[originalContentString],[originalTextStyles]
+           )
+	SELECT 
+      O.[ObjectType]
+      ,O.[Name]
+      ,O.[IsEditable]
+      ,O.[IsHidden]
+      ,O.[IsMandatory]
+      
+      ,O.[PositionX]
+      ,O.[PositionY]
+      ,O.[MaxHeight]
+      ,O.[MaxWidth]
+      ,O.[MaxCharacters]
+      ,O.[RotationAngle]
+      ,O.[IsFontCustom]
+      ,O.[IsFontNamePrivate]
+      ,O.[FontName]
+      ,O.[FontSize]
+      ,O.[IsBold]
+      ,O.[IsItalic]
+      ,O.[Allignment]
+      ,O.[VAllignment]
+      ,O.[Indent]
+      ,O.[IsUnderlinedText]
+      ,O.[ColorType]
+      ,O.[ColorName]
+      ,O.[ColorC]
+      ,O.[ColorM]
+      ,O.[ColorY]
+      ,O.[ColorK]
+      ,O.[Tint]
+      ,O.[IsSpotColor]
+      ,O.[SpotColorName]
+      ,O.[ContentString]
+      ,O.[ContentCaseType]
+      ,@NewTemplateID
+      ,O.[DisplayOrderPdf]
+      ,O.[DisplayOrderTxtControl]
+      ,O.[RColor]
+      ,O.[GColor]
+      ,O.[BColor]
+      ,O.[LineSpacing]
+      ,NP.[ProductPageId]
+      ,O.[ParentId]
+      ,O.CircleRadiusX
+      ,O.Opacity
+      ,O.[ExField1],
+       O.[IsTextEditable],
+       O.[IsPositionLocked],
+       O.[CircleRadiusY]
+      ,O.[ExField2],
+       O.ColorHex
+       ,[IsQuickText]
+        ,[QuickTextOrder],[watermarkText],O.[textStyles],
+		O.[charspacing],O.[AutoShrinkText],O.[IsOverlayObject]
+		,O.[ClippedInfo]
+		,O.[originalContentString],O.[originalTextStyles]
+  FROM [dbo].[TemplateObject] O
+  inner join [dbo].[TemplatePage]  P on o.ProductPageId = p.ProductPageId and o.ProductId = @TemplateID
+  inner join [dbo].[TemplatePage] NP on P.PageName = NP.PageName and P.PageNo = NP.PageNo and NP.ProductId = @NewTemplateID
+  
+	--theme tags
+	--insert into dbo.TemplateThemeTags   ([TagID],[ProductID])
+	--select [TagID] ,@NewTemplateID from dbo.TemplateThemeTags where ProductID = @TemplateID
+	
+	---- industry tags
+	--insert into dbo.TemplateIndustryTags   ([TagID],[ProductID])
+	--select [TagID] ,@NewTemplateID from dbo.TemplateIndustryTags where ProductID = @TemplateID
+
+	INSERT INTO [dbo].[TemplateBackgroundImage]
+			   ([ProductId]
+			   ,[ImageName]
+			   ,[Name]
+			   ,[flgPhotobook]
+			   ,[flgCover]
+			   ,[BackgroundImageAbsolutePath]
+			   ,[BackgroundImageRelativePath],
+			   ImageType,
+			   ImageWidth,
+			   ImageHeight
+			   
+			   )
+	SELECT 
+		  @NewTemplateID
+		  ,[ImageName]
+		  ,[Name]
+		  ,[flgPhotobook]
+		  ,[flgCover]
+		  ,[BackgroundImageAbsolutePath]
+		  ,[BackgroundImageRelativePath]
+		  ,ImageType,
+			   ImageWidth,
+			   ImageHeight
+	  FROM [dbo].[TemplateBackgroundImage] where ProductId = @TemplateID
+
+
+
+
+select @NewTemplateID
+	
+END
+
+
+
+
+
+
+GO
+
+
+/* Execution Date : 24/04/2015 */
+
+GO
+
+alter table ShippingInformation
+add EstimateId bigint null
+
+alter table ShippingInformation
+add constraint FK_ShippingInformation_Estimate
+foreign key (EstimateId)
+references Estimate (EstimateId)
+
+GO
+
+/* Execution Date: 29/04/2105 */
+
+GO
+
+alter table ReportNote
+add CompanyId bigint null
+
+update purchase
+set createdby = null
+
+alter table purchase
+drop constraint DF__tbl_purch__Creat__7E22B05D
+
+alter table Purchase
+alter Column CreatedBy nvarchar null
+
+alter table Purchase
+alter Column CreatedBy uniqueidentifier null
+
+GO
+/****** Object:  StoredProcedure [dbo].[usp_EstimateReport]    Script Date: 4/29/2015 2:10:24 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE procedure [dbo].[usp_EstimateReport]
+ @OrganisationId bigint,
+ @EstimateID bigint
+AS
+Begin
+
+SELECT  i.ItemID,i.Title, i.Qty1 as Qty1, i.Qty2 as Qty2, i.Qty3 as Qty3, i.Qty1NetTotal as Qty1NetTotal,Company.OrganisationId,
+  
+    i.Qty2NetTotal as Qty2NetTotal, i.Qty3NetTotal as Qty3NetTotal, 
+                      i.JobDescription, i.JobDescription1 as JobDescription1,		 
+                      i.JobDescription2 as JobDescription2 ,i.JobDescription3 as JobDescription3,i.JobDescription4  as JobDescription4,
+                      i.JobDescription5 as JobDescription5 ,i.JobDescription6 as JobDescription6 ,i.JobDescription7 as JobDescription7,
+                       CASE 
+						  WHEN i.JobDescription1 is null then null
+						  WHEN i.JobDescription1 is not null THEN  i.JobDescriptionTitle1
+				       END As JobDescriptionTitle1,
+				        CASE 
+						  WHEN i.JobDescription2 is null THEN Null
+						  WHEN i.JobDescription2 is not null THEN  i.JobDescriptionTitle2
+				       END As JobDescriptionTitle2,
+				        CASE 
+						  WHEN i.JobDescription3 is null THEN Null
+						  WHEN i.JobDescription3 is not null THEN  i.JobDescriptionTitle3
+				       END As JobDescriptionTitle3,
+				        CASE 
+						  WHEN i.JobDescription4 is null THEN Null
+						  WHEN i.JobDescription4 is not null THEN  i.JobDescriptionTitle4
+				       END As JobDescriptionTitle4,
+				        CASE 
+						  WHEN i.JobDescription5 is null THEN Null
+						  WHEN i.JobDescription5 is not null THEN  i.JobDescriptionTitle5
+				       END As JobDescriptionTitle5,
+				        CASE 
+						  WHEN i.JobDescription6 is null THEN Null
+						  WHEN i.JobDescription6 is not null THEN  i.JobDescriptionTitle6
+				       END As JobDescriptionTitle6,
+				        CASE 
+						  WHEN i.JobDescription7 is null THEN Null
+						  WHEN i.JobDescription7 is not null THEN  i.JobDescriptionTitle7
+				       END As JobDescriptionTitle7,
+							
+                       dbo.Estimate.Estimate_Name, dbo.Estimate.Estimate_Code, dbo.Estimate.Estimate_Total, dbo.Estimate.FootNotes, 
+                      dbo.Estimate.HeadNotes, dbo.Estimate.EstimateDate, dbo.Estimate.Greeting, dbo.Estimate.CustomerPO, dbo.Address.AddressName, 
+                      dbo.Address.Address1, dbo.Address.Address2, dbo.Address.Address3, dbo.Address.Email, dbo.Address.Fax, st.StateName, 
+                      ct.CountryName, dbo.Address.URL, dbo.Address.Tel1, dbo.Company.AccountNumber, 
+                      dbo.Company.Name AS CustomerName, dbo.Company.URL AS CustomerURL, dbo.Estimate.EstimateID, i.ProductName, 
+                      
+                       isnull((select top 1 CategoryName from ProductCategory where ProductCategoryID = pcat.ProductCategoryID),'')+ SPACE(1) + i.ProductName as FullProductName,
+                       
+                      dbo.CompanyContact.FirstName + ISNULL(' ' + dbo.CompanyContact.MiddleName, '') + ISNULL(' ' + dbo.CompanyContact.LastName, '') AS ContactName, 
+                      dbo.SystemUser.FullName,(select top 1 ReportBanner from ReportNote where ReportCategoryID=3 and isdefault = 1) as BannerPath,
+                      (select top 1 ReportTitle from ReportNote where ReportCategoryID=3 and isdefault = 1) as ReportTitle,
+                      (select top 1 ISNULL(BannerAbsolutePath,'') + isnull(ReportBanner,'')  from ReportNote where ReportCategoryID=3 and isdefault = 1) as ReportBanner,
+                      dbo.Address.PostCode,
+                       CASE 
+						  WHEN i.Qty1NetTotal is null or i.Qty1NetTotal = '' then null
+						  WHEN i.Qty1NetTotal is not null THEN  (select top 1 currencysymbol from currency c inner join organisation o on o.CurrencyId = c.CurrencyId and o.OrganisationId = @OrganisationID)
+				        
+				       END As CurrencySymbol,
+				        CASE 
+						  WHEN i.Qty2NetTotal is null or i.Qty2NetTotal = '' then null
+						  WHEN i.Qty2NetTotal is not null THEN  (select top 1 currencysymbol from currency c inner join organisation o on o.CurrencyId = c.CurrencyId and o.OrganisationId = @OrganisationID)
+				       
+				       END As CurrencySymbol2,
+				        CASE 
+						  WHEN i.Qty3NetTotal is null or i.Qty3NetTotal = '' then null
+						  WHEN i.Qty3NetTotal is not null THEN  (select top 1 currencysymbol from currency c inner join organisation o on o.CurrencyId = c.CurrencyId and o.OrganisationId = @OrganisationID)
+						 
+				       END As CurrencySymbol3
+                                
+                      
+FROM         dbo.Company INNER JOIN
+                      dbo.Estimate ON dbo.Company.CompanyId = dbo.Estimate.CompanyId INNER JOIN
+                      dbo.CompanyContact ON dbo.CompanyContact.ContactID = dbo.Estimate.ContactID INNER JOIN
+                      dbo.Items i ON dbo.Estimate.EstimateID = i.EstimateID INNER JOIN
+                      dbo.SystemUser ON dbo.Estimate.ReportSignedBy = dbo.SystemUser.SystemUserID INNER JOIN
+                      dbo.Address ON dbo.Estimate.BillingAddressID = dbo.Address.AddressID
+					  inner join dbo.ProductCategoryItem pc2 on i.ItemId = pc2.ItemId
+					 inner join dbo.ProductCategory pcat on pc2.CategoryId = pcat.ProductCategoryId
+					 inner join dbo.State st on Address.StateId = st.StateId
+					 inner join dbo.Country ct on Address.CountryId = ct.CountryID 
+
+					 where Estimate.estimateid = @EstimateID and Company.OrganisationId = @OrganisationId
+
+End
+
+GO
+/****** Object:  StoredProcedure [dbo].[usp_PurchaseOrderReport]    Script Date: 4/29/2015 2:12:25 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE procedure [dbo].[usp_PurchaseOrderReport]
+ @OrganisationId bigint,
+ @PurchaseID bigint
+AS
+Begin
+
+select Purchase.PurchaseID,Purchase.Code, Purchase.date_Purchase, Purchase.SupplierID,
+			Purchase.TotalPrice, Purchase.UserID,Purchase.RefNo, Purchase.ContactID, 
+			Purchase.isproduct, Purchase.TotalTax, Purchase.Discount, Purchase.discountType, 
+			Purchase.NetTotal, PurchaseDetail.ItemID, PurchaseDetail.quantity, 
+			PurchaseDetail.price AS DetailPrice, PurchaseDetail.packqty,                         
+			PurchaseDetail.ItemCode , PurchaseDetail.ItemName,
+			(PurchaseDetail.TotalPrice + PurchaseDetail.NetTax) as PriceIncTax,
+			Purchase.TotalTax as TaxSum, Purchase.GrandTotal as GrandTotal,
+			(select '<font size=2px face="arial"><b>' + isnull(ProductCode,'N/A') + '</b> <br> <i>' + isnull(ProductName,'N/A') + '</i> <br>' + isnull(WebDescription,'N/A') + '</font>' from Items where itemid = PurchaseDetail.ItemId) as ProductDetail, 
+
+			--(select ProductCode from tbl_items where itemid = tbl_purchasedetail.ItemId) as ProductCode,
+			--(select ProductName from tbl_items where itemid = tbl_purchasedetail.ItemId) as ProductName,
+			--(select WebDescription from tbl_items where itemid = tbl_purchasedetail.ItemId) as ProductDescription, 
+           PurchaseDetail.TotalPrice AS DetailTotalPrice, 
+			(select ReportTitle from ReportNote where ReportCategoryID=5 and isdefault = 1) as ReportTitle,
+			(select ISNULL(BannerAbsolutePath,'') + isnull(ReportBanner,'')  from ReportNote where ReportCategoryID=5 and isdefault = 1) as ReportBanner,                        
+			PurchaseDetail.Discount AS DetailDiscount, PurchaseDetail.NetTax AS DetailNetTax,
+			PurchaseDetail.freeitems, Purchase.Comments, Purchase.FootNote, Purchase.UserNotes,
+			Purchase.Status, Purchase.CreatedBy, Company.Name,                        
+			(select HeadNotes from ReportNote where ReportCategoryID = 5 and isdefault = 1) as HeadNotes,
+			Address.Address1, Address.Address2,
+			Address.City, Address.PostCode, Country.CountryName, State.StateName,
+			(isnull(Address.City, '') + space(1) + isnull(State.StateName, '') + ' ' + isnull(Address.PostCode, '') + space(1) + isnull(Country.CountryName, '')) As FullAddress,
+			CompanyContact.FirstName AS SuppContactFirstName, CompanyContact.MiddleName AS SuppContactMiddleName,  
+			CompanyContact.LastName AS SuppContactLastName,SystemUser.FullName,
+			(CompanyContact.FirstName + space(1) + isnull(CompanyContact.LastName, '')) As SupplierContactFullName, 
+			(select top 1 currencysymbol from currency c inner join organisation o on o.CurrencyId = c.CurrencyId and o.OrganisationId = @OrganisationID) as CurrencySymbol
+			,est.FinishDeliveryDate as FinishDeliveryDate, est.AddressName as dAddressName, est.address1 as DAddress1
+			,est.address2 As DAddress2
+			,est.city As DCity
+			,est.stateName As DState
+			,est.PostCode As DPostCode
+			,est.CountryName As DCountry
+			,est.UserNotes As EstimateUserNotes
+			,est.Order_Code As OrderCode
+			,est.CompanyName, est.ContactFullName
+     FROM  
+			purchase 
+			INNER JOIN   purchasedetail ON purchase.PurchaseID = purchasedetail.PurchaseID
+			INNER JOIN Company ON purchase.SupplierID = Company.CompanyId and Company.iscustomer = 2
+			INNER JOIN  CompanyContact ON purchase.ContactID = CompanyContact.ContactID
+			INNER JOIN Address ON purchase.SupplierContactAddressID = Address.AddressID  
+			inner join state on address.StateId = State.StateId
+			inner join Country on address.CountryId = Country.CountryId
+			inner join SystemUser on purchase.createdby = SystemUser.SystemUserID
+			
+			left join (select e.UserNotes, e.Order_Code, e.FinishDeliveryDate, i.ItemID, a.AddressID, a.AddressName, a.address1, a.address2, a.city, State.StateName, a.postcode, Country.CountryName
+			,(c.FirstName + space(1) + isnull(c.LastName, '')) As ContactFullName, cc.Name as CompanyName
+			from Estimate e 
+			inner join items i on i.EstimateID = e.EstimateID and e.isEstimate = 0
+			inner join address a on a.AddressID = e.AddressID
+			inner join state on a.StateId = State.StateId
+			inner join Country on a.CountryId = Country.CountryId
+			inner join companycontact c on c.ContactID = e.ContactID
+			inner join Company cc on cc.companyid = e.companyid
+			)as est on est.ItemID = PurchaseDetail.ItemId where company.OrganisationId = @OrganisationId and Purchase.PurchaseId = @PurchaseID
+
+end
+
+GO
+/****** Object:  StoredProcedure [dbo].[usp_InvoiceReport]    Script Date: 4/29/2015 2:14:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+---------------------------------------------------- invoice -------------------------------
+
+
+CREATE procedure [dbo].[usp_InvoiceReport]
+ @Organisationid bigint,
+ @InvoiceId bigint
+AS
+Begin
+
+SELECT     dbo.Invoice.InvoiceID, dbo.Invoice.InvoiceCode, dbo.Invoice.OrderNo, dbo.Invoice.InvoiceTotal, dbo.Invoice.InvoiceDate, 
+                      dbo.Invoice.AccountNumber, dbo.Invoice.HeadNotes, dbo.Invoice.FootNotes, dbo.Invoice.TaxValue, dbo.Company.Name, dbo.Address.AddressName, dbo.Address.Address1, 
+                      dbo.Address.Address2, dbo.Address.Address3, dbo.Address.City, dbo.State.StateName, dbo.Country.CountryName, dbo.Address.Email,  isnull(dbo.State.StateName, '') + ' ' + isnull(dbo.Address.PostCode, '') As StatePostCode,
+                      dbo.Address.URL,Address.PostCode, dbo.invoicedetail.Quantity, dbo.invoicedetail.ItemTaxValue, dbo.items.InvoiceDescription, dbo.items.Qty1BaseCharge1, 
+                      dbo.Items.Qty1Tax1Value, (dbo.Items.Qty1BaseCharge1 +  dbo.Items.Qty1Tax1Value) as TotalPrice , dbo.Invoice.GrandTotal, dbo.items.ProductName,
+                       (select ReportBanner from ReportNote where ReportCategoryID=13) as BannerPath,
+                      (select ISNULL(BannerAbsolutePath,'') + isnull(ReportBanner,'')  from ReportNote where ReportCategoryID=13) as ReportBanner,
+                       (select Top 1 FootNotes  from ReportNote where ReportCategoryID=13 and isdefault = 1) as ReportFootNotes,
+                      dbo.Company.TaxLabel As TaxLabel, (select top 1 currencysymbol from currency c inner join organisation o on o.CurrencyId = c.CurrencyId and o.OrganisationId = @OrganisationID) as CurrencySymbol,
+					  isnull((select isnull(order_code,'') from Estimate where estimateid = Invoice.estimateid),'') as OrderCode,	
+					  isnull((select isnull(Estimate_Code,'') from Estimate where estimateid = Invoice.estimateid),'') as Estimate_Code,	
+				( select FinishDeliveryDate from Estimate where estimateid = invoice.estimateid) as FinishDeliveryDate,
+					 ISNULL((select AddressName from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddressName,
+                    ISNULL((select address1 from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddress1,
+					ISNULL((select address2 from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BAddress2,
+					ISNULL((select city from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BCity,
+					ISNULL(State.StateName,'N/A') as BState,
+					ISNULL((select PostCode from address where addressid in (select BillingAddressID from estimate where estimateid = invoice.estimateid)),'N/A') as BPostCode,
+					ISNULL(Country.CountryName,'N/A') as BCountry,
+					case when (select Estimate_Code from estimate where estimateid = invoice.estimateid) is not null then 'Estimate Code:'
+					     when (select Estimate_Code from estimate where estimateid = invoice.estimateid) is null then ''
+					     end as EstimateCodeLabel,
+					case when (select Order_Code from estimate where estimateid = invoice.estimateid) is not null then 'Order Code:'
+					     when (select Order_Code from estimate where estimateid = invoice.estimateid) is null then ''
+					     end as OrderCodeLabel
+					
+FROM         dbo.InvoiceDetail INNER JOIN
+                      dbo.invoice ON dbo.invoicedetail.InvoiceID = dbo.invoice.InvoiceID INNER JOIN
+                      dbo.company ON dbo.invoice.CompanyId = dbo.company.CompanyId INNER JOIN
+                      dbo.address ON dbo.invoice.AddressID = dbo.address.AddressID INNER JOIN
+                      dbo.items ON dbo.invoicedetail.ItemID = dbo.items.ItemID
+                      inner join dbo.state on Address.StateId = dbo.State.StateId
+					  inner join dbo.Country on Address.CountryId = dbo.Country.CountryID
+
+					  where Company.OrganisationId = @Organisationid and dbo.Invoice.InvoiceId = @InvoiceId
+
+end
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[usp_DeliveryReport]    Script Date: 4/29/2015 2:16:12 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+Create procedure [dbo].[usp_DeliveryReport]
+ @OrganisationID bigint,
+ @DeliveryID bigint
+AS
+Begin
+
+select	  cc.Name As CompanyName,
+
+		  sup.Name As SupplierName,cc.OrganisationId,
+
+		  ISNULL(c.FirstName, '') + ' ' + ISNULL(c.LastName, '') As CotactFullName, 
+
+		  ad.AddressName, ad.Address1,ad.City,st.StateName as StateName, ad.PostCode,ad.Tel1,ct.CountryName as CountryName,
+
+		 dd.Description, dd.ItemQty, dd.GrossItemTotal, 
+
+          dn.Code,dn.DeliveryDate,dn.OrderReff,dn.CustomerOrderReff,dn.CsNo,dn.DeliveryNoteID,
+
+          CASE 
+
+			  WHEN dn.IsStatus = 1 THEN 'Un Delivered'
+
+			  WHEN dn.IsStatus = 2 THEN 'Delivered' 
+
+		 END As DeliveryStatus,
+
+		 (select top 1 ISNULL(BannerAbsolutePath,'') + isnull(ReportBanner,'')  from ReportNote where ReportCategoryID=6) as ReportBanner
+
+		
+
+from	deliverynote dn
+
+	    left join company cc on cc.companyID = dn.ContactCompanyId
+
+		left join company sup on sup.CompanyId = dn.SupplierId
+
+		left join CompanyContact c on c.contactID = dn.ContactId
+
+		left join address ad on ad.AddressID = dn.AddressID
+
+		inner join state st on ad.StateId = st.StateId
+
+		inner join country ct on ad.CountryId = ct.CountryID
+
+		left join deliverynotedetail dd on dd.DeliveryNoteID = dn.DeliveryNoteID
+
+		where cc.OrganisationId = @OrganisationID and dn.DeliveryNoteId = @DeliveryID
+
+
+end
+
+
+GO
+
+/* Execution Date: 30/04/2015 */
+
+GO
+
+update shippingInformation
+set itemid = null
+
+alter table shippingInformation
+drop constraint DF__tbl_shipp__ItemI__1D66518C
+
+alter table shippingInformation
+alter column itemid bigint null
+
+alter table shippinginformation
+add constraint FK_ShippingInformation_Items
+foreign key (ItemId)
+references Items (ItemId)
+
+update shippingInformation
+set addressId = null
+
+alter table shippingInformation
+drop constraint DF__tbl_shipp__Addre__1E5A75C5
+
+alter table shippingInformation
+alter column addressid bigint null
+
+alter table shippinginformation
+add constraint FK_ShippingInformation_Address
+foreign key (AddressId)
+references Address (AddressId)
+
+GO
+
+
+alter table Reportnote
+add CompanyId bigint null
+
+GO
+
+/* Execution Date: 04/05/2015 */
+ALTER TABLE TemplateObject
+ADD hasInlineFontStyle bit null
+
+GO
+drop table StockItemHistory
+GO
+
+EXEC sp_rename 'ItemStockUpdateHistory', 'StockItemHistory'
+
+GO
+
+/* Execution Date: 08/05/2015 */
+
+GO
+
+alter table costcentre
+alter Column isDisabled bit not null
+
+GO
+
+/*  Execution Date: 08/05/2015  update costcenter types */
+
+SET identity_insert CostCentreType ON
+
+insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (2, 'Pre Press', 0,1,null)
+insert into CostCentreType ( TypeId, TypeName, IsSystem, IsExternal, OrganisationId ) Values (3, 'Post Press', 0,1,null)
+
+SET identity_insert CostCentreType OFF
+
+Update CostCentre set Type = 2
+
+delete CostCentreType
+  where TypeId not in (1,2,3,11,29)
+
+/* Execution Date:  11/05/2105 */
+
+alter table SectionInkCoverage
+drop constraint FK_SectionInkCoverage_ItemSection
+
+alter table SectionInkCoverage
+add constraint FK_SectionInkCoverage_ItemSection
+foreign key (SectionId)
+references ItemSection (ItemSectionId)
+on delete cascade
+
+alter table SectionCostcentre
+drop constraint FK_tbl_section_costcentres_tbl_item_sections
+
+alter table SectionCostcentre
+add constraint FK_SectionCostcentre_ItemSection
+foreign key (ItemSectionId)
+references ItemSection (ItemSectionId)
+on delete cascade
+
+alter table SectionCostCentreDetail
+drop constraint FK_tbl_section_costcentre_detail_tbl_section_costcentres
+
+alter table SectionCostCentreDetail
+add constraint FK_SectionCostCentreDetail_SectionCostcentre
+foreign key (SectionCostCentreId)
+references SectionCostcentre (SectionCostCentreId)
+on delete cascade
+
+/* Execution Date: 13/05/2015 */
+
+exec sp_rename 'DeliveryNote.ContactCompanyId', 'CompanyId'
+
+alter table DeliveryNote
+alter Column CompanyId bigint null
+
+update deliveryNote
+set companyId = null
+where companyid not in (select companyid from company)
+
+alter table DeliveryNote
+add constraint FK_DeliveryNote_Company
+foreign key (CompanyId)
+references Company (CompanyId)
+
+alter table DeliveryNote
+drop constraint DF__tbl_deliv__Raise__5D95E53A
+
+alter table DeliveryNote
+alter Column RaisedBy nvarchar(max) null
+
+update deliveryNote
+set RaisedBy = null
+
+alter table DeliveryNote
+alter Column RaisedBy uniqueidentifier null
+
+exec sp_rename 'Inquiry.ContactCompanyId', 'CompanyId'
+
+alter table Inquiry
+alter Column CompanyId bigint null
+
+alter table Inquiry
+add constraint FK_Inquiry_Company
+foreign key (CompanyId)
+references Company (CompanyId)
+
+alter table Inquiry
+drop Column BrokerContactCompanyId
+/*Executed on Staging on 2015 05 13*/
+
+/* Execution Date: 14/05/2015 */
+
+alter table Estimate
+alter Column allowJobWoCreditCheckSetBy nvarchar(max) null
+
+update Estimate
+set creditLimitSetBy = null, allowJobWoCreditCheckSetBy = null
+
+alter table Estimate
+alter Column creditLimitSetBy uniqueidentifier null
+
+alter table Estimate
+alter Column allowJobWoCreditCheckSetBy uniqueidentifier null
+/*Executed on Staging on 2015 05 14*/
+
+/* Execution Date: 19/05/2015 */
+
+alter table inquiry
+alter column SystemUserId nvarchar(max) null
+
+update inquiry
+set systemUserid = null
+
+alter table inquiry
+alter column SystemUserId uniqueidentifier null
+
+alter table inquiry
+alter column CreatedBy nvarchar(max) null
+
+update inquiry
+set createdBy = null
+
+alter table inquiry
+alter column CreatedBy uniqueidentifier null
+
+alter table itemSection
+add PressIdSide2 bigint null
+
+alter table itemSection
+add Side1LookUp bigint null
+
+alter table itemSection
+add Side2LookUp bigint null
+
+alter table itemSection
+add PassesSide1 bigint null
+
+alter table itemSection
+add PassesSide2 bigint null
+
+alter table inquiry
+alter column SourceId nvarchar(max) null
+
+alter table inquiry
+alter column SourceId int null
+
+alter table invoiceDetail
+add TaxValue float null
+
+--Executed on Staging, Preview, Australia and Europe Servers-----on 2015 05 19---
+/* Execution Date: 20/05/2015 */
+
+alter table activity
+drop constraint DF_tbl_activity_CreatedBy
+
+alter table activity
+alter column createdby nvarchar(max) null
+
+update activity
+set createdby = null
+
+alter table activity
+alter column createdby uniqueidentifier null
+
+alter table invoicedetail
+add ItemGrossTotal float null
+
+/* Execution Date: 21/05/2015 */
+
+alter table ItemSection 
+alter column PassesSide1 int null
+
+alter table ItemSection 
+alter column PassesSide2 int null
+--Executed on Staging------
+--Executed on Preview, Aus, Eu servers on 2015 05 26------
+/* Execution Date: 22/05/2015 */
+
+alter table itemsection
+alter column Side1LookUp int null
+
+alter table itemsection
+alter column Side2LookUp int null
+
+exec sp_rename 'ItemSection.Side1LookUp', 'ImpressionCoverageSide1'
+
+exec sp_rename 'ItemSection.Side2LookUp', 'ImpressionCoverageSide2'
+
+/* Execution Date: 25/05/2105 */
+
+alter table Machine
+add SetupSpoilage int null
+
+alter table Machine
+add RunningSpoilage float null
+
+alter table Machine
+add CoverageHigh float null
+
+alter table Machine
+add CoverageMedium float null
+
+alter table Machine
+add CoverageLow float null
+
+alter table Machine
+add constraint FK_Machine_LookupMethod
+foreign key (LookupMethodId)
+references LookupMethod (MethodId)
+
+alter table ProductMarketBriefQuestion
+alter column ItemId bigint null
+
+update ProductMarketBriefQuestion
+set ItemId = null
+
+alter table ProductMarketBriefQuestion
+add constraint FK_ProductMarketBriefQuestion_Item
+foreign key (ItemId)
+references Items (ItemId)
+
+/* Execution Date: 26/05/2015 */
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[ImpositionProfile](
+ [ImpositionId] [bigint] IDENTITY(1,1) NOT NULL,
+ [Title] [nvarchar](200) NULL,
+ [SheetSizeId] [bigint] NULL,
+ [SheetHeight] [float] NULL,
+ [SheetWidth] [float] NULL,
+ [ItemSizeId] [bigint] NULL,
+ [ItemHeight] [float] NULL,
+ [ItemWidth] [float] NULL,
+ [Area] [float] NULL,
+ [PTV] [int] NULL,
+ [Region] [varchar](50) NULL,
+ [OrganisationId] [bigint] NULL,
+ CONSTRAINT [PK_ImpositionProfile] PRIMARY KEY CLUSTERED 
+(
+ [ImpositionId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
+
+alter table machine add isSheetFed bit null
+alter table machine add Passes int null
+alter table impositionProfile add isPortrait bit null
+----Executed on Staging on 26/05/2015---------
+
+/* Execution Date: 27/05/2015 */
+
+alter table productmarketbriefanswer
+drop constraint FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions
+
+alter table productmarketbriefanswer
+add constraint FK_ProductMarketBriefAnswer_ProductMarketBriefQuestion
+foreign key (MarketBriefQuestionId)
+references ProductMarketBriefQuestion (MarketBriefQuestionId)
+on delete cascade
+
+
+
+ update fieldVariable set Scope = 7 where RefTableName = 'Company'  
+
+  update fieldVariable set Scope = 8 where RefTableName = 'CompanyContact'  
+
+
+  update fieldVariable set Scope = 9 where RefTableName = 'addresses' 
+
+
+  update fieldVariable set Scope = 9 where RefTableName = 'address' 
+
+
+
+  update fieldVariable set Scope = 7 where RefTableName = 'tbl_section_flags' 
+
+
+  update fieldVariable set Scope = 8 where RefTableName = 'tbl_ContactDepartments' 
+
+alter table machine
+add IsSpotColor bit null
+
+update DeliveryNote
+set FlagId = null
+
+alter table DeliveryNote
+add constraint FK_DeliveryNote_SectionFlag
+foreign key (FlagId)
+references SectionFlag (SectionFlagId)
+----Executed on Staging on 28/05/2015---------
+/* Execution Date: 28/05/2015 */
+
+alter table deliveryNotedetail
+drop constraint FK_tbl_deliverynote_details_tbl_deliverynotes
+
+alter table deliverynotedetail
+add constraint FK_DeliveryNoteDetail_DeliveryNote
+foreign key (DeliveryNoteId)
+references DeliveryNote (DeliveryNoteId)
+on delete cascade
+
+
+/* Execution Date: 29/05/2015 */
+
+alter table templateObject add autoCollapseText bit null
+
+alter table itemsection 
+alter column PressIdSide2 int null
+
+alter table itemsection 
+add constraint FK_ItemSection_Machine2
+foreign key (PressIdSide2)
+references Machine (MachineId)
+
+update inquiryItem
+set ProductId = null
+
+alter table inquiryitem
+add constraint FK_InquiryItem_Pipelineproduct
+foreign key (ProductId)
+references PipeLineProduct (ProductId)
+
+drop table ImpositionProfile
+
+----Executed on Staging on 29/05/2015---------
+----Executed on 3 live servers 01/06/2015---------
+
+/* Execution Date: 01/06/2015 */
+
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[sp_cloneTemplate] 
+	-- Add the parameters for the stored procedure here
+	@TemplateID bigint,
+	@submittedBy bigint,
+    @submittedByName nvarchar(100)
+AS
+BEGIN
+
+
+      
+	declare @NewTemplateID bigint
+	declare @NewCode nvarchar(10)
+	--DECLARE  @WaterMarkTxt as [dbo].[tbl_company_sites]
+	
+	set @NewCode = ''
+	
+	--INSERT INTO @WaterMarkTxt (CompanySiteName)
+	--Select Top 1 CompanySiteName from tbl_company_sites
+
+	
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+	
+	INSERT INTO [dbo].[Template]
+           ([Code]
+           ,[ProductName]
+           ,[Description]
+           ,[ProductCategoryId]
+           ,[Thumbnail]
+           ,[Image]
+           ,[IsDisabled]
+
+           ,[PDFTemplateWidth]
+           ,[PDFTemplateHeight]
+
+           ,[CuttingMargin]
+           ,[MultiPageCount]
+           ,[Orientation]
+           ,[MatchingSetTheme]
+           ,[BaseColorId]
+           ,[SubmittedBy]
+           ,[SubmittedByName]
+           ,[SubmitDate]
+           ,[Status]
+           ,[ApprovedBy]
+           ,[ApprovedByName]
+           ,[UserRating]
+           ,[UsedCount]
+           ,[MPCRating]
+           ,[RejectionReason]
+           ,[ApprovalDate]
+           ,[IsCorporateEditable]
+           ,[MatchingSetId]
+           ,[TempString],[TemplateType],[isSpotTemplate],[isWatermarkText],[isCreatedManual]
+          )
+     
+
+
+
+   
+	SELECT 
+      @NewCode
+      ,[ProductName] + ' Copy'
+      ,[Description]
+      ,[ProductCategoryID]
+      
+      ,[Thumbnail]
+      ,[Image]
+      ,[IsDisabled]
+
+      ,[PDFTemplateWidth]
+      ,[PDFTemplateHeight]
+
+
+      ,[CuttingMargin]
+      ,[MultiPageCount]
+      ,[Orientation]
+      ,[MatchingSetTheme]
+      ,[BaseColorId]
+      ,@submittedBy
+      ,@submittedByName
+      ,NULL
+      ,1
+      ,NULL
+      ,NULL
+      ,0
+      ,0
+      ,0
+      ,''
+      ,NULL,IsCorporateEditable,MatchingSetId,'',[TemplateType],isSpotTemplate,isWatermarkText,isCreatedManual
+      
+  FROM [dbo].[Template] where productid = @TemplateID
+	
+	
+	set @NewTemplateID = SCOPE_IDENTITY() 
+	
+	-- updating water mark text 
+	UPDATE [dbo].[Template]
+	SET TempString= (Select Top 1 OrganisationName from organisation)
+	WHERE productid = @NewTemplateID
+	
+	--copying the pages
+	INSERT INTO [dbo].[TemplatePage]
+           ([ProductId]
+           ,[PageNo]
+           ,[PageType]
+           ,[Orientation]
+           ,[BackGroundType]
+           ,[BackgroundFileName]
+      ,[ColorC]
+      ,[ColorM]
+      ,[ColorY]
+      ,[ColorK]
+      ,[IsPrintable]
+           ,[PageName],[hasOverlayObjects],[Width],[Height])
+
+SELECT 
+      @NewTemplateID
+      ,[PageNo]
+      ,[PageType]
+      ,[Orientation]
+      ,[BackGroundType]
+      ,[BackgroundFileName]
+      ,[ColorC]
+      ,[ColorM]
+      ,[ColorY]
+      ,[ColorK]
+      ,[IsPrintable]
+      
+      ,[PageName],[hasOverlayObjects],[Width],[Height]
+  FROM [dbo].[TemplatePage]
+where productid = @TemplateID
+
+
+	--copying the objects
+	INSERT INTO [dbo].[TemplateObject]
+           ([ObjectType]
+           ,[Name]
+           ,[IsEditable]
+           ,[IsHidden]
+           ,[IsMandatory]
+           
+           ,[PositionX]
+           ,[PositionY]
+           ,[MaxHeight]
+           ,[MaxWidth]
+           ,[MaxCharacters]
+           ,[RotationAngle]
+           ,[IsFontCustom]
+           ,[IsFontNamePrivate]
+           ,[FontName]
+           ,[FontSize]
+           ,[IsBold]
+           ,[IsItalic]
+           ,[Allignment]
+           ,[VAllignment]
+           ,[Indent]
+           ,[IsUnderlinedText]
+           ,[ColorType]
+ 
+           ,[ColorName]
+           ,[ColorC]
+           ,[ColorM]
+           ,[ColorY]
+           ,[ColorK]
+           ,[Tint]
+           ,[IsSpotColor]
+           ,[SpotColorName]
+           ,[ContentString]
+           ,[ContentCaseType]
+           ,[ProductID]
+           ,[DisplayOrderPdf]
+           ,[DisplayOrderTxtControl]
+           ,[RColor]
+           ,[GColor]
+           ,[BColor]
+           ,[LineSpacing]
+           ,[ProductPageId]
+           ,[ParentId]
+           ,CircleRadiusX
+           ,Opacity
+           ,[ExField1],
+           [IsTextEditable],
+           [IsPositionLocked],
+           [CircleRadiusY]
+          ,[ExField2],
+           ColorHex
+           ,[IsQuickText]
+           ,[QuickTextOrder],
+		   [watermarkText],
+		   [textStyles],[charspacing],[AutoShrinkText],
+		   [IsOverlayObject],[ClippedInfo],[originalContentString],[originalTextStyles],[autoCollapseText]
+           )
+	SELECT 
+      O.[ObjectType]
+      ,O.[Name]
+      ,O.[IsEditable]
+      ,O.[IsHidden]
+      ,O.[IsMandatory]
+      
+      ,O.[PositionX]
+      ,O.[PositionY]
+      ,O.[MaxHeight]
+      ,O.[MaxWidth]
+      ,O.[MaxCharacters]
+      ,O.[RotationAngle]
+      ,O.[IsFontCustom]
+      ,O.[IsFontNamePrivate]
+      ,O.[FontName]
+      ,O.[FontSize]
+      ,O.[IsBold]
+      ,O.[IsItalic]
+      ,O.[Allignment]
+      ,O.[VAllignment]
+      ,O.[Indent]
+      ,O.[IsUnderlinedText]
+      ,O.[ColorType]
+      ,O.[ColorName]
+      ,O.[ColorC]
+      ,O.[ColorM]
+      ,O.[ColorY]
+      ,O.[ColorK]
+      ,O.[Tint]
+      ,O.[IsSpotColor]
+      ,O.[SpotColorName]
+      ,O.[ContentString]
+      ,O.[ContentCaseType]
+      ,@NewTemplateID
+      ,O.[DisplayOrderPdf]
+      ,O.[DisplayOrderTxtControl]
+      ,O.[RColor]
+      ,O.[GColor]
+      ,O.[BColor]
+      ,O.[LineSpacing]
+      ,NP.[ProductPageId]
+      ,O.[ParentId]
+      ,O.CircleRadiusX
+      ,O.Opacity
+      ,O.[ExField1],
+       O.[IsTextEditable],
+       O.[IsPositionLocked],
+       O.[CircleRadiusY]
+      ,O.[ExField2],
+       O.ColorHex
+       ,[IsQuickText]
+        ,[QuickTextOrder],[watermarkText],O.[textStyles],
+		O.[charspacing],O.[AutoShrinkText],O.[IsOverlayObject]
+		,O.[ClippedInfo]
+		,O.[originalContentString],O.[originalTextStyles],O.[autoCollapseText]
+  FROM [dbo].[TemplateObject] O
+  inner join [dbo].[TemplatePage]  P on o.ProductPageId = p.ProductPageId and o.ProductId = @TemplateID
+  inner join [dbo].[TemplatePage] NP on P.PageName = NP.PageName and P.PageNo = NP.PageNo and NP.ProductId = @NewTemplateID
+  
+	--theme tags
+	--insert into dbo.TemplateThemeTags   ([TagID],[ProductID])
+	--select [TagID] ,@NewTemplateID from dbo.TemplateThemeTags where ProductID = @TemplateID
+	
+	---- industry tags
+	--insert into dbo.TemplateIndustryTags   ([TagID],[ProductID])
+	--select [TagID] ,@NewTemplateID from dbo.TemplateIndustryTags where ProductID = @TemplateID
+
+	INSERT INTO [dbo].[TemplateBackgroundImage]
+			   ([ProductId]
+			   ,[ImageName]
+			   ,[Name]
+			   ,[flgPhotobook]
+			   ,[flgCover]
+			   ,[BackgroundImageAbsolutePath]
+			   ,[BackgroundImageRelativePath],
+			   ImageType,
+			   ImageWidth,
+			   ImageHeight
+			   
+			   )
+	SELECT 
+		  @NewTemplateID
+		  ,[ImageName]
+		  ,[Name]
+		  ,[flgPhotobook]
+		  ,[flgCover]
+		  ,[BackgroundImageAbsolutePath]
+		  ,[BackgroundImageRelativePath]
+		  ,ImageType,
+			   ImageWidth,
+			   ImageHeight
+	  FROM [dbo].[TemplateBackgroundImage] where ProductId = @TemplateID
+
+select @NewTemplateID
+	
+END
+
+
+GO
+
+/*Execution date 02-06-2015*/
+
+
+INSERT INTO [dbo].[FieldVariable]
+           ([VariableName]
+           ,[RefTableName]
+           ,[CriteriaFieldName]
+           ,[VariableSectionId]
+           ,[VariableTag]
+           ,[SortOrder]
+           ,[KeyField]
+           ,[VariableType]
+           ,[CompanyId]
+           ,[Scope]
+           ,[WaterMark]
+           ,[DefaultValue]
+           ,[InputMask]
+           ,[OrganisationId]
+           ,[IsSystem]
+           ,[VariableTitle])
+     VALUES
+           ('State Abbreviation'
+           ,'Address'
+           ,'State'
+           ,18
+           ,'{{contact_StateAbbreviation}}'
+           ,37
+           ,'AddressID'
+           ,45
+           ,NULL
+           ,9
+           ,'State Abbreviation'
+           ,NULL
+           ,NULL
+           ,NULL
+           ,1
+           ,NULL)
+GO
+
+
+
+
+INSERT INTO [dbo].[FieldVariable]
+           ([VariableName]
+           ,[RefTableName]
+           ,[CriteriaFieldName]
+           ,[VariableSectionId]
+           ,[VariableTag]
+           ,[SortOrder]
+           ,[KeyField]
+           ,[VariableType]
+           ,[CompanyId]
+           ,[Scope]
+           ,[WaterMark]
+           ,[DefaultValue]
+           ,[InputMask]
+           ,[OrganisationId]
+           ,[IsSystem]
+           ,[VariableTitle])
+     VALUES
+           ('State Abbreviation'
+           ,'Address'
+           ,'State'
+           ,16
+           ,'{{DefaultShipping_StateAbbreviation}}'
+           ,37
+           ,'AddressID'
+           ,45
+           ,NULL
+           ,9
+           ,'State Abbreviation'
+           ,NULL
+           ,NULL
+           ,NULL
+           ,1
+           ,NULL)
+GO
+
+
+
+
+
+
+INSERT INTO [dbo].[FieldVariable]
+           ([VariableName]
+           ,[RefTableName]
+           ,[CriteriaFieldName]
+           ,[VariableSectionId]
+           ,[VariableTag]
+           ,[SortOrder]
+           ,[KeyField]
+           ,[VariableType]
+           ,[CompanyId]
+           ,[Scope]
+           ,[WaterMark]
+           ,[DefaultValue]
+           ,[InputMask]
+           ,[OrganisationId]
+           ,[IsSystem]
+           ,[VariableTitle])
+     VALUES
+           ('State Abbreviation'
+           ,'Address'
+           ,'State'
+           ,17
+           ,'{{DefaultBilling_StateAbbreviation}}'
+           ,37
+           ,'AddressID'
+           ,45
+           ,NULL
+           ,9
+           ,'State Abbreviation'
+           ,NULL
+           ,NULL
+           ,NULL
+           ,1
+           ,NULL)
+GO
+
+
+/* Execution Date: 02/06/2015 */
+
+alter table SmartFormDetail
+drop constraint FK__SmartForm__Varia__012C6796
+
+alter table SmartFormDetail
+add constraint FK_SmartFormDetail_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade
+
+alter table ScopeVariable
+drop constraint FK_CompanyContactVariable_FieldVariable
+
+alter table ScopeVariable
+add constraint FK_ScopeVariable_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade
+
+alter table VariableOption
+drop constraint FK_VariableOption_FieldVariable
+
+alter table VariableOption
+add constraint FK_VariableOption_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade
+
+alter table TemplateVariable
+add constraint FK_TemplateVariable_FieldVariable
+foreign key (VariableId)
+references FieldVariable (VariableId)
+on delete cascade
+GO
+
+
+
+/* Execution Date: 03/06/2015 */
+
+/*
+Created by: khurram , 2015-06-03
+*/
+CREATE PROCEDURE usp_TotalEarnings (@fromdate as datetime, @todate as datetime)
+AS
+--define limits
+--set @fromdate = '2015-01-01'
+--set @todate = '2015-12-31'
+ BEGIN
+;With DateSequence( [Date] ) as
+(
+    Select @fromdate as [Date]
+        union all
+    Select dateadd(day, 1, [Date])
+        from DateSequence
+        where Date < @todate
+)
+ 
+--select result
+Select
+    CONVERT(VARCHAR,[Date],112) as ID,
+    [Date] as [Date],
+    DATEPART(DAY,[Date]) as [Day],
+    CASE
+         WHEN DATEPART(DAY,[Date]) = 1 THEN CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'st'
+         WHEN DATEPART(DAY,[Date]) = 2 THEN CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'nd'
+         WHEN DATEPART(DAY,[Date]) = 3 THEN CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'rd'
+         ELSE CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'th'
+    END as [DaySuffix],
+    DATENAME(dw, [Date]) as [DayOfWeek],
+    DATEPART(DAYOFYEAR,[Date]) as [DayOfYear],
+    DATEPART(WEEK,[Date]) as [WeekOfYear],
+    DATEPART(WEEK,[Date]) + 1 - DATEPART(WEEK,CAST(DATEPART(MONTH,[Date]) AS VARCHAR) + '/1/' + CAST(DATEPART(YEAR,[Date]) AS VARCHAR)) as [WeekOfMonth],
+    DATEPART(MONTH,[Date]) as [Month],
+    DATENAME(MONTH,[Date]) as [MonthName],
+    DATEPART(QUARTER,[Date]) as [Quarter],
+    CASE DATEPART(QUARTER,[Date])
+        WHEN 1 THEN 'First'
+        WHEN 2 THEN 'Second'
+        WHEN 3 THEN 'Third'
+        WHEN 4 THEN 'Fourth'
+    END as [QuarterName],
+    DATEPART(YEAR,[Date]) as [Year]
+	into #dt
+from DateSequence option (MaxRecursion 10000)
+
+
+--select * from #dt
+
+select sum(Estimate_Total) Total,count(*) Orders,store,Month,monthname,year 
+	from
+	(
+	
+		select estimateid, o.Estimate_Total,
+		DATENAME(MONTH,O.Order_Date) as [Month],
+		DATEPART(MONTH,O.Order_Date) as [MonthName],
+		DATEPART(YEAR,O.Order_Date) as [Year],
+		(Case when C.Iscustomer = 3 then C.name when C.IsCustomer = 1 then S.name End) as Store,
+		C.IsCustomer
+		from Estimate O
+		inner join Company C on O.CompanyId = C.companyid
+		left outer join Company S on C.StoreId = S.companyid
+		where (O.StatusId <> 3 and O.StatusId <> 34)
+		
+
+	) data
+group by month,store,monthname,year
+
+END
+
+
+/* Executed on Staging, USA server */
+/* Execution Date: 04/06/2015 */
+
+update fieldVariable set CriteriaFieldName = 'StateAbbr' where VariableName = 'State Abbreviation'
+
+alter table Organisation add IsImperical bit null
+
+alter table PaperSize add IsImperical bit null
+
+alter table StockItem add IsImperical bit null
+
+alter table PurchaseDetail
+alter column itemid bigint null
+
+update PurchaseDetail
+set ItemId = null
+where ItemId not in (select ItemId from Items)
+
+alter table PurchaseDetail
+add constraint FK_PurchaseDetail_Items
+foreign key (ItemId)
+references Items (ItemId)
+
+alter table PurchaseDetail
+add ProductType int null
+
+alter table PurchaseDetail
+add RefItemId bigint null
+
+/* Executed on Staging */
+
+/* Execution Date: 08/06/2015 */
+
+alter table purchase
+drop constraint DF__tbl_purch__Suppl__74994623
+
+alter table purchase
+alter column supplierid bigint null
+
+update purchase
+set supplierid = null
+
+alter table purchase
+add constraint FK_Purchase_Company
+foreign key (SupplierId)
+references Company (CompanyId)
+
+update purchase
+set flagid = null
+
+alter table purchase
+add constraint FK_Purchase_SectionFlag
+foreign key (FlagId)
+references SectionFlag (SectionFlagId)
+
+alter table PurchaseDetail
+add TaxValue float null
+
+/* Execution Date: 09/06/2015 */
+
+alter table purchasedetail
+drop constraint FK_PurchaseID
+
+alter table purchaseDetail
+add constraint FK_PurchaseDetail_Purchase
+foreign key (PurchaseId)
+references Purchase (PurchaseId)
+on delete cascade
+
+/* Execution Date: 10/06/2015 */
+
+
+/****** Object:  Table [dbo].[StagingImportCompanyContactAddress]    Script Date: 6/9/2015 6:17:18 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[StagingImportCompanyContactAddress](
+	[StagingId] [bigint] IDENTITY(1,1) NOT NULL,
+	[CompanyName] [nvarchar](250) NULL,
+	[CompanyId] [bigint] NULL,
+	[AddressId] [bigint] NULL,
+	[AddressName] [varchar](200) NULL,
+	[Address1] [varchar](250) NULL,
+	[Address2] [varchar](250) NULL,
+	[Address3] [varchar](250) NULL,
+	[City] [varchar](250) NULL,
+	[State] [varchar](250) NULL,
+	[StateId] [bigint] NULL,
+	[Country] [varchar](50) NULL,
+	[CountryId] [bigint] NULL,
+	[Postcode] [varchar](50) NULL,
+	[TerritoryId] [bigint] NULL,
+	[TerritoryName] [varchar](250) NULL,
+	[AddressPhone] [nvarchar](50) NULL,
+	[AddressFax] [nvarchar](50) NULL,
+	[ContactId] [bigint] NULL,
+	[ContactFirstName] [varchar](250) NULL,
+	[ContactLastName] [varchar](250) NULL,
+	[JobTitle] [varchar](250) NULL,
+	[Email] [varchar](250) NULL,
+	[password] [nvarchar](50) NULL,
+	[Mobile] [varchar](50) NULL,
+	[RoleId] [bigint] NULL,
+	[ContactPhone] [nvarchar](50) NULL,
+	[ContactFax] [varchar](50) NULL,
+	[AddInfo1] [nvarchar](1500) NULL,
+	[AddInfo2] [nvarchar](1000) NULL,
+	[AddInfo3] [nvarchar](1000) NULL,
+	[AddInfo4] [nvarchar](1500) NULL,
+	[AddInfo5] [nvarchar](1500) NULL,
+	[OrganisationId] [bigint] NULL,
+ CONSTRAINT [PK_StagingImportCompanyContactAddress] PRIMARY KEY CLUSTERED 
+(
+	[StagingId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
+
+/****** Object:  StoredProcedure [dbo].[usp_importTerritoryContactAddressByStore]    Script Date: 5/25/2015 12:46:48 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ CREATE Procedure [dbo].[usp_importTerritoryContactAddressByStore]
+		@OrganisationId bigint,
+		@StoreId bigint
+	 
+	 as 
+	 Begin
+  
+		  update StagingImportCompanyContactAddress set CompanyId = @StoreId, OrganisationId = @OrganisationId
+		  
+		  --update Country Id by country name
+		  update StagingImportCompanyContactAddress set CountryId = c.CountryId
+		  from StagingImportCompanyContactAddress i , country c
+		  where c.CountryName = i.Country
+		  --update StateId by State Name 
+		  update StagingImportCompanyContactAddress set StateId = c.StateId
+		  from StagingImportCompanyContactAddress i , State c
+		  where c.StateName = i.State
+		  --update TerritoryId from Territory Name
+		  update StagingImportCompanyContactAddress set TerritoryId = c.TerritoryId
+		  from StagingImportCompanyContactAddress i , CompanyTerritory c
+		  where c.TerritoryCode = i.TerritoryName
+
+				BEGIN TRY
+
+					Declare @count int = (select count(*) from StagingImportCompanyContactAddress)
+					Declare @counter int = 1
+					Declare @StagingId bigint, @AddressId bigint, @TerritoryId bigint, @AddrssName varchar(200), @Address1 varchar(200), @Address2 varchar(200), @City varchar(100),
+							@TerritoryName varchar(200), @isNewTerritory bit
+  
+					While @counter <= @count
+					Begin
+					set @isNewTerritory = 0
+					select @AddrssName = AddressName, @Address1 = Address1, @Address2 = Address2, @City = City, @TerritoryName = TerritoryName from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+					where r = @counter
+					 --Check Territory Exist otherwise Insert Territory
+					 if(exists(select * from CompanyTerritory where companyId = @StoreId and TerritoryName = @TerritoryName))
+					 begin
+						set @TerritoryId = (select top 1 TerritoryId from CompanyTerritory where companyId = @StoreId and TerritoryName = @TerritoryName)
+					 end
+					 else
+					 begin
+							 insert into CompanyTerritory(CompanyID, TerritoryCode, TerritoryName)
+							 select CompanyId, 'TCImport', TerritoryName   from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) xx
+									where r = @counter
+							set @TerritoryId = (select SCOPE_IDENTITY())
+							set @isNewTerritory = 1
+					 end
+
+
+				    --Check If Address Exist otherwise insert Address
+					if(exists(select * from Address where companyId = @StoreId and addressname = @AddrssName and Address1 = @Address1 and Address2 = @Address2 and City = @City))
+						begin
+							set @AddressID = (select top 1 AddressId from Address where companyId = @StoreId and addressname = @AddrssName and Address1 = @Address1 and Address2 = @Address2 and City = @City)
+						end
+					else
+						begin
+							insert into Address(OrganisationId, CompanyID, AddressName, Address1, Address2, Address3, City, StateId, PostCode, TerritoryID, CountryId, Tel1, isDefaultTerrorityBilling, isDefaultTerrorityShipping, isArchived, IsDefaultAddress)
+							select @OrganisationId, CompanyId, AddressName, Address1, Address2, Address3, City, StateId,Postcode, @TerritoryId, CountryId, ContactPhone, 0, 0, 0, 0   from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+							where r = @counter
+							set @Addressid = (select SCOPE_IDENTITY())
+							if(@isNewTerritory = 1 and @TerritoryId > 0)
+								Begin
+									update address set isDefaultTerrorityBilling = 1, isDefaultTerrorityShipping = 1 where AddressId = @AddressId
+								End
+						end
+					 --Insert New Contact
+						insert into CompanyContact(OrganisationId, CompanyId, TerritoryID, AddressID, ShippingAddressID, FirstName, LastName, Email, Password, HomePostCode, Mobile, isArchived, ContactRoleID, JobTitle, HomeTel1, Notes, IsDefaultContact, isWebAccess, canPlaceDirectOrder, canUserPlaceOrderWithoutApproval, IsPricingshown)
+						select @OrganisationId, CompanyId, TerritoryId, @Addressid, @Addressid, ContactFirstName, ContactLastName, Email,password, postcode, Mobile,0, RoleId, JobTitle, ContactPhone, 'contact import for this store, default password is guest', 0, 1, 1, 1, 1  
+						from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+						where r = @counter
+
+
+						set @counter = @counter + 1;
+					End
+						Commit Transaction
+				End Try
+				BEGIN CATCH
+						IF @@TRANCOUNT > 0
+							ROLLBACK
+				END CATCH
+End
+
+/****** Object:  StoredProcedure [dbo].[usp_DeletePurchaseOrders]    Script Date: 6/10/2015 11:50:01 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[usp_DeletePurchaseOrders]
+@OrderID as int
+AS
+BEGIN
+	
+	SET NOCOUNT OFF
+	DECLARE @Err int
+	
+    Declare 
+         @ItemsCount as int,
+         @Counter as int,
+		 @DeletedPurchaseID as int,
+		 @POCounter as int,
+		 @POCount as int,
+         @ItemID as int
+         
+    DECLARE @ITEMS AS TABLE(
+     ROWID  INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+     ItemID int
+    
+     )
+   
+  													
+     
+ --   INSERT INTO @ITEMS 
+	--SELECT ItemID
+	--			FROM tbl_items 
+	--			WHERE EstimateID = @OrderID and (itemType is null or itemType <> 2)
+	
+	 INSERT INTO @ITEMS 
+	SELECT ItemID
+				FROM items 
+				WHERE EstimateID = @OrderID 
+			
+	--select @ItemsCount = count(*) from tbl_items where EstimateID = @OrderID and (itemType is null or itemType <> 2)
+	select @ItemsCount = count(*) from items where EstimateID = @OrderID							
+	        
+	SET @Counter = 1
+
+    WHILE (@Counter <= @ItemsCount)
+    BEGIN
+
+					Select @ItemID = ItemID	 
+					from @ITEMS where ROWID = @Counter
+					select @DeletedPurchaseID = purchaseid from purchasedetail where itemid = @ItemID
+					delete from purchasedetail where purchaseid = @DeletedPurchaseID
+					delete from purchase where purchaseid = @DeletedPurchaseID
+					select 'delete successfully' as MSG
+							
+			   SET @Counter = @Counter + 1
+		end
+		
+		 SET @Err = @@Error	
+		RETURN @Err
+END
+
+/****** Object:  StoredProcedure [dbo].[usp_GeneratePurchaseOrders]    Script Date: 6/10/2015 11:32:50 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+ALTER PROCEDURE [dbo].[usp_GeneratePurchaseOrders]
+@OrderID as int,
+@CreatedBy as uniqueidentifier
+AS
+BEGIN
+	
+	SET NOCOUNT OFF
+	DECLARE @Err int
+	
+    Declare 
+         @ItemsCount as int,
+         @Counter as int,
+		 @RefItemID as int,
+		 @ItemQty as int,
+		 @IsExternal as bit,
+		 @IsQtyLimit as bit,
+		 @AutoCreateUnPostedPO as bit,
+		 @QtyLimit as int,
+		 @SupplierID as int,
+		 @ItemID as int,
+		 @SupplierName as varchar(50),
+		 @SupplierAdressID as int,
+		 @SupplierContactID as int,
+		 @ContactCompanyID as int,
+		 @Code as varchar(50),
+		 @ProductCategoryID as int,
+		 @ProductCompleteName as varchar(100),
+         @ItemType as int,
+         @MarkupVaue as float,
+         @NetTotal as float,         
+		@POPrefix as varchar(10),
+		@POStart as bigint,
+		@PONext as varchar(20),
+		@NewPO as bigint,
+		@UserNotes as nvarchar(2000)
+		
+
+    DECLARE @ITEMS AS TABLE(
+     ROWID  INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+     ItemID int,
+     RefItemID INT,
+     Qty1 int,
+     Qty1GrossTotal float,
+     ProductName varchar(150),
+     ItemCode varchar(50),
+    -- ProductCategoryID INT,
+     Qty1Tax1Value float,
+     ItemType int,
+     Qty1MarkUp1Value float
+     )
+     
+     DECLARE @ITEMDETAIL AS TABLE(
+     ROWID  INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+     IsInternalActivity bit,
+     IsQtyLimit bit,
+     QtyLimit int,
+     ItemID int,
+     isAutoCreateSupplierPO bit)	
+     
+     --Declare @SupplierIDs as table(
+     --ROWID  INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+     --SupplierID int)
+     
+    declare @SupplierIDs table
+    (
+       SupplierID int,
+       PurchaseID int,
+       LTotalPrice float,
+       LTotalTax float,
+       LGrandTotal float,
+       LNetTotal float
+																				   
+    )
+      declare @LastTotalPrice as float,
+		      @LastDiscount as float,
+			  @LastTotalTax as float,
+		      @LastGrandTotal as float,
+			  @LastNetTotal as float															
+     
+    INSERT INTO @ITEMS  --- insert items in temp table
+	SELECT ItemID,RefItemID, Qty1, Qty1GrossTotal,ProductName,ItemCode,Qty1Tax1Value,ItemType,Qty1MarkUp1Value
+				FROM Items 
+				WHERE EstimateID = @OrderID
+    select @UserNotes = usernotes from estimate where EstimateID = @OrderID			
+	-- getting count of items
+	select @ItemsCount = count(*) from items where EstimateID = @OrderID
+									
+	
+	declare @Qty1GrossTotal as float,
+	        @Qty1 as int,
+	        @ItemCode as varchar(50),
+	        @ProductName as varchar(100),
+	        @CategoryName as Varchar(100),
+	        @Qty1Tax1Value as float,
+	        @ProductDetailCount as int,
+	        @SupplierTableCount as int,
+	        @PurchaseID as int,
+	        @PurchaseDetailID as int,
+	        @StockItemID1 as int,
+	        @Sequence as int,
+	        @PricePaperType as int,
+	        @SystemSiteID as int,
+			--@TaxIDGS as int,
+	        @NetTax as float
+	SET @Counter = 1
+    
+    -- loop start for each item
+    WHILE (@Counter <= @ItemsCount)
+    BEGIN
+    	
+    	            -- getting ref item id of particular item
+					SELECT @RefItemID = RefItemID FROM @ITEMS WHERE ROWID = @Counter
+					
+					-- setting variables/fields from particular item
+					Select @ItemID = ItemID,
+								@RefItemID = RefItemID,	  
+									   @Qty1 = Qty1,
+									   @ItemCode = ItemCode,
+									   @ProductName = ProductName,
+									  -- @ProductCategoryID = ProductCategoryID,
+									   @ItemType = ItemType
+									    --@Qty1GrossTotal = Qty1GrossTotal,
+									   --@Qty1Tax1Value = Qty1Tax1Value,
+									  -- @MarkupVaue = Qty1MarkUp1Value
+								from @ITEMS where ROWID = @Counter
+
+					-- if item is stoct
+					if (@ItemType = 3) -- stock
+					   begin
+					       -- select supplierand name   of particular stock item
+						   select @SupplierID = (Select TOP 1 isnull(SupplierID,0) from stockitem where StockItemID = @RefItemID),
+						          @ProductCompleteName = (Select TOP 1 isnull(ItemName,'') from stockitem where StockItemID = @RefItemID)
+						          
+					       if (@SupplierID > 0)
+					           begin    
+					              -- getting price of stock item	
+								   Select @Qty1GrossTotal = (select top 1 isnull(CostPrice,0) from StockCostAndPrice where ItemID = @RefItemID and CostOrPriceIdentifier = 0)
+                                   if @Qty1GrossTotal is null
+                                      begin
+                                         select @Qty1GrossTotal = 0
+                                      end
+							  
+							  end
+					   end
+					else if (@ItemType = 2)
+					   begin
+					   
+					     -- select supplier and name   of particular cost center item
+							select @SupplierID = (Select TOP 1 isnull(PreferredSupplierID,0) from CostCentre where CostCentreID = @RefItemID),
+							   @ProductCompleteName = (Select TOP 1 isnull(Name,'') from CostCentre where CostCentreID = @RefItemID)
+						      if (@SupplierID > 0)
+					           begin    	
+					           
+					                -- getting price of cost center
+									declare @CostPrice as float
+									select @CostPrice = CostPerUnitQuantity from CostCentre where CostCentreID = @RefItemID
+									select @Qty1GrossTotal = @CostPrice / @Qty1
+								    if @Qty1GrossTotal is null
+                                      begin
+                                         select @Qty1GrossTotal = 0
+                                      end
+							  end
+					   end
+					else		
+					  begin			 
+                                -- getting product name
+								--select @CategoryName = CategoryName from productcategory where ProductCategoryID = @ProductCategoryID
+								
+								-- making complete name
+								select @ProductCompleteName =  @ProductName
+								
+								-- getting item qty
+								SELECT @ItemQty = isnull(Qty1,0) FROM @ITEMS WHERE ROWID = @Counter
+									
+							    -- insert item detail in temp table				
+								INSERT INTO @ITEMDETAIL 
+										SELECT top 1 isInternalActivity,isQtyLimit,QtyLimit, ItemID, isAutoCreateSupplierPO
+										FROM ItemProductDetail 
+										WHERE ItemID = @RefItemID
+										
+										
+										
+								SET @ProductDetailCount = ISNULL(@@ROWCOUNT, 0)
+								
+								-- check product detail count is greater then 1 or not
+								if (@ProductDetailCount > 0)
+								  begin
+									if (@MarkupVaue > 0)
+										begin
+										   select @MarkupVaue = 0
+										end	
+										
+									
+									-- checking is internal flag
+									Select @IsExternal = isInternalActivity from @ITEMDETAIL where ItemID = @RefItemID
+									if (@IsExternal = 1)
+									  begin
+										 select * from items where itemid = @itemid
+									  end
+									else
+									  begin
+									        -- check isAutoCreateSupplierPO is On or off
+									        select @AutoCreateUnPostedPO =  isAutoCreateSupplierPO from @ITEMDETAIL where itemid = @RefItemID
+									        
+									        if (@AutoCreateUnPostedPO = 1)
+									           begin
+														-- check is qty limit flag
+														select @IsQtyLimit = IsQtyLimit from  @ITEMDETAIL where ItemID = @RefItemID
+														
+													
+														-- getting qty limit
+														select @QtyLimit = isnull(QtyLimit,0) from @ITEMDETAIL where ItemID = @RefItemID
+														
+														-- getting supplier id for item
+														select @SupplierID = (Select TOP 1 isnull(SupplierID,0) from ItemPriceMatrix where ItemID = @RefItemID and SupplierSequence = 1)
+							 
+													  --  if (@SupplierID is null)
+															--select @SupplierID = (Select TOP 1 isnull(SupplierID,0) from tbl_items_PriceMatrix where ItemID = @RefItemID and SupplierSequence = 2)
+														
+														-- if is qty limit is true
+														if(@IsQtyLimit = 1)
+														  begin
+																-- if order qty is greater than qty limit
+																if (@ItemQty > @QtyLimit)
+																   begin
+																	  select @SupplierID = (Select TOP 1 isnull(SupplierID,0) from ItemPriceMatrix where ItemID = @RefItemID and SupplierSequence = 1)
+																	  if (@SupplierID is null)
+																		select @SupplierID = (Select TOP 1 isnull(SupplierID,0) from ItemPriceMatrix where ItemID = @RefItemID and SupplierSequence = 2)
+																	  
+																	 -- insert into @SupplierIDs
+															
+																	  
+																	end
+																 else --  else part of qty conditions
+																   begin
+																	  select @SupplierID = (Select TOP 1 isnull(SupplierID,0) from ItemPriceMatrix where ItemID = @RefItemID and SupplierSequence = 2)
+																	   if (@SupplierID is null)
+																		select @SupplierID = (Select TOP 1 isnull(SupplierID,0) from ItemPriceMatrix where ItemID = @RefItemID and SupplierSequence = 1)
+														               
+																   end
+																 
+													 					
+														  end
+											  
+														 if (@SupplierID > 0)
+															begin  
+																	select @StockItemID1 = (select top 1 StockItemID1 from ItemSection where itemid = @ItemID and sectionno = 1)
+																   
+																   
+																	 select @Sequence = (select top 1 OptionSequence from ItemStockOption where itemid = @RefItemID and StockID = @StockItemID1 and companyid is null)
+																   
+																	if (@Sequence = 1)
+																	   begin
+																		 select @Qty1GrossTotal = (select top 1 PricePaperType1 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	   end
+																	else if (@Sequence = 2)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PricePaperType2 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+																	else if (@Sequence = 3)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PricePaperType3 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+																	else if (@Sequence = 4)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PriceStockType4 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+																	else if (@Sequence = 5)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PriceStockType5 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+																	else if (@Sequence = 6)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PriceStockType6 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+																	else if (@Sequence = 7)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PriceStockType7 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+																	 else if (@Sequence = 8)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PriceStockType8 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+																	else if (@Sequence = 9)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PriceStockType9 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+																	   else if (@Sequence = 10)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PriceStockType10 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+																	else if (@Sequence = 11)
+																	  begin
+																		 select @Qty1GrossTotal = (select top 1 PriceStockType11 from ItemPriceMatrix where Quantity = @Qty1 and SupplierID = @SupplierID and ItemID = @RefItemID)
+																	  end
+													    
+														  end -- if supplier > 0 end
+											   end -- isAutoPOCreate end
+										end	 -- is external end
+								  end -- product detail count 
+								  
+						end -- item end
+						declare @OrderCompanyID as int
+						declare @OrderCompanyIsCustomer as int
+						declare @OrderCompanyTaxRate as float
+						declare @StoreID as int
+											  if (@SupplierID > 0)
+													   begin
+													   
+													    	    select @OrderCompanyID =  CompanyID from Estimate where EstimateId = @OrderID
+
+																select @OrderCompanyIsCustomer = iscustomer from Company where companyid = @OrderCompanyID
+
+																if (@OrderCompanyIsCustomer = 3)
+																  begin
+																	select @OrderCompanyTaxRate = TaxRate from Company where companyid = @OrderCompanyID
+																  end
+																else
+																  begin
+																	select @StoreID = StoreId from Company where companyid = @OrderCompanyID
+																	
+																    select @OrderCompanyTaxRate = TaxRate from Company where companyid = @StoreID
+																  end
+
+																 --select @TaxIDGS =  StateTaxID from tbl_company_sites where companyid =  2
+																 declare @TaxPercentage as float
+																 -- direct form company
+																select @TaxPercentage = @OrderCompanyTaxRate
+																		   
+																select @NetTax = (@Qty1GrossTotal * @TaxPercentage) / 100
+																		   					   
+																select @Qty1Tax1Value = 0
+																--select @NetTotal = @Qty1GrossTotal + @NetTax
+																			
+																  IF EXISTS(SELECT SupplierID From @SupplierIDs where SupplierID = @SupplierID)
+																	begin
+																		--SET @PurchaseID = (SELECT SCOPE_IDENTITY());
+																		
+																		declare @TotalPrice as float,
+																				@Discount as float,
+																				@TotalTax as float,
+																				@GrandTotal as float,
+																				@AgainNetTotal as float,
+																                @FootNotes as varchar(2000),
+																                @SystemUserName as varchar(500),
+																                @LastPurchaseID as int,
+																                 @LTotalPrice as float,
+																                  @LTotalTax as float,
+																                  @LGrandTotal as float,
+																                   @LNetTotal as float
+																                
+																                select @LastPurchaseID = PurchaseID,
+																                       @LTotalPrice = LTotalPrice,
+																                       @LTotalTax = LTotalTax,
+																                        @LGrandTotal = LGrandTotal,
+																                        @LNetTotal = LNetTotal
+									
+																                
+																                 from @SupplierIDs where SupplierID = @SupplierID
+																                
+																		 -- select @TotalPrice =   
+																		--select @TotalPrice = @LastTotalPrice + @Qty1GrossTotal,
+																		--	   --@Discount = @LastDiscount + @MarkupVaue,
+																		--	   @TotalTax = @LastTotalTax + @NetTax,
+																		--	  -- @TotalTax = null,
+																		--	   @GrandTotal = @LastGrandTotal + @Qty1GrossTotal,
+																		--	   @AgainNetTotal = @LastNetTotal + @Qty1GrossTotal + @NetTax
+																			   
+																			   
+																			   	select @TotalPrice = @LTotalPrice + @Qty1GrossTotal,
+																			   --@Discount = @LastDiscount + @MarkupVaue,
+																			   @TotalTax = @LTotalTax + @NetTax,
+																			  -- @TotalTax = null,
+																			   @GrandTotal = @LGrandTotal + @Qty1GrossTotal,
+																			   @AgainNetTotal = @LNetTotal + @Qty1GrossTotal + @NetTax
+																               
+																		--insert into tbl_purchasedetail (ItemID,quantity,PurchaseID,price,TotalPrice,packqty,ItemCode,
+																		--	ItemName, Discount, NetTax, freeitems,ItemBalance, TaxID,ServiceDetail) values 
+																		--	(@ItemID,0,@PurchaseID, @Qty1GrossTotal, @Qty1GrossTotal, @Qty1, @ItemCode, @ProductName,@MarkupVaue,@Qty1Tax1Value,0,0,@TaxID,@ProductCompleteName)
+															                
+															                
+																			insert into PurchaseDetail (ItemID,quantity,PurchaseID,price,TotalPrice,packqty,ItemCode,
+																			ItemName, freeitems,ItemBalance,ServiceDetail,NetTax) values 
+																			(@ItemID,1,@LastPurchaseID, @Qty1GrossTotal, @Qty1GrossTotal, @Qty1, @ItemCode, @ProductName,0,0,@ProductCompleteName,@NetTax)
+																		 set @PurchaseDetailID = (SELECT SCOPE_IDENTITY());
+																	     
+																	    
+																		update Purchase
+																		set TotalPrice = @TotalPrice,
+																			--Discount = @Discount,
+																			TotalTax = @TotalTax,
+																			GrandTotal = @GrandTotal,
+																			NetTotal = @AgainNetTotal where PurchaseID = @LastPurchaseID
+																	        
+																	   --select @LastTotalPrice = @TotalPrice,
+																			 -- --@LastDiscount =  @Discount,
+																			 -- @LastTotalTax =  @TotalTax,
+																			 -- @LastGrandTotal = @GrandTotal,
+																			 -- @LastNetTotal = @AgainNetTotal
+																			 
+																			 
+																	
+																			 
+																			 	insert into @SupplierIDs values (@SupplierID,@LastPurchaseID,@TotalPrice,@TotalTax,@GrandTotal,@AgainNetTotal)
+																		-- total price
+																		-- discount
+																		-- total tax 
+																		-- grand total
+																		-- net total
+																	     
+																	 end
+																   else
+																	 begin
+																		 --- 1p and 1pd create
+																		 
+																		  select @SupplierName = Name,
+																				  @ContactCompanyID = CompanyId
+																			from Company where companyid = @SupplierID
+																          
+																		   SELECT @SupplierContactID = ContactID,
+																				  @SupplierAdressID = AddressID
+																		   FROM   CompanyContact where companyid = @ContactCompanyID 
+																		   
+																		   --Naveed Commenting to test the change -- comment starts--																	        
+																		   --select @POPrefix = POPrefix,
+																				 -- @POStart  = POStart,
+																				 -- @PONext = PONext
+																		   --from tbl_prefixes where SystemSiteID = 1
+																		   
+																		   --set @Code = @POPrefix + '-001-' + @PONext
+																		   
+																		   --set @NewPO = @PONext + 1
+																		   
+																		   
+																		   --Update tbl_prefixes set PONext = @NewPO where SystemSiteID = 1	
+																		   		-------mnz comments end----	  
+																				
+																				--New line added mnz---
+																				select @Code = (select top 1 POPrefix + '-001-'+ cast(PONext as varchar) from prefix)
+																				------ 
+																		 --	 select @TaxIDGS =  StateTaxID from tbl_company_sites where companyid =  2
+																		 --  declare @TaxPercentage as float
+																		 --  select @TaxPercentage = Tax1 from tbl_taxrate where taxid = @TaxIDGS
+																		   
+																		 --  select @NetTax = (@Qty1GrossTotal * @TaxPercentage) / 100
+																		   					   
+																		 --  select @Qty1Tax1Value = 0
+																			select @NetTotal = @Qty1GrossTotal + @NetTax
+																		    
+																		   
+																		   --insert into tbl_purchase (date_Purchase,TotalPrice,isproduct,Status,Discount,TotalTax,GrandTotal,NetTotal,
+																		   --CreatedBy,SupplierID,Code,SupplierContactCompany,SupplierContactAddressID,ContactID) values (GetDate(), @Qty1GrossTotal, 2, 31, @MarkupVaue, @Qty1Tax1Value, @Qty1GrossTotal, @NetTotal, @CreatedBy, @SupplierID,@Code,@SupplierName,
+																		   --@SupplierAdressID,@SupplierContactID)  
+																		   select @SystemSiteID = 1
+																	       
+																		  
+																		   
+																           select @FootNotes =  isnull(FootNotes,'') from ReportNote where reportcategoryid = 5 and isdefault = 1 
+																		  
+																		 
+																		   declare @FlagId as int
+																		   select @FlagId = (select top 1 sectionflagid from sectionflag where SectionId = 7)
+																		   insert into Purchase (date_Purchase,TotalPrice,isproduct,Status,GrandTotal,NetTotal,
+																		   CreatedBy,SupplierID,Code,SupplierContactCompany,SupplierContactAddressID,ContactID,SystemSiteID,FootNote,TotalTax, UserNotes,FlagID) values (GetDate(), @Qty1GrossTotal, 2, 31,  @Qty1GrossTotal, @NetTotal, @CreatedBy, @SupplierID,@Code,@SupplierName,
+																		   @SupplierAdressID,@SupplierContactID,@SystemSiteID, @FootNotes,@NetTax, @UserNotes,@FlagId)  
+																           
+																			SET @PurchaseID = (SELECT SCOPE_IDENTITY());
+																            
+																			
+																			--insert into tbl_purchasedetail (ItemID,quantity,PurchaseID,price,TotalPrice,packqty,ItemCode,
+																			--ItemName, Discount, NetTax, freeitems,ItemBalance, TaxID,ServiceDetail) values 
+																			--(@ItemID,0,@PurchaseID, @Qty1GrossTotal, @Qty1GrossTotal, @Qty1, @ItemCode, @ProductName,@MarkupVaue,@Qty1Tax1Value,0,0,@TaxID,@ProductCompleteName)
+															            
+																		   insert into PurchaseDetail (ItemID,quantity,PurchaseID,price,TotalPrice,packqty,ItemCode,
+																			ItemName,  freeitems,ItemBalance,ServiceDetail,NetTax) values 
+																			(@ItemID,1,@PurchaseID, @Qty1GrossTotal, @Qty1GrossTotal, @Qty1, @ItemCode, @ProductName,0,0,@ProductCompleteName,@NetTax)
+																			set @PurchaseDetailID = (SELECT SCOPE_IDENTITY());
+																			
+																			--select @LastTotalPrice = @Qty1GrossTotal,
+																			--	   @LastTotalTax = @NetTax,
+																			--	   @LastGrandTotal = @Qty1GrossTotal,
+																			--	   @LastNetTotal = @NetTotal
+																			
+																			
+																				   --@LastDiscount = @MarkupVaue  
+																			
+																		
+																			
+																			insert into @SupplierIDs values (@SupplierID,@PurchaseID,@Qty1GrossTotal,@NetTax,@Qty1GrossTotal,@NetTotal)
+																			Update top(1) prefix set PONext = PONext + 1  --line added by naveed after commenting lines above
+																			
+																	 end  -- end of else part of exist 
+							   end -- end of supplier > 0
+							
+						
+						
+		    SET @Counter = @Counter + 1
+		 end -- end of while
+		
+		 SET @Err = @@Error	
+		 select @PurchaseDetailID as MSG
+	
+		RETURN @Err
+END
+
+
+/* Execution Date: 11-06-2015 */
+
+/****** Object:  StoredProcedure [dbo].[usp_TotalEarnings]    Script Date: 6/11/2015 1:02:24 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO 
+
+ALTER PROCEDURE [dbo].[usp_TotalEarnings] (@fromdate as datetime, @todate as datetime, @Organisationid bigint)
+
+AS
+
+--define limits
+
+--set @fromdate = '2015-01-01'
+
+--set @todate = '2015-12-31'
+
+ BEGIN
+ 
+;With DateSequence( [Date] ) as
+
+(
+
+    Select @fromdate as [Date]
+
+        union all
+
+    Select dateadd(day, 1, [Date])
+
+        from DateSequence
+
+        where Date < @todate
+
+)
+
+ 
+
+--select result
+
+Select
+
+    CONVERT(VARCHAR,[Date],112) as ID,
+
+    [Date] as [Date],
+
+    DATEPART(DAY,[Date]) as [Day],
+
+    CASE
+
+         WHEN DATEPART(DAY,[Date]) = 1 THEN CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'st'
+
+         WHEN DATEPART(DAY,[Date]) = 2 THEN CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'nd'
+
+         WHEN DATEPART(DAY,[Date]) = 3 THEN CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'rd'
+
+         ELSE CAST(DATEPART(DAY,[Date]) AS VARCHAR) + 'th'
+
+    END as [DaySuffix],
+
+    DATENAME(dw, [Date]) as [DayOfWeek],
+
+    DATEPART(DAYOFYEAR,[Date]) as [DayOfYear],
+
+    DATEPART(WEEK,[Date]) as [WeekOfYear],
+
+    DATEPART(WEEK,[Date]) + 1 - DATEPART(WEEK,CAST(DATEPART(MONTH,[Date]) AS VARCHAR) + '/1/' + CAST(DATEPART(YEAR,[Date]) AS VARCHAR)) as [WeekOfMonth],
+
+    DATEPART(MONTH,[Date]) as [Month],
+
+    DATENAME(MONTH,[Date]) as [MonthName],
+
+    DATEPART(QUARTER,[Date]) as [Quarter],
+
+    CASE DATEPART(QUARTER,[Date])
+
+        WHEN 1 THEN 'First'
+
+        WHEN 2 THEN 'Second'
+
+        WHEN 3 THEN 'Third'
+
+        WHEN 4 THEN 'Fourth'
+
+    END as [QuarterName],
+
+    DATEPART(YEAR,[Date]) as [Year]
+
+	into #dt
+
+from DateSequence option (MaxRecursion 10000)
+
+--select * from #dt
+
+select sum(Estimate_Total) Total,count(*) Orders,store,Month,monthname,year
+
+	from
+
+	(
+	
+
+		select  estimateid, o.Estimate_Total,
+
+		DATENAME(MONTH,O.Order_Date) as [Month],
+
+		DATEPART(MONTH,O.Order_Date) as [MonthName],
+
+		DATEPART(YEAR,O.Order_Date) as [Year],
+
+		(Case when C.Iscustomer = 3 then C.name when C.IsCustomer = 1 then S.name End) as store,
+
+		C.IsCustomer
+
+
+		from Estimate O
+
+		inner join Company C on O.CompanyId = C.companyid
+
+		left outer join Company S on C.StoreId = S.companyid
+
+		where (O.StatusId <> 3 and O.StatusId <> 34) and C.OrganisationId = @Organisationid and C.IsCustomer <> 0
+
+
+
+		
+
+
+
+	) data
+
+group by month,store,monthname,year
+order by monthname
+
+
+END
+
+------------------------------------------------------------------------
+
+/****** Object:  Table [dbo].[VariableExtension]    Script Date: 11/06/2015 11:20:58 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[VariableExtension](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FieldVariableId] [int] NULL,
+	[CompanyId] [int] NULL,
+	[OrganisationId] [int] NULL,
+	[VariablePrefix] [nvarchar](max) NULL,
+	[VariablePostfix] [nvarchar](max) NULL,
+	[CollapsePrefix] [bit] NULL,
+	[CollapsePostfix] [bit] NULL,
+ CONSTRAINT [PK_VariableExtension] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+CREATE TABLE [dbo].[VariableExtension](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FieldVariableId] [int] NULL,
+	[CompanyId] [int] NULL,
+	[OrganisationId] [int] NULL,
+	[VariablePrefix] [nvarchar](max) NULL,
+	[VariablePostfix] [nvarchar](max) NULL,
+	[CollapsePrefix] [bit] NULL,
+	[CollapsePostfix] [bit] NULL,
+ CONSTRAINT [PK_VariableExtension] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+alter table goodsreceivednote
+drop constraint DF__tbl_goods__Suppl__52E34C9D
+
+alter table goodsreceivednote
+alter column supplierid bigint null
+
+--Executed on Staging, USA, Europe, Australia servers on 20150611---
+update goodsreceivednote
+set supplierid = null
+
+alter table goodsreceivednote
+alter column supplierid bigint null
+
+update goodsreceivednote
+set supplierid = null
+
+alter table goodsreceivednote
+add constraint FK_GoodsReceivedNote_Company
+foreign key (SupplierId)
+references Company (CompanyId)
+
+alter table goodsreceivednoteDetail
+add constraint FK_GoodsReceivedNoteDetail_GoodsReceivedNote
+foreign key (GoodsReceivedId)
+references GoodsReceivedNote (GoodsReceivedId)
+on delete cascade
+
+delete from goodsreceivednote
+
+alter table goodsreceivednote
+add constraint FK_GoodsReceivedNote_SectionFlag
+foreign key (FlagId)
+references SectionFlag (SectionFlagId)
+
+alter table goodsreceivednoteDetail
+alter column itemid bigint null
+
+update goodsreceivednoteDetail
+set ItemId = null
+where ItemId not in (select ItemId from Items)
+
+alter table goodsreceivednoteDetail
+add constraint FK_GoodsReceivedNoteDetail_Items
+foreign key (ItemId)
+references Items (ItemId)
+
+alter table goodsreceivednoteDetail
+add ProductType int null
+
+alter table goodsreceivednoteDetail
+add RefItemId bigint null
+
+alter table productcategory
+alter column ImagePath nvarchar(400) null
+
+alter table productcategory
+alter column ThumbnailPath nvarchar(400) null
+
+/* Execution Date: 12/06/2015 */
+
+alter table VariableExtension
+alter column FieldVariableId bigint null
+
+alter table VariableExtension
+add constraint FK_VariableExtension_FieldVariable
+foreign key (FieldVariableId)
+references FieldVariable (VariableId)
+
+alter table CompanyContact
+add SecondaryEmail varchar(200) null
+
+/* Execution Date: 15/06/2015 */
+
+alter table VariableExtension
+drop constraint FK_VariableExtension_FieldVariable
+
+alter table VariableExtension
+add constraint FK_VariableExtension_FieldVariable
+foreign key (FieldVariableId)
+references FieldVariable (VariableId)
+on delete cascade
+
+/* Execution Date: 16/06/2015 */
+
+alter table goodsreceivednote
+alter column createdby nvarchar(max) null
+
+alter table goodsreceivednote
+alter column createdby uniqueidentifier null
+
+/* Execution Date: 17/06/2015 */
+
+/****** Object:  StoredProcedure [dbo].[usp_DeleteCRMCompanyByID]    Script Date: 06/17/2015 5:30:56 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[usp_DeleteCRMCompanyByID] 
+    @CompanyID int
+AS 
+    SET NOCOUNT ON;
+    declare @IsCustomer int
+	declare @EstimateID bigint = 0
+	declare @itemID bigint = 0
+	declare @invoiceId bigint = 0
+	declare @DeliveryNoteId bigint = 0
+	declare @PurchaseId bigint = 0
+	declare @GoodsReceivedId bigint = 0
+
+	select @IsCustomer = iscustomer from company where companyid = @CompanyID
+	--delete nls
+	--from NewsLetterSubscriber nls
+	--inner join CompanyContact c on c.ContactID = nls.ContactID
+	--where c.CompanyId = @CompanyID
+
+	--deleting the tbl_Inquiry Attachments
+	delete  IA
+		from InquiryAttachment IA
+		inner join Inquiry I on IA.InquiryID = I.InquiryID
+		inner join Company CC on CC.CompanyId = I.CompanyId
+		where CC.CompanyId = @CompanyID
+
+	--deleting the tbl_Inquiry_Items
+	delete  II
+	from InquiryItem II
+	inner join dbo.Inquiry I on II.InquiryID = I.InquiryID
+	inner join Company CC on CC.CompanyID = I.CompanyId
+	where CC.CompanyID = @CompanyID
+
+	--deleting the Inquiries
+	delete  I
+	from dbo.Inquiry I
+	--inner join CompanyContact CC on CC.ContactId = I.ContactId
+	where I.CompanyId = @CompanyID
+
+	-- checking if is supplier
+if (@IsCustomer = 2) 
+begin
+	/* Delete Purchase. First delete purchase details*/ 
+	select @PurchaseId = PurchaseId from Purchase where SupplierId = @CompanyID
+	delete from PurchaseDetail where PurchaseId = @PurchaseId
+	delete from Purchase where SupplierId = @CompanyID
+
+	/* Delete Goods Received Note. First delete Goods Received Note Details */ 
+	select @GoodsReceivedId = GoodsReceivedId from GoodsReceivedNote where SupplierId = @CompanyID
+	delete from GoodsReceivedNoteDetail where GoodsreceivedId = @GoodsReceivedId 
+	delete from GoodsReceivedNote where SupplierId = @CompanyID
+end
+
+else
+begin
+	/* Delete Invoice. Items from items table against that invoice, invoice detail table */ 
+	select @invoiceId = invoiceId from invoice where companyid = @CompanyId
+	delete from InvoiceDetail where invoiceId = @invoiceId
+	delete from items where invoiceId = @invoiceId 
+	delete from invoice where companyid = @CompanyId
+
+	/* Delete Delivery Note. First delete delivery note detail */ 
+	select @DeliveryNoteId = DeliveryNoteId from DeliveryNote where companyid = @CompanyID
+	delete from DeliveryNoteDetail where DeliveryNoteId =  @DeliveryNoteId
+	delete from DeliveryNote where companyid = @CompanyID
+end
+
+	delete from CompanyContact where companyid = @CompanyID
+	delete from Address where companyid = @CompanyID
+	delete from CompanyTerritory where companyid = @CompanyID
+	-- to delete ordered items and order
+	declare @TVP table 
+	( 
+	id INT IDENTITY NOT NULL PRIMARY KEY,
+	OrderID bigint
+	)
+	declare @OP table 
+	( 
+	id INT IDENTITY NOT NULL PRIMARY KEY,
+	ItemID bigint
+	)
+	declare @temp table(
+	id INT IDENTITY NOT NULL PRIMARY KEY,
+	CompanyID bigint
+	)
+
+	INSERT INTO @TVP (OrderID)
+		select  EstimateID from estimate
+		where companyID = @CompanyID
+	
+	declare @Totalrec int
+	select @Totalrec = COUNT(*) from @TVP
+ 
+	declare @currentrec int
+
+	set @currentrec = 1
+
+	WHILE (@currentrec <=@Totalrec)
+		 BEGIN
+			 select @EstimateID = OrderID from @TVP
+			 where ID = @currentrec
+
+			 INSERT INTO @OP (ItemID)
+			 select ItemID from Items where estimateid = @EstimateID
+
+			-- loop for ordered items	
+			 declare @TotalItems int
+			 select @TotalItems = COUNT(*) from @OP
+ 
+			 declare @currentItemRec int
+			 set @currentItemRec = 1
+			  WHILE (@currentItemRec <= @TotalItems)
+				 BEGIN
+				  select @ItemID = ItemID from @OP
+						 where ID = @currentItemRec
+
+						Exec usp_DeleteProduct  @ItemID
+
+						set @currentItemRec = @currentItemRec + 1
+				 end
+				 	delete 
+				from PrePayment where orderid = @EstimateID
+
+			 delete from estimate where estimateid = @EstimateID
+		 SET @currentrec = @currentrec + 1
+		 end
+
+	delete from company where companyid = @CompanyID
+
+/* Execution Date: 18/06/2015 */
+
+alter table ItemStockUpdateHistory
+drop column LastOrderedQty
+
+alter table ItemStockUpdateHistory
+drop column LastAvailableQty
+
+alter table ItemStockUpdateHistory
+add StockItemId bigint null
+
+ALTER TABLE ItemStockUpdateHistory  
+WITH CHECK ADD  CONSTRAINT [FK_ItemStockUpdateHistory_StockItem] FOREIGN KEY([StockItemID])
+REFERENCES [StockItem] ([StockItemId])
+on delete cascade
+
+ALTER TABLE ItemStockUpdateHistory CHECK CONSTRAINT [FK_ItemStockUpdateHistory_StockItem]
+GO
+
+alter table ItemAddonCostCentre
+drop constraint FK_ItemStockOption_ItemAddonCostCentre
+
+
+alter table ItemAddonCostCentre
+add constraint FK_ItemAddonCostCentre_ItemStockOption
+foreign key (ItemStockOptionId)
+references ItemStockOption (ItemStockOptionId)
+on delete cascade
+
+-----Executed on All servers on 20150618------------
+/* Execution Date: 19/06/2015 */
+
+alter table ItemStockUpdateHistory
+alter column LastModifiedBy nvarchar(max) null
+
+update ItemStockUpdateHistory
+set LastModifiedBy = null
+
+alter table ItemStockUpdateHistory
+alter column LastModifiedBy uniqueidentifier null
+
+alter table ItemStockUpdateHistory
+add constraint FK_ItemStockUpdateHistory_SystemUser
+foreign key (LastModifiedBy)
+references SystemUser (SystemUserId)
+
+
+-----Executed on All servers on 20150622------------
+
+update FieldVariable set CriteriaFieldName = 'SecondaryEmail' where VariableTag like '{{Email}}'
+
+/* Execution Date: 29/06/2015 */
+
+alter table templateBackgroundImage add hasClippingPath bit null
+
+
+alter table templateBackgroundImage add clippingFileName nvarchar(max) null
+
+alter table templateObject add hasClippingPath bit null
+
+
+
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[sp_GetTemplateImages]
+	@isCalledFrom int = 0, 
+	@imageSetType int = 0, 
+	@templateID bigint = 0, 
+	@contactCompanyID bigint = 0, 
+	@contactID bigint = 0, 
+	@territory bigint = 0, 
+	@pageNumber int = 0,
+	@pageSize int =0,
+	@sortColumn nvarchar = '',
+	@search varchar(255) = '',
+	@imageCount int = 0 output 
+AS
+
+BEGIN
+	SET NOCOUNT ON;
+	declare @result TABLE (			ID int,
+	ProductID int,
+	ImageName varchar(300),
+	Name varchar(300),
+	flgPhotobook bit,
+	flgCover bit,
+	BackgroundImageAbsolutePath nvarchar(500),
+	BackgroundImageRelativePath nvarchar(500),
+	ImageType int,
+	ImageWidth int,
+	ImageHeight int,
+	ImageTitle nvarchar(max),
+	ImageDescription nvarchar(max),
+	ImageKeywords nvarchar(max),
+	UploadedFrom int,
+	ContactCompanyID int,
+	ContactID int,
+	hasClippingPath bit,
+	clippingFileName nvarchar(max)
+	) 
+	IF(@isCalledFrom = 1)  --DESIGNER V2
+		BEGIN 
+			-- getting old template images and all the images uploaded by DESIGNERS
+			IF(@contactCompanyID = -999) 
+				BEGIN
+					IF(@imageSetType = 1) 
+						BEGIN
+							Insert into @result
+								select * from templateBackgroundImage where (imagetype = 2 and ProductID =  @templateID)
+								and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%')
+								ORDER BY  ID DESC
+						END
+					ELSE IF (@imageSetType = 12) 
+						BEGIN
+						Insert into @result
+							select * from templateBackgroundImage where (imagetype = 4 and ProductID =  @templateID)
+								and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%')
+								ORDER BY  ID DESC
+						END
+					ELSE IF (@imageSetType = 6 ) 
+						BEGIN
+							Insert into @result
+								select * from templateBackgroundImage where (imagetype = 1 and ContactCompanyID = -999)
+								and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%')
+								 ORDER BY  ID DESC
+						END
+					ELSE IF ( @imageSetType = 7) 
+						BEGIN
+							Insert into @result
+								select * from templateBackgroundImage where ( imagetype = 3 and ContactCompanyID = -999)
+								and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%')
+								 ORDER BY  ID DESC
+						END
+					ELSE IF ( @imageSetType = 13) 
+						BEGIN
+							Insert into @result
+								select * from templateBackgroundImage where ( imagetype = 13 and ContactCompanyID = -999)
+								and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%')
+								 ORDER BY  ID DESC
+						END
+					ELSE IF ( @imageSetType = 14) 
+						BEGIN
+							Insert into @result
+								select * from templateBackgroundImage where ( imagetype = 14 and ContactCompanyID = -999)
+								and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%')
+								 ORDER BY  ID DESC
+						END
+				END
+			ELSE
+				BEGIN
+					-- DESINGER V2 CUSTOMER MODE
+					IF(@imageSetType = 1) 
+						BEGIN
+							Insert into @result
+								select * from templateBackgroundImage where (imagetype = 2 and ProductID =  @templateID)
+								and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%')
+								ORDER BY  ID DESC
+						END
+					ELSE IF(@imageSetType = 12) 
+						BEGIN
+							Insert into @result
+								select * from templateBackgroundImage where (imagetype = 4 and ProductID =  @templateID)
+								and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%')
+								ORDER BY  ID DESC
+						END
+					ELSE IF (@imageSetType = 10) 
+						BEGIN
+							Insert into @result
+								select * from templateBackgroundImage where (imagetype = 1 and  ContactCompanyID = @contactCompanyID and (ContactID = 0 or ContactID is null)) 
+								and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%')
+								ORDER BY  ID DESC
+						END
+					ELSE IF (@imageSetType = 11) 
+						BEGIN
+							Insert into @result
+								select * from templateBackgroundImage where (imagetype = 3 and ContactCompanyID = @contactCompanyID and (ContactID = 0 or ContactID is null)) 
+								and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%')
+								ORDER BY  ID DESC
+						END
+				END
+		END
+	ELSE IF(@isCalledFrom = 2)  --mis
+		BEGIN 
+		-- getting old template images and all the images uploaded by that Company
+			IF(@imageSetType = 1) 
+				BEGIN
+					Insert into @result
+						select * from templateBackgroundImage where (imagetype = 2 and ProductID =  @templateID) 
+						and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%') 
+						ORDER BY  ID DESC
+				END
+			ELSE IF(@imageSetType = 12) 
+				BEGIN
+					Insert into @result
+						select * from templateBackgroundImage where (imagetype = 4 and ProductID =  @templateID) 
+						and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%') 
+						ORDER BY  ID DESC
+				END
+			ELSE IF (@imageSetType = 2) 
+				BEGIN
+					Insert into @result
+						select * from templateBackgroundImage where (imagetype = 1 and ContactCompanyID = @contactCompanyID and (ContactID = 0 or ContactID is null)) 
+						and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%') 
+						ORDER BY  ID DESC
+				END
+			ELSE IF (@imageSetType = 3) 
+				BEGIN
+					Insert into @result
+						select * from templateBackgroundImage where (imagetype = 3 and ContactCompanyID = @contactCompanyID and (ContactID = 0 or ContactID is null)) 
+						and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%') 
+						ORDER BY  ID DESC
+				END
+			ELSE IF (@imageSetType = 16) 
+				BEGIN
+					Insert into @result
+						select * from templateBackgroundImage where (imagetype = 16 and ContactCompanyID = @contactCompanyID and (ContactID = 0 or ContactID is null)) 
+						and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%') 
+						ORDER BY  ID DESC
+				END	 
+			ELSE IF (@imageSetType = 17) 
+				BEGIN
+					Insert into @result
+						select * from templateBackgroundImage where (imagetype = 17 and ContactCompanyID = @contactCompanyID and (ContactID = 0 or ContactID is null)) 
+						and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%') 
+						ORDER BY  ID DESC
+				END	
+		END
+	ELSE IF (@isCalledFrom = 3) --retail end user
+	BEGIN
+	   -- -999 is contact company id of designerv2 mpc users 
+		IF(@imageSetType = 1) 
+			BEGIN
+				Insert into @result
+					select * from templateBackgroundImage where (imagetype = 2 and ProductID =  @templateID) 
+					and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%') 
+					ORDER BY  ID DESC
+			END
+		ELSE IF(@imageSetType = 12) 
+			BEGIN
+				Insert into @result
+					select * from templateBackgroundImage where (imagetype = 4 and ProductID =  @templateID) 
+					and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%') 
+					ORDER BY  ID DESC
+			END
+		ELSE IF (@imageSetType = 6 ) 
+			BEGIN
+				Insert into @result
+					select * from templateBackgroundImage where  imagetype = 1 and ContactCompanyID = -999 
+					and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%')
+				    ORDER BY  ID DESC
+			END
+		ELSE IF (@imageSetType = 7) 
+			BEGIN
+				Insert into @result
+					select * from templateBackgroundImage where imagetype = 3 and  ContactCompanyID = -999 
+					and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%')
+				    ORDER BY  ID DESC
+			END
+		ELSE IF (@imageSetType = 8) 
+			BEGIN
+				Insert into @result
+					select * from templateBackgroundImage where ( imagetype = 1 and ContactCompanyID = @contactCompanyID and ContactID =@contactID) 
+					and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%')
+					ORDER BY  ID DESC
+			END		
+		ELSE IF (@imageSetType = 9 ) 
+			BEGIN
+				Insert into @result
+					select * from templateBackgroundImage where ( imagetype = 3 and ContactCompanyID = @contactCompanyID and ContactID =@contactID) 
+					and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%')
+					ORDER BY  ID DESC
+			END		
+		ELSE IF (@imageSetType = 15 ) 
+			BEGIN
+				Insert into @result
+					select * from templateBackgroundImage where ( imagetype = 14 and ContactCompanyID = @contactCompanyID and ContactID =@contactID) 
+					and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%')
+					ORDER BY  ID DESC
+			END	
+		ELSE IF ( @imageSetType = 13) 
+						BEGIN
+							Insert into @result
+								select * from templateBackgroundImage where ( imagetype = 13 and ContactCompanyID = -999)
+								and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%')
+								 ORDER BY  ID DESC
+						END
+		ELSE IF ( @imageSetType = 14) 
+						BEGIN
+							Insert into @result
+								select * from templateBackgroundImage where ( imagetype = 14 and ContactCompanyID = -999)
+								and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%')
+								 ORDER BY  ID DESC
+						END		
+	END
+	ELSE IF (@isCalledFrom = 4)  -- mis end user
+	BEGIN
+		IF(@imageSetType = 1) 
+			BEGIN
+				Insert into @result
+					select * from templateBackgroundImage where (imagetype = 2 and ProductID =  @templateID) 
+					and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%') 
+					ORDER BY  ID DESC
+			END
+		ELSE IF(@imageSetType = 12) 
+			BEGIN
+				Insert into @result
+					select * from templateBackgroundImage where (imagetype = 4 and ProductID =  @templateID) 
+					and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%') 
+					ORDER BY  ID DESC
+			END
+		ELSE IF (@imageSetType = 2) 
+			BEGIN
+				Insert into @result	
+				 select tbi.* from templateBackgroundImage tbi
+				 inner join ImagePermissions ip on ip.ImageID = tbi.ID
+				 where ip.TerritoryID = @territory 
+				 and  (imagetype = 1 and (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%'))
+				 ORDER BY  ID DESC
+			END
+		ELSE IF (@imageSetType = 3) 
+			BEGIN
+				Insert into @result	
+				 select tbi.* from templateBackgroundImage tbi
+				 inner join ImagePermissions ip on ip.ImageID = tbi.ID
+				 where ip.TerritoryID = @territory 
+				 and  (imagetype = 3 and (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%'))
+				 ORDER BY  ID DESC
+			END
+		ELSE IF (@imageSetType = 4) 
+			BEGIN
+				Insert into @result
+				select * from templateBackgroundImage where (imagetype = 1 and ContactCompanyID = @contactCompanyID and ContactID =@contactID) 
+				and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%') 
+				ORDER BY  ID DESC
+			END		
+		ELSE IF (@imageSetType = 5) 
+			BEGIN
+				Insert into @result
+				select * from templateBackgroundImage where (imagetype = 3 and ContactCompanyID = @contactCompanyID and ContactID =@contactID) 
+				and  (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%') 
+				ORDER BY  ID DESC
+			END	
+		ELSE IF (@imageSetType = 16) 
+			BEGIN
+				Insert into @result	
+				 select tbi.* from templateBackgroundImage tbi
+				 inner join ImagePermissions ip on ip.ImageID = tbi.ID
+				 where ip.TerritoryID = @territory 
+				 and  (imagetype = 16 and (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%'))
+				 ORDER BY  ID DESC
+			END	
+		ELSE IF (@imageSetType = 17) 
+			BEGIN
+				Insert into @result	
+				 select tbi.* from templateBackgroundImage tbi
+				 inner join ImagePermissions ip on ip.ImageID = tbi.ID
+				 where ip.TerritoryID = @territory 
+				 and  (imagetype = 17 and (@search = '' or ImageTitle like '%'+@search+'%' or imageDescription like '%'+@search+'%' or imageKeywords like '%'+@search+'%'))
+				 ORDER BY  ID DESC
+			END
+	END
+	
+	select @imageCount = count(ID) from @result
+	-- apply sort by column name
+	--SELECT * FROM @result
+		--ORDER BY @sortColumn;
+	-- result selected now apply paging
+	declare @currPage int = 1
+   
+	declare @RecCount int = 0
+	select @recCount = count(ID) from @result
+	declare @Start int = 1
+	declare @end int = 10
+
+	if(@pageNumber != 1)
+	   Begin
+		set @start = (@pageNumber * @pageSize) - @pageSize + 1
+	   End
+	else
+	   Begin 
+		 set @start = 1
+	   End
+
+	set  @end = @Start + @pageSize
+ 
+	Select * From
+	(SELECT ROW_NUMBER() OVER(ORDER BY ID desc) AS RowNum, *
+	From @result) as sub
+	Where sub.RowNum >= @Start and sub.RowNum < @end
+	
+	
+END
+GO
+
+
+/* Execution Date: 02/07/2015 */
+
+--Stored Procedure to delete all StagingImportCompanyContactAddress table records
+--Procedure is using while uploading company contacts from csv file
+
+Create PROCEDURE [dbo].[usp_DeleteStagingImportCompanyContactAddress]
+AS
+BEGIN
+delete from StagingImportCompanyContactAddress
+end
+
+alter table SystemUser add EmailSignature nvarchar(max) null
+alter table SystemUser add EstimateHeadNotes nvarchar(max) null
+alter table SystemUser add EstimateFootNotes nvarchar(max) null 
+
+/* Execution Date: 06/07/2015 */
+
+Alter table templateObject
+Add isBulletPoint bit null
+
+/* Execution Date: 07/07/2015 */
+
+alter table GoodsReceivedNote
+alter Column CreatedBy nvarchar null
+
+alter table GoodsReceivedNote
+alter Column CreatedBy uniqueidentifier null
+
+/* Execution Date: 10/07/2015 */
+
+GO
+/****** Object:  StoredProcedure [dbo].[usp_DeleteTemplate]    Script Date: 7/10/2015 10:02:09 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[usp_DeleteTemplate]
+	-- Add the parameters for the stored procedure here
+	
+	@TemplateID bigint
+
+AS
+BEGIN
+
+ -- delete template objects
+
+delete from TemplateObject where productid = @TemplateID
+
+
+ -- delete template pages
+ delete from TemplatePage where productid = @TemplateID
+
+  -- delete image permisssions
+
+ DELETE imgPer
+				FROM ImagePermissions imgPer
+				inner join TemplateBackgroundImage tbi on tbi.Id = imgPer.ImageID
+				where tbi.ProductID = @TemplateID
+
+
+ -- delete template background images
+  delete from TemplateBackgroundImage where productid = @TemplateID
+
+
+delete from TemplateVariable where templateid = @TemplateID
+-- delete template 
+DELETE from template where ProductId = @TemplateID
+
+end
+
+alter table organisation add AgileApiKey nvarchar(255) null
+alter table organisation add AgileApiUrl nvarchar(255) null
+
+/* Execution Date: 14/07/2015 */
+
+alter table DiscountVoucher add VoucherName varchar(200)
+alter table DiscountVoucher add DiscountType int 
+alter table DiscountVoucher add HasCoupon bit
+alter table DiscountVoucher add CouponCode nvarchar(255)
+alter table DiscountVoucher add CouponUseType int
+alter table DiscountVoucher add IsUseWithOtherCoupon bit
+alter table DiscountVoucher add IsTimeLimit bit
+alter table DiscountVoucher add IsQtyRequirement bit
+alter table DiscountVoucher add MinRequiredQty int
+alter table DiscountVoucher add MaxRequiredQty int
+alter table DiscountVoucher add IsOrderPriceRequirement bit
+alter table DiscountVoucher add MinRequiredOrderPrice int
+alter table DiscountVoucher add MaxRequiredOrderPrice int
+alter table DiscountVoucher add CustomerId bigint
+alter table DiscountVoucher add IsSingleUseRedeemed bit
+alter table DiscountVoucher add IsQtySpan bit
+
+
+/****** Object:  Table [dbo].[ItemsVoucher]    Script Date: 7/13/2015 2:34:20 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[ItemsVoucher](
+      [ItemVoucherId] [bigint] IDENTITY(1,1) NOT NULL,
+      [ItemId] [bigint] NULL,
+      [VoucherId] [bigint] NULL,
+CONSTRAINT [PK_ItemsVoucher] PRIMARY KEY CLUSTERED 
+(
+      [ItemVoucherId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+
+/****** Object:  Table [dbo].[ProductCategoryVoucher]    Script Date: 7/13/2015 2:34:49 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[ProductCategoryVoucher](
+      [CategoryVoucherId] [bigint] IDENTITY(1,1) NOT NULL,
+      [ProductCategoryId] [bigint] NULL,
+      [VoucherId] [bigint] NULL,
+CONSTRAINT [PK_ProductCategoryVoucher] PRIMARY KEY CLUSTERED 
+(
+      [CategoryVoucherId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+
+
+/****** Object:  Table [dbo].[TemplateVariableExtension]    Script Date: 24/07/2015 10:53:32 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TemplateVariableExtension](
+	[TemplateVariableExtId] [bigint] IDENTITY(1,1) NOT NULL,
+	[TemplateId] [bigint] NULL,
+	[FieldVariableId] [bigint] NULL,
+	[HasPrefix] [bit] NULL,
+	[HasPostFix] [bit] NULL,
+ CONSTRAINT [PK_TemplateVariableExtension] PRIMARY KEY CLUSTERED 
+(
+	[TemplateVariableExtId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+
+---Executed on Live Servers--------
+
+alter table Organisation add isAgileActive bit
+alter table Organisation add isTrial bit
+alter table Organisation add LiveStoresCount int
+alter table company add isStoreLive bit
+
+
+/****** Object:  Table [dbo].[CompanyVoucherRedeem]    Script Date: 7/28/2015 2:05:27 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[CompanyVoucherRedeem](
+	[VoucherRedeemId] [bigint] IDENTITY(1,1) NOT NULL,
+	[CompanyId] [bigint] NULL,
+	[DiscountVoucherId] [bigint] NULL,
+	[RedeemDate] [datetime] NULL,
+ CONSTRAINT [PK_CompanyVoucherRedeem] PRIMARY KEY CLUSTERED 
+(
+	[VoucherRedeemId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+---Executed on Live Servers--------
+alter table Organisation add WebStoreOrdersCount int
+alter table Organisation add MisOrdersCount int
+
+---Executed on Live Servers on 2015 29 2015-----
+
+
+/****** Object:  StoredProcedure [dbo].[usp_ChartRegisteredUserByStores]    Script Date: 7/30/2015 8:24:51 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Muhammad Naveed
+-- Create date: 2015 07 30
+-- Description:	To Get Charts data of Registered Users by store
+-- =============================================
+-- Exec [usp_ChartRegisteredUserByStores] 1
+create PROCEDURE [dbo].[usp_ChartRegisteredUserByStores]
+	@OrganisationId bigint
+AS
+BEGIN
+		select Name,sum(TotalContacts) as TotalContacts, Month, MonthName, Year
+			from
+			(
+				select c.Name, ct.[TotalContacts],c.companyid,
+				DATENAME(MONTH,c.CreationDate) as [MonthName],
+				DATEPART(MONTH,c.CreationDate) as [Month],
+				DATEPART(YEAR,c.CreationDate) as [Year]
+				from company c
+				inner join (
+							SELECT  companyid,Count(*) AS TotalContacts
+							FROM companycontact
+							GROUP BY companyid
+							HAVING  companyid in ( select companyId from company where organisationID = @OrganisationId and storeId is null)
+							)
+							ct on ct.companyid = c.CompanyId
+			) data
+
+		group by month,Name,monthname,year
+		order by TotalContacts desc, Month
+
+			RETURN 
+	END
+
+	
+/****** Object:  StoredProcedure [dbo].[usp_ChartTopPerformingStores]    Script Date: 7/30/2015 8:25:55 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Muhammad Naveed
+-- Create date: 2015 07 30
+-- Description:	To Get Charts data of Top Performing Stores
+-- =============================================
+-- Exec [usp_ChartTopPerformingStores]
+ALTER PROCEDURE [dbo].[usp_ChartTopPerformingStores]
+	@OrganisationId bigint
+AS
+BEGIN
+
+		select Name,sum(TotalCustomers) as TotalCustomers, Month, MonthName, Year
+			from
+			(		
+				select c.Name, ct.[TotalCustomers],		
+				DATENAME(MONTH,c.CreationDate) as [MonthName],
+				DATEPART(MONTH,c.CreationDate) as [Month],
+				DATEPART(YEAR,c.CreationDate) as [Year]
+				from company c
+				inner join	(
+								SELECT storeId, COUNT(*) AS [TotalCustomers] FROM company
+								GROUP BY StoreId
+								HAVING  StoreId in ( select companyId from company where organisationID = @organisationid and storeId is null )
+							) ct on ct.StoreId = c.CompanyId
+
+			) data
+
+		group by month,Name,monthname,year
+		order by TotalCustomers desc
+			RETURN 
+	END
+
+
+alter table DiscountVoucher
+add OrganisationId bigint
+
+alter table Items
+add DiscountVoucherID bigint
+
+alter table Estimate
+alter column DiscountVoucherID bigint
+
+alter table CompanyContact add RegistrationDate datetime
+
+update companyContact set RegistrationDate = c.CreationDate
+from  companyContact cc, Company c
+where c.CompanyId = cc.CompanyId
+
+alter table CompanyVoucherRedeem add ContactId bigint
+
+
+
+------------------------
+
+
+ALTER TABLE ProductCategoryVoucher
+ADD CONSTRAINT FK_DiscountVoucher_ProductCategoruVoucher
+FOREIGN KEY (VoucherId) REFERENCES DiscountVoucher(DiscountVoucherId)
+
+
+
+ALTER TABLE ItemsVoucher
+ADD CONSTRAINT FK_DiscountVoucher_ItemsVoucher
+FOREIGN KEY (VoucherId) REFERENCES DiscountVoucher(DiscountVoucherId)
+
+
+---------------
+
+
+
+/****** Object:  StoredProcedure [dbo].[usp_OrderReport]    Script Date: 8/11/2015 12:21:00 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+ALTER procedure [dbo].[usp_OrderReport]
+ @organisationId bigint,
+ @OrderID bigint
+AS
+Begin
+
+
+SELECT   dbo.Items.ItemID,dbo.company.companyid, dbo.Items.Title, isnull(dbo.Items.Qty1,0) As Qty1, dbo.Items.Qty2, dbo.Items.Qty3, dbo.Items.Qty1NetTotal, dbo.Items.Qty2NetTotal, dbo.Items.Qty3NetTotal,dbo.Items.ProductCode, 
+                      
+					 dbo.Items.JobDescription1 as JobDescription1,dbo.Items.JobDescription2 as JobDescription2,dbo.Items.JobDescription3 as JobDescription3,dbo.Items.JobDescription4 as JobDescription4,dbo.Items.JobDescription5 as JobDescription5,
+					 dbo.Items.JobDescription6 as JobDescription6, dbo.Items.JobDescription7 as JobDescription7,
+					 
+					  CASE 
+						  WHEN dbo.Items.JobDescription1 is null then null
+						  WHEN dbo.Items.JobDescription1 is not null THEN  dbo.Items.JobDescriptionTitle1
+				       END As JobDescriptionTitle1,
+				        CASE 
+						  WHEN dbo.Items.JobDescription2 is null THEN Null
+						  WHEN dbo.Items.JobDescription2 is not null THEN  dbo.Items.JobDescriptionTitle2
+				       END As JobDescriptionTitle2,
+				        CASE 
+						  WHEN dbo.Items.JobDescription3 is null THEN Null
+						  WHEN dbo.Items.JobDescription3 is not null THEN  dbo.Items.JobDescriptionTitle3
+				       END As JobDescriptionTitle3,
+				        CASE 
+						  WHEN dbo.Items.JobDescription4 is null THEN Null
+						  WHEN dbo.Items.JobDescription4 is not null THEN  dbo.Items.JobDescriptionTitle4
+				       END As JobDescriptionTitle4,
+				        CASE 
+						  WHEN dbo.Items.JobDescription5 is null THEN Null
+						  WHEN dbo.Items.JobDescription5 is not null THEN  dbo.Items.JobDescriptionTitle5
+				       END As JobDescriptionTitle5,
+				        CASE 
+						  WHEN dbo.Items.JobDescription6 is null THEN Null
+						  WHEN dbo.Items.JobDescription6 is not null THEN  dbo.Items.JobDescriptionTitle6
+				       END As JobDescriptionTitle6,
+				        CASE 
+						  WHEN dbo.Items.JobDescription7 is null THEN Null
+						  WHEN dbo.Items.JobDescription7 is not null THEN  dbo.Items.JobDescriptionTitle7
+				       END As JobDescriptionTitle7,
+                      dbo.Items.JobDescription, dbo.Estimate.Estimate_Name, dbo.Estimate.Order_Code, dbo.Estimate.Estimate_Total, dbo.Estimate.FootNotes, 
+                      dbo.Estimate.HeadNotes, dbo.Estimate.Order_Date, dbo.Estimate.Greeting, dbo.Estimate.CustomerPO, dbo.address.AddressName, 
+                      dbo.address.Address1, dbo.address.Address2, dbo.address.Address3, dbo.address.Email, dbo.address.Fax, (select StateName from State where StateId in (select StateId from address where addressid =  dbo.Address.AddressId)) as State,(select countryname from country where countryid in (select countryid from address where addressid =  dbo.Address.AddressId)) as Country,
+                      dbo.address.City, dbo.address.URL, dbo.address.Tel1, dbo.Company.AccountNumber, dbo.address.PostCode, 
+                      dbo.Company.Name AS CustomerName, dbo.Company.URL AS CustomerURL, dbo.Estimate.EstimateID, dbo.items.ProductName, 
+                      dbo.CompanyContact.FirstName + ISNULL(' ' + dbo.CompanyContact.MiddleName, '') + ISNULL(' ' + dbo.CompanyContact.LastName, '') AS ContactName, 
+                      --dbo.SystemUser.FullName, (select ReportBanner from reportnote where ReportCategoryID=12) as BannerPath ,
+                      (select top 1 ReportTitle from reportnote where ReportCategoryID=12 and organisationid = @organisationId) as ReportTitle,
+                      
+					   CASE 
+						  WHEN dbo.Company.IsCustomer = 3 then 
+						  isnull((select top 1 ISNULL(BannerAbsolutePath,'http://preview.myprintcloud.com/mis/') + isnull(ReportBanner,'MPC_Content/Reports/Banners/ReportBannerOrder.png')  from reportnote where ReportCategoryID=12 and organisationid = @organisationId and CompanyId = Company.CompanyId),'http://preview.myprintcloud.com/mis/MPC_Content/Reports/Banners/ReportBannerOrder.png')
+						  WHEN (dbo.Company.IsCustomer = 4 or dbo.Company.IsCustomer = 1 or  dbo.Company.IsCustomer = 0 or dbo.Company.IsCustomer = 2)  THEN  
+						    isnull((select top 1 ISNULL(BannerAbsolutePath,'http://preview.myprintcloud.com/mis/') + isnull(ReportBanner,'MPC_Content/Reports/Banners/ReportBannerOrder.png')  from reportnote where ReportCategoryID=12 and organisationid = @organisationId and CompanyId = Company.StoreId),'http://preview.myprintcloud.com/mis/MPC_Content/Reports/Banners/ReportBannerOrder.png')
+						  
+				       END As ReportBanner,
+					  
+					  --(select top 1 ISNULL(BannerAbsolutePath,'') + isnull(ReportBanner,'')  from reportnote where ReportCategoryID=12 and organisationid = @organisationId) as ReportBanner,
+                      isnull(dbo.Estimate.Greeting, 'Dear '+ dbo.CompanyContact.FirstName + ' ' + isnull(dbo.CompanyContact.LastName,'')) as Greetings,
+                     -- isnull((select top 1 CategoryName from tbl_productCategory where ProductCategoryID = tbl_items.ProductCategoryID),'')+ ' ' + dbo.tbl_items.ProductName as FullProductName
+                       dbo.items.ProductName as FullProductName
+					  
+					  ,isnull((select top 1 itemName from StockItem where stockitemid = dbo.itemsection.stockitemid1 and StockItem.OrganisationId = @organisationId),'N/A')as StockName
+                      ,dbo.fn_GetItemAttachmentsList(dbo.Estimate.EstimateID, 1) As AttachmentsList 
+                      ,p.PaymentDate
+                      , case when p.paymentmethodid = 1 then 'Paypal'
+							 when p.paymentmethodid = 2 then 'On Account'
+							 when p.paymentmethodid = 3 then 'ANZ'
+							 else 'On Account'
+							 End as paymentType
+                      , case when p.paymentmethodid = 1 then (select top 1 transactionid from paypalresponse where orderid = estimate.estimateid)
+							 when p.paymentmethodid = 2 or p.paymentmethodid = 3 then p.ReferenceCode
+							 else 'N/A'
+							 End as paymentRefNo
+					 , (dbo.Company.TaxRate) As TaxLabel,BAddress.AddressName AS BAddressName,BAddress.PostCode as BPostCode, (select countryname from country where countryid in (select countryid from address where addressid =  dbo.Address.AddressId)) as BCountry
+					 ,BAddress.Address1 AS BAddress1, BAddress.Address2 AS BAddress2, BAddress.City AS BCity,(select StateName from State where StateId in (select StateId from address where addressid =  BAddress.AddressId)) AS BState
+					, items.Qty1Tax1Value,
+					(select top 1 currencysymbol from currency c inner join organisation o on o.CurrencyId = c.CurrencyId and o.OrganisationId = @OrganisationID) as CurrencySymbol,
+					case when estimate.Estimate_Code is not null then 'Estimate Code:'
+					     when estimate.Estimate_Code is null then ''
+					     end as EstimateCodeLabel
+					     , dbo.estimate.Estimate_Code, dbo.estimate.UserNotes
+
+FROM         dbo.company INNER JOIN
+                      dbo.estimate ON dbo.estimate.companyid = dbo.company.companyid INNER JOIN
+                      dbo.companycontact ON dbo.companycontact.ContactID = dbo.estimate.ContactID INNER JOIN
+                      dbo.items ON dbo.estimate.EstimateID = dbo.items.EstimateID left outer JOIN
+                     dbo.systemuser ON dbo.estimate.OrderReportSignedBy = dbo.systemuser.SystemUserID 
+					 INNER JOIN
+                      dbo.address ON dbo.estimate.BillingAddressID = dbo.address.AddressID 
+                      inner JOIN dbo.itemsection ON dbo.items.ItemID = dbo.itemsection.ItemID
+					  left join prepayment p on dbo.estimate.estimateid = p.orderid
+					  left JOIN  dbo.address AS BAddress ON dbo.estimate.addressID = BAddress.AddressID
+					
+					  where company.organisationid = @organisationId and estimate.EstimateId = @OrderID
+					--  where 1 = case when @ItemID = 0 then 
+
+
+End
+
+---Executed on Europe and USA servers---
+alter table organisation add BillingDate datetime
+
+
+
+------------------------------------------
+
+
+ALTER TABLE discountvoucher
+ALTER COLUMN MinRequiredOrderPrice float
+
+ALTER TABLE discountvoucher
+ALTER COLUMN MaxRequiredOrderPrice float
+
+-------------------------------------------
+
+
+alter table StagingImportCompanyContactAddress add DirectLine nvarchar(30)
+
+alter table StagingImportCompanyContactAddress add CorporateUnit nvarchar(500)
+
+alter table StagingImportCompanyContactAddress add POAddress nvarchar(500)
+
+alter table StagingImportCompanyContactAddress add TradingName nvarchar(500)
+
+
+  alter table StagingImportCompanyContactAddress add BPayCRN nvarchar(500)   
+
+  alter table StagingImportCompanyContactAddress add ACN nvarchar(500)   
+
+        alter table StagingImportCompanyContactAddress add ContractorName nvarchar(500)   
+
+        alter table StagingImportCompanyContactAddress add ABN nvarchar(500)   
+
+  
+        alter table StagingImportCompanyContactAddress add Notes nvarchar(3000)   
+
+		alter table StagingImportCompanyContactAddress add CreditLimit decimal(16,0)   
+
+		alter table StagingImportCompanyContactAddress add IsNewsLetterSubscription bit
+   
+		alter table StagingImportCompanyContactAddress add IsEmailSubscription bit
+       
+	   	alter table StagingImportCompanyContactAddress add IsDefaultContact bit
+
+             
+
+
+/****** Object:  StoredProcedure [dbo].[usp_ChartTopPerformingStores]    Script Date: 8/19/2015 11:15:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--exec usp_ChartTopPerformingStores 1
+
+ALTER PROCEDURE [dbo].[usp_ChartTopPerformingStores]--1
+	(@OrganisationId bigint)
+AS
+ BEGIN
+ 
+ declare @PreviousMonth int, @CurrentMonth int, @CurrentYear int
+
+set @PreviousMonth = datepart(month, dateadd(month, -1, getdate()))
+set @CurrentMonth = datepart(month, getdate())
+set @CurrentYear = DATEPART(year, getdate())
+
+----------------------------------Retails Stores-----------------------------------
+select *, 'Jan' as MonthName,2015 as year,1 as Month  from (
+select 
+		(select CurrentMonthEarn from (select sum(Estimate_Total) as CurrentMonthEarn, r.RetailStoreName 
+			from estimate e 
+			inner join (select reg.CompanyId, store.Name as RetailStoreName 
+						from Company reg 
+						inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4) r
+			on r.CompanyId = e.CompanyId
+			where e.StatusId <> 3 and datepart(month, e.CreationDate) = @CurrentMonth and datepart(year, e.CreationDate) = @CurrentYear
+			group by RetailStoreName) dt 
+			where dt.RetailStoreName = retail.RetailStoreName) as CurrentMonthEarning, sum(Estimate_Total) as LastMonthEarning, retail.RetailStoreName as Name
+ from estimate e 
+ inner join (--Retail Customers
+			select reg.CompanyId, store.Name as RetailStoreName 
+			from Company reg 
+			inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4) retail
+			on retail.CompanyId = e.CompanyId
+			where e.StatusId <> 3 and datepart(month, e.CreationDate) = @PreviousMonth and datepart(year, e.CreationDate) = @CurrentYear
+			group by RetailStoreName
+
+
+union
+----------------------------------Corporate Stores-----------------------------------
+select 
+		(select CurrentMonthEarn from (select sum(Estimate_Total) as CurrentMonthEarn, r.CorporateStore 
+			from estimate e 
+			inner join (select companyId, Name as CorporateStore from company where organisationID = @OrganisationId and IsCustomer = 3) r
+			on r.CompanyId = e.CompanyId
+			where e.StatusId <> 3 and datepart(month, e.CreationDate) = @CurrentMonth and datepart(year, e.CreationDate) = @CurrentYear
+			group by CorporateStore) dt 
+			where dt.CorporateStore = retail.CorporateStore) as CurrentMonthEarning, sum(Estimate_Total) as LastMonthEarning, retail.CorporateStore as Name
+ from estimate e 
+ inner join (select companyId, Name as CorporateStore from company where organisationID = @OrganisationId and IsCustomer = 3) retail
+			on retail.CompanyId = e.CompanyId
+			where e.StatusId <> 3 and datepart(month, e.CreationDate) = @PreviousMonth and datepart(year, e.CreationDate) = @CurrentYear
+			group by CorporateStore
+) p
+order by CurrentMonthEarning desc
+
+
+end 
+
+
+/****** Object:  StoredProcedure [dbo].[usp_ChartMonthlyEarningsbyStore]    Script Date: 8/19/2015 4:02:51 PM ******/
+
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		Muhammad Naveed
+-- Create date: 2015 07 30
+-- Description:	To Get Charts data of Monthly Earnings by store
+-- =============================================
+-- Exec [usp_ChartMonthlyEarningsbyStore] 1
+ALTER PROCEDURE [dbo].[usp_ChartMonthlyEarningsbyStore]
+	@OrganisationId bigint
+AS
+BEGIN
+
+		
+--------------------------Retails Stores--------------------------------
+					select  RetailStoreName as Name,sum(Estimate_Total)as TotalEarning, MonthName, Month, Year 
+						from (select	Estimate_Total, retail.RetailStoreName, DATENAME(MONTH, CreationDate) as MonthName, DATEPart(MONTH,CreationDate) as Month,
+										DATEPart(Year,CreationDate) as Year 
+									from estimate e inner join
+										(--Retail Stores
+											select reg.CompanyId, store.Name as RetailStoreName 
+												from Company reg 
+												inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4) retail
+												on retail.CompanyId = e.CompanyId
+												where e.StatusId <> 3 
+										) ct
+					group by RetailStoreName, MonthName, Month, year
+
+					Union
+--------------------------Corporate Stores--------------------------------
+					select  CorporateStore as Name ,sum(Estimate_Total)as TotalEarning, MonthName, Month, Year 
+					from (select	Estimate_Total, corp.CorporateStore, DATENAME(MONTH, CreationDate) as MonthName, DATEPart(MONTH,CreationDate) as Month,
+									DATEPart(Year,CreationDate) as Year 
+							from estimate e inner join
+								(--Corporate Stores
+									select companyId, Name as CorporateStore from company where organisationID = @OrganisationId and IsCustomer = 3) corp
+									on corp.CompanyId = e.CompanyId
+									where e.StatusId <> 3 
+								) ct
+					group by CorporateStore, MonthName, Month, year
+					order by TotalEarning desc
+
+			RETURN 
+	END
+
+
+/****** Object:  StoredProcedure [dbo].[sp_cloneTemplate]    Script Date: 08/19/2015 17:04:31 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[sp_cloneTemplate] 
+	-- Add the parameters for the stored procedure here
+	@TemplateID bigint,
+	@submittedBy bigint,
+    @submittedByName nvarchar(100)
+AS
+BEGIN
+
+
+      
+	declare @NewTemplateID bigint
+	declare @NewCode nvarchar(10)
+	--DECLARE  @WaterMarkTxt as [dbo].[tbl_company_sites]
+	
+	set @NewCode = ''
+	
+	--INSERT INTO @WaterMarkTxt (CompanySiteName)
+	--Select Top 1 CompanySiteName from tbl_company_sites
+
+	
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+	
+	INSERT INTO [dbo].[Template]
+           ([Code]
+           ,[ProductName]
+           ,[Description]
+           ,[ProductCategoryId]
+           ,[Thumbnail]
+           ,[Image]
+           ,[IsDisabled]
+
+           ,[PDFTemplateWidth]
+           ,[PDFTemplateHeight]
+
+           ,[CuttingMargin]
+           ,[MultiPageCount]
+           ,[Orientation]
+           ,[MatchingSetTheme]
+           ,[BaseColorId]
+           ,[SubmittedBy]
+           ,[SubmittedByName]
+           ,[SubmitDate]
+           ,[Status]
+           ,[ApprovedBy]
+           ,[ApprovedByName]
+           ,[UserRating]
+           ,[UsedCount]
+           ,[MPCRating]
+           ,[RejectionReason]
+           ,[ApprovalDate]
+           ,[IsCorporateEditable]
+           ,[MatchingSetId]
+           ,[TempString],[TemplateType],[isSpotTemplate],[isWatermarkText],[isCreatedManual]
+          )
+     
+
+
+
+   
+	SELECT 
+      @NewCode
+      ,[ProductName] + ' Copy'
+      ,[Description]
+      ,[ProductCategoryID]
+      
+      ,[Thumbnail]
+      ,[Image]
+      ,[IsDisabled]
+
+      ,[PDFTemplateWidth]
+      ,[PDFTemplateHeight]
+
+
+      ,[CuttingMargin]
+      ,[MultiPageCount]
+      ,[Orientation]
+      ,[MatchingSetTheme]
+      ,[BaseColorId]
+      ,@submittedBy
+      ,@submittedByName
+      ,NULL
+      ,1
+      ,NULL
+      ,NULL
+      ,0
+      ,0
+      ,0
+      ,''
+      ,NULL,IsCorporateEditable,MatchingSetId,'',[TemplateType],isSpotTemplate,isWatermarkText,isCreatedManual
+      
+  FROM [dbo].[Template] where productid = @TemplateID
+	
+	
+	set @NewTemplateID = SCOPE_IDENTITY() 
+	
+	-- updating water mark text 
+	UPDATE [dbo].[Template]
+	SET TempString= (Select Top 1 OrganisationName from organisation)
+	WHERE productid = @NewTemplateID
+	
+	--copying the pages
+	INSERT INTO [dbo].[TemplatePage]
+           ([ProductId]
+           ,[PageNo]
+           ,[PageType]
+           ,[Orientation]
+           ,[BackGroundType]
+           ,[BackgroundFileName]
+      ,[ColorC]
+      ,[ColorM]
+      ,[ColorY]
+      ,[ColorK]
+      ,[IsPrintable]
+           ,[PageName],[hasOverlayObjects],[Width],[Height])
+
+SELECT 
+      @NewTemplateID
+      ,[PageNo]
+      ,[PageType]
+      ,[Orientation]
+      ,[BackGroundType]
+      ,[BackgroundFileName]
+      ,[ColorC]
+      ,[ColorM]
+      ,[ColorY]
+      ,[ColorK]
+      ,[IsPrintable]
+      
+      ,[PageName],[hasOverlayObjects],[Width],[Height]
+  FROM [dbo].[TemplatePage]
+where productid = @TemplateID
+
+
+	--copying the objects
+	INSERT INTO [dbo].[TemplateObject]
+           ([ObjectType]
+           ,[Name]
+           ,[IsEditable]
+           ,[IsHidden]
+           ,[IsMandatory]
+           
+           ,[PositionX]
+           ,[PositionY]
+           ,[MaxHeight]
+           ,[MaxWidth]
+           ,[MaxCharacters]
+           ,[RotationAngle]
+           ,[IsFontCustom]
+           ,[IsFontNamePrivate]
+           ,[FontName]
+           ,[FontSize]
+           ,[IsBold]
+           ,[IsItalic]
+           ,[Allignment]
+           ,[VAllignment]
+           ,[Indent]
+           ,[IsUnderlinedText]
+           ,[ColorType]
+ 
+           ,[ColorName]
+           ,[ColorC]
+           ,[ColorM]
+           ,[ColorY]
+           ,[ColorK]
+           ,[Tint]
+           ,[IsSpotColor]
+           ,[SpotColorName]
+           ,[ContentString]
+           ,[ContentCaseType]
+           ,[ProductID]
+           ,[DisplayOrderPdf]
+           ,[DisplayOrderTxtControl]
+           ,[RColor]
+           ,[GColor]
+           ,[BColor]
+           ,[LineSpacing]
+           ,[ProductPageId]
+           ,[ParentId]
+           ,CircleRadiusX
+           ,Opacity
+           ,[ExField1],
+           [IsTextEditable],
+           [IsPositionLocked],
+           [CircleRadiusY]
+          ,[ExField2],
+           ColorHex
+           ,[IsQuickText]
+           ,[QuickTextOrder],
+		   [watermarkText],
+		   [textStyles],[charspacing],[AutoShrinkText],
+		   [IsOverlayObject],[ClippedInfo],[originalContentString],[originalTextStyles],[autoCollapseText]
+           ,[isBulletPoint])
+	SELECT 
+      O.[ObjectType]
+      ,O.[Name]
+      ,O.[IsEditable]
+      ,O.[IsHidden]
+      ,O.[IsMandatory]
+      
+      ,O.[PositionX]
+      ,O.[PositionY]
+      ,O.[MaxHeight]
+      ,O.[MaxWidth]
+      ,O.[MaxCharacters]
+      ,O.[RotationAngle]
+      ,O.[IsFontCustom]
+      ,O.[IsFontNamePrivate]
+      ,O.[FontName]
+      ,O.[FontSize]
+      ,O.[IsBold]
+      ,O.[IsItalic]
+      ,O.[Allignment]
+      ,O.[VAllignment]
+      ,O.[Indent]
+      ,O.[IsUnderlinedText]
+      ,O.[ColorType]
+      ,O.[ColorName]
+      ,O.[ColorC]
+      ,O.[ColorM]
+      ,O.[ColorY]
+      ,O.[ColorK]
+      ,O.[Tint]
+      ,O.[IsSpotColor]
+      ,O.[SpotColorName]
+      ,O.[ContentString]
+      ,O.[ContentCaseType]
+      ,@NewTemplateID
+      ,O.[DisplayOrderPdf]
+      ,O.[DisplayOrderTxtControl]
+      ,O.[RColor]
+      ,O.[GColor]
+      ,O.[BColor]
+      ,O.[LineSpacing]
+      ,NP.[ProductPageId]
+      ,O.[ParentId]
+      ,O.CircleRadiusX
+      ,O.Opacity
+      ,O.[ExField1],
+       O.[IsTextEditable],
+       O.[IsPositionLocked],
+       O.[CircleRadiusY]
+      ,O.[ExField2],
+       O.ColorHex
+       ,[IsQuickText]
+        ,[QuickTextOrder],[watermarkText],O.[textStyles],
+		O.[charspacing],O.[AutoShrinkText],O.[IsOverlayObject]
+		,O.[ClippedInfo]
+		,O.[originalContentString],O.[originalTextStyles],O.[autoCollapseText],[isBulletPoint]
+  FROM [dbo].[TemplateObject] O
+  inner join [dbo].[TemplatePage]  P on o.ProductPageId = p.ProductPageId and o.ProductId = @TemplateID
+  inner join [dbo].[TemplatePage] NP on P.PageName = NP.PageName and P.PageNo = NP.PageNo and NP.ProductId = @NewTemplateID
+  
+	--theme tags
+	--insert into dbo.TemplateThemeTags   ([TagID],[ProductID])
+	--select [TagID] ,@NewTemplateID from dbo.TemplateThemeTags where ProductID = @TemplateID
+	
+	---- industry tags
+	--insert into dbo.TemplateIndustryTags   ([TagID],[ProductID])
+	--select [TagID] ,@NewTemplateID from dbo.TemplateIndustryTags where ProductID = @TemplateID
+
+	INSERT INTO [dbo].[TemplateBackgroundImage]
+			   ([ProductId]
+			   ,[ImageName]
+			   ,[Name]
+			   ,[flgPhotobook]
+			   ,[flgCover]
+			   ,[BackgroundImageAbsolutePath]
+			   ,[BackgroundImageRelativePath],
+			   ImageType,
+			   ImageWidth,
+			   ImageHeight
+			   
+			   )
+	SELECT 
+		  @NewTemplateID
+		  ,[ImageName]
+		  ,[Name]
+		  ,[flgPhotobook]
+		  ,[flgCover]
+		  ,[BackgroundImageAbsolutePath]
+		  ,[BackgroundImageRelativePath]
+		  ,ImageType,
+			   ImageWidth,
+			   ImageHeight
+	  FROM [dbo].[TemplateBackgroundImage] where ProductId = @TemplateID
+
+select @NewTemplateID
+	
+END
+
+
+
+	   /*Execution date 19/08/2015*/
+
+	  
+GO
+/****** Object:  StoredProcedure [dbo].[sp_cloneTemplate]    Script Date: 08/19/2015 17:04:31 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[sp_cloneTemplate] 
+	-- Add the parameters for the stored procedure here
+	@TemplateID bigint,
+	@submittedBy bigint,
+    @submittedByName nvarchar(100)
+AS
+BEGIN
+
+
+      
+	declare @NewTemplateID bigint
+	declare @NewCode nvarchar(10)
+	--DECLARE  @WaterMarkTxt as [dbo].[tbl_company_sites]
+	
+	set @NewCode = ''
+	
+	--INSERT INTO @WaterMarkTxt (CompanySiteName)
+	--Select Top 1 CompanySiteName from tbl_company_sites
+
+	
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+	
+	INSERT INTO [dbo].[Template]
+           ([Code]
+           ,[ProductName]
+           ,[Description]
+           ,[ProductCategoryId]
+           ,[Thumbnail]
+           ,[Image]
+           ,[IsDisabled]
+
+           ,[PDFTemplateWidth]
+           ,[PDFTemplateHeight]
+
+           ,[CuttingMargin]
+           ,[MultiPageCount]
+           ,[Orientation]
+           ,[MatchingSetTheme]
+           ,[BaseColorId]
+           ,[SubmittedBy]
+           ,[SubmittedByName]
+           ,[SubmitDate]
+           ,[Status]
+           ,[ApprovedBy]
+           ,[ApprovedByName]
+           ,[UserRating]
+           ,[UsedCount]
+           ,[MPCRating]
+           ,[RejectionReason]
+           ,[ApprovalDate]
+           ,[IsCorporateEditable]
+           ,[MatchingSetId]
+           ,[TempString],[TemplateType],[isSpotTemplate],[isWatermarkText],[isCreatedManual]
+          )
+     
+
+
+
+   
+	SELECT 
+      @NewCode
+      ,[ProductName] + ' Copy'
+      ,[Description]
+      ,[ProductCategoryID]
+      
+      ,[Thumbnail]
+      ,[Image]
+      ,[IsDisabled]
+
+      ,[PDFTemplateWidth]
+      ,[PDFTemplateHeight]
+
+
+      ,[CuttingMargin]
+      ,[MultiPageCount]
+      ,[Orientation]
+      ,[MatchingSetTheme]
+      ,[BaseColorId]
+      ,@submittedBy
+      ,@submittedByName
+      ,NULL
+      ,1
+      ,NULL
+      ,NULL
+      ,0
+      ,0
+      ,0
+      ,''
+      ,NULL,IsCorporateEditable,MatchingSetId,'',[TemplateType],isSpotTemplate,isWatermarkText,isCreatedManual
+      
+  FROM [dbo].[Template] where productid = @TemplateID
+	
+	
+	set @NewTemplateID = SCOPE_IDENTITY() 
+	
+	-- updating water mark text 
+	UPDATE [dbo].[Template]
+	SET TempString= (Select Top 1 OrganisationName from organisation)
+	WHERE productid = @NewTemplateID
+	
+	--copying the pages
+	INSERT INTO [dbo].[TemplatePage]
+           ([ProductId]
+           ,[PageNo]
+           ,[PageType]
+           ,[Orientation]
+           ,[BackGroundType]
+           ,[BackgroundFileName]
+      ,[ColorC]
+      ,[ColorM]
+      ,[ColorY]
+      ,[ColorK]
+      ,[IsPrintable]
+           ,[PageName],[hasOverlayObjects],[Width],[Height])
+
+SELECT 
+      @NewTemplateID
+      ,[PageNo]
+      ,[PageType]
+      ,[Orientation]
+      ,[BackGroundType]
+      ,[BackgroundFileName]
+      ,[ColorC]
+      ,[ColorM]
+      ,[ColorY]
+      ,[ColorK]
+      ,[IsPrintable]
+      
+      ,[PageName],[hasOverlayObjects],[Width],[Height]
+  FROM [dbo].[TemplatePage]
+where productid = @TemplateID
+
+
+	--copying the objects
+	INSERT INTO [dbo].[TemplateObject]
+           ([ObjectType]
+           ,[Name]
+           ,[IsEditable]
+           ,[IsHidden]
+           ,[IsMandatory]
+           
+           ,[PositionX]
+           ,[PositionY]
+           ,[MaxHeight]
+           ,[MaxWidth]
+           ,[MaxCharacters]
+           ,[RotationAngle]
+           ,[IsFontCustom]
+           ,[IsFontNamePrivate]
+           ,[FontName]
+           ,[FontSize]
+           ,[IsBold]
+           ,[IsItalic]
+           ,[Allignment]
+           ,[VAllignment]
+           ,[Indent]
+           ,[IsUnderlinedText]
+           ,[ColorType]
+ 
+           ,[ColorName]
+           ,[ColorC]
+           ,[ColorM]
+           ,[ColorY]
+           ,[ColorK]
+           ,[Tint]
+           ,[IsSpotColor]
+           ,[SpotColorName]
+           ,[ContentString]
+           ,[ContentCaseType]
+           ,[ProductID]
+           ,[DisplayOrderPdf]
+           ,[DisplayOrderTxtControl]
+           ,[RColor]
+           ,[GColor]
+           ,[BColor]
+           ,[LineSpacing]
+           ,[ProductPageId]
+           ,[ParentId]
+           ,CircleRadiusX
+           ,Opacity
+           ,[ExField1],
+           [IsTextEditable],
+           [IsPositionLocked],
+           [CircleRadiusY]
+          ,[ExField2],
+           ColorHex
+           ,[IsQuickText]
+           ,[QuickTextOrder],
+		   [watermarkText],
+		   [textStyles],[charspacing],[AutoShrinkText],
+		   [IsOverlayObject],[ClippedInfo],[originalContentString],[originalTextStyles],[autoCollapseText]
+           ,[isBulletPoint])
+	SELECT 
+      O.[ObjectType]
+      ,O.[Name]
+      ,O.[IsEditable]
+      ,O.[IsHidden]
+      ,O.[IsMandatory]
+      
+      ,O.[PositionX]
+      ,O.[PositionY]
+      ,O.[MaxHeight]
+      ,O.[MaxWidth]
+      ,O.[MaxCharacters]
+      ,O.[RotationAngle]
+      ,O.[IsFontCustom]
+      ,O.[IsFontNamePrivate]
+      ,O.[FontName]
+      ,O.[FontSize]
+      ,O.[IsBold]
+      ,O.[IsItalic]
+      ,O.[Allignment]
+      ,O.[VAllignment]
+      ,O.[Indent]
+      ,O.[IsUnderlinedText]
+      ,O.[ColorType]
+      ,O.[ColorName]
+      ,O.[ColorC]
+      ,O.[ColorM]
+      ,O.[ColorY]
+      ,O.[ColorK]
+      ,O.[Tint]
+      ,O.[IsSpotColor]
+      ,O.[SpotColorName]
+      ,O.[ContentString]
+      ,O.[ContentCaseType]
+      ,@NewTemplateID
+      ,O.[DisplayOrderPdf]
+      ,O.[DisplayOrderTxtControl]
+      ,O.[RColor]
+      ,O.[GColor]
+      ,O.[BColor]
+      ,O.[LineSpacing]
+      ,NP.[ProductPageId]
+      ,O.[ParentId]
+      ,O.CircleRadiusX
+      ,O.Opacity
+      ,O.[ExField1],
+       O.[IsTextEditable],
+       O.[IsPositionLocked],
+       O.[CircleRadiusY]
+      ,O.[ExField2],
+       O.ColorHex
+       ,[IsQuickText]
+        ,[QuickTextOrder],[watermarkText],O.[textStyles],
+		O.[charspacing],O.[AutoShrinkText],O.[IsOverlayObject]
+		,O.[ClippedInfo]
+		,O.[originalContentString],O.[originalTextStyles],O.[autoCollapseText],[isBulletPoint]
+  FROM [dbo].[TemplateObject] O
+  inner join [dbo].[TemplatePage]  P on o.ProductPageId = p.ProductPageId and o.ProductId = @TemplateID
+  inner join [dbo].[TemplatePage] NP on P.PageName = NP.PageName and P.PageNo = NP.PageNo and NP.ProductId = @NewTemplateID
+  
+	--theme tags
+	--insert into dbo.TemplateThemeTags   ([TagID],[ProductID])
+	--select [TagID] ,@NewTemplateID from dbo.TemplateThemeTags where ProductID = @TemplateID
+	
+	---- industry tags
+	--insert into dbo.TemplateIndustryTags   ([TagID],[ProductID])
+	--select [TagID] ,@NewTemplateID from dbo.TemplateIndustryTags where ProductID = @TemplateID
+
+	INSERT INTO [dbo].[TemplateBackgroundImage]
+			   ([ProductId]
+			   ,[ImageName]
+			   ,[Name]
+			   ,[flgPhotobook]
+			   ,[flgCover]
+			   ,[BackgroundImageAbsolutePath]
+			   ,[BackgroundImageRelativePath],
+			   ImageType,
+			   ImageWidth,
+			   ImageHeight
+			   
+			   )
+	SELECT 
+		  @NewTemplateID
+		  ,[ImageName]
+		  ,[Name]
+		  ,[flgPhotobook]
+		  ,[flgCover]
+		  ,[BackgroundImageAbsolutePath]
+		  ,[BackgroundImageRelativePath]
+		  ,ImageType,
+			   ImageWidth,
+			   ImageHeight
+	  FROM [dbo].[TemplateBackgroundImage] where ProductId = @TemplateID
+
+select @NewTemplateID
+	
+END
+
+
+
+/****** Object:  StoredProcedure [dbo].[usp_ChartMonthlyOrdersCount]    Script Date: 8/20/2015 1:10:19 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[usp_ChartMonthlyOrdersCount]
+	@OrganisationId bigint
+AS
+BEGIN
+
+	
+		
+--------------------------Retails Stores--------------------------------
+					select  RetailStoreName as CompanyName,count(Estimate_Total)as TotalOrders, Month, MonthName,  Year 
+						from (select	Estimate_Total, retail.RetailStoreName, DATENAME(MONTH, CreationDate) as MonthName, DATEPart(MONTH,CreationDate) as Month,
+										DATEPart(Year,CreationDate) as Year 
+									from estimate e inner join
+										(--Retail Stores
+											select reg.CompanyId, store.Name as RetailStoreName 
+												from Company reg 
+												inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4) retail
+												on retail.CompanyId = e.CompanyId
+												where e.StatusId <> 3 
+										) ct
+					group by RetailStoreName, MonthName, Month, year
+
+					Union
+--------------------------Corporate Stores--------------------------------
+					select  CorporateStore as CompanyName ,count(Estimate_Total)as TotalOrders, Month, MonthName, Year 
+					from (select	Estimate_Total, corp.CorporateStore, DATENAME(MONTH, CreationDate) as MonthName, DATEPart(MONTH,CreationDate) as Month,
+									DATEPart(Year,CreationDate) as Year 
+							from estimate e inner join
+								(--Corporate Stores
+									select companyId, Name as CorporateStore from company where organisationID = @OrganisationId and IsCustomer = 3) corp
+									on corp.CompanyId = e.CompanyId
+									where e.StatusId <> 3 
+								) ct
+					group by CorporateStore, MonthName, Month, year
+					order by TotalOrders desc
+
+	END
+
+/*Execution date 19/08/2015*/
+Go
+ALTER VIEW [dbo].[vw_SaveDesign]
+AS
+ SELECT  item.ItemID, ItemAttach.ItemID AS AttachmentItemId,ItemAttach.FileName AS AttachmentFileName, 
+ ItemAttach.FolderPath AS AttachmentFolderPath, 
+item.EstimateID, item.ProductName, --PCat.CategoryName AS ProductCategoryName, PCat.ProductCategoryID, PCat.ParentCategoryID, 
+                      ISNULL(dbo.funGetMiniumProductValue(item.RefItemID), 0.0) AS MinPrice,  
+                      item.IsEnabled, item.IsPublished,item.IsArchived, item.InvoiceID, contact.ContactID, contact.CompanyId, company.IsCustomer ,item.RefItemID, status_Check.StatusID, status_Check.StatusName,
+                       item.IsOrderedItem, item.ItemCreationDateTime,item.TemplateID
+FROM         Items AS item Inner JOIN
+				      dbo.ItemAttachment AS ItemAttach ON ItemAttach.ItemID = item.ItemID INNER JOIN
+                      dbo.Template AS temp ON temp.ProductID = item.TemplateID INNER JOIN
+                      dbo.Estimate AS est ON item.EstimateID = est.EstimateID INNER JOIN
+                      dbo.Status AS status_Check ON item.Status = status_Check.StatusID INNER JOIN
+                      dbo.CompanyContact AS contact ON contact.ContactID = est.ContactID INNER JOIN
+                      dbo.Company As company ON contact.CompanyId = company.CompanyId
+				
+
+GO
+
+
+
+/****** Object:  StoredProcedure [dbo].[usp_ChartEstimateToOrderConversion]    Script Date: 8/20/2015 3:00:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--[usp_ChartEstimateToOrderConversion] 1
+ALTER PROCEDURE [dbo].[usp_ChartEstimateToOrderConversion]
+	@OrganisationId bigint
+AS
+BEGIN
+
+select sum(EstimateTotal) as EstimateTotal, sum(ConvertedTotal) as ConvertedTotal,Month,MonthName,Year
+	from
+	(	select	estimate_total as EstimateTotal,
+				(select estimate_total from estimate es where es.EstimateId = e.RefEstimateId) as ConvertedTotal,
+				DATENAME(MONTH,e.Order_Date) as [MonthName],
+				DATEPART(MONTH,e.Order_Date) as [Month],
+				DATEPART(YEAR,e.Order_Date) as [Year]
+		from	estimate e where RefEstimateId is not null and Order_Code is not null and OrganisationId = @OrganisationId
+	) data
+
+group by month,monthname,year
+order by ConvertedTotal desc
+End
+
+
+/****** Object:  StoredProcedure [dbo].[usp_ChartEstimateToOrderConversionCount]    Script Date: 8/20/2015 6:40:29 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--[usp_ChartEstimateToOrderConversionCount]1
+ALTER PROCEDURE [dbo].[usp_ChartEstimateToOrderConversionCount]
+	@OrganisationId bigint
+AS
+BEGIN
+
+
+select count(EstimateId) as EstimateCount, count(ConvertedEstimate) as ConvertedCount,Month,MonthName,Year
+	from
+	(	select	EstimateId,
+				(select EstimateId from estimate es where es.EstimateId = e.EstimateId and Order_Code is not null) as ConvertedEstimate,
+				(convert(varchar, datepart(year, e.Order_Date)) + '-' + convert(varchar, datepart(month, e.Order_Date))) as [MonthName],
+				DATEPART(MONTH,e.Order_Date) as [Month],
+				DATEPART(YEAR,e.Order_Date) as [Year]
+		from	estimate e where Estimate_Code is not null and OrganisationId = @OrganisationId
+	) data
+
+group by month,monthname,year
+order by Month 
+
+
+	END
+
+	-------------Executed on USA server on 20150821----------
+	alter table Company add CanUserUpdateAddress bit
+
+	
+/****** Object:  StoredProcedure [dbo].[usp_ChartTop10PerfomingCustomers]    Script Date: 8/24/2015 12:10:27 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- usp_ChartTop10PerfomingCustomers 1
+ALTER PROCEDURE [dbo].[usp_ChartTop10PerfomingCustomers]
+	@OrganisationId bigint
+AS
+BEGIN
+
+	declare @PreviousMonth int, @CurrentMonth int, @CurrentYear int
+set @PreviousMonth = datepart(month, dateadd(month, -1, getdate()))
+set @CurrentMonth = datepart(month, getdate())
+set @CurrentYear = DATEPART(year, getdate())
+
+select top 5 isnull(c.firstname,'') + ' ' + isnull(c.lastName,'') as ContactName, isnull(sum(e.Estimate_Total), 0) as CurrentMonthOrders,
+	(select Orders from (select cc.ContactId, sum(e.Estimate_Total) as Orders from 
+						estimate e inner join (
+						select reg.CompanyId, store.Name as RetailStoreName 
+						from Company reg 
+						inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4
+					) cust on cust.CompanyId = e.CompanyId
+			inner join CompanyContact cc on cc.ContactId = e.ContactId
+			where e.StatusId <> 3 and datepart(month, e.CreationDate) = @PreviousMonth and datepart(year, e.CreationDate) = @CurrentYear
+			group by cc.ContactId) curOrders where curOrders.ContactId = c.ContactId) as LastMonthOrders
+	from 
+	estimate e inner join (
+						select reg.CompanyId, store.Name as RetailStoreName 
+						from Company reg 
+						inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4
+					) cust on cust.CompanyId = e.CompanyId
+			inner join CompanyContact c on c.ContactId = e.ContactId
+			where e.StatusId <> 3 and datepart(month, e.CreationDate) = @CurrentMonth and datepart(year, e.CreationDate) = @CurrentYear
+			group by firstname, lastName, c.ContactId
+			order by CurrentMonthOrders Desc		
+			
+
+
+	END
+
+alter table organisation add OfflineStoreClicks int
+------------- Executed on all servers on 20150805-----------------------------------------------------
+
+alter table widgets add WidgetCss varchar(Max)
+alter table Widgets add ThumbnailUrl varchar(255)
+alter table Widgets add Description varchar(500)
+
+
+/****** Object:  StoredProcedure [dbo].[usp_ChartMonthlyOrdersCount]    Script Date: 8/26/2015 12:53:26 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--[usp_DashboardROICounter]1
+Create PROCEDURE [dbo].[usp_DashboardROICounter]
+	@OrganisationId bigint
+AS
+BEGIN
+	
+declare @LastSixMonths int, @CurrentMonth int, @CurrentYear int
+
+set @LastSixMonths = datepart(month, dateadd(month, -6, getdate()))
+set @CurrentMonth = datepart(month, getdate())
+set @CurrentYear = DATEPART(year, getdate())
+
+select 
+-----------------------------Registered Users Count----------------------------------------
+	(select sum(RegisterCount) as RegUsersCount
+		from(
+				select count(reg.CompanyId) as RegisterCount, store.Name as RetailStoreName 
+				from Company reg 
+				inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4
+				where datepart(month, reg.CreationDate) >= @LastSixMonths and datepart(year, reg.CreationDate) = @CurrentYear
+				group by store.Name
+			) RegisterUsers) as RegisteredUsersCount,
+
+--------------------------------------Orders Count----------------------------------------
+		(select sum(TotalOrders) As OrdersCount from(
+				select RetailStoreName, count(EstimateID)as TotalOrders, Month, year 
+						from (select EstimateID, retail.RetailStoreName, DATEPart(MONTH,CreationDate) as Month,
+										DATEPart(Year,CreationDate) as Year 
+									from estimate e inner join
+										(--Retail Stores
+											select reg.CompanyId, store.Name as RetailStoreName 
+												from Company reg 
+												inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4) retail
+												on retail.CompanyId = e.CompanyId
+												where e.StatusId <> 3										
+										) ct
+					where ct.EstimateId >= @LastSixMonths and ct.Year = @CurrentYear
+					group by RetailStoreName, Month, year
+					
+					Union
+--------------------------Corporate Stores------------------------------------------------
+					select CorporateStore, count(EstimateID)as TotalOrders, Month,  year 
+					from (select	EstimateID, corp.CorporateStore, DATEPart(MONTH,CreationDate) as Month,
+									DATEPart(Year,CreationDate) as Year 
+							from estimate e inner join
+								(--Corporate Stores
+									select companyId, Name as CorporateStore from company where organisationID = @OrganisationId and IsCustomer = 3) corp
+									on corp.CompanyId = e.CompanyId
+									where e.StatusId <> 3 
+								) ct
+					where ct.EstimateId >= @LastSixMonths and ct.Year = @CurrentYear
+					group by CorporateStore, Month, year
+					) OrgTotalOrders) As TotalOrdersCount,
+
+--------------------------------------------------Directs Ordrs Total---------------------
+			(select	sum(estimate_Total) as DirectOrdersTotal 
+			from	estimate e 
+			where	organisationid = @OrganisationId and isDirectSale = 1 and isEstimate = 0 
+			and		datepart(month, e.CreationDate) >= @LastSixMonths and datepart(year, e.CreationDate) = @CurrentYear) as DirectOrdersTotal,
+
+-----------------------------------------------Online Orders Total-------------------------
+			(select sum(estimate_Total) as OnlineOrdersTotal from estimate e 
+			 where	organisationid = @OrganisationId and isDirectSale = 0 and isEstimate = 0 
+			 and	datepart(month, e.CreationDate) >= @LastSixMonths and datepart(year, e.CreationDate) = @CurrentYear) as OnlineOrdesTotal
+	
+	END
+
+
+
+
+
+
+	alter table templateObject add textPaddingTop int null 
+/****** Object:  StoredProcedure [dbo].[usp_importCRMCompanyContacts]    Script Date: 8/27/2015 10:21:56 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+ Create Procedure [dbo].[usp_importCRMCompanyContacts]
+		@OrganisationId bigint
+		
+	 
+	 as 
+	Begin
+		
+		BEGIN TRY	
+		Begin Transaction		
+		update StagingImportCompanyContactAddress set  OrganisationId = @OrganisationId,
+		 password = 'xjMtQdRX7BYzjc5fW0UwEpfSMnKkSUWNCQ==', canPlaceORder = 1
+		update StagingImportCompanyContactAddress set Address2 = '' where Address2 is null
+		update StagingImportCompanyContactAddress set Address3 = '' where Address3 is null		
+		--update Country Id by country name
+		update StagingImportCompanyContactAddress set CountryId = c.CountryId
+		from StagingImportCompanyContactAddress i , country c
+		where c.CountryName = i.Country
+		--update StateId by State Name 
+		update StagingImportCompanyContactAddress set StateId = c.StateId
+		from StagingImportCompanyContactAddress i , State c
+		where c.StateCode = i.State
+		--update TerritoryId from Territory Name
+		update StagingImportCompanyContactAddress set TerritoryId = c.TerritoryId
+		from StagingImportCompanyContactAddress i , CompanyTerritory c
+		where c.TerritoryCode = i.TerritoryName
+
+			declare @SystemUserId varchar(100)
+
+			select @SystemUserId = (select top 1 systemuserid from systemuser where OrganizationId = @OrganisationId)
+					Declare @count int = (select count(*) from StagingImportCompanyContactAddress)
+					Declare @counter int = 1
+					Declare @StagingId bigint, @AddressId bigint, @TerritoryId bigint, @AddrssName varchar(200), @Address1 varchar(200), @Address2 varchar(200), @City varchar(100),
+					@TerritoryName varchar(200), @isNewTerritory bit
+
+						While @counter <= @count
+						Begin
+							set @isNewTerritory = 0
+							select @AddrssName = AddressName, @Address1 = Address1, @Address2 = Address2, @City = City, @TerritoryName = TerritoryName from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+							where r = @counter
+						
+
+						-- check whether company exist or not
+						declare @WebAccessCode varchar(500)
+						declare @CompanyId bigint
+						
+						declare @Typeid bigint
+						select @WebAccessCode = WebAccessCode from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+						where r = @counter 
+
+						
+						if(exists(select WebAccessCode from company where WebAccessCode = @WebAccessCode and organisationid = @organisationId))
+						begin
+
+						select @CompanyId = companyid from company where WebAccessCode = @WebAccessCode and organisationid = @organisationId
+							--Insert New Contact
+						declare @currEmail varchar(255)
+						select @currEmail = email from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+						where r = @counter 
+						if(not exists(select email from companycontact where CompanyId in (select CompanyId from company where storeid = @CompanyId) and email = @currEmail))
+						begin
+							
+								-- insert company
+						
+
+						select @Typeid = TypeId from company where WebAccessCode = @WebAccessCode and organisationid = @organisationId 
+
+						declare @NewCompanyID bigint
+
+						
+
+
+
+								insert into Company(OrganisationId, StoreId, Name, TypeId, DefaultNominalCode, DefaultMarkupId,AccountManagerId, Status, IsCustomer, AccountStatusId, 
+							IsDisabled, LockedBy, AccountBalance, CreationDate
+							)
+							values
+							(@OrganisationId,@CompanyId,'Import Customer',@Typeid,0,0,@SystemUserId,0,0,0,0,0,0,GETDATE())
+
+							
+							
+							select @NewCompanyID = SCOPE_IDENTITY()
+
+							--Check Territory Exist otherwise Insert Territory
+							if(exists(select * from CompanyTerritory where companyId = @NewCompanyID and TerritoryName = @TerritoryName))
+							begin
+								set @TerritoryId = (select top 1 TerritoryId from CompanyTerritory where companyId = @NewCompanyID and TerritoryName = @TerritoryName)
+							end
+							else
+							begin
+								insert into CompanyTerritory(CompanyID, TerritoryCode, TerritoryName)
+								select @NewCompanyID, 'TCImport', TerritoryName   from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) xx
+								where r = @counter
+								set @TerritoryId = (select SCOPE_IDENTITY())
+								set @isNewTerritory = 1
+							end
+
+
+						--Check If Address Exist otherwise insert Address
+						if(exists(select * from Address where companyId = @NewCompanyID and addressname = @AddrssName and Address1 = @Address1 and Address2 = @Address2 and City = @City))
+						begin
+							set @AddressID = (select top 1 AddressId from Address where companyId = @NewCompanyID and addressname = @AddrssName and Address1 = @Address1 and Address2 = @Address2 and City = @City)
+						end
+						else
+						begin
+							insert into Address(OrganisationId, CompanyID, AddressName, Address1, Address2, Address3, City, StateId, PostCode, TerritoryID, fax, CountryId, Tel1, isDefaultTerrorityBilling, isDefaultTerrorityShipping, isArchived, IsDefaultAddress)
+							select @OrganisationId, @NewCompanyID, AddressName, Address1, Address2, Address3, City, StateId,Postcode, @TerritoryId, AddressFax, CountryId, ContactPhone, 0, 0, 0, 0   from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+							where r = @counter
+							set @Addressid = (select SCOPE_IDENTITY())
+						if(@isNewTerritory = 1 and @TerritoryId > 0)
+						Begin
+							update address set isDefaultTerrorityBilling = 1, isDefaultTerrorityShipping = 1 where AddressId = @AddressId
+						End
+						end
+
+
+
+							insert into CompanyContact(OrganisationId, CompanyId, TerritoryID, AddressID, ShippingAddressID, FirstName, LastName, Email, Password, 
+							HomePostCode, Mobile, isArchived, ContactRoleID, JobTitle, HomeTel1, Fax, Notes, IsDefaultContact, isWebAccess, canPlaceDirectOrder, 
+							canUserPlaceOrderWithoutApproval, IsPricingshown, SkypeId, LinkedinURL, FacebookURL, TwitterURL, CanUserEditProfile, IsPayByPersonalCreditCard,
+							SecondaryEmail,isPlaceOrder, AdditionalField1, AdditionalField2,AdditionalField3, AdditionalField4, AdditionalField5,CorporateUnit,OfficeTradingName,BPayCRN,
+							ACN,ContractorName,ABN,CreditLimit,IsNewsLetterSubscription,IsEmailSubscription,POBoxAddress
+							)
+
+
+							select @OrganisationId, @NewCompanyID, TerritoryId, @Addressid, @Addressid, ContactFirstName, ContactLastName, Email,password, 
+							postcode, Mobile,0, RoleId, substring(JobTitle, 1, 49), ContactPhone, ContactFax, 'contact import for this store, default password is password', 0, HasWebAccess, CanPlaceDirectOrder, 
+							CanPlaceOrderWithoutApproval, CanSeePrices, SkypeId, LinkedInUrl, FacebookUrl,  TwitterUrl, CanEditProfile, CanPayByPersonalCreditCard,
+							Email, 1, AddInfo1, AddInfo2, AddInfo3, AddInfo4, AddInfo5,CorporateUnit,TradingName,BPayCRN,ACN,ContractorName,ABN,CreditLimit,IsNewsLetterSubscription,IsEmailSubscription,POAddress
+							from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+							where r = @counter
+						End
+						else
+						Begin
+							update CompanyContact set FirstName = i.ContactFirstName,
+							LastName = i.ContactLastName, HomePostCode = i.Postcode, Mobile = i.Mobile, JobTitle = substring(i.JobTitle, 1, 49),
+							HomeTel1 = i.ContactPhone, Fax = i.ContactFax, isWebAccess = i.HasWebAccess, canPlaceDirectOrder = i.CanPlaceDirectOrder,
+							canUserPlaceOrderWithoutApproval = i.CanPlaceOrderWithoutApproval, IsPricingshown = i.CanSeePrices,
+							SkypeId = i.SkypeId, LinkedinURL = i.LinkedInUrl, FacebookURL = i.FacebookUrl, TwitterURL = i.TwitterUrl,
+							CanUserEditProfile = i.CanEditProfile, IsPayByPersonalCreditCard = i.CanPayByPersonalCreditCard,
+							CorporateUnit = i.CorporateUnit,OfficeTradingName = i.TradingName,BPayCRN = i.BPayCRN,
+							ACN = i.ACN,ContractorName = i.ContractorName,ABN = i.ABN,CreditLimit = i.CreditLimit,IsNewsLetterSubscription = i.IsNewsLetterSubscription,IsEmailSubscription = i.IsEmailSubscription,POBoxAddress = i.POAddress,ContactRoleId = i.RoleId
+
+							from CompanyContact c, (select ContactFirstName, ContactLastName, Email,
+							postcode, Mobile, JobTitle, ContactPhone, ContactFax, HasWebAccess, CanPlaceDirectOrder, 
+							CanPlaceOrderWithoutApproval, CanSeePrices, SkypeId, LinkedInUrl, FacebookUrl,  TwitterUrl, CanEditProfile, CanPayByPersonalCreditCard,CorporateUnit,TradingName,BPayCRN,ACN,ContractorName,ABN,CreditLimit,IsNewsLetterSubscription,IsEmailSubscription,POAddress,RoleId
+							from (select row_number() OVER (ORDER BY stagingid) r, * from StagingImportCompanyContactAddress) x
+							where r = @counter) i
+							where c.Email = i.Email
+						End
+
+
+
+
+						end
+			
+						
+						
+					set @counter = @counter + 1;
+					
+				End -- End of Loop
+		Commit Transaction
+		End Try
+		
+		BEGIN CATCH
+			IF @@TRANCOUNT > 0
+			ROLLBACK
+		END CATCH
+End --End of Procedure Begin
+
+alter table Company add IsRegisterAccessWebStore bit null
+alter table Company add IsRegisterPlaceOrder bit null
+alter table Company add IsRegisterPayOnlyByCreditCard bit null
+alter table Company add IsRegisterPlaceDirectOrder bit null
+alter table Company add IsRegisterPlaceOrderWithoutApproval bit null
+
+
+
+
+
+-------------Executed on All Servers---------------------
+CREATE TABLE [dbo].[MarketingBriefHistory](
+ [MarketingBriefHistoryId] [bigint] IDENTITY(1,1) NOT NULL,
+ [HtmlMsg] [nvarchar](max) NULL,
+ [CompanyId] [bigint] NULL,
+ [OrganisationId] [bigint] NULL,
+ [ContactId] [bigint] NULL,
+ [ItemId] [bigint] NULL,
+ CONSTRAINT [PK_MarketingBriefHistory] PRIMARY KEY CLUSTERED 
+(
+ [MarketingBriefHistoryId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+ALTER TABLE TemplateVariable
+ADD VariableText nvarchar(max) null
+
+ALTER TABLE Template
+ADD contactId bigint null
+
+
+ALTER TABLE Template
+ADD realEstateId bigint null
+
+
+/****** Object:  StoredProcedure [dbo].[usp_ChartRegisteredUserByStores]    Script Date: 9/4/2015 12:25:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--exec usp_ChartRegisteredUserByStores 1
+ALTER PROCEDURE [dbo].[usp_ChartRegisteredUserByStores]
+	@OrganisationId bigint
+AS
+BEGIN
+		
+		select Name, count(*) as TotalContacts, Month, MonthName, Year from (
+-- corporate Contacts
+	   select c.companyid, c.name, DATENAME(MONTH,RegistrationDate) as MonthName, DATEPart(MONTH,RegistrationDate) as Month,
+	   DATEPart(Year,RegistrationDate) as Year  
+	   from CompanyContact cc inner join company c on c.CompanyId = cc.CompanyId
+	   where c.CompanyId in(select companyId from company where organisationID = @OrganisationId and IsCustomer = 3 and isStoreLive = 1)	   
+			union all
+ -- Retail Contacts
+	   select c.companyid, c.StoreName, DATENAME(MONTH,RegistrationDate) as MonthName , DATEPart(MONTH,RegistrationDate) as Month,
+	   DATEPart(Year,RegistrationDate) as Year   from CompanyContact cc inner join (
+	   select store.name as StoreName, reg.CompanyId from Company reg inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4 and store.isStoreLive = 1) c on c.CompanyId = cc.CompanyId
+		)ct
+	where Month is not null
+	group by name, monthname, month, year
+	order by TotalContacts desc 
+
+			RETURN 
+	END
+
+
+	
+/****** Object:  StoredProcedure [dbo].[usp_ChartMonthlyEarningsbyStore]    Script Date: 9/4/2015 4:09:31 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Muhammad Naveed
+-- Create date: 2015 07 30
+-- Description:	To Get Charts data of Monthly Earnings by store
+-- =============================================
+-- Exec [usp_ChartMonthlyEarningsbyStore] 1
+ALTER PROCEDURE [dbo].[usp_ChartMonthlyEarningsbyStore]
+	@OrganisationId bigint
+AS
+BEGIN
+
+		
+--------------------------Retails Stores--------------------------------
+					select  RetailStoreName as Name, isnull(sum(Estimate_Total), 0)as TotalEarning, MonthName, Month, Year 
+						from (select	Estimate_Total, retail.RetailStoreName, DATENAME(MONTH, CreationDate) as MonthName, DATEPart(MONTH,CreationDate) as Month,
+										DATEPart(Year,CreationDate) as Year 
+									from estimate e inner join
+										(--Retail Stores
+											select reg.CompanyId, store.Name as RetailStoreName 
+												from Company reg 
+												inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4 and store.isStoreLive = 1) retail
+												on retail.CompanyId = e.CompanyId
+												where e.StatusId <> 3 
+										) ct
+					group by RetailStoreName, MonthName, Month, year
+
+					Union
+--------------------------Corporate Stores--------------------------------
+					select  CorporateStore as Name ,isnull(sum(Estimate_Total),0)as TotalEarning, MonthName, Month, Year 
+					from (select	Estimate_Total, corp.CorporateStore, DATENAME(MONTH, CreationDate) as MonthName, DATEPart(MONTH,CreationDate) as Month,
+									DATEPart(Year,CreationDate) as Year 
+							from estimate e inner join
+								(--Corporate Stores
+									select companyId, Name as CorporateStore from company where organisationID = @OrganisationId and IsCustomer = 3 and isStoreLive = 1) corp
+									on corp.CompanyId = e.CompanyId
+									where e.StatusId <> 3 
+								) ct
+					group by CorporateStore, MonthName, Month, year
+					order by TotalEarning desc
+
+			RETURN 
+	END
+
+
+/****** Object:  StoredProcedure [dbo].[usp_ChartMonthlyOrdersCount]    Script Date: 9/4/2015 4:11:05 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--[dbo].[usp_ChartMonthlyOrdersCount]1
+ALTER PROCEDURE [dbo].[usp_ChartMonthlyOrdersCount]--1
+	@OrganisationId bigint
+AS
+BEGIN
+
+	
+		
+--------------------------Retails Stores--------------------------------
+					select  RetailStoreName as CompanyName,count(Estimate_Total)as TotalOrders, Month, monthname,  year 
+						from (select	Estimate_Total, retail.RetailStoreName, DATENAME(MONTH, CreationDate) as MonthName, DATEPart(MONTH,CreationDate) as Month,
+										DATEPart(Year,CreationDate) as Year 
+									from estimate e inner join
+										(--Retail Stores
+											select reg.CompanyId, store.Name as RetailStoreName 
+												from Company reg 
+												inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4 and store.isStoreLive = 1) retail
+												on retail.CompanyId = e.CompanyId
+												where e.StatusId <> 3 
+										) ct
+					group by RetailStoreName, MonthName, Month, year
+
+					Union
+--------------------------Corporate Stores--------------------------------
+					select  CorporateStore as CompanyName ,count(Estimate_Total)as TotalOrders, Month, monthname,  year 
+					from (select	Estimate_Total, corp.CorporateStore, DATENAME(MONTH, CreationDate) as MonthName, DATEPart(MONTH,CreationDate) as Month,
+									DATEPart(Year,CreationDate) as Year 
+							from estimate e inner join
+								(--Corporate Stores
+									select companyId, Name as CorporateStore from company where organisationID = @OrganisationId and IsCustomer = 3 and isStoreLive = 1) corp
+									on corp.CompanyId = e.CompanyId
+									where e.StatusId <> 3 
+								) ct
+					group by CorporateStore, MonthName, Month, year
+					order by TotalOrders desc
+
+	END
+
+USE [MPCLive]
+GO
+/****** Object:  StoredProcedure [dbo].[usp_ChartTop10PerfomingCustomers]    Script Date: 9/4/2015 4:12:39 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- usp_ChartTop10PerfomingCustomers 1
+ALTER PROCEDURE [dbo].[usp_ChartTop10PerfomingCustomers]
+	@OrganisationId bigint
+AS
+BEGIN
+
+	declare @PreviousMonth int, @CurrentMonth int, @CurrentYear int
+set @PreviousMonth = datepart(month, dateadd(month, -1, getdate()))
+set @CurrentMonth = datepart(month, getdate())
+set @CurrentYear = DATEPART(year, getdate())
+
+select top 5 isnull(c.firstname,'') + ' ' + isnull(c.lastName,'') as ContactName, isnull(sum(e.Estimate_Total), 0) as CurrentMonthOrders,
+	isnull((select Orders from (select cc.ContactId, sum(e.Estimate_Total) as Orders from 
+						estimate e inner join (
+						select reg.CompanyId, store.Name as RetailStoreName 
+						from Company reg 
+						inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4 and store.isStoreLive = 1
+					) cust on cust.CompanyId = e.CompanyId
+			inner join CompanyContact cc on cc.ContactId = e.ContactId
+			where e.StatusId <> 3 and datepart(month, e.CreationDate) = @PreviousMonth and datepart(year, e.CreationDate) = @CurrentYear
+			group by cc.ContactId) curOrders where curOrders.ContactId = c.ContactId),0) as LastMonthOrders
+	from 
+	estimate e inner join (
+						select reg.CompanyId, store.Name as RetailStoreName 
+						from Company reg 
+						inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4 and store.isStoreLive = 1
+					) cust on cust.CompanyId = e.CompanyId
+			inner join CompanyContact c on c.ContactId = e.ContactId
+			where e.StatusId <> 3 and datepart(month, e.CreationDate) = @CurrentMonth and datepart(year, e.CreationDate) = @CurrentYear
+			group by firstname, lastName, c.ContactId
+			order by CurrentMonthOrders Desc		
+			
+
+
+	END
+
+
+/****** Object:  StoredProcedure [dbo].[usp_ChartTopPerformingStores]    Script Date: 9/4/2015 4:15:48 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--exec usp_ChartTopPerformingStores 1
+
+ALTER PROCEDURE [dbo].[usp_ChartTopPerformingStores]--1
+	(@OrganisationId bigint)
+AS
+ BEGIN
+ 
+ declare @PreviousMonth int, @CurrentMonth int, @CurrentYear int
+
+set @PreviousMonth = datepart(month, dateadd(month, -1, getdate()))
+set @CurrentMonth = datepart(month, getdate())
+set @CurrentYear = DATEPART(year, getdate())
+
+----------------------------------Retails Stores-----------------------------------
+select top 5 CurrentMonthEarning, LastMonthEarning, Name, 'Jan' as MonthName,2015 as year,1 as Month  from (
+select 
+		isnull((select CurrentMonthEarn from (select sum(Estimate_Total) as CurrentMonthEarn, r.RetailStoreName 
+			from estimate e 
+			inner join (select reg.CompanyId, store.Name as RetailStoreName 
+						from Company reg 
+						inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4 and store.isStoreLive = 1) r
+			on r.CompanyId = e.CompanyId
+			where e.StatusId <> 3 and datepart(month, e.CreationDate) = @CurrentMonth and datepart(year, e.CreationDate) = @CurrentYear
+			group by RetailStoreName) dt 
+			where dt.RetailStoreName = retail.RetailStoreName),0) as CurrentMonthEarning, isnull(sum(Estimate_Total),0)as LastMonthEarning, retail.RetailStoreName as Name
+ from estimate e 
+ inner join (--Retail Customers
+			select reg.CompanyId, store.Name as RetailStoreName 
+			from Company reg 
+			inner join company store on reg.storeid = store.companyid and store.OrganisationId = @OrganisationId and store.IsCustomer = 4 and store.isStoreLive = 1) retail
+			on retail.CompanyId = e.CompanyId
+			where e.StatusId <> 3 and datepart(month, e.CreationDate) = @PreviousMonth and datepart(year, e.CreationDate) = @CurrentYear
+			group by RetailStoreName
+
+
+union
+----------------------------------Corporate Stores-----------------------------------
+select 
+		isnull((select CurrentMonthEarn from (select sum(Estimate_Total) as CurrentMonthEarn, r.CorporateStore 
+			from estimate e 
+			inner join (select companyId, Name as CorporateStore from company where organisationID = @OrganisationId and IsCustomer = 3 and isStoreLive = 1) r
+			on r.CompanyId = e.CompanyId
+			where e.StatusId <> 3 and datepart(month, e.CreationDate) = @CurrentMonth and datepart(year, e.CreationDate) = @CurrentYear
+			group by CorporateStore) dt 
+			where dt.CorporateStore = retail.CorporateStore),0) as CurrentMonthEarning, isnull(sum(Estimate_Total),0) as LastMonthEarning, retail.CorporateStore as Name
+ from estimate e 
+ inner join (select companyId, Name as CorporateStore from company where organisationID = @OrganisationId and IsCustomer = 3 and isStoreLive = 1) retail
+			on retail.CompanyId = e.CompanyId
+			where e.StatusId <> 3 and datepart(month, e.CreationDate) = @PreviousMonth and datepart(year, e.CreationDate) = @CurrentYear
+			group by CorporateStore
+) p
+order by CurrentMonthEarning desc
+
+
+end 
+
+
+
+

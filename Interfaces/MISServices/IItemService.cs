@@ -24,7 +24,7 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Get by Id
         /// </summary>
-        Item GetById(long id);
+        Item GetById(long id, bool changeTemplateSizeUnits = true);
 
         /// <summary>
         /// Save Product Image
@@ -81,9 +81,9 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Get Items By Company Id
         /// </summary>
-        /// <param name="companyId"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
-        IEnumerable<Item> GetItemsByCompanyId(long companyId);
+        ItemSearchResponse GetItemsByCompanyId(ItemSearchRequestModel request);
 
         /// <summary>
         /// Get Parent Product Categories for Company
@@ -91,7 +91,9 @@ namespace MPC.Interfaces.MISServices
         IEnumerable<ProductCategory> GetProductCategoriesForCompany(long? companyId);
 
         bool DeleteItem(long ItemID, long OrganisationID);
+        IEnumerable<ProductCategory> GetProductCategoriesIncludingArchived(long? companyId);
 
-       
+        IEnumerable<Item> GetProductsByCompanyId(long? companyId);
+
     }
 }

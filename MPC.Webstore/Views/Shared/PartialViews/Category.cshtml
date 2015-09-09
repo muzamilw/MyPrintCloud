@@ -4,25 +4,26 @@
 @using MPC.Models.Common;
 @using MPC.Webstore.Common;
 @{
+    Layout = null;
+}
+@{
     string CategoryDescription = "";
     string SkipDesignerPopUp = "";
 }
 
-@section scripts {
-    <script src="~/Scripts/PopUp.js"></script>
-
-}
-
-@if (!string.IsNullOrEmpty(Model.ImagePath))
+@if (Model != null)
+{
+    
+if (!string.IsNullOrEmpty(Model.ImagePath))
 {
     <div id="divbg" style="background:url(@Model.ImagePath)  no-repeat center center" class="categorydivBG">&nbsp;</div>
 }
 <link href="~/Content/Designer/CategoryPageStyles.css" rel="stylesheet" />
 <link href="~/Content/Designer/p103.css" rel="stylesheet" />
 <script src="~/Scripts/Designer/p101.js" type="text/javascript"></script>
-<div class="container content_area">
+<div class="container content_area" id="all-category-pg">
 
-    <div class="left_right_padding row">
+    <div class="left_right_padding">
         @{Html.RenderAction("Index", "BreadCrumb");}
         <div class="signin_heading_div Categorytitle col-md-12 col-lg-12 col-xs-12">
             <h1>
@@ -109,12 +110,15 @@
                                 <div class="BD_CatProducts rounded_corners">
                                     <div class="pad5">
                                         <div class="LCLB">
-
+                                            @{
+                                                item.ProductName = Utils.specialCharactersEncoder(item.ProductName);
+                                            }
+                                           
                                             @* condition for marketing brief*@
                                             @if (item.ProductType == (int)ProductType.MarketingBrief)
                                             {
 
-                                                RedirectURL = "/MarketingBrief/" + item.ProductName + "/" + item.ItemId;
+                                                RedirectURL = "/MarketingBrief/" + item.ProductName + "/" + item.ItemId + "/" + Model.ProductCategoryId;
 
                                             }
                                             else if (item.ProductType == (int)ProductType.PrintProduct)
@@ -127,17 +131,17 @@
                                                 }
                                                 else
                                                 {
-                                                    if (item.isUploadImage == true && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
-                                                    {
-                                                        isUploadImage = true;
-                                                        RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
-                                                    }
-                                                    else
-                                                    {
-                                                        isUploadImage = false;
+                                                    //if (item.isUploadImage == true && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+                                                    //{
+                                                    //    isUploadImage = true;
+                                                    //    RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
+                                                    //}
+                                                    //else
+                                                    //{
+                                                    isUploadImage = false;
 
-                                                        RedirectURL = "/Category/CloneItem/" + item.ItemId;
-                                                    }
+                                                    RedirectURL = "/Category/CloneItem/" + item.ItemId;
+                                                    //}
                                                 }
 
 
@@ -163,11 +167,11 @@
                                             else
                                             {
 
-                                                if (item.isMarketingBrief == true) // check if item is marekting breif..??
+                                                if (item.ProductType == (int)ProductType.MarketingBrief) // check if item is marekting breif..??
                                                 {
-                                                    if (ViewBag.IsUserLogin == true) // check if user login or not ??
+                                                    if (ViewBag.IsUserLogin == 1) // check if user login or not ??
                                                     {
-                                                        <a id="hlProductDetail" href="/MarketingBrief/@item.ProductName/@item.ItemId" onclick="ShowLoader();">
+                                                        <a id="hlProductDetail" href="/MarketingBrief/@item.ProductName/@item.ItemId/@Model.ProductCategoryId" onclick="ShowLoader();">
 
                                                             <div class="PDTC_CatProd FI_CatProd">
                                                                 @{
@@ -182,7 +186,7 @@
                                                         string ProductName = "'" + item.ProductName + "'";
                                                         string itemID = "'" + item.ItemId + "'";
 
-                                                        <a id="hlProductDetail" onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@item.ProductName','@item.ItemId');">
+                                                        <a id="hlProductDetail" onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@item.ProductName','@item.ItemId','@Model.ProductCategoryId');">
 
                                                             <div class="PDTC_CatProd FI_CatProd">
                                                                 @{
@@ -211,14 +215,19 @@
                                             }
                                         </div>
                                         <div class="product_detail_image_heading_IRI">
-                                            <label id="lblProductName">@item.ProductName</label>
+                                            <p style="  width: 100%;  float: left;  word-wrap: break-word;">
+                                                @item.ProductName
+                                            </p>
+                                            <div class="clearBoth">
+
+                                            </div>
                                         </div>
                                         <div class="product_detail_image_Pricing">
                                             <label id="lblPrice">@item.MinPrice</label>
                                         </div>
 
                                         @{
-                                if (item.isMarketingBrief == null || item.isMarketingBrief == false)
+                                if (item.ProductType != (int)ProductType.MarketingBrief)
                                 {
                                     string stockLabel = string.Empty;
                                     string quantity = string.Empty;
@@ -235,56 +244,66 @@
                                     }
 
 
-
-
-                                    <table id="productPricetbl" class="productPricetbl" width="80%" cellpadding="5" cellspacing="0" style="">
-                                        <tr>
-                                            <td class="Metroprod_table_cell prod_table_cell procu_detail_grid_cell wdthWrp"
-                                                style="text-align: left;">
-                                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.WBStoreId))
-                                            </td>
-                                            <td id="tdStockOpt1" class="prod_table_cell Metroprod_table_cell procu_detail_grid_cell wdthWrp"
-                                                style="text-align: right;">
-                                                <label id="lblStockOpt1">@stockLabel</label>
-                                            </td>
-                                        </tr>
-                                        @if (matrix != null)
-                                        {
-                                            foreach (var Objmatrix in matrix)
+                                    
+                                    
+                                        <table id="productPricetbl" class="productPricetbl" width="80%" cellpadding="5" cellspacing="0" style="">
+                                            <tr>
+                                                <td class="Metroprod_table_cell prod_table_cell procu_detail_grid_cell wdthWrp"
+                                                    style="text-align: left;">
+                                                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.WBStoreId, "Quantity"))
+                                                </td>
+                                                <td id="tdStockOpt1" class="prod_table_cell Metroprod_table_cell procu_detail_grid_cell wdthWrp"
+                                                    style="text-align: right;">
+                                                    @if (ViewBag.IsShowPrices == true)
+                                                    {
+                                                        <label id="lblStockOpt1">@stockLabel</label>
+                                                    }
+                                                    
+                                                </td>
+                                            </tr>
+                                            @if (matrix != null)
                                             {
-                                                <tr>
-                                                    <td id="tdQty1" class="product_detail_item_cell procu_detail_grid_cell" style="text-align: left;">
+                                                foreach (var Objmatrix in matrix)
+                                                {
+                                                    <tr>
+                                                        <td id="tdQty1" class="product_detail_item_cell procu_detail_grid_cell" style="text-align: left;">
 
-                                                        <label id="spanQuantity">@Objmatrix.Quantity</label>
-                                                    </td>
-                                                    <td id="tdPrice1" class="product_detail_item_cell procu_detail_grid_cell"
-                                                        style="text-align: right;">
-                                                        <div id="matrixItemColumn1">
+                                                            <label id="spanQuantity">@Objmatrix.Quantity</label>
+                                                        </td>
+                                                        <td id="tdPrice1" class="product_detail_item_cell procu_detail_grid_cell"
+                                                            style="text-align: right;">
+                                                            <div id="matrixItemColumn1">
+                                                                @if (ViewBag.IsShowPrices == true)
+                                                                {
+                                                                    <label id="lblPrice1">@Objmatrix.Price</label>
 
-                                                            <label id="lblPrice1">@Objmatrix.Price</label>
+                                                                }
+                                                                
+
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                }
 
 
-                                                        </div>
-                                                    </td>
-                                                </tr>
+
 
                                             }
+                                        </table>
+                                    
 
 
-                                            
-
-                                        }
-                                    </table>
                                 }
-                                        }
+}
 
-                                        <div>
+                                        <div id="productOptionBtns">
                                             @if (item.ProductType == (int)ProductType.PrintProduct)
                                             {
 
 
 
-                                                <a id="lnkPRoductdetail" href="/ProductDetail/@MPC.Webstore.Common.Utils.specialCharactersEncoder(item.ProductName)/@Model.ProductCategoryId/@item.ItemId/@item.TemplateId/0/UploadDesign" onclick="ShowLoader();"><input type="button" value="More info" class="more-info-button background-green rounded_corners" /></a>
+                                                <a id="lnkPRoductdetail" href="/ProductDetail/@item.ProductName/@Model.ProductCategoryId/@item.ItemId/@item.TemplateId/0/UploadDesign" onclick="ShowLoader();"><input type="button" value="More info" class="more-info-button background-green rounded_corners" /></a>
 
 
 
@@ -292,24 +311,24 @@
                                             else
                                             {
 
-                                                <a id="lnkPRoductdetail" href="/ProductDetail/@MPC.Webstore.Common.Utils.specialCharactersEncoder(item.ProductName)/@Model.ProductCategoryId/@item.ItemId/0/'0'/'UploadDesign'" onclick="ShowLoader();"><input type="button" value="More info" class="more-info-button background-green rounded_corners" /></a>
+                                                <a id="lnkPRoductdetail" href="/ProductDetail/@item.ProductName/@Model.ProductCategoryId/@item.ItemId/0/'0'/'UploadDesign'" onclick="ShowLoader();"><input type="button" value="More info" class="more-info-button background-green rounded_corners" /></a>
 
 
                                             }
                                             @if (item.ProductType == (int)ProductType.MarketingBrief)
                                             {
 
-                                                if (ViewBag.IsUserLogin == true) // check if user login or not ??
+                                                if (ViewBag.IsUserLogin == 1) // check if user login or not ??
                                                 {
-                                            
-                                                 <a href="/MarketingBrief/@item.ProductName/@item.ItemId" onclick="ShowLoader();">
-                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId))" class="place-inquiry-button rounded_corners" />
+
+                                                    <a href="/MarketingBrief/@item.ProductName/@item.ItemId/@Model.ProductCategoryId" onclick="ShowLoader();">
+                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId, "Submit Inquiry"))" class="place-inquiry-button rounded_corners" />
                                                     </a>
                                                 }
                                                 else
                                                 {
-                                                    <a onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@item.ProductName','@item.ItemId');">
-                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId))" class="place-inquiry-button rounded_corners" />
+                                                    <a onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@Utils.specialCharactersEncoder(item.ProductName)','@item.ItemId','@Model.ProductCategoryId');">
+                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnMarketingbrief", UserCookieManager.WBStoreId, "Submit Inquiry"))" class="place-inquiry-button rounded_corners" />
                                                     </a>
 
                                                 }
@@ -319,21 +338,21 @@
                                             {
                                                 if (item.isTemplateDesignMode == (int)TemplateMode.DoNotLoadDesigner)
                                                 {
-                                                    <a onclick="StartDesignerLoader(); SkipDesignerGenerateProof(@item.ItemId,@item.TemplateId , @ViewBag.ContactId ,@item.ProductName);">
-                                                        <input type="button" value="Design Now" class="goto-designer-button" />
+                                                    <a onclick="StartDesignerLoader(); SkipDesignerGenerateProof(@item.ItemId,@item.TemplateId , @ViewBag.ContactId ,'@item.ProductName');">
+                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))" class="goto-designer-button" />
                                                     </a>
                                                 }
                                                 else
                                                 {
-                                                    <a href="@Url.Action("CloneItem", "Category", new { id = item.ItemId })" onclick="ShowLoader();">
-                                                        <input type="button" value="Design Now" class="goto-designer-button rounded_corners" />
+                                                    <a href='@Url.Action("CloneItem", "Category", new { id = item.ItemId })' onclick="ShowLoader();">
+                                                        <input type="button" value='@Html.Raw(Html.GetKeyValueFromResourceFile("DesignNow", UserCookieManager.WBStoreId, "Design Now"))' class="goto-designer-button rounded_corners" />
                                                     </a>
                                                 }
 
-                                                if (item.isUploadImage == true && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+                                                if (item.isUploadImage == true)
                                                 {
                                                     <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/UploadDesign" onclick="ShowLoader();">
-                                                        <input type="button" value="Upload your design" class="create-design-button rounded_corners" />
+                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lnkUploadfilesprices", UserCookieManager.WBStoreId, "Upload your design"))" class="create-design-button rounded_corners" />
                                                     </a>
                                                 }
 
@@ -342,13 +361,23 @@
                                             }
                                             else if (item.ProductType == (int)ProductType.NonPrintProduct) // for non print product
                                             {
-                                                <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/UploadDesign" onclick="ShowLoader();">
-                                                    <input type="button" value="Upload your design" class="create-design-button rounded_corners" />
-                                                </a>
+                                                if (item.isUploadImage == true)
+                                                {
+                                                    <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/UploadDesign" onclick="ShowLoader();">
+                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lnkUploadfilesprices", UserCookieManager.WBStoreId, "Upload your design"))" class="create-design-button rounded_corners" />
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/UploadDesign" onclick="ShowLoader();">
+                                                        <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdtocart", UserCookieManager.WBStoreId, "Add to Cart"))" class="create-design-button rounded_corners" />
+                                                    </a>
+                                                }
+
                                             }
 
                                         </div>
-                                      
+
                                     </div>
                                     <div id="PriceCircle" class="blue_cicle_container DisplayNoneCSS6">
                                         <div class="BC_CatProd">
@@ -356,7 +385,7 @@
                                                 <div class="paddingTop2px">
                                                     &nbsp;
                                                 </div>
-                                                @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom", UserCookieManager.WBStoreId))
+                                                @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom", UserCookieManager.WBStoreId, "From"))
                                                 <br />
                                                 <label id="lblFromMinPrice" style="font-size:16px;">@item.MinPrice</label>
                                             </div>
@@ -371,9 +400,9 @@
                         </div>
 
                         <div id="PopupProofScreen" hidden="hidden" class="FileUploaderPopup_Mesgbox  rounded_corners">
-                            <label id="lbl_Proof" class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass lblPopupCorpHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProof", UserCookieManager.WBStoreId))</label>
+                            <label id="lbl_Proof" class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass lblPopupCorpHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProof", UserCookieManager.WBStoreId, "Proof"))</label>
                             <div id="Div1" onclick="hidePopup2()" class="MesgBoxBtnsDisplay rounded_corners5">
-                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblClose", UserCookieManager.WBStoreId))
+                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblClose", UserCookieManager.WBStoreId, "Close"))
                             </div>
                             <div class="clearBoth">
                                 &nbsp;
@@ -388,7 +417,7 @@
                                 <div class="divTxtProofing">
                                     <div class="ConfirmPopupProof">
                                         <label id="lbl_spelling_Details">
-                                            @Html.Raw(Html.GetKeyValueFromResourceFile("lblspellingDetails", UserCookieManager.WBStoreId))
+                                            @Html.Raw(Html.GetKeyValueFromResourceFile("lblspellingDetails", UserCookieManager.WBStoreId, "Check Spelling and Details"))
                                         </label>
                                         <input id="chkCheckSpelling" name="chkCheckSpelling" class="simpleText regular-checkbox"
                                                type="checkbox" />
@@ -431,11 +460,11 @@
 <section id="MainLoader" class="dialogContainer dialogProof" style="display:none;">
     <div class="mask on"></div>
     <div class="dialog" style="top: 93.5px; /*height: 184px;*/  height: 135px;">
-        <h2 id="loaderTitleMsg">Generating artwork for your approval to order...</h2>
+        <h2 id="loaderTitleMsg">@Html.Raw(Html.GetKeyValueFromResourceFile("genartwork", UserCookieManager.WBStoreId, "Generating artwork for your approval to order..."))</h2>
         <div class="content">
             <div class="exporting">
                 <div class="progress"><span class="progressValue" style="width: 1%;"><span class="text">95%</span><span class="innerDesigner"></span></span></div>
-                <p id="paraLoaderMsg" style="display:none;">You can add different layouts to your design, you can also add images, text content,  background Color and image to your design. </p>
+                <p id="paraLoaderMsg" style="display:none;">@Html.Raw(Html.GetKeyValueFromResourceFile("layoutdes", UserCookieManager.WBStoreId, "You can add different layouts to your design, you can also add images, text content,  background Color and image to your design.")) </p>
             </div>
         </div>
     </div>
@@ -445,7 +474,7 @@
         Close
     </div>
     <div class="previewerTitle">
-        <span class="lightGray">Approval for </span> <span class="productTitle"></span>
+        <span class="lightGray">@Html.Raw(Html.GetKeyValueFromResourceFile("approvelfor", UserCookieManager.WBStoreId, "Approval for")) </span> <span class="productTitle"></span>
     </div>
     <div class="sliderLine">
     </div>
@@ -457,10 +486,10 @@
         <div id="previewProofingDesigner">
             <div class="divTxtProofingDesigner">
                 <div class="ConfirmPopupProofDesigner">
-                    <label class="lblChkSpellings" runat="server" id="lblConfirmSpellings" style="vertical-align:super">
-                        Confirm spelling and details
+                    <label class="lblChkSpellings"  id="lblConfirmSpellings" style="vertical-align:super">
+                        @Html.Raw(Html.GetKeyValueFromResourceFile("confirmspell", UserCookieManager.WBStoreId, "Confirm spelling and details"))
                     </label>
-                    <input id="chkCheckSpelling" name="chkCheckSpelling" runat="server" class="regular-checkbox-new"
+                    <input id="chkCheckSpelling" name="chkCheckSpelling" class="regular-checkbox-new"
                            type="checkbox" />
                     <label for="chkCheckSpelling" style="display: inline; height:35px" id="lblCheckSpelling">
                     </label>
@@ -468,11 +497,13 @@
 
             </div>
             <button id="btnNextProofing" class="btnBlueProofing buttonDesigner previewfontStyles">
-                Progress to options
+                @Html.Raw(Html.GetKeyValueFromResourceFile("poption", UserCookieManager.WBStoreId, "Progress to options"))
             </button>
         </div>
     </div>
 </div>
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+<script src="~/Scripts/PopUp.js"></script>
 <script>
     var tID = 0;
     var itemId = 0;
@@ -577,7 +608,7 @@
                   window.location.href = DT;// + "&CategoryId=" + CategoryId + "&ProductName=" + document.getElementById('txtDesignName').value + emailParameters;
               });
         } else {
-            alert("Please Confirm spellings and details!");
+            alert('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmspell", UserCookieManager.WBStoreId, "Please Confirm spellings and details!"))');
             return false;
         }
     });
@@ -585,7 +616,7 @@
         loaderLoading = true;
         var3 = 1;
         if (msg == null || msg == "") {
-            msg = "Please wait while we generate proof of your design...";
+            msg = '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgenerateproof", UserCookieManager.WBStoreId, "Please wait while we generate proof of your design..."))';
         }
         $("#paraLoaderMsg").text(msg);
         $("#MainLoader").css("display", "block");
@@ -614,3 +645,4 @@
 
     }
 </script>
+    }

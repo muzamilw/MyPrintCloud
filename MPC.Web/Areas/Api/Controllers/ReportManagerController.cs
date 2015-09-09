@@ -25,12 +25,27 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         }
         // GET: Api/ReportManager
-
-        public ReportCategory get(long CategoryId)
+      //  ReportCategoryRequestModel
+        public ReportCategory get([FromUri] ReportCategoryRequestModel req)
         {
-            return _IReportService.GetReportCategory(CategoryId).CreateFrom();
+            return _IReportService.GetReportCategory(req.CategoryId, req.IsExternal).CreateFrom();
         }
+        public void getParamsById(long Id)
+      //  public List<ReportparamResponse> getParamsById(long Id)
+        {
 
+        }
         
+       
+        //public string DownloadExternalReport(int ReportId,bool Mode)
+        //{
+        //    return _IReportService.DownloadExternalReport(ReportId, Mode);
+        //}
+       
+        public string gggg(int ReportId, int Mode)
+        {
+            bool GG = true;
+            return _IReportService.DownloadExternalReport(ReportId, GG);
+        }
     }
 }

@@ -29,6 +29,7 @@ using System.Threading;
 using FluentScheduler;
 using System.Collections.Generic;
 using System.Runtime.Caching;
+using MPC.Webstore.Controllers;
 namespace MPC.Webstore
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -39,7 +40,7 @@ namespace MPC.Webstore
         private static IUnityContainer container;
         private ICompanyService companyService;
         private ICampaignService campaignService;
-
+        private IUserManagerService userManagerService;
         /// <summary>
         /// Configure Logger
         /// </summary>
@@ -48,7 +49,7 @@ namespace MPC.Webstore
             DatabaseFactory.SetDatabaseProviderFactory(new DatabaseProviderFactory());
             IConfigurationSource configurationSource = ConfigurationSourceFactory.Create();
             LogWriterFactory logWriterFactory = new LogWriterFactory(configurationSource);
-            // Logger.SetLogWriter(logWriterFactory.Create());
+          //  Logger.SetLogWriter(logWriterFactory.Create());
         }
         /// <summary>
         /// Create the unity container
@@ -67,7 +68,7 @@ namespace MPC.Webstore
         {
             MPC.WebBase.TypeRegistrations.RegisterTypes(container);
             MPC.Implementation.TypeRegistrations.RegisterType(container);
-
+            MPC.ExceptionHandling.TypeRegistrations.RegisterType(container);
         }
         /// <summary>
         /// Register unity 
@@ -193,20 +194,40 @@ namespace MPC.Webstore
                                 Response.Redirect("/Login");
                             }
                         }
-                       
-                    }
-                    else
-                    {
-                        //  Response.Redirect("/Error");
                     }
                 }
-                else
-                {
-                    //  Response.Redirect("/Error");
-                }
-
             }
-          
+        }
+
+        private void Application_Error(object sender, EventArgs e)
+        {
+            var exception = Server.GetLastError();
+
+            var httpContext = ((HttpApplication)sender).Context;
+            string url = httpContext.Request.Path;
+            if (httpContext.Request.Url != null)
+            {
+                url = httpContext.Request.Url.AbsoluteUri;
+            }
+            httpContext.Response.Clear();
+            httpContext.ClearError();
+            ExecuteErrorController(httpContext, exception, url);
+        }
+        private void ExecuteErrorController(HttpContext httpContext, Exception exception, string url)
+        {
+            var routeData = new RouteData();
+            routeData.Values["controller"] = "Error";
+            routeData.Values["action"] = "Index";
+            routeData.Values["errorType"] = 10; //this is your error code. Can this be retrieved from your error controller instead?
+            routeData.Values["exception"] = exception;
+            routeData.Values["url"] = url;
+            userManagerService = container.Resolve<IUserManagerService>();
+            companyService = container.Resolve<ICompanyService>();
+            campaignService = container.Resolve<ICampaignService>();
+            using (Controller controller = new ErrorController(companyService, campaignService, userManagerService))
+            {
+                ((IController)controller).Execute(new RequestContext(new HttpContextWrapper(httpContext), routeData));
+            }
         }
     }
 }

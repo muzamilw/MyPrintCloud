@@ -9,10 +9,10 @@
                 <div>
                     <div class="filter-body" id="filter">
                         <form data-bind="submit: $root.filterProductsToRelate">
-                            <div class="filter-block pull-left">
+                            <div class="filter-block pull-right">
                                 <div class="form-group pull-left">
                                     <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.filterTextForRelatedItems">
-                                    <i class="fa fa-search search-icon" data-bind=""></i>
+                                    <i class="fa fa-search search-icon" data-bind="click:$root.filterProductsToRelate"></i>
                                 </div>
                             </div>
                         </form>

@@ -1,4 +1,5 @@
-﻿using MPC.Models.Common;
+﻿using System;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -8,6 +9,7 @@ namespace MPC.Interfaces.Repository
 {
     public interface ICompanyRepository : IBaseRepository<Company, long>
     {
+      
         CompanyResponse GetCompanyById(long companyId);
         /// <summary>
         /// USer count in last few days
@@ -15,6 +17,7 @@ namespace MPC.Interfaces.Repository
         int UserCount(long? storeId, int numberOfDays);
         long GetStoreIdFromDomain(string domain);
         CompanyResponse SearchCompanies(CompanyRequestModel request);
+        Guid? GetStoreJobManagerId(long storeId);
         Company GetCustomer(int CompanyId);
         /// <summary>
         /// Get Suppliers For Inventories
@@ -29,7 +32,7 @@ namespace MPC.Interfaces.Repository
         /// <param name="companyId"></param>
         /// <returns></returns>
         Company GetStoreById(long companyId);
-
+        Company GetStoreReceiptPage(long companyId);
         long CreateCustomer(string CompanyName, bool isEmailSubscriber, bool isNewsLetterSubscriber, CompanyTypes customerType, string RegWithSocialMedia, long OrganisationId,long StoreId, CompanyContact contact = null);
         /// <summary>
         /// Get Company Price Flag id for Price Matrix in webstore
@@ -63,6 +66,7 @@ namespace MPC.Interfaces.Repository
         CompanyResponse SearchCompaniesForSupplier(CompanyRequestModel request);
 
         CompanyResponse SearchCompaniesForCustomer(CompanyRequestModel request);
+        CompanyResponse SearchCompaniesForCustomerOnDashboard(CompanyRequestModel request);
 
         Company GetCompanyByCompanyID(long CompanyID);
 
@@ -78,7 +82,7 @@ namespace MPC.Interfaces.Repository
 
         List<Company> GetSupplierByOrganisationid(long OID);
 
-        Company GetCompanyByCompanyIDforArtwork(long CompanyID);
+       // Company GetCompanyByCompanyIDforArtwork(long CompanyID);
 
         string GetSupplierNameByID(int CID);
 
@@ -89,5 +93,25 @@ namespace MPC.Interfaces.Repository
         /// <param name="status"></param>
         /// <returns></returns>
         Company isValidWebAccessCode(string WebAccessCode, long OrganisationId);
+
+        List<StoresListResponse> GetStoresNameByOrganisationId();
+        IEnumerable<Company> GetAllRetailStores();
+        // ReSharper disable once InconsistentNaming
+        void DeleteCrmCompanyBySP(long storeId);
+
+        void UpdateLiveStores(long organisationId, int storesCount);
+        int GetLiveStoresCount(long organisationId);
+        bool IsStoreLive(long storeId);
+        List<Company> GetLiveStoresList();
+
+        void CopyProductByStore(long NewStoreId, long OldStoreId);
+
+        Company LoadCompanyWithItems(long StoreId);
+
+        void InsertItem(Company objCompany, long OldCompanyId);
+
+        void InsertProductCategories(Company objCompany, long OldCompanyId);
+
+        void InsertProductCategoryItems(Company NewCompany, Company OldCompany);
     }
 }

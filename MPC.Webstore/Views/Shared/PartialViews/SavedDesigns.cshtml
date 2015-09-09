@@ -1,34 +1,51 @@
 ﻿@using MPC.Models.DomainModels;
 @{ 
     string thumbname = "Thumb.png";
+    string artworkattachmentThumbPath = "mpc_content/Attachments/"+ UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/Products/";
 }
+@{
+    Layout = null;
+}
+@using MPC.Webstore.Common;
 <div id="controlBodyDiv" >
-    <div class="container content_area">
-        <div class="row left_right_padding">
-            <div class="signin_heading_div float_left_simple dashboard_heading_signin">
-                <label ID="lblCategoriesLinks1" class="sign_in_heading">My saved designs</label>
+    <div class="container content_area" id="all-SavedDesign-pg">
+        <div class="left_right_padding">
+            <div class="signin_heading_div float_left_simple dashboard_heading_signin col-md-12 col-lg-12 col-xs-12">
+                <label id="lblCategoriesLinks1" class="sign_in_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblCategoriesLinks1", UserCookieManager.WBStoreId, "My saved designs"))</label>
             </div>
-           
+            <div class="dashBoardRetrunLink dashboard_heading_signin">
+                <div class=" left_align">
+                    <h1>
+                        <a href="/Dashboard" class="left_align" title="Back to my dashboard" onclick="ShowLoader();">
+                            @Html.Raw(Html.GetKeyValueFromResourceFile("BackToDashboardlbl", UserCookieManager.WBStoreId, "Back to my dashboard"))
+                        </a>
+                    </h1>
+                    <div class="clearBoth"></div>
+                </div>
+            </div>
             <div class="clearBoth">
 
             </div>
+            <div class="col-md-12 col-lg-12 col-xs-12">
+                <div class="padd_bottom_30 white-container-lightgrey-border rounded_corners">
 
-            <div class="padd_bottom_30 white-container-lightgrey-border rounded_corners">
-
-                @*<asp:Repeater ID="dlProducts1" runat="server"
-                              OnItemDataBound="dlAllProducts_ItemDataBound" OnItemCommand="dlProducts1_ItemCommand">
-                    <itemtemplate>*@
-
-                    @if(ViewData["SaveDesignView"] != null)
+                    @if (ViewData["SaveDesignView"] != null)
                     {
-                        foreach(var saveDesign in ViewData["SaveDesignView"] as List<SaveDesignView>)
+                        foreach (var saveDesign in ViewData["SaveDesignView"] as List<SaveDesignView>)
                         {
                             <div class="BDSaved rounded_corners">
                                 <div class="pad5">
                                     <div class="PDTCWB">
                                         <div class="PDTC_SD FISaved" style="display: block;">
-
-                                            <img id="imgThumbnail" class="svdDesignImgThumb" src="@saveDesign.AttachmentFolderPath@saveDesign.AttachmentFileName@thumbname" />
+                                            @if (saveDesign.AttachmentFolderPath.Contains("/Production"))
+                                            {
+                                                <img id="imgThumbnail" class="svdDesignImgThumb" src="/@artworkattachmentThumbPath@saveDesign.ItemID/@saveDesign.AttachmentFileName@thumbname" />
+                                            }
+                                            else
+                                            {
+                                                <img id="imgThumbnail" class="svdDesignImgThumb" src="@saveDesign.AttachmentFolderPath/@saveDesign.AttachmentFileName@thumbname" />
+                                            }
+                                            
                                         </div>
                                     </div>
                                     <div class="LCLB product_detail_image_heading rounded_corners">
@@ -36,65 +53,46 @@
                                     </div>
                                 </div>
                                 <div id="Div1" class="cntReorderDesign">
-                                    <a href="#" id="ImageButton1" onclick="ReOrderSaveDesign('@saveDesign.ItemID');" class="btnReorderSavedDesigns">
+                                    <a id="ImageButton1" href="@Url.Action("ReOrder", "SavedDesigns", new { ItemID = saveDesign.ItemID })" onclick="ShowLoader();" class="btnReorderSavedDesigns">
                                         <img src="~/content/images/repeat.png" />
                                     </a>
-                                    @*<asp:ImageButton ID="ImageButton1" runat="server" CssClass=" btnReorderSavedDesigns"
-                                                     ImageUrl="~/content/images/repeat.png"
-                                                     ToolTip="Reorder saved design" CommandName="ProcessSaveDesign" CommandArgument='<%# Eval("ItemID") %>' />
-                                                     ToolTip="Reorder saved design" CommandName="ProcessSaveDesign" CommandArgument='<%# Eval("ItemID") %>' />*@
                                 </div>
                                 <div id="SavedDiv" class=" btnDeleteSavedDesignsContainer">
                                     @if (saveDesign.StatusID == 3)
                                     {
-                                        <a href="#" onclick="ConfirmDeleteSaveDesignPopup('@saveDesign.ItemID');" id="DeleteSavedDesgn" class="btnReorderSavedDesigns btnDeleteSavedDesigns">
-                                            <img src="~/content/images/delete.png" tooltip="Delete saved design" width="48px"/>
+                                        <a onclick="ConfirmDeleteSaveDesignPopup('@saveDesign.ItemID');" id="DeleteSavedDesgn" class="btnReorderSavedDesigns btnDeleteSavedDesigns">
+                                            <img src="~/content/images/delete.png" width="48px" />
                                         </a>
                                     }
-
-
-                                    @*<asp:ImageButton ID="DeleteSavedDesgn" runat="server" CssClass="btnReorderSavedDesigns btnDeleteSavedDesigns"
-                                                     ImageUrl="~/content/images/delete.png" Visible="false" OnClientClick="return confirm('Are you sure you want to delete this Saved design?');"
-                                                     ToolTip="Delete saved design" CommandName="DeleteSavedDesgn" CommandArgument='<%# Eval("ItemID") %>' />*@
-                                    @*<asp:ImageButton ID="ImageButton1" runat="server" CssClass=" btnReorderSavedDesigns"
-                                                     ImageUrl="~/content/images/repeat.png"
-                                                     ToolTip="Reorder saved design" CommandName="ProcessSaveDesign" CommandArgument='<%# Eval("ItemID") %>' />*@
                                 </div>
                                 <div id="SavedDiv" class=" btnDeleteSavedDesignsContainer">
                                     @if (saveDesign.StatusID == 3)
                                     {
-                                        <a href="#" onclick="ConfirmDeleteSaveDesignPopup('@saveDesign.ItemID');" id="DeleteSavedDesgn" class="btnReorderSavedDesigns btnDeleteSavedDesigns">
-                                            <img src="~/content/images/delete.png" tooltip="Delete saved design" width="48px"/>
+                                        <a onclick="ConfirmDeleteSaveDesignPopup('@saveDesign.ItemID');" id="DeleteSavedDesgn" class="btnReorderSavedDesigns btnDeleteSavedDesigns">
+                                            <img src="~/content/images/delete.png" width="48px" />
                                         </a>
                                     }
-
-
-                                    @*<asp:ImageButton ID="DeleteSavedDesgn" runat="server" CssClass="btnReorderSavedDesigns btnDeleteSavedDesigns"
-                                                     ImageUrl="~/content/images/delete.png" Visible="false" OnClientClick="return confirm('Are you sure you want to delete this Saved design?');"
->>>>>>> 4bbf856bb2f5794dc565ba81eca50aaaafe86ad7
-                                                     ToolTip="Delete saved design" CommandName="DeleteSavedDesgn" CommandArgument='<%# Eval("ItemID") %>' />*@
                                 </div>
                             </div>
                         }
                     }
-                      
-                    @*</itemtemplate>
-                </asp:Repeater>*@
-                @if(ViewData["SaveDesignView"] == null)
-                {
-                    <label ID="lblProductNotFound" class="simpleTextLarge">You have No saved templates</label>
-                }
+                    @if (ViewData["SaveDesignView"] == null)
+                    {
+                        <label id="lblProductNotFound" class="simpleTextLarge">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlhavenosavdesign", UserCookieManager.WBStoreId, "You have No saved templates"))</label>
+                    }
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                </div>
                 <div class="clearBoth">
-                    &nbsp;
                 </div>
             </div>
-            <div class="clearBoth">
-            </div>
+
         </div>
     </div>
 </div>
-@section scripts
-{
+
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
 
     <script type="text/javascript">
         function ReOrderSaveDesign(ItemID)
@@ -102,4 +100,3 @@
             window.location.href = "/ReOrder/" + ItemID;
         }
     </script>
-}

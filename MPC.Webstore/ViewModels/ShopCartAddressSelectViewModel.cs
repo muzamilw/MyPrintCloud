@@ -121,6 +121,6 @@ namespace MPC.Webstore.ViewModels
         public long OrderId { get; set; }
 
         public long SelectedDeliveryCostCentreId { get; set; }
-
+        public long? DeliveryDiscountVoucherID { get; set; }
     }
 }

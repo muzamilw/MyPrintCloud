@@ -83,7 +83,7 @@ namespace MPC.Implementation.MISServices
         public InventoryBaseResponse GetBaseData()
         {
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
-            IEnumerable<StockCategory> stocks = stockCategoryRepository.GetAll();
+            IEnumerable<StockCategory> stocks = stockCategoryRepository.GetStockCategoriesForInventory();
             return new InventoryBaseResponse
             {
                 StockCategories = stocks,
@@ -94,7 +94,13 @@ namespace MPC.Implementation.MISServices
                 LengthUnits = lengthUnitRepository.GetAll(),
                 PaperBasisAreas = paperBasisAreaRepository.GetAll(),
                 Organisation = organisation,
-                Region = organisation.GlobalLanguage.culture
+                WeightUnit = organisation.WeightUnit != null ? organisation.WeightUnit.UnitName : string.Empty,
+                Region = organisation.GlobalLanguage.culture,
+                IsImperical = organisation.IsImperical ?? false,
+                LoggedInUserId = paperSizeRepository.LoggedInUserId,
+                LoggedInUserIdentity = paperSizeRepository.LoggedInUserIdentity,
+
+
             };
         }
 
@@ -103,7 +109,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public SupplierBaseResponse GetSupplierBaseData()
         {
-
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
             return new SupplierBaseResponse
             {
                 CompanyTypes = companyTypeRepository.GetAll(),
@@ -113,6 +119,8 @@ namespace MPC.Implementation.MISServices
                 Flags = sectionFlagRepository.GetSectionFlagBySectionId(Convert.ToInt64(SectionIds.Suppliers)),
                 PriceFlags = sectionFlagRepository.GetSectionFlagBySectionId(Convert.ToInt64(SectionIds.CustomerPriceMatrix)),
                 RegistrationQuestions = registrationQuestionRepository.GetAll(),
+                CurrencySymbol = organisation != null ? (organisation.Currency != null ? organisation.Currency.CurrencySymbol : string.Empty) : string.Empty
+
             };
         }
         /// <summary>
@@ -159,7 +167,7 @@ namespace MPC.Implementation.MISServices
                 //    }
                 //}
             }
-        
+
             return new InventorySearchResponse { StockItems = stockItems, TotalCount = totalCount };
         }
 
@@ -249,6 +257,9 @@ namespace MPC.Implementation.MISServices
             stockItem.StockCreated = DateTime.Now;
             stockItem.ItemCode = prefixRepository.GetNextItemCodePrefix();
             stockItem.LastModifiedDateTime = DateTime.Now;
+
+            bool isImperical = organisationRepository.GetImpericalFlagbyOrganisationId();
+            stockItem.IsImperical = isImperical;
             stockItemRepository.Add(stockItem);
             stockItemRepository.SaveChanges();
             //After save item content for list view
@@ -266,7 +277,6 @@ namespace MPC.Implementation.MISServices
             stockItemDbVersion.SupplierId = stockItem.SupplierId;
             stockItemDbVersion.SubCategoryId = stockItem.SubCategoryId;
             stockItemDbVersion.BarCode = stockItem.BarCode;
-            stockItemDbVersion.inStock = stockItem.inStock;
             stockItemDbVersion.ItemDescription = stockItem.ItemDescription;
             stockItemDbVersion.FlagID = stockItem.FlagID;
             stockItemDbVersion.Status = stockItem.Status;
@@ -292,9 +302,38 @@ namespace MPC.Implementation.MISServices
             stockItemDbVersion.ItemCoatedType = stockItem.ItemCoatedType;
             stockItemDbVersion.ItemWeightSelectedUnit = stockItem.ItemWeightSelectedUnit;
             stockItemDbVersion.LastModifiedDateTime = DateTime.Now;
+            stockItemDbVersion.inStock = stockItem.inStock;
+            stockItemDbVersion.isAllowBackOrder = stockItem.isAllowBackOrder;
+            stockItemDbVersion.ThresholdLevel = stockItem.ThresholdLevel;
+            stockItemDbVersion.inStock = stockItem.inStock;
+
+            UpdateItemStockUpdateHistories(stockItem, stockItemDbVersion);
             UpdateStockCostAndPrice(stockItem, stockItemDbVersion);
 
             return StockItemDeatilForListView(stockItem.StockItemId);
+        }
+
+        /// <summary>
+        /// Update Item Stock Update Histories  
+        /// </summary>
+        private void UpdateItemStockUpdateHistories(StockItem stockItem, StockItem stockItemDbVersion)
+        {
+            if (stockItemDbVersion.ItemStockUpdateHistories == null)
+            {
+                stockItemDbVersion.ItemStockUpdateHistories = new List<ItemStockUpdateHistory>();
+            }
+
+            if (stockItem.ItemStockUpdateHistories != null)
+            {
+                foreach (var itemStockUpdateHistoryItem in stockItem.ItemStockUpdateHistories)
+                {
+                    if (itemStockUpdateHistoryItem.StockHistoryId == 0)
+                    {
+                        stockItemDbVersion.ItemStockUpdateHistories.Add(itemStockUpdateHistoryItem);
+                    }
+                    
+                }
+            }
         }
 
         /// <summary>
@@ -338,7 +377,7 @@ namespace MPC.Implementation.MISServices
                     }
                 }
             }
-            
+
             //find missing items
             List<StockCostAndPrice> missingStockCostAndPriceListItems = new List<StockCostAndPrice>();
             foreach (StockCostAndPrice dbversionStockCostAndPriceItem in stockItemDbVersion.StockCostAndPrices)
@@ -419,7 +458,7 @@ namespace MPC.Implementation.MISServices
         {
             company.CreationDate = DateTime.Now;
             company.OrganisationId = companyRepository.OrganisationId;
-            company.IsCustomer = (short) CustomerTypes.Suppliers;
+            company.IsCustomer = (short)CustomerTypes.Suppliers;
 
             if (company.Addresses != null)
             {

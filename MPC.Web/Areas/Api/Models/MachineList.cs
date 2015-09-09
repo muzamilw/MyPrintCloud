@@ -19,7 +19,10 @@ namespace MPC.MIS.Areas.Api.Models
         public double? minimumsheetwidth { get; set; }
         public long? LookupMethodId { get; set; }
         public string LookupMethodName { get; set; }
+        public bool? IsSpotColor { get; set; }
         public byte[] Image { get; set; }
+
+        public bool? isSheetFed { get; set; }
         public string ImageSource
         {
             get

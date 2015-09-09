@@ -1,4 +1,7 @@
-﻿
+﻿@{
+    Layout = null;
+}
+@using MPC.Webstore.Common;
 <div class="container content_area">
     <fieldset id="smartParentPanel" style="margin-top: 20px;">
         @using (Html.BeginForm("SmartFormSubmit", "RealEstateSmartForm", FormMethod.Post))
@@ -33,7 +36,7 @@
                     }
                 }
             }
-            <input type="submit" id="btnSaveAndDesign" value="Save and Design" title="Save and Design" style="margin-bottom: 20px; float: right;" class="cursor_pointer designNowCS_Corp rounded_corners5 btnMakeThisDesign btnEditDesign" />
+            <input type="submit" id="btnSaveAndDesign" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsavendesg", UserCookieManager.WBStoreId, "Save and Design"))" title="Save and Design" style="margin-bottom: 20px; float: right;" class="cursor_pointer designNowCS_Corp rounded_corners5 btnMakeThisDesign btnEditDesign" />
         }
     </fieldset>
     

@@ -3,31 +3,14 @@
 }
 @section leftmenue {
 }
-<div class="row" data-bind="visible: $root.isEditorVisible" style="display: none">
+<div class="row" data-bind="visible: $root.isEditorVisible" style="display: none;">
     <div class="col-lg-12">
         <div class="row">
-            @*<div class="col-lg-12">
-                <ol class="breadcrumb">
-                    <li><a href="~/Dashboard/Index">Home</a></li>
-                    <li><a href="/CRM/SuppliersList">CRM</a></li>
-                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
-                    <li class="active"><span>Supplier</span></li>
-                    <!-- /ko -->
-                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() != 2-->
-                    <li class="active"><span>Customers</span></li>
-                    <!-- /ko -->
-
-                </ol>
-                <!--ko if: $root.selectedStore() != undefined -->
-                <h1 data-bind="text: $root.selectedStore().name()"></h1>
-                <!-- /ko -->
-
-
-            </div>*@
+                  
         </div>
         <div class="row" id="user-profile">
-            <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom: 10px;">
-                <div class="clearfix ">
+            <div class="col-lg-12 col-md-8 col-sm-8">
+                <div class="clearfix">
                     <div class="col-xs-4 pull-left validationSummaryContainer">
                         <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopupForStore', popoverId: 'validationSummaryPopoverBodyForStore' }" style="display: none">Validation Errors</a>
                         <div class="well well-small validationSummaryModal" id="validationSummaryPopupForStore" style="display: none">
@@ -40,28 +23,24 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-4">
-                    </div>
-                    <div class="col-xs-4">
-                    </div>
-                    <div class="col-xs-12" style="text-align: right; padding-right: 0px;" data-bind="with: $root.selectedStore()">
+                   
+                    <div class="col-xs-12" style="text-align: right; padding-right:10px;margin-bottom:18px;" data-bind="with: $root.selectedStore()">
+                        <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:0px">
+                            Print
+                        </button>
+                        <button class="btn btn-danger" data-bind="click: $root.onDeletePermanent, enable: $root.selectedStore().companyId() > 0">Delete</button>
                         <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.saveStore, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                         <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeEditDialog">Close</button>
-                        @*<button type="button" class="btn btn-primary btn-lg" data-bind="click: $root.saveStore">
-                                <span class="fa fa-save"></span>&nbsp;Save
-                            </button>
-                            <button type="button" class="btn btn-primary btn-lg" data-bind="click: $root.closeEditDialog">
-                                <span class="fa fa-save"></span>&nbsp;Close
-                            </button>*@
+                      
                     </div>
                 </div>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="main-box clearfix">
+                <div class="main-box clearfix" style="border:1px solid silver;margin-left:10px;margin-right:10px;">
                     <div class="tabs-wrapper profile-tabs">
                         <ul id="crmTabsId" class="nav nav-tabs">
                             <li class="active" id="generalInfoTabForCrm"><a href="#tab-newsfeedForCrm" data-toggle="tab">General Info</a></li>
-                            <li><a href="#tab-territoryForCrm" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">User & Addresses</a></li>
+                            @*<li><a href="#tab-territoryForCrm" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">User & Addresses</a></li>*@
                             <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().companyId() != undefined-->
                             <!--ko if: $root.isProspectOrCustomerScreen() -->
                             @*<li><a href="#tab-DAM" data-toggle="tab">DAM</a></li>*@
@@ -79,47 +58,50 @@
                         <div class="tab-content" data-bind="with: $root.selectedStore">
                             <div class="tab-pane fade in active" id="tab-newsfeedForCrm">
                                 <div class="col-lg-12 form-horizontal">
-                                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 0-->
-                                    <h3 class="group-header">Prospect Details</h3>
-                                    <!-- /ko -->
-                                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 1-->
-                                    <h3 class="group-header">Customer Details</h3>
-                                    <!-- /ko -->
-                                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
-                                    <h3 class="group-header">Supplier Details</h3>
-                                    <!-- /ko -->
+                                    @*<!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 0-->
+                                        <h3 class="group-header">Prospect Details</h3>
+                                        <!-- /ko -->
+                                        <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 1-->
+                                        <h3 class="group-header">Customer Details</h3>
+                                        <!-- /ko -->
+                                        <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
+                                        <h3 class="group-header">Supplier Details</h3>
+                                        <!-- /ko -->*@
 
                                     <div class="col-lg-9">
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the store that will be displayed on the web." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
+                                                <div class="bs-example-tooltips tooltip-float-width" style="margin-top:18px;">
+                                                    @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the store that will be displayed on the web." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>*@
                                                 </div>
                                                 <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 0-->
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Prospect Name</label>
+                                                <label for="txtCompanyName" style="margin-top:14px;" class="control-label text-right tooltip-float">Company Name</label>
                                                 <!-- /ko -->
                                                 <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 1-->
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Customer Name</label>
+                                                <label for="txtCompanyName" style="margin-top:14px;" class="control-label text-right tooltip-float">Company Name</label>
                                                 <!-- /ko -->
                                                 <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Supplier Name</label>
+                                                <label for="txtCompanyName" style="margin-top:14px;" class="control-label text-right tooltip-float">Company Name</label>
                                                 <!-- /ko -->
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" name="Store Name" class="form-control" id="txtCompanyName" placeholder="Enter Store Name" data-bind="value: name, validationTooltip: name, validationOnElement: name">
-                                                <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 0-->
-                                                <span class="help-block text-right">Name of Prospect.</span>
-                                                <!-- /ko -->
-                                                <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 1-->
-                                                <span class="help-block text-right">Name of Customer.</span>
-                                                <!-- /ko -->
-                                                <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
-                                                <span class="help-block text-right">Name of Supplier.</span>
-                                                <!-- /ko -->
-                                                
+                                                <input type="text" style="height:60px;" name="Company Name" class="form-control height60 font24px" id="txtCompanyName" placeholder="Enter Company Name" data-bind="value: name, validationTooltip: name, validationOnElement: name">
+
+
+
+                                                @*<!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 0-->
+                                                    <span class="help-block text-right">Name of Prospect.</span>
+                                                    <!-- /ko -->
+                                                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 1-->
+                                                    <span class="help-block text-right">Name of Customer.</span>
+                                                    <!-- /ko -->
+                                                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
+                                                    <span class="help-block text-right">Name of Supplier.</span>
+                                                    <!-- /ko -->*@
+
                                             </div>
                                         </div>
                                         @*<div class="form-group">
@@ -140,114 +122,133 @@
                                         <div class="form-group ">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Store" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select a Store for which customer belongs to" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
+                                                    
                                                 </div>
                                                 <label for="selectStore" class="control-label text-right tooltip-float">Select Store</label>
                                             </div>
                                             <div class="col-lg-6">
-                                                <select id="selectStore" class="form-control" data-bind="options: $root.storesListForDropDown , optionsText: 'Name', optionsValue: 'CompanyId', optionsCaption: ' --- Select Store --- ',value: storeId "></select>  @*,,value: stateId  value:country,validationtooltip:country*@
+                                                <select id="selectStoreCrm" name="Store" class="form-control" data-bind="options: $root.storesListForDropDown , optionsText: 'Name', optionsValue: 'CompanyId', optionsCaption: ' --- Select Store --- ',value: storeId,validationOnElement:storeId,validationTooltip: storeId, "></select>  @*,,value: stateId  value:country,validationtooltip:country*@
                                             </div>
                                         </div>
                                         <!-- /ko -->
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="ex. (999) 999-9999" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
-                                                <label class="control-label tooltip-float" for="maskedPhone">Phone</label>
+                                                @*<div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="ex. (999) 999-9999" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>*@
+                                                @*<label class="control-label tooltip-float" for="maskedPhone"></label>*@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="input-group">
                                                     <span class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus"><i class="fa fa-phone"></i></span>
                                                     <input type="text" class="form-control" id="maskedPhone" data-bind="value: phoneNo">
                                                 </div>
-                                                <span class="help-block">ex. (999) 999-9999</span>
+
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="User notes for the store." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
-                                                <label for="txtNotes" class="control-label text-right tooltip-float">Notes</label>
+                                                @*<div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="User notes for the store." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtNotes" class="control-label text-right tooltip-float">Notes</label>*@
                                             </div>
                                             <div class="col-lg-6">
-                                                <textarea class="form-control" id="txtNotes" rows="5" data-bind="value: notes"></textarea>
+                                                <textarea class="form-control notes" id="txtNotes" rows="5" data-bind="value: notes" placeholder="Enter Notes"></textarea>
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-4 col-sm-4">
-                                        <div class="main-box clearfix">
-                                            <header class="main-box-header clearfix textAlignCenter">
-                                                <h2><label data-bind="text: name"></label></h2>
-                                            </header>
-                                            <div class="main-box-body clearfix">
-                                                <div class="profile-status">
+
+                                        <div class="clearfix">
+                                            <!-- ko ifnot: storeImageFileBinary() -->
+                                            <img style="margin-left:34%" src="/mis/Content/Images/Company_Default.png">
+                                            <!--/ko-->
+                                            <!-- ko if: storeImageFileBinary() -->
+                                            <img style="width:220px;height:130px;-o-object-fit: contain; object-fit: contain;" id="idCompanyimage" data-bind="visible:storeImageFileBinary()==undefined ,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
+                                            <img style="width: 220px; height: 130px; -o-object-fit: contain; object-fit: contain;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
+
+                                            <!--/ko-->
+                                            <div class="col-lg-12" style="margin-top:12px;text-align:center;width:220px;">
+                                                <div class="fileUpload btn btn-primary">
+                                                    <span>Upload</span>
+                                                    <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                 </div>
-                                                <img style="width: 150px;" data-bind="attr: { src: storeImageFileBinary }" />
-                                                <div class="pull-right">
-                                                    <div class="fileUpload btn btn-primary">
-                                                        <span>....</span>
-                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+
+                                            </div>
+                                            <div class="col-lg-12 ThoumbnailCostCenter" style="text-align:center;margin-top:5px !important;width:220px;">Upload a Logo (PNG,JPG,GIF) for profile</div>
+                                            <div class="profile-stars">
+                                                <span data-bind="value: type"></span>
+                                            </div>
+
+                                        </div>
+
+
+
+
+
+
+
+                                        @*<div class="main-box clearfix">
+                                                <header class="main-box-header clearfix textAlignCenter">
+                                                    <h2><label data-bind="text: name"></label></h2>
+                                                </header>
+                                                <div class="main-box-body clearfix">
+                                                    <div class="profile-status">
+                                                    </div>
+                                                    <img style="width: 150px;" data-bind="attr: { src: storeImageFileBinary }" />
+                                                    <div class="pull-right">
+                                                        <div class="fileUpload btn btn-primary">
+                                                            <span>....</span>
+                                                            <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-label profileLabelPadding">
+                                                        <!-- ko if: status() == 1 -->
+                                                        <span class="label label-success">Active</span>
+                                                        <!-- /ko -->
+                                                        <!-- ko if: status() != 1 -->
+                                                        <span class="label label-danger">In-Active</span>
+                                                        <!-- /ko -->
+                                                    </div>
+                                                    <div class="profile-stars">
+                                                        <span data-bind="value: type"></span>
+                                                    </div>
+                                                    <div class="profile-since" data-bind="value: accountOpenDate">
                                                     </div>
                                                 </div>
-                                                <div class="profile-label profileLabelPadding">
-                                                    <!-- ko if: status() == 1 -->
-                                                    <span class="label label-success">Active</span>
-                                                    <!-- /ko -->
-                                                    <!-- ko if: status() != 1 -->
-                                                    <span class="label label-danger">In-Active</span>
-                                                    <!-- /ko -->
-                                                </div>
-                                                <div class="profile-stars">
-                                                    <span data-bind="value: type"></span>
-                                                </div>
-                                                <div class="profile-since" data-bind="value: accountOpenDate">
-                                                </div>
-                                            </div>
-                                        </div>
+                                            </div>*@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Account Details</h3>
                                     <div class="col-lg-9">
+
                                         <div class="form-group">
-                                            <div class="col-lg-3 text-right">
+                                            <div class="col-lg-3 text-right" style="padding-left:0px;">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Opening date of account - format mm-dd-yyyy" data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your employee who is responsible for managing accounts (normally a customer service representative – CSR) this users details will be populated on order reports " data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
-                                                <label for="datepickerDate" class="control-label text-right tooltip-float">Account Opened</label>
+                                                <label class="control-label text-right tooltip-float">Internal Account Manager</label>
                                             </div>
                                             <div class="col-lg-6">
-                                                <label class="control-label" data-bind="dateString: accountOpenDate, datePattern: 'DD/MM/YYYY'"></label>
+                                                <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'fullName',optionsValue:'systemUserId', value: $root.selectedStore().accountManagerId"></select>   @*,value: $root.selectedClaimFilterListitem*@
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Store's Account Manager " data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
-                                                <label class="control-label text-right tooltip-float">Account Manager</label>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <select class="form-control col-lg-4" data-bind="options:$root.systemUsers,optionsText:'userName',optionsValue:'systemUserId', value: $root.selectedStore().accountManagerId"></select>   @*,value: $root.selectedClaimFilterListitem*@
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="GST registration number will be used for invoices" data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter your customers ABN, VAT ID, PST or Tax identification number" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
@@ -260,7 +261,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="GST reference number will be used for accounts" data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter your customers ABN, VAT ID, PST or Tax reference number" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
@@ -272,22 +273,308 @@
                                         </div>
                                     </div>
                                 </div>
-
-                            </div>
-                            <div class="tab-pane fade" id="tab-territoryForCrm">
-                                <div class="col-lg-12">
+                                <div class="col-lg-12 form-horizontal">
                                     <!--ko if: type() != 0 && type() != 1 && type() != 2-->
+
                                     <div class="col-lg-12">
                                         <h3 class="group-header">Territories</h3>
-                                        <div class="col-lg-12 clearfix">
+
+                                        <div class="col-lg-9">
+                                            <div class="form-group">
+
+
+                                                <div class="col-lg-3  text-right">
+
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <header class="main-box-header clearfix" style="width:222%;">
+                                                        <div class="filter-block pull-right">
+                                                            <div class="form-group pull-left">
+                                                                <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchCompanyTerritoryFilter, validationOnElement: $root.searchCompanyTerritoryFilter">
+                                                                <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyTerritory"></i>
+                                                            </div>
+
+                                                        </div>
+                                                    </header>
+                                                    <div style="background-color:gainsboro; border-radius:3px; width:220%;">
+                                                        <header class="main-box-header clearfix">
+                                                            <div style="float:left;"><span style="font-size:24px">Territories</span></div>
+                                                        </header>
+                                                        <div class="main-box-body clearfix">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-striped table-hover">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th><span>Territory</span></th>
+                                                                            <th><span>Code</span></th>
+                                                                            <th>&nbsp;</th>
+
+
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <!-- ko template: { name: 'itemCompanyTerritoryTemplate' , foreach: $root.selectedStore().companyTerritories } -->
+                                                                        <!-- /ko -->
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
+                                                        <a data-toggle="modal" class="btn btn-primary" data-bind="click: $root.onCreateNewCompanyTerritory">
+                                                            Add Territory
+                                                        </a>
+                                                    </div>
+
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+
+
+                                        @*<div class="col-lg-12 clearfix">
+
+                                                <div class="main-box-body clearfix">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th><span>Territory</span></th>
+                                                                    <th><span>Code</span></th>
+                                                                    <th>&nbsp;</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <!-- ko template: { name: 'itemCompanyTerritoryTemplate' , foreach: $root.selectedStore().companyTerritories } -->
+                                                                <!-- /ko -->
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <footer class="main-box-header pull-right">
+                                                    <div id="pagerDiv">
+                                                        <!-- ko with: $root.companyTerritoryPager -->
+                                                        @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                        <!-- /ko -->
+                                                    </div>
+                                                </footer>
+                                            </div>*@
+                                    </div>
+                                    <!--/ko-->
+                                    <!--ko if: type() == 2-->
+                                    <h3 class="group-header">Multiple Shipping and billing addresses for this supplier</h3>
+                                    <!--/ko-->
+                                    <!--ko if: type() != 2-->
+                                    <h3 class="group-header">Multiple Shipping and billing addresses for this company</h3>
+                                    <!--/ko-->
+                                    <div class="col-lg-12">
+
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+
+
+                                                <div class="col-lg-2">
+
+                                                </div>
+                                                <div class="col-lg-10" style="padding-left:25px;padding-right:0px;">
+                                                    <header class="main-box-header clearfix" style="padding-right:15px;">
+
+                                                        <div class="filter-block">
+                                                            <div class="filter-block pull-right">
+                                                                <div class="form-group pull-left" style="padding-right:0px; margin-right: -15px;margin-bottom:5px;">
+                                                                    <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchAddressFilter, validationOnElement: $root.searchAddressFilter">
+                                                                    <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </header>
+                                                    <div style="background-color:gainsboro; border-radius:3px;">
+                                                        @*<header class="main-box-header clearfix">
+                                                                <div style="float:left;"><span style="font-size:24px">Addresses</span></div>
+                                                            </header>*@
+                                                        <div class="main-box-body clearfix">
+                                                            <div class="table-responsive">
+                                                                <div style="float:left;margin-top:12px;margin-bottom:10px;margin-left:8px;"><span style="font-size:24px">Addresses</span></div>
+                                                                <br />
+                                                                <table class="table table-striped table-hover">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th style="width:200px;"><span>Address</span></th>
+                                                                            <th style="width:100px;"><span>City</span></th>
+                                                                            
+                                                                            <th style="width:200px;"><span>Primary Shipping Address</span></th>
+                                                                            <th style="width:200px;"><span>Primary Billing Address</span></th>
+
+
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <!-- ko template: { name: 'itemAddressTemplate' , foreach: $root.selectedStore().addresses } -->
+                                                                        <!-- /ko -->
+                                                                    </tbody>
+
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <footer class="main-box-header pull-right" style="padding-right:0px;">
+                                                            <div id="pagerDivAddress">
+                                                                <!-- ko with: $root.addressPager -->
+                                                                @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                                <!-- /ko -->
+                                                            </div>
+                                                        </footer>
+                                                    </div>
+                                                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 20px;padding-left:0px;">
+                                                        <a data-toggle="modal" data-bind="click: $root.onCreateNewAddress" style="margin-right: -8px" class="btn btn-primary">
+                                                            Add New Address
+                                                        </a>
+                                                    </div>
+
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+
+
+
+                                        @*<header class="main-box-header clearfix">
+                                                <div class="filter-block">
+                                                    <div class="filter-block pull-right col-xs-5">
+                                                        <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
+                                                            <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchAddressFilter, validationOnElement: $root.searchAddressFilter">
+                                                            <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
+                                                        </div>
+                                                        <a data-toggle="modal" data-bind="click: $root.onCreateNewAddress" style="margin-right: -8px" class="btn btn-primary pull-right">
+                                                            Add Address
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </header>
+                                            <div class="main-box-body clearfix">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th><span>Address Name</span></th>
+                                                                <th><span>City</span></th>
+
+                                                                <th><span>Company Default Shipping Address</span></th>
+                                                                <th><span>Company Default Address</span></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!-- ko template: { name: 'itemAddressTemplate' , foreach: $root.selectedStore().addresses } -->
+                                                            <!-- /ko -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <footer class="main-box-header pull-right">
+                                                <div id="pagerDivAddress" style="margin-right: -10px">
+                                                    <!-- ko with: $root.addressPager -->
+                                                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                    <!-- /ko -->
+                                                </div>
+                                            </footer>*@
+                                    </div>
+                                </div>
+                                <div class="col-lg-12  form-horizontal">
+                                    <!--ko if: type() == 2-->
+                                    <h3 class="group-header">Registered users for this supplier</h3>
+                                    <!--/ko-->
+                                    <!--ko if: type() != 2-->
+                                    <h3 class="group-header">Registered users for this company</h3>
+                                    <!--/ko-->
+
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+
+
+                                            <div class="col-lg-2">
+
+                                            </div>
+                                            <div class="col-lg-10" style="padding-left:30px;">
+                                                <header class="main-box-header clearfix">
+                                                    <div class="filter-block">
+                                                        <div class="filter-block pull-right" style="margin-right:-29px;margin-bottom:5px;">
+                                                            <div class="form-group pull-left">
+                                                                <input type="text" class="form-control" placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter, validationOnElement: $root.searchCompanyContactFilter">
+                                                                <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyContact"></i>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </header>
+                                                <div style="background-color:gainsboro; border-radius:3px;">
+                                                    @*<header class="main-box-header clearfix">
+                                                            <div style="float:left;"><span style="font-size:24px">Users</span></div>
+                                                        </header>*@
+                                                    <div class="main-box-body clearfix">
+                                                        <div class="table-responsive">
+                                                            <div style="float:left;margin-top:12px;margin-bottom:10px;"><span style="font-size:24px">Users and Visitors</span></div>
+                                                            <br />
+                                                            <table class="table table-striped table-hover">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="col-lg-4"><span>Name</span></th>
+                                                                        <th class="col-lg-2">Is Primary</th>
+                                                                        <th class="col-lg-3">Email</th>
+                                                                        <th class="col-lg-3">Cell Number</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <!-- ko template: { name: 'itemCompanyContactTemplate' , foreach: $root.selectedStore().users } -->
+                                                                    <!-- /ko -->
+                                                                </tbody>
+
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <footer class="main-box-header pull-right" style="padding-right:10px;">
+                                                        <div id="pagerDivAddress" style="margin-right: -10px">
+                                                            <!-- ko with: $root.contactCompanyPager -->
+                                                            @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                            <!-- /ko -->
+                                                        </div>
+                                                    </footer>
+                                                </div>
+                                                <div class="col-lg-7 btn-group" style="float: left; margin-top:20px; margin-left: -8px;padding-right:10px;">
+                                                    <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyContact" style="margin-right: -3px" class="btn btn-primary">
+                                                        Add New User
+                                                    </a>
+                                                </div>
+
+
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+                                    @*<div class="col-lg-12 clearfix">
                                             <header class="main-box-header clearfix">
+
                                                 <div class="filter-block pull-right">
                                                     <div class="form-group pull-left">
-                                                        <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchCompanyTerritoryFilter, validationOnElement: $root.searchCompanyTerritoryFilter">
-                                                        <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyTerritory"></i>
+                                                        <input type="text" class="form-control" placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter, validationOnElement: $root.searchCompanyContactFilter">
+                                                        <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyContact"></i>
                                                     </div>
-                                                    <a data-toggle="modal" class="btn btn-primary pull-right" data-bind="click: $root.onCreateNewCompanyTerritory">
-                                                        Add Territory
+                                                    <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyContact" style="margin-right: -3px" class="btn btn-primary pull-right">
+                                                        Add User
                                                     </a>
                                                 </div>
                                             </header>
@@ -296,116 +583,34 @@
                                                     <table class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th><span>Territory</span></th>
-                                                                <th><span>Code</span></th>
-                                                                <th>&nbsp;</th>
+                                                                <th><span>Name</span></th>
+                                                                <th>Role</th>
+                                                                <th>Has Web Access</th>
+                                                                <th>Can Place Order</th>
+                                                                <th>Approval Required</th>
+                                                                <th>Can See Prices</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <!-- ko template: { name: 'itemCompanyTerritoryTemplate' , foreach: $root.selectedStore().companyTerritories } -->
+                                                            <!-- ko template: { name: 'itemCompanyContactTemplate' , foreach: $root.selectedStore().users } -->
                                                             <!-- /ko -->
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
                                             <footer class="main-box-header pull-right">
-                                                <div id="pagerDiv">
-                                                    <!-- ko with: $root.companyTerritoryPager -->
+                                                <div id="pagerDivUsers" style="margin-right: 0px; text-align: right">
+                                                    <!-- ko with: $root.contactCompanyPager -->
                                                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                                                     <!-- /ko -->
                                                 </div>
                                             </footer>
-                                        </div>
-                                    </div>
-                                    <!--/ko-->
-                                    <h3 class="group-header">Addresses</h3>
-                                    <div class="col-lg-12 clearfix">
-                                        <header class="main-box-header clearfix">
-                                            <div class="filter-block">
-                                                <div class="filter-block pull-right col-xs-5">
-                                                    <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
-                                                        <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchAddressFilter, validationOnElement: $root.searchAddressFilter">
-                                                        <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
-                                                    </div>
-                                                    <a data-toggle="modal" data-bind="click: $root.onCreateNewAddress" class="btn btn-primary pull-right">
-                                                        Add Address
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </header>
-                                        <div class="main-box-body clearfix">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th><a href="#"><span>Address Name</span></a></th>
-                                                            <th><a href="#"><span>City</span></a></th>
-                                                            @*<th><a href="#"><span>Territory</span></a></th>*@
-                                                            <th><a href="#"><span>Company Default Shipping Address</span></a></th>
-                                                            <th><a href="#"><span>Company Default Address</span></a></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <!-- ko template: { name: 'itemAddressTemplate' , foreach: $root.selectedStore().addresses } -->
-                                                        <!-- /ko -->
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <footer class="main-box-header pull-right">
-                                            <div id="pagerDivAddress">
-                                                <!-- ko with: $root.addressPager -->
-                                                @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                                                <!-- /ko -->
-                                            </div>
-                                        </footer>
-                                    </div>
+                                        </div>*@
                                 </div>
-                                <div class="col-lg-12">
-                                    <h3 class="group-header">Users</h3>
-                                    <div class="col-lg-12 clearfix">
-                                        <header class="main-box-header clearfix">
 
-                                            <div class="filter-block pull-right">
-                                                <div class="form-group pull-left">
-                                                    <input type="text" class="form-control" placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter, validationOnElement: $root.searchCompanyContactFilter">
-                                                    <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyContact"></i>
-                                                </div>
-                                                <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyContact" class="btn btn-primary pull-right">
-                                                   Add User
-                                                </a>
-                                            </div>
-                                        </header>
-                                        <div class="main-box-body clearfix">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th><span>Name</span></th>
-                                                            <th>Role</th>
-                                                            <th>Has Web Access</th>
-                                                            <th>Can Place Order</th>
-                                                            <th>Approval Required</th>
-                                                            <th>Can See Prices</th>
-                                                            <th>Credit Limit</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <!-- ko template: { name: 'itemCompanyContactTemplate' , foreach: $root.selectedStore().users } -->
-                                                        <!-- /ko -->
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <footer class="main-box-header pull-right">
-                                            <div id="pagerDivUsers">
-                                                <!-- ko with: $root.contactCompanyPager -->
-                                                @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                                                <!-- /ko -->
-                                            </div>
-                                        </footer>
-                                    </div>
-                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab-territoryForCrm">
+
                             </div>
                             <div class="tab-pane fade" id="tab-DAM">
                                 <div class="col-md-12 form-horizontal">
@@ -700,18 +905,20 @@
                             </div>
                             <div class="tab-pane clearfix fade" id="tab-orders">
                                 <div class="col-lg-12">
-                                    <h3 class="group-header">Orders</h3>
-                                    <div class="col-lg-12">
-                                        <div class="col-lg-12 clearfix">
-                                            <div class="main-box-body clearfix">
+                                    @*<h3 class="group-header">Orders</h3>*@
+                                    <div class="col-lg-12" style="padding-left:0px;padding-right:0px;">
+                                        <div class="col-lg-12 clearfix" style="padding-left:0px;padding-right:0px;">
+                                            <div class="main-box-body clearfix" style="padding-left:0px;padding-right:0px;">
                                                 <div class="table-responsive">
                                                     <table class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th><a href="#"><span>Name</span></a></th>
-                                                                <th><a href="#"><span>Order</span></a></th>
-                                                                <th><a href="#"><span>Status</span></a></th>
-                                                                <th><a href="#"><span>Invoice Total</span></a></th>
+                                                                <th class="col-lg-1"></th>
+                                                                <th class="col-lg-3"><span>Title</span></th>
+                                                                <th class="col-lg-2"><span>Order Code</span></th>
+                                                                <th class="col-lg-2"><span>Status</span></th>
+                                                                <th class="col-lg-2" style="text-align:right;"><span>Order Total</span></th>
+                                                                <th>&nbsp;</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -721,7 +928,7 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <footer class="main-box-header pull-left">
+                                            <footer class="main-box-header pull-right" style="padding-right:0px;">
                                                 <div id="pagerDivAddress">
                                                     <!-- ko with: $root.orderPager -->
                                                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -734,18 +941,20 @@
                             </div>
                             <div class="tab-pane clearfix fade" id="tab-invoices">
                                 <div class="col-lg-12">
-                                    <h3 class="group-header">Invoices</h3>
-                                    <div class="col-lg-12">
-                                        <div class="col-lg-12 clearfix">
-                                            <div class="main-box-body clearfix">
+                                    @*<h3 class="group-header">Invoices</h3>*@
+                                    <div class="col-lg-12" style="padding-left:0px;padding-right:0px;">
+                                        <div class="col-lg-12 clearfix" style="padding-left:0px;padding-right:0px;">
+                                            <div class="main-box-body clearfix" style="padding-left:0px;padding-right:0px;">
                                                 <div class="table-responsive">
                                                     <table class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th>&nbsp;</th>
-                                                                <th><a href="#"><span>Name</span></a></th>
-                                                                <th><a href="#"><span>Status</span></a></th>
-                                                                <th><a href="#"><span>Total</span></a></th>
+                                                                <th class="col-lg-1">&nbsp;</th>
+                                                                <th class="col-lg-3"><span>Title</span></th>
+                                                                <th class="col-lg-2"><span>Invoice Code</span></th>
+                                                                <th class="col-lg-2"><span>Status</span></th>
+                                                                <th class="col-lg-2" style="text-align:right;"><span>Invoice Total</span></th>
+                                                                <th class="col-lg-2">&nbsp;</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -755,7 +964,7 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <footer class="main-box-header pull-left">
+                                            <footer class="main-box-header pull-right" style="padding-right:0px;">
                                                 <div id="pagerDivAddress">
                                                     <!-- ko with: $root.invoicePager -->
                                                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -768,18 +977,20 @@
                             </div>
                             <div class="tab-pane clearfix fade" id="tab-purchaseOrders">
                                 <div class="col-lg-12">
-                                    <h3 class="group-header">Purchase Orders</h3>
-                                    <div class="col-lg-12">
-                                        <div class="col-lg-12 clearfix">
-                                            <div class="main-box-body clearfix">
+
+                                    <div class="col-lg-12" style="padding-left:0px;padding-right:0px;">
+                                        <div class="col-lg-12 clearfix" style="padding-left:0px;padding-right:0px;">
+                                            <div class="main-box-body clearfix" style="padding-left:0px;padding-right:0px;">
                                                 <div class="table-responsive">
                                                     <table class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th><a href="#"><span>Name</span></a></th>
-                                                                <th><a href="#"><span>Code</span></a></th>
-                                                                <th><a href="#"><span>Purchase Date</span></a></th>
-                                                                <th><a href="#"><span>Price</span></a></th>
+                                                                <th class="col-lg-1"></th>
+                                                                <th class="col-lg-3"><span>TITLE</span></th>
+                                                                <th class="col-lg-2"><span>PURCHASE CODE</span></th>
+                                                                <th class="col-lg-2"><span>Purchase Date</span></th>
+                                                                <th class="col-lg-2" style="text-align:right;"><span>Purchase Total</span></th>
+                                                                <th class="col-lg-2"></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -789,7 +1000,7 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <footer class="main-box-header pull-left">
+                                            <footer class="main-box-header pull-right" style="padding-right:0px;">
                                                 <div id="pagerDivAddress">
                                                     <!-- ko with: $root.purchaseOrderPager -->
                                                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -802,18 +1013,20 @@
                             </div>
                             <div class="tab-pane clearfix fade" id="tab-goodRecievedNotesInvoices">
                                 <div class="col-lg-12">
-                                    <h3 class="group-header">Good Recieved Notes</h3>
-                                    <div class="col-lg-12">
-                                        <div class="col-lg-12 clearfix">
-                                            <div class="main-box-body clearfix">
+
+                                    <div class="col-lg-12" style="padding-left:0px;padding-right:0px;">
+                                        <div class="col-lg-12 clearfix" style="padding-left:0px;padding-right:0px;">
+                                            <div class="main-box-body clearfix" style="padding-left:0px;padding-right:0px;">
                                                 <div class="table-responsive">
                                                     <table class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th><a href="#"><span>Name</span></a></th>
-                                                                <th><a href="#"><span>Code</span></a></th>
-                                                                <th><a href="#"><span>Received Date</span></a></th>
-                                                                <th><a href="#"><span>Price</span></a></th>
+                                                                <th class="col-lg-1">&nbsp;</th>
+                                                                <th class="col-lg-3"><span>TITLE</span></th>
+                                                                <th class="col-lg-2"><span>GRN Code</span></th>
+                                                                <th class="col-lg-2"><span>Received Date</span></th>
+                                                                <th class="col-lg-2" style="text-align:right;"><span>GRN Total</span></th>
+                                                                <th class="col-lg-2"></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -823,7 +1036,7 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <footer class="main-box-header pull-left">
+                                            <footer class="main-box-header pull-right" style="padding-right:0px;">
                                                 <div id="pagerDivAddress">
                                                     <!-- ko with: $root.goodsReceivedNotePager -->
                                                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -856,34 +1069,52 @@
     </script>
     <script id="orderTemplate" type="text/html">
         <tr>
+            <td>&nbsp;</td>
             <td>
-                <span data-bind="text:companyName"></span> |
-                <span data-bind="text:isDirectSaleUi"></span>
+                <span data-bind="text:name"></span> 
+                <br />
+                <span style="font-size:0.875em;font-style:italic;">
+                    <span>(</span>
+                    <span data-bind="text:itemscount"></span>
+                    <span>) Items</span>
+                </span>
+              
             </td>
             <td>
-                <span data-bind="text:name"></span> |
                 <span data-bind="text:code"></span>
             </td>
             <td data-bind="text: status"></td>
-            <td data-bind="text: estimateTotal"></td>
+            <td style="text-align:right;">
+                <span data-bind="text: $root.currencySymbol"></span>
+                <span data-bind="text: estimateTotal"></span>
+            </td>
+            <td>&nbsp;</td>
         </tr>
     </script>
     <script id="invoiceTemplate" type="text/html">
         <tr>
-            <td><span data-bind="style: { 'background-color':flagColor }" class=" label label-success"></span>x</td>
+            <td>&nbsp;</td>
+            @*<td><span data-bind="style: { 'background-color':flagColor }" class=" label label-success"></span>x</td>*@
             <td>
-                <b><span data-bind="text:companyName"></span></b> <br />
-                <span data-bind="dateString:invoiceDate, datePattern: 'DD/MM/YYYY'"></span> &emsp; &emsp;&emsp; &emsp;&emsp;  <span data-bind="text:invoiceName"></span>(<span data-bind="text:invoiceCode"></span>)
+                
+                <span data-bind="text:invoiceName"></span>
+            </td>
+            <td>                
+                <span data-bind="text:invoiceCode"></span>
+                
             </td>
             <td>
-                <span data-bind="text:status"></span><br />
-                <span data-bind="text:contact"></span>
+                <span data-bind="text:status"></span>
             </td>
-            <td><span data-bind="text:invoiceTotal"></span></td>
+            <td style="text-align:right;">
+                <span data-bind="text: $root.currencySymbol"></span>
+                <span data-bind="text:invoiceTotal"></span>
+            </td>
+            <td>&nbsp;</td>
         </tr>
     </script>
     <script id="itemCompanyTerritoryTemplate" type="text/html">
-        <tr data-bind="click: $root.selectCompanyTerritory, css: { selectedRow: $data === $root.selectedCompanyTerritory}">
+        <tr data-bind="click: $root.selectCompanyTerritory, css: { selectedRow: $data === $root.selectedCompanyTerritory}" style="cursor: pointer">
             <td data-bind="text: territoryName"></td>
             <td data-bind="text: territoryCode"></td>
             <td id="actionColumn" class="text-right">
@@ -907,8 +1138,8 @@
         </a>
     </script>
     <script id="itemAddressTemplate" type="text/html">
-        <tr data-bind="click: $root.selectAddress, css: { selectedRow: $data === $root.selectedAddress}">
-            <td><a href="#" class="store-user-link" data-bind="text: addressName,click : $root.onEditAddress"></a></td>
+        <tr data-bind="click: $root.onEditAddress, css: { selectedRow: $data === $root.selectedAddress}" style="cursor: pointer">
+            <td><a href="#" class="store-user-link" data-bind="text: addressName"></a></td>
             <td data-bind="text: city"></td>
             @*<td data-bind="text: territoryName"></td>*@
             @*<!--ko if: $root.selectedStore().type() == 4-->
@@ -946,9 +1177,9 @@
             </td>
             <!-- /ko -->
             @*<td id="actionColumn" class="text-right">
-                <!-- ko template: { name: "actionsAddressTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                <!-- /ko -->
-            </td>*@
+                    <!-- ko template: { name: "actionsAddressTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                    <!-- /ko -->
+                </td>*@
         </tr>
     </script>
     <script id="actionsCompanyContactTemplate" type="text/html">
@@ -966,60 +1197,61 @@
         </a>
     </script>
     <script id="itemCompanyContactTemplate" type="text/html">
-        <tr data-bind="click: $root.selectCompanyContact, css: { selectedRow: $data === $root.selectedCompanyContact}">
-            <td style="width: 20%; max-width: 20%;">
-                <div class="img col-xs-2">
-                    <img style="min-height: 20px; width: 20px;" data-bind="attr:{src: image}" alt="" />
-                </div>
-                <div class="details col-lg-1">
+        <tr data-bind="click: $root.onEditCompanyContact, css: { selectedRow: $data === $root.selectedCompanyContact}" style="cursor: pointer">
+            <td>
+                @*style="width: 20%; max-width: 20%;"*@
+                <div class="img col-xs-12" style="padding-left:2px;">
+                    @*<img style="min-height: 20px; width: 20px;" data-bind="attr:{src: image}" alt="" />*@
                     <div class="name">
-                        <a href="#" class="store-user-link" data-bind="text: firstName,click : $root.onEditCompanyContact"></a>
-                    </div>
-                    <div class="time online" data-bind="text: email">
+                        <a href="#" class="store-user-link" data-bind="text: firstName()+' '+lastName(),click : undefined"></a>
                     </div>
                 </div>
+
             </td>
-            <td style="width: 10%; max-width: 10%;">
-                <div class="type">
-                    <!--ko if: roleName() == 'Administrator' -->
-                    <span class="label label-primary" data-bind="text: roleName "></span>
-                    <!-- /ko -->
-                    <!--ko if: roleName() == 'Manager' -->
-                    <span class="label label-success" data-bind="text: roleName "></span>
-                    <!-- /ko -->
-                    <!--ko if: roleName() == 'User' -->
-                    <span class="label label-info" data-bind="text: roleName "></span>
-                    <!-- /ko -->
+            <td>
+                @*style="width: 10%; max-width: 10%;"*@
+                <!--ko if: isDefaultContact()-->
+                <span class="label label-success">Yes</span>
+                <!--/ko-->
+                <!--ko if: !isDefaultContact()-->
+                <span class="label label-danger">No</span>
+                <!--/ko-->
+            </td>
+            <td>
+                @*style="width: 10%; max-width: 10%;"*@
+                <div class="time online" data-bind="text: email">
                 </div>
             </td>
+
             @*
                 <td data-bind="text: firstName "></td>
                 <td data-bind="text: contactRoleId"></td>*@
-            <td style="width: 10%; max-width: 10%;">
+            <td>
+                @*style="width: 10%; max-width: 10%;"*@
                 <div class="type">
-                    <span class="label" data-bind="text: isWebAccess() == true ? 'Yes' : 'No' , css: { 'label-success': (isWebAccess() == true),'label-danger': (isWebAccess() != true)}"></span>   @*class="label label-danger"*@
+                    <span class="label" style="color:black !important;padding-left:0px;" data-bind="text: mobile"></span>   @*class="label label-danger"*@
                 </div>
             </td>
-            <td style="width: 10%; max-width: 10%;">
-                <div class="type">
-                    <span class="label" data-bind="text: isPlaceOrder() == true ? 'Yes' : 'No', css: { 'label-success': (isPlaceOrder() == true),'label-danger': (isPlaceOrder() != true)}"></span>
-                </div>
-            </td>
-            <td style="width: 10%; max-width: 10%;">
-                <div class="type">
-                    <span class="label" data-bind="text: canUserPlaceOrderWithoutApproval() != true ? 'Yes' : 'No', css: { 'label-success': (canUserPlaceOrderWithoutApproval() != true),'label-danger': (canUserPlaceOrderWithoutApproval() == true)}"></span>
-                </div>
-            </td>
-            <td style="width: 10%; max-width: 10%;">
-                <div class="type">
-                    <span class="label" data-bind="text: isPricingshown() == true ? 'Yes' : 'No', css: { 'label-success': (isPricingshown() == true),'label-danger': (isPricingshown() != true)}"></span>
-                </div>
-            </td>
-            <td style="width: 10%; max-width: 10%;" data-bind="text: creditLimit() != null ? '$ '+ creditLimit() +'.00' : '$ 0.00'"></td>
+            @*<td style="width: 10%; max-width: 10%;">
+                    <div class="type">
+                        <span class="label" data-bind="text: isPlaceOrder() == true ? 'Yes' : 'No', css: { 'label-success': (isPlaceOrder() == true),'label-danger': (isPlaceOrder() != true)}"></span>
+                    </div>
+                </td>*@
+            @*<td style="width: 10%; max-width: 10%;">
+                    <div class="type">
+                        <span class="label" data-bind="text: canUserPlaceOrderWithoutApproval() != true ? 'Yes' : 'No', css: { 'label-success': (canUserPlaceOrderWithoutApproval() != true),'label-danger': (canUserPlaceOrderWithoutApproval() == true)}"></span>
+                    </div>
+                </td>
+                <td style="width: 10%; max-width: 10%;">
+                    <div class="type">
+                        <span class="label" data-bind="text: isPricingshown() == true ? 'Yes' : 'No', css: { 'label-success': (isPricingshown() == true),'label-danger': (isPricingshown() != true)}"></span>
+                    </div>
+                </td>*@
+            @*<td style="width: 10%; max-width: 10%;" data-bind="text: creditLimit() != null ? '$ '+ creditLimit() +'.00' : '$ 0.00'"></td>*@
             @*<td style="width: 10%; max-width: 10%;" class=" text-right" id="actionColumn">
-                <!-- ko template: { name: "actionsCompanyContactTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                <!-- /ko -->
-            </td>*@
+                    <!-- ko template: { name: "actionsCompanyContactTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                    <!-- /ko -->
+                </td>*@
         </tr>
     </script>
     <script id="mediaLibraryItemTemplate" type="text/html">
@@ -1031,18 +1263,40 @@
     </script>
     <script id="purchaseTemplate" type="text/html">
         <tr>
+            <td>&nbsp;</td>
+            <!--ko if:supplierName()-->
             <td data-bind="text: supplierName"></td>
+            <!--/ko-->
+            <!--ko ifnot:supplierName()-->
+            <td>N/A</td>
+            <!--/ko-->
             <td data-bind="text:code"></td>
-            <td data-bind="text: datePurchase"></td>
-            <td data-bind="text: totalPrice"></td>
+            <td data-bind="dateString: datePurchase, datePattern: 'DD/MM/YYYY'"></td>
+            <td style="text-align:right;">
+                <span data-bind="text:$root.currencySymbol"></span>
+                <span data-bind="text:totalPrice"></span>
+            </td>
+           
+            <td>&nbsp;</td>
         </tr>
     </script>
     <script id="goodRecievedNotesTemplate" type="text/html">
         <tr>
+            <td>&nbsp;</td>
+            <!--ko if:supplierName()-->
             <td data-bind="text: supplierName"></td>
+            <!--/ko-->
+            <!--ko ifnot:supplierName()-->
+            <td>N/A</td>
+            <!--/ko-->
             <td data-bind="text:code"></td>
-            <td data-bind="text: dateReceived"></td>
-            <td data-bind="text: totalPrice"></td>
+       
+            <td data-bind="dateString: dateReceived, datePattern: 'DD/MM/YYYY'"></td>
+            <td style="text-align:right;">
+                <span data-bind="text:$root.currencySymbol"></span>
+                <span data-bind="text: totalPrice"></span>
+            </td>
+            <td>&nbsp;</td>
         </tr>
     </script>
 </div>

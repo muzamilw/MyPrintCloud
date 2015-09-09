@@ -1,51 +1,215 @@
-﻿@{
-    ViewBag.Title = "Index";
-    Layout = "~/Areas/Production/Views/Shared/_Layout.cshtml";
-}
-
-<h2>Index</h2>
-
-
-
+﻿@using System.Web.UI.WebControls
 @{
-    ViewBag.Title = "Item Job Status";
+    ViewBag.Title = "Production";
+    var displaybuttonsclass = "";
+    var ishiddenclass = "";
+    Layout = "~/Areas/Production/Views/Shared/_Layout.cshtml";
 }
 @section leftmenue {
 
 }
-<div class="row" id="itemJobStatusBinding">
-    <div class="col-lg-12">
-        <div class="row">
-            <div class="col-lg-12" id="topArea">
-                <ol class="breadcrumb">
-                    <li><a href="~/Dashboard/Index">Home</a></li>
-                    <li class="active"><span>Production Board</span></li>
-                    <li class="active"><span>Item Job Status</span></li>
-                </ol>
-            </div>
+
+<style>
+    body {
+        height: 100%;
+    }
+
+    .highlight-div {
+        height: 50px;
+        background-color: white;
+        position: absolute;
+        top: -32%;
+        left: 98px;
+        -webkit-filter: blur(8px);
+        visibility: hidden;
+        opacity: 0.2;
+    }
+
+    .help-header-title {
+        font-family: Ebrima;
+        margin: 0px;
+        font-size: 26px;
+    }
+
+    a {
+        cursor: pointer;
+    }
+
+    .account-anchors a:hover, .help-details a:hover {
+        background-color: #FFC0BA !important;
+        text-decoration: none !important;
+    }
+
+    .account-anchors {
+        display: none;
+    }
+
+        .account-anchors a, .help-details a {
+            display: block;
+        }
+
+    .span-dashboard-widgets {
+        font-size: 13px;
+    }
+
+    .inner-box {
+        padding-left: 10px;
+        padding-right: 0px;
+    }
+
+    .inner-box-margin {
+        font-size: 1em !important;
+    }
+</style>
+
+
+
+
+
+
+
+<div class="myprintcloud-help" id="myprintcloud-help" style="display:none;">
+
+    <div class="highlight-div"></div>
+    <div class="left-arrow"></div>
+    <div class="right-arrow"></div>
+    <div class="top-arrow"></div>
+    <div class="bottom-arrow"></div>
+    <div>
+    </div>
+
+    <div class="help-divs">
+        <h2 class="help-header-title">Manage your PRINTCloud</h2>
+    </div>
+    <div class="help-description">
+        <div>
+            <span class="help-header-description" style="font-size:12px;">This is your dashboard, lets go on a quick tour to familiarize yourself with MyPRINTCloud.  </span>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="main-box no-header clearfix">
-                    <div class="main-box-body clearfix">
-
-
-                    </div>
-                </div>
-
-            </div>
+        <div>
+            <span class="help-details" style="font-size:12px;">Once you have had a look around join a webinar or start with the self help guides to get started.</span>
+            <div class="account-anchors" style="font-size:12px;"><br /><a style="font-weight:bold;">View your live store</a><a style="font-weight:bold;">Configure your store theme</a><a style="font-weight:bold;">Add products to your store</a><a style="font-weight:bold;">Setup your company details</a><a style="font-weight:bold;" href="https://myprintcloud.com/dashboard">Upgrade your subscription</a></div>
         </div>
+    </div>
+    <div class="help-description" style="border:none !important;background-color:#F5F6F6; padding-bottom:44px;">
 
+        <div class="input-group" style="width:100%;display:inline;">
+            <button class="btn  btn-info btn-primary" style="float:right;margin-bottom: 10px;margin-right:10px;" id="btnNextHelp">Next</button>
+        </div>
+        <div class="input-group" style="width:100%;display:inline;">
+            <button style="float: right;margin-bottom: 10px;margin-right:15px;margin-top:7px; background-color:transparent;border:none;" id="btnCloseHelp">Close</button>
+        </div>
+        <div class="input-group" style="width:100%;display:inline;">
+            <button class="btn  btn-info btn-primary" style="float:left;margin-bottom:10px;margin-left:10px;" id="btnPreviousHelp">Previous</button>
+        </div>
     </div>
 
 </div>
 
-@section Scripts{
+
+
+<div style="margin-top:36px;margin-left:7px;">
+    <div class="row" style="z-index:0;">
+        <div class="col-lg-12">
+            <div class="row">
+                <h1 style="padding-left:0;">Production Board</h1>
+                <div class="clearfix pull-left" style="padding-top:3px;">
+                    <span class="group-header-description">Download Artwork and change Job Production statuses of Orders.</span>
+                </div>
+            </div>
+            <div class="row" style="margin-top:32px;">
+                <div class="row">
+                    <div class="col-md-8 col-lg-8">
+
+                        <div class="row">
+                            @if (ViewBag.Istrial == true)
+                            {
+
+                                displaybuttonsclass = "col-lg-3 col-sm-6 col-xs-12";
+                                ishiddenclass = "";
+                            }
+                            else
+                            {
+                                displaybuttonsclass = "col-lg-3 col-sm-6 col-xs-12";
+                                ishiddenclass = "hidden";
+
+                            }
+                            
+
+                            @*<a href="/mis/Orders/Home/" style="text-decoration:none" class="@displaybuttonsclass ">
+                                <div class="main-box infographic-box inner-box">
+                                    <i class="fa  fa-anchor emerald-bg" style="margin-right:4px;"></i>
+                                    <span class="span-dashboard-widgets">Orders </span>
+                                    <span class="value inner-box-margin">&nbsp;</span>
+                                </div>
+                            </a>*@
+
+
+                            <a href="~/Production/Home/ItemLateStart" style="text-decoration:none" class="@displaybuttonsclass ">
+                                <div class="main-box infographic-box inner-box">
+                                    <i class="fa fa-archive emerald-bg" style="margin-right:4px;"></i>
+                                    <span class="span-dashboard-widgets">Late Starts</span>
+                                    <span class="value inner-box-margin">&nbsp;</span>
+                                </div>
+                                <div class="web2print-positioner" style="position:fixed;">
+                                </div>
+                            </a>
+
+
+                            <a href="~/Production/Home/ItemJobStatus" style="text-decoration:none" class="@displaybuttonsclass  bs-example-tooltips" data-placement="bottom" data-toggle="popover">
+                                <div class="main-box infographic-box inner-box">
+                                    <i class="fa fa-cube emerald-bg" style="margin-right:4px;"></i>
+                                    <span class="span-dashboard-widgets ">Item Job Status</span>
+                                    <span class="value inner-box-margin">&nbsp;</span>
+                                </div>
+                                <div class="product-positioner" style="position:fixed;">
+                                </div>
+                            </a>
+
+                            <a href="~/Production/Home/LiveJobs" style="text-decoration:none" class="@displaybuttonsclass " data-toggle="popover" data-placement="bottom" data-content="Design templates can be created against the products. To create a design template in a product first navigate to the store, select the product and navigate to Template Properties tab. Select either a blank template option or PDF based template to start creating template. ">
+                                <div class="main-box infographic-box inner-box">
+                                    <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
+                                    <span class="span-dashboard-widgets">Live jobs</span>
+                                    <span class="value inner-box-margin">&nbsp;</span>
+                                </div>
+                            </a>
+
+                        </div>
+
+                       
+                    </div>
+                    <!--here add sections-->
+                    <div class="col-md-4 col-lg-4">
+
+                       
+
+                    </div>
+
+
+                   
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+@section Scripts {    
+        
     <script>
-        require(["inventory/inventory.view", "common/confirmation.view", "common/supplier.view"]);
-        $(function () {
-            $('#listores').addClass('active');
-        });
+        $(document).ready(function () {
+            $('#liproduction').addClass('active');
+            //min/max slider
+            $('[data-toggle="popover"]').popover();
+            setTimeout(function () {
+                var spinner = $("div#spinner");
+                spinner.stop();
+                spinner.fadeOut("fast");
+                $.unblockUI(spinner);
+            }, 1000);
+
+        });        
+
     </script>
 }
+
 

@@ -31,7 +31,9 @@ var D1CZL = 0; var LIFT = true; var TIC = 0; var TotalImgLoaded = 0; var canvas;
 var highlightEditableText = false; var IsInputSelected = false;
 var isBkPnlUploads = false;
 var TempOB = [];
+var imToLoad = "";
 //old vars
+var hasObjects = false;
 var IsEmbedded = true;   //l1
 var IsCalledFrom = 3;
 var Territory = 0;
@@ -134,9 +136,10 @@ var crv2 = 0;
 var crv3 = 0;
 var crv4 = 0;
 var crv5 = 0;
+var globalTemplateId = 0;
 var showEBtn = true;
 var panelMode = 1;
-var firstLoad = true, loaderLoading = false;
+var firstLoad = true, loaderLoading = false,designerFirstLoad = true;
 var lAObj = 0;
 var spPanel = "";
 var spBkPanel = "";
@@ -145,13 +148,16 @@ var productionFolderPath = "";
 var allowPdfDownload = false;
 var allowImgDownload = false;
 var isMultiPageProduct = false;
-var varList = []; var isRealestateproduct = false;
+var varList = [];// var varExtensions = [];
+var isRealestateproduct = false;
 var item =  null;
 var smartFormData = null;
 var userVariableData = null;
 var smartFormClicked = true;
+var lstVariableExtensions = null;
 var productDimensionUpdated = false;
 var objectsSelectable = true;
+var selectedPathIndex = 0;
 function buildParams() {
   
 	printCropMarks = locVars[locVars.length - 3];
@@ -196,5 +202,5 @@ function restrictControls() {
     $("#btnMenuPaste").css("visibility", "hidden");
     $("#backgrounds").css("visibility", "hidden");
     $("#layersPanel").css("visibility", "hidden");
-    
+    $("#selectedTab").addClass("restrictedSelectedTab");
 }

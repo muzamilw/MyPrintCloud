@@ -35,14 +35,14 @@
        
         <div class="row">
             <div class="col-lg-12">
-                <ol class="breadcrumb">
+                <ol class="breadcrumb" style="padding-left:0px;">
                     <li><a href="~/Dashboard/Index">Settings</a></li>
                     <li>Home</li>
 
                     <li class="active"><span>Lookup Methods</span></li>
                 </ol>
                 <div class="clearfix">
-                    <h1 class="pull-left">Machine Lookup Methods</h1>
+                    <h1 class="pull-left" style="padding-left:0px;">Machine Lookup Methods</h1>
                     <div>
                         <table id="table">
                             <tbody></tbody>
@@ -52,10 +52,14 @@
             </div>
         </div>
         <div class="row" id="prefixesdata" style="float:right;">
-            <div class="input-group">
+            <div class="input-group" style="margin-right: 8px;margin-bottom:10px;">
+                <a href="~/Settings" class="btn btn-default" style="float: right;margin-bottom: 10px;">Close</a>
                 <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" data-bind="click: $root.saveLookup, css: { 'btn-warning': hasChanges }, enable: $root.hasChanges" id="saveBtn">Save</button>
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Add Lookup <span class="caret"></span></button>
+               
                 <ul class="dropdown-menu">
+                    
+
                     <li><a data-bind="click: function(){ AddLookup('1');}">Click Charge</a></li>
                     <li><a data-bind="click: function(){ AddLookup('3');}">Speed Weight</a></li>
                     <li><a data-bind="click: function(){ AddLookup('4');}">Per Hour</a></li>
@@ -69,14 +73,20 @@
         </div>
         <div class="col-lg-12 main-box clearfix col-padding">
             <div class="main-box-body">
-                <div class=" form-horizontal col-padding" style="padding-top:40px;padding-bottom:40px; ">
-                    <div class="col-md-3" style="width:auto;">
+                <div class=" form-horizontal col-padding" style="padding-top:12px;padding-bottom:40px; ">
+                    <div class="row">
+                        <span>Configure press calculations used when estimating based on speed, paper weights and color units.</span>
+                    </div>
 
+                   
+                    <br />
+                    <div class="col-md-3" style="width:auto;">
+                       
                         @*Div For TreeView*@
                         <div style="display:inline;position:relative;">
-                            <ol class="dd-list">
+                            @*<ol class="dd-list">
                                 <li class="dd-item dd-item-list" id="treeviewClickCharge">
-                                    <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                    <div class="dd-handle-list"><i class="fa fa-minus-square"></i></div>
                                     <div class="dd-handle" data-bind="text:lookupClickCharge">
                                     </div>
                                     <!-- ko template: { name: 'lookupTemplate' , foreach: lookupClickChargeList } -->
@@ -87,7 +97,7 @@
 
                             <ol class="dd-list">
                                 <li class="dd-item dd-item-list" id="treeviewSpeedWeight">
-                                    <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                    <div class="dd-handle-list"><i class="fa fa-minus-square"></i></div>
                                     <div class="dd-handle" data-bind="text:lookupSpeedWeight"></div>
                                     <!-- ko template: { name: 'lookupTemplate' , foreach: lookupSpeedWeightList } -->
                                     <!-- /ko -->
@@ -97,17 +107,17 @@
 
                             <ol class="dd-list">
                                 <li class="dd-item dd-item-list" id="treeviewPerHour">
-                                    <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                    <div class="dd-handle-list"><i class="fa fa-minus-square"></i></div>
                                     <div class="dd-handle" data-bind="text:lookupPerHour"></div>
                                     <!-- ko template: { name: 'lookupTemplate' , foreach: lookupPerHourList } -->
                                     <!-- /ko -->
                                 </li>
-                            </ol>
+                            </ol>*@
 
 
                             <ol class="dd-list">
                                 <li class="dd-item dd-item-list" id="treeviewClickChargeZone">
-                                    <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                    <div class="dd-handle-list"><i class="fa fa-minus-square"></i></div>
                                     <div class="dd-handle" data-bind="text:lookupClickChargeZones"></div>
                                     <!-- ko template: { name: 'lookupTemplate' , foreach: lookupClickChargeZonesList } -->
                                     <!-- /ko -->
@@ -117,7 +127,7 @@
 
                             <ol class="dd-list">
                                 <li class="dd-item dd-item-list" id="treeviewGuillotine">
-                                    <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                    <div class="dd-handle-list"><i class="fa fa-minus-square"></i></div>
                                     <div class="dd-handle" data-bind="text:lookupGuillotineClickCharge"></div>
                                     <!-- ko template: { name: 'lookupTemplate' , foreach: lookupGuillotineClickChargeList } -->
                                     <!-- /ko -->
@@ -126,7 +136,7 @@
 
                             <ol class="dd-list">
                                 <li class="dd-item dd-item-list" id="treeviewMeterCharge">
-                                    <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                    <div class="dd-handle-list"><i class="fa fa-minus-square"></i></div>
                                     <div class="dd-handle" data-bind="text:lookupMeterPerHourClickCharge"></div>
                                     <!-- ko template: { name: 'lookupTemplate' , foreach: lookupMeterPerHourClickChargeList } -->
                                     <!-- /ko -->
@@ -167,7 +177,7 @@
 <script id="lookupTemplate" type="text/html">
     <ol class="dd-list my-navigator" id="treeviewClickCharge">
         <li class="dd-item dd-item-list my-navigator">
-            <div class="dd-handle-list my-navigator"><i class="fa fa-bars"></i></div>
+            <div class="dd-handle-list my-navigator"><i class="fa fa-minus-square"></i></div>
             <a class="my-navigator"> <div class="dd-handle" data-bind="text:Name, click:$root.GetMachineLookupById"></div></a>
         </li>
     </ol>

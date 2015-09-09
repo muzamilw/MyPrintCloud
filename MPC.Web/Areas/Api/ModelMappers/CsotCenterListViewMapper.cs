@@ -13,9 +13,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 CostCentreId = source.CostCentreId,
                 Name = source.Name,
-                Description = source.Description,
+                Description = source.WebStoreDesc,
                 Type = source.CostCentreType.TypeName,
-                CalculationMethodType = source.CalculationMethodType
+                CalculationMethodType = source.CalculationMethodType,
+                IsDisabled = source.IsDisabled
             };
         }
     }

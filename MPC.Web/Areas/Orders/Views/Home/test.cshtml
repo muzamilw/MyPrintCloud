@@ -1,0 +1,307 @@
+﻿@{
+    ViewBag.Title = "Delivery Notes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section leftmenue {
+}
+<script src="~/Content/themes/Centaurus/js/jquery.js"></script>
+<script>
+    $(document).ready(function ()
+    {
+
+        $(".edit-pertial").hide();
+        $(".partial-PO").hide();
+        $("#Carriers-PO").hide();
+        $("#DeliveryDate-PO").hide();
+        $("#Reference1-PO").hide();
+        $("#Reference2-PO").hide();
+
+        $(".patial-edit").click(function ()
+        {
+
+            $("#main-body").hide();
+            $(".edit-pertial").show();
+          
+          
+
+        });
+        $("#closeBtn").click(function ()
+        {
+
+            $("#main-body").show();
+            $(".edit-pertial").hide();
+
+        });
+    });
+</script>
+
+<div class="row" id="orderBinding">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ol class="breadcrumb">
+                        <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
+                        <li><a href="~/Dashboard/Index" class="my-navigator">Order</a></li>
+                        <li class="active"><span>PurchaseOrders</span></li>
+                        
+                    </ol>
+                    <div class="clearfix">
+                        <h1 class="pull-left" data-bind="text: pageHeader">Purchase Orders</h1>
+                    </div>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="main-body">
+    <div class="row" id="prefixesdata" style="float:right;">
+        <div class="input-group">
+            <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn">Create Purchase Order</button>
+        </div>
+    </div>
+    <div class="row" id="user-profile">
+        <div class="col-lg-12 col-md-8 col-sm-8">
+            <div class="main-box clearfix">
+
+                <div class="tabs-wrapper profile-tabs">
+                    <ul class="nav nav-tabs" id="myTab">
+                        <li class="active" id="Sales Target"><a href="#tab-Open" data-toggle="tab">Open&nbsp;</a></li>
+                        <li><a href="#tab-Posted" data-toggle="tab">Posted&nbsp;</a></li>
+                        <li><a href="#tab-Cancel" data-toggle="tab">Cancelled&nbsp;</a></li>
+                        <li><a href="#tab-All" data-toggle="tab">ShowAll&nbsp;</a></li>
+                        
+
+                    </ul>
+                </div>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade active in" id="tab-Open">
+                        <div class="main-box-body clearfix">
+                            <div class="col-lg-12 form-horizontal" style="padding:30px;">
+                                <div class="col-lg-12">
+                                    <table class="table user-list">
+                                        <thead>
+                                            <tr>
+                                                <th><span></span></th>
+                                                <th><span></span></th>
+                                                <th class="text-center"><span></span></th>
+                                                <th><span></span></th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+
+                                                    <span class="user-link">Lucas Eyre</span>
+                                                    <span class="user-subhead">Open</span>
+                                                </td>
+                                                <td>
+                                                    2013/03/03
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-danger"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    INV-001-1169
+                                                </td>
+                                                <td style="width: 20%;">
+
+                                                    <a class="patial-edit">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                    <a class="patial-delete">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-Posted">
+                        <div class="main-box-body clearfix">
+                            <div class="col-lg-12 form-horizontal" style="padding:30px;">
+                                <div class="col-lg-12">
+                                    <table class="table user-list">
+                                        <thead>
+                                            <tr>
+                                                <th><span></span></th>
+                                                <th><span></span></th>
+                                                <th class="text-center"><span></span></th>
+                                                <th><span></span></th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+
+                                                    <span class="user-link">Muhammad Sarosh</span>
+                                                    <span class="user-subhead">Posted</span>
+                                                </td>
+                                                <td>
+                                                    2013/03/03
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-danger"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    INV-001-1169
+                                                </td>
+                                                <td style="width: 20%;">
+
+                                                    <a class="patial-edit">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                    <a class="patial-delete">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="tab-pane fade" id="tab-Cancel">
+                        <div class="main-box-body clearfix">
+                            <div class="col-lg-12 form-horizontal" style="padding:30px;">
+                                <div class="col-lg-12">
+                                    <table class="table user-list">
+                                        <thead>
+                                            <tr>
+                                                <th><span></span></th>
+                                                <th><span></span></th>
+                                                <th class="text-center"><span></span></th>
+                                                <th><span></span></th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+
+                                                    <span class="user-link">Muhammad Sarosh</span>
+                                                    <span class="user-subhead">Cancelled</span>
+                                                </td>
+                                                <td>
+                                                    2013/03/03
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-danger"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    INV-001-1169
+                                                </td>
+                                                <td style="width: 20%;">
+
+                                                    <a class="patial-edit">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                    <a class="patial-delete">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="tab-pane fade" id="tab-All">
+                        <div class="main-box-body clearfix">
+                            <div class="col-lg-12 form-horizontal" style="padding:30px;">
+                                <div class="col-lg-12">
+                                    <table class="table user-list">
+                                        <thead>
+                                            <tr>
+                                                <th><span></span></th>
+                                                <th><span></span></th>
+                                                <th class="text-center"><span></span></th>
+                                                <th><span></span></th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+
+                                                    <span class="user-link">Muhammad Sarosh</span>
+                                                    <span class="user-subhead">Show All</span>
+                                                </td>
+                                                <td>
+                                                    2013/03/03
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-danger"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    INV-001-1169
+                                                </td>
+                                                <td style="width: 20%;">
+
+                                                    <a class="patial-edit">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                    <a class="patial-delete">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                </div>
+            </div>
+    </div>
+</div>
+<div class="edit-pertial">
+    @Html.Partial("_partialpurchaseOrders")
+</div>            
+                  
+             
+
+

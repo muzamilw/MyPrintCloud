@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Web;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
+using MPC.MIS.Areas.Api.Models;
+using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
 namespace MPC.MIS.Areas.Api.Controllers
@@ -35,9 +38,15 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Items For Item Job Status
         /// </summary>
-        public IEnumerable<ItemForItemJobStatus> Get()
+        public ItemJobStatusResponse Get([FromUri] ItemJobRequestModel request)
         {
-            return itemJobStatusService.GetItemsForItemJobStatus();
+          IEnumerable<ItemForItemJobStatus> items = request.IsLateItemScreen ? itemJobStatusService.GetItemsForLateItems() :
+          itemJobStatusService.GetItemsForItemJobStatus();
+          return new ItemJobStatusResponse
+            {
+                Items = items,
+                CurrencySymbol = itemJobStatusService.GetCurrencySymbol()
+            };
         }
 
 

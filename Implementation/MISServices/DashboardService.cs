@@ -1,5 +1,7 @@
-﻿using MPC.Interfaces.MISServices;
+﻿using System.Collections.Generic;
+using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
+using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
@@ -14,7 +16,9 @@ namespace MPC.Implementation.MISServices
 
         private readonly IEstimateRepository estimateRepository;
         private readonly ICompanyRepository companyRepository;
+       
         #endregion
+
         #region Constructor
 
         /// <summary>
@@ -37,9 +41,19 @@ namespace MPC.Implementation.MISServices
             OrderStatusesResponse response = estimateRepository.GetOrderStatusesCount();
             response.LiveStoresCount = companyRepository.LiveStoresCountForDashboard();
             response.Estimates = estimateRepository.GetEstimatesForDashboard(request);
+
+            CompanyResponse customerResponse = companyRepository.SearchCompaniesForCustomerOnDashboard(new CompanyRequestModel());
+            response.Companies = customerResponse.Companies;
             return response;
         }
 
+        /// <summary>
+        /// Get Total Earnings For Dashboard
+        /// </summary>
+        public DashBoardChartsResponse GetChartsForDashboard()
+        {
+            return estimateRepository.GetChartsForDashboard();
+        }
         #endregion
 
     }

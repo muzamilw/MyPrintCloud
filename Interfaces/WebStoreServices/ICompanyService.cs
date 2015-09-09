@@ -12,6 +12,18 @@ namespace MPC.Interfaces.WebStoreServices
     /// </summary>
     public interface ICompanyService
     {
+        void AddDataSystemUser(CompanyContact Contact);
+        void UpdateDataSystemUser(CompanyContact Contact);
+        CompanyContactRole GetRoleByID(int RoleID);
+        List<ItemPriceMatrix> GetRetailProductsPriceMatrix(long CompanyID);
+        List<ProductItem> GetAllRetailDisplayProductsQuickCalc(long CompanyID);
+        List<CompanyContact> GetContactsByTerritory(long contactCompanyId, long territoryID);
+        List<CompanyContact> GetSearched_Contacts(long contactCompanyId, String searchtxt, long territoryID);
+        List<CompanyContactRole> GetContactRolesExceptAdmin(int AdminRole);
+        List<CompanyContactRole> GetAllContactRoles();
+        IEnumerable<RegistrationQuestion> GetAllQuestions();
+        IEnumerable<CompanyTerritory> GetAllCompanyTerritories(long companyId);
+        int GetSavedDesignCountByContactId(long ContactID);
         CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode);
         long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "");
         List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover);
@@ -32,13 +44,14 @@ namespace MPC.Interfaces.WebStoreServices
 
         CompanyContact GetContactByFirstName(string FName);
         CompanyContact GetContactById(int contactId);
-        CompanyContact GetContactByEmail(string Email, long OID);
+        CompanyContact GetContactByEmail(string Email, long OID, long StoreId);
 
         long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID);
 
 
         CompanyContact CreateCorporateContact(long CustomerId, CompanyContact regContact, string TwitterScreenName, long OrganisationId);
         Company GetCompanyByCompanyID(Int64 companyID);
+        Company GetStoreReceiptPage(long companyId);
 
         CompanyContact GetContactByID(long contactID);
 
@@ -52,14 +65,14 @@ namespace MPC.Interfaces.WebStoreServices
 
         void UpdateUserPassword(int userId, string pass);
 
-        SystemUser GetSystemUserById(long SystemUserId);
+        SystemUser GetSystemUserById(Guid SystemUserId);
 
         List<ProductCategory> GetAllParentCorporateCatalogByTerritory(int customerId, int ContactId);
         List<ProductCategory> GetAllParentCorporateCatalog(int customerId);
 
         List<ProductCategory> GetStoreParentCategories(long companyId, long OrganisationId);
-        List<ProductCategory> GetAllCategories(long companyId);
-        CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId);
+        List<ProductCategory> GetAllCategories(long companyId, long OrganisationId);
+        CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId, long OrganisationId);
 
         ProductCategory GetCategoryById(long categoryId);
 
@@ -67,7 +80,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         List<ProductCategory> GetAllChildCorporateCatalogByTerritory(long customerId, long ContactId, long ParentCatId);
 
-        string[] CreatePageMetaTags(string MetaTitle, string metaDesc, string metaKeyword, StoreMode mode,string StoreName, Address address = null);
+        string[] CreatePageMetaTags(string MetaTitle, string metaDesc, string metaKeyword,string StoreName, Address address = null);
 
         Address GetDefaultAddressByStoreID(Int64 StoreID);
 
@@ -77,13 +90,13 @@ namespace MPC.Interfaces.WebStoreServices
         ItemStockOption GetFirstStockOptByItemID(long ItemId, long CompanyId);
 
         List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId);
-        string FormatDecimalValueToTwoDecimal(string valueToFormat);
+        //string FormatDecimalValueToTwoDecimal(string valueToFormat);
 
         double CalculateVATOnPrice(double ActualPrice, double TaxValue);
 
         double CalculateDiscount(double price, double discountPrecentage);
         long CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, CompanyTypes customerType, string RegWithTwitter, long OrganisationId,long StoreId, CompanyContact regContact = null);
-        Organisation getOrganisatonByID(int OID);
+        Organisation GetOrganisatonById(long OrganisationId);
         string GetContactMobile(long CID);
 
         CmsPage getPageByID(long PageID);
@@ -175,7 +188,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        CompanyContact GetRetailUser(string email, string password);
+        CompanyContact GetRetailUser(string email, string password, long OrganisationId, long StoreId);
 
         long GetContactTerritoryID(long CID);
 
@@ -225,6 +238,18 @@ namespace MPC.Interfaces.WebStoreServices
         Company isValidWebAccessCode(string WebAccessCode, long OrganisationId);
 
         CompanyContact GetCorporateContactForAutoLogin(string emailAddress, long organistionId, long companyId);
-        
+        List<ProductCategory> GetAllRetailPublishedCat();
+        List<ProductCategory> GetAllCategories();
+        string GetCurrencyCodeById(long currencyId);
+        List<CompanyContact> GetCompanyAdminByCompanyId(long CompanyId);
+        CompanyContact GetCorporateContactByEmail(string Email, long OID, long StoreId);
+        string OrderConfirmationPDF(long OrderId, long StoreId);
+        bool IsVoucherUsedByCustomer(long contactId, long companyId, long DiscountVoucherId);
+        double? GetOrderTotalById(long OrderId);
+        void AddReedem(long contactId, long companyId, long DiscountVoucherId);
+        MyCompanyDomainBaseReponse GetStoreCachedObject(long StoreId);
+        RegistrationQuestion GetSecretQuestionByID(int QuestionID);
+        bool ShowPricesOnStore(int storeModeFromCookie, bool PriceFlagOfStore, long loginContactId, bool PriceFlagFromCookie);
+        string GetCurrencySymbolById(long currencyId);
     }
 }

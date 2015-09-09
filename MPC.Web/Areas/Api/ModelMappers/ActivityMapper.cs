@@ -1,4 +1,5 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using System.Linq;
+using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
 
@@ -31,6 +32,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsPrivate = source.IsPrivate,
                 ProductTypeId = source.ProductTypeId,
                 SystemUserId = source.SystemUserId,
+                CreatedBy= source.CreatedBy
             };
         }
 
@@ -39,6 +41,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static Activity CreateFrom(this DomainModels.Activity source)
         {
+            DomainModels.CompanyContact companyContact = source.Company != null
+                ? source.Company.CompanyContacts.FirstOrDefault(contact => contact.ContactId == source.ContactId)
+                : null;
             return new Activity
             {
                 ActivityId = source.ActivityId,
@@ -55,8 +60,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsPrivate = source.IsPrivate,
                 ProductTypeId = source.ProductTypeId,
                 SystemUserId = source.SystemUserId,
-                CompanyName = source.Company != null ? source.Company.Name : string.Empty,
-                IsCustomerType = source.Company != null ? source.Company.IsCustomer : 1
+                CompanyName = companyContact != null ? companyContact.FirstName + ',' + source.Company.Name : string.Empty,
+                IsCustomerType = source.Company != null ? source.Company.IsCustomer : 1,
+                CreatedBy= source.CreatedBy
             };
         }
         
@@ -72,7 +78,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ActivityEndTime = source.ActivityEndTime,
                 ActivityStartTime = source.ActivityStartTime,
                 FlagId = source.FlagId,
-
+                SystemUserId = source.SystemUserId,
             };
         }
 

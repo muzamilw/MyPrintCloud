@@ -16,7 +16,6 @@ using MPC.Interfaces.MISServices;
 using MPC.WebBase.Mvc;
 using Newtonsoft.Json;
 
-
 namespace MPC.MIS.Areas.Api.Controllers
 {
     /// <summary>
@@ -49,17 +48,19 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
             if (!fullZipPath.IsNullOrEmpty())
             {
-                string[] str = fullZipPath.Split('/');
-                string themeName = str[str.Length - 1].Split('.')[0];
-                //Theme Already exist in MIS
-                if (Directory.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName)))
-                {
-                    companyService.ApplyTheme(themeId, themeName, companyId);
-                }
-                else
-                {
-                    GetZipFile(themeId, fullZipPath, companyId);
-                }
+                //string[] str = fullZipPath.Split('/');
+                //string themeName = str[str.Length - 1].Split('.')[0];
+                ////Theme Already exist in MIS
+                //if (Directory.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName)))
+                //{
+                //    companyService.ApplyTheme(themeId, themeName, companyId);
+                //}
+                //else
+                //{
+                //    GetZipFile(themeId, fullZipPath, companyId);
+                //}
+
+                GetZipFile(themeId, fullZipPath, companyId);
                 // Get List of Skins 
                 using (var client = new HttpClient())
                 {
@@ -67,7 +68,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                    string url = "/clear/" + companyId;
+                    string url = "WebstoreApi/StoreCache/Get?id=" + companyId;
                     var response = client.GetAsync(url);
                 }
             }

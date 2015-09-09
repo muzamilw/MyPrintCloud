@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using MPC.Webstore.ResponseModels;
 using MPC.Webstore.ModelMappers;
 using System.Runtime.Caching;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
@@ -49,186 +50,210 @@ namespace MPC.Webstore.Controllers
         }
         #endregion
         // GET: MarketingBrief
-        public ActionResult Index(string ProductName, int ItemID)
+        public ActionResult Index(string ProductName, int ItemID, long CategoryId)
         {
-            ViewBag.IsSubmitSuccessfully = false;
-            ViewBag.LabelInquiryBrief = ProductName + " - Marketing Brief";
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _ICompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
-           
-
-            ViewBag.Email = UserCookieManager.WEBEmail;
+            ViewBag.SuccessMessage = "0";
             string ContactMobile = _ICompanyService.GetContactMobile(_myClaimHelper.loginContactID());
 
             ViewBag.Phone = ContactMobile;
             ProductItem Product = _IItemService.GetItemAndDetailsByItemID(ItemID);
 
-            List<ProductMarketBriefAnswer> NS = new List<ProductMarketBriefAnswer>();
-
-            List<ProductMarketBriefQuestion> QuestionsList = _IItemService.GetMarketingInquiryQuestionsByItemID(ItemID);
-            if (QuestionsList.Count > 0)
+            if (Product != null)
             {
-                ViewData["QuestionsList"] = QuestionsList;
-                if (QuestionsList != null)
+                if (CategoryId == 0)
                 {
-                    foreach (var question in QuestionsList)
-                    {
-                        List<ProductMarketBriefAnswer> Ans = _IItemService.GetMarketingInquiryAnswersByQID(question.MarketBriefQuestionId);
-                       
-                        foreach(ProductMarketBriefAnswer val in Ans)
-                        {
-                            NS.Add(val);
-                        }
-
-                 
-                    }
-                    if (NS.Count > 0)
-                        ViewData["Answers"] = NS;
+                    Product.ProductCategoryName = _IItemService.GetCategoryNameById(0, ItemID);
+                    ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(Product.ProductCategoryName) + "/" + CategoryId;
                 }
-               
-            }
+                else
+                {
+                    Product.ProductCategoryName = _IItemService.GetCategoryNameById(CategoryId, 0);
+                    ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(Product.ProductCategoryName) + "/" + CategoryId;
+                }
+                Product.ProductName = ProductName + " - Marketing Brief";
+                Product.ProductCategoryID = CategoryId;
+                List<ProductMarketBriefAnswer> NS = new List<ProductMarketBriefAnswer>();
 
+                List<ProductMarketBriefQuestion> QuestionsList = _IItemService.GetMarketingInquiryQuestionsByItemID(ItemID);
+                if (QuestionsList.Count > 0)
+                {
+                    ViewData["QuestionsList"] = QuestionsList;
+                    if (QuestionsList != null)
+                    {
+                        foreach (var question in QuestionsList)
+                        {
+                            List<ProductMarketBriefAnswer> Ans = _IItemService.GetMarketingInquiryAnswersByQID(question.MarketBriefQuestionId);
+
+                            foreach (ProductMarketBriefAnswer val in Ans)
+                            {
+                                NS.Add(val);
+                            }
+
+
+                        }
+                        if (NS.Count > 0)
+                            ViewData["Answers"] = NS;
+                    }
+
+                }
+                if (StoreBaseResopnse.Organisation.SmtpServer != null && StoreBaseResopnse.Organisation.SmtpPassword != null && StoreBaseResopnse.Organisation.SmtpUserName != null)
+                {
+                    ViewBag.isServerSettingsSet = 1;
+                }
+                else 
+                {
+                    ViewBag.isServerSettingsSet = 0;
+                }
+            }
+            else 
+            {
+                throw new Exception("Product not found.");
+            }
+            
             return View("PartialViews/MarketingBrief",Product);
         }
 
         [HttpPost]
-        public ActionResult Index(ProductItem Model)
+        public ActionResult Index(ProductItem Model, string hfInqueryMesg, HttpPostedFileBase fuImageUpload)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _ICompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
-            List<string> Attachments = null;
+           
+                List<string> Attachments = null;
 
-            if (Request.Files.Count > 0)
-            {
-                List<string> filesNamesPaths = new List<string>();
 
-                if (Request.Files != null)
+                Model.ProductCategoryName = _IItemService.GetCategoryNameById(0, Model.ItemID);
+                ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(Model.ProductCategoryName) + "/" + _IItemService.GetCategoryIdByItemId(Model.ItemID);
+
+                if (Request.Files.Count > 0)
                 {
-                    Attachments = new List<string>();
-                    string folderPath = ""; // from file table // @Components.ImagePathConstants.EmailAttachmentPath;
-                    string virtualFolderPth = string.Empty;
+                    List<string> filesNamesPaths = new List<string>();
 
-                    virtualFolderPth = @Server.MapPath(folderPath);
-                    if (!System.IO.Directory.Exists(virtualFolderPth))
-                        System.IO.Directory.CreateDirectory(virtualFolderPth);
-
-                    for (int i = 0; i < Request.Files.Count; i++)
+                    if (Request.Files != null)
                     {
-                        HttpPostedFileBase postedFile = Request.Files[i];
+                        Attachments = new List<string>();
+                        string folderPath = ""; // from file table // @Components.ImagePathConstants.EmailAttachmentPath;
+                        string virtualFolderPth = string.Empty;
 
-                        string fileName = string.Format("{0}{1}", Guid.NewGuid().ToString(), Path.GetFileName(postedFile.FileName));
+                        virtualFolderPth = @Server.MapPath(folderPath);
+                        if (!System.IO.Directory.Exists(virtualFolderPth))
+                            System.IO.Directory.CreateDirectory(virtualFolderPth);
 
-                        Attachments.Add(folderPath + fileName);
-                        postedFile.SaveAs(virtualFolderPth + fileName);
+                        for (int i = 0; i < Request.Files.Count; i++)
+                        {
+                            HttpPostedFileBase postedFile = Request.Files[i];
+
+                            string fileName = string.Format("{0}{1}", Guid.NewGuid().ToString(), Path.GetFileName(postedFile.FileName));
+
+                            Attachments.Add(folderPath + fileName);
+                            postedFile.SaveAs(virtualFolderPth + fileName);
+                        }
                     }
                 }
-            }
-            string MEsg = string.Empty;
-          
-            ProductItem Item = _IItemService.GetItemAndDetailsByItemID(Model.ItemID);
-           // MyCompanyDomainBaseResponse baseResponse = _ICompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+                string MEsg = string.Empty;
 
-          //  MyCompanyDomainBaseResponse baseResponseorg = _ICompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-
-            string ContactMobile = _ICompanyService.GetContactMobile(_myClaimHelper.loginContactID());
-
-            Organisation org = _ICompanyService.getOrganisatonByID((int)StoreBaseResopnse.Organisation.OrganisationId);
-            if (Item != null)
-            {
-                MEsg += "Product : " + Item.ProductName + "<br />";
-                MEsg += "Product Category : " + Item.ProductCategoryName + "<br />";
-            }
+                ProductItem Item = _IItemService.GetItemAndDetailsByItemID(Model.ItemID);
 
 
-            MEsg += "Customer name :  " + StoreBaseResopnse.Company.Name + "<br />";
-            MEsg += "Contact/user :   " + UserCookieManager.WEBContactFirstName + " " + UserCookieManager.WEBContactLastName + "<br />";
-            MEsg += "Email  :  " + UserCookieManager.WEBEmail + "<br />";
-            MEsg += "Phone  :  " + ContactMobile + "<br /> <br />";
-            MEsg += "Marketing Brief submitted on  :  " + DateTime.Now.ToString("MMMM dd, yyyy") + "<br /> <br />";
+                string ContactMobile = _ICompanyService.GetContactMobile(_myClaimHelper.loginContactID());
 
-          
-
-
-        
-            string MesgBodyList = Request.Form["hfInqueryMesg"];
-            char[] separator = new char[] { '|' };
-            List<string> ansList = MesgBodyList.Split(separator, StringSplitOptions.RemoveEmptyEntries).ToList();
-
-            for (int i = 0; i < ansList.Count; i++)
-            {
-                MEsg += ansList[i].Replace("\n", "<br />") + "<br /> <br />";
-            }
-
-            if (Attachments != null)
-            {
-                MEsg += "Please also see the attachments." + "<br />";
-            }
-
-         
-            string SecondEmail = _IUserManagerService.GetMarketingRoleIDByName();
-            Campaign EventCampaign = _ICampaignService.GetCampaignRecordByEmailEvent((int)Events.SendInquiry, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
-
-            CampaignEmailParams EmailParams = new CampaignEmailParams();
-            EmailParams.ContactId = _myClaimHelper.loginContactID();
-            EmailParams.CompanyId = UserCookieManager.WBStoreId;
-            EmailParams.OrganisationId = 1;
-
-            EmailParams.MarketingID = 1;
-
-            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-            {
-                EmailParams.StoreId = (int)UserCookieManager.WBStoreId;
-                EmailParams.SalesManagerContactID = _myClaimHelper.loginContactID();
-                int OID = (int)org.OrganisationId;
-                _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail, OID, "", "", "", StoreBaseResopnse.Company.MarketingBriefRecipient, StoreBaseResopnse.Company.Name, SecondEmail, Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
-                
-               
-            }
-            else
-            {
-                string Email = string.Empty;
-                SystemUser SalesMagerRec = _IUserManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
-                if (SalesMagerRec != null)
+                Organisation org = _ICompanyService.GetOrganisatonById(StoreBaseResopnse.Organisation.OrganisationId);
+                if (Item != null)
                 {
-                    EmailParams.SystemUserId = SalesMagerRec.SystemUserId;
-                    Email = SalesMagerRec.Email;
+                    MEsg += Utils.GetKeyValueFromResourceFile("ltrlproductsss", UserCookieManager.WBStoreId, "Product :") + Item.ProductName + "<br />";
+                    MEsg += Utils.GetKeyValueFromResourceFile("ltrlprocatgg", UserCookieManager.WBStoreId, "Product Category :") + Item.ProductCategoryName + "<br />";
+                }
+
+
+                MEsg += Utils.GetKeyValueFromResourceFile("ltrlcustname", UserCookieManager.WBStoreId, "Customer name :") + StoreBaseResopnse.Company.Name + "<br />";
+                MEsg += Utils.GetKeyValueFromResourceFile("ltrlcontusers", UserCookieManager.WBStoreId, "Contact/user :") + UserCookieManager.WEBContactFirstName + " " + UserCookieManager.WEBContactLastName + "<br />";
+                MEsg += Utils.GetKeyValueFromResourceFile("ltrllemail", UserCookieManager.WBStoreId, "Email  :") + UserCookieManager.WEBEmail + "<br />";
+                MEsg += Utils.GetKeyValueFromResourceFile("ltrlphh", UserCookieManager.WBStoreId, "Phone  :") + ContactMobile + "<br /> <br />";
+                MEsg += Utils.GetKeyValueFromResourceFile("lrlmaeketinbr", UserCookieManager.WBStoreId, "Marketing Brief submitted on  :") + DateTime.Now.ToString("MMMM dd, yyyy") + "<br /> <br />";
+
+
+
+
+
+                string MesgBodyList = Request.Form["hfInqueryMesg"];
+                char[] separator = new char[] { '|' };
+                List<string> ansList = MesgBodyList.Split(separator, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                for (int i = 0; i < ansList.Count; i++)
+                {
+                    MEsg += ansList[i].Replace("\n", "<br />") + "<br /> <br />";
+                }
+
+                if (Attachments != null)
+                {
+                    MEsg += Utils.GetKeyValueFromResourceFile("plzseeAtt", UserCookieManager.WBStoreId, "Please also see the attachments.") + "<br />";
+                }
+
+
+                string SecondEmail = _IUserManagerService.GetMarketingRoleIDByName();
+                Campaign EventCampaign = _ICampaignService.GetCampaignRecordByEmailEvent((int)Events.SendInquiry, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
+
+                CampaignEmailParams EmailParams = new CampaignEmailParams();
+                EmailParams.ContactId = _myClaimHelper.loginContactID();
+                EmailParams.CompanyId = UserCookieManager.WBStoreId;
+                EmailParams.OrganisationId = UserCookieManager.WEBOrganisationID;
+
+                EmailParams.MarketingID = 1;
+
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                {
+                    EmailParams.StoreId = (int)UserCookieManager.WBStoreId;
+                    EmailParams.SalesManagerContactID = _myClaimHelper.loginContactID();
+                    int OID = (int)org.OrganisationId;
+
+                    if (StoreBaseResopnse.Company.MarketingBriefRecipient != null) 
+                    {
+                        _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail, OID, "", "", "", StoreBaseResopnse.Company.MarketingBriefRecipient, StoreBaseResopnse.Company.Name, SecondEmail, Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
+                    }
+                    else 
+                    {
+                        SystemUser SalesMagerRec = _IUserManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+                        if (SalesMagerRec != null)
+                        {
+                            EmailParams.SystemUserId = SalesMagerRec.SystemUserId;
+                           
+                        }
+
+                        _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail, OID, "", "", "", SalesMagerRec.Email, "", "", Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
+
+
+                    }
                 }
                 else
                 {
-                    EmailParams.SystemUserId = null;
-                  
+                    string Email = string.Empty;
+                    SystemUser SalesMagerRec = _IUserManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+                    if (SalesMagerRec != null)
+                    {
+                        EmailParams.SystemUserId = SalesMagerRec.SystemUserId;
+                        Email = SalesMagerRec.Email;
+                    }
+                   
+                    EmailParams.StoreId = UserCookieManager.WBStoreId;
+                    EmailParams.SalesManagerContactID = _myClaimHelper.loginContactID();
+
+
+                    int OID = (int)org.OrganisationId;
+                    _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail, OID, "", "", "", Email, "", "", Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
+
+
                 }
-                EmailParams.StoreId = UserCookieManager.WBStoreId;
-                EmailParams.SalesManagerContactID = _myClaimHelper.loginContactID();
-               
-                 
-                int OID = (int)org.OrganisationId;
-                _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail, OID, "", "", "", Email, "", "", Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
 
-               
-            }
 
-            if (Item != null)
-            {
-                if (!string.IsNullOrEmpty(Item.BriefSuccessMessage))
-                {
-                    ViewBag.WlSumMesg = Item.BriefSuccessMessage;//"Thank you for your order. Marketing will review your brief within 24-48 hours and if approved design will have the first proof back to you in 3 business days. <br /> <br /> If your brief is not approved, marketing will be in contact with you.";
-                }
-                else
-                {
-                   // ViewBag.WlSumMesg = Common.CommonHtmlExtensions.GetResource("WlSumMesg");
-                    //ViewBag.WlSumMesg = Resources.MyResource.WlSumMesg; // Resources.MyResource.
-                }
-            }
+                ViewBag.SuccessMessage = Item.BriefSuccessMessage;// "Thank you for your order. Marketing will review your brief within 24-48 hours and if approved design will have the first proof back to you in 3 business days. <br /> <br /> If your brief is not approved, marketing will be in contact with you.";
 
-            ViewBag.IsSubmitSuccessfully = true;
-           // lnkReturnLogin.PostBackUrl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/Default.aspx";
-          //  welcomeSummeryMEsg.Style.Add(HtmlTextWriterStyle.Display, "Block");
 
-            //LeftPanel.Visible = false;
-            //RightPanel.Visible = false;
-            StoreBaseResopnse = null;
+                ViewBag.IsSubmitSuccessfully = true;
+
+
+            
             return View("PartialViews/MarketingBrief",Item);
         }
     }

@@ -6,25 +6,26 @@
 
 <div class="row" id="orderBinding">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-sm-12">
                     <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
                     <input type="hidden" name="OrderId" id="OrderId" value="@ViewBag.OrderId" />
-                    <ol class="breadcrumb">
-                        <li><a href="~/Dashboard/Index" class="my-navigator">HOME</a></li>
-                        <li data-bind="css: $root.orderCodeHeader() != '' ?  ''  :   'active' , click:$root.onCloseOrderEditor" style="cursor:pointer"><span>ORDERS</span></li>
-                        <li data-bind="css: $root.orderCodeHeader() != '' &&  $root.itemCodeHeader() == '' ?  'active' :   '' , click:$root.closeItemDetail, visible:$root.orderCodeHeader() !== '' " style="display: none; cursor:pointer" ><span data-bind="text:$root.orderCodeHeader"></span></li>
+                    <input type="hidden" name="ItemId" id="ItemId" value="@ViewBag.ItemId" />
+                    <ol class="breadcrumb" style="padding-left:6px;">
+                        <li><a href="~/Dashboard/Index" class="my-navigator" data-bind="text:$root.orderCodeHeader() !== '' ? 'HOME':''"></a></li>
+                        <li data-bind="css: $root.orderCodeHeader() != '' ?  ''  :   'active' , click:$root.onCloseOrderEditor, visible:$root.orderCodeHeader() !== ''" style="cursor:pointer; display: none"><span data-bind="text:'ORDERS'"></span></li>
+                        <li data-bind="css: $root.orderCodeHeader() != '' &&  $root.itemCodeHeader() == '' ?  'active' :   '' , click:$root.closeItemDetail, visible:$root.orderCodeHeader() !== '' " style="display: none; cursor:pointer"><span data-bind="text:$root.orderCodeHeader"></span></li>
                         <li data-bind="css: $root.itemCodeHeader() != '' ?  'active'   :   '', visible:$root.itemCodeHeader() !== ''" style="display: none; cursor:pointer"><span data-bind="text:$root.itemCodeHeader()+'  '+$root.selectedOrder().companyName() + ' '+ $root.orderCodeHeader()"></span></li>
                         @*<li data-bind="css: $root.sectionHeader() != '' ?  'active' : '' , visible:$root.sectionHeader() !== ''  " style="display: none"><span data-bind="text:$root.sectionHeader"></span></li>*@
                     </ol>
                     <div class="clearfix">
-                        <h1 class="pull-left" data-bind="text: ($root.itemCodeHeader())=='' ? pageHeader : ( $root.sectionHeader()==='' ? $root.selectedProduct().productName: ($root.selectedSection()!=undefined ? $root.selectedProduct().productName : ''))">Orders</h1>
+                        <h1 class="pull-left" style="padding-left:7px;" data-bind="text: ($root.itemCodeHeader())=='' ? pageHeader : ( $root.sectionHeader()==='' ? $root.selectedProduct().productName: ($root.selectedSection()!=undefined ? $root.selectedProduct().productName : ''))">Orders</h1>
 
                     </div>
                     @Html.Partial("_Orders")
                     @Html.Partial("_OrderDetail")
-                    @Html.Partial("~/Areas/Orders/Views/Shared/_CostCenterQuantity.cshtml")
+
                 </div>
             </div>
         </div>
@@ -33,21 +34,41 @@
 
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_CompanySelector.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_AddCostCenters.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_phraseLibraryDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportViaEmail.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_ProductFromRetailStore.cshtml")
 
 @section Scripts{
-    
-    <script>
-        require(["order/order.view", "common/confirmation.view", "common/companySelector.view", "common/phraseLibrary.view", "common/stockItem.view", "common/reportManager.view"]);
 
-        $(function () {
+    <script>
+        require(["order/order.view", "common/confirmation.view", "common/companySelector.view", "common/phraseLibrary.view", "common/stockItem.view",
+            "common/reportManager.view", "common/addCostCenter.view", "common/addProduct.view", "common/itemDetail.view"]);
+
+        $(function() {
             $('#liorderprocessing').addClass('active');
             $('.bs-example-tooltips a').popover();
         });
 
-       
-        
+        $(document).ready(function() {
+            page = Request.QueryString("to").toString();
+            if (page != null) {
+                if (page == 'prd') {
+                    $("#pending-orders").removeClass("active");
+                    $("#tab-PendingOrders").removeClass("active");
+                    $("#in-production").addClass("active");
+                    $("#tab-InProduction").addClass("active");
+                }
+                else if (page == 'com') {
+                    $("#pending-orders").removeClass("active");
+                    $("#tab-PendingOrders").removeClass("active");
+                    $("#ready-shipping").addClass("active");
+                    $("#tab-ReadyForShipping").addClass("active");
+                }
+
+            }
+        });
     </script>
 }

@@ -18,12 +18,15 @@ namespace MPC.MIS.Areas.Api.Models
         public DateTime CreationTime { get; set; }
         public Guid? CreatedBy { get; set; }
         public int SectionFlagId { get; set; }
+        public string StoreName { get; set; }
         public string OrderCode { get; set; }
         public bool? IsEstimate { get; set; }
         public int? ItemsCount { get; set; }
         public string Status { get; set; }
         public string SectionFlagColor { get; set; }
         public double? EstimateTotal { get; set; }
-        public Boolean? IsDirectOrder { get; set; }
+        public Boolean? IsDirectSale { get; set; }
+        public DateTime? OrderDate { get; set; }
+        public string CurrencySymbol { get; set; }
     }
 }

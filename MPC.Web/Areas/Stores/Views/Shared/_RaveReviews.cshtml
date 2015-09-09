@@ -5,58 +5,58 @@
         <div class="modal-content" data-bind="with: $root.selectedRaveReview">
             <div class="modal-header" id="dialgHeaderPadding">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Rave Review Details</h4>
+                <h4 class="modal-title">Add/Edit Rave Review</h4>
             </div>
             <div class="col-lg-12 outerDiv-Padding form-horizontal">
                 <div class="form-group">
                     <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
+                        @*<div class="bs-example-tooltips tooltip-float-width">
                             <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;border:0;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Review Name" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
-                        </div>
-                        <label for="txtProductName" class="control-label text-right tooltip-float">Name</label>
+                        </div>*@
+                        <label for="txtProductName" class="control-label text-right tooltip-float">Author's Name</label>
                     </div>
                     <div class="col-lg-6">
                         <input type="text" class="form-control" id="txtProductName" placeholder="Enter Review Name" data-bind="value: reviewBy, validationTooltip: reviewBy">
-                        <span class="help-block text-right"></span>
+                       
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
+                        @*<div class="bs-example-tooltips tooltip-float-width">
                             <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;border:0;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Review" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
-                        </div>
-                        <label for="txtProductName" class="control-label text-right tooltip-float">Description</label>
+                        </div>*@
+                        <label for="txtProductName" class="control-label text-right tooltip-float">Their Quote</label>
                     </div>
                     <div class="col-lg-6">
                         <textarea class="form-control" id="txtNotes1" rows="5" data-bind="value: review, validationTooltip: review"></textarea>
-                        <span class="help-block text-right"></span>
+                      
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
+                        @*<div class="bs-example-tooltips tooltip-float-width">
                             <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer; border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
-                        </div>
+                        </div>*@
                         <label for="txtSortOrder" class="control-label text-right tooltip-float">Sort Order</label>
                     </div>
                     <div class="col-lg-6">
                         <input type="text" class="form-control" id="txtSortOrder" placeholder="Enter Sort Order" data-bind="value: sortOrder, validationTooltip: sortOrder">
-                        <span class="help-block text-right">Sort Order in Rave Reviews</span>
+                       
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
+                        @*<div class="bs-example-tooltips tooltip-float-width">
                             <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer; border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enable Stock Label" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
-                        </div>
+                        </div>*@
                         <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Display</label>
                     </div>
                     <div class="col-lg-6">
@@ -71,10 +71,13 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <hr />
-                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveRaveReview">OK</button>
-                <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteRaveReview, enable: $root.selectedRaveReview().reviewId() != undefined">Archive</button>
+            <div class="modal-footer" style="padding-left:0px;padding-right:0px;">
+                <hr style="margin-bottom:15px;" />
+                <div style="padding-left:4px;padding-right:8px;">
+                    <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveRaveReview, css: { 'btn-warning': hasChanges() }, enable: hasChanges()">Save</button>
+                    <button type="button" class="btn btn-default" data-bind="click: $root.onCloseRaveReview" style="margin-left: 0px;">Close</button>
+                    <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteRaveReview, enable: $root.selectedRaveReview().reviewId() != undefined">Archive</button>
+                </div>
             </div>
         </div>
     </div>

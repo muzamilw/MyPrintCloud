@@ -2,7 +2,38 @@
   margin-right: 3px;
 }
 #itemJobStatusBinding .collapsableHeight {
-  max-height: 300px;
+  max-height: 374px;
   overflow-y: auto;
   list-style: none;
+  min-height: 374px;
+}
+#itemJobStatusBinding .itemFooterHighlight {
+  min-height: 8px;
+  background-color: silver;
+  margin-right: -23px;
+  margin-left: -23px;
+}
+#itemJobStatusBinding .openBtn {
+  padding-left: 3px;
+  padding-right: 3px;
+  padding-bottom: 3px;
+  font-size: x-small;
+}
+#itemJobStatusBinding .formGroupSmaller {
+  margin-bottom: 0px;
+  font-size: smaller;
+}
+#itemJobStatusBinding .formGroupSmall {
+  margin-bottom: 0px;
+  font-size: small;
+}
+#itemJobStatusBinding .code {
+  margin-bottom: 7px;
+  font-size: x-small;
+}
+#itemJobStatusBinding .labelToPadding {
+  padding-top: 0px;
+}
+#itemJobStatusBinding .title {
+  font-size: small;
 }

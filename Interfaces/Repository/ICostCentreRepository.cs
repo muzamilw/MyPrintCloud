@@ -31,6 +31,7 @@ namespace MPC.Interfaces.Repository
         CostcentreInstruction GetCostCentreWorkInstruction(long CostcentreID);
         List<CostCentreType> ReturnCostCentreCategories();
         List<CostCentre> GetCostCentreList();
+        IEnumerable<CostCentre> GetAllCompanyCentersForOrderItem();
         bool CheckCostCentreName(long CostCentreID, string CostCentreName, long OrganisationId);
         long InsertWorkInstruction(CostcentreInstruction oInstruction);
         long UpdateWorkInstruction(CostcentreInstruction oInstruction);
@@ -70,5 +71,16 @@ namespace MPC.Interfaces.Repository
         CostCentreResponse GetAllNonSystemCostCentresForProduct(GetCostCentresRequest request);
 
         List<CostCentre> GetCostCentresforxml(List<long> CostCenterIDs);
+        /// <summary>
+        /// Get web order cost centre
+        /// </summary>
+        CostCentre GetWebOrderCostCentre(long OrganisationId);
+
+        CostCentre GetFirstCostCentreByOrganisationId(long organisationId);
+
+
+        List<CostCentre> GetAllCostCentresForRecompiling(long OrganisationId);
+        CostCentre GetGlobalWebOrderCostCentre(long OrganisationId);
+        long GetCostCentreIdByName(string costCenterName);
     }
 }

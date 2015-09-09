@@ -53,7 +53,7 @@ namespace MPC.Webstore.Controllers
             if (_webstoreclaimHelper.isUserLoggedIn())
             {
                 ViewBag.isUserLoggedIn = true;
-                ViewBag.LoginUserName = UserCookieManager.WEBContactFirstName + " " + UserCookieManager.WEBContactLastName;
+                ViewBag.LoginUserName = UserCookieManager.WEBContactFirstName + " " + UserCookieManager.WEBContactLastName;//Response.Cookies["WEBFirstName"].Value; 
                 ViewBag.CartCount = string.Format("{0}", _itemService.GetCartItemsCount(_webstoreclaimHelper.loginContactID(), 0, _webstoreclaimHelper.loginContactCompanyID()).ToString());
             }
             else

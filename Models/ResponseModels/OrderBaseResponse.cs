@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MPC.Models.DomainModels;
 
 namespace MPC.Models.ResponseModels
@@ -24,10 +25,10 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<PipeLineSource> PipeLineSources { get; set; }
 
         /// <summary>
-        /// List of Markups
+        /// Pipeline Product
         /// </summary>
-        public IEnumerable<Markup> Markups { get; set; }
-        
+        public IEnumerable<PipeLineProduct> PipeLineProducts { get; set; }
+
         /// <summary>
         /// Payment Methoda
         /// </summary>
@@ -38,10 +39,6 @@ namespace MPC.Models.ResponseModels
         /// </summary>
         public Organisation Organisation { get; set; }
 
-        /// <summary>
-        /// Stock Categories
-        /// </summary>
-        public IEnumerable<StockCategory> StockCategories { get; set; }
 
         /// <summary>
         /// Chart Of Accounts
@@ -49,25 +46,23 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<ChartOfAccount> ChartOfAccounts { get; set; }
 
         /// <summary>
-        /// Paper Sizes
-        /// </summary>
-        public IEnumerable<PaperSize> PaperSizes { get; set; }
-
-        /// <summary>
-        /// Ink Plate Sides
-        /// </summary>
-        public IEnumerable<InkPlateSide> InkPlateSides { get; set; }
-        /// <summary>
-        /// Inks
-        /// </summary>
-        public IEnumerable<StockItem> Inks { get; set; }
-        /// <summary>
-        /// Ink Coverage Groups
-        /// </summary>
-        public IEnumerable<InkCoverageGroup> InkCoverageGroups { get; set; }
-        /// <summary>
         /// Cost Centers
         /// </summary>
         public IEnumerable<CostCentre> CostCenters { get; set; }
+
+        /// <summary>
+        /// Logged In User
+        /// </summary>
+        public Guid LoggedInUser { get; set; }
+
+        /// <summary>
+        /// Head Notes
+        /// </summary>
+        public string HeadNotes { get; set; }
+
+        /// <summary>
+        /// Foot Notes
+        /// </summary>
+        public string FootNotes { get; set; }
     }
 }

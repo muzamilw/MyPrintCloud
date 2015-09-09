@@ -10,7 +10,7 @@
                 <div class="form-group">
                     <div class="col-lg-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Payment Gateway" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select a gateway from which you want to process the cart payment on store. Different gateways have their own sepecific parameter requirements which are entered below, please consult FAQs for more details" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
                         </div>
@@ -31,9 +31,9 @@
                 <div class="form-group">
                     <div class="col-lg-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Merchant" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                            @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Merchant" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
+                            </a>*@
                         </div>
 
                         <label for="txtMerchantID" class="control-label text-right tooltip-float">Merchant ID</label>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-12">
-                        <div class="col-lg-12" id="marchantIDtxt" style="font-size:12px;">
+                        <div class="col-lg-12" id="marchantIDtxt" style="font-size:12px;padding-left:25px;">
                             <!-- ko if: !$root.isAccessCodeSectionVisible() -->
                             e.g. The merchant ID used in your PayPal account.
                             <!--/ko-->
@@ -58,9 +58,9 @@
                 <div class="form-group paymentSettingsDisplay" style="display:none;" data-bind="visible: $root.isAccessCodeSectionVisible">
                     <div class="col-lg-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Access Code" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                            @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Access Code" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
+                            </a>*@
                         </div>
 
                         <label for="txtMerchantID" class="control-label text-right tooltip-float">Access Code</label>
@@ -72,9 +72,9 @@
                 <div class="form-group paymentSettingsDisplay" style="display:none;" data-bind="visible: $root.isAccessCodeSectionVisible">
                     <div class="col-lg-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Secure Hash" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                            @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Secure Hash" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
+                            </a>*@
                         </div>
 
                         <label for="txtMerchantID" class="control-label text-right tooltip-float">Secure Hash</label>
@@ -83,18 +83,18 @@
                         <input type="text" class="form-control" id="txtMerchantID" data-bind="value: secureHash">
                     </div>
                 </div>
-                <div class="form-group paymentSettingsDisplay" style="display:none;" data-bind="visible: $root.isAccessCodeSectionVisible">
+                <div class="form-group paymentSettingsDisplay">
                     <div class="col-lg-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Is Active" data-container="body" data-toggle="popover" data-placement="right" data-content="Map On Contact" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
+                            @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Is Active" data-container="body" data-toggle="popover" data-placement="right" data-content="Map On Contact" data-original-title="" title="">
+                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                    </a>*@
                         </div>
                         <label for="switchIsTDefault" class="control-label text-right tooltip-float">Is Active</label>
                     </div>
                     <div class="col-lg-6">
                         <div class="onoffswitch">
-                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsTDefault" data-bind="checked: isActive">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsTDefault" data-bind="checked: isActive, enable: !isActive() && paymentMethodId() != undefined">
                             <label class="onoffswitch-label" for="switchIsTDefault">
                                 <div class="onoffswitch-inner"></div>
                                 <div class="onoffswitch-switch"></div>
@@ -107,9 +107,10 @@
             <div class="clearfix">
                 &nbsp;
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bind="click: $root.onSavePaymentGateway">Save</button>
+            <div class="modal-footer" style="padding-left:4px;padding-right:8px;">
+                <button type="button" class="btn btn-primary" data-bind="click: $root.onSavePaymentGateway, css: { 'btn-warning': hasChanges() }, enable: hasChanges()">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.onClosePaymentGateway" style="margin-left: 0px;">Close</button>
+               
                 <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeletePaymentGateway, enable: $root.selectedPaymentGateway().paymentGatewayId() != undefined">Archive</button>
 
             </div>

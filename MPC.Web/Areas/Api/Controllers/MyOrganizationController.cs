@@ -7,6 +7,8 @@ using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.WebBase.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -19,6 +21,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         private readonly IMyOrganizationService myOrganizationService;
         private readonly ICompanyService myCompanyService;
+       
 
         #endregion
 
@@ -49,6 +52,12 @@ namespace MPC.MIS.Areas.Api.Controllers
             return myOrganizationService.GetOrganisationDetail().CreateFrom();
         }
 
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
+        [CompressFilterAttribute]
+        public IEnumerable<Markup> Get(bool isMarkup)
+        {
+            return myOrganizationService.GetMarkups().Select(c => c.CreateFrom());
+        }
         /// <summary>
         /// Add/Update a Organization
         /// </summary>

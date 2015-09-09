@@ -106,7 +106,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()) :
                 new List<ItemSection>(),
                 ItemImages = source.ItemImages != null ? source.ItemImages.Select(pci => pci.CreateFrom()) : new List<ItemImage>(),
-                ItemAttachments = source.ItemAttachments != null ? source.ItemAttachments.Select(attachment => attachment.CreateFrom()).ToList() : null
+                ProductMarketBriefQuestions = source.ProductMarketBriefQuestions != null ?
+                source.ProductMarketBriefQuestions.Select(questions => questions.CreateFrom()).ToList() : null
             };
 
             // Load Thumbnail Image
@@ -216,7 +217,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PrintCropMarks = source.printCropMarks,
                 DrawWaterMarkTxt = source.drawWaterMarkTxt,
                 TemplateId = source.TemplateId,
-                TemplateType = source.TemplateType
+                TemplateType = source.TemplateType,
+                ProductType = source.ProductType
             };
 
             // Load Thumbnail Image
@@ -344,12 +346,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 File4Name = source.File4Name,
                 File5Byte = source.File5Byte,
                 File5Name = source.File5Name,
+                File1Deleted = source.File1Deleted,
+                File2Deleted = source.File2Deleted,
+                File3Deleted = source.File3Deleted,
+                File4Deleted = source.File4Deleted,
+                File5Deleted = source.File5Deleted,
                 ProductCategoryCustomItems = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.CreateFrom()).ToList() :
                 new List<DomainModels.ProductCategoryItemCustom>(),
                 ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()).ToList() :
                 new List<DomainModels.ItemSection>(),
                 ItemImages = source.ItemImages != null ? source.ItemImages.Select(pci => pci.CreateFrom()).ToList() :
-                new List<DomainModels.ItemImage>()
+                new List<DomainModels.ItemImage>(),
+                ProductMarketBriefQuestions = source.ProductMarketBriefQuestions != null ? source.ProductMarketBriefQuestions.Select(pci => pci.CreateFrom()).ToList() :
+                new List<DomainModels.ProductMarketBriefQuestion>()
             };
         }
 
@@ -469,6 +478,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemCode = source.ItemCode,
                 ProductCode = source.ProductCode,
                 ProductName = source.ProductName,
+                ProductType = source.ProductType,
                 JobDescriptionTitle1 = source.JobDescriptionTitle1,
                 JobDescription1 = source.JobDescription1,
                 JobDescriptionTitle2 = source.JobDescriptionTitle2,
@@ -496,6 +506,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 JobCreationDateTime = source.JobCreationDateTime,
                 JobActualStartDateTime = source.JobActualStartDateTime,
                 JobActualCompletionDateTime = source.JobActualCompletionDateTime,
+                JobEstimatedStartDateTime = source.JobEstimatedStartDateTime,
+                JobEstimatedCompletionDateTime = source.JobEstimatedCompletionDateTime,
                 JobProgressedBy = source.JobProgressedBy,
                 JobCardPrintedBy = source.JobCardPrintedBy,
                 InvoiceDescription = source.InvoiceDescription,
@@ -515,9 +527,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty1GrossTotal = source.Qty1GrossTotal,
                 Qty2GrossTotal = source.Qty2GrossTotal,
                 Qty3GrossTotal = source.Qty3GrossTotal,
+                Qty2 = source.Qty2,
                 Tax1 = source.Tax1,
                 ItemType = source.ItemType,
                 EstimateId = source.EstimateId,
+                JobSelectedQty = source.JobSelectedQty,
                 ItemAttachments = source.ItemAttachments != null ? source.ItemAttachments.Select(attachment => attachment.CreateFrom()).ToList() : null
             };
             return item;
@@ -536,6 +550,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemCode = source.ItemCode,
                 ProductCode = source.ProductCode,
                 ProductName = source.ProductName,
+                ProductType = source.ProductType,
                 JobDescriptionTitle1 = source.JobDescriptionTitle1,
                 JobDescription1 = source.JobDescription1,
                 JobDescriptionTitle2 = source.JobDescriptionTitle2,
@@ -562,6 +577,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 JobCreationDateTime = source.JobCreationDateTime,
                 JobActualStartDateTime = source.JobActualStartDateTime,
                 JobActualCompletionDateTime = source.JobActualCompletionDateTime,
+                JobEstimatedStartDateTime = source.JobEstimatedStartDateTime,
+                JobEstimatedCompletionDateTime = source.JobEstimatedCompletionDateTime,
                 JobProgressedBy = source.JobProgressedBy,
                 JobCardPrintedBy = source.JobCardPrintedBy,
                 InvoiceDescription = source.InvoiceDescription,
@@ -579,35 +596,49 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty1GrossTotal = source.Qty1GrossTotal,
                 Qty2GrossTotal = source.Qty2GrossTotal,
                 Qty3GrossTotal = source.Qty3GrossTotal,
+                Qty2 = source.Qty2,
+                JobSelectedQty = source.JobSelectedQty,
                 Tax1 = source.Tax1,
                 ItemType = source.ItemType,
                 EstimateId = source.EstimateId,
+                RefItemId = source.RefItemId,
                 ItemAttachments = source.ItemAttachments != null ? source.ItemAttachments.Select(attachment => attachment.CreateFrom()).ToList() : null
             };
             return item;
         }
 
 
-        public static ItemListView CreateFromForOrderAddProduct(this DomainModels.Item source)
+        public static ItemListViewForOrder CreateFromForOrderAddProduct(this DomainModels.Item source)
         {
             // ReSharper disable SuggestUseVarKeywordEvident
-            ItemListView item = new ItemListView
+            ItemListViewForOrder item = new ItemListViewForOrder
             // ReSharper restore SuggestUseVarKeywordEvident
             {
                 ItemId = source.ItemId,
                 ItemCode = source.ItemCode,
                 ProductCode = source.ProductCode,
                 ProductName = source.ProductName,
-                ProductSpecification = source.ProductSpecification,
-                // ReSharper disable once PossibleNullReferenceException
-                ProductCategoryName = source.ProductCategoryItems.Count > 0 ? source.ProductCategoryItems.FirstOrDefault().ProductCategory.CategoryName : null,
-                IsArchived = source.IsArchived,
-                IsEnabled = source.IsEnabled,
-                IsPublished = source.IsPublished,
-                MinPrice = source.MinPrice,
-                IsQtyRanged = source.IsQtyRanged
+                ProductType = source.ProductType,
+                IsQtyRanged = source.IsQtyRanged,
+                DefaultItemTax = source.DefaultItemTax,
+                JobDescriptionTitle1 = source.JobDescriptionTitle1,
+                JobDescription1 = source.JobDescription1,
+                JobDescriptionTitle2 = source.JobDescriptionTitle2,
+                JobDescription2 = source.JobDescription2,
+                JobDescriptionTitle3 = source.JobDescriptionTitle3,
+                JobDescription3 = source.JobDescription3,
+                JobDescriptionTitle4 = source.JobDescriptionTitle4,
+                JobDescription4 = source.JobDescription4,
+                JobDescriptionTitle5 = source.JobDescriptionTitle5,
+                JobDescription5 = source.JobDescription5,
+                JobDescriptionTitle6 = source.JobDescriptionTitle6,
+                JobDescription6 = source.JobDescription6,
+                JobDescriptionTitle7 = source.JobDescriptionTitle7,
+                JobDescription7 = source.JobDescription7,
+                CompanyId = source.CompanyId,
+                CompanyName = source.Company != null ? source.Company.Name : string.Empty,
+                ProductSpecification = source.ProductSpecification
             };
-
             // Load Thumbnail Image
             if (!string.IsNullOrEmpty(source.ThumbnailPath))
             {
@@ -619,8 +650,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                     item.ThumbnailPath = thumbnailPath;
                 }
             }
-
             return item;
         }
+
+        
+
     }
 }

@@ -58,7 +58,9 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ICostCentersService, CostCenterService>();
             unityContainer.RegisterType<IMachineService, MachineService>();
             unityContainer.RegisterType<Interfaces.WebStoreServices.ICampaignService, WebStoreServices.CampaignService>();
+
             unityContainer.RegisterType<ICompanyTerritoryService, CompanyTerritoryService>();
+            unityContainer.RegisterType<Interfaces.MISServices.ICampaignService, MISServices.CampaignService>();
             unityContainer.RegisterType<IAddressService, AddressService>();
             unityContainer.RegisterType<ICompanyContactService, CompanyContactService>();
             unityContainer.RegisterType<ICrmSupplierService, CrmSupplierService>();
@@ -83,10 +85,18 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ILengthConversionService, LengthConversionService>();
             unityContainer.RegisterType<IItemJobStatusService, ItemJobStatusService>();
             unityContainer.RegisterType<ICostCentreMatrixServices, CostCentreMatrixServices>();
-             unityContainer.RegisterType<ICostCentreQuestionService, CostCentreQuestionService>();
-             unityContainer.RegisterType<ISystemUserService, SystemUserService>();
-             unityContainer.RegisterType<IReportService, ReportService>();
-            
+            unityContainer.RegisterType<ICostCentreQuestionService, CostCentreQuestionService>();
+            unityContainer.RegisterType<ISystemUserService, SystemUserService>();
+            unityContainer.RegisterType<IReportService, ReportService>();
+            unityContainer.RegisterType<IItemSectionService, ItemSectionService>();
+            unityContainer.RegisterType<ITemplateVariableService, TemplateVariableService>();
+            unityContainer.RegisterType<IInquiryService, InquiryService>();
+            unityContainer.RegisterType<ILiveJobsService, LiveJobsService>();
+            unityContainer.RegisterType<IDeliveryNotesService, DeliveryNotesService>();
+            unityContainer.RegisterType<IExportReportHelper, ExportReportHelper>();
+            unityContainer.RegisterType<ISectionService, SectionService>();
+            unityContainer.RegisterType<IDiscountVoucherService, DiscountVoucherService>();
+
         }
     }
 }

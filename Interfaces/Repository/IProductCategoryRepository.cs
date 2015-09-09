@@ -9,13 +9,14 @@ namespace MPC.Interfaces.Repository
 {
     public interface IProductCategoryRepository : IBaseRepository<ProductCategory, long>
     {
+        List<ProductCategory> GetAllCategories();
         List<ProductCategory> GetParentCategoriesByStoreId(long companyId, long OrganisationId);
 
         List<ProductCategory> GetAllParentCorporateCatalog(int customerId);
 
         List<ProductCategory> GetAllParentCorporateCatalogByTerritory(int customerId, int ContactId);
 
-        List<ProductCategory> GetAllCategoriesByStoreId(long companyId);
+        List<ProductCategory> GetAllCategoriesByStoreId(long companyId, long OrganisationId);
 
         ProductCategory GetCategoryById(long categoryId);
 
@@ -43,5 +44,8 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         IEnumerable<ProductCategory> GetParentCategories(long? companyId);
         List<ProductCategory> GetChildCategories(long categoryId);
+        List<ProductCategory> GetChildCategoriesIncludingArchive(long categoryId);
+        List<ProductCategory> GetAllRetailPublishedCat();
+        IEnumerable<ProductCategory> GetParentCategoriesIncludingArchived(long? companyId);
     }
 }

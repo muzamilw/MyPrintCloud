@@ -1,39 +1,5 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function (ko) {
-    ko.bindingHandlers.autoNumeric = {
-        init: function (el, valueAccessor, bindingsAccessor, viewModel) {
-            var $el = $(el),
-              bindings = bindingsAccessor(),
-              settings = bindings.settings,
-              value = valueAccessor();
-         
-            $el.autoNumeric(settings);
-            $el.autoNumeric('set', parseFloat(ko.utils.unwrapObservable(value()), 10));
-            $el.change(function () {
-                value(parseFloat($el.autoNumeric('get'), 10));
-            });
-        },
-        update: function (el, valueAccessor, bindingsAccessor, viewModel) {
-            var $el = $(el),
-              newValue = ko.utils.unwrapObservable(valueAccessor()),
-              elementValue = $el.autoNumeric('get'),
-              valueHasChanged = (newValue != elementValue);
-
-            if ((newValue === 0) && (elementValue !== 0) && (elementValue !== "0")) {
-                valueHasChanged = true;
-            }
-                        
-            if (valueHasChanged) {
-                if (newValue != undefined) {
-                    $el.autoNumeric('set', newValue);
-                }
-                
-                
-            }
-        }
-    };
-
-
-
+    
     var machineList = function () {
         var
             self,
@@ -48,6 +14,8 @@
             minimumsheetwidth = ko.observable(),
             minimumsheetheight = ko.observable(),
             LookupMethodId = ko.observable(),
+            isSheetFed = ko.observable(),
+            isSpotColor = ko.observable(),
             errors = ko.validation.group({
                 name: MachineName,
                 type: MachineCatId,
@@ -72,7 +40,8 @@
             MachineName : MachineName,
             Description: Description,
             ImageSource: ImageSource,
-            LookupMethodId:LookupMethodId,
+            LookupMethodId: LookupMethodId,
+            isSheetFed: isSheetFed,
             dirtyFlag: dirtyFlag,
             errors: errors,
             isValid: isValid,
@@ -81,14 +50,14 @@
             maximumsheetheight: maximumsheetheight,
             minimumsheetwidth: minimumsheetwidth,
             minimumsheetheight: minimumsheetheight,
-            LookupMethodName:LookupMethodName,
+            LookupMethodName: LookupMethodName,
+            isSpotColor:isSpotColor,
             reset: reset
         };
         return self;
     };
     var machine = function () {
-        var
-            self,
+        var self,
             MachineId = ko.observable(),
             MachineName = ko.observable(),
             MachineCatId = ko.observable(),
@@ -115,19 +84,20 @@
             gripdepth = ko.observable(10),
             gripsideorientaion = ko.observable(),
             Orientation = ko.observableArray([
-                    new OrientationModel({ id: "1", name: "Long Side" }),
-                    new OrientationModel({ id: "2", name: "Short Side" })]),
+                new OrientationModel({ id: "1", name: "Long Side" }),
+                new OrientationModel({ id: "2", name: "Short Side" })]),
             lookupList = ko.observableArray([]),
             markupList = ko.observableArray([]),
             deFaultPaperSizeName = ko.observable(),
             deFaultPlatesName = ko.observable(),
             MachineSpoilageItems = ko.observableArray([]),
+            MachineLookupMethods = ko.observableArray([]),
             MachineInkCoverages = ko.observableArray([]),
             gutterdepth = ko.observable(10),
             headdepth = ko.observable(10),
             MarkupId = ko.observable(),
             PressSizeRatio = ko.observable(),
-            Description = ko.observable().extend({required: true}), 
+            Description = ko.observable().extend({ required: true }),
             Priority = ko.observable(0),
             DirectCost = ko.observable(),
             Image = ko.observable(),
@@ -158,6 +128,13 @@
             TimePerCut = ko.observable(),
             MakeReadyTime = ko.observable(),
             WashupTime = ko.observable(),
+            RunningSpoilage = ko.observable().extend({ number: true }),
+            SetupSpoilage = ko.observable().extend({ number: true}),
+            CoverageHigh = ko.observable().extend({ number: true, max: 10, min: 0, message: 'Max value can be 10'}),
+            CoverageMedium = ko.observable().extend({number: true, max: 10, min: 0, message:'Max value can be 10'}),
+            CoverageLow = ko.observable().extend({number: true, max: 10, min: 0, message:'Max value can be 10'}),
+            isSheetFed = ko.observable(),
+            Passes = ko.observable(),
             ReelMakereadyTime = ko.observable(),
             Maximumsheetweight = ko.observable(),
             Maximumsheetheight = ko.observable(),
@@ -166,8 +143,10 @@
             Minimumsheetwidth = ko.observable(),
             LookupMethodId = ko.observable(),
             CurrencySymbol = ko.observable(),
+            lookupMethod = ko.observable(),
             WeightUnit = ko.observable(),
             LengthUnit = ko.observable(),
+            IsSpotColor = ko.observable(),
             onSelectStockItem = function (ostockItem) {
                 if (ostockItem.category == "Plates") {
                     deFaultPlatesName(ostockItem.name);
@@ -244,6 +223,14 @@
                 TimePerCut: TimePerCut,
                 MakeReadyTime: MakeReadyTime,
                 WashupTime: WashupTime,
+                RunningSpoilage: RunningSpoilage,
+                SetupSpoilage: SetupSpoilage,
+                CoverageHigh: CoverageHigh,
+                CoverageMedium: CoverageMedium,
+                CoverageLow: CoverageLow,
+                isSheetFed: isSheetFed,
+                Passes: Passes,
+                IsSpotColor: IsSpotColor,
                 ReelMakereadyTime: ReelMakereadyTime,
                 Maximumsheetweight: Maximumsheetweight,
                 Maximumsheetheight: Maximumsheetheight,
@@ -252,6 +239,7 @@
                 Minimumsheetwidth: Minimumsheetwidth,
                 LookupMethodId: LookupMethodId,
                 MachineSpoilageItems: MachineSpoilageItems,
+                MachineLookupMethods: MachineLookupMethods,
                 MachineInkCoverages: MachineInkCoverages
             }),
             hasChanges = ko.computed(function () {
@@ -323,7 +311,8 @@
             SetupTime : SetupTime,
             TimePerCut : TimePerCut,
             MakeReadyTime : MakeReadyTime,
-            WashupTime : WashupTime,
+            WashupTime: WashupTime,
+            IsSpotColor: IsSpotColor,
             ReelMakereadyTime  : ReelMakereadyTime,    
             Maximumsheetweight : Maximumsheetweight,
             Maximumsheetheight : Maximumsheetheight,
@@ -331,6 +320,13 @@
             Minimumsheetheight : Minimumsheetheight,
             Minimumsheetwidth : Minimumsheetwidth,
             LookupMethodId: LookupMethodId,
+            RunningSpoilage: RunningSpoilage,
+            SetupSpoilage: SetupSpoilage,
+            CoverageHigh: CoverageHigh,
+            CoverageMedium: CoverageMedium,
+            CoverageLow: CoverageLow,
+            isSheetFed: isSheetFed,
+            Passes: Passes,
             lookupList: lookupList,
             dirtyFlag: dirtyFlag,
             errors: errors,
@@ -342,6 +338,7 @@
             deFaultPaperSizeName: deFaultPaperSizeName,
             MachineInkCoverages: MachineInkCoverages,
             MachineSpoilageItems: MachineSpoilageItems,
+            MachineLookupMethods: MachineLookupMethods,
             onSelectStockItem: onSelectStockItem,
             CurrencySymbol: CurrencySymbol,
             WeightUnit: WeightUnit,
@@ -356,26 +353,37 @@
         self.name = ko.observable(data.name);
     };
 
-    var lookupMethod = function (data) {
+    var lookupMethod = function(data) {
         var self = this;
         self.MethodId = ko.observable(data.MethodId);
         self.Name = ko.observable(data.Name);
-    }
+    };
+
+    var MachineLookupMethods = function(data) {
+        var self = this;
+        self.Id = ko.observable();
+        self.MachineId = ko.observable();
+        self.MethodId = ko.observable();
+        self.DefaultMethod = ko.observable();
+
+    };
+
   
 
-    var lookupMethodListClientMapper = function (source) {
+   var lookupMethodListClientMapper = function (source) {
         var olookup = new lookupMethod();
         olookup.MethodId(source.MethodId);
         olookup.Name(source.Name);
     };
-    CreateMachineInkCoverage = function (specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight, specifiedDescription) {
+    CreateMachineInkCoverage = function(specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight, specifiedDescription) {
         return {
             //Id = source.Id,
             //SideInkOrder = source.SideInkOrder,
             //SideInkOrderCoverage = source.SideInkOrderCoverage,
             //MachineId = source.MachineId
+            
         };
-    }
+    };
 
     var MachineInkCoveragesListClientMapper = function (source, StockItemforInkList, InkCoveragItems) {
         var
@@ -440,7 +448,8 @@
         omachineList.minimumsheetheight(source.minimumsheetheight);
         omachineList.LookupMethodName(source.LookupMethodName);
         omachineList.LookupMethodId(source.LookupMethodId);
-        
+        omachineList.isSheetFed(source.isSheetFed);
+        omachineList.isSpotColor(source.IsSpotColor);
         return omachineList;
 
     };
@@ -459,7 +468,8 @@
         omachineList.minimumsheetheight(source.minimumsheetheight());
         
         omachineList.LookupMethodId(source.LookupMethodId());
-
+        omachineList.isSheetFed(source.isSheetFed());
+        omachineList.isSpotColor(source.isSpotColor());
         return omachineList;
 
     };
@@ -475,6 +485,8 @@
 
        // return new CreateStockItem(source.StockItemId, source.ItemName, source.CategoryName, source.StockLocation, source.ItemWeight, source.ItemDescription);
     };
+
+
 
     var MachineSpoilageItemsMapper = function (source) {
         var 
@@ -516,6 +528,49 @@
         };
         
     }
+
+    var MachineLookupMethodsItemsMapper = function (source) {
+        var
+            Id = source.Id,
+            MachineId = source.MachineId,
+            MethodId = ko.observable(source.MethodId),
+            DefaultMethod = ko.observable(source.DefaultMethod),
+          
+             errors = ko.validation.group({
+             }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+            dirtyFlag = new ko.dirtyFlag({
+                DefaultMethod: DefaultMethod
+       
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+
+        return {
+            Id: Id,
+            MachineId: MachineId,
+            MethodId: MethodId,
+            DefaultMethod: DefaultMethod,
+           
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset
+        };
+
+    }
+
+
     var machineListServerMapper = function (source) {
         var result = {};
         result.Description= source.description;
@@ -528,6 +583,7 @@
         result.minimumsheetwidth = source.minimumsheetwidth;
         result.minimumsheetheight = source.minimumsheetheight;
         resultLookupMethodName = source.LookupMethodName;
+        result.isSheetFed = source.isSheetFed;
         return result;
     };
     var machineClientMapper = function (source) {
@@ -622,6 +678,14 @@
         omachine.MakeReadyTime(source.machine.MakeReadyTime);
         omachine.WashupTime(source.machine.WashupTime);
         omachine.ReelMakereadyTime(source.machine.ReelMakereadyTime);
+        omachine.RunningSpoilage(source.machine.RunningSpoilage);
+        omachine.SetupSpoilage(source.machine.SetupSpoilage);
+        omachine.CoverageHigh(source.machine.CoverageHigh);
+        omachine.CoverageMedium(source.machine.CoverageMedium);
+        omachine.CoverageLow(source.machine.CoverageLow);
+        omachine.isSheetFed(source.machine.isSheetFed);
+        omachine.Passes(source.machine.Passes);
+        omachine.IsSpotColor(source.machine.IsSpotColor);
         //omachine.Maximumsheetweight(source.machine.Maximumsheetweight);
         //omachine.Maximumsheetheight(source.machine.Maximumsheetheight);
         //omachine.Maximumsheetwidth(source.machine.Maximumsheetwidth);
@@ -630,9 +694,9 @@
         omachine.LookupMethodId(source.machine.LookupMethodId);
         omachine.deFaultPaperSizeName(source.deFaultPaperSizeName);
         
-        omachine.lookupList.removeAll();
-        ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
-        omachine.lookupList.valueHasMutated();
+        //omachine.lookupList.removeAll();
+        //ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
+        //omachine.lookupList.valueHasMutated();
 
         //omachine.markupList.removeAll();
         //ko.utils.arrayPushAll(omachine.markupList(), source.Markups);
@@ -640,33 +704,45 @@
        
         
         
-        _.each(source.MachineSpoilageItems, function (item) {
-            omachine.MachineSpoilageItems.push(MachineSpoilageItemsMapper(item));
-        });
+        //_.each(source.MachineSpoilageItems, function (item) {
+        //    omachine.MachineSpoilageItems.push(MachineSpoilageItemsMapper(item));
+        //});
 
 
         
-        var StockItemforInkList = ko.observableArray([]);
-        StockItemforInkList.removeAll();
-        ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
-        StockItemforInkList.valueHasMutated();
+        //var StockItemforInkList = ko.observableArray([]);
+        //StockItemforInkList.removeAll();
+        //ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
+        //StockItemforInkList.valueHasMutated();
 
-        var InkCoveragItemsList = ko.observableArray([]);
-        InkCoveragItemsList.removeAll();
-        ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
-        InkCoveragItemsList.valueHasMutated();
+        //var InkCoveragItemsList = ko.observableArray([]);
+        //InkCoveragItemsList.removeAll();
+        //ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
+        //InkCoveragItemsList.valueHasMutated();
        
 
 
-        _.each(source.machine.MachineInkCoverages, function (item) {
-            var module = MachineInkCoveragesListClientMapper(item, StockItemforInkList, InkCoveragItemsList);
-            omachine.MachineInkCoverages.push(module);
+        //_.each(source.machine.MachineInkCoverages, function (item) {
+        //    var module = MachineInkCoveragesListClientMapper(item, StockItemforInkList, InkCoveragItemsList);
+        //    omachine.MachineInkCoverages.push(module);
 
+
+
+
+        //})
+
+        _.each(source.machine.MachineLookupMethods, function (item) {
+            omachine.MachineLookupMethods.push(MachineLookupMethodsItemsMapper(item));
         })
 
           return omachine;
     };
-    var machineServerMapper = function (machine) {
+    var machineServerMapper = function (machine, ClickChargeZone, MeterPerHourClickCharge, GuillotineClickCharge, Type) {
+        var oType = 0;
+        oType = Type;
+        var oMeterPerHour = {};
+        var oGuillotineZone = {};
+        var oGuillotinePtvList = [];
         var omachine = {};
         omachine.MachineId = machine.MachineId();
         omachine.MachineName = machine.MachineName();
@@ -735,25 +811,116 @@
         omachine.Minimumsheetheight = machine.Minimumsheetheight();
         omachine.Minimumsheetwidth = machine.Minimumsheetwidth();
         omachine.LookupMethodId = machine.LookupMethodId();
-
-        omachine.MachineInkCoverages = [];
-        _.each(machine.MachineInkCoverages(), function (item) {
-            var module = MachineInkCoveragesListServerMapper(item);
-            omachine.MachineInkCoverages.push(module);
-        });
-       
-
-        var MachineSpoilageItemsList = [];
-        _.each(machine.MachineSpoilageItems(), function (item) {
-            var module = MachineSpoilageServerMapper(item);
-            MachineSpoilageItemsList.push(module);
-        });
-       
-        return {
-            machine: omachine,
-            MachineSpoilages: MachineSpoilageItemsList
+        omachine.SetupSpoilage = machine.SetupSpoilage();
+        omachine.RunningSpoilage = machine.RunningSpoilage();
+        omachine.CoverageHigh = machine.CoverageHigh();
+        omachine.CoverageMedium = machine.CoverageMedium();
+        omachine.CoverageLow = machine.CoverageLow();
+        omachine.isSheetFed = machine.isSheetFed();
+        omachine.Passes = machine.Passes();
+        omachine.IsSpotColor = machine.IsSpotColor();
+        //omachine.LookupMethod = machine.lookupMethod();
+        oMeterPerHour = MeterPerHourClickCharge;
+        oGuillotineZone = GuillotineClickCharge;
+        if (GuillotineClickCharge != null)
+        {
+            oGuillotinePtvList = GuillotineClickCharge.GuillotinePtvList;
         }
+
         
+        
+        var ClickChargeZoneLookup = {};
+        if (ClickChargeZone != undefined) {
+            ClickChargeZoneLookup.Id = ClickChargeZone.Id();
+            ClickChargeZoneLookup.MethodId = ClickChargeZone.MethodId();
+            ClickChargeZoneLookup.From1 = ClickChargeZone.From1();
+            ClickChargeZoneLookup.To1 = ClickChargeZone.To1();
+            ClickChargeZoneLookup.Sheets1 = ClickChargeZone.Sheets1();
+            ClickChargeZoneLookup.SheetCost1 = ClickChargeZone.SheetCost1();
+            ClickChargeZoneLookup.SheetPrice1 = ClickChargeZone.SheetPrice1();
+            ClickChargeZoneLookup.From2 = ClickChargeZone.From2();
+            ClickChargeZoneLookup.To2 = ClickChargeZone.To2();
+            ClickChargeZoneLookup.Sheets2 = ClickChargeZone.Sheets2();
+            ClickChargeZoneLookup.SheetCost2 = ClickChargeZone.SheetCost2();
+            ClickChargeZoneLookup.SheetPrice2 = ClickChargeZone.SheetPrice2();
+            ClickChargeZoneLookup.From3 = ClickChargeZone.From3();
+            ClickChargeZoneLookup.To3 = ClickChargeZone.To3();
+            ClickChargeZoneLookup.Sheets3 = ClickChargeZone.Sheets3();
+            ClickChargeZoneLookup.SheetCost3 = ClickChargeZone.SheetCost3();
+            ClickChargeZoneLookup.SheetPrice3 = ClickChargeZone.SheetPrice3();
+            ClickChargeZoneLookup.From4 = ClickChargeZone.From4();
+            ClickChargeZoneLookup.To4 = ClickChargeZone.To4();
+            ClickChargeZoneLookup.Sheets4 = ClickChargeZone.Sheets4();
+            ClickChargeZoneLookup.SheetCost4 = ClickChargeZone.SheetCost4();
+            ClickChargeZoneLookup.SheetPrice4 = ClickChargeZone.SheetPrice4();
+            ClickChargeZoneLookup.From5 = ClickChargeZone.From5();
+            ClickChargeZoneLookup.To5 = ClickChargeZone.To5();
+            ClickChargeZoneLookup.Sheets5 = ClickChargeZone.Sheets5();
+            ClickChargeZoneLookup.SheetCost5 = ClickChargeZone.SheetCost5();
+            ClickChargeZoneLookup.SheetPrice5 = ClickChargeZone.SheetPrice5();
+            ClickChargeZoneLookup.From6 = ClickChargeZone.From6();
+            ClickChargeZoneLookup.To6 = ClickChargeZone.To6();
+            ClickChargeZoneLookup.Sheets6 = ClickChargeZone.Sheets6();
+            ClickChargeZoneLookup.SheetCost6 = ClickChargeZone.SheetCost6();
+            ClickChargeZoneLookup.SheetPrice6 = ClickChargeZone.SheetPrice6();
+            ClickChargeZoneLookup.From7 = ClickChargeZone.From7();
+            ClickChargeZoneLookup.To7 = ClickChargeZone.To7();
+            ClickChargeZoneLookup.Sheets7 = ClickChargeZone.Sheets7();
+            ClickChargeZoneLookup.SheetCost7 = ClickChargeZone.SheetCost7();
+            ClickChargeZoneLookup.SheetPrice7 = ClickChargeZone.SheetPrice7();
+            ClickChargeZoneLookup.From8 = ClickChargeZone.From8();
+            ClickChargeZoneLookup.To8 = ClickChargeZone.To8();
+            ClickChargeZoneLookup.Sheets8 = ClickChargeZone.Sheets8();
+            ClickChargeZoneLookup.SheetCost8 = ClickChargeZone.SheetCost8();
+            ClickChargeZoneLookup.SheetPrice8 = ClickChargeZone.SheetPrice8();
+            ClickChargeZoneLookup.From9 = ClickChargeZone.From9();
+            ClickChargeZoneLookup.To9 = ClickChargeZone.To9();
+            ClickChargeZoneLookup.Sheets9 = ClickChargeZone.Sheets9();
+            ClickChargeZoneLookup.SheetCost9 = ClickChargeZone.SheetCost9();
+            ClickChargeZoneLookup.SheetPrice9 = ClickChargeZone.SheetPrice9();
+            ClickChargeZoneLookup.From10 = ClickChargeZone.From10();
+            ClickChargeZoneLookup.To10 = ClickChargeZone.To10();
+            ClickChargeZoneLookup.Sheets10 = ClickChargeZone.Sheets10();
+            ClickChargeZoneLookup.SheetCost10 = ClickChargeZone.SheetCost10();
+            ClickChargeZoneLookup.SheetPrice10 = ClickChargeZone.SheetPrice10();
+            ClickChargeZoneLookup.From11 = ClickChargeZone.From11();
+            ClickChargeZoneLookup.To11 = ClickChargeZone.To11();
+            ClickChargeZoneLookup.Sheets11 = ClickChargeZone.Sheets11();
+            ClickChargeZoneLookup.SheetCost11 = ClickChargeZone.SheetCost11();
+            ClickChargeZoneLookup.SheetPrice11 = ClickChargeZone.SheetPrice11();
+            ClickChargeZoneLookup.From12 = ClickChargeZone.From12();
+            ClickChargeZoneLookup.To12 = ClickChargeZone.To12();
+            ClickChargeZoneLookup.Sheets12 = ClickChargeZone.Sheets12();
+            ClickChargeZoneLookup.SheetCost12 = ClickChargeZone.SheetCost12();
+            ClickChargeZoneLookup.SheetPrice12 = ClickChargeZone.SheetPrice12();
+            ClickChargeZoneLookup.From13 = ClickChargeZone.From13();
+            ClickChargeZoneLookup.To13 = ClickChargeZone.To13();
+            ClickChargeZoneLookup.Sheets13 = ClickChargeZone.Sheets13();
+            ClickChargeZoneLookup.SheetCost13 = ClickChargeZone.SheetCost13();
+            ClickChargeZoneLookup.SheetPrice13 = ClickChargeZone.SheetPrice13();
+            ClickChargeZoneLookup.From14 = ClickChargeZone.From14();
+            ClickChargeZoneLookup.To14 = ClickChargeZone.To14();
+            ClickChargeZoneLookup.Sheets14 = ClickChargeZone.Sheets14();
+            ClickChargeZoneLookup.SheetCost14 = ClickChargeZone.SheetCost14();
+            ClickChargeZoneLookup.SheetPrice14 = ClickChargeZone.SheetPrice14();
+            ClickChargeZoneLookup.From15 = ClickChargeZone.From15();
+            ClickChargeZoneLookup.To15 = ClickChargeZone.To15();
+            ClickChargeZoneLookup.Sheets15 = ClickChargeZone.Sheets15();
+            ClickChargeZoneLookup.SheetCost15 = ClickChargeZone.SheetCost15();
+            ClickChargeZoneLookup.SheetPrice15 = ClickChargeZone.SheetPrice15();
+            ClickChargeZoneLookup.isaccumulativecharge = ClickChargeZone.isaccumulativecharge();
+            ClickChargeZoneLookup.IsRoundUp = ClickChargeZone.IsRoundUp();
+            ClickChargeZoneLookup.TimePerHour = ClickChargeZone.TimePerHour();
+        }
+        return {
+            Type : oType,
+            machine: omachine,
+            ClickChargeZone: ClickChargeZoneLookup,
+            MeterPerHourLookup: oMeterPerHour,
+            GuillotineCalc: oGuillotineZone,
+            GuilotinePtv: oGuillotinePtvList
+        };
+
     };
     var newMachineClientMapper = function (source) {
         var omachine = new machine();
@@ -761,33 +928,36 @@
         omachine.lookupList.removeAll();
         ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
         omachine.lookupList.valueHasMutated();
-
+        omachine.SetupSpoilage(source.machine.SetupSpoilage);
+        omachine.RunningSpoilage(source.machine.RunningSpoilage);
+        omachine.Passes(source.machine.Passes);
+        omachine.MachineName(source.machine.MachineName);
         //omachine.markupList.removeAll();
         //ko.utils.arrayPushAll(omachine.markupList(), source.Markups);
         //omachine.markupList.valueHasMutated();
         omachine.CurrencySymbol(source.CurrencySymbol);
         omachine.WeightUnit(source.WeightUnit);
         omachine.LengthUnit(source.LengthUnit);
-
-        for (i = 0; i < 8; i++) {
-            omachine.MachineSpoilageItems.push(newMachineSpoilageItemsMapper(i));
-          }
+        omachine.isSheetFed(true);
+        //for (i = 0; i < 8; i++) {
+        //    omachine.MachineSpoilageItems.push(newMachineSpoilageItemsMapper(i));
+        //  }
 
         var StockItemforInkList = ko.observableArray([]);
         StockItemforInkList.removeAll();
         ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
         StockItemforInkList.valueHasMutated();
 
-        var InkCoveragItemsList = ko.observableArray([]);
-        InkCoveragItemsList.removeAll();
-        ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
-        InkCoveragItemsList.valueHasMutated();
+        //var InkCoveragItemsList = ko.observableArray([]);
+        //InkCoveragItemsList.removeAll();
+        //ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
+        //InkCoveragItemsList.valueHasMutated();
 
 
 
-        for (i = 0; i < 8; i++) {
-            omachine.MachineInkCoverages.push(newMachineInkCoveragesListClientMapper(StockItemforInkList, InkCoveragItemsList));
-        }
+        //for (i = 0; i < 8; i++) {
+        //    omachine.MachineInkCoverages.push(newMachineInkCoveragesListClientMapper(StockItemforInkList, InkCoveragItemsList));
+        //}
 
         return omachine;
     };
@@ -873,6 +1043,26 @@
         };
     };
 
+
+    //Convert Server To Client
+    var MachineLookupClientMapper = function (source) {
+        var machineLookup = new MachineLookupMethods();
+        machineLookup.Id(source.Id === null ? undefined : source.Id);
+        machineLookup.MachineId(source.MachineId === null ? undefined : source.MachineId);
+        machineLookup.MethodId(source.MethodId === null ? undefined : source.MethodId);
+        machineLookup.DefaultMethod(source.DefaultMethod === null ? undefined : source.DefaultMethod);
+        return machineLookup;
+    };
+    var GuilotinePtvServerMapper = function (GuillotineClickChargePTV) {
+        var GuilotinePtv = {};
+        GuilotinePtv.Id = GuillotineClickChargePTV.Id();
+        GuilotinePtv.NoofSections = GuillotineClickChargePTV.NoofSections();
+        GuilotinePtv.NoofUps = GuillotineClickChargePTV.NoofUps();
+        GuilotinePtv.Noofcutswithoutgutters = GuillotineClickChargePTV.Noofcutswithoutgutters();
+        GuilotinePtv.Noofcutswithgutters = GuillotineClickChargePTV.Noofcutswithgutters();
+        GuilotinePtv.GuilotineId = GuillotineClickChargePTV.GuilotineId();
+        return GuilotinePtv;
+    }
     var MachineSpoilageServerMapper = function (source) {
         var MachineSpoilageItem = {};
         MachineSpoilageItem.MachineSpoilageId = source.MachineSpoilageId;
@@ -881,6 +1071,18 @@
         MachineSpoilageItem.RunningSpoilage = source.RunningSpoilage();
         MachineSpoilageItem.NoOfColors = source.NoOfColors;
         return MachineSpoilageItem;
+
+    }
+
+
+    var MachineLookupMethodsServerMapper = function (source) {
+        var MachineLookupItem = {};
+        MachineLookupItem.Id = source.Id;
+        MachineLookupItem.MachineId = source.MachineId;
+        MachineLookupItem.MethodId = source.MethodId;
+        MachineLookupItem.DefaultMethod = source.DefaultMethod;
+      
+        return MachineLookupItem;
 
     }
     var MachineInkCoveragesListServerMapper = function (source) {
@@ -911,6 +1113,8 @@
         newMachineClientMapper: newMachineClientMapper,
         newMachineSpoilageItemsMapper: newMachineSpoilageItemsMapper,
         newMachineInkCoveragesListClientMapper: newMachineInkCoveragesListClientMapper,
-        machineListClientMapperSelectedItem: machineListClientMapperSelectedItem
+        machineListClientMapperSelectedItem: machineListClientMapperSelectedItem,
+        MachineLookupClientMapper: MachineLookupClientMapper,
+        GuilotinePtvServerMapper: GuilotinePtvServerMapper
     };
 });

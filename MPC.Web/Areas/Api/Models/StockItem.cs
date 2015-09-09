@@ -355,6 +355,8 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public bool? isAllowBackOrder { get; set; }
 
+        public bool? IsImperical { get; set; }
+
         #endregion
 
         #region Reference Properties
@@ -363,6 +365,10 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public IEnumerable<StockCostAndPrice> StockCostAndPrices { get; set; }
 
+        /// <summary>
+        /// Item Stock Update History
+        /// </summary>
+        public IEnumerable<ItemStockUpdateHistory> ItemStockUpdateHistories { get; set; }
         #endregion
 
     }

@@ -9,18 +9,18 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Add/Edit Delivery Carriers</h4>
+                <h4 class="modal-title">Add/Edit Shipping Carrier</h4>
             </div>
             <div class="col-lg-12 form-horizontal outerDiv-Padding" data-bind="with:$root.selectedCarrier">
                 <div class="form-horizontal clearfix">
                     <div class="form-group">
                         <div class="col-lg-4 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Name of Paper Sheet" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                @*<a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
+                                </a>*@
                             </div>
-                            <label for="txtCName" class="control-label text-right tooltip-float">Name</label>
+                            <label for="txtCName" class="control-label text-right tooltip-float">Carrier Name</label>
                         </div>
                         <div class="input col-lg-6">
                             <input type="text" class="form-control" data-bind="value:carrierName,validationTooltip:carrierName,css:{'error':(!carrierName.isValid() && showErrors())},enable:readonly()">
@@ -29,9 +29,9 @@
                     <div class="form-group">
                         <div class="col-lg-4 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                @*<a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
+                                </a>*@
                             </div>
                             <label for="txtBillingCInfo" class="control-label text-right tooltip-float">URL</label>
                         </div>
@@ -82,8 +82,9 @@
                 </div>
              </div>
             <div class="modal-footer" data-bind="with:selectedCarrier">
-                <button type="button" class="btn btn-default" data-bind="click:$root.onCloseDeliveryCarrier">Close</button>
                 <button type="button" class="btn btn-primary" data-bind="click: $root.onsaveDeliveryCarrier,css: { 'btn-warning': hasChanges } , enable: hasChanges">Save</button>
+                <button type="button" class="btn btn-default" data-bind="click:$root.onCloseDeliveryCarrier">Close</button>
+                
             </div>
         </div>
     </div>

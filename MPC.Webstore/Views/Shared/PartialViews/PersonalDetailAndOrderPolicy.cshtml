@@ -1,227 +1,233 @@
 ﻿@using MPC.Webstore.Common;
 @using MPC.Models.Common;
 @model MPC.Models.DomainModels.CompanyContact
-
+@{
+    Layout = null;
+}
 @{
     var Store = ViewData["Company"] as MPC.Models.DomainModels.Company;
     string CurrencySymbol = ViewBag.CurrencySymbol;
 }
 <script src="~/Scripts/jquery-1.10.2.js"></script>
-
-@using (Html.BeginForm())
+@if(Model != null){
+using (Html.BeginForm())
 {
 
-    <div id="PDetailDiv" class="order_container container content_area rounded_corners">
-
-        <div class="corpPInfoCnt1 pad17">
-            <div class="custom_color confirm_design">
-
-                <label id="ltrlpersonalinfo">Personal Details</label>
+    <div id="PDetailDiv" class="container rounded_corners">
+        <div class="order_container">
+            <div class="corpPInfoCnt1 pad17">
+                <div class="custom_color confirm_design">
+                    <label id="ltrlpersonalinfo">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlpersonalinfo", UserCookieManager.WBStoreId, "Personal Details"))</label>
+                </div>
+                <br />
+                <br />
             </div>
-            <br />
-            <br />
-        </div>
-        <div class="corpPInfoCnt2 white_background rounded_corners pad20_corp">
-            <table class="tblPersonalInfoCorp" cellspacing="5">
-                <tr>
-                    <td>
-                        @if (Model.FirstName != null && Model.FirstName != string.Empty)
-                        {
-                            <label id="lblName">@Model.FirstName</label>
-                        }
-                    </td>
-                    <td>
-                        @if (Model.JobTitle != null && Model.JobTitle != string.Empty)
-                        {
-                            <label id="lblJobTitle">@Model.JobTitle</label>
-                        }
-                        else
-                        {
-                            <label id="lblJobTitle">N/A</label>
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-
-                        <label id="ltrlteritory">Territory</label>
-                    </td>
-                    <td>
-                        @if (ViewBag.CompTerritory.TerritoryName != null && ViewBag.CompTerritory.TerritoryName != string.Empty)
-                        {
-                            <label id="lblTerritory">@ViewBag.CompTerritory.TerritoryName</label>
-                        }
-                        else
-                        {
-                            <label id="lblTerritory">N/A</label>
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label id="ltrlorderlimit">Order Limit</label>
-
-                    </td>
-                    <td>
-                        @if (Model.CreditLimit.HasValue && Model.CreditLimit.Value > 0)
-                        {
-                            <label id="lblOrderLimit">@Utils.FormatDecimalValueToTwoDecimal(Model.CreditLimit.ToString(), CurrencySymbol)</label>
-                        }
-                        else
-                        {
-                            <label id="lblOrderLimit">N/A</label>
-
-                        }
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label id="ltrlloplaced">Last order placed</label>
-
-                    </td>
-                    <td>
-
-                        @if (ViewBag.Order == null)
-                        {
-                            <label id="lblCanPlaceOrder">N/A</label>
-                        }
-                        else
-                        {
-                            if (ViewBag.Order.Order_Date.ToString() != null && ViewBag.Order.Order_Date.ToString() != string.Empty)
+            <div class="corpPInfoCnt2 white_background rounded_corners pad20_corp">
+                <table class="tblPersonalInfoCorp" cellspacing="5">
+                    <tr>
+                        <td>
+                            @if (Model.FirstName != null && Model.FirstName != string.Empty)
                             {
-                                <label id="lblCanPlaceOrder">@ViewBag.Order.Order_Date.ToString()</label>
+                                <label id="lblName">@Model.FirstName</label>
+                            }
+                        </td>
+                        <td>
+                            @if (Model.JobTitle != null && Model.JobTitle != string.Empty)
+                            {
+                                <label id="lblJobTitle">@Model.JobTitle</label>
                             }
                             else
                             {
-                                <label id="lblCanPlaceOrder">N/A</label>
+                                <label id="lblJobTitle">@Html.Raw(Html.GetKeyValueFromResourceFile("naaaaa", UserCookieManager.WBStoreId, "N/A"))
+</label>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+
+                            <label id="ltrlteritory">@Html.Raw(Html.GetKeyValueFromResourceFile("tttidd", UserCookieManager.WBStoreId, "Territory"))</label>
+                        </td>
+                        <td>
+                            @if (ViewBag.CompTerritory.TerritoryName != null && ViewBag.CompTerritory.TerritoryName != string.Empty)
+                            {
+                                <label id="lblTerritory">@ViewBag.CompTerritory.TerritoryName</label>
+                            }
+                            else
+                            {
+                                <label id="lblTerritory">@Html.Raw(Html.GetKeyValueFromResourceFile("naaaaa", UserCookieManager.WBStoreId, "N/A"))</label>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label id="ltrlorderlimit">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlorderlimit", UserCookieManager.WBStoreId, "Order Limit"))</label>
+
+                        </td>
+                        <td>
+                            @if (Model.CreditLimit.HasValue && Model.CreditLimit.Value > 0)
+                            {
+                                <label id="lblOrderLimit">@Utils.FormatDecimalValueToTwoDecimal(Model.CreditLimit.ToString(), CurrencySymbol)</label>
+                            }
+                            else
+                            {
+                                <label id="lblOrderLimit">@Html.Raw(Html.GetKeyValueFromResourceFile("naaaaa", UserCookieManager.WBStoreId, "N/A"))</label>
 
                             }
 
-                        }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label id="ltrlloplaced">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlloplaced", UserCookieManager.WBStoreId, "Last order placed"))</label>
 
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label id="ltrlcplaceorder">Can Place Order</label>
+                        </td>
+                        <td>
 
-                    </td>
-                    <td>
+                            @if (ViewBag.Order == null)
+                            {
+                                <label id="lblCanPlaceOrder">@Html.Raw(Html.GetKeyValueFromResourceFile("naaaaa", UserCookieManager.WBStoreId, "N/A"))</label>
+                            }
+                            else
+                            {
+                                if (ViewBag.Order.Order_Date.ToString() != null && ViewBag.Order.Order_Date.ToString() != string.Empty)
+                                {
+                                    <label id="lblCanPlaceOrder">@ViewBag.Order.Order_Date.ToString()</label>
+                                }
+                                else
+                                {
+                                    <label id="lblCanPlaceOrder">@Html.Raw(Html.GetKeyValueFromResourceFile("naaaaa", UserCookieManager.WBStoreId, "N/A"))</label>
 
-                        @if (Model.isPlaceOrder != null && Model.isPlaceOrder.Value)
-                        {
-                            <label id="lblLastOrder">Yes</label>
-                        }
-                        else
-                        {
+                                }
 
-                            <label id="lblLastOrder">No</label>
-                        }
+                            }
 
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label id="ltrlcanapproveorder">Can Approve Orders</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label id="ltrlcplaceorder">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcplaceorder", UserCookieManager.WBStoreId, "Can Place Order"))</label>
 
-                    </td>
-                    <td>
+                        </td>
+                        <td>
 
-                        @if (Model.IsApprover != null && Model.IsApprover.Value)
-                        {
-                            <label id="lblCanApproveOrders">Yes</label>
-                        }
-                        else
-                        {
-                            <label id="lblCanApproveOrders">No</label>
-                        }
+                            @if (Model.isPlaceOrder != null && Model.isPlaceOrder.Value)
+                            {
+                                <label id="lblLastOrder">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlyes", UserCookieManager.WBStoreId, "Yes"))</label>
+                            }
+                            else
+                            {
+
+                                <label id="lblLastOrder">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlNo", UserCookieManager.WBStoreId, "No"))</label>
+                            }
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label id="ltrlcanapproveorder">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcanapproveorder", UserCookieManager.WBStoreId, "Can Approve Orders"))
+</label>
+
+                        </td>
+                        <td>
+
+                            @if (Model.IsApprover != null && Model.IsApprover.Value)
+                            {
+                                <label id="lblCanApproveOrders">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlyes", UserCookieManager.WBStoreId, "Yes"))</label>
+                            }
+                            else
+                            {
+                                <label id="lblCanApproveOrders">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlNo", UserCookieManager.WBStoreId, "No"))</label>
+                            }
 
 
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="corpPInfoCnt3 white_background rounded_corners pad17 memo_message custom_color"
-             id="tdcompanyopolicy">
-
-            <div class="orederPCnt">
-                Ordering Policy Statement
-                <br />
-
-                @if (ViewBag.CorpCompany.CorporateOrderingPolicy != null && ViewBag.CorpCompany.CorporateOrderingPolicy != string.Empty)
-                {
-                    <textarea name="Text1" cols="20" rows="4" class="rounded_corners5 text_boxPolicy" id="txtPolicy" readonly="readonly">@ViewBag.CorpCompany.CorporateOrderingPolicy</textarea>
-                    <br />
-                    <a id="btnCorporateOrderingPolicy1" class="linkOrderingpolicy" onclick="ShowOrderingPolicyPopUp('Corporate Ordering Policy', '@ViewBag.CorpCompany.CorporateOrderingPolicy');">
-                        Set your policy
-                    </a>
-                }
-                else
-                {
-                    <textarea name="Text1" cols="20" rows="4" class="rounded_corners5 text_boxPolicy" id="txtPolicy" readonly="readonly">No Policy Defined</textarea>
-                    <br />
-                    <a id="btnCorporateOrderingPolicy1" class="linkOrderingpolicy" onclick="ShowOrderingPolicyPopUp('Corporate Ordering Policy',' No Policy Defined');">
-                        Set your policy
-                    </a>
-                }
-                <br />
-
+                        </td>
+                    </tr>
+                </table>
             </div>
-            <div class="corporate_logo_small_container">
-                <a href="@ViewBag.DefaultUrl">
-                    <img src='/@Store.Image' class="corporate_logo_small" />
+            <div class="corpPInfoCnt3 white_background rounded_corners pad17 memo_message custom_color"
+                 id="tdcompanyopolicy">
 
-                </a>
-                <br />
-                <label id="lblCorporateName" style="  font-size: 15px;
+                <div class="orederPCnt">
+                    @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlorderingpolicystat", UserCookieManager.WBStoreId, "Ordering Policy Statement"))
+                    <br />
+
+                    @if (ViewBag.CorpCompany.CorporateOrderingPolicy != null && ViewBag.CorpCompany.CorporateOrderingPolicy != string.Empty)
+                    {
+                        <textarea name="Text1" cols="20" rows="4" class="rounded_corners5 text_boxPolicy" id="txtPolicy" readonly="readonly">@ViewBag.CorpCompany.CorporateOrderingPolicy</textarea>
+                        <br />
+                        <a id="btnCorporateOrderingPolicy1" class="linkOrderingpolicy" onclick="ShowOrderingPolicyPopUp('Corporate Ordering Policy', '@ViewBag.CorpCompany.CorporateOrderingPolicy');">
+                            @Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderingPolicy", UserCookieManager.WBStoreId, "Set your policy"))
+                        </a>
+                    }
+                    else
+                    {
+                        <textarea name="Text1" cols="20" rows="4" class="rounded_corners5 text_boxPolicy" id="txtPolicy" readonly="readonly">No Policy Defined</textarea>
+                        <br />
+                        <a id="btnCorporateOrderingPolicy1" class="linkOrderingpolicy" onclick="ShowOrderingPolicyPopUp('Corporate Ordering Policy',' No Policy Defined');">
+                            @Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderingPolicy", UserCookieManager.WBStoreId, "Set your policy"))
+                        </a>
+                    }
+                    <br />
+
+                </div>
+                <div class="corporate_logo_small_container">
+                    <a href="@ViewBag.DefaultUrl">
+                        <img src='/@Store.Image' class="corporate_logo_small" />
+
+                    </a>
+                    <br />
+                    <label id="lblCorporateName" style="  font-size: 15px;
   margin-top: 10px;">@Store.Name</label>
-                <br />
-            </div>
-            <div class="clearBoth">
-            </div>
-        </div>
-
-        <div class="clearBoth">
-        </div>
+    <br />
     </div>
+    <div class="clearBoth">
+    </div>
+    </div>
+
+    </div>
+      
+<div class="clearBoth">
+</div>
+</div>
+
+
 }
 
+    <script type="text/javascript">
 
 
-<script type="text/javascript">
+        //  var text = $("#txtOrderPolicy").text();
+        //function SaveOrderPolicy() {
+        //    $.ajax({
+        //        url: '/PersonalDetailAndOrderPolicy/SaveOrderPolicy',
+        //        type: 'POST',
+        //        dataType: 'json',
+        //        data: { id: 'value' },
+        //        success: function (data) {
+        //            alert("success");
+        //        },
+        //        error: function () {
+        //            alert('error');
+        //        }
+        //    });
+        //}
 
+        function Order() {
 
-    //  var text = $("#txtOrderPolicy").text();
-    //function SaveOrderPolicy() {
-    //    $.ajax({
-    //        url: '/PersonalDetailAndOrderPolicy/SaveOrderPolicy',
-    //        type: 'POST',
-    //        dataType: 'json',
-    //        data: { id: 'value' },
-    //        success: function (data) {
-    //            alert("success");
-    //        },
-    //        error: function () {
-    //            alert('error');
-    //        }
-    //    });
-    //}
+            var text = $("#txtOrderPolicy").val();
 
-    function Order() {
+            $.ajax({
 
-        var text = $("#txtOrderPolicy").val();
+                type: "POST",
+                url: "/PersonalDetailAndOrderPolicy/SaveOrderPolicy?id=" + text + ""
 
-        $.ajax({
+            });
+            HideLoader();
+        }
+        function Cancel() {
+            HideLoader();
+        }
+    </script>
+}
 
-            type: "POST",
-            url: "/PersonalDetailAndOrderPolicy/SaveOrderPolicy?id=" + text + ""
-
-        });
-        HideLoader();
-    }
-    function Cancel()
-    {
-        HideLoader();
-    }
-</script>

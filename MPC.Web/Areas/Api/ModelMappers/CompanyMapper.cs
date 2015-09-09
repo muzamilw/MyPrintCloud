@@ -13,7 +13,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 {
     public static class CompanyMapper
     {
-        
+
         #region Public
 
         /// <summary>
@@ -31,28 +31,47 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
             byte[] spriteBytes = null;
             string spritePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/sprite.png");
-            if (File.Exists(spritePath))
-            {
-                spriteBytes = File.ReadAllBytes(spritePath);
-            }
+            string spriteRelativePath = "MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId +
+                                        "/sprite.png?" + DateTime.Now.ToString();
+            //Code Commented by Naveed on 20150827
+            //if (File.Exists(spritePath))
+            //{
+            //    spriteBytes = File.ReadAllBytes(spritePath);
+            //}
+            string defaultSpritePath = HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png");
+            
             byte[] defaultSpriteBytes = null;
-            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png")))
-            {
-                defaultSpriteBytes = File.ReadAllBytes(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png"));
-            }
+            //Code Commented by Naveed on 20150827
+            //if (File.Exists(defaultSpritePath))
+            //{
+            //    defaultSpriteBytes = File.ReadAllBytes(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultSprite/sprite.bakup.png"));
+            //}
             string defaultCss = string.Empty;
+            string defaultCssPath =
+                HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" +
+                                                   source.CompanyId + "/site.css");
 
-            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/site.css")))
+            if (File.Exists(defaultCssPath))
             {
                 defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/site.css"));
             }
-
+            string defaultContact = null;
+            string email = null;
+            DomainModels.CompanyContact companyContact = source.CompanyContacts != null ? 
+                source.CompanyContacts.FirstOrDefault(contact => contact.IsDefaultContact == 1) : null;
+            if (companyContact != null)
+            {
+                defaultContact = companyContact.FirstName + " " + companyContact.LastName;
+                email = companyContact.Email;
+            }
             return new Company
             {
                 CompanyId = source.CompanyId,
                 Name = source.Name,
                 StoreImagePath = !string.IsNullOrEmpty(source.Image) ? source.Image + "?" + DateTime.Now.ToString() : string.Empty,
                 AccountNumber = source.AccountNumber,
+                DefaultContactEmail = email,
+                DefaultContact = defaultContact,
                 URL = source.URL,
                 CreditReference = source.CreditReference,
                 CreditLimit = source.CreditLimit,
@@ -65,7 +84,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Status = source.Status,
                 IsCustomer = source.IsCustomer,
                 CurrentThemeId = source.CurrentThemeId,
-                CustomCSS = defaultCss,
+                //CustomCSS = defaultCss,
                 Notes = source.Notes,
                 IsDisabled = source.IsDisabled,
                 AccountBalance = source.AccountBalance,
@@ -92,7 +111,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 RedirectWebstoreURL = source.RedirectWebstoreURL,
                 isShowGoogleMap = source.isShowGoogleMap,
                 isTextWatermark = source.isTextWatermark == true ? "true" : "false",
-                StoreWorkflowImage= source.StoreWorkflowImage,
+                StoreWorkflowImage = source.StoreWorkflowImage,
                 WatermarkText = source.WatermarkText,
                 facebookAppId = source.facebookAppId,
                 facebookAppKey = source.facebookAppKey,
@@ -124,13 +143,17 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 FacebookURL = source.FacebookURL,
                 LinkedinURL = source.LinkedinURL,
                 isCalculateTaxByService = source.isCalculateTaxByService,
-                TaxLabel=source.TaxLabel,
-                TaxRate= source.TaxRate,
-                MapImageUrl= source.MapImageUrl,
+                TaxLabel = source.TaxLabel,
+                TaxRate = source.TaxRate,
+                MapImageUrl = source.MapImageUrl,
                 IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
-               isWhiteLabel = source.isWhiteLabel,
-               PriceFlagId = source.PriceFlagId,
+                isWhiteLabel = source.isWhiteLabel,
+                PriceFlagId = source.PriceFlagId,
                 StoreId = source.StoreId,
+               isStoreLive = source.isStoreLive,
+               CanUserUpdateAddress = source.CanUserUpdateAddress,
+               IsClickReached = source.IsClickReached,
+               MarketingBriefRecipient = source.MarketingBriefRecipient,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 TemplateColorStyles =
@@ -147,9 +170,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                     source.CompanyContacts != null ? source.CompanyContacts.Take(1).Select(x => x.CreateFrom()).ToList() : null,
                 Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFromForListView()).ToList() : null,
                 PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x => x.CreateFrom()).ToList() : null,
-                ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Where(x => x.ParentCategoryId == null).Select(x => x.ListViewModelCreateFrom()).ToList().OrderBy(x=>x.DisplayOrder).ToList() : null,
-                StoreBackgroundImage = source.StoreBackgroundImage, 
-                DefaultSpriteImage = defaultSpriteBytes,
+                ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Where(x => x.ParentCategoryId == null && x.isArchived != true).Select(x => x.ListViewModelCreateFrom()).ToList().OrderBy(x => x.DisplayOrder).ToList() : null,
+                StoreBackgroundImage = source.StoreBackgroundImage,
+                DefaultSpriteSource = spriteRelativePath,
+                //DefaultSpriteImage = defaultSpriteBytes,
                 UserDefinedSpriteImage = spriteBytes,
                 MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
                 CompanyDomains = source.CompanyDomains != null ? source.CompanyDomains.Select(x => x.CreateFrom()).ToList() : null,
@@ -269,9 +293,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 makeEmailArtworkOrderProductionReady = source.makeEmailArtworkOrderProductionReady,
                 TaxLabel = source.TaxLabel,
                 TaxRate = source.TaxRate,
-                MapImageUrl=source.MapImageUrl,
+                MapImageUrl = source.MapImageUrl,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
                 PickupAddressId = source.PickupAddressId,
+                CompanyTerritories =
+                    source.CompanyTerritories != null
+                       ? source.CompanyTerritories.Take(1).Select(x => x.CreateFrom()).ToList()
+                        : null,
                 Addresses = source.Addresses != null ? source.Addresses.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 CompanyContacts =
                     source.CompanyContacts != null ? source.CompanyContacts.Take(10).Select(x => x.CreateFrom()).ToList() : null,
@@ -280,11 +308,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 UserDefinedSpriteImage = spriteBytes,
                 MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
                 CompanyContactCount = source.CompanyContacts != null ? source.CompanyContacts.Count : 0,
-                CompanyAddressesCount= source.Addresses != null ? source.Addresses.Count : 0,
+                CompanyAddressesCount = source.Addresses != null ? source.Addresses.Count : 0,
                 isCalculateTaxByService = source.isCalculateTaxByService,
                 PriceFlagId = source.PriceFlagId,
                 StoreId = source.StoreId
-                };
+            };
 
         }
 
@@ -307,13 +335,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreationDate = source.CreationDate ?? DateTime.Now,
                 CurrentThemeId = source.CurrentThemeId,
                 Terms = source.Terms,
-                CustomCSS = source.CustomCSS,
+               // CustomCSS = source.CustomCSS,
                 TypeId = 52,
                 DefaultNominalCode = source.DefaultNominalCode,
                 DefaultMarkUpId = source.DefaultMarkUpId,
                 AccountOpenDate = source.AccountOpenDate,
                 AccountManagerId = source.AccountManagerId,
-                StoreBackgroundImage = source.StoreBackgroundImage, 
+                StoreBackgroundImage = source.StoreBackgroundImage,
                 Status = source.Status,
                 IsCustomer = source.IsCustomer,
                 Notes = source.Notes,
@@ -341,7 +369,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isShowGoogleMap = source.isShowGoogleMap,
                 isTextWatermark = source.isTextWatermark == "true" ? true : false,
                 WatermarkText = source.isTextWatermark == "true" ? source.WatermarkText : source.StoreWorkflowImage,
-                MapImageUrl= source.MapImageUrl,
+                MapImageUrl = source.MapImageUrl,
                 StoreWorkflowImage = source.StoreWorkflowImage,
                 facebookAppId = source.facebookAppId,
                 facebookAppKey = source.facebookAppKey,
@@ -373,13 +401,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 FacebookURL = source.FacebookURL,
                 TwitterURL = source.TwitterURL,
                 LinkedinURL = source.LinkedinURL,
-                isCalculateTaxByService = source.isCalculateTaxByService ,
+                isCalculateTaxByService = source.isCalculateTaxByService,
                 TaxLabel = source.TaxLabel,
                 TaxRate = source.TaxRate,
                 IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
                 isWhiteLabel = source.isWhiteLabel,
                 PriceFlagId = source.PriceFlagId,
                 StoreId = source.StoreId,
+                isStoreLive = source.isStoreLive,
+                CanUserUpdateAddress = source.CanUserUpdateAddress,
+                MarketingBriefRecipient = source.MarketingBriefRecipient,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 TemplateColorStyles =
@@ -425,9 +456,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new SupplierBaseResponse
             {
-                CompanyTypes =source.CompanyTypes!=null ? source.CompanyTypes.Select(ct => ct.CreateFrom()):new List<CompanyType>(),
+                CurrencySymbol = source.CurrencySymbol,
+                CompanyTypes = source.CompanyTypes != null ? source.CompanyTypes.Select(ct => ct.CreateFrom()) : new List<CompanyType>(),
                 Markups = source.Markups != null ? source.Markups.Select(m => m.CreateFrom()) : new List<Markup>(),
-                NominalCodes =source.NominalCodes!=null ?  source.NominalCodes.Select(m => m.CreateFrom()) : new List<ChartOfAccount>(),
+                NominalCodes = source.NominalCodes != null ? source.NominalCodes.Select(m => m.CreateFrom()) : new List<ChartOfAccount>(),
                 SystemUsers = source.SystemUsers != null ? source.SystemUsers.Select(m => m.CreateFrom()) : new List<SystemUserDropDown>(),
                 Flags = source.Flags != null ? source.Flags.Select(f => f.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
                 PriceFlags = source.Flags != null ? source.Flags.Select(pf => pf.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
@@ -467,7 +499,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TaxRate = source.TaxRate,
                 CompanyLogoSource = source.CompanyLogoSource,
                 CompanyLogoName = source.CompanyLogoName,
-                MapImageUrl= source.MapImageUrl,
+                MapImageUrl = source.MapImageUrl,
                 Addresses =
                     source.Addresses != null ? source.Addresses.Select(add => add.CreateFromSupplier()).ToList() : null,
                 CompanyContacts =
@@ -492,7 +524,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                             : null,
                     RowCount = source.SecondaryPageResponse.RowCount,
 
-                    SystemPages = 
+                    SystemPages =
                         source.SecondaryPageResponse.SystemPages != null
                             ? source.SecondaryPageResponse.SystemPages.Select(x => x.CreateFromForListView()).ToList()
                             : null,
@@ -513,18 +545,18 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             byte[] bytes = null;
             string defaultContact = null;
-              string defaultContactEmail = null;
+            string defaultContactEmail = null;
             DomainModels.CompanyContact companyContact = source.CompanyContacts.FirstOrDefault(contact => contact.IsDefaultContact == 1);
-            if ( companyContact!= null)
+            if (companyContact != null)
             {
-                defaultContact = companyContact.FirstName +" "+ companyContact.LastName;
+                defaultContact = companyContact.FirstName + " " + companyContact.LastName;
                 defaultContactEmail = companyContact.Email;
             }
             return new CrmSupplierListViewModel
             {
                 AccountNumber = source.AccountNumber,
                 DefaultContactName = defaultContact,
-                DefaultContactEmail= defaultContactEmail,
+                DefaultContactEmail = defaultContactEmail,
                 CompanyId = source.CompanyId,
                 IsCustomer = source.IsCustomer,
                 Name = source.Name,
@@ -547,6 +579,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreationDate = source.CreationDate,
                 URL = source.URL,
                 IsCustomer = source.IsCustomer,
+                TaxRate = source.TaxRate
             };
         }
 

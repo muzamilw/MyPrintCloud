@@ -1,0 +1,67 @@
+﻿<div class="modal fade my-modal" style="z-index: 1051" id="costCentersQuanity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-bind="visible:$root.isDisplayCostCenterQuantityDialog">
+    <div style="width:400px;" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Quantity</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="row clear-fix">
+                        <div class="col-sm-12">
+                            <div class="col-sm-12">
+                                <div class=" form-horizontal clearfix">
+                                    <div class="form-group">
+                                        <div class="col-sm-5 text-right">
+                                           
+                                            <label for="txtEmail" class="control-label text-right tooltip-float">Quantity 1</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" data-bind="value: $root.selectedCostCentre()!=undefined  ? $root.selectedCostCentre().quantity1:''">
+                                        </div>
+                                    </div>
+                                    <!--ko if: $root.isEstimateScreen != undefined && $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
+                                    <div class="form-group">
+                                        <div class="col-sm-5 text-right">
+                                           
+                                            <label for="txtEmail" class="control-label text-right tooltip-float">Quantity 2</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" data-bind="value: $root.selectedCostCentre()!=undefined  ? $root.selectedCostCentre().quantity2:''">
+                                        </div>
+                                    </div>
+                                    @*<div class="form-group">
+                                        <div class="col-sm-5 text-right">
+
+                                            <label for="txtEmail" class="control-label text-right tooltip-float">Quantity 3</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" data-bind="value: $root.selectedCostCentre()!=undefined  ? $root.selectedCostCentre().quantity3:''">
+                                        </div>
+                                    </div>*@
+                                    <!--/ko-->
+                                    
+                                </div>
+                            </div> <!--12-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-right">
+                    <!--ko if: !$root.isAddProductFromInventory() -->
+                    <!--ko if: !$root.isAddProductForSectionCostCenter() -->
+                    <button type="reset" class="btn btn-primary" data-bind="click: $root.onCostCenterQuantityInputProceed">OK</button>
+                    <!-- /ko -->
+                    <!--ko if: $root.isAddProductForSectionCostCenter() -->
+                    <button type="reset" class="btn btn-primary" data-bind="click: $root.onSaveStockitemForSectionCostCenter">OK</button>
+                    <!-- /ko -->
+                    <!-- /ko -->
+                    <!--ko if: $root.isAddProductFromInventory() -->
+                    <button type="reset" class="btn btn-primary" data-bind="click: $root.onSaveProductInventory">OK</button>
+                    <!-- /ko -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

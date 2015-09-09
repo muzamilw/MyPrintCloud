@@ -1,4 +1,5 @@
 ﻿/*
+/*
     View for the Product. Used to keep the viewmodel clear of UI related logic
 */
 define("product/product.view",
@@ -81,6 +82,31 @@ define("product/product.view",
                 // Hide Press dialog
                 hidePressDialog = function () {
                     $("#pressDialog").modal("hide");
+                },
+                // Show Market Brief Question Dialog
+                showMarketBriefQuestionDialog = function() {
+                    $("#productMarketBriefQuestionDialog").modal("show");
+                },
+                // Hide MarketBriefQuestionDialog
+                hideMarketBriefQuestionDialog = function () {
+                    $("#productMarketBriefQuestionDialog").modal("hide");
+                },
+                // Show Sheet Plan Image the dialog
+                showSheetPlanImageDialog = function () {
+                    $("#sheetPlanModal").modal("show");
+                },
+                // Show Sheet Plan Image the dialog
+                hideSheetPlanImageDialog = function () {
+                    $("#sheetPlanModal").modal("show");
+                },
+                // Show Inks Dialog
+                showInksDialog = function () {
+                    $("#inkDialogModel").modal("show");
+                    initializeLabelPopovers();
+                },
+                // Hide Inks Dialog
+                hideInksDialog = function () {
+                    $("#inkDialogModel").modal("hide");
                 },
                 // Go To Element with Validation Errors
                 gotoElement = function (element) {
@@ -169,17 +195,27 @@ define("product/product.view",
                     }
                     
                     var inputElement = category.isSelected() ?
-                        '<input type="checkbox" checked="checked" data-bind="click: $root.updateCheckedStateForCategory"  />' :
-                        '<input type="checkbox" data-bind="click: $root.updateCheckedStateForCategory" />';
+                        '<input class="bigcheckbox" style="float: right;" type="checkbox" checked="checked" data-bind="click: $root.updateCheckedStateForCategory"  />' :
+                        '<input class="bigcheckbox" style="float: right;" type="checkbox" data-bind="click: $root.updateCheckedStateForCategory" />';
+                    var childCategoryHtml;
+                    if (category.isArchived) {
+                        childCategoryHtml = '<ol class="dd-list"> ' +
+                            '<li class="dd-item dd-item-list" id="liElement-' + category.id + '"> ' +
+                            '<div class="dd-handle-list" ><i class="fa fa-chevron-circle-right cursorShape" data-bind="click: $root.toggleChildCategories"></i></div>' +
+                            '<div class="dd-handle">' +
+                            '<span>' + category.name + '</span>' + '<span style="color:red; font-weight: 700;"> (Archive) </span>'+
+                            inputElement
+                            + '</div></li></ol>';
+                    } else {
+                        childCategoryHtml = '<ol class="dd-list"> ' +
+                            '<li class="dd-item dd-item-list" id="liElement-' + category.id + '"> ' +
+                            '<div class="dd-handle-list" ><i class="fa fa-chevron-circle-right cursorShape" data-bind="click: $root.toggleChildCategories"></i></div>' +
+                            '<div class="dd-handle">' +
+                            '<span>' + category.name + '</span>' +
+                            inputElement
+                            + '</div></li></ol>';
+                    }
 
-                    var childCategoryHtml = '<ol class="dd-list"> ' +
-                        '<li class="dd-item dd-item-list" id="liElement-' + category.id + '"> ' +
-                        '<div class="dd-handle-list" data-bind="click: $root.toggleChildCategories"><i class="fa fa-bars"></i></div>' +
-                        '<div class="dd-handle">' +
-                        '<span>' + category.name + '</span>' +
-                        '<div class="nested-links"> ' +
-                        inputElement +
-                        '</div></div></li></ol>';
 
                     targetElement.append(childCategoryHtml);
 
@@ -407,6 +443,7 @@ define("product/product.view",
 
                             isSliderInitialized = true;
                         }, 1000);
+                    
                     });
                 },
                 // Edit Template
@@ -426,6 +463,24 @@ define("product/product.view",
                 productCategorySelectedEventHandler = function (event) {
                     viewModel.categorySelectedEventHandler(event.category);
                 },
+                // SubCategories Loaded
+                subCategoriesLoadedEventHandler = function (event) {
+                    viewModel.subCategoriesLoadedEventHandler(event.categories);
+                },
+                // Sub Category Selected Event
+                subCategorySelectedEvent = function(category) {
+                    $.event.trigger({
+                        type: "SubCategorySelectedFromProduct",
+                        category: category
+                    });
+                },
+                // Sub Category Edit Event
+                subCategoryEditEvent = function (category) {
+                    $.event.trigger({
+                        type: "SubCategoryEdit",
+                        category: category
+                    });
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -434,7 +489,7 @@ define("product/product.view",
 
                     // subscribe to events
                     $(document).on("ProductCategorySelected", productCategorySelectedEventHandler);
-
+                    $(document).on("SubCategoriesLoaded", subCategoriesLoadedEventHandler);
                 };
             initialize();
             
@@ -464,7 +519,15 @@ define("product/product.view",
                 hidePressDialog: hidePressDialog,
                 initializeLabelPopovers: initializeLabelPopovers,
                 initializeProductMinMaxSlider: initializeProductMinMaxSlider,
-                editTemplate: editTemplate
+                editTemplate: editTemplate,
+                showMarketBriefQuestionDialog: showMarketBriefQuestionDialog,
+                hideMarketBriefQuestionDialog: hideMarketBriefQuestionDialog,
+                showSheetPlanImageDialog: showSheetPlanImageDialog,
+                hideSheetPlanImageDialog: hideSheetPlanImageDialog,
+                showInksDialog: showInksDialog,
+                hideInksDialog: hideInksDialog,
+                subCategorySelectedEvent: subCategorySelectedEvent,
+                subCategoryEditEvent: subCategoryEditEvent
             };
         })(productViewModel);
 

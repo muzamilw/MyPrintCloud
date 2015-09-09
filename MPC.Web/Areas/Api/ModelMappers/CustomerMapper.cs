@@ -45,7 +45,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             }
             string defaultContact = null;
             string email = null;
-            CompanyContact companyContact = source.CompanyContacts.FirstOrDefault(contact => contact.IsDefaultContact == 1);
+           CompanyContact companyContact = source.CompanyContacts.FirstOrDefault(contact => contact.IsDefaultContact == 1);
             if (companyContact != null)
             {
                 defaultContact = companyContact.FirstName + " "+ companyContact.LastName;
@@ -61,8 +61,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Email = source.MarketingBriefRecipient,
                 Status = GetCustomerStatus(source.Status),
                 CompnayId = source.CompanyId,
+                
                 Image = bytes,
                 StoreImagePath = !string.IsNullOrEmpty(source.Image) ? source.Image + "?" + DateTime.Now.ToString() : string.Empty,
+                StoreName = source.StoreName
             };
         }
         #endregion

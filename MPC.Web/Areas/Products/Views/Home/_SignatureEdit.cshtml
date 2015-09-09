@@ -1,155 +1,307 @@
 ﻿<div class="modal fade my-modal" id="signatureEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div style="width:75%;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Signature Details</h4>
+                <h4 class="modal-title" data-bind="text: $root.prodName()"></h4>
             </div>
             <div class="col-lg-12 outerDiv-Padding form-horizontal" data-bind="with: activeItemSection">
+                <div class="col-sm-12 form-horizontal" id="OrderDialogSection1" style="width: 97%; margin-left: 2%; margin-bottom: 1%;">
+                    <div class="col-sm-12">
+                        <div class="form-group" style="text-align: center">
+                            <div class="col-sm-3">
+                                &nbsp;
+                            </div>
+                            <div class="col-sm-7">
+                                <input type="text" style="font-size: 24px;height: 60px;border-bottom: 2px dashed black !important;font-weight: bold;padding-left: 0;border-top: none;border-left: none;border-right: none; text-align: center; color: #C2C2C2" class="form-control" placeholder="Section Name" data-bind="value: name, validationTooltip: name" />
+                                <label class="control-label">Section / Signature / Component Name</label>
+                            </div>
+                            <div class="col-sm-3">&nbsp;</div>
+                            <div class="col-sm-1">
+                                &nbsp;
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="radio col-sm-3 col-lg-2" style="margin-left: 2%">
+                                <input type="radio" name="optionsRadiosFirst" id="optionsRadiosFirst_1" value="1" data-bind="checked: printingTypeUi">
+                                <label for="optionsRadiosFirst_1">
+                                    Sheet Fed
+                                </label>
+                            </div>
+                            <div class="radio col-sm-2" style="margin-left: -13px">
+                                <input type="radio" name="optionsRadiosFirst" id="optionsRadiosFirst_2" value="2" data-bind="checked: printingTypeUi">
+                                <label for="optionsRadiosFirst_2">
+                                    Roll Fed
+                                </label>
+                            </div>
+                        </div>
+                       
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <div class="col-sm-3 col-lg-2 col-md-3 text-left" style="padding-left: 2.5%;">
+                                <label for="switchPrintOnBothSides" data-bind="visible: printingTypeUi() !== '2'" style="float:left" class="control-label text-left tooltip-float">Print on both sides</label>
+                                <!-- ko if: printingTypeUi() === '2' -->
+                                &nbsp;
+                                <!-- /ko -->
+                            </div>
+                            <div class="col-sm-4" style="width: 28.1%">
+                                <div class="onoffswitch" data-bind="visible: printingTypeUi() !== '2'">
+                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchPrintOnBothSides" data-bind="checked: isDoubleSidedUi">
+                                    <label class="onoffswitch-label" for="switchPrintOnBothSides">
+                                        <div class="onoffswitch-inner"></div>
+                                        <div class="onoffswitch-switch"></div>
+                                    </label>
+                                </div>
+                                <!-- ko if: printingTypeUi() === '2' -->
+                                &nbsp;
+                                <!-- /ko -->
+                            </div>
+                            <div class="col-sm-2 col-md-2 col-lg-3" style="padding-left: 0.1%;">
+                                <div class="col-sm-6">
+                                    <label for="switchworknturn" data-bind="visible:isDoubleSidedUi() && printingTypeUi() !== '2'" style="float:left" class="control-label text-left tooltip-float">Work 'n' Turn</label>
+                                </div>
+                                <div class="col-sm-6" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'" style="margin-left:-5.9%">
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchworknturn" data-bind="checked: isWorknTurn">
+                                        <label class="onoffswitch-label" for="switchworknturn">
+                                            <div class="onoffswitch-inner"></div>
+                                            <div class="onoffswitch-switch"></div>
+                                        </label>
+                                    </div>
+                                </div>
 
-                <div class="form-group">
-                    <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
 
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Section Name" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
+                                @*<div class="checkbox-nice" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'">
+               <input type="checkbox" id="checkbox-work_turn" data-bind="checked: isWorknTurn" />
+                <label for="checkbox-work_turn">
+                    Work 'n' Turn
+                </label>
+            </div>*@
+                                <!-- ko if: !isDoubleSided() || (printingTypeUi() === '2') -->
+                                &nbsp;
+                                <!-- /ko -->
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="col-sm-1">&nbsp;</div>
+                                <div class="col-sm-3" style="  padding-left: 11px;
+  padding-right: 0px;">
+                                    <label style="float:left;margin-left: 0px;" class="control-label text-left tooltip-float">Gutter</label>
+                                </div>
+                                <div class="col-sm-3">&nbsp;</div>
+                                <div class="col-sm-4 col-md-4 col-lg-4" style="padding-left: 5px;">
+                                    <input style=" width: 130%;text-align: right" type="text" id="itemGutterTextBox" class="form-control font20px" data-bind="value: itemGutterHorizontal, validationOnElement: itemGutterHorizontal" min="0" max="99" style="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 2px;">
+                            <div class="col-sm-5 text-right">
+                                <label for="switchPrintOnBothSides" class="control-label  tooltip-float" style="float: left; padding-left: 4%;">Press feed size</label>
+                            </div>
+
+                            <div class=" col-sm-5">
+                                <label style="float: left; padding-left: 8%;" class="control-label text-right tooltip-float" data-bind="visible: printingTypeUi() !== '2'">First sheet trim size</label>
+                                <!-- ko if: printingTypeUi() === '2' -->
+                                &nbsp;
+                                <!-- /ko -->
+                            </div>
+
+                            <div class="col-sm-2" style="padding-left: 12px;">
+                                <label style=" float: left;margin-left: 10px" class="control-label text-right tooltip-float" data-bind="visible: printingTypeUi() !== '2'">Number up</label>
+                                <!-- ko if: printingTypeUi() === '2' -->
+                                &nbsp;
+                                <!-- /ko -->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12 text-right" style=" ">
+                                <div class="col-sm-6" style="width: 45%">
+                                    <div class="col-sm-8" data-bind="visible: !isSectionSizeCustom()  && printingTypeUi() !== '2'">
+                                        <select style=" padding-right: 0px; width: 101%;" class="form-control font20px" data-bind="options: $root.sectionPaperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select press feed sheet size', value: sectionSizeId, enable: !isSectionSizeCustom(), validationOnElement: sectionSizeId, validationTooltip: sectionSizeId"></select>
+                                    </div>
+                                    <div class="col-sm-8" data-bind="visible: isSectionSizeCustom() || printingTypeUi() === '2'" style="padding-right: 1.2%">
+                                        <div class="col-sm-5" style="padding-left: 0px;">
+                                            <input type="text" id="sectionSizeHeightTextbox" class="form-control" data-bind="numberValue: sectionSizeHeight,numberFormat: ist.lengthFormat, validationTooltip: sectionSizeHeight, validationDependsOn: sectionSizeHeight, validationOnElement: sectionSizeHeight " />
+                                            <label class="help-block">
+                                                <span data-bind="text: printingTypeUi() !== '2' ? 'Height ' : 'Length '"></span>
+                                                (
+                                                <span data-bind="visible: printingTypeUi() !== '2', text: $root.lengthUnit"></span>
+                                                <span data-bind="visible: printingTypeUi() === '2'">/m <sup>2</sup></span>
+                                                )
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-2 text-center">
+                                            <button style="margin-left: -39%;" data-bind="click: swapSectionHeightWidth, enable: isSectionSizeCustom" class="btn btn-primary btn-Toggle">
+                                                <i class="fa fa-sm"></i>&nbsp;< >
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-5" style="padding-right: 0px;">
+                                            <input type="text" id="sectionSizeWidthTextbox" class="form-control" data-bind="numberValue: sectionSizeWidth,numberFormat: ist.lengthFormat, enable: printingTypeUi() !== '2', validationTooltip: sectionSizeWidth, validationDependsOn: sectionSizeWidth, validationOnElement: sectionSizeWidth " />
+                                            <label class="help-block">
+                                                Width
+                                                (
+                                                <span data-bind="visible: printingTypeUi() !== '2', text: $root.lengthUnit"></span>
+                                                <span data-bind="visible: printingTypeUi() === '2'">/m <sup>2</sup></span>
+                                                )
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4" style="width: 24%; margin-top: 7px;">
+                                        <div class="checkbox-nice" data-bind="visible: printingTypeUi() !== '2'">
+                                            <input type="checkbox" id="checkbox-5" checked="checked" data-bind="checked: isSectionSizeCustom" />
+                                            <label for="checkbox-5">
+                                                Custom
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" data-bind="visible: printingTypeUi() !== '2'">
+                                    <div class="col-sm-6" style=" padding-right: 0px; " data-bind="visible:!isItemSizeCustom()">
+                                        <select style=" width: 99%; margin-left: -4%; padding-right: 0px;" class="form-control font20px" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select trimed Item Size', value: itemSizeId, enable: !isItemSizeCustom(), validationOnElement: itemSizeId, validationTooltip: itemSizeId" style="width: 100%"></select>
+                                    </div>
+                                    <div class="col-sm-6" data-bind="visible:isItemSizeCustom" style="padding-left: 0px;  ">
+                                        <div class="col-sm-5" style="padding-left: 0px; padding-right: 0px; width: 37%; ">
+
+                                            <input type="text" id="itemSizeHeightTextbox" style="  width: 97%;" class="form-control" data-bind="numberValue: itemSizeHeight,numberFormat: ist.lengthFormat, enable:isItemSizeCustom, validationTooltip: itemSizeHeight, validationDependsOn: itemSizeHeight, validationOnElement: itemSizeHeight" />
+                                            <label class="help-block">Height(<span data-bind="text:$root.lengthUnit"></span>)</label>
+                                        </div>
+                                        <div class="col-sm-2 text-center" style="padding-left: 1.5%; ">
+                                            <button style="padding-left: 36%; padding-bottom: 6px" data-bind="click: swapItemHeightWidth, enable: isItemSizeCustom" class="btn btn-primary btn-Toggle">
+                                                <i class="fa fa-sm"></i>&nbsp;< >
+                                            </button>
+                                        </div>
+                                        <div class="col-sm-5" style="padding-right: 0px; width: 39%; padding-left: 0px; margin-left: 15px; ">
+                                            <input type="text" id="itemSizeWidthTextbox" style=" margin-left: 2px; width: 77.5px;" class="form-control" data-bind="numberValue: itemSizeWidth,numberFormat: ist.lengthFormat, enable:isItemSizeCustom, validationTooltip: itemSizeWidth, validationDependsOn: itemSizeWidth, validationOnElement: itemSizeWidth" />
+                                            <label class="help-block">Width(<span data-bind="text:$root.lengthUnit"></span>)</label>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2" style="padding-left: 2px; width: 20%; margin-top: 7px;">
+                                        <div class="checkbox-nice">
+                                            <input type="checkbox" id="checkbox-4" data-bind="checked: isItemSizeCustom" />
+                                            <label for="checkbox-4">
+                                                Custom
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3" style=" margin-left: 7px; width: 19.2%; padding-right: 0px; " data-bind="visible: printingTypeUi() !== '2'">
+                                        <button class="btn btn-primary pull-right font20px" style="width: 100%" id="numberUpTextBox" data-bind="text: numberUp, validationOnElement: numberUp, click: $root.getPtvPlan"></button>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
 
-                        <label class="control-label text-right tooltip-float">Section Name</label>
+                        <div class="form-group" style="margin-bottom: 2px;">
+                            <div class="col-sm-10 text-right" style="padding-left: 2.5%">
+                                <label style="float: left;" for="switchPrintOnBothSides" class="control-label text-right tooltip-float">Side 1 Press Profile</label>
+                            </div>
 
-                    </div>
+                            <div class=" col-sm-2" style="padding-left: 12px;">
+                                <label style="float: left;margin-left: 13px" class="control-label text-right tooltip-float">Color #1</label>
 
-                    <div class="col-lg-6">
-                        <input type="text" class="form-control" placeholder="Enter Section Name" data-bind="value: name">
-                        <span class="help-block text-right"></span>
-                    </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 text-right" style="padding-left: 2.4%;width: 69.5%;">
+                                <select class="form-control font20px" data-bind="options: $root.presses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Press', value: pressId, validationOnElement: pressId"></select>
+                            </div>
 
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
+                            <div class="col-sm-1 text-right" style="margin-left: -0.5%; width: 12.6%;">
+                                <select class="form-control font20px" data-bind="options: $root.impressionCoverages, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'Select Impression', value: impressionCoverageSide1"></select>
+                            </div>
+                            <div class="col-sm-1 text-right" style="width: 4%; margin-left: -1%;padding-top: 1%;">
+                                <!-- ko if: pressIdSide1IsSpotColor -->
+                                <img src="~/Content/Images/Section_spotColor.jpeg" style="  width: 100%; float: left;" />
+                                <!-- /ko -->
+                                <!-- ko if: !pressIdSide1IsSpotColor() -->
+                                <img src="~/Content/Images/Order_Section_CMYK_circle.jpeg" style="  width: 100%; float: left;" />
+                                <!-- /ko -->
+                            </div>
+                            <div class="col-sm-2 text-right" style=" margin-left: -0.8%; width: 10%;">
+                                <button class="btn btn-primary font20px" id="side1InkColorBtn" style="  width: 100%;" data-bind="click: $root.openInkDialog">
+                                    <span data-bind="text: pressIdSide1ColourHeads"></span>
+                                    <span>c</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'" style="margin-bottom: 2px;">
+                            <div class="col-sm-5 text-right" style="padding-left: 2.5%">
+                                <label data-bind="text: !isWorknTurn() ? 'Side 2' : 'Side 2 - Double side and Work n Trun, Passes = 2'" class="control-label tooltip-float" style="float: left;">Side 2 - Double side and Work n Trun, Passes = 2</label>
+                            </div>
 
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Press Name" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
+                            <div class="radio col-sm-3">
+                                &nbsp;
+                            </div>
+                            <div class="col-sm-2 text-right" style="padding-right:0;">
+                                &nbsp;
+                            </div>
+                            <div class=" col-sm-2" style="padding-left: 12px;" data-bind="visible: !isWorknTurn()">
+                                <label class="control-label" style="margin-left: 13px">Color #2</label>
 
+                            </div>
+                        </div>
+                        <div class="form-group" style="" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2' && !isWorknTurn()">
+                            <div class="col-sm-8 text-right" style="padding-left: 2.4%;width: 69.5%;">
+                                <select class="form-control font20px" data-bind="options: $root.presses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Press', value: pressIdSide2"></select>
+                            </div>
+
+                            <div class="col-sm-1 text-right" style="margin-left: -0.5%; width: 12.6%;">
+                                <select class="form-control font20px" data-bind="options: $root.impressionCoverages, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'Select Impression', value: impressionCoverageSide2"></select>
+                            </div>
+                            <div class="col-sm-1 text-right" style="width: 4%; margin-left: -1%;padding-top: 1%;">
+                                <!-- ko if: pressIdSide2IsSpotColor -->
+                                <img src="~/Content/Images/Section_spotColor.jpeg" style="  width: 100%; float: left;" />
+                                <!-- /ko -->
+                                <!-- ko if: !pressIdSide2IsSpotColor() -->
+                                <img src="~/Content/Images/Order_Section_CMYK_circle.jpeg" style="  width: 100%; float: left;" />
+                                <!-- /ko -->
+                            </div>
+                            <div class="col-sm-2 text-right" style=" margin-left: -0.8%; width: 10%;">
+                                <button class="btn btn-primary font20px" id="side2InkColorBtn" style="  width: 100%;" data-bind="click: $root.openInkDialog">
+                                    <span data-bind="text: pressIdSide2ColourHeads"></span>
+                                    <span>c</span>
+                                </button>
+                            </div>
                         </div>
 
-                        <label class="control-label text-right tooltip-float">Press</label>
+                        <div class="form-group">
+                            <div class="col-lg-3 text-right" style="width:17.5%;">
+                                <label for="switchPrintOnBothSides" class="control-label text-right tooltip-float">Paper / Board / Substrate</label>
+                            </div>
+                            <div class="radio col-lg-2">
+                                &nbsp;
+                            </div>
+                            <div class="radio col-lg-3">
+                                &nbsp;
+                            </div>
+                            <div class="col-lg-2 text-right" style="padding-right:0;">
+                                &nbsp;
+                            </div>
+                            <div class=" col-lg-2" style="padding-right: 2.8%;">
+                                <label class="control-label text-right tooltip-float">&nbsp;</label>
 
-                    </div>
-                    <div class="col-lg-6">
-                        <input type="text" class="form-control StockPres-Style" id="txtPress" placeholder="Press Name" data-bind="value: pressName, enable: false">
-                        <a href="#" data-bind="click: $root.openPressDialog" class="btn btn-primary pull-right">
-                            <i class="fa fa-lg"></i>&nbsp;....
-                        </a>
-                        <span class="help-block text-right"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Stock Name" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
+                            </div>
                         </div>
-                        <label class="control-label text-right tooltip-float">Stock</label>
-                    </div>
-                    <div class="col-lg-6">
-                        <input type="text" class="form-control StockPres-Style" placeholder="Stock Name" data-bind="value: stockItemName, enable: false">
+                        <div class="form-group" style="margin-top: -2%;">
+                            <div class="col-lg-8 text-right" style="padding-left: 2.4%;width: 70.5%;">
+                                <input type="text" style="width: 99%; margin-right: 5px;" data-bind="value: stockItemName, validationTooltip: stockItemId, enable: false, validationOnElement: stockItemName" class="form-control OpenStockPopup-Class font20px" id="txtStock">
+                            </div>
 
-                        <a href="#" data-bind="click: $parent.chooseStockItemForSection" class="btn btn-primary pull-right">
-                            <i class="fa fa-lg"></i>&nbsp;....
-                        </a>
-                        <span class="help-block text-right"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Section Size" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
+                            <div class="col-lg-1 text-right" style="padding-left: 0; margin-left: -0.6%; width: 12%;">
+                                <span style="float: left;margin-top: 10px">
+                                    Pack size:
+                                    <span data-bind="text: stockItemPackageQty"></span>
+                                </span>
+                            </div>
+                            <div class="col-lg-2 text-right" style=" margin-left: 0; width: 17%;">
+                                <a data-bind="click: $parent.chooseStockItemForSection" href="#" class="btn btn-primary" style="margin-left: 12%; width: 55%; float: left;">
+                                    <i class="fa fa-lg"></i>&nbsp;....
+                                </a>
+                            </div>
                         </div>
-                        <label class="control-label text-right tooltip-float">Section Size</label>
-                    </div>
-                    <div class="col-lg-6">
-                        <select class="form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: sectionSizeId"></select>
-                        <span class="help-block text-right"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Page Sheet Size" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-                        </div>
-                        <label class="control-label text-right tooltip-float">Page Sheet Size</label>
-                    </div>
-                    <div class="col-lg-6">
-                        <select class="form-control" data-bind="options: $root.paperSizes, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: itemSizeId"></select>
-                        <span class="help-block text-right"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Is Section Size Custom" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-                        </div>
-                        <label class="control-label text-right tooltip-float">Is Section Size Custom</label>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="onoffswitch">
-                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchSectionSizeCustom" data-bind="checked: isSectionSizeCustom">
-                            <label class="onoffswitch-label" for="switchSectionSizeCustom">
-                                <div class="onoffswitch-inner"></div>
-                                <div class="onoffswitch-switch"></div>
-                            </label>
-                        </div>
-                        <span class="help-block text-right"></span>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="col-lg-3">
-                            <input type="text" class="form-control" data-bind="value: sectionSizeHeight, visible: isSectionSizeCustom">
-                        </div>
-                        <div class="col-lg-3">
-                            <input type="text" class="form-control" data-bind="value: sectionSizeWidth, visible: isSectionSizeCustom">
-                        </div>
-                        <span class="help-block text-right"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-3 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Is Page Size Custom" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-                        </div>
-                        <label class="control-label text-right tooltip-float">Is Page Size Custom</label>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="onoffswitch">
-                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchItemSizeCustom" data-bind="checked: isItemSizeCustom">
-                            <label class="onoffswitch-label" for="switchItemSizeCustom">
-                                <div class="onoffswitch-inner"></div>
-                                <div class="onoffswitch-switch"></div>
-                            </label>
-                        </div>
-                        <span class="help-block text-right"></span>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="col-lg-3">
-                            <input type="text" class="form-control" data-bind="value: itemSizeHeight, visible: isItemSizeCustom">
-                        </div>
-                        <div class="col-lg-3">
-                            <input type="text" class="form-control" data-bind="value: itemSizeWidth, visible: isItemSizeCustom">
-                        </div>
-                        <span class="help-block text-right"></span>
+
                     </div>
                 </div>
             </div>

@@ -1,4 +1,6 @@
-﻿using MPC.Models.RequestModels;
+﻿using System.Collections.Generic;
+using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
 namespace MPC.Interfaces.MISServices
@@ -12,5 +14,10 @@ namespace MPC.Interfaces.MISServices
         /// Get Order Statuses Response
         /// </summary>
         OrderStatusesResponse GetOrderStatusesCount(DashboardRequestModel request);
+
+        /// <summary>
+        /// Get Total Earnings For Dashboard
+        /// </summary>
+        DashBoardChartsResponse GetChartsForDashboard();
     }
 }

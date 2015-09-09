@@ -9,6 +9,8 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface ITemplateRepository : IBaseRepository<Template, int>
     {
+        int DeleteTemplate(long templateId);
+
         Template GetTemplate(long productID, bool loadPages);
 
         List<MatchingSets> BindTemplatesList(string TemplateName, int pageNumber, long CustomerID, int CompanyID, List<ProductCategoriesView> PCview);
@@ -31,7 +33,9 @@ namespace MPC.Interfaces.Repository
 
         double getOrganisationBleedArea(long organisationID);
 
-        void regeneratePDFs(long productID, long OrganisationID, bool printCuttingMargins, bool isMultipageProduct, bool drawBleedArea, double bleedAreaSize);
-      
+       
+        double ConvertLength(double Input, MPC.Models.Common.LengthUnit InputUnit, MPC.Models.Common.LengthUnit OutputUnit);
+
+        bool updatecontactId(long templateId, long contactId);
     }
 }

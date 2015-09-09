@@ -2,6 +2,7 @@
 using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -40,22 +41,22 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _smartFormRepository.GetUsersList(contactId);
         }
-        public SmartForm GetSmartForm(long smartFormId)
+        public SmartFormWebstoreResponse GetSmartForm(long smartFormId)
         {
             return _smartFormRepository.GetSmartForm(smartFormId);
         }
 
-        public List<SmartFormDetail> GetSmartFormObjects(long smartFormId)
+        public List<SmartFormDetail> GetSmartFormObjects(long smartFormId, out List<VariableOption> listVariables)
         {
-            return _smartFormRepository.GetSmartFormObjects(smartFormId);
+            return _smartFormRepository.GetSmartFormObjects(smartFormId, out listVariables);
         }
-        public List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables, long contactId)
+        public List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables, long contactId, long templateId)
         {
-            return _smartFormRepository.GetScopeVariables(smartFormDetails,out hasContactVariables,contactId);
+            return _smartFormRepository.GetScopeVariables(smartFormDetails,out hasContactVariables,contactId,templateId);
         }
-        public Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, List<SmartFormUserList> contacts, long templateId)
+        public Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, List<SmartFormUserList> contacts, long templateId, long currentTemplateId)
         {
-            return _smartFormRepository.GetUserScopeVariables(smartFormDetails, contacts, templateId);
+            return _smartFormRepository.GetUserScopeVariables(smartFormDetails, contacts, templateId,currentTemplateId);
         }
         public string SaveUserProfilesData(Dictionary<long, List<ScopeVariable>> obj)
         {
@@ -75,6 +76,7 @@ namespace MPC.Implementation.WebStoreServices
         public string[] GetContactImageAndCompanyLogo(long contactID)
         {
            return _smartFormRepository.GetContactImageAndCompanyLogo(contactID);
+
         }
         public List<ScopeVariable> GetUserTemplateVariables(long itemId, long contactID)
         {
@@ -88,6 +90,10 @@ namespace MPC.Implementation.WebStoreServices
         public bool AutoResolveTemplateVariables(long itemID, long contactId)
         {
             return _smartFormRepository.AutoResolveTemplateVariables(itemID, contactId);
+        }
+        public List<VariableExtensionWebstoreResposne> getVariableExtensions(List<ScopeVariable> listScope, long contactId)
+        {
+            return _smartFormRepository.getVariableExtensions(listScope, contactId);
         }
         #endregion
     }

@@ -246,6 +246,7 @@
     <Content Include="Global.asax" />
     <Content Include="MPC_Themes\classic.zip" />
     <Content Include="MPC_Themes\olson.rar" />
+    <Content Include="MPC_Themes\Oxford.zip" />
     <None Include="Properties\PublishProfiles\MPC_themes.pubxml" />
     <Content Include="MPC_Themes\summer.zip" />
     <None Include="Properties\PublishProfiles\Mpc_Theme_Saqib.pubxml" />

@@ -21,7 +21,8 @@ namespace MPC.MIS.Areas.Api.Models
         public string Description { get; set; }
         public Nullable<int> ItemType { get; set; }
         public Nullable<int> TaxId { get; set; }
-
+        public double? TaxValue { get; set; }
+        public double? ItemGrossTotal { get; set; }
         public virtual Invoice Invoice { get; set; }
         public virtual Item Item { get; set; }
     }

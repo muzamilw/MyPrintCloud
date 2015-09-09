@@ -1,10 +1,12 @@
 ﻿
-<div data-bind="visible: $root.isClickChargeZonesEditorVisible(), with: selectedClickChargeZones()" style="display: none">
+<div data-bind="visible: $root.isClickChargeZonesEditorVisible" >
+    
     <div>
         <h3 style="padding-right:10px;margin:0px;">Specify values for the click charge Zone Calculation</h3>
     </div>
+    
     <br />
-    <div class="form-group">
+    @*<div class="form-group">
         <div class="col-lg-5 text-right col-padding">
             <div class="bs-example-tooltips tooltip-float-width">
                 <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter the name of the Lookup method" data-original-title="" title="">
@@ -17,13 +19,11 @@
             <input type="text" name="Store Name" class="form-control" data-bind="value:Name" placeholder="Click Charge Zone Lookup">
 
         </div>
-    </div>
-    <div class="form-group">
-        @*<div style="margin-top:20px;">*@
-        @*<div class="aligndivs" style="text-align:right;width:265px;display:inline;">*@
+    </div>*@
+    @*<div class="form-group">
+      
         <div class="col-lg-5"> </div>
-        @*<div class="col-lg-6 col-padding">*@
-        @*class="aligndivs"*@
+      
         <div class="checkbox-nice col-lg-6 col-padding" style="display:inline;position:relative;">
             <input type="checkbox" id="checkbox-1" style="position:relative;" data-bind="checked:isaccumulativecharge">
             <label for="checkbox-1" style="padding-left: 5px;">
@@ -33,10 +33,10 @@
 
         </div>
 
-    </div>
-    <div class="form-group">
+    </div>*@
+    @*<div class="form-group">
         <div class="col-lg-5"> </div>
-        @*<div class="col-lg-6 col-padding" style="margin-top: 3px;">*@
+        
             <div class="checkbox-nice col-lg-7 col-padding" style="display:inline;position:relative;">
                 <input type="checkbox" id="checkbox-2" style="position:relative;" data-bind="checked:IsRoundUp">
                 <label for="checkbox-2" style="display:inline; padding-left: 5px;">
@@ -44,376 +44,323 @@
                 </label>
            
         </div>
-    </div>
-    <div class="form-group">
-        <div style="margin-top:20px;">
-            <div class="aligndivs" style="text-align:right;width:265px;display:inline;">
-                <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">Specify Click Charge Zone Rates</label>
+    </div>*@
+    <div class="form-group col-lg-12">
+      
+            <div class="col-lg-3" style="text-align:right;display:inline;">
+                <label class="control-label text-right tooltip-float" style="float:right;">Specify Click Charge Zone Rates</label>
             </div>
-            <div class="aligndivs" style="width:145px;">
-                <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">Chargeable Sheets</label>
+            <div class="col-lg-1">
+                &nbsp;
             </div>
-            <div class="aligndivs" style="width:100px;text-align:center;">
-                <label for="txtCompanyName" class="control-label text-right">Cost</label>
+            <div class="col-lg-1">
+                <label class="control-label tooltip-float" style="text-align:left !important;">Chargeable Sheets</label>
             </div>
-            <div class="aligndivs" style="width:100px;text-align:center;">
-                <label for="txtCompanyName" class="control-label text-right">Price</label>
-            </div>
+        <div class="col-lg-1">
+            <div><label class="control-label">Cost </label></div>
+            <div><label data-bind="text:$root.CurrencySymbol"></label></div>
+            
         </div>
-
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">From</label>
+        <div class="col-lg-1">
+            <div><label class="control-label">Price </label></div>
+            <div><label data-bind="text:$root.CurrencySymbol"></label></div>
         </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
-                <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From1" style="float:right;"></label>
-            </div>
-        <div class="aligndivs" style="text-align:center;width:40px;display:inline;">
-            <label for="txtCompanyName" class="control-label tooltip-float marginR10" >To</label>
-        </div>
-        <div class="aligndivs marginR7">
-            <input type="text" class="form-control" data-bind="autoNumeric: To1 , settings:{mDec:0},event:{ change: function(){ $root.onChangeToValue('1');}}" placeholder="0">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets1, settings:{mDec:0}" placeholder="0" >
-        </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost1, settings:{mDec:2}" placeholder="0" >
-        </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice1, settings:{mDec:2}" placeholder="0" >
-        </div>
-    </div>
-
-    <div class="form-group">
-
-    
-        <div class="aligndivsFisrt" >
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From2" style="float:right;"></label>
-        </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
-        </div>
-        <div class="aligndivs marginR7">
-            <input type="text" class="form-control" data-bind="autoNumeric:To2, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('2');}}" placeholder="0" >
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets2, settings:{mDec:0}" placeholder="0" >
-        </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost2, settings:{mDec:2}" placeholder="0" >
-        </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice2, settings:{mDec:2}" placeholder="0" >
-        </div>
-
-
-    </div>
-
-
-    <div class="form-group">
         
-        <div class="aligndivsFisrt">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From3" style="float:right;"></label>
+
+    </div>
+
+
+
+    <div class="form-group col-lg-12">
+        <div class="col-lg-3">
+            
+                <label class="control-label text-right tooltip-float" style="float:right;">From</label>
+                <label  class="control-label text-right tooltip-float" data-bind="text:$root.selectedClickChargeZones() ? $root.selectedClickChargeZones().From1() : ''" style="float:right;margin-right:10px;"></label>&nbsp;&nbsp;
+                <label class="control-label tooltip-float marginR10">To</label>
+            
         </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value: $root.selectedClickChargeZones().To1, settings:{mDec:0},event:{ change: function(){ $root.onChangeToValue('1');}}" placeholder="0">
         </div>
-        <div class="aligndivs marginR7">
-            <input type="text" class="form-control" data-bind="autoNumeric:To3, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('3');}}" placeholder="0">
+     
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value: $root.selectedClickChargeZones().Sheets1, settings:{mDec:0}" placeholder="0">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets3, settings:{mDec:0}" placeholder="0" >
+        <div class="col-lg-1">
+            
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value: $root.selectedClickChargeZones().SheetCost1, settings:{mDec:2}" placeholder="0">
         </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost3, settings:{mDec:2}" placeholder="0" >
+        <div class="col-lg-1">
+            
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value: $root.selectedClickChargeZones().SheetPrice1, settings:{mDec:2}" placeholder="0">
         </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice3, settings:{mDec:2}" placeholder="0" >
+    </div>
+
+    <div class="form-group col-lg-12">
+
+
+        <div class="col-lg-3">
+            <label class="control-label text-right tooltip-float" data-bind="text:$root.selectedClickChargeZones().From2" style="float:right;"></label>
+        </div>
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().To2, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('2');}}" placeholder="0">
+        </div>
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().Sheets2, settings:{mDec:0}" placeholder="0">
+        </div>
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetCost2, settings:{mDec:2}" placeholder="0">
+        </div>
+        <div class="col-lg-1">
+
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetPrice2, settings:{mDec:2}" placeholder="0">
+        </div>
+
+
+    </div>
+
+
+    <div class="form-group col-lg-12">
+
+        <div class="col-lg-3">
+            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:$root.selectedClickChargeZones() ? $root.selectedClickChargeZones().From3() : 0" style="float:right;"></label>
+        </div>
+
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().To3, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('3');}}" placeholder="0">
+        </div>
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().Sheets3, settings:{mDec:0}" placeholder="0">
+        </div>
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetCost3, settings:{mDec:2}" placeholder="0">
+        </div>
+        <div class="col-lg-1">
+
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetPrice3, settings:{mDec:2}" placeholder="0">
         </div>
 
     </div>
 
-    <div class="form-group">
-        <div class="aligndivsFisrt">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From4" style="float:right;"></label>
+    <div class="form-group col-lg-12">
+        <div class="col-lg-3">
+            <label class="control-label text-right tooltip-float" data-bind="text:$root.selectedClickChargeZones() ? $root.selectedClickChargeZones().From4() : 0" style="float:right;"></label>
         </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().To4, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('4');}}" placeholder="0">
         </div>
-        <div class="aligndivs marginR7">
-            <input type="text" class="form-control" data-bind="autoNumeric:To4, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('4');}}" placeholder="0">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().Sheets4, settings:{mDec:0}" placeholder="0">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets4, settings:{mDec:0}" placeholder="0" >
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetCost4, settings:{mDec:2}" placeholder="0">
         </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost4, settings:{mDec:2}" placeholder="0" >
-        </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice4, settings:{mDec:2}" placeholder="0" >
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetPrice4, settings:{mDec:2}" placeholder="0">
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="aligndivsFisrt">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From5" style="float:right;"></label>
+    <div class="form-group col-lg-12">
+        <div class="col-lg-3">
+            <label class="control-label text-right tooltip-float" data-bind="text:$root.selectedClickChargeZones() ? $root.selectedClickChargeZones().From5() : 0" style="float:right;"></label>
         </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().To5, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('5');}}" placeholder="0" style="width:68px;">
         </div>
-        <div class="aligndivs marginR7">
-            <input type="text" class="form-control" data-bind="autoNumeric:To5, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('5');}}" placeholder="0" style="width:68px;">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().Sheets5, settings:{mDec:0}" placeholder="0">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets5, settings:{mDec:0}" placeholder="0" >
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetCost5, settings:{mDec:2}" placeholder="0">
         </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost5, settings:{mDec:2}" placeholder="0" >
-        </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice5, settings:{mDec:2}" placeholder="0" >
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetPrice5, settings:{mDec:2}" placeholder="0">
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="aligndivsFisrt">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From6" style="float:right;"></label>
+    <div class="form-group col-lg-12">
+        <div class="col-lg-3">
+            <label class="control-label text-right tooltip-float" data-bind="text:$root.selectedClickChargeZones() ? $root.selectedClickChargeZones().From6() : 0" style="float:right;"></label>
         </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().To6, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('6');}}" placeholder="0">
         </div>
-        <div class="aligndivs marginR7">
-            <input type="text" class="form-control" data-bind="autoNumeric:To6, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('6');}}" placeholder="0">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().Sheets6, settings:{mDec:0}" placeholder="0">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets6, settings:{mDec:0}" placeholder="0" >
+        <div class="col-lg-1">
+
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetCost6, settings:{mDec:2}" placeholder="0">
         </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost6, settings:{mDec:2}" placeholder="0" >
-        </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice6, settings:{mDec:2}" placeholder="0" >
+        <div class="col-lg-1">
+
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetPrice6, settings:{mDec:2}" placeholder="0">
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="aligndivsFisrt">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From7" style="float:right;"></label>
+    <div class="form-group col-lg-12">
+        <div class="col-lg-3">
+            <label class="control-label text-right tooltip-float" data-bind="text:$root.selectedClickChargeZones() ? $root.selectedClickChargeZones().From7() : 0" style="float:right;"></label>
         </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().To7, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('7');}}" placeholder="0">
         </div>
-        <div class="aligndivs marginR7">
-            <input type="text" class="form-control" data-bind="autoNumeric:To7, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('7');}}" placeholder="0">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().Sheets7, settings:{mDec:0}" placeholder="0">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets7, settings:{mDec:0}" placeholder="0" >
+        <div class="col-lg-1">
+            
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetCost7, settings:{mDec:2}" placeholder="0">
         </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost7, settings:{mDec:2}" placeholder="0" >
-        </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice7, settings:{mDec:2}" placeholder="0" >
+        <div class="col-lg-1">
+            
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetPrice7, settings:{mDec:2}" placeholder="0">
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="aligndivsFisrt">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From8" style="float:right;"></label>
+    <div class="form-group col-lg-12">
+        <div class="col-lg-3">
+            <label class="control-label text-right tooltip-float" data-bind="text:$root.selectedClickChargeZones() ? $root.selectedClickChargeZones().From8() : 0" style="float:right;"></label>
         </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().To8, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('8');}}" placeholder="0">
         </div>
-        <div class="aligndivs marginR7">
-            <input type="text" class="form-control" data-bind="autoNumeric:To8, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('8');}}" placeholder="0">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().Sheets8, settings:{mDec:0}" placeholder="0">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets8, settings:{mDec:0}" placeholder="0" >
+        <div class="col-lg-1">
+            
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetCost8, settings:{mDec:2}" placeholder="0">
         </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost8, settings:{mDec:2}" placeholder="0" >
-        </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice8, settings:{mDec:2}" placeholder="0" >
+        <div class="col-lg-1">
+            
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetPrice8, settings:{mDec:2}" placeholder="0">
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="aligndivsFisrt">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From9" style="float:right;"></label>
+    <div class="form-group col-lg-12">
+        <div class="col-lg-3">
+            <label class="control-label text-right tooltip-float" data-bind="text:$root.selectedClickChargeZones() ? $root.selectedClickChargeZones().From9() : 0" style="float:right;"></label>
         </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().To9, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('9');}}" placeholder="0">
         </div>
-        <div class="aligndivs marginR7">
-            <input type="text" class="form-control" data-bind="autoNumeric:To9, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('9');}}" placeholder="0">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().Sheets9, settings:{mDec:0}" placeholder="0">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets9, settings:{mDec:0}" placeholder="0" >
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetCost9, settings:{mDec:2}" placeholder="0">
         </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost9, settings:{mDec:2}" placeholder="0" >
-        </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice9, settings:{mDec:2}" placeholder="0" >
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetPrice9, settings:{mDec:2}" placeholder="0">
         </div>
     </div>
 
-    <div class="form-group">
-
-
-        <div class="aligndivsFisrt">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From10" style="float:right;"></label>
+    <div class="form-group col-lg-12">
+        <div class="col-lg-3">
+            <label class="control-label text-right tooltip-float" data-bind="text:$root.selectedClickChargeZones() ? $root.selectedClickChargeZones().From10() : 0" style="float:right;"></label>
         </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().To10, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('10');}}" placeholder="0">
         </div>
-        <div class="aligndivs marginR7">
-            <input type="text" class="form-control" data-bind="autoNumeric:To10, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('10');}}" placeholder="0">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().Sheets10, settings:{mDec:0}" placeholder="0">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets10, settings:{mDec:0}" placeholder="0" >
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetCost10, settings:{mDec:2}" placeholder="0">
         </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost10, settings:{mDec:2}" placeholder="0" >
-        </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice10, settings:{mDec:2}" placeholder="0" >
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetPrice10, settings:{mDec:2}" placeholder="0">
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="aligndivsFisrt">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From11" style="float:right;"></label>
+    <div class="form-group col-lg-12">
+        <div class="col-lg-3">
+            <label class="control-label text-right tooltip-float" data-bind="text:$root.selectedClickChargeZones().From11" style="float:right;"></label>
         </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().To11, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('11');}}" placeholder="0">
         </div>
-        <div class="aligndivs marginR7">
-            <input type="text" class="form-control" data-bind="autoNumeric:To11, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('11');}}" placeholder="0">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().Sheets11, settings:{mDec:0}" placeholder="0">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets11, settings:{mDec:0}" placeholder="0" >
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetCost11, settings:{mDec:2}" placeholder="0">
         </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost11, settings:{mDec:2}" placeholder="0" >
-        </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice11, settings:{mDec:2}" placeholder="0" >
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetPrice11, settings:{mDec:2}" placeholder="0">
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="aligndivsFisrt">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From12" style="float:right;"></label>
+    <div class="form-group col-lg-12">
+        <div class="col-lg-3">
+            <label class="control-label text-right tooltip-float" data-bind="text:$root.selectedClickChargeZones() ? $root.selectedClickChargeZones().From12() : 0" style="float:right;"></label>
         </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().To12, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('12');}}" placeholder="0">
         </div>
-        <div class="aligndivs marginR7">
-            <input type="text" class="form-control" data-bind="autoNumeric:To12, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('12');}}" placeholder="0">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().Sheets12, settings:{mDec:0}" placeholder="0">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets12, settings:{mDec:0}" placeholder="0" >
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetCost12, settings:{mDec:2}" placeholder="0">
         </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost12, settings:{mDec:2}" placeholder="0" >
-        </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice12, settings:{mDec:2}" placeholder="0" >
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetPrice12, settings:{mDec:2}" placeholder="0">
         </div>
     </div>
-    <div class="form-group">
-        <div class="aligndivsFisrt">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From13" style="float:right;"></label>
+    <div class="form-group col-lg-12">
+        <div class="col-lg-3">
+            <label class="control-label text-right tooltip-float" data-bind="text:$root.selectedClickChargeZones() ? $root.selectedClickChargeZones().From13() : 0" style="float:right;"></label>
         </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().To13, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('13');}}" placeholder="0">
         </div>
-        <div class="aligndivs marginR7">
-            <input type="text" class="form-control" data-bind="autoNumeric:To13, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('13');}}" placeholder="0">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().Sheets13, settings:{mDec:0}" placeholder="0">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets13, settings:{mDec:0}" placeholder="0" >
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetCost13, settings:{mDec:2}" placeholder="0">
         </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost13, settings:{mDec:2}" placeholder="0" >
-        </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice13, settings:{mDec:2}" placeholder="0" >
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetPrice13, settings:{mDec:2}" placeholder="0">
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="aligndivsFisrt">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From14" style="float:right;"></label>
+    <div class="form-group col-lg-12">
+        <div class="col-lg-3">
+            <label class="control-label text-right tooltip-float" data-bind="text:$root.selectedClickChargeZones() ? $root.selectedClickChargeZones().From14() : 0" style="float:right;"></label>
         </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().To14, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('14');}}" placeholder="0">
         </div>
-        <div class="aligndivs marginR7">
-            <input type="text" class="form-control" data-bind="autoNumeric:To14, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('14');}}" placeholder="0">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().Sheets14, settings:{mDec:0}" placeholder="0">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets14, settings:{mDec:0}" placeholder="0" >
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetCost14, settings:{mDec:2}" placeholder="0">
         </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost14, settings:{mDec:2}" placeholder="0" >
-        </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice14, settings:{mDec:2}" placeholder="0" >
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetPrice14, settings:{mDec:2}" placeholder="0">
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="aligndivsFisrt">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From15" style="float:right;"></label>
+    <div class="form-group col-lg-12">
+        <div class="col-lg-3">
+            <label class="control-label text-right tooltip-float" data-bind="text:$root.selectedClickChargeZones() ? $root.selectedClickChargeZones().From15() : 0" style="float:right;"></label>
         </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().To15, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('15');}}" placeholder="0">
         </div>
-        <div class="aligndivs marginR7">
-            <input type="text" class="form-control" data-bind="autoNumeric:To15, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('15');}}" placeholder="0">
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().Sheets15, settings:{mDec:0}" placeholder="0">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets15, settings:{mDec:0}" placeholder="0" >
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetCost15, settings:{mDec:2}" placeholder="0">
         </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost15, settings:{mDec:2}" placeholder="0" >
-        </div>
-        <div class="aligndivsCurr">
-            <span class="input-group-addon" tabindex="-1" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
-            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice15, settings:{mDec:2}" placeholder="0" >
+        <div class="col-lg-1">
+            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetPrice15, settings:{mDec:2}" placeholder="0">
         </div>
     </div>
-
 </div>

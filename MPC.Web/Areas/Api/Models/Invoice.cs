@@ -17,6 +17,8 @@ namespace MPC.MIS.Areas.Api.Models
         public DateTime? InvoiceDate { get; set; }
         public double? InvoiceTotal { get; set; }
         public string ContactName { get; set; }
+        public short? InvoiceStatus { get; set; }
+        public Guid? InvoicePostedBy { get; set; }
         public string Status { get; set; }
         public int? FlagId { get; set; }
         public long? CompanyId { get; set; }
@@ -35,7 +37,10 @@ namespace MPC.MIS.Areas.Api.Models
         public Guid? ReportSignedBy { get; set; }
         public string HeadNotes { get; set; }
         public string FootNotes { get; set; }
+        public long? StoreId { get; set; }
+        public short IsCustomer { get; set; }
         public ICollection<InvoiceDetail> InvoiceDetails { get; set; }
+        public ICollection<OrderItem> Items { get; set; }
 
     }
 }

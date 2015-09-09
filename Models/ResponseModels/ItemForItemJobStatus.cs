@@ -20,7 +20,12 @@ namespace MPC.Models.ResponseModels
         /// <summary>
         /// Code
         /// </summary>
-        public string Code { get; set; }
+        public string ItemCode { get; set; }
+
+        /// <summary>
+        /// Order Code
+        /// </summary>
+        public string OrderCode { get; set; }
 
         /// <summary>
         /// Company Name
@@ -45,11 +50,13 @@ namespace MPC.Models.ResponseModels
         /// <summary>
         /// Status Id
         /// </summary>
-        public short? StatusId { get; set; }
+        public int? StatusId { get; set; }
 
         /// <summary>
         /// Expected Shipping Date
         /// </summary>
         public DateTime? JobEstimatedCompletionDateTime { get; set; }
+
+        public DateTime? JobEstimatedStartDateTime { get; set; }
     }
 }

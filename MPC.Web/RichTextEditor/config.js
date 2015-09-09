@@ -9,7 +9,6 @@ CKEDITOR.editorConfig = function (config) {
     // config.uiColor = '#AADC6E';
 
    // config.toolbar = 'Full';
-
     //config.toolbar_Full =
     //[
     //    { name: 'document', items: ['Source', '-', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', '-', 'Templates'] },
@@ -32,12 +31,24 @@ CKEDITOR.editorConfig = function (config) {
     //    { name: 'tools', items: ['Maximize', 'ShowBlocks', '-'] }
     //];
 
-
+    
     config.toolbarCanCollapse = true;
     //config.fullPage = true;
-    config.allowedContent = true;
+    //config.allowedContent = true;
     config.baseFloatZIndex = 10000;
     config.removeDialogTabs = 'image:advanced';
     //config.extraPlugins = 'wysiwygarea';
     config.removeDialogTabs = 'link:target;link:advanced;image:Link;image:advanced';
+    config.allowedContent = {
+        script: true,
+        $1: {
+            // This will set the default set of elements
+            elements: CKEDITOR.dtd,
+            attributes: true,
+            styles: true,
+            classes: true
+        }
+    };
 };
+
+

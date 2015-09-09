@@ -1,0 +1,97 @@
+﻿
+@using MPC.Models.Common
+@using MPC.Webstore.WebGridExtension;
+@using MPC.Webstore.Common;
+
+@model List<MPC.Models.DomainModels.Item>
+@{
+    var PromotionalProductList = Model as List<MPC.Models.DomainModels.Item>;
+    var NavigateUrl = "";
+}
+@{
+    Layout = null;
+}
+
+<div class="PromotionalBanner" id="all-promotionalPro-pg">
+    <div class="container content_area clearBoth " style="padding-left:0px; padding-right:0px;">
+        <div class=" row PromotionalBannerSub">
+            <div class="feature_product_main_heading">
+                <label id="ltrlSpecialOffers">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlSpecialOffers", UserCookieManager.WBStoreId, "Special Offers"))</label>
+            </div>
+
+            @foreach (var Product in PopularProductList)
+            {
+
+                <div id="MainContainer" class="Top_Cat_Body rounded_corners">
+                    <div class="LCLB">
+                        @{
+                if (Product.ProductType == (int)ProductType.MarketingBrief)
+                {
+
+                    NavigateUrl = "/MarketingBrief/" + Utils.specialCharactersEncoder(Product.ProductName) + "/" + Product.ItemId;
+
+                }
+                else if (Product.ProductType == (int)ProductType.PrintProduct)
+                {
+                    if (Product.IsUploadImage == true)
+                    {
+                        NavigateUrl = "/ProductOptions/" + 0 + "/" + Product.ItemId + "/UploadDesign";
+                    }
+                    else
+                    {
+
+                        NavigateUrl = "/CloneFeatureItem/" + Product.ItemId;
+                    }
+
+                }
+                else if (Product.ProductType == (int)ProductType.NonPrintProduct) // for non print product
+                {
+                    NavigateUrl = "/ProductOptions/" + 0 + "/" + Product.ItemId + "/UploadDesign";
+                }
+                        }
+                        <a href="@NavigateUrl" onclick="ShowLoader();">
+                            <div class="PDTC_TL FI_TL H4B_TL">
+                                <img id="imgThumbnail" class="Top_Cat_ThumbnailPath" src="/@Html.GetAppBasePath()@Product.ThumbnailPath" />
+                            </div>
+                        </a>
+
+                        <div class="product_detail_image_heading_S5 s5TxtStyle themeFontColor Top_Cat_Display">
+                            @Product.ProductName
+                        </div>
+                        <div class="topcat_desc displayNone_TLS5">
+                            @{
+                ProductDescription = Product.WebDescription;
+                if (!string.IsNullOrEmpty(ProductDescription))
+                {
+                    if (ProductDescription.Length > 250)
+                    {
+                        ProductDescription = ProductDescription.Substring(0, 250);
+                        ProductDescription = ProductDescription + "<a class=morelink>...</a>";
+                    }
+                    else
+                    {
+                        ProductDescription = ProductDescription;
+                    }
+                }
+                            }
+                            @Html.Raw(ProductDescription)
+                        </div>
+                        <a id="ShopNowFuture" href="@NavigateUrl" style="display:none;text-align:center;">Shop Now</a>
+                    </div>
+                </div>
+            }
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+
+        </div>
+        <div class="clearBoth">
+            &nbsp;
+        </div>
+    </div>
+    <div class="clearBoth">
+        &nbsp;
+    </div>
+</div>
+
+<script src="/Scripts/jquery-1.10.1.min.js"></script>

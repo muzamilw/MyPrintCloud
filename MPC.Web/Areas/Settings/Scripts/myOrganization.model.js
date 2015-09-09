@@ -47,8 +47,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             lengthUnitId = ko.observable(),
             //System Weight Unit ID
             weightUnitId = ko.observable(),
+            // isImperical
+            isImperical = ko.observable(),
             //Tax Registration No
             taxRegistrationNo = ko.observable(),
+             agileApiUrl = ko.observable(),
+             agileApiKey = ko.observable(),
+             isAgileApiActive = ko.observable(),
+             unleashedApiId = ko.observable(),
+             unleashedApiKey = ko.observable(),
+             isUnleashedApiActive = ko.observable(),
             //Markup ID
             markupId = ko.observable().extend({ required: true }),
             //markups In My Organization
@@ -92,7 +100,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                  taxRegistrationNo: taxRegistrationNo,
                  markupId: markupId,
                  flagForChanges: flagForChanges,
-                 languageEditors: languageEditors
+                 languageEditors: languageEditors,
+                 isImperical: isImperical,
+                 agileApiUrl: agileApiUrl,
+                 agileApiKey: agileApiKey,
+                 isAgileApiActive: isAgileApiActive,
+                 unleashedApiId: unleashedApiId,
+                 unleashedApiKey: unleashedApiKey,
+                 isUnleashedApiActive: isUnleashedApiActive
+
              }),
              // Has Changes
              hasChanges = ko.computed(function () {
@@ -129,6 +145,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              chartOfAccountsInMyOrganization: chartOfAccountsInMyOrganization,
              flagForChanges: flagForChanges,
              languageEditors: languageEditors,
+             isImperical: isImperical,
+             agileApiUrl: agileApiUrl,
+             agileApiKey: agileApiKey,
+             isAgileApiActive: isAgileApiActive,
+             unleashedApiId: unleashedApiId,
+             unleashedApiKey: unleashedApiKey,
+             isUnleashedApiActive: isUnleashedApiActive,
              errors: errors,
              isValid: isValid,
              dirtyFlag: dirtyFlag,
@@ -247,7 +270,23 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             name = ko.observable().extend({ required: true }),
             //Rate
             rate = ko.observable().extend({ required: true, number: true }),
-               // Errors
+            // Rate Ui
+            rateUi = ko.computed({
+                read: function() {
+                    return rate();
+                },
+                write: function(value) {
+                    if (value < 0 || value === rate()) {
+                        if (value < 0) {
+                            rate(value);
+                            rate(0);
+                        }
+                        return;
+                    }
+                    rate(value);
+                }
+            }),
+            // Errors
             errors = ko.validation.group({
                 name: name,
                 rate: rate
@@ -272,11 +311,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             id: id,
             name: name,
             rate: rate,
+            rateUi: rateUi,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
-            reset: reset,
+            reset: reset
         };
         return self;
     };
@@ -305,6 +345,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.country(source.CountryId === null ? undefined : source.CountryId);
         // companySites.languageEditor(source.LanguageEditor === null ? undefined : LanguageEditor.Create(source.LanguageEditor));
         companySites.orgnizationImage(source.ImageSource);
+        companySites.isImperical(source.IsImperical);
+        companySites.agileApiKey(source.AgileApiKey);
+        companySites.agileApiUrl(source.AgileApiUrl);
+        companySites.isAgileApiActive(source.isAgileActive);
+        companySites.unleashedApiId(source.XeroApiId);
+        companySites.unleashedApiKey(source.XeroApiKey);
+        companySites.isUnleashedApiActive(source.isXeroIntegrationRequired);
         return companySites;
     };
     //Convert Server To Client
@@ -345,6 +392,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.MarkupId = source.markupId() === undefined ? null : source.markupId();
         result.CountryId = source.country() === undefined ? null : source.country();
         result.StateId = source.state() === undefined ? null : source.state();
+        result.IsImperical = source.isImperical() === undefined ? null : source.isImperical();
+        result.AgileApiUrl = source.agileApiUrl() === undefined ? null : source.agileApiUrl();
+        result.AgileApiKey = source.agileApiKey() === undefined ? null : source.agileApiKey();
+        result.isAgileActive = source.isAgileApiActive() === undefined ? null : source.isAgileApiActive();
+        
+        result.XeroApiId = source.unleashedApiId() === undefined ? null : source.unleashedApiId();
+        result.XeroApiKey = source.unleashedApiKey() === undefined ? null : source.unleashedApiKey();
+        result.isXeroIntegrationRequired = source.isUnleashedApiActive() === undefined ? null : source.isUnleashedApiActive();
         //Markup
         result.Markups = [];
         _.each(source.markupsInMyOrganization(), function (item) {

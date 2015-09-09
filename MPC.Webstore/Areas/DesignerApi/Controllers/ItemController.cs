@@ -15,6 +15,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
        #region Private
         private readonly ISmartFormService smartFormService;
         private readonly IItemService itemService;
+        private readonly ITemplateService templateService;
         #endregion
         #region Constructor
 
@@ -22,19 +23,24 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         /// Constructor
         /// </summary>
         /// <param name="companyService"></param>
-        public ItemController(IItemService itemService, ISmartFormService smartFormService)
+        public ItemController(IItemService itemService, ISmartFormService smartFormService, ITemplateService templateService)
         {
+            this.templateService = templateService;
             this.itemService = itemService;
             this.smartFormService = smartFormService;
         }
 
         #endregion
         #region public
-        //parameter1 = itemID , parameter2 = contactID
-        public HttpResponseMessage GetItem(long parameter1,long parameter2)
+        //parameter1 = itemID , parameter2 = contactID, parameter3 = organisationId
+        public HttpResponseMessage GetItem(long parameter1, long parameter2, long parameter3)
         {
             var item = itemService.GetItemByIdDesigner(parameter1);
             long parentTemplateID = itemService.getParentTemplateID(parameter1);
+            long templateId = 0;
+            if(item.TemplateId.HasValue)
+                templateId = item.TemplateId.Value;
+            string conversionRation = templateService.GetConvertedSizeWithUnits(templateId, parameter3, parameter1);
             string[] images = smartFormService.GetContactImageAndCompanyLogo(parameter2);
             long parentItemID = 0;
             if (item.RefItemId.HasValue)
@@ -52,11 +58,16 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                 IsTemplateDesignMode = item.IsTemplateDesignMode.HasValue ?  item.IsTemplateDesignMode.Value: 1,
                 userImage = images[1],
                 companyImage = images[0],
+                companyImageHeight = images[2],
+                companyImageWidth = images[3],
+                contactImageHeight = images[4],
+                contactImageWidth = images[5],
                 ScaleFactor = item.Scalar,
                 ParentTemplateId = parentTemplateID,
                 RefItemId = parentItemID,
                 IsUploadImage = item.IsUploadImage,
-                ZoomFactor = item.ZoomFactor
+                ZoomFactor = item.ZoomFactor,
+                TemplateDimensionConvertionRatio = conversionRation
             };
 
             var formatter = new JsonMediaTypeFormatter();

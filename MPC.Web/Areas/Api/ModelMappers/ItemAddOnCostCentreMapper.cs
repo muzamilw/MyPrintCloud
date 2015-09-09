@@ -13,7 +13,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static ItemAddOnCostCentre CreateFrom(this DomainModels.ItemAddonCostCentre source)
         {
+// ReSharper disable SuggestUseVarKeywordEvident
             ItemAddOnCostCentre itemAddOnCostCentre = new ItemAddOnCostCentre
+// ReSharper restore SuggestUseVarKeywordEvident
             {
                 ProductAddOnId = source.ProductAddOnId,
                 ItemStockOptionId = source.ItemStockOptionId,
@@ -26,24 +28,25 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 return itemAddOnCostCentre;
             }
 
-            if (source.CostCentre != null && source.CostCentre.CalculationMethodType == 3 )
+            if (source.CostCentre.CalculationMethodType == 3 )
             {
-                //var perqtyTotal = ((PerUnitPrice * SelectedQty) + SetupCsot );
-                //var result = perqtyTotal > MinimumCost ? perqtyTotal : MinimumCost
                 var perQtyTotal = ((source.CostCentre.CostPerUnitQuantity * source.CostCentre.UnitQuantity) + source.CostCentre.SetupCost);
                 var result = perQtyTotal > source.CostCentre.MinimumCost ? source.CostCentre.CostPerUnitQuantity : source.CostCentre.MinimumCost;
                 itemAddOnCostCentre.TotalPrice = result;
 
             }
-            else if (source.CostCentre != null && source.CostCentre.CalculationMethodType != 3)
+            else if (source.CostCentre.CalculationMethodType != 3)
             {
-                //var result = SetupCsot > MinimumCost ? SetupCsot : MinimumCost;
                 var result = source.CostCentre.SetupCost > source.CostCentre.MinimumCost ? source.CostCentre.SetupCost : source.CostCentre.MinimumCost;
                 itemAddOnCostCentre.TotalPrice = result;
             }
+
             itemAddOnCostCentre.CostCentreName = source.CostCentre.Name;
             itemAddOnCostCentre.CostCentreType = source.CostCentre.Type;
+            itemAddOnCostCentre.CalculationMethodType = source.CostCentre.CalculationMethodType;
             itemAddOnCostCentre.CostCentreTypeName = source.CostCentre.CostCentreType != null ? source.CostCentre.CostCentreType.TypeName : string.Empty;
+            itemAddOnCostCentre.CostCentreQuantitySourceType = source.CostCentre.QuantitySourceType;
+            itemAddOnCostCentre.CostCentreTimeSourceType = source.CostCentre.TimeSourceType;
 
             return itemAddOnCostCentre;
         }

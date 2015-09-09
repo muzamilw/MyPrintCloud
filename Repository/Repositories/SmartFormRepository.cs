@@ -69,7 +69,7 @@ namespace MPC.Repository.Repositories
                 var objList = from p in db.VariableSections
                               join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
                               where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)))
-                              orderby p.VariableSectionId, es.VariableType, es.SortOrder
+                              orderby p.VariableSectionId, es.VariableTag, es.VariableType, es.SortOrder
                               select new
                               {
                                   SectionName = p.SectionName,
@@ -90,8 +90,8 @@ namespace MPC.Repository.Repositories
             {
                 var objList = from p in db.VariableSections
                               join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
-                              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)) && (es.Scope == null))
-                              orderby p.VariableSectionId, es.VariableType, es.SortOrder
+                              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)) && (es.Scope == (int)FieldVariableScopeType.SystemAddress || es.Scope == (int)FieldVariableScopeType.SystemContact || es.Scope == (int)FieldVariableScopeType.SystemStore || es.Scope == (int)FieldVariableScopeType.SystemTerritory))
+                              orderby p.VariableSectionId,es.VariableTag, es.VariableType, es.SortOrder
                               select new
                               {
                                   SectionName = p.SectionName,
@@ -128,13 +128,14 @@ namespace MPC.Repository.Repositories
                           {
                               VariableTag = es.VariableTag,
                               VariableID = p.VariableId,
-                              TemplateID = p.TemplateId
+                              TemplateID = p.TemplateId,
+                              VariableText = p.VariableText
 
                           };
             List<TemplateVariablesObj> objResult = new List<TemplateVariablesObj>();
             foreach (var obj in objList.ToList())
             {
-                TemplateVariablesObj objToAdd = new TemplateVariablesObj(obj.VariableTag, obj.VariableID.Value, obj.TemplateID.Value);
+                TemplateVariablesObj objToAdd = new TemplateVariablesObj(obj.VariableTag, obj.VariableID.Value, obj.TemplateID.Value,obj.VariableText);
 
                 objResult.Add(objToAdd);
             }
@@ -166,6 +167,7 @@ namespace MPC.Repository.Repositories
                             MPC.Models.DomainModels.TemplateVariable objToAdd = new MPC.Models.DomainModels.TemplateVariable();
                             objToAdd.TemplateId = item.TemplateID;
                             objToAdd.VariableId = item.VariableID;
+                            objToAdd.VariableText = item.VariableText;
                             db.TemplateVariables.Add(objToAdd);
                         }
                     }
@@ -216,7 +218,7 @@ namespace MPC.Repository.Repositories
             }
             return objUsers;
         }
-         public SmartForm GetSmartForm(long smartFormId)
+        public SmartFormWebstoreResponse GetSmartForm(long smartFormId)
         {
             db.Configuration.LazyLoadingEnabled = false;
             db.Configuration.ProxyCreationEnabled = false;
@@ -224,22 +226,49 @@ namespace MPC.Repository.Repositories
             SmartForm smartFormObj =  db.SmartForms.Where(g => g.SmartFormId == smartFormId).SingleOrDefault();
             if(smartFormObj != null)
              smartFormObj.SmartFormDetails = null;
-            return smartFormObj;
+            if (smartFormObj != null)
+                smartFormObj.Company = null;
+
+
+            SmartFormWebstoreResponse res = new SmartFormWebstoreResponse();
+            res.CompanyId = smartFormObj.CompanyId;
+            res.Heading = smartFormObj.Heading;
+            res.Name = smartFormObj.Name;
+            res.OrganisationId = smartFormObj.OrganisationId;
+            res.SmartFormId = smartFormObj.SmartFormId;
+
+            return res;
         }
 
-        public List<SmartFormDetail> GetSmartFormObjects(long smartFormId)
+        public List<SmartFormDetail> GetSmartFormObjects(long smartFormId,out List<VariableOption> listVariables)
         {
+            List<VariableOption> listOptions = new List<VariableOption>();
             db.Configuration.LazyLoadingEnabled = false;
             db.Configuration.ProxyCreationEnabled = false;
 
             List<SmartFormDetail> objs = db.SmartFormDetails.Include("FieldVariable.VariableOptions").Where(g => g.SmartFormId == smartFormId).OrderBy(g => g.SortOrder).ToList();
-            foreach (var obj in objs) { obj.SmartForm = null; };
-            
+            foreach (var obj in objs) { 
+                obj.SmartForm = null;
+                if (obj.FieldVariable != null)
+                {
+                    if (obj.FieldVariable.VariableOptions != null)
+                    {
+                        listOptions.AddRange(obj.FieldVariable.VariableOptions);
+                    }
+                    obj.FieldVariable.Company = null;
+                }
+            };
+            foreach(var option in listOptions)
+            {
+                option.FieldVariable = null;
+            }
+            listVariables = listOptions;
             return objs;
         }
 
-        public List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables,long contactId)
+        public List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables,long contactId,long templateId)
         {
+            db.Configuration.LazyLoadingEnabled = false;
             List<ScopeVariable> result = new List<ScopeVariable>();
             hasContactVariables = false;
             var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
@@ -254,7 +283,11 @@ namespace MPC.Repository.Repositories
                         if (contact != null)
                         {
 
-
+                            obj.FieldVariable.Company = null;
+                            obj.FieldVariable.ScopeVariables = null;
+                            obj.FieldVariable.SmartFormDetails = null;
+                            obj.FieldVariable.TemplateVariables = null;
+                            obj.FieldVariable.VariableExtensions = null;
                             switch (obj.FieldVariable.RefTableName)
                             {
                                 case "tbl_Listing":
@@ -406,6 +439,22 @@ namespace MPC.Repository.Repositories
                                                 
                                         }
                                     }
+                                    else if (obj.FieldVariable.CriteriaFieldName == "StateAbbr")
+                                    {
+                                        var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                        if (address != null)
+                                        {
+                                            if (address.StateId.HasValue)
+                                            {
+                                                var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                if (state != null)
+                                                {
+                                                    fieldValue = state.StateCode;
+                                                }
+                                            }
+
+                                        }
+                                    }
                                     else if (obj.FieldVariable.CriteriaFieldName == "Country")
                                     {
                                         var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
@@ -434,6 +483,11 @@ namespace MPC.Repository.Repositories
                             objScopeVariable.Scope = 0;
                             objScopeVariable.VariableId = obj.FieldVariable.VariableId;
                             objScopeVariable.Value = fieldValue;
+                            obj.FieldVariable.Company = null;
+                            obj.FieldVariable.ScopeVariables = null;
+                            obj.FieldVariable.SmartFormDetails = null;
+                            obj.FieldVariable.TemplateVariables = null;
+                            obj.FieldVariable.VariableExtensions = null;
                             objScopeVariable.FieldVariable = obj.FieldVariable;
                             if(obj != null)
                                 result.Add(objScopeVariable);
@@ -443,10 +497,16 @@ namespace MPC.Repository.Repositories
                     {
                         if (obj.FieldVariable != null && obj.FieldVariable.Scope.HasValue)
                         {
+                             obj.FieldVariable.Company = null;
+                            obj.FieldVariable.ScopeVariables = null;
+                            obj.FieldVariable.SmartFormDetails = null;
+                            obj.FieldVariable.TemplateVariables = null;
+                            obj.FieldVariable.VariableExtensions = null;
+
                             int scope = obj.FieldVariable.Scope.Value;
                             if (scope == (int)FieldVariableScopeType.Address)
                             {
-                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contact.AddressId).SingleOrDefault();
+                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contact.AddressId).FirstOrDefault();
                                 if (scopeObj != null)
                                 {
                                     if (scopeObj != null)
@@ -460,6 +520,7 @@ namespace MPC.Repository.Repositories
                                     objScopeVariable.Value = obj.FieldVariable.DefaultValue;
                                     objScopeVariable.Id = contact.AddressId;
                                     objScopeVariable.Scope = scope;
+
                                     objScopeVariable.FieldVariable = obj.FieldVariable;
                                     if (objScopeVariable != null)
                                         result.Add(objScopeVariable);
@@ -467,7 +528,7 @@ namespace MPC.Repository.Repositories
                             }
                             else if (scope == (int)FieldVariableScopeType.Contact)
                             {
-                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contactId).SingleOrDefault();
+                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contactId).FirstOrDefault();
                                 if (scopeObj != null)
                                 {
                                     if (scopeObj != null)
@@ -496,7 +557,7 @@ namespace MPC.Repository.Repositories
                             }
                             else if (scope == (int)FieldVariableScopeType.Store)
                             {
-                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == obj.FieldVariable.CompanyId).SingleOrDefault();
+                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == obj.FieldVariable.CompanyId).FirstOrDefault();
                                 if (scopeObj != null)
                                 {
                                     result.Add(scopeObj);
@@ -519,7 +580,7 @@ namespace MPC.Repository.Repositories
                                // var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
                                 if (contact != null)
                                 {
-                                    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contact.TerritoryId).SingleOrDefault();
+                                    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contact.TerritoryId).FirstOrDefault();
                                     if (scopeObj != null)
                                     {
                                         if (scopeObj != null)
@@ -541,12 +602,30 @@ namespace MPC.Repository.Repositories
                         }
                     }
                 }
+                var template = db.Templates.Where(g => g.ProductId == templateId).SingleOrDefault();
+                if (template != null)
+                {
+                    if (contactId == template.contactId)
+                    {
+                        List<MPC.Models.DomainModels.TemplateVariable> lstTemplateVariables = db.TemplateVariables.Where(g => g.TemplateId == template.ProductId).ToList();
+                        foreach (var objTVar in lstTemplateVariables)
+                        {
+                            var scopeObj = result.Where(g => g.VariableId == objTVar.VariableId).SingleOrDefault();
+                            if (scopeObj != null)
+                            {
+                                if (objTVar.VariableText != null && objTVar.VariableText != "")
+                                    scopeObj.Value = objTVar.VariableText;
+                            }
+                        }
+                    }
+                }
             }
             
             return result;
         }
         public List<ScopeVariable> GetTemplateScopeVariables(long templateID, long contactId)
         {
+            db.Configuration.LazyLoadingEnabled = false;
             List<ScopeVariable> result = new List<ScopeVariable>();
             var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
             List<MPC.Models.DomainModels.TemplateVariable> lstTemplateVariables = new List<Models.DomainModels.TemplateVariable>();
@@ -557,6 +636,12 @@ namespace MPC.Repository.Repositories
                 var fieldVariable = db.FieldVariables.Where(g => g.VariableId == item.VariableId).SingleOrDefault();
                 if(fieldVariable != null)
                 {
+                    fieldVariable.Company = null;
+                    fieldVariable.SmartFormDetails = null;
+                    fieldVariable.TemplateVariables = null;
+                    fieldVariable.VariableExtensions = null;
+                    fieldVariable.VariableOptions = null;
+                   
                     lstVariables.Add(fieldVariable);
                 }
             }
@@ -611,6 +696,22 @@ namespace MPC.Repository.Repositories
                                                 
                                         }
                                     }
+                                 else if (obj.CriteriaFieldName == "StateAbbr")
+                                 {
+                                     var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                     if (address != null)
+                                     {
+                                         if (address.StateId.HasValue)
+                                         {
+                                             var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                             if (state != null)
+                                             {
+                                                 fieldValue = state.StateCode;
+                                             }
+                                         }
+
+                                     }
+                                 }
                                  else if (obj.CriteriaFieldName == "Country")
                                  {
                                      var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
@@ -650,7 +751,7 @@ namespace MPC.Repository.Repositories
                         int scope = obj.Scope.Value;
                         if (scope == (int)FieldVariableScopeType.Address)
                         {
-                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contact.AddressId).SingleOrDefault();
+                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contact.AddressId).FirstOrDefault();
                             if (scopeObj != null)
                             {
                                 result.Add(scopeObj);
@@ -669,7 +770,7 @@ namespace MPC.Repository.Repositories
                         }
                         else if (scope == (int)FieldVariableScopeType.Contact)
                         {
-                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contactId).SingleOrDefault();
+                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contactId).FirstOrDefault();
                             if (scopeObj != null)
                             {
                                 result.Add(scopeObj);
@@ -696,7 +797,7 @@ namespace MPC.Repository.Repositories
                         }
                         else if (scope == (int)FieldVariableScopeType.Store)
                         {
-                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == obj.CompanyId).SingleOrDefault();
+                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == obj.CompanyId).FirstOrDefault();
                             if (scopeObj != null)
                             {
                                 result.Add(scopeObj);
@@ -719,7 +820,7 @@ namespace MPC.Repository.Repositories
                             // var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
                             if (contact != null)
                             {
-                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contact.TerritoryId).SingleOrDefault();
+                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contact.TerritoryId).FirstOrDefault();
                                 if (scopeObj != null)
                                 {
                                     result.Add(scopeObj);
@@ -786,24 +887,31 @@ namespace MPC.Repository.Repositories
             //var query = "UPDATE " + tblname + "  SET " + feildname + "= '" + newValue + "' WHERE " + keyName + " = " + keyValue ;
             string oResult = null;
             int result = db.Database.ExecuteSqlCommand(query);
+
          //   System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result = db.Database.SqlQuery<string>(query, "");
             db.SaveChanges();
             //oResult = result.FirstOrDefault();
             return oResult;
         }
 
-        public Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails,List<SmartFormUserList> contacts,long templateId) {
+        public Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, List<SmartFormUserList> contacts, long templateId, long currentTemplateId)
+        {
             bool hasContactVariables = false;
+            db.Configuration.LazyLoadingEnabled = false;
             Dictionary<long, List<ScopeVariable>> UserScopeVariables = new Dictionary<long, List<ScopeVariable>>();
             foreach(var contact in contacts)
             {
-                List<ScopeVariable> variables = GetScopeVariables(smartFormDetails, out hasContactVariables, contact.ContactId);
+                List<ScopeVariable> variables = GetScopeVariables(smartFormDetails, out hasContactVariables, contact.ContactId, currentTemplateId);
                 List<ScopeVariable> variablesToRemove = new List<ScopeVariable>();
               //  variablesList = variables;
                 foreach (var variable in variables)
                 {
-                    if(variable == null)
+                    if (variable == null)
                         variablesToRemove.Add(variable);
+                    else
+                        if(variable.FieldVariable != null)
+                            if(variable.FieldVariable.Company != null)
+                               variable.FieldVariable.Company = null;
                 }
                 foreach(var variable in variablesToRemove)
                 {
@@ -812,16 +920,22 @@ namespace MPC.Repository.Repositories
                 List<ScopeVariable> allTemplateVariables = GetTemplateScopeVariables(templateId, contact.ContactId);
                 foreach (var item in allTemplateVariables)
                 {
-                    var sVariable = variables.Where(g => g.FieldVariable.VariableId == item.FieldVariable.VariableId).SingleOrDefault();
+                    var sVariable = variables.Where(g => g.FieldVariable.VariableId == item.FieldVariable.VariableId).FirstOrDefault();
                     if (sVariable == null)
                     {
+                        if (item.FieldVariable != null)
+                            if (item.FieldVariable.Company != null)
+                                item.FieldVariable.Company = null;
                         variables.Add(item);
+
                     }
                 }
+                
                 UserScopeVariables.Add(contact.ContactId, variables);
             }
             return UserScopeVariables;
         }
+      
         public bool SaveUserProfilesData(Dictionary<long, List<ScopeVariable>> obj)
         {
             bool result = false;
@@ -830,6 +944,11 @@ namespace MPC.Repository.Repositories
                 long contactId = item.Key;
                 List<ScopeVariable> contactVariables = item.Value;
                 var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
+                Company objCompany = null;
+                if (contact != null)
+                {
+                    objCompany = db.Companies.Where(g => g.CompanyId == contact.CompanyId).SingleOrDefault();
+                }
                 foreach (var scope in contactVariables)
                 {
                     FieldVariable variable = db.FieldVariables.Where(g => g.VariableId == scope.VariableId).SingleOrDefault();
@@ -861,47 +980,67 @@ namespace MPC.Repository.Repositories
                                     case "CompanyContact":
                                         fieldValue = DynamicQueryToSetRecord(variable.CriteriaFieldName, variable.RefTableName, variable.KeyField, contactId,scope.Value);
                                         break;
-                                    case "Company":
-                                        fieldValue = DynamicQueryToSetRecord(variable.CriteriaFieldName, variable.RefTableName, variable.KeyField, contact.CompanyId, scope.Value);
+                                    case "Company":  // commented on request of 2020 https://trello.com/c/MTZJsEeT/965-smartform-data-updating-to-all-stores-back-end
+                                   //     fieldValue = DynamicQueryToSetRecord(variable.CriteriaFieldName, variable.RefTableName, variable.KeyField, contact.CompanyId, scope.Value);
                                         break;
                                     case "Address":
-                                        if (variable.CriteriaFieldName == "State")
+                                        if (objCompany != null && objCompany.CanUserUpdateAddress.HasValue && objCompany.CanUserUpdateAddress.Value == true)
                                         {
-                                            var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
-                                            if (address != null)
+                                            if (variable.CriteriaFieldName == "State")
                                             {
-                                                if (address.StateId.HasValue)
+                                                var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                                if (address != null)
                                                 {
-                                                    var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
-                                                    if (state != null)
+                                                    if (address.StateId.HasValue)
                                                     {
-                                                        state.StateName = scope.Value;
+                                                        var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                        if (state != null)
+                                                        {
+                                                            state.StateName = scope.Value;
+                                                        }
                                                     }
+                                                    db.SaveChanges();
+
                                                 }
-                                                db.SaveChanges();
+                                            }
+                                            else if (variable.CriteriaFieldName == "StateAbbr")
+                                            {
+                                                var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                                if (address != null)
+                                                {
+                                                    if (address.StateId.HasValue)
+                                                    {
+                                                        var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                        if (state != null)
+                                                        {
+                                                            state.StateCode = scope.Value;
+                                                        }
+                                                    }
+                                                    db.SaveChanges();
+
+                                                }
+                                            }
+                                            else if (variable.CriteriaFieldName == "Country")
+                                            {
+                                                var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                                if (address != null)
+                                                {
+                                                    if (address.CountryId.HasValue)
+                                                    {
+                                                        var country = db.Countries.Where(g => g.CountryId == address.CountryId.Value).SingleOrDefault();
+                                                        if (country != null)
+                                                        {
+                                                            country.CountryName = scope.Value;
+                                                        }
+                                                    }
+                                                    db.SaveChanges();
+                                                }
+                                            }
+                                            else
+                                            {
+                                                fieldValue = DynamicQueryToSetRecord(variable.CriteriaFieldName, variable.RefTableName, variable.KeyField, contact.AddressId, scope.Value);
 
                                             }
-                                        }
-                                        else if (variable.CriteriaFieldName == "Country")
-                                        {
-                                            var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
-                                            if (address != null)
-                                            {
-                                                if (address.CountryId.HasValue)
-                                                {
-                                                    var country = db.Countries.Where(g => g.CountryId == address.CountryId.Value).SingleOrDefault();
-                                                    if (country != null)
-                                                    {
-                                                        country.CountryName = scope.Value;
-                                                    }
-                                                }
-                                                db.SaveChanges();
-                                            }
-                                        }
-                                        else
-                                        {
-                                            fieldValue = DynamicQueryToSetRecord(variable.CriteriaFieldName, variable.RefTableName, variable.KeyField, contact.AddressId, scope.Value);
-
                                         }
                                      break;
                                     default:
@@ -916,27 +1055,32 @@ namespace MPC.Repository.Repositories
                                 //int scopeId = variable.Scope.Value;
                                 if (variable.Scope.Value == (int)FieldVariableScopeType.Address)
                                 {
-                                    if (contact != null)
+                                    if (objCompany != null && objCompany.CanUserUpdateAddress.HasValue && objCompany.CanUserUpdateAddress.Value == true)
                                     {
-                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contact.AddressId).SingleOrDefault();
-                                        if (scopeObj != null)
+                                        if (contact != null)
                                         {
-                                            scopeObj.Value = scope.Value;
-                                        }
-                                        else
-                                        {
-                                            db.ScopeVariables.Add(scope);
+                                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contact.AddressId).FirstOrDefault();
+                                            if (scopeObj != null)
+                                            {
+                                                scopeObj.Value = scope.Value;
+                                            }
+                                            else
+                                            {
+                                                scope.FieldVariable = null;
+                                                db.ScopeVariables.Add(scope);
+                                            }
                                         }
                                     }
                                 }
                                 else if (variable.Scope.Value == (int)FieldVariableScopeType.Contact)
                                 {
-                                    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contactId).SingleOrDefault();
+                                    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contactId).FirstOrDefault();
                                     if (scopeObj != null)
                                     {
                                         scopeObj.Value = scope.Value;
                                     } else
                                     {
+                                        scope.FieldVariable = null;
                                         db.ScopeVariables.Add(scope);
                                     }
                                 }
@@ -950,31 +1094,32 @@ namespace MPC.Repository.Repositories
                                 }
                                 else if (variable.Scope.Value == (int)FieldVariableScopeType.Store)
                                 {
-                                    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == variable.CompanyId).SingleOrDefault();
-                                    if (scopeObj != null)
-                                    {
-                                        scopeObj.Value = scope.Value;
-                                    }
-                                    else
-                                    {
-                                        
-                                        db.ScopeVariables.Add(scope);
-                                    }
+                                    //var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == variable.CompanyId).FirstOrDefault();
+                                    //if (scopeObj != null)
+                                    //{
+                                    //    scopeObj.Value = scope.Value;
+                                    //}
+                                    //else
+                                    //{
+                                    //    scope.FieldVariable = null;   
+                                    //    db.ScopeVariables.Add(scope);
+                                    //}
                                 }
                                 else if (variable.Scope.Value == (int)FieldVariableScopeType.Territory)
                                 {
-                                    if (contact != null)
-                                    {
-                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contact.TerritoryId).SingleOrDefault();
-                                        if (scopeObj != null)
-                                        {
-                                            scopeObj.Value = scope.Value;
-                                        }
-                                        else
-                                        {
-                                            db.ScopeVariables.Add(scope);
-                                        }
-                                    }
+                                    //if (contact != null)
+                                    //{
+                                    //    var scopeObj = db.ScopeVariables.Where(g => g.VariableId == variable.VariableId && g.Id == contact.TerritoryId).FirstOrDefault();
+                                    //    if (scopeObj != null)
+                                    //    {
+                                    //        scopeObj.Value = scope.Value;
+                                    //    }
+                                    //    else
+                                    //    {
+                                    //        scope.FieldVariable = null;
+                                    //        db.ScopeVariables.Add(scope);
+                                    //    }
+                                    //}
                                 }
                             }
                         }
@@ -989,22 +1134,76 @@ namespace MPC.Repository.Repositories
         }
         public string[] GetContactImageAndCompanyLogo(long contactID)
         {
-            string[] array = new string[2];
+            string[] array = new string[6];
             string CompanyLogo = "";
             string ContactLogo = "";
+            int contactLogoHeight = 0, contactLogoWidth = 0, companyLogoHeight = 0, companyLogoWidth = 0;
             CompanyContact contact = db.CompanyContacts.Where(g => g.ContactId == contactID).SingleOrDefault();
             if(contact != null)
             {
+                System.Drawing.Image objCompanyLogo = null;
+                System.Drawing.Image objImage = null;
                 Company company = db.Companies.Where(g => g.CompanyId == contact.CompanyId).SingleOrDefault();
-                if(contact.image != null && contact.image != "")
+                if(contact.image != null && contact.image != ""){
                     ContactLogo = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/" + contact.image;
+                    try
+                    {
+                        using (objImage = System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath( "~/" + contact.image)))
+                        {
+                            contactLogoWidth = objImage.Width;
+                            contactLogoHeight = objImage.Height;
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+                    finally
+                    {
+                        if (objImage != null)
+                        {
+                            objImage.Dispose();
+                        }
+                    }
+                }
+                    
                 if(company!= null)
                 {
-                   CompanyLogo = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority +  "/" +  company.Image;
+                    if (company.Image != null && company.Image != "")
+                    {
+                        CompanyLogo = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/" + company.Image;
+                        try
+                        {
+                            using (objCompanyLogo = System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath( "~/" + company.Image)))
+                            {
+                                companyLogoWidth = objCompanyLogo.Width;
+                                companyLogoHeight = objCompanyLogo.Height;
+                            }
+
+                        }
+                        catch
+                        {
+
+                        }
+                        finally
+                        {
+                            if (objCompanyLogo != null)
+                            {
+                                objCompanyLogo.Dispose();
+                            }
+                        }
+                    }
                 }
+            
+              
             }
+
             array[0] = CompanyLogo;
             array[1] = ContactLogo;
+            array[2] = companyLogoHeight.ToString();
+            array[3] = companyLogoWidth.ToString();
+            array[4] = contactLogoHeight.ToString();
+            array[5] = contactLogoWidth.ToString();
             return array;
         }
         public List<ScopeVariable> GetUserTemplateVariables(long itemId, long contactID)
@@ -1096,6 +1295,22 @@ namespace MPC.Repository.Repositories
 
                                                 }
                                             }
+                                            else if (FieldVariable.CriteriaFieldName == "StateAbbr")
+                                            {
+                                                var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                                if (address != null)
+                                                {
+                                                    if (address.StateId.HasValue)
+                                                    {
+                                                        var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                        if (state != null)
+                                                        {
+                                                            fieldValue = state.StateCode;
+                                                        }
+                                                    }
+
+                                                }
+                                            }
                                             else
                                             {
                                                 fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, contact.AddressId);
@@ -1119,7 +1334,7 @@ namespace MPC.Repository.Repositories
                                     int scope = FieldVariable.Scope.Value;
                                     if (scope == (int)FieldVariableScopeType.Address)
                                     {
-                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == contact.AddressId).SingleOrDefault();
+                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == contact.AddressId).FirstOrDefault();
                                         if (scopeObj != null)
                                         {
                                             result.Add(scopeObj);
@@ -1138,7 +1353,7 @@ namespace MPC.Repository.Repositories
                                     }
                                     else if (scope == (int)FieldVariableScopeType.Contact)
                                     {
-                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == contactID).SingleOrDefault();
+                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == contactID).FirstOrDefault();
                                         if (scopeObj != null)
                                         {
                                             result.Add(scopeObj);
@@ -1165,7 +1380,7 @@ namespace MPC.Repository.Repositories
                                     }
                                     else if (scope == (int)FieldVariableScopeType.Store)
                                     {
-                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == FieldVariable.CompanyId).SingleOrDefault();
+                                        var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == FieldVariable.CompanyId).FirstOrDefault();
                                         if (scopeObj != null)
                                         {
                                             result.Add(scopeObj);
@@ -1188,7 +1403,7 @@ namespace MPC.Repository.Repositories
                                         // var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
                                         if (contact != null)
                                         {
-                                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == contact.TerritoryId).SingleOrDefault();
+                                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == FieldVariable.VariableId && g.Id == contact.TerritoryId).FirstOrDefault();
                                             if (scopeObj != null)
                                             {
                                                 result.Add(scopeObj);
@@ -1210,6 +1425,23 @@ namespace MPC.Repository.Repositories
                             }
                         }
                     }
+                    var template = db.Templates.Where(g => g.ProductId == item.TemplateId).SingleOrDefault();
+                    if(template != null)
+                    {
+                        if (contactID == template.contactId)
+                        {
+                            List<MPC.Models.DomainModels.TemplateVariable> lstTemplateVariables = db.TemplateVariables.Where(g => g.TemplateId == template.ProductId).ToList();
+                            foreach (var objTVar in lstTemplateVariables)
+                            {
+                                var scopeObj = result.Where(g => g.VariableId == objTVar.VariableId).SingleOrDefault();
+                                if (scopeObj != null)
+                                {
+                                    if (objTVar.VariableText != null && objTVar.VariableText != "")
+                                        scopeObj.Value = objTVar.VariableText;
+                                }
+                            }
+                        }
+                    }
                 }
             }
             return result;
@@ -1221,6 +1453,7 @@ namespace MPC.Repository.Repositories
             long templateID = 0;
             List<ScopeVariable> lstVariables = GetUserTemplateVariables(itemID, contactId);
             var item = db.Items.Where(g=>g.ItemId == itemID).SingleOrDefault();
+            var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
             string[] logos = GetContactImageAndCompanyLogo(contactId);
             if(item != null)
             {
@@ -1232,7 +1465,49 @@ namespace MPC.Repository.Repositories
             {
                 foreach(var variable in lstVariables)
                 {
-                    obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag, variable.Value);
+                    if (variable != null)
+                    {
+
+                        obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag, variable.Value);
+                        if (variable.FieldVariable != null)
+                        {
+                            //if (variable != null && variable.Value != "" && variable.FieldVariable.VariableTag != "")
+                            //{
+                            //    obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag.ToUpper(), variable.Value.ToUpper());
+                            //    obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag.ToLower(), variable.Value.ToLower());
+                            //}
+                            // replace prefix and postFixes 
+                            if (variable.FieldVariable.VariableTag != null)
+                            {
+                                string tag = variable.FieldVariable.VariableTag.Replace("{{", "").Replace("}}", "");
+                                string preFix = "{{" + tag + "_pre}}"; ;
+                                string postFix = "{{" + tag + "_post}}";
+
+
+                                if (contact != null)
+                                {
+                                    var ext = db.VariableExtensions.Where(g => g.CompanyId == contact.CompanyId && g.FieldVariableId == variable.FieldVariable.VariableId).SingleOrDefault();
+                                    if (ext != null)
+                                    {
+                                        if (ext.VariablePrefix != null && ext.VariablePrefix != "")
+                                        {
+                                            obj.ContentString = obj.ContentString.Replace(preFix, ext.VariablePrefix);
+                                            //obj.ContentString = obj.ContentString.Replace(preFix.ToUpper(), ext.VariablePrefix.ToUpper());
+                                            //obj.ContentString = obj.ContentString.Replace(preFix.ToLower(), ext.VariablePrefix.ToLower());
+                                        }
+                                        if (ext.VariablePostfix != null && ext.VariablePostfix != "")
+                                        {
+                                            obj.ContentString = obj.ContentString.Replace(postFix, ext.VariablePostfix);
+                                            //obj.ContentString = obj.ContentString.Replace(postFix.ToUpper(), ext.VariablePostfix.ToUpper());
+                                            //obj.ContentString = obj.ContentString.Replace(postFix.ToLower(), ext.VariablePostfix.ToLower());
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                   
+                    
                 }
                 if (obj.ObjectType == 8)
                 {
@@ -1253,6 +1528,38 @@ namespace MPC.Repository.Repositories
             db.SaveChanges();
             result = true;
             return result;
+        }
+        public List<VariableExtensionWebstoreResposne> getVariableExtensions(List<ScopeVariable> listScope, long contactId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            List<VariableExtensionWebstoreResposne> listExtensions = new List<VariableExtensionWebstoreResposne>();
+            var contact = db.CompanyContacts.Where(g=>g.ContactId == contactId).SingleOrDefault();
+            if(contact != null)
+            {
+                var company = db.Companies.Where(g=>g.CompanyId == contact.CompanyId).SingleOrDefault();
+                if(company != null)
+                {
+                    foreach(var variable in listScope)
+                    {
+                        var ext = db.VariableExtensions.Where(g => g.CompanyId == company.CompanyId && g.FieldVariableId == variable.FieldVariable.VariableId).SingleOrDefault();
+                        if(ext != null)
+                        {
+                            VariableExtensionWebstoreResposne obj = new VariableExtensionWebstoreResposne();
+                            obj.CollapsePostfix = ext.CollapsePostfix;
+                            obj.CollapsePrefix = ext.CollapsePrefix;
+                            obj.CompanyId = ext.CompanyId;
+                            obj.FieldVariableId = ext.FieldVariableId;
+                            obj.Id = ext.Id;
+                            obj.VariablePostfix = ext.VariablePostfix;
+                            obj.VariablePrefix = ext.VariablePrefix;
+
+                            listExtensions.Add(obj);
+                        }
+                    }
+                
+                }
+            }
+            return listExtensions;
         }
         #endregion
     }

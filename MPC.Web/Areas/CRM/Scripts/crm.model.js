@@ -3,7 +3,7 @@
 define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // #region ______________  CUSTOMER LIST VIEW MODEL   _________________
-    var customerViewListModel = function (companytId, custName, custCraetionDate, custStatus, cusStatusClass, custEmail, cusStoreImageFileBinary) {
+    var customerViewListModel = function (companytId, custName, custCraetionDate, custStatus, cusStatusClass, custEmail, cusStoreImageFileBinary,custstoreName) {
         var
             self,
             id = ko.observable(companytId),
@@ -14,6 +14,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             statusClass = ko.observable(cusStatusClass),
             storeImageFileBinary = ko.observable(cusStoreImageFileBinary),
             email = ko.observable(custEmail),
+            storeName = ko.observable(custstoreName),
             defaultContact = ko.observable(undefined),
             defaultContactEmail = ko.observable(undefined),
             // Errors
@@ -44,6 +45,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             status: status,
             statusClass: statusClass,
             email: email,
+            storeName: storeName,
             customerTYpe:customerTYpe,
             defaultContact: defaultContact,
             defaultContactEmail:defaultContactEmail,
@@ -75,7 +77,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.Status,
             statusClass,
             source.Email,
-            source.StoreImagePath
+            source.StoreImagePath,
+            source.StoreName
         );
         customer.defaultContact(source.DefaultContactName);
         customer.defaultContactEmail(source.DefaultContactEmail);
@@ -224,7 +227,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     var Address = function (specifiedAddressId, specifiedCompanyId, specifiedAddressName, specifiedAddress1, specifiedAddress2, specifiedAddress3, specifiedCity, specifiedState, specifiedCountry, specifiedStateName, specifiedCountryName, specifiedPostCode, specifiedFax,
         specifiedEmail, specifiedURL, specifiedTel1, specifiedTel2, specifiedExtension1, specifiedExtension2, specifiedReference, specifiedFAO, specifiedIsDefaultAddress, specifiedIsDefaultShippingAddress,
         specifiedisArchived, specifiedTerritoryId, specifiedTerritoryName, specifiedGeoLatitude, specifiedGeoLongitude, specifiedisPrivate,
-        specifiedisDefaultTerrorityBilling, specifiedisDefaultTerrorityShipping, specifiedOrganisationId) {
+        specifiedisDefaultTerrorityBilling, specifiedisDefaultTerrorityShipping, specifiedOrganisationId, specifiedStateCode) {
         var
             self,
             addressId = ko.observable(specifiedAddressId),
@@ -237,6 +240,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             state = ko.observable(specifiedState),
             country = ko.observable(specifiedCountry),
             stateName = ko.observable(specifiedStateName),
+            stateCode = ko.observable(specifiedStateCode),
+            stateNamenCode = ko.computed(function () {
+                return stateName() + "( " + stateCode() + " )";
+            }),
             countryName = ko.observable(specifiedCountryName),
             postCode = ko.observable(specifiedPostCode),
             fax = ko.observable(specifiedFax),
@@ -362,6 +369,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             state: state,
             country: country,
             stateName: stateName,
+            stateCode: stateCode,
+            stateNamenCode: stateNamenCode,
             countryName: countryName,
             postCode: postCode,
             fax: fax,
@@ -464,7 +473,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.isPrivate,
             source.isDefaultTerrorityBilling,
             source.isDefaultTerrorityShipping,
-            source.OrganisationId
+            source.OrganisationId,
+            source.StateCode
         );
         return address;
     };
@@ -485,13 +495,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedShippingAddressId, specifiedisUserLoginFirstTime, specifiedquickMobileNumber, specifiedquickTwitterId, specifiedquickFacebookId, specifiedquickLinkedInId,
         specifiedquickOtherId, specifiedPOBoxAddress, specifiedCorporateUnit, specifiedOfficeTradingName, specifiedContractorName, specifiedBPayCRN, specifiedABN, specifiedACN,
         specifiedAdditionalField1, specifiedAdditionalField2, specifiedAdditionalField3, specifiedAdditionalField4, specifiedAdditionalField5, specifiedcanUserPlaceOrderWithoutApproval,
-        specifiedCanUserEditProfile, specifiedcanPlaceDirectOrder, specifiedOrganisationId, specifiedBussinessAddressId, specifiedRoleName) {
+        specifiedCanUserEditProfile, specifiedcanPlaceDirectOrder, specifiedOrganisationId, specifiedSecondaryEmail, specifiedBussinessAddressId, specifiedRoleName, specifiedStoreName) {
         var self,
             contactId = ko.observable(specifiedContactId),
             addressId = ko.observable(specifiedAddressId),
             companyId = ko.observable(specifiedCompanyId),
             companyName = ko.observable(undefined),
-            firstName = ko.observable(specifiedFirstName).extend({ required: true }),
+            firstName = ko.observable(specifiedFirstName).extend({ required: { params: true, message: 'This field is required!' } }),
             middleName = ko.observable(specifiedMiddleName),
             lastName = ko.observable(specifiedLastName),
             title = ko.observable(specifiedTitle),
@@ -500,7 +510,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             homeExtension1 = ko.observable(specifiedHomeExtension1),
             homeExtension2 = ko.observable(specifiedHomeExtension2),
             mobile = ko.observable(specifiedMobile),
-            email = ko.observable(specifiedEmail).extend({ required: true, email: true }),
+            email = ko.observable(specifiedEmail).extend({ required: { params: true, message: 'Please enter Valid Email Address!' }, email: { params: true, message: 'Please enter Valid Email Address!' } }),
             fAX = ko.observable(specifiedFAX),
             jobTitle = ko.observable(specifiedJobTitle),
             dOB = ko.observable(specifiedDOB),
@@ -571,13 +581,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             canUserEditProfile = ko.observable(specifiedCanUserEditProfile),
             canPlaceDirectOrder = ko.observable(specifiedcanPlaceDirectOrder),
             organisationId = ko.observable(specifiedOrganisationId),
+            secondaryEmail = ko.observable(specifiedSecondaryEmail).extend({ email: true }),
             bussinessAddressId = ko.observable(specifiedBussinessAddressId).extend({ required: true }),
             roleName = ko.observable(specifiedRoleName),
             fileName = ko.observable(),
             bussinessAddress = ko.observable(),
             shippingAddress = ko.observable(),
             stateName = ko.observable(),
-
+            StoreName = ko.observable(specifiedStoreName),
             companyContactVariables = ko.observableArray([]),
             confirmPassword = ko.observable(specifiedPassword).extend({ compareWith: password }),
 
@@ -588,7 +599,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 email: email,
                 bussinessAddressId: bussinessAddressId,
                 password: password,
-                confirmPassword: confirmPassword
+                confirmPassword: confirmPassword,
+                secondaryEmail: secondaryEmail
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -681,7 +693,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 canPlaceDirectOrder: canPlaceDirectOrder,
                 organisationId: organisationId,
                 bussinessAddressId: bussinessAddressId,
+                StoreName: StoreName,
                 fileName: fileName,
+                secondaryEmail: secondaryEmail,
                 companyName: companyName
             }),
             // Has Changes
@@ -776,6 +790,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     OrganisationId: organisationId(),
                     BussinessAddressId: bussinessAddressId(),
                     FileName: fileName(),
+                    StoreName: StoreName(),
+                    SecondaryEmail: secondaryEmail(),
                     ScopVariables: []
                     //BussinessAddress: bussinessAddress() != undefined ? bussinessAddress().convertToServerData(): null,
                     //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
@@ -874,6 +890,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                  shippingAddress(source.shippingAddress());
                  stateName(source.stateName());
                  companyContactVariables(source.companyContactVariables());
+                 StoreName(source.StoreName());
+                 secondaryEmail(source.secondaryEmail());
              },
             // Reset
             reset = function () {
@@ -971,6 +989,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             bussinessAddress: bussinessAddress,
             shippingAddress: shippingAddress,
             stateName: stateName,
+            StoreName: StoreName,
+            secondaryEmail: secondaryEmail,
             companyContactVariables: companyContactVariables,
             isValid: isValid,
             errors: errors,
@@ -1067,8 +1087,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.canUserEditProfile,
             source.canPlaceDirectOrder,
             source.organisationId,
-            source.BussinessAddressId,
-            source.FileName
+            source.secondaryEmail,
+            source.addressId,
+            source.FileName,
+            source.StoreName
         );
     };
     CompanyContact.Create = function (source) {
@@ -1156,12 +1178,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.CanUserEditProfile,
             source.canPlaceDirectOrder,
             source.OrganisationId,
+            source.SecondaryEmail,
             //source.BussinessAddressId,
             source.AddressId,
             source.RoleName,
-            source.FileName
+            source.FileName,
+            source.StoreName
         );
         companyContact.companyName(source.CompanyName);
+        companyContact.StoreName(source.StoreName);
         return companyContact;
     };
 
@@ -1169,10 +1194,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // #region ______________  SYSTEM USER   ______________________________
     // ReSharper disable once InconsistentNaming
-    var SystemUser = function (specifiedSystemUserId, specifiedUserName) {
+    var SystemUser = function (specifiedSystemUserId, specifiedUserName, specifiedFullName) {
         var self,
             systemUserId = ko.observable(specifiedSystemUserId),
             userName = ko.observable(specifiedUserName),
+            fullName = ko.observable(specifiedFullName),
             // Errors
             errors = ko.validation.group({
 
@@ -1206,6 +1232,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         self = {
             systemUserId: systemUserId,
             userName: userName,
+            fullName:fullName,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1224,7 +1251,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     SystemUser.Create = function (source) {
         var systemUser = new SystemUser(
             source.SystemUserId,
-            source.UserName
+            source.UserName,
+            source.FullName
         );
         return systemUser;
     };
@@ -1247,7 +1275,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     ) {
         var self,
             //storeId is used for select store dropdown on crm prospect/customer screen
-            storeId = ko.observable(specifiedStoreId),
+            storeId = ko.observable(specifiedStoreId).extend({ required: true }),
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
             name = ko.observable(specifiedName).extend({ required: true }),
             status = ko.observable(specifiedStatus),
@@ -1366,6 +1394,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             errors = ko.validation.group({
                 companyId: companyId,
                 name: name,
+                storeId:storeId,
                 //webAccessCode: webAccessCode,
                 url: url,
             }),
@@ -2043,7 +2072,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // ReSharper disable once UnusedLocals
     var Estimate = function (specifiedId, specifiedCode, specifiedName, specifiedCompanyName, specifiedCreationDate,
-        specifiedFlagColor, specifiedOrderCode, specifiedStstud, specifiedestimateTotal, specifiedisDirectOrder) {
+        specifiedFlagColor, specifiedOrderCode, specifiedStstud, specifiedestimateTotal, specifiedisDirectOrder,specifiedItemsCount) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -2060,6 +2089,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             creationDate = ko.observable(specifiedCreationDate || undefined),
             flagColor = ko.observable(specifiedFlagColor || undefined),
             orderCode = ko.observable(specifiedOrderCode || undefined),
+            itemscount = ko.observable(specifiedItemsCount),
             isDirectSaleUi = ko.computed(function () {
                 return isDirectOrder() ? "Direct Order" : "Online Order";
             }),
@@ -2112,13 +2142,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             reset: reset,
+            itemscount:  itemscount,
             setValidationSummary: setValidationSummary,
         };
     };
     // Estimate Factory
     Estimate.Create = function (source) {
         var estimate = new Estimate(source.EstimateId, source.OrderCode, source.EstimateName, source.CompanyName,
-            source.CreationDate, source.SectionFlagId, source.OrderCode, source.Status, source.EstimateTotal + '$', source.IsDirectOrder);
+            source.CreationDate, source.SectionFlagId, source.OrderCode, source.Status, source.EstimateTotal, source.IsDirectOrder,source.ItemsCount);
         return estimate;
     };
 
@@ -2192,6 +2223,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             reset: reset,
+            itemscount:  itemscount,
             setValidationSummary: setValidationSummary,
         };
     };

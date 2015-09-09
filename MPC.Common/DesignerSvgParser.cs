@@ -10,6 +10,12 @@ using System.Globalization;
 
 namespace MPC.Common
 {
+    public class svgColorData
+    {
+        public string OriginalColor { get; set; }
+        public int PathIndex { get; set; }
+        public string ModifiedColor { get; set; }
+    }
     public class DesignerSvgParser
     {
         /// <summary>
@@ -32,6 +38,7 @@ namespace MPC.Common
         public static byte[] ImageToByteArraybyImageConverter(Bitmap image)
         {
             ImageConverter imageConverter = new ImageConverter();
+            
             byte[] imageByte = (byte[])imageConverter.ConvertTo(image, typeof(byte[]));
             return imageByte;
         }
@@ -77,13 +84,11 @@ namespace MPC.Common
                         {
 
                             firstColor = (document.Children[i] as SvgPath).Fill;
-                        }
-                    }
-                    if (document.Children[i] is SvgPath)
-                    {
-                        if ((document.Children[i] as SvgPath).Fill != firstColor)
-                        {
-                            canColour = false;
+                            if ((document.Children[i] as SvgPath).Fill != firstColor)
+                            {
+                                canColour = false;
+                            }
+                            break;
                         }
                     }
                 }
@@ -139,7 +144,12 @@ namespace MPC.Common
 
                 (element as SvgPath).Fill = new SvgColourServer(hexColor);
             }
-
+            if (element is SvgGroup)
+            {
+                var group = element as SvgGroup;
+                
+                (element as SvgGroup).Fill = new SvgColourServer(hexColor);
+            }
             if (element.Children.Count > 0)
             {
                 foreach (var item in element.Children)
@@ -147,6 +157,190 @@ namespace MPC.Common
                     ChangeFill(item, hexColor);
                 }
             }
+
+        }
+        private static void ChangeFill(SvgElement element, Color hexColor,Color orignalColor)
+        {
+            if (element is SvgPath)
+            {
+                SvgColourServer clr = new SvgColourServer(orignalColor);
+                if ((element as SvgPath).Fill == clr)
+                    (element as SvgPath).Fill = new SvgColourServer(hexColor);
+            }
+            if(element is SvgGroup)
+            {
+                SvgColourServer clr = new SvgColourServer(orignalColor);
+                if ((element as SvgGroup).Fill == clr)
+                    (element as SvgGroup).Fill = new SvgColourServer(hexColor);
+            }
+            if (element.Children.Count > 0)
+            {
+                foreach (var item in element.Children)
+                {
+                    ChangeFill(item, hexColor,orignalColor);
+                }
+            }
+
+        }
+
+        private static void ChangeShapesFill(SvgElement element, Color hexColor)
+        {
+            if (element is SvgRectangle)
+            {
+
+                (element as SvgRectangle).Fill = new SvgColourServer(hexColor);
+            }
+            else if (element is SvgCircle)
+            {
+
+                (element as SvgCircle).Fill = new SvgColourServer(hexColor);
+            }
+            else if (element is SvgPolygon)
+            {
+
+                (element as SvgPolygon).Fill = new SvgColourServer(hexColor);
+            }
+            else if (element is SvgEllipse)
+            {
+
+                (element as SvgEllipse).Fill = new SvgColourServer(hexColor);
+            }
+            else if (element is SvgLine)
+            {
+
+                (element as SvgLine).Fill = new SvgColourServer(hexColor);
+            }
+            else if (element is SvgPolyline)
+            {
+
+                (element as SvgPolyline).Fill = new SvgColourServer(hexColor);
+            }
+            else if (element is SvgText)
+            {
+
+                (element as SvgText).Fill = new SvgColourServer(hexColor);
+            }
+
+        }
+        /// <summary>
+        ///  Recursive fill function to change the color of a selected node and all of its children.
+        /// </summary>
+        /// <param name="element">The current element been resolved.</param>
+        /// <param name="sourceColor">The source color to search for.</param>
+        /// <param name="replaceColor">The color to be replaced the source color with.</param>
+        public static string UpdateSvg(string srcUrl, float height, float width, List<svgColorData> colorStyles)
+        {
+            SvgDocument document = SvgDocument.Open(srcUrl);
+           // double width = oObject.MaxWidth.Value, height = oObject.MaxHeight.Value;
+            if (!document.Width.IsEmpty)
+                width = document.Width;
+            if (!document.Height.IsEmpty)
+                height = document.Height;
+
+            SvgUnit objUnit = new SvgUnit(SvgUnitType.Percentage, 100);
+            document.Width = objUnit;
+            document.Height = objUnit;
+            //apply colors
+
+            if(colorStyles != null && colorStyles.Count > 0 )
+            {
+                foreach (var obj in colorStyles)
+                {
+                    if(obj.PathIndex == -2)
+                    {
+                        if(obj.ModifiedColor != "")
+                            AdjustColour(document, obj.ModifiedColor);
+                    }
+                    else
+                    {
+                        if (obj.ModifiedColor != "")
+                        {
+                            var index = 0;
+                            for (int i = 0; i < document.Children.Count; i++)
+                            {
+                                if (document.Children[i] is SvgPath || document.Children[i] is SvgGroup)
+                                {
+
+                                    if (index == obj.PathIndex)
+                                    {
+                                        Color color = HexToColor(obj.ModifiedColor);
+                                        //   Color orgClr = HexToColor(obj.OriginalColor);
+                                        ChangeFill(document.Children[i], color);
+                                    }
+                                    index++;
+                                }
+                                else
+                                {
+
+                                    if (index == obj.PathIndex)
+                                    {
+                                        Color color = HexToColor(obj.ModifiedColor);
+                                        //   Color orgClr = HexToColor(obj.OriginalColor);
+                                         ChangeShapesFill(document.Children[i], color);
+                                    }
+                                    index++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            SvgViewBox vb = new SvgViewBox(0, 0, width, height);
+            document.ViewBox = vb;
+            document.AspectRatio.Align = Svg.SvgPreserveAspectRatio.none;
+            string ext = Path.GetExtension(srcUrl);
+            string sourcePath = srcUrl;
+           
+            
+            string[] results = sourcePath.Split(new string[] { ext }, StringSplitOptions.None);
+            string destPath = results[0] + "_modified" + ext;
+            document.Write(destPath);
+            return destPath;
+
+        }
+        public static void GetSvgHieghtAndWidth(string srcUrl, out double width, out double height)
+        {
+            width = 0;
+            height = 0;
+            //SvgDocument document = SvgDocument.Open(srcUrl);
+            //if (MaximumSize.Height != 0 && MaximumSize.Width != 0)
+            //{
+
+            //    if (document.Height > MaximumSize.Height)
+            //    {
+            //        width = (int)((document.Width / (double)document.Height) * MaximumSize.Height);
+            //        height = MaximumSize.Height;
+            //    }
+            //}else
+            //{
+            //    if (!document.Width.IsEmpty)
+            //        width = document.Width;
+            //    if (!document.Height.IsEmpty)
+            //        height = document.Height;
+            //}
+            var bitmap = GetBitmapFromSVG(srcUrl, "");
+            width = bitmap.Width;
+            height = bitmap.Height;
+         
+        }
+        public static string UpdateSvgData(string srcUrl, float height, float width)
+        {
+            string data = "";
+            SvgDocument document = SvgDocument.Open(srcUrl);
+            // double width = oObject.MaxWidth.Value, height = oObject.MaxHeight.Value;
+            if (!document.Width.IsEmpty)
+                width = document.Width;
+            if (!document.Height.IsEmpty)
+                height = document.Height;
+
+            SvgUnit objUnit = new SvgUnit(SvgUnitType.Percentage, 100);
+
+            data = "width='100%' heigh='100%' viewBox='0 0 " + width + " " + height + "'  preserveAspectRatio='none' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:cc='http://creativecommons.org/ns#' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:svg='http://www.w3.org/2000/svg' xmlns='http://www.w3.org/2000/svg' xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd' xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape' version='1.1'  x='0px' y='0px'";
+
+
+
+
+            return data;
 
         }
     }

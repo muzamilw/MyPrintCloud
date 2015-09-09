@@ -1,10 +1,10 @@
-html 
-{
+html {
     height: 100%;
 }
 
-body 
-{
+
+
+body {
     background: #fff;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
@@ -12,272 +12,318 @@ body
     height: 100%;
 }
 
-.sidenav 
-{
+.sidenav {
     width: 100%;
     margin-left: 0;
 }
 
-.errorFill 
-{
-    border: 1px solid red !important;
-    background-color: #fdd !important;
-}
-
-/* For Elements That use ValidationTooltip + Css: { 'errorFill': someValue } , css should be css: { 'errorFillWithValidation': someValue }  */
-.errorFillWithValidation {
-    border: 1px solid red !important;
-    background-color: #fdd !important;
-}
-
-.errorMsgText 
-{
+.errorMsgText {
     color: red !important;
     cursor: pointer !important;
 }
 
-div#spinner {
+.trial-description {
+    top: 0;
     position: fixed;
-    top: 50%;
-    left: 50%;
-    z-index:1000000011;
-    border: 2px solid #eeeeee;
-    font-size: 40px;
-    width: 1em;
-    height: 1em;
-    -moz-border-radius: .5em;
-    -webkit-border-radius: .5em;
-    -ms-border-radius: .5em;
-    border-radius: .5em;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    -webkit-animation: spin 1s linear infinite;
-    -moz-animation: spin 1s linear infinite;
-    -o-animation: spin 1s linear infinite;
-    -ms-animation: spin 1s linear infinite;
-    animation: spin 1s linear infinite;
-    border-top-color: #2eaef0;
+    left: 42%;
+    z-index: 10000;
+    background-color: white;
+    border-radius: 4px;
+    -webkit-box-shadow: 0px 0px 8px 2px gray;
+    -moz-box-shadow: 0px 0px 8px 2px gray;
+    box-shadow: 0px 0px 8px 2px gray;
 }
 
-.trial-description 
-        {
-            top: 0;
-            position: fixed;
-            left:42%;
-            z-index: 10000;
-            background-color: white;
-            border-radius: 4px;
-            -webkit-box-shadow: 0px 0px 8px 2px gray;
-            -moz-box-shadow: 0px 0px 8px 2px gray;
-            box-shadow: 0px 0px 8px 2px gray;
-            
-        }
+.myprintcloud-help {
+    position: fixed;
+    background-color: white;
+    width: 350px;
+    left: 41%;
+    border: 1px solid #dedede;
+    border-radius: 7px;
+    font-family: Arial;
+    z-index: 129000;
+}
 
-        .myprintcloud-help 
-        {
-            position: fixed;
-            
-            background-color: white;
-            width:350px;
-            left:41%;
-            border: 1px solid #dedede;
-            border-radius: 7px;
-            font-family: Arial;
-            
-            z-index: 129000;
-        }
-        
-        
 
-        .disabled-div 
-        {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            display: block;
-            background-color: black;
-            top: 0;
-            left: 0;
-            z-index: 119000;
-            opacity: 0.8;
-        }
 
-         .right-arrow
-         {
+.disabled-div {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: block;
+    background-color: black;
+    top: 0;
+    left: 0;
+    z-index: 119000;
+    opacity: 0.8;
+}
 
-            content: "";
-            position: absolute;
-            height: 0;
-            width: 0;
-            right:104%;
-            
-            top:35%;
-            border:24px solid transparent;
-            border-right: 15px solid gray;
-            
-           
-         }
-         
-          .left-arrow
-         { 
-            content:"";
-            position:absolute;
-            height:0;
-            width:0;
-            left:104%;
-            
-            top:35%;
-            border:24px solid transparent;
-            border-left: 15px solid gray;
-            
-           
-         }
-         .bottom-arrow
-         { 
-            content:"";
-            position:absolute;
-            height:0;
-            width:0;
-            top:107%;
-            left:42%;
-           
-            border:24px solid transparent;
-            border-top: 15px solid gray;
-            
-         }
-         .top-arrow
-         { 
-            content:"";
-            position:absolute;
-            height:0;
-            width:0;
-            bottom:107%;
-            left:42%;
-           
-            border:24px solid transparent;
-            border-bottom: 15px solid gray;
-            
-         }
+.right-arrow {
+    content: "";
+    position: absolute;
+    height: 0;
+    width: 0;
+    right: 104%;
+    top: 35%;
+    border: 24px solid transparent;
+    border-right: 15px solid gray;
+}
 
-        .help-divs 
-        {
-           
-            border-bottom:1px solid #dedede;
-          
-        }
-        .help-description
-        {
+.left-arrow {
+    content: "";
+    position: absolute;
+    height: 0;
+    width: 0;
+    left: 104%;
+    top: 35%;
+    border: 24px solid transparent;
+    border-left: 15px solid gray;
+}
 
-             border-bottom:1px solid #dedede;
-             padding:10px;
-        
-        }
-       #header 
-       {
-           text-align: center;
-       }
-       
+.bottom-arrow {
+    content: "";
+    position: absolute;
+    height: 0;
+    width: 0;
+    top: 107%;
+    left: 42%;
+    border: 24px solid transparent;
+    border-top: 15px solid gray;
+}
 
-  .machineDetailsHeader{
+.top-arrow {
+    content: "";
+    position: absolute;
+    height: 0;
+    width: 0;
+    bottom: 107%;
+    left: 42%;
+    border: 24px solid transparent;
+    border-bottom: 15px solid gray;
+}
+
+.help-divs {
+    border-bottom: 1px solid #dedede;
+}
+
+.help-description {
+    border-bottom: 1px solid #dedede;
+    padding: 10px;
+}
+
+#header {
+    text-align: center;
+}
+
+
+.machineDetailsHeader {
     border: 1px solid silver;
     box-shadow: 1px 1px 1px silver;
 }
-  .col-padding{
-    padding-left: 5px!important;
-  padding-right: 3px!important;
+
+.col-padding {
+    padding-left: 5px !important;
+    padding-right: 3px !important;
 }
-      
-   .aligndivs
-    {
-         display: inline;
-  float: left;
-  margin-right: 2px;
-  width: 66px;
-    }
-   .aligndivsFisrt{
-       /*text-align:right;*/
-         width: 230px;
-  display: inline;
-  float: left;
-  margin-right: 40px;
-  
-   }
-   .textboxwidth
-   {
-      width: 66px!important;
-   }
-   .aligndivsCurr
-    {
-         display: inline;
-  float: left;
-  margin-right: 2px;
-  width: 100px;
-    }
-   .marginR10{margin-right: 10px!important ;}
-   .marginR7 {margin-right: 7px!important ;}
 
-   .iconplus{background: url(OperatorIcons.png) -3px -3px no-repeat;
-  height: 21px;
-  width: 23px;
-  margin: 5px 0px 0px 0px;
-  position: absolute;
-  cursor: pointer;}
-   .iconsubtract{background: url(OperatorIcons.png) -25px -4px no-repeat;
-  height: 21px;
-  width: 23px;
-  margin: 6px 0px 0px 21px;
-  position: absolute;
-  cursor: pointer;}
-   .iconmultiply{background: url(OperatorIcons.png) -47px -4px no-repeat;
-  height: 21px;
-  width: 23px; 
+.aligndivs {
+    display: inline;
+    float: left;
+    margin-right: 2px;
+    width: 66px;
+}
 
-  margin: 6px 0 0 43px;
-  position: absolute;
-  cursor: pointer;}
-   .icondivide{  background: url(OperatorIcons.png) -71px -3px no-repeat;
-  height: 21px;
-  width: 23px;
-  margin: 5px 0 0 66px;
-  position: absolute;
-  cursor: pointer;}
-   .iconif{background: url(OperatorIcons.png) -94px -4px no-repeat;
-  height: 21px;
-  width: 23px;
-  margin: 6px 0 0 88px;
-  position: absolute;
-  cursor: pointer;}
-   .iconifelse{background: url(OperatorIcons.png) -117px -4px no-repeat;
-  height: 21px;
-  width: 64px;
-  margin: 6px 0 0 110px;
-  position: absolute;
-  cursor: pointer;}
-    .iconmode{background: url(OperatorIcons.png) -181px -4px no-repeat;
-  height: 21px;
-  width: 42px;
-  margin: 6px 0 0 173px;
-  position: absolute;
-  cursor: pointer;}
-   .iconpercent{background: url(OperatorIcons.png) -224px -4px no-repeat;
-  height: 21px;
-  width: 23px;
-  margin: 6px 0 0 215px;
-  position: absolute;
-  cursor: pointer;}
-   .iconstartbrace{background: url(OperatorIcons.png) -247px -4px no-repeat;
-  height: 21px;
-  width: 23px;
-  margin: 6px 0 0 237px;
-  position: absolute;
-  cursor: pointer;}
-   .iconendbrace{background: url(OperatorIcons.png) -271px -4px no-repeat;
-  height: 21px;
-  width: 23px;
-  margin: 6px 0 0 260px;
-  position: absolute;
-  cursor: pointer;}
-   
-   
-  
+.aligndivsFisrt {
+    /*text-align:right;*/
+    width: 230px;
+    display: inline;
+    float: left;
+    margin-right: 40px;
+}
+
+.textboxwidth {
+    width: 66px !important;
+}
+
+.aligndivsCurr {
+    display: inline;
+    float: left;
+    margin-right: 2px;
+    width: 100px;
+}
+
+.marginR10 {
+    margin-right: 10px !important;
+}
+
+.marginR7 {
+    margin-right: 7px !important;
+}
+
+.iconplus {
+    background: url(OperatorIcons.png) -3px -3px no-repeat;
+}
+
+.iconsubtract {
+    background: url(OperatorIcons.png) -25px -4px no-repeat;
+}
+
+.iconmultiply {
+    background: url(OperatorIcons.png) -47px -4px no-repeat;
+}
+
+.icondivide {
+    background: url(OperatorIcons.png) -71px -3px no-repeat;
+}
+
+.iconif {
+    background: url(OperatorIcons.png) -94px -4px no-repeat;
+}
+
+.iconifelse {
+    background: url(OperatorIcons.png) -117px -4px no-repeat;
+}
+
+.iconmode {
+    background: url(OperatorIcons.png) -181px -4px no-repeat;
+}
+
+.iconpercent {
+    background: url(OperatorIcons.png) -224px -4px no-repeat;
+}
+
+.iconstartbrace {
+    background: url(OperatorIcons.png) -247px -4px no-repeat;
+}
+
+.iconendbrace {
+    background: url(OperatorIcons.png) -271px -4px no-repeat;
+}
+
+.iconFormulaCost {
+    height: 21px;
+    width: 23px;
+    margin: 6px 0 0 5px;
+    cursor: pointer;
+}
+
+.dashboardcounters23 {
+    font-size: 23px;
+    font-weight: 600;
+}
+
+.font24px {
+    font-size: 24px;
+}
+
+.selectedReport {
+    background: none repeat scroll 0 0 #E5E5ED !important;
+}
+
+
+
+.ThoumbnailCostCenter {
+    color: lightgray;
+    font-size: 0.875em;
+    margin-top: 43px;
+}
+
+.selectedRow {
+    background: none repeat scroll 0 0 #E5E5ED !important;
+}
+
+a.reportAnchor a:hover {
+    text-decoration: underline;
+}
+
+
+.height60 {
+    height: 60px;
+}
+
+.btn-yellow {
+    background-color: #ffdd0c;
+    border-color: #FFD400;
+    color: #FFFFFF;
+}
+
+    .btn-yellow:hover, .btn-yellow:focus, .btn-yellow:active, .btn-yellow.active, .open .dropdown-toggle.btn-yellow {
+        background-color: #FF7F00;
+        color: #FFFFFF;
+    }
+
+.bigcheckbox {
+    float: left;
+    margin: 0px !important;
+    width: 20px;
+    height: 20px;
+}
+
+.notes {
+    background-color: #FCFBB6;
+}
+
+
+.imgtext {
+    position: absolute;
+    top: 61px;
+    left: 1px;
+    background: transparent;
+    border: none;
+    width: 120px;
+}
+
+.margintop10 {
+    margin-top: 10px;
+}
+
+.signaturemodify {
+    margin-left: 15px;
+    bottom: 20px;
+    position: absolute;
+}
+
+.group-header-Shortdescription {
+    padding-left: 8px;
+    font-size: 0.8em;
+    margin-top: -5px;
+    margin-bottom: 20px;
+}
+.box-shadow-all {
+    box-shadow: 0 0 5px #CCCCCC !important;
+}
+.jobdescription{
+    width:75%;float:left;height:34px
+}
+.marginR5 {margin-right: 5px!important ;}
+.marginR10{margin-right: 10px!important ;}
+.marginT5 {margin-top:5px!important;}
+.marginT10{margin-top:10px!important;}
+.marginB5 {margin-bottom: 5px;}
+.marginB10 {margin-bottom: 10px;}
+.marginL5 {margin-left: 5px;}
+.marginL10 {margin-left: 10px;}
+.margin10 {margin: 10px;}
+
+.addressbox{
+    border: 1px solid rgb(238, 238, 238)!important;
+    padding: 35px!important;
+    margin-bottom: 24px!important;
+}
+.redcolor{
+    color:red;
+}
+.bluecolor{
+    color:blue;
+}
+.sectionmultiplier {
+    bottom: 63px;
+    margin-left: 10%;
+    position: absolute;
+}
+.sectionmultiplierindex {
+    bottom: 43px;
+    margin-left: 10%;
+    position: absolute;
+}

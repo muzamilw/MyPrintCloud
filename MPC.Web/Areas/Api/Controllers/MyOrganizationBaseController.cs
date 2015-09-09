@@ -51,6 +51,15 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
             return myOrganizationService.GetBaseData().CreateFrom();
         }
+
+        public MyOrganizationBaseResponse GetRegionalSettings(bool isRegional)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            return myOrganizationService.GetRegionalSettingBaseData().CreateFrom();
+        }
         #endregion
     }
 }

@@ -103,6 +103,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        canPlaceDirectOrder = source.canPlaceDirectOrder,
                        OrganisationId = source.OrganisationId,
                        FileName = source.FileName,
+                       SecondaryEmail = source.SecondaryEmail,
                        ScopeVariables = source.ScopVariables != null ? source.ScopVariables.Select(ccv => ccv.CreateFrom()).ToList() : null
 
                        //CompanyTerritory = source.BussinessAddress.Territory.CreateFrom(),
@@ -217,6 +218,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        OrganisationId = source.OrganisationId,
                        RoleName = source.CompanyContactRole != null ? source.CompanyContactRole.ContactRoleName : string.Empty,
                        FileName = fileName,
+                       SecondaryEmail = source.SecondaryEmail,
+                       StoreName = source.Company != null ? source.Company.StoreName: string.Empty
 
                    };
         }
@@ -271,7 +274,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 ContactId = source.ContactId,
                 Name = string.Format(CultureInfo.InvariantCulture, "{0} {1}", source.FirstName, source.LastName),
-                Email = source.Email
+                Email = source.Email,
+                IsDefaultContact = source.IsDefaultContact
             };
         }
 
@@ -313,9 +317,41 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new CompanyContactForCalendar
             {
                 ContactId = source.ContactId,
+                CompanyId = source.CompanyId,
                 Name = source.FirstName,
                 CompanyName = source.Company != null ? source.Company.Name : string.Empty
             };
         }
+
+        /// <summary>
+        /// Mapper for Order screen
+        /// </summary>
+        public static ContactResponseForOrder CreateFrom(this MPC.Models.ResponseModels.ContactsResponseForOrder response)
+        {
+            return new ContactResponseForOrder
+            {
+                CompanyContacts = response.CompanyContacts.Select(contact => contact.CreateFromForOrder()),
+                RowCount = response.RowCount
+            };
+        }
+
+        /// <summary>
+        /// Create From for Order
+        /// </summary>
+        public static CompanyContactForOrder CreateFromForOrder(this DomainModels.CompanyContact source)
+        {
+            return new CompanyContactForOrder
+            {
+                ContactId = source.ContactId,
+                AddressId = source.AddressId,
+                CompanyId = source.CompanyId,
+                CompanyName = source.Company.Name,
+                StoreName = source.Company.StoreName,
+                StoreId = source.Company.StoreId,
+                Name = string.Format(CultureInfo.InvariantCulture, "{0} {1}", source.FirstName, source.LastName),
+                IsCustomer = source.Company.IsCustomer
+            };
+        }
+
     }
 }

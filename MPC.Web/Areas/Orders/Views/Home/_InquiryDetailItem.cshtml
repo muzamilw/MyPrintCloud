@@ -1,0 +1,52 @@
+﻿
+<div class="modal fade" id="InquiryDetailItemDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add/Edit Inquiry Item</h4>
+            </div>
+            <div class="col-lg-12" data-bind="with: $root.selectedInquiryItem">
+                <div class="col-lg-12 clearfix">
+                    <div class="main-box-body clearfix">
+                        <div class="col-lg-9 outerDiv-Padding form-horizontal">
+                            <div class="form-group col-lg-12">
+                                <div class="col-lg-4 text-right"><label class="control-label text-right">Title</label></div>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control" data-bind="value: title, validationTooltip: title " />
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <div class="col-lg-4 text-right"><label class="control-label text-right">Select Product Type</label></div>
+                                <div class="col-lg-8">
+                                    <select class="form-control" data-bind="options: $root.pipelineProducts, optionsText: 'name', optionsId: 'id', optionsValue: 'id', optionsCaption: 'Select Product Type', value: productId"></select>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <div class="col-lg-4 text-right"><label class="control-label text-right">Delivery Date</label></div>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control" data-bind="datepicker: deliveryDate " />
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <div class="col-lg-4 text-right"><label class="control-label text-right">Notes</label></div>
+                                <div class="col-lg-8">
+                                    <textarea class="form-control notes" data-bind="value: notes " style="height: 80px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="main-box-header pull-right"></footer>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding-left:0px;padding-right:0px;">
+                <hr style="margin-bottom:15px;"/>
+                <div style="padding-right:8px;">
+                    <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveInquiryDetailItem">Add</button>
+                    @*<button type="button" class="btn btn-default" data-dismiss="modal" data-bind="click: $root.onCloseInquiryDetailItem">Close</button>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

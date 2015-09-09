@@ -1,8 +1,11 @@
 ﻿@model List<MPC.Models.DomainModels.ProductCategory>
 @using MPC.Webstore.Common;
+@{
+    Layout = null;
+}
 @if (Model != null && Model.Count > 0)
 {
-    <div class="top_sub_section TopMenuH60W100Px container content_area">
+    <div class="top_sub_section TopMenuH60W100Px container content_area" id="all-categoryHeader-pg">
         <div class="">
             <div class="left_right_padding">
                 <div id="divMenu" class="menu">
@@ -32,7 +35,7 @@
                 <div class="float_right Fsize15 lnkContactUS" style="padding-top: 10.5px;">
                     <ul class="navM neg_left_margin_5 cursor_pointer">
                         <li id="liContcUS">
-                            <a id="lnk_ContactUs" class="top_sub_section_links marginLeft" href="/ContactUs">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkContactUs", UserCookieManager.WBStoreId))</a>
+                            <a id="lnk_ContactUs" class="top_sub_section_links marginLeft" href="/ContactUs">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkContactUs", UserCookieManager.WBStoreId, "Contact Us"))</a>
                         </li>
                     </ul>
                 </div>

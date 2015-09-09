@@ -101,21 +101,50 @@ namespace MPC.Implementation.MISServices
 
         public CostCentre Add(CostCentre costcenter)
         {
-            Organisation org = _organisationRepository.GetOrganizatiobByID();
-            string sOrgName = org.OrganisationName.Replace(" ", "").Trim();
-            // _costCenterRepository.Add(costcenter);
-            SaveCostCentre(costcenter, org.OrganisationId, sOrgName, true);
+            costcenter.ThumbnailImageURL = SaveCostCenterImage(costcenter);
+            if(costcenter.Type == (int)CostCenterTypes.Delivery)
+            {
+                costcenter.IsParsed = true;
+                costcenter.TypeName = "Delivery";
+                _costCenterRepository.InsertCostCentre(costcenter);                
+            }
+            else
+            {
+                Organisation org = _organisationRepository.GetOrganizatiobByID();
+                string sOrgName = specialCharactersEncoderCostCentre(org.OrganisationName);
+                // _costCenterRepository.Add(costcenter);
+                SaveCostCentre(costcenter, org.OrganisationId, sOrgName, true);
+            }
+           
             return costcenter;
         }
 
         public CostCentre Update(CostCentre costcenter)
         {
-            Organisation org = _organisationRepository.GetOrganizatiobByID();
-            string sOrgName = org.OrganisationName.Replace(" ", "").Trim();
             costcenter.ThumbnailImageURL = SaveCostCenterImage(costcenter);
             _costCenterRepository.Update(costcenter);
-            SaveCostCentre(costcenter, org.OrganisationId, sOrgName, false);            
+            if (costcenter.Type == (int)CostCenterTypes.Delivery)
+            {
+                costcenter.IsParsed = true;
+                _costCenterRepository.UpdateCostCentre(costcenter);
+            }
+            else
+            {
+                Organisation org = _organisationRepository.GetOrganizatiobByID();
+                string sOrgName = specialCharactersEncoderCostCentre(org.OrganisationName);
+                SaveCostCentre(costcenter, org.OrganisationId, sOrgName, false);  
+            }
+                      
             return costcenter;
+        }
+
+        public void CostCentreDLL(CostCentre costcenter,long organisationId)
+        {
+            Organisation org = _organisationRepository.GetOrganizatiobByOrganisationID(organisationId);
+            string sOrgName = specialCharactersEncoderCostCentre(org.OrganisationName);
+            SaveCostCentre(costcenter, org.OrganisationId, sOrgName, false);  
+
+
         }
         public bool Delete(long costcenterId)
         {
@@ -213,13 +242,13 @@ namespace MPC.Implementation.MISServices
                 if (costcenter.TimeSourceType == 1)
                 {
 
-                    var varName = _costCentreVariableRepository.LoadVariable(costcenter.TimeVariableId??0);
-                    sCodeString = "Dim vNoOfHours as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.TimeVariableId) + "\",Name=\"" + (varName != null ? varName.Name : "") + "\"}" + Environment.NewLine; 
-                    sCodeString += "EstimatedPlantCost = {cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} +  ((vNoOfHours * {cinput,id=\"3\",question=\"Cost Per Hour\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.PerHourCost) + "\"} ) *  {cinput,id=\"4\",question=\"Passes\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimeNoOfPasses)+ "\"} ) ";
+                    var varName = _costCentreVariableRepository.LoadVariable(costcenter.TimeVariableId ?? 0);
+                    sCodeString = "Dim vNoOfHours as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.TimeVariableId) + "\",Name=\"" + (varName != null ? varName.Name : "") + "\"}" + Environment.NewLine;
+                    sCodeString += "EstimatedPlantCost = 0 ";
                     sCostPlant += sCodeString;
 
-                    sCodeString = "Dim vNoOfHours as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.TimeVariableId) + "\",Name=\"" + (varName != null ? varName.Name : "" ) + "\"}" + Environment.NewLine; 
-                    sCodeString += "QuotedPlantPrice = {cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} +  ((vNoOfHours * {cinput,id=\"5\",question=\"Price Per Hour\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.PerHourCost) + "\"} ) *  {cinput,id=\"4\",question=\"Passes\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimeNoOfPasses) + "\"} ) ";
+                    sCodeString = "Dim vNoOfHours as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.TimeVariableId) + "\",Name=\"" + (varName != null ? varName.Name : "") + "\"}" + Environment.NewLine;
+                    sCodeString += "QuotedPlantPrice = SetupCost +  (vNoOfHours * " + Convert.ToString(costcenter.PerHourPrice == null ? "0" : costcenter.PerHourPrice.ToString()) + " )  ";
                     sPricePlant += sCodeString;
 
                     sCodeString = "EstimatedTime = (vNoOfHours + " + "{cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + " ) ";
@@ -228,11 +257,11 @@ namespace MPC.Implementation.MISServices
                 else if (costcenter.TimeSourceType == 2)
                 {
                     sCodeString = "Dim vNoOfHours as Integer =  {cinput,id=\"6\",question=\"" + costcenter.TimeQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + Environment.NewLine;
-                    sCodeString += "EstimatedPlantCost = {cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} +  ((vNoOfHours * {cinput,id=\"3\",question=\"Cost Per Hour\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.PerHourCost) + "\"} ) *  {cinput,id=\"4\",question=\"Passes\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimeNoOfPasses) + "\"} ) ";
+                    sCodeString += "EstimatedPlantCost = 0";
                     sCostPlant += sCodeString;
 
                     sCodeString = "Dim vNoOfHours as Integer =  {cinput,id=\"6\",question=\"" + costcenter.TimeQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimeQuestionDefaultValue) + "\"} " + Environment.NewLine;
-                    sCodeString += "QuotedPlantPrice = {cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} +  ((vNoOfHours * {cinput,id=\"5\",question=\"Price Per Hour\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.PerHourCost) + "\"} ) *  {cinput,id=\"4\",question=\"Passes\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimeNoOfPasses) + "\"} ) ";
+                    sCodeString += "QuotedPlantPrice = SetupCost +  (vNoOfHours * " + Convert.ToString(costcenter.PerHourPrice == null ? "0" : costcenter.PerHourPrice.ToString()) + " )  ";
                     sPricePlant += sCodeString;
 
                     sCodeString = "EstimatedTime = (vNoOfHours + " + "{cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + " ) ";
@@ -470,11 +499,9 @@ namespace MPC.Implementation.MISServices
                 {
                     //    BLL.CostCentres.CostCentre.DeleteCodeFile(sCostCentreFileName, Application.StartupPath.ToString + "\binaries\")
                     IsCompiled = false;
-                    if (!costcenter.IsParsed)
-                    {
-                        throw new Exception("Error Compiling Costcentre", ex);
-                    }
-                    
+                        //throw new Exception("Error Compiling Costcentre", ex.ToString());
+
+                    throw ex;
 
                 }
                 finally
@@ -801,7 +828,7 @@ namespace MPC.Implementation.MISServices
                     result = null;
                     Source = null;
                     co = null;
-                    throw new Exception("Compilation Errors : " + errorString + "<br><br> Output :");
+                    throw new Exception("There are syntax errors in Cost Center Charge String. Please review Cost Center charge string. <br><br>Error Details : " + errorString + "<br><br> Output :");
                 }
                 else
                 {
@@ -966,7 +993,10 @@ namespace MPC.Implementation.MISServices
                 base64 = base64.Trim('\0');
                 byte[] data = Convert.FromBase64String(base64);
 
-                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/CostCentres/" + _costCenterRepository.OrganisationId + "/" + costcenter.CostCentreId);
+                long costCenterId = costcenter.CostCentreId == 0 ? this.GetMaxCostCentreID() : costcenter.CostCentreId;
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/CostCentres/" + _costCenterRepository.OrganisationId + "/" + costCenterId);
+
+                
 
                 if (directoryPath != null && !Directory.Exists(directoryPath))
                 {
@@ -1164,6 +1194,344 @@ namespace MPC.Implementation.MISServices
             };
         }
 
+        public string specialCharactersEncoderCostCentre(string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                value = value.Replace("/", "");
+                value = value.Replace(" ", "");
+                value = value.Replace(";", "");
+                value = value.Replace("&#34;", "");
+                value = value.Replace("&", "");
+                value = value.Replace("+", "");
+            }
+
+            return value;
+        }
+
+
+
+        public bool ReCompileAllCostCentres(long OrganisationId)
+        {
+
+            Organisation org = _organisationRepository.GetOrganizatiobByOrganisationID(OrganisationId);
+            string OrganisationName = specialCharactersEncoderCostCentre(org.OrganisationName);
+
+            CostCentreTemplate oTemplate = _costCenterRepository.LoadCostCentreTemplate(2);
+
+            StringBuilder sSuperCode = new StringBuilder();
+            StringBuilder sCode = new StringBuilder();
+
+            foreach (var costcenter in _costCenterRepository.GetAllCostCentresForRecompiling(OrganisationId))
+            {
+
+                long _CostCentreID = costcenter.CostCentreId;
+                //creating a costcentre code file and updating it and compile it.
+
+                string Header, Footer, Middle;
+                double SetupCost = costcenter.SetupCost ?? 0;
+                int SetupTime = costcenter.SetupTime ?? 0;
+                double MinCost = costcenter.MinimumCost ?? 0;
+                double DefaultProfitMargin = costcenter.DefaultVA ?? 0;
+                string sCostPlant = string.Empty;
+                string sCostLabour = string.Empty;
+                string sCostStock = string.Empty;
+                string sTime = string.Empty;
+                string sPricePlant = string.Empty;
+                string sPriceLabour = string.Empty;
+                string sPriceStock = string.Empty;
+                string sActualPlantCost = "";
+                string sActualStockCost = "";
+                string sActualLabourCost = "";
+              
+                if (costcenter.Type > 0)
+                {
+                    CostCentreType otype = _costcentreTypeRepository.GetCostCenterTypeById(costcenter.Type);
+                    costcenter.TypeName = otype.TypeName;
+                }
+                if (costcenter.CalculationMethodType == (int)CalculationMethods.Fixed)
+                {
+                    sCostPlant = " {cinput,id=\"1\",question=\"" + costcenter.CostQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + costcenter.CostDefaultValue + "\"} ";
+                    sPricePlant = " {cinput,id=\"2\",question=\"" + costcenter.PriceQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + costcenter.PriceDefaultValue + "\"} ";
+                    sTime = " {cinput,id=\"3\",question=\"" + costcenter.EstimatedTimeQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + costcenter.EstimatedTimeDefaultValue + "\"} ";
+                    sCostPlant = TokenParse(sCostPlant);
+                    sPricePlant = TokenParse(sPricePlant);
+                    sTime = TokenParse(sTime);
+                }
+                else if (costcenter.CalculationMethodType == (int)CalculationMethods.QuantityBase)
+                {
+                    string sCodeString = string.Empty;
+                    if (costcenter.QuantitySourceType == 1)
+                    {
+                        var varName = _costCentreVariableRepository.LoadVariable(costcenter.QuantityVariableId ?? 0);
+                        sCodeString = "Dim vQuantity as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.QuantityVariableId) + "\",Name=\"" + (varName != null ? varName.Name : "") + "\"}" + Environment.NewLine;
+                        sCodeString += "EstimatedPlantCost =  {cinput,id=\"1\",question=\"Setup Cost\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupCost) + "\"} " + "  + (" + "{cinput,id=\"2\",question=\"Cost Per Unit Quantity\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.CostPerUnitQuantity) + "\"} * vQuantity )";
+                        sCostPlant += sCodeString;
+
+                        sCodeString = "Dim vQuantity as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.QuantityVariableId) + "\",Name=\"" + (varName != null ? varName.Name : "") + "\"}" + Environment.NewLine;
+                        sCodeString += "QuotedPlantPrice =  " + "{cinput,id=\"1\",question=\"Setup Cost\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupCost) + "\"} " + "  + (" + "{cinput,id=\"4\",question=\"Price Per Unit Quantity\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.PricePerUnitQuantity) + "\"} * vQuantity )";
+                        sPricePlant += sCodeString;
+
+                        sCodeString = "EstimatedTime =  " + "{cinput,id=\"5\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + " + ( " + "{cinput,id=\"6\",question=\"Time per Unit Quantity\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimePerUnitQuantity) + "\"} * vQuantity )";
+                        sTime += sCodeString;
+                    }
+                    else if (costcenter.QuantitySourceType == 2)
+                    {
+                        sCodeString = "Dim vQuantity as Integer =  {cinput,id=\"1\",question=\"" + costcenter.QuantityQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.QuantityQuestionDefaultValue) + "\"} " + Environment.NewLine;
+                        sCodeString += "EstimatedPlantCost =  " + "{cinput,id=\"2\",question=\"Setup Cost\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupCost) + "\"} " + "  + (" + "{cinput,id=\"3\",question=\"Cost Per Unit Quantity\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.CostPerUnitQuantity) + "\"} * vQuantity ) ";
+                        sCostPlant += sCodeString;
+
+                        sCodeString = "Dim vQuantity as Integer =  {cinput,id=\"1\",question=\"" + costcenter.QuantityQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.QuantityQuestionDefaultValue) + "\"} " + Environment.NewLine;
+                        sCodeString += "QuotedPlantPrice =  " + "{cinput,id=\"2\",question=\"Setup Cost\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupCost) + "\"} " + "  + (" + "{cinput,id=\"5\",question=\"Price Per Unit Quantity\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.PricePerUnitQuantity) + "\"} * vQuantity ) ";
+                        sPricePlant += sCodeString;
+
+                        sCodeString = "EstimatedTime =  " + "{cinput,id=\"6\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + " + ( " + "{cinput,id=\"7\",question=\"Time per Unit Quantity\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimePerUnitQuantity) + "\"} * vQuantity ) ";
+                        sTime += sCodeString;
+                    }
+                }
+                else if (costcenter.CalculationMethodType == (int)CalculationMethods.PerHour)
+                {
+                    string sCodeString = string.Empty;
+                    if (costcenter.TimeSourceType == 1)
+                    {
+
+                        var varName = _costCentreVariableRepository.LoadVariable(costcenter.TimeVariableId ?? 0);
+                        sCodeString = "Dim vNoOfHours as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.TimeVariableId) + "\",Name=\"" + (varName != null ? varName.Name : "") + "\"}" + Environment.NewLine;
+                        sCodeString += "EstimatedPlantCost = 0    ";
+                        sCostPlant += sCodeString;
+
+                        sCodeString = "Dim vNoOfHours as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.TimeVariableId) + "\",Name=\"" + (varName != null ? varName.Name : "") + "\"}" + Environment.NewLine;
+                        sCodeString += "QuotedPlantPrice = SetupCost +  (vNoOfHours * " + Convert.ToString(costcenter.PerHourPrice == null ? "0" : costcenter.PerHourPrice.ToString()) + " )  ";
+                        sPricePlant += sCodeString;
+
+                        sCodeString = "EstimatedTime = (vNoOfHours + " + "{cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + " ) ";
+                        sTime += sCodeString;
+                    }
+                    else if (costcenter.TimeSourceType == 2)
+                    {
+                        sCodeString = "Dim vNoOfHours as Integer =  {cinput,id=\"6\",question=\"" + costcenter.TimeQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + Environment.NewLine;
+                        sCodeString += "EstimatedPlantCost = 0 ";
+                        sCostPlant += sCodeString;
+
+                        sCodeString = "Dim vNoOfHours as Integer =  {cinput,id=\"6\",question=\"" + costcenter.TimeQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimeQuestionDefaultValue) + "\"} " + Environment.NewLine;
+                        sCodeString += "QuotedPlantPrice = SetupCost +  (vNoOfHours * " + Convert.ToString(costcenter.PerHourPrice == null ? "0" : costcenter.PerHourPrice.ToString()) + " )  ";
+                        sPricePlant += sCodeString;
+
+                        sCodeString = "EstimatedTime = (vNoOfHours + " + "{cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + " ) ";
+                        sTime += sCodeString;
+                    }
+                }
+                else if (costcenter.CalculationMethodType == (int)CalculationMethods.FormulaBase)
+                {
+
+                    // Set Cost Strings
+                    if (string.IsNullOrEmpty(costcenter.strCostPlantUnParsed))
+                        sCostPlant = "EstimatedPlantCost = 0";
+                    else
+                        sCostPlant = costcenter.strCostPlantUnParsed;
+                    if (string.IsNullOrEmpty(costcenter.strCostLabourUnParsed))
+                        sCostLabour = "EstimatedLabourCost = 0";
+                    else
+                        sCostLabour = costcenter.strCostLabourUnParsed;
+                    if (string.IsNullOrEmpty(costcenter.strCostMaterialUnParsed))
+                        sCostStock = "EstimatedMaterialCost = 0";
+                    else
+                        sCostStock = costcenter.strCostMaterialUnParsed;
+                    if (string.IsNullOrEmpty(costcenter.strTimeUnParsed))
+                        sTime = "EstimatedTime = 0";
+                    else
+                        sTime = costcenter.strTimeUnParsed;
+
+                    // Set Price Strings
+                    if (string.IsNullOrEmpty(costcenter.strPricePlantUnParsed))
+                        sPricePlant = "QuotedPlantPrice = 0";
+                    else
+                        sPricePlant = costcenter.strPricePlantUnParsed;
+                    if (string.IsNullOrEmpty(costcenter.strPriceLabourUnParsed))
+                        sPriceLabour = "QuotedLabourPrice = 0";
+                    else
+                        sPriceLabour = costcenter.strPriceLabourUnParsed;
+                    if (string.IsNullOrEmpty(costcenter.strPriceMaterialUnParsed))
+                        sPriceStock = "QuotedMaterialPrice = 0";
+                    else
+                        sPriceStock = costcenter.strPriceMaterialUnParsed;
+
+                    //sCostPlant = TokenParse("EstimatedPlantCost = {SystemVariable, ID=\"1\",Name=\"Number of unique Inks used on Side 1\"} * {question, ID=\"13\",caption=\"How many boxes\"} * {matrix, ID=\"19\",Name=\"Super Formula Matrix\"} * {question, ID=\"34\",caption=\"How many sections to fold?\"} * {question, ID=\"51\",caption=\"Multiple Options\"} ");
+
+
+                }
+
+                sCostPlant = TokenParse(sCostPlant);
+                sCostLabour = TokenParse(sCostLabour);
+                sCostStock = TokenParse(sCostStock);
+                sTime = TokenParse(sTime);
+
+                sPricePlant = TokenParse(sPricePlant);
+                sPriceLabour = TokenParse(sPriceLabour);
+                sPriceStock = TokenParse(sPriceStock);
+                costcenter.IsParsed = true;
+
+                {
+                    char spacechar = '\0';
+                    spacechar = (char)95;
+                    //replacing any unwanted characters in the costcentrename and create file name
+
+                    Header = oTemplate.Header.Substring(0, oTemplate.Header.IndexOf("''<cost>") - 2);
+                    Middle = oTemplate.Middle.Substring(0, oTemplate.Middle.IndexOf("''<price>") - 2);
+                    Footer = oTemplate.Footer;
+
+                    //'getting new Cost centreID from Database
+
+
+
+                    //'replacing the CostCentre name and ID in the header string
+                    Header = Header.Replace("ccname", "CLS_" + _CostCentreID.ToString());
+                    Header = Header.Replace("<ccid>", _CostCentreID.ToString());
+
+                    //replacing the attribs of cost centre
+                    Header = Header.Replace("<ccsc>", SetupCost.ToString());
+                    Header = Header.Replace("<ccst>", SetupTime.ToString());
+                    Header = Header.Replace("<ccmc>", MinCost.ToString());
+                    Header = Header.Replace("<ccva>", DefaultProfitMargin.ToString());
+
+                    //'now making a code file string
+
+                    sCode.Clear();
+                    sCode.Append(Header);
+                    sCode.Append(Environment.NewLine + "''<cost>" + Environment.NewLine);
+                    sCode.Append(Environment.NewLine + "''<plant>" + Environment.NewLine);
+                    sCode.Append(sCostPlant);
+                    sCode.Append(Environment.NewLine + "''</plant>" + Environment.NewLine);
+                    sCode.Append(Environment.NewLine + "''<labour>" + Environment.NewLine);
+                    sCode.Append(sCostLabour);
+                    sCode.Append(Environment.NewLine + "''</labour>" + Environment.NewLine);
+                    sCode.Append(Environment.NewLine + "''<material>" + Environment.NewLine);
+                    sCode.Append(sCostStock);
+                    sCode.Append(Environment.NewLine + "''</material>" + Environment.NewLine);
+                    sCode.Append(Environment.NewLine + "''<time>" + Environment.NewLine);
+                    sCode.Append(sTime);
+                    sCode.Append(Environment.NewLine + "''</time>" + Environment.NewLine);
+
+                    sCode.Append(Environment.NewLine + "''</cost>" + Environment.NewLine);
+
+                    sCode.Append(Middle);
+
+                    sCode.Append(Environment.NewLine + "''<price>" + Environment.NewLine);
+                    sCode.Append(Environment.NewLine + "''<plant>" + Environment.NewLine);
+                    sCode.Append(sPricePlant);
+                    sCode.Append(Environment.NewLine + "''</plant>" + Environment.NewLine);
+                    sCode.Append(Environment.NewLine + "''<labour>" + Environment.NewLine);
+                    sCode.Append(sPriceLabour);
+                    sCode.Append(Environment.NewLine + "''</labour>" + Environment.NewLine);
+                    sCode.Append(Environment.NewLine + "''<material>" + Environment.NewLine);
+                    sCode.Append(sPriceStock);
+                    sCode.Append(Environment.NewLine + "''</material>" + Environment.NewLine);
+                    sCode.Append(Environment.NewLine + "''</price>" + Environment.NewLine);
+
+
+                    //process the footer here..
+                    //since footer also contains the ActualCOST area, we have to remove that AREA
+                    //and replace it with the new ACTUAL COST code
+
+                    //our code is between ''<actualcost>   and  ''</actualcost>
+                    int iStart = 0;
+                    int iStart2 = 0;
+                    int iLength = 0;
+                    string sActualCostString = null;
+
+                    sActualCostString = "''<plant>" + sActualPlantCost + "''</plant>" + "''</material>" + sActualStockCost + "''</material>" + "''</labour>" + sActualLabourCost + "''</labour>";
+
+                    iStart = Footer.IndexOf("''<actualcost>") + 14;
+                    iStart2 = Footer.IndexOf("''</actualcost>");
+                    Footer.Remove(iStart, iStart2 - iStart);
+                    Footer.Insert(iStart, sActualCostString);
+
+                    sCode.Append(Footer);
+                    sSuperCode.Append(sCode);
+
+                }
+                costcenter.CodeFileName = "CLS_" + _CostCentreID.ToString();
+                costcenter.CompleteCode = sCode.ToString();
+                _costCenterRepository.UpdateCostCentre(costcenter);
+
+            }
+
+            string oFullSource = sSuperCode.ToString();
+
+            oFullSource = oFullSource.Replace("Namespace UserCostCentres", "");
+
+            oFullSource = oFullSource.Replace("End Namespace", "");
+
+                string oSource = "";
+
+                //Get Complete Code of the CostCentre from the DB and Recompile it with the new changes
+                //List<CostCentre> oAllCostCentresCode = GetCompleteCodeofAllCostCentres(OrganisationId);
+
+
+                //oSource += "Imports Infinity" + Environment.NewLine;
+                oSource += "Imports System" + Environment.NewLine;
+                oSource += "Imports System.Data" + Environment.NewLine;
+                oSource += "Imports Microsoft.VisualBasic" + Environment.NewLine;
+                //oSource += System.Configuration.ConfigurationSettings.AppSettings("DALProviderNameSpace") + Environment.NewLine;
+                oSource += "Imports MPC.Implementation.MISServices" + Environment.NewLine;
+                oSource += "Imports MPC.Implementation.WebStoreServices" + Environment.NewLine;
+                oSource += "imports MPC.Models.DomainModels" + Environment.NewLine;
+                oSource += "imports MPC.Models.Common" + Environment.NewLine;
+                oSource += "Imports System.Reflection" + Environment.NewLine;
+                oSource += "Imports Microsoft.Practices.Unity" + Environment.NewLine;
+                oSource += "Imports ICostCentreService = MPC.Interfaces.WebStoreServices.ICostCentreService" + Environment.NewLine;
+                oSource += "Namespace UserCostCentres" + Environment.NewLine;
+
+
+                oSource += oFullSource;
+
+
+                oSource += "End Namespace" + Environment.NewLine;
+
+                //'if compilation fails then delete the code file
+
+                System.IO.FileStream oFileStream; ;
+                //string oCompanyName = OrganisationName;
+
+                //replacing any unwanted characters in the CompanyNames and create file name
+
+                bool IsCompiled = true;
+
+                try
+                {
+                    //Compile Code of CostCentres
+                    CompileBinaries(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\", oSource, OrganisationName);
+
+                    //Get CostCentre File Open it in Read Mode
+                    //oFileStream = System.IO.File.OpenRead(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + OrganisationName + "UserCostCentres.dll");
+
+                    //Get Byte Array of the file and write it in the db
+                    //byte[] CostCentreByte = new byte[Convert.ToInt32(oFileStream.Length - 1) + 1];
+
+                    //oFileStream.Read(CostCentreByte, 0, Convert.ToInt32(oFileStream.Length - 1));
+
+                    //CostCentreByte = null;
+                }
+                catch (Exception ex)
+                {
+                    //    BLL.CostCentres.CostCentre.DeleteCodeFile(sCostCentreFileName, Application.StartupPath.ToString + "\binaries\")
+                    IsCompiled = false;
+                    //throw new Exception("Error Compiling Costcentre", ex.ToString());
+                    //ex.HelpLink = oSource;
+                    throw ex;
+
+                }
+                finally
+                {
+
+                    oFileStream = null;
+
+                }
+
+                return true;
+
+
+        }
         #endregion
 
     }

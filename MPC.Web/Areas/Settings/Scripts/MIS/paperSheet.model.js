@@ -2,7 +2,7 @@
     var
 // ReSharper disable once InconsistentNaming
         PaperSheet = function (specifiedPaperSizeId, specifiedName, specifiedHeight, specifiedWidth, specifiedSizeMeasure, specifiedArea,
-                                specifiedIsFixed, specifiedRegion, specifiedIsArchived) {
+                                specifiedIsFixed, specifiedRegion, specifiedIsArchived,specifiedIsImperical) {
             var
                 self,
                 paperSizeId = ko.observable(specifiedPaperSizeId),
@@ -14,6 +14,12 @@
                 isFixed = ko.observable(specifiedIsFixed),
                 region = ko.observable(specifiedRegion),
                 isArchived = ko.observable(specifiedIsArchived),
+                IsImperical = ko.observable(specifiedIsImperical),
+                isImpericalUi = ko.computed(function () {
+                   
+                    return IsImperical() == true ? "1" : "0";
+                    
+                }),
              // Errors
              errors = ko.validation.group({
                  name: name,
@@ -36,7 +42,9 @@
                  area: area,
                  isFixed: isFixed,
                  region: region,
-                 isArchived: isArchived
+                 isArchived: isArchived,
+                 IsImperical: IsImperical,
+                 isImpericalUi: isImpericalUi
              }),
              // Has Changes
              hasChanges = ko.computed(function () {
@@ -52,7 +60,9 @@
                      Area: area(),
                      IsFixed: isFixed(),
                      Region: culture != null ? culture : region(),
-                     IsArchived: isArchived()
+                     IsArchived: isArchived(),
+                     IsImperical: IsImperical(),
+                     isImpericalUi: isImpericalUi()
                  };
              },
             // Reset
@@ -69,6 +79,8 @@
                 isFixed: isFixed,
                 region: region,
                 isArchived: isArchived,
+                IsImperical: IsImperical,
+                isImpericalUi: isImpericalUi,
                 isValid: isValid,
                 errors: errors,
                 dirtyFlag: dirtyFlag,
@@ -81,7 +93,7 @@
     //function to attain cancel button functionality 
     PaperSheet.CreateFromClientModel = function (source) {
          return new PaperSheet(source.paperSizeId, source.name, source.height, source.width, source.sizeMeasure, source.area,
-                               source.isFixed, source.region, source.isArchived);
+                               source.isFixed, source.region, source.isArchived,source.IsImperical);
      };
     // server to client mapper
      var paperSheetServertoClientMapper = function (source) {
@@ -91,7 +103,7 @@
     // Area Factory
      PaperSheet.Create = function (source) {
          return new PaperSheet(source.PaperSizeId, source.Name, source.Height, source.Width, source.SizeMeasure, source.Area,
-                               source.IsFixed, source.Region, source.IsArchived);
+                               source.IsFixed, source.Region, source.IsArchived,source.IsImperical);
      };
     return {
         PaperSheet: PaperSheet,

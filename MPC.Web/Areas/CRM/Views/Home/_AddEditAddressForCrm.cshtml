@@ -10,79 +10,49 @@
             </div>
             <br />
             <div class=" form-horizontal clearfix" data-bind="with: $root.selectedAddress">
-                <div class="col-lg-5">
-                    <div class="form-group ">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Address Name" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label for="txtAddressName" class="control-label text-right tooltip-float">Address Name</label>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <div class="col-lg-4 text-right">
+                             <label for="txtAddressName" class="control-label text-right tooltip-float">Address Name</label>
                         </div>
                         <div class="col-lg-7">
                             <input type="text" class="form-control" id="txtAddressName" data-bind="value: addressName, validationToolTip: addressName">
                         </div>
                     </div>
-                    <div class="form-group ">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Address 1" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
+                    <div class="form-group">
+                        <div class="col-lg-4 text-right">
                             <label for="txtAdd1" class="control-label text-right tooltip-float">Address 1</label>
                         </div>
                         <div class="col-lg-7">
                             <input type="text" class="form-control" id="txtAdd1" data-bind="value: address1, validationToolTip: address1">
                         </div>
                     </div>
-                    <div class="form-group ">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Address 2" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label for="txtAdd2" class="control-label text-right tooltip-float">Address 2</label>
+                    <div class="form-group">
+                        <div class="col-lg-4 text-right">
+                           <label for="txtAdd2" class="control-label text-right tooltip-float">Address 2</label>
                         </div>
                         <div class="col-lg-7">
                             <input type="text" class="form-control" id="txtAdd2" data-bind="value: address2">
                         </div>
                     </div>
-                    <div class="form-group ">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Address 3" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label for="txtAdd3" class="control-label text-right tooltip-float">Address 3</label>
+                    <div class="form-group">
+                        <div class="col-lg-4 text-right">
+                           <label for="txtAdd3" class="control-label text-right tooltip-float">Address 3</label>
                         </div>
                         <div class="col-lg-7">
                             <input type="text" class="form-control" id="txtAdd3" data-bind="value: address3">
                         </div>
                     </div>
                     <div class="form-group ">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="City" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label for="txtCountry" class="control-label text-right tooltip-float">Country</label>
+                        <div class="col-lg-4 text-right">
+                           <label for="txtCountry" class="control-label text-right tooltip-float">Country</label>
                         </div>
                         <div class="col-lg-7">
                             <select id="country" class="form-control" data-bind="options: $root.countries , optionsText: 'CountryName', optionsValue: 'CountryId' ,value:country,validationtooltip:country"></select>
                         </div>
                     </div>
                     <div class="form-group ">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="State" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
+                        <div class="col-lg-4 text-right">
                             <label for="txtState" class="control-label text-right tooltip-float">State</label>
                         </div>
                         <div class="col-lg-7">
@@ -90,12 +60,7 @@
                         </div>
                     </div>
                     <div class="form-group ">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Country" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
+                        <div class="col-lg-4 text-right">
                             <label for="txtCity" class="control-label text-right tooltip-float">City</label>
                         </div>
                         <div class="col-lg-7">
@@ -104,25 +69,15 @@
                     </div>
 
                     <div class="form-group ">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Postal Code" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label for="txtPostalCode" class="control-label text-right tooltip-float">Postal Code</label>
+                        <div class="col-lg-4 text-right">
+                           <label for="txtPostalCode" class="control-label text-right tooltip-float">Postal Code</label>
                         </div>
                         <div class="col-lg-7">
                             <input type="text" class="form-control" id="txtPostalCode" data-bind="value: postCode">
                         </div>
                     </div>
                     <div class="form-group ">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Email" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
+                        <div class="col-lg-4 text-right">
                             <label for="txtEmail" class="control-label text-right tooltip-float">Email</label>
                         </div>
                         <div class="col-lg-7">
@@ -130,13 +85,8 @@
                         </div>
                     </div>
                     <div class="form-group ">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="FAQ" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label for="txtFAQ" class="control-label text-right tooltip-float">FAQ</label>
+                        <div class="col-lg-4 text-right">
+                           <label for="txtFAQ" class="control-label text-right tooltip-float">FAO</label>
                         </div>
                         <div class="col-lg-7">
                             <input type="text" class="form-control" id="txtFAQ" data-bind="value: fAO">
@@ -146,60 +96,34 @@
                 <div class="col-lg-6">
                     <div class="form-group">
                         <div class="col-lg-4 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Telephone 1" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label for="txtTel1" class="control-label text-right tooltip-float">Tel 1</label>
+                           <label for="txtTel1" class="control-label text-right tooltip-float">Tel 1</label>
                         </div>
                         <div class="col-lg-3">
-                            <input type="text" class="form-control" id="txtTel1" data-bind="value: tel1">
+                            <input style="padding: 5px;" type="text" class="form-control" id="txtTel1" data-bind="value: tel1">
                         </div>
-                        <div class="col-lg-3 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Extension 1" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
+                        <div class="col-lg-1 text-right" style="padding-left:0px;padding-right:0px;">
                             <label for="txtExt1" class="control-label text-right tooltip-float">Ext 1</label>
                         </div>
-                        <div class="col-lg-2">
-                            <input type="text" class="form-control" id="txtExt1" data-bind="value: extension1">
+                        <div class="col-lg-3">
+                            <input  type="text" class="form-control" id="txtExt1" data-bind="value: extension1">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-lg-4 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Telephone 2" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label for="txtTel2" class="control-label text-right tooltip-float">Tel 2</label>
+                           <label for="txtTel2" class="control-label text-right tooltip-float">Tel 2</label>
                         </div>
                         <div class="col-lg-3">
-                            <input type="text" class="form-control" id="txtTel2" data-bind="value: tel2">
+                            <input style="padding: 5px;" type="text" class="form-control" id="txtTel2" data-bind="value: tel2">
                         </div>
-                        <div class="col-lg-3 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Extension 2" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
+                        <div class="col-lg-1 text-right" style="padding-left:0px;padding-right:0px;">
                             <label for="txtExt2" class="control-label text-right tooltip-float">Ext 2</label>
                         </div>
-                        <div class="col-lg-2">
+                        <div class="col-lg-3">
                             <input type="text" class="form-control" id="txtExt2" data-bind="value: extension2">
                         </div>
                     </div>
                     <div class="form-group ">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Reference" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-
+                        <div class="col-lg-4 text-right">
                             <label for="txtReference" class="control-label text-right tooltip-float">Reference</label>
                         </div>
                         <div class="col-lg-7">
@@ -208,13 +132,8 @@
                     </div>
                     <!--ko if: $root.selectedStore().type() != 0 && $root.selectedStore().type() != 1 && $root.selectedStore().type() != 2-->
                     <div class="form-group ">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Territory" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-
+                        <div class="col-lg-4 text-right">
+                            
                             <label for="txtReference" class="control-label text-right tooltip-float">Territory</label>
                         </div>
                         <div class="col-lg-7">
@@ -223,12 +142,8 @@
                     </div>
                     <!--/ko-->
                     <div class="form-group ">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Fax" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
+                        <div class="col-lg-4 text-right">
+                            
 
                             <label for="txtFax" class="control-label text-right tooltip-float">Fax</label>
                         </div>
@@ -237,7 +152,7 @@
                         </div>
                     </div>
                     <div class="form-group ">
-                        <div class="col-lg-5 text-right">
+                        <div class="col-lg-4 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Latitude" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -251,7 +166,7 @@
                         </div>
                     </div>
                     <div class="form-group ">
-                        <div class="col-lg-5 text-right">
+                        <div class="col-lg-4 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Longitude" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -291,33 +206,37 @@
                     </div>*@
                     <!--/ko-->
                     <div class="form-group">
-                        <label class="col-md-9 text-right" for="switchCompDAdd">&nbsp;&nbsp;Company Default Address</label>
+                        <label class="col-md-8 text-right" for="switchCompDAddCrm" style="padding-right:8px;margin-top:7px;">&nbsp;&nbsp;Company Primary Address</label>
                         <div class="col-md-3">
-                            <div class="onoffswitch">
-                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCompDAdd" data-bind="checked: isDefaultAddress">
-                                <label class="onoffswitch-label" for="switchCompDAdd">
-                                    <div class="onoffswitch-inner"></div>
-                                    <div class="onoffswitch-switch"></div>
-                                </label>
+                            <div class="col-md-3" style="padding-left:0px;">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCompDAddCrm" data-bind="checked: isDefaultAddress, disable:isDefaultAddress">
+                                    <label class="onoffswitch-label" for="switchCompDAddCrm">
+                                        <div class="onoffswitch-inner"></div>
+                                        <div class="onoffswitch-switch"></div>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-9 text-right" for="switchCompDShippAdd">&nbsp;&nbsp;Company Default Shipping Address</label>
+                        <label class="col-md-8 text-right" for="switchIsDefaultShippingAddress" style="padding-right:8px;margin-top:7px;">&nbsp;&nbsp;Company Primary Shipping Address</label>
                         <div class="col-md-3">
-                            <div class="onoffswitch">
-                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCompDShippAdd" data-bind="checked: isDefaultShippingAddress">
-                                <label class="onoffswitch-label" for="switchCompDShippAdd">
-                                    <div class="onoffswitch-inner"></div>
-                                    <div class="onoffswitch-switch"></div>
-                                </label>
+                            <div class="col-md-3" style="padding-left:0px;">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsDefaultShippingAddress" data-bind="checked: isDefaultShippingAddress">
+                                    <label class="onoffswitch-label" for="switchIsDefaultShippingAddress">
+                                        <div class="onoffswitch-inner"></div>
+                                        <div class="onoffswitch-switch"></div>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer col-xs-12">
                     <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteAddress, enable: $root.selectedAddress().addressId() != undefined">Archive</button>
-                    <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveAddress">Save</button>
+                    <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveAddress, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                     <button type="button" class="btn btn-default" data-bind="click: $root.onCloseAddress" style="margin-left:0px;">Close</button>
                 </div>
             </div>

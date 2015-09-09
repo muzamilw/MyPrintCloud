@@ -59,6 +59,45 @@ namespace MPC.Implementation.MISServices
         private readonly ISmartFormRepository smartFormRepository;
         private readonly ILengthConversionService lengthConversionService;
         private readonly ITemplateObjectRepository templateObjectRepository;
+        private readonly IProductMarketBriefQuestionRepository productMarketBriefQuestionRepository;
+        private readonly IProductMarketBriefAnswerRepository productMarketBriefAnswerRepository;
+        private readonly ISectionInkCoverageRepository sectionInkCoverageRepository;
+
+        /// <summary>
+        /// Create ProductMarketBriefQuestion
+        /// </summary>
+        private ProductMarketBriefQuestion CreateProductMarketBriefQuestion()
+        {
+            ProductMarketBriefQuestion line = productMarketBriefQuestionRepository.Create();
+            productMarketBriefQuestionRepository.Add(line);
+            return line;
+        }
+
+        /// <summary>
+        /// Delete ProductMarketBriefQuestion
+        /// </summary>
+        private void DeleteProductMarketBriefQuestion(ProductMarketBriefQuestion line)
+        {
+            productMarketBriefQuestionRepository.Delete(line);
+        }
+
+        /// <summary>
+        /// Create ProductMarketBriefAnswer
+        /// </summary>
+        private ProductMarketBriefAnswer CreateProductMarketBriefAnswer()
+        {
+            ProductMarketBriefAnswer line = productMarketBriefAnswerRepository.Create();
+            productMarketBriefAnswerRepository.Add(line);
+            return line;
+        }
+
+        /// <summary>
+        /// Delete ProductMarketBriefAnswer
+        /// </summary>
+        private void DeleteProductMarketBriefAnswer(ProductMarketBriefAnswer line)
+        {
+            productMarketBriefAnswerRepository.Delete(line);
+        }
 
         /// <summary>
         /// Delete Template Object
@@ -329,6 +368,24 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Creates New Section Ink Coverage
+        /// </summary>
+        private SectionInkCoverage CreateSectionInkCoverage()
+        {
+            SectionInkCoverage itemTarget = sectionInkCoverageRepository.Create();
+            sectionInkCoverageRepository.Add(itemTarget);
+            return itemTarget;
+        }
+
+        /// <summary>
+        /// Delete Section Ink Coverage
+        /// </summary>
+        private void DeleteSectionInkCoverage(SectionInkCoverage item)
+        {
+            sectionInkCoverageRepository.Delete(item);
+        }
+
+        /// <summary>
         /// Create Item Image
         /// </summary>
         private ItemImage CreateItemImage()
@@ -356,9 +413,13 @@ namespace MPC.Implementation.MISServices
             {
                 if (itemTarget.Template.TemplatePages != null)
                 {
-                    foreach (TemplatePage templatePage in itemTarget.Template.TemplatePages)
+                    List<TemplatePage> newlyAddedTemplatePages = 
+                        itemTarget.Template.TemplatePages.Where(tmp => ((tmp.IsNewlyAdded.HasValue && tmp.IsNewlyAdded.Value) || 
+                            (tmp.OldPageNo != tmp.PageNo))).ToList();
+                    foreach (TemplatePage templatePage in newlyAddedTemplatePages)
                     {
                         templatePage.BackgroundFileName = itemTarget.Template.ProductId + "/Side" + templatePage.PageNo + ".pdf";
+                        templatePage.BackGroundType = 1;
                     }
                 }
 
@@ -404,9 +465,19 @@ namespace MPC.Implementation.MISServices
                     templatePage.Height = lengthConversionService.ConvertLengthFromSystemUnitToPoints(templatePage.Height.Value, organisation.LengthUnit);
                 }
 
+                if (templatePage.OldHeight.HasValue && templatePage.OldHeight.Value > 0)
+                {
+                    templatePage.OldHeight = lengthConversionService.ConvertLengthFromSystemUnitToPoints(templatePage.OldHeight.Value, organisation.LengthUnit);
+                }
+
                 if (templatePage.Width.HasValue && templatePage.Width.Value > 0)
                 {
                     templatePage.Width = lengthConversionService.ConvertLengthFromSystemUnitToPoints(templatePage.Width.Value, organisation.LengthUnit);
+                }
+
+                if (templatePage.OldWidth.HasValue && templatePage.OldWidth.Value > 0)
+                {
+                    templatePage.OldWidth = lengthConversionService.ConvertLengthFromSystemUnitToPoints(templatePage.OldWidth.Value, organisation.LengthUnit);
                 }
             }
         }
@@ -463,7 +534,7 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Save Product Images
         /// </summary>
-        private void SaveProductImages(Item target)
+        private void SaveProductImages(Item target, List<ItemImage> itemImagesRemoved)
         {
             string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
             HttpServerUtility server = HttpContext.Current.Server;
@@ -491,7 +562,7 @@ namespace MPC.Implementation.MISServices
             SaveItemFiles(target, mapPath);
 
             // Item Images
-            SaveItemImages(target, mapPath);
+            SaveItemImages(target, itemImagesRemoved, mapPath);
         }
 
         /// <summary>
@@ -526,13 +597,16 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Saves Item Images
         /// </summary>
-        private void SaveItemImages(Item target, string mapPath)
+        private void SaveItemImages(Item target, List<ItemImage> itemImagesRemoved, string mapPath)
         {
             foreach (ItemImage itemImage in target.ItemImages)
             {
                 // Write Image
                 SaveItemImage(mapPath, itemImage);
             }
+
+            // Delete Files From File System that have been removed from Db
+            itemImagesRemoved.ForEach(DeleteItemImageFile);
         }
 
         /// <summary>
@@ -550,6 +624,18 @@ namespace MPC.Implementation.MISServices
             {
                 itemImage.ImageURL = imageUrl;
             }
+        }
+
+        /// <summary>
+        /// Delete Item Image
+        /// </summary>
+        private void DeleteItemImageFile(ItemImage itemImage)
+        {
+            SaveImage(string.Empty, itemImage.ImageURL,
+                itemImage.ProductImageId + "_ItemImage_",
+                itemImage.FileName,
+                itemImage.FileSource,
+                itemImage.FileSourceBytes, true);
         }
 
         /// <summary>
@@ -615,7 +701,7 @@ namespace MPC.Implementation.MISServices
                 target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File1_",
                 target.File1Name,
                 target.File1Byte,
-                target.File1SourceBytes);
+                target.File1SourceBytes, target.File1Deleted.HasValue && target.File1Deleted.Value);
 
             if (path != null)
             {
@@ -627,7 +713,7 @@ namespace MPC.Implementation.MISServices
               target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File2_",
                 target.File2Name,
                 target.File2Byte,
-                target.File2SourceBytes);
+                target.File2SourceBytes, target.File2Deleted.HasValue && target.File2Deleted.Value);
 
             if (path != null)
             {
@@ -639,7 +725,7 @@ namespace MPC.Implementation.MISServices
                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File3_",
                 target.File3Name,
                 target.File3Byte,
-                target.File3SourceBytes);
+                target.File3SourceBytes, target.File3Deleted.HasValue && target.File3Deleted.Value);
 
             if (path != null)
             {
@@ -651,7 +737,7 @@ namespace MPC.Implementation.MISServices
                 target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File4_",
                 target.File4Name,
                 target.File4Byte,
-                target.File4SourceBytes);
+                target.File4SourceBytes, target.File4Deleted.HasValue && target.File4Deleted.Value);
 
             if (path != null)
             {
@@ -663,7 +749,7 @@ namespace MPC.Implementation.MISServices
               target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File5_",
                 target.File5Name,
                 target.File5Byte,
-                target.File5SourceBytes);
+                target.File5SourceBytes, target.File5Deleted.HasValue && target.File5Deleted.Value);
 
             if (path != null)
             {
@@ -681,11 +767,12 @@ namespace MPC.Implementation.MISServices
         /// <param name="fileName">Name of file being saved</param>
         /// <param name="fileSource">Base64 representation of file being saved</param>
         /// <param name="fileSourceBytes">Byte[] representation of file being saved</param>
+        /// <param name="fileDeleted">True if file has been deleted</param>
         /// <returns>Path of File being saved</returns>
         private string SaveImage(string mapPath, string existingImage, string caption, string fileName,
-            string fileSource, byte[] fileSourceBytes)
+            string fileSource, byte[] fileSourceBytes, bool fileDeleted = false)
         {
-            if (!string.IsNullOrEmpty(fileSource))
+            if (!string.IsNullOrEmpty(fileSource) || fileDeleted)
             {
                 // Look if file already exists then replace it
                 if (!string.IsNullOrEmpty(existingImage))
@@ -708,6 +795,13 @@ namespace MPC.Implementation.MISServices
                         }
                     }
 
+                }
+
+                // If File has been deleted then set the specified field as empty
+                // Used for File1, File2, File3, File4, File5
+                if (fileDeleted)
+                {
+                    return string.Empty;
                 }
 
                 // First Time Upload
@@ -749,7 +843,7 @@ namespace MPC.Implementation.MISServices
                     if (itemTarget.TemplateType.Value == 1)
                     {
                         // Generates Pdf from Template Pages
-                        GeneratePdfFromTemplatePages(template, organisationId);
+                        GeneratePdfFromTemplatePages(itemTarget, template, organisationId);
                     }
                     else if (itemTarget.TemplateType.Value == 2)
                     {
@@ -798,15 +892,41 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Genereate Pdf From Template Pages
         /// </summary>
-        private void GeneratePdfFromTemplatePages(Template template, long organisationId)
+        private void GeneratePdfFromTemplatePages(Item itemTarget, Template template, long organisationId)
         {
             try
             {
+                List<TemplatePage> templatePagesWithSameDimensions = template.TemplatePages.Where(tempPage =>
+                    (tempPage.Height == template.PDFTemplateHeight) && (tempPage.Width == template.PDFTemplateWidth) &&
+                    ((tempPage.IsNewlyAdded.HasValue && tempPage.IsNewlyAdded.Value) || 
+                    (itemTarget.HasTemplateChangedToCustom.HasValue && itemTarget.HasTemplateChangedToCustom.Value) ||
+                    (tempPage.OldPageNo != tempPage.PageNo) ||
+                    (template.HasDeletedTemplatePages.HasValue && template.HasDeletedTemplatePages.Value)))
+                    .ToList();
+
+                // Pages with different dimensions - Added New Or have Updated the dimensions
+                List<TemplatePage> templatePagesWithCustomDimensions = template.TemplatePages.Where(tempPage =>
+                    ((tempPage.Height != template.PDFTemplateHeight) || (tempPage.Width != template.PDFTemplateWidth)) &&
+                    ((tempPage.IsNewlyAdded.HasValue && tempPage.IsNewlyAdded.Value) ||
+                    (itemTarget.HasTemplateChangedToCustom.HasValue && itemTarget.HasTemplateChangedToCustom.Value) || 
+                    (tempPage.OldHeight != tempPage.Height || tempPage.OldWidth != tempPage.Width) ||
+                    (tempPage.OldPageNo != tempPage.PageNo) ||
+                    (template.HasDeletedTemplatePages.HasValue && template.HasDeletedTemplatePages.Value)))
+                    .ToList();
+
                 templatePageService.CreateBlankBackgroundPDFsByPages(template.ProductId,
                     template.PDFTemplateHeight.HasValue ? template.PDFTemplateHeight.Value : 0,
                     template.PDFTemplateWidth.HasValue ? template.PDFTemplateWidth.Value : 0,
-                    1, template.TemplatePages.ToList(),
+                    1, templatePagesWithSameDimensions,
                     organisationId);
+
+                templatePagesWithCustomDimensions.ForEach(tempPageCustom => 
+                    templatePageService.CreatePageBlankBackgroundPDFs(
+                    template.ProductId,
+                    tempPageCustom,
+                    tempPageCustom.Height.HasValue ? tempPageCustom.Height.Value : 0,
+                    tempPageCustom.Width.HasValue ? tempPageCustom.Width.Value : 0,
+                    organisationId));
             }
             catch (Exception exp)
             {
@@ -844,13 +964,21 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private Item CreateNewItem()
         {
-            string itemCode = prefixRepository.GetNextItemCodePrefix();
+            string itemCode = prefixRepository.GetNextItemCodePrefix(false);
             Item itemTarget = itemRepository.Create();
             itemRepository.Add(itemTarget);
             itemTarget.ItemCreationDateTime = DateTime.Now;
             itemTarget.ItemCode = itemCode;
             itemTarget.OrganisationId = itemRepository.OrganisationId;
             return itemTarget;
+        }
+
+        /// <summary>
+        /// True Is Item Image New
+        /// </summary>
+        private bool IsNewItemImage(ItemImage source)
+        {
+            return source.ProductImageId == 0;
         }
 
         /// <summary>
@@ -880,6 +1008,26 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Creates Copy of Section Ink Coverages
+        /// </summary>
+        private void CloneSectionInkCoverages(ItemSection itemSection, ItemSection targetItemSection)
+        {
+            if (targetItemSection.SectionInkCoverages == null)
+            {
+                targetItemSection.SectionInkCoverages = new List<SectionInkCoverage>();
+            }
+
+            foreach (SectionInkCoverage sectionInkCoverage in itemSection.SectionInkCoverages.ToList())
+            {
+                SectionInkCoverage targetSectionInkCoverage = sectionInkCoverageRepository.Create();
+                sectionInkCoverageRepository.Add(targetSectionInkCoverage);
+                targetSectionInkCoverage.SectionId = targetItemSection.ItemSectionId;
+                targetItemSection.SectionInkCoverages.Add(targetSectionInkCoverage);
+                sectionInkCoverage.Clone(targetSectionInkCoverage);
+            }
+        }
+
+        /// <summary>
         /// Copy Item Sections
         /// </summary>
         private void CloneItemSections(Item source, Item target)
@@ -902,6 +1050,15 @@ namespace MPC.Implementation.MISServices
                 targetItemSection.ItemId = target.ItemId;
                 target.ItemSections.Add(targetItemSection);
                 itemSection.Clone(targetItemSection);
+
+                // Clone Section Ink Coverages
+                if (itemSection.SectionInkCoverages == null)
+                {
+                    continue;
+                }
+
+                // Copy Section Ink Coverages
+                CloneSectionInkCoverages(itemSection, targetItemSection);
             }
         }
 
@@ -1594,6 +1751,61 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Creates Copy of Product Market Brief Answers
+        /// </summary>
+        private void CloneProductMarketBriefAnswer(ProductMarketBriefQuestion marketBriefQuestion, ProductMarketBriefQuestion targetmarketBriefQuestion)
+        {
+            if (targetmarketBriefQuestion.ProductMarketBriefAnswers == null)
+            {
+                targetmarketBriefQuestion.ProductMarketBriefAnswers = new List<ProductMarketBriefAnswer>();
+            }
+
+            foreach (ProductMarketBriefAnswer productMarketBriefAnswer in marketBriefQuestion.ProductMarketBriefAnswers)
+            {
+                ProductMarketBriefAnswer targetProductMarketBriefAnswer = productMarketBriefAnswerRepository.Create();
+                productMarketBriefAnswerRepository.Add(targetProductMarketBriefAnswer);
+                targetProductMarketBriefAnswer.MarketBriefQuestionId = targetmarketBriefQuestion.MarketBriefQuestionId;
+                targetmarketBriefQuestion.ProductMarketBriefAnswers.Add(targetProductMarketBriefAnswer);
+                productMarketBriefAnswer.Clone(targetProductMarketBriefAnswer);
+            }
+        }
+
+        /// <summary>
+        /// Copy Market Brief Questions
+        /// </summary>
+        private void CloneProductMarketBriefQuestions(Item source, Item target)
+        {
+            if (source.ProductMarketBriefQuestions == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.ProductMarketBriefQuestions == null)
+            {
+                target.ProductMarketBriefQuestions = new List<ProductMarketBriefQuestion>();
+            }
+
+            foreach (ProductMarketBriefQuestion productMarketBriefQuestion in source.ProductMarketBriefQuestions)
+            {
+                ProductMarketBriefQuestion targetProductMarketBriefQuestion = productMarketBriefQuestionRepository.Create();
+                productMarketBriefQuestionRepository.Add(targetProductMarketBriefQuestion);
+                targetProductMarketBriefQuestion.ItemId = target.ItemId;
+                target.ProductMarketBriefQuestions.Add(targetProductMarketBriefQuestion);
+                productMarketBriefQuestion.Clone(targetProductMarketBriefQuestion);
+
+                // Clone Market Brief Answers
+                if (productMarketBriefQuestion.ProductMarketBriefAnswers == null)
+                {
+                    continue;
+                }
+
+                // Clone Market Brief Answers
+                CloneProductMarketBriefAnswer(productMarketBriefQuestion, targetProductMarketBriefQuestion);
+            }
+        }
+
+        /// <summary>
         /// Creates Copy of Product
         /// </summary>
         private void CloneItem(Item source, Item target)
@@ -1630,6 +1842,9 @@ namespace MPC.Implementation.MISServices
 
             // Clone Item Image Items
             CloneItemImageItems(source, target);
+
+            // Clone Product Market Brief Questions
+            CloneProductMarketBriefQuestions(source, target);
 
             // Save Changes
             itemRepository.SaveChanges();
@@ -1692,7 +1907,9 @@ namespace MPC.Implementation.MISServices
             IProductCategoryRepository productCategoryRepository, ITemplatePageService templatePageService, ITemplateService templateService,
             IMachineRepository machineRepository, IPaperSizeRepository paperSizeRepository, IItemSectionRepository itemSectionRepository,
             IItemImageRepository itemImageRepository, IOrganisationRepository organizationRepository, ISmartFormRepository smartFormRepository,
-            ILengthConversionService lengthConversionService, ITemplateObjectRepository templateObjectRepository)
+            ILengthConversionService lengthConversionService, ITemplateObjectRepository templateObjectRepository, 
+            IProductMarketBriefQuestionRepository productMarketBriefQuestionRepository, IProductMarketBriefAnswerRepository productMarketBriefAnswerRepository, 
+            ISectionInkCoverageRepository sectionInkCoverageRepository)
         {
             if (itemRepository == null)
             {
@@ -1818,11 +2035,26 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("templateObjectRepository");
             }
+            if (productMarketBriefQuestionRepository == null)
+            {
+                throw new ArgumentNullException("productMarketBriefQuestionRepository");
+            }
+            if (productMarketBriefAnswerRepository == null)
+            {
+                throw new ArgumentNullException("productMarketBriefAnswerRepository");
+            }
+            if (sectionInkCoverageRepository == null)
+            {
+                throw new ArgumentNullException("sectionInkCoverageRepository");
+            }
 
             this.organizationRepository = organizationRepository;
             this.smartFormRepository = smartFormRepository;
             this.lengthConversionService = lengthConversionService;
             this.templateObjectRepository = templateObjectRepository;
+            this.productMarketBriefQuestionRepository = productMarketBriefQuestionRepository;
+            this.productMarketBriefAnswerRepository = productMarketBriefAnswerRepository;
+            this.sectionInkCoverageRepository = sectionInkCoverageRepository;
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
             this.itemVdpPriceRepository = itemVdpPriceRepository;
@@ -1867,7 +2099,7 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Get By Id
         /// </summary>
-        public Item GetById(long id)
+        public Item GetById(long id, bool changeTemplateSizeUnits = true)
         {
             if (id <= 0)
             {
@@ -1879,6 +2111,12 @@ namespace MPC.Implementation.MISServices
             if (item == null)
             {
                 throw new MPCException(string.Format(CultureInfo.InvariantCulture, LanguageResources.ItemService_ItemNotFound, id), itemRepository.OrganisationId);
+            }
+
+            // If Fetching item for Cloning then don't change Size values
+            if (!changeTemplateSizeUnits)
+            {
+                return item;
             }
             
             // If template Exists then Convert the Height & Width to System Unit
@@ -1973,12 +2211,23 @@ namespace MPC.Implementation.MISServices
             Item itemTarget = GetById(item.ItemId) ?? CreateNewItem();
 
             // Check for Code Duplication
-            bool isDuplicateCode = itemRepository.IsDuplicateProductCode(item.ProductCode, item.ItemId);
+            bool isDuplicateCode = itemRepository.IsDuplicateProductCode(item.ProductCode, item.ItemId, item.CompanyId);
             if (isDuplicateCode)
             {
                 throw new MPCException(LanguageResources.ItemService_ProductCodeDuplicated, itemRepository.OrganisationId);
             }
 
+            // Item Images that are being removed
+// ReSharper disable SuggestUseVarKeywordEvident
+            List<ItemImage> itemImagesToBeRemoved = new List<ItemImage>();
+// ReSharper restore SuggestUseVarKeywordEvident
+            if (itemTarget.ItemImages != null && item.ItemImages != null)
+            {
+                itemImagesToBeRemoved = itemTarget.ItemImages.Where(
+                ii => !IsNewItemImage(ii) && item.ItemImages.All(image => image.ProductImageId != ii.ProductImageId))
+                  .ToList();
+            }
+            
             // Update
             item.UpdateTo(itemTarget, new ItemMapperActions
             {
@@ -2006,20 +2255,39 @@ namespace MPC.Implementation.MISServices
                 DeleteItemSection = DeleteItemSection,
                 CreateItemImage = CreateItemImage,
                 DeleteItemImage = DeleteItemImage,
-                DeleteTemplateObject = DeleteTemplateObject
+                DeleteTemplateObject = DeleteTemplateObject,
+                CreateProductMarketBriefQuestion = CreateProductMarketBriefQuestion,
+                DeleteProductMarketBriefQuestion = DeleteProductMarketBriefQuestion,
+                CreateProductMarketBriefAnswer = CreateProductMarketBriefAnswer,
+                DeleteProductMarketBriefAnswer = DeleteProductMarketBriefAnswer,
+                CreateSectionInkCoverage = CreateSectionInkCoverage,
+                DeleteSectionInkCoverage = DeleteSectionInkCoverage
             });
 
             // Save Changes
             itemRepository.SaveChanges();
 
             // Save Images and Update Item
-            SaveProductImages(itemTarget);
+            SaveProductImages(itemTarget, itemImagesToBeRemoved);
 
             // Update Template Pages Background Image
             UpdateTemplatePagesBackgroundFileNames(itemTarget);
 
             // Save Changes
             itemRepository.SaveChanges();
+
+            // If Template Type is Designer then delete the template & all its related objects
+            if (itemTarget.TemplateType == 3 && itemTarget.OldTemplateId.HasValue && itemTarget.OldTemplateId.Value > 0)
+            {
+                try
+                {
+                    templateRepository.DeleteTemplate(itemTarget.OldTemplateId.Value);
+                }
+                catch (Exception)
+                {
+                    throw new MPCException("Saved Successfully but " + LanguageResources.ItemService_TemplateDeleteFailed, itemRepository.OrganisationId);
+                }
+            }
 
             // Load Properties if Any
             itemTarget = itemRepository.Find(itemTarget.ItemId);
@@ -2058,13 +2326,17 @@ namespace MPC.Implementation.MISServices
             return new ItemBaseResponse
             {
                 CostCentres = costCentreRepository.GetAllNonSystemCostCentres(),
-                SectionFlags = sectionFlagRepository.GetAllForCustomerPriceIndex(),
+                SectionFlags = sectionFlagRepository.GetDefaultSectionFlags(),
                 Countries = countryRepository.GetAll(),
                 States = stateRepository.GetAll(),
                 Suppliers = companyRepository.GetAllSuppliers(),
                 PaperSizes = paperSizeRepository.GetAll(),
                 LengthUnit = organisation != null && organisation.LengthUnit != null ? organisation.LengthUnit.UnitName : string.Empty,
-                CurrencyUnit = organisation != null && organisation.Currency != null ? organisation.Currency.CurrencyCode : string.Empty
+                CurrencyUnit = organisation != null && organisation.Currency != null ? organisation.Currency.CurrencySymbol : string.Empty,
+                WeightUnit = organisation != null && organisation.WeightUnit != null ? organisation.WeightUnit.UnitName : string.Empty,
+                Inks = stockItemRepository.GetStockItemOfCategoryInk(),
+                Machines = machineRepository.GetAll(),
+                A4PaperStockItem = stockItemRepository.GetA4PaperStock()
             };
         }
 
@@ -2087,7 +2359,8 @@ namespace MPC.Implementation.MISServices
                     RegionId = category.RegionID,
                     CategoryTypeId = category.CatagoryTypeID,
                     ZoomFactor = category.ZoomFactor,
-                    ScaleFactor = category.ScaleFactor
+                    ScaleFactor = category.ScaleFactor,
+                    OrganisationId = category.CreatedBy
                 }).ToList();
                 categoryRegions = pSc.getCategoryRegions().Select(category => new CategoryRegion
                 {
@@ -2115,7 +2388,7 @@ namespace MPC.Implementation.MISServices
 
             return new ItemDesignerTemplateBaseResponse
             {
-                TemplateCategories = templateCategories,
+                TemplateCategories = templateCategories.Where(c => c.OrganisationId == organizationRepository.OrganisationId || c.OrganisationId == null).ToList(),
                 CategoryRegions = categoryRegions,
                 CategoryTypes = categoryTypes,
                 SmartForms = smartForms
@@ -2137,7 +2410,7 @@ namespace MPC.Implementation.MISServices
         public Item CloneProduct(long itemId)
         {
             // Find Item - Throws Exception if not exist
-            Item source = GetById(itemId);
+            Item source = GetById(itemId, false);
 
             // Create New Instance
             // And Generate ItemCode for it
@@ -2151,6 +2424,9 @@ namespace MPC.Implementation.MISServices
 
             // Get Updated Minimum Price
             target.MinPrice = itemRepository.GetMinimumProductValue(target.ItemId);
+
+            // convert template length to system unit 
+            ConvertTemplateLengthToSystemUnit(target);
 
             // Return Product
             return target;
@@ -2178,11 +2454,11 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Method for Order Add Product
         /// </summary>
-        /// <param name="companyId"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
-        public IEnumerable<Item> GetItemsByCompanyId(long companyId)
+        public ItemSearchResponse GetItemsByCompanyId(ItemSearchRequestModel request)
         {
-            return itemRepository.GetItemsByCompanyId(companyId);
+            return itemRepository.GetAllStoreProducts(request);
         }
 
         /// <summary>
@@ -2191,6 +2467,13 @@ namespace MPC.Implementation.MISServices
         public IEnumerable<ProductCategory> GetProductCategoriesForCompany(long? companyId)
         {
             return productCategoryRepository.GetParentCategories(companyId);
+        }
+        /// <summary>
+        /// Get Product Categories for Company Including Archived once also
+        /// </summary>
+        public IEnumerable<ProductCategory> GetProductCategoriesIncludingArchived(long? companyId)
+        {
+            return productCategoryRepository.GetParentCategoriesIncludingArchived(companyId);
         }
 
         /// <summary>
@@ -2201,6 +2484,10 @@ namespace MPC.Implementation.MISServices
             DeleteItem(itemId, itemRepository.OrganisationId);
         }
 
+        public IEnumerable<Item> GetProductsByCompanyId(long? companyId)
+        {
+           return itemRepository.GetProductsByCompanyID(companyId ?? 0);
+        }
         #endregion
 
         #region DeleteProducts

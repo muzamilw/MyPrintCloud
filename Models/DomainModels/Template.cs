@@ -51,6 +51,8 @@ namespace MPC.Models.DomainModels
         public bool? isCreatedManual { get; set; }
         public bool? isEditorChoice { get; set; }
         public long? ProductCategoryId { get; set; }
+        public long? contactId { get; set; }
+        public long? realEstateId { get; set; }
         public virtual ICollection<TemplatePage> TemplatePages { get; set; }
         public virtual ICollection<Item> Items { get; set; }
         public virtual ICollection<TemplateBackgroundImage> TemplateBackgroundImages { get; set; }
@@ -114,6 +116,12 @@ namespace MPC.Models.DomainModels
         /// </summary>
         [NotMapped]
         public byte[] FileOriginalBytes { get; set; }
+
+        /// <summary>
+        /// True if page has been deleted
+        /// </summary>
+        [NotMapped]
+        public bool? HasDeletedTemplatePages { get; set; }
 
         #endregion
 

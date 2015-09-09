@@ -18,20 +18,21 @@ namespace MPC.Interfaces.Repository
         List<TemplateVariablesObj> GetTemplateVariables(long templateId);
         bool SaveTemplateVariables(List<TemplateVariablesObj> obj);
         List<SmartFormUserList> GetUsersList(long contactId);
-        SmartForm GetSmartForm(long smartFormId);
-        List<SmartFormDetail> GetSmartFormObjects(long smartFormId);
+        SmartFormWebstoreResponse GetSmartForm(long smartFormId);
+        List<SmartFormDetail> GetSmartFormObjects(long smartFormId, out List<VariableOption> listVariables);
 
         /// <summary>
         /// Get Smart Form By Company Id
         /// </summary>
         SmartFormResponse GetSmartForms(SmartFormRequestModel request);
 
-        List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables, long contactId);
-        Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, List<SmartFormUserList> contacts, long templateId);
+        List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables, long contactId, long templateId);
+        Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, List<SmartFormUserList> contacts, long templateId, long currentTemplateId);
         bool SaveUserProfilesData(Dictionary<long, List<ScopeVariable>> obj);
         string[] GetContactImageAndCompanyLogo(long contactID);
         List<ScopeVariable> GetUserTemplateVariables(long itemId, long contactID);
         List<ScopeVariable> GetTemplateScopeVariables(long templateID, long contactId);
         bool AutoResolveTemplateVariables(long itemID, long contactId);
+        List<VariableExtensionWebstoreResposne> getVariableExtensions(List<ScopeVariable> listScope, long contactId);
     }
 }

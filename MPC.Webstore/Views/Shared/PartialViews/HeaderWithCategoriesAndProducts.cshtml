@@ -1,0 +1,38 @@
+﻿
+@using MPC.Webstore.Common;
+@model MPC.Models.DomainModels.Company
+@{
+    Layout = null;
+    var ParentCategory = ViewBag.ParentCategory as List<MPC.Models.DomainModels.ProductCategory>;
+    var AllChildCategories = ViewBag.AllChildCategories as List<MPC.Models.DomainModels.ProductCategory>;
+}
+
+<div class="customHeader">
+    <div class="container">
+        <div class="logo"><img src="/@Model.Image"></div>
+        <div class="mainNav">
+            <nav id="nav" role="navigation">
+                <a href="#nav" title="Show Menu">@Html.Raw(Html.GetKeyValueFromResourceFile("showmenuu", UserCookieManager.WBStoreId, "Show Menu"))</a>
+                <a href="#" title="Hide Menu">@Html.Raw(Html.GetKeyValueFromResourceFile("hidemenuuu", UserCookieManager.WBStoreId, "Hide Menu"))</a>
+                <ul>
+                  @foreach (var ParentProduct in ParentCategory)
+                  {
+                      int count = AllChildCategories.Where(g => g.ParentCategoryId == ParentProduct.ProductCategoryId).Count();
+                      var ChildCategories = AllChildCategories.Where(i => i.ParentCategoryId == ParentProduct.ProductCategoryId).ToList();
+                    <li>
+                        <a aria-haspopup="true" href="/Category/@Html.ResolveString(ParentProduct.CategoryName)/@ParentProduct.ProductCategoryId">@ParentProduct.CategoryName</a>
+                        <ul>
+                            @foreach (var chCtg in ChildCategories)
+                            { 
+                            <li><a href="/Category/@Html.ResolveString(chCtg.CategoryName)/@chCtg.ProductCategoryId">@chCtg.CategoryName</a></li>
+                            }
+                        </ul>
+                    </li>
+                  }
+                </ul>
+            </nav>
+        </div>
+
+        <div class="clear"></div>
+    </div>
+</div>

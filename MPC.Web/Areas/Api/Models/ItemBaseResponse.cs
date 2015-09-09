@@ -51,5 +51,21 @@ namespace MPC.MIS.Areas.Api.Models
         /// Currency Unit 
         /// </summary>
         public string CurrencyUnit { get; set; }
+        public string WeightUnit { get; set; }
+
+        /// <summary>
+        /// Inks
+        /// </summary>
+        public IEnumerable<StockItemForDropDown> Inks { get; set; }
+
+        /// <summary>
+        /// Machines
+        /// </summary>
+        public IEnumerable<Machine> Machines { get; set; }
+
+        /// <summary>
+        /// A4 Paper Stock Item
+        /// </summary>
+        public StockItemDropDownForProduct A4PaperStockItem { get; set; }
     }
 }

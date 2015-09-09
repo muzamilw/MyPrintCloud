@@ -28,7 +28,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PaperSizes = source.PaperSizes != null ? source.PaperSizes.Select(cc => cc.CreateFromDropDown()) :
                 new List<PaperSizeDropDown>(),
                 LengthUnit = source.LengthUnit,
-                CurrencyUnit = source.CurrencyUnit
+                CurrencyUnit = source.CurrencyUnit,
+                WeightUnit = source.WeightUnit,
+                Inks = source.Inks != null ? source.Inks.Select(x => x.CreateFromDropDown()).ToList() : new List<StockItemForDropDown>(),
+                Machines = source.Machines != null ? source.Machines.Select(cc => cc.CreateFromForOrder()) : new List<Machine>(),
+                A4PaperStockItem = source.A4PaperStockItem != null ? source.A4PaperStockItem.CreateFromDropDownForProduct() : null
             };
         }
         

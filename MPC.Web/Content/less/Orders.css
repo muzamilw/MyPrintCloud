@@ -1,11 +1,13 @@
-﻿#orderBinding {
-  /*#tabsHeader {
-        border: 1px solid silver;
-        box-shadow: 1px 1px 1px silver;
-    }*/
-}
-#orderBinding .selectedBestPressFromWizard {
-  background: yellow !important;
+﻿#orderBinding #tab-EstimateHeader .attachmentDownload {
+  padding-left: 0px;
+  border-left-width: 0px;
+  padding-right: 0px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  padding-bottom: 0px;
+  background-color: transparent;
+  border-bottom: none;
+  height: 31px;
 }
 #orderBinding #tab-EstimateHeader #orderType {
   font-weight: bold;
@@ -17,6 +19,48 @@
 }
 #orderBinding #tab-EstimateHeader #orderSectionDetailDialog #orderSectionDetail {
   width: 1100px;
+}
+#orderBinding #tab-EstimateHeader #orderStatusSliderContainer {
+  background-color: gainsboro;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+#orderBinding #tab-EstimateHeader #orderStatusSliderContainer #statusSliderSubContainer {
+  background-color: gainsboro;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  height: 100%;
+}
+#orderBinding #tab-EstimateHeader #orderStatusSliderContainer #statusSliderSubContainer #orderStatusSilderPanel {
+  margin-bottom: 60px;
+  width: 80%;
+}
+#orderBinding #tab-EstimateHeader #orderHeaderProductsContainer,
+#orderBinding #tab-EstimateHeader #orderHeaderShippingContainer {
+  background-color: gainsboro;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+#orderBinding #tab-EstimateHeader #orderHeaderAddShippingButton {
+  float: left;
+  margin-top: 10px;
+  margin-left: -8px;
+}
+#orderBinding .itemSectionName {
+  float: right;
+  margin-top: -82%;
+  margin-right: -6%;
+  width: 86%;
+  color: #3c9bf6;
+}
+#orderBinding .phraseLibrayLink {
+  padding: 4px 12px;
 }
 #OrderDialogSection1 {
   -moz-box-shadow: 0 0 8px #808080;
@@ -41,3 +85,117 @@
 #SectionDetailButtons {
   float: right;
 }
+#stockItemRight {
+  float: right;
+}
+.productDialogEmptyHeight {
+  min-height: 350px;
+  max-height: 350px;
+}
+.productDialogNonEmptyHeight {
+  min-height: 318px;
+  max-height: 318px;
+}
+#left-panel {
+  width: 300px;
+  height: 360px;
+  border: 5px solid #3c9bf6;
+  background-color: #ffffff;
+  position: fixed;
+  top: 274px;
+  /*right: -275px;*/
+  right: -300px;
+  -moz-border-radius: 0 1em 1em 0;
+  -webkit-border-radius: 0 1em 1em 0;
+  border-radius: 0 1em 1em 0;
+  padding: 5px;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  z-index: 9;
+}
+#left-panel:hover {
+  /*right: -250px;*/
+}
+#left-panel.show {
+  right: -5px;
+}
+#left-panel .controller {
+  position: absolute;
+  right: 0;
+  top: 0;
+  text-decoration: none;
+}
+#left-panel a.controller {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  text-decoration: none;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+#left-panel.show a.controller {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+#notes-Button {
+  transform: rotate(-90deg);
+  float: right;
+  position: absolute;
+  margin-left: 320px;
+}
+#panel-heading {
+  color: black;
+  background-color: #f5f5f5;
+  border-bottom: none;
+}
+#panel-title {
+  border-bottom: none;
+}
+.label-circle-add {
+  border-radius: 50%;
+  padding: 0 !important;
+  background-color: green;
+  margin-left: 27px;
+  cursor: pointer;
+  color: white !important;
+  font-weight: bolder;
+  position: absolute;
+  font-size: 45px;
+  bottom: 40px;
+}
+.label-circle-addsection {
+  border-radius: 50%;
+  padding: 0 !important;
+  background-color: green;
+  margin-left: 27px;
+  cursor: pointer;
+  color: white !important;
+  font-weight: bolder;
+  position: absolute;
+  font-size: 45px;
+  top: 80px;
+}
+.label-circle-minus {
+  border-radius: 50%;
+  padding: 0 !important;
+  background-color: red;
+  margin-left: 27px;
+  cursor: pointer;
+  color: white !important;
+  font-weight: bolder;
+  position: absolute;
+  font-size: 45px;
+  bottom: 40px;
+}
+.font20px {
+  font-size: 20px;
+  height: 40px;
+}
+/*# sourceMappingURL=Orders.css.map */

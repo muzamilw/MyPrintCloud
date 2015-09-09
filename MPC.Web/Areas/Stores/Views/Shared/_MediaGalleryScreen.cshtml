@@ -21,9 +21,11 @@
                 @*<span>1 file selected</span>
                     <a>Edit&nbsp;|</a><a>&nbsp;Clear</a>*@
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveMedia">Save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+            <div class="modal-footer" style="padding-right:8px;">
+                <div>
+                    <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveMedia">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -35,8 +37,8 @@
             </div>
             @*<div class="photo-box image-link" data-bind="style:{backgroundImage:' url('+fileSource()+')'}"></div>*@
             <div class="photo-box image-link" style="padding-top: 0">
-                <img class="photo-box image-link" style="padding-top: 0;width: 177px !important;height:127px !important" data-bind="visible:fileSource()===undefined,attr: { src: '@Url.Content("~/")' + imageSourcePath() }" alt="" />
-                <img class="photo-box image-link" style="padding-top: 0;width: 177px !important;height:127px !important" data-bind="visible:fileSource()!==undefined,attr: { src: fileSource }" />
+                <img class="photo-box image-link" style="padding-top: 0;object-fit: contain; background-color: white !important;height:127px !important" data-bind="visible:fileSource()===undefined,attr: { src: '@Url.Content("~/")' + imageSourcePath() }" alt="" />
+                <img class="photo-box image-link" style="padding-top: 0; object-fit: contain; background-color: white !important" data-bind="visible:fileSource()!==undefined,attr: { src: fileSource }" />
             </div>
             <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
         </li>

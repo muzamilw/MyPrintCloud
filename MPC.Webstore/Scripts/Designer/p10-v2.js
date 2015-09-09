@@ -137,6 +137,27 @@ function undo() {
             if (objectToAdd.type == "i-text" || objectToAdd.type == "text") {
                 objectToAdd.initialize(objectToAdd.text, { customStyles: objectToAdd.customStyles });
             }
+            if (objectToAdd.type == "path-group") {
+                if(objectToAdd.customStyles != null)
+                {
+                    $.each(objectToAdd.customStyles, function (j, IT) {
+                        var clr = IT.OriginalColor;
+                        if (IT.ModifiedColor != "")
+                            clr = IT.ModifiedColor;
+
+                        if (objectToAdd.isSameColor && objectToAdd.isSameColor() || !objectToAdd.paths) {
+                            objectToAdd.setFill(clr);
+                        }
+                        else if (objectToAdd.paths) {
+                            for (var i = 0; i < objectToAdd.paths.length; i++) {
+                                if (i == j) {
+                                    objectToAdd.paths[i].setFill(clr);
+                                }
+                            }
+                        }
+                    });
+                }
+            }
             canvas.moveTo(objectToAdd, index);
         }
     }
@@ -196,6 +217,26 @@ function redo() {
             canvas.add(objectToAdd);
             if (objectToAdd.type == "i-text" || objectToAdd.type == "text") {
                 objectToAdd.initialize(objectToAdd.text, { customStyles: objectToAdd.customStyles });
+            }
+            if (objectToAdd.type == "path-group") {
+                if (objectToAdd.customStyles != null) {
+                    $.each(objectToAdd.customStyles, function (j, IT) {
+                        var clr = IT.OriginalColor;
+                        if (IT.ModifiedColor != "")
+                            clr = IT.ModifiedColor;
+
+                        if (objectToAdd.isSameColor && objectToAdd.isSameColor() || !objectToAdd.paths) {
+                            objectToAdd.setFill(clr);
+                        }
+                        else if (objectToAdd.paths) {
+                            for (var i = 0; i < objectToAdd.paths.length; i++) {
+                                if (i == j) {
+                                    objectToAdd.paths[i].setFill(clr);
+                                }
+                            }
+                        }
+                    });
+                }
             }
             canvas.moveTo(objectToAdd, index);
         }

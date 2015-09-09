@@ -16,7 +16,9 @@ namespace MPC.Interfaces.Repository
         /// <summary>
         /// Get Items With Details
         /// </summary>
+        /// 
         List<ItemPriceMatrix> GetRetailProductsPriceMatrix(long CompanyID);
+        int GetSavedDesignCountByContactId(long ContactID);
         List<ProductItem> GetAllRetailDisplayProductsQuickCalc(long CompanyID);
         Item GetItemWithDetails(long itemId);
 
@@ -28,7 +30,7 @@ namespace MPC.Interfaces.Repository
         /// <summary>
         /// Check if Product Code is Duplicate
         /// </summary>
-        bool IsDuplicateProductCode(string productCode, long? itemId);
+        bool IsDuplicateProductCode(string productCode, long? itemId, long? companyId);
 
         /// <summary>
         /// Get Items
@@ -42,7 +44,7 @@ namespace MPC.Interfaces.Repository
         ItemStockOption GetFirstStockOptByItemID(long ItemId, long CompanyId);
 
         List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId);
-        Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID);
+        //Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID);
 
         Item GetItemById(long RefitemId);
         Item GetItemByIdDesigner(long ItemId);
@@ -53,11 +55,11 @@ namespace MPC.Interfaces.Repository
 
         List<ProductMarketBriefAnswer> GetMarketingInquiryAnswersByQID(int QID);
 
-        void CopyAttachments(int itemID, Item NewItem, string OrderCode, bool CopyTemplate, DateTime OrderCreationDate);
+        void AddAttachment(ItemAttachment AttachmentObject);
 
         bool RemoveCloneItem(long itemID, out List<ArtWorkAttatchment> itemAttatchmetList, out Template clonedTemplateToRemove);
 
-        bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode,  bool isInculdeTax,int CountOfUploads = 0, string QuestionQueuItem = "");
+       // bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, bool isInculdeTax, long ItemstockOptionID, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "");
 
         List<ProductItem> GetRelatedItemsList();
 
@@ -81,6 +83,8 @@ namespace MPC.Interfaces.Repository
         /// Get Items For Widgets 
         /// </summary>
         List<Item> GetItemsForWidgets();
+
+        List<Item> GetItemsForWidgetsByStoreId(long storeId);
          Item GetItemByOrderID(long OrderID);
           List<Item> GetItemsByOrderID(long OrderID);
          string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string caller, long organisationId);
@@ -92,7 +96,7 @@ namespace MPC.Interfaces.Repository
         List<usp_GetRealEstateProducts_Result> GetRealEstateProductsByCompanyID(long CompanyId);
          bool RemoveListOfDeliveryItemCostCenter(long OrderId);
 
-         bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost, long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService, double GetServiceTAX, double TaxRate);
+         //bool AddUpdateItemFordeliveryCostCenter(long orderId, long DeliveryCostCenterId, double DeliveryCost, long customerID, string DeliveryName, StoreMode Mode, bool isDeliveryTaxable, bool IstaxONService, double GetServiceTAX, double TaxRate);
        
          Item GetItemByOrderItemID(long ItemID, long OrderID);
 
@@ -120,14 +124,18 @@ namespace MPC.Interfaces.Repository
         /// <returns></returns>
         ItemSection UpdateItemFirstSectionByItemId(long ItemId, int Quantity);
         Item CloneReOrderItem(long orderID, long ExistingItemId, long loggedInContactID, string order_code, long OrganisationId);
-
+        
+        /// <summary>
+        /// Get All Corporate and Retail Products
+        /// </summary>
+        ItemSearchResponse GetAllStoreProducts(ItemSearchRequestModel requestModel);
 
         /// <summary>
         /// Get Items By Company Id
         /// </summary>
-        /// <param name="companyId"></param>
+        /// <param name="requestModel"></param>
         /// <returns></returns>
-        IEnumerable<Item> GetItemsByCompanyId(long companyId);
+        ItemSearchResponse GetItemsByCompanyId(ItemSearchRequestModel requestModel);
         /// <summary>
         /// get cart items count 
         /// </summary>
@@ -146,7 +154,7 @@ namespace MPC.Interfaces.Repository
         /// <param name="CompanyId"></param>
         /// <param name="OrganisationId"></param>
         /// <returns></returns>
-        List<Item> GetProductsList(long CompanyId, long OrganisationId);
+        List<Item> GetProductsList(long CompanyId, long OrganisationId, int offerType);
 
        
         /// <summary>
@@ -168,6 +176,25 @@ namespace MPC.Interfaces.Repository
         List<Item> GetItemsWithAttachmentsByOrderID(long OrderID);
 
         Item GetItemWithSections(long itemID);
+        /// <summary>
+        /// Gets the attchment list
+        /// </summary>
+        /// <param name="itemID"></param>
+        /// <returns></returns>
+        List<ItemAttachment> GetItemAttactchments(long itemID);
+
+        /// <summary>
+        /// returns the item , item section and section cost centre
+        /// </summary>
+        /// <param name="itemID"></param>
+        /// <returns></returns>
+        Item GetActualItemToClone(long itemID);
+
+        T Clone<T>(T source);
+
+        string GetProductNameByItemId(long ItemId);
+
+        IEnumerable<Item> GetProductsByCompanyID(long CompanyId);
     }
 
 }

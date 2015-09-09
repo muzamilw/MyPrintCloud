@@ -59,6 +59,22 @@ namespace MPC.MIS.Areas.Api.Controllers
 
             return invoiceService.GetInvoiceById(id).CreateFrom();
         }
+
+        /// <summary>
+        /// Post
+        /// </summary>
+        [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+        [CompressFilterAttribute]
+        public Invoice Post(Invoice request)
+        {
+            if (request == null || !ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
+            }
+
+            return invoiceService.SaveInvoice(request.CreateFrom()).CreateFrom();
+        }
         #endregion
     }
 }

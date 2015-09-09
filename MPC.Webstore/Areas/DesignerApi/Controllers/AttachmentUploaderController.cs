@@ -34,6 +34,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         #endregion
         public async Task<List<string>> PostAsync(string parameter1, string parameter2, string parameter3, string parameter4, string parameter5)
         {
+            MyStreamProvider streamProvider = null;
             try
             {
                 List<ItemAttachment> ListOfAttachments = ListOfAttachments = new List<ItemAttachment>(); //itemService.GetArtwork(ItemId);
@@ -44,23 +45,25 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                 {
                     string uploadPath = HttpContext.Current.Server.MapPath("~/" + parameter1);
                     if (!Directory.Exists(uploadPath))
-                    Directory.CreateDirectory(uploadPath);
-                    MyStreamProvider streamProvider = new MyStreamProvider(uploadPath);
-                     await Request.Content.ReadAsMultipartAsync(streamProvider);
+                        Directory.CreateDirectory(uploadPath);
+                    streamProvider = new MyStreamProvider(uploadPath);
+                    await Request.Content.ReadAsMultipartAsync(streamProvider);
                     List<string> messages = new List<string>();
+                   
                     ItemAttachment attachment = null;
                     foreach (var file in streamProvider.FileData)
                     {
                         FileInfo fi = new FileInfo(file.LocalFileName);
-                        messages.Add(fi.Name);
+                       // messages.Add(fi.Name);
                         string srcPath = uploadPath + "/" + fi.Name;
                         string fileExt = Path.GetExtension(fi.Name);
+                        
                         string desPath = uploadPath + "/" + parameter2 + fileExt;
                         File.Copy(srcPath, desPath, true);
                         File.Delete(srcPath);
                         if (fileExt == ".pdf" || fileExt == ".TIF" || fileExt == ".TIFF")
                         {
-                            itemService.GenerateThumbnailForPdf(desPath, false);
+                            itemService.GenerateThumbnailForPdf(desPath, false, Convert.ToInt64(parameter3));
 
                         }
                         else 
@@ -83,7 +86,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
 
                         ListOfAttachments.Add(attachment);
                     }
-
+                    streamProvider.Contents.Clear();
                     ListOfAttachments = itemService.SaveArtworkAttachments(ListOfAttachments);
                     if (ListOfAttachments == null)
                     {
@@ -92,11 +95,15 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                     }
                     else 
                     {
+                        messages.Add("Success");
+                        string ArtworkHtml = "";
                         foreach(var attach in ListOfAttachments)
                         {
-                            messages.Add(attach.FolderPath + attach.FileName);
-                        }
+                            ArtworkHtml = ArtworkHtml + "<div class='LGBC BD_PCS rounded_corners'><div class='DeleteIconPP'><button type='button' class='delete_icon_img' onclick='ConfirmDeleteArtWorkPopUP(" + attach.ItemAttachmentId + "," + attach.ItemId + ");'</button></div><a><div class='PDTC_LP FI_PCS'><img class='full_img_ThumbnailPath_LP' src='/" + attach.FolderPath + "/" + attach.FileName + "Thumb.png' /></div></a><div class='confirm_design LGBC height40_LP '><label>" + attach.FileName + "</label></div></div>";
+                            
 
+                        }
+                        messages.Add(ArtworkHtml);
                         return messages;
                     }
                     
@@ -116,7 +123,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             }
             finally
             {
-
+                streamProvider = null;
             }
         }
 

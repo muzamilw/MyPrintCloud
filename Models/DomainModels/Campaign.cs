@@ -111,5 +111,137 @@ namespace MPC.Models.DomainModels
         public virtual EmailEvent CampaignEmailEvent { get; set; }
         public virtual ICollection<CampaignImage> CampaignImages { get; set; }
 
+
+
+        #region public
+
+
+        /// <summary>
+        /// Makes a copy of Entity
+        /// </summary>
+        ///   
+
+        public void Clone(Campaign target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemProductDetailClone_InvalidItemProductDetail, "target");
+            }
+
+
+            target.CampaignName = CampaignName;
+            target.Description = Description;
+            target.DataSourceType = DataSourceType;
+            target.RunCampaignFor = RunCampaignFor;
+            target.IncludeCustomers = IncludeCustomers;
+            target.OrganisationId = OrganisationId;
+              target.CampaignName = CampaignName;
+            target.IncludeSuppliers = IncludeSuppliers;
+            target.IncludeProspects = IncludeProspects;
+            target.IncludeNewsLetterSubscribers = IncludeNewsLetterSubscribers;
+            target.IncludeKeyword = IncludeKeyword;
+            target.SearchKeyword = SearchKeyword;
+            
+            target.IncludeType = IncludeType;
+            target.IncludeFlag = IncludeFlag;
+            target.IncludeName = IncludeName;
+          
+            target.IncludeContactName = IncludeContactName;
+            target.SubjectA = SubjectA;
+            target.HTMLMessageA = HTMLMessageA;
+            target.AttachmentFileNameFieldName = AttachmentFileNameFieldName;
+           
+            target.AttachmentType = AttachmentType;
+            target.EmailField = EmailField;
+            target.CCEmailField = CCEmailField;
+            target.SMTPServer = SMTPServer;
+           target.FromAddress = FromAddress;
+            target.ReturnPathAddress = ReturnPathAddress;
+            target.ReplyToAddress = ReplyToAddress;
+          
+            target.ErrorsToAddress = ErrorsToAddress;
+            target.SMTPServerType = SMTPServerType;
+            target.StartDateTime = StartDateTime;
+            target.RepeatEvery = RepeatEvery;
+           
+            target.RepeatInterval = RepeatInterval;
+            target.LastRunOn = LastRunOn;
+            target.MessageType = MessageType;
+            target.ABMessaging = ABMessaging;
+              target.SubjectB = SubjectB;
+            target.HTMLMessageB = HTMLMessageB;
+            target.IncludePlainText = IncludePlainText;
+          
+            target.SMTPDelaySeconds = SMTPDelaySeconds;
+            target.EmailAddressLogFiles = EmailAddressLogFiles;
+            target.PlainTextMessageA = PlainTextMessageA;
+            target.PlainTextMessageB = PlainTextMessageB;
+           
+            target.UId = UId;
+            target.SubscribeEmailUpdateField = SubscribeEmailUpdateField;
+            target.UnsubscribeEmailHyperlinkText = UnsubscribeEmailHyperlinkText;
+            target.SubscribeEmailHyperlinkText = SubscribeEmailHyperlinkText;
+              target.UnSubscribeCount = UnSubscribeCount;
+            target.SubscribeCount = SubscribeCount;
+            target.BounceCount = BounceCount;
+          
+            target.LastRunEndDateTime = LastRunEndDateTime;
+            target.FailedCount = FailedCount;
+            target.EnableLogFiles = EnableLogFiles;
+            target.ContinueIfWritebackError = ContinueIfWritebackError;
+           
+            target.EmailFieldPreviewColumn2 = EmailFieldPreviewColumn2;
+            target.EmailFieldPreviewColumn3 = EmailFieldPreviewColumn3;
+            target.AttachmentFileName = AttachmentFileName;
+            target.ClearCounters = ClearCounters;
+              target.SMTPServer2 = SMTPServer2;
+            target.LockedByUID = LockedByUID;
+            target.UnSubscribeCountTotal = UnSubscribeCountTotal;
+          
+            target.SubscribeCountTotal = SubscribeCountTotal;
+            target.BounceCountTotal = BounceCountTotal;
+            target.EnableEmailAddressCache = EnableEmailAddressCache;
+            target.OpenedCount = OpenedCount;
+           
+            target.OpenedCountTotal = OpenedCountTotal;
+            target.OpenedEmailUpdateField = OpenedEmailUpdateField;
+            target.EnableOpenedEmail = EnableOpenedEmail;
+              target.ABMessagingUpdateField = ABMessagingUpdateField;
+            target.EmailLogFileAddress2 = EmailLogFileAddress2;
+            target.EmailLogFileAddress3 = EmailLogFileAddress3;
+          
+            target.CampaignCategory = CampaignCategory;
+            target.SoftBounceCountTotal = SoftBounceCountTotal;
+            target.SMTPUsername = SMTPUsername;
+            target.SMTPPassword = SMTPPassword;
+           
+            target.EnableWriteBackTab = EnableWriteBackTab;
+            target.EnableClickThruTab = EnableClickThruTab;
+            target.UnsubscribeMethod = UnsubscribeMethod;
+              target.UseWYSWYG = UseWYSWYG;
+            target.CreationDate = CreationDate;
+            target.Status = Status;
+          
+            target.CampaignType = CampaignType;
+            target.SystemSiteId = SystemSiteId;
+            target.IncludeCorporateCustomers = IncludeCorporateCustomers;
+            target.IsEnabled = IsEnabled;
+           
+            target.SendEmailAfterDays = SendEmailAfterDays;
+            target.EmailEvent = EmailEvent;
+            target.FlagIDs = FlagIDs;
+            target.GroupIDs = GroupIDs;
+            target.FromName = FromName;
+            target.CampaignReportId = CampaignReportId;
+             target.OrganisationId = OrganisationId;
+            
+            target.UnsubscribeEmailAddress = UnsubscribeEmailAddress;
+
+
+
+
+        }
+
+        #endregion
     }
 }

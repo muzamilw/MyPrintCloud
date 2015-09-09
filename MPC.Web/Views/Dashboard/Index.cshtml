@@ -11,7 +11,7 @@
 
 <style>
     body {
-        overflow: hidden;
+        /*overflow: hidden;*/
         height: 100%;
     }
 
@@ -73,8 +73,8 @@
         <table style="height: 70px; width: 320px;">
             <tr>
                 <td style="padding-left: 10px;width: 150px;text-align:center;">
-                    <span style="color: red; font-weight: bold;">@ViewBag.TrialCount Days</span>&nbsp;<span style="color: gray;">left in your trial</span>
-                    <span style="color: gray; font-size: 12px;">Questions ?</span>&nbsp;<a href="mailto:support@myprintcloud.com"> <span style="color: blue; font-size: 12px;">Email Us!</span></a>
+                    @*<span style="color: red; font-weight: bold;">@ViewBag.TrialCount Days</span>&nbsp;<span style="color: gray;">left in your trial</span>*@
+                    <span style="color: gray; font-size: 12px;"> Got Questions ?</span>&nbsp;<a href="mailto:support@myprintcloud.com"> <span style="color: blue; font-size: 12px;">Email Us!</span></a>
                 </td>
                 <td style="width: 120px; text-align: right; padding-right: 10px;">
                     <a href="https://myprintcloud.com/dashboard" class="btn" style="background-color:#608C36;border-color:#3F651B;color:white;">Upgrade  Now</a>
@@ -129,69 +129,69 @@
         <div class="col-lg-12">
             <div class="row">
                 <div class="row">
-                    <div class="col-md-8 col-lg-8">
+                    <div class="col-md-8 col-lg-8" style="padding-left: 15px;">
 
-                        <div class="row">
-                            @if (ViewBag.Istrial == true)
-                            {
+                        @*<div class="row">
+                                @if (ViewBag.Istrial == true)
+                                {
 
-                                displaybuttonsclass = "col-lg-3 col-sm-6 col-xs-12";
-                                ishiddenclass = "";
-                            }
-                            else
-                            {
-                                displaybuttonsclass = "col-lg-3 col-sm-6 col-xs-12";
-                                ishiddenclass = "hidden";
+                                    displaybuttonsclass = "col-lg-3 col-sm-6 col-xs-12";
+                                    ishiddenclass = "";
+                                }
+                                else
+                                {
+                                    displaybuttonsclass = "col-lg-3 col-sm-6 col-xs-12";
+                                    ishiddenclass = "hidden";
 
-                            }
-
-                        
-                            <a href="/mis/Estimate/EstimatesList/" style="text-decoration:none" class="@displaybuttonsclass ">
-                                <div class="main-box infographic-box inner-box">
-                                    <i class="fa  fa-anchor emerald-bg" style="margin-right:4px;"></i>
-                                    <span class="span-dashboard-widgets">Create Quote</span>
-                                    <span class="value inner-box-margin">&nbsp;</span>
-                                </div>
-                            </a>
+                                }
 
 
-                            <a href="~/Stores/Stores/Index" style="text-decoration:none" class="@displaybuttonsclass ">
-                                <div class="main-box infographic-box inner-box">
-                                    <i class="fa fa-archive emerald-bg" style="margin-right:4px;"></i>
-                                    <span class="span-dashboard-widgets">Create a Website/Store</span>
-                                    <span class="value inner-box-margin">&nbsp;</span>
-                                </div>
-                                <div class="web2print-positioner" style="position:fixed;">
-                                </div>
-                            </a>
+                                <a href="/mis/Estimate/EstimatesList/" style="text-decoration:none" class="@displaybuttonsclass ">
+                                    <div class="main-box infographic-box inner-box">
+                                        <i class="fa  fa-anchor emerald-bg" style="margin-right:4px;"></i>
+                                        <span class="span-dashboard-widgets">Create Quote</span>
+                                        <span class="value inner-box-margin">&nbsp;</span>
+                                    </div>
+                                </a>
 
 
-                            <a style="text-decoration:none" class="@displaybuttonsclass  bs-example-tooltips" data-placement="bottom" data-toggle="popover" data-content="To create a product go to Stores, select a store and then visit the Products and Categories Tab. It is always a good practice to create a category first and then create a product based on your requirements.">
-                                <div class="main-box infographic-box inner-box">
-                                    <i class="fa fa-cube emerald-bg" style="margin-right:4px;"></i>
-                                    <span class="span-dashboard-widgets ">Create Product</span>
-                                    <span class="value inner-box-margin">&nbsp;</span>
-                                </div>
-                                <div class="product-positioner" style="position:fixed;">
-                                </div>
-                            </a>
+                                <a href="~/Stores/Stores/Index" style="text-decoration:none" class="@displaybuttonsclass ">
+                                    <div class="main-box infographic-box inner-box">
+                                        <i class="fa fa-archive emerald-bg" style="margin-right:4px;"></i>
+                                        <span class="span-dashboard-widgets">Create a Website/Store</span>
+                                        <span class="value inner-box-margin">&nbsp;</span>
+                                    </div>
+                                    <div class="web2print-positioner" style="position:fixed;">
+                                    </div>
+                                </a>
 
-                            <a href="#" style="text-decoration:none" class="@displaybuttonsclass " data-toggle="popover" data-placement="bottom" data-content="Design templates can be created against the products. To create a design template in a product first navigate to the store, select the product and navigate to Template Properties tab. Select either a blank template option or PDF based template to start creating template. ">
-                                <div class="main-box infographic-box inner-box">
-                                    <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
-                                    <span class="span-dashboard-widgets">Create Template</span>
-                                    <span class="value inner-box-margin">&nbsp;</span>
-                                </div>
-                            </a>
 
-                        </div>
+                                <a style="text-decoration:none" class="@displaybuttonsclass  bs-example-tooltips" data-placement="bottom" data-toggle="popover" data-content="To create a product go to Stores, select a store and then visit the Products and Categories Tab. It is always a good practice to create a category first and then create a product based on your requirements.">
+                                    <div class="main-box infographic-box inner-box">
+                                        <i class="fa fa-cube emerald-bg" style="margin-right:4px;"></i>
+                                        <span class="span-dashboard-widgets ">Create Product</span>
+                                        <span class="value inner-box-margin">&nbsp;</span>
+                                    </div>
+                                    <div class="product-positioner" style="position:fixed;">
+                                    </div>
+                                </a>
+
+                                <a href="#" style="text-decoration:none" class="@displaybuttonsclass " data-toggle="popover" data-placement="bottom" data-content="Design templates can be created against the products. To create a design template in a product first navigate to the store, select the product and navigate to Template Properties tab. Select either a blank template option or PDF based template to start creating template. ">
+                                    <div class="main-box infographic-box inner-box">
+                                        <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
+                                        <span class="span-dashboard-widgets">Create Template</span>
+                                        <span class="value inner-box-margin">&nbsp;</span>
+                                    </div>
+                                </a>
+
+                            </div>*@
 
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="social-box-wrapper">
                                     <a href="/mis/Orders/Home/EstimatesList?status=unconfirmed">
                                         <div class="social-box col-lg-3 col-sm-6 col-xs-6  estimates" style="cursor:pointer;" title="Pending Estimates">
-                                            <i class="fa fa-cubes"></i>
+                                            <i class="fa fa-fax"></i>
                                             <div class="clearfix">
                                                 <span class="social-count" data-bind="text:$root.canceledOrdersCount"></span>
                                                 <span class="social-action">Pending Estimates</span>
@@ -210,7 +210,7 @@
                                     </a>
                                     <a href="/mis/Orders/Home?status=production">
                                         <div class="social-box col-lg-3 col-sm-6 col-xs-6  twitter" style="cursor:pointer;" title="In Production">
-                                            <i class="fa fa-cubes"></i>
+                                            <i class="glyphicon glyphicon-list-alt"></i>
                                             <div class="clearfix">
                                                 <span class="social-count" data-bind="text:$root.inProductionOrdersCount"></span>
                                                 <span class="social-action">In Production</span>
@@ -220,85 +220,277 @@
                                     </a>
                                     <a href="/mis/Orders/Home?status=completed">
                                         <div class="social-box col-lg-3 col-sm-6 col-xs-6  google" style="cursor:pointer;" title="Completed">
-                                            <i class="fa fa-cubes"></i>
+                                            <i class="glyphicon glyphicon-file"></i>
                                             <div class="clearfix">
                                                 <span class="social-count" data-bind="text:$root.completedOrdersCount"></span>
-                                                <span class="social-action">Completed</span>
+                                                <span class="social-action">Ready for Shipping</span>
                                             </div>
                                             @* <span class="social-name">google+</span>*@
                                         </div>
                                     </a>
-</div>
+                                </div>
                             </div>
 
                         </div>
 
                         <div class="main-box">
                             <div class="row">
-                                <div class="col-md-9">
-                                    <div class="graph-box emerald-bg">
-                                        <h2>Sales &amp; Earnings</h2>
-                                        <div class="graph" id="graph-line" style="max-height: 335px;"></div>
+                                <div class="col-lg-6">
+                                    <h2 class="graphheaderleft">Top 5 Performing Stores</h2>
+                                    <div class="form-group" style="margin-left:10px">
+                                        <div class="graph-box lightgray-bg">
+                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Bar', data: $root.topPerformingStores, xkey: 'Name', ykeys:['CurrentMonthEarning', 'LastMonthEarning'], labels: ['Current Month Earning', 'Last Month Earning'],gridTextColor: 'gray',horizontal: true}"></div>
+                                        </div>
+                                    </div>
+                                    <h2 class="graphheaderleft">Monthly Earnings by Store</h2>
+                                    <div class="form-group" style="margin-left:10px">
+                                        <div class="graph-box lightgray-bg">
+                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.monthlyEarningsByStore, xkey: 'monthname',xLabelMargin: 3,ykeys: $root.yAxisPointMonthlyEarning,labels: $root.monthlyEarningStores,xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true, preUnits: $root.currencySymbol}"></div>
+                                            @*<div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'month',xLabelMargin: 3,ykeys: ['a', 'b'],labels: 'abc',xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>*@
+                                        </div>
+                                    </div>
+                                    <h2 class="graphheaderleft">Estimate to Order Conversion</h2>
+                                    <div class="form-group" style="margin-left:10px">
+                                        @*<img src="~/Content/Images/chart_05.png" style="width: 100%;" />*@
+                                        <div class="graph-box lightgray-bg">
+                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.estimateToOrderConversion, xkey: 'MonthName',xLabelMargin: 2,ykeys: ['EstimateTotal', 'ConvertedTotal'],labels: ['Estimate Total', 'Converted Total'],xLabelFormat :xLabelFormat = function (x) {return $root.months[x.getMonth()];}, dateFormat: function(x) {var month = $root.months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>
+                                            @*<div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'month',xLabelMargin: 3,ykeys: ['a', 'b'],labels: 'abc',xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>*@
+                                        </div>
+
+                                    </div>
+                                    <h2 class="graphheaderleft">Top 5 Performing Customers</h2>
+                                    <div class="form-group" style="margin-left:10px">
+                                        <div class="graph-box lightgray-bg">
+                                            
+                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Bar', data: $root.top10PerformingStores, xkey: 'ContactName', ykeys:['CurrentMonthOrders', 'LastMonthOrders'],barGap:1, labels: ['Current Month Ordes', 'Last Month Orders'],gridTextColor: 'gray',horizontal: true}"></div>
+                                            @*<div class="graph" id="graph-line" data-bind="morris: {type: 'Bar', data: $root.line, xkey: 'month', ykeys:['a', 'b'],barGap:1, labels: ['Series A', 'Series B'],gridTextColor: 'gray',resize: true, grid: false}"></div>*@
+                                        </div>
+                                        @*<img src="~/Content/Images/chart_07.png" style="width: 100%;" />*@
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="row graph-nice-legend">
-                                        <div class="graph-legend-row col-md-12 col-sm-4">
-                                            <div class="graph-legend-row-inner">
-                                                <span class="graph-legend-name">
-                                                    Earnings
-                                                </span>
-                                                <table>
+                                <div class="col-lg-6">
+                                    <h2 class="graphheaderright">Registered Users by Store</h2>
+
+                                    <div class="form-group" style="margin-right:10px">
+                                        @*<div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.totalEarnings, xkey: 'month', ykeys:$root.yAxisPoints, labels: $root.chartLabels,gridTextColor: '#ffffff',resize: true}"
+                                            style="max-height: 335px;"></div>*@
+
+                                        <div class="graph-box lightgray-bg">
+                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.RegisteredUsers, xkey: 'monthname',xLabelMargin: 3,ykeys: $root.yAxisPointRegUsers,labels: $root.chartLabelsdummy,xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>
+                                        </div>
+                                    </div>
+                                    <h2 class="graphheaderright">Monthly Orders Count</h2>
+                                    <div class="form-group" style="margin-right:10px">
+                                        <div class="graph-box lightgray-bg">
+                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.monthlyOrdersCount, xkey: 'monthname',xLabelMargin: 3,ykeys: $root.yAxisPointMonthlyOrders,labels: $root.monthlyOrderStoresList,xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>
+                                            @*<div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'month',xLabelMargin: 3,ykeys: ['a', 'b'],labels: 'abc',xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>*@
+                                        </div>
+
+                                        @*<img src="~/Content/Images/chart_04.png" style="width: 100%;" />*@
+                                    </div>
+                                    <h2 class="graphheaderright">Estimate to Order Conversion Count</h2>
+                                    <div class="form-group" style="margin-right:10px">
+                                        <div class="graph-box lightgray-bg">
+                                            <div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.estimateToOrderConversionCount, xkey: 'MonthName',xLabelMargin: 3,ykeys: ['EstimateCount', 'ConvertedCount'],labels: ['Estimates', 'Orders'],xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>
+                                            @*<div class="graph" id="graph-line" data-bind="morris: {type: 'Line', data: $root.line, xkey: 'MonthName',xLabelMargin: 3,ykeys: ['a', 'b'],labels: 'abc',xLabelFormat :xLabelFormat = function (x) {return months[x.getMonth()];}, dateFormat: function(x) {var month = months[new Date(x).getMonth()];return month;},gridTextColor: 'gray',resize: true}"></div>*@
+                                        </div>
+
+                                        @*<img src="~/Content/Images/chart_06.png" style="width: 100%;" d />*@
+                                    </div>
+                                    <h2 class="graphheaderright">ROI - 6 months</h2>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Registered Customers</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <span data-bind="text: $root.roiRegisteredUsersCount()"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Orders Processed Count</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <span data-bind="text: $root.roiOrdersProcessedCount()"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Direct Orders Total</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <span data-bind="text: $root.currencySymbol()"></span>  <span data-bind="text: $root.roiDirectOrdersTotal()"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+
+                                                <label style="float: left; font-weight: bold" class="control-label text-right tooltip-float">Online Orders Total</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <span data-bind="text: $root.currencySymbol()"></span>  <span data-bind="text: $root.roiOnlineOrdersTotal()"></span>
+                                            </div>
+                                        </div>
+
+                                        
+                                        
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        @* order list*@
+                    </div>
+
+                    <div class="col-md-4 col-lg-4">
+
+                        @*<div class="row">
+                                <div class="main-box clearfix">
+                                    <header class="main-box-header clearfix">
+                                        <h2 class="pull-left">Useful Resources</h2>
+
+                                    </header>
+                                    <div class="main-box-body clearfix">
+                                        <div class="table-responsive clearfix">
+                                            <p style="line-height:2">
+
+
+                                                <a href="http://www.onlinemeetingnow.com/register/?id=rflm0y9eq7" target="_blank">
+                                                    Attend Daily Webinars
+                                                </a>
+
+                                                <br />
+                                                <a href="http://blog.myprintcloud.com/tutorials-quickstart/" target="_blank">
+                                                    Find Tutorials and Implementation Guides
+                                                </a>
+                                                <br />
+
+                                                <a href="http://www.w3schools.com/" target="_blank">Learn More About CSS and Modifying Stores</a>
+                                                <br />
+                                                <a href="http://blog.myprintcloud.com/updates-releases/" target="_blank"> View the Latest Updates & Release Notes</a>
+                                                <br />
+                                                <a href="http://www.speedtest.net" target="_blank">Test Your Internet Connection Speed</a>.
+                                                <br />
+                                                <a href="https://myprintcloud.com/Dashboard/contacts" target="_blank">Add Users to Your MyPrintCloud Account.</a>.
+                                                <br />
+
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="main-box clearfix">
+                                    <header class="main-box-header clearfix">
+                                        <h2 style="margin-top: 3%;" class="pull-left">Useful Resources</h2>
+                                    </header>
+                                    <div class="main-box-body clearfix">
+                                        <div class="table-responsive clearfix">
+                                            <table class="table table-hover">
+                                                <thead>
                                                     <tr>
+                                                        <th class="col-lg-11"><span></span></th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr style="cursor: pointer">
                                                         <td>
-                                                            <span class="graph-legend-value">
-                                                                $&nbsp;
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            <span class="graph-legend-value" data-bind="text: $root.totalEarning">
-                                                            </span>
+                                                            <a href="http://www.onlinemeetingnow.com/register/?id=rflm0y9eq7" target="_blank">Attend Daily Webinars</a>
                                                         </td>
                                                     </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="graph-legend-row col-md-12 col-sm-4">
-                                            <div class="graph-legend-row-inner">
-                                                <span class="graph-legend-name">
-                                                    Orders this Month
-                                                </span>
-                                                <span class="graph-legend-value" data-bind="text:$root.currentMonthOrdersCount">
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="graph-legend-row col-md-12 col-sm-4">
-                                            <div class="graph-legend-row-inner">
-                                                <span class="graph-legend-name">
-                                                    Live Stores
-                                                </span>
-                                                <span class="graph-legend-value" data-bind="text: $root.liveStoresCount">
-                                                </span>
-                                            </div>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="http://blog.myprintcloud.com/tutorials-quickstart/" target="_blank">Find Tutorials and Implementation Guides</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="http://www.w3schools.com/" target="_blank">Learn More About CSS and Modifying Stores</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="http://blog.myprintcloud.com/updates-releases/" target="_blank"> View the Latest Updates & Release Notes</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="http://www.speedtest.net" target="_blank">Test Your Internet Connection Speed</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="https://myprintcloud.com/Dashboard/contacts" target="_blank">Add Users to Your MyPrintCloud Account.</a>.
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="main-box clearfix">
                                     <header class="main-box-header clearfix">
-                                        <h2 class="pull-left">Last 5 orders</h2>
+                                        <h2 style="margin-top: 3%;" class="pull-left">Last 5 registered user</h2>
                                         <div class="filter-block pull-right">
                                             <form data-bind="submit:$root.getDashboardData">
-                                                <div class="form-group pull-left">
-                                                    <input type="text" class="form-control" data-bind="value: $root.orderSearchString" placeholder="Search...">
-                                                    <i data-bind="click: $root.getDashboardData" class="fa fa-search search-icon"></i>
-                                                </div>
+
+                                                <a href="/mis/CRM/Home/" class="btn btn-primary pull-right">
+                                                    <i class=" fa fa-eye fa-lg">
+                                                    </i>&nbsp; View All
+                                                </a>
+                                            </form>
+
+                                        </div>
+                                    </header>
+                                    <div class="main-box-body clearfix">
+                                        <div class="table-responsive clearfix">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="col-lg-11"><span></span></th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- ko if: $root.customers().length === 0 -->
+                                                    <tr>
+                                                        <td colspan="8">
+                                                            <span style="font-size: 14px;">No Items found!</span>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- /ko -->
+                                                    <!-- ko template: { name: 'customerTemplate' , foreach: $root.customers } -->
+                                                    <!-- /ko -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="main-box clearfix">
+                                    <header class="main-box-header clearfix">
+                                        <h2 class="pull-left" style="padding-top: 10px;">Last 5 orders</h2>
+                                        <div class="filter-block pull-right">
+                                            <form data-bind="submit:$root.getDashboardData">
+                                                @*<div class="form-group pull-left">
+                                                        <input type="text" class="form-control" data-bind="value: $root.orderSearchString" placeholder="Search...">
+                                                        <i data-bind="click: $root.getDashboardData" class="fa fa-search search-icon"></i>
+                                                    </div>*@
                                                 <a href="/mis/orders/home/" class="btn btn-primary pull-right">
-                                                    <i class="fa fa-eye fa-lg"></i>View all orders
+                                                    <i class="fa fa-eye fa-lg"></i>&nbsp; View All
                                                 </a>
                                             </form>
 
@@ -310,13 +502,20 @@
                                                 <thead>
                                                     <tr>
                                                         <th><span>Customer</span></th>
-                                                        <th><span>Order Code</span></th>
-                                                        <th><span>Order Date</span></th>
-                                                        <th><span>Order Status</span></th>
-                                                        <th><span>Order Total</span></th>
+                                                        @*<th><span>Order Code</span></th>
+                                                            <th><span>Order Date</span></th>
+                                                            <th><span>Order Status</span></th>*@
+                                                        <th style="text-align: right"><span>Order Total</span></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    <!-- ko if: $root.orders().length === 0 -->
+                                                    <tr>
+                                                        <td colspan="8">
+                                                            <span style="font-size: 14px;">No Items found!</span>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- /ko -->
                                                     <!-- ko template: { name: 'itemOrderTemplate' , foreach: $root.orders } -->
                                                     <!-- /ko -->
                                                 </tbody>
@@ -326,200 +525,178 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-md-4 col-lg-4">
 
                         <div class="row">
-                            <div class="main-box clearfix">
-                                <header class="main-box-header clearfix">
-                                    <h2 class="pull-left">Useful Resources</h2>
-
-                                </header>
-                                <div class="main-box-body clearfix">
-                                    <div class="table-responsive clearfix">
-                                        <p style="line-height:2">
-                                            Link your Social marketing accounts using
-                                            <a href="https://hootsuite.com/" target="_blank">Hoot Suite</a>.
-                                            <br />
-                                            <a href="https://attendee.gotowebinar.com/rt/3456325062173650689" target="_blank">
-                                                Attend
-                                            </a> training Webinars on Print MIS & Web to Print.
-                                            training.
-                                            <br />
-                                            <a href="http://blog.myprintcloud.com/tutorials-quickstart/" target="_blank">
-                                                Tutorials
-                                            </a>  on Training and Implementation.
-                                            <br />
-                                            <a href="http://blog.myprintcloud.com/" target="_blank">
-                                                Weekly Digest / Blogs
-                                            </a>  on Printing Trends.
-                                            <br />
-                                            Customize your theme.  <a href="http://www.w3schools.com/" target="_blank">Beginners guide on CSS.</a>
-                                            <br />
-                                            DIY SEO visit  <a href="http://seositecheckup.com/" target="_blank">SEOSiteCheckup.com</a> for tips.
-                                            <br />
-                                            Test your connection speed. <a href="http://www.speedtest.net" target="_blank">www.speedtest.net</a>.
-                                            <br />
-                                            Latest MyPrintCloud  <a href="http://blog.myprintcloud.com/updates-releases/" target="_blank"> updates & release notes</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="row">
-                            <div class="main-box clearfix">
-                                <header class="main-box-header clearfix">
-                                    <h2 class="pull-left">Recently Registered Customers</h2>
-
-                                </header>
-                                <div class="main-box-body clearfix">
-                                    <ul class="widget-users row">
-                                        <li class="col-md-12">
-                                            <div class="img">
-                                                <img src="~/Content/themes/Centaurus/img/samples/scarlet.png" alt="" />
-                                            </div>
-                                            <div class="details">
-                                                <div class="name">
-                                                    <a href="#">Scarlett Johansson</a>
-                                                </div>
-                                                <div class="time">
-                                                    <i class="fa fa-clock-o"></i> Registerd on Retail Store, 1 day ago.
-                                                </div>
-
-                                            </div>
-                                        </li>
-
-
-                                        <li class="col-md-12">
-                                            <div class="img">
-                                                <img src="~/Content/themes/Centaurus/img/samples/robert.png" alt="" />
-                                            </div>
-                                            <div class="details">
-                                                <div class="name">
-                                                    <a href="#">Robert Downey Jr.</a>
-                                                </div>
-                                                <div class="time">
-                                                    <i class="fa fa-clock-o"></i>Registerd on Private Store, 2 days ago.
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="col-md-12">
-                                            <div class="img">
-                                                <img src="~/Content/themes/Centaurus/img/samples/emma.png" alt="" />
-                                            </div>
-                                            <div class="details">
-                                                <div class="name">
-                                                    <a href="#">Emma Watson</a>
-                                                </div>
-                                                <div class="time">
-                                                    <i class="fa fa-clock-o"></i>Registerd on Retail Store, 2 day ago.
-                                                </div>
-                                            </div>
-                                        </li>
-
-
-
-                                    </ul>
-                                    <br />
-                                    <a href="/mis/CRM/Home" class="btn btn-success pull-right">View all Customers</a>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="row">
-                            <div class="main-box clearfix" style="background-color:transparent !important">
-                                <header class="main-box-header clearfix">
-                                    <h2 class="pull-left">Management Reports</h2>
-
-                                </header>
-                                <div class="main-box-body clearfix" style="padding-left:0px;padding-right:0px;">
-
-                                    <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
-                                        <div class="main-box infographic-box inner-box">
-                                            <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
-                                            <span class="span-dashboard-widgets">Top 5 Customers by revenue</span>
-                                            <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
-                                        </div>
-                                    </a>
-
-                                    <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
-                                        <div class="main-box infographic-box inner-box">
-                                            <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
-                                            <span class="span-dashboard-widgets">Most popular product sold by revenue</span>
-                                            <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
-                                        </div>
-                                    </a>
-
-                                    <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
-                                        <div class="main-box infographic-box inner-box">
-                                            <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
-                                            <span class="span-dashboard-widgets">Most active customers</span>
-                                            <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
-                                        </div>
-                                    </a>
-
-                                    <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
-                                        <div class="main-box infographic-box inner-box">
-                                            <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
-                                            <span class="span-dashboard-widgets">Carts that haven't checked-Out</span>
-                                            <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
-                                        </div>
-                                    </a>
-
-                                    <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
-                                        <div class="main-box infographic-box inner-box">
-                                            <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
-                                            <span class="span-dashboard-widgets">Active Order Statuses</span>
-                                            <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
-                                        </div>
-                                    </a>
-
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                        <div class="row" style="display:none">
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <div class="main-box clearfix">
+                                    <header class="main-box-header clearfix">
+                                        <h2 style="margin-top: 3%;" class="pull-left">Management Reports</h2>
+                                    </header>
                                     <div class="main-box-body clearfix">
+                                        <div class="table-responsive clearfix">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="col-lg-11"><span></span></th>
+                                                        <th style="text-align: right"><span></span></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="#">Top 5 Customers by revenue</a>
+                                                        </td>
+                                                        <td style="text-align: right"><i class=" fa fa-eye fa-lg" style="font-size: 20px;"></i></td>
+                                                    </tr>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="#">Most popular product sold by revenue</a>
+                                                        </td>
+                                                        <td style="text-align: right"><i class=" fa fa-eye fa-lg" style="font-size: 20px;"></i></td>
+                                                    </tr>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="#">Most active customers</a>
+                                                        </td>
+                                                        <td style="text-align: right"><i class=" fa fa-eye fa-lg" style="font-size: 20px;"></i></td>
+                                                    </tr>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="#">Carts that haven't checked-Out</a>
+                                                        </td>
+                                                        <td style="text-align: right"><i class=" fa fa-eye fa-lg" style="font-size: 20px;"></i></td>
+                                                    </tr>
+                                                    <tr style="cursor: pointer">
+                                                        <td>
+                                                            <a href="#">Active Order Statuses</a>
+                                                        </td>
+                                                        <td style="text-align: right"><i class=" fa fa-eye fa-lg" style="font-size: 20px;"></i></td>
+                                                    </tr>
 
-                                        <div id="calendar"></div>
-
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
+                        @*<div class="row">
+                                <div class="main-box clearfix" style="background-color:transparent !important">
+                                    <header class="main-box-header clearfix">
+                                        <h2 class="pull-left">Management Reports</h2>
+
+                                    </header>
+                                    <div class="main-box-body clearfix" style="padding-left:0px;padding-right:0px;">
+
+                                        <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
+                                            <div class="main-box infographic-box inner-box">
+                                                <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
+                                                <span class="span-dashboard-widgets">Top 5 Customers by revenue</span>
+                                                <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
+                                            </div>
+                                        </a>
+
+                                        <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
+                                            <div class="main-box infographic-box inner-box">
+                                                <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
+                                                <span class="span-dashboard-widgets">Most popular product sold by revenue</span>
+                                                <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
+                                            </div>
+                                        </a>
+
+                                        <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
+                                            <div class="main-box infographic-box inner-box">
+                                                <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
+                                                <span class="span-dashboard-widgets">Most active customers</span>
+                                                <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
+                                            </div>
+                                        </a>
+
+                                        <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
+                                            <div class="main-box infographic-box inner-box">
+                                                <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
+                                                <span class="span-dashboard-widgets">Carts that haven't checked-Out</span>
+                                                <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
+                                            </div>
+                                        </a>
+
+                                        <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
+                                            <div class="main-box infographic-box inner-box">
+                                                <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
+                                                <span class="span-dashboard-widgets">Active Order Statuses</span>
+                                                <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
+                                            </div>
+                                        </a>
+
+                                    </div>
+                                </div>
+
+                            </div>*@
+
+                    </div>
+
+
+                    <div class="row" style="display:none">
+                        <div class="col-lg-6">
+                            <div class="main-box clearfix">
+                                <div class="main-box-body clearfix">
+
+                                    <div id="calendar"></div>
+
+                                </div>
+                            </div>
                         </div>
 
                     </div>
+
+                </div>
+            </div>
         </div>
-    </div>
         <script id="itemOrderTemplate" type="text/html">
-            <tr>
+            <tr data-bind="click: $root.goToOrder.bind($data.id(), $data.id())" style="cursor: pointer">
 
-                <td >  @*data-bind="attr: {href:'/mis/orders/home/'+id }"*@
-                    @*<span class="store-user-link" data-bind="text: companyName"></span>*@
-                    <a class="store-user-link" data-bind="text: companyName, attr: {href:'/mis/orders/home?id='+id() }"></a>
+                <td>
+                    <a class="store-user-link" data-bind="text: companyName" href="#"></a>
                 </td>
-            <td data-bind="text: orderCode"></td>
-            <td> <span data-bind="dateString: creationDate, datePattern: 'DD/MM/YYYY'"></span></td>
-            <td> <span class="label label-success" data-bind="text: status, style: { background: flagColor }"></span></td>  @*fields mapping required*@
-            <td data-bind="text: estimateTotal() == undefined ? '$ 0' : '$ ' + estimateTotal()"></td>  @*fields mapping required*@
-        </tr>
-    </script>
-</div>
+                @*<td data-bind="text: orderCode"></td>
+                    <td> <span data-bind="dateString: creationDate, datePattern: 'DD/MM/YYYY'"></span></td>
+                    <td> <span data-bind="text: status"></span></td>*@
+                <td style="text-align: right">
+                    <span data-bind="text: $root.currencySymbol"></span>
+                    <span data-bind="numberInput: estimateTotal() == undefined ? '' :  estimateTotal()"></span>
+                </td>
+            </tr>
+        </script>
+        <script id="customerTemplate" type="text/html">
+            <tr data-bind="click: $root.goToCustomer.bind($data.id(), $data.id())" style="cursor: pointer">
+                <td>
 
+                    @*<span data-bind="text:customerTYpe()==0 ? 'Prospect':'Customer'"></span>*@
+                    <div>
+                        <div class="col-lg-7">
+                            <a class="store-user-link" data-bind="text: defaultContact" href="#"></a>
+                            @*<a class="store-user-link" data-bind="text: name" href="#"></a>*@
+                            <span data-bind="dateString: creationdate, datePattern: 'DD/MM/YYYY'" style="font-size:12px"></span>
+
+                        </div>
+                        <div class="col-lg-5" style="margin-top: 2%;">
+                            <span data-bind="text: storeName"></span>
+                            @*<span data-bind="text:customerTYpe()==0 ? 'Prospect':'Customer'"></span>*@
+                            <span data-bind="text: defaultContactEmail" style=" font-size: 12px;"></span>
+
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </script>
+
+    </div>
+</div>
 @section Scripts {
     @*<script src="~/Scripts/Script/jquery.foggy.js"></script>
         <script src="~/Scripts/Script/jquery.foggy.min.js"></script>*@
+
     <script>
         $(document).ready(function () {
 
@@ -677,30 +854,36 @@
             });
 
             //CHARTS
-            graphLine = Morris.Line({
-                element: 'graph-line',
-                data: [
-                    { period: '2014-01-01', iphone: 2666, ipad: null, itouch: 2647 },
-                    { period: '2014-01-02', iphone: 9778, ipad: 2294, itouch: 2441 },
-                    { period: '2014-01-03', iphone: 4912, ipad: 1969, itouch: 2501 },
-                    { period: '2014-01-04', iphone: 3767, ipad: 3597, itouch: 5689 },
-                    { period: '2014-01-05', iphone: 6810, ipad: 1914, itouch: 2293 },
-                    { period: '2014-01-06', iphone: 5670, ipad: 4293, itouch: 1881 },
-                    { period: '2014-01-07', iphone: 4820, ipad: 3795, itouch: 1588 },
-                    { period: '2014-01-08', iphone: 15073, ipad: 5967, itouch: 5175 },
-                    { period: '2014-01-09', iphone: 10687, ipad: 4460, itouch: 2028 },
-                    { period: '2014-01-10', iphone: 8432, ipad: 5713, itouch: 1791 }
-                ],
-                lineColors: ['#ffffff'],
-                xkey: 'period',
-                ykeys: ['iphone'],
-                labels: ['iPhone'],
-                pointSize: 3,
-                hideHover: 'auto',
-                gridTextColor: '#ffffff',
-                gridLineColor: 'rgba(255, 255, 255, 0.3)',
-                resize: true
-            });
+            //graphLine = Morris.Line({
+            //    element: 'graph-line',
+            //    data: [
+            //        { period: '2015-01-01', 'Retail Store': 0, ipad: null, itouch: 2647 },
+            //        { period: '2015-02-02', 'Retail Store': 0, ipad: 2294, itouch: 2441 },
+            //        { period: '2015-03-03', 'Retail Store': 0, ipad: 1969, itouch: 2501 },
+            //        { period: '2015-04-04', 'Retail Store': 0, ipad: 3597, itouch: 5689 },
+            //        { period: '2015-05-05', 'Retail Store': 2, ipad: 1914, itouch: 2293 },
+            //        { period: '2015-06-06', 'Retail Store': 0, ipad: 4293, itouch: 1881 },
+            //        { period: '2015-07-07', 'Retail Store': 0, ipad: 3795, itouch: 1588 },
+            //        { period: '2015-08-08', 'Retail Store': 5, ipad: 5967, itouch: 5175 },
+            //        { period: '2015-09-09', 'Retail Store': 0, ipad: 4460, itouch: 2028 },
+            //        { period: '2015-10-10', 'Retail Store': 0, ipad: 5713, itouch: 1791 },
+            //        { period: '2015-11-10', 'Retail Store': 9, ipad: 5713, itouch: 1791 },
+            //        { period: '2015-12-10', 'Retail Store': 0, ipad: 5713, itouch: 1791 }
+            //    ],
+            //    lineColors: ['#ffffff'],
+            //    xkey: 'period',
+            //    ykeys: ['Retail Store'],
+            //    labels: ['itouch'],
+            //    pointSize: 3,
+            //    hideHover: 'auto',
+            //    gridTextColor: '#ffffff',
+            //    gridLineColor: 'rgba(255, 255, 255, 0.3)',
+            //    resize: true
+            //});
+
+
+
+
 
             //WORLD MAP
             $('#world-map').vectorMap({
@@ -837,7 +1020,7 @@
                 "",
                 "",
                 "",
-                '<br /><a href=http://blog.myprintcloud.com/tutorials-quickstart/ target="_blank" style="font-weight:bold;">Self Paced Tutorials</a><a href="https://attendee.gotowebinar.com/rt/3456325062173650689" target="_blank" style="font-weight:bold;">Join in on our Webinars</a><a href="http://www.youtube.com/user/myprintcloud" target="_blank" style="font-weight:bold;">Watch How to Video’s</a><a href="http://support.myprintcloud.com" target="_blank" style="font-weight:bold;">Contact Support Desk</a><a href="https://myprintcloud.com/dashboard" target="_blank" style="font-weight:bold;">Upgrade to Paid Subscription</a>',
+                    '<br /><a href=http://blog.myprintcloud.com/tutorials-quickstart/ target="_blank" style="font-weight:bold;">Self Paced Tutorials</a><a href="http://www.onlinemeetingnow.com/register/?id=rflm0y9eq7" target="_blank" style="font-weight:bold;">Join in on our Webinars</a><a href="http://www.youtube.com/user/myprintcloud" target="_blank" style="font-weight:bold;">Watch How to Video’s</a><a href="http://support.myprintcloud.com" target="_blank" style="font-weight:bold;">Contact Support Desk</a><a href="https://myprintcloud.com/dashboard" target="_blank" style="font-weight:bold;">Upgrade to Paid Subscription</a>',
                 ""
             ]
 
@@ -1178,7 +1361,7 @@
 
     <script>
         require(["dashboard.view", "common/confirmation.view"]);
-
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         $(document).ready(function () {
 
             //min/max slider
@@ -1187,5 +1370,17 @@
 
     </script>
 
+    <!-- ClickDesk Live Chat Service for websites -->
+    <script type='text/javascript'>
+        var _glc = _glc || []; _glc.push('all_ag9zfmNsaWNrZGVza2NoYXRyDwsSBXVzZXJzGJD1qYkMDA');
+        var glcpath = (('https:' == document.location.protocol) ? 'https://my.clickdesk.com/clickdesk-ui/browser/' :
+        'http://my.clickdesk.com/clickdesk-ui/browser/');
+        var glcp = (('https:' == document.location.protocol) ? 'https://' : 'http://');
+        var glcspt = document.createElement('script'); glcspt.type = 'text/javascript';
+        glcspt.async = true; glcspt.src = glcpath + 'livechat-new.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(glcspt, s);
+    </script>
+    <!-- End of ClickDesk -->
 }
+
 

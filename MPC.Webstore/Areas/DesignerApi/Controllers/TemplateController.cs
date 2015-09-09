@@ -23,6 +23,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         private readonly ITemplateService templateService;
         private readonly IItemService itemService;
         private readonly ICompanyService _myCompanyService;
+        private readonly ITemplateVariableService _templateVariableService;
         #endregion
         #region Constructor
 
@@ -30,11 +31,13 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         /// Constructor
         /// </summary>
         /// <param name="companyService"></param>
-        public TemplateController(ITemplateService templateService, IItemService itemService, ICompanyService myCompanyService)
+        public TemplateController(ITemplateService templateService, IItemService itemService, ICompanyService myCompanyService,ITemplateVariableService templateVariableService)
         {
             this.templateService = templateService;
             this._myCompanyService = myCompanyService;
             this.itemService = itemService;
+            this._templateVariableService = templateVariableService;
+
         }
 
         #endregion
@@ -130,14 +133,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
         }
 
-        // public string preview(Stream data)
-        //    public string update(Stream data)// not used in new designer 
-        // public string savecontine(Stream data)// not used in new designer 
-        // public Stream GetFoldLine(string TemplateID)  // not used in new designer 
-        //public Stream GetCategoryV2(string CategoryIDStr)  // called from v2 service
-        //public Stream GetProductV2(string TemplateID,string CategoryIDStr,string heightStr, string widthStr) // called from v2 service
-        //public Stream GetCatListV2(string CategoryIDStr, string pageNoStr, string pageSizeStr) // called from v2 service
-        [System.Web.Http.AcceptVerbs("GET", "POST")]
+       [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         //templateid,itemid,customerId,displayName,caller,organisationId
         public HttpResponseMessage SaveDesignAttachments(long parameter1,long parameter2,long parameter3,string parameter4,string parameter5,long parameter6)
@@ -162,6 +158,21 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
         }
+
+        //parameter 1 = templateID , parameter 2= companyID
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage updateTemplateVariables(long parameter1, long parameter2)
+        {
+            var res = _templateVariableService.UpdateTemplateVariablesList(parameter1,parameter2);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, res, formatter);
+
+        }
+        
         #endregion
     }
  

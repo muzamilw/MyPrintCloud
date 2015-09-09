@@ -11,6 +11,9 @@ define("common/reportManager.view",
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#divReportManager")[0],
+
+                // bindingRoot = $("#reportEmailView")[0],
+
                 // Show the dialog
                 show = function () {
                     $("#divReportManager").modal("show");
@@ -18,13 +21,31 @@ define("common/reportManager.view",
                 // Hide the dialog
                 hide = function () {
                     $("#divReportManager").modal("hide");
-                };
-
+                },
+                 // Show the dialog
+                showEmailView = function () {
+                    $("#reportEmailView").modal("show");
+                },
+                // Hide the dialog
+                hideEmailView = function () {
+                    $("#reportEmailView").modal("hide");
+                },
+            showWebViewer = function () {
+                $("#idReportViewerHtml").modal("show");
+            },
+            hideWebViewer = function () {
+                $("#idReportViewerHtml").modal("hide");
+                
+            };
             return {
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
                 show: show,
-                hide: hide
+                hide: hide,
+                showWebViewer: showWebViewer,
+                hideWebViewer: hideWebViewer,
+                showEmailView: showEmailView,
+                hideEmailView: hideEmailView
             };
         })(ist.reportManager.viewModel);
 

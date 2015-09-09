@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header" id="dialgHeaderPadding">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Select Address</h4>
+                <h4 class="modal-title">Select Pickup Address</h4>
             </div>
             <div class="clearfix">
             </div>
@@ -12,16 +12,16 @@
                 <div class="col-lg-12" data-bind="with: $root.selectedPickupAddress">
                     <div class="form-group ">
                         <div class="col-lg-3 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
+                            @*<div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Address" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
-                            </div>
+                            </div>*@
 
-                            <label for="txtAddressName" class="control-label text-right tooltip-float">Address</label>
+                            <label for="txtAddressName" class="control-label text-right tooltip-float">Pickup Address</label>
                         </div>
                         <div class="col-lg-4">
-                            <select class="form-control col-lg-4" data-bind="options:$root.allCompanyAddressesList,optionsText:'addressName',optionsValue:'addressId',optionsCaption: 'Choose...', value: $root.selectedStore().pickupAddressId"></select>
+                            <select class="form-control col-lg-4" data-bind="options:$root.allCompanyAddressesList,optionsText:'addressName',optionsValue:'addressId',optionsCaption: 'Select Pickup Address ...', value: $root.selectedStore().pickupAddressId"></select>
                             @*<select class="form-control">
                         <option>West Region</option>
                         <option>South Region</option>
@@ -34,26 +34,26 @@
 
                     <div class="form-group ">
                         <div class="col-lg-3 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
+                            @*<div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Company Name" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
-                            </div>
+                            </div>*@
 
-                            <label for="txtAdd1" class="control-label text-right tooltip-float">Company Name</label>
+                            <label for="txtAdd1" class="control-label text-right tooltip-float">Address Name</label>
                         </div>
                         <div class="col-lg-4">
-                            <input type="text" value="My Print Cloud" disabled="disabled" class="form-control" id="txtAdd1"  data-bind="value: $root.selectedStore().name">
+                            <input type="text" disabled="disabled" class="form-control" data-bind="value: addressName">
                         </div>
                     </div>
 
                     <div class="form-group ">
                         <div class="col-lg-3 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
+                            @*<div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Address1" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
-                            </div>
+                            </div>*@
 
                             <label for="txtAdd1" class="control-label text-right tooltip-float">Address 1</label>
                         </div>
@@ -63,11 +63,11 @@
                     </div>
                     <div class="form-group ">
                         <div class="col-lg-3 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
+                            @*<div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Address2" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
-                            </div>
+                            </div>*@
 
                             <label for="txtAdd2" class="control-label text-right tooltip-float">Address 2</label>
                         </div>
@@ -78,11 +78,11 @@
 
                     <div class="form-group ">
                         <div class="col-lg-3 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
+                            @*<div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter City" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
-                            </div>
+                            </div>*@
 
                             <label for="txtCity" class="control-label text-right tooltip-float">City</label>
                         </div>
@@ -92,11 +92,11 @@
                     </div>
                     <div class="form-group ">
                         <div class="col-lg-3 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
+                            @*<div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select State" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
-                            </div>
+                            </div>*@
 
                             <label for="txtState" class="control-label text-right tooltip-float">State</label>
                         </div>
@@ -106,11 +106,11 @@
                     </div>
                     <div class="form-group ">
                         <div class="col-lg-3 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
+                            @*<div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Country" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
-                            </div>
+                            </div>*@
 
                             <label for="txtCountry" class="control-label text-right tooltip-float">Country</label>
                         </div>
@@ -120,11 +120,11 @@
                     </div>
                     <div class="form-group ">
                         <div class="col-lg-3 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
+                            @*<div class="bs-example-tooltips tooltip-float-width">
                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Postal Code" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
-                            </div>
+                            </div>*@
 
                             <label for="txtPostalCode" class="control-label text-right tooltip-float">Postal Code</label>
                         </div>

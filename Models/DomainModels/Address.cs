@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
@@ -39,19 +40,70 @@ namespace MPC.Models.DomainModels
         public bool? isDefaultTerrorityShipping { get; set; }
         public long? OrganisationId { get; set; }
         public bool? DisplayOnContactUs { get; set; }
-
         public virtual CompanyTerritory CompanyTerritory { get; set; }
         public virtual ICollection<CompanyContact> CompanyContacts { get; set; }
         public virtual ICollection<CompanyContact> ShippingCompanyContacts { get; set; }
-
         public virtual Company Company { get; set; }
         public virtual Country Country { get; set; }
         public virtual State State { get; set; }
+        public virtual ICollection<ShippingInformation> ShippingInformations { get; set; }
 
         #region Additional Properties
 
         [NotMapped]
         public List<ScopeVariable> ScopeVariables { get; set; }
+
+        #endregion
+
+        #region public
+
+
+        /// <summary>
+        /// Makes a copy of Entity
+        /// </summary>
+        ///   
+
+        public void Clone(Address target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemProductDetailClone_InvalidItemProductDetail, "target");
+            }
+
+
+
+            target.AddressName = AddressName;
+            target.Address1 = Address1;
+            target.Address2 = Address2;
+            target.Address3 = Address3;
+            target.City = City;
+            target.StateId = StateId;
+          target.CountryId = CountryId;
+            target.PostCode = PostCode;
+            target.Fax = Fax;
+          target.Email = Email;
+            target.URL = URL;
+            target.Tel1 = Tel1;
+          target.Tel2 = Tel2;
+            target.Extension1 = Extension1;
+          target.Extension2 = Extension2;
+            target.Reference = Reference;
+
+            target.FAO = FAO;
+            target.IsDefaultAddress = IsDefaultAddress;
+          target.IsDefaultShippingAddress = IsDefaultShippingAddress;
+          target.isArchived = isArchived;
+          target.GeoLatitude = GeoLatitude;
+          target.GeoLongitude = GeoLongitude;
+         target.isPrivate = isPrivate;
+         target.ContactId = ContactId;
+         target.isDefaultTerrorityBilling = isDefaultTerrorityBilling;
+         target.isDefaultTerrorityShipping = isDefaultTerrorityShipping;
+         target.OrganisationId = OrganisationId;
+         target.DisplayOnContactUs = DisplayOnContactUs;
+
+
+        }
 
         #endregion
     }

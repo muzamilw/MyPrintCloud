@@ -21,10 +21,12 @@ define("common/stockItem.viewModel",
                     isCategoryFilterVisible = ko.observable(),
                     // Is Base Data Loaded
                     isBaseDataLoaded = ko.observable(false),
-                    // Selected Stock category
-                    selectedCategoryId = ko.observable(),
+                    // To stop multiple calss
+                    isPageLoaded = ko.observable(false),
                     // Pagination For Press Dialog
                     stockDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, stockItems)),
+                    //Company Tax Rate
+                    companyTaxRate = null,
                     // Search Stock Items
                     searchStockItems = function () {
                         stockDialogPager().reset();
@@ -32,6 +34,7 @@ define("common/stockItem.viewModel",
                     },
                     // Reset Stock Items
                     resetStockItems = function () {
+                      
                         // Reset Text 
                         resetStockDialogFilters();
                         // Reset Callback
@@ -48,19 +51,23 @@ define("common/stockItem.viewModel",
                         // Reset Text 
                         stockDialogFilter(undefined);
                         // Reset Category
-                        stockDialogCatFilter(undefined);
+                       // stockDialogCatFilter(undefined);
                     },
+                     currency = ko.observable(),
                     // Show
-                    show = function (afterSelectCallback, stockCategoryId, isStockCategoryFilterVisible) {
+                    show = function (afterSelectCallback, stockCategoryId, isStockCategoryFilterVisible, currencySmb, companyTaxRateParam) {
+                        currency(currencySmb);
                         resetStockItems();
                         view.showDialog();
+                        companyTaxRate = companyTaxRateParam;
                         if (stockCategoryId) {
+                            // reset field
+                            isPageLoaded(false);
                             stockDialogCatFilter(stockCategoryId);
                         }
                         if (isStockCategoryFilterVisible !== null && isStockCategoryFilterVisible !== undefined) {
                             isCategoryFilterVisible(isStockCategoryFilterVisible);
                         }
-                        
                         afterSelect = afterSelectCallback;
                         getStockItems();
                         if (!isBaseDataLoaded())
@@ -79,11 +86,18 @@ define("common/stockItem.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         stockDialogPager(new pagination.Pagination({ PageSize: 5 }, stockItems, getStockItems));
+                        // Subscribe Category Filter Change
+                        stockDialogCatFilter.subscribe(function () {
+                            if (isPageLoaded()) {  // prevents multiple calls when page loads
+                                searchStockItems();
+                            }
+                        });
                     },
                     // Map Stock Items 
                     mapStockItems = function (data) {
                         var itemsList = [];
                         _.each(data, function (item) {
+                            item.CompanyTaxRate = companyTaxRate;
                             itemsList.push(model.StockItem.Create(item));
                         });
 
@@ -97,15 +111,16 @@ define("common/stockItem.viewModel",
                             SearchString: stockDialogFilter(),
                             PageSize: stockDialogPager().pageSize(),
                             PageNo: stockDialogPager().currentPage(),
-                            CategoryId: stockDialogCatFilter(),
-                            StockCategoryId: selectedCategoryId(),
+                            CategoryId: stockDialogCatFilter()
                         }, {
                             success: function (data) {
                                 stockItems.removeAll();
+                                
                                 if (data && data.TotalCount > 0) {
-                                    stockDialogPager().totalCount(data.TotalCount);
                                     mapStockItems(data.StockItems);
+                                    stockDialogPager().totalCount(data.TotalCount);
                                 }
+                                isPageLoaded(true);
                             },
                             error: function (response) {
                                 toastr.error("Failed to load stock items" + response);
@@ -117,6 +132,7 @@ define("common/stockItem.viewModel",
                         dataservice.getStockCategories({
                         }, {
                             success: function (data) {
+                              
                                 if (data) {
                                     categories.removeAll();
                                     _.each(data, function (item) {
@@ -140,11 +156,12 @@ define("common/stockItem.viewModel",
                     resetStockItems: resetStockItems,
                     stockDialogPager: stockDialogPager,
                     //Utilities
+                    companyTaxRate: companyTaxRate,
                     onSelectStockItem: onSelectStockItem,
                     initialize: initialize,
                     categories:categories,
                     show: show,
-                    selectedCategoryId: selectedCategoryId
+                    currency: currency
                 };
             })()
         };

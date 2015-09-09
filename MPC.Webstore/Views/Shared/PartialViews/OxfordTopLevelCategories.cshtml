@@ -1,0 +1,252 @@
+﻿@using MPC.Webstore.Common;
+@using MPC.Models.Common;
+@using System.Text.RegularExpressions
+@{
+    Layout = null;
+}
+@{
+    var lstParentCategories = ViewBag.lstParentCategories as List<MPC.Models.DomainModels.ProductCategory>;
+    var AllRetailCAt = ViewBag.AllRetailCat as List<MPC.Models.DomainModels.ProductCategory>;
+    string Addressline1 = ViewBag.addressline1InnerHtml;
+    string CatName = "ParentCat";
+    var desc=string.Empty;
+}
+
+<div class="container body-container spacer-top " id="all-topLevel-pg">
+    <!--Main Content-->
+    <div class="row">
+        <!--Left Panel-->
+        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3  sidebar-offcanvas sidebar" id="sidebar-left" role="navigation">
+            <div class="panel panel-info" id="togglemenu_sidebar">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        @Html.Raw(Html.GetKeyValueFromResourceFile("pctg", UserCookieManager.WBStoreId, "Product Category"))
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="panel-group" id="accordionmenu">
+                        @{
+                            int items = 0; 
+                        }
+                        @foreach (var AllRetailCa in AllRetailCAt)
+                        {
+                            
+                           int count = AllRetailCAt.Where(i => i.ParentCategoryId == AllRetailCa.ProductCategoryId).Count();
+
+                            if (count > 0)
+                            {
+                                <div id="parentCatsContainer" class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <a id="@CatName@items" data-toggle="collapse" data-parent="#accordionmenu" data-id="@items" onclick="sideBarClick(@items)" href="/Category/@Html.ResolveString(AllRetailCa.CategoryName)/@AllRetailCa.ProductCategoryId">
+                                            @AllRetailCa.CategoryName
+                                        </a>
+                                    </div>
+                                    <div id="sidebar_menu_collapse1" class="sideMenuItems panel-collapse collapse ">
+                                        <div class="panel-body">
+                                            @{
+                                var childCats = AllRetailCAt.Where(i => i.ParentCategoryId == AllRetailCa.ProductCategoryId).OrderBy(o => o.DisplayOrder).ToList();
+
+                                            }
+                                            <ul class="submenu list-unstyled">
+                                                @foreach (var ccategories in childCats)
+                                                {
+                                                    <li><a id="ltrlSubCatName" href="/Category/@Html.ResolveString(ccategories.CategoryName)/@ccategories.ProductCategoryId"><i class="fa fa-play-circle"></i><span>@ccategories.CategoryName</span></a></li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            items++;
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3  hidden" id="alternate"></div>
+        <!--/Left Panel-->
+        <!--Center Part-->
+        <div id="middle-content" class="col-xs-12 col-sm-8 col-md-6 col-lg-6 ">
+            <div class="row main-content">
+                <div class="col-xs-12">
+                    <div class="middle_inner_section">
+                        <div class="row" id="home_page">
+                            @{
+                                var SeaBlueTopCategories = lstParentCategories.OrderBy(i => i.DisplayOrder).ToList();
+                            }
+                            @foreach (var seabluectg in SeaBlueTopCategories)
+                            {
+                                var redirecturl = "/Category/" + Html.ResolveString(seabluectg.CategoryName) + "/" + seabluectg.ProductCategoryId;
+                                <div class="col-sm-12 col-md-6 product-box">
+                                    <div class="hover-box-shadow">
+                                        <p class="text-center">
+                                            <a id="ProductUrl" href="@redirecturl" class='thumbnail'>
+                                                <img id="productImge" src="@seabluectg.ThumbnailPath" alt="Standard Business Cards" title="Standard Business Cards" class="img-responsive" itemprop="image" />
+                                            </a>
+                                        </p>
+                                        <h3 itemprop="name" id="productName">@seabluectg.CategoryName</h3>
+                                        <div class="product-desc" itemprop="description">
+                                            @{
+                                                
+                                var itemdes = seabluectg.Description1;
+                                
+                                if (!string.IsNullOrEmpty(itemdes))
+                                   {
+                                       if (itemdes.Length >100)
+                                    {
+                                        itemdes = Regex.Replace(itemdes, @"<[^>
+                                                ]*>", String.Empty).Substring(0, 100);
+                                        desc = itemdes + "<a class=morelink href=" + redirecturl + ">...</a>";
+                                    }
+                                    else
+                                    {
+                                        desc = itemdes;
+                                    }
+                                   }
+                                                
+                                            }
+                                            <p id="productDesc">@Html.Raw(desc)</p>
+                                       </div>
+                                        <p class="text-center"><a id="prductlinkUrl" href="@redirecturl" class='btn btn-info' itemprop="url">View details <i class="fa fa-angle-double-right"></i></a></p>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/Center Part-->
+        <div class="clearfix visible-sm"></div>
+        <!--Right Panel-->
+        <div id="sidebar-right" class="col-xs-12 col-sm-12 col-md-3 col-lg-3  sidebar" style="padding-left:0px; padding-right:0px;">
+            <div class="row visible-xs">
+                <div class="col-xs-12">
+                    <button type="button" class="col-xs-12 btn btn-darkblue btn-xs" data-toggle="collapse" data-target="#sidebar2"><i class="fa fa-plus-square fa-2x pull-right"></i></button>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-12 col-lg-12 " style="padding-left:0px; padding-right:0px;">
+                <div class="panel panel-info" id="contactus_sidebar">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId, "Contact Us"))</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div itemscope="" itemtype="http://schema.org/Organization">
+                            <h2 itemprop="name" id="companyname">@ViewBag.companynameInnerText</h2>
+                            <div itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress">
+                                <b>Main address</b>:<br>
+                                <span itemprop="streetAddress" id="addressline1">
+                                    @Html.ResolveString(Addressline1);
+                                </span>
+                                <span itemprop="postalCode" id="cityandCode">@ViewBag.cityandCodeInnerText</span><br>
+                                <span itemprop="addressLocality" id="stateandCountry">@ViewBag.stateandCountryInnerText</span>
+                            </div>
+                            Tel:<span itemprop="telephone" id="telno">@ViewBag.telnoInnerText</span>
+                            <br>
+                            E-mail: <span itemprop="email" id="emailadd">@ViewBag.emailaddInnerText</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-12 col-lg-12 " style="padding-left:0px; padding-right:0px;">
+                <div class="panel panel-info" id="subscribe_sidebar">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubhere", UserCookieManager.WBStoreId, "Subscribe here"))</h3>
+                    </div>
+                    <div class="panel-body">
+
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><span class="fa fa-envelope"></span></span>
+                                    <input type="text" name="txtEmailbox" id="txtEmailbox" class="form-control btn-rounded" width="100" />
+                                </div>
+                                <span id="errorMsg" class="error-block text-danger"></span>
+                                <p class="help-block">@Html.Raw(Html.GetKeyValueFromResourceFile("prooffersss", UserCookieManager.WBStoreId, "Subscribe Here to receive promotional offers."))</p>
+                            </div>
+                            <input type="button" id="GoSubscribe" class="btn btn-primary btn-rounded" value="Subscribe" onclick="Go()" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-12 col-lg-12 " style="padding-left:0px; padding-right:0px;">
+                <div class="panel panel-info" id="Div2">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@Html.Raw(Html.GetKeyValueFromResourceFile("testiiiii", UserCookieManager.WBStoreId, "Testimonials"))</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="testimonial-sidebar-124726984" data-interval="6000" class="carousel slide testimonial-panel">
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <blockquote>
+                                        <p id="lblRaveReview">
+                                            @(new HtmlString(ViewBag.lblRaveReview.ToString()))
+                                        </p>
+                                        <small id="lblReviewBy">@ViewBag.lblReviewBy</small>
+                                    </blockquote>
+                                </div>
+                                <div class="item">
+                                    <blockquote>
+                                        <p>
+                                            As a realtor I am in regular need of business cards. I would like to thank you for the artistic work you undertook for printing cards for my real estate business. I appeciate your professional service and fast delivery. Company online printing facility surely does away with all hassles involved in conventional printing.
+                                        </p>
+                                        <small>Kenneth</small>
+                                    </blockquote>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="panel-footer"><span class="carousel-controls"><a class="left" data-slide="prev"><span class="glyphicon glyphicon-chevron-left">&nbsp;</span></a><a class="right" data-slide="next"><span class="glyphicon glyphicon-chevron-right">&nbsp;</span></a></span></div>*@
+                    <div class="panel-footer"><span class="carousel-controls"><a href="#testimonial-sidebar-124726984" class='left' data-slide='prev'><span class="glyphicon glyphicon-chevron-left">&nbsp;</span></a><a href="#testimonial-sidebar-124726984" class='right' data-slide='next'><span class="glyphicon glyphicon-chevron-right">&nbsp;</span></a></span></div>
+                </div>
+            </div>
+            <!--id="sidebar2"-->
+        </div>
+        <!--Right Panel-->
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3  hidden" id="alternate2"></div>
+    </div>
+    <!--/Main Content-->
+</div>
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+<script src="/Scripts/script.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        sideBarClick(0)
+    });
+
+    function sideBarClick(dataid) {
+        $('.sideMenuItems').each(function () {
+
+            $(this).removeClass('in');
+        });
+        var idOfCatPro = $('a[data-id=' + dataid + ']').attr("id");
+        if ($("#" + idOfCatPro + "").parent().next().hasClass('in')) {
+            $("#" + idOfCatPro + "").parent().next().removeClass('in');
+        } else {
+            $("#" + idOfCatPro + "").parent().next().addClass('in');
+        }
+
+    }
+
+    function Go() {
+       
+        var Email = $("#txtEmailbox").val();
+        
+        var data = { txtEmailbox: Email };
+        $.ajax({
+            type: "POST",
+            url: "/OxfordTopLevelCategories/SubmitSubscribeData",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(data),
+            async: true,
+            success: function (response) {
+                $("#errorMsg").text(response.ErrorMessage);
+            }
+        });
+    }
+
+</script>
+

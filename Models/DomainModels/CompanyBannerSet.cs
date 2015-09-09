@@ -22,5 +22,22 @@ namespace MPC.Models.DomainModels
         /// </summary>
         [NotMapped]
         public long? FakeId { get; set; }
+
+
+        /// <summary>
+        /// Creates Copy of companyBannerSet
+        /// </summary>
+        public void Clone(CompanyBannerSet target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemSectionClone_InvalidItemSection, "target");
+            }
+
+            target.SetName = SetName;
+            target.OrganisationId = OrganisationId;
+           
+        }
+
     }
 }

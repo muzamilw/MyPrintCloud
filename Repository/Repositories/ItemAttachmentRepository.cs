@@ -67,7 +67,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-        public  List<ItemAttachment> GetItemAttactchments(long itemID)
+        public List<ItemAttachment> GetItemAttactchments(long itemID)
         {
             try
             {
@@ -137,8 +137,57 @@ namespace MPC.Repository.Repositories
 
         }
 
+        /// <summary>
+        /// gets the single attachment record
+        /// </summary>
+        /// <param name="AttachmentId"></param>
+        /// <returns></returns>
+        public ItemAttachment GetArtworkAttachment(long AttachmentId)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                return db.ItemAttachments.Where(a => a.ItemAttachmentId == AttachmentId).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// delete attachment
+        /// </summary>
+        /// <param name="AttachmentId"></param>
+        /// <returns></returns>
+        public void DeleteArtworkAttachment(ItemAttachment AttachmentRecord)
+        {
+            try
+            {
+                db.ItemAttachments.Remove(AttachmentRecord);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
+        /// <summary>
+        /// Get Item Attachments By Ids
+        /// </summary>
+        public List<ItemAttachment> GetItemAttachmentsByIds(List<long?> itemIds)
+        {
+            Expression<Func<ItemAttachment, bool>> query =
+                  attch =>
+                      (itemIds.Contains(attch.ItemId));
+
+            return DbSet.Where(query)
+                        .ToList();
+        }
+
+        
 
     }
 }

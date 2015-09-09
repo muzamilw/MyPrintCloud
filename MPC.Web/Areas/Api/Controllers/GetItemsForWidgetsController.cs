@@ -45,6 +45,11 @@ namespace MPC.MIS.Areas.Api.Controllers
             return companyService.GetItemsForWidgets().Select(i => i.CreateFromForWidgets()).ToList();
 
         }
+        public List<ItemForWidgets> Get(long storeId)
+        {
+            return companyService.GetItemsForWidgetsByStoreId(storeId).Select(i => i.CreateFromForWidgets()).ToList();
+
+        }
         #endregion
     }
 }

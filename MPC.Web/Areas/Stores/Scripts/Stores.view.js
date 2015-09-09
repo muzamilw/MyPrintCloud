@@ -130,6 +130,15 @@ define("stores/stores.view",
                 hidePaymentGatewayDialog = function () {
                     $("#myPaymentGatewayModal").modal("hide");
                 },
+                 // show Media Lib Image Dialog
+                showMediaLibImageDialog = function () {
+                    $("#mediaLibImageModel").modal("show");
+                    initializeLabelPopovers();
+                },
+                // Hide Media Lib Image Dialog
+                hideMediaLibImageDialog = function () {
+                    $("#mediaLibImageModel").modal("hide");
+                },
                 // show item sFor Widgets Dialog
                 showItemsForWidgetsDialog = function () {
                     $("#itemsForWidgetsDialog").modal("show");
@@ -165,6 +174,26 @@ define("stores/stores.view",
                 hideSmartFormDialog = function () {
                     $("#smartFormDialog").modal("hide");
                 },
+                // Show Discount Voucher Detail Dialog
+                showDiscountVoucherDetailDialog = function () {
+                    $("#discountVoucherDetailDialog").modal("show");
+                    initializeLabelPopovers();
+                },
+                // Hide Discount Voucher Detail Dialog
+                hideDiscountVoucherDetailDialog = function () {
+                    $("#discountVoucherDetailDialog").modal("hide");
+                },
+                
+                 // Show CSS Dialog
+                showCssDialog = function () {
+                    $("#editStoreCssModal").modal("show");
+                    initializeLabelPopovers();
+                },
+                // Hide CSS Dialog
+                hideCssDialog = function () {
+                    $("#editStoreCssModal").modal("hide");
+                },
+                   
 
                 //#endregion
 
@@ -214,12 +243,19 @@ define("stores/stores.view",
                         category: category
                     });
                 },
+                // Sub Categories Loaded Event 
+                subCategoriesLoadedEvent = function (categories) {
+                    $.event.trigger({
+                        type: "SubCategoriesLoaded",
+                        categories: categories
+                    });
+                },
                 // Wire Up Theme List Click event 
                 wireupThemeListClick = function () {
                     $(document).ready(function () {
                         var themeListOpen = false;
-                        
-                        $("#ops_theme_dropdown #ops_theme_list #ops_theme_select").click(function () {
+
+                        $("#ops_theme_dropdown").click(function () {
                             if (themeListOpen == true) {
                                 $("#ops_theme_dropdown #ops_theme_list ul").hide();
                                 themeListOpen = false;
@@ -231,17 +267,267 @@ define("stores/stores.view",
                             return false;
                         });
 
+                        $("#ops_theme_dropdown #ops_theme_list").click(function () {
+                            if (themeListOpen == true) {
+                                $("#ops_theme_dropdown #ops_theme_list ul").hide();
+                                themeListOpen = false;
+                            } else {
+
+                                $("#ops_theme_dropdown #ops_theme_list ul").show();
+                                themeListOpen = true;
+                            }
+                            return false;
+                        });
+                        $("#ops_theme_dropdown #ops_theme_list #ops_theme_select").click(function () {
+                            if (themeListOpen == true) {
+                                $("#ops_theme_dropdown #ops_theme_list ul").hide();
+                                themeListOpen = false;
+                            } else {
+
+                                $("#ops_theme_dropdown #ops_theme_list ul").show();
+                                themeListOpen = true;
+                            }
+                            return false;
+                        });
+                        $("body").click(function () {
+                            if (themeListOpen == true) {
+                                $("#ops_theme_dropdown #ops_theme_list ul").hide();
+                                themeListOpen = false;
+                            } 
+                            return true;
+                        });
                     });
                 },
                 // Close Theme List
                 closeThemeList = function() {
                     $("#ops_theme_dropdown #ops_theme_list ul").hide();
                 },
+                // Expand Category to get childs
+                expandCategory = function (categoryTreeNode, productCategoryId, isCategorySelectedFromViewModel) {
+                    if (isCategorySelectedFromViewModel) {
+                        // Get the Sub Category Tree Node Element
+                        categoryTreeNode = $("#" + productCategoryId);
+                        if (!categoryTreeNode) {
+                            return;
+                        }
+                    }
+                    var categoryNodeExpandOptions = categoryTreeNode.children(".dd-handle-list");
+                    var categoryTreeNodeExpander = categoryNodeExpandOptions.children("i.fa-chevron-circle-right");
+                    if (categoryTreeNodeExpander && categoryTreeNodeExpander[0]) {
+                        // Get Child Categories
+                        categoryTreeNodeExpander[0].click();
+                    }
+                    else {
+                        categoryTreeNodeExpander = categoryNodeExpandOptions.children("i.fa-chevron-circle-down");
+                        if (categoryTreeNodeExpander && categoryTreeNodeExpander[0]) {
+                            // Get Child Categories
+                            categoryTreeNodeExpander[0].click();
+                        }
+                    }
+                },
+                // Sub Category Selected Event Handler
+                subCategorySelectedEventHandler = function (event) {
+                    if (event.category && event.category.productCategoryId) {
+                        var productCategoryId = ko.isObservable(event.category.productCategoryId) ?
+                            event.category.productCategoryId() : event.category.productCategoryId;
+                        // Get the Sub Category Tree Node Element
+                        var categoryTreeNode = $("#" + productCategoryId);
+                        if (!categoryTreeNode) {
+                            return;
+                        }
+                        // Expand Category and get childs
+                        expandCategory(categoryTreeNode);
+                        // Get Products of Category
+                        categoryTreeNode.click();
+                    }
+                },
+                // Sub Category Edit Event Handler
+                subCategoryEditEventHandler = function (event) {
+                    if (event.category && event.category.productCategoryId) {
+                        var productCategoryId = ko.isObservable(event.category.productCategoryId) ?
+                            event.category.productCategoryId() : event.category.productCategoryId;
+                        // Get the Sub Category Tree Node Element
+                        var categoryTreeNode = $("#" + productCategoryId);
+                        if (!categoryTreeNode) {
+                            return;
+                        }
+                        var categoryTreeNodeEditor = categoryTreeNode.find("a");
+                        if (categoryTreeNodeEditor && categoryTreeNodeEditor[0]) {
+                            // Edit Category
+                            categoryTreeNodeEditor[0].click();
+                        }
+                    }
+                },
+
+                //#region product
+                appendChildCategory = function(event, category) {
+                    if (!event) {
+                        return;
+                    }
+
+                    var targetElement = $(event.target).closest('li');
+                    if (!targetElement) {
+                        return;
+                    }
+                    
+                    var inputElement = category.isSelected() ?
+                        '<input class="bigcheckbox" style="float: right;" type="checkbox" checked="checked" data-bind="click: $root.updateCheckedStateForCategory"  />' :
+                        '<input class="bigcheckbox" style="float: right;" type="checkbox" data-bind="click: $root.updateCheckedStateForCategory" />';
+                    var childCategoryHtml;
+                    if (category.isArchived) {
+                        childCategoryHtml = '<ol class="dd-list"> ' +
+                            '<li class="dd-item dd-item-list" id="liElement-' + category.id + '"> ' +
+                            '<div class="dd-handle-list" ><i class="fa fa-chevron-circle-right cursorShape" data-bind="click: $root.toggleChildCategories"></i></div>' +
+                            '<div class="dd-handle">' +
+                            '<span>' + category.name + '</span>' + '<span style="color:red; font-weight: 700;"> (Archive) </span>'+
+                            inputElement
+                            + '</div></li></ol>';
+                    } else {
+                        childCategoryHtml = '<ol class="dd-list"> ' +
+                            '<li class="dd-item dd-item-list" id="liElement-' + category.id + '"> ' +
+                            '<div class="dd-handle-list" ><i class="fa fa-chevron-circle-right cursorShape" data-bind="click: $root.toggleChildCategories"></i></div>' +
+                            '<div class="dd-handle">' +
+                            '<span>' + category.name + '</span>' +
+                            inputElement
+                            + '</div></li></ol>';
+                    }
+
+
+                    targetElement.append(childCategoryHtml);
+
+                    ko.applyBindings(viewModel, $("#liElement-" + category.id)[0]);
+                },
+                // Get Category Id From li
+                getCategoryIdFromliElement = function (categoryliElement) {
+                    var categoryliId = categoryliElement.id.split("-");
+                    if (!categoryliId || categoryliId.length < 2) {
+                        return null;
+                    }
+
+                    var categoryId = categoryliId[1];
+                    if (!categoryId) {
+                        return null;
+                    }
+
+                    return parseInt(categoryId);
+                },
+                // Get Category Id from Binding li Element
+                getCategoryIdFromElement = function (event) {
+                    if (!event || !event.target) {
+                        return null;
+                    }
+
+                    var categoryliElement = $(event.target).closest('li')[0];
+                    if (!categoryliElement) {
+                        return null;
+                    }
+
+                    return getCategoryIdFromliElement(categoryliElement);
+                },
+                // Update Input Checked States
+                updateInputCheckedStates = function() {
+                    $.each($("#productCategoryDialogCategories").find("input:checkbox"), function(index, inputElement) {
+                        var categoryliElement = $(inputElement).closest('li')[0];
+                        if (categoryliElement) {
+                            var categoryId = getCategoryIdFromliElement(categoryliElement);
+                            if (categoryId) {
+                                var category = viewModel.productCategories.find(function (productCategory) {
+                                    return productCategory.id === categoryId;
+                                });
+
+                                if (category) {
+                                    if (category.isSelected()) {
+                                        $(inputElement).prop('checked', true);
+                                    }
+                                    else {
+                                        $(inputElement).prop('checked', false);    
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+
+
+                 // Update Input Checked States for products
+                updateInputCheckedStatesForProduct = function () {
+                    $.each($("#itemsDialogProducts").find("input:checkbox"), function (index, inputElement) {
+                        var categoryliElement = $(inputElement).closest('li')[0];
+                        if (categoryliElement) {
+                            var categoryId = getCategoryIdFromliElement(categoryliElement);
+                            if (categoryId) {
+                                var category = viewModel.products.find(function (productCategory) {
+                                    return productCategory.id === categoryId;
+                                });
+
+                                if (category) {
+                                    if (category.isSelected()) {
+                                        $(inputElement).prop('checked', true);
+                                    }
+                                    else {
+                                        $(inputElement).prop('checked', false);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+
+
+
+                toggleChildCategories = function (event) {
+
+                if (!event) {
+                    return false;
+                }
+
+                var targetElement = $(event.target);
+                if (!targetElement) {
+                    return false;
+                }
+
+                var childList = targetElement.closest('li').children('ol');
+                if (childList.length === 0) {
+                    return false;
+                }
+
+                // Toggle Child List
+                if (childList.is(':hidden')) {
+                    childList.show();
+                }
+                else {
+                    childList.hide();
+                }
+
+                return true;
+                },
+                // Show Product Category dialog
+                showProductCategoryDialog = function () {
+                    $("#productCategoryDialogForDiscountVoucher").modal("show");
+                },
+                // Hide Product Category dialog
+                hideProductCategoryDialog = function () {
+                    $("#productCategoryDialogForDiscountVoucher").modal("hide");
+                },
+                 // Show Product dialog for DV
+                showItemDialog = function () {
+                    $("#itemsDialogForDiscountVoucher").modal("show");
+                },
+                // Hide Product dialog for DV
+                hideItemDialog = function () {
+                    $("#itemsDialogForDiscountVoucher").modal("hide");
+                },
+
+                //#endregion
             // Initialize
             initialize = function () {
                 if (!bindingRoot) {
                     return;
                 }
+                
+                // subscribe to events
+                $(document).on("SubCategorySelectedFromProduct", subCategorySelectedEventHandler);
+                $(document).on("SubCategoryEdit", subCategoryEditEventHandler);
             };
             initialize();
             return {
@@ -285,8 +571,27 @@ define("stores/stores.view",
                 viewModel: viewModel,
                 initializeLabelPopovers: initializeLabelPopovers,
                 productCategorySelectedEvent: productCategorySelectedEvent,
+                subCategoriesLoadedEvent: subCategoriesLoadedEvent,
                 wireupThemeListClick: wireupThemeListClick,
-                closeThemeList: closeThemeList
+                closeThemeList: closeThemeList,
+                showMediaLibImageDialog: showMediaLibImageDialog,
+                hideMediaLibImageDialog: hideMediaLibImageDialog,
+                subCategorySelectedEventHandler: subCategorySelectedEventHandler,
+                expandCategory: expandCategory,
+                showDiscountVoucherDetailDialog: showDiscountVoucherDetailDialog,
+                hideDiscountVoucherDetailDialog: hideDiscountVoucherDetailDialog,
+                showProductCategoryDialog: showProductCategoryDialog,
+                hideProductCategoryDialog: hideProductCategoryDialog,
+                showItemDialog: showItemDialog,
+                hideItemDialog: hideItemDialog,
+                updateInputCheckedStates: updateInputCheckedStates,
+                updateInputCheckedStatesForProduct: updateInputCheckedStatesForProduct,
+                toggleChildCategories: toggleChildCategories,
+                getCategoryIdFromliElement: getCategoryIdFromliElement,
+                getCategoryIdFromElement: getCategoryIdFromElement,
+                appendChildCategory: appendChildCategory,
+                showCssDialog: showCssDialog,
+                hideCssDialog: hideCssDialog
             };
         })(storesViewModel);
 

@@ -65,7 +65,10 @@ namespace MPC.Repository.Repositories
                             AddOnImage = costcenter.ThumbnailImageURL,
                             Priority = costcenter.Priority ?? 0,
                             ItemStockId = options.StockId ?? 0,
-                            IsMandatory = addOns.IsMandatory == true ? 1 : 0
+                            IsMandatory = addOns.IsMandatory == true ? 1 : 0,
+                            QuantitySourceType = costcenter.QuantitySourceType ?? 0,
+                            TimeSourceType = costcenter.TimeSourceType ?? 0,
+                            ItemStockOptionId = options.ItemStockOptionId
                         };
             return query.ToList<AddOnCostsCenter>();
         }
@@ -110,7 +113,9 @@ namespace MPC.Repository.Repositories
 
                 long itemSectionId = db.ItemSections.Where(i => i.ItemId == ItemId && i.SectionNo == 1).Select(i => i.ItemSectionId).FirstOrDefault();
 
-                return db.SectionCostcentres.Where(s => s.ItemSectionId == itemSectionId && s.CostCentreId != 216).ToList();
+                
+
+                return db.SectionCostcentres.Where(s => s.ItemSectionId == itemSectionId).ToList();
 
             }
             catch (Exception ex)

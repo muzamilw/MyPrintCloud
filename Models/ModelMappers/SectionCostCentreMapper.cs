@@ -50,6 +50,7 @@ namespace MPC.Models.ModelMappers
             target.Qty3WorkInstructions = source.Qty3WorkInstructions;
             target.IsDirectCost = source.IsDirectCost;
             target.IsPurchaseOrderRaised = source.IsPurchaseOrderRaised;
+            target.CostCentreId = source.CostCentreId;
         }
 
         #endregion

@@ -14,8 +14,8 @@ namespace MPC.Interfaces.Repository
         MachineResponseModel GetMachineByID(long MachineID);
         MachineResponseModel CreateMachineByType(bool isGuillotine);
         bool archiveMachine(long id);
-        bool UpdateMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages);
-        long AddMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages);
+        bool UpdateMachine(Machine machine, MachineClickChargeZone ClickCharge, MachineMeterPerHourLookup MeterPerHour, MachineGuillotineCalc GuillotineLookup, IEnumerable<MachineGuilotinePtv> GuillotinePtv,int type);
+        long AddMachine(Machine machine, MachineClickChargeZone ClickChargeZone, MachineMeterPerHourLookup MeterPerHour, MachineGuillotineCalc GuillotineLookup, IEnumerable<MachineGuilotinePtv> GuillotinePtv,int Type);
         //   List<Machine> GetMachineList();
         MachineSearchResponse GetMachinesForProduct(MachineSearchRequestModel request);
 
@@ -26,6 +26,7 @@ namespace MPC.Interfaces.Repository
         string GetInkPlatesSidesByInkID(long InkID);
 
         string GetMachineByID(int MachineID);
+        Machine GetDefaultGuillotine();
     }
 }
 

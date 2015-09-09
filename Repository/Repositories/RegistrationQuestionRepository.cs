@@ -43,6 +43,11 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.ToList();
         }
+        public RegistrationQuestion GetSecretQuestionByID(int QuestionID)
+        {
+            return db.RegistrationQuestions.Where(i => i.QuestionId == QuestionID).FirstOrDefault();
+        }
+
         #endregion
     }
 }

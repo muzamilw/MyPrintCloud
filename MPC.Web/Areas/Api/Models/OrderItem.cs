@@ -47,6 +47,11 @@ namespace MPC.MIS.Areas.Api.Models
         public int? Qty1 { get; set; }
 
         /// <summary>
+        /// Qty2
+        /// </summary>
+        public int? Qty2 { get; set; }
+
+        /// <summary>
         /// Qty1 Cost Center Profit
         /// </summary>
         public double? Qty1CostCentreProfit { get; set; }
@@ -113,6 +118,7 @@ namespace MPC.MIS.Areas.Api.Models
         public DateTime? JobActualCompletionDateTime { get; set; }
         public bool? IsJobCostingDone { get; set; }
         public string ProductName { get; set; }
+        public int? ProductType { get; set; }
         public string ProductCode { get; set; }
         public long? CompanyId { get; set; }
         public int? NominalCodeId { get; set; }
@@ -136,6 +142,7 @@ namespace MPC.MIS.Areas.Api.Models
         public DateTime? ItemCreationDateTime { get; set; }
         public string InvoiceDescription { get; set; }
         public Guid? JobCardPrintedBy { get; set; }
+        public int? RefItemId { get; set; }
         public IEnumerable<string> ProductCategories { get; set; }
         public IEnumerable<ItemSection> ItemSections { get; set; }
         public  ICollection<ItemAttachment> ItemAttachments { get; set; }

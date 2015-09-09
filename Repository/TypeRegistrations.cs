@@ -126,6 +126,26 @@ namespace MPC.Repository
             unityContainer.RegisterType<IInkCoverageGroupRepository, InkCoverageGroupRepository>();
             unityContainer.RegisterType<ISectionCostCentreRepository, SectionCostCentreRepository>();
             unityContainer.RegisterType<ISectionInkCoverageRepository, SectionInkCoverageRepository>();
+            unityContainer.RegisterType<IShippingInformationRepository, ShippingInformationRepository>();
+            unityContainer.RegisterType<ISectionCostCentreDetailRepository, SectionCostCentreDetailRepository>();
+            unityContainer.RegisterType<ITemplateVariableRepository, TemplateVariableRepository>();
+            unityContainer.RegisterType<IEstimateInquiryRepository, EstimateInquiryRepository>();
+            unityContainer.RegisterType<IInquiryItemRepository, InquiryItemRepository>();
+            unityContainer.RegisterType<IInvoiceDetailRepository, InvoiceDetailRepository>();
+            unityContainer.RegisterType<IProductMarketBriefQuestionRepository, ProductMarketBriefQuestionRepository>();
+            unityContainer.RegisterType<IDeliveryNoteRepository, DeliveryNoteRepository>();
+            unityContainer.RegisterType<IProductMarketBriefAnswerRepository, ProductMarketBriefAnswerRepository>();
+            unityContainer.RegisterType<IDeliveryNoteDetailRepository, DeliveryNoteDetailRepository>();
+            unityContainer.RegisterType<IPurchaseDetailRepository, PurchaseDetailRepository>();
+            unityContainer.RegisterType<IStagingImportCompanyContactAddressRepository, StagingImportCompanyContactAddressRepository>();
+            unityContainer.RegisterType<IGoodsReceivedNoteDetailRepository, GoodsReceivedNoteDetailRepository>();
+            unityContainer.RegisterType<IDiscountVoucherRepository, DiscountVoucherRepository>();
+            unityContainer.RegisterType<IItemsVoucherRepository, ItemsVoucherRepository>();
+            unityContainer.RegisterType<IProductCategoryVoucherRepository, ProductCategoryVoucherRepository>();
+            unityContainer.RegisterType<ICompanyVoucherRedeemRepository, CompanyVoucherRedeemRepository>();
+            unityContainer.RegisterType<ICampaignImageRepository, CampaignImageRepository>();
+            unityContainer.RegisterType<ICmsSkinPageWidgetParamRepository, CmsSkinPageWidgetParamRepository>();
+            unityContainer.RegisterType<ICMSOfferRepository, CMSOfferRepository>();
         }
     }
 }

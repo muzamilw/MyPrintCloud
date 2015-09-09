@@ -19,7 +19,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 SectionCostcentreId = source.SectionCostcentreId,
                 CostCentreId = source.CostCentreId,
-                CostCentreType = source.CostCentreType,
+                CostCentreType = source.CostCentre != null ? source.CostCentre.Type : source.CostCentreType,
                 CostCentreName = source.CostCentre != null ? source.CostCentre.Name : string.Empty,
                 CostingActualCost = source.CostingActualCost,
                 CostingActualQty = source.CostingActualQty,
@@ -61,7 +61,33 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new DomainModels.SectionCostcentre
             {
-                SectionCostcentreId = source.SectionCostcentreId
+                SectionCostcentreId = source.SectionCostcentreId,
+                Name = source.Name,
+                CostCentreId = source.CostCentreId,
+                Qty1 = source.Qty1,
+                Qty1Charge = source.Qty1Charge,
+                Qty1NetTotal = source.Qty1NetTotal,
+                Qty1MarkUpID = source.Qty1MarkUpID,
+                Qty1MarkUpValue = source.Qty1MarkUpValue,
+                Qty2 = source.Qty2,
+                Qty2Charge = source.Qty2Charge,
+                Qty2NetTotal = source.Qty2NetTotal,
+                Qty2MarkUpID = source.Qty2MarkUpID,
+                Qty2MarkUpValue = source.Qty2MarkUpValue,
+                Qty3 = source.Qty3,
+                Qty3Charge = source.Qty3Charge,
+                Qty3NetTotal = source.Qty3NetTotal,
+                Qty3MarkUpID = source.Qty3MarkUpID,
+                Qty3MarkUpValue = source.Qty3MarkUpValue,
+                ItemSectionId = source.ItemSectionId,
+                Qty1WorkInstructions = source.Qty1WorkInstructions,
+                Qty2WorkInstructions = source.Qty2WorkInstructions,
+                Qty3WorkInstructions = source.Qty3WorkInstructions,
+                Qty1EstimatedStockCost = source.Qty1EstimatedStockCost,
+                Qty2EstimatedStockCost = source.Qty2EstimatedStockCost,
+                Qty3EstimatedStockCost = source.Qty3EstimatedStockCost,
+                SectionCostCentreDetails = source.SectionCostCentreDetails != null ? source.SectionCostCentreDetails.Select(s => s.CreateFrom()).ToList() :
+                new List<DomainModels.SectionCostCentreDetail>(),
             };
         }
 

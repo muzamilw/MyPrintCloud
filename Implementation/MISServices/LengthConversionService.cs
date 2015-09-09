@@ -1,5 +1,7 @@
 ﻿using MPC.Interfaces.MISServices;
+using MPC.Interfaces.Repository;
 using MPC.Models.Common;
+using System;
 
 namespace MPC.Implementation.MISServices
 {
@@ -9,10 +11,19 @@ namespace MPC.Implementation.MISServices
     public class LengthConversionService : ILengthConversionService
     {
         #region Private
-
+        private readonly IItemSectionRepository itemsectionRepository;
         #endregion
 
         #region Constructor
+        public LengthConversionService(IItemSectionRepository itemsectionRepository)
+        {
+            if (itemsectionRepository == null)
+            {
+                throw new ArgumentNullException("itemsectionRepository");
+            }
+            this.itemsectionRepository = itemsectionRepository;
+            
+         }
 
         #endregion
 
@@ -28,12 +39,12 @@ namespace MPC.Implementation.MISServices
 
             if (systemUnit.Id == (int)LengthUnit.Inch)
             {
-                outputvalue = LengthConversionHelper.ConvertLength(input, LengthUnit.Inch, systemUnit);
+                outputvalue = LengthConversionHelper.ConvertLength(input, LengthUnit.Mm, systemUnit);
                 outputvalue = LengthConversionHelper.MmToPoint(outputvalue);
             }
             else if (systemUnit.Id == (int)LengthUnit.Cm)
             {
-                outputvalue = LengthConversionHelper.ConvertLength(input, LengthUnit.Cm, systemUnit);
+                outputvalue = LengthConversionHelper.ConvertLength(input, LengthUnit.Mm, systemUnit);
                 outputvalue = LengthConversionHelper.MmToPoint(outputvalue);
             }
             else
@@ -51,16 +62,16 @@ namespace MPC.Implementation.MISServices
         {
 
             double outputvalue;
-
+          
             if (systemUnit.Id == (int)LengthUnit.Inch)
             {
                 outputvalue = LengthConversionHelper.PointToMm(input);
-                outputvalue = LengthConversionHelper.ConvertLength(outputvalue, LengthUnit.Inch, systemUnit);
+                outputvalue = ConvertLength(outputvalue, LengthUnit.Mm, LengthUnit.Inch);
             }
             else if (systemUnit.Id == (int)LengthUnit.Cm)
             {
                 outputvalue = LengthConversionHelper.PointToMm(input);
-                outputvalue = LengthConversionHelper.ConvertLength(outputvalue, LengthUnit.Cm, systemUnit);
+                outputvalue = ConvertLength(outputvalue, LengthUnit.Mm, LengthUnit.Cm);
             }
             else
             {
@@ -69,7 +80,30 @@ namespace MPC.Implementation.MISServices
 
             return outputvalue;
         }
+        // convert length 
+        //  
+        public double ConvertLength(double Input, LengthUnit InputUnit, LengthUnit OutputUnit)
+        {
+            double ConversionUnit = 0;
+            MPC.Models.DomainModels.LengthUnit oRows = itemsectionRepository.GetLengthUnitByInput((int)InputUnit);
+            if (oRows != null)
+            {
+                switch (OutputUnit)
+                {
+                    case LengthUnit.Cm:
+                        ConversionUnit = (double)oRows.CM;
+                        break;
+                    case LengthUnit.Inch:
+                        ConversionUnit = (double)oRows.Inch;
+                        break;
+                    case LengthUnit.Mm:
+                        ConversionUnit = (double)oRows.MM;
+                        break;
+                }
+            }
 
+            return Input * Math.Round(ConversionUnit, 2);
+        }
         #endregion
     }
 }

@@ -1,0 +1,677 @@
+﻿@using GrapeCity.ActiveReports.PageReportModel
+
+<div id="itemDetailSection" class="row" style="display: none" data-bind="visible: $root.showItemDetailsSection">
+    <div class="col-sm-12" data-bind="with: $root.selectedProduct">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1> </h1>
+            </div>
+            <div class="col-sm-12">
+                <div class="clearfix">
+                    <div class="pull-left validationSummaryContainer" id="validationSummary">
+                        <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopupForItem', popoverId: 'validationSummaryPopoverBodyForItem' }" style="display: none">Invalid data: Click here to see details.</a>
+                        <div class="well well-small validationSummaryModal" id="validationSummaryPopupForItem" style="display: none">
+                            <div id="validationSummaryPopoverBodyForItem">
+                                <ul data-bind="foreach: $root.errorList">
+                                    <li>
+                                        <a data-bind="click: $root.gotoElement.bind($data.element)"><span data-bind="text: name"></span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="col-sm-12" style="padding-right:0px;padding-bottom:5px;">
+
+                    <div style="float: right;text-align: right; padding-right:0px;margin-top:-10px;">
+                        <button data-bind="visible:!$root.showSectionDetail(),click:$root.closeItemDetail" class="btn btn-default" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Close</button>
+                    </div>
+                    <div style="float: right;margin-top:-10px;" data-bind="visible:($root.selectedOrder()!==undefined && $root.selectedOrder().isDirectSale() && !$root.showSectionDetail()),click:$root.deleteItem">
+                        <button class="btn btn-danger" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Delete</button>
+                    </div>
+
+                    <div style="text-align: right; padding-right:0px;margin-top:-10px; ">
+                        <!--ko if:$root.selectedOrder() &&   $root.selectedOrder().statusId !==undefined -->
+                        <button type="button" class="btn btn-primary" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" data-bind="visible:$root.selectedOrder().statusId() === 6 && !$root.showSectionDetail(),click:$root.openExternalReportsJob">Print Job Card</button>
+                        <!--/ko-->
+
+                        <button data-bind="visible:$root.showSectionDetail,click:$root.closeSectionDetailEditor" class="btn btn-default" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Close</button>
+                    </div>
+
+                  
+                </div>
+            </div>
+        </div>
+        <div class="row" id="user-profile">
+            <div class="col-sm-12" data-bind="visible:!$root.showSectionDetail()" style="padding-left: 16px;padding-right:16px;">
+                <div class="main-box clearfix">
+                    <div class="tabs-wrapper profile-tabs">
+                        <ul class="nav nav-tabs" id="sectionTabTabs">
+                            <li id="printProduct" class="active"><a href="#tab-detail" data-toggle="tab">Print Product</a></li>
+                            <li id="jobCards" data-bind="visible: $root.selectedOrder() &&  $root.selectedOrder().statusId!==undefined && $root.selectedOrder().statusId() === 6" style="display: none"><a href="#tab-jobs" data-toggle="tab">Job Card</a></li>
+                            <li id="attachmentTab"><a href="#tab-attachments" data-toggle="tab">Attachments</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="tab-detail">
+                                <div class="col-sm-12 form-horizontal" style="margin-top: -17px">
+                                    <div class="col-sm-12 form-horizontal">
+                                        <div class="form-group">
+                                            <div class="col-sm-2">&nbsp;</div>
+                                            <div class="col-sm-8" style="margin-top: 10px;padding:0px;text-align:center;">
+                                                <input type="text" style="font-size: 24px;height: 60px;border-bottom: 2px dashed black !important;font-weight: bold;padding-left: 0px;border-top: none;border-left: none;border-right: none; text-align: center; color:#C2C2C2" class="form-control" placeholder="Product Name" data-bind="value: productName, validationTooltip: productName, validationOnElement: productName" />
+                                                <span>Product Name</span>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <!--ko if:$root.selectedOrder() &&   $root.selectedOrder().statusId !==undefined -->
+                                                <a style="margin-top: 33px;" href="#" class="btn btn-success pull-left" data-bind="click:$root.openJobCardsTab, visible:$root.selectedOrder().statusId() === 6">
+                                                    <i class="fa fa-lg"></i>&nbsp;Current Job Status
+                                                </a>
+                                                <!--/ko-->
+                                                <!--ko if:$root.selectedOrder() &&   $root.selectedOrder().statusId() !==6 -->
+                                                <a style="margin-top: 33px;" href="#" data-bind="">
+                                                </a>
+                                                <!--/ko-->
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <div class="col-sm-2 text-right"><label class="control-label">Sections</label></div>
+                                            <div class="col-sm-4" style="padding:0px;">
+                                                <div>
+                                                    <ul class="gallery-photos">
+                                                        <!-- ko template: { name: 'sectionItemTemplate' , foreach: itemSections  } -->
+                                                        <!-- /ko -->
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4" style="background-color:gainsboro;padding-top:20px;">
+                                                <div style="background-color:gainsboro;">
+                                                    <div style="background-color:gainsboro;margin:10px;">
+                                                        <div class="form-group">
+                                                            <div class="">
+                                                                <input type="button" class="btn btn-default col-sm-3" data-bind="visible: $root.selectedQtyForItem() == 2 || $root.selectedQtyForItem() == 3, click: $root.selectQuantityForItem.bind(1, 1), value: 'Qty 1      (' + qty1() + ') '">
+                                                            </div>
+                                                            <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
+                                                            <div class="">
+                                                                <input type="button" style="margin-left:5px;" class="btn btn-default col-sm-3" data-bind="visible: $root.selectedQtyForItem() == 1 || $root.selectedQtyForItem() == 3, click: $root.selectQuantityForItem.bind(2, 2), value: 'Qty 2      (' + qty2() + ') '">
+                                                            </div>
+                                                            <div class="">
+                                                                <input type="button" style="margin-left:5px;" class="btn btn-default col-sm-3" data-bind="visible: $root.selectedQtyForItem() == 1 || $root.selectedQtyForItem() == 2, click: $root.selectQuantityForItem.bind(3, 3), value: 'Qty 3      (' + qty3() + ') '">
+                                                            </div>
+                                                            <!--/ko-->
+                                                            <input type="button" class="btn btn-success col-sm-4" style="float: right;margin-right:5px;" data-bind="value: $root.selectedQtyForItem() == 1 ? 'Qty 1      (' + qty1() + ')' : $root.selectedQtyForItem() == 2? 'Qty 2      (' + qty2() + ')': 'Qty 3      (' + qty3() + ') '" />
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="form-group">
+                                                        <div class="col-sm-5" style="text-align: right;">
+                                                            <div class="col-sm-12" style="padding-right: 0;margin-bottom: 5px">
+                                                                <label class="control-label">Net Total</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-2 pull-right" style="padding-right: 0; margin-right: 25px">
+                                                            <div class="col-lg-1 col-sm-2" style="padding-left: 0; margin-top: 5px">
+                                                                <label class="control-label" data-bind=" text:$root.currencySymbol"></label>
+                                                            </div>
+                                                            <div class="col-lg-11 col-sm-10">
+                                                                <input type="text" class="form-control txtBox-contentAlignRight PaddingL5 font20px" style="margin-left:5px;" id="txtQty1" data-bind="numberValue: $root.calculateQty1NetTotalForItem, visible: $root.selectedQtyForItem() === 1" />
+                                                                <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
+                                                                <input type="text" class="form-control txtBox-contentAlignRight PaddingL5 font20px" id="txtQty2" data-bind="numberValue:$root.calculateQty2NetTotalForItem, visible: $root.selectedQtyForItem() === 2" />
+                                                                <input type="text" class="form-control txtBox-contentAlignRight PaddingL5 font20px" id="txtQty3" data-bind="numberValue:$root.calculateQty3NetTotalForItem, visible: $root.selectedQtyForItem() === 3" />
+                                                                <!-- /ko -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-5" style="text-align: right;">
+                                                            <div class="col-sm-12" style="padding-right: 0;margin-bottom: 5px">
+                                                                <label class="control-label">Tax</label>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-sm-3">
+                                                            <div class="col-sm-10">
+                                                                <input type="text" style="" class="form-control text-right" name="Tax Rate should be a valid number" id="txtTax" data-bind="disable:taxRateIsDisabled,value:tax1">
+                                                            </div>
+                                                            <div class="col-sm-1 help-block text-right" style="margin-left: -9%;  margin-top: 8px;">%</div>
+                                                        </div>
+
+                                                        <div class="col-sm-4">
+                                                            <div class="txtBox-contentAlignRight" style="margin-right: 34px">
+                                                                <label class="control-label">
+                                                                    <span data-bind="text:$root.currencySymbol"></span>
+                                                                    <span data-bind="numberInput:qty1Tax1Value, visible: $root.selectedQtyForItem() === 1"></span>
+                                                                    <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
+                                                                    <span data-bind="numberInput:qty2Tax1Value, visible: $root.selectedQtyForItem() === 2"></span>
+                                                                    <span data-bind="numberInput:qty3Tax1Value, visible: $root.selectedQtyForItem() === 3"></span>
+                                                                    <!-- /ko -->
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-5" style="text-align: right">
+                                                            <label class="control-label tooltip-float" style="margin-top: 5px">Inc Tax</label>
+                                                        </div>
+                                                        <div class="col-sm-6 pull-right">
+                                                            <div class="txtBox-contentAlignRight" style="margin-right: 34px">
+                                                                <label class="control-label font20px">
+                                                                    <span data-bind="text:$root.currencySymbol"></span>
+                                                                    <span data-bind="numberInput:qty1GrossTotal, visible: $root.selectedQtyForItem() === 1"></span>
+                                                                    <!--ko if: $root.isEstimateScreen() && $root.selectedProduct().productType() !== 3 -->
+                                                                    <span data-bind="numberInput:qty2GrossTotal, visible: $root.selectedQtyForItem() === 2"></span>
+                                                                    <span data-bind="numberInput:qty3GrossTotal, visible: $root.selectedQtyForItem() === 3"></span>
+                                                                    <!-- /ko -->
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-2" style="margin-top: -100px">
+                                            <div>
+                                                <!--ko if:$root.selectedOrder() && ($root.selectedOrder().statusId === undefined || $root.selectedOrder().statusId() !== 6)-->
+                                                <div style="height: 35px;">&nbsp;</div>
+                                                <!--/ko-->
+                                                <div style="float: left" data-bind="visible:$root.selectedProduct().productType()!==3">
+                                                    <div class="btn btn-success" data-bind="click:$root.createNewItemSection">
+                                                        Add New Section
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8 form-horizontal">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <div class="col-sm-12">
+                                            <h3 style="color:black;">Descriptions to Appear on Estimates for combined components</h3>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-2">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-sm-2 text-right">
+                                            <input style="text-align: right;" type="text" class="form-control" id="txtTitle1" data-bind="value: jobDescriptionTitle1" placeholder="Enter Title 1">
+                                            <span class="label label-circle-question"></span>
+                                        </div>
+                                        <div class="col-sm-6" style="padding-right:0px;">
+                                            <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
+                                                <textarea class="form-control" style="height:34px;" rows="1" data-bind="value: jobDescription1, click: $root.selectJobDescription" id="txtDescription1" placeholder="Enter Description 1"></textarea>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-1" style="width:47px;">
+                                            <a id="P1" data-bind="visible: $root.selectedJobDescription() === 'txtDescription1', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
+                                                <i class="fa fa-lg"></i>&nbsp;....
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-2">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-sm-2 text-right">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle2" data-bind="value: jobDescriptionTitle2" placeholder="Enter Title 2">
+                                            <span class="label label-circle-question"></span>
+                                        </div>
+                                        <div class="col-sm-6" style="padding-right:0px;">
+                                            <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
+                                                <textarea class="form-control" style="height:34px;" rows="1" data-bind="value: jobDescription2, click: $root.selectJobDescription" id="txtDescription2" placeholder="Enter Description 2"></textarea>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-1" style="width:47px;">
+                                            <a id="P2" data-bind="visible: $root.selectedJobDescription() === 'txtDescription2', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
+                                                <i class="fa fa-lg"></i>&nbsp;....
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-2">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-sm-2 text-right">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle3" data-bind="value: jobDescriptionTitle3" placeholder="Enter Title 3">
+                                            <span class="label label-circle-question"></span>
+                                        </div>
+                                        <div class="col-sm-6" style="padding-right:0px;">
+                                            <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
+                                                <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription3, click: $root.selectJobDescription" id="txtDescription3" placeholder="Enter Description 3"></textarea>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-1" style="width:47px;">
+                                            <a id="P3" data-bind="visible: $root.selectedJobDescription() === 'txtDescription3', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
+                                                <i class="fa fa-lg"></i>&nbsp;....
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-2">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-sm-2 text-right">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle4" data-bind="value: jobDescriptionTitle4" placeholder="Enter Title 4">
+                                            <span class="label label-circle-question"></span>
+                                        </div>
+                                        <div class="col-sm-6" style="padding-right:0px;">
+                                            <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
+                                                <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription4, click: $root.selectJobDescription" id="txtDescription4" placeholder="Enter Description 4"></textarea>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-1" style="width:47px;">
+                                            <a id="P4" data-bind="visible: $root.selectedJobDescription() === 'txtDescription4', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
+                                                <i class="fa fa-lg"></i>&nbsp;....
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-2">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-sm-2 text-right">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle5" data-bind="value: jobDescriptionTitle5" placeholder="Enter Title 5">
+                                            <span class="label label-circle-question"></span>
+                                        </div>
+                                        <div class="col-sm-6" style="padding-right:0px;">
+                                            <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
+                                                <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription5, click: $root.selectJobDescription" id="txtDescription5" placeholder="Enter Description 5"></textarea>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-1" style="width:47px;">
+                                            <a id="P5" data-bind="visible: $root.selectedJobDescription() === 'txtDescription5', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
+                                                <i class="fa fa-lg"></i>&nbsp;....
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-2">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-sm-2 text-right">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle6" data-bind="value: jobDescriptionTitle6" placeholder="Enter Title 6">
+                                            <span class="label label-circle-question"></span>
+                                        </div>
+                                        <div class="col-sm-6" style="padding-right:0px;">
+                                            <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
+                                                <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription6, click: $root.selectJobDescription" id="txtDescription6" placeholder="Enter Description 6"></textarea>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-1" style="width:47px;">
+                                            <a id="P6" data-bind="visible: $root.selectedJobDescription() === 'txtDescription6', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
+                                                <i class="fa fa-lg"></i>&nbsp;....
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-2">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-sm-2 text-right">
+                                            <input type="text" style="text-align: right;" class="form-control" id="txtTitle7" data-bind="value: jobDescriptionTitle7" placeholder="Enter Title 7">
+                                            <span class="label label-circle-question"></span>
+                                        </div>
+                                        <div class="col-sm-6" style="padding-right:0px;">
+                                            <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
+                                                <textarea class="form-control" rows="1" style="height:34px;" data-bind="value: jobDescription7, click: $root.selectJobDescription" id="txtDescription7" placeholder="Enter Description 7"></textarea>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-1" style="width:47px;">
+                                            <a id="P7" data-bind="visible: $root.selectedJobDescription() === 'txtDescription7', click: $root.openPhraseLibrary" style="display:none;padding: 4px 8px;" class="btn btn-primary pull-right">
+                                                <i class="fa fa-lg"></i>&nbsp;....
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <h3 style="color:black;">Product Line description to appear on Invoices</h3>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                       
+                                        <div class="col-sm-2">
+                                            <label class="control-label tooltip-float">Invoice Description</label>
+                                        </div>
+                                        <div class="col-sm-8" style="padding-right:0px;">
+                                            <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
+                                                <textarea class="form-control" rows="3" data-bind="value: invoiceDescription" id="txtInvoiceDescription" placeholder="Enter Invoice Description" style="background-color:#FCFBB6;"></textarea>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 form-horizontal">
+                                        <div class="form-group">
+                                            <div class="col-sm-2">
+                                              
+                                            </div>
+                                            <div class="col-sm-8" style="padding-left:5px;">
+                                                <a href="#" class="btn btn-primary pull-left" data-bind="click:$root.copyJobCards" style="margin-left: -3px;">
+                                                    <i class="fa fa-lg"></i>&nbsp;Copy Descriptions to Invoice
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                       
+                                        <div class="col-sm-2 text-right">
+                                            <label class="control-label tooltip-float">User Notes</label>
+                                        </div>
+                                        <div class="col-sm-8" style="padding-right:0px;">
+                                            <div class="col-sm-12" style="padding-left: 0; padding-right: 0">
+                                                <textarea class="form-control" rows="3" data-bind="value: itemNotes" id="txtNotes" placeholder="Enter Notes" style="background-color: #FCFBB6;"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab-jobs">
+                                <div class="col-sm-12 form-horizontal">
+
+                                    <div class="form-group">
+                                        <div class="col-sm-3 text-right">
+                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Job Code fro specific Product" data-original-title="" title="">
+                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                </a>
+                                            </div>
+
+                                            <label class="control-label tooltip-float">Job Code</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="control-label" data-bind="text: jobCode" style="margin-left:5px;"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3 text-right">
+                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Creation Date for Specific Product " data-original-title="" title="">
+                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                </a>
+                                            </div>
+
+                                            <label class="control-label tooltip-float">Order Date</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="control-label" data-bind="dateString: orderDate, datePattern: 'DD/MM/YYYY'" style="margin-left:5px;"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3 text-right">
+                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Start time" data-original-title="" title="">
+                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                </a>
+                                            </div>
+
+                                            <label class="control-label tooltip-float">Start Time</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="control-label" style="margin-left:5px;" data-bind="dateString: jobEstimatedStartDateTime, datePattern: 'DD/MM/YYYY'"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3 text-right">
+                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Shows Completion time" data-original-title="" title="">
+                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                </a>
+                                            </div>
+
+                                            <label class="control-label tooltip-float">Completion Time</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="control-label" style="margin-left:5px;" data-bind="dateString: jobEstimatedCompletionDateTime, datePattern: 'DD/MM/YYYY'"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3 text-right">
+                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Job Status of Product" data-original-title="" title="">
+                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                </a>
+                                            </div>
+                                            <label class="control-label tooltip-float">
+                                                Job Status
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" data-bind="options: $root.jobStatuses, optionsCaption: 'Select...', optionsText: 'StatusName', optionsValue: 'StatusId', value: jobStatusId"></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3 text-right">
+                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Job Manager" data-original-title="" title="">
+                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                </a>
+                                            </div>
+                                            <label class="control-label tooltip-float">
+                                                Job Manager
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsCaption: 'Select job manager',optionsValue: 'id', value: jobManagerId"></select>@*jobManagerUser*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3 text-right">
+                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Progressed By for product" data-original-title="" title="">
+                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                </a>
+                                            </div>
+
+                                            <label class="control-label tooltip-float">Progressed By</label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="control-label" style="margin-left:5px;" data-bind="text: jobProgressedByUser() ? jobProgressedByUser().fullName : ''"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3 text-right">
+                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Signed By" data-original-title="" title="">
+                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                </a>
+                                            </div>
+
+                                            <label class="control-label tooltip-float">
+                                                Signed By
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsCaption: 'Select job signed by',optionsValue: 'id', value: jobSignedBy"></select>@*jobSignedByUser*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="tab-pane fade" id="tab-attachments">
+                                <div class="col-sm-12 form-horizontal">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <div class="col-sm-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    
+                                                </div>
+                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Upload Attachment files</label>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="col-sm-1">
+                                                    <div class="fileUpload btn btn-primary">
+                                                        <span>....</span>
+                                                        <input type="file" class="upload" id="image_files" multiple data-bind="click:$root.uploadItemAttachment" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="main-box-body">
+                                            <div class="table-responsive" style="padding-left:10px;padding-right:10px;">
+                                                <table class="table user-list">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="col-lg-1"><span></span></th>
+                                                            <th class="col-lg-5"><span>Title</span></th>
+                                                            <th class="col-lg-4"><span>Type</span></th>
+                                                            <th class="col-lg-1"><span></span></th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- ko template: { name: 'orderItemAttachmentTemplate' , foreach: itemAttachments  } -->
+                                                        <!-- /ko -->
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12" data-bind="visible:$root.showSectionDetail" style="padding-left: 16px;padding-right: 16px;">
+                <div class="main-box clearfix">
+                    @Html.Partial("~/Areas/Orders/Views/Home/_OrderSectionDetail.cshtml")
+                </div>
+
+            </div>
+
+        </div>
+        @Html.Partial("~/Areas/Orders/Views/Home/_AttachmentDialog.cshtml")
+        @Html.Partial("~/Areas/Common/Views/Shared/_CostCenterQuantity.cshtml")
+        @Html.Partial("~/Areas/Orders/Views/Home/_EstimationRunWizard.cshtml")
+        @Html.Partial("~/Areas/Orders/Views/Home/_SheetPlanImage.cshtml")
+        
+    </div>
+</div>
+<script id="orderItemAttachmentTemplate" type="text/html">
+    <tr>
+
+        <td>
+            <!-- ko if: fileType()=== ".pdf" -->
+            <img width="32" height="32" src="@Url.Content("~/Content//Attachments/Page_pdf.png")" alt="" />
+            <!-- /ko -->
+            <!-- ko if: fileType()=== ".doc" -->
+            <img src="@Url.Content("~/Content//Attachments/Page_word.png")" alt="" />
+            <!-- /ko -->
+            <!-- ko if: fileType()=== ".docx" -->
+            <img src="@Url.Content("~/Content//Attachments/Page_word.png")" alt="" />
+            <!-- /ko -->
+            <!-- ko if: fileType()=== ".rtf" -->
+            <img src="@Url.Content("~/Content//Attachments/Page_word.png")" alt="" />
+            <!-- /ko -->
+            <!-- ko if: fileType()=== ".txt" -->
+            <img src="@Url.Content("~/Content//Attachments/Page_word.png")" alt="" />
+            <!-- /ko -->
+            <!-- ko if: fileType()=== ".png" -->
+            <img width="32" height="32" src="@Url.Content("~/Content//Attachments/icoPNG.png")" alt="" />
+            <!-- /ko -->
+            <!-- ko if: fileType()=== ".jpg" -->
+            <img width="32" height="32" src="@Url.Content("~/Content//Attachments/icoJPG.png")" alt="" />
+            <!-- /ko -->
+            <!-- ko if: fileType()=== ".xlsx" -->
+            <img width="32" height="32" src="@Url.Content("~/Content//Attachments/Page_excel.png")" alt="" />
+            <!-- /ko
+            <!-- ko if: fileType()=== ".xls" -->
+            <img width="32" height="32" src="@Url.Content("~/Content//Attachments/Page_excel.png")" alt="" />
+            <!-- /ko
+            <!-- ko if: fileType()=== ".gif" -->
+            <img width="32" height="32" src="@Url.Content("~/Content//Attachments/icoGif.png")" alt="" />
+            <!-- /ko -->
+
+        </td>
+
+        <td>
+            <span data-bind="text: fileTitle" class="user-link"></span>
+            <span class="user-subhead">
+                <span>Uploaded on :</span>
+                <span data-bind="dateString: uploadDate, datePattern: 'DD/MM/YYYY'"></span>
+            </span>
+
+        </td>
+        <td data-bind="text:type"></td>
+        <td>
+            <div style="float: left;">
+                @using (Ajax.BeginForm("FileDownload", "Home", new AjaxOptions { HttpMethod = "POST" }, new { target = "_blank" }))
+                {
+                <input type="hidden" id="item" name="item" data-bind="value:id" />
+                <button type="submit" class="table-link" title="Donwload" data-bind="enable:id()>0" style=" padding-left: 0px;border-left-width: 0px;padding-right: 0px;border-right-width: 0px; border-top-width: 0px;padding-bottom: 0px;background-color: transparent;border-bottom: none;height: 31px;">
+                    <span class="fa-stack">
+                        <i class="fa fa-square-o fa-stack-2x"></i>
+                        <i class="fa fa-download fa-stack-1x"></i>
+                    </span>
+                </button>
+                }
+            </div>
+            <a href="#" class="table-link danger" style="float: right;" title="Delete" data-bind="click:$root.deleteItemAttachment">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        </td>
+
+    </tr>
+
+</script>
+
+
+<script id="sectionItemTemplate" type="text/html">
+    <!--ko if: !flagForAdd() -->
+    <li class="col-lg-4 col-sm-5" style="margin-left:0px;padding:0px;">
+        <div>
+            <div style="float: left">
+                <span data-bind="text:sectionsMultiplier, css: { 'sectionmultiplierindex':  $index() === 0,  'sectionmultiplier':  $index() !== 0 }" class="font20px"></span>
+                <img class="photo-box" style="padding-top: 0px;cursor: pointer;" src="@Url.Content("~/Content/Images/OrderSectionCover.png")" data-bind="click:$root.showSectionDetailEditor" />
+                <i class="fa fa-pencil font20px" style="cursor: pointer; bottom: 40px;margin-left: 75%;position: relative;" data-bind="click:$root.showSectionDetailEditor"></i>
+
+            </div>
+            <div style="font-size: small;float: right;margin-top: -139%;cursor: pointer; margin-right: -6%; width: 86%;" data-bind="click:$root.showSectionDetailEditor">
+                <span class="form-control" data-bind="text:name" style="text-align: center;cursor: pointer;color: #3c9bf6;border: none;background-color: transparent;padding-right: 23%;padding-left: 0px;"></span>
+            </div>
+
+            <div class="btn btn-danger" style="font-size: x-small;margin-left: 25.5%; margin-top:-60%" data-bind="visible: $index() !== 0, click: $root.deleteSection.bind($data, $data)">
+                Remove
+            </div>
+        </div>
+    </li>
+    <!--/ko-->
+
+</script>
+
+@section Scripts{
+    <script>
+        require(["common/reportManager.view"]);
+      
+    </script>
+} 

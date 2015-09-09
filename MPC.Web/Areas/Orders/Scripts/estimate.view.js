@@ -30,12 +30,14 @@ define("order/estimate.view",
 
                     liElement.click();
 
-                    // Scroll to Element
-                    setTimeout(function () {
-                        window.scrollTo($(element).offset().left, $(element).offset().top - 50);
-                        // Focus on element
-                        $(element).focus();
-                    }, 1000);
+                    var target = $(element);
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                    if (target.length) {
+                        $('html,body').animate({
+                            scrollTop: (target.offset().top - 50)
+                        }, 1000);
+                        return false;
+                    }
                 },
                 // Show inventory dialog
                 showInventoryItemDialog = function () {
@@ -72,11 +74,27 @@ define("order/estimate.view",
                 },
                // Show Cost Centers Quantity the dialog
                 showCostCentersQuantityDialog = function () {
-                    $("#costCentersQuanity").modal("show");
+                    $("#orderCostCentersQuanity").modal("show");
                 },
                // Hide Cost Centers Quantity the dialog
                 hideCostCentersQuantityDialog = function () {
-                    $("#costCentersQuanity").modal("hide");
+                    $("#orderCostCentersQuanity").modal("hide");
+                },
+                // Show Inquiry Detail Item Dialog
+                showInquiryDetailItemDialog = function () {
+                    $("#InquiryDetailItemDialog").modal("show");
+                },
+               // Hide Inquiry Detail Item Dialog
+                hideInquiryDetailItemDialog = function () {
+                    $("#InquiryDetailItemDialog").modal("hide");
+                },
+                // Show Progress To Order Dialog
+                showProgressToOrderDialog = function () {
+                    $("#progressToOrderDialog").modal('show');
+                },
+                //Hide Progress To Order Dialog
+                hideProgressToOrderDialog = function () {
+                    $("#progressToOrderDialog").modal('hide');
                 },
                 setOrderState = function (state, isFromEstimate) {
                     orderstate(state);
@@ -209,6 +227,10 @@ define("order/estimate.view",
                 hideEstimateRunWizard: hideEstimateRunWizard,
                 showSectionCostCenterDialogModel: showSectionCostCenterDialogModel,
                 hideSectionCostCenterDialogModel: hideSectionCostCenterDialogModel,
+                showInquiryDetailItemDialog: showInquiryDetailItemDialog,
+                hideInquiryDetailItemDialog: hideInquiryDetailItemDialog,
+                showProgressToOrderDialog: showProgressToOrderDialog,
+                hideProgressToOrderDialog: hideProgressToOrderDialog,
                 showInksDialog: showInksDialog,
                 hideInksDialog: hideInksDialog
             };

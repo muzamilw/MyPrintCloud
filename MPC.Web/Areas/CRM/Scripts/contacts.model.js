@@ -17,7 +17,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedShippingAddressId, specifiedisUserLoginFirstTime, specifiedquickMobileNumber, specifiedquickTwitterId, specifiedquickFacebookId, specifiedquickLinkedInId,
         specifiedquickOtherId, specifiedPOBoxAddress, specifiedCorporateUnit, specifiedOfficeTradingName, specifiedContractorName, specifiedBPayCRN, specifiedABN, specifiedACN,
         specifiedAdditionalField1, specifiedAdditionalField2, specifiedAdditionalField3, specifiedAdditionalField4, specifiedAdditionalField5, specifiedcanUserPlaceOrderWithoutApproval,
-        specifiedCanUserEditProfile, specifiedcanPlaceDirectOrder, specifiedOrganisationId, specifiedBussinessAddressId, specifiedCompanyName) {
+        specifiedCanUserEditProfile, specifiedcanPlaceDirectOrder, specifiedOrganisationId, specifiedBussinessAddressId, specifiedCompanyName,specifiedStoreName) {
         var self,
             contactId = ko.observable(specifiedContactId),
             addressId = ko.observable(specifiedAddressId),
@@ -107,6 +107,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             fileName = ko.observable(),
             bussinessAddress = ko.observable(),
             shippingAddress = ko.observable(),
+            StoreName = ko.observable(specifiedStoreName),
 
             // Errors
             errors = ko.validation.group({
@@ -205,7 +206,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 canPlaceDirectOrder: canPlaceDirectOrder,
                 organisationId: organisationId,
                 bussinessAddressId: bussinessAddressId,
-                fileName: fileName
+                fileName: fileName,
+                StoreName: StoreName,
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -299,6 +301,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     OrganisationId: organisationId(),
                     BussinessAddressId: bussinessAddressId(),
                     FileName: fileName(),
+                    StoreName: StoreName(),
                     //BussinessAddress: bussinessAddress() != undefined ? bussinessAddress().convertToServerData(): null,
                     //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
                 };
@@ -393,8 +396,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             organisationId: organisationId,
             bussinessAddressId: bussinessAddressId,
             fileName: fileName,
+           
             bussinessAddress: bussinessAddress,
             shippingAddress: shippingAddress,
+            StoreName: StoreName,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -491,7 +496,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.canPlaceDirectOrder,
             source.organisationId,
             source.BussinessAddressId,
-            source.FileName
+            source.FileName,
+            source.StoreName
         );
     };
     CompanyContact.Create = function (source) {
@@ -581,7 +587,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.OrganisationId,
             source.BussinessAddressId,
             source.FileName,
-            source.CompanyName
+            source.CompanyName,
+            source.StoreName
         );
         return companyContact;
     };

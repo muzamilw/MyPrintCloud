@@ -3,37 +3,39 @@
 }
 @section leftmenue {
 }
-
 <div class="row" id="invoiceBinding">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-sm-12">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-sm-12">
                     <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
-                    <ol class="breadcrumb">
-                        <li><a href="~/Dashboard/Index" class="my-navigator">HOME</a></li>
-                        <li data-bind="css: $root.invoiceCodeHeader() != '' ?  ''  :   'active' , click:$root.onCloseInvoiceEditor" style="cursor:pointer"><span>Invoices</span></li>
-                        <li data-bind="css: $root.invoiceCodeHeader() != '' &&  $root.itemCodeHeader() == '' ?  'active' :   '' , click:$root.closeItemDetail, visible:$root.invoiceCodeHeader() !== '' " style="display: none; cursor:pointer"><span data-bind="text:$root.invoiceCodeHeader"></span></li>
-                        
-                        
+                    <ol class="breadcrumb" style="padding-left:3px;">
+                        <li><a href="~/Dashboard/Index" class="my-navigator" data-bind="text: $root.selectedInvoice() != undefined && $root.selectedInvoice().id() ? 'Home': ''"></a></li>
+                        <li data-bind="css:'active' ,click:$root.onCloseInvoiceEditor,visible: isDetailsVisible()" style="cursor:pointer;display: none"><span>Invoices</span></li>
+                        <li data-bind="css:'active', visible:$root.pageCode()!=='',visible: isDetailsVisible()" style="display: none"><span data-bind="text:$root.pageCode"></span></li>
                     </ol>
                     <div class="clearfix">
-                        <h1 class="pull-left">Invoices</h1>
-
+                        <h1 class="pull-left" style="padding-left:6px;" data-bind="text:$root.pageHeader">Invoices</h1>
                     </div>
                     <div class="row" data-bind="visible: !isDetailsVisible()">
-                        <div class="col-lg-12">
-                            <div class="pull-right">
-                                <button id="open-wizard" class="btn btn-primary pull-right">
-                                    Add Invoice
+                        <div class="col-sm-12">
+                            <div class="pull-left" style="padding-left:7px;padding-top:3px;">
+                                <span class="group-header-description">Create one-off Invoices quickly or Create Invoices from existing Estimates and Orders.</span>
+                            </div>
+                            <div class="pull-right" style="margin-right:9px;margin-bottom:6px;">
+                                <button data-bind="click: $root.createInvoice" style="margin-top:-10px;margin-right:-3px;" class="btn btn-primary pull-right">
+                                    Add New Invoice
+                                </button>
+                                <button id="open-wizard" style="margin-top:-10px;margin-right:5px;" data-bind="click: $root.openReport" class="btn btn-primary pull-right">
+                                    Reports
                                 </button>
                             </div>
                         </div>
-                        <div>
+                        <div style="clear: both">
                             &nbsp;
                         </div>
                         <div>
-                            <div class="col-lg-12">
+                            <div class="col-sm-12" style="padding-left:16px;padding-right:16px;margin-top:4px;">
                                 <!-- ko template: { name: 'orderFilterTemplate' } -->
                                 <!-- /ko -->
                                 <div class="clearfix">
@@ -42,39 +44,49 @@
                                     <div class="tabs-wrapper profile-tabs">
                                         <ul class="nav nav-tabs">
                                             <li class="active"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(0);}">All Invoices</a></li>
-                                            <li><a href="#tab-Awaiting" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(4);}">Awaiting</a></li>
-                                            <li><a href="#tab-Posted" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(5);}">Posted</a></li>
-                                            <li><a href="#tab-Cancelled" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(6);}">Cancelled</a></li>
-                                            <li><a href="#tab-Archived" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(7);}">Archived</a></li>
-                                            <li><a href="#tab-Proforma" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(8);}">Proforma</a></li>
-
+                                            <li><a href="#tab-Awaiting" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(19);}">Awaiting</a></li>
+                                            <li><a href="#tab-Posted" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(20);}">Posted</a></li>
+                                            <li><a href="#tab-Cancelled" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(21);}">Cancelled</a></li>
+                                            <li><a href="#tab-Archived" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(22);}">Archived</a></li>
+                                            @*<li><a href="#tab-Proforma" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(30);}">Proforma</a></li>*@
                                         </ul>
                                         <div class="tab-content">
                                             <div class="tab-pane fade in active" id="tab-All">
+                                                <div class="tabsdescriptions" style="margin-left:8px;">
+                                                    <span class="group-header-description">Review all proccessed invoices, to find invoices fast, select from the Flag dropdown and then Search for the invoice. </span>
+                                                </div>
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
                                             <div class="tab-pane fade in" id="tab-Awaiting">
+                                                <div class="tabsdescriptions" style="margin-left:7px;">
+                                                    <span class="group-header-description">Invoices are awating approval before being sent to the client, review and send as soon as possible.</span>
+                                                </div>
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
                                             <div class="tab-pane fade in" id="tab-Posted">
+                                                <div class="tabsdescriptions" style="margin-left:7px;">
+                                                    <span class="group-header-description">Invoices has been sent to the customer, review and search for any outstanding invoices.</span>
+                                                </div>
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
                                             <div class="tab-pane fade in" id="tab-Cancelled">
+                                                <div class="tabsdescriptions" style="margin-left:7px;">
+                                                    <span class="group-header-description">Review all cancelled Invoices, refer to the notes for who and why the invoices was cancelled.</span>
+                                                </div>
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
                                             <div class="tab-pane fade in" id="tab-Archived">
+                                                <div class="tabsdescriptions" style="margin-left:7px;">
+                                                    <span class="group-header-description">Review all cancelled Invoices, refer to the notes for who and why the invoices was cancelled.</span>
+                                                </div>
                                                 <!-- ko template: { name: 'tabItemsList' } -->
                                                 <!-- /ko -->
                                             </div>
-                                            <div class="tab-pane fade in" id="tab-Proforma">
-                                                <!-- ko template: { name: 'tabItemsList' } -->
-                                                <!-- /ko -->
-                                            </div>
-
+                                           
                                         </div>
                                     </div>
                                     <div class="clearfix">
@@ -86,28 +98,28 @@
                         <script id="orderFilterTemplate" type="text/html">
                             <div class="filter-body">
                                 <form data-bind="submit: $root.getInvoicesOfCurrentScreen">
-                                    <div class="filter-block pull-right">
+                                    <div class="filter-block pull-right" style="margin-top:3px;margin-bottom:3px;">
                                         <div class="form-group pull-left">
-                                            <select class="form-control col-lg-4" data-bind="options:$root.orderType,optionsText:'name',optionsValue:'value', value: $root.orderTypeFilter"></select>
+                                            <select style="width:87px;" class="form-control col-sm-4" data-bind="options:$root.orderType,optionsText:'name',optionsValue:'value', value: $root.orderTypeFilter, event:{change:$root.getInvoicesOfCurrentScreen}"></select>
                                         </div>
                                         <div class="form-group pull-left">
-                                            <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag"></select>
+                                            <select class="form-control" style="width:220px;" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag, event:{change:$root.getInvoicesOfCurrentScreen}"></select>
                                         </div>
-                                        <div class="form-group pull-left">
+                                        <div class="form-group pull-left" style="margin-right:0px;">
                                             <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
                                             <i class="fa fa-search search-icon" data-bind="click: $root.getInvoicesOfCurrentScreen"></i>
                                         </div>
-                                        
+
                                     </div>
                                 </form>
                                 <div class="clearfix">
                                 </div>
                             </div>
                         </script>
-                       
+
                         @* List View Template *@
                         <script id="invoiceListViewTemplate" type="text/html">
-                            <tr>
+                            <tr data-bind=" click: $root.editInvoice" style="cursor: pointer">
                                 <td>
                                     <!-- ko if: isDirectSale()==true -->
                                     <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/forwardicon.png")" alt="" />
@@ -116,43 +128,46 @@
                                     <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/arrow_down.png")" alt="" />
                                     <!-- /ko -->
                                 </td>
-                                <td>                                    
-                                    <a data-bind="text: companyName, click: $root.editInvoice" style="cursor:pointer;" class="user-link"></a>
+
+                                <td>
+                                    <a data-bind="text: companyName" style="cursor:pointer;" class="user-link"></a>
                                     <span class="user-subhead">
                                         <span data-bind="text: name"></span>
                                         <span data-bind="text: ' '"></span>
                                         <span data-bind="text: noOfItemsUi"></span>
                                     </span>
                                 </td>
-
+                                <td>
+                                    <span data-bind="text: code"></span>
+                                </td>
                                 <td>
                                     <span data-bind="dateString: invoiceDate, datePattern: 'DD/MM/YYYY'"></span>
                                 </td>
                                 <td>
                                     <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
                                 </td>
-                                <td>
-                                    <span data-bind="text: code"></span>
+                                <td data-bind="visible:$root.isShowStatusCloumn">
+                                    <span data-bind="text: status"></span>
                                 </td>
-                                <td>
-                                    <span data-bind="text:invoiceTotal()!==undefined ? invoiceTotal():''"></span>
+                                <td style="text-align: right;padding-right:76px;">
+                                    <span data-bind="text:invoiceTotal()!==undefined ? $root.currencySymbol:''"></span><span data-bind="numberInput:invoiceTotal "></span>
                                 </td>
                             </tr>
                         </script>
-
                         @* Tab Items Lists*@
                         <script id="tabItemsList" type="text/html">
-                            <div class="main-box-body main-box clearfix">
-                                <div class="table-responsive">
-                                    <table id="OrderListtbl" class="table user-list">
+                            <div>
+                                <div class="table-responsive" style="padding-left:10px;padding-right:10px;">
+                                    <table id="OrderListtbl" class="table user-list table-striped table-hover">
                                         <thead>
                                             <tr>
-                                                <th class="col-lg-1"><span>&nbsp;</span></th>
-                                                <th class="col-lg-4"><span>Customer</span></th>
-                                                <th class="col-lg-2"><span>Invoice Date</span></th>
-                                                <th class="col-lg-1"><span>Flag</span></th>
-                                                <th class="col-lg-2"><span>Invoice Code</span></th>
-                                                <th class="col-lg-2"><span>Invoice Total</span></th>
+                                                <th class="col-sm-1"><span>&nbsp;</span></th>
+                                                <th class="col-sm-3"><span>Customer</span></th>
+                                                <th class="col-sm-2"><span>Invoice Code</span></th>
+                                                <th class="col-sm-2"><span>Invoice Date</span></th>
+                                                <th class="col-sm-2"><span>Flag</span></th>
+                                                <th data-bind="visible:$root.isShowStatusCloumn"><span>Status</span></th>
+                                                <th class="col-sm-2"><span>Invoice Total</span></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -162,7 +177,7 @@
                                     </table>
                                 </div>
                             </div>
-                            <div id="pagerDiv" class="pull-right">
+                            <div id="pagerDiv" class="pull-right" style="padding-right:10px;">
                                 <!-- ko with: pager -->
                                 @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                                 <!-- /ko -->
@@ -174,15 +189,19 @@
             </div>
         </div>
     </div>
+    @Html.Partial("~/Areas/Invoices/Views/Home/AddEditInvoiceDetailDialog.cshtml")
 </div>
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_CompanySelector.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_phraseLibraryDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
-
+@Html.Partial("~/Areas/Common/Views/Shared/_AddCostCenters.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_ProductFromRetailStore.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
 @section Scripts{
     <script>
-        require(["invoice/invoice.view", "common/confirmation.view", "common/companySelector.view", "common/phraseLibrary.view", "common/stockItem.view"]);
+        require(["invoice/invoice.view", "common/confirmation.view", "common/companySelector.view", "common/phraseLibrary.view", "common/stockItem.view"
+        , "common/addCostCenter.view", "common/addProduct.view", "common/itemDetail.view", "common/reportManager.view"]);
 
         $(function () {
             $('#libilling').addClass('active');
@@ -192,5 +211,4 @@
 
 
     </script>
-
 }             

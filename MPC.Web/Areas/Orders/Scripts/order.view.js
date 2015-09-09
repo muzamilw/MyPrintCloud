@@ -29,12 +29,20 @@ define("order/order.view",
 
                     liElement.click();
 
-                    // Scroll to Element
-                    setTimeout(function () {
-                        window.scrollTo($(element).offset().left, $(element).offset().top - 50);
-                        // Focus on element
-                        $(element).focus();
-                    }, 1000);
+                    //// Scroll to Element
+                    //setTimeout(function () {
+                    //    window.scrollTo($(element).offset().left, $(element).offset().top - 50);
+                    //    // Focus on element
+                    //    $(element).focus();
+                    //}, 1000);
+                    var target = $(element);
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                    if (target.length) {
+                        $('html,body').animate({
+                            scrollTop: (target.offset().top - 50)
+                        }, 1000);
+                        return false;
+                    }
                 },
                 // Show inventory dialog
                 //showInventoryItemDialog = function () {
@@ -69,24 +77,21 @@ define("order/order.view",
                 hideSectionDetailDialog = function () {
                     $("#orderSectionDetailDialog").modal('hide');
                 },
+                
                // Show Cost Centers Quantity the dialog
                 showCostCentersQuantityDialog = function () {
-                    $("#costCentersQuanity").modal("show");
+                    $("#orderCostCentersQuanity").modal("show");
                 },
                // Hide Cost Centers Quantity the dialog
                 hideCostCentersQuantityDialog = function () {
-                    $("#costCentersQuanity").modal("hide");
+                    $("#orderCostCentersQuanity").modal("hide");
                 },
                 setOrderState = function (state, isFromEstimate) {
                     orderstate(state);
                     $(function () {
                         // set up an array to hold the order Status
-                        var orderStatusArray = ["Pending Order", "Confirmed Start", "In Production", "Shipped & Invoiced", "Cancelled"];
+                        var orderStatusArray = ["Pending Order", "Confirmed Start", "In Production", "Ready For Shipping", "Shipped & Invoiced", "Cancelled"];
 
-                        // If Is Order is From Estimate then add Status "Revert to Estimate"
-                        if (isFromEstimate) {
-                            orderStatusArray.splice(0, 0, "Revert to Estimate");
-                        }
 
                         $(".slider").slider().slider("pips");
                         $(".slider")
@@ -95,7 +100,7 @@ define("order/order.view",
                             .slider({
                                 min: 0,
                                 max: orderStatusArray.length - 1,
-                                value: orderstate() !== 0 ? (orderstate() === 9 ? orderstate() - 5 : orderstate() - 4) : orderstate()
+                                value: orderstate() !== 0 ? (orderstate() === 9 ? orderstate() - 4 : (orderstate() === 10 ? orderstate() - 6 : orderstate() - 4)) : orderstate()
                                 //value: orderstate()
                             })
 
@@ -117,14 +122,7 @@ define("order/order.view",
                             });
                     });
                 },
-                // Show Sheet Plan Image the dialog
-                showSheetPlanImageDialog = function () {
-                    $("#sheetPlanModal").modal("show");
-                },
-                // Show Sheet Plan Image the dialog
-                hideSheetPlanImageDialog = function () {
-                    $("#sheetPlanModal").modal("show");
-                },
+
                 // Show section Cost Center Dialog Model
                 showSectionCostCenterDialogModel = function () {
                     $("#sectionCostCenterDialogModel").modal("show");
@@ -149,24 +147,6 @@ define("order/order.view",
                 //Hide Order Pre Payment Modal
                 hideOrderPrePaymentModal = function () {
                     $("#orderPrePaymentModal").modal('hide');
-                },
-                //Show Estimate Run Wizard Modal
-                showEstimateRunWizard = function () {
-                    $("#estimateRunWizard").modal('show');
-                },
-                //Hide Estimate Run Wizard Modal
-                hideEstimateRunWizard = function () {
-                    $("#estimateRunWizard").modal('hide');
-                },
-
-                // Show Inks Dialog
-                showInksDialog = function () {
-                    $("#inkDialogModel").modal("show");
-                    initializeLabelPopovers();
-                },
-                // Hide Inks Dialog
-                hideInksDialog = function () {
-                    $("#inkDialogModel").modal("hide");
                 },
                 // Show Order Status Progress To Job Dialog
                 showOrderStatusProgressToJobDialog = function () {
@@ -215,18 +195,12 @@ define("order/order.view",
                 hideOrderPrePaymentModal: hideOrderPrePaymentModal,
                 setOrderState: setOrderState,
                 orderstate: orderstate,
-                showSheetPlanImageDialog: showSheetPlanImageDialog,
-                hideSheetPlanImageDialog: hideSheetPlanImageDialog,
                 //showInventoryItemDialog: showInventoryItemDialog,
                 hideInventoryItemDialog: hideInventoryItemDialog,
-                showEstimateRunWizard: showEstimateRunWizard,
-                hideEstimateRunWizard: hideEstimateRunWizard,
                 showSectionCostCenterDialogModel: showSectionCostCenterDialogModel,
                 hideSectionCostCenterDialogModel: hideSectionCostCenterDialogModel,
-                showInksDialog: showInksDialog,
-                hideInksDialog: hideInksDialog,
                 showOrderStatusProgressToJobDialog: showOrderStatusProgressToJobDialog,
-                hideOrderStatusProgressToJobDialog:hideOrderStatusProgressToJobDialog
+                hideOrderStatusProgressToJobDialog: hideOrderStatusProgressToJobDialog
             };
         })(orderViewModel);
 

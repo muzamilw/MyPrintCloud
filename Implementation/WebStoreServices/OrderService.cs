@@ -5,6 +5,9 @@ using MPC.Models.DomainModels;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,13 +25,16 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICompanyService _myCompanyService;
         private readonly ICompanyContactRepository _myCompanyContact;
         private readonly IPrefixRepository _prefixRepository;
-        
+        private readonly IItemRepository _ItemRepository;
+       
           #region Constructor
 
         /// <summary>
         ///  Constructor
         /// </summary>
-        public OrderService(IOrderRepository OrderRepository, IWebstoreClaimsHelperService myClaimHelper, ICompanyService myCompanyService, ICompanyContactRepository myCompanyContact, IPrefixRepository prefixRepository, ICountryRepository CountryRepository, IStateRepository StateRepository, IAddressRepository AddressRepository)
+        public OrderService(IOrderRepository OrderRepository, IWebstoreClaimsHelperService myClaimHelper, ICompanyService myCompanyService, ICompanyContactRepository myCompanyContact, IPrefixRepository prefixRepository, ICountryRepository CountryRepository,
+            IStateRepository StateRepository, IAddressRepository AddressRepository, IItemRepository ItemRepository
+            )
         {
             this._OrderRepository = OrderRepository;
             this._myClaimHelper = myClaimHelper;
@@ -38,6 +44,8 @@ namespace MPC.Implementation.WebStoreServices
             this._CountryRepository = CountryRepository;
             this._StateRepository = StateRepository;
             this._AddressRepository = AddressRepository;
+            this._ItemRepository = ItemRepository;
+          
         }
 
 
@@ -171,73 +179,63 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _OrderRepository.SetOrderCreationDateAndCode(orderId);
         }
-        public bool IsVoucherValid(string voucherCode)
-        {
-            try
-            {
-                return _OrderRepository.IsVoucherValid(voucherCode);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public Estimate CheckDiscountApplied(int orderId)
-        {
-            try
-            {
-                return _OrderRepository.CheckDiscountApplied(orderId);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //public bool IsVoucherValid(string voucherCode)
+        //{
+        //    try
+        //    {
+        //        return _OrderRepository.IsVoucherValid(voucherCode);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+        //public Estimate CheckDiscountApplied(int orderId)
+        //{
+        //    try
+        //    {
+        //        return _OrderRepository.CheckDiscountApplied(orderId);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
-        public bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode)
-        {
-            try
-            {
-                return _OrderRepository.RollBackDiscountedItems(orderId,StateTax,Mode);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public double SaveVoucherCodeAndRate(int orderId, string VCode)
-        {
-            try
-            {
-                return _OrderRepository.SaveVoucherCodeAndRate(orderId, VCode);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate,StoreMode Mode)
-        {
-            try
-            {
-                return _OrderRepository.PerformVoucherdiscountOnEachItem(orderId, orderStatus, StateTax, VDiscountRate, Mode);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-       public bool ResetOrderVoucherCode(int orderId)
-       {
-           try
-           {
-               return _OrderRepository.ResetOrderVoucherCode(orderId);
-           }
-           catch (Exception ex)
-           {
-               throw ex;
-           }
-       }
+        
+        //public double SaveVoucherCodeAndRate(int orderId, string VCode)
+        //{
+        //    try
+        //    {
+        //        return _OrderRepository.SaveVoucherCodeAndRate(orderId, VCode);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+        //public double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate,StoreMode Mode)
+        //{
+        //    try
+        //    {
+        //        return _OrderRepository.PerformVoucherdiscountOnEachItem(orderId, orderStatus, StateTax, VDiscountRate, Mode);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+       //public bool ResetOrderVoucherCode(int orderId)
+       //{
+       //    try
+       //    {
+       //        return _OrderRepository.ResetOrderVoucherCode(orderId);
+       //    }
+       //    catch (Exception ex)
+       //    {
+       //        throw ex;
+       //    }
+       //}
 
         /// <summary>
         /// Get the OrderId by login User 
@@ -396,9 +394,9 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
-        public bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds)
+        public bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds, long StoreId)
         {
-             return _OrderRepository.UpdateOrderAndCartStatus(OrderID, orderStatus, currentStoreMode, Org, ManagerIds);
+            return _OrderRepository.UpdateOrderAndCartStatus(OrderID, orderStatus, currentStoreMode, Org, ManagerIds, StoreId);
         }
         public double UpdateORderGrandTotal(long OrderID)
         {
@@ -461,14 +459,94 @@ namespace MPC.Implementation.WebStoreServices
        {
            return _OrderRepository.GetAddress(ShippingAddressId);
        }
-       public long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID, long OrganisationId)
-       {
-           return _OrderRepository.ReOrder(ExistingOrderId, loggedInContactID, StatTaxVal, mode, isIncludeTax, TaxID, OrganisationId);
-       }
+       //public long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID, long OrganisationId, long StoreId)
+       //{
+       //  //  return _OrderRepository.ReOrder(ExistingOrderId, loggedInContactID, StatTaxVal, mode, isIncludeTax, TaxID, OrganisationId);
 
-       public List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber)
+       //    Estimate ExistingOrder = null;
+       //    Estimate shopCartOrder = null;
+       //    bool result = false;
+         
+       //    List<Item> ClonedItems = new List<Item>();
+       //    long OrderIdOfReorderItems = 0;
+        
+       //    try
+       //    {
+       //        ExistingOrder = _OrderRepository.GetOrderByID(ExistingOrderId); 
+
+       //        if (ExistingOrder != null)
+       //        {
+
+       //            shopCartOrder = _OrderRepository.GetShoppingCartOrderByContactID(loggedInContactID, OrderStatus.ShoppingCart);
+       //            //create a new cart
+       //            if (shopCartOrder == null)
+       //            {
+       //                shopCartOrder = ExistingOrder;
+       //                // Order status will be shopping cart
+       //                shopCartOrder.StatusId = (int)OrderStatus.ShoppingCart;
+       //                shopCartOrder.DeliveryCompletionTime = 0;
+       //                shopCartOrder.DeliveryCost = 0;
+       //                shopCartOrder.DeliveryCostCenterId = 0;
+       //                shopCartOrder.StartDeliveryDate = null;
+       //                Prefix prefix = _prefixRepository.GetDefaultPrefix();
+       //                if (prefix != null)
+       //                {
+       //                    shopCartOrder.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
+       //                    prefix.OrderNext = prefix.OrderNext + 1;
+       //                }
+       //                shopCartOrder.Order_CompletionDate = null;
+       //                shopCartOrder.Order_ConfirmationDate = null;
+       //                shopCartOrder.Order_CreationDateTime = DateTime.Now;
+       //                shopCartOrder.CustomerPO = null;
+
+       //                _OrderRepository.Add(shopCartOrder);
+
+       //                OrderIdOfReorderItems = shopCartOrder.EstimateId;
+       //            }
+       //            else
+       //            {
+       //                OrderIdOfReorderItems = shopCartOrder.EstimateId;
+       //            }
+       //            List<Item> esxistingOrderItems = _OrderRepository.GetAllOrderItems(ExistingOrderId); 
+       //            //Clone items related to this order
+       //            esxistingOrderItems.Where(i => i.ItemType != Convert.ToInt32(ItemTypes.Delivery)).ToList().ForEach(orderITem =>
+       //            {
+       //                Item item = _ItemRepository.CloneReOrderItem(OrderIdOfReorderItems, orderITem.ItemId, loggedInContactID, shopCartOrder.Order_Code, OrganisationId);
+       //                ClonedItems.Add(item);
+       //                _ItemService.CopyAttachments(orderITem.ItemId, item, shopCartOrder.Order_Code, false, shopCartOrder.CreationDate ?? DateTime.Now, OrganisationId, StoreId);
+
+       //            });
+
+       //            if (ExistingOrder.DiscountVoucherID.HasValue && ExistingOrder.VoucherDiscountRate > 0)
+       //            {
+       //                if (_OrderRepository.RollBackDiscountedItemsWithdbContext(ClonedItems, StatTaxVal))
+       //                {
+       //                    ExistingOrder.VoucherDiscountRate = null;
+       //                    ExistingOrder.DiscountVoucherID = null;
+       //                    shopCartOrder.VoucherDiscountRate = null;
+       //                    shopCartOrder.DiscountVoucherID = null;
+       //                }
+       //            }
+       //            else if (isIncludeTax)// apply the new state Tax Value to the cloned item 
+       //            {
+       //                _OrderRepository.ApplyCurrentTax(ClonedItems, StatTaxVal, TaxID);
+       //            }
+       //            result = true;
+       //            _OrderRepository.SaveChanges();
+       //        }
+       //    }
+       //    catch (Exception ex)
+       //    {
+       //        throw ex;
+       //    }
+     
+       //    return shopCartOrder.EstimateId;
+           
+       //}
+
+       public List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, bool IsManager, long TerritoryId)
        {
-           return _OrderRepository.GetAllCorpOrders(ContactCompany, orderStatus, fromDate, toDate, orderRefNumber);
+           return _OrderRepository.GetAllCorpOrders(ContactCompany, orderStatus, fromDate, toDate, orderRefNumber, IsManager, TerritoryId);
        
        }
        public long GetOrderID(long CompanyID,long ContactID,string orderTitle,long OrganisationId)
@@ -505,6 +583,27 @@ namespace MPC.Implementation.WebStoreServices
        public bool IsRealCustomerOrder(long orderId, long contactId, long companyId)
        {
            return _OrderRepository.IsRealCustomerOrder(orderId,contactId,companyId);
+       }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="OrderId"></param>
+        /// <returns></returns>
+       public long GetStoreIdByOrderId(long OrderId)
+       {
+           return _OrderRepository.GetStoreIdByOrderId(OrderId);
+       }
+       public Estimate GetOrderByOrderID(long OrderId)
+       {
+           return _OrderRepository.GetOrderByOrderID(OrderId);
+       }
+       public List<Item> GetOrderItemsIncludingDelivery(long OrderId, int OrderStatus)
+       {
+           return _OrderRepository.GetOrderItemsIncludingDelivery(OrderId, OrderStatus);
+       }
+       public void SaveOrUpdateOrder()
+       {
+           _OrderRepository.SaveChanges();
        }
     }
 }

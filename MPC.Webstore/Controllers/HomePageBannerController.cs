@@ -1,4 +1,6 @@
-﻿using MPC.Webstore.Common;
+﻿using MPC.Interfaces.WebStoreServices;
+using MPC.Models.ResponseModels;
+using MPC.Webstore.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +12,38 @@ namespace MPC.Webstore.Controllers
 {
     public class HomePageBannerController : Controller
     {
+        
+        #region Private
+
+        private readonly ICompanyService _myCompanyService;
+
+     
+
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public HomePageBannerController(ICompanyService myCompanyService)
+        {
+            if (myCompanyService == null)
+            {
+                throw new ArgumentNullException("myCompanyService");
+            }
+            this._myCompanyService = myCompanyService;
+           
+        }
+
+        #endregion
         // GET: HomePageBanner
         public ActionResult Index()
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             return PartialView("PartialViews/HomePageBanner", StoreBaseResopnse.Banners);
             

@@ -3,7 +3,9 @@
 @using MPC.Models.Common;
 @using MPC.Webstore.Common;
 @using MPC.Models.DomainModels;
-
+@{
+    Layout = null;
+}
 @{
     List<AddOnCostsCenter> AddsOnList = Model.SelectedItemsAddonsList;
     string addson = string.Empty;
@@ -29,7 +31,7 @@
     string DCountryName = string.Empty;
     string BStateName = string.Empty;
     string BCountryName = string.Empty;
-
+    double _DiscountAmountTotal = 0;
     var ThumnbString = "Thumb.png";
 }
 <style type="text/css">
@@ -88,25 +90,22 @@
     }
 </style>
 
-<div class="container content_area">
-
-    <div class="row left_right_padding">
-        <ul class="bonhamsOption navM cursor_pointer">
+<div class="container content_area" id="all-AddressSelect-pg">
+    <div class="left_right_padding">
+        <ul class="bonhamsOption navM cursor_pointer" style="display:none;">
             <li>
-                1. Select
+                1. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlSelect", UserCookieManager.WBStoreId, "Select"))
             </li>
             <li>
-                2. Edit
+                2. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrledit", UserCookieManager.WBStoreId, "Edit"))
             </li>
-
 
             <li class="bonhamSelectedOption">
-                3. Confirm order & payment
+                3. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmorder", UserCookieManager.WBStoreId, "Confirm order & payment"))
             </li>
             <li>
-                4. Order summary
+                4. @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOrderSumm", UserCookieManager.WBStoreId, "Order Summary"))
             </li>
-
         </ul>
         @if (Model.LtrMessageToDisplay)
         {
@@ -121,9 +120,8 @@
                 <label id="ltrlMessge"></label>
             </div>
         }
-
-        <div class="signin_heading_div col-md-12 col-lg-12 col-xs-12">
-            <label id="lblCheckout" class="sign_in_heading">Checkout</label>
+        <div class="signin_heading_div col-md-12 col-lg-12 col-xs-12 checkout-container">
+            <label id="lblCheckout" class="sign_in_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblCheckout",UserCookieManager.WBStoreId,"Checkout"))</label>
         </div>
         <div class="clearBoth">
             &nbsp;
@@ -131,60 +129,57 @@
         <br />
         @using (Html.BeginForm())
         {
-            <div>
+            <div class="col-lg-12 col-md-12 col-xs-12">
                 <div id="maincntCheckout" class="check_out_right_div center_align">
                     <div class="clearBoth mainHeadingAveniorCheckout" style="display:none;">
-                        <label id="Label2">Special Instructions</label>
+                        <label id="Label2">@Html.Raw(Html.GetKeyValueFromResourceFile("lblspecailinstruction", UserCookieManager.WBStoreId, "Special Instructions"))</label>
                     </div>
-
                     <div class="TTL_Checkout ckecoutWidthAvenior col-md-12 col-lg-12 col-xs-12">
-                        <label id="ltrlcontacttelnum" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12 ">Contact Tel Number</label>
-
-                        @Html.TextBoxFor(model => model.ContactTel, new { id = "txtInstContactTelNumber", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", onblur = "ChangeTelNumber();", @Placeholder = "Contact phone number" })
-
+                        <label id="ltrlcontacttelnum" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12 ">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcontacttelnum", UserCookieManager.WBStoreId, "Contact Tel Number"))
+</label>
+                        @Html.TextBoxFor(model => model.ContactTel, new
+                   {
+                       id = "txtInstContactTelNumber",
+                       @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none",
+                       onblur = "ChangeTelNumber();",
+                       @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcontctphno",UserCookieManager.WBStoreId,"Contact phone number"))
+ })
                     </div>
                     <div class="clearBoth">
                     </div>
-
                     <div class="col-md-12 col-lg-12 col-xs-12 ckecoutWidthAvenior TTL_Checkout">
-                        <label id="ltrlnotes" class="col-md-3 col-lg-3 col-xs-12 checkoutNoteslbl">Notes</label>
-
-                        @Html.TextBoxFor(model => model.Notes, new { id = "txtInstNotes", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", onblur= "ChangeNotesTxt();", @Placeholder = "Additional information" })
-
+                        <label id="ltrlnotes" class="col-md-3 col-lg-3 col-xs-12 checkoutNoteslbl">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlnotes", UserCookieManager.WBStoreId, "Notes"))
+</label>
+                        @Html.TextBoxFor(model => model.Notes, new { id = "txtInstNotes", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", onblur = "ChangeNotesTxt();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("btnIdeas", UserCookieManager.WBStoreId, "Additional Information")) })
                     </div>
                     <div class="clearBoth">
                     </div>
                     @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
                         <div id="CorporateBox" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                            <label id="ltrlcheckoutfirstdiv" class="col-md-3 col-lg-3 col-xs-12 smallCheckoutAvenior">Your Ref / PO</label>
-                            @Html.TextBoxFor(model => model.RefNumber, new { id = "txtYourRefNumber", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 50, onblur = "ChangeRefPO();", @Placeholder = "Your Ref / PO number" })
-
+                            <label id="ltrlcheckoutfirstdiv" class="col-md-3 col-lg-3 col-xs-12 smallCheckoutAvenior">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcheckoutfirstdiv",UserCookieManager.WBStoreId,"Your Ref / PO"))</label>
+                            @Html.TextBoxFor(model => model.RefNumber, new { id = "txtYourRefNumber", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 50, onblur = "ChangeRefPO();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcheckoutfirstdiv", UserCookieManager.WBStoreId, "Your Ref / PO")) })
                         </div>
 
                     }
                     else
                     {
                         <div id="NormalBox" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                            <label id="Label4" class="col-md-3 col-lg-3 col-xs-12 smallCheckoutAvenior">Your Ref / PO</label>
-                            @Html.TextBoxFor(model => model.RefNumRetail, new { id = "txtYourRefNumberRetail", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 50, onblur = "ChangeRefPO();", @Placeholder = "Your Ref / PO number" })
-
+                            <label id="Label4" class="col-md-3 col-lg-3 col-xs-12 smallCheckoutAvenior">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcheckoutfirstdiv", UserCookieManager.WBStoreId, "Your Ref / PO"))</label>
+                            @Html.TextBoxFor(model => model.RefNumRetail, new { id = "txtYourRefNumberRetail", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 50, onblur = "ChangeRefPO();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcheckoutfirstdiv", UserCookieManager.WBStoreId, "Your Ref / PO")) })
                         </div>
                     }
-
                     <div class="clearBoth">
                         &nbsp;
                     </div>
                     <div class="clearBoth mainHeadingAveniorCheckout" style="display:none;">
-                        <label id="Label1">Choose Delivery Option</label>
+                        <label id="Label1">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlchoosedeloptions", UserCookieManager.WBStoreId, "Choose Delivery Option"))</label>
                     </div>
                     <div>
                         <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                             <label id="Label3" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Choose Delivery</label>
 
-
-                            @Html.DropDownListFor(model => model.SelectedCostCentre, (IEnumerable<SelectListItem>)@Model.DDDeliveryCostCenters, " -- Choose shipping option -- ", new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12 float-none", @id = "ddlDeliveyCostCenter" })
-
+                            @Html.DropDownListFor(model => model.SelectedCostCentre, (IEnumerable<SelectListItem>)@Model.DDDeliveryCostCenters, @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlchoosedeloptionsss", UserCookieManager.WBStoreId, "Choose Delivery Option")).ToString(), new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12 float-none", @id = "ddlDeliveyCostCenter", @onchange = "ApplyDeliveryMethod();" })
 
                         </div>
                         @*<div class="clearBoth">
@@ -195,123 +190,94 @@
                                 @Html.TextBoxFor(model => model.PickUpAddress, new { id = "txtPickUpAddressDetail", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12", onblur = "ChangeNotesTxt();", style = "height:80px;", TextMode = "MultiLine", disabled = "true" })
 
                             </div>*@
-
                     </div>
                     <div class="clearBoth">
                         &nbsp;
                     </div>
                     @*<%--  shipping address panel --%>*@
                     <div class="clearBoth mainHeadingAveniorCheckout" style="display:none;">
-                        <label id="Label6">Shipping Address</label>
+                        <label id="Label6">@Html.Raw(Html.GetKeyValueFromResourceFile("shippinadresss", UserCookieManager.WBStoreId, "Shipping Address"))</label>
                     </div>
                     <div id="divDeliveryAddress">
-
                         <div id="ddshippingAdd" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                            <label id="ltrlchoosedeliveryadd" class="col-md-3 col-lg-3 col-xs-12 smallCheckoutAvenior"> Choose Delivery Address</label>
+                            <label id="ltrlchoosedeliveryadd" class="col-md-3 col-lg-3 col-xs-12 smallCheckoutAvenior"> @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlchoosedeladdr",UserCookieManager.WBStoreId,"Choose Delivery Address"))</label>
 
-
-
-                            @Html.DropDownListFor(model => model.SelectedDeliveryAddress, (IEnumerable<SelectListItem>)@Model.DDShippingAddresses, " -- Add New Shipping Address -- ", new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12 float-none", @id = "ddlDelivery", @onchange = "OnChangeShippingAddress();" })
+                            @Html.DropDownListFor(model => model.SelectedDeliveryAddress, (IEnumerable<SelectListItem>)@Model.DDShippingAddresses, @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddnewAddr", UserCookieManager.WBStoreId, "-- Add New Shipping Address --")).ToString(), new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12 float-none", @id = "ddlDelivery", @onchange = "OnChangeShippingAddress();" })
+                        </div>
+                        <div class="clearBoth">
+                        </div>
+                        <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                            <label id="ltrlshippingname" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("spnshppingname", UserCookieManager.WBStoreId, "Shipping Name"))
+</label>
+                            @Html.TextBoxFor(model => model.ShippingAddress.AddressName, new { id = "txtShipAddressName", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 100, @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrllonhqadd", UserCookieManager.WBStoreId,"Shipping address name e.g. London Office HQ")) })
                         </div>
                         <div class="clearBoth">
                         </div>
 
                         <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                            <label id="ltrlshippingname" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Shipping Name</label>
-                            @Html.TextBoxFor(model => model.ShippingAddress.AddressName, new { id = "txtShipAddressName", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 100, @Placeholder = "Shipping address name e.g. London Office HQ" })
-
-                        </div>
-
-                        <div class="clearBoth">
-                        </div>
-
-
-                        <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                            <label id="ltrladdline2nd" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Address line 1</label>
-                            @Html.TextBoxFor(model => model.ShippingAddress.Address1, new { id = "txtShipAddLine1", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 255, onblur = "ChangeShippToAddLin1();", @Placeholder = "Address line 1" })
-
+                            <label id="ltrladdline2nd" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdressline1", UserCookieManager.WBStoreId, "Address line 1"))</label>
+                            @Html.TextBoxFor(model => model.ShippingAddress.Address1, new { id = "txtShipAddLine1", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 255, onblur = "ChangeShippToAddLin1();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdressline1", UserCookieManager.WBStoreId, "Address line 1")) })
 
                         </div>
                         <div class="clearBoth">
                         </div>
-
                         <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                            <label id="ltrladdressline2nd2" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Address line 2</label>
-
-                            @Html.TextBoxFor(model => model.ShippingAddress.Address2, new { id = "txtShipAddressLine2", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 255, onblur = "ChangeShippToAddLin2();", @Placeholder = "Address line 2" })
+                            <label id="ltrladdressline2nd2" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdressline2", UserCookieManager.WBStoreId, "Address line 2 "))</label>
+                            @Html.TextBoxFor(model => model.ShippingAddress.Address2, new { id = "txtShipAddressLine2", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 255, onblur = "ChangeShippToAddLin2();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdressline2", UserCookieManager.WBStoreId, "Address line 2 ")) })
+                        </div>
+                        <div class="clearBoth">
+                        </div>
+                        <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                            <label id="ltrlcity2" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcity", UserCookieManager.WBStoreId, "City"))</label>
+                            @Html.TextBoxFor(model => model.ShippingAddress.City, new { id = "txtShipAddCity", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 100, onblur = "ChangeShippToCity();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcity", UserCookieManager.WBStoreId, "City")) })
 
                         </div>
                         <div class="clearBoth">
                         </div>
-
                         <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                            <label id="ltrlcity2" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">City</label>
-
-                            @Html.TextBoxFor(model => model.ShippingAddress.City, new { id = "txtShipAddCity", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 100, onblur = "ChangeShippToCity();", @Placeholder = "City" })
-
-
-                        </div>
-                        <div class="clearBoth">
-                        </div>
-
-                        <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                            <label id="ltrlzipcodeP2" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Zip Code / Post Code</label>
-
-                            @Html.TextBoxFor(model => model.ShippingAddress.PostCode, new { id = "txtShipPostCode", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 30, onblur = "ChangeShippToPostCode();", @Placeholder = "Zip Code / Post Code" })
-
+                            <label id="ltrlzipcodeP2" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlzipcodeP", UserCookieManager.WBStoreId, "Zip Code / Post Code "))</label>
+                            @Html.TextBoxFor(model => model.ShippingAddress.PostCode, new { id = "txtShipPostCode", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 30, onblur = "ChangeShippToPostCode();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlzipcodeP", UserCookieManager.WBStoreId, "Zip Code / Post Code ")) })
                             <img id="lodingImg" alt="" src="~/images/wpLoader.gif" style="display: none; float: left; width: 20px; margin-top: 7px; margin-left: 0px;" />
-
-                        </div>
-                        <div class="clearBoth">
-                        </div>
-
-                        <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                            <label id="ltrlcountry2" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Country</label>
-
-
-                            @Html.DropDownListFor(model => model.SelectedDeliveryCountry, (IEnumerable<SelectListItem>)@Model.DDShippingCountries, " -- Select Country -- ", new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12 float-none", @id = "ddShippingCountry" })
-                        </div>
-                        <div class="clearBoth">
-                        </div>
-
-                        <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                            <label id="lblStatedd" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">State</label>
-
-
-
-                            @Html.DropDownListFor(model => model.SelectedDeliveryState, (IEnumerable<SelectListItem>)@Model.DDShippingStates, " -- Select State -- ", new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12 float-none", @id = "ddShippingState" })
-
                         </div>
                         <div class="clearBoth">
                         </div>
                         <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                            <label id="ltrlcontactnum2" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Contact Number</label>
-                            @Html.TextBoxFor(model => model.ShippingAddress.Tel1, new { id = "txtShipContact", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 60, @Placeholder = "Contact Number" })
+                            <label id="ltrlcountry2" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcountry", UserCookieManager.WBStoreId, "Country"))</label>
 
+                            @Html.DropDownListFor(model => model.SelectedDeliveryCountry, (IEnumerable<SelectListItem>)@Model.DDShippingCountries, @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlselectcont", UserCookieManager.WBStoreId, "-- Select Country --")).ToString(), new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12 float-none", @id = "ddShippingCountry" })
+                        </div>
+                        <div class="clearBoth">
+                        </div>
+                        <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                            <label id="lblStatedd" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlstate", UserCookieManager.WBStoreId, "State"))</label>
+
+                            @Html.DropDownListFor(model => model.SelectedDeliveryState, (IEnumerable<SelectListItem>)@Model.DDShippingStates, @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlselectstate", UserCookieManager.WBStoreId, "-- Select State --")).ToString(), new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12 float-none", @id = "ddShippingState" })
+                        </div>
+                        <div class="clearBoth">
+                        </div>
+                        <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                            <label id="ltrlcontactnum2" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcontactnum", UserCookieManager.WBStoreId,"Contact Number"))</label>
+                            @Html.TextBoxFor(model => model.ShippingAddress.Tel1, new { id = "txtShipContact", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 60, @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcontactnum", UserCookieManager.WBStoreId, "Contact Number")) })
                         </div>
                         <div class="clearBoth">
                             &nbsp;
                         </div>
-
                     </div>
-
                 </div>
                 <div class="clearBoth">
                     &nbsp;
                 </div>
-                <div class="col-md-12 col-lg-12 col-xs-12 center_align" style="padding-left:3px;">
-                    <label id="ltrlcontactnum2" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Contact Number</label>
-                    <input type="checkbox" id="chkBoxDeliverySameAsBilling" checked="checked" onchange="BillingSameAsDeliveryScriptCheckBox();" value="Bill items to the above shipping address">
-                    <label id="lblCheckBox" for="chkBoxDeliverySameAsBilling" class="col-md-8 col-lg-7 col-xs-12 float-none" onclick="BillingSameAsDeliveryScriptCheckBox();">Bill items to the above shipping address</label>
-
+                <div id="dst" class="col-md-12 col-lg-12 col-xs-12 center_align" style="padding-left:3px;">
+                    <label id="ltrlcontactnum2" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcontactnum", UserCookieManager.WBStoreId, "Contact Number"))</label>
+                    <input type="checkbox" id="chkBoxDeliverySameAsBilling" checked="checked" onchange="BillingSameAsDeliveryScriptCheckBox();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlbillitemstoabove", UserCookieManager.WBStoreId, "Bill items to the above shipping address"))">
+                    <label id="lblCheckBox" for="chkBoxDeliverySameAsBilling" class="col-md-8 col-lg-7 col-xs-12 float-none" onclick="BillingSameAsDeliveryScriptCheckBox();">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlbillitemtoshipabove", UserCookieManager.WBStoreId, "Bill items to the above shipping address"))</label>
                 </div>
                 <div class="clear">
                 </div>
                 <br />
-
                 <div id="divBilling" class="center_align">
-                    <div class="clearBoth mainHeadingAveniorCheckout col-md-12 col-lg-12 col-xs-12" style="display:none;">
-                        <label id="Label8">Billing Address</label>
+                    <div id="description" class="clearBoth mainHeadingAveniorCheckout col-md-12 col-lg-12 col-xs-12" style="display:none;">
+                        <label id="Label8">@Html.Raw(Html.GetKeyValueFromResourceFile("baddresss", UserCookieManager.WBStoreId, "Billing Address"))</label>
                     </div>
                     @if (Model.IsUserRole != null)
                     {
@@ -347,91 +313,73 @@
                         IsDisable = "";
                     }
                     <div id="ddBillingAdd" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                        <label id="lblBillingAddress" class="col-md-3 col-lg-3 col-xs-12 smallCheckoutAvenior">Choose Billing Address</label>
-
-                        @Html.DropDownListFor(model => model.SelectedBillingAddress, (IEnumerable<SelectListItem>)Model.DDBillingAddresses, " -- Add New Billing Address -- ", new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12 float-none", @id = "ddlBilling", onchange = "OnChangeBillingAddress();" })
+                        <label id="lblBillingAddress" class="col-md-3 col-lg-3 col-xs-12 smallCheckoutAvenior">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlchoosebillingadd", UserCookieManager.WBStoreId, "Choose Billing Address"))</label>
+                        @Html.DropDownListFor(model => model.SelectedBillingAddress, (IEnumerable<SelectListItem>)Model.DDBillingAddresses, @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddnewaddrss", UserCookieManager.WBStoreId, "-- Add New Billing Address --")).ToString(), new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12 float-none", @id = "ddlBilling", onchange = "OnChangeBillingAddress();" })
                     </div>
                     <div class="clearBoth">
                     </div>
 
-
                     <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                        <label id="ltrlBillingname" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Billing Name</label>
-                        @Html.TextBoxFor(model => model.BillingAddress.AddressName, new { id = "txtBillingName", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 100, disabled = IsDisable, @Placeholder = "Billing address name e.g. London Office HQ" })
-
+                        <label id="ltrlBillingname" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("spnbillingname", UserCookieManager.WBStoreId, "Billing Name"))</label>
+                        @Html.TextBoxFor(model => model.BillingAddress.AddressName, new { id = "txtBillingName", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 100, disabled = IsDisable, @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlbillinhq", UserCookieManager.WBStoreId, "Billing address name e.g. London Office HQ")) })
                         @*<label ID="Label9"  class="tooltipCheckoutAvenior">e.g. Office Address</label>*@
                     </div>
                     <div class="clearBoth">
                     </div>
 
-
                     <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                        <label id="ltrladdressline1" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Address line 1</label>
-                        @Html.TextBoxFor(model => model.BillingAddress.Address1, new { id = "txtAddressLine1", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 255, disabled = IsDisable, onblur = "ChangeAddresLinne1();", @Placeholder = "Address line 1" })
-
-
-                    </div>
-                    <div class="clearBoth">
-                    </div>
-
-
-                    <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                        <label id="ltrladdressline2" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Address line 2</label>
-                        @Html.TextBoxFor(model => model.BillingAddress.Address2, new { id = "txtAddressLine2", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 255, disabled = IsDisable, onblur = "ChangeAddresLinne2();", @Placeholder = "Address line 2" })
+                        <label id="ltrladdressline1" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdressline1", UserCookieManager.WBStoreId, "Address line 1"))</label>
+                        @Html.TextBoxFor(model => model.BillingAddress.Address1, new { id = "txtAddressLine1", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 255, disabled = IsDisable, onblur = "ChangeAddresLinne1();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdressline1", UserCookieManager.WBStoreId, "Address line 1")) })
 
                     </div>
                     <div class="clearBoth">
                     </div>
 
                     <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                        <label id="ltrlcity" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">City</label>
-                        @Html.TextBoxFor(model => model.BillingAddress.City, new { id = "txtCity", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 100, disabled = IsDisable, onblur = "ChangeCityShippBill();", @Placeholder = "City" })
-
-
+                        <label id="ltrladdressline2" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdressline2", UserCookieManager.WBStoreId, "Address line 2 "))</label>
+                        @Html.TextBoxFor(model => model.BillingAddress.Address2, new { id = "txtAddressLine2", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 255, disabled = IsDisable, onblur = "ChangeAddresLinne2();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrladdressline2", UserCookieManager.WBStoreId, "Address line 2 ")) })
                     </div>
                     <div class="clearBoth">
                     </div>
-
                     <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-
-                        <label id="ltrlzipcodeP" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Zip Code / Post Code</label>
-                        @Html.TextBoxFor(model => model.BillingAddress.PostCode, new { id = "txtZipPostCode", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 30, disabled = IsDisable, onblur = "ChangePostCodeShippBill();", @Placeholder = "Zip Code / Post Code" })
-
+                        <label id="ltrlcity" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcity", UserCookieManager.WBStoreId, "City"))</label>
+                        @Html.TextBoxFor(model => model.BillingAddress.City, new { id = "txtCity", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 100, disabled = IsDisable, onblur = "ChangeCityShippBill();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcity", UserCookieManager.WBStoreId, "City")) })
 
                     </div>
                     <div class="clearBoth">
                     </div>
+                    <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
+                        <label id="ltrlzipcodeP" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlzipcodeP", UserCookieManager.WBStoreId, "Zip Code / Post Code "))</label>
+                        @Html.TextBoxFor(model => model.BillingAddress.PostCode, new { id = "txtZipPostCode", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 30, disabled = IsDisable, onblur = "ChangePostCodeShippBill();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlzipcodeP", UserCookieManager.WBStoreId, "Zip Code / Post Code ")) })
 
+                    </div>
+                    <div class="clearBoth">
+                    </div>
 
                     <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                        <label id="ltrlcountry" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Country</label>
+                        <label id="ltrlcountry" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcountry", UserCookieManager.WBStoreId, "Country"))
+</label>
 
-
-                        @Html.DropDownListFor(model => model.SelectedBillingCountry, (IEnumerable<SelectListItem>)@Model.DDBillingCountries, " -- Select Country -- ", new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12 float-none", @id = "BillingCountryDropDown" })
-
+                        @Html.DropDownListFor(model => model.SelectedBillingCountry, (IEnumerable<SelectListItem>)@Model.DDBillingCountries, @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlselectcont", UserCookieManager.WBStoreId, "-- Select Country --")).ToString(), new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12 float-none", @id = "BillingCountryDropDown" })
 
                     </div>
                     <div class="clearBoth">
                     </div>
                     <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                        <label id="ltrlstate" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">State</label>
+                        <label id="ltrlstate" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlstate", UserCookieManager.WBStoreId, "State"))</label>
 
-
-
-                        @Html.DropDownListFor(model => model.SelectedBillingState, (IEnumerable<SelectListItem>)@Model.DDBillingStates, " -- Select State -- ", new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12 float-none", @id = "ddBillingState" })
+                        @Html.DropDownListFor(model => model.SelectedBillingState, (IEnumerable<SelectListItem>)@Model.DDBillingStates, @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlselectstate", UserCookieManager.WBStoreId, "-- Select State --")).ToString(), new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12 float-none", @id = "ddBillingState" })
                     </div>
                     <div class="clearBoth">
                     </div>
                     <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
-                        <label id="ltrlcontactnum" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Contact Number</label>
-                        @Html.TextBoxFor(model => model.BillingAddress.Tel1, new { id = "txtContactNumber", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 60, disabled = IsDisable, onblur = "ChangeCityShippBill();", @Placeholder = "Contact Number" })
-
+                        <label id="ltrlcontactnum" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcontactnum", UserCookieManager.WBStoreId, "Contact Number"))</label>
+                        @Html.TextBoxFor(model => model.BillingAddress.Tel1, new { id = "txtContactNumber", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 60, disabled = IsDisable, onblur = "ChangeCityShippBill();", @Placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcontactnum", UserCookieManager.WBStoreId, "Contact Number")) })
                     </div>
-
 
                 </div>
                 <div style="clear: both; font-size: 18px; color: rgb(179, 60, 18); font-family: 'Avenir Next LT W01 Demi', Helvetica, Arial, sans-serif; height: auto; width: 82%; text-align: left;">
-                    Please make sure your shipping and billing addresses are correct. <br />Addresses cannot be changed once an order is submitted and your order may be canceled if we cannot confirm either address.
+                  @(new HtmlString(@Html.Raw(Html.GetKeyValueFromResourceFile("llrlmessage", UserCookieManager.WBStoreId, "Please make sure your shipping and billing addresses are correct. <br />Addresses cannot be changed once an order is submitted and your order may be canceled if we cannot confirm either address.")).ToString()))
                 </div>
                 <br />
                 <br />
@@ -442,23 +390,20 @@
                             {
                                 <div id="pnlConfirmOrder">
                                     <div class="mainHeadingAveniorCheckout">
-                                        <label id="ltrlconfirmurorderdetails">Confirm your order details...</label>
+                                        <label id="ltrlconfirmurorderdetails">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmurorderdetails", UserCookieManager.WBStoreId, "Confirm your order details"))</label>
                                     </div>
                                     <br />
                                     <table class="width100p" cellspacing="0" cellpadding="15" id="MainContent_grdViewShopCart" style="width:100%;border-collapse:collapse;">
                                         <tbody>
                                             <tr class="gridViewCheckoutHeaderStyle">
                                                 <th align="center" scope="col" class="hidden-xs">&nbsp;</th>
-                                                <th align="left" scope="col">Product</th>
-                                                <th align="left" scope="col">Quantity</th>
-
-                                                @if (UserCookieManager.ShowPriceOnWebstore)
+                                                <th align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProductTxt", UserCookieManager.WBStoreId, "Product"))</th>
+                                                <th align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantityHeaderTxt", UserCookieManager.WBStoreId, "Quantity"))</th>
+                                                @if (ViewBag.IsShowPrices)
                                                 {
-                                                    <th align="right" scope="col">Price</th>
+                                                    <th align="right" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPriceHeaderTxt", UserCookieManager.WBStoreId, "Price"))</th>
                                                 }
-
                                             </tr>
-
                                             @if (Model.ProductItems != null && Model.ProductItems.Count > 0)
                                             {
                                                 foreach (var shopcart in Model.ProductItems as List<ProductItem>)
@@ -492,20 +437,20 @@
                                                             pdfLinkBtn = "";// completeImgPath;//ImageDisplayScript(completeImgPath);
                                                             if (FolderPathOfAttachment[0] == '/')
                                                             {
-                                                                imgToShowURL =  FolderPathOfAttachment + "/" + shopcart.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                                imgToShowURL = FolderPathOfAttachment + "/" + shopcart.Attatchment.FileName + ThumnbString;// completeImgPath;
                                                             }
-                                                            else 
+                                                            else
                                                             {
                                                                 imgToShowURL = "/" + FolderPathOfAttachment + "/" + shopcart.Attatchment.FileName + ThumnbString;// completeImgPath;
                                                             }
-                                                            
+
                                                         }
                                                     }
                                                     else
                                                     {
                                                         if (shopcart.ProductType == (int)ProductType.NonPrintProduct)
                                                         {
-                                                            string completeImgPath = shopcart.ThumbnailPath;
+                                                            string completeImgPath = "/" + shopcart.ThumbnailPath;
                                                             pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
                                                             imgToShowURL = completeImgPath;
                                                         }
@@ -527,164 +472,148 @@
                                                     }
                                                             }
                                                             <span id="lblAddons">addson</span>
-
                                                         </td>
                                                         <td class="PaddingToCells" align="left" valign="top">
                                                             <span id="lblTotalItemQuantity" class="Fsize14" style="font-weight:bold;">@shopcart.Qty1</span>
                                                         </td>
-                                                        @if (UserCookieManager.ShowPriceOnWebstore)
+                                                        @if (ViewBag.IsShowPrices)
                                                         {
                                                             <td class="PaddingToCells" align="right" valign="top" style="  padding-right: 0px !important;">
                                                                 @{
+                                                            double ItemActulVal = 0;
                                                             lblPrice = Convert.ToString(shopcart.Qty1BaseCharge1 ?? 0);
 
                                                             _priceTotal += Convert.ToDouble(lblPrice);
+                                                            _DiscountAmountTotal += shopcart.DiscountedAmount ?? 0;
 
-
+                                                            if (shopcart.DiscountedAmount != null)
+                                                            {
+                                                                ItemActulVal = shopcart.Qty1BaseCharge1 + shopcart.DiscountedAmount ?? 0;
+                                                            }
                                                                 }
-                                                                <span id="lblItemPrice" class="Fsize14">@Utils.FormatDecimalValueToTwoDecimal(lblPrice, Model.Currency)</span>
+                                                                @if (shopcart.DiscountedVoucherId != null)
+                                                                {
+                                                                    <span id="spnItemActualPrice" class="fntQtyPrice strikeThrough">@Utils.FormatDecimalValueToTwoDecimal((ItemActulVal).ToString(), Model.Currency)</span>
+                                                                    <span id="lblItemPrice" class="Fsize14">@Utils.FormatDecimalValueToTwoDecimal(shopcart.Qty1BaseCharge1.ToString(), Model.Currency)</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span id="lblItemPrice" class="Fsize14">@Utils.FormatDecimalValueToTwoDecimal(lblPrice, Model.Currency)</span>
+                                                                }
+
+                                                               
                                                             </td>
                                                         }
-
 
                                                     </tr>
 
 
                                                 }
                                             }
-
                                         </tbody>
                                     </table>
-
                                     <br />
                                     @if (Model.shopcart.CartItemsList != null && Model.shopcart.CartItemsList.Count > 0)
                                     {
                                         if (ViewBag.IsShowPrices)
                                         {
                                             <div id="PnalTotalBox">
-                                                <table border="0" cellpadding="3" cellspacing="0" width="100%" class="left_align">
-                                                    <tr>
-                                                        <td width="30%">
-                                                            &nbsp;
-                                                        </td>
-                                                        <td width="40%">
-                                                            &nbsp;
-                                                        </td>
-                                                        <td width="30%" align="left" class="fontWeightNormal Fsize13" id="tdSubtotal">
-                                                            <span id="spnsubtotal" style="margin-right: 13px;">Sub Total:</span>
-                                                        </td>
-                                                        @{
-                                            string price = Convert.ToString(_priceTotal);
-                                            SubTotal = Convert.ToDouble(price);
-                                                        }
+                                               
+                                                @{
+                                            string price1 = Convert.ToString(_priceTotal);
+                                            SubTotal = Convert.ToDouble(price1);
 
-                                                        <td align="right" width="20%">
-                                                            <label id="lblSubTotal" class="CartFonts colorBlack Fsize15">@Utils.FormatDecimalValueToTwoDecimal(@SubTotal.ToString(), Model.Currency)</label>
-                                                        </td>
-                                                    </tr>
-                                                    @if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
-                                                    {
-                                                        <tr id="tblRowVoucher" style="display:none;">
-                                                            <td width="30%" align="left">
-                                                                &nbsp;
-                                                            </td>
-                                                            <td width="40%">
-                                                                &nbsp;
-                                                            </td>
-                                                            <td width="30%" align="left">
-                                                                <label id="lblVoucherDiscPercentageDisplay" style="font-family: 'Lato', Calibri, Arial, sans-serif; font-style: normal; font-weight: bold; font-size: 14px; line-height: 13px; color: rgb(102,102,102); color: #FB8D00 !important;">Discount:</label>
-                                                            </td>
-                                                            <td align="right" width="20%">
-                                                                <label id="lblVoucherCodeDiscAmount" style="margin-right: 13px; color: #FB8D00 !important;"
-                                                                       text="0" />
-                                                            </td>
-                                                        </tr>
-                                                    }
+                                            if (deliveryCost > 0)
+                                            {
+                                                deliveryTotal = Convert.ToDouble(deliveryCost);
+                                            }
+                                            else
+                                            {
 
-                                                    <tr>
-                                                        <td width="30%" align="left">
-                                                            &nbsp;
-                                                        </td>
-                                                        <td width="50%">
-                                                            &nbsp;
-                                                        </td>
-                                                        <td width="20%" align="left" class="fontWeightNormal Fsize13" id="tddelivery">
-                                                            <span id="spndelivery">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.WBStoreId)):</span>
-                                                        </td>
-                                                        @if (deliveryCost > 0)
+                                                deliveryTotal = Convert.ToDouble(0);
+                                            }
+                                            if (deliveryCostTaxVal > 0)
+                                            {
+                                                double TotalTax = deliveryCostTaxVal + VatTotal;
+                                                deliveryTax = Utils.FormatDecimalValueToTwoDecimal(TotalTax.ToString(), Model.Currency);
+                                            }
+                                            else
+                                            {
+                                                string vat = Convert.ToString(VatTotal);
+
+                                                string dTax = Utils.FormatDecimalValueToTwoDecimal(vat, Model.Currency);
+                                                deliveryTax = dTax;
+                                            }
+                                            if (deliveryCost > 0)
+                                            {
+                                                double objgross = _priceTotal + (deliveryCostTaxVal + VatTotal) + deliveryCost;
+                                                string gross = Convert.ToString(objgross);
+                                                string GT = Utils.FormatDecimalValueToTwoDecimal(gross, Model.Currency);
+                                                GrandTotal = GT;
+                                                Model.GrandTotal = GrandTotal;
+                                            }
+                                            else
+                                            {
+                                                double objgross = _priceTotal + VatTotal;
+                                                string gross = Convert.ToString(objgross);
+                                                string GT = Utils.FormatDecimalValueToTwoDecimal(gross, Model.Currency);
+                                                GrandTotal = GT;
+                                                Model.GrandTotal = GrandTotal;
+                                            }
+                                                }
+
+                                                <div class="cnttotalPayablesAS">
+
+                                                    <div class="cntsubHeadingsAS">
+                                                        <label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId, "Sub Total"))</label>
+                                                        @if (_DiscountAmountTotal > 0)
                                                         {
-                                                            deliveryTotal = Convert.ToDouble(deliveryCost);
+                                                            <label id="lblVoucherDiscPercentageDisplay" class="clrRed LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVoucherDiscPercentageDisplay", UserCookieManager.WBStoreId, "Discount")):</label>
+                                                        }
+                                                        <label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("tddelivery", UserCookieManager.WBStoreId, "Delivery:"))</label>
+                                                        <label class=" LightGrayLabels displayClear">@Model.TaxLabel</label>
+                                                        <label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("spntotal", UserCookieManager.WBStoreId, "Total:"))</label>
+                                                    </div>
+
+                                                    <div class="cnttotalsAS" id="cntRightPricing1">
+
+                                                        <label id="lblSubTotal" class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(SubTotal.ToString(), Model.Currency)</label>
+
+                                                        @if (_DiscountAmountTotal > 0)
+                                                        {
+                                                            <label id="lblVoucherCodeDiscAmount" class="Fsize13 colorBlack displayClear clrRed">@Utils.FormatDecimalValueToTwoDecimal(_DiscountAmountTotal.ToString(), Model.Currency)</label>
+                                                        }
+                                                        @if (Model.DeliveryDiscountVoucherID == null)
+                                                        {
+                                                            <label class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(deliveryTotal.ToString(), Model.Currency)</label>
+
                                                         }
                                                         else
                                                         {
-
-                                                            deliveryTotal = Convert.ToDouble(0);
+                                                            <label class="Fsize13 colorBlack displayClear delivery-checkouttext">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label>
+                                                             <label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label>
                                                         }
-                                                        <td align="right" width="20%">
-                                                            <label id="lblDeliveryCostCenter" class="CartFonts colorBlack Fsize15">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(deliveryTotal), Model.Currency)</label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="rowVat">
-                                                        <td width="30%" align="left"></td>
-                                                        <td width="40%"></td>
-                                                        <td width="30%" align="left" class="fontWeightNormal Fsize13">
-                                                            <span id="lblTaxLabel">@Model.TaxLabel</span>
-                                                        </td>
-                                                        <td align="right" width="20%">
-                                                            @if (deliveryCostTaxVal > 0)
-                                                            {
-                                                                double TotalTax = deliveryCostTaxVal + VatTotal;
-                                                                deliveryTax = Utils.FormatDecimalValueToTwoDecimal(TotalTax.ToString(), Model.Currency); ;
-                                                            }
-                                                            else
-                                                            {
-                                                                string vat = Convert.ToString(VatTotal);
+                                                        <label class="Fsize13 colorBlack displayClear">@deliveryTax</label>
+                                                        <label class="Fsize13 colorBlack displayClear">@GrandTotal</label>
+                                                    </div>
 
-                                                                string dTax = Utils.FormatDecimalValueToTwoDecimal(vat, Model.Currency);
-                                                                deliveryTax = dTax;
-                                                            }
-                                                            <label id="lblVatTotal" class="CartFonts colorBlack Fsize15">@deliveryTax</label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td width="30%">
-                                                            &nbsp;
-                                                        </td>
-                                                        <td width="40%">
-                                                            &nbsp;
-                                                        </td>
-                                                        <td width="30%" align="left" class="fontWeightNormal Fsize13" id="tdgrandtotal">
-                                                            <span class="CartFonts colorBlack" id="spngrandtotal">Total:</span>
-                                                        </td>
-                                                        <td align="right" width="20%">
-                                                            @if (deliveryCost > 0)
-                                                            {
-                                                                double objgross = _priceTotal + (deliveryCostTaxVal + VatTotal) + deliveryCost;
-                                                                string gross = Convert.ToString(objgross);
-                                                                string GT = Utils.FormatDecimalValueToTwoDecimal(gross, Model.Currency);
-                                                                GrandTotal = GT;
-                                                                Model.GrandTotal = GrandTotal;
-                                                            }
-                                                            else
-                                                            {
-                                                                double objgross = _priceTotal + VatTotal;
-                                                                string gross = Convert.ToString(objgross);
-                                                                string GT = Utils.FormatDecimalValueToTwoDecimal(gross, Model.Currency);
-                                                                GrandTotal = GT;
-                                                                Model.GrandTotal = GrandTotal;
-                                                            }
-                                                            <label class="CartFonts colorBlack Fsize15" id="lblGrandTotal">@GrandTotal</label>
-                                                        </td>
-                                                    </tr>
-                                                </table>
+                                                    <div class="clearBoth">
+                                                    </div>
+                                                </div>
+                                                <div class="cntdispatchDelivery">
+                                                    <div class="tdDispatchDate">
+
+                                                    </div>
+                                                    <div class="tdDelivery">
+
+                                                    </div>
+                                                </div>
                                             </div>
                                         }
 
                                     }
-
                                 </div>
                             }
-
                         </div>
                         <div id="DivShippTo" class="black_sub_heading textAlignLeft paddingLeft10px" style="display: none;">
                             <span id="ltrlShipTo">Bill to & Ship to:</span>
@@ -697,9 +626,7 @@
                             {
                                 DStateName = ShippingAddress.State.StateName;
                             }
-
                             <label id="lblShipTostate" class="lbAddressLinesWithPadding">@DStateName</label>
-
                             @if (ShippingAddress.Country != null)
                             {
                                 DCountryName = ShippingAddress.Country.CountryName;
@@ -709,8 +636,7 @@
                         </div>
                         <br />
                         <div id="BillTOShippTO" class="black_sub_heading textAlignLeft paddingLeft10px">
-                            <span id="ltrlBillShippTo">Bill to:</span>
-
+                            <span id="ltrlBillShippTo">@Html.Raw(Html.GetKeyValueFromResourceFile("spnbilledto", UserCookieManager.WBStoreId, "Bill To:"))</span>
                         </div>
                         @if (BillingAddress != null)
                         {
@@ -722,7 +648,6 @@
                                 {
                                     BStateName = BillingAddress.State.StateName;
                                 }
-
                                 <label id="lblStateBilSip" class="lbAddressLinesWithPadding">@BStateName</label>&nbsp;
                                 @if (BillingAddress.Country != null)
                                 {
@@ -733,52 +658,49 @@
                             </div>
                             <br />
                         }
-
-                        <div class="textAlignLeft paddingLeft10px">
-                            <span id="lblContactNotxt" class="black_sub_heading">Contact No:</span>
+                        <div class="textAlignLeft paddingLeft10px" id="contact-us-detail-container">
+                            <span id="lblContactNotxt" class="black_sub_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkContNo", UserCookieManager.WBStoreId, "Contact No:"))</span><br />
                             <label id="lblContactNo" class="ContactNumberlb">@Model.ContactTel</label>
                         </div>
                         <br />
                         <div id="DivRefPO" style="display: none;" class="textAlignLeft paddingLeft10px">
-                            <span id="lblRefPOtxt" class="black_sub_heading">Your Ref / PO number is: </span><br />
+                            <span id="lblRefPOtxt" class="black_sub_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlyourrefpo", UserCookieManager.WBStoreId, "Your Ref / PO number is:"))</span><br />
                             <label id="lblRefPo" class="POlb SpecialNotesContainer"></label>
                         </div>
-                        <br />
+
                         <div id="DivSpclNotes" style="display: none;" class="textAlignLeft paddingLeft10px">
                             <span id="lblSpecialNoteTxt"
-                                   style="color: #C72965;" class="black_sub_heading">Special instructions(notes):</span><br />
+                                  style="color: #C72965;" class="black_sub_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lrlspecins", UserCookieManager.WBStoreId, "Special instructions(notes):"))</span>
                             <br />
                             <label id="lblNotesDetail" class="SpecialNotesContainer" style="color: #C72965;" />
                         </div>
-
                         <div class="clearBoth">
                         </div>
-                        <div class="pad10">
+                        <div class="">
                             <div class="col-md-6 col-lg-6 col-xs-12 cntcheckoutSummary">
                                 @if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
-                    {
+                                {
                                     <div class="super_admin_message" id="DivretailMesg" visible="false">
-                                        <label id="ltrlSomeOmeCallU"> Some one will call you</label>
-                                        <label id="ltrlconfirmDetails">to reconfirm details.</label>
+                                        <label id="ltrlSomeOmeCallU"> @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsomcall", UserCookieManager.WBStoreId, "Some one will call you"))</label>
+                                        <label id="ltrlconfirmDetails">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmdetail", UserCookieManager.WBStoreId, "to reconfirm details")).</label>
                                     </div>
-                    }
-                    </div>
-                                <div class="float_right marginLeft">
-                                    @if (Model.shopcart.CartItemsList != null && Model.shopcart.CartItemsList.Count > 0)
+                                }
+                            </div>
+                            <div class="float_right marginLeft">
+                                @if (Model.shopcart.CartItemsList != null && Model.shopcart.CartItemsList.Count > 0)
                                 {
 
-                                        <input type="submit" class="start_creating_btn_SApp rounded_corners5" onclick="return ValidateCheckout();" value="Continue" />
+                                    <input type="submit" class="start_creating_btn_SApp rounded_corners5" onclick="return ValidateCheckout();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinue", UserCookieManager.WBStoreId, "Continue"))" id="ContinueTo" />
 
                                 }
-                                </div>
-                                <div class="float_right">
-
-                                    <button type="submit" id="btnShopCart" onclick="return BackToShopping('@Model.OrderId'); ShowLoader();" class="btn_brown rounded_corners5">BACK TO SHOPPING</button>
-                                </div>
-                                <div class="clearBoth">
-                                    &nbsp;
-                                </div>
                             </div>
+                            <div class="float_right">
+                                <button type="submit" id="btnShopCart" onclick="return BackToShopping('@Model.OrderId'); ShowLoader();" class="btn_brown rounded_corners5">@Html.Raw(Html.GetKeyValueFromResourceFile("backtoshipppp", UserCookieManager.WBStoreId, "BACK TO SHOPPING"))</button>
+                            </div>
+                            <div class="clearBoth">
+                                &nbsp;
+                            </div>
+                        </div>
                     </div>
                     <br />
                     <br />
@@ -786,7 +708,6 @@
                 <div class="clearBoth">
                     &nbsp;
                 </div>
-              
                 <div class="textAlignCenter">
                     @*<label ID="lblMsg"  Text="Your Cart is empty!" Visible="false" >Your Cart is empty!</label>*@
                     <label id="lblStatus" class="errorMessage"></label>
@@ -806,12 +727,9 @@
                         <input type="hidden" value="false" id="txthdnDeliveryDefaultAddress" name="txthdnDeliveryDefaultAddress" />
                     }
                 }
-
                 <input type="hidden" value="@GrandTotal" name="hfGrandTotal" id="hfGrandTotal" />
                 <input type="hidden" value="@Model.chkBoxDeliverySameAsBilling" id="hfchkBoxDeliverySameAsBilling" />
-
                 <input type="hidden" value=@Html.Raw(Json.Encode(ViewBag.shippingAddress)) id="JsonAddressContainer" />
-
                 @if (BillingAddress != null)
                 {
                     if (BillingAddress.IsDefaultAddress == true)
@@ -828,9 +746,6 @@
         }
 
 
-
-
-
         @*<asp:HiddenField ID="txtVoucherDiscountRate"  Value="0" />
             <asp:HiddenField ID="hfIsCorporate"  />
             <asp:HiddenField ID="hfBrokerContactCompany"  Value="0" />
@@ -845,742 +760,683 @@
         <label id="lblPriceHeaderTxt"></label>
         <label id="lblVatHeadingText"></label>
         <label id="lblTotalHeadingText"></label>
-
     </div>
 </div>
 
-@section scripts
-{
+
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script type="text/javascript" language="javascript">
 
 
-        $(document).ready(function () {
-            window.onkeydown = keydown;
-            initialize();
-            var ShipTO = 'Resources.MyResource.ltrlShipTo %>';
+    $(document).ready(function () {
+        window.onkeydown = keydown;
+        initialize();
+        var ShipTO = 'Resources.MyResource.ltrlShipTo %>';
 
-            if ($("#chkBoxDeliverySameAsBilling")[0].checked == true) {
+        if ($("#chkBoxDeliverySameAsBilling")[0].checked == true) {
 
-                $('#chkBoxDeliverySameAsBilling').val('True');
-                $('#divBilling').css('display', 'none');
-                $('#BillTOShippTO').css('display', 'none');
-                $('#BillTOShippTOContainer').css('display', 'none');
-                $('#DivShippTo').css('display', 'block');
-                $('#innerContainerShippTo').css('display', 'block');
-            }
-            else {
-                $('#chkBoxDeliverySameAsBilling').val('False');
-                $('#divDeliveryAddress').css('display', 'block');
-                $('#DivShippTo').css('display', 'block');
-                $('#innerContainerShippTo').css('display', 'block');
-                $("#ltrlShipTo").html("Ship to:");
-            }
-
-            if ($("#hfPageIsValid").val() == "0") {
-                ValidateCheckout();
-            }
-            if(@Model.SelectedDeliveryCostCentreId > 0){
-
-                $('#ddlDeliveyCostCenter option').each(function () {
-                    var deliverySelectedId = @Model.SelectedDeliveryCostCentreId;
-                    if ($(this).val() == deliverySelectedId){
-                        $(this).attr('selected', 'selected');
-                    }
-                });
-
-            }
-        });
-
-        function keydown(e) {
-            if (e.which == 13) {
-                e.preventDefault();
-                return false;
-            }
+            $('#chkBoxDeliverySameAsBilling').val('True');
+            $('#divBilling').css('display', 'none');
+            $('#BillTOShippTO').css('display', 'none');
+            $('#BillTOShippTOContainer').css('display', 'none');
+            $('#DivShippTo').css('display', 'block');
+            $('#innerContainerShippTo').css('display', 'block');
+        }
+        else {
+            $('#chkBoxDeliverySameAsBilling').val('False');
+            $('#divDeliveryAddress').css('display', 'block');
+            $('#DivShippTo').css('display', 'block');
+            $('#innerContainerShippTo').css('display', 'block');
+            $("#ltrlShipTo").html("Ship to:");
         }
 
-        function showProgressBar() {
-            if (Page_ClientValidate()) {
-
-                showProgress();
-            }
-            else {
-
-                return false;
-            }
+        if ($("#hfPageIsValid").val() == "0") {
+            ValidateCheckout();
         }
+        if(@Model.SelectedDeliveryCostCentreId > 0){
 
-
-
-
-        //<%-- Billing Address--%>
-
-
-        var txtBillingName = null;
-        var txtAddressLine1 = null;
-        var txtAddressLine2 = null;
-        var txtCity = null;
-        var txtState = null;
-        var txtZipPostCode = null;
-        var txtCountry = null;
-        var txtContactNumber = null;
-        var ddlBilling = null;
-        var ddlDelivery = null;
-
-        function initialize() {
-
-            ddlBilling = $("#ddlBilling");
-            ddlDelivery = $("#ddlDelivery");
-
-            txtBillingName = $("#txtBillingName");
-            txtAddressLine1 = $("#txtAddressLine1")
-            txtAddressLine2 = $("#txtAddressLine2");
-            txtCity = $("#txtCity.ClientID");
-
-            txtZipPostCode = $("#txtZipPostCode");
-
-            txtContactNumber = $("#txtContactNumber");
-
-        }
-
-
-        function SetNewControlValues() {
-            ddlBilling.val($("#ddlDelivery").val());
-            txtBillingName.val($("#txtShipAddressName").val());
-            txtAddressLine1.val($("#txtShipAddLine1").val());
-            txtAddressLine2.val($("#txtShipAddressLine2").val());
-            txtCity.val($("#txtShipAddCity.ClientID").val());
-
-            txtZipPostCode.val($("#txtShipPostCode").val());
-
-            txtContactNumber.val($("#txtShipContact").val());
-
-        }
-        function EnableTextBoxes() {
-
-            $("#txtBillingName").prop("disabled", "");
-            $("#txtAddressLine1").prop("disabled", "");
-            $("#txtAddressLine2").prop("disabled", "");
-            $("#txtCity").prop("disabled", "");
-
-            $("#txtZipPostCode").prop("disabled", "");
-            $("#txtContactNumber").prop("disabled", "");
-        }
-        function BillingSameAsDeliveryScriptCheckBox() {
-
-
-            if ($("#chkBoxDeliverySameAsBilling")[0].checked == true) {
-
-                $('#BillTOShippTO').css('display', 'none');
-                $('#BillTOShippTOContainer').css('display', 'none');
-
-                SetNewControlValues();
-
-                $('#isSameBillingAddress').val("True");
-                $('#divBilling').css('display', 'none');
-            }
-            else {
-               
-                $('#isSameBillingAddress').val("False");
-                if ($("#hfIsDefaultBilling").val() != "1") {
-                    EnableTextBoxes();
+            $('#ddlDeliveyCostCenter option').each(function () {
+                var deliverySelectedId = @Model.SelectedDeliveryCostCentreId;
+                if ($(this).val() == deliverySelectedId){
+                    $(this).attr('selected', 'selected');
                 }
-                var ShipTO = 'Ship to:';
-                $('#BillTOShippTO').css('display', 'block');
-                $('#BillTOShippTOContainer').css('display', 'block');
-
-                
-
-
-                $('#divBilling').css('display', 'block');
-
-
-                HideAddressInBillingDropDown();
-                $('#ddlBilling option:first').attr('selected', 'selected');
-                $('#BillingCountryDropDown option:first').attr('selected', 'selected');
-                $('#SelectedBillingState option:first').attr('selected', 'selected');
-                        
-                $('#txtBillingName').val("");
-                $('#txtAddressLine1').val("");
-                $('#txtAddressLine2').val("");
-                $('#txtCity').val("");
-                $('#txtZipPostCode').val("");
-                $('#txtContactNumber').val("");
-                //set labels
-                $("#ltrlShipTo").html(ShipTO + "");
-                $("#lblAddLine1BilSip").html($("#txtAddressLine1").val());
-                $("#lbladdLine2BilSip").html($("#txtAddressLine2").val());
-                $("#lblCityBilSip").html($("#txtCity").val());
-                $("#lblStateBilSip").html($("#ddBillingState option:selected").text());
-                $("#lblCountryBilSip").html($('#BillingCountryDropDown option:selected').text());
-                $("#lblPostCdeBilSip").html($("#txtZipPostCode").val());
-            }
-
+            });
 
         }
-
-
-
-        function getthecheckbox() {
-            BillingSameAsDeliveryScriptCheckBox();
-        }
-
-
-        function ChangeAddresLinne1() {
-            var val = $('#txtAddressLine1').val();
-            $('#lblAddLine1BilSip').html(val);
-        }
-
-        function ChangeCountryShippBill() {
-            // set from drop down
-        }
-        function ChangePostCodeShippBill() {
-            var val = $('#txtZipPostCode').val();
-            $('#lblPostCdeBilSip').html(val);
-        }
-        function ChangestateShippBill() {
-            // get value from drop down
-        }
-        function ChangeCityShippBill() {
-            var val = $('#txtCity').val();
-            $('#lblCityBilSip').html(val);
-        }
-        function ChangeAddresLinne2() {
-            var val = $('#txtAddressLine2').val();
-            $('#lbladdLine2BilSip').html(val);
-        }
-
-
-        function ChangeShippToAddLin1() {
-            var val = $('#txtShipAddLine1').val();
-            $('#lblShipToAddLin1').html(val);
-        }
-
-        function ChangeShippToAddLin2() {
-            var val = $('#txtShipAddressLine2').val();
-            $('#lblShipToAddLin2').html(val);
-        }
-        function ChangeShippToCity() {
-            var val = $('#txtShipAddCity').val();
-            $('#lblShipToCity').html(val);
-        }
-        function ChangeShippToState() {
-            // get state from drop down
-        }
-        function ChangeShippToPostCode() {
-            var val = $('#txtShipPostCode').val();
-            $('#lblShipToZipCode').html(val);
-            var ISPinkCard = 'IsPinkCards %>';
-            if (ISPinkCard == 1) {
-                var PostCode = $("#txtShipPostCode").val();
-                if (PostCode == '') {
-                } else {
-                    $('#lodingImg').css("display", "block");
-                    $.ajax({
-
-                        url: "../services/Webstore.svc/GetNearestBrokerStoreByPostCode?PostCode=" + PostCode,
-
-                        success: function (data) {
-                            $('#lblYourOrderPRoMesg').css("display", "block");
-                            if (data == null) {
-                                $('.SelectedBroker').css("display", "block");
-                                $('.SelectedBroker').html("No results found.");
-                            } else {
-                                $('#hfBrokerContactCompany').val(data.ContactCompanyID);
-                                $('.brokerLogoImg').attr('src', data.Logo + "");
-                                $('#BrokerAddLine1').text(data.Address1);
-                                $('#BrokerAddLine2').text(data.Address2);
-                                $('#BrokerTown').text(data.City);
-                                $('#BrokerState').text(data.State);
-                                $('#BrokerCountry').text(data.Country);
-                                $("#BrokerTeleNo").html(data.HomeContact);
-                                $('.SelectedBroker').css("display", "block");
-                            }
-
-                            $('#lodingImg').css("display", "none");
-                        }
-                    });
-                }
-            }
-        }
-        function ChangeShippToCounntry() {
-            //set country text from drop down
-        }
-        function ChangeTelNumber() {
-            var val = $('#txtInstContactTelNumber').val();
-            $('#lblContactNo').html(val);
-        }
-        function ChangeRefPO() {
-            var val = $('#txtYourRefNumber').val();
-            if (val == "") {
-                $('#DivRefPO').css('display', 'none');
-                $('#lblRefPo').html("");
-            }
-            else {
-                $('#DivRefPO').css('display', 'block');
-                $('#lblRefPo').html(val);
-            }
-
-            var val = $('#txtYourRefNumberRetail').val();
-            if (val == "") {
-                $('#DivRefPO').css('display', 'none');
-                $('#lblRefPo').html("");
-            }
-            else {
-                $('#DivRefPO').css('display', 'block');
-                $('#lblRefPo').html(val);
-            }
-
-        }
-        function ChangeNotesTxt() {
-            var val = $('#txtInstNotes').val();
-            if (val == "") {
-                $('#DivSpclNotes').css('display', 'none');
-                $('#lblNotesDetail').html("");
-            }
-            else {
-                $('#DivSpclNotes').css('display', 'block');
-                $('#lblNotesDetail').html(val);
-            }
-
-        }
-
-
-
-
-
-        function ValidateShippingAddressCheckout() {
-            var isDataFilled = 0;
-
-            if ($("#txtInstContactTelNumber").val() == "") {
-                isDataFilled = 1;
-                $('.EContactTelNo').css("display", "block");
-                $("#txtInstContactTelNumber").css("border", "2px solid red");//.parent().addClass("field-with-errors");
-            } else {
-                $('.EContactTelNo').css("display", "none");
-                $("#txtInstContactTelNumber").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
-            }
-
-            if ($("#txtYourRefNumber").val() == "") {
-                isDataFilled = 1;
-                $('.ECorporateRefNo').css("display", "block");
-                $("#txtYourRefNumber").css("border", "2px solid red");//.parent().addClass("field-with-errors");
-            } else {
-                $('.ECorporateRefNo').css("display", "none");
-                $("#txtYourRefNumber").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
-            }
-
-            if ($("#txtShipAddressName").val() == "") {
-                isDataFilled = 1;
-                $('.EShipAddresNameNo').css("display", "block");
-                $("#txtShipAddressName").css("border", "2px solid red");//.parent().addClass("field-with-errors");
-            } else {
-                $('.EShipAddresNameNo').css("display", "none");
-                $("#txtShipAddressName").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
-            }
-
-            if ($("#txtShipAddLine1").val() == "") {
-                isDataFilled = 1;
-                $('.EShipAddres1').css("display", "block");
-                $("#txtShipAddLine1").css("border", "2px solid red");//.parent().addClass("field-with-errors");
-            } else {
-                $('.EShipAddres1').css("display", "none");
-                $("#txtShipAddLine1").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
-            }
-            if ($("#txtShipAddCity").val() == "") {
-                isDataFilled = 1;
-                $('.EShipAddresCity').css("display", "block");
-                $("#txtShipAddCity").css("border", "2px solid red");//.parent().addClass("field-with-errors");
-            } else {
-                $('.EShipAddresCity').css("display", "none");
-                $("#txtShipAddCity").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
-            }
-
-            if ($("#ddShippingCountry").val() == 0) {
-                isDataFilled = 1;
-                $("#ddShippingCountry").css("border", "2px solid red");
-            } else {
-                $("#ddShippingCountry").css("border", "1px solid #c1c6cc");
-            }
-
-
-
-            if ($("#ddlDeliveyCostCenter").val() == 0) {
-                isDataFilled = 1;
-                $("#ddlDeliveyCostCenter").css("border", "2px solid red");
-            } else {
-                $("#ddlDeliveyCostCenter").css("border", "1px solid #c1c6cc");
-            }
-
-
-
-            if ($("#ddShippingState").val() == 0) {
-                isDataFilled = 1;
-                $("#ddShippingState").css("border", "2px solid red");
-            } else {
-                $("#ddShippingState").css("border", "1px solid #c1c6cc");
-            }
-
-
-            if ($("#txtShipPostCode").val() == "") {
-                isDataFilled = 1;
-                $('.EShipAddresPostCode').css("display", "block");
-                $("#txtShipPostCode").css("border", "2px solid red");//.parent().addClass("field-with-errors");
-            } else {
-                $('.EShipAddresPostCode').css("display", "none");
-                $("#txtShipPostCode").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
-            }
-
-
-            return isDataFilled;
-        }
-
-        function ValidateBillingAddressCheckout() {
-            var isDataFilled = 0;
-
-            if ($("#txtBillingName").val() == "") {
-                isDataFilled = 1;
-                $('.EBillAddresName').css("display", "block");
-                $("#txtBillingName").css("border", "2px solid red");//.parent().addClass("field-with-errors");
-            } else {
-                $('.EBillAddresName').css("display", "none");
-                $("#txtBillingName").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
-            }
-
-            if ($("#txtAddressLine1").val() == "") {
-                isDataFilled = 1;
-                $('.EBillAddres1').css("display", "block");
-                $("#txtAddressLine1").css("border", "2px solid red");//.parent().addClass("field-with-errors");
-            } else {
-                $('.EBillAddres1').css("display", "none");
-                $("#txtAddressLine1").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
-            }
-
-            if ($("#txtCity").val() == "") {
-                isDataFilled = 1;
-                $('.EBillAddresCity').css("display", "block");
-                $("#txtCity").css("border", "2px solid red");//.parent().addClass("field-with-errors");
-            } else {
-                $('.EBillAddresCity').css("display", "none");
-                $("#txtCity").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
-            }
-
-            if ($("#txtZipPostCode").val() == "") {
-                isDataFilled = 1;
-                $('.EBillAddresZipCode').css("display", "block");
-                $("#txtZipPostCode").css("border", "2px solid red");//.parent().addClass("field-with-errors");
-            } else {
-                $('.EBillAddresZipCode').css("display", "none");
-                $("#txtZipPostCode").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
-            }
-            if ($("#BillingCountryDropDown").val() == 0) {
-                isDataFilled = 1;
-                $("#BillingCountryDropDown").css("border", "2px solid red");
-            } else {
-                $("#BillingCountryDropDown").css("border", "1px solid #c1c6cc");
-            }
-            if ($("#ddBillingState").val() == 0) {
-                isDataFilled = 1;
-                $("#ddBillingState").css("border", "2px solid red");
-            } else {
-                $("#ddBillingState").css("border", "1px solid #c1c6cc");
-            }
-            return isDataFilled;
-        }
-
-        function ValidateCheckout() {
-            var isDataFilled = 0;
-            var isValid = true;
-
-            var isContainBlanksInShipping = ValidateShippingAddressCheckout();
-
-            if ($("#chkBoxDeliverySameAsBilling")[0].checked == true) {
-                if (isContainBlanksInShipping == 1) {
-                    $("#hfPageIsValid").val(0);
-                    isValid = false;
-                    $("#MessgeToDisply").css("display", "block");
-                    $("#ltrlMessge").text("Please enter in the highlighted fields below.");
-                    $('html, body').animate({
-                        scrollTop: $("#maincntCheckout").offset().top
-                    }, 500);
-                } else {
-                    $("#hfPageIsValid").val(1);
-                    isValid = true;
-                }
-            } else {
-                var iContainsBlankInBilling = ValidateBillingAddressCheckout();
-
-                if (iContainsBlankInBilling == 1) {
-                    $("#hfPageIsValid").val(0);
-                    isValid = false;
-                    $('html, body').animate({
-                        scrollTop: $("#maincntCheckout").offset().top
-                    }, 500);
-                    $("#MessgeToDisply").css("display", "block");
-                    $("#ltrlMessge").text("Please enter in the highlighted fields below.");
-                } else if (isContainBlanksInShipping == 1) {
-                    $("#hfPageIsValid").val(0);
-                    isValid = false;
-                    $("#MessgeToDisply").css("display", "block");
-                    $("#ltrlMessge").text("Please enter in the highlighted fields below.");
-                    $('html, body').animate({
-                        scrollTop: $("#maincntCheckout").offset().top
-                    }, 500);
-                } else {
-                    $("#hfPageIsValid").val(1);
-                    isValid = true;
-
-                }
-            }
-
-            if(isValid == true){
-                ShowLoader();
-            }
-            return isValid;
-        }
-
-        function OnChangeShippingAddress()
-        {
-
-            var addressId = $('#ddlDelivery').val();
-            var jsonData = (@Html.Raw(Json.Encode(Model.ShippingAddresses)));
-
-            if(jsonData != null)
-            {
-                for(var i = 0; i <jsonData.length;i++)
-                {
-                    var cAdrres = jsonData[i];
-                    if(cAdrres.AddressId == addressId)
-                    {
-                        $('#txtShipAddressName').val(cAdrres.AddressName);
-                        $('#txtShipAddLine1').val(cAdrres.Address1);
-                        $('#txtShipAddressLine2').val(cAdrres.Address2);
-                        $('#txtShipAddCity').val(cAdrres.City);
-                        $('#txtShipPostCode').val(cAdrres.PostCode);
-                        $('#txtShipContact').val(cAdrres.Tel1);
-                        $('#txthdnDeliveryAddressID').val(cAdrres.AddressID);
-                        $('#txthdnDeliveryDefaultShippingAddress').val(cAdrres.IsDefaultShippingAddress);
-                        if(cAdrres.IsDefaultShippingAddress == true)
-                        {
-                            $('#txthdnDeliveryDefaultAddress').val("true");
-                        }
-                        else{
-                            $('#txthdnDeliveryDefaultAddress').val("false");
-                        }
-
-                        $('#ddShippingCountry').val(cAdrres.CountryId);
-                        $('#ddShippingState').val(cAdrres.StateId);
-
-
-
-                        $('#lblShipToAddLin1').text(cAdrres.Address1);
-                        $('#lblShipToAddLin2').text(cAdrres.Address2);
-                        $('#lblShipToCity').text(cAdrres.City);
-                        $('#lblShipTostate').text(cAdrres.Tel2);
-                        $('#lblShipToCountry').text(cAdrres.FAO);
-                        $('#lblShipToZipCode').text(cAdrres.PostCode);
-                        break;
-                    }
-                    else
-                    {
-                        $('#ddShippingCountry option:first').attr('selected', 'selected');
-                        $('#ddShippingState option:first').attr('selected', 'selected');
-                        
-                       
-                        $('#ddShippingCountry').click();
-                        $('#txtShipAddressName').val("");
-                        $('#txtShipAddLine1').val("");
-                        $('#txtShipAddressLine2').val("");
-                        $('#txtShipAddCity').val("");
-                        $('#txtShipPostCode').val("");
-                        $('#txtShipContact').val("");
-                        $('#txthdnDeliveryAddressID').val("0");
-                        $('#txthdnDeliveryDefaultAddress').val("false");
-                        $('#txthdnDeliveryDefaultShippingAddress').val("false");
-
-                        $("#txtShipAddressName").prop("disabled", "");
-                        $("#txtShipAddLine1").prop("disabled", "");
-                        $("#txtShipAddressLine2").prop("disabled", "");
-                        $("#txtShipAddCity").prop("disabled", "");
-                        $("#txtShipPostCode").prop("disabled", "");
-                        $("#ddShippingState").prop("disabled", "");
-                        $("#ddShippingCountry").prop("disabled", "");
-                        $("#txtShipContact").prop("disabled", "");
-                    }
-
-                }
-            }
-            HideAddressInBillingDropDown();
-        }
-        function OnChangeBillingAddress()
-        {
-
-            var addressId = $('#ddlBilling').val();
-            var jsonData = (@Html.Raw(Json.Encode(Model.BillingAddresses))) ;
-            // $.parseJSON($('#JsonAddressContainer').val());console.log(jsonData);
-
-            if(jsonData != null)
-            {
-                for(var i = 0; i <jsonData.length;i++)
-                {
-                    var cAdrres = jsonData[i];
-                    if(cAdrres.AddressId == addressId)
-                    {
-                        $('#txtBillingName').val(cAdrres.AddressName);
-                        $('#txtAddressLine1').val(cAdrres.Address1);
-                        $('#txtAddressLine2').val(cAdrres.Address2);
-                        $('#txtCity').val(cAdrres.City);
-                        $('#txtZipPostCode').val(cAdrres.PostCode);
-                        $('#txtContactNumber').val(cAdrres.Tel1);
-                        $('#txthdnBillingAddressID').val(cAdrres.AddressID);
-                        $('#txthdnBillingDefaultShippingAddress').val(cAdrres.IsDefaultShippingAddress);
-
-
-                        if(cAdrres.IsDefaultAddress == true)
-                        {
-                            $('#txthdnBillingDefaultAddress').val("true");
-                        }
-                        else{
-                            $('#txthdnBillingDefaultAddress').val("false");
-                        }
-                        $('#BillingCountryDropDown').val(cAdrres.CountryId);
-                        $('#ddBillingState').val(cAdrres.StateId);
-
-
-
-                        $('#lblAddLine1BilSip').text(cAdrres.Address1);
-                        $('#lbladdLine2BilSip').text(cAdrres.Address2);
-                        $('#lblCityBilSip').text(cAdrres.City);
-                        $('#lblStateBilSip').text(cAdrres.Tel2);
-                        $('#lblCountryBilSip').text(cAdrres.FAO);
-                        $('#lblPostCdeBilSip').text(cAdrres.PostCode);
-                        break;
-                    }
-                    else // add new billing address
-                    { 
-                        $('#BillingCountryDropDown option:first').attr('selected', 'selected');
-                        $('#SelectedBillingState option:first').attr('selected', 'selected');
-                        
-                        $('#txtBillingName').val("");
-                        $('#txtAddressLine1').val("");
-                        $('#txtAddressLine2').val("");
-                        $('#txtCity').val("");
-                        $('#txtZipPostCode').val("");
-                        $('#txtContactNumber').val("");
-                        $('#txthdnBillingAddressID').val("0");
-                        $('#txthdnBillingDefaultShippingAddress').val("false");
-                        $('#txthdnBillingDefaultAddress').val("false");
-
-                        $("#txtBillingName").prop("disabled", "");
-                        $("#txtAddressLine1").prop("disabled", "");
-                        $("#txtAddressLine2").prop("disabled", "");
-                        $("#txtCity").prop("disabled", "");
-                        $("#ddBillingState").prop("disabled", "");
-                        $("#txtZipPostCode").prop("disabled", "");
-                        $("#BillingCountryDropDown").prop("disabled", "");
-                        $("#txtContactNumber").prop("disabled", "");
-                    }
-
-                }
-            }
-        }
-
-        function BackToShopping(OrderId)
-        {
-
-            window.location.href = "/ShopCart/" + OrderId;
+    });
+
+    function keydown(e) {
+        if (e.which == 13) {
+            e.preventDefault();
             return false;
         }
+    }
+
+    function showProgressBar() {
+        if (Page_ClientValidate()) {
+
+            showProgress();
+        }
+        else {
+
+            return false;
+        }
+    }
 
 
-        $(function () {
-            $('#ddShippingCountry').change(function () {
-
-                var ShippingCountryId = $('#ddShippingCountry').val();
-                var jsonData = (@Html.Raw(Json.Encode(Model.ShippingStates)));
-                console.log(jsonData);
-                if(jsonData != null)
-                {
-                    var secondDdl = $('#ddShippingState');
-                    secondDdl.empty();
-                    for(var i = 0; i <jsonData.length;i++)
-                    {
-                        var cState = jsonData[i];
-                        if(cState.CountryId == ShippingCountryId) {
-                            secondDdl.append(
-                                     $('<option/>', {
-                                         value: cState.StateId,
-                                         html: cState.StateName
-                                     })
-                                 );
-                        }
-                    }
-                }
-                $("#lblShipTostate").html($("#ddShippingState option:selected").text());
-                $("#lblShipToCountry").html($('#ddShippingCountry option:selected').text());
-            });
-        });
-
-        $(function () {
-            $('#BillingCountryDropDown').change(function () {
-                var BillingCountryId = $('#BillingCountryDropDown').val();
-                var jsonData = (@Html.Raw(Json.Encode(Model.BillingStates))) ;
-                if(jsonData != null)
-                {
-                    var billingddp = $('#ddBillingState');
-                    billingddp.empty();
-                    for(var i = 0; i <jsonData.length;i++)
-                    {
-                        var cAdrres = jsonData[i];
-                        if(cAdrres.CountryId == BillingCountryId) {
-                            billingddp.append(
-                                   $('<option/>', {
-                                       value: cAdrres.StateId,
-                                       html: cAdrres.StateName
-                                   })
-                               );
-                        }
-                    }
-                }
-                $("#lblStateBilSip").html($("#ddBillingState option:selected").text());
-                $("#lblCountryBilSip").html($('#BillingCountryDropDown option:selected').text());
-            });
-        });
 
 
-        $(function () {
-            $('#ddBillingState').change(function () {
+    //<%-- Billing Address--%>
 
-                $("#lblStateBilSip").html($("#ddBillingState option:selected").text());
-            });
-        });
 
-        $(function () {
-            $('#ddShippingState').change(function () {
+    var txtBillingName = null;
+    var txtAddressLine1 = null;
+    var txtAddressLine2 = null;
+    var txtCity = null;
+    var txtState = null;
+    var txtZipPostCode = null;
+    var txtCountry = null;
+    var txtContactNumber = null;
+    var ddlBilling = null;
+    var ddlDelivery = null;
 
-                $("#lblShipTostate").html($("#ddShippingState option:selected").text());
-            });
-        });
+    function initialize() {
 
-        function HideAddressInBillingDropDown(){
-            $('#ddlBilling option').each(function () {
-                if ($("#ddlDelivery").val() != "") {
+        ddlBilling = $("#ddlBilling");
+        ddlDelivery = $("#ddlDelivery");
 
-                    if ($(this).val() == $("#ddlDelivery").val()) {
-                        $(this).css('display', 'none');
+        txtBillingName = $("#txtBillingName");
+        txtAddressLine1 = $("#txtAddressLine1")
+        txtAddressLine2 = $("#txtAddressLine2");
+        txtCity = $("#txtCity.ClientID");
 
-                    }
-                    else{
-                        $(this).css('display', 'block');
-                    }
-                }
+        txtZipPostCode = $("#txtZipPostCode");
 
-            });
-            $('#ddlBilling option:eq(2)').attr('selected', 'selected');
-            OnChangeBillingAddress();
+        txtContactNumber = $("#txtContactNumber");
+
+    }
+
+
+    function SetNewControlValues() {
+        ddlBilling.val($("#ddlDelivery").val());
+        txtBillingName.val($("#txtShipAddressName").val());
+        txtAddressLine1.val($("#txtShipAddLine1").val());
+        txtAddressLine2.val($("#txtShipAddressLine2").val());
+        txtCity.val($("#txtShipAddCity.ClientID").val());
+
+        txtZipPostCode.val($("#txtShipPostCode").val());
+
+        txtContactNumber.val($("#txtShipContact").val());
+
+    }
+    function EnableTextBoxes() {
+
+        $("#txtBillingName").prop("disabled", "");
+        $("#txtAddressLine1").prop("disabled", "");
+        $("#txtAddressLine2").prop("disabled", "");
+        $("#txtCity").prop("disabled", "");
+
+        $("#txtZipPostCode").prop("disabled", "");
+        $("#txtContactNumber").prop("disabled", "");
+    }
+    function BillingSameAsDeliveryScriptCheckBox() {
+
+
+        if ($("#chkBoxDeliverySameAsBilling")[0].checked == true) {
+
+            $('#BillTOShippTO').css('display', 'none');
+            $('#BillTOShippTOContainer').css('display', 'none');
+
+            SetNewControlValues();
+
+            $('#isSameBillingAddress').val("True");
+            $('#divBilling').css('display', 'none');
+        }
+        else {
+
+            $('#isSameBillingAddress').val("False");
+            if ($("#hfIsDefaultBilling").val() != "1") {
+                EnableTextBoxes();
+            }
+            var ShipTO = 'Ship to:';
+            $('#BillTOShippTO').css('display', 'block');
+            $('#BillTOShippTOContainer').css('display', 'block');
+
+
+
+
+            $('#divBilling').css('display', 'block');
+
+
+            HideAddressInBillingDropDown();
+            $('#ddlBilling option:first').attr('selected', 'selected');
+            $('#BillingCountryDropDown option:first').attr('selected', 'selected');
+            $('#SelectedBillingState option:first').attr('selected', 'selected');
+
+            $('#txtBillingName').val("");
+            $('#txtAddressLine1').val("");
+            $('#txtAddressLine2').val("");
+            $('#txtCity').val("");
+            $('#txtZipPostCode').val("");
+            $('#txtContactNumber').val("");
+            //set labels
+            $("#ltrlShipTo").html(ShipTO + "");
+            $("#lblAddLine1BilSip").html($("#txtAddressLine1").val());
+            $("#lbladdLine2BilSip").html($("#txtAddressLine2").val());
+            $("#lblCityBilSip").html($("#txtCity").val());
+            $("#lblStateBilSip").html($("#ddBillingState option:selected").text());
+            $("#lblCountryBilSip").html($('#BillingCountryDropDown option:selected').text());
+            $("#lblPostCdeBilSip").html($("#txtZipPostCode").val());
         }
 
-        function ShowAllStates()
+
+    }
+
+
+
+    function getthecheckbox() {
+        BillingSameAsDeliveryScriptCheckBox();
+    }
+
+
+    function ChangeAddresLinne1() {
+        var val = $('#txtAddressLine1').val();
+        $('#lblAddLine1BilSip').html(val);
+    }
+
+    function ChangeCountryShippBill() {
+        // set from drop down
+    }
+    function ChangePostCodeShippBill() {
+        var val = $('#txtZipPostCode').val();
+        $('#lblPostCdeBilSip').html(val);
+    }
+    function ChangestateShippBill() {
+        // get value from drop down
+    }
+    function ChangeCityShippBill() {
+        var val = $('#txtCity').val();
+        $('#lblCityBilSip').html(val);
+    }
+    function ChangeAddresLinne2() {
+        var val = $('#txtAddressLine2').val();
+        $('#lbladdLine2BilSip').html(val);
+    }
+
+
+    function ChangeShippToAddLin1() {
+        var val = $('#txtShipAddLine1').val();
+        $('#lblShipToAddLin1').html(val);
+    }
+
+    function ChangeShippToAddLin2() {
+        var val = $('#txtShipAddressLine2').val();
+        $('#lblShipToAddLin2').html(val);
+    }
+    function ChangeShippToCity() {
+        var val = $('#txtShipAddCity').val();
+        $('#lblShipToCity').html(val);
+    }
+    function ChangeShippToState() {
+        // get state from drop down
+    }
+    function ChangeShippToPostCode() {
+        var val = $('#txtShipPostCode').val();
+        $('#lblShipToZipCode').html(val);
+        var ISPinkCard = 'IsPinkCards %>';
+        if (ISPinkCard == 1) {
+            var PostCode = $("#txtShipPostCode").val();
+            if (PostCode == '') {
+            } else {
+                $('#lodingImg').css("display", "block");
+                $.ajax({
+
+                    url: "../services/Webstore.svc/GetNearestBrokerStoreByPostCode?PostCode=" + PostCode,
+
+                    success: function (data) {
+                        $('#lblYourOrderPRoMesg').css("display", "block");
+                        if (data == null) {
+                            $('.SelectedBroker').css("display", "block");
+                            $('.SelectedBroker').html("No results found.");
+                        } else {
+                            $('#hfBrokerContactCompany').val(data.ContactCompanyID);
+                            $('.brokerLogoImg').attr('src', data.Logo + "");
+                            $('#BrokerAddLine1').text(data.Address1);
+                            $('#BrokerAddLine2').text(data.Address2);
+                            $('#BrokerTown').text(data.City);
+                            $('#BrokerState').text(data.State);
+                            $('#BrokerCountry').text(data.Country);
+                            $("#BrokerTeleNo").html(data.HomeContact);
+                            $('.SelectedBroker').css("display", "block");
+                        }
+
+                        $('#lodingImg').css("display", "none");
+                    }
+                });
+            }
+        }
+    }
+    function ChangeShippToCounntry() {
+        //set country text from drop down
+    }
+    function ChangeTelNumber() {
+        var val = $('#txtInstContactTelNumber').val();
+        $('#lblContactNo').html(val);
+    }
+    function ChangeRefPO() {
+        var val = $('#txtYourRefNumber').val();
+        if (val == "") {
+            $('#DivRefPO').css('display', 'none');
+            $('#lblRefPo').html("");
+        }
+        else {
+            $('#DivRefPO').css('display', 'block');
+            $('#lblRefPo').html(val);
+        }
+
+        var val = $('#txtYourRefNumberRetail').val();
+        if (val == "") {
+            $('#DivRefPO').css('display', 'none');
+            $('#lblRefPo').html("");
+        }
+        else {
+            $('#DivRefPO').css('display', 'block');
+            $('#lblRefPo').html(val);
+        }
+
+    }
+    function ChangeNotesTxt() {
+        var val = $('#txtInstNotes').val();
+        if (val == "") {
+            $('#DivSpclNotes').css('display', 'none');
+            $('#lblNotesDetail').html("");
+        }
+        else {
+            $('#DivSpclNotes').css('display', 'block');
+            $('#lblNotesDetail').html(val);
+        }
+
+    }
+
+
+
+
+
+    function ValidateShippingAddressCheckout() {
+        var isDataFilled = 0;
+
+        if ($("#txtInstContactTelNumber").val() == "") {
+            isDataFilled = 1;
+            $('.EContactTelNo').css("display", "block");
+            $("#txtInstContactTelNumber").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+        } else {
+            $('.EContactTelNo').css("display", "none");
+            $("#txtInstContactTelNumber").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+        }
+
+        if ($("#txtYourRefNumber").val() == "") {
+            isDataFilled = 1;
+            $('.ECorporateRefNo').css("display", "block");
+            $("#txtYourRefNumber").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+        } else {
+            $('.ECorporateRefNo').css("display", "none");
+            $("#txtYourRefNumber").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+        }
+
+        if ($("#txtShipAddressName").val() == "") {
+            isDataFilled = 1;
+            $('.EShipAddresNameNo').css("display", "block");
+            $("#txtShipAddressName").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+        } else {
+            $('.EShipAddresNameNo').css("display", "none");
+            $("#txtShipAddressName").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+        }
+
+        if ($("#txtShipAddLine1").val() == "") {
+            isDataFilled = 1;
+            $('.EShipAddres1').css("display", "block");
+            $("#txtShipAddLine1").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+        } else {
+            $('.EShipAddres1').css("display", "none");
+            $("#txtShipAddLine1").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+        }
+        if ($("#txtShipAddCity").val() == "") {
+            isDataFilled = 1;
+            $('.EShipAddresCity').css("display", "block");
+            $("#txtShipAddCity").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+        } else {
+            $('.EShipAddresCity').css("display", "none");
+            $("#txtShipAddCity").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+        }
+
+        if ($("#ddShippingCountry").val() == 0) {
+            isDataFilled = 1;
+            $("#ddShippingCountry").css("border", "2px solid red");
+        } else {
+            $("#ddShippingCountry").css("border", "1px solid #c1c6cc");
+        }
+
+
+
+        if ($("#ddlDeliveyCostCenter").val() == 0) {
+            isDataFilled = 1;
+            $("#ddlDeliveyCostCenter").css("border", "2px solid red");
+        } else {
+            $("#ddlDeliveyCostCenter").css("border", "1px solid #c1c6cc");
+        }
+
+
+
+        if ($("#ddShippingState").val() == 0) {
+            isDataFilled = 1;
+            $("#ddShippingState").css("border", "2px solid red");
+        } else {
+            $("#ddShippingState").css("border", "1px solid #c1c6cc");
+        }
+
+
+        if ($("#txtShipPostCode").val() == "") {
+            isDataFilled = 1;
+            $('.EShipAddresPostCode').css("display", "block");
+            $("#txtShipPostCode").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+        } else {
+            $('.EShipAddresPostCode').css("display", "none");
+            $("#txtShipPostCode").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+        }
+
+
+        return isDataFilled;
+    }
+
+    function ValidateBillingAddressCheckout() {
+        var isDataFilled = 0;
+
+        if ($("#txtBillingName").val() == "") {
+            isDataFilled = 1;
+            $('.EBillAddresName').css("display", "block");
+            $("#txtBillingName").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+        } else {
+            $('.EBillAddresName').css("display", "none");
+            $("#txtBillingName").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+        }
+
+        if ($("#txtAddressLine1").val() == "") {
+            isDataFilled = 1;
+            $('.EBillAddres1').css("display", "block");
+            $("#txtAddressLine1").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+        } else {
+            $('.EBillAddres1').css("display", "none");
+            $("#txtAddressLine1").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+        }
+
+        if ($("#txtCity").val() == "") {
+            isDataFilled = 1;
+            $('.EBillAddresCity').css("display", "block");
+            $("#txtCity").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+        } else {
+            $('.EBillAddresCity').css("display", "none");
+            $("#txtCity").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+        }
+
+        if ($("#txtZipPostCode").val() == "") {
+            isDataFilled = 1;
+            $('.EBillAddresZipCode').css("display", "block");
+            $("#txtZipPostCode").css("border", "2px solid red");//.parent().addClass("field-with-errors");
+        } else {
+            $('.EBillAddresZipCode').css("display", "none");
+            $("#txtZipPostCode").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+        }
+        if ($("#BillingCountryDropDown").val() == 0) {
+            isDataFilled = 1;
+            $("#BillingCountryDropDown").css("border", "2px solid red");
+        } else {
+            $("#BillingCountryDropDown").css("border", "1px solid #c1c6cc");
+        }
+        if ($("#ddBillingState").val() == 0) {
+            isDataFilled = 1;
+            $("#ddBillingState").css("border", "2px solid red");
+        } else {
+            $("#ddBillingState").css("border", "1px solid #c1c6cc");
+        }
+        return isDataFilled;
+    }
+
+    function ValidateCheckout() {
+        var isDataFilled = 0;
+        var isValid = true;
+
+        var isContainBlanksInShipping = ValidateShippingAddressCheckout();
+
+        if ($("#chkBoxDeliverySameAsBilling")[0].checked == true) {
+            if (isContainBlanksInShipping == 1) {
+                $("#hfPageIsValid").val(0);
+                isValid = false;
+                $("#MessgeToDisply").css("display", "block");
+                $("#ltrlMessge").text('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlenterhighlightedfields", UserCookieManager.WBStoreId, "Please enter in the highlighted fields below."))');
+                $('html, body').animate({
+                    scrollTop: $("#maincntCheckout").offset().top
+                }, 500);
+            } else {
+                $("#hfPageIsValid").val(1);
+                isValid = true;
+            }
+        } else {
+            var iContainsBlankInBilling = ValidateBillingAddressCheckout();
+
+            if (iContainsBlankInBilling == 1) {
+                $("#hfPageIsValid").val(0);
+                isValid = false;
+                $('html, body').animate({
+                    scrollTop: $("#maincntCheckout").offset().top
+                }, 500);
+                $("#MessgeToDisply").css("display", "block");
+                $("#ltrlMessge").text('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlenterhighlightedfields", UserCookieManager.WBStoreId, "Please enter in the highlighted fields below."))');
+            } else if (isContainBlanksInShipping == 1) {
+                $("#hfPageIsValid").val(0);
+                isValid = false;
+                $("#MessgeToDisply").css("display", "block");
+                $("#ltrlMessge").text('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlenterhighlightedfields", UserCookieManager.WBStoreId, "Please enter in the highlighted fields below."))');
+                $('html, body').animate({
+                    scrollTop: $("#maincntCheckout").offset().top
+                }, 500);
+            } else {
+                $("#hfPageIsValid").val(1);
+                isValid = true;
+
+            }
+        }
+
+        if(isValid == true){
+            ShowLoader();
+        }
+        return isValid;
+    }
+
+    function OnChangeShippingAddress()
+    {
+
+        var addressId = $('#ddlDelivery').val();
+        var jsonData = (@Html.Raw(Json.Encode(Model.ShippingAddresses)));
+
+        if(jsonData != null)
         {
+            for(var i = 0; i <jsonData.length;i++)
+            {
+                var cAdrres = jsonData[i];
+                if(cAdrres.AddressId == addressId)
+                {
+                    $('#txtShipAddressName').val(cAdrres.AddressName);
+                    $('#txtShipAddLine1').val(cAdrres.Address1);
+                    $('#txtShipAddressLine2').val(cAdrres.Address2);
+                    $('#txtShipAddCity').val(cAdrres.City);
+                    $('#txtShipPostCode').val(cAdrres.PostCode);
+                    $('#txtShipContact').val(cAdrres.Tel1);
+                    $('#txthdnDeliveryAddressID').val(cAdrres.AddressID);
+                    $('#txthdnDeliveryDefaultShippingAddress').val(cAdrres.IsDefaultShippingAddress);
+                    if(cAdrres.IsDefaultShippingAddress == true)
+                    {
+                        $('#txthdnDeliveryDefaultAddress').val("true");
+                    }
+                    else{
+                        $('#txthdnDeliveryDefaultAddress').val("false");
+                    }
+
+                    $('#ddShippingCountry').val(cAdrres.CountryId);
+                    $('#ddShippingState').val(cAdrres.StateId);
+
+
+
+                    $('#lblShipToAddLin1').text(cAdrres.Address1);
+                    $('#lblShipToAddLin2').text(cAdrres.Address2);
+                    $('#lblShipToCity').text(cAdrres.City);
+                    $('#lblShipTostate').text(cAdrres.Tel2);
+                    $('#lblShipToCountry').text(cAdrres.FAO);
+                    $('#lblShipToZipCode').text(cAdrres.PostCode);
+                    break;
+                }
+                else
+                {
+                    $('#ddShippingCountry option:first').attr('selected', 'selected');
+                    $('#ddShippingState option:first').attr('selected', 'selected');
+
+
+                    $('#ddShippingCountry').click();
+                    $('#txtShipAddressName').val("");
+                    $('#txtShipAddLine1').val("");
+                    $('#txtShipAddressLine2').val("");
+                    $('#txtShipAddCity').val("");
+                    $('#txtShipPostCode').val("");
+                    $('#txtShipContact').val("");
+                    $('#txthdnDeliveryAddressID').val("0");
+                    $('#txthdnDeliveryDefaultAddress').val("false");
+                    $('#txthdnDeliveryDefaultShippingAddress').val("false");
+
+                    $("#txtShipAddressName").prop("disabled", "");
+                    $("#txtShipAddLine1").prop("disabled", "");
+                    $("#txtShipAddressLine2").prop("disabled", "");
+                    $("#txtShipAddCity").prop("disabled", "");
+                    $("#txtShipPostCode").prop("disabled", "");
+                    $("#ddShippingState").prop("disabled", "");
+                    $("#ddShippingCountry").prop("disabled", "");
+                    $("#txtShipContact").prop("disabled", "");
+                }
+
+            }
+        }
+        HideAddressInBillingDropDown();
+    }
+    function OnChangeBillingAddress()
+    {
+
+        var addressId = $('#ddlBilling').val();
+        var jsonData = (@Html.Raw(Json.Encode(Model.BillingAddresses))) ;
+        // $.parseJSON($('#JsonAddressContainer').val());console.log(jsonData);
+
+        if(jsonData != null)
+        {
+            for(var i = 0; i <jsonData.length;i++)
+            {
+                var cAdrres = jsonData[i];
+                if(cAdrres.AddressId == addressId)
+                {
+                    $('#txtBillingName').val(cAdrres.AddressName);
+                    $('#txtAddressLine1').val(cAdrres.Address1);
+                    $('#txtAddressLine2').val(cAdrres.Address2);
+                    $('#txtCity').val(cAdrres.City);
+                    $('#txtZipPostCode').val(cAdrres.PostCode);
+                    $('#txtContactNumber').val(cAdrres.Tel1);
+                    $('#txthdnBillingAddressID').val(cAdrres.AddressID);
+                    $('#txthdnBillingDefaultShippingAddress').val(cAdrres.IsDefaultShippingAddress);
+
+
+                    if(cAdrres.IsDefaultAddress == true)
+                    {
+                        $('#txthdnBillingDefaultAddress').val("true");
+                    }
+                    else{
+                        $('#txthdnBillingDefaultAddress').val("false");
+                    }
+                    $('#BillingCountryDropDown').val(cAdrres.CountryId);
+                    $('#ddBillingState').val(cAdrres.StateId);
+
+
+
+                    $('#lblAddLine1BilSip').text(cAdrres.Address1);
+                    $('#lbladdLine2BilSip').text(cAdrres.Address2);
+                    $('#lblCityBilSip').text(cAdrres.City);
+                    $('#lblStateBilSip').text(cAdrres.Tel2);
+                    $('#lblCountryBilSip').text(cAdrres.FAO);
+                    $('#lblPostCdeBilSip').text(cAdrres.PostCode);
+                    break;
+                }
+                else // add new billing address
+                {
+                    $('#BillingCountryDropDown option:first').attr('selected', 'selected');
+                    $('#SelectedBillingState option:first').attr('selected', 'selected');
+
+                    $('#txtBillingName').val("");
+                    $('#txtAddressLine1').val("");
+                    $('#txtAddressLine2').val("");
+                    $('#txtCity').val("");
+                    $('#txtZipPostCode').val("");
+                    $('#txtContactNumber').val("");
+                    $('#txthdnBillingAddressID').val("0");
+                    $('#txthdnBillingDefaultShippingAddress').val("false");
+                    $('#txthdnBillingDefaultAddress').val("false");
+
+                    $("#txtBillingName").prop("disabled", "");
+                    $("#txtAddressLine1").prop("disabled", "");
+                    $("#txtAddressLine2").prop("disabled", "");
+                    $("#txtCity").prop("disabled", "");
+                    $("#ddBillingState").prop("disabled", "");
+                    $("#txtZipPostCode").prop("disabled", "");
+                    $("#BillingCountryDropDown").prop("disabled", "");
+                    $("#txtContactNumber").prop("disabled", "");
+                }
+
+            }
+        }
+    }
+
+    function BackToShopping(OrderId)
+    {
+
+        window.location.href = "/ShopCart?OrderId=" + OrderId;
+        return false;
+    }
+
+
+    $(function () {
+        $('#ddShippingCountry').change(function () {
+
+            var ShippingCountryId = $('#ddShippingCountry').val();
+            var jsonData = (@Html.Raw(Json.Encode(Model.ShippingStates)));
+            console.log(jsonData);
+            if(jsonData != null)
+            {
+                var secondDdl = $('#ddShippingState');
+                secondDdl.empty();
+                for(var i = 0; i <jsonData.length;i++)
+                {
+                    var cState = jsonData[i];
+                    if(cState.CountryId == ShippingCountryId) {
+                        secondDdl.append(
+                                 $('<option/>', {
+                                     value: cState.StateId,
+                                     html: cState.StateName
+                                 })
+                             );
+                    }
+                }
+            }
+            $("#lblShipTostate").html($("#ddShippingState option:selected").text());
+            $("#lblShipToCountry").html($('#ddShippingCountry option:selected').text());
+        });
+    });
+
+    $(function () {
+        $('#BillingCountryDropDown').change(function () {
+            var BillingCountryId = $('#BillingCountryDropDown').val();
             var jsonData = (@Html.Raw(Json.Encode(Model.BillingStates))) ;
             if(jsonData != null)
             {
@@ -1589,17 +1445,100 @@
                 for(var i = 0; i <jsonData.length;i++)
                 {
                     var cAdrres = jsonData[i];
-
-                    billingddp.append(
-                           $('<option/>', {
-                               value: cAdrres.StateId,
-                               html: cAdrres.StateName
-                           })
-                       );
+                    if(cAdrres.CountryId == BillingCountryId) {
+                        billingddp.append(
+                               $('<option/>', {
+                                   value: cAdrres.StateId,
+                                   html: cAdrres.StateName
+                               })
+                           );
+                    }
                 }
             }
+            $("#lblStateBilSip").html($("#ddBillingState option:selected").text());
+            $("#lblCountryBilSip").html($('#BillingCountryDropDown option:selected').text());
+        });
+    });
+
+
+    $(function () {
+        $('#ddBillingState').change(function () {
+
+            $("#lblStateBilSip").html($("#ddBillingState option:selected").text());
+        });
+    });
+
+    $(function () {
+        $('#ddShippingState').change(function () {
+
+            $("#lblShipTostate").html($("#ddShippingState option:selected").text());
+        });
+    });
+
+    function HideAddressInBillingDropDown(){
+        $('#ddlBilling option').each(function () {
+            if ($("#ddlDelivery").val() != "") {
+
+                if ($(this).val() == $("#ddlDelivery").val()) {
+                    $(this).css('display', 'none');
+
+                }
+                else{
+                    $(this).css('display', 'block');
+                }
+            }
+
+        });
+        $('#ddlBilling option:eq(2)').attr('selected', 'selected');
+        OnChangeBillingAddress();
+    }
+
+    function ShowAllStates()
+    {
+        var jsonData = (@Html.Raw(Json.Encode(Model.BillingStates))) ;
+        if(jsonData != null)
+        {
+            var billingddp = $('#ddBillingState');
+            billingddp.empty();
+            for(var i = 0; i <jsonData.length;i++)
+            {
+                var cAdrres = jsonData[i];
+
+                billingddp.append(
+                       $('<option/>', {
+                           value: cAdrres.StateId,
+                           html: cAdrres.StateName
+                       })
+                   );
+            }
         }
-    </script>
-}
+    }
+
+    function ApplyDeliveryMethod() {
+
+        ShowLoader();
+        console.log(@UserCookieManager.FreeShippingVoucherId);
+        var to;
+        to = "/webstoreapi/ApplyDeliveryMethod/AddDelivery?DeliveryMethodId=" + $("#ddlDeliveyCostCenter option:selected").val() + "&FreeShippingVoucherId=" + @UserCookieManager.FreeShippingVoucherId;
+        var options = {
+            type: "POST",
+            url: to,
+            data: "",
+            contentType: "application/json",
+            async: true,
+            success: function (response) {
+                window.location.reload();
+
+            },
+            error: function (msg) {
+                alert("Error occured ");
+                console.log(msg);
+            }
+        };
+        var returnText = $.ajax(options).responseText;
+
+    }
+</script>
+
 
 

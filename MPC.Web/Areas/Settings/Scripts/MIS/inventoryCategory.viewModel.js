@@ -54,7 +54,7 @@ define("inventoryCategory/inventoryCategory.viewModel",
                     isStockCategoryEditorVisible = ko.observable(false),
                     //Delete Stock Category
                     onDeleteStockCategory = function () {
-                        confirmation.messageText("Do you want to delete Stock Category?");
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(deleteStockCategory);
                         confirmation.afterCancel(function () {
 
@@ -76,6 +76,10 @@ define("inventoryCategory/inventoryCategory.viewModel",
                                 toastr.error("Failed to Delete . Error: " + response);
                             }
                         });
+                    },
+                    filterHandler = function () {
+                        pager().reset();
+                        getStockCategories();
                     },
                     //GET Stock Categories
                     getStockCategories = function () {
@@ -245,10 +249,12 @@ define("inventoryCategory/inventoryCategory.viewModel",
                      },
                      // Delete a Stock Sub Category
                     onDeleteStockSubCategory = function (stockSubCategory) {
-                        // if (stockSubCategory.categoryId() > 0) {
-                        selectedStockCategory().stockSubCategories.remove(stockSubCategory);
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.afterProceed(function() {
+                            selectedStockCategory().stockSubCategories.remove(stockSubCategory);
+                        });
+                        confirmation.show();
                         return;
-                        // }
                     },
 
                 //Initialize
@@ -287,7 +293,8 @@ define("inventoryCategory/inventoryCategory.viewModel",
                     templateToUseStockSubCategories: templateToUseStockSubCategories,
                     onCreateNewStockSubCategory: onCreateNewStockSubCategory,
                     onDeleteStockSubCategory: onDeleteStockSubCategory,
-                    initialize: initialize
+                    initialize: initialize,
+                    filterHandler: filterHandler
                 };
             })()
         };

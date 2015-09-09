@@ -36,18 +36,34 @@ define("invoice/invoice.view",
                         $(element).focus();
                     }, 1000);
                 },
-                 
+
                 // Show Item Detail Dialog
                 showItemDetailDialog = function () {
                     $("#orderItemDetailDialog").modal('show');
-                   
+
                 },
                 // Hide Item Detail Dialog
                 hideItemDetailDialog = function () {
                     $("#orderItemDetailDialog").modal('hide');
                 },
-                
-                
+
+                 // Show Cost Centers Quantity the dialog
+                showCostCentersQuantityDialog = function () {
+                    $("#orderCostCentersQuanity").modal("show");
+                },
+               // Hide Cost Centers Quantity the dialog
+                hideCostCentersQuantityDialog = function () {
+                    $("#orderCostCentersQuanity").modal("hide");
+                },
+                 // Show Invoice Detail the dialog
+                showInvoiceDetailDialog = function () {
+                    $("#invoiceDetailDialog").modal("show");
+                },
+               // Hide Invoice Detail the dialog
+                hideInvoiceDetailDialog = function () {
+                    $("#invoiceDetailDialog").modal("hide");
+                },
+
                 // Initialize Label Popovers
                 initializeLabelPopovers = function () {
                     // ReSharper disable UnknownCssClass
@@ -64,15 +80,20 @@ define("invoice/invoice.view",
                 };
             initialize();
 
-          
+
 
             return {
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
                 gotoElement: gotoElement,
                 showItemDetailDialog: showItemDetailDialog,
-                hideItemDetailDialog: hideItemDetailDialog
-                
+                hideItemDetailDialog: hideItemDetailDialog,
+                showCostCentersQuantityDialog: showCostCentersQuantityDialog,
+                hideCostCentersQuantityDialog: hideCostCentersQuantityDialog,
+                initializeLabelPopovers: initializeLabelPopovers,
+                showInvoiceDetailDialog: showInvoiceDetailDialog,
+                hideInvoiceDetailDialog: hideInvoiceDetailDialog
+
             };
         })(invoiceViewModel);
 

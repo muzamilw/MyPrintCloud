@@ -29,6 +29,8 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<FieldVariableForSmartForm> FieldVariableForSmartForms { get; set; }
         public IEnumerable<SkinForTheme> Themes { get; set; }
         public IEnumerable<FieldVariableForSmartForm> SystemVariablesForSmartForms { get; set; }
+        public DiscountVoucherListViewResponse DiscountVoucherListViewResponse { get; set; }
+
         /// <summary>
         /// Default Sprite Image
         /// </summary>
@@ -74,5 +76,10 @@ namespace MPC.MIS.Areas.Api.Models
         // public IEnumerable<AccountManager> AccountManagers { get; set; }
 
         public IEnumerable<SectionFlagDropDown> PriceFlags { get; set; }
+
+        /// <summary>
+        /// Currency Symbol
+        /// </summary>
+        public string CurrencySymbol { get; set; }
     }
 }

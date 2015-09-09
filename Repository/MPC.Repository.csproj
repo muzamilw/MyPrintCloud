@@ -198,6 +198,10 @@
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\CampaignImageRepository.cs" />
+    <Compile Include="Repositories\CMSOfferRepository.cs" />
+    <Compile Include="Repositories\CompanyVoucherRedeemRepository.cs" />
+    <Compile Include="Repositories\DiscountVoucherRepository.cs" />
     <Compile Include="Repositories\ActivityRepository.cs" />
     <Compile Include="Repositories\ActivityTypeRepository.cs" />
     <Compile Include="Repositories\AddressRepository.cs" />
@@ -217,10 +221,24 @@
     <Compile Include="Repositories\CompanyContactRoleRepository.cs" />
     <Compile Include="Repositories\CompanyCostCenterRepository.cs" />
     <Compile Include="Repositories\CostCentreAnswerRepository.cs" />
+    <Compile Include="Repositories\DeliveryNoteDetailRepository.cs" />
+    <Compile Include="Repositories\DeliveryNoteRepository.cs" />
+    <Compile Include="Repositories\EstimateInquiryRepository.cs" />
     <Compile Include="Repositories\GoodRecieveNoteRepository.cs" />
+    <Compile Include="Repositories\GoodsReceivedNoteDetailRepository.cs" />
     <Compile Include="Repositories\InkCoverageGroupRepository.cs" />
+    <Compile Include="Repositories\InquiryItemRepository.cs" />
+    <Compile Include="Repositories\InvoiceDetailRepository.cs" />
     <Compile Include="Repositories\ItemImageRepository.cs" />
     <Compile Include="Repositories\InkPlateSideRepository.cs" />
+    <Compile Include="Repositories\ItemsVoucherRepository.cs" />
+    <Compile Include="Repositories\MarketingBriefHistoryRepository.cs" />
+    <Compile Include="Repositories\ProductCategoryVoucherRepository.cs" />
+    <Compile Include="Repositories\ProductMarketBriefAnswerRepository.cs" />
+    <Compile Include="Repositories\ProductMarketBriefQuestionRepository.cs" />
+    <Compile Include="Repositories\PurchaseDetailRepository.cs" />
+    <Compile Include="Repositories\SectionCostCentreDetailRepository.cs" />
+    <Compile Include="Repositories\ShippingInformationRepository.cs" />
     <Compile Include="Repositories\SectionInkCoverageRepository.cs" />
     <Compile Include="Repositories\SectionCostCentreRepository.cs" />
     <Compile Include="Repositories\LookupMethodRepository.cs" />
@@ -277,6 +295,7 @@
     <Compile Include="Repositories\ReportRepository.cs" />
     <Compile Include="Repositories\SmartFormDetailRepository.cs" />
     <Compile Include="Repositories\SmartFormRepository.cs" />
+    <Compile Include="Repositories\StagingImportCompanyContactAddressRepository.cs" />
     <Compile Include="Repositories\StateRepository.cs" />
     <Compile Include="Repositories\CostCenterTypeRepository.cs" />
     <Compile Include="Repositories\StatusRepository.cs" />
@@ -308,6 +327,7 @@
     <Compile Include="Repositories\StockSubCategoryRepository.cs" />
     <Compile Include="Repositories\SystemUserRepository.cs" />
     <Compile Include="Repositories\TaxRateRepository.cs" />
+    <Compile Include="Repositories\TemplateVariableRepository.cs" />
     <Compile Include="Repositories\UserManagerRepository.cs" />
     <Compile Include="Repositories\VariableOptionRepository.cs" />
     <Compile Include="Repositories\WeightUnitRepository.cs" />
@@ -330,6 +350,7 @@
     </EntityDeploy>
     <None Include="BaseRepository\Model.edmx.diagram">
       <DependentUpon>Model.edmx</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
     <None Include="BaseRepository\Model.Views.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

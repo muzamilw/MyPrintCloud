@@ -17,7 +17,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CostCentreId = costCentre.CostCentreId,
                 Description = costCentre.Description,
                 SetupCost = costCentre.SetupCost,
-                PricePerUnitQuantity = costCentre.PricePerUnitQuantity
+                PricePerUnitQuantity = costCentre.PricePerUnitQuantity,
+                DeliveryCharges = costCentre.DeliveryCharges
             };
         }
         /// <summary>
@@ -32,7 +33,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CostCentreId = source.CostCentreId,
                 Description = source.Description,
                 SetupCost = source.SetupCost,
-                PricePerUnitQuantity = source.PricePerUnitQuantity
+                PricePerUnitQuantity = source.PricePerUnitQuantity,
+                Type = source.Type,
+                CalculationMethodType = source.CalculationMethodType,
+                QuantitySourceType = source.QuantitySourceType,
+                TimeSourceType = source.TimeSourceType
             };
         }
 

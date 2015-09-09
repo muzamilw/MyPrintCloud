@@ -286,6 +286,8 @@ namespace MPC.Repository.BaseRepository
         /// </summary>
         public DbSet<ProductMarketBriefAnswer> ProductMarketBriefAnswers { get; set; }
 
+        
+
         /// <summary>
         /// Role DbSet
         /// </summary>
@@ -523,6 +525,7 @@ namespace MPC.Repository.BaseRepository
         /// </summary>
         public DbSet<Activity> Activities { get; set; }
 
+
         /// <summary>
         /// Activity Type DbSet
         /// </summary>
@@ -665,6 +668,52 @@ namespace MPC.Repository.BaseRepository
         /// </summary>
         public DbSet<ReportCategory> ReportCategories { get; set; }
 
+        /// <summary>
+        /// Shipping Information DbSet
+        /// </summary>
+        public DbSet<ShippingInformation> ShippingInformations { get; set; }
+
+        /// <summary>
+        /// Report Param DbSet
+        /// </summary>
+        public DbSet<Reportparam> Reportparams { get; set; }
+
+        /// <summary>
+        /// Staging Import Company Contact Address DbSet
+        /// </summary>
+        public DbSet<StagingImportCompanyContactAddress> StagingImportCompanyContactAddresses { get; set; }
+
+        /// <summary>
+        /// Machine Lookup Method DbSet
+        /// </summary>
+        public DbSet<MachineLookupMethod> MachineLookupMethods { get; set; }
+
+        /// <summary>
+        /// Variable Extension DbSet
+        /// </summary>
+        public DbSet<VariableExtension> VariableExtensions { get; set; }
+
+
+        /// <summary>
+        /// Template Variable Extension DbSet
+        /// </summary>
+        public DbSet<TemplateVariableExtension> TemplateVariableExtensions { get; set; }
+        /// <summary>
+        /// Company Vouchers Redeem DbSet
+        /// </summary>
+        public DbSet<CompanyVoucherRedeem> CompanyVoucherRedeems { get; set; }
+        
+        /// <summary>
+        /// Item Vouchers Redeem DbSet
+        /// </summary>
+        public DbSet<ItemsVoucher> ItemsVouchers { get; set; }
+         
+        /// <summary>
+        /// Item Vouchers Redeem DbSet
+        /// </summary>
+        public DbSet<ProductCategoryVoucher> ProductCategoryVouchers { get; set; }
+
+        public DbSet<MarketingBriefHistory> MarketingBriefHistory { get; set; }
         /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
@@ -891,6 +940,276 @@ namespace MPC.Repository.BaseRepository
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_OrderReport_Result>("usp_OrderReport", organisationIdParameter, orderIdParameter);
         }
 
+// ReSharper disable InconsistentNaming
+        public ObjectResult<usp_DeliveryReport_Result> usp_DeliveryReport(long? organisationId, long? deliveryId)
+// ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("OrganisationID", organisationId) :
+                new ObjectParameter("OrganisationID", typeof(long));
+
+            var deliveryIdParameter = deliveryId.HasValue ?
+                new ObjectParameter("DeliveryID", deliveryId) :
+                new ObjectParameter("DeliveryID", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_DeliveryReport_Result>("usp_DeliveryReport", organisationIdParameter, 
+                deliveryIdParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public ObjectResult<usp_EstimateReport_Result> usp_EstimateReport(long? organisationId, long? estimateId)
+// ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("OrganisationId", organisationId) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            var estimateIdParameter = estimateId.HasValue ?
+                new ObjectParameter("EstimateID", estimateId) :
+                new ObjectParameter("EstimateID", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_EstimateReport_Result>("usp_EstimateReport", organisationIdParameter, 
+                estimateIdParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public ObjectResult<usp_InvoiceReport_Result> usp_InvoiceReport(long? organisationid, long? invoiceId)
+// ReSharper restore InconsistentNaming
+        {
+            var organisationidParameter = organisationid.HasValue ?
+                new ObjectParameter("Organisationid", organisationid) :
+                new ObjectParameter("Organisationid", typeof(long));
+
+            var invoiceIdParameter = invoiceId.HasValue ?
+                new ObjectParameter("InvoiceId", invoiceId) :
+                new ObjectParameter("InvoiceId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_InvoiceReport_Result>("usp_InvoiceReport", organisationidParameter, 
+                invoiceIdParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public ObjectResult<usp_PurchaseOrderReport_Result> usp_PurchaseOrderReport(long? organisationId, long? purchaseId)
+// ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("OrganisationId", organisationId) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            var purchaseIdParameter = purchaseId.HasValue ?
+                new ObjectParameter("PurchaseID", purchaseId) :
+                new ObjectParameter("PurchaseID", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_PurchaseOrderReport_Result>("usp_PurchaseOrderReport", organisationIdParameter, 
+                purchaseIdParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public ObjectResult<usp_TotalEarnings_Result> usp_TotalEarnings(DateTime? fromdate, DateTime? todate, long? organisationid)
+// ReSharper restore InconsistentNaming
+        {
+            var fromdateParameter = fromdate.HasValue ?
+                new ObjectParameter("fromdate", fromdate) :
+                new ObjectParameter("fromdate", typeof(DateTime));
+
+            var todateParameter = todate.HasValue ?
+                new ObjectParameter("todate", todate) :
+                new ObjectParameter("todate", typeof(DateTime));
+
+            var organisationidParameter = organisationid.HasValue ?
+                new ObjectParameter("Organisationid", organisationid) :
+                new ObjectParameter("Organisationid", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_TotalEarnings_Result>("usp_TotalEarnings", fromdateParameter, 
+                todateParameter, organisationidParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public int usp_DeletePurchaseOrders(int? orderId)
+// ReSharper restore InconsistentNaming
+        {
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderID", orderId) :
+                new ObjectParameter("OrderID", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeletePurchaseOrders", orderIdParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public int usp_GeneratePurchaseOrders(int? orderId, Guid? createdBy)
+// ReSharper restore InconsistentNaming
+        {
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderID", orderId) :
+                new ObjectParameter("OrderID", typeof(int));
+
+            var createdByParameter = createdBy.HasValue ?
+                new ObjectParameter("CreatedBy", createdBy) :
+                new ObjectParameter("CreatedBy", typeof(Guid));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_GeneratePurchaseOrders", orderIdParameter, createdByParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public int usp_importTerritoryContactAddressByStore(long? organisationId, long? storeId)
+// ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("OrganisationId", organisationId) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            var storeIdParameter = storeId.HasValue ?
+                new ObjectParameter("StoreId", storeId) :
+                new ObjectParameter("StoreId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_importTerritoryContactAddressByStore", organisationIdParameter, storeIdParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        /// <summary>
+        /// Delete CRM Company By Id
+        /// </summary>
+        public int usp_DeleteCRMCompanyByID(int? companyId)
+// ReSharper restore InconsistentNaming
+        {
+            var companyIdParameter = companyId.HasValue ?
+                new ObjectParameter("CompanyID", companyId) :
+                new ObjectParameter("CompanyID", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteCRMCompanyByID", companyIdParameter);
+        }
+
+        /// <summary>
+        /// Delete Staging Import table data
+        /// </summary>
+// ReSharper disable InconsistentNaming
+        public int usp_DeleteStagingImportCompanyContactAddress()
+// ReSharper restore InconsistentNaming
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteStagingImportCompanyContactAddress");
+        }
+
+        /// <summary>
+        /// Delete Template
+        /// </summary>
+// ReSharper disable InconsistentNaming
+        public int usp_DeleteTemplate(long? templateId)
+// ReSharper restore InconsistentNaming
+        {
+            var templateIdParameter = templateId.HasValue ?
+                new ObjectParameter("TemplateID", templateId) :
+                new ObjectParameter("TemplateID", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteTemplate", templateIdParameter);
+        }
+
+        public ObjectResult<usp_ChartRegisteredUserByStores_Result> usp_ChartRegisteredUserByStores(long? organisationid)
+        // ReSharper restore InconsistentNaming
+        {
+            var organisationidParameter = organisationid.HasValue ?
+                new ObjectParameter("OrganisationId", organisationid) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ChartRegisteredUserByStores_Result>("usp_ChartRegisteredUserByStores", organisationidParameter);
+        }
+
+        public ObjectResult<usp_ChartTopPerformingStores_Result> usp_ChartTopPerformingStores(long? organisationid)
+        // ReSharper restore InconsistentNaming
+        {
+            var organisationidParameter = organisationid.HasValue ?
+                new ObjectParameter("OrganisationId", organisationid) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ChartTopPerformingStores_Result>("usp_ChartTopPerformingStores", organisationidParameter);
+        }
+
+        public ObjectResult<usp_ChartMonthlyOrdersCount_Result> usp_ChartMonthlyOrdersCount(long? organisationid)
+        // ReSharper restore InconsistentNaming
+        {
+            var organisationidParameter = organisationid.HasValue ?
+                new ObjectParameter("OrganisationId", organisationid) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ChartMonthlyOrdersCount_Result>("usp_ChartMonthlyOrdersCount", organisationidParameter);
+        }
+
+        public ObjectResult<usp_ChartEstimateToOrderConversion_Result> usp_ChartEstimateToOrderConversion(long? organisationid)
+        // ReSharper restore InconsistentNaming
+        {
+            var organisationidParameter = organisationid.HasValue ?
+                new ObjectParameter("OrganisationId", organisationid) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ChartEstimateToOrderConversion_Result>("usp_ChartEstimateToOrderConversion", organisationidParameter);
+        }
+
+        public ObjectResult<usp_ChartEstimateToOrderConversionCount_Result> usp_ChartEstimateToOrderConversionCount(long? organisationid)
+        // ReSharper restore InconsistentNaming
+        {
+            var organisationidParameter = organisationid.HasValue ?
+                new ObjectParameter("OrganisationId", organisationid) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ChartEstimateToOrderConversionCount_Result>("usp_ChartEstimateToOrderConversionCount", organisationidParameter);
+        }
+
+        public ObjectResult<usp_ChartTop10PerfomingCustomers_Result> usp_ChartTop10PerfomingCustomers(long? organisationid)
+        // ReSharper restore InconsistentNaming
+        {
+            var organisationidParameter = organisationid.HasValue ?
+                new ObjectParameter("OrganisationId", organisationid) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ChartTop10PerfomingCustomers_Result>("usp_ChartTop10PerfomingCustomers", organisationidParameter);
+        }
+        public ObjectResult<usp_ChartMonthlyEarningsbyStore_Result> usp_ChartMonthlyEarningsbyStore(long? organisationid)
+        // ReSharper restore InconsistentNaming
+        {
+            var organisationidParameter = organisationid.HasValue ?
+                new ObjectParameter("OrganisationId", organisationid) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ChartMonthlyEarningsbyStore_Result>("usp_ChartMonthlyEarningsbyStore", organisationidParameter);
+        }
+        public ObjectResult<usp_DashboardROICounter_Result> usp_DashboardROICounter(long? organisationid)
+        // ReSharper restore InconsistentNaming
+        {
+            var organisationidParameter = organisationid.HasValue ?
+                new ObjectParameter("OrganisationId", organisationid) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_DashboardROICounter_Result>("usp_DashboardROICounter", organisationidParameter);
+        }
+
+        public int usp_importCRMCompanyContacts(long? organisationId)
+        // ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("OrganisationId", organisationId) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_importCRMCompanyContacts", organisationIdParameter);
+        }
+
+
+        public int usp_CopyStoreProducts(long? organisationId,long? NewStoreId,long? OldStoreId)
+        // ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("OrganisationId", organisationId) :
+                new ObjectParameter("OrganisationId", typeof(long));
+
+            var NewstoreIdParameter = NewStoreId.HasValue ?
+              new ObjectParameter("NewStoreId", NewStoreId) :
+              new ObjectParameter("NewStoreId", typeof(long));
+
+            var OldstoreIdParameter = OldStoreId.HasValue ?
+            new ObjectParameter("OldStoreId", OldStoreId) :
+            new ObjectParameter("OldStoreId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_CopyStoreProducts", OldstoreIdParameter, NewstoreIdParameter,organisationIdParameter);
+        }
         #endregion
     }
 }

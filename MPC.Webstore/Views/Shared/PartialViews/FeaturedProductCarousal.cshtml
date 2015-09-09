@@ -1,311 +1,535 @@
 ﻿@using MPC.Models.Common
+@using System.Text.RegularExpressions
 @model List<MPC.Models.DomainModels.Item>
+@{
+    Layout = null;
+}
+@using MPC.Webstore.Common;
+
+
 @{
     var loopcount = 0;
     var productsCount = ViewBag.ProductsCount;
     var featuredList = Model as List<MPC.Models.DomainModels.Item>;
     var ProductDescription = "";
 }
+
 <div class="recent-posts blocky">
-    <div class="container">
+    <div class="container" id="all-featuredCat-pg">
         <div class="row">
             <div class="col-md-12">
                 <!-- Section title -->
                 <div class="section-title">
-                    <h4>&nbsp;Whats New</h4>
+                    <h4>&nbsp;@Html.Raw(Html.GetKeyValueFromResourceFile("wnew", UserCookieManager.WBStoreId, "Whats New"))</h4>
                 </div>
-                <div class="carousel slide" data-ride="carousel" id="item-carousel">
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner">
-                        @for (int i = 0; i <= productsCount; i += 4)
-                        {
-                            var isActiveItemClass = "";
-                            if (i == 0)
+                @if (featuredList != null && featuredList.Count > 0)
+                {
+                    <div class="carousel slide" data-ride="carousel" id="item-carousel">
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner">
+                            @for (int i = 0; i <= productsCount; i += 4)
                             {
-                                isActiveItemClass = "item active";
-                            }
-                            else
-                            {
-                                isActiveItemClass = "item";
-                            }
-                            if ((i + 1) < productsCount)
-                            {
-                                string RedirectURL = string.Empty;
-                                if (featuredList[i + 1].ProductType == (int)ProductType.MarketingBrief)
+                                var isActiveItemClass = "";
+                                if (i == 0)
                                 {
-
-                                    RedirectURL = "/MarketingBrief/" + featuredList[i + 1].ProductName + "/" + featuredList[i + 1].ItemId;
-
+                                    i = -1;
+                                    isActiveItemClass = "item active";
                                 }
-                                else if (featuredList[i + 1].ProductType == (int)ProductType.PrintProduct)
+                                else
                                 {
-                                    if (featuredList[i + 1].IsUploadImage == true)
+                                    isActiveItemClass = "item";
+                                }
+                                if ((i + 1) < productsCount)
+                                {
+                                    string RedirectURL = string.Empty;
+                                    if (featuredList[i + 1].ProductType == (int)ProductType.MarketingBrief)
                                     {
-                                        RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 1].ItemId + "/UploadDesign";
+
+                                        RedirectURL = "/MarketingBrief/" + featuredList[i + 1].ProductName + "/" + featuredList[i + 1].ItemId;
+
                                     }
-                                    else
+                                    else if (featuredList[i + 1].ProductType == (int)ProductType.PrintProduct)
                                     {
 
                                         RedirectURL = "/CloneFeatureItem/" + featuredList[i + 1].ItemId;
+
+
                                     }
-
-                                }
-                                else if (featuredList[i + 1].ProductType == (int)ProductType.NonPrintProduct) // for non print product
-                                {
-                                    RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 1].ItemId + "/UploadDesign";
-                                }
-                                <div class="@isActiveItemClass">
-                                    <div class="row">
+                                    else if (featuredList[i + 1].ProductType == (int)ProductType.NonPrintProduct) // for non print product
+                                    {
+                                        RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 1].ItemId + "/UploadDesign";
+                                    }
+                                    <div class="@isActiveItemClass">
+                                        <div class="row">
 
 
-                                        <div class="col-md-3 col-sm-6">
-                                            <!-- single item -->
-                                            <div class="s-item">
-                                                <!-- Image link -->
-                                                <a href="@RedirectURL">
-                                                    <img id="imgThumbnail" class="full_img_ThumbnailPath" src=@featuredList[i+1].ThumbnailPath />
-                                                </a>
-                                                <!-- portfolio caption -->
-                                                <div class="s-caption">
-                                                    <!-- heading and paragraph -->
-                                                    <h4>
-                                                        <a href="#" id="headingOfFeaturedPro">
-                                                            <label class="product_detail_image_heading_S5  themeFontColor Top_Cat_Display">@featuredList[i + 1].ProductName</label>
-                                                        </a>
-                                                    </h4>
-                                                    <p id="descOfFPro">
-                                                        @{
-                                                            ProductDescription = featuredList[i + 1].WebDescription;
-                                                            if (!string.IsNullOrEmpty(ProductDescription))
-                                                            {
-                                                                if (ProductDescription.Length > 250)
-                                                                {
-                                                                    ProductDescription = ProductDescription.Substring(0, 250);
-                                                                    ProductDescription = ProductDescription + "<a class=morelink href=" + RedirectURL + ">more...</a>";
-                                                                }
-                                                                else
-                                                                {
-                                                                    ProductDescription = ProductDescription;
-                                                                }
-                                                            }
-                                                        }
-                                                        <label class="topcat_desc displayNone_TLS5">@ProductDescription</label>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @if ((i + 2) < productsCount)
-                                        {
-                                            if (featuredList[i + 2].ProductType == (int)ProductType.MarketingBrief)
-                                            {
-
-                                                RedirectURL = "/MarketingBrief/" + featuredList[i + 2].ProductName + "/" + featuredList[i + 2].ItemId;
-
-                                            }
-                                            else if (featuredList[i + 2].ProductType == (int)ProductType.PrintProduct)
-                                            {
-                                                if (featuredList[i + 2].IsUploadImage == true)
-                                                {
-                                                    RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 2].ItemId + "/UploadDesign";
-                                                }
-                                                else
-                                                {
-
-                                                    RedirectURL = "/CloneFeatureItem/" + featuredList[i + 2].ItemId;
-                                                }
-
-                                            }
-                                            else if (featuredList[i + 2].ProductType == (int)ProductType.NonPrintProduct) // for non print product
-                                            {
-                                                RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 2].ItemId + "/UploadDesign";
-                                            }
                                             <div class="col-md-3 col-sm-6">
                                                 <!-- single item -->
                                                 <div class="s-item">
                                                     <!-- Image link -->
                                                     <a href="@RedirectURL">
-                                                        <img id="imgThumbnail" class="full_img_ThumbnailPath" src=@featuredList[i + 2].ThumbnailPath />
+                                                        <img id="imgThumbnail" class="full_img_ThumbnailPath" src=@featuredList[i+1].ThumbnailPath />
                                                     </a>
                                                     <!-- portfolio caption -->
                                                     <div class="s-caption">
                                                         <!-- heading and paragraph -->
                                                         <h4>
                                                             <a href="#" id="headingOfFeaturedPro">
-                                                                <label class="product_detail_image_heading_S5  themeFontColor Top_Cat_Display">@featuredList[i + 2].ProductName</label>
+                                                                <label class="product_detail_image_heading_S5  themeFontColor Top_Cat_Display">@featuredList[i + 1].ProductName</label>
                                                             </a>
                                                         </h4>
                                                         <p id="descOfFPro">
                                                             @{
-                                                            ProductDescription = featuredList[i + 2].WebDescription;
-                                                            if (!string.IsNullOrEmpty(ProductDescription))
-                                                            {
-                                                                if (ProductDescription.Length > 250)
-                                                                {
-                                                                    ProductDescription = ProductDescription.Substring(0, 250);
-                                                                    ProductDescription = ProductDescription + "<a class=morelink href=" + RedirectURL+">more...</a>";
-                                                                }
-                                                                else
-                                                                {
-                                                                    ProductDescription = ProductDescription;
-                                                                }
+                                    ProductDescription = featuredList[i + 1].WebDescription;
+                                    if (!string.IsNullOrEmpty(ProductDescription))
+                                    {
+                                        if (ProductDescription.Length > 250)
+                                        {
+                                            ProductDescription = Regex.Replace(ProductDescription, @"<[^>]*>", String.Empty).Substring(0, 250);
+                                            ProductDescription = ProductDescription + "<a class=morelink href=" + RedirectURL + ">more...</a>";
+                                        }
+                                        else
+                                        {
+                                            ProductDescription = ProductDescription;
+                                        }
+                                    }
                                                             }
-                                                            }
-                                                            <label class="topcat_desc displayNone_TLS5">@ProductDescription</label>
+                                                            <span class="topcat_desc displayNone_TLS5">@Html.Raw(ProductDescription)</span>
                                                         </p>
                                                     </div>
                                                 </div>
                                             </div>
-                                        }
-                                       
-                                      @if ((i + 3) < productsCount)
-                                      {
-                                        if (featuredList[i + 3].ProductType == (int)ProductType.MarketingBrief)
-                                        {
-
-                                            RedirectURL = "/MarketingBrief/" + featuredList[i + 3].ProductName + "/" + featuredList[i + 3].ItemId;
-
-                                        }
-                                        else if (featuredList[i + 3].ProductType == (int)ProductType.PrintProduct)
-                                        {
-                                            if (featuredList[i + 3].IsUploadImage == true)
+                                            @if ((i + 2) < productsCount)
                                             {
-                                                RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 3].ItemId + "/UploadDesign";
-                                            }
-                                            else
-                                            {
+                                                if (featuredList[i + 2].ProductType == (int)ProductType.MarketingBrief)
+                                                {
 
-                                                RedirectURL = "/CloneFeatureItem/" + featuredList[i + 3].ItemId;
-                                            }
+                                                    RedirectURL = "/MarketingBrief/" + featuredList[i + 2].ProductName + "/" + featuredList[i + 2].ItemId;
 
-                                        }
-                                        else if (featuredList[i + 3].ProductType == (int)ProductType.NonPrintProduct) // for non print product
-                                        {
-                                            RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 3].ItemId + "/UploadDesign";
-                                        }
-                                        <div class="col-md-3 col-sm-6">
-                                            <!-- single item -->
-                                            <div class="s-item">
-                                                <!-- Image link -->
-                                                <a href="@RedirectURL">
-                                                    <img id="imgThumbnail" class="full_img_ThumbnailPath" src=@featuredList[i + 3].ThumbnailPath />
-                                                </a>
-                                                <!-- portfolio caption -->
-                                                <div class="s-caption">
-                                                    <!-- heading and paragraph -->
-                                                    <h4>
-                                                        <a href="#" id="headingOfFeaturedPro">
-                                                            <label class="product_detail_image_heading_S5  themeFontColor Top_Cat_Display">@featuredList[i + 3].ProductName</label>
+                                                }
+                                                else if (featuredList[i + 2].ProductType == (int)ProductType.PrintProduct)
+                                                {
+
+
+                                                    RedirectURL = "/CloneFeatureItem/" + featuredList[i + 2].ItemId;
+
+                                                }
+                                                else if (featuredList[i + 2].ProductType == (int)ProductType.NonPrintProduct) // for non print product
+                                                {
+                                                    RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 2].ItemId + "/UploadDesign";
+                                                }
+                                                <div class="col-md-3 col-sm-6">
+                                                    <!-- single item -->
+                                                    <div class="s-item">
+                                                        <!-- Image link -->
+                                                        <a href="@RedirectURL">
+                                                            <img id="imgThumbnail" class="full_img_ThumbnailPath" src=@featuredList[i + 2].ThumbnailPath />
                                                         </a>
-                                                    </h4>
-                                                    <p id="descOfFPro">
-                                                        @{
-                                                            ProductDescription = featuredList[i + 3].WebDescription;
-                                                            if (!string.IsNullOrEmpty(ProductDescription))
-                                                            {
-                                                                if (ProductDescription.Length > 250)
-                                                                {
-                                                                    ProductDescription = ProductDescription.Substring(0, 250);
-                                                                    ProductDescription = ProductDescription + "<a class=morelink href=" + RedirectURL+">more...</a>";
+                                                        <!-- portfolio caption -->
+                                                        <div class="s-caption">
+                                                            <!-- heading and paragraph -->
+                                                            <h4>
+                                                                <a href="#" id="headingOfFeaturedPro">
+                                                                    <label class="product_detail_image_heading_S5  themeFontColor Top_Cat_Display">@featuredList[i + 2].ProductName</label>
+                                                                </a>
+                                                            </h4>
+                                                            <p id="descOfFPro">
+                                                                @{
+                                                ProductDescription = featuredList[i + 2].WebDescription;
+                                                if (!string.IsNullOrEmpty(ProductDescription))
+                                                {
+                                                    if (ProductDescription.Length > 250)
+                                                    {
+                                                        ProductDescription = Regex.Replace(ProductDescription, @"<[^>]*>", String.Empty).Substring(0, 250);
+                                                        ProductDescription = ProductDescription + "<a class=morelink href=" + RedirectURL + ">more...</a>";
+                                                    }
+                                                    else
+                                                    {
+                                                        ProductDescription = ProductDescription;
+                                                    }
+                                                }
                                                                 }
-                                                                else
-                                                                {
-                                                                    ProductDescription = ProductDescription;
-                                                                }
-                                                            }
-                                                        }
-                                                        <label class="topcat_desc displayNone_TLS5">@ProductDescription</label>
-                                                    </p>
+                                                                <span class="topcat_desc displayNone_TLS5">@Html.Raw(ProductDescription)</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                      }
-                                       @if ((i + 4) < productsCount)
-                                       {
-                                        if (featuredList[i + 4].ProductType == (int)ProductType.MarketingBrief)
-                                        {
-
-                                            RedirectURL = "/MarketingBrief/" + featuredList[i + 4].ProductName + "/" + featuredList[i + 4].ItemId;
-
-                                        }
-                                        else if (featuredList[i + 4].ProductType == (int)ProductType.PrintProduct)
-                                        {
-                                            if (featuredList[i + 4].IsUploadImage == true)
-                                            {
-                                                RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 4].ItemId + "/UploadDesign";
-                                            }
-                                            else
-                                            {
-
-                                                RedirectURL = "/CloneFeatureItem/" + featuredList[i + 4].ItemId;
                                             }
 
-                                        }
-                                        else if (featuredList[i + 4].ProductType == (int)ProductType.NonPrintProduct) // for non print product
-                                        {
-                                            RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 4].ItemId + "/UploadDesign";
-                                        }
-                                        <div class="col-md-3 col-sm-6">
-                                            <!-- single item -->
-                                            <div class="s-item">
-                                                <!-- Image link -->
-                                                <a href="@RedirectURL">
-                                                    <img id="imgThumbnail" class="full_img_ThumbnailPath" src=@featuredList[i + 4].ThumbnailPath />
-                                                </a>
-                                                <!-- portfolio caption -->
-                                                <div class="s-caption">
-                                                    <!-- heading and paragraph -->
-                                                    <h4>
-                                                        <a href="#" id="headingOfFeaturedPro">
-                                                            <label class="product_detail_image_heading_S5  themeFontColor Top_Cat_Display">@featuredList[i + 4].ProductName</label>
+                                            @if ((i + 3) < productsCount)
+                                            {
+                                                if (featuredList[i + 3].ProductType == (int)ProductType.MarketingBrief)
+                                                {
+
+                                                    RedirectURL = "/MarketingBrief/" + featuredList[i + 3].ProductName + "/" + featuredList[i + 3].ItemId;
+
+                                                }
+                                                else if (featuredList[i + 3].ProductType == (int)ProductType.PrintProduct)
+                                                {
+
+                                                    RedirectURL = "/CloneFeatureItem/" + featuredList[i + 3].ItemId;
+
+                                                }
+                                                else if (featuredList[i + 3].ProductType == (int)ProductType.NonPrintProduct) // for non print product
+                                                {
+                                                    RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 3].ItemId + "/UploadDesign";
+                                                }
+                                                <div class="col-md-3 col-sm-6">
+                                                    <!-- single item -->
+                                                    <div class="s-item">
+                                                        <!-- Image link -->
+                                                        <a href="@RedirectURL">
+                                                            <img id="imgThumbnail" class="full_img_ThumbnailPath" src=@featuredList[i + 3].ThumbnailPath />
                                                         </a>
-                                                    </h4>
-                                                    <p id="descOfFPro">
-                                                        @{
-                                                            ProductDescription = featuredList[i + 4].WebDescription;
-                                                            if (!string.IsNullOrEmpty(ProductDescription))
-                                                            {
-                                                                if (ProductDescription.Length > 250)
-                                                                {
-                                                                    ProductDescription = ProductDescription.Substring(0, 250);
-                                                                    ProductDescription = ProductDescription + "<a class=morelink href=" + RedirectURL+">more...</a>";
+                                                        <!-- portfolio caption -->
+                                                        <div class="s-caption">
+                                                            <!-- heading and paragraph -->
+                                                            <h4>
+                                                                <a href="#" id="headingOfFeaturedPro">
+                                                                    <label class="product_detail_image_heading_S5  themeFontColor Top_Cat_Display">@featuredList[i + 3].ProductName</label>
+                                                                </a>
+                                                            </h4>
+                                                            <p id="descOfFPro">
+                                                                @{
+                                                ProductDescription = featuredList[i + 3].WebDescription;
+                                                if (!string.IsNullOrEmpty(ProductDescription))
+                                                {
+                                                    if (ProductDescription.Length > 250)
+                                                    {
+                                                        ProductDescription = Regex.Replace(ProductDescription, @"<[^>]*>", String.Empty).Substring(0, 250);
+                                                        ProductDescription = ProductDescription + "<a class=morelink href=" + RedirectURL + ">more...</a>";
+                                                    }
+                                                    else
+                                                    {
+                                                        ProductDescription = ProductDescription;
+                                                    }
+                                                }
                                                                 }
-                                                                else
-                                                                {
-                                                                    ProductDescription = ProductDescription;
-                                                                }
-                                                            }
-                                                        }
-                                                        <label class="topcat_desc displayNone_TLS5">@ProductDescription</label>
-                                                    </p>
+                                                                <span class="topcat_desc displayNone_TLS5">@Html.Raw(ProductDescription)</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                       }
-                                      
+                                            }
+                                            @if ((i + 4) < productsCount)
+                                            {
+                                                if (featuredList[i + 4].ProductType == (int)ProductType.MarketingBrief)
+                                                {
 
+                                                    RedirectURL = "/MarketingBrief/" + featuredList[i + 4].ProductName + "/" + featuredList[i + 4].ItemId;
+
+                                                }
+                                                else if (featuredList[i + 4].ProductType == (int)ProductType.PrintProduct)
+                                                {
+
+                                                    RedirectURL = "/CloneFeatureItem/" + featuredList[i + 4].ItemId;
+
+                                                }
+                                                else if (featuredList[i + 4].ProductType == (int)ProductType.NonPrintProduct) // for non print product
+                                                {
+                                                    RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 4].ItemId + "/UploadDesign";
+                                                }
+                                                <div class="col-md-3 col-sm-6">
+                                                    <!-- single item -->
+                                                    <div class="s-item">
+                                                        <!-- Image link -->
+                                                        <a href="@RedirectURL">
+                                                            <img id="imgThumbnail" class="full_img_ThumbnailPath" src=@featuredList[i + 4].ThumbnailPath />
+                                                        </a>
+                                                        <!-- portfolio caption -->
+                                                        <div class="s-caption">
+                                                            <!-- heading and paragraph -->
+                                                            <h4>
+                                                                <a href="#" id="headingOfFeaturedPro">
+                                                                    <label class="product_detail_image_heading_S5  themeFontColor Top_Cat_Display">@featuredList[i + 4].ProductName</label>
+                                                                </a>
+                                                            </h4>
+                                                            <p id="descOfFPro">
+                                                                @{
+                                                ProductDescription = featuredList[i + 4].WebDescription;
+                                                if (!string.IsNullOrEmpty(ProductDescription))
+                                                {
+                                                    if (ProductDescription.Length > 250)
+                                                    {
+                                                        ProductDescription = Regex.Replace(ProductDescription, @"<[^>]*>", String.Empty).Substring(0, 250);
+                                                        ProductDescription = ProductDescription + "<a class=morelink href=" + RedirectURL + ">more...</a>";
+                                                    }
+                                                    else
+                                                    {
+                                                        ProductDescription = ProductDescription;
+                                                    }
+                                                }
+                                                                }
+                                                                <span class="topcat_desc displayNone_TLS5">@Html.Raw(ProductDescription)</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+
+
+                                        </div>
                                     </div>
-                                </div>
+                                }
+                                else if ((i+1)<productsCount)
+                                {
+                                    string RedirectURL = string.Empty;
+                                    if (featuredList[i].ProductType == (int)ProductType.MarketingBrief)
+                                    {
+
+                                        RedirectURL = "/MarketingBrief/" + featuredList[i].ProductName + "/" + featuredList[i].ItemId;
+
+                                    }
+                                    else if (featuredList[i].ProductType == (int)ProductType.PrintProduct)
+                                    {
+
+                                        RedirectURL = "/CloneFeatureItem/" + featuredList[i].ItemId;
+
+
+                                    }
+                                    else if (featuredList[i].ProductType == (int)ProductType.NonPrintProduct) // for non print product
+                                    {
+                                        RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i].ItemId + "/UploadDesign";
+                                    }
+                                    <div class="@isActiveItemClass">
+                                        <div class="row">
+
+
+                                            <div class="col-md-3 col-sm-6">
+                                                <!-- single item -->
+                                                <div class="s-item">
+                                                    <!-- Image link -->
+                                                    <a href="@RedirectURL">
+                                                        <img id="imgThumbnail" class="full_img_ThumbnailPath" src=@featuredList[i].ThumbnailPath />
+                                                    </a>
+                                                    <!-- portfolio caption -->
+                                                    <div class="s-caption">
+                                                        <!-- heading and paragraph -->
+                                                        <h4>
+                                                            <a href="#" id="headingOfFeaturedPro">
+                                                                <label class="product_detail_image_heading_S5  themeFontColor Top_Cat_Display">@featuredList[i].ProductName</label>
+                                                            </a>
+                                                        </h4>
+                                                        <p id="descOfFPro">
+                                                            @{
+                                    ProductDescription = featuredList[i].WebDescription;
+                                    if (!string.IsNullOrEmpty(ProductDescription))
+                                    {
+                                        if (ProductDescription.Length > 250)
+                                        {
+                                            ProductDescription = Regex.Replace(ProductDescription, @"<[^>]*>", String.Empty).Substring(0, 250);
+                                            ProductDescription = ProductDescription + "<a class=morelink href=" + RedirectURL + ">more...</a>";
+                                        }
+                                        else
+                                        {
+                                            ProductDescription = ProductDescription;
+                                        }
+                                    }
+                                                            }
+                                                            <span class="topcat_desc displayNone_TLS5">@Html.Raw(ProductDescription)</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @if ((i + 1) < productsCount)
+                                            {
+                                                if (featuredList[i + 1].ProductType == (int)ProductType.MarketingBrief)
+                                                {
+
+                                                    RedirectURL = "/MarketingBrief/" + featuredList[i + 1].ProductName + "/" + featuredList[i + 2].ItemId;
+
+                                                }
+                                                else if (featuredList[i + 1].ProductType == (int)ProductType.PrintProduct)
+                                                {
+
+
+                                                    RedirectURL = "/CloneFeatureItem/" + featuredList[i + 1].ItemId;
+
+                                                }
+                                                else if (featuredList[i + 1].ProductType == (int)ProductType.NonPrintProduct) // for non print product
+                                                {
+                                                    RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 1].ItemId + "/UploadDesign";
+                                                }
+                                                <div class="col-md-3 col-sm-6">
+                                                    <!-- single item -->
+                                                    <div class="s-item">
+                                                        <!-- Image link -->
+                                                        <a href="@RedirectURL">
+                                                            <img id="imgThumbnail" class="full_img_ThumbnailPath" src=@featuredList[i + 1].ThumbnailPath />
+                                                        </a>
+                                                        <!-- portfolio caption -->
+                                                        <div class="s-caption">
+                                                            <!-- heading and paragraph -->
+                                                            <h4>
+                                                                <a href="#" id="headingOfFeaturedPro">
+                                                                    <label class="product_detail_image_heading_S5  themeFontColor Top_Cat_Display">@featuredList[i + 1].ProductName</label>
+                                                                </a>
+                                                            </h4>
+                                                            <p id="descOfFPro">
+                                                                @{
+                                                ProductDescription = featuredList[i + 1].WebDescription;
+                                                if (!string.IsNullOrEmpty(ProductDescription))
+                                                {
+                                                    if (ProductDescription.Length > 250)
+                                                    {
+                                                        ProductDescription = Regex.Replace(ProductDescription, @"<[^>]*>", String.Empty).Substring(0, 250);
+                                                        ProductDescription = ProductDescription + "<a class=morelink href=" + RedirectURL + ">more...</a>";
+                                                    }
+                                                    else
+                                                    {
+                                                        ProductDescription = ProductDescription;
+                                                    }
+                                                }
+                                                                }
+                                                                <span class="topcat_desc displayNone_TLS5">@Html.Raw(ProductDescription)</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            @if ((i + 2) < productsCount)
+                                            {
+                                                if (featuredList[i + 2].ProductType == (int)ProductType.MarketingBrief)
+                                                {
+
+                                                    RedirectURL = "/MarketingBrief/" + featuredList[i + 2].ProductName + "/" + featuredList[i + 2].ItemId;
+
+                                                }
+                                                else if (featuredList[i + 2].ProductType == (int)ProductType.PrintProduct)
+                                                {
+
+                                                    RedirectURL = "/CloneFeatureItem/" + featuredList[i + 2].ItemId;
+
+                                                }
+                                                else if (featuredList[i + 2].ProductType == (int)ProductType.NonPrintProduct) // for non print product
+                                                {
+                                                    RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 2].ItemId + "/UploadDesign";
+                                                }
+                                                <div class="col-md-3 col-sm-6">
+                                                    <!-- single item -->
+                                                    <div class="s-item">
+                                                        <!-- Image link -->
+                                                        <a href="@RedirectURL">
+                                                            <img id="imgThumbnail" class="full_img_ThumbnailPath" src=@featuredList[i + 2].ThumbnailPath />
+                                                        </a>
+                                                        <!-- portfolio caption -->
+                                                        <div class="s-caption">
+                                                            <!-- heading and paragraph -->
+                                                            <h4>
+                                                                <a href="#" id="headingOfFeaturedPro">
+                                                                    <label class="product_detail_image_heading_S5  themeFontColor Top_Cat_Display">@featuredList[i + 2].ProductName</label>
+                                                                </a>
+                                                            </h4>
+                                                            <p id="descOfFPro">
+                                                                @{
+                                                ProductDescription = featuredList[i + 2].WebDescription;
+                                                if (!string.IsNullOrEmpty(ProductDescription))
+                                                {
+                                                    if (ProductDescription.Length > 250)
+                                                    {
+                                                        ProductDescription = Regex.Replace(ProductDescription, @"<[^>]*>", String.Empty).Substring(0, 250);
+                                                        ProductDescription = ProductDescription + "<a class=morelink href=" + RedirectURL + ">more...</a>";
+                                                    }
+                                                    else
+                                                    {
+                                                        ProductDescription = ProductDescription;
+                                                    }
+                                                }
+                                                                }
+                                                                <span class="topcat_desc displayNone_TLS5">@Html.Raw(ProductDescription)</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            @if ((i + 3) < productsCount)
+                                            {
+                                                if (featuredList[i + 3].ProductType == (int)ProductType.MarketingBrief)
+                                                {
+
+                                                    RedirectURL = "/MarketingBrief/" + featuredList[i + 3].ProductName + "/" + featuredList[i + 3].ItemId;
+
+                                                }
+                                                else if (featuredList[i + 3].ProductType == (int)ProductType.PrintProduct)
+                                                {
+
+                                                    RedirectURL = "/CloneFeatureItem/" + featuredList[i + 3].ItemId;
+
+                                                }
+                                                else if (featuredList[i + 3].ProductType == (int)ProductType.NonPrintProduct) // for non print product
+                                                {
+                                                    RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 3].ItemId + "/UploadDesign";
+                                                }
+                                                <div class="col-md-3 col-sm-6">
+                                                    <!-- single item -->
+                                                    <div class="s-item">
+                                                        <!-- Image link -->
+                                                        <a href="@RedirectURL">
+                                                            <img id="imgThumbnail" class="full_img_ThumbnailPath" src=@featuredList[i + 3].ThumbnailPath />
+                                                        </a>
+                                                        <!-- portfolio caption -->
+                                                        <div class="s-caption">
+                                                            <!-- heading and paragraph -->
+                                                            <h4>
+                                                                <a href="#" id="headingOfFeaturedPro">
+                                                                    <label class="product_detail_image_heading_S5  themeFontColor Top_Cat_Display">@featuredList[i + 3].ProductName</label>
+                                                                </a>
+                                                            </h4>
+                                                            <p id="descOfFPro">
+                                                                @{
+                                                ProductDescription = featuredList[i + 3].WebDescription;
+                                                if (!string.IsNullOrEmpty(ProductDescription))
+                                                {
+                                                    if (ProductDescription.Length > 250)
+                                                    {
+                                                        ProductDescription = Regex.Replace(ProductDescription, @"<[^>]*>", String.Empty).Substring(0, 250);
+                                                        ProductDescription = ProductDescription + "<a class=morelink href=" + RedirectURL + ">more...</a>";
+                                                    }
+                                                    else
+                                                    {
+                                                        ProductDescription = ProductDescription;
+                                                    }
+                                                }
+                                                                }
+                                                                <span class="topcat_desc displayNone_TLS5">@Html.Raw(ProductDescription)</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+
+
+                                        </div>
+                                    </div>
+                                }
+
+
                             }
 
-
-
-                        }
+                        </div>
+                        <!-- Controls -->
+                        <a class="left c-control" href="#item-carousel" data-slide="prev">
+                            <i class="fa fa-chevron-left"></i>
+                        </a>
+                        <a class="right c-control" href="#item-carousel" data-slide="next">
+                            <i class="fa fa-chevron-right"></i>
+                        </a>
 
                     </div>
-
-                    <!-- Controls -->
-                    <a class="left c-control" href="#item-carousel" data-slide="prev">
-                        <i class="fa fa-chevron-left"></i>
-                    </a>
-                    <a class="right c-control" href="#item-carousel" data-slide="next">
-                        <i class="fa fa-chevron-right"></i>
-                    </a>
-
-                </div>
+                }
+                else
+                {
+                    <div>
+                        <p class="clrRed">No item found.</p>
+                    </div>
+                }
+               
             </div>
         </div>
     </div>
+
 </div>
-@section scripts {
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script src="/Scripts/bootstrap.min.js"></script>
-}
+

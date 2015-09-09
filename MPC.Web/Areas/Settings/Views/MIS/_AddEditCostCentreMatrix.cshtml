@@ -19,10 +19,10 @@
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
                         </div>
-                        <label for="Question" class="control-label text-right tooltip-float">Name</label>
+                        <label for="Question" class="control-label text-right tooltip-float">Matrix title</label>
                     </div>
                     <div class="col-lg-6">
-                        <input type="text" class="form-control" data-bind="value:Name">
+                        <input type="text" placeholder="Enter Matrix title" class="form-control" data-bind="value:Name">
                     </div>
                 </div>
                 <div class="form-group">
@@ -53,7 +53,8 @@
                              <label for="Answer" class="control-label text-right tooltip-float">Rows</label>
                         </div>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control" data-bind="autoNumeric:RowsCount, settings:{mDec:0,vMin:2,vMax:9}, event:{change:$root.UpdateMartix}">
+                            <select class="form-control" data-bind="options:$root.RowscolCountList,optionsText:'Text',optionsValue:'Id', value:RowsCount,event:{change:$root.UpdateMartix}"></select>
+                            @*<input type="text" class="form-control" data-bind="autoNumeric:RowsCount, settings:{mDec:0,vMin:2,vMax:9}, event:{change:$root.UpdateMartix}">*@
                         </div>
                     </div>
                     <div class="col-lg-5">
@@ -62,7 +63,8 @@
                             <label for="Answer" class="control-label text-right tooltip-float">Columns</label>
                         </div>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control" data-bind="autoNumeric:ColumnsCount, settings:{mDec:0,vMin:2,vMax:9}, event:{change:$root.UpdateMartix}">
+                            <select class="form-control" data-bind="options:$root.RowscolCountList,optionsText:'Text',optionsValue:'Id', value:ColumnsCount,event:{change:$root.UpdateMartix}"></select>
+                            @*<input type="text" class="form-control" data-bind="autoNumeric:ColumnsCount, settings:{mDec:0,vMin:2,vMax:9}, event:{change:$root.UpdateMartix}">*@
                         </div>
                     </div>
                     <span id="WarningRowColUpdate" style="margin-left:-15px;font-size: smaller;color: red;font-weight: 400;"></span>

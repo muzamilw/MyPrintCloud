@@ -46,13 +46,19 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             //{ Id: 1, Text: 'Cost Centers' },
             QuestionVariableType = ko.observableArray([
             { Id: 1, Text: 'General' },
-            { Id: 2, Text: 'Multiple Options' },
-            { Id: 3, Text: 'Yes/No' }
+            { Id: 2, Text: 'Yes/No' },
+            { Id: 3, Text: 'Multiple Options' }            
             ]),
-
-            CalculateCostType = ko.observableArray([
-            { Id: 'perunit', Text: 'Per Unit' },
-            { Id: 'perpack', Text: 'Per Package' }
+            RowscolCountList = ko.observableArray([
+            //{ Id: 1, Text: '1' },
+            { Id: 2, Text: '2' },
+            { Id: 3, Text: '3' },
+            { Id: 4, Text: '4' },
+            { Id: 5, Text: '5' },
+            { Id: 6, Text: '6' },
+            { Id: 7, Text: '7' },
+            { Id: 8, Text: '8' },
+            { Id: 9, Text: '9' }
             ]),
 
             variablesTreePrent = ko.observableArray([
@@ -94,32 +100,40 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             ]),
 
             getQuestionsVariableTreeChildItems = function (Selecteddata) {
-                    if (questionVariableNodes().length > 0) {
-                        if (showQuestionVariableChildList() == 1) {
-                            showQuestionVariableChildList(0);
-                        } else {
-                            showQuestionVariableChildList(1);
-                        }
+                if (questionVariableNodes().length > 0) {
+                    if (showQuestionVariableChildList() == 1) {
+                        showQuestionVariableChildList(0);
+                        $("#idQuestionsVariable").removeClass("fa-chevron-circle-down");
+                        $("#idQuestionsVariable").addClass("fa-chevron-circle-right");
 
                     } else {
-                        dataservice.GetTreeListById({
-                            id: 4,
-                        }, {
-                            success: function (data) {
-                                questionVariableNodes.removeAll();
-                                _.each(data.QuestionVariables, function (item) {
-                                    var ques = model.QuestionVariable(item);
-                                    questionVariableNodes.push(ques);
-                                });
-                                showQuestionVariableChildList(1);
-                                view.showAddEditQuestionMenu();
+                        showQuestionVariableChildList(1);
+                        $("#idQuestionsVariable").addClass("fa-chevron-circle-down");
+                        $("#idQuestionsVariable").removeClass("fa-chevron-circle-right");
 
-                            },
-                            error: function () {
-                                toastr.error("Failed to load variables tree data.");
-                            }
-                        });
                     }
+
+                } else {
+                    dataservice.GetTreeListById({
+                        id: 4,
+                    }, {
+                        success: function (data) {
+                            questionVariableNodes.removeAll();
+                            _.each(data.QuestionVariables, function (item) {
+                                var ques = model.QuestionVariable(item);
+                                questionVariableNodes.push(ques);
+                            });
+                            showQuestionVariableChildList(1);
+                            $("#idQuestionsVariable").addClass("fa-chevron-circle-down");
+                            $("#idQuestionsVariable").removeClass("fa-chevron-circle-right");
+                            view.showAddEditQuestionMenu();
+
+                        },
+                        error: function () {
+                            toastr.error("Failed to load variables tree data.");
+                        }
+                    });
+                }
 
 
             },
@@ -127,12 +141,18 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             getMatricesVariableTreeChildItems = function (Selecteddata) {
                 if (matrixVariableNodes().length > 0) {
                     if (showMatricesVariableChildList() == 1) {
+
+                        $("#idMatricesVariable").removeClass("fa-chevron-circle-down");
+                        $("#idMatricesVariable").addClass("fa-chevron-circle-right");
                         showMatricesVariableChildList(0);
                     } else {
                         showMatricesVariableChildList(1);
+                        $("#idMatricesVariable").addClass("fa-chevron-circle-down");
+                        $("#idMatricesVariable").removeClass("fa-chevron-circle-right");
                     }
 
                 } else {
+
                     dataservice.GetTreeListById({
                         id: 5,
                     }, {
@@ -143,7 +163,9 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                                 matrixVariableNodes.push(ques);
                             });
                             showMatricesVariableChildList(1);
-                              view.showAddEditMatrixMenu();
+                            $("#idMatricesVariable").addClass("fa-chevron-circle-down");
+                            $("#idMatricesVariable").removeClass("fa-chevron-circle-right");
+                            view.showAddEditMatrixMenu();
 
                         },
                         error: function () {
@@ -159,16 +181,16 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     var Id = parseInt($('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id'));
                     oMatrix = matrixVariableNodes.filter(function (item) { return item.MatrixId() === Id })[0];
                 }
-                if (oMatrix != null && oMatrix != undefined){
+                if (oMatrix != null && oMatrix != undefined) {
                     dataservice.getCostCentreAnswerList({
                         MatrixId: oMatrix.MatrixId(),
                     }, {
                         success: function (data) {
-                          
+
                             SelectedMatrixVariable(model.MatrixVariableClientMapper(oMatrix, data));
                             SelectedMatrixVariable().reset();
-                            
-                          
+
+
                         },
                         error: function (response) {
                             toastr.error("Failed to Load . Error: " + response);
@@ -179,15 +201,15 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 view.showCostCentreMatrixDialog();
             },
             addMatrixVariable = function () {
-                
+
                 SelectedMatrixVariable(model.MatrixVariableClientMapper());
                 view.showCostCentreMatrixDialog();
                 SelectedMatrixVariable().reset();
-            }
+            },
             DeleteMatrixVariable = function (variable, event) {
                 if (event != undefined) {
                     var Id = parseInt($('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id'));
-                    confirmation.messageText("Do you want to Detele this Item?");
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         dataservice.DeleteMatrixVariable({
                             MatrixId: Id
@@ -215,6 +237,8 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
             },
 
+
+
             getvariableListItem = function () {
                 dataservice.getCostCentreAnswerList({
                     VariableId: 2,
@@ -232,18 +256,25 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
                 });
 
-  
+
             }
             getVariableTreeChildListItems = function (dataRecieved, event) {
                 var id = $(event.target).closest('li')[0].id;
                 if ($(event.target).closest('li').children('ol').children('li').length > 0) {
                     if ($(event.target).closest('li').children('ol').is(':hidden')) {
                         $(event.target).closest('li').children('ol').show();
+                        $("#idVariablesByType").addClass("fa-chevron-circle-down");
+                        $("#idVariablesByType").removeClass("fa-chevron-circle-right");
                     } else {
                         $(event.target).closest('li').children('ol').hide();
+                        $("#idVariablesByType").removeClass("fa-chevron-circle-down");
+                        $("#idVariablesByType").addClass("fa-chevron-circle-right");
+
                     }
                     return;
+
                 }
+
                 if (id == 2) {
                     dataservice.GetTreeListById({
                         id: id,
@@ -255,10 +286,11 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                             variableVariableNodes.valueHasMutated();
 
                             _.each(variableVariableNodes(), function (variable) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + variable.CategoryId + 'vv' + '> <div class="dd-handle-list" data-bind="click: $root.getVariablesByType"><i class="fa fa-bars"></i></div><div class="dd-handle"><span>' + variable.Name + '</span><div class="nested-links"></div></div></li></ol>');
+                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + variable.CategoryId + 'vv' + '> <div class="dd-handle-list" data-bind="click: $root.getVariablesByType"><i id="idVariableschildByType"  class="fa fa-chevron-circle-right drop-icon"></i></div><div class="dd-handle"><span style="cursor: not-allowed;">' + variable.Name + '</span><div class="nested-links"></div></div></li></ol>');
                                 ko.applyBindings(view.viewModel, $("#" + variable.CategoryId + "vv")[0]);
                             });
-
+                            $("#idVariablesByType").addClass("fa-chevron-circle-down");
+                            $("#idVariablesByType").removeClass("fa-chevron-circle-right");
                         },
                         error: function () {
                             toastr.error("Failed to load variables tree data.");
@@ -277,7 +309,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                             resourceVariableNodes.valueHasMutated();
 
                             _.each(resourceVariableNodes(), function (users) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + users.UserName + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + users.UserName + '<input type="hidden" id="str" value="' + users.VariableString + '" /></span><div class="nested-links" data-bind="click:$root.addVariableToInputControl"></div></div></li></ol>');
+                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + users.UserName + '> <div class="dd-handle-list"><i class="fa fa-minus-square"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + users.UserName + '<input type="hidden" id="str" value="' + users.VariableString + '" /></span><div class="nested-links" data-bind="click:$root.addVariableToInputControl"></div></div></li></ol>');
                                 ko.applyBindings(view.viewModel, $("#" + users.UserName)[0]);
                             });
 
@@ -317,7 +349,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                             ko.utils.arrayPushAll(lookupVariableNodes(), data.LookupVariables);
                             lookupVariableNodes.valueHasMutated();
                             _.each(lookupVariableNodes(), function (lookup) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + lookup.MethodId + 'lum' + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + lookup.Name + '</span><div class="nested-links"></div></div></li></ol>');
+                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + lookup.MethodId + 'lum' + '> <div class="dd-handle-list"><i class="fa fa-minus-square"></i></div><div class="dd-handle"><span >' + lookup.Name + '</span><div class="nested-links"></div></div></li></ol>');
                                 ko.applyBindings(view.viewModel, $("#" + lookup.MethodId + "lum")[0]);
                             });
                         },
@@ -342,7 +374,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                         selectedCostCenterType(cc);
                         _.each(cc.CostCentres, function (ccd) {
                             //selectedcc(ccd);
-                            $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + ccd.CostCentreId + 'cc' + '> <div class="dd-handle-list" data-bind="click: $root.getCostcenterFixedVariables, css: { selectedRow: $data === $root.selectedcc}""><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + ccd.Name + '</span><div class="nested-links"></div></div></li></ol>');
+                            $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + ccd.CostCentreId + 'cc' + '> <div class="dd-handle-list" data-bind="click: $root.getCostcenterFixedVariables, css: { selectedRow: $data === $root.selectedcc}""><i class="fa fa-minus-square"></i></div><div class="dd-handle"><span >' + ccd.Name + '</span><div class="nested-links"></div></div></li></ol>');
                             ko.applyBindings(view.viewModel, $("#" + ccd.CostCentreId + "cc")[0]);
                         });
                     }
@@ -362,7 +394,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 _.each(selectedCostCenterType().CostCentres, function (ccv) {
                     if (ccv.CostCentreId == ccid) {
                         _.each(ccv.FixedVariables, function (cfv) {
-                            $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + cfv.Id + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" data-bind="drag: $root.dragged">' + cfv.Name + '<input type="hidden" id="str" value="' + cfv.VariableString + '" /></span><div class="nested-links"></div></div></li></ol>');
+                            $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + cfv.Id + '> <div class="dd-handle-list"><i class="fa fa-minus-square"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" data-bind="drag: $root.dragged">' + cfv.Name + '<input type="hidden" id="str" value="' + cfv.VariableString + '" /></span><div class="nested-links"></div></div></li></ol>');
                             ko.applyBindings(view.viewModel, $("#" + cfv.Id)[0]);
                         });
                     }
@@ -375,49 +407,56 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 if ($(event.target).closest('li').children('ol').length > 0) {
                     if ($(event.target).closest('li').children('ol').is(':hidden')) {
                         $(event.target).closest('li').children('ol').show();
+
+                        $("#idVariableschildByType").addClass("fa-chevron-circle-down");
+                        $("#idVariableschildByType").removeClass("fa-chevron-circle-right");
                     } else {
                         $(event.target).closest('li').children('ol').hide();
+                        $("#idVariableschildByType").removeClass("fa-chevron-circle-down");
+                        $("#idVariableschildByType").addClass("fa-chevron-circle-right");
                     }
                     return;
                 }
+                $("#idVariableschildByType").addClass("fa-chevron-circle-down");
+                $("#idVariableschildByType").removeClass("fa-chevron-circle-right");
                 _.each(variableVariableNodes(), function (cc) {
                     var sid = id.substring(0, id.length - 2);
                     if (cc.CategoryId == sid) {
                         selectedVariableType(cc);
                         _.each(cc.VariablesList, function (ccd) {
-                            $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + ccd.VarId + 'vvd' + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + ccd.Name + '<input type="hidden" id="str" value="' + ccd.FixedVariables + '" /></span><div class="nested-links"></div></div></li></ol>');
+                            $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + ccd.VarId + 'vvd' + '> <div class="dd-handle-list"><i class="fa fa-minus-square"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + ccd.Name + '<input type="hidden" id="str" value="' + ccd.FixedVariables + '" /></span><div class="nested-links"></div></div></li></ol>');
                             ko.applyBindings(view.viewModel, $("#" + ccd.VarId + "vvd")[0]);
                         });
                     }
                 });
             },
             saveMatrixVariable = function (oMatrix) {
-                 dataservice.saveVariable(model.MatrixVariableServerMapper(oMatrix),
-                {
-                    success: function (data) {
-                        if (oMatrix.MatrixId() > 0) {
-                            matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].RowsCount(oMatrix.RowsCount());
-                            matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].ColumnsCount(oMatrix.ColumnsCount());
-                            matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].Name(oMatrix.Name());
-                            matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].Description(oMatrix.Description());
+                dataservice.saveVariable(model.MatrixVariableServerMapper(oMatrix),
+               {
+                   success: function (data) {
+                       if (oMatrix.MatrixId() > 0) {
+                           matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].RowsCount(oMatrix.RowsCount());
+                           matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].ColumnsCount(oMatrix.ColumnsCount());
+                           matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].Name(oMatrix.Name());
+                           matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].Description(oMatrix.Description());
 
-                        } else {
-                            matrixVariableNodes.push(model.matrixVariable(data));
-                        }
-                    
+                       } else {
+                           matrixVariableNodes.push(model.matrixVariable(data));
+                       }
 
-                        toastr.success("successfully saved.");
-                        view.hideCostCentreMatrixDialog();
-                        SelectedMatrixVariable().reset();
+
+                       toastr.success("successfully saved.");
+                       view.hideCostCentreMatrixDialog();
+                       SelectedMatrixVariable().reset();
                        // view.hidecostcentrequestiondialog();
-                    },
-                    error: function (response) {
-                        toastr.error("failed to save Matrix" + response);
-                    }
-                });
-                 
+                   },
+                   error: function (response) {
+                       toastr.error("failed to save Matrix" + response);
+                   }
+               });
 
-             }
+
+            }
             UpdateMartix = function (oMatrix) {
                 $("#WarningRowColUpdate").html("");
                 if (SelectedMatrixVariable().MatrixDetailVariableList().length > 0) {
@@ -464,8 +503,8 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                         for (var j = 0; j < SelectedMatrixVariable().ColumnsCount() ; j++) {
                             var row = model.MatrixDetailClientMapper();
                             if (i == 0 && j == 0) {
-                              row.Id(-1);
-                            } 
+                                row.Id(-1);
+                            }
                             rowsTem.push(row);
 
                         }
@@ -473,12 +512,12 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
                     }
                 }
-                
 
 
 
 
-                
+
+
             }
             saveQuestionVariable = function (oQuestion) {
 
@@ -497,6 +536,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
                         toastr.success("Successfully Saved.");
                         view.hideCostCentreQuestionDialog();
+                        view.showAddEditQuestionMenu();
                     },
                     error: function (response) {
                         toastr.error("Failed to Save Question" + response);
@@ -528,7 +568,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     return {
                         row: source.$parent,
                         widget: source.$data,
-                        html: source.$data.VariableString().replace(/&quot;/g, '"') 
+                        html: source.$data.VariableString().replace(/&quot;/g, '"')
                     };
                 }
                 return {};
@@ -545,9 +585,17 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             },
             dropped = function (source, target, event) {
                 var vstring = source.html;
+                var currentText;
                 if (event.target.disabled == false) {
+                    currentText = event.target.value + vstring;
                     event.target.value += vstring;
+                    selectedCostCenter().strPriceLabourUnParsed(currentText);
+                    formatString(currentText);
+
                 }
+            },
+            formatString = function (val) {
+                val.replace('+', '<span class="redcolor">+</span>');
             },
             selectVariableString = function (varstring, e) {
                 selectedVariableString(e.currentTarget.id);
@@ -561,7 +609,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             },
             OnDeleteAnswerStringofQuestionVariable = function (oAnswer) {
                 if (oAnswer.Id() > 0) {
-                    confirmation.messageText("Do you want to Detele this Item?");
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         dataservice.deleteQuestionVariable({
                             MCQsQuestionAnswerId: oAnswer.Id()
@@ -590,11 +638,11 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             addQuestionVariable = function () {
                 SelectedQuestionVariable(model.QuestionVariable());
                 view.showCostCentreQuestionDialog();
-            }
+            },
             DeleteQuestionVariable = function (variable, event) {
                 if (event != undefined) {
                     var Id = parseInt($('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id'));
-                    confirmation.messageText("Do you want to Detele this Item?");
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                     confirmation.afterProceed(function () {
                         dataservice.deleteQuestionVariable({
                             QuestionId: Id
@@ -763,16 +811,21 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     return;
                 }
                 // Ask for confirmation
+                confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                 confirmation.afterProceed(function () {
                     deleteCostCenter(oCostCenter);
                 });
                 confirmation.show();
             },
+            getCostCenterByFilter = function () {
+                pager().reset();
+                getCostCenters();
+            },
             getCostCenters = function () {
                 isLoadingCostCenter(true);
 
                 dataservice.getCostCentersList({
-                    CostCenterFilterText: searchFilter(),
+                    SearchString : searchFilter(),
                     PageSize: pager().pageSize(),
                     PageNo: pager().currentPage(),
                     SortBy: sortOn(),
@@ -782,11 +835,12 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     success: function (data) {
                         costCentersList.removeAll();
                         if (data != null) {
-                            pager().totalCount(data.RowCount);
+
                             _.each(data.CostCenters, function (item) {
                                 var module = model.costCenterListView.Create(item);
                                 costCentersList.push(module);
                             });
+                            pager().totalCount(data.RowCount);
                         }
                         isLoadingCostCenter(false);
                     },
@@ -799,17 +853,20 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             //Do Before Save
             doBeforeSave = function () {
                 var flag = true;
-                
-                if (selectedCostCenter().calculationMethodType() == '2') {
+
+                if (selectedCostCenter().type() == 11) {
+
+                }
+                else if (selectedCostCenter().calculationMethodType() == '2') {
                     if (selectedCostCenter().isTimeVariable() == '2') {
                         if (selectedCostCenter().timeQuestionString() == null || selectedCostCenter().timeQuestionString() == undefined || selectedCostCenter().timeQuestionString().length == 0) {
                             errorList.push({ name: "Enter a Valid Question for Number of Hours.", element: selectedCostCenter().timeQuestionString.domElement });
-                           
+
                             flag = false;
                         }
                     }
                 }
-                if (selectedCostCenter().calculationMethodType() == '3') {
+                else if (selectedCostCenter().calculationMethodType() == '3') {
                     if (selectedCostCenter().isQtyVariable() == '2') {
                         if (selectedCostCenter().quantityQuestionString() == null || selectedCostCenter().quantityQuestionString() == undefined || selectedCostCenter().quantityQuestionString().length == 0) {
                             errorList.push({ name: "Enter a Valid Question for Number of Hours.", element: selectedCostCenter().quantityQuestionString().domElement });
@@ -823,12 +880,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 }
                 return flag;
             },
-            AddnewChildItem = function (Item) {
-                if (Item.Id == 4) {
 
-                }
-
-            }
             //Save Cost Center
             saveCostCenter = function (callback) {
                 errorList.removeAll();
@@ -846,9 +898,12 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 dataservice.saveNewCostCenter(model.costCenterServerMapper(selectedCostCenter()), {
                     success: function (data) {
                         if (data.IsParsed) {
-                            selectedCostCenter().costCentreId(data.CostCentreId);
-                            costCentersList.splice(0, 0, model.costCenterListView(data.CostCentreId, data.Name, data.WebStoreDesc, data.TypeName, selectedCostCenter().calculationMethodType()));
-                            selectedCostCenter().reset();
+                            if (selectedCostCenter().type() == CostCenterType) {
+                                selectedCostCenter().costCentreId(data.CostCentreId);
+                                costCentersList.splice(0, 0, model.costCenterListView(data.CostCentreId, data.Name, data.WebStoreDesc, data.TypeName, selectedCostCenter().calculationMethodType(), data.IsDisabled));
+
+                            }
+                             selectedCostCenter().reset();
                             closeCostCenterDetail();
                             //  getCostCenters();
                             toastr.success("Successfully saved.");
@@ -871,18 +926,19 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                             if (callback && typeof callback === "function") {
                                 callback();
                             }
+                            if (selectedCostCenter().type() != CostCenterType) {
+                                costCentersList.remove(function (item) { return item.costCenterId() == selectedCostCenter().costCentreId() })
 
-                            selectedCostCenter().type(data.TypeName)
-                            selectedCostCenter().reset();
-                            costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].description(data.WebStoreDesc);
-                            costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].type(data.TypeName);
-                            costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].name(selectedCostCenter().name());
-                            costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].calculationMethodType(selectedCostCenter().calculationMethodType());
+                            } else {
+
+
+                                selectedCostCenter().type(data.TypeName);
+                                selectedCostCenter().reset();
+                            }
                             closeCostCenterDetail();
-                            //  getCostCenters();
+                            getCostCenters();
                             toastr.success("Successfully saved.");
-                        }else
-                        {
+                        } else {
                             toastr.error("Formula String is not valid.");
                         }
                     },
@@ -903,13 +959,18 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             },
             createCostCenter = function () {
                 errorList.removeAll();
-                var cc = new model.CostCenter();
-                setDataForNewCostCenter(cc);
-                selectedCostCenter(cc);
                 getCostCentersBaseData();
+                //var cc = new model.CostCenter();
+                //setDataForNewCostCenter(cc);
+                //cc.type(CostCenterType);
+                //selectedCostCenter(cc);
+
+                
                 // getVariablesTree();
                 showCostCenterDetail();
+                //selectedCostCenter().type('3');
                 sharedNavigationVM.initialize(selectedCostCenter, function (saveCallback) { saveCostCenter(saveCallback); });
+                $("#idCostcenterimage").attr("src", "/mis/Content/Images/imageplaceholder.png");
             },
             createDeliveryCostCenter = function () {
                 errorList.removeAll();
@@ -917,7 +978,11 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 cc.setupCost('0');
                 cc.minimumCost('0');
                 cc.type('11');
+                cc.calculationMethodType('1');
+                cc.name('Enter Cost Center name');
+                cc.isDisabled(true);
                 selectedCostCenter(cc);
+                $("#idCostcenterimage").attr("src", "/mis/Content/Images/imageplaceholder.png");
                 getCostCentersBaseData();
                 // getVariablesTree();
                 showCostCenterDetail();
@@ -926,7 +991,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             setDataForNewCostCenter = function (newcostcenter) {
                 newcostcenter.costPerUnitQuantity('0');
                 newcostcenter.unitQuantity('0');
-                newcostcenter.name('New Cost Center');
+                newcostcenter.name('Enter Cost Center name');
                 newcostcenter.pricePerUnitQuantity('0');
                 newcostcenter.perHourPrice('0');
                 newcostcenter.setupCost('0');
@@ -949,6 +1014,20 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 newcostcenter.calculationMethodType('2');
                 newcostcenter.isQtyVariable('1');
                 newcostcenter.isTimeVariable('1');
+                newcostcenter.isCalculationMethodEnable(true);
+                newcostcenter.type(CostCenterType);
+                //if (CostCenterType == "2") {
+                //    newcostcenter.type('2');
+
+
+                //} else if (CostCenterType == "3") {
+                //    newcostcenter.type('3');
+                //}
+
+                
+               
+
+
             },
             createWorkInstruction = function () {
                 var wi = new model.NewCostCenterInstruction();
@@ -963,7 +1042,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 var wic = new model.NewInstructionChoice();
                 selectedChoice(wic);
                 selectedCostCenter().costCenterInstructions().filter(function (item) { return item.instructionId() == oWorkInstruction.instructionId() })[0].workInstructionChoices.splice(0, 0, wic);
-               // selectedInstruction().workInstructionChoices.splice(0, 0, wic);
+                // selectedInstruction().workInstructionChoices.splice(0, 0, wic);
             },
             deleteWorkInstructionChoice = function (choice) {
                 selectedCostCenter().costCenterInstructions().filter(function (item) { return item.instructionId() == choice.instructionId() })[0].workInstructionChoices.remove(choice);
@@ -985,6 +1064,14 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                             selectedCostCenter(model.costCenterClientMapper(data));
                             selectedCostCenter().reset();
                             showCostCenterDetail();
+
+                            $('#idCostcenterimage')
+	                            .load(function () { })
+	                            .error(function () {
+	                                $("#idCostcenterimage").attr("src", "/mis/Content/Images/imageplaceholder.png");
+	                            });
+
+
                         }
                     },
                     error: function (response) {
@@ -1090,6 +1177,13 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                         deliveryCarriers.valueHasMutated();
                         if (oCostCenter != undefined) {
                             getCostCenterById(oCostCenter);
+                            
+                        } else if (selectedCostCenter() == undefined || selectedCostCenter().type() != 11) {
+                            var cc = new model.CostCenter();
+                            setDataForNewCostCenter(cc);
+                            //cc.type(CostCenterType);
+                            selectedCostCenter(cc);
+                            $("#idCostcenterimage").attr("src", "/mis/Content/Images/imageplaceholder.png");
                         }
                         CurrencySymbol(data.CurrencySymbol);
 
@@ -1147,7 +1241,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 }
                 if (selectedVariableString() === 'txtQuotedLabourCost') {
                     $("#txtQuotedLabourCost").val($("#txtQuotedLabourCost").val() + icoVal);
-                   // selectedCostCenter().strPriceLabourUnParsed(selectedCostCenter().strPriceLabourUnParsed() + icoVal);
+                    // selectedCostCenter().strPriceLabourUnParsed(selectedCostCenter().strPriceLabourUnParsed() + icoVal);
                 }
                 if (selectedVariableString() === 'txtLabourActualCost') {
                     selectedCostCenter().strActualCostLabourUnParsed(selectedCostCenter().strActualCostLabourUnParsed() + icoVal);
@@ -1163,28 +1257,38 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 if (selectedCostCenter().isEditLabourQuote()) {
                     var t = $("#txtQuotedLabourCost").val() + SelectedStockVariable().VariableString().replace(/&quot;/g, '"');
                     $("#txtQuotedLabourCost").val(t);
-                    
+
                 }
                 view.hideCostCentreStockDialog();
             }
-             openStockItemDialog = function (stockCategoryId) {
-                 stockDialog.show(function (stockItem) {
-                     SelectedStockVariable(model.StockItemVariable(stockItem));
-                     getvariableListItem();
-                     view.showCostCentreStockDialog();
-                    
-                 }, null, true);
-             },
+            openStockItemDialog = function (stockCategoryId) {
+                stockDialog.show(function (stockItem) {
+                    SelectedStockVariable(model.StockItemVariable(stockItem));
+                    getvariableListItem();
+                    view.showCostCentreStockDialog();
+
+                }, null, true);
+            },
             // #region Observables
             // Initialize the view model
-            initialize = function (specifiedView) {
-                view = specifiedView;
-                ko.applyBindings(view.viewModel, view.bindingRoot);
-                pager(pagination.Pagination({ PageSize: 10 }, costCentersList, getCostCenters));
-                getCostCenters();
+           initialize = function (specifiedView) {
+               view = specifiedView;
+               ko.applyBindings(view.viewModel, view.bindingRoot);
+               pager(pagination.Pagination({ PageSize: 10 }, costCentersList, getCostCenters));
 
-                // getCostCentersBaseData();
-            };
+
+               if (CostCenterType == "2") {
+                   //$("#createNewCostCenterId").html("Add New Pre Press Cost Center");
+                   $("#idcostcentertypename").html("Pre Press Cost Centers");
+
+
+               } else if (CostCenterType == "3") {
+                  // $("#createNewCostCenterId").html("Add New Post Press Cost Center");
+                   $("#idcostcentertypename").html("Post Press Cost Centers");
+               }
+               getCostCenters();
+               // getCostCentersBaseData();
+           };
 
             return {
                 // Observables
@@ -1194,10 +1298,10 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 deleteCostCenter: deleteCostCenter,
                 onDeleteCostCenter: onDeleteCostCenter,
                 sortOn: sortOn,
-                gotoElement:gotoElement,
+                gotoElement: gotoElement,
                 sortIsAsc: sortIsAsc,
                 pager: pager,
-                errorList:errorList,
+                errorList: errorList,
                 templateToUse: templateToUse,
                 makeEditable: makeEditable,
                 getCostCenters: getCostCenters,
@@ -1242,12 +1346,11 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 selectedVariableString: selectedVariableString,
                 iconClick: iconClick,
                 questionVariableNodes: questionVariableNodes,
-                matrixVariableNodes:matrixVariableNodes,
+                matrixVariableNodes: matrixVariableNodes,
                 createDeliveryCostCenter: createDeliveryCostCenter,
                 SelectedQuestionVariable: SelectedQuestionVariable,
-                SelectedMatrixVariable:SelectedMatrixVariable,
+                SelectedMatrixVariable: SelectedMatrixVariable,
                 AddAnswerofQuestionVariable: AddAnswerofQuestionVariable,
-                AddnewChildItem: AddnewChildItem,
                 QuestionVariableType: QuestionVariableType,
                 saveQuestionVariable: saveQuestionVariable,
                 CurrencySymbol: CurrencySymbol,
@@ -1269,10 +1372,12 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 DeleteMatrixVariable: DeleteMatrixVariable,
                 SelectedStockVariable: SelectedStockVariable,
                 openStockItemDialog: openStockItemDialog,
-                CalculateCostType: CalculateCostType,
+                //CalculateCostType: CalculateCostType,
                 variableDropdownList: variableDropdownList,
-                AddtoInputControl: AddtoInputControl
-                
+                AddtoInputControl: AddtoInputControl,
+                RowscolCountList: RowscolCountList,
+                getCostCenterByFilter: getCostCenterByFilter
+
             };
         })()
     };

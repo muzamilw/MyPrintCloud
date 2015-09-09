@@ -50,13 +50,13 @@ namespace MPC.MIS
                 .Include("~/Content/themes/Centaurus/js/scripts.js")
                 .Include("~/Content/themes/Centaurus/js/jquery.nestable.js")
                 .Include("~/Content/themes/Centaurus/js/jquery.nouislider.js")
-                .Include("~/Content/themes/Centaurus/js/jquerySlider.js"));
+                .Include("~/Content/themes/Centaurus/js/jquerySlider.js")
+                .Include("~/Content/themes/Centaurus/js/select2.min.js"));
 
             /* ============================================================== */
 
             bundles.Add(new ScriptBundle("~/Bundle/BaseLibs")
                 .Include("~/Scripts/jquery-ui-1.10.4.js")
-                .Include("~/Scripts/Plugins/forms/select/select2.js")
                 .Include("~/Scripts/jquery-ui-timepicker-addon.js")
                 .Include("~/Scripts/jquery.blockUI.js")
                 .Include("~/Scripts/spectrum.js")
@@ -71,13 +71,15 @@ namespace MPC.MIS
                 .Include("~/Scripts/toastr.js")
                 .Include("~/Scripts/amplify.js")
                 .Include("~/Scripts/knockout-sortable.js")
+                .Include("~/Scripts/knockout-morris.js")
                 .Include("~/RichTextEditor/ckeditor.js")
                 .Include("~/Scripts/require.js")
                 .Include("~/Scripts/respond.js")
                 .Include("~/Scripts/App/architecture.js")
                 .Include("~/Scripts/App/requireConfig.js")
-                 .Include("~/Scripts/Ace/lib/ace/ace.js")
-                  .Include("~/Scripts/autoNumeric/autoNumeric-1.9.25.min.js")
+                .Include("~/Scripts/Ace/lib/ace/ace.js")
+                .Include("~/Scripts/autoNumeric/autoNumeric-1.9.25.min.js")
+                .Include("~/Scripts/numeral/numeral.min.js")
                 .Include("~/Scripts/knockout-ace.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
@@ -102,7 +104,6 @@ namespace MPC.MIS
                 "~/Content/themes/base/jquery.ui.tabs.css",
                 "~/Content/themes/base/jquery.ui.datepicker.css",
                 "~/Content/themes/base/jquery.ui.progressbar.css",
-                "~/Content/themes/Centaurus/css/libs/select2.css",
                 "~/Content/themes/base/jquery.ui.theme.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/dropzonescripts").Include(

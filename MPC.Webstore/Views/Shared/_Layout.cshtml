@@ -6,30 +6,75 @@
     @{
         string currentController = ViewContext.RouteData.Values["controller"].ToString();
     }
-    @if (currentController != "Designer")
+    @if (currentController != "Designer" || currentController != "ProductPendingOrders" || currentController != "BillingShippingAddressManager")
     {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     }
-    else
-    {
-      
-    }
 
-  
+
 
     <title>@ViewBag.Title </title>
+    <script>
+    function load_css_async(filename) {
 
-    <link href="@ViewBag.StyleSheet" rel="stylesheet" />
 
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    @Styles.Render("~/Content/ListingPropertiesCarousel.css")
-    @Styles.Render("~/Content/js-image-slider.css")
+        var cb = function () {
+            var l = document.createElement('link'); l.rel = 'stylesheet';
+            l.href = filename;
+            var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
+        };
+        var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+            webkitRequestAnimationFrame || msRequestAnimationFrame;
+        if (raf) raf(cb);
+        else window.addEventListener('load', cb);
+
+
+    }
+    </script>
+
+    @Styles.RenderFormat("<script type=\"text/javascript\">load_css_async('{0}')</script>", "//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css")
+    @Styles.RenderFormat("<script type=\"text/javascript\">load_css_async('{0}')</script>", "~/Content/ListingPropertiesCarousel.css")
+    @Styles.RenderFormat("<script type=\"text/javascript\">load_css_async('{0}')</script>", "~/Content/js-image-slider.css")
+  
+    <script type="text/javascript">load_css_async('@ViewBag.StyleSheet')</script>
+   
     @Styles.Render("~/Content/CSS")
+   
     @RenderSection("headerScripts", required: false)
     @RenderSection("metatags", false)
-   
+    <style>
+      .mp-onpageLoader {
+    border: 1px solid #c5c5c5;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    background: white url("/Content/mp-loading.gif") no-repeat 55px 20px;
+    padding: 20px 55px 20px 85px;
+    margin: 20px auto;
+    -webkit-box-shadow: 0 0 10px rgba(50,50,50,0.2);
+    -moz-box-shadow: 0 0 10px rgba(50,50,50,0.2);
+    box-shadow: 0 0 10px rgba(50,50,50,0.2);
+    position: relative;
+    z-index: 999;
+    font-family: monospace;
+    font-weight: bold;
+    width: 222px;
+    height: 55px;
+}
+.mp-loadercenter {
+    position: fixed!important;
+    margin: auto!important;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 9999;
+}
+    </style>
 </head>
-<body class="bodycolor">
+<body class="bodycolor" id="@ViewBag.pageName">
     <div class="body-content">
         @RenderBody()
     </div>
@@ -39,8 +84,9 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
-    
-    @Scripts.Render("~/pageSpecific")
+
+
+    @*@Scripts.Render("~/pageSpecific")*@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/Slider")
     @Scripts.Render("~/bundles/modernizr")
@@ -48,14 +94,59 @@
     @Scripts.Render("~/bundles/PopUps")
     @RenderSection("scripts", required: false)
     <script type="text/javascript">
-    $(document).ready(function () {
-        $('.bxslider').bxSlider({
-            auto:true
+        $(document).ready(function () {
+
+            //dirty check, this should be moved into slider Script rendering.
+            if (typeof bxSlider == 'function') {
+                $('.bxslider').bxSlider({
+                    auto: true
+                }
+
+                );
+            }
+            function checkImg(img) {
+                if (img.naturalHeight <= 1 && img.naturalWidth <= 1) {
+                    // undersize image here
+                    img.src = "/Content/Images/notFound.svg";
+                }
+            }
+
+            $("img").each(function () {
+                // if image already loaded, we can check it's height now
+                if (this.complete) {
+                    //checkImg(this);
+                } else {
+                    // if not loaded yet, then set load and error handlers
+                    $(this).load(function () {
+                        checkImg(this);
+                    }).error(function () {
+                        // img did not load correctly
+                        // set new .src here
+                        this.src = "/Content/Images/notFound.svg";
+                    });
+
+                }
+            });
+
+        });
+   
+
+        function ToggleMenu() {
+            $("#collapsedMenu").slideToggle();
+
         }
-        );
-    });
+
+        function ToggleProfile() {
+            $("#profileMenu").slideToggle();
+
+        }
+        function ToggleOxfordHeader() {
+
+            $("#oxfordCollapedMenucnt").slideToggle();
+        }
+
+
 
     </script>
-
 </body>
 </html>

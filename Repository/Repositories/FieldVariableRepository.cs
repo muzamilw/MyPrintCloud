@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using Edm_EntityMappingGeneratedViews;
+//using Edm_EntityMappingGeneratedViews;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
@@ -68,7 +68,7 @@ namespace MPC.Repository.Repositories
             int toRow = request.PageSize;
             Expression<Func<FieldVariable, bool>> query =
             s =>
-                (s.CompanyId == request.CompanyId);
+                (s.CompanyId == request.CompanyId && s.OrganisationId == OrganisationId);
 
             int rowCount = DbSet.Count(query);
             IEnumerable<FieldVariable> fieldVariables = request.IsAsc
@@ -102,7 +102,32 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<FieldVariable> GetFieldVariablesForSmartForm(long companyId)
         {
-            return DbSet.Where(vf => vf.CompanyId == companyId).ToList();
+            return DbSet.Where(vf => vf.CompanyId == companyId && vf.OrganisationId == OrganisationId).ToList();
+        }
+
+        /// <summary>
+        /// Get System Field Variables
+        /// </summary>
+        public FieldVariableResponse GetSystemFieldVariable(FieldVariableRequestModel request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            Expression<Func<FieldVariable, bool>> query =
+            fv =>
+                (fv.IsSystem == true && fv.CompanyId == null && fv.OrganisationId == null && (fv.Scope == (int)FieldVariableScopeType.SystemStore || fv.Scope == (int)FieldVariableScopeType.SystemContact || fv.Scope == (int)FieldVariableScopeType.SystemAddress || fv.Scope == (int)FieldVariableScopeType.SystemTerritory));
+
+            int rowCount = DbSet.Count(query);
+            IEnumerable<FieldVariable> fieldVariables = DbSet.Where(query)
+           .OrderBy(x => x.VariableName)
+               .Skip(fromRow)
+               .Take(toRow)
+               .ToList();
+
+            return new FieldVariableResponse
+            {
+                RowCount = rowCount,
+                FieldVariables = fieldVariables
+            };
         }
 
         /// <summary>
@@ -110,7 +135,17 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<FieldVariable> GetSystemVariables()
         {
-            return DbSet.Where(fv => fv.IsSystem == true && fv.CompanyId == null && fv.OrganisationId == null).ToList();
+            return DbSet.Where(fv => fv.IsSystem == true && fv.CompanyId == null && fv.OrganisationId == null && (fv.Scope == (int)FieldVariableScopeType.SystemStore || fv.Scope == (int)FieldVariableScopeType.SystemContact || fv.Scope == (int)FieldVariableScopeType.SystemAddress || fv.Scope == (int)FieldVariableScopeType.SystemTerritory)).ToList();
+        }
+
+        /// <summary>
+        /// Get system variables and company variables
+        /// </summary>
+        /// <param name="companyID"></param>
+        /// <returns></returns>
+        public List<FieldVariable> GetSystemAndCompanyVariables(long companyID)
+        {
+            return db.FieldVariables.Where(g => g.IsSystem == true || g.CompanyId == companyID).ToList();
         }
         #endregion
     }

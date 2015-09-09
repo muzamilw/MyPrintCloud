@@ -92,6 +92,8 @@ namespace MPC.Models.DomainModels
         public bool? CanUserEditProfile { get; set; }
         public bool? canPlaceDirectOrder { get; set; }
         public long? OrganisationId { get; set; }
+        public string SecondaryEmail { get; set; }
+        public DateTime? RegistrationDate { get; set; }
         [NotMapped]
         public string FileName { get; set; }
         public virtual Company Company { get; set; }
@@ -111,5 +113,115 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public IEnumerable<ScopeVariable> ScopeVariables { get; set; }
 
+
+
+        #region public
+
+
+        /// <summary>
+        /// Makes a copy of Entity
+        /// </summary>
+        ///   
+
+        public void Clone(CompanyContact target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemProductDetailClone_InvalidItemProductDetail, "target");
+            }
+
+
+            target.FirstName = FirstName;
+            target.MiddleName = MiddleName;
+            target.LastName = LastName;
+            target.Title = Title;
+            target.HomeTel1 = HomeTel1;
+            target.HomeTel2 = HomeTel2;
+            target.HomeExtension1 = HomeExtension1;
+            target.HomeExtension2 = HomeExtension2;
+            target.Mobile = Mobile;
+            target.Email = Email;
+            target.FAX = FAX;
+            target.JobTitle = JobTitle;
+            target.DOB = DOB;
+            target.Notes = Notes;
+            target.IsDefaultContact = IsDefaultContact;
+            target.HomeAddress1 = HomeAddress1;
+            target.HomeAddress2 = HomeAddress2;
+            target.HomeCity = HomeCity;
+            target.HomeState = HomeState;
+            target.HomePostCode = HomePostCode;
+            target.HomeCountry = HomeCountry;
+            target.SecretQuestion = SecretQuestion;
+            target.SecretAnswer = SecretAnswer;
+            target.Password = Password;
+            target.URL = URL;
+            target.IsEmailSubscription = IsEmailSubscription;
+            target.IsNewsLetterSubscription = IsNewsLetterSubscription;
+            target.image = image;
+            target.quickFullName = quickFullName;
+            target.quickTitle = quickTitle;
+            target.quickCompanyName = quickCompanyName;
+            target.quickAddress1 = quickAddress1;
+            target.quickAddress2 = quickAddress2;
+            target.quickAddress3 = quickAddress3;
+            target.quickPhone = quickPhone;
+            target.quickFax = quickFax;
+            target.quickEmail = quickEmail;
+            target.quickWebsite = quickWebsite;
+            target.quickCompMessage = quickCompMessage;
+            target.quickCompanyName = quickCompanyName;
+            target.QuestionId = QuestionId;
+            target.IsApprover = IsApprover;
+            target.isWebAccess = isWebAccess;
+            target.isPlaceOrder = isPlaceOrder;
+            target.CreditLimit = CreditLimit;
+            target.isArchived = isArchived;
+            target.ContactRoleId = ContactRoleId;
+          
+            target.ClaimIdentifer = ClaimIdentifer;
+            target.AuthentifiedBy = AuthentifiedBy;
+            target.IsPayByPersonalCreditCard = IsPayByPersonalCreditCard;
+            target.IsPricingshown = IsPricingshown;
+            target.SkypeId = SkypeId;
+
+            target.LinkedinURL = LinkedinURL;
+            target.FacebookURL = FacebookURL;
+            target.TwitterURL = TwitterURL;
+            target.authenticationToken = authenticationToken;
+            target.twitterScreenName = twitterScreenName;
+           
+
+            target.isUserLoginFirstTime = isUserLoginFirstTime;
+            target.quickMobileNumber = quickMobileNumber;
+            target.quickTwitterId = quickTwitterId;
+            target.quickFacebookId = quickFacebookId;
+            target.quickLinkedInId = quickLinkedInId;
+            target.quickOtherId = quickOtherId;
+
+            target.POBoxAddress = POBoxAddress;
+            target.CorporateUnit = CorporateUnit;
+            target.OfficeTradingName = OfficeTradingName;
+            target.ContractorName = ContractorName;
+            target.BPayCRN = BPayCRN;
+            target.ABN = ABN;
+
+            target.ACN = ACN;
+            target.AdditionalField1 = AdditionalField1;
+            target.AdditionalField2 = AdditionalField2;
+            target.AdditionalField3 = AdditionalField3;
+            target.AdditionalField4 = AdditionalField4;
+            target.AdditionalField5 = AdditionalField5;
+
+            target.canUserPlaceOrderWithoutApproval = canUserPlaceOrderWithoutApproval;
+            target.CanUserEditProfile = CanUserEditProfile;
+            target.canPlaceDirectOrder = canPlaceDirectOrder;
+            target.OrganisationId = OrganisationId;
+            target.SecondaryEmail = SecondaryEmail;
+            target.RegistrationDate = RegistrationDate;
+            target.FileName = FileName;
+
+        }
+        #endregion
     }
 }

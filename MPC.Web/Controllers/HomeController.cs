@@ -17,6 +17,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Configuration;
+using GrapeCity.ActiveReports;
+using MPC.Web.Reports;
+using MPC.MIS.Models;
 
 namespace MPC.MIS.Controllers
 {
@@ -27,16 +30,17 @@ namespace MPC.MIS.Controllers
         //    ViewData["Heading"] = "Setting";
         //    return View();
         //}
-
+        private readonly IReportService IReportService;
         private IAuthenticationManager AuthenticationManager
         {
             get { return HttpContext.GetOwinContext().Authentication; }
         }
         private IOrderService orderService{ get; set; }
 
-        public HomeController(IOrderService orderService)
+        public HomeController(IOrderService orderService, IReportService reportService)
         {
             this.orderService = orderService;
+            this.IReportService = reportService;
         }
         [Dependency]
         public IClaimsSecurityService ClaimsSecurityService { get; set; }
@@ -69,17 +73,20 @@ namespace MPC.MIS.Controllers
            
 
             //For Development environment Set these values and comment code above starting from using...
-            if (System.Web.HttpContext.Current.Request.Url.Authority == "mpc" || System.Web.HttpContext.Current.Request.Url.Authority == "localhost")
+            if (System.Web.HttpContext.Current.Request.Url.Authority == "mpc" || System.Web.HttpContext.Current.Request.Url.Authority == "localhost" || System.Web.HttpContext.Current.Request.Url.Authority == "mpcmis")
             {
                 validationInfo = new ValidationInfo();
                 validationInfo.CustomerID = "1";
-                validationInfo.userId = "xyz";
-                validationInfo.FullName = "Naveed Zahid";
+                validationInfo.userId = "EA8D4A6B-E88C-41B0-A003-49827D447074";
+                validationInfo.FullName = "Naveed Zahidx";
                 validationInfo.Plan = "light";
                 validationInfo.Email = "naveedmnz@hotmail.com";
                 validationInfo.IsTrial = true;
                 validationInfo.TrialCount = 9;
-            } else
+
+              
+            } 
+            else
             {
                 using (var client = new HttpClient())
                 {
@@ -289,6 +296,30 @@ namespace MPC.MIS.Controllers
             ViewBag.Invoiced = OrderStatusCount.Invoiced;
             ViewBag.CancelledOrders = OrderStatusCount.CancelledOrders;
             return PartialView();
+        }
+
+        public ActionResult Viewer(int id, int itemId)
+        {
+
+            ReportDescriptor model = new ReportDescriptor() { Id = id, ItemId = itemId };
+
+
+            return View(model);
+        }
+
+
+        // GET: Common/Report
+        public ActionResult GetReport(ReportDescriptor req)
+        {
+
+            SectionReport report = IReportService.GetReport(req.Id, req.ItemId);
+           
+            ViewBag.Report = report;
+
+
+
+                  return PartialView("WebViewer");
+
         }
     }
 }

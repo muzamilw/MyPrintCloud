@@ -6,6 +6,7 @@
     public class CompanyContactForCalendar
     {
         public long ContactId { get; set; }
+        public long CompanyId { get; set; }
         public string Name { get; set; }
         public string CompanyName { get; set; }
     }

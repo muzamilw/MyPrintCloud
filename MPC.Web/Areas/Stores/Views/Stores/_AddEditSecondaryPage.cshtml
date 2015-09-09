@@ -2,20 +2,20 @@
 <div class="modal fade my-modal" id="secondaryPageAddDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div style="width: 1280px;" class="modal-dialog" data-bind="with:$root.selectedSecondaryPage">
         <div class="modal-content">
-            <div class="modal-header" >
+            <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Secondary Page Detail</h4>
+                <h4 class="modal-title">Add/Edit User Defined Page </h4>
             </div>
             <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="main-box clearfix" id="tabsHeaderSecondarypage">
+                <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left:10px;padding-right:12px;">
+                    <div class="main-box clearfix" id="tabsHeaderSecondarypage" style="margin-bottom:10px;margin-top:8px;">
                         <div class="tabs-wrapper profile-tabs">
                             <ul class="nav nav-tabs">
                                 <!-- ko if: isUserDefined() == true -->
                                 <li class="active"><a href="#tab-SecondaryPageDetail" data-toggle="tab">Page Details</a></li>
                                 <!-- /ko -->
 
-                                <li data-bind="css: isUserDefined() == true ?  '' : 'active'" ><a href="#tab-SecondaryPageKeyword" data-toggle="tab">Page Keywords</a></li>
+                                <li data-bind="css: isUserDefined() == true ?  '' : 'active'"><a href="#tab-SecondaryPageKeyword" data-toggle="tab">Page Keywords</a></li>
 
                                 <!-- ko if: isUserDefined() == true -->
                                 <li><a href="#tab-UserAddressInfo" data-toggle="tab">Page Content</a></li>
@@ -30,7 +30,7 @@
                                                 <div class="form-group ">
                                                     <div class="col-lg-5 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Title For Secondary Page" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="This title will be displayed in the footer menu as a hyperlink." data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
@@ -43,16 +43,16 @@
                                                 <div class="form-group ">
                                                     <div class="col-lg-5 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Category of Page" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="You can assigned page categories under which the page link will appear in store’s footer. Categories can be created and modified as required." data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="ddPageCat" class="control-label text-right tooltip-float">Page Category</label>
+                                                        <label for="ddPageCat" class="control-label text-right tooltip-float">Footer Column</label>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <select class="form-control" id="ddPageCat" data-bind="options: $root.pageCategories, optionsText: 'name', optionsValue: 'id',value:categoryId, validationTooltip: categoryId"> </select>
                                                     </div>
-                                                    <div class="col-lg-1">
+                                                    <div class="col-lg-1" style="padding-left:0px;">
                                                         <div data-bind="click:$root.onAddSecondryPageCategory" class="btn btn-primary">
                                                             <i class="fa fa-lg"></i>&nbsp;....
                                                         </div>
@@ -61,28 +61,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-5 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Banner from Media Library" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload new sprite image" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>
-                                                        <label class="control-label text-right tooltip-float">Upload banner (PNG 1000 pixels)</label>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        @*<img width="290" height="217" data-bind="attr: { src: imageSrc }" />*@
-                                                        <img width="290" height="217" data-bind="visible:imageSrc()===undefined,attr: { src: '@Url.Content("~/")' + pageBannerWithCacheRemoveTechnique() }" />
-                                                        <img width="290" height="217" data-bind="visible:imageSrc()!==undefined,attr: { src: imageSrc }" />
-                                                    </div>
-                                                    <div class="col-lg-1">
-                                                        <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromSecondaryPage">
-                                                            <span>....</span>
-                                                            @*<input type="file" class="upload" multiple data-bind="files: { onLoaded: $root.SecondaryImageFileLoadedCallback, fileFilter: 'image.*'}" />*@
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-5 text-right">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This will list the secondary pages on the Home Page footer for quick reference.  Secondary pages are editable to create your own versions of help, about us etc.  Secondary pages can be individualized to each store" data-original-title="" title="">
+                                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This will list the User Defined pages on the Home Page footer for quick reference.  User Defined are editable to create your own versions of help, about us etc.  User Defined can be individualized to each store" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
@@ -100,14 +79,74 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            </div>
+                                      </div>
+                                    <div class="col-lg-12">
+                                                <div class=" form-horizontal clearfix">
+                                                    <h3 class="group-header">Upload Page Banner</h3>
+                                                    <div class="col-lg-9">
+                                                        <div class="form-group">
+                                                            <div class="col-lg-5 text-right">
+                                                                @*<div class="bs-example-tooltips tooltip-float-width">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Banner from Media Library" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload new sprite image" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label class="control-label text-right tooltip-float">Upload banner (PNG 1000 pixels)</label>*@
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                @*<img width="290" height="217" data-bind="attr: { src: imageSrc }" />*@
+
+
+                                                                <div class="clearfix">
+
+
+                                                                    <img style="width:240px;height:130px;-o-object-fit: contain; object-fit: contain;" data-bind="visible:imageSrc()===undefined,attr: { src: '@Url.Content("~/")' + pageBannerWithCacheRemoveTechnique() }" />
+                                                                    <img style="width:240px;height:130px;-o-object-fit: contain; object-fit: contain;" data-bind="visible:imageSrc()!==undefined,attr: { src: imageSrc }" />
+                                                                    <div class="col-lg-12">
+                                                                        <div class="col-lg-6" style="margin-top:15px;text-align:center;">
+                                                                            <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromSecondaryPage">
+                                                                                <span>Change Banner </span>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-12">
+                                                                        <div class="col-lg-6 ThoumbnailCostCenter" style="margin-top:5px !important;text-align:center">Select a page banner for the user defined page from media files. Considering using page banners with correct dimensions according to selected Store theme.</div>
+                                                                    </div>
+
+
+
+
+                                                                </div>
+
+
+
+                                                            </div>
+
+
+
+                                                            @*<img width="290" height="217" data-bind="visible:imageSrc()===undefined,attr: { src: '@Url.Content("~/")' + pageBannerWithCacheRemoveTechnique() }" />
+                    <img width="290" height="217" data-bind="visible:imageSrc()!==undefined,attr: { src: imageSrc }" />*@
+                                                            @*</div>*@
+                                                            <div class="col-lg-1">
+                                                                @*<div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromSecondaryPage">
+                            <span>....</span>
+
+                        </div>*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                         </div>
-                                    </div>
+                                    
                                 </div>
                                 <!-- /ko -->
 
-                                <div data-bind="css: isUserDefined() == true ?  'tab-pane fade in' : 'tab-pane fade in active'"  id="tab-SecondaryPageKeyword">
+                                <div data-bind="css: isUserDefined() == true ?  'tab-pane fade in' : 'tab-pane fade in active'" id="tab-SecondaryPageKeyword">
                                     <div class=" form-horizontal clearfix">
-                                        <h3 class="group-header">Page Keywords</h3>
+                                        <h3 style="margin-left:8px;margin-right:8px;" class="group-header">Page Keywords</h3>
 
                                         <div class="col-lg-12 clearfix">
 
@@ -127,14 +166,15 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Keywords List" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter in SEO keywords separated by commas.
+" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
-
+                                                        
                                                     </div>
 
 
-                                                    <label for="txtKeywordsList" class="control-label text-right tooltip-float">Enter in the Keywords list</label>
+                                                    <label for="txtKeywordsList" class="control-label text-right tooltip-float">Page SEO Keywords</label>
 
                                                 </div>
 
@@ -144,21 +184,20 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <h3 class="group-header">Meta Details</h3>
+                                        <h3 style="margin-left:8px;margin-right:8px;" class="group-header">Meta Details</h3>
                                         <div class="col-lg-12 clearfix">
                                             <div class="form-group ">
                                                 <div class="col-lg-4 text-right">
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Meta Title" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
+                                                        @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Meta Title" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>*@
 
                                                     </div>
 
-
-                                                    <label for="txtMetaTitle" class="control-label text-right tooltip-float">Enter in the meta title</label>
+                                                    <label for="txtMetaTitle" class="control-label text-right tooltip-float">Meta title</label>
 
                                                 </div>
 
@@ -171,14 +210,14 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Description Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
+                                                        @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Description Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>*@
 
                                                     </div>
 
 
-                                                    <label for="txtSPDesc" class="control-label text-right tooltip-float">Enter in the description contents</label>
+                                                    <label for="txtSPDesc" class="control-label text-right tooltip-float">Description contents</label>
 
                                                 </div>
 
@@ -193,14 +232,14 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Category Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
+                                                        @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Category Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-questionss">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>*@
 
                                                     </div>
 
 
-                                                    <label for="txtFName" class="control-label text-right tooltip-float">Enter in the category contents</label>
+                                                    <label for="txtFName" class="control-label text-right tooltip-float">Category contents</label>
 
                                                 </div>
 
@@ -213,14 +252,14 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Robot Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
+                                                        @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Robot Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>*@
 
                                                     </div>
 
 
-                                                    <label for="txtLName" class="control-label text-right tooltip-float">Enter in the robot contents</label>
+                                                    <label for="txtLName" class="control-label text-right tooltip-float">Robot contents</label>
 
                                                 </div>
 
@@ -233,14 +272,14 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Author Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
+                                                        @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Author Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>*@
 
                                                     </div>
 
 
-                                                    <label for="txtJTitle" class="control-label text-right tooltip-float">Enter in the author contents</label>
+                                                    <label for="txtJTitle" class="control-label text-right tooltip-float">Author contents</label>
 
                                                 </div>
 
@@ -253,14 +292,14 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Language Contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="language contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
+                                                        </a>*@
 
                                                     </div>
 
 
-                                                    <label for="txtJTitle" class="control-label text-right tooltip-float">Enter in the language contents</label>
+                                                    <label for="txtJTitle" class="control-label text-right tooltip-float">Language contents</label>
 
                                                 </div>
 
@@ -273,14 +312,14 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Revist after contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Revist after contents" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
+                                                        </a>*@
 
                                                     </div>
 
 
-                                                    <label for="txtJTitle" class="control-label text-right tooltip-float">Enter in the revisit after contents</label>
+                                                    <label for="txtJTitle" class="control-label text-right tooltip-float">Revisit after contents</label>
 
                                                 </div>
 
@@ -292,7 +331,7 @@
 
                                     </div>
                                 </div>
-                                
+
                                 <!-- ko if: isUserDefined() == true -->
                                 <div class="tab-pane fade" id="tab-UserAddressInfo">
                                     <div class="row">
@@ -309,10 +348,12 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveSecondaryPage, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
-                <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteSecondaryPage, enable:isUserDefined() && $root.selectedSecondaryPage().id() != undefined">Archive</button>
+            <div class="modal-footer" style="padding-left:0px; padding-right:0px;">
+                <div style="padding-left:3px;padding-right:8px;">
+                    <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveSecondaryPage, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+                    <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteSecondaryPage, enable:isUserDefined() && $root.selectedSecondaryPage().id() != undefined">Archive</button>
+                </div>
             </div>
         </div>
     </div>

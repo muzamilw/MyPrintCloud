@@ -104,7 +104,20 @@ namespace MPC.Models.DomainModels
         public double? TaxRate { get; set; }
         public bool? IsDisplayDiscountVoucherCode { get; set; }
         public bool? IsDisplayCorporateBinding { get; set; }
+
+        public bool? CanUserUpdateAddress { get; set; }
         public long? CurrentThemeId { get; set; }
+        /// <summary>
+        /// Is Store Live
+        /// </summary>
+        public bool? isStoreLive { get; set; }
+        [NotMapped]
+        public bool IsClickReached { get; set; }
+        public bool? IsRegisterAccessWebStore { get; set; }
+        public bool? IsRegisterPlaceOrder { get; set; }
+        public bool? IsRegisterPayOnlyByCreditCard { get; set; }
+        public bool? IsRegisterPlaceDirectOrder { get; set; }
+        public bool? IsRegisterPlaceOrderWithoutApproval { get; set; }
 
         /// <summary>
         /// Map Image Url
@@ -154,6 +167,9 @@ namespace MPC.Models.DomainModels
 
         public long? StoreId { get; set; }
 
+        [NotMapped]
+        public string StoreName { get; set; }
+
         public bool? isAddCropMarks { get; set; }
 
         public bool? isCalculateTaxByService { get; set; }
@@ -192,8 +208,12 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<Invoice> Invoices { get; set; }
         public virtual ICollection<FieldVariable> FieldVariables { get; set; }
         public virtual ICollection<TemplateColorStyle> TemplateColorStyles { get; set; }
+        public virtual ICollection<DeliveryNote> DeliveryNotes { get; set; }
+        public virtual ICollection<Inquiry> Inquiries { get; set; }
+        public virtual ICollection<Purchase> Purchases { get; set; }
+        public virtual ICollection<GoodsReceivedNote> GoodsReceivedNotes { get; set; }
 
-        #region Additional Properties
+            #region Additional Properties
 
         /// <summary>
         /// Default Sprite Source
@@ -282,5 +302,138 @@ namespace MPC.Models.DomainModels
             }
         }
         #endregion
+
+        /// <summary>
+        /// Makes a copy of Item
+        /// </summary>
+        public void Clone(Company target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemClone_InvalidItem, "target");
+            }
+
+
+            target.AccountNumber = AccountNumber;
+            target.Name = Name + "-Copy";
+            target.URL = URL;
+            target.CreditReference = CreditReference;
+            target.CreditLimit = CreditLimit;
+            target.Terms = Terms;
+            target.TypeId = TypeId;
+            target.DefaultNominalCode = DefaultNominalCode;
+            target.DefaultMarkUpId = DefaultMarkUpId;
+            target.AccountOpenDate = AccountOpenDate;
+            target.AccountManagerId = AccountManagerId;
+            target.Status = Status;
+            target.IsCustomer = IsCustomer;
+            target.Notes = Notes;
+            target.NotesLastUpdatedDate = NotesLastUpdatedDate;
+            target.NotesLastUpdatedBy = NotesLastUpdatedBy;
+            target.AccountStatusId = AccountStatusId;
+            target.IsDisabled = IsDisabled;
+            target.LockedBy = LockedBy;
+            target.AccountBalance = AccountBalance;
+            target.CreationDate = CreationDate;
+            target.VATRegNumber = VATRegNumber;
+            target.VATRegReference = VATRegReference;
+            target.FlagId = FlagId;
+            target.PhoneNo = PhoneNo;
+            target.IsGeneral = IsGeneral;
+            target.SalesPerson = SalesPerson;
+            target.Image = Image;
+            target.WebAccessCode = WebAccessCode + "-Copy";
+            target.isArchived = isArchived;
+            target.PayByPersonalCredeitCard = PayByPersonalCredeitCard;
+            target.PONumberRequired = PONumberRequired;
+            target.ShowPrices = ShowPrices;
+            target.CarrierWebPath = CarrierWebPath;
+            target.CarrierTrackingPath = CarrierTrackingPath;
+            target.CorporateOrderingPolicy = CorporateOrderingPolicy;
+            target.isDisplaySiteHeader = isDisplaySiteHeader;
+            target.isDisplayMenuBar = isDisplayMenuBar;
+            target.isDisplayBanners = isDisplayBanners;
+            target.isDisplayFeaturedProducts = isDisplayFeaturedProducts;
+            target.isDisplayPromotionalProducts = isDisplayPromotionalProducts;
+            target.isDisplayChooseUsIcons = isDisplayChooseUsIcons;
+
+            target.isDisplaySecondaryPages = isDisplaySecondaryPages;
+            target.isDisplaySiteFooter = isDisplaySiteFooter;
+            target.RedirectWebstoreURL = RedirectWebstoreURL;
+            target.defaultPalleteId = defaultPalleteId;
+            target.isLaminate = isLaminate;
+            target.isRoundCorner = isRoundCorner;
+            target.isBrokerCanDeliverSameDay = isBrokerCanDeliverSameDay;
+            target.isAcceptPaymentOnline = isAcceptPaymentOnline;
+            target.isOrderApprovalRequired = isOrderApprovalRequired;
+            target.isPaymentRequired = isPaymentRequired;
+            target.isWhiteLabel = isWhiteLabel;
+            target.TwitterURL = TwitterURL;
+            target.FacebookURL = FacebookURL;
+            target.LinkedinURL = LinkedinURL;
+            target.WebMasterTag = WebMasterTag;
+            target.WebAnalyticCode = WebAnalyticCode;
+
+            target.isShowGoogleMap = isShowGoogleMap;
+            target.isTextWatermark = isTextWatermark;
+            target.RedirectWebstoreURL = RedirectWebstoreURL;
+            target.WatermarkText = WatermarkText;
+            target.CoreCustomerId = CoreCustomerId;
+            target.StoreBackgroundImage = StoreBackgroundImage;
+            target.PriceFlagId = PriceFlagId;
+            target.isIncludeVAT = isIncludeVAT;
+            target.isAllowRegistrationFromWeb = isAllowRegistrationFromWeb;
+            target.MarketingBriefRecipient = MarketingBriefRecipient;
+            target.isLoginFirstTime = isLoginFirstTime;
+            target.facebookAppId = facebookAppId;
+            target.facebookAppKey = facebookAppKey;
+            target.twitterAppId = twitterAppId;
+            target.isStoreModePrivate = isStoreModePrivate;
+            target.CustomCSS = CustomCSS;
+
+
+            target.TaxPercentageId = target.TaxPercentageId;
+            target.XeroAccessCode = XeroAccessCode;
+            target.canUserPlaceOrderWithoutApproval = canUserPlaceOrderWithoutApproval;
+            target.CanUserEditProfile = CanUserEditProfile;
+            target.OrganisationId = OrganisationId;
+            target.includeEmailArtworkOrderReport = includeEmailArtworkOrderReport;
+            target.includeEmailArtworkOrderXML = includeEmailArtworkOrderXML;
+            target.includeEmailArtworkOrderJobCard = includeEmailArtworkOrderJobCard;
+            target.makeEmailArtworkOrderProductionReady = makeEmailArtworkOrderProductionReady;
+            target.SalesAndOrderManagerId1 = SalesAndOrderManagerId1;
+            target.SalesAndOrderManagerId2 = SalesAndOrderManagerId2;
+            target.ProductionManagerId1 = ProductionManagerId1;
+            target.ProductionManagerId2 = ProductionManagerId2;
+            target.StockNotificationManagerId1 = StockNotificationManagerId1;
+            target.StockNotificationManagerId2 = StockNotificationManagerId2;
+            target.IsDeliveryTaxAble = IsDeliveryTaxAble;
+
+            target.IsDisplayDeliveryOnCheckout = IsDisplayDeliveryOnCheckout;
+            target.TaxRate = TaxRate;
+            target.IsDisplayDiscountVoucherCode = IsDisplayDiscountVoucherCode;
+            target.IsDisplayCorporateBinding = IsDisplayCorporateBinding;
+            target.CanUserUpdateAddress = CanUserUpdateAddress;
+            target.CurrentThemeId = CurrentThemeId;
+            target.isStoreLive = isStoreLive;
+            target.IsRegisterAccessWebStore = IsRegisterAccessWebStore;
+            target.IsRegisterPlaceOrder = IsRegisterPlaceOrder;
+            target.IsRegisterPayOnlyByCreditCard = IsRegisterPayOnlyByCreditCard;
+
+            target.IsRegisterPlaceDirectOrder = IsRegisterPlaceDirectOrder;
+            target.IsRegisterPlaceOrderWithoutApproval = IsRegisterPlaceOrderWithoutApproval;
+            target.MapImageUrl = MapImageUrl;
+
+            target.PickupAddressId = PickupAddressId;
+            target.MapImageUrl = MapImageUrl;
+            target.TaxLabel = TaxLabel;
+            target.StoreId = StoreId;
+            target.isAddCropMarks = isAddCropMarks;
+            target.isCalculateTaxByService = isCalculateTaxByService;
+            target.ActiveBannerSetId = ActiveBannerSetId;
+            target.StoreName = StoreName;
+   
+        }
+
     }
 }

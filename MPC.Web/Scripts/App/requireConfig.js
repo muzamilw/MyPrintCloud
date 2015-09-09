@@ -30,10 +30,14 @@
             "toDoList": ist.siteUrl + "/Areas/CRM/Scripts",
             "order": ist.siteUrl + "/Areas/Orders/Scripts",
             "itemJobStatus": ist.siteUrl + "/Areas/Production/Scripts",
+            "liveJobs": ist.siteUrl + "/Areas/Production/Scripts",
             "lookupMethods": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
             "sectionflags": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
             "deliverycarrier": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
             "invoice": ist.siteUrl + "/Areas/Invoices/Scripts",
+            "reportBanner": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
+            "deliveryNotes": ist.siteUrl + "/Areas/DeliveryNotes/Scripts",
+            "purchaseOrders": ist.siteUrl + "/Areas/Orders/Scripts",
         }
     });
 

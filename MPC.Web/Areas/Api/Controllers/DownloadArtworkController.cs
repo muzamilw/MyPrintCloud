@@ -34,11 +34,11 @@ namespace MPC.MIS.Areas.Api.Controllers
         #endregion
 
         #region Public
-        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+       // [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
         [CompressFilterAttribute]
-        public string Get(int OrderId)
+        public string Get(int OrderId, long OrganisationId)
         {
-            return orderService.DownloadOrderArtwork(OrderId, string.Empty);
+            return orderService.DownloadOrderArtwork(OrderId, string.Empty, OrganisationId);
         }
         #endregion
     }

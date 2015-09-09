@@ -31,6 +31,7 @@ using System.Web.Http;
 using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
@@ -72,7 +73,7 @@ namespace MPC.Webstore.Controllers
         #endregion
 
         // GET: Domain
-        public void Index()
+        public ActionResult Index()
         {
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
@@ -84,8 +85,8 @@ namespace MPC.Webstore.Controllers
             long storeId = _myCompanyService.GetStoreIdFromDomain(url);
             if (storeId == 0)
             {
-                Response.Redirect("/Error");
-
+                TempData["ErrorMessage"] = Utils.GetKeyValueFromResourceFile("ltrldomainerrmess", UserCookieManager.WBStoreId, "The Domain in requested url does not point to any of the available stores.");
+                return RedirectToAction("Error", "Home");
             }
             else
             {
@@ -94,10 +95,10 @@ namespace MPC.Webstore.Controllers
                     UserCookieManager.WBStoreId = storeId;
                 }
 
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = null;
-                if ((cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>) != null && (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>).ContainsKey(storeId))
+                MyCompanyDomainBaseReponse StoreBaseResopnse = null;
+                if ((cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>) != null && (cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>).ContainsKey(storeId))
                 {
-                    StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[storeId];
+                    StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>)[storeId];
                 }
                 else
                 {
@@ -139,113 +140,34 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    RedirectToAction("Error", "Home");
+                    TempData["ErrorMessage"] = Utils.GetKeyValueFromResourceFile("ltrldomainerrmess", UserCookieManager.WBStoreId, "The Domain in requested url does not point to any of the available stores.");
+
+                    return RedirectToAction("Error", "Home");
                 }
             }
-
-            // return RedirectToAction("Index", "Home");
-            //  return View();
+            return null;
         }
 
-        public void updateCache(string name)
+        public ActionResult ClearCache(long StoreId)
         {
-            _myCompanyService.GetStoreFromCache(Convert.ToInt64(name), true);
-            RedirectToAction("Error", "Home");
+            _myCompanyService.GetStoreFromCache(StoreId, true);
+            return View();
         }
 
-        public ActionResult AutoLoginOrRegister(string C, string F, string L, string E, string CC)
+        public void ClearCacheObject()
         {
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+            CacheItemPolicy policy = null;
 
-            try
-            {
-                if (System.Text.RegularExpressions.Regex.IsMatch(E, "^[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$"))
-                {
-                    if (!string.IsNullOrEmpty(C))
-                    {
+            policy = new CacheItemPolicy();
+            policy.Priority = CacheItemPriority.NotRemovable;
+           
+            policy.RemovedCallback = null;
 
-                        MPC.Models.DomainModels.Company oCompany = _myCompanyService.isValidWebAccessCode(C, UserCookieManager.WEBOrganisationID);
-
-                        if (oCompany != null)
-                        {
-                            CompanyContact oContact = _myCompanyService.GetOrCreateContact(oCompany, E, F, L, C);
-                            if (oContact == null && oCompany.isAllowRegistrationFromWeb == true)
-                            {
-                                return RedirectToAction("Error", "Home", new { Message = "You are not allowed to register." });
-                            }
-                            else
-                            {
-                                string CacheKeyName = "CompanyBaseResponse";
-                                ObjectCache cache = MemoryCache.Default;
-                                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = null;
-                                if ((cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>) != null && (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>).ContainsKey(oCompany.CompanyId))
-                                {
-                                    StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[oCompany.CompanyId];
-                                }
-                                else
-                                {
-                                    StoreBaseResopnse = _myCompanyService.GetStoreFromCache(oCompany.CompanyId);
-                                }
-
-                                if (StoreBaseResopnse.Company != null)
-                                {
-                                    // set company cookie
-                                    UserCookieManager.WBStoreId = StoreBaseResopnse.Company.CompanyId;
-                                    UserCookieManager.WEBStoreMode = StoreBaseResopnse.Company.IsCustomer;
-                                    UserCookieManager.isIncludeTax = StoreBaseResopnse.Company.isIncludeVAT ?? false;
-                                    UserCookieManager.TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
-                                    
-                                    // set user cookies
-                                    UserCookieManager.isRegisterClaims = 1;
-                                    UserCookieManager.WEBContactFirstName = oContact.FirstName;
-                                    UserCookieManager.WEBContactLastName = oContact.LastName == null ? "" : oContact.LastName;
-                                    UserCookieManager.ContactCanEditProfile = oContact.CanUserEditProfile ?? false;
-                                    UserCookieManager.ShowPriceOnWebstore = oContact.IsPricingshown ?? true;
-                                    UserCookieManager.WEBEmail = oContact.Email;
-
-                                    string languageName = _myCompanyService.GetUiCulture(Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
-
-                                    CultureInfo ci = null;
-
-                                    if (string.IsNullOrEmpty(languageName))
-                                    {
-                                        languageName = "en-US";
-                                    }
-
-                                    ci = new CultureInfo(languageName);
-
-                                    Thread.CurrentThread.CurrentUICulture = ci;
-                                    Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
-                                    ControllerContext.HttpContext.Response.Redirect("/");
-                                    return null;
-                                }
-                                else
-                                {
-                                    return RedirectToAction("Error", "Home", new { Message = "Please try again." });
-                                }
-                            }
-                        }
-                        else
-                        {
-                            return RedirectToAction("Error", "Home", new { Message = "Your Web Access Code is invalid." });
-                        }
-                    }
-                    else
-                    {
-                        return RedirectToAction("Error", "Home", new { Message = "Please enter Web Access Code to proceed." });
-                    }
-                }
-                else
-                {
-                    return RedirectToAction("Error", "Home", new { Message = "Please enter valid email address to proceed." });
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
+            Dictionary<long, MyCompanyDomainBaseReponse> stores = new Dictionary<long, MyCompanyDomainBaseReponse>();
+            cache.Set(CacheKeyName, stores, policy);
         }
+
     }
 }

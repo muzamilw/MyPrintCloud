@@ -20,6 +20,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty2 = source.Qty2,
                 Qty3 = source.Qty3,
                 StockId = source.StockId,
+                StockName = source.StockName,
                 SectionCostCentreId = source.SectionCostCentreId,
                 CostPrice = source.CostPrice,
                 ActualQtyUsed = source.ActualQtyUsed
@@ -33,7 +34,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new DomainModels.SectionCostCentreDetail
             {
-                SectionCostCentreDetailId = source.SectionCostCentreDetailId
+                SectionCostCentreDetailId = source.SectionCostCentreDetailId,
+                Qty1 = source.Qty1,
+                Qty2 = source.Qty2,
+                Qty3 = source.Qty3,
+                StockId = source.StockId,
+                StockName = source.StockName,
+                SectionCostCentreId = source.SectionCostCentreId,
+                CostPrice = source.CostPrice,
+                ActualQtyUsed = source.ActualQtyUsed
             };
         }
 

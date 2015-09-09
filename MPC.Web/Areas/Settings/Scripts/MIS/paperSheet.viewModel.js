@@ -26,6 +26,7 @@ define("paperSheet/paperSheet.viewModel",
                     editorViewModel = new ist.ViewModel(model.PaperSheet),
                     //Selected Paper Sheet
                     selectedPaperSheet = editorViewModel.itemForEditing,
+                    selectedPaperSheetForDelete = ko.observable(),
                     //Length Unit
                     lengthUnit = ko.observable(),
                     //Organisation culure
@@ -39,14 +40,33 @@ define("paperSheet/paperSheet.viewModel",
                     //Create New Paper Sheet
                     createNewPaperSheet = function () {
                         var paperSheet = new model.PaperSheet();
+                        //paperSheet.IsImperical("true");
                         editorViewModel.selectItem(paperSheet);
                         selectedPaperSheet().isArchived(false);
                         openEditDialog();
+                        selectedPaperSheet().IsImperical("true");
+                        selectedPaperSheet().reset();
                     },
                     //On Edit Click Of Paper Sheet
                     onEditItem = function (item) {
+                      
+                        if (item.IsImperical() == true || item.IsImperical() == "true") {
+                            item.IsImperical("true");
+                        }
+                        else {
+                            item.IsImperical("false");
+                        }
+                           
+
+                        selectedPaperSheetForDelete(item);
+
+
                         editorViewModel.selectItem(item);
+                        
+
                         openEditDialog();
+
+
                     },
                     //Delete Paper Sheet
                     deletePaperSheet = function (paperSheet) {
@@ -55,8 +75,9 @@ define("paperSheet/paperSheet.viewModel",
                         }, {
                             success: function (data) {
                                 if (data != null) {
-                                    paperSheets.remove(paperSheet);
-                                    toastr.success(" Deleted Successfully !");
+                                    paperSheets.remove(selectedPaperSheetForDelete());
+                                    view.hidePaperSheetDialog();
+                                    toastr.success("Successfully archive!");
                                 }
                             },
                             error: function (response) {
@@ -70,6 +91,7 @@ define("paperSheet/paperSheet.viewModel",
                             return;
                         }
                         // Ask for confirmation
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
                         confirmation.afterProceed(function () {
                             deletePaperSheet(paperSheet);
                         });
@@ -80,7 +102,7 @@ define("paperSheet/paperSheet.viewModel",
                         isLoadingPaperSheet(true);
                         dataservice.getPaperSheets({
                             SearchString: searchFilter(),
-                            Region:orgCulture(),
+                            Region: orgCulture(),
                             PageSize: pager().pageSize(),
                             PageNo: pager().currentPage(),
                             SortBy: sortOn(),
@@ -102,6 +124,10 @@ define("paperSheet/paperSheet.viewModel",
                                 toastr.error("Error: Failed to Load Paper Sheet Data." + response);
                             }
                         });
+                    },
+                    getPaperSheetsByFilter = function () {
+                        pager().reset();
+                        getPaperSheets();
                     },
                     //Do Before Save
                     doBeforeSave = function () {
@@ -162,6 +188,19 @@ define("paperSheet/paperSheet.viewModel",
                     openEditDialog = function () {
                         view.showPaperSheetDialog();
                         view.initializeLabelPopovers();
+
+
+                     
+                        //if (selectedPaperSheet().IsImperical() == true || selectedPaperSheet().IsImperical() == "true") {
+                        //        selectedPaperSheet().IsImperical("true");
+                        //}
+                        // else {
+                        //        selectedPaperSheet().IsImperical("false");
+                        //}
+                        
+                       // ist.paperSheet
+                       
+
                     },
                     //CLose Paper Sheet Dialog
                     closeEditDialog = function () {
@@ -245,6 +284,7 @@ define("paperSheet/paperSheet.viewModel",
                     getBaseData: getBaseData,
                     onClosePaperSheet: onClosePaperSheet,
                     initialize: initialize,
+                    getPaperSheetsByFilter: getPaperSheetsByFilter,
                     orgCulture: orgCulture
                 };
             })()

@@ -8,28 +8,25 @@
         <div class="row">
             <div class="col-lg-12">
                 <ol class="breadcrumb">
-                    <li><a href="#">Home</a></li>
-                    <li class="active"><span>CRM</span></li>
-                    <li class="active"><span>To Do Lists</span></li>
-                </ol>
-                <h1>To Do Lists</h1>
+                    <li><a href="#">&nbsp;</a></li>
 
+                </ol>
+                <h1 style="padding-left:0px;">To Do Lists</h1>
+                <div style="margin-left:-2px;margin-top:25px;">
+                    <p class="group-header-description">Create Contacts, Customers and Suppliers. Add to-do items and update shared calendars.</p>
+                </div>
+                <div style="clear: both;max-height: 14px;">
+                    &nbsp;
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="main-box-body main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
-                        <ul class="nav nav-tabs">
-                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
-                                @Html.ActionLink("Calendar", "Calendar", "Home")
-
-                            </li>
-                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
-                                <a href="#tab-ToDoList" data-toggle="tab">To Do Lists</a>
-                            </li>
+                        <ul class="nav nav-tabs" style="margin-bottom:0px;">
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
-                                @Html.ActionLink("Contacts", "Contacts", "Home")
+                                @Html.ActionLink("Public Store Registered Users", "Contacts", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Companies) { <text>active</text> }">
                                 @Html.ActionLink("Companies", "Index", "Home")
@@ -37,73 +34,82 @@
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Supplier) { <text>active</text> }">
                                 @Html.ActionLink("Supplier", "SuppliersList", "Home")
                             </li>
-                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.MySharedDocs) { <text>active</text> }">
-                                @Html.ActionLink("My Shared Docs", "Contacts", "Home")
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
+                                @*@Html.ActionLink("To Do Lists", "ToDoList", "Home")*@
+                                <a href="#tab-ToDoList" data-toggle="tab">Calender Events</a>
+                            </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
+                                @Html.ActionLink("Calendar", "Calendar", "Home")
+                                @*<a href="#tab-Calendar" data-toggle="tab">Calendar</a>*@
                             </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-ToDoList">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="main-box">
-                                            <div class="main-box-body clearfix">
+                                        <div class="tabsdescriptions">
+                                            <p class="group-header-description">Stay organized with to do items for each member of your team, assign follow up events that appear in your group calendar.</p>
+                                        </div>
+                                        <div>
+                                            <div class="main-box-body clearfix" style="padding-left:10px;padding-right:6px;">
                                                 <div class="col-md-12 form-horizontal">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <div class="col-lg-2 text-right">
-                                                                <div class="bs-example-tooltips tooltip-float-width">
-                                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Owner" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                                    </a>
-                                                                </div>
-                                                                <label for="owner" class="control-label text-right tooltip-float">Show</label>
+                                                            <div class="col-lg-4 text-right" style=" margin-left: -9px; padding-left:7px">
+                                                                <label for="owner" style="float:left"class="control-label text-right tooltip-float">Show Calendar Events</label>
                                                             </div>
-                                                            <div class="col-lg-10">
-                                                                <select class="form-control" id="owner" data-bind="options: $root.systemUsers, optionsText: 'UserName', optionsValue: 'SystemUserId',value:$root.selectedSystemUser,event:{ change: $root.onChangeSystemUser}"></select>
+                                                            <div class="col-lg-8">
+                                                                <select  class="form-control" id="owner" data-bind="options: $root.systemUsers, optionsCaption: 'All', optionsText: 'FullName', optionsValue: 'SystemUserId',value:$root.selectedSystemUser,event:{ change: $root.onChangeSystemUser}"></select>
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                 </div>
-                                                <div class="col-md-12 form-horizontal">
-                                                    <div class="form-group">
-                                                        <div class="col-lg-2 text-right">
-                                                            <span class="fc-button fc-button-prev fc-state-default fc-corner-left" data-bind="click:$root.previousMonth"><span class="fc-text-arrow">‹</span></span>
-                                                            <span class="fc-button fc-button-next fc-state-default fc-corner-right" data-bind="click:$root.nextMonth"><span class="fc-text-arrow">›</span></span>
-                                                        </div>
+                                                <div class="col-md-12" style="padding-right:0px; padding-left:0px;">
 
-                                                        <div class="col-lg-4">
-                                                            <span class="fc-button fc-button-today fc-state-default fc-corner-left fc-corner-right" data-bind="click:$root.todayActivities">today</span>
-                                                        </div>
-
-                                                        <div class="col-lg-4">
-                                                            <span class="fc-header-center"><span class="fc-header-title"><h2 data-bind="text:$root.dateDisplay"></h2></span></span>
-                                                        </div>
-                                                        <div class="col-lg-2">
-                                                            <div class="btn-group pull-right" data-bind="click:$root.addActivity">
-                                                                <button class="btn btn-primary">
-                                                                    <i class="fa  fa-lg"></i>&nbsp;Add Activity
-                                                                </button>
-                                                            </div>
+                                                    <div class="col-lg-3" style="padding-left:1px;margin-left:-1px;">
+                                                        <span class="fc-button fc-button-prev fc-state-default fc-corner-left" data-bind="click:$root.previousMonth"><span class="fc-text-arrow">‹</span></span>
+                                                        <span class="fc-button fc-button-next fc-state-default fc-corner-right" style="margin-left:-4px;" data-bind="click:$root.nextMonth"><span class="fc-text-arrow">›</span></span>
+                                                        <span class="fc-button fc-button-today fc-state-default fc-corner-left" style="height:38px;margin-left:7px;" data-bind="click:$root.todayActivities">today</span>
+                                                    </div>
+                                                    <div class="col-lg-7" style="text-align:center;padding-left:0px;">
+                                                        <h2 class="fc-header-title" style="padding-right:10px;" data-bind="text:$root.dateDisplay"></h2>
+                                                    </div>
+                                                    <div class="col-lg-2" style="padding-right:0px;">
+                                                        <div class="btn-group pull-right" data-bind="click:$root.addActivity">
+                                                            <button class="btn btn-primary">
+                                                                <i class="fa  fa-lg"></i>&nbsp;Add New Event
+                                                            </button>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th style="width: 35%"><span>Description</span></th>
-                                                                <th style="width: 35%"><span>Start Date</span></th>
-                                                                <th style="width: 23%"><span>End Date</span></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <!-- ko template: { name: 'todoListItemTemplate' , foreach: $root.items } -->
-                                                            <!-- /ko -->
-                                                        </tbody>
-                                                    </table>
                                                 </div>
+                                                <br />
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="main-box-body clearfix" style="padding-left:18px;padding-right:18px;">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="col-lg-1">&nbsp;</th>
+                                                                    <th class="col-lg-3"><span>Activity Type</span></th>
+                                                                    <th class="col-lg-2" style="padding-left:6px;"><span>Description</span></th>
+                                                                    <th class="col-lg-2" style="padding-left:6px;"><span>Start Date</span></th>
+                                                                    <th class="col-lg-2" style="padding-left:6px;"><span>End Date</span></th>
+                                                                    <th class="col-lg-1">&nbsp;</th>
+                                                                    <th class="col-lg-1">&nbsp;</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <!-- ko template: { name: 'todoListItemTemplate' , foreach: $root.items } -->
+                                                                <!-- /ko -->
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -117,24 +123,28 @@
         </div>
 
     </div>
-  
+
 </div>
 <!-- ko stopBinding: true -->
 @Html.Partial("~/Areas/CRM/Views/Home/_UserProfileDetailsForContact.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_CompanySelector.cshtml")
-
+@Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 <!-- /ko -->
 @section Scripts{
 
 
     <script>
-        require(["toDoList/toDoList.view", "common/companySelector.view", "crm/contacts.view"]);
+        require(["toDoList/toDoList.view", "common/companySelector.view", "crm/contacts.view", "common/confirmation.view"]);
     </script>
 }
 
 <script id="todoListItemTemplate" type="text/html">
-    <tr>
-        <td><a href="#" class="store-user-link" data-bind="text: activityNotes,click : $root.onEditActivity"></a></td>
+    <tr data-bind="click : $root.onEditActivity" style="cursor: pointer">
+        <td>
+            &nbsp;
+        </td>
+        <td data-bind="text:actionby"></td>
+        <td><a href="#" class="store-user-link" data-bind="text: activityNotes"></a></td>
         <td data-bind="text:startDateTime"></td>
         <td data-bind="text:endDateTime"></td>
     </tr>

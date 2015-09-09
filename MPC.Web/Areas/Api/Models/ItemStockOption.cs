@@ -49,6 +49,16 @@ namespace MPC.MIS.Areas.Api.Models
         public string StockItemName { get; set; }
 
         /// <summary>
+        /// In Stock
+        /// </summary>
+        public double? inStock { get; set; }
+
+       
+        /// <summary>
+        /// Allocated
+        /// </summary>
+        public double? Allocated { get; set; }
+        /// <summary>
         /// Stock Item Description
         /// </summary>
         public string StockItemDescription { get; set; }

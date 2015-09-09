@@ -24,7 +24,7 @@ namespace MPC.Interfaces.Repository
         /// <summary>
         /// Get Field Varibale By Company ID and Scope
         /// </summary>
-        IEnumerable<FieldVariable> GetFieldVariableByCompanyIdAndScope(long companyId,int scope);
+        IEnumerable<FieldVariable> GetFieldVariableByCompanyIdAndScope(long companyId, int scope);
 
         /// <summary>
         /// Get Field Varibale By Company For Smart Form
@@ -35,5 +35,17 @@ namespace MPC.Interfaces.Repository
         /// Get System Variables
         /// </summary>
         IEnumerable<FieldVariable> GetSystemVariables();
+
+        /// <summary>
+        /// Get all system variables and company variables
+        /// </summary>
+        /// <param name="companyID"></param>
+        /// <returns></returns>
+        List<FieldVariable> GetSystemAndCompanyVariables(long companyID);
+
+        /// <summary>
+        /// Get System Field Variables
+        /// </summary>
+        FieldVariableResponse GetSystemFieldVariable(FieldVariableRequestModel request);
     }
 }

@@ -1,0 +1,65 @@
+﻿@using MPC.Webstore.Common;
+@using MPC.Models.Common;
+
+
+@{
+    var ParentCategory = ViewBag.ParentCategory as List<MPC.Models.DomainModels.ProductCategory>;
+    var AllChildCategories = ViewBag.AllChildCategories as List<MPC.Models.DomainModels.ProductCategory>;
+    var AllRetailCAt = ViewBag.AllRetailCat as List<MPC.Models.DomainModels.ProductCategory>;
+}
+@{
+    Layout = null;
+}
+<div id="footer" class="container footer-content spacer-top">
+    <div class="container">
+        <p></p>
+        <div class="row">
+            <div class="col-xs-12 col-md-3">
+                <div class="panel panel-info" id="oxfordCtgCont">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@Html.Raw(Html.GetKeyValueFromResourceFile("abttttmpc", UserCookieManager.WBStoreId, "About MyPrintCloud"))</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>@Html.Raw(Html.GetKeyValueFromResourceFile("mpccccdes", UserCookieManager.WBStoreId, "MyPrintCloud is one of the most preferred and highly affordable web to print solution with wide range of features and customization for SME printers. With Web2Print Store, your customers can create designs online and place orders 24×7. The solution offers user friendly storefront management, online marketing tools, and reports to reduce operational cost. We understand that we grow only when our clients grow. So we are consistently adding new user friendly features to improve productivity and reduce cost."))</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-9" id="parentCatsContainer">
+                <div class="page-header">
+                    <div class="panel panel-info" id="product_list_footer">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@Html.Raw(Html.GetKeyValueFromResourceFile("pctg", UserCookieManager.WBStoreId, "Product Category"))</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="nav nav-pills">
+                                @foreach (var PCategory in AllRetailCAt)
+                                { 
+                                    //var ChildCategories = AllChildCategories.Where(g => g.ParentCategoryId == PCategory.ProductCategoryId).ToList();
+                                     var childCats = AllRetailCAt.Where(i => i.ParentCategoryId == PCategory.ProductCategoryId).OrderBy(o => o.DisplayOrder).ToList();
+                                     int count = AllRetailCAt.Where(i => i.ParentCategoryId == PCategory.ProductCategoryId).OrderBy(o => o.DisplayOrder).Count();
+                                     if (count>0)
+                                     { 
+                                        <li>
+                                            <a id="ParentCateLink" style="width: 100%;" href="/Category/@Html.ResolveString(PCategory.CategoryName)/@PCategory.ProductCategoryId">
+                                                <i class="icon-th-large"></i>
+                                                <span><b id="parentCatName">@PCategory.CategoryName</b></span>
+                                            </a><br />
+                                            <ul>
+                                                @foreach (var childs in childCats)
+                                                { 
+                                                 <li style="width:100%;"><a id="subCatLink" style="width: 100%;" href="/Category/@Html.ResolveString(childs.CategoryName)/@childs.ProductCategoryId"><span id="subCatName">@childs.CategoryName</span></a></li>
+                                                 <br/>
+                                                }
+                                            </ul>
+                                        </li>
+                                }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</div>

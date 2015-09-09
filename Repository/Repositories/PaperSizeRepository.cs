@@ -66,9 +66,11 @@ namespace MPC.Repository.Repositories
         public override IEnumerable<PaperSize> GetAll()
         {
             Organisation org = db.Organisations.Where(o => o.OrganisationId == this.OrganisationId).FirstOrDefault();
-            string sCulture = org.GlobalLanguage != null ? org.GlobalLanguage.culture : string.Empty;
-            return DbSet.Where(s => s.OrganisationId == OrganisationId && s.Region == sCulture).OrderBy(s => s.Name).ToList();
+            //string sCulture = org.GlobalLanguage != null ? org.GlobalLanguage.culture : string.Empty;
+            return DbSet.Where(s => s.OrganisationId == OrganisationId && s.IsImperical == org.IsImperical && s.IsArchived == false).OrderBy(s => s.Area).ToList();
         }
+
+        
 
         /// <summary>
         /// Search Paper Sheet
@@ -80,8 +82,8 @@ namespace MPC.Repository.Repositories
             bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
             Expression<Func<PaperSize, bool>> query =
                 paperSize =>
-                    (isStringSpecified && paperSize.Name.Contains(request.SearchString) || !isStringSpecified
-                    && paperSize.OrganisationId==OrganisationId && paperSize.Region==request.Region);
+                    ((isStringSpecified && paperSize.Name.Contains(request.SearchString) || !isStringSpecified)
+                    && paperSize.OrganisationId == OrganisationId && (paperSize.IsArchived == false || paperSize.IsArchived == null));
 
             var rowCount = DbSet.Count(query);
             var paperSheets = request.IsAsc
@@ -107,11 +109,11 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                
+
 
                 return db.PaperSizes.Where(o => o.OrganisationId == OrganisationID).ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -120,12 +122,12 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                foreach(var size in sizes)
+                foreach (var size in sizes)
                 {
                     size.OrganisationId = OrganisationID;
                     db.PaperSizes.Add(size);
                 }
-              
+
             }
             catch (Exception ex)
             {
@@ -139,7 +141,7 @@ namespace MPC.Repository.Repositories
             {
                 return db.PaperSizes.Where(c => c.PaperSizeId == PSSID).ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }

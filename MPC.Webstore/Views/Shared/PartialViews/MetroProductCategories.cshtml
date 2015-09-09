@@ -1,0 +1,63 @@
+﻿@using MPC.Webstore.Common;
+@using MPC.Models.Common;
+@{
+    Layout = null;
+}
+
+@{
+    var ParentCategory = ViewBag.ParentCategory as List <MPC.Models.DomainModels.ProductCategory> ;
+    var AllChildCategories = ViewBag.AllChildCategories as List<MPC.Models.DomainModels.ProductCategory>;
+ }
+
+<div class="container" id="all-metroProd-pg">
+    <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xs-12">
+            <h1 class="MetroallprodHead">
+                @Html.Raw(Html.GetKeyValueFromResourceFile("proCtgss", UserCookieManager.WBStoreId, "Product Categories"))
+            </h1>
+            @foreach (var ParentProduct in ParentCategory)
+            {
+                int count = AllChildCategories.Where(g => g.ParentCategoryId == ParentProduct.ProductCategoryId).Count();
+
+                <div id="MainDiv" class="MetroProCats">
+                    <h2 class="Metrowidth_allPro">
+                        <a id="ltrlParentCatName" class="MetroParent_Cat_allPro" href="/Category/@Html.ResolveString(ParentProduct.CategoryName)/@ParentProduct.ProductCategoryId">@ParentProduct.CategoryName</a>
+                    </h2>
+                    @if (count > 0)
+                    {
+                        <div>
+                            <div class="MetrocolContainer">
+                                @{
+                        var ChildCategories = AllChildCategories.Where(i => i.ParentCategoryId == ParentProduct.ProductCategoryId).ToList();
+                                }
+                                <div class="Metroallproducts_col">
+                                    <ul style="list-style: inherit; margin-left: -20px;">
+                                        @foreach (var Chcategory in ChildCategories)
+                                        {
+                                            <li><a href="/Category/@Html.ResolveString(Chcategory.CategoryName)/@Chcategory.ProductCategoryId">@Chcategory.CategoryName</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="clearBoth">
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="clearBoth">
+                    </div>
+                </div>
+                //}
+
+            }
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xs-12">
+            <h1 class="MetroallprodHead">
+                @Html.Raw(Html.GetKeyValueFromResourceFile("location", UserCookieManager.WBStoreId, "Location"))
+
+            </h1>
+            <img src="~/Content/Images/map.png" class="metroMap" />
+        </div>
+    </div>
+
+</div>
+

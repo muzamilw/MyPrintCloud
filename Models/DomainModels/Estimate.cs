@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,10 +61,10 @@ namespace MPC.Models.DomainModels
         public DateTime? OfficialOrderSetOnDateTime { get; set; }
         public int? IsCreditApproved { get; set; }
         public double? CreditLimitForJob { get; set; }
-        public int? CreditLimitSetBy { get; set; }
+        public Guid? CreditLimitSetBy { get; set; }
         public DateTime? CreditLimitSetOnDateTime { get; set; }
         public int? IsJobAllowedWOCreditCheck { get; set; }
-        public int? AllowJobWOCreditCheckSetBy { get; set; }
+        public Guid? AllowJobWOCreditCheckSetBy { get; set; }
         public DateTime? AllowJobWOCreditCheckSetOnDateTime { get; set; }
         public DateTime? NotesUpdateDateTime { get; set; }
         public int? NotesUpdatedByUserId { get; set; }
@@ -87,11 +88,16 @@ namespace MPC.Models.DomainModels
         public DateTime? OrderReportLastPrinted { get; set; }
         public DateTime? EstimateReportLastPrinted { get; set; }
         public bool? isEmailSent { get; set; }
-        public int? DiscountVoucherID { get; set; }
+        public long? DiscountVoucherID { get; set; }
         public short? ClientStatus { get; set; }
         public long? RefEstimateId { get; set; }
         public string XeroAccessCode { get; set; }
         public long? OrganisationId { get; set; }
+        [NotMapped]
+        public int? InvoiceStatus { get; set; }
+
+        [NotMapped]
+        public bool IsExtraOrder { get; set; }
 
         public virtual Company Company { get; set; }
         public virtual CompanyContact CompanyContact { get; set; }
@@ -100,5 +106,54 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<Item> Items { get; set; }
         public virtual ICollection<PrePayment> PrePayments { get; set; }
         public virtual SectionFlag SectionFlag { get; set; }
+        public virtual ICollection<ShippingInformation> ShippingInformations { get; set; }
+
+        public void Clone(Estimate target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ProductCategoryItemClone_InvalidItem, "target");
+            }
+
+            target.CompanyId = CompanyId;
+            target.Estimate_Code = Estimate_Code;
+            target.Estimate_Name = Estimate_Name;
+            target.EnquiryId = EnquiryId;
+            target.SectionFlagId = SectionFlagId;
+            target.ContactId = ContactId;
+            target.AddressId = AddressId;
+            target.isDirectSale = isDirectSale;
+            target.IsCreditApproved = IsCreditApproved;
+            target.IsOfficialOrder = IsOfficialOrder;
+            target.Order_Date = Order_Date;
+            target.StartDeliveryDate = StartDeliveryDate;
+            target.FinishDeliveryDate = FinishDeliveryDate;
+            target.HeadNotes = HeadNotes;
+            target.FootNotes = FootNotes;
+            target.ArtworkByDate = ArtworkByDate;
+            target.DataByDate = DataByDate;
+            target.PaperByDate = PaperByDate;
+            target.TargetBindDate = TargetBindDate;
+            target.XeroAccessCode = XeroAccessCode;
+            target.TargetPrintDate = TargetPrintDate;
+            target.Order_CreationDateTime = Order_CreationDateTime;
+            target.SalesPersonId = SalesPersonId;
+            target.SourceId = SourceId;
+            target.CreditLimitForJob = CreditLimitForJob;
+            target.CreditLimitSetBy = CreditLimitSetBy;
+            target.CreditLimitSetOnDateTime = CreditLimitSetOnDateTime;
+            target.IsJobAllowedWOCreditCheck = IsJobAllowedWOCreditCheck;
+            target.AllowJobWOCreditCheckSetOnDateTime = AllowJobWOCreditCheckSetOnDateTime;
+            target.AllowJobWOCreditCheckSetBy = AllowJobWOCreditCheckSetBy;
+            target.CustomerPO = CustomerPO;
+            target.OfficialOrderSetBy = OfficialOrderSetBy;
+            target.OfficialOrderSetOnDateTime = OfficialOrderSetOnDateTime;
+            target.OrderReportSignedBy = OrderReportSignedBy;
+            target.Estimate_Total = Estimate_Total;
+            target.CreationDate = CreationDate;
+            target.CreationTime = CreationTime;
+            target.RefEstimateId = RefEstimateId;
+        }
     }
+
 }

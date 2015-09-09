@@ -44,13 +44,15 @@ namespace MPC.Repository.Repositories
                         {InvoiceByColumn.InvoiceName, d => d.InvoiceName}
                     };
         #endregion
+
         #region Constructor
         public InvoiceRepository(IUnityContainer container)
             : base(container)
         {
-     
+
         }
         #endregion
+
         #region Pubilc
 
         /// <summary>
@@ -86,9 +88,23 @@ namespace MPC.Repository.Repositories
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
+            bool isStatusSpecified = request.Status == 0;
+
             bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
+            bool isSectionFlagZero = request.FilterFlag != 0;
+            bool isEstimateTypeZero = request.OrderTypeFilter != 2; // 2 -> All
+
             Expression<Func<Invoice, bool>> query =
-                invoice => invoice.OrganisationId == this.OrganisationId && invoice.IsArchive != true;
+                invoice => (!isStringSpecified
+                    || invoice.Company.Name.Contains(request.SearchString) || invoice.InvoiceCode.Contains(request.SearchString))
+
+                    &&
+                    (!isSectionFlagZero || invoice.FlagID==request.FilterFlag)
+                     &&
+                    (!isEstimateTypeZero || invoice.InvoiceType == request.OrderTypeFilter)
+
+                    && invoice.OrganisationId == OrganisationId && invoice.IsArchive != true &&
+                    ((!isStatusSpecified && invoice.InvoiceStatus == request.Status || isStatusSpecified));
             int rowCount = DbSet.Count(query);
             IEnumerable<Invoice> invoices = request.IsAsc
                 ? DbSet.Where(query)
@@ -119,11 +135,21 @@ namespace MPC.Repository.Repositories
             };
         }
 
+        /// <summary>
+        /// Get Invoice By Id
+        /// </summary>
         public Invoice GetInvoiceById(long Id)
         {
-            return DbSet.Where(i => i.InvoiceId == Id).ToList().FirstOrDefault();
+            return DbSet.FirstOrDefault(i => i.InvoiceId == Id);
         }
 
+        /// <summary>
+        /// Get Invoice By Estimate Id
+        /// </summary>
+        public Invoice GetInvoiceByEstimateId(long Id)
+        {
+            return DbSet.FirstOrDefault(i => i.EstimateId == Id);
+        }
         #endregion
     }
 }

@@ -2,8 +2,8 @@
     Module with the view model for the To Do List.
 */
 define("toDoList/toDoList.viewModel",
-    ["jquery", "amplify", "ko", "calendar/calendar.dataservice", "calendar/calendar.model", "common/pagination", "common/companySelector.viewModel", "crm/contacts.viewModel"],
-    function ($, amplify, ko, dataservice, model, pagination, companySelector, contactVM) {
+    ["jquery", "amplify", "ko", "common/confirmation.viewModel", "calendar/calendar.dataservice", "calendar/calendar.model", "common/pagination", "common/companySelector.viewModel", "crm/contacts.viewModel"],
+    function ($, amplify, ko, confirmation, dataservice, model, pagination, companySelector, contactVM) {
         var ist = window.ist || {};
         ist.toDoList = {
             viewModel: (function () {
@@ -16,11 +16,12 @@ define("toDoList/toDoList.viewModel",
                     selectedSystemUser = ko.observable(),
                     isCustomerType = ko.observable("1"),
                     selectedActivityForRemove = ko.observable(),
-                      companySearchFilter = ko.observable(),
+                    companySearchFilter = ko.observable(),
                     searchContactFilter = ko.observable(),
                     loggedInUserId = ko.observable(),
                     isBaseDataLoaded = ko.observable(false),
                     pager = ko.observable(),
+                    createdByUserName = ko.observable(),
                     sectionFlags = ko.observableArray([]),
                     companyContacts = ko.observableArray([]),
                     pipeLineProducts = ko.observableArray([]),
@@ -35,7 +36,7 @@ define("toDoList/toDoList.viewModel",
                 day = date.getDate(),
                 year = date.getFullYear(),
                  month = date.getMonth(),
-                montharray = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+                montharray = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"),
 
                 //Call click on activity for edit
                 onEditActivity = function (activity) {
@@ -45,7 +46,14 @@ define("toDoList/toDoList.viewModel",
                     selectedActivityForRemove(activity);
                     getActivityDetail(activity);
                     selectedActivity(model.Activity());
+                    //createdBy
+                    //var Createdbysystemuser = systemUsers.filter(function (itemsys) { return itemsys.SystemUserId == selectedActivity().createdBy });
+                    //if (Createdbysystemuser.length > 0) {
+                    //    createdByUserName(Createdbysystemuser[0].FullName);
+                    //}
                     view.showCalendarActivityDialog();
+                    
+
                 },
                 //Add new Activity
                 addActivity = function () {
@@ -57,28 +65,36 @@ define("toDoList/toDoList.viewModel",
                     newAddActivity.endDateTime(date);
                     newAddActivity.isCustomerType("1");
                     newAddActivity.systemUserId(loggedInUserId());
+                    newAddActivity.createdBy(loggedInUserId());
                     //newAddActivity.systemUserId("7e20d462-c881-4d05-9e91-4c619385333b");
                     selectedActivity(newAddActivity);
+                    selectedActivity().reset();
+                    selectedSystemUser(loggedInUserId());
                     view.showCalendarActivityDialog();
                 },
                 // Filter Calendar Activities change on user
                 onChangeSystemUser = function () {
                     var start = new Date(year, month, 1);
                     var end = new Date(year + (month == 12 ? 1 : 0), month + 1, 0);
-                    getCalendarActivities(moment(start).format(ist.utcFormat), moment(end.start).format(ist.utcFormat));
+                    getCalendarActivities(moment(start).format(ist.utcFormat), moment(end).format(ist.utcFormat));
                 },
                 //delete Activity
                 onDeleteActivity = function (activity) {
-                    dataservice.deleteActivity(selectedActivity().convertToServerData(), {
-                        success: function () {
-                            items.remove(selectedActivityForRemove());
-                            view.hideCalendarActivityDialog();
-                            toastr.success("Successfully remove.");
-                        },
-                        error: function () {
-                            toastr.error("Failed to remove.");
-                        }
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                    confirmation.afterProceed(function() {
+                        dataservice.deleteActivity(selectedActivity().convertToServerData(), {
+                            success: function () {
+                                items.remove(selectedActivityForRemove());
+                                view.hideCalendarActivityDialog();
+                                toastr.success("Successfully remove.");
+                            },
+                            error: function () {
+                                toastr.error("Failed to remove.");
+                            }
+                        });
                     });
+                    confirmation.show();
+                    return;
                 },
                 // Get Base
                 getBase = function () {
@@ -107,8 +123,9 @@ define("toDoList/toDoList.viewModel",
                             activityTypes.valueHasMutated();
 
                             loggedInUserId(data.LoggedInUserId);
-                            selectedSystemUser(loggedInUserId());
-                            //getCalendarActivities(moment(date2).format(ist.utcFormat), moment(date1).format(ist.utcFormat));
+
+                            selectedSystemUser(data.LoggedInUserId);
+                            getActivities();
                         },
                         error: function () {
                             toastr.error("Failed to load base data.");
@@ -129,7 +146,11 @@ define("toDoList/toDoList.viewModel",
                                     var sectionFlag = _.find(sectionFlags(), function (sFlag) {
                                         return sFlag.SectionFlagId == item.FlagId;
                                     });
-                                    items.push(model.ActivityList.Create(item));
+                                    var newitem = model.ActivityList.Create(item);
+                                    newitem.actionby(systemUsers.filter(function (itemsys) { return itemsys.SystemUserId == item.SystemUserId })[0].FullName);
+                                    //systemUsers
+                                    items.push(newitem);
+
                                 });
                             }
                             // viewDate();
@@ -139,7 +160,7 @@ define("toDoList/toDoList.viewModel",
                             toastr.error("Failed to load Detail . Error: ");
                         }
                     });
-                }
+                },
                 //On Save Acivity
                 onSaveActivity = function (activity) {
                     if (dobeforesave()) {
@@ -150,7 +171,7 @@ define("toDoList/toDoList.viewModel",
                 saveActivity = function () {
                     dataservice.saveActivity(selectedActivity().convertToServerData(), {
                         success: function (data) {
-                            if (data !== null && selectedSystemUser().toLowerCase() === selectedActivity().systemUserId().toLowerCase()) {
+                            if (data !== null && selectedSystemUser() != undefined && selectedSystemUser().toLowerCase() != undefined && selectedSystemUser().toLowerCase() === selectedActivity().systemUserId().toLowerCase()) {
 
                                 if (selectedActivity().id() === undefined) {
                                     selectedActivity().id(data);
@@ -159,6 +180,7 @@ define("toDoList/toDoList.viewModel",
                                     activity.activityNotes(selectedActivity().activityNotes());
                                     activity.startDateTime(selectedActivity().startDateTime() !== undefined ? moment(selectedActivity().startDateTime()).format(ist.dateTimePattern) : undefined);
                                     activity.endDateTime(selectedActivity().endDateTime() !== undefined ? moment(selectedActivity().endDateTime()).format(ist.dateTimePattern) : undefined);
+                                    activity.actionby(systemUsers.filter(function (itemsys) { return itemsys.SystemUserId == selectedActivity().systemUserId() })[0].FullName);
                                     items.splice(0, 0, activity);
                                 } else {
                                     selectedActivityForRemove().activityNotes(selectedActivity().activityNotes());
@@ -200,7 +222,13 @@ define("toDoList/toDoList.viewModel",
                     }, {
                         success: function (data) {
                             if (data != null) {
+                                createdByUserName(undefined);
                                 selectedActivity(model.Activity.Create(data));
+                                var Createdbysystemuser = systemUsers.filter(function (itemsys) { return itemsys.SystemUserId == selectedActivity().createdBy() });
+                                if (Createdbysystemuser.length > 0) {
+                                    createdByUserName(Createdbysystemuser[0].FullName);
+                                }
+                                selectedActivity().reset();
                             }
                         },
                         error: function (response) {
@@ -225,15 +253,17 @@ define("toDoList/toDoList.viewModel",
                         PageNo: pager().currentPage(),
                     }, {
                         success: function (data) {
-                            if (data != null) {
+                            if (data != null && data.CompanyContacts.length > 0) {
                                 //Company Contacts
                                 companyContacts.removeAll();
-                                _.each(data.CompanyContacts, function (item) {
+                                _.each(data.CompanyContacts, function(item) {
                                     companyContacts.push(model.CompanyContact.Create(item));
                                 });
                                 pager().totalCount(data.RowCount);
                                 view.showContactSelectorDialog();
 
+                            } else {
+                                toastr.error("No User Found! ");
                             }
                         },
                         error: function (response) {
@@ -241,12 +271,13 @@ define("toDoList/toDoList.viewModel",
                         }
                     });
                 },
-                // On Select Contact
+                // On Select ContactonSavePrePayment
                 onSelectContact = function (contact) {
                     view.hideContactSelectorDialog();
                     selectedActivity().companyName(contact.name() + " , " + contact.companyName());
                     selectedActivity().contactId(contact.id());
-                },
+                    selectedActivity().contactCompanyId(contact.companyId());
+                }
                 isCustomerType.subscribe(function (value) {
                     if (selectedActivity() !== undefined) {
                         getCompanyContactByName();
@@ -305,7 +336,7 @@ define("toDoList/toDoList.viewModel",
                     if (!company) {
                         return;
                     }
-                    //selectedActivity().contactCompanyId(company.id);
+                    selectedActivity().contactCompanyId(company.id);
                     selectedCompany(company);
                     contactVM.addContact(onSaveContact, company.id);
                 },
@@ -355,7 +386,8 @@ define("toDoList/toDoList.viewModel",
                     addActivity: addActivity,
                     formatSelection: formatSelection,
                     selected: selected,
-                    addContact: addContact
+                    addContact: addContact,
+                    createdByUserName: createdByUserName
                 };
             })()
         };

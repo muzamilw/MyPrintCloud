@@ -1,13 +1,13 @@
 ﻿@using MPC.Webstore.Common;
 @{
    
-    
+    Layout = null;
     int counter = 0;
     
 }
-<div class="product-container container content_area">
+<div class="product-container container content_area" id="all-product-pg">
     <h1 class="allprodHead">
-        <label id="lbl_AllProducts">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId))
+        <label id="lbl_AllProducts">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId,"All Products"))
             
         </label>
     </h1>
@@ -36,7 +36,7 @@
                             {
                                 if (child.ParentCategoryId == subCats.ProductCategoryId)
                                 {
-                                    <ul class="allproducts_col_cat_ul">
+                                    <ul class="allproducts_col_cat_ul ">
                                         <li>
                                             <a href="/Category/@Html.ResolveString(child.CategoryName)/@child.ProductCategoryId">@child.CategoryName</a>
                                         </li>

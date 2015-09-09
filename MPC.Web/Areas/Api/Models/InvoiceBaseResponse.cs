@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -16,10 +17,21 @@ namespace MPC.MIS.Areas.Api.Models
         /// System Users
         /// </summary>
         public IEnumerable<SystemUserDropDown> SystemUsers { get; set; }
-                
+
+        /// <summary>
+        /// Cost Centers
+        /// </summary>
+        public IEnumerable<CostCentre> CostCenters { get; set; }
+
         /// <summary>
         /// Currency Symbol
         /// </summary>
         public string CurrencySymbol { get; set; }
+
+
+        /// <summary>
+        /// LoggedInUserId
+        /// </summary>
+        public Guid LoggedInUserId { get; set; }
     }
 }

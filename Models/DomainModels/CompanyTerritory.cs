@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
@@ -18,5 +19,32 @@ namespace MPC.Models.DomainModels
 
         [NotMapped]
         public IEnumerable<ScopeVariable> ScopeVariables { get; set; }
+
+
+        #region public
+
+
+        /// <summary>
+        /// Makes a copy of Entity
+        /// </summary>
+        ///   
+
+        public void Clone(CompanyTerritory target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemProductDetailClone_InvalidItemProductDetail, "target");
+            }
+
+
+            target.TerritoryName = TerritoryName;
+            target.TerritoryCode = TerritoryCode;
+            target.isDefault = isDefault;
+
+
+
+        }
+
+        #endregion
     }
 }

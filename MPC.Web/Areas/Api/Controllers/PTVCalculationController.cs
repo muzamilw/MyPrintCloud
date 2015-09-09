@@ -14,7 +14,7 @@ namespace MPC.MIS.Areas.Api.Controllers
     {
         #region Private
 
-        private readonly IOrderService orderService;
+        private readonly IItemSectionService itemsectionService;
 
         #endregion
         #region Constructor
@@ -22,13 +22,13 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public PtvCalculationController(IOrderService orderService)
+        public PtvCalculationController(IItemSectionService _itemsectionService)
         {
-            if (orderService == null)
+            if (_itemsectionService == null)
             {
                 throw new ArgumentNullException("orderService");
             }
-            this.orderService = orderService;
+            this.itemsectionService = _itemsectionService;
         }
 
         #endregion
@@ -43,7 +43,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
-            return orderService.GetPTVCalculation(request).CreateFrom();
+            return itemsectionService.GetPTVCalculation(request).CreateFrom();
         }
         #endregion
     }

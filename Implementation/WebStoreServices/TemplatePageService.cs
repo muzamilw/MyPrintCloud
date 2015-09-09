@@ -123,7 +123,11 @@ namespace MPC.Implementation.WebStoreServices
                                 theDoc.MediaBox.Height = width;
                                 theDoc.MediaBox.Width = height;
                             }
-                            theDoc.Save(basePath + "Side" + (i + 1).ToString() + ".pdf");
+                            theDoc.Save(basePath + "Side" + PagesList[i].PageNo.ToString() + ".pdf");
+                            if (File.Exists(basePath + "templatImgBk" + (PagesList[i].PageNo).ToString() + ".jpg"))
+                            {
+                                File.Delete(basePath + "templatImgBk" + (PagesList[i].PageNo).ToString() + ".jpg");
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -163,7 +167,11 @@ namespace MPC.Implementation.WebStoreServices
                         theDoc.MediaBox.Width = height;
 
                     }
-                    theDoc.Save(basePath + oPage.PageName + oPage.PageNo.ToString() + ".pdf");
+                    theDoc.Save(basePath + "Side" + oPage.PageNo.ToString() + ".pdf");
+                    if (File.Exists(basePath + "templatImgBk" + oPage.PageNo.ToString() + ".jpg"))
+                    {
+                        File.Delete(basePath + "templatImgBk" + oPage.PageNo.ToString() + ".jpg");
+                    }
                 }
                 catch (Exception ex)
                 {

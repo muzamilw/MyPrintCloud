@@ -67,8 +67,8 @@ function d1ToCanvas(src, x, y, IW, IH) {
 
 }
 function d1SvgToCCC(src, IW, IH) {
-    var canvasHeight = Math.floor(canvas.height);
-    var canvasWidth = Math.floor(canvas.width);
+  //  var canvasHeight = Math.floor(canvas.height);
+ //   var canvasWidth = Math.floor(canvas.width);
     var D1NIO = {};
     var n = src;
     while (n.indexOf('/') != -1)
@@ -177,32 +177,29 @@ function d1ToCanvasCC(src, IW, IH) {
 
 }
 function d1CompanyLogoToCanvas(x, y) {
-    var center = canvas.getCenter();
-
-    var canvasHeight = Math.floor(canvas.height);
-    var canvasWidth = Math.floor(canvas.width);
     var D1NIO = {};
     D1NIO = fabric.util.object.clone(TO[0]);
     D1NIO.ObjectId = --NCI;
+    D1NIO.ObjectID = --NCI;
     D1NIO.ColorHex = "#000000";
     D1NIO.IsBold = false;
     D1NIO.IsItalic = false;
     D1NIO.ProductPageId = SP;
+    D1NIO.ProductPageID = SP;
     D1NIO.MaxWidth = 100;
     D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
-    D1NIO.PositionX = center.left;
-    D1NIO.PositionY = center.top;
+    D1NIO.PositionX = canvas.getWidth()/2 - 300 ;
+    D1NIO.PositionY = canvas.getHeight() / 2 - 300;
     D1NIO.ObjectType = 8;
 
-    D1NIO.MaxHeight = 300;
-    D1NIO.Height = 300;
-    D1NIO.MaxWidth = 300;
-    D1NIO.Width = 300;
+    D1NIO.MaxHeight = 300 ;
+    D1NIO.Height = 300 ;
+    D1NIO.MaxWidth = 300 ;
+    D1NIO.Width = 300 ;
 
     D1NIO.IsQuickText = true;
     D1NIO.ContentString = "/Content/Designer/assets-v2/Imageplaceholder_sim.png";
     D1NIO.DisplayOrder = TO.length + 1;
-    D1NIO.left = center.left;
    
     k31(canvas, D1NIO);
     var OBS = canvas.getObjects();
@@ -213,21 +210,51 @@ function d1CompanyLogoToCanvas(x, y) {
 
 }
 function d1ContactLogoToCanvas(x, y) {
-    var center = canvas.getCenter();
-    var canvasHeight = Math.floor(canvas.height);
-    var canvasWidth = Math.floor(canvas.width);
     var D1NIO = {};
     D1NIO = fabric.util.object.clone(TO[0]);
     D1NIO.ObjectId = --NCI;
+    D1NIO.ObjectID = --NCI;
     D1NIO.ColorHex = "#000000";
     D1NIO.IsBold = false;
     D1NIO.IsItalic = false;
     D1NIO.ProductPageId = SP;
     D1NIO.MaxWidth = 100;
     D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
-    D1NIO.PositionX = center.left;
-    D1NIO.PositionY = center.top;
+    D1NIO.PositionX = canvas.getWidth() / 2 - 300;
+    D1NIO.PositionY = canvas.getHeight() / 2 - 300;
     D1NIO.ObjectType = 12;
+
+    D1NIO.MaxHeight = 300;
+    D1NIO.Height = 300;
+    D1NIO.MaxWidth = 300;
+    D1NIO.Width = 300;
+
+    D1NIO.IsQuickText = true;
+    D1NIO.ContentString = "/Content/Designer/assets-v2/Imageplaceholder_sim.png";
+    D1NIO.DisplayOrder = TO.length + 1;
+    k31(canvas, D1NIO);
+    var OBS = canvas.getObjects();
+
+    D1NIO.DisplayOrderPdf = OBS.length;
+    canvas.renderAll();
+    TO.push(D1NIO);
+
+}
+
+function d1PlaceHoldToCanvas() {
+    var D1NIO = {};
+    D1NIO = fabric.util.object.clone(TO[0]);
+    D1NIO.ObjectId = --NCI;
+    D1NIO.ObjectID = --NCI;
+    D1NIO.ColorHex = "#000000";
+    D1NIO.IsBold = false;
+    D1NIO.IsItalic = false;
+    D1NIO.ProductPageId = SP;
+    D1NIO.MaxWidth = 100;
+    D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
+    D1NIO.PositionX = canvas.getWidth() / 2 - 300;
+    D1NIO.PositionY = canvas.getHeight() / 2 - 300;
+    D1NIO.ObjectType = 3;
 
     D1NIO.MaxHeight = 300;
     D1NIO.Height = 300;
@@ -247,46 +274,93 @@ function d1ContactLogoToCanvas(x, y) {
 }
 function k35_load(DT) {
     // src = DT;
-   // StopLoader();
-    D1NIO = fabric.util.object.clone(TO[0]);
-    D1NIO.ObjectID = --NCI;
-    D1NIO.ColorHex = "#000000";
-    D1NIO.IsBold = false;
-    D1NIO.IsItalic = false;
-    D1NIO.ProductPageId = SP;
-    D1NIO.MaxWidth = 100;
-    D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
-    D1NIO.PositionX = 0;
-    D1NIO.PositionY = 0;
-    D1NIO.ObjectType = 3;
+    // StopLoader();
+    if (DT.indexOf('.svg') == -1) {
+        D1NIO = fabric.util.object.clone(TO[0]);
+        D1NIO.ObjectID = --NCI;
+        D1NIO.ColorHex = "#000000";
+        D1NIO.IsBold = false;
+        D1NIO.IsItalic = false;
+        D1NIO.ProductPageId = SP;
+        D1NIO.MaxWidth = 100;
+        D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
+        D1NIO.PositionX = 0;
+        D1NIO.PositionY = 0;
+        D1NIO.ObjectType = 3;
 
-    D1NIO.MaxHeight = IH;
-    D1NIO.Height = IH;
-    D1NIO.MaxWidth = IW;
-    D1NIO.Width = IW;
 
-    if (IH < 50) {
-        D1NIO.MaxHeight = 50;
-        D1NIO.Height = 50;
+        D1NIO.MaxHeight = IH;
+        D1NIO.Height = IH;
+        D1NIO.MaxWidth = IW;
+        D1NIO.Width = IW;
+
+        if (IH < 50) {
+            D1NIO.MaxHeight = 50;
+            D1NIO.Height = 50;
+        }
+        else if (IW < 50) {
+            D1NIO.MaxWidth = 50;
+            D1NIO.Width = 50;
+        }
+        D1NIO.ContentString = DT;
+        D1NIO.DisplayOrder = TO.length + 1;
+        if (D1NIO.ObjectType == 9) {
+            d1Svg(canvas, D1NIO, true);
+        } else {
+            d1(canvas, D1NIO, true);
+        }
+        var OBS = canvas.getObjects();
+
+        D1NIO.DisplayOrderPdf = OBS.length;
+        canvas.renderAll();
+        TO.push(D1NIO);
+        k27();
+        lAObj = D1NIO.ObjectID;
+    } else 
+    {
+        var D1NIO = {};
+        D1NIO = fabric.util.object.clone(TO[0]);
+        D1NIO.ObjectID = --NCI;
+        D1NIO.ColorHex = "#000000";
+        D1NIO.IsBold = false;
+        D1NIO.IsItalic = false;
+        D1NIO.ProductPageId = SP;
+        D1NIO.MaxWidth = 100;
+        D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
+        D1NIO.PositionX = 0;
+        D1NIO.PositionY = 0;
+        D1NIO.ObjectType = 9;
+        D1NIO.ColorC = 0;
+        D1NIO.ColorM = 0;
+        D1NIO.ColorY = 0;
+        D1NIO.ColorK = 100;
+        D1NIO.MaxHeight = 100;
+        D1NIO.Height = 100;
+        D1NIO.MaxWidth = 100;
+        D1NIO.Width = 100;
+
+        D1NIO.ContentString = DT;
+        D1NIO.DisplayOrder = TO.length + 1;
+        d1Svg(canvas, D1NIO, true);
+        var OBS = canvas.getObjects();
+        lAObj = D1NIO.ObjectID;
+        D1NIO.DisplayOrderPdf = OBS.length;
+        canvas.renderAll();
+        TO.push(D1NIO);
+        //d1SvgToCCC(DT, 50, 50);
     }
-    else if (IW < 50) {
-        D1NIO.MaxWidth = 50;
-        D1NIO.Width = 50;
-    }
-    D1NIO.ContentString = DT;
-    D1NIO.DisplayOrder = TO.length + 1;
-    d1(canvas, D1NIO, true);
-    var OBS = canvas.getObjects();
-
-    D1NIO.DisplayOrderPdf = OBS.length;
-    canvas.renderAll();
-    TO.push(D1NIO);
-    k27();
-    lAObj = D1NIO.ObjectID;
     //  $("#ImgCarouselDiv").tabs("option", "active", 1); 
     // $("#BkImgContainer").tabs("option", "active", 1);
 }
 function d8(mode, dheight, title) {
+    if (IsCalledFrom == 2)
+    {
+        $.getJSON("/designerapi/Template/updateTemplateVariables/" + tID + "/" + CustomerID,
+       function (DT) {
+           if(DT != true)
+              alert("Error while saving field Variables.");
+       });
+    }
     IsDesignModified = false;
     if (mode == "preview") {
         var ra = fabric.util.getRandomInt(1, 1000);
@@ -420,7 +494,6 @@ function e3() {
     val = val / 2;
     if (val < 0) val = 20;
     $(".page").css("left", val + "px");
-   // console.log(dfZ1l + " " + D1CS);
 }
 
 function e5() {
@@ -466,6 +539,10 @@ function e5() {
     if (val < 0) val = 20;
     $(".page").css("left", val + "px");
 }
+function f2_ChangeSVGColor(pathIndex) {
+    selectedPathIndex = pathIndex;
+    pcL02_main2();
+}
 function f2(c, m, y, k, ColorHex, Sname) {
 
     var D1AO = canvas.getActiveObject();
@@ -510,30 +587,64 @@ function f2(c, m, y, k, ColorHex, Sname) {
             $("#txtAreaUpdateTxt").css("color", ColorHex);
             var hexStr = D1AO.fill;
             var hex = parseInt(hexStr.substring(1), 16);
-            pcL22_Sub(D1AO);
+            pcL22_Sub(D1AO); $(".BtnChngeClr").css("background-color", ColorHex);
+            if (IsCalledFrom == 2 || IsCalledFrom == 4) {
+                $.each(TO, function (i, IT) {
+                    if (IT.ObjectID == D1AO.ObjectID) {
+                        IT.IsSpotColor = true;
+                        IT.SpotColorName = Sname;
+                        return;
+                    }
+                });
+            }
         } else if (D1AO.type == 'i-text') {
-            setActiveStyle("color", ColorHex, c, m, y, k);
-            pcL22_Sub(D1AO);
-        } else if (D1AO.type == 'ellipse' || D1AO.type == 'rect' || D1AO.type == 'path-group' || D1AO.type == 'path') {
+            setActiveStyle("color", ColorHex, c, m, y, k,Sname);
+            pcL22_Sub(D1AO); $(".BtnChngeClr").css("background-color", ColorHex);
+        } else if (D1AO.type == 'ellipse' || D1AO.type == 'rect' ) {
             D1AO.set('fill', ColorHex);
             D1AO.C = c;
             D1AO.M = m;
             D1AO.Y = y;
             D1AO.K = k;
-            pcL22_Sub(D1AO);
+            pcL22_Sub(D1AO); $(".BtnChngeClr").css("background-color", ColorHex);
+        } else if (D1AO.type == 'path-group' || D1AO.type == 'path') {
+            var orignalClr = "";
+            $.each(D1AO.customStyles, function (i, IT) {
+                if (IT.PathIndex == selectedPathIndex) {
+                    orignalClr = IT.OriginalColor;
+                }
+
+            });
+            $.each(D1AO.customStyles, function (i, IT) {
+                if (IT.OriginalColor == orignalClr)
+                {
+                    IT.ModifiedColor = ColorHex;
+                    $(".BtnChngeSvgClr" + i).css("background-color", ColorHex);
+                }
+               
+            });
+            $.each(D1AO.customStyles, function (j, IT) {
+                var clr = IT.OriginalColor;
+                if (IT.ModifiedColor != "")
+                    clr = IT.ModifiedColor;
+                if (D1AO.isSameColor && D1AO.isSameColor() || !D1AO.paths) {
+                    D1AO.setFill(clr);
+                }
+                else if (D1AO.paths) {
+                    for (var i = 0; i < D1AO.paths.length; i++) {
+                        if (i == j) {
+                            D1AO.paths[i].setFill(clr);
+                        }
+                    }
+                }
+            });
+            $("#imgThumbPreview").attr("src", D1AO.toDataURL());
+            //alert();
         }
 
         canvas.renderAll();
-        if (IsCalledFrom == 2 || IsCalledFrom == 4) {
-            $.each(TO, function (i, IT) {
-                if (IT.ObjectID == D1AO.ObjectID) {
-                    IT.IsSpotColor = true;
-                    IT.SpotColorName = Sname;
-                    return;
-                }
-            });
-        }
-        $(".BtnChngeClr").css("background-color", ColorHex);
+      
+        
 
     } else {
         canvas.backgroundColor = ColorHex;
@@ -785,7 +896,8 @@ function fu12(mode, title) {
         if(IsCalledFrom == 2)
         {
             item.originalTextStyles = item.textStyles;
-            item.originalContentString = item.ContentString;
+            if(item.ObjectType != 9)
+                item.originalContentString = item.ContentString;
         }
     });
     $.each(TPOs, function (i, IT) {
@@ -849,6 +961,7 @@ function fu12(mode, title) {
     var returnText = $.ajax(options).responseText;
 }
 function fu13(op, type, r, c) {
+    
     if (type == 1) {
         if (isImgPaCl) {
             $(".ImgsBrowserCategories").removeClass("folderExpanded"); $(".ImgsBrowserCategories ul li").removeClass("folderExpanded");
@@ -865,6 +978,7 @@ function fu13(op, type, r, c) {
             isImgPaCl = true;
         }
     } else if (type == 2) {
+        $(".BkColors").removeClass("SelectBkColorPanel");
         if (isBkPaCl) {
             $(".bKimgBrowseCategories").removeClass("folderExpanded"); $(".bKimgBrowseCategories ul li").removeClass("folderExpanded");
             $(".BkImgPanels").addClass("disappearing");
@@ -1251,7 +1365,7 @@ function g2_1(e) {
         pcL36('hide', '#textPropertPanel , #DivAdvanceColorPanel , #DivColorPallet , #ShapePropertyPanel , #ImagePropertyPanel , #UploadImage , #quickText, #addImage , #addText , #DivToolTip');
         pcL36('show', '#DivAlignObjs');
     }
-
+    k4();
 
     if (D1AO && D1AO.type === 'text' || D1AO && D1AO.type === 'i-text') {
         if (D1AO.textCase == 3) {//val == '1'
@@ -1303,6 +1417,11 @@ function g2_1(e) {
         } else {
             $("#chkboxAutoShrink").prop('checked', false);
         }
+        if (D1AO.autoCollapseText) {
+            $("#chkboxAutoCollapse").prop('checked', true);
+        } else {
+            $("#chkboxAutoCollapse").prop('checked', false);
+        }
         if (D1AO.IsEditable) {
             $("#BtnLockEditing").prop('checked', false);
         } else {
@@ -1338,6 +1457,7 @@ function g2_1(e) {
                 $("#BtnLockTxtPosition").attr("disabled", "disabled");
             }
             $(".fontSelector").removeAttr("disabled");
+            $("#BtnLockEditing").removeAttr("disabled");
             $("#BtnTxtCanvasAlignLeft").removeAttr("disabled");
             $("#BtnTxtCanvasAlignCenter").removeAttr("disabled");
             $("#BtnTxtCanvasAlignRight").removeAttr("disabled");
@@ -1356,6 +1476,7 @@ function g2_1(e) {
             } else {
                 $(".positioningControls").css("display", "block");
             }
+         
         }
         else {
             $("#inputcharSpacing").spinner("option", "disabled", true);
@@ -1402,8 +1523,9 @@ function g2_1(e) {
             $("#inputPositionYTxt").spinner("option", "disabled", true);
             $(".fontSelector").attr("disabled", "disabled");
             $(".positioningControls").css("display", "block");
+          
         }
-
+       // g1(D1AO);
     }
     else if (D1AO && D1AO.type === 'image') {
         g2_22(1);
@@ -1415,11 +1537,12 @@ function g2_1(e) {
         $(".BtnChngeClr").css("background-color", clr);
 
     } else if (D1AO && (D1AO.type === 'path-group' || D1AO.type === 'path')) {
-        g2_22(2); var clr = D1AO.fill + " !important";
-        $(".BtnChngeClr").css("background-color", clr);
+        g2_22(3);
+       // var clr = D1AO.fill + " !important";
+       // $(".BtnChngeClr").css("background-color", clr);
     }
 
-    k4();
+    
     var tp = $("#selectedTab").css("top");
     $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage9");
     $(".stage6 #selectedTab").css("top", tp);
@@ -1427,6 +1550,7 @@ function g2_1(e) {
     $("#FrontBackOptionPanalSection").addClass("showRightPropertyPanel");
 }
 function g2_22(mode) {
+    $("#btnReplaceImage,#BtnCropImg2,.BtnChngeClrSvg").removeAttr("disabled");
     var D1AO = canvas.getActiveObject();
     if (!D1AO) return;
     $("#textPropertyPanel").css("display", "none");
@@ -1434,6 +1558,7 @@ function g2_22(mode) {
     $(".inputObjectAlphaSlider").slider("option", "value", (D1AO.getOpacity() * 100));
     if (D1AO.IsEditable) {
         $("#LockImgProperties").prop('checked', true);
+
     } else {
         $("#LockImgProperties").prop('checked', false);
     }
@@ -1471,8 +1596,44 @@ function g2_22(mode) {
                 //pcL36('show', '#ImagePropertyPanel');
                 //DisplayDiv('1');
             }
-       // }
+            $(".svgColorPanel").css("display", "none");
+            $(".inputObjectAlphaSlider ").css("display", "inline-block");
+
+        // }
+          
+    } else if (mode == 3) {
+        if ((D1AO.IsTextEditable && (IsCalledFrom == 4))) {
+        } else {
+            $(".rotateSlider").slider("option", "value", D1AO.getAngle());
+            $("#imgThumbPreview").attr("src", D1AO.toDataURL()); $("#AddColorShape").css("display", "inline-block"); $(".OpacityBtn").css("display", "none");
+            $("#BtnCropImg2").css("display", "none");
+            $(".imgthumbPreviewSliderBtn").css("display", "none");
+
+            if (IsCalledFrom == 3) {
+                $(".toolbarImage").css("display", "none");
+                $(".toolbarImage").css("opacity", "0"); $(".spanRectColour").css("background-color", D1AO.fill);
+                $(".shapeTools").css("display", "block"); $(".imgtool").css("display", "none");
+                m0();
+            } 
+        }
+        $(".svgColorPanel").css("display", "block"); $("#AddColorShape").css("visibility", "hidden"); $(".inputObjectAlphaSlider ").css("display", "none");
+        $(".svgColorContainer").html("");
+        var lstClrs = [];
+        if (D1AO.customStyles != null) {
+            $.each(D1AO.customStyles, function (i, IT) {
+
+                var clr = IT.OriginalColor;
+                if (!inList(lstClrs, clr)) {
+                    lstClrs.push(clr);
+                    if (IT.ModifiedColor != "")
+                        clr = IT.ModifiedColor;
+                    $(".svgColorContainer").append('<button id="" class="BtnChngeClrSvg btnChangeShapeColor BtnChngeSvgClr' + i + '" title="Color picker" style="display: inline-block; background-color:' + clr + ' " onclick="f2_ChangeSVGColor(' + IT.PathIndex + ');"> </button>');
+                }
+            });
+        } 
     } else {
+        $("#AddColorShape").css("visibility", "visible");
+        $(".svgColorPanel").css("display", "none"); $(".inputObjectAlphaSlider ").css("display", "inline-block");
         if ((D1AO.IsTextEditable && (IsCalledFrom == 4))) {
         } else {
             $(".rotateSlider").slider("option", "value", D1AO.getAngle());
@@ -1496,9 +1657,33 @@ function g2_22(mode) {
         }
     }
     g1_(D1AO);
+    if (IsCalledFrom == 4 && mode == 1) {
+        //changed on request of lucas 
+        if(D1AO.IsPositionLocked && D1AO.IsTextEditable)
+        {
+            $("#btnReplaceImage,#BtnCropImg2,.BtnChngeClrSvg").attr("disabled", "disabled");
+        }
+    }else 
+    {
+        if (D1AO.IsPositionLocked && D1AO.IsTextEditable) {
+            $(".BtnChngeClrSvg").attr("disabled", "disabled");
+        }
+    }
+}
+function inList(list,obj) {
+    var res = false;
+    $.each(list, function (i, IT) {
+        if(IT == obj)
+        {
+            res = true;
+            return res;
+        }
+    });
+    return res;
 }
 function g5(e) {
     IsDesignModified = true;
+    $("#documentMenuCopy > button").css("visibility", "visible");
     var D1AO = canvas.getActiveObject();
     var D1AG = canvas.getActiveGroup();
     if (D1AG) {
@@ -1508,7 +1693,7 @@ function g5(e) {
     }
 
     if (D1AO && showEBtn) {
-        g5_2(e); $(".collapseDesignerMenu").css("display", "list-item");
+        g5_2(e); $(".collapseDesignerMenu").css("display", "list-item"); // this is selected
     } else {
         g5_Sel(e); $(".collapseDesignerMenu").css("display", "list-item");
     }
@@ -1516,7 +1701,7 @@ function g5(e) {
 }
 function g5_Sel(e) {
     if (panelMode == 1) {
-        g5_new(e);
+        g5_new(e); // this is selected
     } else {
         g5_1(e);
     }
@@ -1836,14 +2021,12 @@ function j4(e) {
         } else if (DIAO && DIAO.type === 'image' && DIAO.IsQuickText == true) {
             // show the change image screen
         }
-        //alert();
     }
 }
 function j7(i, n) {
 
     $.getJSON("/designerapi/TemplateColorStyles/UpdateCorpColor/" + i + "/" + n,
 		function (DT) {
-		    //alert(DT);
 		    // var html = "<div class ='ColorPalletCorp' style='background-color:" + Color + "' onclick='f2(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;" + ",&quot;" + Sname + "&quot;);'" + "></div><div class='ColorPalletCorpName'>" + Sname + "</div>";
 		    //$('#DivColorContainer').append(html);
 		    if (n == "DeActive") {
@@ -1865,12 +2048,6 @@ function j7(i, n) {
 		        $("#pallet" + i).append(html);
 		    }
 		});
-
-
-    // alert(n);  // DeActive
-    //pallet
-    //textColor
-
 }
 function l2(event) {
     if (event.keyCode == ctrlKey) D1CD = false;
@@ -2033,6 +2210,7 @@ function l3(e) {
     }
     if (D1CD && (e.keyCode == cKey)) {
         if (N1LA != 1) {
+            $("#documentMenuPaste > button").css("visibility", "visible");
             var D1AG = canvas.getActiveGroup();
             var D1AO = canvas.getActiveObject();
             D1CO = [];
@@ -2241,7 +2419,7 @@ function pcL02_bK() {
 function pcL02_main() {
     $(".paletteToolbarWedge").css("display", "none");
     //   pcL36('hide', '#DivAdvanceColorPanel')
-    $("#DivColorPickerDraggable").css("-webkit-transform", "matrix(1, 0, 0, 1, 127, 206)");
+    $("#DivColorPickerDraggable").css("-webkit-transform", "matrix(1, 0, 0, 1, 127, 258)");
     pcL36('toggle', '#DivColorPickerDraggable');
 }
 function pcL02_main2() {
@@ -2251,25 +2429,29 @@ function pcL02_main2() {
     pcL36('toggle', '#DivColorPickerDraggable');
 }
 function pcL03() {
-    if (confirm("Are you sure you want to Remove this Object from the canvas.")) {
+   
         var D1AO = canvas.getActiveObject(),
         D1AG = canvas.getActiveGroup();
         if (D1AO) {
-            //  c2(D1AO, 'delete');
-            c2_del(D1AO);
-            canvas.remove(D1AO);
+            if (confirm("Are you sure you want to Remove this Object from the canvas.")) {
+                //  c2(D1AO, 'delete');
+                c2_del(D1AO);
+                canvas.remove(D1AO);
+            }
         }
         else if (D1AG) {
-            var objectsInGroup = D1AG.getObjects();
-            canvas.discardActiveGroup();
-            objectsInGroup.forEach(function (OPT) {
-                //  c2(OPT, 'delete');
-                c2_del(OPT);
-                canvas.remove(OPT);
-            });
+            if (confirm("Are you sure you want to Remove these Objects from the canvas.")) {
+                var objectsInGroup = D1AG.getObjects();
+                canvas.discardActiveGroup();
+                objectsInGroup.forEach(function (OPT) {
+                    //  c2(OPT, 'delete');
+                    c2_del(OPT);
+                    canvas.remove(OPT);
+                });
+            }
         }
         pcL36('hide', '#divTxtPropPanelRetail');
-    }
+    
 }
 function pcL04() {
     var fontFamily = $('#BtnSelectFontsRetail').val();
@@ -2304,17 +2486,29 @@ function pcL04() {
 function pcL05() {
     var selectedObject = canvas.getActiveObject();
     if (selectedObject) {
-        setActiveStyle('font-Weight', 'bold');
-        //  c2(selectedObject);
-        pcL22_Sub(selectedObject);
-        canvas.renderAll();
+        if (selectedObject.IsTextEditable != true) {
+            setActiveStyle('font-Weight', 'bold');
+            //  c2(selectedObject);
+            pcL22_Sub(selectedObject);
+            canvas.renderAll();
+        }
     }
 }
 function pcL06() {
     var D1AO = canvas.getActiveObject();
     if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
-
-        setActiveStyle('font-Style', 'italic');
+        if (D1AO.IsTextEditable != true) {
+            setActiveStyle('font-Style', 'italic');
+            pcL22_Sub(D1AO);
+            // c2(D1AO);
+            canvas.renderAll();
+        }
+    }
+}
+function pcL06ULine() {
+    var D1AO = canvas.getActiveObject();
+    if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
+        setActiveStyle('textDecoration', 'underline');
         pcL22_Sub(D1AO);
         // c2(D1AO);
         canvas.renderAll();
@@ -2323,38 +2517,44 @@ function pcL06() {
 function pcL07() {
     var D1AO = canvas.getActiveObject();
     if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
-        D1AO.set('textAlign', 'left');
-        $("#txtAreaUpdateTxt").css("text-align", 'left');
-        //   c2(D1AO);
-        pcL22_Sub(D1AO);
-        canvas.renderAll();
+        if (D1AO.IsTextEditable != true) {
+            D1AO.set('textAlign', 'left');
+            $("#txtAreaUpdateTxt").css("text-align", 'left');
+            //   c2(D1AO);
+            pcL22_Sub(D1AO);
+            canvas.renderAll();
+        }
     }
 }
 function pcL08() {
     var D1AO = canvas.getActiveObject();
     if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
-        D1AO.set('textAlign', 'center');
-        // c2(D1AO);
-        pcL22_Sub(D1AO);
-        $("#txtAreaUpdateTxt").css("text-align", 'center');
-        canvas.renderAll();
+        if (D1AO.IsTextEditable != true) {
+            D1AO.set('textAlign', 'center');
+            // c2(D1AO);
+            pcL22_Sub(D1AO);
+            $("#txtAreaUpdateTxt").css("text-align", 'center');
+            canvas.renderAll();
+        }
     }
 }
 function pcL09() {
     var D1AO = canvas.getActiveObject();
     if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
-        D1AO.set('textAlign', 'right');
-        //  c2(D1AO);
-        pcL22_Sub(D1AO);
-        $("#txtAreaUpdateTxt").css("text-align", 'right');
-        canvas.renderAll();
+        if (D1AO.IsTextEditable != true) {
+            D1AO.set('textAlign', 'right');
+            //  c2(D1AO);
+            pcL22_Sub(D1AO);
+            $("#txtAreaUpdateTxt").css("text-align", 'right');
+            canvas.renderAll();
+        }
     }
 }
 function pcL10() {
     pcL36('hide', '#DivLayersPanel');
     var D1AG = canvas.getActiveGroup();
     var D1AO = canvas.getActiveObject();
-    D1CO = [];
+    D1CO = []; $("#documentMenuPaste > button").css("visibility", "visible");
     if (D1AG) {
         var objectsInGroup = D1AG.getObjects();
         $.each(objectsInGroup, function (j, Obj) {
@@ -2474,7 +2674,7 @@ function pcL20_new() {
     var src;
     if (D1AO && D1AO.type === 'image' && D1AO) {
         src = D1AO.getSrc();
-        if (src.indexOf("Imageplaceholder.png") == -1) {
+        if (src.indexOf("Imageplaceholder_sim.png") == -1) {
             $(".cropimage").attr('src', src + "?r=" + CzRnd);
             $(function () {
                 $('.cropimage').each(function () {
@@ -2543,7 +2743,6 @@ function pcL20_new_MoveImg(src, percent, AcHei, AcWid) {
     //   $('.overlayHoverbox').css(position);
 }
 function pcL20_newCrop() {
-    //alert(crX + " " + crY + " " + crHe + " " + crWd);
     var XML = new XMLWriter();
     XML.BeginNode("Cropped");
 
@@ -2678,6 +2877,7 @@ function pcL29(fontSize, isBold, ContentString) {
     D1NTO.IsQuickText = false;
     D1NTO.FontSize = fontSize;
     D1NTO.textCase = 0;
+    D1NTO.IsUnderlinedText = false;
     var uiTextObject = c0(canvas, D1NTO);
     var center = canvas.getCenter();
     uiTextObject.left = center.left;
@@ -2731,14 +2931,22 @@ function save_rs() {
     };
     var returnText = $.ajax(options).responseText;
 }
-function setActiveStyle(styleName, value, c, m, y, k) {
+function setActiveStyle(styleName, value, c, m, y, k,Sname) {
     object = canvas.getActiveObject();
     if (!object) return;
     if (object.setSelectionStyles && object.isEditing) {
         var style = {};
         style[styleName] = value;
+        if (styleName == "color" && (parseInt(c) || parseInt(c) == 0)) {
+            style['textCMYK'] = c + " " + m + " " + y + " " + k;
+            style['spotColorName'] = Sname;
+        }
         object.setSelectionStyles(style);
         object.setCoords();
+        if(styleName = "font-Size")
+        {
+            object.hasInlineFontStyle = true;
+        }
     }
     else {
         if (styleName == "color") {
@@ -2748,6 +2956,16 @@ function setActiveStyle(styleName, value, c, m, y, k) {
             object.M = m;
             object.Y = y;
             object.K = k;
+            if (IsCalledFrom == 2 || IsCalledFrom == 4) {
+                var D1AO = canvas.getActiveObject();
+                $.each(TO, function (i, IT) {
+                    if (IT.ObjectID == D1AO.ObjectID) {
+                        IT.IsSpotColor = true;
+                        IT.SpotColorName = Sname;
+                        return;
+                    }
+                });
+            }
         } else if (styleName == "font-Size") {
             styleName = "fontSize";
             object.fontSize = value;
@@ -2768,6 +2986,15 @@ function setActiveStyle(styleName, value, c, m, y, k) {
             }
             else {
                 value = 'italic';
+            }
+            object[styleName] = value;
+        } else if (styleName == "textDecoration") {
+            styleName = "textDecoration";
+            if (object.textDecoration == 'underline') {
+                value = 'initial';
+            }
+            else {
+                value = 'underline';
             }
             object[styleName] = value;
         }
@@ -2891,36 +3118,65 @@ function pcl42() {
             pcl42_svc(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], $("#smartFormSelectUserProfile").val());// save variables
         }
         else {
-            pcl42_updateVariables(smartFormData.scopeVariables);
-            pcl42_svc(smartFormData.scopeVariables,ContactID);// save variables
+            pcl42_updateVariables(smartFormData.scopeVariables); 
+            pcl42_svc(smartFormData.scopeVariables, ContactID);// save variables
         }
         pcl42_UpdateTO();
         bleedPrinted = false;
         d5_sub(SP,true);
-       
     } else
     {
         alert("Variable validation failed");
-    }
-    StopLoader();
+    } 
+
+    clearInterval(var2);
+    $("#MainLoader").css("display", "none");
 }
 function pcl42_updateVariables(data) {
     
     $.each(data, function (i, IT) {
-        if ($("#txtSmart" + IT.VariableId).val() != null && $("#txtSmart" + IT.VariableId).val() != "") {
+        if ($("#txtSmart" + IT.VariableId).val() != null ) {
             IT.Value = $("#txtSmart" + IT.VariableId).val();
         }
     });
 }
-function pcl42_UpdateTO() {
 
-    $.each(TO, function (i, IT) {
-        $.each(smartFormData.smartFormObjs, function (i, obj) {
-            if(obj.ObjectType == 3)  // replace all the content strings containing variable tag
-            {
+function pcl42_UpdateTO(isFirstLoad) {
+    if (!isFirstLoad) {
+        $.each(TO, function (i, IT) {
+            $.each(smartFormData.scopeVariables, function (i, obj) {
+                //if(obj.ObjectType == 3)  // replace all the content strings containing variable tag
+                //{
                 var variableTag = obj.FieldVariable.VariableTag;
+                var variableTagUpperCase = "_&*)_*!!£$";  // because we cannot set it to empty otherwise it will go to infinite loop
+                if (obj.FieldVariable.VariableTag != null)
+                    variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
+                var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                if (obj.FieldVariable.VariableTag != null)
+                    variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
+
+                var prefix = "_&*)_*!!£$";
+                var prefixLower = "_&*)_*!!£$";
+                var prefixCap = "_&*)_*!!£$";
+                var postFix = "_&*)_*!!£$";
+                var postFixLower = "_&*)_*!!£$";
+                var postFixCap = "_&*)_*!!£$";
+
+                if (variableTagUpperCase != "_&*)_*!!£$") {
+                    var tag = variableTag.replace("{{", "");
+                    tag = tag.replace("}}", "");
+                    prefix = "{{" + tag + "_pre}}";
+                    prefixLower = prefix.toLowerCase();
+                    prefixCap = prefix.toUpperCase();
+
+                    postFix = "{{" + tag + "_post}}";
+                    postFixCap = postFix.toLowerCase();
+                    postFixLower = postFix.toUpperCase();
+                }
+
+
                 if (IT.originalContentString != null) {
-                    if (IT.originalContentString.indexOf(variableTag) != -1) {
+                    if (IT.originalContentString.indexOf(variableTag) != -1 || IT.originalContentString.indexOf(variableTagUpperCase) != -1 || IT.originalContentString.indexOf(variableTagLowerCase) != -1 || IT.originalContentString.indexOf(prefix) != -1 || IT.originalContentString.indexOf(prefixCap) != -1 || IT.originalContentString.indexOf(prefixLower) != -1 || IT.originalContentString.indexOf(postFix) != -1 || IT.originalContentString.indexOf(postFixCap) != -1 || IT.originalContentString.indexOf(postFixLower) != -1) {
                         IT.ContentString = IT.originalContentString;
                         IT.textStyles = IT.originalTextStyles;
                         if (IT.originalTextStyles != null) {
@@ -2928,9 +3184,10 @@ function pcl42_UpdateTO() {
                         }
                     }
                 }
-            }
+                //}
+            });
         });
-    });
+    }
     if ($("#optionRadioOtherProfile").is(':checked')) {
         $.each(TO, function (i, IT) {
             $.each(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], function (i, obj) {
@@ -2941,9 +3198,69 @@ function pcl42_UpdateTO() {
                 }
                 if (obj.Value != null ) {
                     var variableTag = obj.FieldVariable.VariableTag;
+                    var variableTagUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    if (obj.FieldVariable.VariableTag != null) {
+                        variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
+                        variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
+                    }
+                    var prefix = "", post = "", value = "";
+
+                    $.each(lstVariableExtensions, function (i, objExt) {
+                        if (obj.FieldVariable.VariableId == objExt.FieldVariableId) {
+                            if (objExt.VariablePrefix != null && objExt.VariablePrefix != "" ) {
+                                prefix = objExt.VariablePrefix;
+                                if (objExt.CollapsePrefix == true && obj.Value == "") {
+                                    prefix = "";
+                                }
+                            }
+                            if (objExt.VariablePostfix != null && objExt.VariablePostfix != "" ) {
+                                post = objExt.VariablePostfix;
+                                if (objExt.CollapsePostfix == true && obj.Value == "") {
+                                    post = "";
+                                }
+                            }
+                        }
+                    });
+                    value = obj.Value;//value = prefix + obj.Value + post;
+
                     while (IT.ContentString.indexOf(variableTag) != -1)
-                        updateTOWithStyles(IT, variableTag, obj.Value);
-                        // IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+                        updateTOWithStyles(IT, variableTag, value);
+                    while (IT.ContentString.indexOf(variableTagUpperCase) != -1)
+                        updateTOWithStyles(IT, variableTagUpperCase, value.toUpperCase());
+                    while (IT.ContentString.indexOf(variableTagLowerCase) != -1)
+                        updateTOWithStyles(IT, variableTagLowerCase, value.toLowerCase());
+                    // IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+
+                    var tag = variableTag.replace("{{", "");
+                    tag = tag.replace("}}", "");
+                    var prefixVar = "{{" + tag + "_pre}}";
+                    var postfixVar = "{{" + tag + "_post}}";
+                  
+                    var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    if (obj.FieldVariable.VariableTag != null) {
+                        prefixVarUpperCase = prefixVar.toUpperCase();
+                        prefixVarLowerCase = prefixVar.toLowerCase();
+                        postfixVarUpperCase = postfixVar.toUpperCase();
+                        postfixVarLowerCase = postfixVar.toLowerCase();
+                    }
+                    while (IT.ContentString.indexOf(prefixVar) != -1)
+                        updateTOWithStyles(IT, prefixVar, prefix);
+                    while (IT.ContentString.indexOf(prefixVarUpperCase) != -1)
+                        updateTOWithStyles(IT, prefixVarUpperCase, prefix.toUpperCase());
+                    while (IT.ContentString.indexOf(prefixVarLowerCase) != -1)
+                        updateTOWithStyles(IT, prefixVarLowerCase, prefix.toLowerCase());
+
+                    while (IT.ContentString.indexOf(postfixVar) != -1)
+                        updateTOWithStyles(IT, postfixVar, post);
+                    while (IT.ContentString.indexOf(postfixVarUpperCase) != -1)
+                        updateTOWithStyles(IT, postfixVarUpperCase, post.toUpperCase());
+                    while (IT.ContentString.indexOf(postfixVarLowerCase) != -1)
+                        updateTOWithStyles(IT, postfixVarLowerCase, post.toLowerCase());
+
                 }
               //  }
             });
@@ -2951,16 +3268,77 @@ function pcl42_UpdateTO() {
     }
     else {
         $.each(TO, function (i, IT) {
+            
             $.each(smartFormData.scopeVariables, function (i, obj) {
                 var variableTag = obj.FieldVariable.VariableTag;
+                var variableTagUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                if (obj.FieldVariable.VariableTag != null) {
+                    variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
+                    variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
+                }
                 if (obj.Value == null) {
                     obj.Value = "";
                 }
                 if (obj.Value != null) {
+                    var prefix = "", post = "", value = "";
+                    
+                    $.each(lstVariableExtensions, function (i, objExt) {
+                        if(obj.FieldVariable.VariableId  ==  objExt.FieldVariableId)
+                        {
+                            if (objExt.VariablePrefix != null && objExt.VariablePrefix != "" )
+                            {
+                                prefix = objExt.VariablePrefix;
+                                if (objExt.CollapsePrefix == true && obj.Value == "") {
+                                    prefix = "";
+                                }
+                            }
+                            if (objExt.VariablePostfix != null && objExt.VariablePostfix != "" ) {
+                                post = objExt.VariablePostfix;
+                                if (objExt.CollapsePostfix == true && obj.Value == "") {
+                                    post = "";
+                                }
+                            }
+                        }
+                    });
+                    value = obj.Value ;//value = prefix + obj.Value + post;
                     while (IT.ContentString.indexOf(variableTag) != -1) {
-                        updateTOWithStyles(IT, variableTag,obj.Value);
+                        updateTOWithStyles(IT, variableTag, value);
                     }
-//                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+                    while (IT.ContentString.indexOf(variableTagUpperCase) != -1) {
+                        updateTOWithStyles(IT, variableTagUpperCase, value.toUpperCase());
+                    }
+                    while (IT.ContentString.indexOf(variableTagLowerCase) != -1) {
+                        updateTOWithStyles(IT, variableTagLowerCase, value.toLowerCase());
+                    }
+                    //                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+                    var tag = variableTag.replace("{{", "");
+                    tag = tag.replace("}}", "");
+                    var prefixVar = "{{" + tag + "_pre}}";
+                    var postfixVar = "{{" + tag + "_post}}";
+                    var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    if (obj.FieldVariable.VariableTag != null) {
+                        prefixVarUpperCase = prefixVar.toUpperCase();
+                        prefixVarLowerCase = prefixVar.toLowerCase();
+                        postfixVarUpperCase = postfixVar.toUpperCase();
+                        postfixVarLowerCase = postfixVar.toLowerCase();
+                    }
+                    while (IT.ContentString.indexOf(prefixVar) != -1)
+                        updateTOWithStyles(IT, prefixVar, prefix);
+                    while (IT.ContentString.indexOf(prefixVarUpperCase) != -1)
+                        updateTOWithStyles(IT, prefixVarUpperCase, prefix.toUpperCase());
+                    while (IT.ContentString.indexOf(prefixVarLowerCase) != -1)
+                        updateTOWithStyles(IT, prefixVarLowerCase, prefix.toLowerCase());
+
+                    while (IT.ContentString.indexOf(postfixVar) != -1)
+                        updateTOWithStyles(IT, postfixVar, post);
+                    while (IT.ContentString.indexOf(postfixVarUpperCase) != -1)
+                        updateTOWithStyles(IT, postfixVarUpperCase, post.toUpperCase());
+                    while (IT.ContentString.indexOf(postfixVarLowerCase) != -1)
+                        updateTOWithStyles(IT, postfixVarLowerCase, post.toLowerCase());
                 }
             });
         }); 
@@ -2969,14 +3347,126 @@ function pcl42_UpdateTO() {
 
 }
 function pcl42_updateTemplate(DT) {
-   // alert();
     if (userVariableData != null) {
         $.each(userVariableData, function (i, vari) {
             if (vari.Value != null) {
                 var variableTag = vari.FieldVariable.VariableTag;
+                var prefix = "", post = "", value = "";
+
+                $.each(lstVariableExtensions, function (i, objExt) {
+                    if (vari.FieldVariable.VariableId == objExt.FieldVariableId) {
+                        if (objExt.VariablePrefix != null && objExt.VariablePrefix != "" ) {
+                            prefix = objExt.VariablePrefix;
+                            if(objExt.CollapsePrefix == true && vari.Value == "")
+                            {
+                                prefix = "";
+                            }
+                        }
+                        if (objExt.VariablePostfix != null && objExt.VariablePostfix != "") {
+                            post = objExt.VariablePostfix;
+                            if (objExt.CollapsePostfix == true && vari.Value == "") {
+                                post = "";
+                            }
+                        }
+                    }
+                });
+                value =  vari.Value ;//prefix + vari.Value + post;
                 $.each(DT, function (i, objDT) {
                     while (objDT.ContentString.indexOf(variableTag) != -1)
-                        updateTOWithStyles(objDT, variableTag, vari.Value);
+                        updateTOWithStyles(objDT, variableTag, value);
+                    while (objDT.ContentString.indexOf(variableTag.toLowerCase()) != -1)
+                        updateTOWithStyles(objDT, variableTag.toLowerCase(), value.toLowerCase());
+                    while (objDT.ContentString.indexOf(variableTag.toUpperCase()) != -1)
+                        updateTOWithStyles(objDT, variableTag.toUpperCase(), value.toUpperCase());
+
+
+
+                    var tag = variableTag.replace("{{", "");
+                    tag = tag.replace("}}", "");
+                    var prefixVar = "{{" + tag + "_pre}}";
+                    var postfixVar = "{{" + tag + "_post}}";
+                    var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    if (vari.FieldVariable.VariableTag != null) {
+                        prefixVarUpperCase = prefixVar.toUpperCase();
+                        prefixVarLowerCase = prefixVar.toLowerCase();
+                        postfixVarUpperCase = postfixVar.toUpperCase();
+                        postfixVarLowerCase = postfixVar.toLowerCase();
+                    }
+                    while (objDT.ContentString.indexOf(prefixVar) != -1)
+                        updateTOWithStyles(objDT, prefixVar, prefix);
+                    while (objDT.ContentString.indexOf(prefixVarUpperCase) != -1)
+                        updateTOWithStyles(objDT, prefixVarUpperCase, prefix.toUpperCase());
+                    while (objDT.ContentString.indexOf(prefixVarLowerCase) != -1)
+                        updateTOWithStyles(objDT, prefixVarLowerCase, prefix.toLowerCase());
+
+                    while (objDT.ContentString.indexOf(postfixVar) != -1)
+                        updateTOWithStyles(objDT, postfixVar, post);
+                    while (objDT.ContentString.indexOf(postfixVarUpperCase) != -1)
+                        updateTOWithStyles(objDT, postfixVarUpperCase, post.toUpperCase());
+                    while (objDT.ContentString.indexOf(postfixVarLowerCase) != -1)
+                        updateTOWithStyles(objDT, postfixVarLowerCase, post.toLowerCase());
+                });
+            } else {
+                var variableTag = vari.FieldVariable.VariableTag;
+                var variableTagUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                if (vari.FieldVariable.VariableTag != null)
+                {
+                    variableTagUpperCase = vari.FieldVariable.VariableTag.toUpperCase();
+                    variableTagLowerCase = vari.FieldVariable.VariableTag.toLowerCase();
+                }
+                var prefix = "", post = "", value = "";
+
+                $.each(lstVariableExtensions, function (i, objExt) {
+                    if (vari.FieldVariable.VariableId == objExt.FieldVariableId) {
+                        if (objExt.VariablePrefix != null && objExt.VariablePrefix != "" && objExt.CollapsePrefix != true) {
+                            prefix = objExt.VariablePrefix;
+                        }
+                        if (objExt.VariablePostfix != null && objExt.VariablePostfix != "" && objExt.CollapsePostfix != true) {
+                            post = objExt.VariablePostfix;
+                        }
+                    }
+                });
+                value = prefix + "" + post;
+                $.each(DT, function (i, objDT) {
+                    while (objDT.ContentString.indexOf(variableTag) != -1)
+                        updateTOWithStyles(objDT, variableTag, value);
+                    while (objDT.ContentString.indexOf(variableTagUpperCase) != -1)
+                        updateTOWithStyles(objDT, variableTagUpperCase, value);
+                    while (objDT.ContentString.indexOf(variableTagLowerCase) != -1)
+                        updateTOWithStyles(objDT, variableTagLowerCase, value);
+
+                    var tag = variableTag.replace("{{", "");
+                    tag = tag.replace("}}", "");
+                    var prefixVar = "{{" + tag + "_pre}}";
+                    var postfixVar = "{{" + tag + "_post}}";
+                    var prefixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var prefixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var postfixVarUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var postfixVarLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    if (vari.FieldVariable.VariableTag != null) {
+                        prefixVarUpperCase = prefixVar.toUpperCase();
+                        prefixVarLowerCase = prefixVar.toLowerCase();
+                        postfixVarUpperCase = postfixVar.toUpperCase();
+                        postfixVarLowerCase = postfixVar.toLowerCase();
+                    }
+                    while (objDT.ContentString.indexOf(prefixVar) != -1)
+                        updateTOWithStyles(objDT, prefixVar, prefix);
+                    while (objDT.ContentString.indexOf(prefixVarUpperCase) != -1)
+                        updateTOWithStyles(objDT, prefixVarUpperCase, prefix.toUpperCase());
+                    while (objDT.ContentString.indexOf(prefixVarLowerCase) != -1)
+                        updateTOWithStyles(objDT, prefixVarLowerCase, prefix.toLowerCase());
+
+                    while (objDT.ContentString.indexOf(postfixVar) != -1)
+                        updateTOWithStyles(objDT, postfixVar, post);
+                    while (objDT.ContentString.indexOf(postfixVarUpperCase) != -1)
+                        updateTOWithStyles(objDT, postfixVarUpperCase, post.toUpperCase());
+                    while (objDT.ContentString.indexOf(postfixVarLowerCase) != -1)
+                        updateTOWithStyles(objDT, postfixVarLowerCase, post.toLowerCase());
+
                 });
             }
         });
@@ -3004,7 +3494,6 @@ function isEmptyStyles(customStyles) {
     return true;
 }
 function updateTOWithStyles(obTO, vTag, vVal) {
-    // obTO.ContentString = obTO.ContentString.replace(vTag, vVal);
     var objs = obTO.ContentString.split(vTag);
     var variableLength = vTag.length;
     var lengthCount = 0;
@@ -3014,7 +3503,42 @@ function updateTOWithStyles(obTO, vTag, vVal) {
     for (var i = 0; i < objs.length; i++) {
         content += objs[i];
         if ((i + 1) != objs.length) {
-            content += vVal;
+            var shifts = 0;
+            var postPend = objs[i + 1];
+            var prePend = objs[i];
+            if (vVal == "")
+            {
+                if(postPend[0] == " ")
+                {
+                    shifts= 1;
+                }else if(postPend[0] == "\n")
+                {
+                    if (prePend[prePend.length - 1] == "\n" )
+                    {
+                        shifts = 1;
+                    } else if( prePend == "")
+                    {
+                        shifts = 2;
+                    }
+                }
+                if(shifts == 1)
+                {
+                    objs[i + 1] = objs[i + 1].substring(1, objs[i + 1].length);
+                    variableLength += 1;
+                }else if(shifts  == 2)
+                {
+                    if (objs[i] == "")
+                    {
+                     //   alert();
+                        objs[i + 1] = objs[i + 1].substring(1, objs[i + 1].length);
+                     //   console.log(objs[i + 1]);
+                        variableLength += 1;
+                    }
+                }
+            } else
+            {
+                content += vVal;
+            }
         }
         lengthCount += objs[i].length;
         var toMove = (i + 1) * variableLength;
@@ -3023,14 +3547,13 @@ function updateTOWithStyles(obTO, vTag, vVal) {
         var stylesRemoved = 0;
         var StyleToCopy = null;
         if (styles != null && styles != "") {
-
             $.each(styles, function (i, objStyle) {
 
                 if (parseInt(objStyle.characterIndex) == toCopy) {
                     styleExist = true;
                     StyleToCopy = objStyle;
                 }
-                if (parseInt(objStyle.characterIndex) <= (lengthCount + variableLength) && parseInt(objStyle.characterIndex) >= lengthCount) {
+                if (parseInt(objStyle.characterIndex) < (lengthCount + variableLength) && parseInt(objStyle.characterIndex) >= lengthCount) {
                     var objToRemove = getObjectToRemove(stylesCopy, objStyle);
                     if (objToRemove != null) {
                         stylesCopy = $.grep(stylesCopy, function (n, i) {
@@ -3040,10 +3563,10 @@ function updateTOWithStyles(obTO, vTag, vVal) {
                     }
                 }
             });
-
-            var diff = vVal.length - (variableLength);
+          
+            var diff = vVal.length - (variableLength );
             $.each(stylesCopy, function (i, objStyle) {
-                if (parseInt(objStyle.characterIndex) > (lengthCount + vTag.length)) {
+                if (parseInt(objStyle.characterIndex) > (lengthCount + vTag.length-1)) {
                     objStyle.characterIndex = ((parseInt(objStyle.characterIndex) + diff)).toString();
                 }
             });
@@ -3056,6 +3579,7 @@ function updateTOWithStyles(obTO, vTag, vVal) {
                         fontWeight: StyleToCopy.fontWeight,
                         textColor: StyleToCopy.textColor,
                         textCMYK: StyleToCopy.textCMYK,
+                        spotColorName: StyleToCopy.spotColorName,
                         characterIndex: (lengthCount + z).toString()
 
                     }
@@ -3066,7 +3590,6 @@ function updateTOWithStyles(obTO, vTag, vVal) {
       //  styles = new List < InlineTextStyles > (stylesCopy);
         lengthCount += vVal.length;
     }
-
     obTO.ContentString = content;
     if (styles != null && styles != "")
         obTO.textStyles = JSON.stringify(stylesCopy, null, 2);;
@@ -3090,4 +3613,122 @@ function pcl42_Validate() {
         }
     });
     return result;
+}
+
+function pcl43_bullet() {
+    var D1AO = canvas.getActiveObject();
+    if (!D1AO) return;
+
+    if (D1AO.isBulletPoint == true)
+        D1AO.isBulletPoint = false;
+    else
+        D1AO.isBulletPoint = true;
+
+    canvas.renderAll();
+}
+function pcl44_rLoad() {
+    $("#layer").css("background-color", "rgb(112, 114, 119)");
+    CustomeAlertBoxDesigner("Are you sure you want to restore template to its original state ?", "pcl44_rLoad_CallBack()");
+}
+function pcl44_rLoad_CallBack() {
+    //if (confirm("Are you sure you want to restore template to its original state ?")) {
+    $("#layer").css("background-color", "transparent");
+    document.getElementById("layer").style.display = "none";
+    document.getElementById("innerLayer").style.display = "none";
+        TO = [];
+        TP = [];
+        $.each(TORestore, function (i, IT) {
+            var obj = fabric.util.object.clone(IT);
+            TO.push(obj);
+        });
+        $.each(TPRestore, function (i, IT) {
+            var obj = fabric.util.object.clone(IT);
+            TP.push(obj);
+        });
+        canvas.clear();
+        d5(SP);
+   // }
+}
+function toggleMbPanel() {
+    
+    if ( $(".multiBackCarouselContainer").css("display") == "none") {
+        $("#collapseDesignerMenu").click();
+        if (!$('.multiBackCarouselContainer').is(':animated')) {
+            $(".multiBackCarouselContainer").css("display", "block");
+            $(".multiBackCarouselContainer").fadeIn()
+            .css({ top: ($(window).height() + 205), position: 'absolute' })
+            .animate({ top: ($(window).height() - 205) }, 800, function () {
+                //callback
+            });
+        }
+    } else {
+        if (!$('.multiBackCarouselContainer').is(':animated')) {
+            $(".multiBackCarouselContainer").fadeIn()
+             .css({ top: ($(window).height() - 205), position: 'absolute' })
+             .animate({ top: ($(window).height() + 205) }, 800, function () {
+                 $(".multiBackCarouselContainer").css("display", "none");
+             });
+        }
+     
+        
+    }
+}
+function showMBPage(pPageID)
+{
+    var is = canvas.toDataURL('jpeg');
+    $("#MbImg" + SP).attr('src', is);
+    $.each(TP, function (i, IT) {
+        if (IT.IsPrintable != false && IT.ProductPageId == pPageID)
+        {
+            d5(pPageID);
+        }
+    });
+}
+function pcL07_vAl(id) {
+    var D1AO = canvas.getActiveObject();
+    if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
+        if (D1AO.IsTextEditable != true) {
+            D1AO.VAllignment = id; 
+            canvas.renderAll();
+        }
+    }
+}
+
+function pcl45_upData() {
+    var listVar = [];
+    $('textarea.qTextInput').each(function (i) {
+        var id = $(this).attr("id");
+        id = id.replace('txtSmart', '');
+        var objToAdd = { "VariableText": $(this).val(), "VariableID": id, "TemplateID": tID };
+        listVar.push(objToAdd);
+    });
+    var to = "/designerApi/SmartForm/SaveTemplateVariablesEndUserMode";
+    var cId = ContactID;
+    if ($("#optionRadioOtherProfile").is(':checked')) {
+        cId = $("#smartFormSelectUserProfile").val();
+    }
+    var list = {
+        templateId: tID,
+        contactId: cId,
+        variables: listVar
+    };
+    var jsonObjects = JSON.stringify(list, null, 2);
+    var options = {
+        type: "POST",
+        url: to,
+        data: jsonObjects,
+        contentType: "application/json",
+        async: true,
+        complete: function (httpresp, returnstatus) {
+            if (returnstatus == "success") {
+                if (httpresp.responseText == 'true') {
+                    //do nothing
+                }
+                else {
+                    alert(httpresp.responseText);
+                }
+            }
+        }
+    };
+    var returnText = $.ajax(options).responseText;
 }

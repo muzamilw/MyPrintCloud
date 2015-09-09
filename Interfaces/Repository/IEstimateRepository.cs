@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
@@ -11,6 +13,17 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface IEstimateRepository : IBaseRepository<Estimate, long>
     {
+
+        /// <summary>
+        /// Get Total Earnings Result
+        /// </summary>
+        IEnumerable<usp_TotalEarnings_Result> GetTotalEarnings(DateTime fromDate, DateTime toDate);
+
+        /// <summary>
+        /// Load Property
+        /// </summary>
+        void LoadProperty<T>(object entity, Expression<Func<T>> propertyExpression, bool isCollection = false);
+
         /// <summary>
         /// Get Estimates
         /// </summary>
@@ -49,5 +62,11 @@ namespace MPC.Interfaces.Repository
         GetOrdersResponse GetOrdersForEstimates(GetOrdersRequest request);
 
         Estimate GetEstimateWithCompanyByOrderID(long OrderID);
+        long GetEstimateIdOfInquiry(long inquiryId);
+
+        /// <summary>
+        /// Get Total Earnings For Dashboard
+        /// </summary>
+        DashBoardChartsResponse GetChartsForDashboard();
     }
 }

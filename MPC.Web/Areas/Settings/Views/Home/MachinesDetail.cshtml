@@ -1,7 +1,6 @@
 ﻿@{
     ViewBag.Title = "Machine Detail";
 }
-
 @section leftmenue {
 }
 <div class="row" data-bind="visible: $root.isEditorVisible()" style="display: none">
@@ -10,13 +9,14 @@
             <div class="col-lg-12">
                 <ol class="breadcrumb">
                     <li><a href="~/Dashboard/Index">Home</a></li>
+                    <li><a href="/mis/Settings" class="my-navigator">Settings</a></li>
                     <li><a href="/Settings/Home/MachinesList">Machine List</a></li>
                     <li class="active"><span>Machine Detail</span></li>
                 </ol>
                 <h1 data-bind="text:MachineName"></h1>
             </div>
         </div>
-        <div class="row" id="user-profile">
+        <div class="row" id="user-profile" style="margin-left:1px;margin-right:1px;">
             <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom: 10px;">
                 <div class="clearfix ">
                     <div class="col-xs-4 pull-left validationSummaryContainer">
@@ -34,13 +34,12 @@
                     <div class="col-xs-4">
                     </div>
                     <div class="col-xs-4" style="text-align: right; padding-right: 0px;">
-                        <button class="btn btn-info" id="saveBtn" data-bind="click: $root.saveMachine, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
+                        <button class="btn btn-danger" data-bind="click : $root.onArchiveMachine, visible:!$root.isGuillotineList()">Delete</button>
+                        <button class="btn btn-info" id="saveBtn" data-bind="click: $root.saveMachine, css: { 'btn-warning': hasChanges }, enable: $root.machinehasChanges">Save</button>
                         <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseMachineEditor">Close</button>
-
                     </div>
                 </div>
             </div>
-
             @*<div class="row" id="user-profile">
                 <div class="clearfix ">
                     <div class="pull-left validationSummaryContainer">
@@ -64,63 +63,227 @@
                     </div>
                 </div>*@
             @*<button class="btn  btn-info" style="float: right;margin-bottom: 10px;margin-right: 15px;" id="saveBtnMachine" data-bind="click: $root.saveMachine, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>*@
-            <div class="col-lg-12 col-md-8 col-sm-8">
+            <div class="col-lg-12 col-md-8 col-sm-8" style="margin-top:8px;">
                 <div class="main-box clearfix machineDetailsHeader">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#tab-machineBasic" data-toggle="tab">Name & Description</a></li>
+                            <li class="PressControls"><a href="#tab-lookup" data-toggle="tab" data-bind="click: $root.onLookupMethodTabClick">Lookup Methods</a></li>
                             <li><a href="#tab-feed" data-toggle="tab">Feed Restriction</a></li>
-                            <li class="PressControls"><a href="#tab-properties" data-toggle="tab">Properties</a></li>
-                            <li><a href="#tab-setup" data-toggle="tab">Setup & Running Charges</a></li>
-                            <li class="PressControls"><a href="#tab-inkCoverage" data-toggle="tab">Ink Coverage</a></li>
-                            <li class="PressControls"><a href="#tab-spoilage" data-toggle="tab">Spoilage</a></li>
+                            @*<li class="PressControls"><a href="#tab-properties" data-toggle="tab">Properties</a></li>*@
+                            @*<li><a href="#tab-setup" data-toggle="tab">Setup & Running Charges</a></li>*@
+                            @*<li class="PressControls"><a href="#tab-inkCoverage" data-toggle="tab">Ink Coverage</a></li>
+                                <li class="PressControls"><a href="#tab-spoilage" data-toggle="tab">Spoilage</a></li>*@
+
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-machineBasic">
                                 <div class="col-lg-12 form-horizontal">
-                                    <h3 class="group-header">Name and Description</h3>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <div class="col-lg-5 text-right">
 
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Create Virtual Presses to simulate different press modes for single or multiple colors. Create Virtual Presses that simulate different press speeds for low run and large run jobs." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-
-                                                </div>
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Press Name</label>
-
+                                    <div class="col-lg-9">
+                                        <div class="form-group" id="isSheetFedRadio">
+                                            <div class="col-lg-4 text-right">
+                                                @*<div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="A Retail Store allows anyone to design or upload online and place an order. Corporate Stores are private stores and require users to be known to you." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label class="control-label text-right tooltip-float">Store Type</label>*@
                                             </div>
-
+                                            <div class="col-lg-6">
+                                                <div class="col-lg-12" style="margin-left:-10px;">
+                                                    <div class="radio" style="margin-bottom: 10px;">
+                                                        <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosRetail" value="true" checked data-bind="checked: isSheetFed">
+                                                        <label for="optionsRadiosRetail">
+                                                            Sheet Fed
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <input type="radio" name="optionsRadiosStoreType" id="optionsRadiosCorporate" value="false" data-bind="checked: isSheetFed">
+                                                        <label for="optionsRadiosCorporate">
+                                                            Role Fed
+                                                        </label>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    @*<a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Create Virtual Presses to simulate different press modes for single or multiple colors. Create Virtual Presses that simulate different press speeds for low run and large run jobs." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>*@
+                                                </div>
+                                                <label class="control-label text-right tooltip-float">Name</label>
+                                            </div>
                                             <div class="col-lg-6">
                                                 <input type="text" class="form-control" placeholder="Enter Machine Name" data-bind="value:MachineName">
-                                                <span class=" help-block text-right"></span>
-                                            </div>
 
+                                            </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-5 text-right">
-
+                                            <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Description of Machine ." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-
+                                                    @*<a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Description of Machine ." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>*@
                                                 </div>
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Description</label>
-
+                                                <label class="control-label text-right tooltip-float">Description</label>
                                             </div>
-
                                             <div class="col-lg-6">
-                                                <textarea class="form-control" placeholder="Enter Description" id="descMachines" rows="6" data-bind="value:Description,  validationTooltip: Description"></textarea>
-                                                <span class="help-block text-right"></span>
-                                            </div>
+                                                <textarea class="form-control notes" placeholder="Enter Description" id="descMachines" rows="6" data-bind="value:Description,  validationTooltip: Description"></textarea>
 
+                                            </div>
                                         </div>
 
+
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width" data-bind="visible:!$root.isGuillotineList()">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This charge is used to apply a ONE time fixed cost to load the paper, set the paper feeders, runners and general press setup charges every time a NEW item is to be printed on this press." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <div class="bs-example-tooltips tooltip-float-width" data-bind="visible:$root.isGuillotineList()">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This charge is used to apply a ONE time fixed cost to load the paper, fine tune the cutting program and make any adjustments" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label class="control-label text-right">Paper Feed and Loading Charges</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                @*<span class="input-group-addon">%</span>*@
+                                                <div class="input-group">
+                                                    <span data-bind="text:CurrencySymbol" class="input-group-addon"></span>
+                                                    <div class="col-xs-4" style="width: 23%; padding:0">
+                                                        <input type="text" class="form-control txtBox-contentAlignRight" value="20" id="qty11" placeholder="Setup Charge" data-bind="autoNumeric: SetupCharge , settings:{mDec:2}" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="The press minimum charge is a threshold value used to compare if the total of all charges for printing (Click charges), make ready, Wash Up and Paper loading charges are LESS than the minimum charge. If the total is less than the minimum charge then the minimum charge will override the calculated sum" data-html="true" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Minimum Charge</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="input-group">
+                                                    <span data-bind="text:CurrencySymbol" class="input-group-addon"></span>
+                                                    <div class="col-xs-4" style="width: 23%; padding:0">
+                                                        <input type="text" class="form-control txtBox-contentAlignRight" placeholder="Volume of Ink Duct Per Head" data-bind="autoNumeric: MinimumCharge, settings:{mDec:2}">
+                                                    </div>
+                                                </div>
+
+                                                @*<div class="col-lg-6 text-right" data-bind="visible:iswashupused">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+
+                                                            <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate MakeReady Charge" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label class="control-label text-right">Washup Price Per Head</label>
+                                                    </div>
+                                                    <span data-bind="text:CurrencySymbol, visible:iswashupused" class="CurrencySymbol"></span>
+                                                    <div class="col-xs-4" style="width: 22%; padding:0" data-bind="visible:iswashupused">
+                                                        <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" placeholder="Washup Charge" data-bind="autoNumeric: WashupPrice, settings:{mDec:2}" />
+
+                                                    </div>*@
+                                            </div>
+                                        </div>
+                                        <div class="form-group" data-bind="visible:!$root.isGuillotineList()">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="When estimating a double sided printed section, the estimator may have the option to plan the sheet using Work ’n’ Turn or Work ‘n’ Tumble methods. These two methods can save the operator with plates and setup costs making the print run more efficient and cheaper to produce.  Most lithographic printers want to benefit from the considerable saving in plates and setup times. This can be achieved by applying an Uplift charge PER UNIT to offset the savings made in make readies." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label class="control-label text-right tooltip-float">Uplift charged to Work ‘n’ Turn Plans</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="input-group">
+                                                    <span data-bind="text:CurrencySymbol" class="input-group-addon"></span>
+                                                    <div class="col-xs-4" style="width: 23%; padding:0">
+                                                        <input type="text" class="form-control txtBox-contentAlignRight" placeholder="Premium Per Head" data-bind="autoNumeric: worknturncharge, settings:{mDec:2}">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group" data-bind="visible: !$root.isGuillotineList()">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-html="true" data-placement="right" data-content="Spot Color or CMYK Print" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+
+                                                <label class="control-label tooltip-float">Mode of Print</label>
+                                            </div>
+                                            <div class="col-lg-6" style="padding-left:0px;">
+                                                <div class="col-lg-5">
+                                                    <div class="radio">
+                                                        <input type="radio" name="optionsRadiosColorType" id="optionsRadiosColor" value="true" checked data-bind="checked: IsSpotColor">
+                                                        <label for="optionsRadiosColor">
+                                                            Is Spot Color
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <input type="radio" name="optionsRadiosColorType" id="optionsRadiosColorCMYK" value="false" data-bind="checked: IsSpotColor">
+                                                        <label for="optionsRadiosColorCMYK">
+                                                            CMYK Color
+                                                        </label>
+                                                        <span class="help-block text-right"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @*Controls for Guillotine*@
+                                        <div class="form-group" data-bind="visible:$root.isGuillotineList()">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="The cost per cut is calculated by the time, power & labor it takes to make a single cut on the guillotine" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label class="control-label text-right">Cost Per Cut </label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="input-group">
+                                                    <span data-bind="text:CurrencySymbol" class="input-group-addon"></span>
+                                                    <div class="col-xs-4" style="width: 23%; padding:0">
+                                                        <input type="text" class="form-control txtBox-contentAlignRight" value="20" id="qty11" placeholder="Setup Charge" data-bind="autoNumeric: CostPerCut , settings:{mDec:2}" />
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="form-group" data-bind="visible:$root.isGuillotineList()">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="The price per cut is calculated by the time, power & labor it takes to make a single cut on the guillotine, plus a default uplift from cost" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label class="control-label text-right">Price Per Cut </label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="input-group">
+                                                    <span data-bind="text:CurrencySymbol" class="input-group-addon"></span>
+                                                    <div class="col-xs-4" style="width: 23%; padding:0">
+                                                        <input type="text" class="form-control txtBox-contentAlignRight" value="20" id="qty11" placeholder="Setup Charge" data-bind="autoNumeric: PricePerCut , settings:{mDec:2}" />
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        @*Control for Guillotine Ends*@
                                         @*<div class="form-group">
                                                 <div class="col-lg-4 text-right">
 
@@ -140,27 +303,25 @@
                                                 </div>
 
                                             </div>*@
+                                        @*<div class="form-group">
+                                                <div class="col-lg-5 text-right">
 
-                                        <div class="form-group">
-                                            <div class="col-lg-5 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
 
-                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Job Card PriorityThe lower the priority number the higher up the press instruction line will appear on the Job Card / Ticket for production sequencing." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
 
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Job Card PriorityThe lower the priority number the higher up the press instruction line will appear on the Job Card / Ticket for production sequencing." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-
+                                                    </div>
+                                                    <label class="control-label text-right tooltip-float">Job Card Priority Listing</label>
                                                 </div>
-                                                <label class="control-label text-right tooltip-float">Job Card Priority Listing</label>
-                                            </div>
 
-                                            <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtPriority" placeholder="Enter Priority" data-bind="autoNumeric:Priority, settings:{mDec:0}">
-                                                <span class="help-block text-right"></span>
-                                            </div>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" id="txtPriority" placeholder="Enter Priority" data-bind="autoNumeric:Priority, settings:{mDec:0}">
+                                                    <span class="help-block text-right"></span>
+                                                </div>
 
-                                        </div>
-
+                                            </div>*@
                                         @*<div class="form-group">
                                                 <div class="col-lg-4 text-right">
 
@@ -176,67 +337,25 @@
 
                                             </div>*@
 
-
-
                                     </div>
-
                                 </div>
-
                             </div>
                             <div class="tab-pane fade" id="tab-feed">
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Feed Restriction</h3>
                                     <div class="col-lg-9">
-                                        @*<div class="form-group">
-        <div class="col-lg-3 text-right">
-            <div class="bs-example-tooltips tooltip-float-width">
 
-                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Quantities" data-original-title="" title="">
-                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                </a>
-
-            </div>
-            <label class="control-label text-right" for="switchSecondaryPages">Minimum Feed Sheet Size</label>
-
-        </div>
-
-        <div class="col-lg-6">
-
-            <div class="col-xs-5">
-
-                <input type="text" class="form-control txtBox-contentAlignRight" value="20" id="qty11" data-bind="value:minimumsheetwidth" />
-                <span class="help-block text-right">Width (<span data-bind="text:LengthUnit"></span>)</span>
-            </div>
-            <div class="col-xs-2" style="text-align: center;margin-top: 8px;">
-                X
-            </div>
-            <div class="col-xs-5">
-
-                <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" data-bind="value:minimumsheetheight" />
-                <span class="help-block text-right">Height (<span data-bind="text:LengthUnit"></span>)</span>
-            </div>
-
-
-        </div>
-    </div>*@
-
-                                        <div class="form-group">
+                                        <div class="form-group" style="margin-bottom:0px;">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="These dimensions are used when running Best press calculations for the given working sheet size when estimating.  Sheet sizes greater than this value will exclude this press from comparison." data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Set the maximum width and depth of the guillotines cutting ability.  Refer to your guillotine operator manual for this information" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
-
                                                 </div>
                                                 <label class="control-label text-right" for="switchSecondaryPages">Maximum Feed Sheet Size</label>
-
                                             </div>
-
                                             <div class="col-lg-6">
-
                                                 <div class="col-xs-5">
-
                                                     <input type="text" class="form-control txtBox-contentAlignRight" value="120" id="qty11" data-bind="autoNumeric:maximumsheetwidth, settings:{mDec:3} " />
                                                     <span class="help-block text-right">Width (<span data-bind="text:LengthUnit"></span>)</span>
                                                 </div>
@@ -246,559 +365,383 @@
 
                                                 </div>
                                                 <div class="col-xs-5">
-
                                                     <input type="text" class="form-control txtBox-contentAlignRight" value="80" id="qty31" data-bind="autoNumeric:maximumsheetheight, settings:{mDec:3}" />
                                                     <span class="help-block text-right">Height (<span data-bind="text:LengthUnit"></span>)</span>
                                                 </div>
 
-
                                             </div>
                                         </div>
-
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This is the maximum sheet weight in gsm or basis weight that the press will allow.  This press will not be considered when the Inventory stock chosen at the time of ordering is greater than this value." data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Set the maximum stock weight of the guillotines cutting ability.  Refer to your guillotine operator manual for this information" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
-
                                                 </div>
-
-
 
                                                 <label class="control-label tooltip-float">Maximum Feed Sheet Weight</label>
-
                                             </div>
                                             <div class="col-lg-6">
-                                                <div>
+                                                <div class="col-lg-5">
                                                     <input type="text" value="350" placeholder="Enter Maximum Sheet Weight" class="form-control txtBox-contentAlignRight" id="Estimateitle" data-bind="autoNumeric:maximumsheetweight, settings:{mDec:3}" />
-                                                   
-                                                    <span data-bind="text:WeightUnit" class="help-block text-right"></span>
                                                 </div>
-
+                                                <div class="col-lg-1 pull-left" style="padding-left:0px;padding-top:2px;">
+                                                    <span data-bind="text:WeightUnit" class="help-block"></span>
+                                                </div>
                                             </div>
                                         </div>
-                                        @*<div class="form-group PressControls">
-                                                <div class="col-lg-3 text-right">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Stock for Signature" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
-
-                                                    </div>
-
-
-
-                                                    <label class="control-label tooltip-float">Default Paper for Press</label>
-
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <input type="text" disabled="disabled" style="width:88%; display:inline-block" class="form-control" data-bind="value: deFaultPaperSizeName">
-                                                    <a data-toggle="modal" class="btn btn-primary" data-bind="click: $root.onPapperSizeStockItemPopup">
-                                                        <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
-
-
-                                                </div>
-                                            </div>*@
-
-                                        <div class="form-group PressControls">
+                                        <div class="form-group PressControls" data-bind="visible:!$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
-
                                                 <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Grip Side Orientation is the side the paper that the press generally grabs to paper from the press feed system.  This is useful to know when recommending Work ‘ n ‘ Turn or Work ‘n’ Tumble plans for Number Up." data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Grip Side Orientation is the side the paper that the press generally grabs to paper from the press feed system. This is useful to know when recommending Work ‘ n ‘ Turn or Work ‘n’ Tumble plans for Number Up" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
-
                                                 </div>
                                                 <label class="control-label text-right tooltip-float">Grip Side Orientation</label>
                                             </div>
-
                                             <div class="col-lg-6">
-                                                <select class="form-control" data-bind="options: Orientation, optionsText: 'name', optionsValue: 'id', value: gripsideorientaion"></select>
-                                                <span class="help-block text-right"></span>
+                                                <div class="col-lg-5">
+                                                    <select class="form-control" data-bind="options: Orientation, optionsText: 'name', optionsValue: 'id', value: gripsideorientaion"></select>
+                                                    @*<span class="help-block text-right"></span>*@
+                                                </div>
                                             </div>
-
                                         </div>
-
-                                        <div class="form-group PressControls">
+                                        <div class="form-group PressControls" style="margin-bottom:20px;" data-bind="visible:!$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This is the Non Printable area by the press on the Grip edge. This area is removed from the Number Up count thus providing a more accurate calculation on press runs and stock used." data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This is the Non Printable area by the press on the Head or Tail edge. This area is removed from the Number Up count thus providing a more accurate calculation on press runs and stock used" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
-
                                                 </div>
-
-
 
                                                 <label class="control-label tooltip-float">Grip Depth</label>
-
                                             </div>
                                             <div class="col-lg-6">
-                                                <div>
+                                                <div class="col-lg-5">
                                                     <input type="text" placeholder="Enter Grip Depth" class="form-control txtBox-contentAlignRight" data-bind="autoNumeric:gripdepth, settings:{mDec:3}" />
-                                                   <span data-bind="text:LengthUnit" class="help-block text-right"></span>
-                                                </div>
 
+                                                </div>
+                                                <div class="col-lg-1" style="padding-left:0px;padding-top:4px;">
+                                                    <span data-bind="text:LengthUnit" class="help-block"></span>
+                                                </div>
                                             </div>
                                         </div>
-
-                                        <div class="form-group PressControls">
+                                        <div class="form-group PressControls" style="margin-bottom:20px;" data-bind="visible:!$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-
                                                     <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This is the Non Printable area by the press on the Head or Tail edge.  This area is removed from the Number Up count thus providing a more accurate calculation on press runs and stock used." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
-
                                                 </div>
-
-
 
                                                 <label class="control-label tooltip-float">Head Depth</label>
-
                                             </div>
                                             <div class="col-lg-6">
-                                                <div>
+                                                <div class="col-lg-5">
                                                     <input type="text" placeholder="Enter Head Depth" class="form-control txtBox-contentAlignRight" data-bind="autoNumeric:headdepth, settings:{mDec:3}" />
-                                                    <span data-bind="text:LengthUnit" class="help-block text-right"></span>
-
                                                 </div>
-
+                                                <div class="col-lg-1" style="padding-left:0px;padding-top:4px;">
+                                                    <span data-bind="text:LengthUnit" class="help-block"></span>
+                                                </div>
                                             </div>
                                         </div>
-
-                                        <div class="form-group PressControls">
+                                        <div class="form-group PressControls" style="margin-bottom:20px;" data-bind="visible:!$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This is the Non Printable area by the press on either side of the paper perpendicular to the grip side. This area is removed from the Number Up count thus providing a more accurate  calculation on press runs and stock used." data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This is the Non Printable area by the press on either side of the paper perpendicular to the grip side. This area is removed from the Number Up count thus providing a more accurate calculation on press runs and stock used" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
-
                                                 </div>
-
-
 
                                                 <label class="control-label tooltip-float">Side Gutter Depth</label>
-
                                             </div>
                                             <div class="col-lg-6">
-                                                <div>
+                                                <div class="col-lg-5">
                                                     <input type="text" placeholder="Enter Side Gutter Depth" class="form-control txtBox-contentAlignRight" data-bind="autoNumeric:gutterdepth, settings:{mDec:3}" />
-                                                    <span data-bind="text:LengthUnit" class="help-block text-right"></span>
-
                                                 </div>
-
+                                                <div class="col-lg-1" style="padding-left:0px;padding-top:4px;">
+                                                    <span data-bind="text:LengthUnit" class="help-block"></span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div class="tab-pane fade PressControls" id="tab-properties">
-                                <div class="col-lg-12 form-horizontal">
-                                    <h3 class="group-header">Properties</h3>
-                                    <div class="col-lg-9">
-                                        <div class="form-group">
+                                        <div class="form-group" data-bind="visible:!$root.isGuillotineList()">
                                             <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-html="true" data-placement="right" data-content=" <p>Digital CMYK presses are generally treated as a single Unit. i.e. one pass is required to print all 4 colors on one side.</p> <p >Each unit will attract a separate:</p> <p >• Makeready charge </p><p >• Wash Up charge</p><p >• And a Plate (CTP) charge</p><p >Typically ZERO charges are applied for Digital presses.</p><p >Litho presses generally have one unit per color per pass.  So a four color press would have 4 Units.  </p>" data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-html="true" data-placement="right" data-content=" <p>Digital CMYK presses are generally treated as a single Unit. i.e. one pass is required to print all 4 colors on one side.</p> <p >Each unit will attract a separate:</p> <p >• Makeready charge </p><p >• Wash Up charge</p><p >• And a Plate (CTP) charge</p><p >Enter ONE for digital presses</p><p >Litho presses generally have one unit per color per pass.  So a four color press would have 4 Units.  </p>" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
-
                                                 </div>
 
-
-
-                                                <label class="control-label tooltip-float">Maximum Color Units</label>
-
+                                                <label class="control-label tooltip-float">Color Units</label>
                                             </div>
                                             <div class="col-lg-6">
-                                                <div>
-                                                    <input type="text" value="4" placeholder="Enter Number" class="form-control txtBox-contentAlignRight" style="width: 75%;" data-bind="autoNumeric:ColourHeads, settings:{mDec:0,vMin:0,vMax:8} " />
-                                                    <span class="help-block text-right"></span>
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-4 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="If check on this means that the press will print on the front and reverse side of the sheet in ONE pass. <br>Separate Click charges for impressions will still apply on both sides.  The only saving here is the time taken to print both sides will be halved." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-
-                                                </div>
-                                                <label class="control-label text-right" for="switchSecondaryPages">Can Press Do Perfecting ?</label>
-
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <div class="checkbox-nice" style="margin-top: 5px;">
-                                                    <input type="checkbox" style="margin-top: 5px;" id="checkbox-15" data-bind="checked:isPerfecting" />
-                                                    <label for="checkbox-15">
-
-                                                    </label>
-                                                </div>
-                                                <span class="help-block text-right"></span>
-                                            </div>
-
-                                        </div>
-                                        @*<div class="form-group">
-                                                <div class="col-lg-3 text-right" style="margin-top: 5px;">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
-
-                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate for machine" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
-
-                                                    </div>
-                                                    <label class="control-label text-right" for="switchSecondaryPages">Limit to maximum Color ?</label>
-
-                                                </div>
-
-                                                <div class="col-lg-6">
-                                                    <div class="checkbox-nice">
-                                                        <input type="checkbox" style="margin-top: 5px;" id="checkbox-16" data-bind="checked:IsMaxColorLimit" />
-                                                        <label for="checkbox-16">
-
-                                                        </label>
-                                                    </div>
+                                                <div class="col-lg-5">
+                                                    <input type="text" value="4" placeholder="Enter Number" class="form-control txtBox-contentAlignRight" style="width: 99%;" data-bind="autoNumeric:ColourHeads, settings:{mDec:0,vMin:0,vMax:8} " />
                                                     <span class="help-block text-right"></span>
                                                 </div>
-
-                                            </div>*@
-                                        <div class="form-group">
-                                            <div class="col-lg-4 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-html="true" data-toggle="popover" data-placement="right" data-content="Check this box for Litho Presses and then select which Plate you want to apply as the default plate charge per Unit.  <br>The charge per plate will be the selling price of a single plate as defined in the Inventory category.  If your organization still uses fims to produce plates, then incorporate the fim charge into the plate charge in the Inventory item. <br> Note: Digital presses generally do not have plates." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-
-                                                </div>
-                                                <label class="control-label text-right" for="switchSecondaryPages">Press Requires Plates (CTP)</label>
-
                                             </div>
-
-                                            <div class="col-lg-6">
-                                                <div class="col-xs-1" style="padding-left: 0px;margin-top: 5px;">
-                                                    <div class="checkbox-nice">
-                                                        <input type="checkbox" id="checkbox-12" data-bind="checked: isplateused, event:{ change:$root.onplateChange }" />
-                                                        <label for="checkbox-12">
-
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xs-11" data-bind="visible:isplateused">
-                                                    <input type="text" disabled="disabled" style="width:60%;display:inline-block" class="form-control" data-bind="value: deFaultPlatesName">
-                                                    <a data-toggle="modal" class="btn btn-primary" data-bind="click: $root.onPlateStockItemPopup">
-                                                        <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
-                                                </div>
-                                                <span class="help-block text-right"></span>
-                                            </div>
-
                                         </div>
-
-                                        <div class="form-group" data-bind="visible:isplateused">
-                                            <div class="col-lg-4 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="If checked on then a separate Wash Up charge will be applied for each color head used in item.  Typically Wash Up charges are used in Litho printing and are applied to allow for the time to wash down and clean the color unit ready for a new job.<br>This Wash Up charge is not to be confused with the press set up charge for “Paper feed and Loading charges”.  <br>You could set the Wash Up charge to zero and accommodate any washing up charges into the Press Set up Charge or in the Make Ready Charge per unit.<br>Note: Digital presses generally do not have plates." data-html="true" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-
-                                                </div>
-                                                <label class="control-label text-right" for="switchWashup">Apply Wash Up Charge per unit</label>
-
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                @*<span data-bind="text:CurrencySymbol"></span>*@
-                                                <div class="checkbox-nice" style="margin-top: 5px;">
-                                                    <input type="checkbox" id="switchWashup" data-bind="checked: iswashupused, event:{ change:$root.oniswashupusedChange }" />
-                                                    <label for="switchWashup">
-
-                                                    </label>
-                                                </div>
-                                                <span class="help-block text-right"></span>
-                                            </div>
-
-                                        </div>
-
-
-                                        <div class="form-group" data-bind="visible:isplateused">
-                                            <div class="col-lg-4 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-html="true" data-container="body" data-toggle="popover" data-placement="right" data-content="If checked on then a separate Make Ready charge will be applied for each color head used in item.  Typically Make Ready charges are used in Litho printing and are applied to allow for the time to fix a plate on the color unit and adjust the plate for precision. <br>
-This make ready charge is not to be confused with the press set up charge for “Paper feed and Loading charges”.  <br>You could set the Make ready charge to zero and accommodate plate Make Ready charges into the Press Set up. <br>Note: Digital presses generally do not have plates.
-" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-
-                                                </div>
-                                                <label class="control-label text-right" for="switchMakeready">Apply Make Ready Charge per Unit</label>
-
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                @*<span data-bind="text:CurrencySymbol"></span>*@
-                                                <div class="checkbox-nice" style="margin-top: 5px;">
-                                                    <input type="checkbox" id="switchMakeready" data-bind="checked: ismakereadyused, event:{change:$root.onismakereadyusedChange}" />
-                                                    <label for="switchMakeready">
-
-                                                    </label>
-                                                </div>
-                                                <span class="help-block text-right"></span>
-                                            </div>
-
-                                        </div>
-
 
 
                                     </div>
                                 </div>
-
                             </div>
-                            <div class="tab-pane fade" id="tab-setup">
-                                <div class="col-md-12 form-horizontal">
-                                    <h3 class="group-header">Setup & Running Charges</h3>
+                            @*<div class="form-group">
+                                                                            <div class="col-lg-4 text-right">
+                                                                                <div class="bs-example-tooltips tooltip-float-width">
 
-                                    <div class="form-group">
+                                                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-html="true" data-toggle="popover" data-placement="right" data-content="Check this box for Litho Presses and then select which Plate you want to apply as the default plate charge per Unit.  <br>The charge per plate will be the selling price of a single plate as defined in the Inventory category.  If your organization still uses fims to produce plates, then incorporate the fim charge into the plate charge in the Inventory item. <br> Note: Digital presses generally do not have plates." data-original-title="" title="">
+                                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                                    </a>
 
+                                                                                </div>
+                                                                                <label class="control-label text-right" for="switchSecondaryPages">Press Requires Plates (CTP)</label>
 
+                                                                            </div>
 
-                                        <div class="col-lg-4 text-right">
-                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                                            <div class="col-lg-6">
+                                                                                <div class="col-xs-1" style="padding-left: 0px;margin-top: 5px;">
+                                                                                    <div class="checkbox-nice">
+                                                                                        <input type="checkbox" id="checkbox-12" data-bind="checked: isplateused, event:{ change:$root.onplateChange }" />
+                                                                                        <label for="checkbox-12">
 
-                                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This charge is used to apply a ONE time fixed cost to load the paper, set the paper feeders, runners and general press setup charges every time a NEW item is to be printed on this press." data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-xs-11" data-bind="visible:isplateused">
+                                                                                    <input type="text" disabled="disabled" style="width:60%;display:inline-block" class="form-control" data-bind="value: deFaultPlatesName">
+                                                                                    <a data-toggle="modal" class="btn btn-primary" data-bind="click: $root.onPlateStockItemPopup">
+                                                                                        <i class="fa fa-lg"></i>&nbsp;....
+                                                                                    </a>
+                                                                                </div>
+                                                                                <span class="help-block text-right"></span>
+                                                                            </div>
 
-                                            </div>
-                                            <label class="control-label text-right">Paper Feed and Loading Charges</label>
+                                                                        </div>
 
-                                        </div>
+                                                                        <div class="form-group" data-bind="visible:isplateused">
+                                                                            <div class="col-lg-4 text-right">
+                                                                                <div class="bs-example-tooltips tooltip-float-width">
 
-                                        <div class="col-lg-6">
-                                            <span data-bind="text:CurrencySymbol" class="CurrencySymbol"></span>
-                                            <div class="col-xs-4" style="width: 23%; padding:0">
+                                                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="If checked on then a separate Wash Up charge will be applied for each color head used in item.  Typically Wash Up charges are used in Litho printing and are applied to allow for the time to wash down and clean the color unit ready for a new job.<br>This Wash Up charge is not to be confused with the press set up charge for “Paper feed and Loading charges”.  <br>You could set the Wash Up charge to zero and accommodate any washing up charges into the Press Set up Charge or in the Make Ready Charge per unit.<br>Note: Digital presses generally do not have plates." data-html="true" data-original-title="" title="">
+                                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                                    </a>
 
-                                                <input type="text" class="form-control txtBox-contentAlignRight" value="20" id="qty11" placeholder="Setup Charge" data-bind="autoNumeric: SetupCharge , settings:{mDec:2}" />
+                                                                                </div>
+                                                                                <label class="control-label text-right" for="switchWashup">Apply Wash Up Charge per unit</label>
 
-                                            </div>
-                                            <div class="col-lg-6 text-right" data-bind="visible: ismakereadyused">
-                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                                            </div>
 
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate MakeReady Charge" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
+                                                                            <div class="col-lg-6">
 
-                                                </div>
-                                                <label class="control-label text-right">Plate Makeready Price Per Head</label>
+                                                                                <div class="checkbox-nice" style="margin-top: 5px;">
+                                                                                    <input type="checkbox" id="switchWashup" data-bind="checked: iswashupused, event:{ change:$root.oniswashupusedChange }" />
+                                                                                    <label for="switchWashup">
 
-                                            </div>
-                                            <span data-bind="text:CurrencySymbol, visible: ismakereadyused" class="CurrencySymbol"></span>
-                                            <div class="col-xs-4" style="width: 22%; padding:0" data-bind="visible: ismakereadyused">
+                                                                                    </label>
+                                                                                </div>
+                                                                                <span class="help-block text-right"></span>
+                                                                            </div>
 
-                                                <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" placeholder="Enter Plate MakeReady Charge" data-bind="autoNumeric: MakeReadyPrice, settings:{mDec:2}" />
-
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                    @*<div class="form-group">
-                                            <div class="col-lg-4 text-right">
-
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the Machine that will be displayed on the web." data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-
-                                                </div>
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Volume of Ink Duct Per Head</label>
-
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <input type="text" class="form-control txtBox-contentAlignRight" style="width:25%;" placeholder="Minimum Running Charge" data-bind="value: MinInkDuctqty">
-                                                <span class="help-block text-right"></span>
-                                            </div>
-
-                                        </div>*@
-                                    <div class="form-group">
-                                        <div class="col-lg-4 text-right">
-
-                                            <div class="bs-example-tooltips tooltip-float-width">
-
-                                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="The press minimum charge is a threshold value used to compare if the total of all charges for printing (Click charges), make ready, Wash Up and Paper loading charges are LESS than the minimum charge.  <br>If the total is less than the minimum charge then the minimum charge will override the calculated sum." data-html="true" data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
-
-                                            </div>
-                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">Press Minimum Charge</label>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <span class="CurrencySymbol" data-bind="text:CurrencySymbol"></span>
-                                            <div class="col-xs-4" style="width: 23%; padding:0">
-                                                <input type="text" class="form-control txtBox-contentAlignRight" placeholder="Volume of Ink Duct Per Head" data-bind="autoNumeric: MinimumCharge, settings:{mDec:2}">
-                                                @*<span data-bind="text:WeightUnit" class="help-block text-right"></span>*@
-                                            </div>
-                                            <div class="col-lg-6 text-right" data-bind="visible:iswashupused">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate MakeReady Charge" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
-                                                <label class="control-label text-right">Washup Price Per Head</label>
-                                            </div>
-                                            <span data-bind="text:CurrencySymbol, visible:iswashupused" class="CurrencySymbol"></span>
-                                            <div class="col-xs-4" style="width: 22%; padding:0" data-bind="visible:iswashupused">
-                                                <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" placeholder="Washup Charge" data-bind="autoNumeric: WashupPrice, settings:{mDec:2}" />
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-lg-4 text-right">
-                                            <div class="bs-example-tooltips tooltip-float-width">
-
-                                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="When estimating a double sided printed component, the estimator may have the option to plan the sheet using Work ’n’ Turn or Work ‘n’ Tumble methods.  These to methods saves the operator with plates and setting up costs making the print run more efficient and cheaper to produce.<br> Most Lithographic printers want to benefit from the considerable saving in plates and setup times.  This can be achieved by applying an Uplift charge PER UNIT to offset the savings made in Make readies." data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
-
-                                            </div>
-                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">Uplift charged to Work ‘n’ Turn Plans</label>
-
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <span class="CurrencySymbol" data-bind="text:CurrencySymbol"></span>
-                                            <input type="text" class="form-control txtBox-contentAlignRight" style="width:23%;" placeholder="Premium Per Head" data-bind="autoNumeric: worknturncharge, settings:{mDec:2}">
-                                            @*<span data-bind="text:WeightUnit" class="help-block text-right" style="width:22%;"></span> *@
-                                        </div>
-
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-lg-4 text-right PaddingleftZero">
-                                            <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Set the Look up method to employ when calculating the print run charges.  Look up methods can vary from charging per click for very impression to the number of sheets printed per hour or per 1000 sheets. <br>Click Charge zone look up allows system users to apply different click rates depending on the print run. <br>Speed Weight Look up allows system users to apply a different hourly rate depending on the stock weight put thru the press and the length of the print run needed. <br>Look Up methods can be defined in Press Settings, Look Up Methods." data-html="true" data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
-                                            </div>
-                                            <label class="control-label text-right tooltip-float">Press Look Up Method Used to Calculated Click Charges</label>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <select style="width:40%" class="form-control" data-bind="options: lookupList, optionsText: 'Name', optionsValue: 'MethodId', value: LookupMethodId"></select>
-                                            <span class="help-block text-right"></span>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
+                                                                        </div>
 
 
-                            <div class="tab-pane fade PressControls" id="tab-inkCoverage">
+                                                                        <div class="form-group" data-bind="visible:isplateused">
+                                                                            <div class="col-lg-4 text-right">
+                                                                                <div class="bs-example-tooltips tooltip-float-width">
 
-                                <div class="col-lg-12 form-horizontal">
-                                    <h3 class="group-header">Ink Coverage</h3>
-                                    <div class="col-lg-12">
+                                                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-html="true" data-container="body" data-toggle="popover" data-placement="right" data-content="If checked on then a separate Make Ready charge will be applied for each color head used in item.  Typically Make Ready charges are used in Litho printing and are applied to allow for the time to fix a plate on the color unit and adjust the plate for precision. <br>
+                                This make ready charge is not to be confused with the press set up charge for “Paper feed and Loading charges”.  <br>You could set the Make ready charge to zero and accommodate plate Make Ready charges into the Press Set up. <br>Note: Digital presses generally do not have plates.
+                                " data-original-title="" title="">
+                                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                                    </a>
+
+                                                                                </div>
+                                                                                <label class="control-label text-right" for="switchMakeready">Apply Make Ready Charge per Unit</label>
+
+                                                                            </div>
+
+                                                                            <div class="col-lg-6">
+
+                                                                                <div class="checkbox-nice" style="margin-top: 5px;">
+                                                                                    <input type="checkbox" id="switchMakeready" data-bind="checked: ismakereadyused, event:{change:$root.onismakereadyusedChange}" />
+                                                                                    <label for="switchMakeready">
+
+                                                                                    </label>
+                                                                                </div>
+                                                                                <span class="help-block text-right"></span>
+                                                                            </div>
+
+                                                                        </div>
+
+
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>*@
+                            @*<div class="tab-pane fade" id="tab-setup">
+                                    <div class="col-md-12 form-horizontal">
+                                        <h3 class="group-header">Setup & Running Charges</h3>
 
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
 
+
+
+                                            <div class="col-lg-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="The Ink/Toner charge is a threshold value used to compare if the total of all ink / toner used in the print run is LESS than the minimum charge.  <br>If the total is less than the minimum charge per Color unit then the minimum charge will override the calculated sum." data-html="true" data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This charge is used to apply a ONE time fixed cost to load the paper, set the paper feeders, runners and general press setup charges every time a NEW item is to be printed on this press." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
                                                 </div>
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Minimum Charges for Ink/Toner per color unit</label>
+                                                <label class="control-label text-right">Paper Feed and Loading Charges</label>
 
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <span data-bind="text:CurrencySymbol" class="CurrencySymbol"></span>
-                                                <input type="text" class="form-control" style="width:25%;" data-bind="autoNumeric:InkChargeForUniqueColors, settings:{mDec:2}">
-                                                <span class="help-block text-right" style="width:25%;"></span>
-                                            </div>
+                                                <div class="col-xs-4" style="width: 23%; padding:0">
 
+                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="20" id="qty11" placeholder="Setup Charge" data-bind="autoNumeric: SetupCharge , settings:{mDec:2}" />
+
+                                                </div>
+                                                <div class="col-lg-6 text-right" data-bind="visible: ismakereadyused">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate MakeReady Charge" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+                                                    <label class="control-label text-right">Plate Makeready Price Per Head</label>
+
+                                                </div>
+                                                <span data-bind="text:CurrencySymbol, visible: ismakereadyused" class="CurrencySymbol"></span>
+                                                <div class="col-xs-4" style="width: 22%; padding:0" data-bind="visible: ismakereadyused">
+
+                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" placeholder="Enter Plate MakeReady Charge" data-bind="autoNumeric: MakeReadyPrice, settings:{mDec:2}" />
+
+                                                </div>
+
+
+                                            </div>
                                         </div>
+
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
 
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Ink Coverage for machine." data-original-title="" title="">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="The press minimum charge is a threshold value used to compare if the total of all charges for printing (Click charges), make ready, Wash Up and Paper loading charges are LESS than the minimum charge.  <br>If the total is less than the minimum charge then the minimum charge will override the calculated sum." data-html="true" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
                                                 </div>
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Ink Coverage</label>
+                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Press Minimum Charge</label>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <span class="CurrencySymbol" data-bind="text:CurrencySymbol"></span>
+                                                <div class="col-xs-4" style="width: 23%; padding:0">
+                                                    <input type="text" class="form-control txtBox-contentAlignRight" placeholder="Volume of Ink Duct Per Head" data-bind="autoNumeric: MinimumCharge, settings:{mDec:2}">
+
+                                                </div>
+                                                <div class="col-lg-6 text-right" data-bind="visible:iswashupused">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Plate MakeReady Charge" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label class="control-label text-right">Washup Price Per Head</label>
+                                                </div>
+                                                <span data-bind="text:CurrencySymbol, visible:iswashupused" class="CurrencySymbol"></span>
+                                                <div class="col-xs-4" style="width: 22%; padding:0" data-bind="visible:iswashupused">
+                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" placeholder="Washup Charge" data-bind="autoNumeric: WashupPrice, settings:{mDec:2}" />
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="When estimating a double sided printed component, the estimator may have the option to plan the sheet using Work ’n’ Turn or Work ‘n’ Tumble methods.  These to methods saves the operator with plates and setting up costs making the print run more efficient and cheaper to produce.<br> Most Lithographic printers want to benefit from the considerable saving in plates and setup times.  This can be achieved by applying an Uplift charge PER UNIT to offset the savings made in Make readies." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Uplift charged to Work ‘n’ Turn Plans</label>
 
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th style="width:175px;"><a href="#"><span>Ink Order</span></a></th>
-                                                                <th style="width: 175px;"><span>Coverage</span></th>
+                                                <span class="CurrencySymbol" data-bind="text:CurrencySymbol"></span>
+                                                <input type="text" class="form-control txtBox-contentAlignRight" style="width:23%;" placeholder="Premium Per Head" data-bind="autoNumeric: worknturncharge, settings:{mDec:2}">
 
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <!-- ko template: { name: 'InkCoverageMachineTemplate' , foreach: MachineInkCoverages } -->
-                                                            <!-- /ko -->
-
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
                                             </div>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right PaddingleftZero">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Set the Look up method to employ when calculating the print run charges.  Look up methods can vary from charging per click for very impression to the number of sheets printed per hour or per 1000 sheets. <br>Click Charge zone look up allows system users to apply different click rates depending on the print run. <br>Speed Weight Look up allows system users to apply a different hourly rate depending on the stock weight put thru the press and the length of the print run needed. <br>Look Up methods can be defined in Press Settings, Look Up Methods." data-html="true" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label class="control-label text-right tooltip-float">Press Look Up Method Used to Calculated Click Charges</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <select style="width:40%" class="form-control" data-bind="options: lookupList, optionsText: 'Name', optionsValue: 'MethodId', value: LookupMethodId"></select>
+                                                <span class="help-block text-right"></span>
+                                            </div>
+
                                         </div>
                                     </div>
-                                </div>
 
+                                </div>*@
 
-                            </div>
-                            <div class="tab-pane fade PressControls" id="tab-spoilage">
+                            @*<div class="tab-pane fade PressControls" id="tab-inkCoverage">
 
-                                <div class="col-lg-12 form-horizontal">
-                                    <h3 class="group-header">Spoilage</h3>
-                                    <div class="col-lg-12">
-                                        <div class="clearfix">
+                                    <div class="col-lg-12 form-horizontal">
+                                        <h3 class="group-header">Ink Coverage</h3>
+                                        <div class="col-lg-12">
 
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Set the table below with the additional set up sheets and running sheets depending on the number of colors used for any given item to be printed.<br> These additional sheets will be added to the print run and the stock needed to add to the printing run and hence reduce the possibility of printing jobs with less quantity than that was ordered and also not short changing you on costs of paper and clicks on the press." data-html="true" data-original-title="" title="">
+                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="The Ink/Toner charge is a threshold value used to compare if the total of all ink / toner used in the print run is LESS than the minimum charge.  <br>If the total is less than the minimum charge per Color unit then the minimum charge will override the calculated sum." data-html="true" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
 
                                                     </div>
-                                                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Spoilage</label>
+                                                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Minimum Charges for Ink/Toner per color unit</label>
+
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    <span data-bind="text:CurrencySymbol" class="CurrencySymbol"></span>
+                                                    <input type="text" class="form-control" style="width:25%;" data-bind="autoNumeric:InkChargeForUniqueColors, settings:{mDec:2}">
+                                                    <span class="help-block text-right" style="width:25%;"></span>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-4 text-right">
+
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Ink Coverage for machine." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+                                                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Ink Coverage</label>
 
                                                 </div>
 
@@ -807,14 +750,13 @@ This make ready charge is not to be confused with the press set up charge for �
                                                         <table class="table table-striped table-hover">
                                                             <thead>
                                                                 <tr>
-                                                                    <th style="width:175px;"><a href="#"><span>No of Colors</span></a></th>
-                                                                    <th style="width: 175px;"><span>Setup Sheets</span></th>
-                                                                    <th style="width: 175px;"><a href="#" class="asc"><span>Running Spoilage %</span></a></th>
+                                                                    <th style="width:175px;"><a href="#"><span>Ink Order</span></a></th>
+                                                                    <th style="width: 175px;"><span>Coverage</span></th>
 
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <!-- ko template: { name: 'SpoilageMachineTemplate' , foreach: MachineSpoilageItems } -->
+                                                                <!-- ko template: { name: 'InkCoverageMachineTemplate' , foreach: MachineInkCoverages } -->
                                                                 <!-- /ko -->
 
 
@@ -825,9 +767,188 @@ This make ready charge is not to be confused with the press set up charge for �
                                             </div>
                                         </div>
                                     </div>
+
+
                                 </div>
+                                <div class="tab-pane fade PressControls" id="tab-spoilage">
+
+                                    <div class="col-lg-12 form-horizontal">
+                                        <h3 class="group-header">Spoilage</h3>
+                                        <div class="col-lg-12">
+                                            <div class="clearfix">
+
+                                                <div class="form-group">
+                                                    <div class="col-lg-4 text-right">
+
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+
+                                                            <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Set the table below with the additional set up sheets and running sheets depending on the number of colors used for any given item to be printed.<br> These additional sheets will be added to the print run and the stock needed to add to the printing run and hence reduce the possibility of printing jobs with less quantity than that was ordered and also not short changing you on costs of paper and clicks on the press." data-html="true" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+
+                                                        </div>
+                                                        <label for="txtCompanyName" class="control-label text-right tooltip-float">Spoilage</label>
+
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-striped table-hover">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th style="width:175px;"><a href="#"><span>No of Colors</span></a></th>
+                                                                        <th style="width: 175px;"><span>Setup Sheets</span></th>
+                                                                        <th style="width: 175px;"><a href="#" class="asc"><span>Running Spoilage %</span></a></th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <!-- ko template: { name: 'SpoilageMachineTemplate' , foreach: MachineSpoilageItems } -->
+                                                                    <!-- /ko -->
 
 
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>*@
+                            <div class="tab-pane fade PressControls" id="tab-lookup">
+                                <div class="col-md-12 form-horizontal">
+                                    <h3 class="group-header" data-bind="visible: !$root.isGuillotineList()">Lookup Methods</h3>
+                                    <div class="col-md-9" data-bind="visible: !$root.isGuillotineList()">
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Setup Spoilage is the average number of sheets required to be printed in order to get to the first chargeable sheet." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Setup Spoilage</label>
+                                            </div>
+                                            <div class="col-lg-6" style="padding-left:0;">
+                                                <div class="col-lg-3" style="padding-right:0;">
+                                                    <input type="text" class="form-control" style="text-align:right;" data-bind="value:SetupSpoilage">
+                                                </div>
+                                                <div class="col-lg-1 help-block text-left" style="padding-top:4px;">Sheets</div>
+                                            </div>
+                                        </div>
+                                        @*<div class="form-group">
+                                                <div class="col-lg-4 text-right">
+
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Create Virtual Presses to simulate different press modes for single or multiple colors. Create Virtual Presses that simulate different press speeds for low run and large run jobs." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+                                                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Setup Sheets</label>
+
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" placeholder="Enter Setup Sheets" data-bind="value:MachineName">
+                                                    <span class=" help-block text-right"></span>
+                                                </div>
+
+                                            </div>*@
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Running Spoilages the average percentage of spoils or jams while a press is running." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Running Spoilage</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="input-group col-lg-3">
+                                                    <span class="input-group-addon">%</span>
+                                                    <div>
+                                                        <input type="text" class="form-control" style="text-align:right; width: 92%" data-bind="numberValue:RunningSpoilage">
+                                                    </div>
+                                                </div>
+                                                
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Passes Multiply the press calculations, mainly used in roll and UV large format where the quality mode determines the number of passes the heads make before advancing down the sheet" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Passes</label>
+                                            </div>
+                                            <div class="col-lg-6" style="padding-left:0px;">
+                                                <div class="col-lg-3" style="padding-right:0px;">
+                                                    <input type="text" class="form-control" style="text-align:right;" value="1" data-bind="autoNumeric:Passes, settings:{mDec:0,vMin:0,vMax:9} ">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Ink Coverage multiplies the cost of ink and clicks, uplifting the ink calculations by this amount.  Black and White impressions may multiply by 1, while CMYK multiply by 3.5 up to 6 (heavy)" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Print Coverage</label>
+                                            </div>
+                                            <div class="col-lg-6" style="padding-left:0;">
+                                                <div class="col-lg-3" style="padding-right:0;">
+                                                    <input type="text" class="form-control" style="text-align:right;" data-bind="value:CoverageHigh" min="0" max="10">
+                                                    <span class=" help-block text-right">Heavy</span>
+                                                </div>
+                                                <div class="col-lg-3" style="padding-right:0;">
+                                                    <input type="text" class="form-control" style="text-align:right;" data-bind="value:CoverageMedium" min="0" max="10">
+                                                    <span class=" help-block text-right">Medium</span>
+                                                </div>
+                                                <div class="col-lg-3" style="padding-right:0;">
+                                                    <input type="text" class="form-control" style="text-align:right;" data-bind="value:CoverageLow" min="0" max="10">
+                                                    <span class=" help-block text-right">Light</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <!-- ko stopBinding: true -->
+                                        @*<h3 style="padding-right:10px;margin:0px;">Specify values for the click charge Zone Calculation</h3>*@
+                                        <div class="col-lg-12 form-horizontal" id="divlookupMethodBinding">
+                                            <div id="clickChargeZoneSection">
+                                                @Html.Partial("_ClickChargeZone")
+                                            </div>
+                                            <div id="GuillotineSection">
+                                                @Html.Partial("_GuillotineClickCharge")
+                                            </div>
+                                            <div id="meterPerHour">
+                                                @Html.Partial("_MeterPerHour")
+                                            </div>
+                                        </div>
+                                        <!-- /ko -->
+                                    </div>
+
+                                    @*<div class="col-md-12" id="GuillotineSection">
+                                            <!-- ko stopBinding: true -->
+
+                                            <h3 style="padding-right:10px;margin:0px;">Specify values for the click charge Lookup Calculation</h3>
+                                            <div class="col-lg-12 form-horizontal" id="divlookupMethodBinding">
+
+                                                @Html.Partial("_GuillotineClickCharge")
+                                            </div>
+
+                                            <!-- /ko -->
+
+                                        </div>*@
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -837,30 +958,62 @@ This make ready charge is not to be confused with the press set up charge for �
     </div>
 </div>
 @*</div>*@
-
 <script id="InkCoverageMachineTemplate" type="text/html">
-
     <tr>
-
         <td>
             <select class="form-control" data-bind="options:StockItemforInkList, optionsText: 'ItemName', optionsValue: 'StockItemId', value:SideInkOrder"></select>
         </td>
-
         <td>
             <select class="form-control" data-bind="options:InkCoveragItems, optionsText: 'GroupName', optionsValue: 'CoverageGroupId', value:SideInkOrderCoverage"></select>
         </td>
 
-
     </tr>
 </script>
-
 <script id="SpoilageMachineTemplate" type="text/html">
     <tr>
         <td><span data-bind="text:NoOfColors"></span> </td>
         <td><input type="text" class="form-control" data-bind="text:SetupSpoilage, value: SetupSpoilage"></td>
         <td><input type="text" class="form-control" data-bind="text:RunningSpoilage, value: RunningSpoilage"></td>
     </tr>
-
 </script>
+<script id="lookupMethodTemplate" type="text/html">
+    <tr>
+        <td style="width: 50%"><select style="width:40%" class="form-control" data-bind="options: lookupList, optionsText: 'Name', optionsValue: 'MethodId', value: MethodId"></select></td>
+        <td style="width: 40%" data-bind="text: rate">
+            <div class="form-group pull-right">
+                <div class="col-md-3 ">
+                    <div class="checkbox-nice">
+                        <input type="checkbox" data-bind="checked: isSelected, attr: { id: Id}">
+                        <label data-bind="attr: { for: Id}">
+                        </label>
+                    </div>
 
+                </div>
+            </div>
+        </td>
+        <td style="width: 20%">
+            @*<!-- ko template: { name: 'editActionLookupTemplate' } -->
+                <!-- /ko -->*@
+            <!-- ko template: { name: 'deleteActionLookupTemplate' } -->
+            <!-- /ko -->
+        </td>
+    </tr>
+</script>
+@*Lookup*@
+@*<script id="editActionLookupTemplate" type="text/html">
+        <a href="#" class="table-link" data-bind="click: $root.selectMarkup, css: { selectedRow: $data === $root.selectedMarkup() }">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+    </script>*@
+<script id="deleteActionLookupTemplate" type="text/html">
+    <a href="#" class="table-link danger" data-bind="click: $root.onDeleteLookup" title="Delete">
+        <span class="fa-stack">
+            <i class="fa fa-square fa-stack-2x"></i>
+            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</script>
 

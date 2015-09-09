@@ -22,6 +22,8 @@ define("common/supplier.viewModel",
                     sortIsAsc = ko.observable(true),
                     //Pager
                     supplierPager = ko.observable(),
+                    // Currency Symbol
+                    currencySymbol = ko.observable(),
                     //Search Filter
                     searchSupplierFilter = ko.observable(),
                     //#region Array
@@ -51,6 +53,7 @@ define("common/supplier.viewModel",
                 // Show the dialog
                    show = function () {
                        isLoading(true);
+                       isSupplierEditorVisible(false);
                        view.showSupplierDialog();
                    },
                 // Hide the dialog
@@ -150,6 +153,7 @@ define("common/supplier.viewModel",
                                 registrationQuestions.removeAll();
                                 ko.utils.arrayPushAll(registrationQuestions(), data.RegistrationQuestions);
                                 registrationQuestions.valueHasMutated();
+                                currencySymbol(data.CurrencySymbol);
                             },
                             error: function () {
                                 toastr.error("Failed to base data.");
@@ -284,6 +288,7 @@ define("common/supplier.viewModel",
                     format: format,
                     gotoElement: gotoElement,
                     supplierLogoLoadedCallback: supplierLogoLoadedCallback,
+                    currencySymbol: currencySymbol
                 };
             })()
         };
@@ -291,4 +296,4 @@ define("common/supplier.viewModel",
         return ist.supplier.viewModel;
     });
 
-http://mpc/mis/../../Api/Controllers/ReportManagerController.cs
+//http://mpc/mis/../../Api/Controllers/ReportManagerController.cs

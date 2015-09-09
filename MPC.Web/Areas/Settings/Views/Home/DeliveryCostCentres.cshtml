@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Delivery Cost Centers";
+    ViewBag.Title = "Shipping Cost Centers";
 }
 @section leftmenue {
 
@@ -9,31 +9,35 @@
         <div class="row">
             <div class="col-lg-12">
                 <ol class="breadcrumb">
-                    <li><a href="~/Dashboard/Index">Home</a></li>
-                    <li><span>Settings</span></li>
-                    <li class="active"><span>Delivery Cost Centers</span></li>
+                    <li><a href="~/Dashboard/Index">&nbsp;</a></li>
+                  
                 </ol>
                 <div class="clearfix">
-                    <h1 class="pull-left">Delivery Cost Centers</h1>
-                    <div class="pull-right top-page-ui">
-                        <a class="btn btn-primary" data-bind="click: $root.createDeliveryCostCenter">
-                            Add Delivery Cost Center
-                        </a>
-                    </div>
+                    <h1 class="pull-left" style="padding-left:0px;">Shipping Cost Centers</h1>
+                </div>
+                <div class="pull-right top-page-ui" style="margin-bottom:10px;">
+                    <a href="~/Settings" class="btn  btn-default" style="float: right;margin-bottom: 10px;margin-left: 5px;">Close</a>
+                    <a class="btn btn-primary" data-bind="click: $root.createDeliveryCostCenter">
+                        Add New Shipping Cost Center
+                    </a>
                 </div>
             </div>
+           
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="main-box no-header clearfix">
+                    <div class="main-box no-header clearfix" style="margin-left:7px;margin-right:7px;">
                         <div class="main-box-body clearfix">
                             <div class="table-responsive">
-                                <table class="table user-list">
+                                @*<h2>Create and configure internal Shipping options used on web stores and estimating</h2>*@
+                                <!-- ko template: { name: 'filterTemplate' } -->
+                                <!-- /ko -->
+                                <table class="table table-striped table-hover">
                                     <thead>
                                         <tr id="ccList" class="span12">
                                             <th class="col-lg-3"><span>Name</span></th>
                                             <th class="col-lg-4"><span>Description</span></th>
-                                            <th class="col-lg-2"><span>Type</span></th>
-                                            
+
+                                            <th class="col-lg-4"><span>Enabled</span></th>
                                             <th class="col-lg-2">&nbsp;</th>
                                         </tr>
                                     </thead>
@@ -45,7 +49,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="pagerDiv">
+                    <div id="pagerDiv" style="float:right;margin-right:7px;">
                         <!-- ko with: pager -->
                         @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                         <!-- /ko -->
@@ -68,12 +72,18 @@
             </a>*@
         </script>
         <script id="itemCostCenterTemplate" type="text/html">
-            <tr data-bind="click: $root.selectItem, css: { selectedRow: $data === $root.selectedCostCenter}">
+            <tr data-bind="click : $root.onEditItem, css: { selectedRow: $data === $root.selectedCostCenter}" style="cursor: pointer">
                 <td>
-                    <a href="#" data-bind="text: name,click : $root.onEditItem"></a>
+                    <a href="#" data-bind="text: name"></a>
                 </td>
                 <td data-bind="text: description"></td>
-                <td data-bind="text: type"></td>
+                <td>
+                    <span class="label" data-bind="text: isDisabled() ? 'No' : 'Yes', css: { 'label-success':  !isDisabled(), 'label-danger' : isDisabled() }">No</span>                    
+                 @*   <span class="label label-success" data-bind="visible:isDisabled() == false">Yes</span>*@
+                    
+
+                </td>
+                @*<td data-bind="text: type"></td>*@
                 <td id="actionColumn">
                     <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                     <!-- /ko -->
@@ -82,23 +92,24 @@
         </script>
         @* Filter Template *@
         <script id="filterTemplate" type="text/html">
-            <div class="filter-body">
-                <div class="filter-block pull-left">
-                    <div class="pull-left spanfilterlbl">
-                        Search &nbsp;
-                    </div>
-                    <div class="form-group pull-left">
-                        <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
-                        <i class="fa fa-search search-icon"></i>
+            <div class="filter-body" id="filter" style="margin-bottom:10px; background-color:#ffffff;box-shadow: none;">
+                <div class="pull-left">
+                    <div class="row">
+                        <span>Create and configure internal Shipping options used on web stores and estimating</span>
+                        <div style="height:20px;">
+                            &nbsp;
+                        </div>
                     </div>
 
-                    <div class="pull-right">
-                        <button type="submit" class="btn btn-primary" data-bind="click:$root.getCostCenters">Search</button>
-                        <button type="reset" class="btn btn-default" data-bind="click:$root.resetFilterSection">Reset</button>
+                </div>
+                <form data-bind="submit: $root.getCostCenterByFilter">
+                    <div class="filter-block pull-right" style="margin-right: -22px; margin-top: -3px;">
+                        <div class="form-group pull-left">
+                            <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
+                            <i class="fa fa-search search-icon" data-bind="click:$root.getCostCenterByFilter"></i>
+                        </div>
                     </div>
-                </div>
-                <div class="clearfix">
-                </div>
+                </form>
             </div>
         </script>
     </div>
@@ -118,6 +129,6 @@
             $('#limissettings').addClass('active');
             $('#liDeliveryCostCenters').addClass('active');
         });
-
+       
     </script>
 }

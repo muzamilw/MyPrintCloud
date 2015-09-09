@@ -1,47 +1,27 @@
 ﻿<div class="modal fade" id="inkDialogModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div style="width:838px;" class="modal-dialog">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" id="dialgHeaderPadding">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Inks Dialog</h4>
+                <h4 class="modal-title" data-bind="text: $root.isSide1InkButtonClicked() ? 'Side 1 Colors' : 'Side 2 Colors'">
+                    Section Colors
+                </h4>
             </div>
             <div class="col-lg-12">
             </div>
-            <div class="col-lg-12 outerDiv-Padding form-horizontal" data-bind="with: $root.selectedSection()">
-                <div class="col-lg-6" style="border: 2px solid #a1a1a1; padding: 10px; ">
-                    <div class="modal-header col-lg-6" id="dialgHeaderPadding">
-                        <h4 class="modal-title">Side 1</h4>
-                    </div>
-                    <table class="col-lg-12">
-                        <thead>
-                            <tr>
-                                <td class="col-lg-6">Ink Order</td>
-                                <td class="col-lg-6">Coverage</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- ko template: { name: 'side1List' , foreach: sectionInkCoverageList } -->
+            <div class="col-lg-12 form-horizontal" data-bind="with: $root.selectedSection()">
+                <div class="col-lg-12" id="OrderDialogSection1" style="margin-top: 2%; width: 98%; margin-left: 1%">
+                   <div class="col-lg-12 table" style="margin-top: 2%">
+                        <div class="col-lg-12">
+                            <div class="col-lg-6">&nbsp;</div>
+                        </div>
+                        <div>
+                            <!-- ko template: { if: $root.isSide1InkButtonClicked, name: 'inkDialogSectionInkCoverageTemplate' , foreach: sectionInkCoveragesSide1  } -->
                             <!-- /ko -->
-
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-lg-6" style="border: 2px solid #a1a1a1; padding: 10px; ">
-                    <div class="modal-header col-lg-6" id="dialgHeaderPadding">
-                        <h4 class="modal-title">Side 2</h4>
-                    </div>
-                    <table class="col-lg-12">
-                        <thead>
-                            <tr>
-                                <td class="col-lg-6">Ink Order</td>
-                                <td class="col-lg-6">Coverage</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- ko template: { name: 'side2List' , foreach: sectionInkCoverageList } -->
+                            <!-- ko template: { if: !$root.isSide1InkButtonClicked(), name: 'inkDialogSectionInkCoverageTemplate' , foreach: sectionInkCoveragesSide2  } -->
                             <!-- /ko -->
-                        </tbody>
-                    </table>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -50,27 +30,8 @@
         </div>
     </div>
 </div>
-<script id="side1List" type="text/html">
-    <!-- ko if : side == 1 -->
-    <tr>
-        <td class="col-lg-6">
-            <select class="form-control" data-bind="options: $root.inks, optionsText: 'ItemName', optionsValue: 'StockItemId', value: inkId"></select>
-        </td>
-        <td class="col-lg-6">
-            <select class="form-control" data-bind="options: $root.inkCoverageGroup, optionsText: function(item) { return item.GroupName +' '+ item.Percentage + '%'}, optionsValue: 'CoverageGroupId', value: coverageGroupId"></select>
-        </td>
-    </tr>
-    <!-- /ko -->
-</script>
-<script id="side2List" type="text/html">
-    <!-- ko if : side == 2 -->
-    <tr>
-        <td class="col-lg-6">
-            <select class="form-control" data-bind="options: $root.inks, optionsText: 'ItemName', optionsValue: 'StockItemId', value: inkId"></select>
-        </td>
-        <td class="col-lg-6">
-            <select class="form-control" data-bind="options: $root.inkCoverageGroup, optionsText: function(item) {return item.GroupName +' '+ item.Percentage + '%'}, optionsValue: 'CoverageGroupId', value: coverageGroupId"></select>
-        </td>
-    </tr>
-    <!-- /ko -->
+<script id="inkDialogSectionInkCoverageTemplate" type="text/html">
+    <div class="col-lg-12" style="margin-top: 2%">
+        <select class="form-control" data-bind="options: $root.inks, optionsText: 'ItemName', optionsValue: 'StockItemId', value: inkId"></select>
+    </div>
 </script>

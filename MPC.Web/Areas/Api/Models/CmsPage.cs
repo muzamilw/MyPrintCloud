@@ -25,6 +25,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string DefaultPageKeyWords { get; set; }
         public string PageBanner { get; set; }
         public bool? isEnabled { get; set; }
+        public long? CompanyId { get; set; }
 
         /// <summary>
         /// File Bytes

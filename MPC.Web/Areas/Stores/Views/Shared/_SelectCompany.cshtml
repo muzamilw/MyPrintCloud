@@ -21,8 +21,7 @@
                                 <thead>
                                     <tr>
                                         <th><a href="#"><span>Company Name</span></a></th>
-                                        <th><a href="#"><span>Website</span></a></th>
-                                        <th><a href="#"><span>Created On</span></a></th>
+                                        
 
                                     </tr>
                                 </thead>
@@ -52,10 +51,10 @@
     </div>
 </div>
 <script id="companyItemTemplate" type="text/html">
-    <tr data-bind="click: $root.selectCompany">
-        <td data-bind="text:name"></td>
-        <td data-bind="text:url"></td>
-        <td data-bind="text:creationDate"></td>
+    <tr>
+        <td>
+            <a data-bind="text: name, click: $root.selectCompany" style="cursor:pointer;" class="user-link"></a>
+        </td>       
     </tr>
 </script>
 @* Filter Template *@

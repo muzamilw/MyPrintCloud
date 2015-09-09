@@ -3,54 +3,10 @@
     <div style="width: 838px;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                @*<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>*@
                 <h4 class="modal-title">Progress to Job</h4>
             </div>
-            <div class=" form-horizontal clearfix" data-bind="with:$root.selectedItemForProgressToJobWizard">
-                @*<h3 class="group-header">Wizard Information</h3>*@
-                <div class="col-lg-12 clearfix">
-                    <div class="form-group" style="margin-top: 20px;">
-                        <div class="col-lg-2">
-
-                        </div>
-                        <div class="col-lg-8 text-left">
-                            <h4><b>Welcome to 'Progress an Item to Job' Wizard</b></h4>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-2">
-
-                        </div>
-                        <div class="col-lg-8 text-left">
-                            <label>
-                                Use 'Progress to job' wizard that will guide you in progressing an item from an order to job.
-                                The wizard ask for the following information :
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group" style="margin-bottom: 0px;">
-                        <div class=" col-lg-2">
-
-                        </div>
-                        <div class="col-lg-8 text-left">
-                            <label>
-                                -Progress all item(s) to Job.
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-2">
-
-                        </div>
-                        <div class="col-lg-8 text-left">
-                            <label>
-                                -Select job start and completion date.
-                            </label>
-                        </div>
-                    </div>
-                </div>
+            <div class="modal-body form-horizontal clearfix" data-bind="with:$root.selectedItemForProgressToJobWizard">
                 <div class=" form-horizontal clearfix">
-                    <h3 class="group-header">Progress Option</h3>
                     <div class="col-lg-12 clearfix">
                         <div class="form-group">
                             <div class="col-lg-3 text-right">
@@ -62,28 +18,7 @@
                                 <label for="name" class="control-label text-right tooltip-float">Item Name</label>
                             </div>
                             <div class="col-lg-5">
-                                <label style="border: none" class="form-control" id="name" data-bind="text:name"></label>
-                            </div>
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0px;">
-                            <div class="col-lg-3 text-right">
-                                <div class="bs-example-tooltips tooltip-float-width">
-                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Item Description" data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                    </a>
-                                </div>
-                                <label for="description" class="control-label text-right tooltip-float">Item Description</label>
-                            </div>
-                            <div class="col-lg-5">
-                                <textarea class="form-control" rows="4" id="description"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-3 text-right">
-
-                            </div>
-                            <div class="col-lg-5">
-                                <label class="form-control" id="info" style="border: none">Select the customer order date and job manager for this job</label>
+                                <label style="border: none" class="form-control" id="name" data-bind="text: productName"></label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -95,10 +30,11 @@
                                     </a>
 
                                 </div>
-                                <label class="control-label text-right tooltip-float">Job Manager</label>
+                                <label class="control-label text-right tooltip-float">Select Job Manager</label>
                             </div>
                             <div class="col-lg-5">
-                                <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'name', optionsId: 'id', optionsCaption: 'Select...',value:jobManagerId"></select>
+                                @*<select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsCaption: 'Select job manager', optionsValue: jobManagerUser "></select>*@ @*,value:jobManagerUser*@
+                                <select class="form-control" id="systemUsers" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsValue: 'id',value:jobManagerUser"></select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -108,10 +44,10 @@
                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                     </a>
                                 </div>
-                                <label for="start" class="control-label text-right tooltip-float">Job starting date</label>
+                                <label for="start" class="control-label text-right tooltip-float">Job Starting Date</label>
                             </div>
                             <div class="col-lg-5">
-                                <input type="text" class="form-control" id="start" data-bind="datepicker:jobActualStartDateTime">
+                                <input type="text" class="form-control" id="start" data-bind="datepicker:jobEstimatedStartDateTime">
                             </div>
                         </div>
                         <div class="form-group">
@@ -121,18 +57,18 @@
                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                     </a>
                                 </div>
-                                <label for="end" class="control-label text-right tooltip-float">Job completion date</label>
+                                <label for="end" class="control-label text-right tooltip-float">Job Completion Date</label>
                             </div>
                             <div class="col-lg-5">
-                                <input type="text" class="form-control" id="end" data-bind="datepicker:jobActualCompletionDateTime">
+                                <input type="text" class="form-control" id="end" data-bind="datepicker:jobEstimatedCompletionDateTime">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bind="click:$root.clickOnJobToProgressWizard">Ok</button>
-                    @*<button type="button" class="btn btn-default" data-bind="click:$root.clickOnJobToProgressWizard">Cancel</button>*@
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bind="click:$root.clickOnJobToProgressWizard">Ok</button>
+                @*<button type="button" class="btn btn-default" data-bind="click:$root.clickOnJobToProgressWizard">Cancel</button>*@
             </div>
         </div>
     </div>

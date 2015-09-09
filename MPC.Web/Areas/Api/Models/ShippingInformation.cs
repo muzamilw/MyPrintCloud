@@ -8,12 +8,15 @@ namespace MPC.MIS.Areas.Api.Models
     public class ShippingInformation
     {
         public int ShippingId { get; set; }
-        public int? ItemId { get; set; }
-        public int? AddressId { get; set; }
+        public long? ItemId { get; set; }
+        public long? AddressId { get; set; }
         public int? Quantity { get; set; }
         public double? Price { get; set; }
+        public long? EstimateId { get; set; }
         public bool? DeliveryNoteRaised { get; set; }
         public DateTime DeliveryDate { get; set; }
+        public string ItemName { get; set; }
+        public string AddressName { get; set; }
 
     }
 }

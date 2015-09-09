@@ -46,5 +46,8 @@ namespace MPC.Models.Common
 
         public double DeliveryCost { get; set; }
         public double DeliveryCostTaxValue { get; set; }
+        public long? DeliveryDiscountVoucherId { get; set; }
+
+        public CompanyContact CompanyContact { get; set; }
     }
 }

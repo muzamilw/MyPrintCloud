@@ -46,6 +46,41 @@ namespace MPC.Repository.Repositories
         #region public
 
         /// <summary>
+        /// Returns Next Job Code Prefix and increments the NextItem Value by 1
+        /// </summary>
+        public string GetNextJobCodePrefix(bool shouldIncrementNextItem = true)
+        {
+            try
+            {
+                Prefix prefix = DbSet.FirstOrDefault(pfx => pfx.OrganisationId == OrganisationId);
+                if (prefix == null)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
+                }
+
+                string nextPrefix = prefix.JobPrefix + "-001-" + prefix.JobNext;
+
+                // Update Item Next
+                prefix.JobNext += 1;
+
+                // For Order Screen
+                if (!shouldIncrementNextItem)
+                {
+                    return nextPrefix;
+                }
+
+                // Save Changes
+                SaveChanges();
+
+                return nextPrefix;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
         /// Returns Next Order Code Prefix and increments the NextItem Value by 1
         /// </summary>
         public string GetNextOrderCodePrefix()
@@ -62,6 +97,159 @@ namespace MPC.Repository.Repositories
 
                 // Update Order Next
                 prefix.OrderNext += 1;
+
+                return nextPrefix;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+      
+        /// <summary>
+        /// Returns Next Purchase Code Prefix and increments the NextItem Value by 1
+        /// </summary>
+        public string GetNextPurchaseCodePrefix()
+        {
+            try
+            {
+                Prefix prefix = DbSet.FirstOrDefault(pfx => pfx.OrganisationId == OrganisationId);
+                if (prefix == null)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
+                }
+
+                string nextPrefix = prefix.PoPrefix + "-001-" + prefix.PoNext;
+
+                // Update PO Next
+                prefix.PoNext += 1;
+
+                return nextPrefix;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Returns Next GRN Code Prefix and increments the NextItem Value by 1
+        /// </summary>
+        public string GetNextGRNCodePrefix()
+        {
+            try
+            {
+                Prefix prefix = DbSet.FirstOrDefault(pfx => pfx.OrganisationId == OrganisationId);
+                if (prefix == null)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
+                }
+
+                string nextPrefix = prefix.GrnPrefix + "-001-" + prefix.GrnNext;
+
+                // Update GRN Next
+                prefix.GrnNext += 1;
+
+                return nextPrefix;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Returns Next Delivery Note Code Prefix and increments the NextItem Value by 1
+        /// </summary>
+        public string GetNextDeliveryNoteCodePrefix()
+        {
+            try
+            {
+                Prefix prefix = DbSet.FirstOrDefault(pfx => pfx.OrganisationId == OrganisationId);
+                if (prefix == null)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
+                }
+
+                string nextPrefix = prefix.DeliveryNPrefix + "-001-" + prefix.DeliveryNNext;
+
+                // Update Delivery Next
+                prefix.DeliveryNNext += 1;
+
+                return nextPrefix;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Returns Next Invoice Code Prefix and increments the NextItem Value by 1
+        /// </summary>
+        public string GetNextInvoiceCodePrefix()
+        {
+            try
+            {
+                Prefix prefix = DbSet.FirstOrDefault(pfx => pfx.OrganisationId == OrganisationId);
+                if (prefix == null)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
+                }
+
+                string nextPrefix = prefix.InvoicePrefix + "-001-" + prefix.InvoiceNext;
+
+                // Update Invoice Next
+                prefix.InvoiceNext += 1;
+
+                return nextPrefix;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Returns Next Estimate Code Prefix and increments the NextItem Value by 1
+        /// </summary>
+        public string GetNextEstimateCodePrefix()
+        {
+            try
+            {
+                Prefix prefix = DbSet.FirstOrDefault(pfx => pfx.OrganisationId == OrganisationId);
+                if (prefix == null)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
+                }
+
+                string nextPrefix = prefix.EstimatePrefix + "-001-" + prefix.EstimateNext;
+
+                // Update Estimate Next
+                prefix.EstimateNext += 1;
+
+                return nextPrefix;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Returns Next Inquiry Code Prefix and increments the NextItem Value by 1
+        /// </summary>
+        public string GetNextInquiryCodePrefix()
+        {
+            try
+            {
+                Prefix prefix = DbSet.FirstOrDefault(pfx => pfx.OrganisationId == OrganisationId);
+                if (prefix == null)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
+                }
+
+                string nextPrefix = prefix.EnquiryPrefix + "-001-" + prefix.EnquiryNext;
+
+                // Update Enquiry Next
+                prefix.EnquiryNext += 1;
 
                 return nextPrefix;
             }

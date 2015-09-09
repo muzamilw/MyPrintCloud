@@ -1,0 +1,370 @@
+﻿<div class="row" data-bind="visible: isDisplayInquiryDetailScreen() && !isItemDetailVisible()" style="display: none">
+    <div class="row">
+        <div class="col-lg-12 PaddingZero">
+            <div class="col-lg-12 PaddingZero">
+                <div class="col-lg-3">
+                </div>
+                <div data-bind="with: selectedInquiry" style="text-align: right; padding-right:16px; margin-right:9px;margin-top:-10px;margin-bottom:8px;">
+                    @*<button class="btn btn-danger" id="delButton" data-bind="click: $root.deleteOrderButtonHandler">Delete</button>*@
+                    <!-- ko if: $root.selectedInquiry().inquiryId() > 0 && status() == 25 -->
+                    <button class="btn btn-success" id="progressToEstBtn" data-bind="click: $root.onProgressToEstimate, enable: status() == 25 && inquiryId() > 0">Progress To Estimate</button>
+                    <!--/ko-->
+                    <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveInquiry, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
+                    <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseOrderEditor">Cancel</button>
+                </div>
+            </div>
+
+            <div class="col-lg-12 PaddingZero PaddingStatuses">
+                <div class="col-xs-7">
+                    <!-- here -->
+                </div>
+                <div class="col-xs-3">
+
+                </div>
+                <div class="col-xs-2">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="row" data-bind="with: selectedInquiry">
+                <div class="col-lg-12">
+                    <div class="clearfix">
+                        <div class="pull-left validationSummaryContainer">
+                            <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopupForInquiry', popoverId: 'validationSummaryPopoverBodyForInquiry' }" style="display: none">Invalid data: Click here to see details.</a>
+                            @* ReSharper disable UnknownCssClass *@
+                            <div class="well well-small validationSummaryModal" id="validationSummaryPopupForInquiry" style="display: none">
+                                @* ReSharper restore UnknownCssClass *@
+                                <div id="validationSummaryPopoverBodyForInquiry">
+                                    <ul data-bind="foreach: $root.errorList">
+                                        <li>
+                                            <a data-bind="click: $root.gotoElement.bind($data.element)"><span data-bind="text: name"></span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="user-profile" style="margin-left: 9px; margin-right: 9px;">
+        <div class="col-lg-12 col-md-8 col-sm-8">
+            <div class="main-box clearfix my-tabsHeader">
+                <div class="tabs-wrapper profile-tabs">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab-EstimateHeader" data-toggle="tab">Inquiry Header</a></li>
+                    </ul>
+                    <div class="tab-content" style="padding-top:10px;">
+                        <div class="tab-pane fade in active" id="tab-EstimateHeader" data-bind="with: selectedInquiry">
+                            <div>
+                                <div class="col-lg-12 form-horizontal">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div>
+                                                    <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId, click: !$root.selectedInquiry().inquiryId() ? $root.openCompanyDialog : undefined" readonly="" placeholder="Select Customer" class="form-control font24px" id="inquiryCompany">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-1" style="padding-top:10px;">
+                                                <button data-bind="click: $root.openCompanyDialog, enable: ($root.selectedInquiry().inquiryId() <= 0) || ($root.selectedInquiry().inquiryId()===undefined) " href="#" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-user"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+                                            </div>
+                                            <div class="col-lg-6" data-bind="if: $root.isCompanyBaseDataLoaded">
+                                                <select class="form-control" data-bind="options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a contact', value: contactId"></select>
+                                                <span class="help-block text-right"></span>
+                                            </div>
+                                            <div class="col-lg-1" data-bind="if: $root.isCompanyBaseDataLoaded">
+                                                <a class="btn btn-primary pull-right" id="contactDetailpull" onclick="showContactDetail()">
+                                                    <i id="contactDetailpullicon" class="fa fa-chevron-circle-right drop-icon"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div id="popoverContactDetail" style="display:none;">
+                                            <!-- ko if: $root.selectedCompanyContactOfInquiry() != undefined -->
+                                            <div class="form-group" style="margin-top: -20px;">
+                                                <div class="col-lg-4 text-right">
+                                                    <label class="control-label tooltip-float">&nbsp;</label>
+                                                </div>
+                                                <div class="col-lg-6" data-bind="with: $root.selectedCompanyContactOfInquiry">
+                                                    <div>
+                                                        <label id="email" data-bind="text: email" class="form-control" style="border:none"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/ko-->
+                                        </div>
+
+                                        <div class="form-group" style="margin-top: -9px;">
+                                            <div class="col-lg-4 text-right" style="padding-top:10px;">
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <input type="text" style="height: 60px;" data-bind="value: title" class="form-control font24px" id="code" placeholder="Enter Inquiry Title" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right" style="padding-top:10px;">
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <input type="text" style="height: 60px;" data-bind="value: inquiryCode" class="form-control font24px" id="code" readonly="readonly" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <select class="form-control" data-bind="options: $root.inquiriesSectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag', value: flagId, validationToolTip: flagId, validationOnElement: flagId" id="FlagId"></select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <input type="text" style="height: 60px;" class="form-control font24px" data-bind="datepicker: requireByDate">
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <div class="col-lg-4 text-right">
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <!--ko if: status() == 25 -->
+                                                UnProcessed Inquiry
+                                                <!--/ko-->
+                                                <!--ko if: status() == 26 -->
+                                                Progressed To Estimate - <a href="#" data-bind="click: $root.viewEstimateFromInquiry">View Estimate</a>
+                                                <!--/ko-->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-12 form-horizontal">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <div class="col-lg-2 text-right">
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <div>
+                                                    @* <textarea class="form-control" placeholder="Enter estimate opening paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 form-horizontal">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <div class="col-lg-2">
+                                                &nbsp;
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <div style="background-color:gainsboro; border-radius:3px">
+                                                    <header class="main-box-header clearfix">
+                                                        <div style="float:left;"><span class="font24px">Items in this Inquiry</span></div>
+                                                    </header>
+                                                    <div class="main-box-body clearfix">
+                                                        <div class="table-responsive">
+                                                            <table class="table user-list table-striped table-hover">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="col-lg-3"><span>Title</span></th>
+                                                                        <th class="col-lg-3">Delivery Date</th>
+                                                                        <th class="col-lg-3 ">Product Type</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <!-- ko template: { name: 'inquiryItemTemplate', foreach: inquiryItems } -->
+                                                                    <!-- /ko -->
+                                                                    <!-- ko if: inquiryItems().length == 0 -->
+                                                                    <tr>
+                                                                        <td>No items To Display</td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                    <!-- /ko -->
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <div class="btn-group" style="float: left; margin-top: 10px;">
+                                                        <!-- ko if: status() == 25-->
+                                                        <button type="button" class="btn btn-primary" data-bind="click : $root.onCreateNewInquiryDetailItem">Add New Item</button>
+                                                        <!-- /ko -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class ="col-lg-6 form-horizontal">
+                                    <div class="form-group">
+                                        <div class="col-lg-4">
+
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="bs-example-tooltips tooltip-float-width" style="width: 25px;padding-top:8px;">
+                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Attachments uploaded will be used as artwork while creating the inquiry." data-original-title="" title="">
+                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                </a>
+                                            </div>
+                                            <label class="control-label font24px">Upload Attachments</label>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <!-- ko if: status() == 25-->
+                                            <div class="col-lg-6" style="margin-top: 5px;">
+                                                <div class="col-lg-1">
+                                                    <div class="fileUpload btn btn-primary">
+                                                        <span>....</span>
+                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.itemAttachmentFileLoadedCallback, fileFilter: 'image.*'}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/ko-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 form-horizontal">
+                                    <div class="col-md-12">
+                                        
+                                        <div class="col-lg-2">
+                                            &nbsp;
+                                        </div>
+                                        <!-- ko if: inquiryAttachments().length != 0-->
+                                        <div class="col-lg-9" style="background-color: gainsboro;padding-left: 0;">
+                                            <div class="main-box-body" >  @*style="margin-left: -36px;"*@
+                                                <div id="gallery-photos-lightbox">
+                                                    <ul class="clearfix gallery-photos col-lg-12" >
+                                                        <!-- ko template: { name: 'inquiryAttachmentsTemplate' , foreach: inquiryAttachments  } -->
+                                                        <!-- /ko -->
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /ko -->
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-lg-12 form-horizontal">
+                                    
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <div class="col-lg-2 text-right">
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <div>
+                                                    @*<textarea class="form-control" placeholder="Enter estimate closing paragraph as it would appear on reports" id="EstimateHeader" rows="3" data-bind="value: footNotes"></textarea>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-2 text-right">
+                                                <label class="control-label tooltip-float">
+                                                    Select Marketing Source
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-3" data-bind="if: $root.pipelineSources ">
+                                                <select class="form-control" data-bind="options: $root.pipelineSources, optionsText: 'name', optionsId: 'id',optionsValue: 'id', optionsCaption: 'Select Source', value: sourceId"></select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-2 text-right">
+                                                <label class="control-label tooltip-float">
+                                                    Select Sales Person
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsId: 'id', optionsValue: 'id', optionsCaption: 'Select a system user', value: systemUserId"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @* Inquiry Item Template *@
+                                <script id="inquiryItemTemplate" type="text/html">
+                                    <tr data-bind=" click:  $root.editInquiryItem" style="cursor: pointer">
+                                        <td>
+                                            <a href="#" class="user-link" data-bind="text: title"></a>
+                                            <span class="user-subhead">
+                                                <span data-bind="text: notes"></span>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span style="font-size:20px;" data-bind="dateString: deliveryDate, datePattern: 'DD/MM/YYYY' "></span>
+                                        </td>
+                                        <td >
+                                            <span style="font-size:20px;" data-bind="text: marketingSource "> </span>
+                                        </td>
+                                    </tr>
+                                </script>
+                                <script id="deliveryItemTemplate" type="text/html">
+                                    <tr>
+                                        <td>
+                                            <span style="font-size:20px;" data-bind="text: productName"></span>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <span style="font-size:20px;" data-bind="text: $root.currencySymbol() + qty1GrossTotal()"></span>
+                                        </td>
+                                    </tr>
+                                </script>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("~/Areas/Orders/Views/Home/_InquiryDetailItem.cshtml")
+</div>
+
+<script id="inquiryAttachmentsTemplate" type="text/html">
+    <li class="col-md-3 col-sm-3 col-xs-6">
+        <div class="photo-box image-link" style="padding-top: 0; background-color: gainsboro">
+            <!-- ko if:attachmentId()===undefined -->
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentId()===undefined,attr: { src: attachmentPath }" />
+            <!--/ko-->
+            <!-- ko if:attachmentId()!==undefined -->
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:attachmentId()!==undefined,attr: { src:'/mis/' + attachmentPath() }" />
+            <!--/ko-->
+        </div>
+        <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
+    </li>
+</script>
+
+<script type="text/javascript">
+
+    function showContactDetail() {
+        var e = document.getElementById("popoverContactDetail");
+        var p = document.getElementById("contactDetailpullicon");
+
+        if (e.style.display == "none") {
+            p.className = "fa fa-chevron-circle-down drop-icon";
+            e.style.display = "block";
+        }
+        else if (e.style.display == "block") {
+            p.className = "fa fa-chevron-circle-right drop-icon";
+            e.style.display = "none";
+
+        }
+    }
+
+
+
+</script>
+
+

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
@@ -29,8 +30,51 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<VariableOption> VariableOptions { get; set; }
         public virtual ICollection<ScopeVariable> ScopeVariables { get; set; }
         public virtual ICollection<SmartFormDetail> SmartFormDetails { get; set; }
+        public virtual ICollection<TemplateVariable> TemplateVariables { get; set; }
+        public virtual ICollection<VariableExtension> VariableExtensions { get; set; }
 
         [NotMapped]
         public long? FakeIdVariableId { get; set; }
+
+
+
+        #region public
+
+
+        /// <summary>
+        /// Makes a copy of Entity
+        /// </summary>
+        ///   
+
+        public void Clone(FieldVariable target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemProductDetailClone_InvalidItemProductDetail, "target");
+            }
+
+
+            target.VariableName = VariableName;
+            target.RefTableName = RefTableName;
+            target.CriteriaFieldName = CriteriaFieldName;
+            target.VariableSectionId = VariableSectionId;
+            target.VariableTag = VariableTag;
+            target.SortOrder = SortOrder;
+            target.KeyField = KeyField;
+            target.VariableType = VariableType;
+            target.Scope = Scope;
+            target.WaterMark = WaterMark;
+            target.DefaultValue = DefaultValue;
+            target.InputMask = InputMask;
+            target.OrganisationId = OrganisationId;
+            target.IsSystem = IsSystem;
+            target.VariableTitle = VariableTitle;
+            target.FakeIdVariableId = FakeIdVariableId;
+
+
+
+        }
+
+        #endregion
     }
 }

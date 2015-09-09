@@ -3,15 +3,19 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Categories</h4>
+                <h4 class="modal-title" data-bind="text: $root.pageHeader()"></h4>
             </div>
             <div class="col-lg-12">
-                <div style="padding-right: 5px;" id="nestable2">
-                    <ol id="productCategoryDialogCategories" class="dd-list">
-                        <!-- ko template: { name: 'productCategoryDialogTemplate', foreach: $root.parentProductCategories } -->
-                        <!-- /ko -->
-                    </ol>
+                <div class="row pull-right" style="margin-right:17px;">Select</div>
+                <div class="row" style="padding-top: 15px;">
+                    <div style="padding-right: 16px;padding-left: 16px;" id="nestable2">
+                        <ol id="productCategoryDialogCategories" class="dd-list">
+                            <!-- ko template: { name: 'productCategoryDialogTemplate', foreach: $root.parentProductCategories } -->
+                            <!-- /ko -->
+                        </ol>
+                    </div>
                 </div>
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bind="click: $root.updateProductCategories">Save</button>
@@ -24,12 +28,20 @@
 @* Product Category Template *@
 <script id="productCategoryDialogTemplate" type="text/html">
     <li class="dd-item dd-item-list" data-bind="attr: { id: 'liElement-' + id }">
-        <div class="dd-handle-list" data-bind="click: $root.toggleChildCategories"><i class="fa fa-bars"></i></div>
+        <div class="dd-handle-list" ><i class="fa fa-chevron-circle-right cursorShape" data-bind="click: $root.toggleChildCategories"></i></div>
         <div class="dd-handle">
-            <span data-bind="text: name"></span>
-            <div class="nested-links">
-                <input type="checkbox" data-bind="checked: isSelected" />
-            </div>
+            <div>
+                <span data-bind="text: name">
+                    
+                </span>
+                <!--ko if: isArchived-->
+                <span style="color:red; font-weight: 700;"> (Archive) </span>
+                <!--/ko-->
+                    <input type="checkbox" class="bigcheckbox" style="float:right" data-bind="checked: isSelected" />
+                </div>
+            
+            
+            
         </div>
     </li>
 </script>

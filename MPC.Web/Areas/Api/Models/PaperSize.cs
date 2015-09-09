@@ -24,5 +24,10 @@
         /// Width
         /// </summary>
         public double? Width { get; set; }
+
+        /// <summary>
+        /// Area
+        /// </summary>
+        public double? Area { get; set; }
     }
 }

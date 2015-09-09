@@ -37,7 +37,7 @@ namespace MPC.Models.DomainModels
         public DateTime? LastModifiedDate { get; set; }
         public DateTime? LastModifiedtime { get; set; }
         public int? LastModifiedBy { get; set; }
-        public int? CreatedBy { get; set; }
+        public Guid? CreatedBy { get; set; }
         public int? CampaignId { get; set; }
         public short? IsLocked { get; set; }
         public int? LockedBy { get; set; }
@@ -48,5 +48,65 @@ namespace MPC.Models.DomainModels
         public long? CompanyId { get; set; }
 
         public virtual Company Company { get; set; }
+
+
+
+        #region public
+
+
+        /// <summary>
+        /// Makes a copy of Entity
+        /// </summary>
+        ///   
+
+        public void Clone(Activity target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentException(LanguageResources.ItemProductDetailClone_InvalidItemProductDetail, "target");
+            }
+
+
+            target.ActivityTypeId = ActivityTypeId;
+            target.ActivityCode = ActivityCode;
+            target.ActivityRef = ActivityRef;
+            target.ActivityTime = ActivityTime;
+            target.ActivityStartTime = ActivityStartTime;
+            target.ActivityEndTime = ActivityEndTime;
+              target.ActivityProbability = ActivityProbability;
+            target.ActivityPrice = ActivityPrice;
+            target.ActivityUnit = ActivityUnit;
+            target.ActivityNotes = ActivityNotes;
+            target.AlarmDate = AlarmDate;
+            target.AlarmTime = AlarmTime;
+              target.ActivityLink = ActivityLink;
+            target.IsCustomerActivity = IsCustomerActivity;
+            target.ContactId = ContactId;
+            target.SystemUserId = SystemUserId;
+            target.IsPrivate = IsPrivate;
+            target.IsComplete = IsComplete;
+              target.CompletionDate = CompletionDate;
+            target.CompletionTime = CompletionTime;
+            target.CompletionSuccess = CompletionSuccess;
+            target.CompletionResult = CompletionResult;
+            target.CompletedBy = CompletedBy;
+            target.IsFollowedUp = IsFollowedUp;
+              target.FollowedActivityId = FollowedActivityId;
+            target.LastModifiedDate = LastModifiedDate;
+            target.LastModifiedtime = LastModifiedtime;
+            target.LastModifiedBy = LastModifiedBy;
+            target.CreatedBy = CreatedBy;
+            target.CampaignId = CampaignId;
+              target.IsLocked = IsLocked;
+            target.LockedBy = LockedBy;
+            target.SystemSiteId = SystemSiteId;
+            target.ProductTypeId = ProductTypeId;
+            target.SourceId = SourceId;
+              target.FlagId = FlagId;
+
+
+        }
+
+        #endregion
     }
 }

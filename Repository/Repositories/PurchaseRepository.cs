@@ -62,5 +62,106 @@ namespace MPC.Repository.Repositories
 
             return new PurchaseResponseModel { Purchases = items, TotalCount = DbSet.Count(query) };
         }
+
+        /// <summary>
+        /// Get Purchase Orders
+        /// </summary>
+        public PurchaseResponseModel GetPurchaseOrders(PurchaseOrderSearchRequestModel request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isStatusSpecified = request.Status == 0;//if true get all then get by status
+
+            Expression<Func<Purchase, bool>> query =
+            item =>
+                (
+                string.IsNullOrEmpty(request.SearchString) ||
+                ((item.Company != null && item.Company.Name.Contains(request.SearchString)) || (item.RefNo.Contains(request.SearchString))
+                )) && (!isStatusSpecified && item.Status == request.Status || isStatusSpecified);
+
+            IEnumerable<Purchase> items = DbSet.Where(query)
+                .OrderByDescending(x => x.date_Purchase)
+                .Skip(fromRow)
+                .Take(toRow)
+                .ToList();
+            return new PurchaseResponseModel { Purchases = items, TotalCount = DbSet.Count(query) };
+        }
+
+        /// <summary>
+        /// Generate PO By SP
+        /// </summary>
+        public bool GeneratePO(long OrderId,Guid CreatedBy)
+        {
+            try
+            {
+                db.usp_GeneratePurchaseOrders((int)OrderId, CreatedBy);
+
+                return true;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        /// <summary>
+        /// Delete PO By SP
+        /// </summary>
+        public bool DeletePO(long OrderId)
+        {
+            try
+            {
+                db.usp_DeletePurchaseOrders((int)OrderId);
+               
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Get Purchases List
+        /// </summary>
+        public Dictionary<int, long> GetPurchasesList(long OrderId)
+        {
+            try
+            {
+                Dictionary<int, long> DictPurchases = new Dictionary<int, long>();
+                var ListPurchases = (from i in db.Items
+                                     join izs in
+                                         (from p in db.Purchases
+                                          join pd in this.db.PurchaseDetails on p.PurchaseId equals pd.PurchaseId
+                                          select new
+                                          {
+                                              ItemID = pd.ItemId,
+                                              PurchaseID = p.PurchaseId,
+                                              SupplierID = p.SupplierId
+
+                                          }) on i.ItemId equals izs.ItemID
+                                     where i.EstimateId == OrderId
+                                     select new
+                                     {
+                                         PurchaseID = izs.PurchaseID,
+                                         SupplierID = izs.SupplierID
+
+                                     }).Distinct();
+
+
+                foreach(var purchase in ListPurchases)
+                {
+                    DictPurchases.Add(purchase.PurchaseID, purchase.SupplierID ?? 0);
+                }
+                return DictPurchases;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+      
     }
 }

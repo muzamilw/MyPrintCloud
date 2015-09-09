@@ -105,7 +105,184 @@
 .validationSummaryContainer a {
   color: red;
 }
+.errorFill {
+  border: 1px solid red !important;
+  background-color: #fdd !important;
+}
+.errorFillRow {
+  border: 3px solid red !important;
+}
+/* For Elements That use ValidationTooltip + Css: { 'errorFill': someValue } , css should be css: { 'errorFillWithValidation': someValue }  */
+.errorFillWithValidation {
+  border: 1px solid red !important;
+  background-color: #fdd !important;
+}
+.errorMsgText {
+  color: red !important;
+  cursor: pointer !important;
+}
+div#spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 1000000011;
+  border: 2px solid #eeeeee;
+  font-size: 40px;
+  width: 1em;
+  height: 1em;
+  -moz-border-radius: .5em;
+  -webkit-border-radius: .5em;
+  -ms-border-radius: .5em;
+  border-radius: .5em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-animation: spin 1s linear infinite;
+  -moz-animation: spin 1s linear infinite;
+  -o-animation: spin 1s linear infinite;
+  -ms-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+  border-top-color: #2eaef0;
+}
 /* Validation Summary */
+/* Selected Row Highlight */
+.selectedRow {
+  background: lightgray !important;
+}
+/* Selected Row Highlight */
+/* For Cost Centre Input Dialog */
+.opaqueLayer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+  background-color: gray;
+  z-Index: 9999;
+  width: 95% !important;
+  height: 100% !important;
+}
+#innerLayer {
+  background: white;
+}
+#FormulaMatrixLayer {
+  background: white;
+}
+.tabsdescriptions {
+  color: #696969;
+  margin-bottom: 35px;
+  margin-left: 7px;
+  margin-top: 35px;
+}
+.delPhrase {
+  display: none;
+}
+.phraseHover:hover .delPhrase {
+  display: block;
+}
+.graphheaderleft {
+  margin-left: 8px !important;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+.graphheaderright {
+  margin-left: -2px !important;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+/*Custom ON OFF Switch for Store Live*/
+.onoffswitchlive {
+  position: relative;
+  width: 120px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  margin-right: 20px;
+}
+.onoffswitchlive-checkbox {
+  display: none;
+}
+.onoffswitchlive-label {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #999999;
+  border-radius: 20px;
+}
+.onoffswitchlive-inner {
+  width: 200%;
+  margin-left: -100%;
+  -moz-transition: margin 0.3s ease-in 0s;
+  -webkit-transition: margin 0.3s ease-in 0s;
+  -o-transition: margin 0.3s ease-in 0s;
+  transition: margin 0.3s ease-in 0s;
+}
+.onoffswitchlive-inner:before,
+.onoffswitchlive-inner:after {
+  float: left;
+  width: 50%;
+  height: 40px;
+  padding: 0;
+  line-height: 30px;
+  font-size: 14px;
+  color: white;
+  font-family: Trebuchet, Arial, sans-serif;
+  font-weight: bold;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding-top: 5px;
+}
+.onoffswitchlive-inner:before {
+  content: "LIVE";
+  padding-left: 10px;
+  background-color: #2ecc71;
+  color: #FFFFFF;
+}
+.onoffswitchlive.onoffswitchlive-success .onoffswitchlive-inner:before {
+  background-color: #2ecc71;
+}
+.onoffswitchlive.onoffswitchlive-danger .onoffswitchlive-inner:before {
+  background-color: #e74c3c;
+}
+.onoffswitchlive.onoffswitchlive-warning .onoffswitchlive-inner:before {
+  background-color: #f1c40f;
+}
+.onoffswitchlive-inner:after {
+  content: "OFFLINE";
+  padding-right: 10px;
+  background-color: #f1c40f;
+  color: #FFFFFF;
+  text-align: right;
+}
+.onoffswitchlive-switch {
+  width: 26px;
+  margin: 7px;
+  background: #FFFFFF;
+  border: 1px solid #999999;
+  border-radius: 20px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 80px;
+  -moz-transition: all 0.3s ease-in 0s;
+  -webkit-transition: all 0.3s ease-in 0s;
+  -o-transition: all 0.3s ease-in 0s;
+  transition: all 0.3s ease-in 0s;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+.onoffswitchlive-checkbox:checked + .onoffswitchlive-label .onoffswitchlive-inner {
+  margin-left: 0;
+}
+.onoffswitchlive-checkbox:checked + .onoffswitchlive-label .onoffswitchlive-switch {
+  right: 0px;
+}
+/*Custom ON OFF Flag CSS ends */
+/* For Cost Centre Input Dialog */
 /* Common Styles */
 #productBinding .activeView {
   background-color: #ff7e47;
@@ -252,6 +429,9 @@
 }
 #myOrganizationBinding #tab-RegionalSettings #markupTablle td.action {
   width: 20%;
+}
+#storesBinding .cursorShape {
+  cursor: pointer;
 }
 #storesBinding .selectedSection,
 #storesBinding .selectedEmailVariable {
@@ -563,8 +743,8 @@
   clear: both;
 }
 #storesBinding #tab-products .dd-handle-list {
-  height: 90%;
   overflow: hidden;
+  margin-top: 6px;
 }
 #storesBinding #tab-products .dd-handle {
   height: auto;
@@ -651,6 +831,9 @@
 #storesBinding .form-group-closer {
   margin-bottom: 0px;
 }
+#storesBinding #productMarketBriefQuestionDialog #addMarketBriefAnswerBtn {
+  margin-right: 14px;
+}
 .store-user-link {
   display: block;
   font-size: 1.25em;
@@ -722,14 +905,16 @@
 #stockDialog #stockDialogMainContainer {
   width: 838px;
 }
-#orderBinding {
-  /*#tabsHeader {
-        border: 1px solid silver;
-        box-shadow: 1px 1px 1px silver;
-    }*/
-}
-#orderBinding .selectedBestPressFromWizard {
-  background: yellow !important;
+#orderBinding #tab-EstimateHeader .attachmentDownload {
+  padding-left: 0px;
+  border-left-width: 0px;
+  padding-right: 0px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  padding-bottom: 0px;
+  background-color: transparent;
+  border-bottom: none;
+  height: 31px;
 }
 #orderBinding #tab-EstimateHeader #orderType {
   font-weight: bold;
@@ -741,6 +926,48 @@
 }
 #orderBinding #tab-EstimateHeader #orderSectionDetailDialog #orderSectionDetail {
   width: 1100px;
+}
+#orderBinding #tab-EstimateHeader #orderStatusSliderContainer {
+  background-color: gainsboro;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+#orderBinding #tab-EstimateHeader #orderStatusSliderContainer #statusSliderSubContainer {
+  background-color: gainsboro;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  height: 100%;
+}
+#orderBinding #tab-EstimateHeader #orderStatusSliderContainer #statusSliderSubContainer #orderStatusSilderPanel {
+  margin-bottom: 60px;
+  width: 80%;
+}
+#orderBinding #tab-EstimateHeader #orderHeaderProductsContainer,
+#orderBinding #tab-EstimateHeader #orderHeaderShippingContainer {
+  background-color: gainsboro;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+#orderBinding #tab-EstimateHeader #orderHeaderAddShippingButton {
+  float: left;
+  margin-top: 10px;
+  margin-left: -8px;
+}
+#orderBinding .itemSectionName {
+  float: right;
+  margin-top: -82%;
+  margin-right: -6%;
+  width: 86%;
+  color: #3c9bf6;
+}
+#orderBinding .phraseLibrayLink {
+  padding: 4px 12px;
 }
 #OrderDialogSection1 {
   -moz-box-shadow: 0 0 8px #808080;
@@ -765,6 +992,119 @@
 #SectionDetailButtons {
   float: right;
 }
+#stockItemRight {
+  float: right;
+}
+.productDialogEmptyHeight {
+  min-height: 350px;
+  max-height: 350px;
+}
+.productDialogNonEmptyHeight {
+  min-height: 318px;
+  max-height: 318px;
+}
+#left-panel {
+  width: 300px;
+  height: 360px;
+  border: 5px solid #3c9bf6;
+  background-color: #ffffff;
+  position: fixed;
+  top: 274px;
+  /*right: -275px;*/
+  right: -300px;
+  -moz-border-radius: 0 1em 1em 0;
+  -webkit-border-radius: 0 1em 1em 0;
+  border-radius: 0 1em 1em 0;
+  padding: 5px;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  z-index: 9;
+}
+#left-panel:hover {
+  /*right: -250px;*/
+}
+#left-panel.show {
+  right: -5px;
+}
+#left-panel .controller {
+  position: absolute;
+  right: 0;
+  top: 0;
+  text-decoration: none;
+}
+#left-panel a.controller {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  text-decoration: none;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+#left-panel.show a.controller {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+#notes-Button {
+  transform: rotate(-90deg);
+  float: right;
+  position: absolute;
+  margin-left: 320px;
+}
+#panel-heading {
+  color: black;
+  background-color: #f5f5f5;
+  border-bottom: none;
+}
+#panel-title {
+  border-bottom: none;
+}
+.label-circle-add {
+  border-radius: 50%;
+  padding: 0 !important;
+  background-color: green;
+  margin-left: 27px;
+  cursor: pointer;
+  color: white !important;
+  font-weight: bolder;
+  position: absolute;
+  font-size: 45px;
+  bottom: 40px;
+}
+.label-circle-addsection {
+  border-radius: 50%;
+  padding: 0 !important;
+  background-color: green;
+  margin-left: 27px;
+  cursor: pointer;
+  color: white !important;
+  font-weight: bolder;
+  position: absolute;
+  font-size: 45px;
+  top: 80px;
+}
+.label-circle-minus {
+  border-radius: 50%;
+  padding: 0 !important;
+  background-color: red;
+  margin-left: 27px;
+  cursor: pointer;
+  color: white !important;
+  font-weight: bolder;
+  position: absolute;
+  font-size: 45px;
+  bottom: 40px;
+}
+.font20px {
+  font-size: 20px;
+  height: 40px;
+}
 #companySelectorDialog .modal-dialog {
   width: 838px;
 }
@@ -777,7 +1117,39 @@
   margin-right: 3px;
 }
 #itemJobStatusBinding .collapsableHeight {
-  max-height: 300px;
+  max-height: 374px;
   overflow-y: auto;
   list-style: none;
+  min-height: 374px;
 }
+#itemJobStatusBinding .itemFooterHighlight {
+  min-height: 8px;
+  background-color: silver;
+  margin-right: -23px;
+  margin-left: -23px;
+}
+#itemJobStatusBinding .openBtn {
+  padding-left: 3px;
+  padding-right: 3px;
+  padding-bottom: 3px;
+  font-size: x-small;
+}
+#itemJobStatusBinding .formGroupSmaller {
+  margin-bottom: 0px;
+  font-size: smaller;
+}
+#itemJobStatusBinding .formGroupSmall {
+  margin-bottom: 0px;
+  font-size: small;
+}
+#itemJobStatusBinding .code {
+  margin-bottom: 7px;
+  font-size: x-small;
+}
+#itemJobStatusBinding .labelToPadding {
+  padding-top: 0px;
+}
+#itemJobStatusBinding .title {
+  font-size: small;
+}
+/*# sourceMappingURL=MainSite.css.map */

@@ -15,8 +15,18 @@ namespace MPC.Interfaces.MISServices
 
 
         /// <summary>
+        /// Get Items For late statuses
+        /// </summary>
+        IEnumerable<ItemForItemJobStatus> GetItemsForLateItems();
+
+        /// <summary>
         /// Update Item Status
         /// </summary>
         void UpdateItem(ItemForItemJobStatus item);
+
+        /// <summary>
+        /// Get Currency Symbol
+        /// </summary>
+        string GetCurrencySymbol();
     }
 }

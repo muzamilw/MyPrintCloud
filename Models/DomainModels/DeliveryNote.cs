@@ -10,36 +10,37 @@ namespace MPC.Models.DomainModels
     {
         public int DeliveryNoteId { get; set; }
         public string Code { get; set; }
-        public Nullable<System.DateTime> DeliveryDate { get; set; }
-        public Nullable<int> ContactCompanyId { get; set; }
+        public DateTime? DeliveryDate { get; set; }
+        public long? CompanyId { get; set; }
         public string OrderReff { get; set; }
         public string footnote { get; set; }
         public string Comments { get; set; }
-        public Nullable<int> LockedBy { get; set; }
-        public Nullable<short> IsStatus { get; set; }
-        public Nullable<long> ContactId { get; set; }
+        public int? LockedBy { get; set; }
+        public short? IsStatus { get; set; }
+        public long? ContactId { get; set; }
         public string ContactCompany { get; set; }
         public string CustomerOrderReff { get; set; }
-        public Nullable<int> AddressId { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
-        public Nullable<System.DateTime> CreationDateTime { get; set; }
-        public Nullable<int> SupplierId { get; set; }
+        public int? AddressId { get; set; }
+        public int? CreatedBy { get; set; }
+        public DateTime? CreationDateTime { get; set; }
+        public int? SupplierId { get; set; }
         public string SupplierTelNo { get; set; }
         public string CsNo { get; set; }
         public string SupplierURL { get; set; }
-        public int RaisedBy { get; set; }
-        public Nullable<int> FlagId { get; set; }
-        public Nullable<int> EstimateId { get; set; }
-        public Nullable<int> JobId { get; set; }
-        public Nullable<int> InvoiceId { get; set; }
-        public Nullable<int> OrderId { get; set; }
+        public Guid? RaisedBy { get; set; }
+        public int? FlagId { get; set; }
+        public int? EstimateId { get; set; }
+        public int? JobId { get; set; }
+        public int? InvoiceId { get; set; }
+        public int? OrderId { get; set; }
         public string UserNotes { get; set; }
-        public Nullable<System.DateTime> NotesUpdateDateTime { get; set; }
-        public Nullable<int> NotesUpdatedByUserId { get; set; }
-        public Nullable<int> SystemSiteId { get; set; }
-        public Nullable<bool> IsRead { get; set; }
-        public Nullable<bool> IsPrinted { get; set; }
-
+        public DateTime? NotesUpdateDateTime { get; set; }
+        public int? NotesUpdatedByUserId { get; set; }
+        public int? SystemSiteId { get; set; }
+        public bool? IsRead { get; set; }
+        public bool? IsPrinted { get; set; }
+        public virtual Company Company { get; set; }
         public virtual ICollection<DeliveryNoteDetail> DeliveryNoteDetails { get; set; }
+        public virtual SectionFlag SectionFlag { get; set; }
     }
 }

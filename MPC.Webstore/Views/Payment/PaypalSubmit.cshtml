@@ -10,18 +10,22 @@
     @*@Html.AntiForgeryToken()*@
     @Html.HiddenFor(model => model.cmd)
     @Html.HiddenFor(model => model.business)
-    @Html.HiddenFor(model => model.pageOrderID)
+    @Html.HiddenFor(model => model.upload)
+    @Html.HiddenFor(model => model.custom)
     @Html.HiddenFor(model => model.no_shipping)
-    @Html.HiddenFor(model => model.return_url)
+    <input type="hidden" name="return" value="@Model.return_url" />
+   
     @Html.HiddenFor(model => model.rm)
     @Html.HiddenFor(model => model.notify_url)
-    @Html.HiddenFor(model => model.cancel_url)
+    <input type="hidden" name="cancel_return" value="@Model.cancel_url" />
     @Html.HiddenFor(model => model.currency_code)
     @Html.HiddenFor(model => model.handling_cart)
-    @Html.HiddenFor(model => model.txtJason)
-    @Html.HiddenFor(model => model.upload)
     @Html.HiddenFor(model => model.discount_amount_cart)
-    
+    @Html.HiddenFor(model => model.tax_cart)
+    @Html.HiddenFor(model => model.txtJason, new { id = "txtJason" })
+
+  
+ 
 
     <div style="text-align:center; height:600px; margin-top:300px; font:arial; font-size:16px;">Please wait while we redirect you to PayPal.</div>
 }

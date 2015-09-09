@@ -1,0 +1,64 @@
+﻿@using MPC.Webstore.Common;
+@using MPC.Models.Common;
+@{
+    Layout = null;
+}
+
+
+    <link href="/Content/ErrorPage/font-awesome.css" rel="stylesheet" />
+
+<div id="FooterContainer" class="PDTCWB" style="background:#3E3936 !important;">
+    <div class="footer_sub">
+        <div class="footer_sub_height container">
+            <div class="txtAlignLeft float_left_simple"  style="margin-left: 20px;" id="pnlFollowUs">
+                <table width="20%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td valign="top">
+                                <a id="linkFollowUs1" href="@ViewBag.LinkedinUrl">
+                                    <i class="fa fa-linkedin" style="color:#6a6562;font-size:20px;border: 1px solid;
+  padding: 5px;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;"></i>
+                                </a>
+                         </td>
+                        <td valign="top">
+                            <a id="linkFollowUs2" href="@ViewBag.FacebookUrl" style="margin-left:19px;">
+                                <i class="fa fa-facebook fa-2x" style="color:#6a6562;font-size:20px;border: 1px solid;
+  padding: 5px;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;"></i>
+                            </a>
+                        </td>
+                        <td valign="top">
+                            <a id="linkFollowUs3" href="@ViewBag.TwitterUrl" style="margin-left:41px;">
+                                <i class="fa fa-twitter fa-2x"style="color:#6a6562;font-size:20px;border: 1px solid;
+  padding: 5px;
+  border-radius: 5px;
+  padding-left: 7px;
+  padding-right: 7px;"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
+
+            <div class="textAlignCenter float_left_simple realEst-footer-PrivacyPolicy">
+                <a id="hlPrivacyPolicy" class="realEstFooterTxtColor">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkPrivacyPolicy", UserCookieManager.WBStoreId, "Privacy Policy"))</a>
+            </div>
+            <div class="textAlignCenter float_left_simple realEst-footer-terms">
+                <a id="hplinkTermsCondition" class="realEstFooterTxtColor" href="/pages/@SecondryPagesInfo.TermsAndConditions/@Convert.ToInt32(SecondryPagesInfo.TermsAndConditions)" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkTermsCondtions", UserCookieManager.WBStoreId, "Terms And Conditions"))</a>
+            </div>
+            <div class="textAlignCenter float_left_simple realEstFooterTxtColor realEst-footer-copyright">
+                <label id="ltrlcopyrite">@Html.Raw(Html.GetKeyValueFromResourceFile("lrl20copyrite", UserCookieManager.WBStoreId))</label>
+            </div>
+            <div class="clearBoth">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+
+</div>

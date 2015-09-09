@@ -33,7 +33,7 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         MPC.Repository.Repositories.CostCentreExecution obj = new MPC.Repository.Repositories.CostCentreExecution();
 
-                        functionReturnValue = obj.ExecuteUserResource(ResourceID, ResourceReturnType.CostPerHour);
+                        functionReturnValue = obj.ExecuteUserResource(ResourceID, ResourceReturnType.CostPerHour, Convert.ToString(oParamsArray[10]));
                         obj = null;
                     }
                     else
@@ -137,9 +137,9 @@ namespace MPC.Implementation.WebStoreServices
                     //populate the question in the executionQueue
                     //loading the Questions Information for populating in the Queue
                     MPC.Repository.Repositories.CostCentreExecution obj = new MPC.Repository.Repositories.CostCentreExecution();
-                    CostCentreQuestion ovariable = obj.LoadQuestion(Convert.ToInt32(QuestionID));
+                    CostCentreQuestion ovariable = obj.LoadQuestion(Convert.ToInt32(QuestionID), Convert.ToString(oParamsArray[10]));
 
-                    QuestionItem = new QuestionQueueItem(QuestionID, ovariable.QuestionString, CostCentreID, ovariable.Type.Value, ovariable.QuestionString, ovariable.DefaultAnswer, "", false, 0, 0, 0, 0, 0, 0, 0, ovariable.AnswerCollection);
+                    QuestionItem = new QuestionQueueItem(QuestionID, ovariable.QuestionString, CostCentreID, ovariable.Type == null ? (short)0 : ovariable.Type.Value, ovariable.QuestionString, ovariable.DefaultAnswer, "", false, 0, 0, 0, 0, 0, 0, 0, ovariable.AnswerCollection);
 
                     if (QuestionQueue != null)
                     {
@@ -244,7 +244,7 @@ namespace MPC.Implementation.WebStoreServices
                     //populate the question in the executionQueue
                     //loading the Questions Information for populating in the Queue
                     MPC.Repository.Repositories.CostCentreExecution obj = new MPC.Repository.Repositories.CostCentreExecution();
-                    CostCentreMatrix oMatrix = obj.GetMatrix(MatrixID);
+                    CostCentreMatrix oMatrix = obj.GetMatrix(MatrixID, Convert.ToString(oParamsArray[10]));
                     QuestionItem = new QuestionQueueItem(MatrixID, oMatrix.Name, CostCentreID, 4, oMatrix.Description, "", "", false, 0, 0, 0, 0, 0, oMatrix.RowsCount, oMatrix.ColumnsCount, null, oMatrix.items);
                     QuestionQueue.Add(QuestionItem);
                     oMatrix = null;
@@ -267,7 +267,7 @@ namespace MPC.Implementation.WebStoreServices
             {
                 MPC.Repository.Repositories.CostCentreExecution obj = new MPC.Repository.Repositories.CostCentreExecution();
 
-                return obj.ExecuteUserStockItem(StockID, StockPriceType, out Price, out PerQtyQty);
+                return obj.ExecuteUserStockItem(StockID, StockPriceType, "", out Price, out PerQtyQty);
             }
             catch (Exception ex)
             {
@@ -298,7 +298,7 @@ namespace MPC.Implementation.WebStoreServices
 
                     CostCentreVariable oVariable;
                     //First we have to fetch the Variable object which contains the information
-                    oVariable = obj.LoadVariable(VariableID);
+                    oVariable = obj.LoadVariable(VariableID, Convert.ToString(oParamsArray[10]));
 
                     //now check the type of the variable.
                     //type 1 = system variable
@@ -306,6 +306,12 @@ namespace MPC.Implementation.WebStoreServices
                     //type 3 = CostCentre Variable
 
                     // in this type the Criteria will be used that will be
+
+                    if (oItemSection == null)
+                    {
+                        functionReturnValue = 0;
+                        return functionReturnValue;
+                    }
 
                     if (oVariable.Type == 1)
                     {
@@ -320,6 +326,12 @@ namespace MPC.Implementation.WebStoreServices
 
                                 break;
                             case (int)VariableProperty.PrintSheetQty_ProRata:
+
+                                if (Convert.ToDouble(oParamsArray[11]) != 0)
+                                {
+                                    functionReturnValue = Convert.ToDouble(oParamsArray[11]);
+                                    return functionReturnValue;
+                                }
 
                                 switch (CurrentQuantity)
                                 {
@@ -397,8 +409,15 @@ namespace MPC.Implementation.WebStoreServices
                             //    break;
 
                             case (int)VariableProperty.ImpressionQty_ProRata:
+                                if (Convert.ToDouble(oParamsArray[11]) != 0)
+                                {
+                                    functionReturnValue = Convert.ToDouble(oParamsArray[11]);
+                                    return functionReturnValue;
+                                }
+
                                 switch (CurrentQuantity)
                                 {
+
                                     case 1:
                                         functionReturnValue = Convert.ToDouble(oItemSection.ImpressionQty1);
                                         break;
@@ -573,6 +592,12 @@ namespace MPC.Implementation.WebStoreServices
 
                                 break;
                             case (int)VariableProperty.FinishedItemQty_ProRata:
+
+                                if (Convert.ToDouble(oParamsArray[11]) != 0)
+                                {
+                                    functionReturnValue = Convert.ToDouble(oParamsArray[11]);
+                                    return functionReturnValue;
+                                }
                                 switch (CurrentQuantity)
                                 {
                                     case 1:
@@ -645,6 +670,13 @@ namespace MPC.Implementation.WebStoreServices
 
                                 break;
                             case (int)VariableProperty.PrintSheetQtyIncSpoilage_ProRata:
+
+                                if (Convert.ToDouble(oParamsArray[11]) != 0)
+                                {
+                                    functionReturnValue = Convert.ToDouble(oParamsArray[11]);
+                                    return functionReturnValue;
+                                }
+
                                 switch (CurrentQuantity)
                                 {
                                     case 1:
@@ -665,6 +697,12 @@ namespace MPC.Implementation.WebStoreServices
                                 break;
 
                             case (int)VariableProperty.FinishedItemQtyIncSpoilage_ProRata:
+                                if (Convert.ToDouble(oParamsArray[11]) != 0)
+                                {
+                                    functionReturnValue = Convert.ToDouble(oParamsArray[11]);
+                                    return functionReturnValue;
+                                }
+
                                 switch (CurrentQuantity)
                                 {
                                     case 1:
@@ -772,7 +810,7 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     else if (oVariable.Type == 2)
                     {
-                        return obj.ExecUserVariable(oVariable);
+                        return obj.ExecUserVariable(oVariable, Convert.ToString(oParamsArray[10]));
                     }
                     else if (oVariable.Type == 3)
                     {
@@ -799,7 +837,7 @@ namespace MPC.Implementation.WebStoreServices
 	            ItemSection oItemSection = (ItemSection)oParamsArray[8];
 	            int CurrentQuantity = Convert.ToInt32(oParamsArray[5]);
 	            int MultipleQutantities = Convert.ToInt32(oParamsArray[4]);
-	            InputQueue InputQueue = (InputQueue)oParamsArray[7];
+	            InputQueue InputQueue = oParamsArray[7] as InputQueue;
                 double dblReturn = 0;
 
 	        try 
@@ -810,9 +848,9 @@ namespace MPC.Implementation.WebStoreServices
 			        //here the questions returned asnwer will ahave been loaded in the queue
 			        //retreive the queue answer for this question and use.. :D
 			        //use is simple only cast it in double and return..
-
+                    List<InputQueueItem> InputQueueItem = oParamsArray[7] as List<InputQueueItem>;
 			       // InputQueueItem item = null;
-			        foreach (var item in InputQueue.Items)
+			        foreach (var item in InputQueueItem)
                     {
 				        //matching
 				        if (item.ID == InputID & item.CostCentreID == CostCentreID & item.ItemType == ItemType) 
@@ -941,8 +979,12 @@ namespace MPC.Implementation.WebStoreServices
                 else if (ExecutionMode == CostCentreExecutionMode.PromptMode) 
                 {
 			        //populate the question in the executionQueue
-
-			        InputQueue.addItem(InputID, Question, CostCentreID, ItemType, InputType, Question, Value);
+                    double Qty1Val = 0;
+                    if(!string.IsNullOrEmpty(Value))
+                    {
+                        Qty1Val = Convert.ToDouble(Value);
+                    }
+                    InputQueue.addItem(InputID, Question, CostCentreID, ItemType, InputType, Question, Value, Qty1Val);
 			        //
 			        return 1;
 			        //exit normally 

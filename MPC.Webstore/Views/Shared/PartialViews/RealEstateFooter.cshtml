@@ -1,34 +1,38 @@
-﻿
+﻿@{
+    Layout = null;
+}
+@using MPC.Webstore.Common;
 <link href="~/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
 
 <div class="content_area" style="width:100%; height:170px; box-shadow: 0 -4px 22px -1px lightgray; position: absolute; background-color: #a5a6a5; padding-top:20px; text-align:center;z-index:100;">
         <div class="Contact-Main-Div">
             <div class="controlDivStyle">
-                <input type="text" id="txtName" class="footerControl" placeholder="Name" />
+                <input type="text" id="txtName" class="footerControl" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlname", UserCookieManager.WBStoreId, "Name"))" />
+                      
             </div>
 
             <div class="controlDivStyle">
-                <input type="text" id="txtEmail" class="footerControl" placeholder="E-mail Address" />
-
-            </div>
-
-            <div class="controlDivStyle">
-                <input type="text" id="txtTelephone" class="footerControl" placeholder="Telephone Number" />
+                <input type="text" id="txtEmail" class="footerControl" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailaddd", UserCookieManager.WBStoreId, "E-mail Address"))" />
 
             </div>
 
             <div class="controlDivStyle">
-                <input type="text" id="txtCompany" class="footerControl" placeholder="Company Address" />
+                <input type="text" id="txtTelephone" class="footerControl" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlllelpone", UserCookieManager.WBStoreId, "Telephone Number"))" />
+
+            </div>
+
+            <div class="controlDivStyle">
+                <input type="text" id="txtCompany" class="footerControl" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlllcompanyaddress", UserCookieManager.WBStoreId, "Company Address"))" />
             </div>
         </div>
 
         <div class="Message-Main-Div">
             <div style="margin-bottom: 2px;">
-                <textarea id="txtEnquiry" class="controlStyle" name="txtEnquiry" placeholder="Write Yor Message here ..." style="height:100px; padding-left: 10px; background-color: #E6E6E6; font-family: PT Sans; font-size: 11pt; color: #a5a6a5;"></textarea>
+                <textarea id="txtEnquiry" class="controlStyle" name="txtEnquiry" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltlwritemeesgerhee", UserCookieManager.WBStoreId, "Write Yor Message here ..."))" style=" height:100px; padding-left: 10px; background-color: #e6e6e6; font-family: pt sans; font-size :11pt; color :#a5a6a5;"></textarea>
             </div>
             <div>
                 <div style="width: 60px; margin-top: 7px; margin-bottom: 10px; float: right;">
-                    <input id="btnSubmit" type="button" title="Send message." value="Send" style="height:25px; width: 60px; background-color:#F12D27; font-family: PT Sans; font-size:12pt; color: white; box-shadow: 3px 3px 5px gray; border-style:none; border-radius:3px;" />
+                    <input id="btnSubmit" type="button" title="Send message." value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSend", UserCookieManager.WBStoreId, "Send"))" style="height:25px; width: 60px; background-color:#F12D27; font-family: PT Sans; font-size:12pt; color: white; box-shadow: 3px 3px 5px gray; border-style:none; border-radius:3px;" />
                 </div>
             </div>
         </div>

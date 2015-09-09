@@ -10,7 +10,8 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface IOrderService
     {
-        List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber);
+        List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber, bool IsManager, long TerritoryId);
+
         int GetFirstItemIDByOrderId(int orderId);
 
         long ProcessPublicUserOrder(string orderTitle, long OrganisationId, StoreMode storeMode, long CompanyId, long ContactId, ref long TemporaryRetailCompanyId);
@@ -25,16 +26,16 @@ namespace MPC.Interfaces.WebStoreServices
         
 
         bool SetOrderCreationDateAndCode(long orderId);
-        bool IsVoucherValid(string voucherCode);
+        //bool IsVoucherValid(string voucherCode);
 
-        Estimate CheckDiscountApplied(int orderId);
+        //Estimate CheckDiscountApplied(int orderId);
 
-        bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode);
+        //bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode);
 
-        double SaveVoucherCodeAndRate(int orderId, string VCode);
-        double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate, StoreMode Mode);
+        //double SaveVoucherCodeAndRate(int orderId, string VCode);
+        //double PerformVoucherdiscountOnEachItem(int orderId, OrderStatus orderStatus, double StateTax, double VDiscountRate, StoreMode Mode);
 
-        bool ResetOrderVoucherCode(int orderId);
+        //bool ResetOrderVoucherCode(int orderId);
          /// <summary>
         /// Get the OrderId by login User 
         /// </summary>
@@ -72,7 +73,7 @@ namespace MPC.Interfaces.WebStoreServices
         bool SaveDilveryCostCenter(long orderId, CostCentre ChangedCostCenter);
 
 
-        bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds);
+        bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds, long StoreId);
         Estimate GetLastOrderByContactId(long ContactId);
 
 
@@ -81,7 +82,7 @@ namespace MPC.Interfaces.WebStoreServices
         Order GetOrderAndDetails(long orderID);
         Address GetBillingAddress(long BillingAddressId);
         Address GetdeliveryAddress(long ShippingAddressId);
-        long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID, long OrganisationId);
+      //  long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID, long OrganisationId, long StoreId);
 
         long GetOrderID(long CompanyID, long ContactID, string orderTitle, long OrganisationId);
 
@@ -99,5 +100,16 @@ namespace MPC.Interfaces.WebStoreServices
        /// </summary>
         bool IsRealCustomerOrder(long orderId, long contactId, long companyId);
 
+        
+          /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="OrderId"></param>
+        /// <returns></returns>
+        long GetStoreIdByOrderId(long OrderId);
+
+        Estimate GetOrderByOrderID(long OrderId);
+        List<Item> GetOrderItemsIncludingDelivery(long OrderId, int OrderStatus);
+        void SaveOrUpdateOrder();
     }
 }

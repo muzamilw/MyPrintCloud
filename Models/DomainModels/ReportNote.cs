@@ -1,4 +1,5 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System.ComponentModel.DataAnnotations.Schema;
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Report Note Domain Model
@@ -16,7 +17,19 @@
         public string ReportTitle { get; set; }
         public string BannerAbsolutePath { get; set; }
         public bool? isDefault { get; set; }
-        public long OrganisationId { get; set; }
+        public long? OrganisationId { get; set; }
+        public long? CompanyId { get; set; }
+        [NotMapped]
+        public string EstimateBannerBytes { get; set; }
+         [NotMapped]
+        public string OrderBannerBytes { get; set; }
+         [NotMapped]
+        public string InvoiceBannerBytes { get; set; }
+         [NotMapped]
+        public string PurchaseBannerBytes { get; set; }
+         [NotMapped]
+        public string DeliveryBannerBytes { get; set; }
+
         public virtual ReportCategory ReportCategory { get; set; }
     }
 }

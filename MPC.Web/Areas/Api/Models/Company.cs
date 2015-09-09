@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.Models
@@ -118,6 +119,8 @@ namespace MPC.MIS.Areas.Api.Models
         /// Map Image Url
         /// </summary>
         public string MapImageUrl { get; set; }
+        public string DefaultContactEmail { get; set; }
+        public string DefaultContact { get; set; }
 
         public byte[] MapImageS2CBytes { get; set; }
         /// <summary>
@@ -144,6 +147,14 @@ namespace MPC.MIS.Areas.Api.Models
         public double? TaxRate { get; set; }
 
         public List<ScopeVariable> ScopeVariables { get; set; }
+        public bool? isStoreLive { get; set; }
+        public bool? CanUserUpdateAddress { get; set; }
+        public bool IsClickReached { get; set; }
+        public bool? IsRegisterAccessWebStore { get; set; }
+        public bool? IsRegisterPlaceOrder { get; set; }
+        public bool? IsRegisterPayOnlyByCreditCard { get; set; }
+        public bool? IsRegisterPlaceDirectOrder { get; set; }
+        public bool? IsRegisterPlaceOrderWithoutApproval { get; set; }
         #endregion
 
         #region Public List Properties

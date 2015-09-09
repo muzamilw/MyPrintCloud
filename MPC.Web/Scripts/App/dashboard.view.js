@@ -10,7 +10,17 @@ define("dashboard.view",
                 viewModel = specifiedViewModel,
                 // binding root
                 bindingRoot = $("#dashboardBindingRoot")[0],
-
+                goToOrder = function(orderId) {
+                    window.open('/mis/orders/home?id=' + orderId, "_blank");
+                },
+                  goToCustomer = function (customerId) {
+                      window.open('/mis/CRM/home?id=' + customerId, "_blank");
+                  },
+                bindLogoUrl = function (oUrl) {
+                    var host = window.location.host;
+                    $("#header-logo")
+                    .attr('src', "http://" + host +"/mis/"+ oUrl);
+                },
                 // Initialize
                 initialize = function() {
                     if (!bindingRoot) {
@@ -20,7 +30,10 @@ define("dashboard.view",
             initialize();
             return {
                 bindingRoot: bindingRoot,
-                viewModel: viewModel
+                viewModel: viewModel,
+                goToOrder: goToOrder,
+                goToCustomer: goToCustomer,
+                bindLogoUrl: bindLogoUrl
             };
         })(dashboardViewModel);
 

@@ -96,8 +96,11 @@ namespace MPC.MIS.Areas.Api.Models
         public string RoleName { get; set; }
         public string FileName { get; set; }
 
+        public string StoreName { get; set; }
+        public string SecondaryEmail { get; set; }
         public Address BussinessAddress { get; set; }
         public Address ShippingAddress { get; set; }
+        public long? StoreId { get; set; }
 
         /// <summary>
         /// File Bytes

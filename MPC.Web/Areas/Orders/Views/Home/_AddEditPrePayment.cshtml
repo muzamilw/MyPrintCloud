@@ -7,115 +7,83 @@
                 <h4 class="modal-title" data-bind="visible:$root.flagForToShowAddTitle()">Add Pre Payment</h4>
                 <h4 class="modal-title" data-bind="visible:!$root.flagForToShowAddTitle()">Edit Pre Payment</h4>
             </div>
-            <div class="col-lg-12 form-horizontal outerDiv-Padding">
+            <div class="col-sm-12 form-horizontal outerDiv-Padding">
                 <div class="form-group">
-                    <div class="col-lg-5 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Customer" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
+                    <div class="col-sm-5 text-right">
+                       
                         <label for="customer" class="control-label text-right tooltip-float">Customer</label>
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-sm-5">
                         <span class="form-control" id="customer" style="border:none" data-bind="text:$root.selectedOrder().companyName"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-lg-5 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Address" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
-                        <label for="address" class="control-label text-right tooltip-float">Address</label>
+                    <div class="col-sm-5 text-right">
+                        
+                        <label for="address" class="control-label text-right tooltip-float">Address Title</label>
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-sm-5">
                         <span class="form-control" id="address" style="border:none" data-bind="text:$root.selectedAddress().name"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-lg-5 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Date" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
-                        <label for="date" class="control-label text-right tooltip-float">Date</label>
+                    <div class="col-sm-5 text-right">
+                        
+                        <label for="date" class="control-label text-right tooltip-float">Payment Date</label>
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-sm-5">
                         <input type="text" class="form-control" id="date" data-bind="datepicker:paymentDate">
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-lg-5 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Reference # " data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
-                        <label for="ref" class="control-label text-right tooltip-float">Ref.#</label>
+                    <div class="col-sm-5 text-right">
+                        
+                        <label for="ref" class="control-label text-right tooltip-float">Payment Ref.</label>
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-sm-5">
                         <input type="text" class="form-control" id="ref" data-bind="value:referenceCode">
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-lg-5 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Amount" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
+                    <div class="col-sm-5 text-right">
+                       
                         <label for="amount" class="control-label text-right tooltip-float">Amount</label>
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-sm-5">
                         <div class="input-group">
                             <span class="input-group-addon" data-bind="text:$root.currencySymbol"></span>
-                            <input type="text" class="form-control  text-right" id="amount" data-bind="value:amountComputed,validationTooltip:amount">
+                            <input type="text" class="form-control  text-right" id="amount" data-bind="numberValue:amount,validationTooltip:amount">
                         </div>
                        
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-lg-5 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Payment Method" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-
-                        </div>
+                    <div class="col-sm-5 text-right">
+                        
                         <label class="control-label text-right tooltip-float">Payment Method</label>
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-sm-5">
                         <select class="form-control" data-bind="options: $root.paymentMethods, optionsText: 'MethodName', optionsValue: 'PaymentMethodId',value:paymentMethodId"></select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-lg-5 text-right">
-                        <div class="bs-example-tooltips tooltip-float-width">
-
-                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Description" data-original-title="" title="">
-                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                            </a>
-                        </div>
+                    <div class="col-sm-5 text-right">
+                        
                         <label class="control-label text-right tooltip-float">Description</label>
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-sm-5">
                         <textarea class="form-control" rows="4" data-bind="value:paymentDescription"></textarea>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <hr />
-                <button type="button" class="btn btn-primary" data-bind="click:$root.onSavePrePayment">Save</button>
-                <button type="button" class="btn btn-default" style="margin-left: 0px;" data-bind="click:$root.onCancelOrderPrePayment">Close</button>
+            <div class="modal-footer" style="padding-left:0px;padding-right:0px;">
+                <hr style="margin-bottom:15px;" />
+                <div style="padding-right:8px;padding-left:8px;">
+                    @*<button type="button" class="btn btn-danger" data-bind="click: $root.onDeletePrePayment">Delete</button>*@
+                    <button type="button" class="btn btn-danger archiveButton" style="margin-left:0px;" data-bind="click:$root.onDeletePrePayment, enable: prePaymentId() > 0">Archive</button>
+                    <button type="button" class="btn btn-primary" data-bind="click:$root.onSavePrePayment">Save</button>
+                    <button type="button" class="btn btn-default" style="margin-left: 0px;" data-bind="click:$root.onCancelOrderPrePayment">Close</button>
+                </div>
             </div>
         </div>
     </div>

@@ -2,6 +2,10 @@
 @using MPC.Webstore.Common;
 @using MPC.Models.Common;
 @using System;
+@{
+    Layout = null;
+}
+
 @using (Html.BeginForm())
 {
     <style type="text/css">
@@ -53,31 +57,35 @@
                     color: #403d39;
                 }
     </style>
-    <div class="content_area container">
-        <div class="left_right_padding row">
-
-            <div class="signin_heading_div float_left_simple ">
-                <label class="sign_in_heading" id="HistryBtn">My Profile</label>
-            </div>
-            <div class="dashBoardRetrunLink dashboard_heading_signin">
-                <div class=" left_align">
-                    <h1>
-                        <a href="/Dashboard" class="left_align" title="Back to my dashboard" onclick="ShowLoader();">
-                            Back to my dashboard
-                        </a>
-                    </h1>
-                    <div class="clearBoth"></div>
+    <div class="content_area container" id="all-contactDetail-pg">
+        <div class="left_right_padding">
+            <div class="col-md-12 col-lg-12 col-xs-12">
+                <div class=" signin_heading_div float_left_simple ">
+                    <label class=" sign_in_heading" id="HistryBtn">
+                        @Html.Raw(Html.GetKeyValueFromResourceFile("myprofile", UserCookieManager.WBStoreId, "My Profile"))
+                    </label>
+                </div>
+                <div class="dashBoardRetrunLink dashboard_heading_signin">
+                    <div class=" left_align">
+                        <h1>
+                            <a href="/Dashboard" class="left_align" title="Back to my dashboard" onclick="ShowLoader();">
+                                @Html.Raw(Html.GetKeyValueFromResourceFile("BackToDashboardlbl", UserCookieManager.WBStoreId, "Back to my dashboard"))
+                            </a>
+                        </h1>
+                        <div class="clearBoth"></div>
+                    </div>
+                </div>
+                <div class="clearBoth">
                 </div>
             </div>
-            <div class="clearBoth">
-            </div>
-            <div align="center" id="divUserProfile">
+
+            <div align="center" id="divUserProfile" class="col-md-12 col-lg-12 col-xs-12">
 
 
-                <div id="MessgeToDisply" class="rounded_corners messageBoxNew" style="display:none;"></div>
+                <div id="messgetodisply" class="rounded_corners messageBoxNew" style="display:none;"></div>
 
 
-                <div class="white-container-lightgrey-border rounded_corners">
+                <div id="ContactDetailsMainContainer" class="white-container-lightgrey-border rounded_corners">
                     <div class="pad20">
                         <div class="headingsAvenior float_left_simple">
 
@@ -90,8 +98,8 @@
                                 @*First Name*@
                             </div>
                             <div class="TTL widthAvenior">
-                                <span class="error-message EFirstName" style="display: none;">can't be blank</span>
-                                @Html.TextBoxFor(model => model.FirstName, new { id = "txtFirstName", @class = "newTxtBox", placeholder = "First Name", maxlength = 500, })
+                                <span class="error-message EFirstName" style="display: none;">@Html.Raw(Html.GetKeyValueFromResourceFile("cnb", UserCookieManager.WBStoreId, "can't be blank"))</span>
+                                @Html.TextBoxFor(model => model.FirstName, new { id = "txtFirstNamee", @class = "newTxtBox", placeholder=Html.Raw(Html.GetKeyValueFromResourceFile("divfname", UserCookieManager.WBStoreId, "First Name")), maxlength = 500, })
                             </div>
                             <div class="clearBoth">
                             </div>
@@ -100,7 +108,7 @@
                                 @*Last Name*@
                             </div>
                             <div class="TTL widthAvenior">
-                                @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "newTxtBox", placeholder = "Last Name", maxlength = 500, })
+                                @Html.TextBoxFor(model => model.LastName, new { id = "txtLastNamee", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name")), maxlength = 500, })
                             </div>
 
                             <div class="clearBoth">
@@ -110,7 +118,7 @@
                                 @*Email*@
                             </div>
                             <div class="TTL widthAvenior">
-                                @Html.TextBoxFor(model => model.Email, new { id = "txtUserEmail", @class = "newTxtBox", placeholder = "Email", maxlength = 500, @readonly = "readonly" })
+                                @Html.TextBoxFor(model => model.Email, new { id = "txtUserEmaile", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailtxt", UserCookieManager.WBStoreId, "Email")), maxlength = 500, @readonly = "readonly" })
                             </div>
                             <div class="clearBoth">
                             </div>
@@ -119,7 +127,7 @@
                                 @*Job Title*@
                             </div>
                             <div class="TTL widthAvenior">
-                                @Html.TextBoxFor(model => model.JobTitle, new { id = "txtJobTitle", @class = "newTxtBox", placeholder = "JobTitle", maxlength = 500, })
+                                @Html.TextBoxFor(model => model.JobTitle, new { id = "txtJobTitle", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrljobtitle", UserCookieManager.WBStoreId, "JobTitle")), maxlength = 500, })
                             </div>
                             <div class="clearBoth">
                             </div>
@@ -130,7 +138,12 @@
                             <div class="TTL widthAvenior">
                                 @*<input ID="txtUserPhone1" class="newTxtBox" MaxLength="30"
                                     TabIndex="5" value="@Model.HomeTel1"/>*@
-                                @Html.TextBoxFor(model => model.HomeTel1, new { id = "txtUserPhone1", @class = "newTxtBox", placeholder = "Phone1", maxlength = 500, })
+                                @Html.TextBoxFor(model => model.HomeTel1, new
+                           {
+                               id = "txtUserPhone1",
+                               @class = "newTxtBox",
+                               placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("Phone1", UserCookieManager.WBStoreId, "Phone1"))
+, maxlength = 500, })
                             </div>
                             <div class="clearBoth">
                             </div>
@@ -141,7 +154,7 @@
                             <div class="TTL widthAvenior">
                                 @*<input ID="txtUserCellNo" class="newTxtBox" MaxLength="30"
                                     TabIndex="6" value="@Model.Mobile"/>*@
-                                @Html.TextBoxFor(model => model.Mobile, new { id = "txtUserCellNo", @class = "newTxtBox", placeholder = "CellNo", maxlength = 500, })
+                                @Html.TextBoxFor(model => model.Mobile, new { id = "txtUserCellNo", @class = "newTxtBox", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcellphone", UserCookieManager.WBStoreId, "CellNo")), maxlength = 500, })
                             </div>
                             <div class="clearBoth">
                             </div>
@@ -150,7 +163,7 @@
                                 @*Fax*@
                             </div>
                             <div class="TTL widthAvenior">
-                                @Html.TextBoxFor(model => model.FAX, new { id = "txtUserFax", @class = "newTxtBox", placeholder = "Fax", maxlength = 500, })
+                                @Html.TextBoxFor(model => model.FAX, new { id = "txtUserFax", @class = "newTxtBox", placeholder=Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfax", UserCookieManager.WBStoreId, "Fax")), maxlength = 500, })
                             </div>
                             <div class="clearBoth">
                             </div>
@@ -178,7 +191,7 @@
                                 </div>
                                 <div class="TTL widthAvenior">
 
-                                    @Html.TextBoxFor(model => model.quickWebsite, new { id = "txtWebSite", @class = "newTxtBox", placeholder = "WebSite", maxlength = 500, })
+                                    @Html.TextBoxFor(model => model.quickWebsite, new { id = "txtWebSite", @class = "newTxtBox", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("divwebsite", UserCookieManager.WBStoreId, "Website")), maxlength = 500, })
                                 </div>
                                 <div class="clearBoth">
                                 </div>
@@ -195,7 +208,7 @@
                                         </div>
                                         <div class="TTL widthAvenior">
 
-                                            @Html.TextBoxFor(model => model.POBoxAddress, new { id = "txtPOBox", @class = "newTxtBox", placeholder = "PoBox", maxlength = 500, })
+                                            @Html.TextBoxFor(model => model.POBoxAddress, new { id = "txtPOBox", @class = "newTxtBox", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlpobox", UserCookieManager.WBStoreId, "PoBox")), maxlength = 500, })
                                         </div>
                                         <div class="clearBoth">
                                         </div>
@@ -210,7 +223,7 @@
                                         </div>
                                         <div class="TTL widthAvenior">
 
-                                            @Html.TextBoxFor(model => model.CorporateUnit, new { id = "txtCunit", @class = "newTxtBox", placeholder = "CorporateUnit", maxlength = 500, })
+                                            @Html.TextBoxFor(model => model.CorporateUnit, new { id = "txtCunit", @class = "newTxtBox", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcorpunit", UserCookieManager.WBStoreId, "CorporateUnit")), maxlength = 500, })
                                             <div class="clearBoth">
                                             </div>
                                             <br />
@@ -221,7 +234,7 @@
                                             </div>
                                             <div class="TTL widthAvenior">
 
-                                                @Html.TextBoxFor(model => model.OfficeTradingName, new { id = "txtOfcTrading", @class = "newTxtBox", placeholder = "Office Trading Name", maxlength = 500, })
+                                                @Html.TextBoxFor(model => model.OfficeTradingName, new { id = "txtOfcTrading", @class = "newTxtBox", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("txtOfcTrading", UserCookieManager.WBStoreId, "Office Trading Name")), maxlength = 500, })
                                             </div>
                                             <div class="clearBoth">
                                             </div>
@@ -233,7 +246,7 @@
                                             </div>
                                             <div class="TTL widthAvenior">
 
-                                                @Html.TextBoxFor(model => model.ContractorName, new { id = "txtContractorName", @class = "newTxtBox", placeholder = "Contractor Name", maxlength = 500, })
+                                                @Html.TextBoxFor(model => model.ContractorName, new { id = "txtContractorName", @class = "newTxtBox", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("txtContractorName", UserCookieManager.WBStoreId, "Contractor Name")), maxlength = 500, })
                                             </div>
                                             <div class="clearBoth">
                                             </div>
@@ -245,7 +258,7 @@
                                             </div>
                                             <div class="TTL widthAvenior">
 
-                                                @Html.TextBoxFor(model => model.BPayCRN, new { id = "txtBpay", @class = "newTxtBox", placeholder = "BPayCRN ", maxlength = 500, })
+                                                @Html.TextBoxFor(model => model.BPayCRN, new { id = "txtBpay", @class = "newTxtBox", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlbpaycrn", UserCookieManager.WBStoreId, "BPayCRN")), maxlength = 500, })
                                             </div>
                                             <div class="clearBoth">
                                             </div>
@@ -257,7 +270,7 @@
                                             </div>
                                             <div class="TTL widthAvenior">
 
-                                                @Html.TextBoxFor(model => model.ABN, new { id = "txtABN", @class = "newTxtBox", placeholder = "ABN", maxlength = 500, })
+                                                @Html.TextBoxFor(model => model.ABN, new { id = "txtABN", @class = "newTxtBox", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("txtABN", UserCookieManager.WBStoreId, "ABN")), maxlength = 500, })
                                             </div>
                                             <div class="clearBoth">
                                             </div>
@@ -269,7 +282,7 @@
                                             </div>
                                             <div class="TTL widthAvenior">
 
-                                                @Html.TextBoxFor(model => model.ACN, new { id = "txtACN", @class = "newTxtBox", placeholder = "ACN", maxlength = 500, })
+                                                @Html.TextBoxFor(model => model.ACN, new { id = "txtACN", @class = "newTxtBox", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("txtACN", UserCookieManager.WBStoreId, "ACN")), maxlength = 500, })
                                             </div>
                                             <div class="clearBoth">
                                             </div>
@@ -281,7 +294,7 @@
                                             </div>
                                             <div class="TTL widthAvenior">
 
-                                                @Html.TextBoxFor(model => model.AdditionalField1, new { id = "AdditionalField1", @class = "newTxtBox", placeholder = "AdditionalField1", maxlength = 500, })
+                                                @Html.TextBoxFor(model => model.AdditionalField1, new { id = "AdditionalField1", @class = "newTxtBox", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAdditionalfield1", UserCookieManager.WBStoreId, "AdditionalField1")), maxlength = 500, })
                                             </div>
                                             <div class="clearBoth">
                                             </div>
@@ -293,7 +306,7 @@
                                             </div>
                                             <div class="TTL widthAvenior">
 
-                                                @Html.TextBoxFor(model => model.AdditionalField2, new { id = "AdditionalField2", @class = "newTxtBox", placeholder = "AdditionalField2", maxlength = 500, })
+                                                @Html.TextBoxFor(model => model.AdditionalField2, new { id = "AdditionalField2", @class = "newTxtBox", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAdditionalField2", UserCookieManager.WBStoreId, "AdditionalField2")), maxlength = 500, })
                                             </div>
                                             <div class="clearBoth">
                                             </div>
@@ -305,7 +318,7 @@
                                             </div>
                                             <div class="TTL widthAvenior">
 
-                                                @Html.TextBoxFor(model => model.AdditionalField3, new { id = "AdditionalField3", @class = "newTxtBox", placeholder = "AdditionalField3", maxlength = 500, })
+                                                @Html.TextBoxFor(model => model.AdditionalField3, new { id = "AdditionalField3", @class = "newTxtBox", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAdditionalField3", UserCookieManager.WBStoreId, "AdditionalField3")), maxlength = 500, })
                                             </div>
                                             <div class="clearBoth">
                                             </div>
@@ -317,7 +330,12 @@
                                             </div>
                                             <div class="TTL widthAvenior">
 
-                                                @Html.TextBoxFor(model => model.AdditionalField4, new { id = "AdditionalField4", @class = "newTxtBox", placeholder = "AdditionalField4", maxlength = 500, })
+                                                @Html.TextBoxFor(model => model.AdditionalField4, new
+                                           {
+                                               id = "AdditionalField4",
+                                               @class = "newTxtBox",
+                                               placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAddtionalfield4", UserCookieManager.WBStoreId, "AdditionalField4"))
+, maxlength = 500, })
                                             </div>
                                             <div class="clearBoth">
                                             </div>
@@ -329,7 +347,7 @@
                                             </div>
                                             <div class="TTL widthAvenior">
 
-                                                @Html.TextBoxFor(model => model.AdditionalField5, new { id = "AdditionalField5", @class = "newTxtBox", placeholder = "AdditionalField5", maxlength = 500, })
+                                                @Html.TextBoxFor(model => model.AdditionalField5, new { id = "AdditionalField5", @class = "newTxtBox", placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAdditionalField5", UserCookieManager.WBStoreId, "AdditionalField5")), maxlength = 500, })
                                             </div>
                                             <div class="clearBoth">
                                             </div>
@@ -347,7 +365,7 @@
                                 </div>
                                 <div class="TTL widthAvenior">
 
-                                    <input type="file" id="fuImageUpload" name="fuImageUpload" class="newTxtBox" tabindex="12" />
+                                    <input type="file" id="fuImageUpload" name="fuImageUpload" class="newTxtBox" tabindex="12" onchange="ShowPreview(this)" />
                                 </div>
                                 <div class="clearBoth">
                                 </div>
@@ -364,7 +382,6 @@
                                     {
                                         <img src="/Content/Images/upload_your_picture.png" id="imgContactPicture" alt="" class="user_image_container float_left_simple" />
                                     }
-                                    <input id="btnUploadFile" type="button" value="Upload Image" class="btnUploadImage_UP float_left_simple rounded_corners5" style="visibility:hidden;" />
 
                                     <div class="clearBoth">
                                     </div>
@@ -380,12 +397,12 @@
                                     @if (Model.IsEmailSubscription == true)
                                     {
                                         <input id="Select" name="MarketAndPromotion" type="checkbox" value="true" checked />
-                                        <label for="Select">Notify me of marketing and promotions</label>
+                                        <label for="Select">@Html.Raw(Html.GetKeyValueFromResourceFile("chkEmailMeOffers", UserCookieManager.WBStoreId, "Notify me of marketing and promotions"))</label>
                                     }
                                     else
                                     {
                                         <input id="Select" name="MarketAndPromotion" type="checkbox" value="true" />
-                                        <label for="Select">Notify me of marketing and promotions</label>
+                                        <label for="Select">@Html.Raw(Html.GetKeyValueFromResourceFile("chkEmailMeOffers", UserCookieManager.WBStoreId, "Notify me of marketing and promotions"))</label>
                                     }
                                     <input id="Select" name="MarketAndPromotion" type="hidden" value="false" />
 
@@ -402,12 +419,13 @@
                                     {
 
                                         <input id="News" name="NewsLetterSubscription" type="checkbox" value="true" checked />
-                                        <label for="News">Subscribe to Newsletters</label>
+                                        <label for="News">@Html.Raw(Html.GetKeyValueFromResourceFile("chkSendMeNewsLetters", UserCookieManager.WBStoreId, "Subscribe to Newsletters"))
+</label>
                                     }
                                     else
                                     {
                                         <input id="News" name="NewsLetterSubscription" type="checkbox" value="true" />
-                                        <label for="News">Subscribe to Newsletters</label>
+                                        <label for="News">@Html.Raw(Html.GetKeyValueFromResourceFile("chkSendMeNewsLetters", UserCookieManager.WBStoreId, "Subscribe to Newsletters"))</label>
                                     }
                                     <input name="NewsLetterSubscription" type="hidden" value="false" />
 
@@ -420,11 +438,11 @@
                                     &nbsp;
                                 </div>
                                 <div class="TTL widthAvenior">
-                                    <input id="btnSave" type="button" value="Save" class="start_creating_btn rounded_corners5" tabindex="13" onclick="Update()" />
+                                    <input id="btnSave" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSave", UserCookieManager.WBStoreId, "Save"))" class="start_creating_btn rounded_corners5" tabindex="13" onclick="Update()" />
 
                                     &nbsp;&nbsp;
 
-                                    <input id="btnCancel" type="button" value="Cancel" class="start_creating_btn rounded_corners5" tabindex="15" onclick="Cancel()" />
+                                    <input id="btnCancel" type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnCancel", UserCookieManager.WBStoreId, "Cancel"))" class="start_creating_btn rounded_corners5" tabindex="15" onclick="Cancel()" />
                                     @*<input id="btnSubmitForm" type="submit" value="Cancel"  style="display:none;" tabindex="17"  />*@
                                 </div>
                             </div>
@@ -442,148 +460,181 @@
         </div>
     </div>
 }
-@section scripts {
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+<script src="/Scripts/jquery.MultiFile.js"></script>
     <script type="text/javascript">
+    var obj=null;
+    $(document).ready(function(){
+        //  CreateMultipleUpload();
 
-        function RefreshPage() {
-            window.location.href = "/ContactDetail";
+    });
+    function ShowPreview(input) {
+        if (input.files && input.files[0]) {
+            var ImageDir = new FileReader();
+            ImageDir.onload = function(e) {
+                $('#imgContactPicture').attr('src', e.target.result);
+            }
+            ImageDir.readAsDataURL(input.files[0]);
         }
-        function Update() {
-            if ($("#").val() == '') { }
+    }
 
-            var errorMessage = '';
-            var isValid = true;
-            if ($("#txtFirstName").val().trim() == '') {
+    function RefreshPage() {
+        window.location.href = "/ContactDetail";
+    }
+    function Update() {
+        if ($("#").val() == '') { }
 
-                errorMessage = errorMessage + "First Name";
+        var errorMessage = '';
+        var isValid = true;
+        if ($("#txtFirstNamee").val() == '') {
 
-                isValid = false;
-            }
-            if ($("#txtLastName").val().trim() == '') {
-                if (errorMessage == '') {
-                    errorMessage = errorMessage + "Last Name";
-                } else {
-                    errorMessage = errorMessage + ", Last Name";
-                }
-                isValid = false;
-            }
-            if ($("#txtCompanyName").val().trim() == '' && @MPC.Webstore.Common.UserCookieManager.WEBStoreMode == 4) {
-                if (errorMessage == '') {
-                    errorMessage = errorMessage + "Company Name";
-                } else {
-                    errorMessage = errorMessage + ", Company Name";
-                }
-                isValid = false;
-            }
+            errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("divfname", UserCookieManager.WBStoreId, "First Name"))';
 
-            if (isValid == false) {
-                ShowPopUp('Message', 'Please enter ' + errorMessage + ' to proceed.');
+            isValid = false;
+        }
+        if ($("#txtLastNamee").val() == '') {
+            if (errorMessage == '') {
+                errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name"))';
             } else {
-                ShowLoader();
-                var FirstName = $("#txtFirstName").val();
-                var LastName = $("#txtLastName").val();
-                var Email = $("#txtUserEmail").val();
-                var JobTitle = $("#txtJobTitle").val();
-                var HomeTel1 = $("#txtUserPhone1").val();
-                var Mobile = $("#txtUserCellNo").val();
-                var FAX = $("#txtUserFax").val();
-                var CompanyName = $("#txtCompanyName").val();
-                var quickWebsite = $("#txtWebSite").val();
-                var POBoxAddress = $("#txtPOBox").val();
-                var CorporateUnit = $("#txtCunit").val();
-                var OfficeTradingName = $("#txtOfcTrading").val();
+                errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("divlname", UserCookieManager.WBStoreId, "Last Name"))';
+            }
+            isValid = false;
+        }
+        if ($("#txtCompanyName").val() == '' && @MPC.Webstore.Common.UserCookieManager.WEBStoreMode == 4) {
+            if (errorMessage == '') {
+                errorMessage = errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("divcompanyname", UserCookieManager.WBStoreId, "Company Name"))';
+            } else {
+                errorMessage = errorMessage + ', @Html.Raw(Html.GetKeyValueFromResourceFile("divcompanyname", UserCookieManager.WBStoreId, "Company Name"))';
+            }
+            isValid = false;
+        }
 
-                var ContractorName = $("#txtContractorName").val();
-                var BPayCRN = $("#txtBpay").val();
-                var ABN = $("#txtABN").val();
-                var ACN = $("#txtACN").val();
+        if (isValid == false) {
+            ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplzenter", UserCookieManager.WBStoreId, "Please enter"))' + errorMessage + '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrltoproceed", UserCookieManager.WBStoreId, "to proceed."))');
+        } else {
+            ShowLoader();
+            var FirstName = $("#txtFirstNamee").val();
+            var LastName = $("#txtLastNamee").val();
+            var Email = $("#txtUserEmaile").val();
+            var JobTitle = $("#txtJobTitle").val();
+            var HomeTel1 = $("#txtUserPhone1").val();
+            var Mobile = $("#txtUserCellNo").val();
+            var FAX = $("#txtUserFax").val();
+            var CompanyName = $("#txtCompanyName").val();
+            var quickWebsite = $("#txtWebSite").val();
+            var POBoxAddress = $("#txtPOBox").val();
+            var CorporateUnit = $("#txtCunit").val();
+            var OfficeTradingName = $("#txtOfcTrading").val();
 
-                var AdditionalField1 = $("#AdditionalField1").val();
-                var AdditionalField2 = $("#AdditionalField2").val();
-                var AdditionalField3 = $("#AdditionalField3").val();
-                var AdditionalField4 = $("#AdditionalField4").val();
-                var AdditionalField5 = $("#AdditionalField5").val();
-                var Image = $("#fuImageUpload").val();
+            var ContractorName = $("#txtContractorName").val();
+            var BPayCRN = $("#txtBpay").val();
+            var ABN = $("#txtABN").val();
+            var ACN = $("#txtACN").val();
 
-                var IsEmailSubscription = $("#Select")[0].checked;
-                var IsNewsLetterSubscription = $("#News")[0].checked;
+            var AdditionalField1 = $("#AdditionalField1").val();
+            var AdditionalField2 = $("#AdditionalField2").val();
+            var AdditionalField3 = $("#AdditionalField3").val();
+            var AdditionalField4 = $("#AdditionalField4").val();
+            var AdditionalField5 = $("#AdditionalField5").val();
+            var Image = $("#fuImageUpload").val();
 
-                var data = new FormData();
+            var IsEmailSubscription = $("#Select")[0].checked;
+            var IsNewsLetterSubscription = $("#News")[0].checked;
 
+            var data = new FormData();
+
+            if($("#fuImageUpload").val()!=null)
+            {
                 var files = $("#fuImageUpload").get(0).files;
 
                 if (files.length > 0) {
                     data.append("UploadedImage", files[0]);
                 }
-
-                var Model = { FirstName: FirstName, LastName: LastName, Email: Email, JobTitle: JobTitle, HomeTel1: HomeTel1, Mobile: Mobile, FAX: FAX, quickWebsite: quickWebsite, POBoxAddress: POBoxAddress, CorporateUnit: CorporateUnit, OfficeTradingName: OfficeTradingName, ContractorName: ContractorName, BPayCRN: BPayCRN, ABN: ABN, ACN: ACN, AdditionalField1: AdditionalField1, AdditionalField2: AdditionalField2, AdditionalField3: AdditionalField3, AdditionalField4: AdditionalField4, AdditionalField5: AdditionalField5, IsEmailSubscription: IsEmailSubscription, IsNewsLetterSubscription: IsNewsLetterSubscription };
-                $.ajax({
-                    type: "POST",
-                    url: "/webstoreapi/costCenter/UploadImage?FirstName=" + FirstName + "&LastName=" + LastName + "&Email=" + Email + "&JobTitle=" + JobTitle + "&HomeTel1=" + HomeTel1 + "&Mobile=" + Mobile + "&FAX=" + FAX + "&CompanyName= " + CompanyName + "" + "&quickWebsite=" + quickWebsite + "&POBoxAddress=" + POBoxAddress + "&CorporateUnit=" + CorporateUnit + "&OfficeTradingName=" + OfficeTradingName + "&ContractorName=" + ContractorName + "&BPayCRN=" + BPayCRN + "&ABN=" + ABN + "&ACN=" + ACN + "&AdditionalField1=" + AdditionalField1 + "&AdditionalField2=" + AdditionalField2 + "&AdditionalField3=" + AdditionalField3 + "&AdditionalField4=" + AdditionalField4 + "&AdditionalField5=" + AdditionalField5 + "&IsEmailSubscription=" + IsEmailSubscription + "&IsNewsLetterSubscription=" + IsNewsLetterSubscription + "",
-                    contentType: false,
-                    data: data,
-                    async: true,
-                    processData: false,
-                    success: function (response) {
-
-                        $("#MessgeToDisply").css('display', 'block');
-                        $("#MessgeToDisply").html('Profile Updated Sucessfuly!');
-
-                        createCookie("WEBFirstName", FirstName);
-                        createCookie("WEBLastName", LastName);
-                        HideLoader();
-                        $("#lblUserName").text("Hi, " + FirstName + " " + LastName);
-                        $('html, body').animate({
-                            scrollTop: $("#MessgeToDisply").offset().top
-                        }, 500);
-                    },
-                    error: function (error) {
-                        $("#MessgeToDisply").css('display', 'block');
-                        $("#MessgeToDisply").html('Error Occured While Updating Profile!');
-                        HideLoader();
-                    }
-                });
             }
-
-           
-        }
-        function createCookie(name, value, days) {
-            if (days) {
-                var date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                var expires = "; expires=" + date.toGMTString();
-            }
-            else var expires = "";
-            document.cookie = name + "=" + value + expires + "; path=/";
-        }
-        function UploadImage() {
-
-            var data = new FormData();
-            var files = $("#fuImageUpload").get(0).files;
-
-            // Add the uploaded image content to the form data collection
-            if (files.length > 0) {
-                data.append("UploadedImage", files[0]);
-            }
+            var Model = { FirstName: FirstName, LastName: LastName, Email: Email, JobTitle: JobTitle, HomeTel1: HomeTel1, Mobile: Mobile, FAX: FAX, quickWebsite: quickWebsite, POBoxAddress: POBoxAddress, CorporateUnit: CorporateUnit, OfficeTradingName: OfficeTradingName, ContractorName: ContractorName, BPayCRN: BPayCRN, ABN: ABN, ACN: ACN, AdditionalField1: AdditionalField1, AdditionalField2: AdditionalField2, AdditionalField3: AdditionalField3, AdditionalField4: AdditionalField4, AdditionalField5: AdditionalField5, IsEmailSubscription: IsEmailSubscription, IsNewsLetterSubscription: IsNewsLetterSubscription };
             $.ajax({
                 type: "POST",
-                url: "/webstoreapi/costCenter/ImageFile",
+                url: "/webstoreapi/ContactImageUploader/UploadImage?FirstName=" + FirstName + "&LastName=" + LastName + "&Email=" + Email + "&JobTitle=" + JobTitle + "&HomeTel1=" + HomeTel1 + "&Mobile=" + Mobile + "&FAX=" + FAX + "&CompanyName= " + CompanyName + "" + "&quickWebsite=" + quickWebsite + "&POBoxAddress=" + POBoxAddress + "&CorporateUnit=" + CorporateUnit + "&OfficeTradingName=" + OfficeTradingName + "&ContractorName=" + ContractorName + "&BPayCRN=" + BPayCRN + "&ABN=" + ABN + "&ACN=" + ACN + "&AdditionalField1=" + AdditionalField1 + "&AdditionalField2=" + AdditionalField2 + "&AdditionalField3=" + AdditionalField3 + "&AdditionalField4=" + AdditionalField4 + "&AdditionalField5=" + AdditionalField5 + "&IsEmailSubscription=" + IsEmailSubscription + "&IsNewsLetterSubscription=" + IsNewsLetterSubscription + "",
                 contentType: false,
                 data: data,
                 async: true,
                 processData: false,
                 success: function (response) {
-                    Update();
+
+                    $("#messgetodisply").css('display', 'block');
+                    $("#messgetodisply").html('Profile Updated Sucessfuly!');
+
+                    createCookie("WEBFirstName", FirstName);
+                    createCookie("WEBLastName", LastName);
+                    HideLoader();
+                    $("#lblUserName").text("Hi, " + FirstName + " " + LastName);
+                    $('html, body').animate({
+                        scrollTop: $("#messgetodisply").offset().top
+                    }, 500);
                 },
                 error: function (error) {
-                    ShowPopUp('Error Occured While Adding Address', error);
+                    $("#messgetodisply").css('display', 'block');
+                    $("#messgetodisply").html('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerroupdatprofile", UserCookieManager.WBStoreId, "Error Occured While Updating Profile"))');
+                    HideLoader();
                 }
             });
         }
 
-        function Cancel() {
-            window.location.href = "/Dashboard";
+
+    }
+    function createCookie(name, value, days) {
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            var expires = "; expires=" + date.toGMTString();
         }
-    </script>
-}
+        else var expires = "";
+        document.cookie = name + "=" + value + expires + "; path=/";
+    }
+    function UploadImage() {
+
+        var data = new FormData();
+        var files = $("#fuImageUpload").get(0).files;
+
+        // Add the uploaded image content to the form data collection
+        if (files.length > 0) {
+            data.append("UploadedImage", files[0]);
+        }
+        $.ajax({
+            type: "POST",
+            url: "/webstoreapi/ContactImageUploader/ImageFile",
+            contentType: false,
+            data: data,
+            async: true,
+            processData: false,
+            success: function (response) {
+                Update();
+            },
+            error: function (error) {
+                ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlerroroccuredupdateaddress", UserCookieManager.WBStoreId, "Error Occured While Adding Address"))', error);
+
+            }
+        });
+    }
+
+    function Cancel() {
+        window.location.href = "/Dashboard";
+    }
+    function CreateMultipleUpload() {
+        //set up the file upload
+        $("#fuImageUpload").MultiFile(
+          {
+              max: 1,
+              accept: 'jpg,bmp,png',
+              //afterFileSelect: function (element, value, master_element) {
+
+              //},
+              //afterFileRemove: function (element, value, master_element) {
+
+              //}
+          });
+    }
+
+</script>
+
 

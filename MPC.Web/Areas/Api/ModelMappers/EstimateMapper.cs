@@ -22,7 +22,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 EstimateId = source.EstimateId,
                 CompanyId = source.CompanyId,
                 CompanyName = source.Company != null ? source.Company.Name : string.Empty,
+                StoreId = source.Company != null ? source.Company.StoreId : null,
+                IsCustomer = source.Company != null ? source.Company.IsCustomer : (short)0,
                 StatusId = source.StatusId,
+                Status = source.Status != null ? source.Status.StatusName : string.Empty,
                 EstimateCode = source.Estimate_Code,
                 EstimateName = source.Estimate_Name,
                 EnquiryId = source.EnquiryId,
@@ -58,11 +61,21 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime,
                 OrderCode = source.Order_Code,
                 OrderReportSignedBy = source.OrderReportSignedBy,
+                ReportSignedBy = source.ReportSignedBy,
                 IsEstimate = source.isEstimate,
-                Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()) :
+                EstimateTotal = source.Estimate_Total,
+                CreationDate = source.CreationDate,
+                CreationTime = source.CreationTime,
+                RefEstimateId = source.RefEstimateId,
+                InvoiceStatus = source.InvoiceStatus,
+                IsExtraOrder = source.IsExtraOrder,
+                Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()).OrderBy(item => item.ProductName).ToList() :
                 new List<OrderItem>(),
-                PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()) :
-                new List<PrePayment>()
+                ItemsCount = source.Items != null ? source.Items.Count : 0,
+                PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()).OrderBy(payment => payment.ReferenceCode).ToList() :
+                new List<PrePayment>(),
+                ShippingInformations = source.ShippingInformations != null ? source.ShippingInformations.Select(sc => sc.CreateFrom()).OrderBy(sc => sc.ItemName).ToList() :
+                new List<ShippingInformation>()
             };
 
             return estimate;
@@ -78,24 +91,29 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             // ReSharper restore SuggestUseVarKeywordEvident
             {
                 EstimateId = source.EstimateId,
+
                 EstimateCode = source.Estimate_Code,
                 StatusId = source.StatusId,
                 EstimateName = source.Estimate_Name,
+               
+
                 EnquiryId = source.EnquiryId,
                 CompanyId = source.CompanyId,
-                CompanyName = source.Company != null ? source.Company.Name : string.Empty,
+                CompanyName = source.Company == null ? string.Empty : source.Company.Name,
                 CreatedBy = source.Created_by,
-                CreationDate = source.CreationDate,
+                CreationDate = source.Order_Date,
                 CreationTime = source.CreationTime,
+                
                 SectionFlagId = source.SectionFlagId,
+                StoreName = source.Company != null ? source.Company.StoreName : string.Empty,
                 OrderCode = source.Order_Code,
                 IsEstimate = source.isEstimate,
                 ItemsCount = source.Items != null ? source.Items.Count : 0,
-                Status = source.Status.StatusName,
+                Status = source.Status != null ? source.Status.StatusName : string.Empty,
                 EstimateTotal = source.Estimate_Total,
-                IsDirectOrder = source.isDirectSale,
-                SectionFlagColor = source.SectionFlag != null ? source.SectionFlag.FlagColor : null
-
+                IsDirectSale = source.isDirectSale,
+                SectionFlagColor = source.SectionFlag != null ? source.SectionFlag.FlagColor : null,
+                OrderDate = source.Order_Date
             };
 
             return estimate;
@@ -144,11 +162,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CustomerPO = source.CustomerPo,
                 OfficialOrderSetBy = source.OfficialOrderSetBy,
                 OrderReportSignedBy = source.OrderReportSignedBy,
+                ReportSignedBy = source.ReportSignedBy,
                 OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime,
                 isEstimate = source.IsEstimate,
+                Estimate_Total = source.EstimateTotal,
                 PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()).ToList() : new List<DomainModels.PrePayment>(),
                 Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()).ToList() :
                 new List<DomainModels.Item>(),
+                ShippingInformations = source.ShippingInformations != null ? source.ShippingInformations.Select(sc => sc.CreateFrom()).ToList() :
+                new List<DomainModels.ShippingInformation>(),
             };
         }
 
@@ -160,7 +182,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new OrdersForCrmResponse
             {
                 RowCount = source.RowCount,
-                OrdersList = source.Orders.Select(order => order.CreateFromForListView())
+                OrdersList = source.Orders.Select(order => order.CreateFromForListView()),
+                CurrencySymbol = source.CurrecySymbol
             };
         }
 

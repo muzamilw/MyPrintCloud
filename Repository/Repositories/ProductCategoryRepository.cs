@@ -31,7 +31,7 @@ namespace MPC.Repository.Repositories
             return db.ProductCategories.Where(
                 p => p.CompanyId == companyId && p.OrganisationId == OrganisationId && (p.ParentCategoryId == null || p.ParentCategoryId == 0)
                 && p.isEnabled == true && p.isPublished == true
-                             && (p.isArchived == false || p.isArchived == null)).ToList();
+                             && (p.isArchived == false || p.isArchived == null)).OrderBy(o => o.DisplayOrder).ToList();
            
         }
 
@@ -60,10 +60,10 @@ namespace MPC.Repository.Repositories
             
         }
 
-        public List<ProductCategory> GetAllCategoriesByStoreId(long companyId) 
+        public List<ProductCategory> GetAllCategoriesByStoreId(long companyId, long OrganisationId) 
         {
             return db.ProductCategories.Where(
-                p => p.CompanyId == companyId && (p.isArchived == false || p.isArchived == null) && p.isPublished == true && p.isEnabled == true ).ToList();
+                p => p.CompanyId == companyId && p.OrganisationId == OrganisationId && (p.isArchived == false || p.isArchived == null) && p.isPublished == true && p.isEnabled == true).ToList();
         }
 
         public ProductCategory GetCategoryById(long categoryId)
@@ -81,11 +81,11 @@ namespace MPC.Repository.Repositories
 
         public List<ProductCategory> GetChildCategories(long categoryId, long CompanyId)
         {
-
-            List<ProductCategory> childCategoresList = db.ProductCategories.Where(category => category.ParentCategoryId.HasValue && category.ParentCategoryId.Value == categoryId && (category.isArchived == false || category.isArchived == null) && category.isEnabled == true && category.isPublished == true && category.CompanyId == CompanyId).ToList().OrderBy(x => x.DisplayOrder).ToList();
-                return childCategoresList;
-       
-
+            List<ProductCategory> childCategoresList = db.ProductCategories.Where(category => category.ParentCategoryId.HasValue && 
+                category.ParentCategoryId.Value == categoryId && category.isPublished == true && category.isEnabled == true &&
+                (category.isArchived == false || category.isArchived == null) && 
+                category.CompanyId == CompanyId).ToList().OrderBy(x => x.DisplayOrder).ToList();
+            return childCategoresList;
         }
 
         public List<ProductCategory> GetAllChildCorporateCatalogByTerritory(long customerId, long ContactId, long ParentCatId)
@@ -178,8 +178,6 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
 
-            
-
         }
 
         /// <summary>
@@ -188,18 +186,47 @@ namespace MPC.Repository.Repositories
         public IEnumerable<ProductCategory> GetParentCategories(long? companyId)
         {
             return DbSet.Where(productCategory => !productCategory.ParentCategoryId.HasValue && productCategory.OrganisationId == OrganisationId &&
+                (!companyId.HasValue || productCategory.CompanyId == companyId)).OrderBy(v => v.CategoryName).ToList();
+        }
+        /// <summary>
+        /// Get Parent Categories For Organisation including archived once also
+        /// </summary>
+        public IEnumerable<ProductCategory> GetParentCategoriesIncludingArchived(long? companyId)
+        {
+            return DbSet.Where(productCategory => !productCategory.ParentCategoryId.HasValue && productCategory.OrganisationId == OrganisationId &&
                 (!companyId.HasValue || productCategory.CompanyId == companyId)).ToList();
         }
 
         public List<ProductCategory> GetChildCategories(long categoryId)
         {
-
             List<ProductCategory> childCategoresList = db.ProductCategories.Where(category => category.ParentCategoryId.HasValue && 
                 category.ParentCategoryId.Value == categoryId && category.isArchived == false && category.isEnabled == true && category.isPublished == true && 
                 category.OrganisationId == OrganisationId).ToList().OrderBy(x => x.DisplayOrder).ToList();
             return childCategoresList;
 
+        }
 
+        public List<ProductCategory> GetChildCategoriesIncludingArchive(long categoryId)
+        {
+            List<ProductCategory> childCategoresList = db.ProductCategories.Where(category => category.ParentCategoryId.HasValue && 
+                category.ParentCategoryId.Value == categoryId && category.isEnabled == true && category.isPublished == true && 
+                category.OrganisationId == OrganisationId).ToList().OrderBy(x => x.DisplayOrder).ToList();
+            return childCategoresList;
+
+        }
+
+        public List<ProductCategory> GetAllRetailPublishedCat()
+        {
+                return (from p in db.ProductCategories
+                        where p.isPublished == true && p.isEnabled == true
+                        && (p.isArchived == false || p.isArchived == null)
+                        && p.CompanyId == null
+                        select p).ToList();
+        }
+
+        public List<ProductCategory> GetAllCategories()
+        {
+            return db.ProductCategories.ToList();
         }
     }
 }

@@ -32,8 +32,27 @@
         /// </summary>
         Order = 54,
         /// <summary>
+        /// Estimate
+        /// </summary>
+        Estimate = 1,
+        /// <summary>
         /// Invoices
         /// </summary>
-        Invoices = 13
+        Invoices = 13,
+
+        /// <summary>
+        /// Inquiries
+        /// </summary>
+        Inquiries = 58,
+
+           /// <summary>
+        /// Delivery
+        /// </summary>
+        Delivery = 10,
+
+        /// <summary>
+        /// Purchases
+        /// </summary>
+        Purchase = 7
     }
 }

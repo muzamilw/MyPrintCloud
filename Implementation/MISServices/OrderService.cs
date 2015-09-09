@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
+using MPC.Common;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.LoggerModels;
 using MPC.Models.ModelMappers;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -17,6 +22,10 @@ using Ionic.Zip;
 using System.Text;
 using System.Xml;
 using GrapeCity.ActiveReports;
+using System.Data;
+using System.Web.Http;
+using System.Net;
+using MPC.Repository.Repositories;
 
 namespace MPC.Implementation.MISServices
 {
@@ -58,17 +67,32 @@ namespace MPC.Implementation.MISServices
         private readonly IPayPalResponseRepository PayPalRepsoitory;
         private readonly ICostCentreRepository CostCentreRepository;
         private readonly ISectionInkCoverageRepository sectionInkCoverageRepository;
-
+        private readonly IShippingInformationRepository shippingInformationRepository;
+        private readonly ISectionCostCentreDetailRepository sectionCostCentreDetailRepository;
+        private readonly IItemSectionRepository itemSectionRepository;
+        private readonly IPipeLineProductRepository pipeLineProductRepository;
+        private readonly IExportReportHelper exportReportHelper;
+        private readonly IPurchaseRepository purchaseRepository;
+        private readonly ICampaignRepository campaignRepository;
+        private readonly IInvoiceRepository invoiceRepository;
         /// <summary>
         /// Creates New Order and assigns new generated code
         /// </summary>
-        private Estimate CreateNewOrder()
+        private Estimate CreateNewOrder(bool isEstimate = false)
         {
-            string orderCode = prefixRepository.GetNextOrderCodePrefix();
+            string orderCode = !isEstimate ? prefixRepository.GetNextOrderCodePrefix() : prefixRepository.GetNextEstimateCodePrefix();
             Estimate itemTarget = estimateRepository.Create();
+            
             estimateRepository.Add(itemTarget);
             itemTarget.CreationDate = itemTarget.CreationTime = DateTime.Now;
-            itemTarget.Order_Code = orderCode;
+            if (isEstimate)
+            {
+                itemTarget.Estimate_Code = orderCode;
+            }
+            else
+            {
+                itemTarget.Order_Code = orderCode;
+            }
             itemTarget.OrganisationId = orderRepository.OrganisationId;
             return itemTarget;
         }
@@ -92,19 +116,21 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
-        /// Creates New Delivery Note
+        /// Creates New Delivery Schedule
         /// </summary>
-        private DeliveryNote CreateNewDeliveryNote()
+        private ShippingInformation CreateNewShippingInformation()
         {
-            throw new NotImplementedException();
+            ShippingInformation itemTarget = shippingInformationRepository.Create();
+            shippingInformationRepository.Add(itemTarget);
+            return itemTarget;
         }
 
         /// <summary>
-        /// Delete Delivery Note
+        /// Delete Delivery Schedule
         /// </summary>
-        private void DeleteDeliveryNote(DeliveryNote deliveryNote)
+        private void DeleteShippingInformation(ShippingInformation shippingInformation)
         {
-            throw new NotImplementedException();
+            shippingInformationRepository.Delete(shippingInformation);
         }
 
         /// <summary>
@@ -134,6 +160,8 @@ namespace MPC.Implementation.MISServices
         private ItemAttachment CreateItemAttachment()
         {
             ItemAttachment itemTarget = itemAttachmentRepository.Create();
+            itemTarget.UploadDate = DateTime.Now;
+            itemTarget.UploadTime = DateTime.Now;
             itemAttachmentRepository.Add(itemTarget);
             return itemTarget;
         }
@@ -201,6 +229,32 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Returns Next Job Code
+        /// </summary>
+        private string GetJobCodeForItem()
+        {
+            return prefixRepository.GetNextJobCodePrefix(false);
+        }
+
+        /// <summary>
+        /// Creates New Section Cost Centre Detail
+        /// </summary>
+        private SectionCostCentreDetail CreateSectionCostCentreDetail()
+        {
+            SectionCostCentreDetail itemTarget = sectionCostCentreDetailRepository.Create();
+            sectionCostCentreDetailRepository.Add(itemTarget);
+            return itemTarget;
+        }
+
+        /// <summary>
+        /// Delete Section Cost Centre Detail
+        /// </summary>
+        private void DeleteSectionCostCentreDetail(SectionCostCentreDetail item)
+        {
+            sectionCostCentreDetailRepository.Delete(item);
+        }
+
+        /// <summary>
         /// Saves Image to File System
         /// </summary>
         /// <param name="mapPath">File System Path for Item</param>
@@ -209,9 +263,10 @@ namespace MPC.Implementation.MISServices
         /// <param name="fileName">Name of file being saved</param>
         /// <param name="fileSource">Base64 representation of file being saved</param>
         /// <param name="fileSourceBytes">Byte[] representation of file being saved</param>
+        /// <param name="fileNameWithoutExtension">File Name without extension to be set for Item Attachemt Record</param>
         /// <returns>Path of File being saved</returns>
         private string SaveImage(string mapPath, string existingImage, string caption, string fileName,
-            string fileSource, byte[] fileSourceBytes)
+            string fileSource, byte[] fileSourceBytes, out string fileNameWithoutExtension)
         {
             if (!string.IsNullOrEmpty(fileSource))
             {
@@ -241,12 +296,11 @@ namespace MPC.Implementation.MISServices
                 // First Time Upload
                 string imageurl = mapPath + "\\" + caption + fileName;
                 File.WriteAllBytes(imageurl, fileSourceBytes);
-
-                int indexOf = imageurl.LastIndexOf("MPC_Content", StringComparison.Ordinal);
-                imageurl = imageurl.Substring(indexOf, imageurl.Length - indexOf);
-                return imageurl;
+                fileNameWithoutExtension = Path.GetFileNameWithoutExtension(imageurl);
+                return Path.GetExtension(imageurl);
             }
 
+            fileNameWithoutExtension = string.Empty;
             return null;
         }
 
@@ -255,9 +309,13 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void SaveItemAttachments(Estimate estimate)
         {
+            if(estimate.isDirectSale != true)
+                return;
+            ;
+           
             string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
             HttpServerUtility server = HttpContext.Current.Server;
-            string mapPath = server.MapPath(mpcContentPath + "/Attachments/" + itemRepository.OrganisationId + "/");
+            string mapPath = server.MapPath(mpcContentPath + "/Attachments/" + itemRepository.OrganisationId + "/" + estimate.CompanyId + "/Products/");
 
             if (estimate.Items == null)
             {
@@ -267,11 +325,11 @@ namespace MPC.Implementation.MISServices
             foreach (Item item in estimate.Items)
             {
                 string attachmentMapPath = mapPath + item.ItemId;
-
+                DirectoryInfo directoryInfo = null;
                 // Create directory if not there
                 if (!Directory.Exists(attachmentMapPath))
                 {
-                    Directory.CreateDirectory(attachmentMapPath);
+                    directoryInfo = Directory.CreateDirectory(attachmentMapPath);
                 }
 
                 if (item.ItemAttachments == null)
@@ -281,12 +339,104 @@ namespace MPC.Implementation.MISServices
 
                 foreach (ItemAttachment itemAttachment in item.ItemAttachments)
                 {
-                    itemAttachment.FolderPath = SaveImage(attachmentMapPath, itemAttachment.FolderPath, "",
+                    string folderPath = directoryInfo != null ? directoryInfo.FullName : attachmentMapPath;
+                    int indexOf = folderPath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                    folderPath = folderPath.Substring(indexOf, folderPath.Length - indexOf);
+                    itemAttachment.FolderPath = folderPath;
+                    string fileNameWithoutExtension;
+                    string fileExtension = SaveImage(attachmentMapPath, itemAttachment.FolderPath, "",
                         itemAttachment.FileName,
-                        itemAttachment.FileSource, itemAttachment.FileSourceBytes);
+                        itemAttachment.FileSource, itemAttachment.FileSourceBytes, out fileNameWithoutExtension);
+                    if (fileExtension != null)
+                    {
+                        itemAttachment.FileName = fileNameWithoutExtension;
+                        itemAttachment.FileType = fileExtension;
+                    }
                 }
             }
         }
+
+        #region Generate Purchase Orders
+        private void UpdatePurchaseOrders(Estimate dbOrder, Estimate newOrder)
+        {
+            //if (dbOrder.StatusId != 4 && newOrder.StatusId == 4)
+            //{
+            GeneratePO(newOrder.EstimateId, newOrder.ContactId ?? new long(), newOrder.CompanyId, organisationRepository.LoggedInUserId);
+            //}
+        }
+
+        private void DeletePurchaseOrders(Estimate order)
+        {
+            purchaseRepository.DeletePO(order.EstimateId);
+
+        }
+        // ReSharper disable once InconsistentNaming
+        private bool GeneratePO(long orderId, long contactId, long companyId, Guid createdBy)
+        {
+            string serverPath = HttpContext.Current.Request.Url.Host;
+
+            bool isPoGenerate = purchaseRepository.GeneratePO(orderId, createdBy);
+            if (isPoGenerate)
+            {
+                POEmail(serverPath, orderId, contactId, companyId);
+            }
+            return true;
+        }
+        // ReSharper disable once InconsistentNaming
+        private void POEmail(string serverPath, long orderId, long contactId, long companyId)
+        {
+            // string szDirectory = WebConfigurationManager.AppSettings["VirtualDirectory"].ToString();
+            List<string> attachmentsList = new List<string>();
+            var listPurchases = purchaseRepository.GetPurchasesList(orderId);
+            if (listPurchases != null)
+            {
+                foreach (var purchase in listPurchases)
+                {
+                    string fileName = exportReportHelper.ExportPDF(100, purchase.Key, ReportType.PurchaseOrders, orderId, string.Empty);
+
+                    int itemIDs = orderRepository.GetFirstItemIDByOrderId(orderId);
+                    Organisation compOrganisation = organisationRepository.GetOrganizatiobByID();
+                    Company objCompany = companyRepository.GetCompanyByCompanyID(companyId);
+                    SystemUser saleManager = systemUserRepository.GetUserrById(objCompany.SalesAndOrderManagerId1 ?? Guid.NewGuid());
+
+                    string salesManagerFile = ImagePathConstants.ReportPath + compOrganisation.OrganisationId + "/" + purchase.Key + "_PurchaseOrder.pdf";
+                    campaignRepository.POEmailToSalesManager(orderId, companyId, contactId, 250, purchase.Value, salesManagerFile, objCompany);
+
+                    if (objCompany.IsCustomer == (int)CustomerTypes.Corporate)
+                    {
+                        campaignRepository.SendEmailToSalesManager((int)Events.PO_Notification_To_SalesManager, contactId, companyId, orderId, compOrganisation, compOrganisation.OrganisationId, 0, StoreMode.Corp, companyId, saleManager, itemIDs, "", "", 0);
+                    }
+                    else
+                    {
+                        campaignRepository.SendEmailToSalesManager((int)Events.PO_Notification_To_SalesManager, contactId, companyId, orderId, compOrganisation, compOrganisation.OrganisationId, 0, StoreMode.Retail, companyId, saleManager, itemIDs, "", "", 0);
+                    }
+
+                    string sourceFile = fileName;
+                    string destinationFileSupplier = ImagePathConstants.ReportPath + compOrganisation.OrganisationId + "/" + purchase.Value + "/" + purchase.Key + "_PurchaseOrder.pdf";
+
+                    string oDirectory = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + compOrganisation.OrganisationId + "/" + purchase.Value);
+
+                    string destinationPhysicalFileSupplier = HttpContext.Current.Server.MapPath("~/" + destinationFileSupplier);
+
+                    if (!Directory.Exists(oDirectory))
+                    {
+                        Directory.CreateDirectory(oDirectory);
+                    }
+                    
+                    if (File.Exists(sourceFile))
+                    {
+                        File.Copy(sourceFile, destinationPhysicalFileSupplier);
+                    }
+
+                    campaignRepository.POEmailToSupplier(orderId, companyId, contactId, 250, purchase.Value, destinationFileSupplier, objCompany);
+
+                    // SendEmailToSupplier(ServerPath, OrderID, ContactCompanyID, ContactID, 250, purchase.SupplierID ?? 0, DestinationFileSupplier);
+
+                    // AttachmentsList.Add(FilePath);
+                }
+            }
+        }
+        #endregion
 
         #endregion
         #region Constructor
@@ -299,14 +449,20 @@ namespace MPC.Implementation.MISServices
             IPaymentMethodRepository paymentMethodRepository, IOrganisationRepository organisationRepository, IStockCategoryRepository stockCategoryRepository, IOrderRepository orderRepository, IItemRepository itemRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService,
             IChartOfAccountRepository chartOfAccountRepository, IItemSectionRepository itemsectionRepository, IPaperSizeRepository paperSizeRepository, IInkPlateSideRepository inkPlateSideRepository, IStockItemRepository stockItemRepository, IInkCoverageGroupRepository inkCoverageGroupRepository,
             ICompanyRepository companyRepository, IPrefixRepository prefixRepository, IPrePaymentRepository prePaymentRepository,
-            IItemAttachmentRepository itemAttachmentRepository, ITemplateRepository templateRepository, ITemplatePageRepository templatePageRepository, 
-            IReportRepository ReportRepository, ICurrencyRepository CurrencyRepository, IMachineRepository MachineRepository, ICostCentreRepository CostCentreRepository, 
-            IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository, 
-            ISectionInkCoverageRepository sectionInkCoverageRepository)
+            IItemAttachmentRepository itemAttachmentRepository, ITemplateRepository templateRepository, ITemplatePageRepository templatePageRepository,
+            IReportRepository ReportRepository, ICurrencyRepository CurrencyRepository, IMachineRepository MachineRepository, ICostCentreRepository CostCentreRepository,
+            IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository,
+            ISectionInkCoverageRepository sectionInkCoverageRepository, IShippingInformationRepository shippingInformationRepository,
+            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IPipeLineProductRepository pipeLineProductRepository, IItemStockOptionRepository itemStockOptionRepository, IItemSectionRepository itemSectionRepository, IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, IExportReportHelper exportReportHelper
+            , IPurchaseRepository purchaseRepository, ICampaignRepository campaignRepository, IInvoiceRepository invoiceRepository)
         {
             if (estimateRepository == null)
             {
                 throw new ArgumentNullException("estimateRepository");
+            }
+            if (invoiceRepository == null)
+            {
+                throw new ArgumentNullException("invoiceRepository");
             }
             if (companyContactRepository == null)
             {
@@ -372,8 +528,16 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("sectionInkCoverageRepository");
             }
-
+            if (shippingInformationRepository == null)
+            {
+                throw new ArgumentNullException("shippingInformationRepository");
+            }
+            if (sectionCostCentreDetailRepository == null)
+            {
+                throw new ArgumentNullException("sectionCostCentreDetailRepository");
+            }
             this.estimateRepository = estimateRepository;
+            this.invoiceRepository = invoiceRepository;
             this.companyRepository = companyRepository;
             this.prefixRepository = prefixRepository;
             this.prePaymentRepository = prePaymentRepository;
@@ -405,6 +569,14 @@ namespace MPC.Implementation.MISServices
             this.CostCentreRepository = CostCentreRepository;
             this.PayPalRepsoitory = PayPalRepsoitory;
             this.sectionInkCoverageRepository = sectionInkCoverageRepository;
+            this.shippingInformationRepository = shippingInformationRepository;
+            this.sectionCostCentreDetailRepository = sectionCostCentreDetailRepository;
+            this.pipeLineProductRepository = pipeLineProductRepository;
+            this.itemSectionRepository = itemSectionRepository;
+            this.sectionCostCentreDetailRepository = sectionCostCentreDetailRepository;
+            this.exportReportHelper = exportReportHelper;
+            this.purchaseRepository = purchaseRepository;
+            this.campaignRepository = campaignRepository;
         }
 
         #endregion
@@ -415,7 +587,8 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public GetOrdersResponse GetAll(GetOrdersRequest request)
         {
-            return estimateRepository.GetOrders(request);
+            var result = estimateRepository.GetOrders(request);
+            return result;
         }
         /// <summary>
         /// Get Orders For Estimates List View
@@ -430,7 +603,19 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public Estimate GetById(long orderId)
         {
-            return estimateRepository.Find(orderId);
+            Estimate estimate = estimateRepository.Find(orderId);
+            if (estimate != null)
+            {
+                Invoice invoice = invoiceRepository.GetInvoiceByEstimateId(estimate.EstimateId);
+                if (invoice != null)
+                {
+                    estimate.InvoiceStatus = invoice.InvoiceStatus;
+                }
+                bool isExtra = CheckIsExtraOrder(orderId, estimate.isDirectSale ?? true);
+                estimate.IsExtraOrder = isExtra;
+            }
+            
+            return estimate;
         }
 
         /// <summary>
@@ -447,59 +632,209 @@ namespace MPC.Implementation.MISServices
         public Estimate SaveOrder(Estimate estimate)
         {
             // Get Order if exists else create new
-            Estimate order = GetById(estimate.EstimateId) ?? CreateNewOrder();
+            Estimate order = GetById(estimate.EstimateId) ?? CreateNewOrder(estimate.isEstimate == true);
+
+            if (estimate.EstimateId == 0 && estimate.isEstimate == true)
+            {
+                var flags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Estimate);
+                if (flags != null)
+                {
+                    estimate.SectionFlag = flags.FirstOrDefault();
+                    estimate.SectionFlagId = flags.FirstOrDefault().SectionFlagId;
+                }
+            }
+            
+            var orderStatusId = estimate.StatusId;
 
             // Update Order
             estimate.UpdateTo(order, new OrderMapperActions
                                      {
-                                         CreateNewOrder = CreateNewOrder,
                                          CreatePrePayment = CreateNewPrePayment,
                                          DeletePrePayment = DeletePrePayment,
-                                         CreateDeliveryNote = CreateNewDeliveryNote,
                                          CreateItem = CreateItem,
                                          DeleteItem = DeleteItem,
                                          CreateItemSection = CreateItemSection,
+                                         DeleteItemSection = DeleteItemSection,
                                          CreateSectionCostCentre = CreateSectionCostCentre,
                                          DeleteSectionCostCenter = DeleteSectionCostCentre,
                                          CreateItemAttachment = CreateItemAttachment,
                                          DeleteItemAttachment = DeleteItemAttachment,
                                          CreateSectionInkCoverage = CreateSectionInkCoverage,
-                                         DeleteSectionInkCoverage = DeleteSectionInkCoverage
+                                         DeleteSectionInkCoverage = DeleteSectionInkCoverage,
+                                         CreateShippingInformation = CreateNewShippingInformation,
+                                         DeleteShippingInformation = DeleteShippingInformation,
+                                         GetNextJobCode = GetJobCodeForItem,
+                                         CreateSectionCostCenterDetail = CreateSectionCostCentreDetail,
+                                         DeleteSectionCostCenterDetail = DeleteSectionCostCentreDetail,
                                      });
             // Save Changes
             estimateRepository.SaveChanges();
 
             // Save Item Attachments
-            SaveItemAttachments(estimate);
+            SaveItemAttachments(order);
 
             // Save Changes
             estimateRepository.SaveChanges();
 
+            //If Data not posted to Unleashed(Xero)
+            if (estimate.isEstimate == false && estimate.XeroAccessCode == null)
+                PostOrderToXero(order.EstimateId);
+            //Update Purchase Orders
+            //Req. Whenever Its Status is inProduction Update Purchase Orders
+            
+            if (orderStatusId != (int)OrderStatus.InProduction && estimate.StatusId == (int)OrderStatus.InProduction)
+            {
+                try
+                {
+                    UpdatePurchaseOrders(order, estimate);
+                }
+                catch (Exception exp)
+                {
+                    throw new MPCException("Saved Sucessfully but failed to create Purchase Order. Error: " + exp.Message, estimateRepository.OrganisationId);
+                }
+            }
+
+            //Delete Purchase Orders
+            //Req. Whenever Its Status is Cancelled Call Delete Stored Procedure or delete sp if reversing from in production to below statuses
+            if ((orderStatusId != (int)OrderStatus.CancelledOrder && estimate.StatusId == (int)OrderStatus.CancelledOrder) ||
+                (orderStatusId == (int)OrderStatus.InProduction && (estimate.StatusId == (int)OrderStatus.PendingOrder || estimate.StatusId == (int)OrderStatus.ConfirmedOrder)))
+            {
+                try
+                {
+                    DeletePurchaseOrders(estimate);
+                }
+                catch (Exception exp)
+                {
+                    throw new MPCException("Saved Sucessfully but failed to delete Purchase Order(s). Error: " + exp.Message, estimateRepository.OrganisationId);
+                }
+            }
+
+
+            //Create Invoice
+            //Req. Whenever Its Status is Shipped and Invoiced 
+            if (orderStatusId != (int)OrderStatus.Invoice && estimate.StatusId == (int)OrderStatus.Invoice)
+            {
+                try
+                {
+                    Invoice invoice = invoiceRepository.GetInvoiceByEstimateId(order.EstimateId);
+                    if (invoice == null)
+                    {
+                        CreateInvoice(order);
+                        // Save Changes
+                        estimateRepository.SaveChanges();
+                    }
+
+                }
+                catch (Exception exp)
+                {
+                    throw new MPCException("Saved Sucessfully but failed to create Invoice. Error: " + exp.Message, estimateRepository.OrganisationId);
+                }
+            }
+
+
+            // Load Status
+            estimateRepository.LoadProperty(order, () => order.Status);
+
             // Return 
             return order;
         }
-        
+
+        private void CreateInvoice(Estimate order)
+        {
+            Invoice itemTarget = CreateNewInvoice();
+            order.AddInvoice(itemTarget);
+        }
+
+        /// <summary>
+        /// Creates New Invoice
+        /// </summary>
+        private Invoice CreateNewInvoice()
+        {
+            Invoice itemTarget = invoiceRepository.Create();
+            string invoiceCode = prefixRepository.GetNextInvoiceCodePrefix();
+            itemTarget.InvoiceCode = invoiceCode;
+            itemTarget.OrganisationId = estimateRepository.OrganisationId;
+            itemTarget.InvoiceStatus = (int)InvoiceStatuses.Awaiting;
+            invoiceRepository.Add(itemTarget);
+            return itemTarget;
+        }
+
         /// <summary>
         /// Get base data for order
         /// </summary>
         public OrderBaseResponse GetBaseData()
         {
+
+
             return new OrderBaseResponse
                    {
                        SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Order),
                        SystemUsers = systemUserRepository.GetAll(),
                        PipeLineSources = pipeLineSourceRepository.GetAll(),
                        PaymentMethods = paymentMethodRepository.GetAll(),
-                       Markups = _markupRepository.GetAll(),
                        Organisation = organisationRepository.Find(organisationRepository.OrganisationId),
-                       StockCategories = stockCategoryRepository.GetAll(),
-                      // ChartOfAccounts = chartOfAccountRepository.GetAll(),
-                       PaperSizes = paperSizeRepository.GetAll(),
-                       InkPlateSides = inkPlateSideRepository.GetAll(),
-                       Inks = stockItemRepository.GetStockItemOfCategoryInk(),
-                       InkCoverageGroups = inkCoverageGroupRepository.GetAll(),
-                       CostCenters = CostCentreRepository.GetAllCompanyCentersByOrganisationId()
+                       // ChartOfAccounts = chartOfAccountRepository.GetAll(),
+                       CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem(),
+                       PipeLineProducts = pipeLineProductRepository.GetAll(),
+                       LoggedInUser = organisationRepository.LoggedInUserId,
                    };
+        }
+
+        /// <summary>
+        /// Get base data for Estimate
+        /// Difference from order is Different Section Id
+        /// </summary>
+        public OrderBaseResponse GetBaseDataForEstimate()
+        {
+            SystemUser systemUser = systemUserRepository.GetUserrById(systemUserRepository.LoggedInUserId);
+            return new OrderBaseResponse
+            {
+                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Estimate),
+                SystemUsers = systemUserRepository.GetAll(),
+                PipeLineSources = pipeLineSourceRepository.GetAll(),
+                PaymentMethods = paymentMethodRepository.GetAll(),
+                Organisation = organisationRepository.Find(organisationRepository.OrganisationId),
+                // ChartOfAccounts = chartOfAccountRepository.GetAll(),
+                CostCenters = CostCentreRepository.GetAllCompanyCentersForOrderItem(),
+                PipeLineProducts = pipeLineProductRepository.GetAll(),
+                LoggedInUser = organisationRepository.LoggedInUserId,
+                HeadNotes = systemUser != null ? systemUser.EstimateHeadNotes : string.Empty,
+                FootNotes = systemUser != null ? systemUser.EstimateFootNotes : string.Empty,
+            };
+        }
+
+        /// <summary>
+        /// Get base data for Inquiries
+        /// </summary>
+        public InquiryBaseResponse GetBaseDataForInquiries()
+        {
+            return new InquiryBaseResponse
+            {
+                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Inquiries)
+            };
+        }
+
+        public ItemDetailBaseResponse GetBaseDataForItemDetails()
+        {
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
+            List<Markup> markups = _markupRepository.GetAll().ToList();
+            Markup defaultMarkup = markups.FirstOrDefault(x => x.IsDefault == true);
+            return new ItemDetailBaseResponse
+            {
+                Markups = markups,
+                PaperSizes = paperSizeRepository.GetAll(),
+                InkPlateSides = inkPlateSideRepository.GetAll(),
+                Inks = stockItemRepository.GetStockItemOfCategoryInk(),
+                InkCoverageGroups = inkCoverageGroupRepository.GetAll(),
+                CurrencySymbol = organisation != null ? (organisation.Currency != null ? organisation.Currency.CurrencySymbol : string.Empty) : string.Empty,
+                SystemUsers = systemUserRepository.GetAll(),
+                LengthUnit = organisation != null && organisation.LengthUnit != null ? organisation.LengthUnit.UnitName : string.Empty,
+                WeightUnit = organisation != null && organisation.WeightUnit != null ? organisation.WeightUnit.UnitName : string.Empty,
+                LoggedInUser = organisationRepository.LoggedInUserId,
+                Machines = MachineRepository.GetAll(),
+                DefaultMarkUpId = defaultMarkup != null ? defaultMarkup.MarkUpId : 0
+            };
+
         }
 
         /// <summary>
@@ -507,13 +842,44 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public OrderBaseResponseForCompany GetBaseDataForCompany(long companyId, long storeId)
         {
+            bool isStoreLive = companyRepository.IsStoreLive(storeId);
+            //var org = organisationRepository.GetOrganizatiobByID();
+            //bool isMisReached = GetMonthlyOrdersReached(org, true);
+            //bool isWebReached = GetMonthlyOrdersReached(org, false);
+
             return new OrderBaseResponseForCompany
                 {
                     CompanyContacts = companyContactRepository.GetCompanyContactsByCompanyId(companyId),
                     CompanyAddresses = addressRepository.GetAddressByCompanyID(companyId),
-                    TaxRate = companyRepository.GetTaxRateByStoreId(storeId)
+                    TaxRate = companyRepository.GetTaxRateByStoreId(storeId),
+                    JobManagerId = companyRepository.GetStoreJobManagerId(storeId),
+                    IsStoreLive = isStoreLive
                 };
         }
+
+        public bool GetMonthlyOrdersReached(Organisation org, bool isMis)
+        {
+            bool isReached = false;
+            DateTime? billingDate = org.BillingDate;
+            if (billingDate != null)
+            {
+                List<long> orders = orderRepository.GetOrdersForBillingCycle(Convert.ToDateTime(billingDate), isMis);
+                int licensedOrders = isMis ? org.MisOrdersCount ?? 0 : org.WebStoreOrdersCount ?? 0;
+                if (orders.Count > licensedOrders)
+                    isReached = true;
+            }
+            return isReached;
+        }
+
+        private bool CheckIsExtraOrder(long orderId, bool isDirectSale)
+        {
+            var org = organisationRepository.GetOrganizatiobByID();
+            int ordersCount = isDirectSale ? org.MisOrdersCount??0 : org.WebStoreOrdersCount ?? 0;
+            DateTime billingDate = org.BillingDate ?? DateTime.Now;
+            bool isExtra = orderRepository.IsExtradOrderForBillingCycle(billingDate, isDirectSale, ordersCount, orderId, org.OrganisationId);
+            return isExtra;
+        }
+        
         /// <summary>
         /// Get Order Statuses Count For Menu Items
         /// </summary>
@@ -648,68 +1014,220 @@ namespace MPC.Implementation.MISServices
                 throw ex;
             }
         }
-        #endregion
 
-        #region Print View Plan Code
-        
-        
-
-        public PtvDTO GetPTV(PTVRequestModel request)
+        public bool ProgressEstimateToOrder(ProgressEstimateRequestModel requestModel)
         {
-            Organisation organisation = organisationRepository.GetOrganizatiobByID();
-
-            if (organisation != null)
+            try
             {
-                request.ItemHeight = LengthConversionHelper.ConvertLength(request.ItemHeight, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.ItemWidth = LengthConversionHelper.ConvertLength(request.ItemWidth, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.PrintHeight = LengthConversionHelper.ConvertLength(request.PrintHeight, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.PrintWidth = LengthConversionHelper.ConvertLength(request.PrintWidth, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.ItemHorizentalGutter = LengthConversionHelper.ConvertLength(request.ItemHorizentalGutter, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.ItemVerticalGutter = LengthConversionHelper.ConvertLength(request.ItemVerticalGutter, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
+                var estimate = estimateRepository.Find(requestModel.EstimateId);
+                var order = estimateRepository.Find(requestModel.OrderId);
+                //update Estimate Reference and status
+                estimate.RefEstimateId = requestModel.OrderId;
+                estimate.StatusId = 39;
+                //update order refence of estimate
+                order.RefEstimateId = requestModel.EstimateId;
+
+                estimateRepository.Update(estimate);
+                estimateRepository.Update(order);
+                estimateRepository.SaveChanges();
+
+                return true;
+            }
+            catch (Exception exception)
+            {
+                return false;
+
+            }
+        }
+
+        public Estimate CloneOrder(Estimate source)
+        {
+            Estimate target = CreateNewOrder();
+            target.isEstimate = false;
+            target.StatusId = (short)OrderStatus.PendingOrder;
+
+            Estimate est_Source = GetById(source.EstimateId);
+            est_Source.StatusId = 39;
+
+            target = UpdateEstimeteOnCloning(est_Source, target, source);
+            target.RefEstimateId = source.EstimateId;
+
+            estimateRepository.SaveChanges();
+
+            est_Source.RefEstimateId = target.EstimateId;
+            estimateRepository.SaveChanges();
+
+            return target;
+        }
+
+        public Estimate UpdateEstimeteOnCloning(Estimate source, Estimate target, Estimate clientSource)
+        {
+            // Clone Estimate
+            source.Clone(target);
+            target.Order_Date = clientSource.Order_Date;
+            target.OrderManagerId = clientSource.OrderManagerId;
+            target.IsOfficialOrder = clientSource.IsOfficialOrder;
+            target.CustomerPO = clientSource.CustomerPO;
+            target.ArtworkByDate = clientSource.ArtworkByDate;
+            target.DataByDate = clientSource.DataByDate;
+            target.PaperByDate = clientSource.PaperByDate;
+            target.DataByDate = clientSource.DataByDate;
+            target.TargetBindDate = clientSource.TargetPrintDate;
+            target.StartDeliveryDate = clientSource.StartDeliveryDate;
+            target.FinishDeliveryDate = clientSource.FinishDeliveryDate;
+            target.IsCreditApproved = clientSource.IsCreditApproved;
+            target.IsJobAllowedWOCreditCheck = clientSource.IsJobAllowedWOCreditCheck;
+
+            CloneItems(source, target, clientSource);
+
+            return target;
+        }
+        private void CloneItems(Estimate source, Estimate target, Estimate clientSource)
+        {
+            if (source.Items == null)
+            {
+                return;
+            }
+            if (target.Items == null)
+            {
+                target.Items = new List<Item>();
+            }
+            foreach (Item item in source.Items.ToList())
+            {
+                Item targetItem = itemRepository.Create();
+                itemRepository.Add(targetItem);
+                target.Items.Add(targetItem);
+                item.CloneForOrder(targetItem);
+                var targetItemSource = clientSource.Items.FirstOrDefault(x => x.ItemId == item.ItemId);
+                if (targetItemSource != null)
+                {
+                    targetItem.JobSelectedQty = targetItemSource.JobSelectedQty;
+                }
+                if (item.JobSelectedQty != null && targetItem.ItemType != 2)
+                {
+                    if (item.JobSelectedQty == 1)
+                    {
+                        targetItem.Qty1 = item.Qty1;
+                        targetItem.Qty2 = 0;
+                        targetItem.Qty3 = 0;
+                    }
+                    else if (item.JobSelectedQty == 2)
+                    {
+                        targetItem.Qty1 = item.Qty2;
+                        targetItem.Qty2 = 0;
+                        targetItem.Qty3 = 0;
+                    }
+                    else if (item.JobSelectedQty == 3)
+                    {
+                        targetItem.Qty1 = item.Qty3;
+                        targetItem.Qty2 = 0;
+                        targetItem.Qty3 = 0;
+                    }
+                }
+
+                // Clone Item Sections
+                CloneItemSections(item, targetItem);
+            }
+        }
+
+        /// <summary>
+        /// Copy Item Sections
+        /// </summary>
+        private void CloneItemSections(Item source, Item target)
+        {
+            if (source.ItemSections == null)
+            {
+                return;
             }
 
-
-            return itemsectionRepository.DrawPTV((PrintViewOrientation)request.Orientation, request.ReversePtvRows, request.ReversePtvCols, request.isDoubleSided, request.isWorknTrun, request.isWorknTumble, request.ApplyPressRestrict, request.ItemHeight, request.ItemWidth, request.PrintHeight, request.PrintWidth, (GripSide)request.Grip, request.GripDepth, request.HeadDepth, request.PrintGutter, request.ItemHorizentalGutter, request.ItemVerticalGutter);
-        }
-
-        
-
-        public PtvDTO GetPTVCalculation(PTVRequestModel request)
-        {
-            Organisation organisation = organisationRepository.GetOrganizatiobByID();
-
-            if (organisation != null)
+            // Initialize List
+            if (target.ItemSections == null)
             {
-                request.ItemHeight = LengthConversionHelper.ConvertLength(request.ItemHeight, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.ItemWidth = LengthConversionHelper.ConvertLength(request.ItemWidth, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.PrintHeight = LengthConversionHelper.ConvertLength(request.PrintHeight, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.PrintWidth = LengthConversionHelper.ConvertLength(request.PrintWidth, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.ItemHorizentalGutter = LengthConversionHelper.ConvertLength(request.ItemHorizentalGutter, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.ItemVerticalGutter = LengthConversionHelper.ConvertLength(request.ItemVerticalGutter, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
+                target.ItemSections = new List<ItemSection>();
             }
-            return itemsectionRepository.CalculatePTV(request.ReversePtvRows, request.ReversePtvCols, request.isDoubleSided, false, request.ApplyPressRestrict, request.ItemHeight, request.ItemWidth, request.PrintHeight, request.PrintWidth, 0, request.Grip, request.GripDepth, request.HeadDepth, request.PrintGutter, request.ItemHorizentalGutter, request.ItemVerticalGutter, request.isWorknTrun, request.isWorknTumble);
+
+            foreach (ItemSection itemSection in source.ItemSections.ToList())
+            {
+                ItemSection targetItemSection = itemSectionRepository.Create();
+                itemSectionRepository.Add(targetItemSection);
+                targetItemSection.ItemId = target.ItemId;
+                target.ItemSections.Add(targetItemSection);
+                itemSection.CloneForOrder(targetItemSection);
+                if (source.JobSelectedQty != null && target.ItemType != 2)
+                {
+                    targetItemSection.Qty1 = source.Qty1;
+                    targetItemSection.Qty2 = 0;
+                    targetItemSection.Qty3 = 0;
+                }
+                CloneSectionCostCenter(itemSection, targetItemSection);
+            }
+        }
+        private void CloneSectionCostCenter(ItemSection source, ItemSection target)
+        {
+            if (source.SectionCostcentres == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.SectionCostcentres == null)
+            {
+                target.SectionCostcentres = new List<SectionCostcentre>();
+            }
+
+            foreach (SectionCostcentre sectionCostcentre in source.SectionCostcentres.ToList())
+            {
+                SectionCostcentre targetSectionCostcentre = sectionCostCentreRepository.Create();
+                sectionCostCentreRepository.Add(targetSectionCostcentre);
+                targetSectionCostcentre.ItemSectionId = target.ItemSectionId;
+                target.SectionCostcentres.Add(targetSectionCostcentre);
+                sectionCostcentre.Clone(targetSectionCostcentre);
+                targetSectionCostcentre.Qty1 = source.Qty1;
+                targetSectionCostcentre.Qty2 = 0;
+                targetSectionCostcentre.Qty3 = 0;
+                CloneSectionCostCenterDetail(sectionCostcentre, targetSectionCostcentre);
+            }
+        }
+        private void CloneSectionCostCenterDetail(SectionCostcentre source, SectionCostcentre target)
+        {
+            if (source.SectionCostCentreDetails == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.SectionCostCentreDetails == null)
+            {
+                target.SectionCostCentreDetails = new List<SectionCostCentreDetail>();
+            }
+
+            foreach (SectionCostCentreDetail sectionCostCentreDetail in source.SectionCostCentreDetails.ToList())
+            {
+                SectionCostCentreDetail targetSectionCostCentreDetail = sectionCostCentreDetailRepository.Create();
+                sectionCostCentreDetailRepository.Add(targetSectionCostCentreDetail);
+                targetSectionCostCentreDetail.SectionCostCentreId = target.SectionCostcentreId;
+                target.SectionCostCentreDetails.Add(targetSectionCostCentreDetail);
+                sectionCostCentreDetail.Qty1 = source.Qty1;
+                sectionCostCentreDetail.Qty2 = 0;
+                sectionCostCentreDetail.Qty3 = 0;
+                sectionCostCentreDetail.Clone(targetSectionCostCentreDetail);
+            }
         }
 
         #endregion
 
-        #region Estimation Methods
-        public BestPressResponse GetBestPresses(ItemSection currentSection)
-        {
-            return itemsectionRepository.GetBestPressResponse(currentSection);
-        }
+        #region Download Artwork
 
-        public ItemSection GetUpdatedSectionCostCenters(UpdateSectionCostCentersRequest request)
-        {
-            return itemsectionRepository.GetUpdatedSectionWithSystemCostCenters(request.CurrentSection, request.PressId, request.CurrentSection.SectionInkCoverages.ToList());
-        }
 
-        public string DownloadOrderArtwork(int OrderID, string sZipName)
+
+        public string DownloadOrderArtwork(int OrderID, string sZipName, long WebStoreOrganisationId = 0)
         {
             //return orderRepository.GenerateOrderArtworkArchive(OrderID, sZipName);
-            return GenerateOrderArtworkArchive(OrderID, sZipName);
+            return GenerateOrderArtworkArchive(OrderID, sZipName, WebStoreOrganisationId);
+            // return ExportPDF(105, 0, ReportType.Invoice, 814, string.Empty);
         }
 
-        public string GenerateOrderArtworkArchive(int OrderID, string sZipName)
+        public string GenerateOrderArtworkArchive(int OrderID, string sZipName, long WebStoreOrganisationId)
         {
 
             string ReturnRelativePath = string.Empty;
@@ -723,7 +1241,13 @@ namespace MPC.Implementation.MISServices
             Organisation Organisation = organisationRepository.GetOrganizatiobByID();
             long OrganisationId = 0;
             if (Organisation != null)
+            {
                 OrganisationId = Organisation.OrganisationId;
+            }
+            else
+            {
+                OrganisationId = WebStoreOrganisationId;
+            }
 
             string sCreateDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationId);
             bool ArtworkProductionReadyResult = false;
@@ -732,44 +1256,7 @@ namespace MPC.Implementation.MISServices
 
             try
             {
-               
-                //filter the items which are of type delivery i.e. itemtype = 2
-                List<Item> ItemsList = itemRepository.GetItemsWithAttachmentsByOrderID(OrderID);
                 Estimate oOrder = estimateRepository.GetEstimateWithCompanyByOrderID(OrderID);
-
-
-                
-                Company store = companyRepository.GetCompanyByCompanyIDforArtwork(oOrder.Company.StoreId ?? 0);
-                if (store != null)
-                {
-                    IncludeOrderReport = store.includeEmailArtworkOrderReport ?? false;
-                    IncludeJobCardReport = store.includeEmailArtworkOrderJobCard ?? false;
-                    IncludeOrderXML = store.includeEmailArtworkOrderXML ?? false;
-                    MakeArtWorkProductionReady = store.makeEmailArtworkOrderProductionReady ?? false;
-                }
-                else
-                {
-                    store = companyRepository.GetCompanyByCompanyIDforArtwork(oOrder.CompanyId);
-                    if (store != null)
-                    {
-                        IncludeOrderReport = store.includeEmailArtworkOrderReport ?? false;
-                        IncludeJobCardReport = store.includeEmailArtworkOrderJobCard ?? false;
-                        IncludeOrderXML = store.includeEmailArtworkOrderXML ?? false;
-                        MakeArtWorkProductionReady = store.makeEmailArtworkOrderProductionReady ?? false;
-                    }
-                }
-                if (!IncludeOrderReport && !IncludeJobCardReport && !IncludeOrderXML && !MakeArtWorkProductionReady)
-                {
-                    IncludeOrderReport = true;
-                }
-
-                //making the artwork production ready and regenerating template PDFs
-                if (MakeArtWorkProductionReady)
-                {
-                    ArtworkProductionReadyResult = MakeOrderArtworkProductionReady(oOrder,OrganisationId);
-
-                }
-
                 if (sZipName == string.Empty)
                 {
                     sZipFileName = GetArchiveFileName(oOrder.Order_Code, oOrder.Company.Name, oOrder.EstimateId);
@@ -782,14 +1269,59 @@ namespace MPC.Implementation.MISServices
                         sZipFileName = sZipName + ".zip";
 
                 }
-
-                //ReturnRelativePath = szDirectory + "/" + PathConstants.DownloadableFilesPath + sZipFileName;
                 ReturnPhysicalPath = sCreateDirectory + "\\" + sZipFileName;
                 if (File.Exists(ReturnPhysicalPath))
                 {
-                    //ReturnRelativePath = szDirectory + "/" + PathConstants.DownloadableFilesPath + sZipFileName;
-                    //  ReturnPhysicalPath = sCreateDirectory + sZipFileName;
-                    ReturnPhysicalPath = "/MPC_Content/Artworks/1/" + sZipFileName;
+                    ReturnPhysicalPath = "/MPC_Content/Artworks/" + OrganisationId + "/" + sZipFileName;
+                    return ReturnPhysicalPath;
+                }
+
+                //filter the items which are of type delivery i.e. itemtype = 2
+                List<Item> ItemsList = itemRepository.GetItemsWithAttachmentsByOrderID(OrderID);
+
+                MakeArtWorkProductionReady = true;
+
+                if (oOrder.Company != null)
+                {
+                    if (oOrder.Company.IsCustomer == 3)
+                    {
+                        IncludeOrderReport = oOrder.Company.includeEmailArtworkOrderReport ?? false;
+                        IncludeJobCardReport = oOrder.Company.includeEmailArtworkOrderJobCard ?? false;
+                        IncludeOrderXML = oOrder.Company.includeEmailArtworkOrderXML ?? false;
+                    }
+                    else
+                    {
+                        Company store = companyRepository.GetStoreById(oOrder.Company.StoreId ?? 0);
+                        if (store != null)
+                        {
+                            IncludeOrderReport = store.includeEmailArtworkOrderReport ?? false;
+                            IncludeJobCardReport = store.includeEmailArtworkOrderJobCard ?? false;
+                            IncludeOrderXML = store.includeEmailArtworkOrderXML ?? false;
+                        }
+                    }
+
+                }
+
+                if (!IncludeOrderReport && !IncludeJobCardReport && !IncludeOrderXML && !MakeArtWorkProductionReady)
+                {
+                    IncludeOrderReport = true;
+                }
+
+                //making the artwork production ready and regenerating template PDFs
+                if (MakeArtWorkProductionReady)
+                {
+
+                    ArtworkProductionReadyResult = MakeOrderArtworkProductionReady(oOrder, WebStoreOrganisationId);
+
+                }
+
+
+
+                //ReturnRelativePath = szDirectory + "/" + PathConstants.DownloadableFilesPath + sZipFileName;
+
+                if (File.Exists(ReturnPhysicalPath))
+                {
+
                     return ReturnPhysicalPath;
                 }
                 else
@@ -838,7 +1370,7 @@ namespace MPC.Implementation.MISServices
                             //job card report
                             if (IncludeJobCardReport)
                             {
-                                string sJCReportPath = ExportPDF(165, item.ItemId, ReportType.JobCard, OrderID);
+                                string sJCReportPath = exportReportHelper.ExportPDF(165, item.ItemId, ReportType.JobCard, OrderID, string.Empty, WebStoreOrganisationId);
                                 if (System.IO.File.Exists(sJCReportPath))
                                 {
                                     ZipEntry jcr = zip.AddFile(sJCReportPath, ZipfolderName);
@@ -853,7 +1385,7 @@ namespace MPC.Implementation.MISServices
                         //order report
                         if (IncludeOrderReport)
                         {
-                            string sOrderReportPath = ExportPDF(103, Convert.ToInt64(OrderID), ReportType.Order, OrderID);
+                            string sOrderReportPath = exportReportHelper.ExportPDF(103, Convert.ToInt64(OrderID), ReportType.Order, OrderID, string.Empty, WebStoreOrganisationId);
                             if (System.IO.File.Exists(sOrderReportPath))
                             {
                                 ZipEntry r = zip.AddFile(sOrderReportPath, "");
@@ -863,7 +1395,7 @@ namespace MPC.Implementation.MISServices
                         // here xml comes
                         if (IncludeOrderXML)
                         {
-                            string sOrderXMLReportPath = ExportOrderReportXML(OrderID, "", "0");
+                            string sOrderXMLReportPath = exportReportHelper.ExportOrderReportXML(OrderID, "", "0", WebStoreOrganisationId);
                             if (System.IO.File.Exists(sOrderXMLReportPath))
                             {
                                 ZipEntry r = zip.AddFile(sOrderXMLReportPath, "");
@@ -879,7 +1411,10 @@ namespace MPC.Implementation.MISServices
                         // DeleteFiles();
                     }
                     ReturnRelativePath = sCreateDirectory;
-                    ReturnPhysicalPath = "/MPC_Content/Artworks/1/" + sZipFileName;
+                    ReturnPhysicalPath = "/MPC_Content/Artworks/" + OrganisationId + "/" + sZipFileName;
+
+                    orderRepository.UpdateItemAttachmentPath(ItemsList);
+                    //UpdateAttachmentsPath(oOrder)
                     return ReturnPhysicalPath;
                 }
             }
@@ -888,6 +1423,18 @@ namespace MPC.Implementation.MISServices
                 throw ex1;
             }
 
+        }
+
+        private void UpdateAttachmentsPath(Estimate oOrder)
+        {
+            foreach (var item in oOrder.Items)
+            {
+                if (item.ItemAttachments != null)
+                {
+                    item.ItemAttachments.ToList().ForEach(i => i.FolderPath = i.FolderPath.Replace("Attachments", "Production"));
+                }
+            }
+            orderRepository.SaveChanges();
         }
 
         public static string MakeValidFileName(string name)
@@ -904,25 +1451,24 @@ namespace MPC.Implementation.MISServices
             return builder.ToString();
         }
 
-        public bool MakeOrderArtworkProductionReady(Estimate oOrder,long OrganisationId)
+        public bool MakeOrderArtworkProductionReady(Estimate oOrder, long WebStoreOrganisationId = 0)
         {
             try
             {
-
-
-
+                long sOrganisationId = 0;
+                if (WebStoreOrganisationId > 0)
+                {
+                    sOrganisationId = WebStoreOrganisationId;
+                }
+                else
+                {
+                    sOrganisationId = organisationRepository.GetOrganizatiobByID().OrganisationId;
+                }
 
                 string sOrderID = oOrder.EstimateId.ToString();
-                string sProductionFolderPath = "MPC_Content/Artworks/" + OrganisationId + "/Production";
+                string sProductionFolderPath = "MPC_Content/Artworks/" + sOrganisationId + "/Production";
                 string sCustomerID = oOrder.CompanyId.ToString();
-
-                return RegenerateTemplateAttachments(sOrderID, sCustomerID, sProductionFolderPath, oOrder,OrganisationId);
-
-
-
-                //clientserv.OpenReadCompleted += new OpenReadCompletedEventHandler(clientserv_OpenReadCompleted);
-                //clientserv.OpenReadAsync(sParameterURl);
-
+                return RegenerateTemplateAttachments(sOrderID, sCustomerID, sProductionFolderPath, oOrder, sOrganisationId);
 
             }
             catch (Exception ex)
@@ -945,11 +1491,13 @@ namespace MPC.Implementation.MISServices
 
                 double bleedsize = organisationRepository.GetBleedSize(OrganisationId);
                 bool drawBleedArea = false;
-                bool mutlipageMode = true;
+                bool mutlipageMode = false;
                 bool hasOverlayPdf = false;
+                long StoreId = orderRepository.GetStoreIdByOrderId(EstimateId);
                 List<Item> OrderItems = orderRepository.GetOrderItems(EstimateId);
                 if (OrderItems != null)
                 {
+                    
                     foreach (var i in OrderItems)
                     {
                         long TemplateID = i.TemplateId ?? 0;
@@ -972,7 +1520,9 @@ namespace MPC.Implementation.MISServices
                                 isaddcropMark = true;
                             }
 
-                            templateRepository.regeneratePDFs(TemplateID, OrganisationId, isaddcropMark, mutlipageMode, drawBleedArea, bleedsize);
+                            templateService.regeneratePDFs(TemplateID, OrganisationId, isaddcropMark, mutlipageMode, drawBleedArea, bleedsize);
+
+                            //orderRepository.regeneratePDFs(TemplateID, OrganisationId, isaddcropMark, mutlipageMode, drawBleedArea, bleedsize);
                             //LocalTemplateDesigner.TemplateSvcSPClient oLocSvc = new LocalTemplateDesigner.TemplateSvcSPClient();b
                             //oLocSvc.regeneratePDFs(TemplateID, isaddcropMark, drawBleedArea, mutlipageMode);
 
@@ -999,7 +1549,7 @@ namespace MPC.Implementation.MISServices
                                 //special working for attaching the PDF
                                 List<ArtWorkAttatchment> uplodedArtWorkList = new List<ArtWorkAttatchment>();
                                 ArtWorkAttatchment attatcment = null;
-                                string folderPath = "MPC_Content/Attachments/" + OrganisationId;
+                                string folderPath = "mpc_content/Attachments/" + OrganisationId + "/" + StoreId + "/Products/" + ItemID; //"MPC_Content/Attachments/" + OrganisationId;
                                 string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/" + folderPath);
                                 string VirtualFolderPath2 = System.Web.HttpContext.Current.Server.MapPath("~/" + productionFolderPath);
 
@@ -1118,7 +1668,7 @@ namespace MPC.Implementation.MISServices
                                                 System.IO.File.Copy(DesignerPath + item.ProductId.ToString() + "/p" + item.PageNo + ".pdf", fileCompleteAddress, true);
                                                 System.IO.File.Copy(DesignerPath + item.ProductId.ToString() + "/p" + item.PageNo + ".pdf", fileCompleteAddress2, true);
                                             }
-                                           
+
 
                                             if (item.hasOverlayObjects == true)
                                             {
@@ -1159,7 +1709,8 @@ namespace MPC.Implementation.MISServices
                             }
                             else// attachment alredy exists hence we need to updat the existing artwork.
                             {
-                                string folderPath = "MPC_Content/Attachments/" + OrganisationId;
+                                string folderPath = "mpc_content/Attachments/" + OrganisationId + "/" + StoreId + "/Products/" + ItemID; 
+
                                 string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/" + folderPath);
                                 string VirtualFolderPath2 = System.Web.HttpContext.Current.Server.MapPath("~/" + productionFolderPath);
 
@@ -1168,74 +1719,151 @@ namespace MPC.Implementation.MISServices
                                 {
                                     System.IO.Directory.CreateDirectory(VirtualFolderPath2);
                                 }
-
-                                int index = 0;
-                                foreach (var oPage in oPages)
+                                if (Item.isMultipagePDF == true)
                                 {
-                                    ArtWorkAttatchment oPage1Attachment = oLstAttachments[index];
-                                    index = index + 1;
-                                    //ArtWorkAttatchment oPage1Attachment = oLstAttachments.Where(g => g.FileTitle == oPage.PageName).Single();
-                                    if (oPage1Attachment != null)
+
+                                    List<ArtWorkAttatchment> oPage1Attachment = oLstAttachments;
+                                    foreach (var page in oPages)
                                     {
-                                        string fileName = oPage1Attachment.FileName + oPage1Attachment.FileExtention;
-                                        string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
-                                        string fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
-                                        string sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + ".pdf";
-
-                                        if (fileName.Contains("overlay"))
-                                        {
-                                            sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + "overlay.pdf";
-
-                                        }
-
-                                        //System.IO.File.Copy(fileCompleteAddress, fileCompleteAddress2);
-                                        if (File.Exists(sourcePath))
-                                        {
-                                            System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
-                                            System.IO.File.Copy(sourcePath, fileCompleteAddress2, true);
-                                        }
-
-
-
-                                        if (oPage.hasOverlayObjects == true)
-                                        {
-                                            oPage1Attachment = oLstAttachments[index];
-                                            index = index + 1;
-                                            if (oPage1Attachment != null)
-                                            {
-                                                fileName = oPage1Attachment.FileName;
-                                                fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
-                                                fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
-                                                sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + ".pdf";
-
-                                                if (fileName.Contains("overlay"))
-                                                {
-                                                    sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + "overlay.pdf";
-
-                                                }
-
-                                                //System.IO.File.Copy(fileCompleteAddress, fileCompleteAddress2);
-                                                if (File.Exists(sourcePath))
-                                                {
-                                                    System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
-                                                    System.IO.File.Copy(sourcePath, fileCompleteAddress2, true);
-                                                }
-                                            }
-                                        }
-                                        //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
-                                        //string ThumbnailPath = fileCompleteAddress;
-                                        //System.IO.File.WriteAllBytes( System.Web.HttpContext.Current.Server.MapPath(  System.IO.Path.Combine(Web2Print.UI.Common.Utils.GetAppBasePath() +  oPage1Attachment.FolderPath, oPage1Attachment.FileName)), PDFSide1HighRes);
-                                        //ProductManager.GenerateThumbnailForPdf(ThumbnailPath, true);
+                                        if (page.hasOverlayObjects == true)
+                                            hasOverlayPdf = true;
                                     }
 
+                                    //  index = index + 1;
+                                    //ArtWorkAttatchment oPage1Attachment = oLstAttachments.Where(g => g.FileTitle == oPage.PageName).Single();
+
+                                    foreach (var attachment in oPage1Attachment)
+                                    {
+                                        if (attachment != null)
+                                        {
+                                            string fileName = attachment.FileName + attachment.FileExtention;
+                                            string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                            string fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
+                                            string sourcePath = DesignerPath + TemplateID + "/pages.pdf";
+
+                                            if (fileName.Contains("overlay"))
+                                            {
+                                                sourcePath = DesignerPath + TemplateID.ToString() + "/pagesoverlay.pdf";
+
+                                            }
+
+                                            //System.IO.File.Copy(fileCompleteAddress, fileCompleteAddress2);
+                                            if (File.Exists(sourcePath))
+                                            {
+                                                System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
+                                                System.IO.File.Copy(sourcePath, fileCompleteAddress2, true);
+                                            }
+
+
+
+                                            //if (hasOverlayPdf == true)
+                                            //{
+                                            //    //  oPage1Attachment = oLstAttachments[0];
+
+                                            //    if (oPage1Attachment != null)
+                                            //    {
+                                            //        fileName = attachment.FileName;
+                                            //        fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                            //        fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
+                                            //        sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + ".pdf";
+
+                                            //        if (fileName.Contains("overlay"))
+                                            //        {
+                                            //            sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + "overlay.pdf";
+
+                                            //        }
+
+                                            //        //System.IO.File.Copy(fileCompleteAddress, fileCompleteAddress2);
+                                            //        if (File.Exists(sourcePath))
+                                            //        {
+                                            //            System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
+                                            //            System.IO.File.Copy(sourcePath, fileCompleteAddress2, true);
+                                            //        }
+                                            //    }
+                                            //}
+                                            //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
+                                            //string ThumbnailPath = fileCompleteAddress;
+                                            //System.IO.File.WriteAllBytes( System.Web.HttpContext.Current.Server.MapPath(  System.IO.Path.Combine(Web2Print.UI.Common.Utils.GetAppBasePath() +  oPage1Attachment.FolderPath, oPage1Attachment.FileName)), PDFSide1HighRes);
+                                            //ProductManager.GenerateThumbnailForPdf(ThumbnailPath, true);
+                                        }
+                                    }
+
+
+
                                 }
+                                else
+                                {
+                                    int index = 0;
+                                    foreach (var oPage in oPages)
+                                    {
+                                        ArtWorkAttatchment oPage1Attachment = oLstAttachments[index];
+                                        index = index + 1;
+                                        //ArtWorkAttatchment oPage1Attachment = oLstAttachments.Where(g => g.FileTitle == oPage.PageName).Single();
+                                        if (oPage1Attachment != null)
+                                        {
+                                            string fileName = oPage1Attachment.FileName + oPage1Attachment.FileExtention;
+                                            string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                            string fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
+                                            string sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + ".pdf";
+
+                                            if (fileName.Contains("overlay"))
+                                            {
+                                                sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + "overlay.pdf";
+
+                                            }
+
+                                            //System.IO.File.Copy(fileCompleteAddress, fileCompleteAddress2);
+                                            if (File.Exists(sourcePath))
+                                            {
+                                                System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
+                                                System.IO.File.Copy(sourcePath, fileCompleteAddress2, true);
+                                            }
+
+
+
+                                            if (oPage.hasOverlayObjects == true)
+                                            {
+                                                oPage1Attachment = oLstAttachments[index];
+                                                index = index + 1;
+                                                if (oPage1Attachment != null)
+                                                {
+                                                    fileName = oPage1Attachment.FileName;
+                                                    fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                                    fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
+                                                    sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + ".pdf";
+
+                                                    if (fileName.Contains("overlay"))
+                                                    {
+                                                        sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + "overlay.pdf";
+
+                                                    }
+
+                                                    //System.IO.File.Copy(fileCompleteAddress, fileCompleteAddress2);
+                                                    if (File.Exists(sourcePath))
+                                                    {
+                                                        System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
+                                                        System.IO.File.Copy(sourcePath, fileCompleteAddress2, true);
+                                                    }
+                                                }
+                                            }
+                                            //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
+                                            //string ThumbnailPath = fileCompleteAddress;
+                                            //System.IO.File.WriteAllBytes( System.Web.HttpContext.Current.Server.MapPath(  System.IO.Path.Combine(Web2Print.UI.Common.Utils.GetAppBasePath() +  oPage1Attachment.FolderPath, oPage1Attachment.FileName)), PDFSide1HighRes);
+                                            //ProductManager.GenerateThumbnailForPdf(ThumbnailPath, true);
+                                        }
+
+                                    }
+                                }
+
+
+
                             }
                         }
                         else // case of uplaod images
                         {
                             List<ItemAttachment> ListOfAttachments = itemAttachmentRepository.GetItemAttactchments(ItemID);
 
-                            string folderPath = "Attachments/" + OrganisationId;// Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
+                            string folderPath = "mpc_content/Attachments/" + OrganisationId + "/" + StoreId + "/Products/" + ItemID; // Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
                             string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/" + productionFolderPath);
                             string fileSourcePath = System.Web.HttpContext.Current.Server.MapPath("~/" + folderPath);
 
@@ -1248,14 +1876,14 @@ namespace MPC.Implementation.MISServices
                                 System.IO.Directory.CreateDirectory(fileSourcePath);
                             }
 
-                            //foreach (var oPage in ListOfAttachments)
-                            //{
-                            //    string fileName = oPage.FileName;
-                            //    string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
-                            //    string sourceFileAdd = System.IO.Path.Combine(fileSourcePath, fileName);
-                            //    System.IO.File.Copy(sourceFileAdd, fileCompleteAddress, true);
+                            foreach (var oPage in ListOfAttachments)
+                            {
+                                string fileName = oPage.FileName;
+                                string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName + oPage.FileType);
+                                string sourceFileAdd = System.IO.Path.Combine(fileSourcePath, fileName + oPage.FileType);
+                                System.IO.File.Copy(sourceFileAdd, fileCompleteAddress, true);
 
-                            //}
+                            }
                         }
                     }
                 }
@@ -1277,7 +1905,7 @@ namespace MPC.Implementation.MISServices
         {
 
 
-            var Rec = companyRepository.GetCompanyByCompanyIDforArtwork(CustomerID);
+            var Rec = companyRepository.GetStoreById(CustomerID);
 
 
             if (Rec != null)
@@ -1288,7 +1916,7 @@ namespace MPC.Implementation.MISServices
             {
                 return false;
             }
-          
+
         }
 
         public string GetAttachmentFileName(string ProductCode, string OrderCode, string ItemCode, string SideCode, string VirtualFolderPath, string extension, DateTime OrderCreationDate)
@@ -1312,1470 +1940,1234 @@ namespace MPC.Implementation.MISServices
             return FileName;
         }
 
-        public string ExportPDF(int iReportID, long iRecordID,ReportType type, long OrderID)
+        public List<Item> GetOrderItems(long EstimateId)
         {
-            string sFilePath = string.Empty;
-            try
-            {
-                 long OrganisationID = 0;
-                Organisation org = organisationRepository.GetOrganizatiobByID();
-                if (org != null)
-                {
-                    OrganisationID = org.OrganisationId;
-                }
-                Report currentReport = ReportRepository.GetReportByReportID(iReportID);
-                if (currentReport.ReportId > 0)
-                {
-                    byte[] rptBytes = null;
-                    rptBytes = System.Text.Encoding.Unicode.GetBytes(currentReport.ReportTemplate);
-                    // Encoding must be done
-                    System.IO.MemoryStream ms = new System.IO.MemoryStream(rptBytes);
-                    // Load it to memory stream
-                    ms.Position = 0;
-                    SectionReport currReport = new SectionReport();
-                    string sFileName = iRecordID + "OrderReport.pdf";
-                    // FileNamesList.Add(sFileName);
-                    currReport.LoadLayout(ms);
-                    if (type == ReportType.JobCard)
-                    {
-                        sFileName = iRecordID + "JobCardReport.pdf";
-                        //  FileNamesList.Add(sFileName);
-                        List<usp_JobCardReport_Result> rptSource = ReportRepository.getJobCardReportResult(OrganisationID, OrderID, iRecordID);
-                        currReport.DataSource = rptSource;
-                    }
-                    else if(type == ReportType.Order)
-                    {
+            return orderRepository.GetOrderItems(EstimateId);
+        } 
 
-                        List<usp_OrderReport_Result> rptOrderSource = ReportRepository.getOrderReportResult(OrganisationID, OrderID);
-                        currReport.DataSource = rptOrderSource;
-                    }
 
-                    if (currReport != null)
-                    {
-                        currReport.Run();
-                        GrapeCity.ActiveReports.Export.Pdf.Section.PdfExport pdf = new GrapeCity.ActiveReports.Export.Pdf.Section.PdfExport();
-                        string Path = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationID + "/");
-                        if (!Directory.Exists(Path))
-                        {
-                            Directory.CreateDirectory(Path);
-                        }
-                        // PdfExport pdf = new PdfExport();
-                        sFilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationID + "/") + sFileName;
-
-                        pdf.Export(currReport.Document, sFilePath);
-                        ms.Close();
-                        currReport.Document.Dispose();
-                        pdf.Dispose();
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            return sFilePath;
-        }
-
-        public string ExportOrderReportXML(long iRecordID, string OrderCode, string XMLFormat)
-        {
-            string sFilePath = string.Empty;
-            bool isCorporate = false;
-            string CurrencySymbol = string.Empty;
-          
-            try
-            {
-            
-                long OrganisationID = 0;
-                Organisation org = organisationRepository.GetOrganizatiobByID();
-                if (org != null)
-                {
-                    OrganisationID = org.OrganisationId;
-                }
-                Estimate orderEntity = new Estimate();
-                if (iRecordID > 0)
-                    orderEntity = orderRepository.GetOrderByIdforXml(iRecordID);
-                if (OrderCode != "")
-                    orderEntity = orderRepository.GetOrderByOrderCode(OrderCode);
-
-                //long CurrencyID = db.Organisations.Where(c => c.OrganisationId == OrganisationId).Select(c => c.CurrencyId ?? 0).FirstOrDefault();
-                Currency curr = CurrencyRepository.GetCurrencySymbolByOrganisationId(OrganisationID);
-                if (curr != null)
-                    CurrencySymbol = curr.CurrencySymbol;
-                List<PrePayment> paymentsList = prePaymentRepository.GetPrePaymentsByOrganisatioID(iRecordID);
-                if (orderEntity != null)
-                {
-
-                    XmlDocument XDoc = new XmlDocument();
-
-                    XmlNode docNode = XDoc.CreateXmlDeclaration("1.0", "UTF-8", null);
-                    XDoc.AppendChild(docNode);
-                    // Create root node.
-                    XmlElement XElemRoot = XDoc.CreateElement("Order");
-                    //Add the node to the document.
-                    XDoc.AppendChild(XElemRoot);
-
-                    XmlElement XTemp = XDoc.CreateElement("OrderDetail");
-
-
-                    XmlAttribute OrderUserNotesAttr = XDoc.CreateAttribute("UserNotes");
-                    if (!string.IsNullOrEmpty(orderEntity.UserNotes))
-                        OrderUserNotesAttr.Value = orderEntity.UserNotes;
-                    else
-                        OrderUserNotesAttr.Value = string.Empty;
-                    XTemp.SetAttributeNode(OrderUserNotesAttr);
-
-
-                    int SID = 0;
-                    if (orderEntity.SourceId != null)
-                        SID = (int)orderEntity.SourceId;
-
-                    string SourceName = pipeLineSourceRepository.GetSourceNameByID(SID);
-                    XmlAttribute OrderSourceAttr = XDoc.CreateAttribute("Source");
-                    if (!string.IsNullOrEmpty(SourceName))
-                    {
-                        OrderSourceAttr.Value = SourceName;
-                    }
-                    else
-                    {
-                        OrderSourceAttr.Value = string.Empty;
-                    }
-                    XTemp.SetAttributeNode(OrderSourceAttr);
-
-
-                    DateTime dtCreation = new DateTime();
-                    string CreationDate = string.Empty;
-                    XmlAttribute OrderCreationAttr = XDoc.CreateAttribute("CreationDate");
-                    if (orderEntity.CreationDate != null)
-                    {
-                        dtCreation = Convert.ToDateTime(orderEntity.CreationDate);
-                        CreationDate = dtCreation.ToString("dd/MMM/yyyy");
-                        OrderCreationAttr.Value = CreationDate;
-                    }
-                    else
-                    {
-                        OrderCreationAttr.Value = string.Empty;
-                    }
-
-                    XTemp.SetAttributeNode(OrderCreationAttr);
-
-                    XmlAttribute OrderFooterAttr = XDoc.CreateAttribute("OrderFooter");
-                    if (!string.IsNullOrEmpty(orderEntity.FootNotes))
-                        OrderFooterAttr.Value = orderEntity.FootNotes;
-                    else
-                        OrderFooterAttr.Value = string.Empty;
-                    XTemp.SetAttributeNode(OrderFooterAttr);
-
-                    XmlAttribute OrderHeaderAttr = XDoc.CreateAttribute("OrderHeader");
-                    if (!string.IsNullOrEmpty(orderEntity.HeadNotes))
-                        OrderHeaderAttr.Value = orderEntity.HeadNotes;
-                    else
-                        OrderHeaderAttr.Value = string.Empty;
-                    XTemp.SetAttributeNode(OrderHeaderAttr);
-
-                    XmlAttribute OrderPONumbAttr = XDoc.CreateAttribute("CustomerPORef");
-                    int isPO = 1;
-                    string POString = string.Empty;
-                    if (orderEntity.CustomerPO != null)
-                    {
-                        OrderPONumbAttr.Value = orderEntity.CustomerPO;
-                    }
-                    else
-                    {
-                        OrderPONumbAttr.Value = string.Empty;
-                    }
-                    XTemp.SetAttributeNode(OrderPONumbAttr);
-
-
-                    XmlAttribute OrderCreditAppAttr = XDoc.CreateAttribute("OrderCreditApproved");
-                    int isApproved = 1;
-                    string ApproveString = string.Empty;
-                    if (orderEntity.IsCreditApproved != null)
-                    {
-                        isApproved = (int)orderEntity.IsCreditApproved;
-                        if (isApproved == 1)
-                            ApproveString = "True";
-                        else
-                            ApproveString = "False";
-                    }
-                    OrderCreditAppAttr.Value = ApproveString;
-                    XTemp.SetAttributeNode(OrderCreditAppAttr);
-
-                    SectionFlag oFlag = sectionFlagRepository.GetSectionFlag(orderEntity.SectionFlagId);
-                    XmlAttribute OrderflagAttr = XDoc.CreateAttribute("OrderFlag");
-                    if (oFlag != null)
-                        OrderflagAttr.Value = oFlag.FlagName;
-                    else
-                        OrderflagAttr.Value = string.Empty;
-                    XTemp.SetAttributeNode(OrderflagAttr);
-
-                    string OrderDateSta = string.Empty;
-                    //if (orderEntity.Order_Date != null)
-                    DateTime dtStart = new DateTime();
-                    XmlAttribute OrderDateStartAttr = XDoc.CreateAttribute("StartDeliveryDate");
-                    if (orderEntity.Order_Date != null)
-                    {
-                        dtStart = Convert.ToDateTime(orderEntity.StartDeliveryDate);
-                        OrderDateSta = dtStart.ToString("dd/MMM/yyyy");
-                        OrderDateStartAttr.Value = OrderDateSta;
-                    }
-                    else
-                        OrderDateStartAttr.Value = string.Empty;
-                    XTemp.SetAttributeNode(OrderDateStartAttr);
-
-                    string OrderDateFin = string.Empty;
-                    //if (orderEntity.Order_Date != null)
-                    DateTime dtFinsih = new DateTime();
-                    XmlAttribute OrderDateFinishAttr = XDoc.CreateAttribute("FinishDeliveryDate");
-                    if (orderEntity.Order_Date != null)
-                    {
-                        dtFinsih = Convert.ToDateTime(orderEntity.FinishDeliveryDate);
-                        OrderDateFin = dtFinsih.ToString("dd/MMM/yyyy");
-                        OrderDateFinishAttr.Value = OrderDateFin;
-                    }
-                    else
-                        OrderDateFinishAttr.Value = string.Empty;
-                    XTemp.SetAttributeNode(OrderDateFinishAttr);
-
-
-                    string OrderDate = string.Empty;
-                    //if (orderEntity.Order_Date != null)
-                    DateTime dt = new DateTime();
-                    XmlAttribute OrderDateAtt = XDoc.CreateAttribute("OrderDate");
-                    if (orderEntity.Order_Date != null)
-                    {
-                        dt = Convert.ToDateTime(orderEntity.Order_Date);
-                        OrderDate = dt.ToString("dd/MMM/yyyy");
-                        OrderDateAtt.Value = OrderDate;
-                    }
-                    else
-                        OrderDateAtt.Value = string.Empty;
-                    XTemp.SetAttributeNode(OrderDateAtt);
-
-                    XmlAttribute OrderCod = XDoc.CreateAttribute("OrderCode");
-                    OrderCod.Value = orderEntity.Order_Code; ;
-                    XTemp.SetAttributeNode(OrderCod);
-
-                    XmlAttribute status = XDoc.CreateAttribute("Status");
-                    status.Value = orderEntity.Status.StatusName;
-                    XTemp.SetAttributeNode(status);
-
-                    XmlAttribute Title = XDoc.CreateAttribute("Title");
-                    Title.Value = orderEntity.Estimate_Name;
-                    XTemp.SetAttributeNode(Title);
-
-                    XElemRoot.AppendChild(XTemp);
-
-                    foreach (Item items in orderEntity.Items)
-                    {
-                        if (items.ItemType == 2)
-                        {
-                            XmlAttribute deliverycost = XDoc.CreateAttribute("DeliveryCost");
-                            deliverycost.Value = Convert.ToString(items.Qty1GrossTotal ?? 0);
-                            XTemp.SetAttributeNode(deliverycost);
-                            XElemRoot.AppendChild(XTemp);
-                        }
-                    }
-
-                    XmlElement XCompanyTemp = XDoc.CreateElement("Company");
-
-                    XmlAttribute CredAttr = XDoc.CreateAttribute("CreditReference");
-                    if (!string.IsNullOrEmpty(orderEntity.Company.CreditReference))
-                        CredAttr.Value = orderEntity.Company.CreditReference;
-                    else
-                        CredAttr.Value = string.Empty;
-                    XCompanyTemp.SetAttributeNode(CredAttr);
-
-
-                    XmlAttribute CorpHomeAttr = XDoc.CreateAttribute("CorporateHomeURL");
-                    if (!string.IsNullOrEmpty(orderEntity.Company.RedirectWebstoreURL))
-                        CorpHomeAttr.Value = orderEntity.Company.RedirectWebstoreURL;
-                    else
-                        CorpHomeAttr.Value = string.Empty;
-                    XCompanyTemp.SetAttributeNode(CorpHomeAttr);
-
-                    XmlAttribute LinkAttr = XDoc.CreateAttribute("LinkedInURL");
-                    if (!string.IsNullOrEmpty(orderEntity.Company.LinkedinURL))
-                        LinkAttr.Value = orderEntity.Company.LinkedinURL;
-                    else
-                        LinkAttr.Value = string.Empty;
-                    XCompanyTemp.SetAttributeNode(LinkAttr);
-
-                    XmlAttribute TwitAttr = XDoc.CreateAttribute("TwitterURL");
-                    if (!string.IsNullOrEmpty(orderEntity.Company.TwitterURL))
-                        TwitAttr.Value = orderEntity.Company.TwitterURL;
-                    else
-                        TwitAttr.Value = string.Empty;
-                    XCompanyTemp.SetAttributeNode(TwitAttr);
-
-
-                    XmlAttribute FaceAttr = XDoc.CreateAttribute("FacebookURL");
-                    if (!string.IsNullOrEmpty(orderEntity.Company.FacebookURL))
-                        FaceAttr.Value = orderEntity.Company.FacebookURL;
-                    else
-                        FaceAttr.Value = string.Empty;
-                    XCompanyTemp.SetAttributeNode(FaceAttr);
-
-                    XmlAttribute WebUrlAttr = XDoc.CreateAttribute("WebURL");
-                    if (!string.IsNullOrEmpty(orderEntity.Company.URL))
-                        WebUrlAttr.Value = orderEntity.Company.URL;
-                    else
-                        WebUrlAttr.Value = string.Empty;
-                    XCompanyTemp.SetAttributeNode(WebUrlAttr);
-
-
-                 
-
-                    XmlAttribute AccBalAttr = XDoc.CreateAttribute("AccountBalance");
-                    if (orderEntity.Company.AccountBalance != null)
-                        AccBalAttr.Value = Convert.ToString(orderEntity.Company.AccountBalance);
-                    else
-                        AccBalAttr.Value = string.Empty;
-                    XCompanyTemp.SetAttributeNode(AccBalAttr);
-
-
-                    XmlAttribute VatRefAttr = XDoc.CreateAttribute("VATRefNumber");
-                    if (!string.IsNullOrEmpty(orderEntity.Company.VATRegReference))
-                        VatRefAttr.Value = orderEntity.Company.VATRegReference;
-                    else
-                        VatRefAttr.Value = string.Empty;
-                    XCompanyTemp.SetAttributeNode(VatRefAttr);
-
-
-                    XmlAttribute VatRegAttr = XDoc.CreateAttribute("VATRegNumber");
-                    if (!string.IsNullOrEmpty(orderEntity.Company.VATRegNumber))
-                        VatRegAttr.Value = orderEntity.Company.VATRegNumber;
-                    else
-                        VatRegAttr.Value = string.Empty;
-                    XCompanyTemp.SetAttributeNode(VatRegAttr);
-
-
-                    XmlAttribute CreditLimitAttr = XDoc.CreateAttribute("CreditLimit");
-                    if (orderEntity.Company.CreditLimit != null)
-                        CreditLimitAttr.Value = Convert.ToString(orderEntity.Company.CreditLimit);
-                    else
-                        CreditLimitAttr.Value = string.Empty;
-                    XCompanyTemp.SetAttributeNode(CreditLimitAttr);
-
-                    XmlAttribute NotesAttr = XDoc.CreateAttribute("Notes");
-                    if (!string.IsNullOrEmpty(orderEntity.Company.Notes))
-                        NotesAttr.Value = orderEntity.Company.Notes;
-                    else
-                        NotesAttr.Value = string.Empty;
-                    XCompanyTemp.SetAttributeNode(NotesAttr);
-
-
-                    int CustTypeS = orderEntity.Company.IsCustomer;
-                    if (CustTypeS == 3)
-                        isCorporate = true;
-
-                    if (isCorporate)
-                    {
-
-                        XmlAttribute WebAccessAttr = XDoc.CreateAttribute("WebAccessCode");
-                        if (!string.IsNullOrEmpty(orderEntity.Company.WebAccessCode))
-                            WebAccessAttr.Value = orderEntity.Company.WebAccessCode;
-                        else
-                            WebAccessAttr.Value = string.Empty;
-                        XCompanyTemp.SetAttributeNode(WebAccessAttr);
-
-                    }
-
-
-
-                    XmlAttribute AccAtNoAttr = XDoc.CreateAttribute("AccountNo");
-                    if (!string.IsNullOrEmpty(orderEntity.Company.AccountNumber))
-                        AccAtNoAttr.Value = orderEntity.Company.AccountNumber;
-                    else
-                        AccAtNoAttr.Value = string.Empty;
-                    XCompanyTemp.SetAttributeNode(AccAtNoAttr);
-
-                    XmlAttribute phneAttr = XDoc.CreateAttribute("Phone");
-                    if (!string.IsNullOrEmpty(orderEntity.Company.PhoneNo))
-                        phneAttr.Value = orderEntity.Company.PhoneNo;
-                    else
-                        phneAttr.Value = string.Empty;
-                    XCompanyTemp.SetAttributeNode(phneAttr);
-
-
-
-                    int CustType = orderEntity.Company.IsCustomer;
-                    string CustomerType = string.Empty;
-                    if (CustType == 1)
-                        CustomerType = "Retail Customer";
-                    else if (CustType == 2)
-                        CustomerType = "Supplier";
-                    else if (CustType == 3)
-                    {
-                        CustomerType = "Corporate Store";
-                        isCorporate = true;
-                    }
-                    else if (CustType == 4)
-                    {
-                        CustomerType = "Retail Store";
-                    }
-
-                    XmlAttribute typeAttr = XDoc.CreateAttribute("Type");
-                    typeAttr.Value = CustomerType;
-                    XCompanyTemp.SetAttributeNode(typeAttr);
-
-
-                    XmlAttribute comp = XDoc.CreateAttribute("Name");
-                    if (orderEntity.Company != null)
-                        comp.Value = orderEntity.Company.Name;
-                    else
-                        comp.Value = string.Empty;
-                    XCompanyTemp.SetAttributeNode(comp);
-
-
-                    XElemRoot.AppendChild(XCompanyTemp);
-
-                    XmlElement XContactTemp = XDoc.CreateElement("CompanyContact");
-
-                    XmlAttribute cSkypeAtt = XDoc.CreateAttribute("SkypeID");
-                    if (!string.IsNullOrEmpty(orderEntity.CompanyContact.SkypeId))
-                        cSkypeAtt.Value = orderEntity.CompanyContact.SkypeId;
-                    else
-                        cSkypeAtt.Value = "";
-                    XContactTemp.SetAttributeNode(cSkypeAtt);
-
-                    XmlAttribute cFaxAtt = XDoc.CreateAttribute("FAX");
-                    if (!string.IsNullOrEmpty(orderEntity.CompanyContact.FAX))
-                        cFaxAtt.Value = orderEntity.CompanyContact.FAX;
-                    else
-                        cFaxAtt.Value = "";
-                    XContactTemp.SetAttributeNode(cFaxAtt);
-
-
-                    XmlAttribute cDirectAtt = XDoc.CreateAttribute("DirectLine");
-                    if (!string.IsNullOrEmpty(orderEntity.CompanyContact.HomeTel1))
-                        cDirectAtt.Value = orderEntity.CompanyContact.HomeTel1;
-                    else
-                        cDirectAtt.Value = "";
-                    XContactTemp.SetAttributeNode(cDirectAtt);
-
-
-                    XmlAttribute cCellAtt = XDoc.CreateAttribute("CellNumbber");
-                    if (!string.IsNullOrEmpty(orderEntity.CompanyContact.Mobile))
-                        cCellAtt.Value = orderEntity.CompanyContact.Mobile;
-                    else
-                        cCellAtt.Value = "";
-                    XContactTemp.SetAttributeNode(cCellAtt);
-
-
-                    XmlAttribute cJobAtt = XDoc.CreateAttribute("JobTitle");
-                    if (!string.IsNullOrEmpty(orderEntity.CompanyContact.JobTitle))
-                        cJobAtt.Value = orderEntity.CompanyContact.JobTitle;
-                    else
-                        cJobAtt.Value = "";
-                    XContactTemp.SetAttributeNode(cJobAtt);
-
-
-
-                    XmlAttribute cEmailAtt = XDoc.CreateAttribute("Email");
-                    cEmailAtt.Value = orderEntity.CompanyContact.Email;
-                    XContactTemp.SetAttributeNode(cEmailAtt);
-
-
-
-                    XmlAttribute contName = XDoc.CreateAttribute("Name");
-                    string FullName = orderEntity.CompanyContact.FirstName + " " + orderEntity.CompanyContact.LastName;
-                    contName.Value = FullName;
-                    XContactTemp.SetAttributeNode(contName);
-
-
-                    XElemRoot.AppendChild(XContactTemp);
-                    // att area contact
-
-                    XmlElement XAddressTemp = XDoc.CreateElement("ShippingAddress");
-
-                    //  orderEntity.tbl_contacts.tbl_addresses.pos
-                    Address contAddress = orderEntity.CompanyContact.Address;
-
-                    XmlAttribute CountAttr = XDoc.CreateAttribute("Country");
-                    if (orderEntity.CompanyContact.Address != null)
-                    {
-                        if (contAddress.Country != null)
-                            CountAttr.Value = contAddress.Country.CountryName;
-                        else
-                            CountAttr.Value = string.Empty;
-                    }
-                    else
-                    {
-                        CountAttr.Value = string.Empty;
-                    }
-                    XAddressTemp.SetAttributeNode(CountAttr);
-
-                    XmlAttribute StateAttr = XDoc.CreateAttribute("State");
-                    if (contAddress.State != null)
-                    {
-                        if (!string.IsNullOrEmpty(contAddress.State.StateName))
-                            StateAttr.Value = contAddress.State.StateName;
-                        else
-                            StateAttr.Value = string.Empty;
-                    }
-                    else
-                    {
-                        StateAttr.Value = string.Empty;
-                    }
-                    XAddressTemp.SetAttributeNode(StateAttr);
-
-
-                    XmlAttribute CityAttr = XDoc.CreateAttribute("City");
-                    if (contAddress != null)
-                    {
-                        if (!string.IsNullOrEmpty(contAddress.City))
-                            CityAttr.Value = contAddress.City;
-                        else
-                            CityAttr.Value = string.Empty;
-                    }
-                    else
-                    {
-                        CityAttr.Value = string.Empty;
-                    }
-                    XAddressTemp.SetAttributeNode(CityAttr);
-
-                    XmlAttribute PostAttr = XDoc.CreateAttribute("PostCode");
-                    if (contAddress != null)
-                    {
-                        if (!string.IsNullOrEmpty(contAddress.PostCode))
-                            PostAttr.Value = contAddress.PostCode;
-                        else
-                            PostAttr.Value = string.Empty;
-                    }
-                    else
-                    {
-                        PostAttr.Value = string.Empty;
-                    }
-                    XAddressTemp.SetAttributeNode(PostAttr);
-
-                    XmlAttribute AddName = XDoc.CreateAttribute("Address");
-                    if (contAddress != null)
-                        AddName.Value = contAddress.Address1 + " " + contAddress.Address2;
-                    XAddressTemp.SetAttributeNode(AddName);
-
-                    XElemRoot.AppendChild(XAddressTemp);
-                    // att area address
-
-                    if (orderEntity.BillingAddressId != null)
-                    {
-                        XmlElement XBillingAddressTemp = XDoc.CreateElement("BillingAddress");
-
-                        Address adress = addressRepository.GetAddressByIdforXML(orderEntity.BillingAddressId ?? 0);
-
-                        XmlAttribute CountaAttr = XDoc.CreateAttribute("Country");
-                        if (adress != null)
-                        {
-                            if (adress.Country != null)
-                                CountaAttr.Value = adress.Country.CountryName;
-                            else
-                                CountaAttr.Value = string.Empty;
-                        }
-                        else
-                        {
-                            CountaAttr.Value = string.Empty;
-                        }
-                        XBillingAddressTemp.SetAttributeNode(CountaAttr);
-
-
-                        XmlAttribute StateaAttr = XDoc.CreateAttribute("State");
-                        if (adress != null)
-                        {
-                            if (adress.State != null)
-                                StateaAttr.Value = adress.State.StateName;
-                            else
-                                StateaAttr.Value = string.Empty;
-                        }
-                        else
-                        {
-                            StateaAttr.Value = string.Empty;
-                        }
-                        XBillingAddressTemp.SetAttributeNode(StateaAttr);
-
-
-                        XmlAttribute CityaAttr = XDoc.CreateAttribute("City");
-                        if (adress != null)
-                        {
-                            if (!string.IsNullOrEmpty(adress.City))
-                                CityaAttr.Value = adress.City;
-                            else
-                                CityaAttr.Value = string.Empty;
-                        }
-                        else
-                        {
-                            CityaAttr.Value = string.Empty;
-                        }
-                        XBillingAddressTemp.SetAttributeNode(CityaAttr);
-
-
-
-                        XmlAttribute PostaAttr = XDoc.CreateAttribute("PostCode");
-                        if (adress != null)
-                        {
-                            if (!string.IsNullOrEmpty(adress.PostCode))
-                                PostaAttr.Value = adress.PostCode;
-                            else
-                                PostaAttr.Value = string.Empty;
-                        }
-                        else
-                        {
-                            PostaAttr.Value = string.Empty;
-                        }
-                        XBillingAddressTemp.SetAttributeNode(PostaAttr);
-
-                        XmlAttribute AddaName = XDoc.CreateAttribute("Address");
-                        if (adress != null)
-                            AddaName.Value = adress.Address1 + " " + adress.Address2;
-                        else
-                            AddaName.Value = string.Empty;
-                        XBillingAddressTemp.SetAttributeNode(AddaName);
-
-                        XElemRoot.AppendChild(XBillingAddressTemp);
-                    }
-
-
-                    XmlElement ItemElemRoot = XDoc.CreateElement("Items");
-                    XElemRoot.AppendChild(ItemElemRoot);
-
-                    foreach (Item items in orderEntity.Items)
-                    {
-                        if (items.ItemType != 2)
-                        {
-
-                            //  string ItemCount = "ItemNo " + itemsCount;
-                            XmlElement ItemNoElemRoot = XDoc.CreateElement("Item");
-
-                            string qtyMarkup = string.Empty;
-                            if (items.Qty1MarkUp1Value != null)
-                            {
-                                qtyMarkup = Convert.ToString(items.Qty1MarkUp1Value);
-                                if (qtyMarkup.StartsWith("-"))
-                                {
-                                    XmlAttribute DiscAttr = XDoc.CreateAttribute("Discount");
-
-                                    DiscAttr.Value = Convert.ToString(items.Qty1MarkUp1Value);
-                                    ItemNoElemRoot.SetAttributeNode(DiscAttr);
-                                }
-                            }
-
-                            XmlAttribute GrandAttr = XDoc.CreateAttribute("GrandTotal");
-                            string grandtotal = string.Empty;
-                            if (items.Qty1GrossTotal != null)
-                                grandtotal = CurrencySymbol + Convert.ToString(items.Qty1GrossTotal);
-                            GrandAttr.Value = grandtotal;
-                            ItemNoElemRoot.SetAttributeNode(GrandAttr);
-
-                            XmlAttribute VatAttr = XDoc.CreateAttribute("VAT");
-                            string VAT = string.Empty;
-                            if (items.Qty1Tax1Value != null)
-                                VAT = CurrencySymbol + Convert.ToString(items.Qty1Tax1Value);
-                            VatAttr.Value = VAT;
-                            ItemNoElemRoot.SetAttributeNode(VatAttr);
-
-                            XmlAttribute netAttr = XDoc.CreateAttribute("NetTotal");
-                            string nettotal = string.Empty;
-                            if (items.Qty1NetTotal != null)
-                                nettotal = CurrencySymbol + Convert.ToString(items.Qty1NetTotal);
-                            netAttr.Value = nettotal;
-                            ItemNoElemRoot.SetAttributeNode(netAttr);
-
-
-                            XmlAttribute qtyAttr = XDoc.CreateAttribute("Quantity");
-                            string qty = string.Empty;
-                            if (items.Qty1 != null)
-                                qty = Convert.ToString(items.Qty1);
-                            qtyAttr.Value = qty;
-                            ItemNoElemRoot.SetAttributeNode(qtyAttr);
-
-
-                            if (items.Status != null)
-                            {
-                                if (items.Status.StatusId != 17)
-                                {
-
-                                    XmlAttribute JoAttr = XDoc.CreateAttribute("JobCode");
-                                    JoAttr.Value = items.JobCode;
-                                    ItemNoElemRoot.SetAttributeNode(JoAttr);
-                                }
-
-                            }
-
-                            XmlAttribute codeAttr = XDoc.CreateAttribute("ItemCode");
-                            codeAttr.Value = items.ItemCode;
-                            ItemNoElemRoot.SetAttributeNode(codeAttr);
-
-
-                            string stat = string.Empty;
-                            if (items.Status != null)
-                                stat = items.Status.StatusName;
-                            else
-                                stat = "N/A";
-
-                            XmlAttribute JobStatus = XDoc.CreateAttribute("Status");
-                            JobStatus.Value = stat;
-                            ItemNoElemRoot.SetAttributeNode(JobStatus);
-
-
-                            string ProductFullName = items.ProductName;
-
-
-                            XmlAttribute Prod = XDoc.CreateAttribute("ProductName");
-                            Prod.Value = ProductFullName;
-                            ItemNoElemRoot.SetAttributeNode(Prod);
-
-                            // ItemXTemp.InnerText = ProductFullName;
-                            ItemElemRoot.AppendChild(ItemNoElemRoot);
-                            // attr area items
-
-
-                            XmlElement ItemXTemp = XDoc.CreateElement("JobDescriptions1");
-                            string JobDescription1 = string.Empty;
-                            JobDescription1 = items.JobDescriptionTitle1 + ": " + items.JobDescription1;
-                            if (JobDescription1 != ": ")
-                                ItemXTemp.InnerText = JobDescription1;
-                            else
-                                ItemXTemp.InnerText = "N/A";
-                            ItemNoElemRoot.AppendChild(ItemXTemp);
-
-                            ItemXTemp = XDoc.CreateElement("JobDescriptions2");
-                            string JobDescription2 = string.Empty;
-                            JobDescription2 = items.JobDescriptionTitle2 + ": " + items.JobDescription2;
-                            if (JobDescription2 != ": ")
-                                ItemXTemp.InnerText = JobDescription2;
-                            else
-                                ItemXTemp.InnerText = "N/A";
-                            ItemNoElemRoot.AppendChild(ItemXTemp);
-
-
-                            ItemXTemp = XDoc.CreateElement("JobDescriptions3");
-                            string JobDescription3 = string.Empty;
-                            JobDescription3 = items.JobDescriptionTitle3 + ": " + items.JobDescription3;
-                            if (JobDescription3 != ": ")
-                                ItemXTemp.InnerText = JobDescription3;
-                            else
-                                ItemXTemp.InnerText = "N/A";
-                            ItemNoElemRoot.AppendChild(ItemXTemp);
-
-
-
-                            ItemXTemp = XDoc.CreateElement("JobDescriptions4");
-                            string JobDescription4 = string.Empty;
-                            JobDescription4 = items.JobDescriptionTitle4 + ": " + items.JobDescription4;
-                            if (JobDescription4 != ": ")
-                                ItemXTemp.InnerText = JobDescription4;
-                            else
-                                ItemXTemp.InnerText = "N/A"; ;
-                            ItemNoElemRoot.AppendChild(ItemXTemp);
-
-                            ItemXTemp = XDoc.CreateElement("JobDescriptions5");
-                            string JobDescription5 = string.Empty;
-                            JobDescription5 = items.JobDescriptionTitle5 + ": " + items.JobDescription5;
-                            if (JobDescription5 != ": ")
-                                ItemXTemp.InnerText = JobDescription5;
-                            else
-                                ItemXTemp.InnerText = "N/A"; ;
-                            ItemNoElemRoot.AppendChild(ItemXTemp);
-
-                            ItemXTemp = XDoc.CreateElement("JobDescriptions6");
-                            string JobDescription6 = string.Empty;
-                            JobDescription6 = items.JobDescriptionTitle6 + ": " + items.JobDescription6;
-                            if (JobDescription6 != ": ")
-                                ItemXTemp.InnerText = JobDescription6;
-                            else
-                                ItemXTemp.InnerText = "N/A"; ;
-                            ItemNoElemRoot.AppendChild(ItemXTemp);
-
-                            ItemXTemp = XDoc.CreateElement("JobDescriptions7");
-                            string JobDescription7 = string.Empty;
-                            JobDescription7 = items.JobDescriptionTitle7 + ": " + items.JobDescription7;
-                            if (JobDescription7 != ": ")
-                                ItemXTemp.InnerText = JobDescription7;
-                            else
-                                ItemXTemp.InnerText = "N/A"; ;
-                            ItemNoElemRoot.AppendChild(ItemXTemp);
-
-
-                            ItemXTemp = XDoc.CreateElement("InvoiceDescription");
-                            string invDesc = string.Empty;
-                            invDesc = items.InvoiceDescription;
-                            if (!string.IsNullOrEmpty(invDesc))
-                                ItemXTemp.InnerText = invDesc;
-                            else
-                                ItemXTemp.InnerText = "N/A";
-                            ItemNoElemRoot.AppendChild(ItemXTemp);
-
-
-                            if (items.ItemAttachments != null)
-                            {
-                                if (items.ItemAttachments.Count > 0)
-                                {
-                                    XmlElement ItemXTempAttachments = XDoc.CreateElement("Attachments");
-                                    ItemNoElemRoot.AppendChild(ItemXTempAttachments);
-                                    foreach (var v in items.ItemAttachments)
-                                    {
-                                        XmlElement AttachmentXTemp = XDoc.CreateElement("Attachment");
-                                        XmlAttribute AttributeAtt = XDoc.CreateAttribute("Name");
-                                        AttributeAtt.Value = v.FileName;
-                                        AttachmentXTemp.SetAttributeNode(AttributeAtt);
-                                        ItemXTempAttachments.AppendChild(AttachmentXTemp);
-
-                                    }
-                                }
-                            }
-
-
-                            XmlElement SectionsElemRoot = XDoc.CreateElement("ItemSections");
-                            ItemNoElemRoot.AppendChild(SectionsElemRoot);
-
-                            if (items.ItemSections != null)
-                            {
-                                if (items.ItemSections.Count > 0)
-                                {
-                                    foreach (var s in items.ItemSections)
-                                    {
-                                        XmlElement SectionsXTemp = XDoc.CreateElement("Section");
-                                        SectionsElemRoot.AppendChild(SectionsXTemp);
-
-
-                                        XmlAttribute platesAttr = XDoc.CreateAttribute("Plates");
-                                        if (s.Side1PlateQty != null)
-                                        {
-                                            platesAttr.Value = Convert.ToString(s.Side1PlateQty);
-
-                                        }
-                                        else
-                                            platesAttr.Value = "N/A";
-                                        SectionsXTemp.SetAttributeNode(platesAttr);
-
-
-
-                                        XmlAttribute incPlate = XDoc.CreateAttribute("IsPlateSupplied");
-                                        if (s.IsPlateSupplied == true)
-                                        {
-                                            incPlate.Value = "True";
-
-                                        }
-                                        else
-                                            incPlate.Value = "False";
-                                        SectionsXTemp.SetAttributeNode(incPlate);
-
-
-
-                                        XmlAttribute incGutter = XDoc.CreateAttribute("IncludeGutter");
-                                        if (s.IncludeGutter == true)
-                                        {
-                                            incGutter.Value = "True";
-
-                                        }
-                                        else
-                                            incGutter.Value = "False";
-                                        SectionsXTemp.SetAttributeNode(incGutter);
-
-
-                                        XmlAttribute PaperSupplied = XDoc.CreateAttribute("IsPaperSupplied");
-                                        if (s.IsPaperSupplied == true)
-                                        {
-                                            PaperSupplied.Value = "True";
-
-                                        }
-                                        else
-                                            PaperSupplied.Value = "False";
-                                        SectionsXTemp.SetAttributeNode(PaperSupplied);
-
-
-                                        int InkID = 0;
-                                        if (s.PlateInkId != null)
-                                            InkID = (int)s.PlateInkId;
-
-                                        string InkString = MachineRepository.GetInkPlatesSidesByInkID(InkID);
-                                        XmlAttribute inkAttr = XDoc.CreateAttribute("Ink");
-                                        if (!string.IsNullOrEmpty(InkString))
-                                            inkAttr.Value = InkString;
-                                        else
-                                            inkAttr.Value = "N/A";
-                                        SectionsXTemp.SetAttributeNode(inkAttr);
-
-
-
-                                        bool iscustome = false;
-                                        bool isItemSizeCustom = false;
-
-                                        XmlAttribute itemSizAttr = XDoc.CreateAttribute("ItemSizeCustom");
-                                        if (s.IsItemSizeCustom == true)
-                                        {
-                                            itemSizAttr.Value = "True";
-                                            isItemSizeCustom = true;
-                                        }
-                                        else
-                                            itemSizAttr.Value = "False";
-                                        SectionsXTemp.SetAttributeNode(itemSizAttr);
-
-
-                                        XmlAttribute SecSizAttr = XDoc.CreateAttribute("SectionSizeCustom");
-                                        if (s.IsSectionSizeCustom == true)
-                                        {
-                                            SecSizAttr.Value = "True";
-                                            iscustome = true;
-                                        }
-                                        else
-                                            SecSizAttr.Value = "False";
-                                        SectionsXTemp.SetAttributeNode(SecSizAttr);
-
-
-                                        if (iscustome)
-                                        {
-
-                                            XmlAttribute secHeightAttr = XDoc.CreateAttribute("SectionSizeHeight");
-                                            if (s.SectionSizeHeight != null)
-                                                secHeightAttr.Value = Convert.ToString(s.SectionSizeHeight);
-                                            else
-                                                secHeightAttr.Value = "";
-                                            SectionsXTemp.SetAttributeNode(secHeightAttr);
-
-                                            XmlAttribute secwidthAttr = XDoc.CreateAttribute("SectionSizeWidth");
-                                            if (s.SectionSizeWidth != null)
-                                                secwidthAttr.Value = Convert.ToString(s.SectionSizeWidth);
-                                            else
-                                                secwidthAttr.Value = "";
-                                            SectionsXTemp.SetAttributeNode(secwidthAttr);
-
-                                        }
-                                        else
-                                        {
-                                            string PaperString = string.Empty;
-                                            int PSSID = 0;
-                                            if (s.SectionSizeId != null)
-                                                PSSID = (int)s.SectionSizeId;
-
-                                            // N Chance
-
-                                            var data = paperSizeRepository.GetPaperSizesByID(PSSID);
-
-                                            if (data != null)
-                                            {
-                                                foreach (var v in data)
-                                                {
-                                                    PaperString = v.Name + " " + v.Height + "x" + v.Width;
-                                                }
-
-                                            }
-                                            XmlAttribute secwidthssAttr = XDoc.CreateAttribute("SectionSize");
-                                            if (!string.IsNullOrEmpty(PaperString))
-                                                secwidthssAttr.Value = PaperString;
-                                            else
-                                                secwidthssAttr.Value = "";
-                                            SectionsXTemp.SetAttributeNode(secwidthssAttr);
-
-
-                                        }
-
-
-                                        if (isItemSizeCustom)
-                                        {
-                                            XmlAttribute itemSizHeightAttr = XDoc.CreateAttribute("ItemSizeHeight");
-                                            if (s.ItemSizeHeight != null)
-                                                itemSizHeightAttr.Value = Convert.ToString(s.ItemSizeHeight);
-                                            else
-                                                itemSizHeightAttr.Value = "N/A";
-                                            SectionsXTemp.SetAttributeNode(itemSizHeightAttr);
-
-                                            XmlAttribute itemSizwidthAttr = XDoc.CreateAttribute("ItemSizeWidth");
-                                            if (s.ItemSizeWidth != null)
-                                                itemSizwidthAttr.Value = Convert.ToString(s.ItemSizeWidth);
-                                            else
-                                                itemSizwidthAttr.Value = "N/A";
-                                            SectionsXTemp.SetAttributeNode(itemSizwidthAttr);
-
-                                        }
-                                        else
-                                        {
-
-
-                                            string PaperSString = string.Empty;
-                                            int PSID = 0;
-                                            if (s.ItemSizeId != null)
-                                                PSID = (int)s.ItemSizeId;
-
-                                            var data2 = paperSizeRepository.GetPaperSizesByID(PSID);
-
-                                            if (data2 != null)
-                                            {
-                                                foreach (var v in data2)
-                                                {
-                                                    PaperSString = v.Name + " " + v.Height + "x" + v.Width;
-                                                }
-
-                                            }
-
-                                            // N chance
-
-                                            XmlAttribute itemSizeAttr = XDoc.CreateAttribute("ItemSize");
-                                            if (!string.IsNullOrEmpty(PaperSString))
-                                                itemSizeAttr.Value = PaperSString;
-                                            else
-                                                itemSizeAttr.Value = "N/A";
-                                            SectionsXTemp.SetAttributeNode(itemSizeAttr);
-
-                                        }
-
-
-                                        XmlAttribute GuiloAttr = XDoc.CreateAttribute("Guillotin");
-
-                                        int GID = 0;
-                                        if (s.GuillotineId != null)
-                                            GID = (int)s.GuillotineId;
-                                        string GuillotinName = MachineRepository.GetMachineByID(GID);
-                                        if (!string.IsNullOrEmpty(GuillotinName))
-                                            GuiloAttr.Value = GuillotinName;
-                                        else
-                                            GuiloAttr.Value = string.Empty;
-                                        SectionsXTemp.SetAttributeNode(GuiloAttr);
-
-
-
-
-                                        XmlAttribute StockAttr = XDoc.CreateAttribute("Stock");
-
-                                        int StockID = 0;
-                                        if (s.StockItemID1 != null)
-                                            StockID = (int)s.StockItemID1;
-                                        string StockName = stockItemRepository.GetStockName(StockID);
-                                        if (!string.IsNullOrEmpty(StockName))
-                                            StockAttr.Value = StockName;
-                                        else
-                                            StockAttr.Value = string.Empty;
-                                        SectionsXTemp.SetAttributeNode(StockAttr);
-
-
-                                        XmlAttribute PressAttr = XDoc.CreateAttribute("Press");
-                                        int PID = 0;
-                                        if (s.PressId != null)
-                                            PID = (int)s.PressId;
-
-                                        string PressName = MachineRepository.GetMachineByID(PID);
-                                        if (!string.IsNullOrEmpty(PressName))
-                                            PressAttr.Value = PressName;
-                                        else
-                                            PressAttr.Value = string.Empty;
-                                        SectionsXTemp.SetAttributeNode(PressAttr);
-
-
-                                        XmlAttribute AttributeSec = XDoc.CreateAttribute("Name");
-                                        AttributeSec.Value = s.SectionName;
-                                        SectionsXTemp.SetAttributeNode(AttributeSec);
-
-                                        SectionsElemRoot.AppendChild(SectionsXTemp);
-
-                                        // attr secComes here
-
-
-                                        XmlElement SectXTemp = XDoc.CreateElement("Quantities");
-
-                                        XmlAttribute AttributeQty3 = XDoc.CreateAttribute("Quantity3");
-                                        if (s.Qty3 != null)
-                                            AttributeQty3.Value = Convert.ToString(s.Qty3);
-                                        else
-                                            AttributeQty3.Value = "0";
-                                        SectXTemp.SetAttributeNode(AttributeQty3);
-
-
-                                        XmlAttribute AttributeQty2 = XDoc.CreateAttribute("Quantity2");
-                                        if (s.Qty2 != null)
-                                            AttributeQty2.Value = Convert.ToString(s.Qty2);
-                                        else
-                                            AttributeQty2.Value = "0";
-                                        SectXTemp.SetAttributeNode(AttributeQty2);
-
-                                        XmlAttribute AttributeQty1 = XDoc.CreateAttribute("Quantity1");
-                                        if (s.Qty1 != null)
-                                            AttributeQty1.Value = Convert.ToString(s.Qty1);
-                                        else
-                                            AttributeQty1.Value = "0";
-                                        SectXTemp.SetAttributeNode(AttributeQty1);
-
-                                        SectionsXTemp.AppendChild(SectXTemp);
-
-
-                                        SectXTemp = XDoc.CreateElement("CostCenterTotals");
-
-                                        double Qty3Total = s.SectionCostcentres.Sum(c => c.Qty3NetTotal ?? 0);
-                                        XmlAttribute AttributeCS3 = XDoc.CreateAttribute("Quantity3");
-                                        AttributeCS3.Value = CurrencySymbol + Convert.ToString(Qty3Total);
-                                        SectXTemp.SetAttributeNode(AttributeCS3);
-
-
-                                        double Qty2Total = s.SectionCostcentres.Sum(c => c.Qty2NetTotal ?? 0);
-                                        XmlAttribute AttributeCS2 = XDoc.CreateAttribute("Quantity2");
-                                        AttributeCS2.Value = CurrencySymbol + Convert.ToString(Qty2Total);
-                                        SectXTemp.SetAttributeNode(AttributeCS2);
-
-
-                                        double Qty1Total = s.SectionCostcentres.Sum(c => c.Qty1NetTotal ?? 0);
-                                        XmlAttribute AttributeCS1 = XDoc.CreateAttribute("Quantity1");
-
-                                        AttributeCS1.Value = CurrencySymbol + Convert.ToString(Qty1Total);
-                                        SectXTemp.SetAttributeNode(AttributeCS1);
-
-                                        SectionsXTemp.AppendChild(SectXTemp);
-
-                                        SectXTemp = XDoc.CreateElement("Signatures");
-
-                                        double Sig3 = 0;
-                                        if (s.SimilarSections != null)
-                                            Sig3 = (double)s.SimilarSections * Qty3Total;
-
-                                        XmlAttribute AttributeSS3 = XDoc.CreateAttribute("Quantity3");
-                                        AttributeSS3.Value = CurrencySymbol + Convert.ToString(Sig3);
-
-                                        SectXTemp.SetAttributeNode(AttributeSS3);
-
-
-                                        double Sig2 = 0;
-                                        if (s.SimilarSections != null)
-                                            Sig2 = (double)s.SimilarSections * Qty2Total;
-                                        XmlAttribute AttributeSS2 = XDoc.CreateAttribute("Quantity2");
-                                        AttributeSS2.Value = CurrencySymbol + Convert.ToString(Sig2);
-                                        SectXTemp.SetAttributeNode(AttributeSS2);
-
-                                        double Sig1 = 0;
-                                        if (s.SimilarSections != null)
-                                            Sig1 = (double)s.SimilarSections * Qty1Total;
-                                        XmlAttribute AttributeSS1 = XDoc.CreateAttribute("Quantity1");
-                                        AttributeSS1.Value = CurrencySymbol + Convert.ToString(Sig1);
-
-                                        SectXTemp.SetAttributeNode(AttributeSS1);
-
-
-                                        XmlAttribute SimilarSections = XDoc.CreateAttribute("SimilarSignature");
-                                        if (s.SimilarSections != null)
-                                            SimilarSections.Value = Convert.ToString(s.SimilarSections);
-                                        else
-                                            SimilarSections.Value = "0";
-                                        SectXTemp.SetAttributeNode(SimilarSections);
-
-                                        SectionsXTemp.AppendChild(SectXTemp);
-
-                                        SectXTemp = XDoc.CreateElement("Markups");
-
-                                        double Mrk1 = 0;
-                                        if (s.BaseCharge1 != null)
-                                        {
-                                            double Add = Qty1Total + Sig1;
-                                            Mrk1 = (double)s.BaseCharge1 - Add;
-                                        }
-
-                                        double Mrk2 = 0;
-                                        if (s.BaseCharge2 != null)
-                                        {
-                                            double Add = Qty2Total + Sig2;
-                                            Mrk2 = (double)s.BaseCharge2 - Add;
-                                        }
-                                        double Mrk3 = 0;
-                                        if (s.Basecharge3 != null)
-                                        {
-                                            double Add = Qty3Total + Sig3;
-                                            Mrk3 = (double)s.Basecharge3 - Add;
-                                        }
-
-
-                                        //string MarkupName3 = ObjectContext.tbl_markup.Where(m => m.MarkUpID == MarkUp3).Select(a => a.MarkUpName).FirstOrDefault();
-                                        XmlAttribute AttributeMarkup3 = XDoc.CreateAttribute("Quantity3");
-
-                                        AttributeMarkup3.Value = CurrencySymbol + Convert.ToString(Mrk3);
-
-                                        SectXTemp.SetAttributeNode(AttributeMarkup3);
-
-
-                                        XmlAttribute AttributeMarkup2 = XDoc.CreateAttribute("Quantity2");
-                                        AttributeMarkup2.Value = CurrencySymbol + Convert.ToString(Mrk2);
-
-                                        SectXTemp.SetAttributeNode(AttributeMarkup2);
-
-
-
-                                        XmlAttribute AttributeMarkup1 = XDoc.CreateAttribute("Quantity1");
-                                        AttributeMarkup1.Value = CurrencySymbol + Convert.ToString(Mrk1);
-
-                                        SectXTemp.SetAttributeNode(AttributeMarkup1);
-
-                                        SectionsXTemp.AppendChild(SectXTemp);
-
-                                        SectXTemp = XDoc.CreateElement("SectionSubTotal");
-
-
-                                        XmlAttribute AttributesubTotal3 = XDoc.CreateAttribute("Quantity3");
-                                        if (s.Basecharge3 != null)
-                                            AttributesubTotal3.Value = CurrencySymbol + Convert.ToString(s.Basecharge3);
-                                        else
-                                            AttributesubTotal3.Value = "0";
-
-                                        SectXTemp.SetAttributeNode(AttributesubTotal3);
-
-                                        XmlAttribute AttributesubTotal2 = XDoc.CreateAttribute("Quantity2");
-                                        if (s.BaseCharge2 != null)
-                                            AttributesubTotal2.Value = CurrencySymbol + Convert.ToString(s.BaseCharge2);
-                                        else
-                                            AttributesubTotal2.Value = "0";
-                                        SectXTemp.SetAttributeNode(AttributesubTotal2);
-
-                                        XmlAttribute AttributesubTotal1 = XDoc.CreateAttribute("Quantity1");
-                                        if (s.BaseCharge1 != null)
-                                            AttributesubTotal1.Value = CurrencySymbol + Convert.ToString(s.BaseCharge1);
-                                        else
-                                            AttributesubTotal1.Value = "0";
-
-                                        SectXTemp.SetAttributeNode(AttributesubTotal1);
-
-
-                                        SectionsXTemp.AppendChild(SectXTemp);
-
-
-
-                                        if (s.SectionCostcentres != null)
-                                        {
-                                            List<long> CostCenterIDs = s.SectionCostcentres.Select(v => v.CostCentreId ?? 0).ToList();
-                                            if (CostCenterIDs != null && CostCenterIDs.Count > 0)
-                                            {
-                                                var ProductData = CostCentreRepository.GetCostCentresforxml(CostCenterIDs);
-
-
-                                                XmlElement SectionCostCenterElemRoot = XDoc.CreateElement("SectionCostCenters");
-                                                SectionsXTemp.AppendChild(SectionCostCenterElemRoot);
-
-                                                foreach (var cc in ProductData)
-                                                {
-
-                                                    XmlElement SCCNoXTemp = XDoc.CreateElement("CostCenter");
-                                                    // SCCXTemp.InnerText = SupplierName;
-                                                    SectionCostCenterElemRoot.AppendChild(SCCNoXTemp);
-
-
-                                                    double nettot = s.SectionCostcentres.Where(q => q.CostCentreId == cc.CostCentreId).Select(w => w.Qty1NetTotal ?? 0).FirstOrDefault();
-                                                    XmlAttribute NetAttr = XDoc.CreateAttribute("NetTotal");
-                                                    NetAttr.InnerText = CurrencySymbol + Convert.ToString(nettot);
-                                                    SCCNoXTemp.SetAttributeNode(NetAttr);
-
-                                                    double markupVal = s.SectionCostcentres.Where(q => q.CostCentreId == cc.CostCentreId).Select(w => w.Qty1MarkUpValue ?? 0).FirstOrDefault();
-                                                    XmlAttribute MarkUpValAttr = XDoc.CreateAttribute("MarkupValue");
-                                                    MarkUpValAttr.Value = CurrencySymbol + Convert.ToString(markupVal);
-                                                    SCCNoXTemp.SetAttributeNode(MarkUpValAttr);
-
-
-
-                                                    int MID = s.SectionCostcentres.Where(q => q.CostCentreId == cc.CostCentreId).Select(w => w.Qty1MarkUpID ?? 0).FirstOrDefault();
-                                                    string MarkName = _markupRepository.GetMarkupNamebyID(MID);
-                                                    XmlAttribute MarkUpAttr = XDoc.CreateAttribute("Markup");
-                                                    if (!string.IsNullOrEmpty(MarkName))
-                                                        MarkUpAttr.Value = MarkName;
-                                                    else
-                                                        MarkUpAttr.Value = "N/A";
-                                                    SCCNoXTemp.SetAttributeNode(MarkUpAttr);
-
-
-                                                    double QtyChrge = s.SectionCostcentres.Where(q => q.CostCentreId == cc.CostCentreId).Select(w => w.Qty1Charge ?? 0).FirstOrDefault();
-                                                    XmlAttribute PriceAttr = XDoc.CreateAttribute("Price");
-                                                    if (QtyChrge > 0)
-                                                        PriceAttr.Value = CurrencySymbol + Convert.ToString(QtyChrge);
-                                                    else
-                                                        PriceAttr.Value = "0";
-                                                    SCCNoXTemp.SetAttributeNode(PriceAttr);
-
-                                                    double EstimateTime = s.SectionCostcentres.Where(q => q.CostCentreId == cc.CostCentreId).Select(w => w.Qty1EstimatedTime).FirstOrDefault();
-                                                    XmlAttribute EstimAttr = XDoc.CreateAttribute("EstimateProductionTime");
-                                                    if (EstimateTime > 0)
-                                                        EstimAttr.Value = Convert.ToString(EstimateTime);
-                                                    else
-                                                        EstimAttr.Value = "0";
-                                                    SCCNoXTemp.SetAttributeNode(EstimAttr);
-
-                                                    string SupplierName = companyRepository.GetSupplierNameByID(cc.PreferredSupplierId ?? 0);
-                                                    XmlAttribute SuppNameAttr = XDoc.CreateAttribute("SupplierName");
-                                                    if (!string.IsNullOrEmpty(SupplierName))
-                                                        SuppNameAttr.Value = SupplierName;
-                                                    else
-                                                        SuppNameAttr.Value = "";
-                                                    SCCNoXTemp.SetAttributeNode(SuppNameAttr);
-
-
-                                                    XmlAttribute AttributeCostCenter = XDoc.CreateAttribute("Name");
-                                                    AttributeCostCenter.Value = cc.Name;
-                                                    SCCNoXTemp.SetAttributeNode(AttributeCostCenter);
-
-                                                    SectionCostCenterElemRoot.AppendChild(SCCNoXTemp);
-
-
-                                                    string WorkInstruction = s.SectionCostcentres.Where(q => q.CostCentreId == cc.CostCentreId).Select(w => w.Qty1WorkInstructions ?? "N/A").FirstOrDefault();
-                                                    XmlElement SCCXTemp = XDoc.CreateElement("WorkInstruction");
-                                                    SCCXTemp.InnerText = WorkInstruction;
-                                                    SCCNoXTemp.AppendChild(SCCXTemp);
-
-                                                }
-                                            }
-                                        }
-
-
-                                    }
-                                }
-                            }
-
-                        }
-                    }
-                    // end of att area items
-
-                    if (paymentsList != null && paymentsList.Count > 0)
-                    {
-
-                        XmlElement ItemElemRootPayment = XDoc.CreateElement("Payments");
-                        XElemRoot.AppendChild(ItemElemRootPayment);
-
-
-                        foreach (var payment in paymentsList)
-                        {
-                            XmlElement PaymentXTemp = XDoc.CreateElement("Payment");
-
-
-                            string reference = PayPalRepsoitory.GetPayPalReference(iRecordID);
-                            //select top 1 transactionid from tbl_paypalResponses where orderid = tbl_estimates.estimateid
-                            XmlAttribute cRef = XDoc.CreateAttribute("Reference");
-                            if (payment.PaymentMethodId == 1)
-                                cRef.Value = reference;
-                            else
-                            {
-                                if (payment.ReferenceCode != null)
-                                    cRef.Value = payment.ReferenceCode;
-                                else
-                                    cRef.Value = "";
-                            }
-
-                            PaymentXTemp.SetAttributeNode(cRef);
-
-                            XmlAttribute cAmount = XDoc.CreateAttribute("Amount");
-                            if (payment.Amount != null)
-                                cAmount.Value = CurrencySymbol + Convert.ToString(payment.Amount);
-                            else
-                                cAmount.Value = "";
-
-
-                            PaymentXTemp.SetAttributeNode(cAmount);
-
-
-
-                            DateTime dtPayment = new DateTime();
-                            string paymentDate = string.Empty;
-                            XmlAttribute cPDate = XDoc.CreateAttribute("Date");
-                            if (payment.PaymentDate != null)
-                            {
-                                dtPayment = Convert.ToDateTime(payment.PaymentDate);
-                                paymentDate = dtPayment.ToString("dd/MMM/yyyy");
-                                cPDate.Value = paymentDate;
-                            }
-                            else
-                                cPDate.Value = string.Empty;
-                            PaymentXTemp.SetAttributeNode(cPDate);
-
-
-                            XmlAttribute cPType = XDoc.CreateAttribute("Type");
-                            if (payment.PaymentMethodId == 1)
-                                cPType.Value = "Paypal";
-                            else
-                                cPType.Value = "On Account";
-                            PaymentXTemp.SetAttributeNode(cPType);
-
-                            ItemElemRootPayment.AppendChild(PaymentXTemp);
-
-
-                        }
-                    }
-
-                    // att area payment
-
-                    string sFileName = orderEntity.Order_Code + "_" + "OrderXML.xml";
-                    // FileNamesList.Add(sFileName);
-                    string Path = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationID);
-                    if (!Directory.Exists(Path))
-                    {
-                        Directory.CreateDirectory(Path);
-                    }
-                    sFilePath = Path + "/" + sFileName;
-                    XDoc.Save(sFilePath);
-                    //db.Configuration.LazyLoadingEnabled = false;
-                    //db.Configuration.ProxyCreationEnabled = false;
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            return sFilePath;
-        }
-
-
-        public string ExportExcel(int iReportID, long iRecordID, ReportType type, long OrderID)
-        {
-            string sFilePath = string.Empty;
-            try
-            {
-                long OrganisationID = 0;
-                Organisation org = organisationRepository.GetOrganizatiobByID();
-                if (org != null)
-                {
-                    OrganisationID = org.OrganisationId;
-                }
-                Report currentReport = ReportRepository.GetReportByReportID(iReportID);
-                if (currentReport.ReportId > 0)
-                {
-                    byte[] rptBytes = null;
-                    rptBytes = System.Text.Encoding.Unicode.GetBytes(currentReport.ReportTemplate);
-                    // Encoding must be done
-                    System.IO.MemoryStream ms = new System.IO.MemoryStream(rptBytes);
-                    // Load it to memory stream
-                    ms.Position = 0;
-                    SectionReport currReport = new SectionReport();
-                    string sFileName = iRecordID + "OrderReport.xls";
-                    // FileNamesList.Add(sFileName);
-                    currReport.LoadLayout(ms);
-                    if (type == ReportType.JobCard)
-                    {
-                        sFileName = iRecordID + "JobCardReport.xls";
-                        //  FileNamesList.Add(sFileName);
-                        List<usp_JobCardReport_Result> rptSource = ReportRepository.getJobCardReportResult(OrganisationID, OrderID, iRecordID);
-                        currReport.DataSource = rptSource;
-                    }
-                    else if (type == ReportType.Order)
-                    {
-
-                        List<usp_OrderReport_Result> rptOrderSource = ReportRepository.getOrderReportResult(OrganisationID, OrderID);
-                        currReport.DataSource = rptOrderSource;
-                    }
-
-                    if (currReport != null)
-                    {
-                        currReport.Run();
-                        GrapeCity.ActiveReports.Export.Excel.Section.XlsExport xls = new GrapeCity.ActiveReports.Export.Excel.Section.XlsExport();
-                        string Path = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationID + "/");
-                        if (!Directory.Exists(Path))
-                        {
-                            Directory.CreateDirectory(Path);
-                        }
-                        // PdfExport pdf = new PdfExport();
-                        sFilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationID + "/") + sFileName;
-
-                        xls.Export(currReport.Document, sFilePath);
-                        ms.Close();
-                        currReport.Document.Dispose();
-                        xls.Dispose();
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            return sFilePath;
-        }
         #endregion
 
+
+        /// <summary>
+        /// Download Attachment
+        /// </summary>
+        public string DownloadAttachment(long id, out string fileName, out string fileTpe)
+        {
+            string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
+            HttpServerUtility server = HttpContext.Current.Server;
+            ItemAttachment attachment = itemAttachmentRepository.Find(id);
+            fileName = attachment.FileName;
+            fileTpe = attachment.FileType;
+
+            //string mapPath1 = server.MapPath(mpcContentPath + "/Attachments/" + orderRepository.OrganisationId + "/" + attachment.CompanyId + "/Products/");
+            string mapPath = server.MapPath("~/" + attachment.FolderPath + "/");
+            string attachmentMapPath = mapPath + attachment.FileName + attachment.FileType;
+            return attachmentMapPath;
+        }
+
+        public Estimate CloneEstimate(long estimateId)
+        {
+            var source = GetById(estimateId);
+            Estimate target = CreateNewOrder(true);
+            var code = target.Estimate_Code;
+            target.isEstimate = true;
+            target.StatusId = source.StatusId;
+
+            target = UpdateEstimeteOnCloning(source, target, source);
+            target.Estimate_Code = code;
+            target.CreationDate = DateTime.Now;
+            target.Order_Date = DateTime.Now;
+            target.RefEstimateId = null;
+            target.StatusId = 1;
+            target.Estimate_Name = target.Estimate_Name + " copy";
+            estimateRepository.SaveChanges();
+
+            Estimate estimate = GetById(target.EstimateId);
+            // Load Properties
+            estimateRepository.LoadProperty(estimate, () => estimate.Status);
+            estimateRepository.LoadProperty(estimate, () => estimate.Company);
+            return estimate;
+        }
+
+        public Estimate CloneOrder(long estimateId)
+        {
+            var source = GetById(estimateId);
+            Estimate target = CreateNewOrder();
+            var code = target.Order_Code;
+            target.isEstimate = false;
+            target = UpdateEstimeteOnCloning(source, target, source);
+            target.Order_Code = code;
+            target.CreationDate = DateTime.Now;
+            target.Order_Date = DateTime.Now;
+            target.RefEstimateId = null;
+            target.StatusId = (int)OrderStatus.PendingOrder;
+            target.Estimate_Name = target.Estimate_Name + " copy";
+            estimateRepository.SaveChanges();
+
+            Estimate estimate = GetById(target.EstimateId);
+            // Load Properties
+            estimateRepository.LoadProperty(estimate, () => estimate.Status);
+            estimateRepository.LoadProperty(estimate, () => estimate.Company);
+            return estimate;
+        }
+
+        #region Unleashed Xero Integration
+        public bool PostOrderToXero(long orderID)
+        {
+
+            Organisation org = organisationRepository.GetOrganizatiobByID();
+            bool key = org.isXeroIntegrationRequired ?? false;
+
+            if (key)
+            {
+                string CustomerGuid = string.Empty;
+
+                try
+                {
+                    Estimate order = estimateRepository.Find(orderID);
+                    Company customer = order.Company;
+                    List<Item> products = order.Items.ToList();
+
+                    Item curItem = products.FirstOrDefault();
+                    double totaltax = (products.Sum(c => c.Qty1GrossTotal??0) - products.Sum(c => c.Qty1NetTotal??0));
+                    double taxrate = 0;
+                    if (customer.IsCustomer == 3)
+                        taxrate = customer.TaxRate ?? 0;
+                    else
+                    {
+                        var store = companyRepository.GetCustomer(Convert.ToInt32(customer.StoreId ?? 0));
+                        if (store != null)
+                            taxrate = store.TaxRate ?? 0;
+                    }
+                    List<Company> suppliers = new List<Company>();
+
+                   //// XeroAPI api = new XeroAPI();
+                    string apiID = org.XeroApiId;
+                    string apiKey = org.XeroApiKey;
+
+                    foreach (var product in products)
+                    {
+                        var item = itemRepository.GetItemById(product.RefItemId?? 0);
+                        if (item != null)
+                        {
+                            var supplier = companyRepository.GetCustomer(item.SupplierId ?? 0);
+                            if (supplier != null)
+                            {
+                                suppliers.Add(supplier);
+                                product.SupplierId = Convert.ToInt32(supplier.CompanyId);
+                            }
+                                
+                        }
+                        
+                    }
+                    
+                    if (string.IsNullOrEmpty(customer.XeroAccessCode))
+                    {
+                        //Add Customer to Xero
+                        Guid newGuid = Guid.NewGuid();
+
+                        try
+                        {
+                            string PostData = CustomerXmlData(newGuid, customer);
+                            PostXml("Customers", apiID, apiKey, newGuid.ToString(), PostData);
+                            //api.AddCustomerXml(customer, apiID, apiKey, newGuid);
+                        }
+                        catch (Exception)
+                        {
+
+                            return false;
+                        }
+                        customer.XeroAccessCode = newGuid.ToString();
+                        CustomerGuid = newGuid.ToString();
+                        companyRepository.Update(customer);
+                        companyRepository.SaveChanges();
+                    }
+
+
+                    if (suppliers.Count > 0)
+                    {
+                        foreach (Company supplier in suppliers)
+                        {
+                            if (string.IsNullOrEmpty(supplier.XeroAccessCode))
+                            {
+                                //Add Supplier
+                                Guid newGuid = Guid.NewGuid();
+
+                                try
+                                {
+                                    string PostData = CustomerXmlData(newGuid, customer);
+                                    PostXml("Customers", apiID, apiKey, newGuid.ToString(), PostData);
+                                    // api.AddCustomerXml(supplier, apiID, apiKey, newGuid);
+                                }
+                                catch (Exception)
+                                {
+
+                                    return false;
+                                }
+                                supplier.XeroAccessCode = newGuid.ToString();
+                                companyRepository.Update(supplier);
+                            }
+                        }
+                        companyRepository.SaveChanges();
+                    }
+
+                    //update xero code from referral item
+                    foreach (Item item in products)
+                    {
+                        var refItem = itemRepository.Find(item.RefItemId ?? 0);
+                        string xeroCode = refItem != null ? refItem.XeroAccessCode : string.Empty;
+                        if (!string.IsNullOrEmpty(xeroCode))
+                        {
+                            item.XeroAccessCode = xeroCode;
+                        }
+                    }
+
+
+                    foreach (Item item in products)
+                    {
+                        //Add product
+                        if (string.IsNullOrEmpty(item.XeroAccessCode))
+                        {
+                            Guid newGuid = Guid.NewGuid();
+                            string supplierCode = "";
+                            if (item.SupplierId != null)
+                            {
+                                supplierCode = companyRepository.GetCustomer(item.SupplierId ?? 0).XeroAccessCode;
+                                
+                            }
+                           
+
+                            XeroXmlRefData refData = new XeroXmlRefData();
+                            refData.createdBy = "";
+                            if (item.CreatedBy.HasValue)
+                            {
+                                refData.createdBy = systemUserRepository.GetUserrById(order.Created_by?? new Guid()).FullName;
+                            }
+
+
+                            Item refItem = itemRepository.Find(item.RefItemId ?? 0);
+                            
+                            CostCentre costcentre = new CostCentre();
+                            StockItem stockitem = new StockItem();
+                            string CostCenterID = string.Empty;
+                            string StockID = string.Empty;
+                            if (item.ItemType == 2)
+                            {
+                                refData.productPurchasePrice = "1";
+                                refData.productSellPrice = CalculateSalesPrice(item, order.isDirectSale.Value);
+                                refData.productHeight = "0";
+                                refData.productWidth = "0";
+                                refData.packSize = "0";
+                                refData.reOrderPoint = "0";
+                               // costcentre = this.ObjectContext.tbl_costcentres.Where(c => c.Name == item.ProductName).FirstOrDefault();
+
+
+                                CostCenterID = Convert.ToString(CostCentreRepository.GetCostCentreIdByName(item.ProductName));
+
+                            }
+                            else if (item.ItemType == 3)
+                            {
+
+                                refData.productPurchasePrice = CalculatePurchasePrice(item, order.isDirectSale.Value);
+                                refData.productSellPrice = CalculateSalesPrice(item, order.isDirectSale.Value);
+                                refData.productHeight = CalculateHeight(item);
+                                refData.productWidth = CalculateWeight(item);
+                                refData.packSize = CalculatePackSize(item);
+                                refData.reOrderPoint = CalculateReorderLevel(item);
+                                stockitem = stockItemRepository.Find(item.RefItemId ?? 0);// this.ObjectContext.tbl_stockitems.Where(s => s.StockItemID == item.RefItemID).FirstOrDefault();
+                                if (stockitem != null)
+                                {
+                                    StockID = Convert.ToString(stockitem.StockItemId);
+                                }
+
+
+
+                            }
+                            else
+                            {
+                                refData.productPurchasePrice = CalculatePurchasePrice(refItem, order.isDirectSale.Value);
+                                refData.productSellPrice = CalculateSalesPrice(item, order.isDirectSale.Value);
+                                refData.productHeight = CalculateHeight(item);
+                                refData.productWidth = CalculateWeight(item);
+                                refData.packSize = CalculatePackSize(item);
+                                refData.reOrderPoint = CalculateReorderLevel(item);
+                            }
+
+                            try
+                            {
+                                string postData = ProductXmlData(newGuid, item, supplierCode, refData, CostCenterID, StockID);
+                                ////api.AddProductXml(item, supplierCode, refData, apiID, apiKey, newGuid, CostCenterID, StockID);
+                                PostXml("Products", apiID, apiKey, newGuid.ToString(), postData);
+                            }
+                            catch (Exception)
+                            {
+
+                                return false;
+                            }
+
+
+                            item.XeroAccessCode = newGuid.ToString();
+                            if (item.ItemType == 2)
+                                costcentre.XeroAccessCode = newGuid.ToString();
+                            else if (item.ItemType == 3)
+                                stockitem.XeroAccessCode = newGuid.ToString();
+                            else
+                                refItem.XeroAccessCode = newGuid.ToString();
+                            
+                            itemRepository.Update(item);
+                        }
+
+                        
+                    }
+                    itemRepository.SaveChanges();
+                    // Add Order
+
+
+                    if (string.IsNullOrEmpty(order.XeroAccessCode))
+                    {
+                        Guid orderGuid = Guid.NewGuid();
+                        try
+                        {
+                            string postData = SaleOrderXmlData(orderGuid, order, customer, products, taxrate);
+                            PostXml("SalesOrders", apiID, apiKey, orderGuid.ToString(), postData);
+                        }
+                        catch (Exception)
+                        {
+
+                            return false;
+                        }
+
+                        order.XeroAccessCode = orderGuid.ToString();
+                        estimateRepository.Update(order);
+                        estimateRepository.SaveChanges();
+                    }
+
+                    Guid invoiceGuid = Guid.NewGuid();
+                    try
+                    {
+                        string postData = InvoiceXmlData(invoiceGuid, order, customer, taxrate, totaltax, customer.XeroAccessCode, products);
+                        PostXml("SalesInvoices", apiID, apiKey, invoiceGuid.ToString(), postData);
+
+                    }
+                    catch (Exception)
+                    {
+
+                        return false;
+                    }
+
+
+
+
+                    return true;
+                }
+                catch (Exception)
+                {
+
+                    return false;
+                }
+
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+
+        private string CustomerXmlData(Guid gid, Company companyObject)
+        {
+            string xml = @"<?xml version='1.0'?>
+				<Customer xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns='http://api.unleashedsoftware.com/version/1'>
+				<Guid>{0}</Guid>
+				<CustomerCode>{1}</CustomerCode>
+				<CustomerName>{2}</CustomerName>
+				<CustomerType>{3}</CustomerType>
+				<Email>{4}</Email>
+				<EmailCC>{4}</EmailCC>
+				<FaxNumber>{5}</FaxNumber>
+				<GSTVATNumber>{6}</GSTVATNumber>
+				<MobileNumber>{7}</MobileNumber>
+				<Notes>{8}</Notes>
+				<PhoneNumber>{9}</PhoneNumber>
+
+				<Obsolete>{10}</Obsolete>
+
+				<StopCredit>0</StopCredit>
+				<Taxable>{11}</Taxable>
+				
+
+				<PrintInvoice>1</PrintInvoice>
+				<PrintPackingSlipInsteadOfInvoice>0</PrintPackingSlipInsteadOfInvoice>
+
+				<ContactFirstName>{12}</ContactFirstName>
+				<ContactLastName>{13}</ContactLastName>
+
+				<XeroContactId>1</XeroContactId>
+				<XeroCostOfGoodsAccount>1</XeroCostOfGoodsAccount>
+				<XeroSalesAccount>1</XeroSalesAccount>
+
+				</Customer>";
+
+            xml = xml.Replace("\r\n", "");
+            string customerType = "";
+            switch (companyObject.IsCustomer)
+            {
+                case 0:
+                    customerType = "Prospect";
+                    break;
+                case 1:
+                    customerType = "Retail";
+                    break;
+                case 2:
+                    customerType = "Supplier";
+                    break;
+                case 3:
+                    customerType = "Corporate";
+                    break;
+                case 4:
+                    customerType = "Broker";
+                    break;
+            }
+            string isObselete = "0";
+            if (companyObject.isArchived.HasValue && companyObject.isArchived.Value == true)
+            {
+                isObselete = "1";
+            }
+            string isTaxable = "0";
+            if (companyObject.isIncludeVAT.HasValue && companyObject.isIncludeVAT.Value == true)
+            {
+                isTaxable = "1";
+            }
+            string vatReference = "";
+            if (!string.IsNullOrEmpty(companyObject.VATRegReference))
+            {
+                vatReference = companyObject.VATRegReference;
+            }
+
+            CompanyContact contact = companyObject.CompanyContacts.Where(con => con.IsDefaultContact == 1).FirstOrDefault();
+            xml = string.Format(xml, gid, gid + " - " + companyObject.AccountNumber, companyObject.Name, customerType, contact.Email, contact.FAX, vatReference,
+                contact.Mobile, companyObject.Notes, contact.HomeTel1, isObselete, isTaxable,
+                   contact.FirstName, contact.LastName);
+            xml = xml.Replace("&", "and");
+
+            return xml;
+        }
+        private string ProductXmlData(Guid id, Item product, string supplierCode, XeroXmlRefData refData, string CostCenterID, string StockID)
+        {
+            string xml = @"<?xml version='1.0'?>
+                    <Product xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns='http://api.unleashedsoftware.com/version/1'>
+                    <Guid>#productID</Guid>
+                    <ProductCode>#productCode</ProductCode>
+                    <ProductDescription>#description</ProductDescription>  
+
+                    <CanAutoAssemble>0</CanAutoAssemble>
+                    <IsAssembledProduct>#isFinishGood</IsAssembledProduct>  
+                   
+
+                    <DefaultPurchasePrice>#purchasePrice</DefaultPurchasePrice>  
+                    <DefaultSellPrice>#sellPrice</DefaultSellPrice>
+
+
+                    <Height>#height</Height>
+                    <Width>#width</Width>
+
+
+
+                    <NeverDiminishing>1</NeverDiminishing>
+
+
+                    <Obsolete>0</Obsolete>
+
+                    <PackSize>#packSize</PackSize>
+                    <ReOrderPoint>#reorderPoint</ReOrderPoint>
+
+
+                    <Taxable>0</Taxable>
+                    <TaxableSales>1</TaxableSales>
+
+                    <XeroSalesAccount>1</XeroSalesAccount>";
+
+            xml += "</Product>";
+            xml = xml.Replace("\r\n", "");
+            xml = xml.Replace("#productID", id.ToString());
+
+            if (product.ItemType == 2)
+            {
+                xml = xml.Replace("#productCode", CostCenterID + "-CostCentre");
+
+            }
+            else if (product.ItemType == 3)
+            {
+                xml = xml.Replace("#productCode", StockID + "-StockItem");
+
+            }
+            else
+            {
+                xml = xml.Replace("#productCode", product.ProductCode);
+            }
+
+            if (!string.IsNullOrEmpty(product.WebDescription))
+            {
+                if (product.WebDescription.Length < 150)
+                    xml = xml.Replace("#description", product.WebDescription);
+                else
+                    xml = xml.Replace("#description", product.WebDescription.Substring(0, 150));
+            }
+            else
+            {
+                xml = xml.Replace("#description", product.ProductName);
+            }
+
+
+
+            if (product.ProductType != null && product.ProductType != 1)
+            {
+                xml = xml.Replace("#isFinishGood", "1");
+            }
+            else
+            {
+                xml = xml.Replace("#isFinishGood", "0");
+            }
+
+            xml = xml.Replace("#purchasePrice", refData.productPurchasePrice);
+            xml = xml.Replace("#sellPrice", refData.productSellPrice);
+
+            xml = xml.Replace("#height", refData.productHeight);
+            xml = xml.Replace("#width", refData.productWidth);
+
+            xml = xml.Replace("#packSize", refData.packSize);
+            xml = xml.Replace("#reorderPoint", refData.reOrderPoint);
+            xml = xml.Replace("\r\n", "");
+            return xml;
+        }
+        private string SaleOrderXmlData(Guid id, Estimate order, Company customer, List<Item> products, double TaxRate)
+        {
+            double corectTaxRate = TaxRate / 100;
+
+            string xml = @"<?xml version='1.0'?>
+                    <SalesOrder xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns='http://api.unleashedsoftware.com/version/1'>
+ 
+                     <Guid>{0}</Guid>
+	                    <OrderNumber>{1}</OrderNumber>
+	                    <OrderStatus>Parked</OrderStatus>
+	                    <Customer>
+	                      <Guid>{2}</Guid>
+	                    </Customer>
+	
+	                    <TaxRate>{3}</TaxRate>
+	
+	                    <SubTotal>{4}</SubTotal>
+	                    <TaxTotal>{5}</TaxTotal>
+	                    <Total>{6}</Total>    
+	
+
+	                    <SalesOrderLines>
+	                     ";
+
+            XeroXmlRefData refData = CalculateOrderRefData(order, customer, products);
+            xml += GetSalesOrderLineXml(products, order.isDirectSale ?? false, TaxRate);
+            xml += @"</SalesOrderLines>
+						  </SalesOrder>";
+            xml = xml.Replace("\r\n", "");
+            xml = string.Format(xml, id, order.Order_Code, customer.XeroAccessCode, corectTaxRate, refData.subTotal, refData.taxTotal, refData.Total);
+            return xml;
+        }
+        private static string InvoiceXmlData(Guid gid, Estimate order, Company customer, double TaxRate, double taxtotal, string custGuid, List<Item> products)
+        {
+
+            #region preFunctionalities for xml
+            // For order date
+            DateTime orderDate = new DateTime();
+            orderDate = order.Order_Date ?? DateTime.Now;
+
+
+            string orderDateString = orderDate.ToString("yyyy-MM-dd");
+            // for requiredDate
+            DateTime ReqDate = new DateTime();
+            ReqDate = order.Order_DeliveryDate ?? DateTime.Now;
+
+            string ReqDateString = ReqDate.ToString("yyyy-MM-dd");
+
+            // for Due Date
+            DateTime DueDate = new DateTime();
+            DueDate = order.Order_DeliveryDate ?? DateTime.Now;
+
+            string DueDateString = DueDate.ToString("yyyy-MM-dd"); 
+            // for taxrate
+
+            double corectTaxRate = TaxRate / 100;
+
+            DateTime pd = new DateTime();
+            if (order.PrePayments.Count > 0)
+            {
+                pd = order.PrePayments.Select(x => x.PaymentDate).FirstOrDefault();
+            }
+            else
+            {
+                pd = DateTime.Now;
+            }
+
+            string paymentddate = pd.ToString("yyyy-MM-dd");
+
+            double LineTotal = 0;
+            foreach (Item itm in products)
+            {
+                LineTotal += itm.Qty1NetTotal ?? 0;
+            }
+            double linetax = 0;
+            foreach (Item itm in products)
+            {
+
+                linetax += itm.Qty1Tax1Value ?? 0;
+
+            }
+
+
+            double Subtotal = 0;
+            Subtotal = LineTotal;
+            double taxtotalOrder = 0;
+            taxtotalOrder = linetax;
+
+            double total = 0;
+            total = Subtotal + taxtotalOrder;
+
+            #endregion
+
+
+            string xml = @"<?xml version='1.0'?>
+                <SalesInvoice xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns='http://api.unleashedsoftware.com/version/1'>
+                  <Guid>{0}</Guid>
+                  <OrderNumber>{1}</OrderNumber>
+                  <OrderDate>{2}</OrderDate>
+                 <RequiredDate>{3}</RequiredDate>
+                  <OrderStatus>{4}</OrderStatus>
+                    <Customer>
+                    <Guid>{5}</Guid>
+                  </Customer>
+  
+                  <TaxRate>{6}</TaxRate>
+  
+                  <SubTotal>{7}</SubTotal>
+                  <TaxTotal>{8}</TaxTotal>
+                  <Total>{9}</Total>
+
+                  <PaymentDueDate>{10}</PaymentDueDate>
+                  <SalesOrderLines> 
+                ";
+
+            xml += GetInvoiceOrderLine(products, DueDateString, corectTaxRate);
+
+            xml += @"</SalesOrderLines>
+					 </SalesInvoice>";
+
+
+
+            xml = string.Format(xml, gid, order.Order_Code, orderDateString, ReqDateString, "Confirmed", customer.XeroAccessCode, corectTaxRate, Subtotal, taxtotalOrder, total, paymentddate);
+            // xml = string.Format(xml, gid);
+            xml = xml.Replace("\r\n", "");
+
+            return xml;
+        }
+
+
+        private string GetSalesOrderLineXml(List<Item> products, bool isDirect, double taxrate)
+        {
+            string xml = "";
+            string tags = "";
+            int count = 1;
+            double correctTaxrate = taxrate / 100;
+            foreach (Item item in products)
+            {
+                tags += "<SalesOrderLine>";
+                tags += " <LineNumber>" + count + "</LineNumber>";
+                if (item.ItemType == 2)
+                {
+                    long ccID = 0;
+                    string costcenterID = string.Empty;
+                    ccID = this.CostCentreRepository.GetCostCentreIdByName(item.ProductName);
+                    
+                    if (ccID > 0)
+                        costcenterID = Convert.ToString(ccID);
+                    tags += @"<Product>a
+								  <ProductCode>" + costcenterID + @"</ProductCode>
+							  </Product>";
+                }
+                else if (item.ItemType == 3)
+                {
+                    long SID = 0;
+                    string StockItemID = string.Empty;
+                    SID = stockItemRepository.Find(item.RefItemId ?? 0).StockItemId;
+                    if (SID > 0)
+                        StockItemID = Convert.ToString(SID);
+                    tags += @"<Product>a
+								  <ProductCode>" + StockItemID + @"</ProductCode>
+							  </Product>";
+                }
+                else
+                {
+                    tags += @"<Product>a
+								  <ProductCode>" + item.ProductCode + @"</ProductCode>
+							  </Product>";
+                }
+                tags += "<OrderQuantity>" + GetQty(item, isDirect) + "</OrderQuantity>";
+                tags += "<UnitPrice>" + GetUnitPrice(item, isDirect) + "</UnitPrice>";
+                tags += "<LineTotal>" + GetNetTotal(item, isDirect) + "</LineTotal>";
+                tags += "<UnitCost>0</UnitCost>";
+                tags += "<TaxRate>" + correctTaxrate + "</TaxRate>";
+                tags += "<LineTax>" + GetLineTax(item, isDirect) + "</LineTax>";
+                tags += "</SalesOrderLine>";
+
+                count++;
+            }
+            xml += tags;
+            return xml;
+        }
+
+        private static string GetInvoiceOrderLine(List<Item> products, string DueDate, double taxrate)
+        {
+            string xml = "";
+            string tags = "";
+            int count = 1;
+
+            foreach (Item item in products)
+            {
+                tags += "<SalesInvoiceLine>";
+                tags += " <LineNumber>" + count + "</LineNumber>";
+                tags += @"<Product>
+								  <Guid>" + item.XeroAccessCode + @"</Guid>
+							  </Product>";
+                tags += "<DueDate>" + DueDate + "</DueDate>";
+                if (item.ItemType == 2)
+                    tags += "<OrderQuantity>" + 1 + "</OrderQuantity>";
+                else
+                    tags += "<OrderQuantity>" + item.Qty1 + "</OrderQuantity>";
+
+                tags += "<UnitPrice>" + GetUnitPrice(item, false) + "</UnitPrice>";
+                tags += "<LineTotal>" + item.Qty1NetTotal + "</LineTotal>";
+                tags += "<TaxRate>" + taxrate + "</TaxRate>";
+                tags += "<LineTax>" + item.Qty1Tax1Value + "</LineTax>";
+                tags += "</SalesInvoiceLine>";
+
+                count++;
+            }
+            xml += tags;
+            return xml;
+        }
+
+
+        private static double GetQty(Item item, bool isDirect)
+        {
+            if (!isDirect)
+            {
+                if (item.ItemType == 2)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return item.Qty1.Value;
+                }
+            }
+            else
+            {
+                switch (item.JobSelectedQty)
+                {
+                    case null:
+                        return item.Qty1.Value;
+                    case 1:
+                        return item.Qty1.Value;
+                    case 2:
+                        return item.Qty2.Value;
+                    case 3:
+                        return item.Qty3.Value;
+                    default:
+                        return 0;
+                }
+            }
+        }
+        private static double GetUnitPrice(Item item, bool isDirect)
+        {
+            if (!isDirect)
+            {
+                if (item.ItemType == 2)
+                    return item.Qty1NetTotal.Value;
+                else
+                    return (item.Qty1NetTotal.Value / item.Qty1.Value);
+
+            }
+            else
+            {
+                switch (item.JobSelectedQty)
+                {
+                    case null:
+                        return (item.Qty1NetTotal.Value / item.Qty1.Value);
+                    case 1:
+                        return (item.Qty1NetTotal.Value / item.Qty1.Value);
+                    case 2:
+                        return (item.Qty2NetTotal.Value / item.Qty2.Value);
+                    case 3:
+                        return (item.Qty3NetTotal.Value / item.Qty3.Value);
+                    default:
+                        return 0;
+                }
+            }
+        }
+        private static double GetNetTotal(Item item, bool isDirect)
+        {
+            if (!isDirect)
+            {
+                return item.Qty1NetTotal.Value;
+            }
+            else
+            {
+                switch (item.JobSelectedQty)
+                {
+                    case null:
+                        return item.Qty1NetTotal.Value;
+                    case 1:
+                        return item.Qty1NetTotal.Value;
+                    case 2:
+                        return item.Qty2NetTotal.Value;
+                    case 3:
+                        return item.Qty3NetTotal.Value;
+                    default:
+                        return 0;
+                }
+            }
+        }
+        private static double GetTaxRate(Item item, bool isDirect)
+        {
+            if (!isDirect)
+            {
+                return item.Qty1Tax1Value.Value;
+            }
+            else
+            {
+                switch (item.JobSelectedQty)
+                {
+                    case null:
+                        return item.Qty1Tax1Value.Value;
+                    case 1:
+                        return item.Qty1Tax1Value.Value;
+                    case 2:
+                        return item.Qty2Tax1Value.Value;
+                    case 3:
+                        return item.Qty3Tax1Value.Value;
+                    default:
+                        return 0;
+                }
+            }
+        }
+        private static double GetLineTax(Item item, bool isDirect)
+        {
+            if (!isDirect)
+            {
+                return item.Qty1Tax1Value.Value;
+            }
+            else
+            {
+                switch (item.JobSelectedQty)
+                {
+                    case null:
+                        return item.Qty1Tax1Value.Value;
+                    case 1:
+                        return item.Qty1Tax1Value.Value;
+                    case 2:
+                        return item.Qty2Tax1Value.Value;
+                    case 3:
+                        return item.Qty3Tax1Value.Value;
+                    default:
+                        return 0;
+                }
+            }
+        }
+        private static XeroXmlRefData CalculateOrderRefData(Estimate order, Company customer, List<Item> products)
+        {
+            XeroXmlRefData data = new XeroXmlRefData();
+            double sub, tax, total;
+            sub = 0; tax = 0; total = 0;
+
+            if (!order.isDirectSale.Value)
+            {
+                foreach (Item item in products)
+                {
+                    sub += item.Qty1NetTotal.Value;
+                    tax += item.Qty1Tax1Value.Value;
+                }
+                total = sub + tax;
+
+                data.subTotal = sub.ToString();
+                data.taxTotal = tax.ToString();
+                data.Total = total.ToString();
+            }
+            else
+            {
+                foreach (Item item in products)
+                {
+                    switch (item.JobSelectedQty)
+                    {
+                        case null:
+                            sub += item.Qty1NetTotal.Value;
+                            tax += item.Qty1Tax1Value.Value;
+                            break;
+                        case 1:
+                            sub += item.Qty1NetTotal.Value;
+                            tax += item.Qty1Tax1Value.Value;
+                            break;
+                        case 2:
+                            sub += item.Qty2NetTotal.Value;
+                            tax += item.Qty2Tax1Value.Value;
+                            break;
+                        case 3:
+                            sub += item.Qty3NetTotal.Value;
+                            tax += item.Qty3Tax1Value.Value;
+                            break;
+                    }
+                }
+                total = sub + tax;
+
+                data.subTotal = sub.ToString();
+                data.taxTotal = tax.ToString();
+                data.Total = total.ToString();
+            }
+            return data;
+        }
+        private string CalculatePurchasePrice(Item item, bool isDirectOrder)
+        {
+            ItemSection section = item.ItemSections.FirstOrDefault();
+            long? stockid = section.StockItemID1;
+
+            int? stockSequence =
+                item.ItemStockOptions.Where(o => o.StockId == stockid).Select(o => o.OptionSequence).FirstOrDefault();// this.ObjectContext.tbl_ItemStockOptions.Where(o => o.StockID == stockid).Select(o => o.OptionSequence).FirstOrDefault();
+
+            if (item.SupplierId != null)
+            {
+                ItemPriceMatrix spm = new ItemPriceMatrix();
+                if (item.IsQtyRanged == true)
+                {
+                    if (!isDirectOrder)
+                    {
+                        spm =
+                            item.ItemPriceMatrices.Where(
+                                s =>
+                                    s.SupplierId == item.SupplierId &&
+                                    (item.Qty1.Value >= s.QtyRangeFrom && item.Qty1 <= s.QtyRangeTo))
+                                .FirstOrDefault();
+                    }
+                    else
+                    {
+                        switch (item.JobSelectedQty)
+                        {
+                            case null:
+                                spm =
+                            item.ItemPriceMatrices.Where(
+                                s =>
+                                    s.SupplierId == item.SupplierId &&
+                                    (item.Qty1.Value >= s.QtyRangeFrom && item.Qty1 <= s.QtyRangeTo))
+                                .FirstOrDefault();
+                                
+                                break;
+                            case 1:
+                                spm =
+                           item.ItemPriceMatrices.Where(
+                               s =>
+                                   s.SupplierId == item.SupplierId &&
+                                   (item.Qty1.Value >= s.QtyRangeFrom && item.Qty1 <= s.QtyRangeTo))
+                               .FirstOrDefault();
+                                
+                                break;
+                            case 2:
+                                spm =
+                           item.ItemPriceMatrices.Where(
+                               s =>
+                                   s.SupplierId == item.SupplierId &&
+                                   (item.Qty2.Value >= s.QtyRangeFrom && item.Qty2 <= s.QtyRangeTo))
+                               .FirstOrDefault();
+                                break;
+                            case 3:
+                                spm =
+                            item.ItemPriceMatrices.Where(
+                                s =>
+                                    s.SupplierId == item.SupplierId &&
+                                    (item.Qty3.Value >= s.QtyRangeFrom && item.Qty3 <= s.QtyRangeTo))
+                                .FirstOrDefault();
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    if (!isDirectOrder)
+                    {
+                        spm =
+                            item.ItemPriceMatrices.Where(
+                                s =>
+                                    s.SupplierId == item.SupplierId &&
+                                    (item.Qty1.Value >= s.Quantity))
+                                .FirstOrDefault();
+                       
+                    }
+                    else
+                    {
+                        switch (item.JobSelectedQty)
+                        {
+                            case null:
+                                spm =
+                            item.ItemPriceMatrices.Where(
+                                s =>
+                                    s.SupplierId == item.SupplierId &&
+                                    (item.Qty1.Value >= s.Quantity))
+                                .FirstOrDefault();
+                                break;
+                            case 1:
+                                spm =
+                           item.ItemPriceMatrices.Where(
+                               s =>
+                                   s.SupplierId == item.SupplierId &&
+                                   (item.Qty1.Value >= s.Quantity))
+                               .FirstOrDefault();
+                                
+                                break;
+                            case 2:
+                                spm =
+                            item.ItemPriceMatrices.Where(
+                                s =>
+                                    s.SupplierId == item.SupplierId &&
+                                    (item.Qty2.Value >= s.Quantity))
+                                .FirstOrDefault();
+                                break;
+                            case 3:
+                                spm =
+                           item.ItemPriceMatrices.Where(
+                               s =>
+                                   s.SupplierId == item.SupplierId &&
+                                   (item.Qty3.Value >= s.Quantity))
+                               .FirstOrDefault();
+                                break;
+                        }
+                    }
+                }
+
+                if (spm != null)
+                {
+                    switch (stockSequence)
+                    {
+                        case 1:
+                            return Convert.ToString(spm.PricePaperType1);
+                        case 2:
+                            return Convert.ToString(spm.PricePaperType2);
+                        case 3:
+                            return Convert.ToString(spm.PricePaperType3);
+                        case 4:
+                            return Convert.ToString(spm.PriceStockType4);
+                        case 5:
+                            return Convert.ToString(spm.PriceStockType5);
+                        case 6:
+                            return Convert.ToString(spm.PriceStockType6);
+                        case 7:
+                            return Convert.ToString(spm.PriceStockType7);
+                        case 8:
+                            return Convert.ToString(spm.PriceStockType8);
+                        case 9:
+                            return Convert.ToString(spm.PriceStockType9);
+                        case 10:
+                            return Convert.ToString(spm.PriceStockType10);
+                        case 11:
+                            return Convert.ToString(spm.PriceStockType11);
+                        default:
+                            return "0";
+                    }
+                }
+                else
+                {
+                    return "0";
+                }
+            }
+            else
+            {
+                return "0";
+            }
+        }
+        private string CalculateSalesPrice(Item item, bool isDirectOrder)
+        {
+            if (!isDirectOrder)
+            {
+                return Convert.ToString(item.Qty1NetTotal);
+            }
+            else
+            {
+                switch (item.JobSelectedQty)
+                {
+                    case null:
+                        return Convert.ToString(item.Qty1NetTotal);
+                    case 1:
+                        return Convert.ToString(item.Qty1NetTotal);
+                    case 2:
+                        return Convert.ToString(item.Qty2NetTotal);
+                    case 3:
+                        return Convert.ToString(item.Qty3NetTotal);
+                }
+            }
+            return "0";
+        }
+        private string CalculateHeight(Item item)
+        {
+            ItemSection section = item.ItemSections.FirstOrDefault();
+            long? stockid = section != null ? section.StockItemID1 : 0;
+
+            StockItem stockItem = stockItemRepository.Find(stockid ?? 0);
+            short? isCustom = stockItem != null ? stockItem.ItemSizeCustom : 0;
+
+            if (isCustom.HasValue && stockItem != null)
+            {
+                if (isCustom == 0)
+                {
+                    return Convert.ToString(stockItem.ItemSizeHeight ?? 0);
+                }
+                else
+                {
+
+                    double? height = paperSizeRepository.Find(stockItem.ItemSizeId ?? 0).Height;
+                    return Convert.ToString(height??0);
+                }
+            }
+
+            return "0";
+        }
+        private string CalculateWeight(Item item)
+        {
+            ItemSection section = item.ItemSections.FirstOrDefault();
+            long? stockid = section != null ? section.StockItemID1 : 0;
+
+            StockItem stockItem = stockItemRepository.Find(stockid ?? 0);
+            short? isCustom = stockItem != null ? stockItem.ItemSizeCustom : 0;
+            
+            if (isCustom.HasValue)
+            {
+                if (stockItem != null)
+                {
+                    if (isCustom == 0)
+                    {
+                        if (stockItem.ItemSizeWidth.HasValue)
+                        {
+                            return stockItem.ItemSizeWidth.Value.ToString();
+                        }
+                        else
+                        {
+                            return "0";
+                        }
+                    }
+                    else
+                    {
+                        double? width = paperSizeRepository.Find(stockItem.ItemSizeId ?? 0).Width;
+                        if (width != null)
+                        {
+                            return Convert.ToString(width);
+                        }
+                        else
+                        {
+                            return "0";
+                        }
+                    }
+                }
+            }
+
+            return "0";
+        }
+        private string CalculatePackSize(Item item)
+        {
+            ItemSection section = item.ItemSections.FirstOrDefault();
+            long? stockid = section != null ? section.StockItemID1 : 0;
+
+            StockItem stockItem = stockItemRepository.Find(stockid ?? 0);
+
+            if (stockItem != null)
+            {
+                return Convert.ToString(stockItem.PackageQty??0);
+            }
+            
+            return "0";
+        }
+        private string CalculateReorderLevel(Item item)
+        {
+            ItemSection section = item.ItemSections.FirstOrDefault();
+            long? stockid = section !=null ? section.StockItemID1 : 0;
+
+            StockItem stockItem = stockItemRepository.Find(stockid ?? 0);
+
+            if (stockItem != null)
+            {
+                return Convert.ToString(stockItem.ReOrderLevel??0);
+            }
+            
+            return "0";
+        }
+        private static string PostXml(string resource, string id, string key, string guid, string postData)
+        {
+            string ApiHost = "https://api.unleashedsoftware.com";
+            string uri = string.Format("{0}/{1}/{2}", ApiHost, resource, guid);
+            var client = new WebClient();
+            string query = string.Empty;
+            SetAuthenticationHeaders(client, query, RequestType.Xml, id, key);
+            ServicePointManager.ServerCertificateValidationCallback += ValidateServerCertificate;
+
+
+            string xml = Post(client, uri, postData);
+
+            var xmlDocument = new XmlDocument { PreserveWhitespace = true };
+            xmlDocument.LoadXml(xml);
+            return xmlDocument.InnerXml;
+        }
+        public static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
+        {
+            return true;
+        }
+        private static void SetAuthenticationHeaders(WebClient client, string query, RequestType requestType, string id, string key)
+		{
+			string signature = GetSignature(query, key);
+			client.Headers.Add("api-auth-id", id);
+			client.Headers.Add("api-auth-signature", signature);
+
+			if (requestType == RequestType.Xml)
+			{
+				client.Headers.Add("Accept", "application/xml");
+				client.Headers.Add("Content-Type", "application/xml; charset=" + client.Encoding.WebName);
+			}
+			else
+			{
+				client.Headers.Add("Accept", "application/json");
+				client.Headers.Add("Content-Type", "application/json; charset=" + client.Encoding.WebName);
+			}
+		}
+        private static string Post(WebClient client, string uri, string postData)
+        {
+            string response = string.Empty;
+            try
+            {
+               
+                response = client.UploadString(uri, "POST", postData);
+
+            }
+            catch (WebException ex)
+            {
+                throw ex;
+                
+            }
+            return response;
+        }
+        private static string GetSignature(string args, string privatekey)
+        {
+            var encoding = new System.Text.ASCIIEncoding();
+            byte[] key = encoding.GetBytes(privatekey);
+            var myhmacsha256 = new HMACSHA256(key);
+            byte[] hashValue = myhmacsha256.ComputeHash(encoding.GetBytes(args));
+            string hmac64 = Convert.ToBase64String(hashValue);
+            myhmacsha256.Clear();
+            return hmac64;
+        }
+        #endregion
         
-
-
     }
 }

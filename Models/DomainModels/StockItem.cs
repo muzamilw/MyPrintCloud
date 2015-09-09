@@ -353,6 +353,11 @@ namespace MPC.Models.DomainModels
         /// </summary>
         public bool? isAllowBackOrder { get; set; }
 
+        /// <summary>
+        /// is Imperical
+        /// </summary>
+        public bool? IsImperical { get; set; }
+
         #endregion
 
         #region Reference Properties
@@ -390,6 +395,11 @@ namespace MPC.Models.DomainModels
         /// Item Sections
         /// </summary>
         public virtual ICollection<ItemSection> ItemSections { get; set; }
+
+        /// <summary>
+        /// Item Stock Update History
+        /// </summary>
+        public virtual ICollection<ItemStockUpdateHistory> ItemStockUpdateHistories { get; set; }
 
         #endregion
 

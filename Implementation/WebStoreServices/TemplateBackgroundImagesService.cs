@@ -16,6 +16,10 @@ using MPC.Models.Common;
 using System.Web;
 using WebSupergoo.ABCpdf8;
 
+using Aurigma.GraphicsMill.Codecs;
+using agm = Aurigma.GraphicsMill;
+using agmAD = Aurigma.GraphicsMill.AdvancedDrawing;
+
 namespace MPC.Implementation.WebStoreServices
 {
     class TemplateBackgroundImagesService : ITemplateBackgroundImagesService
@@ -261,8 +265,13 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
         // called from designer to download an image in a template // added by saqib
-        public string DownloadImageLocally(string ImgName, long TemplateID, string imgType,long organisationID)
+        public string DownloadImageLocally(string ImgName, long TemplateID, string imgType,long organisationID,bool addRecord)
         {
+            if (ImgName.Contains("__clip_mpc.png"))
+            {
+                string imgName = ImgName.Replace("__clip_mpc.png", ".jpg");
+                DownloadImageLocally(imgName, TemplateID, imgType, organisationID,false);
+            }
             int imageType = Convert.ToInt32(imgType);
             System.Drawing.Image objImage = null;
             ImgName = ImgName.Replace("___", "/");
@@ -304,6 +313,8 @@ namespace MPC.Implementation.WebStoreServices
                 }
                 string[] fileName = ImgName.Split(new string[] { "/" }, StringSplitOptions.None);
                 string pathToDownload =  System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationID.ToString() + "/Templates/" )+ TemplateID.ToString() + "/" + fileName[fileName.Length - 1];
+                if (!Directory.Exists(System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationID.ToString() + "/Templates/") + TemplateID.ToString() + "/"))
+                    Directory.CreateDirectory(System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationID.ToString() + "/Templates/") + TemplateID.ToString() + "/");
                 DesignerUtils.DownloadFile(ImgPath, pathToDownload);
                 // generate thumbnail 
                 string ext = Path.GetExtension(fileName[fileName.Length - 1]);
@@ -326,7 +337,8 @@ namespace MPC.Implementation.WebStoreServices
                             objImage.Dispose();
                    }
                  }
-                _templateImagesRepository.DownloadImageLocally(TemplateID, ImgName, imageType, ImageWidth, ImageHeight);
+                if (addRecord)
+                 _templateImagesRepository.DownloadImageLocally(TemplateID, ImgName, imageType, ImageWidth, ImageHeight);
             }
             catch (Exception ex)
             {
@@ -414,19 +426,21 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _templateImagesRepository.getCompanyTerritories(companyId);
         }
-        public string InsertUploadedImageRecord(string imageName, long productId, int uploadedFrom, long contactId, long organisationId, int imageType, long contactCompanyID)
+        public TemplateBackgroundImage InsertUploadedImageRecord(string imageName, long productId, int uploadedFrom, long contactId, long organisationId, int imageType, long contactCompanyID)
         {
             var result = "false";
             System.Drawing.Image objImage = null;
+            var bgImg = new TemplateBackgroundImage();
             // fileName = fileID;
             try
             {
-
+                
                 bool isPdfBackground = false;
                 // string product = idOfObject1; productId
                 string ext = System.IO.Path.GetExtension(imageName);
                 //fileID += ext;
                 imageName = imageName.Replace("%20", " ");
+                string ClippingPath = String.Empty;
                 bool isUploadedPDF = false; int bkPagesCount = 0;
                 List<TemplateBackgroundImage> uploadedPdfRecords = null;
 
@@ -455,6 +469,7 @@ namespace MPC.Implementation.WebStoreServices
                     }
 
                     string RootPath = imgpath;
+                    ClippingPath = imgpath;
                     imgpath += "/" + imageName;
                     uploadPath += "/" + imageName;
                    // string uploadPath = HttpContext.Current.Server.MapPath(imgpath);
@@ -476,14 +491,18 @@ namespace MPC.Implementation.WebStoreServices
 
                     string UploadPathForPDF = productId + "/";
                     string Imname = productId + "/" + imageName;
+                    string clippedFileName = System.IO.Path.GetFileNameWithoutExtension(imageName) + "__clip_mpc.png";
+                    string ImClippedName = productId + "/" + clippedFileName;
                     if (uploadedFrom == 1 || uploadedFrom == 2)
                     {
                         Imname = "UserImgs/" + contactId.ToString() + "/" + imageName;
+                        ImClippedName = "UserImgs/" + contactId.ToString() + "/" + clippedFileName;
                         UploadPathForPDF = "UserImgs/" + contactId.ToString() + "/";
                     }
                     else if (uploadedFrom == 3 || uploadedFrom == 4)
                     {
                         Imname = "UserImgs/Retail/" + contactId.ToString() + "/" + imageName;
+                        ImClippedName = "UserImgs/Retail/" + contactId.ToString() + "/" + clippedFileName;
                         UploadPathForPDF = "UserImgs/Retail/" + contactId.ToString() + "/";
                     }
                     if(uploadedFrom == 2)
@@ -495,7 +514,7 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         foreach (TemplateBackgroundImage obj in uploadedPdfRecords)
                         {
-                            var bgImg = new TemplateBackgroundImage();
+                            bgImg = new TemplateBackgroundImage();
                             bgImg.Name = UploadPathForPDF + obj.Name;
                             bgImg.ImageName = UploadPathForPDF + obj.Name;
                             bgImg.ProductId = productId;
@@ -525,12 +544,16 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     else
                     {
+
                         if (isPdfBackground)
                         {
                             _templateRepository.updateTemplatePages(bkPagesCount, productId);
                         }
                         else
                         {
+                            bool containsClippingPath = false;
+                            string imageClippingFileName = String.Empty;
+                            string clipName = System.IO.Path.GetFileNameWithoutExtension(imageName);
                             if (!Path.GetExtension(uploadPath).Contains("svg"))
                             {
                                 using (objImage = System.Drawing.Image.FromFile(uploadPath))
@@ -544,9 +567,75 @@ namespace MPC.Implementation.WebStoreServices
                                     ImageHeight = objImage.Height;
                                 }
                             }
-                            var bgImg = new TemplateBackgroundImage();
-                            bgImg.Name = Imname;
-                            bgImg.ImageName = Imname;
+                            else
+                            {
+                                //double height, width = 0;
+                                //DesignerSvgParser.GetSvgHieghtAndWidth(uploadPath,out height,out width);
+                                //ImageWidth = Convert.ToInt32(width);
+                                //ImageHeight = Convert.ToInt32(height);
+                            }
+                            try
+                            {
+
+                                if (System.IO.Path.GetExtension(uploadPath).Contains("jpg"))
+                                {
+                                    ClippingPath = "~/MPC_Content/Designer/" + ClippingPath + "/" + clipName + "__clip_mpc.png";// +System.IO.Path.GetExtension(fileID);
+                                    //  imgpath += "/" + fileID;
+                                    string uploadedClippingPath = HttpContext.Current.Server.MapPath(ClippingPath);
+                                    using (var reader = new JpegReader(uploadPath))
+                                    using (var bitmap = reader.Frames[0].GetBitmap())
+                                    using (var maskBitmap = new agm.Bitmap(bitmap.Width, bitmap.Height, agm.PixelFormat.Format8bppGrayscale, new agm.GrayscaleColor(0)))
+                                    using (var graphics = maskBitmap.GetAdvancedGraphics())
+                                    {
+                                        try
+                                        {
+                                            if (reader.ClippingPaths != null && reader.ClippingPaths.Count > 0)
+                                            {
+                                                containsClippingPath = true;
+                                                var graphicsPath = reader.ClippingPaths[0].CreateGraphicsPath(reader.Width, reader.Height);
+
+                                                graphics.FillPath(new agmAD.SolidBrush(new agm.GrayscaleColor(255)), Aurigma.GraphicsMill.AdvancedDrawing.Path.Create(graphicsPath));
+
+                                                bitmap.Channels.SetAlpha(maskBitmap);
+
+                                                bitmap.Save(uploadedClippingPath);
+
+                                                string sp = uploadedClippingPath;
+                                                //string ext = Path.GetExtension(uploadPath);
+                                                string[] results = sp.Split(new string[] { ".png" }, StringSplitOptions.None);
+                                                string destPath = results[0] + "_thumb" + ".png";
+                                                GenerateThumbNail(sp, destPath, 98);
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("no path found");
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                          //  throw ex;
+                                        }
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                // licence expired 
+                            }
+
+                            if (containsClippingPath)
+                            {
+                                bgImg.hasClippingPath = true;
+                                bgImg.Name = ImClippedName;
+                                bgImg.ImageName = ImClippedName;
+                                bgImg.clippingFileName = Imname;
+                            }
+                            else
+                            {
+                                bgImg.Name = Imname;
+                                bgImg.ImageName = Imname;
+                            }
+                           
                             bgImg.ProductId = productId;
 
                             bgImg.ImageWidth = ImageWidth;
@@ -592,7 +681,8 @@ namespace MPC.Implementation.WebStoreServices
                 }
 
             }
-            return result;
+            bgImg.BackgroundImageAbsolutePath = result;
+            return bgImg;
         }
 
         public int generatePdfAsBackgroundDesigner(string physicalPath, long TemplateID,long organisationId)

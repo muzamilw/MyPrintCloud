@@ -1,122 +1,19 @@
 ﻿
 <div class="modal fade" id="phraseLibraryDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; max-height: 700px; overflow-y: auto;">
     <div style="width:838px;" class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Phrase Book</h4>
-            </div>
-            <div class="col-lg-12">
-                <div class="col-lg-12 clearfix">
-                    <div class="col-lg-5" style="margin-top:10px;">
-                        <div >
-                            <button class="btn btn-primary" data-bind="click:$root.editJobTitle">
-                                Edit Job Title
-                            </button>
-                        </div>
-                        <div class="category" id="nestable2">
-                            <ol class="dd-list">
-                                <!-- ko template: { name: 'sectionIemTemplate', foreach: $root.sections }-->
-                                <!-- /ko -->
-                            </ol>
-                        </div>
-                    </div>
-                    <div class="col-lg-7">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th><span>Phrase</span></th>
-
-                                        <th>
-                                            <div class="filter-block pull-right" title="Add Phrase" data-bind="click:$root.addPhrase,visible:$root.isOpenFromPhraseLibrary">
-                                                <a href="#" class="btn btn-primary">
-                                                    Add Phrase
-                                                </a>
-                                            </div>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- ko template: { name: $root.templateToUse , foreach: $root.phrases } -->
-                                    <!-- /ko -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-bind="click:$root.savePhraseLibrary,visible:$root.isOpenFromPhraseLibrary">Save</button>
-            </div>
-        </div>
+        @Html.Partial("~/Areas/Common/Views/Shared/_PhraseLibrary.cshtml")
     </div>
-    @Html.Partial("~/Areas/Common/Views/Shared/_EditJobTitlePhraseLibrary.cshtml")
+   
 </div>
 
 
 @* Wizard Popup ends here*@
 
-<script id="sectionIemTemplate" type="text/html">
-    <li class="dd-item dd-item-list" data-id="15">
-        <div class="dd-handle-list" data-bind="click: $root.selectSection, css: { selectedSection: $root.selectedSection() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
-        <div class="dd-handle">
-            <span data-bind="text: name"></span>
-            <div class="nested-links">
-                <a href="#" class="nested-link" title="Edit Category"></a>
-            </div>
-        </div>
-        <ol class="dd-list" data-bind="visible:isExpanded()">
-            <!-- ko template: { name: 'childSectionIemTemplate', foreach: phrasesFields }-->
-            <!-- /ko -->
-        </ol>
-    </li>
-</script>
 
-<script id="childSectionIemTemplate" type="text/html">
-    <li class="dd-item dd-item-list" data-id="16">
-        <div class="dd-handle-list" data-bind="click: $root.selectPhraseField, css: { selectedPhraseField: $root.selectedPhraseField() === $data }" style="cursor: pointer"><i class="fa fa-bars"></i></div>
-        <div class="dd-handle txt-white-hover">
-            <span data-bind="text: fieldName"></span>
-            <div class="nested-links">
-            </div>
-        </div>
-    </li>
-</script>
 
-<script id="phraseEditItemTemplate" type="text/html">
-    <tr data-bind="visible:!isDeleted()">
-        <td>
-            <input type="text" class="form-control" placeholder="Enter Phrase Name" data-bind="value:phraseText">
-        </td>
-        <td class="text-right">
-            <a href="#" class="table-link danger" data-bind="click:$root.deletePhrase">
-                <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                </span>
-            </a>
-        </td>
-    </tr>
-</script>
 
-<script id="phraseItemTemplate" type="text/html">
-    <tr data-bind="visible:!isDeleted(),click: $root.selectPhrase, css: { selectedRow: $data === $root.selectedPhrase() }">
-        <td>
-            <input type="checkbox" style="width:50px;" data-bind="checked:isPhraseChecked" />
-        </td>
-        <td>
-            <input type="text" class="form-control" placeholder="Enter Phrase Name" data-bind="value:phraseText">
-        </td>
-        <td class="text-right">
-            <a href="#" class="table-link danger" data-bind="click:$root.deletePhrase">
-                <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                </span>
-            </a>
-        </td>
-    </tr>
-</script>
+
+
+
+
+

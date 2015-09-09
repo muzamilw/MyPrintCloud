@@ -12,6 +12,7 @@ using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
 using System.Resources;
 using MPC.Models.Common;
+using System.Configuration;
 
 
 namespace MPC.Implementation.MISServices
@@ -36,6 +37,7 @@ namespace MPC.Implementation.MISServices
         private readonly IWeightUnitRepository weightUnitRepository;
         private readonly ILengthUnitRepository lengthUnitRepository;
         private readonly IGlobalLanguageRepository globalLanguageRepository;
+        private readonly ICompanyRepository _companyRepository;
 
         #endregion
 
@@ -48,7 +50,7 @@ namespace MPC.Implementation.MISServices
          IChartOfAccountRepository chartOfAccountRepository,
             ICountryRepository countryRepository, IStateRepository stateRepository, IPrefixRepository prefixRepository,
            ICurrencyRepository currencyRepository, IWeightUnitRepository weightUnitRepository, ILengthUnitRepository lengthUnitRepository,
-            IGlobalLanguageRepository globalLanguageRepository)
+            IGlobalLanguageRepository globalLanguageRepository, ICompanyRepository companyRepository)
         {
             this.organisationRepository = organisationRepository;
             this.markupRepository = markupRepository;
@@ -60,6 +62,7 @@ namespace MPC.Implementation.MISServices
             this.weightUnitRepository = weightUnitRepository;
             this.lengthUnitRepository = lengthUnitRepository;
             this.globalLanguageRepository = globalLanguageRepository;
+            this._companyRepository = companyRepository;
         }
 
         #endregion
@@ -83,6 +86,21 @@ namespace MPC.Implementation.MISServices
             };
         }
 
+        /// <summary>
+        /// Load My Organization Base data
+        /// </summary>
+        public MyOrganizationBaseResponse GetRegionalSettingBaseData()
+        {
+            return new MyOrganizationBaseResponse
+            {
+                //ChartOfAccounts = chartOfAccountRepository.GetAll(),
+  
+                Currencies = currencyRepository.GetAll(),
+                LengthUnits = lengthUnitRepository.GetAll(),
+                WeightUnits = weightUnitRepository.GetAll(),
+             
+            };
+        }
         /// <summary>
         ///  Find Organisation Detail By Organisation ID
         /// </summary>
@@ -200,9 +218,9 @@ namespace MPC.Implementation.MISServices
             IEnumerable<ChartOfAccount> chartOfAccountsDbVersion = chartOfAccountRepository.GetAll();
             organisationDbVersion.OrganisationId = organisationRepository.OrganisationId;
             organisationDbVersion.OrganisationName = organisation.OrganisationName;
-            organisationDbVersion.SmtpServer = organisation.SmtpServer;
-            organisationDbVersion.SmtpUserName = organisation.SmtpUserName;
-            organisationDbVersion.SmtpPassword = organisation.SmtpPassword;
+           // organisationDbVersion.SmtpServer = organisation.SmtpServer;
+           // organisationDbVersion.SmtpUserName = organisation.SmtpUserName;
+          //  organisationDbVersion.SmtpPassword = organisation.SmtpPassword;
             organisationDbVersion.Address1 = organisation.Address1;
             organisationDbVersion.Address2 = organisation.Address2;
             organisationDbVersion.City = organisation.City;
@@ -215,7 +233,30 @@ namespace MPC.Implementation.MISServices
             organisationDbVersion.VATRegNumber = organisation.VATRegNumber;
             organisationDbVersion.BleedAreaSize = organisation.BleedAreaSize;
             organisationDbVersion.ShowBleedArea = organisation.ShowBleedArea;
+            organisationDbVersion.CurrencyId = organisation.CurrencyId;
+            organisationDbVersion.LanguageId = organisation.LanguageId;
+           // organisationDbVersion.SystemLengthUnit = organisation.SystemLengthUnit;
+            organisationDbVersion.SystemWeightUnit = organisation.SystemWeightUnit;
+            organisationDbVersion.URL = organisation.URL;
+            organisationDbVersion.Mobile = organisation.Mobile;
+            organisationDbVersion.IsImperical = organisation.IsImperical;
+            organisationDbVersion.AgileApiKey = organisation.AgileApiKey;
+            organisationDbVersion.AgileApiUrl = organisation.AgileApiUrl;
+            organisationDbVersion.isAgileActive = organisation.isAgileActive;
+            organisationDbVersion.XeroApiId = organisation.XeroApiId;
+            organisationDbVersion.XeroApiKey = organisation.XeroApiKey;
+            organisationDbVersion.isXeroIntegrationRequired = organisation.isXeroIntegrationRequired;
+            if(organisation.IsImperical == true)
+            {
+                organisationDbVersion.SystemLengthUnit = 3;
+                organisationDbVersion.SystemWeightUnit = 1;
 
+            }
+            else
+            {
+                organisationDbVersion.SystemLengthUnit = 1;
+                organisationDbVersion.SystemWeightUnit = 3;
+            }
             #region Markup
 
             if (organisation.MarkupId != null)
@@ -369,7 +410,7 @@ namespace MPC.Implementation.MISServices
             #endregion
 
             organisation.MISLogo = SaveMiSLogo(organisation);
-            //organisationRepository.Update(organisation);
+            organisationRepository.Update(organisation);
             organisationRepository.SaveChanges();
             UpdateLanguageResource(organisation);
             return new MyOrganizationSaveResponse
@@ -436,6 +477,7 @@ namespace MPC.Implementation.MISServices
         public List<LanguageEditor> ReadResourceFileByLanguageId(long organisationId, long lanuageId)
         {
             List<LanguageEditor> languageEditors = new List<LanguageEditor>();
+            // get organisation object --> organisation.languageid
             GlobalLanguage globalLanguage = globalLanguageRepository.Find(lanuageId);
             string sResxPath = null;
             if (globalLanguage != null)
@@ -646,6 +688,36 @@ namespace MPC.Implementation.MISServices
                 throw ex;
             }
         }
+
+
+        public IEnumerable<Markup> GetMarkups()
+        {
+            return markupRepository.GetAll();
+        }
+
+        public void UpdateOrganisationLicensing(long organisationId, int storesCount, bool isTrial, int misOrdersCount, int webStoreOrdersCount, DateTime billingDate)
+        {
+            organisationRepository.UpdateOrganisationLicensing(organisationId, storesCount, isTrial, misOrdersCount, webStoreOrdersCount, billingDate);
+            if (!isTrial)
+            {
+                _companyRepository.UpdateLiveStores(organisationId, storesCount);
+            }
+        }
+
+        public bool CanStoreMakeLive()
+        {
+            var livestores = _companyRepository.GetLiveStoresCount(organisationRepository.OrganisationId);
+            var org = organisationRepository.GetOrganizatiobByID();
+
+            if (livestores < (org.LiveStoresCount ?? 0))
+                return true;
+            else
+                return false;
+            
+        }
+        
+
+
         #endregion
 
 

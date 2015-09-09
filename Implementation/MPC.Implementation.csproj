@@ -38,6 +38,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MPC.Common\ExternalDlls\ABCpdf.dll</HintPath>
     </Reference>
+    <Reference Include="Aurigma.GraphicsMill">
+      <HintPath>..\MPC.Common\Externaldlls\Aurigma.GraphicsMill.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
     </Reference>
@@ -69,6 +72,13 @@
     <Reference Include="GrapeCity.ActiveReports.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Web.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Web.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.LicenseService.ActiveReports.v7">
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.LicenseService.ActiveReports.v7.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\MPC.Common\Externaldlls\Ionic.Zip.dll</HintPath>
@@ -135,6 +145,10 @@
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="PDFlib_dotnet, Version=9.0.4.0, Culture=neutral, PublicKeyToken=af0805f2b25bb299, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPC.Common\Externaldlls\PDFlib_dotnet.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.103.4\lib\net4\RestSharp.dll</HintPath>
     </Reference>
@@ -164,6 +178,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LanguageResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="MISServices\DiscountVoucherService.cs" />
     <Compile Include="MISServices\CompanyCostCentreService.cs" />
     <Compile Include="MISServices\AddressService.cs" />
     <Compile Include="MISServices\AuthorizationChecker.cs" />
@@ -180,14 +195,19 @@
     <Compile Include="MISServices\CustomerService.cs" />
     <Compile Include="MISServices\DashboardService.cs" />
     <Compile Include="MISServices\DeliveryCarrierService.cs" />
+    <Compile Include="MISServices\DeliveryNotesService.cs" />
+    <Compile Include="MISServices\ExportReportHelper.cs" />
     <Compile Include="MISServices\GoodsReceivedNoteService.cs" />
+    <Compile Include="MISServices\InquiryService.cs" />
     <Compile Include="MISServices\InvoicesService.cs" />
     <Compile Include="MISServices\ItemJobStatusService.cs" />
+    <Compile Include="MISServices\ItemSectionService.cs" />
     <Compile Include="MISServices\ItemService.cs" />
     <Compile Include="MISServices\InventoryService.cs" />
     <Compile Include="MISServices\CostCenterService.cs" />
     <Compile Include="MISServices\LengthConversionHelper.cs" />
     <Compile Include="MISServices\LengthConversionService.cs" />
+    <Compile Include="MISServices\LiveJobsService.cs" />
     <Compile Include="MISServices\LookupMethodService.cs" />
     <Compile Include="MISServices\MachineService.cs" />
     <Compile Include="MISServices\OrderForCrmService.cs" />
@@ -234,6 +254,7 @@
     <Compile Include="WebStoreServices\TemplateObjectService.cs" />
     <Compile Include="WebStoreServices\TemplatePageService.cs" />
     <Compile Include="WebStoreServices\TemplateService.cs" />
+    <Compile Include="WebStoreServices\TemplateVariableService.cs" />
     <Compile Include="WebStoreServices\WebstoreClaimsHelperService.cs" />
     <Compile Include="WebStoreServices\UserManagerService.cs" />
     <Compile Include="WebStoreServices\WebstoreClaimsSecurityService.cs" />
@@ -365,7 +386,6 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(VisualStudioVersion)' == ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(VisualStudioVersion)' != ''" />

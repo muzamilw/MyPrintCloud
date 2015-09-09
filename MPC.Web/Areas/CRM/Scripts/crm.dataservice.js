@@ -1,10 +1,10 @@
-﻿define("crm/crm.dataservice", function () {
+define("crm/crm.dataservice", function () {
     // Data service for forecast 
     var dataService = (function () {
         var // True if initialized
             isInitialized = false,
             // Initialize
-            initialize = function() {
+            initialize = function () {
                 if (!isInitialized) {
                     amplify.request.define('getDataForOrderTab', 'ajax', {
                         url: ist.siteUrl + '/Api/OrdersForCrm',
@@ -46,6 +46,12 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to Delete Company Contact
+                    amplify.request.define('deleteCompanyContact', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyContact',
+                        dataType: 'json',
+                        type: 'DELETE'
+                    });
                     // Define request to get Store
                     amplify.request.define('getBaseDataFornewCompany', 'ajax', {
                         url: ist.siteUrl + '/Api/CrmBase',
@@ -77,6 +83,12 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Delete Company Address
+                    amplify.request.define('deleteCompanyAddress', 'ajax', {
+                        url: ist.siteUrl + '/Api/Address',
+                        dataType: 'json',
+                        type: 'DELETE'
+                    });
                     // Define request to get Company Territory
                     amplify.request.define('searchCompanyTerritory', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyTerritory',
@@ -103,6 +115,13 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Delete Company Permanently
+                    amplify.request.define('deleteCompanyPermanent', 'ajax', {
+                        url: ist.siteUrl + '/Api/DeleteCrmCompany',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'DELETE'
+                    });
                 };
             },
              // get order tab data
@@ -126,7 +145,7 @@
                 });
             },
               // get Invoice tab data
-            getInvoices= function (params, callbacks) {
+            getInvoices = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getDataForInvoiceTab',
@@ -136,7 +155,7 @@
                 });
             },
             // get Customer list of list view
-            getCustomersForListView = function(params, callbacks) {
+            getCustomersForListView = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getCompanies',
@@ -146,7 +165,7 @@
                 });
             },
             // get Store by id
-            getStoreById = function(params, callbacks) {
+            getStoreById = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getStoreById',
@@ -156,7 +175,7 @@
                 });
             },
             // search Address
-            searchAddress = function(params, callbacks) {
+            searchAddress = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'searchAddress',
@@ -166,7 +185,7 @@
                 });
             },
             // search Company Contact
-            searchCompanyContact = function(params, callbacks) {
+            searchCompanyContact = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'searchCompanyContact',
@@ -186,7 +205,7 @@
                 });
             },
             // save Store
-            saveStore = function(param, callbacks) {
+            saveStore = function (param, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'saveStore',
@@ -206,15 +225,25 @@
                 });
             },
             // get Base Data By Store Id
-            getBaseData = function(params, callbacks) {
-            initialize();
-            return amplify.request({
-                resourceId: 'getBaseData',
-                success: callbacks.success,
-                error: callbacks.error,
-                data: params
-            });
-        },
+            getBaseData = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBaseData',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            //Delete Company Permanent
+            deleteCompanyPermanent = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCompanyPermanent',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
         // Save Company Contact
             saveCompanyContact = function (param, callbacks) {
                 initialize();
@@ -245,6 +274,26 @@
 	                data: params
 	            });
 	        },
+             // Delete Company Address
+            deleteCompanyAddress = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCompanyAddress',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
+             // Delete Company Contact
+            deleteCompanyContact = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCompanyContact',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
             // get Goods Received Notes
 	        getGoodsReceivedNotes = function (params, callbacks) {
 	            initialize();
@@ -270,7 +319,10 @@
             saveCompanyContact: saveCompanyContact,
             saveAddress: saveAddress,
             getPurchases: getPurchases,
-            getGoodsReceivedNotes: getGoodsReceivedNotes
+            getGoodsReceivedNotes: getGoodsReceivedNotes,
+            deleteCompanyAddress: deleteCompanyAddress,
+            deleteCompanyPermanent: deleteCompanyPermanent,
+            deleteCompanyContact: deleteCompanyContact
         };
     })();
 

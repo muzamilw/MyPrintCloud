@@ -26,7 +26,7 @@
             //category + Sub Category Name
             fullCategoryName = ko.observable(specifiedFullCategoryName),
             // Per pack Cost within current date
-            packCostPrice = ko.observable(specifiedFullCategoryName),
+            packCostPrice = ko.observable(specifiedFullCategoryName || 0).extend({ numberInput: ist.numberFormat }),
             ///Supplier Company Name
             supplierCompanyName = ko.observable(specifiedSupplierCompanyName),
             convertToServerData = function () {
@@ -43,7 +43,7 @@
             categoryName: categoryName,
             subCategoryName: subCategoryName,
             weightUnitName: weightUnitName,
-            packCostPrice:packCostPrice,
+            packCostPrice: packCostPrice,
             fullCategoryName: fullCategoryName,
             supplierCompanyName: supplierCompanyName,
             convertToServerData: convertToServerData,
@@ -57,10 +57,9 @@
         specifiedItemSizeSelectedUnitId, specifiedPerQtyQty, specifiedItemSizeCustom, specifiedStockLocation, specifiedItemSizeId, specifiedItemSizeHeight,
         specifiedItemSizeWidth, specifiedPerQtyType, specifiedPackageQty, specifiedRollWidth, specifiedRollLength, specifiedReOrderLevel, specifiedReorderQty,
         specifiedItemWeight, specifiedItemColour, specifiedInkAbsorption, specifiedPaperBasicAreaId, specifiedItemCoated, specifiedItemCoatedType,
-        specifiedItemWeightSelectedUnit, specifiedAllocated, specifiedOnOrder, specifiedLastOrderQty, specifiedLastOrderDate, specifiedSupplierName
-           ) {
-        var
-            self,
+        specifiedItemWeightSelectedUnit, specifiedAllocated, specifiedOnOrder, specifiedLastOrderQty, specifiedLastOrderDate, specifiedSupplierName, specifiedIsImperical,
+        specifiedisAllowBackOrder, specifiedThresholdLevel) {
+        var self,
             //item Id
             itemId = ko.observable(specifiedItemId === undefined ? 0 : specifiedItemId),
             //Item Name
@@ -78,7 +77,7 @@
             //Bar Code
             barCode = ko.observable(specifiedBarCode),
             //in Stock
-            inStock = ko.observable(specifiedInStock).extend({ number: true }),
+            inStock = ko.observable(specifiedInStock || 0).extend({ number: true }),
             //Item Description
             description = ko.observable(specifiedDescription),
             //Created Date
@@ -90,7 +89,7 @@
             //Is Disabled
             isDisabled = ko.observable(specifiedIsDisabled),
             //Paper Type ID
-            paperTypeId = ko.observable((specifiedPaperTypeId == undefined || specifiedPaperTypeId === null) ? 1 : specifiedPaperTypeId),
+            paperTypeId = ko.observable((specifiedPaperTypeId == undefined || specifiedPaperTypeId === null) ? "1" : specifiedPaperTypeId.toString()),
             //Item Size Selected Unit Id
             itemSizeSelectedUnitId = ko.observable(specifiedItemSizeSelectedUnitId),
             //perQtyQty
@@ -107,7 +106,7 @@
             itemSizeWidth = ko.observable(specifiedItemSizeWidth).extend({ number: true }),
             //Per Qty Type
             perQtyType = ko.observable(specifiedPerQtyType),
-           //Package Qty
+            //Package Qty
             packageQty = ko.observable(specifiedPackageQty === undefined ? 100 : specifiedPackageQty).extend({ number: true }),
             //Roll Width
             rollWidth = ko.observable(specifiedRollWidth).extend({ number: true }),
@@ -132,19 +131,28 @@
             //Item Weight Selected Unit
             itemWeightSelectedUnit = ko.observable(specifiedItemWeightSelectedUnit),
             //Allocated
-            allocated = ko.observable(specifiedAllocated),
+            allocated = ko.observable(specifiedAllocated == undefined || specifiedAllocated == null ? 0 : specifiedAllocated),
             //On Order
-            onOrder = ko.observable(specifiedOnOrder),
+            onOrder = ko.observable(specifiedOnOrder == undefined || specifiedOnOrder == null ? 0 : specifiedOnOrder),
             //Last Order Qty
-            lastOrderQty = ko.observable(specifiedLastOrderQty),
+            lastOrderQty = ko.observable(specifiedLastOrderQty == undefined || specifiedLastOrderQty == null ? 0 : specifiedLastOrderQty),
             //Last Order Date
             lastOrderDate = ko.observable(specifiedLastOrderDate),
+
+            // is empirical
+            IsImperical = ko.observable(specifiedIsImperical),
             //header computed Value based on selection unit size itm 
         headerComputedValue = ko.observable(),
         //Stock Cost And Price List
         stockCostAndPriceListInInventory = ko.observableArray([]),
+        // Item Stock Update Histories
+        itemStockUpdateHistories = ko.observableArray([]),
         //Paper Type
         paperType = ko.observable(),
+        // is Allow Back Order
+        isAllowBackOrder = ko.observable(specifiedisAllowBackOrder || false),
+        // Thres hold Level
+        thresholdLevel = ko.observable(specifiedThresholdLevel),
         // Errors
         errors = ko.validation.group({
             itemName: itemName,
@@ -209,7 +217,11 @@
             lastOrderDate: lastOrderDate,
             headerComputedValue: headerComputedValue,
             supplierName: supplierName,
+            IsImperical: IsImperical,
+            isAllowBackOrder: isAllowBackOrder,
+            thresholdLevel: thresholdLevel,
             stockCostAndPriceListInInventory: stockCostAndPriceListInInventory,
+            itemStockUpdateHistories: itemStockUpdateHistories,
         }),
         // Has Changes
         hasChanges = ko.computed(function () {
@@ -250,8 +262,12 @@
                 ItemCoatedType: itemCoatedType(),
                 Status: statusId(),
                 isDisabled: isDisabled(),
+                IsImperical: IsImperical(),
+                ThresholdLevel: thresholdLevel(),
                 ItemWeightSelectedUnit: itemWeightSelectedUnit(),
-                StockCostAndPrices: stockCostAndPriceListInInventory()
+                StockCostAndPrices: stockCostAndPriceListInInventory(),
+                isAllowBackOrder: isAllowBackOrder(),
+                ItemStockUpdateHistories: []
             }
         },
         // Reset
@@ -299,8 +315,12 @@
             lastOrderDate: lastOrderDate,
             headerComputedValue: headerComputedValue,
             supplierName: supplierName,
+            IsImperical: IsImperical,
             stockCostAndPriceListInInventory: stockCostAndPriceListInInventory,
             paperType: paperType,
+            isAllowBackOrder: isAllowBackOrder,
+            thresholdLevel: thresholdLevel,
+            itemStockUpdateHistories: itemStockUpdateHistories,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -393,14 +413,81 @@
         };
         return self;
     };
+
+    // Item Stock Update History
+    var ItemStockUpdateHistory = function (specifiedStockHistoryId, specifiedLastModifiedQty, specifiedModifyEvent, specifiedLastModifiedBy, specifiedLastModifiedDate,
+        specifiedLastModifiedByName, specifiedAction) {
+        var
+            self,
+            //cost Price Id
+            id = ko.observable(specifiedStockHistoryId),
+            lastModifiedQty = ko.observable(specifiedLastModifiedQty),
+            modifyEvent = ko.observable(specifiedModifyEvent),
+            lastModifiedBy = ko.observable(specifiedLastModifiedBy),
+            lastModifiedDate = ko.observable(specifiedLastModifiedDate),
+            actionName = ko.observable(specifiedAction),
+            lastModifiedByName = ko.observable(specifiedLastModifiedByName),
+             // Errors
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+            // True if the booking has been changed
+              dirtyFlag = new ko.dirtyFlag({
+              }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            convertToServerData = function () {
+                return {
+                    StockHistoryId: id(),
+                    LastModifiedQty: lastModifiedQty(),
+                    ModifyEvent: modifyEvent(),
+                    LastModifiedBy: lastModifiedBy(),
+                    LastModifiedDate: lastModifiedDate() === undefined || lastModifiedDate() === null ? null : moment(lastModifiedDate()).format(ist.utcFormat),
+                }
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            id: id,
+            lastModifiedQty: lastModifiedQty,
+            modifyEvent: modifyEvent,
+            lastModifiedBy: lastModifiedBy,
+            lastModifiedDate: lastModifiedDate,
+            actionName: actionName,
+            lastModifiedByName: lastModifiedByName,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+
     //Stock Item For Client Factory
     StockItem.CreateForClient = function (source) {
-        return new StockItem(source.StockItemId, source.ItemName, source.ItemCode, source.SupplierId, source.CategoryId, source.SubCategoryId, source.BarCode,
+        var stockItem = new StockItem(source.StockItemId, source.ItemName, source.ItemCode, source.SupplierId, source.CategoryId, source.SubCategoryId, source.BarCode,
          source.inStock, source.ItemDescription, source.StockCreated, source.FlagID, source.Status, source.isDisabled, source.PaperType, source.ItemSizeSelectedUnit,
             source.PerQtyQty, source.ItemSizeCustom, source.StockLocation, source.ItemSizeId, source.ItemSizeHeight, source.ItemSizeWidth, source.PerQtyType, source.PackageQty,
             source.RollWidth, source.RollLength, source.ReOrderLevel, source.ReorderQty, source.ItemWeight, source.ItemColour, source.InkAbsorption, source.PaperBasicAreaId,
             source.ItemCoated, source.ItemCoatedType, source.ItemWeightSelectedUnit, source.Allocated, source.onOrder, source.LastOrderQty, source.LastOrderDate,
-            source.SupplierName);
+            source.SupplierName, source.IsImperical, source.isAllowBackOrder, source.ThresholdLevel);
+
+        _.each(source.ItemStockUpdateHistories, function (item) {
+            stockItem.itemStockUpdateHistories.push(ItemStockUpdateHistory.Create(item));
+        });
+
+        return stockItem;
     };
     //Stock Cost And Price Item For Client Factory
     StockCostAndPrice.CreateForClient = function (source) {
@@ -418,15 +505,20 @@
     };
     //Create Factory 
     InventoryListView.Create = function (source) {
-        var obj= new InventoryListView(source.StockItemId, source.ItemName, source.ItemWeight, source.PerQtyQty, source.FlagColor, source.CategoryName,
+        var obj = new InventoryListView(source.StockItemId, source.ItemName, source.ItemWeight, source.PerQtyQty, source.FlagColor, source.CategoryName,
                               source.SubCategoryName, source.WeightUnitName, source.FullCategoryName, source.SupplierCompanyName, source.Region);
-        obj.packCostPrice(source.PackCostPrice || '');
+        obj.packCostPrice(source.PackCostPrice);
         return obj;
     };
-
+    // Item Stock Update History Factory
+    ItemStockUpdateHistory.Create = function (source) {
+        return new ItemStockUpdateHistory(source.StockHistoryId, source.LastModifiedQty, source.ModifyEvent, source.LastModifiedBy, source.LastModifiedDate,
+            source.LastModifiedByName, source.Action);
+    };
     return {
         InventoryListView: InventoryListView,
         StockItem: StockItem,
         StockCostAndPrice: StockCostAndPrice,
+        ItemStockUpdateHistory: ItemStockUpdateHistory,
     };
 });

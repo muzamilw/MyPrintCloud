@@ -38,6 +38,14 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Document.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Document.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.v7.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0-alpha1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -66,6 +74,7 @@
     <Compile Include="Common\ICostCentreLoader.cs" />
     <Compile Include="Data\AuthorizationCheckRequest.cs" />
     <Compile Include="Data\SecurityAccessRight.cs" />
+    <Compile Include="MISServices\IDiscountVoucherService .cs" />
     <Compile Include="MISServices\IAddressService.cs" />
     <Compile Include="MISServices\IAuthorizationChecker.cs" />
     <Compile Include="MISServices\ICalendarService.cs" />
@@ -82,23 +91,47 @@
     <Compile Include="MISServices\ICustomerService.cs" />
     <Compile Include="MISServices\IDashboardService.cs" />
     <Compile Include="MISServices\IDeliveryCarriersService.cs" />
+    <Compile Include="MISServices\IDeliveryNotesService.cs" />
+    <Compile Include="MISServices\IExportReportHelper.cs" />
     <Compile Include="MISServices\IGoodsReceivedNoteService.cs" />
+    <Compile Include="MISServices\IInquiryService.cs" />
     <Compile Include="MISServices\IInvoiceService.cs" />
     <Compile Include="MISServices\IItemJobStatusService.cs" />
+    <Compile Include="MISServices\IItemSectionService.cs" />
     <Compile Include="MISServices\ILengthConversionService.cs" />
+    <Compile Include="MISServices\ILiveJobsService.cs" />
     <Compile Include="MISServices\ILookupMethodService.cs" />
     <Compile Include="MISServices\IOrderForCrmService.cs" />
     <Compile Include="MISServices\IPurchaseService.cs" />
     <Compile Include="MISServices\IReportService.cs" />
     <Compile Include="MISServices\ISectionService.cs" />
     <Compile Include="MISServices\ISystemUserService.cs" />
+    <Compile Include="MISServices\SectionReport.cs" />
+    <Compile Include="Repository\ICampaignImageRepository.cs" />
+    <Compile Include="Repository\ICMSOfferRepository.cs" />
+    <Compile Include="Repository\ICompanyVoucherRedeemRepository.cs" />
+    <Compile Include="Repository\IDiscountVoucherRepository.cs" />
     <Compile Include="Repository\ICmsTagReporistory.cs" />
     <Compile Include="Repository\ICompanyCostCenterRepository.cs" />
     <Compile Include="Repository\ICostCentreAnswerRepository.cs" />
+    <Compile Include="Repository\IDeliveryNoteDetailRepository.cs" />
+    <Compile Include="Repository\IDeliveryNoteRepository.cs" />
+    <Compile Include="Repository\IEstimateInquiryRepository.cs" />
     <Compile Include="Repository\IGoodRecieveNoteRepository.cs" />
+    <Compile Include="Repository\IGoodsReceivedNoteDetailRepository.cs" />
     <Compile Include="Repository\IInkCoverageGroupRepository.cs" />
+    <Compile Include="Repository\IInquiryItemRepository.cs" />
+    <Compile Include="Repository\IInvoiceDetailRepository.cs" />
     <Compile Include="Repository\IItemImageRepository.cs" />
     <Compile Include="Repository\IInkPlateSideRepository.cs" />
+    <Compile Include="Repository\IItemsVoucherRepository.cs" />
+    <Compile Include="Repository\IMarketingBriefHistoryRepository.cs" />
+    <Compile Include="Repository\IProductCategoryVoucherRepository.cs" />
+    <Compile Include="Repository\IProductMarketBriefAnswerRepository.cs" />
+    <Compile Include="Repository\IProductMarketBriefQuestionRepository.cs" />
+    <Compile Include="Repository\IPurchaseDetailRepository.cs" />
+    <Compile Include="Repository\ISectionCostCentreDetailRepository.cs" />
+    <Compile Include="Repository\IShippingInformationRepository.cs" />
     <Compile Include="Repository\ISectionInkCoverageRepository.cs" />
     <Compile Include="Repository\ISectionCostCentreRepository.cs" />
     <Compile Include="Repository\ILookupMethodRepository.cs" />
@@ -166,6 +199,7 @@
     <Compile Include="Repository\IPipeLineSourceRepository.cs" />
     <Compile Include="Repository\ISmartFormDetailRepository.cs" />
     <Compile Include="Repository\ISmartFormRepository.cs" />
+    <Compile Include="Repository\IStagingImportCompanyContactAddressRepository.cs" />
     <Compile Include="Repository\IStateRepository.cs" />
     <Compile Include="Repository\ICostCenterTypeRepository.cs" />
     <Compile Include="Repository\IStatusRepository.cs" />
@@ -199,6 +233,7 @@
     <Compile Include="Repository\ICompanyBannerRepository.cs" />
     <Compile Include="Repository\ICompanyBannerSetRepository.cs" />
     <Compile Include="Repository\ISystemUserRepository.cs" />
+    <Compile Include="Repository\ITemplateVariableRepository.cs" />
     <Compile Include="Repository\IUserManagerRepository.cs" />
     <Compile Include="Repository\IVariableOptionRepository.cs" />
     <Compile Include="Repository\IWeightUnitRepository.cs" />
@@ -241,6 +276,7 @@
     <Compile Include="WebStoreServices\ITemplateObjectService.cs" />
     <Compile Include="WebStoreServices\ITemplatePageService.cs" />
     <Compile Include="WebStoreServices\ITemplateService.cs" />
+    <Compile Include="WebStoreServices\ITemplateVariableService.cs" />
     <Compile Include="WebStoreServices\IWebstoreClaimsHelperService.cs" />
     <Compile Include="WebStoreServices\IUserManagerService.cs" />
     <Compile Include="WebStoreServices\IWebstoreClaimsSecurityService.cs" />

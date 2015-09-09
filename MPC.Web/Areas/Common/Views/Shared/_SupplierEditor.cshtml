@@ -275,10 +275,10 @@
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label for="dMArkup" class="control-label text-right tooltip-float">Credit Limit $</label>
+                                                    <label for="dMArkup" class="control-label text-right tooltip-float">Credit Limit <span data-bind="text:$root.currencySymbol"></span></label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input type="text" class="form-control" data-bind="value:creditLimit" />
+                                                    <input type="text" style="text-align: right"class="form-control" data-bind="numberValue:creditLimit" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -304,7 +304,7 @@
                                                     <label class="control-label text-right tooltip-float">Default Manager</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'UserName', optionsValue: 'SystemUserId',value:accountManagerId"></select>
+                                                    <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'FullName', optionsValue: 'SystemUserId',value:accountManagerId"></select>
                                                 </div>
                                             </div>
                                         </div>

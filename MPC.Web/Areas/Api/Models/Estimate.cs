@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -62,10 +63,10 @@ namespace MPC.MIS.Areas.Api.Models
         public DateTime? OfficialOrderSetOnDateTime { get; set; }
         public bool? IsCreditApproved { get; set; }
         public double? CreditLimitForJob { get; set; }
-        public int? CreditLimitSetBy { get; set; }
+        public Guid? CreditLimitSetBy { get; set; }
         public DateTime? CreditLimitSetOnDateTime { get; set; }
         public bool? IsJobAllowedWOCreditCheck { get; set; }
-        public int? AllowJobWOCreditCheckSetBy { get; set; }
+        public Guid? AllowJobWOCreditCheckSetBy { get; set; }
         public DateTime? AllowJobWOCreditCheckSetOnDateTime { get; set; }
         public DateTime? NotesUpdateDateTime { get; set; }
         public int? NotesUpdatedByUserId { get; set; }
@@ -92,6 +93,12 @@ namespace MPC.MIS.Areas.Api.Models
         public short? ClientStatus { get; set; }
         public long? RefEstimateId { get; set; }
         public string XeroAccessCode { get; set; }
+        public int? ItemsCount { get; set; }
+        public string Status { get; set; }
+        public long? StoreId { get; set; }
+        public short IsCustomer { get; set; }
+        public int? InvoiceStatus { get; set; }
+        public bool IsExtraOrder { get; set; }
         public IEnumerable<OrderItem> Items { get; set; }
         public IEnumerable<PrePayment> PrePayments { get; set; }
         public IEnumerable<ShippingInformation> ShippingInformations { get; set; }
