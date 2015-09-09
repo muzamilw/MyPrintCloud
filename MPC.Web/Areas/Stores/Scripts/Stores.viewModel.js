@@ -409,8 +409,7 @@ define("stores/stores.viewModel",
                         resetObservableArrays();
                         editorViewModel.selectItem(item);
                         openEditDialog();
-                        //$('.nav-tabs').children().removeClass('active');
-                        //$('#generalInfoTab').addClass('active');
+                       
                         $('.nav-tabs li:first-child a').tab('show');
                         $('.nav-tabs li:eq(0) a').tab('show');
                         sharedNavigationVM.initialize(selectedStore, function(saveCallback) { saveStore(saveCallback); });
