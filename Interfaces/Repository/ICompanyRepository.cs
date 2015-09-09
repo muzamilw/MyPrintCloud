@@ -108,9 +108,9 @@ namespace MPC.Interfaces.Repository
 
         Company LoadCompanyWithItems(long StoreId);
 
-        void InsertItem(List<Item> items,Company objCompany);
+        void InsertItem(Company objCompany, long OldCompanyId);
 
-        void InsertProductCategories(List<ProductCategory> prodCats, Company objCompany);
+        void InsertProductCategories(Company objCompany, long OldCompanyId);
 
         void InsertProductCategoryItems(Company NewCompany, Company OldCompany);
     }

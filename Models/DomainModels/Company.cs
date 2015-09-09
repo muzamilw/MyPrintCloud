@@ -315,7 +315,7 @@ namespace MPC.Models.DomainModels
 
 
             target.AccountNumber = AccountNumber;
-            target.Name = Name;
+            target.Name = Name + "-Copy";
             target.URL = URL;
             target.CreditReference = CreditReference;
             target.CreditLimit = CreditLimit;
