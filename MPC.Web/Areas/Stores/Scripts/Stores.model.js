@@ -148,7 +148,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         specifiedisIncludeVAT, specifiedincludeEmailBrokerArtworkOrderReport, specifiedincludeEmailBrokerArtworkOrderXML, specifiedincludeEmailBrokerArtworkOrderJobCard
         , specifiedIsDeliveryTaxAble, specifiedPickupAddressId,
         specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource, specifiedIsShowGoogleMap,
-        specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS, specifiedStoreBackgroundImage, specifiedStoreImagePath
+        specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedStoreBackgroundImage, specifiedStoreImagePath
     , specifiedIsDidplayInFooter, specifiedCurrentThemeId, specifiedPriceFlagId, specifiedIsStoreLive) {
         var self,
             storeId = ko.observable(undefined),
@@ -806,7 +806,6 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             // source.UserDefinedSpriteImageSource,
             source.UserDefinedSpriteSource,
             source.UserDefinedSpriteFileName,
-            //source.CustomCSS,
             source.StoreBackgroundImage,
             source.StoreImagePath
 
@@ -822,13 +821,6 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         store.taxLabel(source.TaxLabel);
         store.taxRate(source.TaxRate);
         store.isAllowRegistrationFromWeb(source.isAllowRegistrationFromWeb);
-
-        // Is Register Settings Flags
-        store.isRegisterAccessWebStore(source.IsRegisterAccessWebStore);
-        store.isRegisterPlaceOrder(source.IsRegisterPlaceOrder);
-        store.isRegisterPayOnlyByCreditCard(source.IsRegisterPayOnlyByCreditCard);
-        store.isRegisterPlaceDirectOrder(source.IsRegisterPlaceDirectOrder);
-        store.isRegisterPlaceOrderWithoutApproval(source.IsRegisterPlaceOrderWithoutApproval);
 
         store.isDeliveryTaxAble(source.isDeliveryTaxAble);
         store.isDisplayDiscountVoucherCode(source.IsDisplayDiscountVoucherCode);
