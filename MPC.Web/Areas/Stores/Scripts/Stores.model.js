@@ -136,6 +136,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     //WebMasterTag WebAnalyticCode
     // ReSharper disable once InconsistentNaming
+
+    
+
     var Store = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
         specifiedAvatRegReference, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebMasterTag, specifiedWebAnalyticCode, specifiedWebAccessCode, specifiedTwitterUrl,
         specifiedFacebookUrl, specifiedLinkedinUrl, specifiedFacebookAppId, specifiedFacebookAppKey, specifiedTwitterAppId, specifiedTwitterAppKey,
@@ -145,7 +148,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         specifiedisIncludeVAT, specifiedincludeEmailBrokerArtworkOrderReport, specifiedincludeEmailBrokerArtworkOrderXML, specifiedincludeEmailBrokerArtworkOrderJobCard
         , specifiedIsDeliveryTaxAble, specifiedPickupAddressId,
         specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource, specifiedIsShowGoogleMap,
-        specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS, specifiedStoreBackgroundImage, specifiedStoreImagePath
+        specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedStoreBackgroundImage, specifiedStoreImagePath
     , specifiedIsDidplayInFooter, specifiedCurrentThemeId, specifiedPriceFlagId, specifiedIsStoreLive) {
         var self,
             storeId = ko.observable(undefined),
@@ -798,19 +801,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.StoreBackgroudImageSource,
             source.isShowGoogleMap,
 
-            //Is Register Settings Flags
-            source.IsRegisterAccessWebStore,
-            source.IsRegisterPlaceOrder,
-            source.IsRegisterPayOnlyByCreditCard,
-            source.IsRegisterPlaceDirectOrder,
-            source.IsRegisterPlaceOrderWithoutApproval,
-
             //source.DefaultSpriteImageSource,
             source.DefaultSpriteSource,
             // source.UserDefinedSpriteImageSource,
             source.UserDefinedSpriteSource,
             source.UserDefinedSpriteFileName,
-            //source.CustomCSS,
             source.StoreBackgroundImage,
             source.StoreImagePath
 
@@ -827,13 +822,6 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         store.taxRate(source.TaxRate);
         store.isAllowRegistrationFromWeb(source.isAllowRegistrationFromWeb);
 
-        // Is Register Settings Flags
-        store.isRegisterAccessWebStore(source.IsRegisterAccessWebStore);
-        store.isRegisterPlaceOrder(source.IsRegisterPlaceOrder);
-        store.isRegisterPayOnlyByCreditCard(source.IsRegisterPayOnlyByCreditCard);
-        store.isRegisterPlaceDirectOrder(source.IsRegisterPlaceDirectOrder);
-        store.isRegisterPlaceOrderWithoutApproval(source.IsRegisterPlaceOrderWithoutApproval);
-
         store.isDeliveryTaxAble(source.isDeliveryTaxAble);
         store.isDisplayDiscountVoucherCode(source.IsDisplayDiscountVoucherCode);
         store.canUserEditProfile(source.CanUserEditProfile);
@@ -843,6 +831,14 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         store.isStoreSetLive(source.isStoreLive);
         store.canUserUpdateAddress(source.CanUserUpdateAddress);
         store.marketingBriefRecipientEmail(source.MarketingBriefRecipient);
+
+        store.isRegisterAccessWebStore(source.IsRegisterAccessWebStore);
+        store.isRegisterPlaceOrder(source.IsRegisterPlaceOrder);
+        store.isRegisterPayOnlyByCreditCard(source.IsRegisterPayOnlyByCreditCard);
+        store.isRegisterPlaceDirectOrder(source.IsRegisterPlaceDirectOrder);
+        store.isRegisterPlaceOrderWithoutApproval(source.IsRegisterPlaceOrderWithoutApproval);
+
+        
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}
