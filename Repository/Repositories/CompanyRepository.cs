@@ -5748,56 +5748,198 @@ namespace MPC.Repository.Repositories
            }
        }
 
-       public void InsertItem(List<Item> items,Company objCompany)
+       public void InsertItem(Company objCompany,long OldCompanyId)
        {
            try
            {
-               
+              
+               List<Item> items = new List<Item>();
+               items = db.Items.Where(c => c.CompanyId == OldCompanyId && c.EstimateId == null && (c.IsArchived == null || c.IsArchived == false)).ToList();
+
                if (items != null && items.Count > 0)
                {
                    foreach (var item in items)
                    {
+                       Item newItem = new Item();
+                       item.Clone(newItem);
 
-                       item.OrganisationId = OrganisationId;
-                       item.CompanyId = objCompany.CompanyId;
-                       item.Tax3 = (int)item.ItemId;
+                       newItem.OrganisationId = OrganisationId;
+                       newItem.CompanyId = objCompany.CompanyId;
+                       newItem.Tax3 = (int)item.ItemId;
+                       newItem.ProductCategoryItems = null;
 
-                       //if (item.ProductCategoryItems != null && item.ProductCategoryItems.Count > 0)
-                       //{
-                       //    foreach (var pci in item.ProductCategoryItems)
-                       //    {
-                       //        if (objCompany.ProductCategories != null && objCompany.ProductCategories.Count > 0)
-                       //        {
-                                  
-                       //            long PID = objCompany.ProductCategories.Where(c => c.Sides == pci.CategoryId).Select(x => x.ProductCategoryId).FirstOrDefault();
-                       //            if (PID > 0)
-                       //            {
-                       //                pci.CategoryId = PID;
-                       //            }
-                       //            else
-                       //            {
-                       //                // PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
-                       //                pci.CategoryId = null;
+                       // for price matrix
+                       if (item.ItemPriceMatrices != null && item.ItemPriceMatrices.Count > 0)
+                       {
+                           newItem.ItemPriceMatrices = new List<ItemPriceMatrix>();
+                           foreach (var price in item.ItemPriceMatrices)
+                           {
+                               ItemPriceMatrix ipm = new ItemPriceMatrix();
+                               price.Clone(ipm);
+                               ipm.Item = newItem;
+                               ipm.ItemId = newItem.ItemId;
+                               newItem.ItemPriceMatrices.Add(ipm);
+                           }
+                       }
+
+                       // for price matrix
+                       if (item.ItemImages != null && item.ItemImages.Count > 0)
+                       {
+                           newItem.ItemImages = new List<ItemImage>();
+                           foreach (var images in item.ItemImages)
+                           {
+                               ItemImage im = new ItemImage();
+                               images.Clone(im);
+                               im.Item = newItem;
+                               im.ItemId = newItem.ItemId;
+                               newItem.ItemImages.Add(im);
+                           }
+                       }
+
+                       // for relateditems
+                       if (item.ItemRelatedItems != null && item.ItemRelatedItems.Count > 0)
+                       {
+                           newItem.ItemRelatedItems = new List<ItemRelatedItem>();
+                           foreach (var relatedItems in item.ItemRelatedItems)
+                           {
+                               ItemRelatedItem iri = new ItemRelatedItem();
+                               relatedItems.Clone(iri);
+                               iri.Item = newItem;
+                               iri.ItemId = newItem.ItemId;
+                               newItem.ItemRelatedItems.Add(iri);
+                           }
+                       }
 
 
-                       //            }
-                       //        }
+                       // for state taxes
 
-                       //    }
-                       //}
-                       //if (item.ItemRelatedItems != null && item.ItemRelatedItems.Count > 0)
-                       //{
-                       //    foreach (var pci in item.ItemRelatedItems)
-                       //    {
-                       //        pci.RelatedItemId = item.ItemId;
-                       //    }
-                       //}
-                      
-                       db.Items.Add(item);
+
+                       if (item.ItemStateTaxes != null && item.ItemStateTaxes.Count > 0)
+                       {
+                           newItem.ItemStateTaxes = new List<ItemStateTax>();
+                           foreach (var statetaxes in item.ItemStateTaxes)
+                           {
+                               ItemStateTax ist = new ItemStateTax();
+                               statetaxes.Clone(ist);
+                               ist.Item = newItem;
+                               ist.ItemId = newItem.ItemId;
+                               newItem.ItemStateTaxes.Add(ist);
+                           }
+                       }
+
+
+                       // for vdp prices
+                       if (item.ItemVdpPrices != null && item.ItemVdpPrices.Count > 0)
+                       {
+                           newItem.ItemVdpPrices = new List<ItemVdpPrice>();
+                           foreach (var cdpPrices in item.ItemVdpPrices)
+                           {
+                               ItemVdpPrice idp = new ItemVdpPrice();
+                               cdpPrices.Clone(idp);
+                               idp.Item = newItem;
+                               idp.ItemId = newItem.ItemId;
+                               newItem.ItemVdpPrices.Add(idp);
+                           }
+                       }
+
+
+
+                       if (item.ItemSections != null && item.ItemSections.Count > 0)
+                       {
+                           newItem.ItemSections = new List<ItemSection>();
+                           foreach (var section in item.ItemSections)
+                           {
+                               ItemSection iss = new ItemSection();
+                               section.Clone(iss);
+                               iss.Item = newItem;
+                               iss.ItemId = newItem.ItemId;
+
+                               if (iss.SectionInkCoverages != null && iss.SectionInkCoverages.Count > 0)
+                               {
+                                   foreach (var sectionInk in iss.SectionInkCoverages)
+                                   {
+                                       SectionInkCoverage sic = new SectionInkCoverage();
+                                       sectionInk.Clone(sic);
+                                       sic.ItemSection = iss;
+                                       sic.SectionId = iss.ItemSectionId;
+
+                                       iss.SectionInkCoverages.Add(sic);
+                                   }
+
+                               }
+                               newItem.ItemSections.Add(iss);
+                           }
+                       }
+
+
+                       if (item.ItemStockOptions != null && item.ItemStockOptions.Count > 0)
+                       {
+                           newItem.ItemStockOptions = new List<ItemStockOption>();
+                           foreach (var sectionOption in item.ItemStockOptions)
+                           {
+                               ItemStockOption iso = new ItemStockOption();
+                               sectionOption.Clone(iso);
+                               iso.Item = newItem;
+                               iso.ItemId = newItem.ItemId;
+
+                               newItem.ItemStockOptions.Add(iso);
+                           }
+                       }
+
+
+
+                       if (item.ItemProductDetails != null && item.ItemProductDetails.Count > 0)
+                       {
+                           newItem.ItemProductDetails = new List<ItemProductDetail>();
+                           foreach (var productDetail in item.ItemProductDetails)
+                           {
+                               ItemProductDetail ipd = new ItemProductDetail();
+                               productDetail.Clone(ipd);
+                               ipd.Item = newItem;
+                               ipd.ItemId = newItem.ItemId;
+
+                               newItem.ItemProductDetails.Add(ipd);
+                           }
+                       }
+
+
+
+
+                       if (item.ProductMarketBriefQuestions != null && item.ProductMarketBriefQuestions.Count > 0)
+                       {
+                           newItem.ProductMarketBriefQuestions = new List<ProductMarketBriefQuestion>();
+                           foreach (var questions in item.ProductMarketBriefQuestions)
+                           {
+                               ProductMarketBriefQuestion pmbq = new ProductMarketBriefQuestion();
+                               questions.Clone(pmbq);
+                               pmbq.Item = newItem;
+                               pmbq.ItemId = newItem.ItemId;
+
+                               if (pmbq.ProductMarketBriefAnswers != null && pmbq.ProductMarketBriefAnswers.Count > 0)
+                               {
+                                   foreach (var ans in pmbq.ProductMarketBriefAnswers)
+                                   {
+                                       ProductMarketBriefAnswer sia = new ProductMarketBriefAnswer();
+                                       ans.Clone(sia);
+                                       sia.ProductMarketBriefQuestion = pmbq;
+                                       sia.MarketBriefQuestionId = pmbq.MarketBriefQuestionId;
+
+                                       pmbq.ProductMarketBriefAnswers.Add(sia);
+                                   }
+
+                               }
+
+                               newItem.ProductMarketBriefQuestions.Add(pmbq);
+                           }
+                       }
+
+
+
+                       db.Items.Add(newItem);
 
                    }
 
-                  // db.SaveChanges();
+                   db.SaveChanges();
 
                }
            }
@@ -5807,13 +5949,14 @@ namespace MPC.Repository.Repositories
            }
        }
 
-       public void InsertProductCategories(List<ProductCategory> prodCats, Company objCompany)
+       public void InsertProductCategories(Company objCompany,long OldCompanyId)
        {
            try
            {
                long TerritoryId = 0;
                // product categories
 
+               List<ProductCategory> prodCats = db.ProductCategories.Where(c => c.CompanyId == OldCompanyId).ToList();
                if (objCompany != null)
                {
                    if (objCompany.CompanyTerritories != null)
@@ -5837,6 +5980,7 @@ namespace MPC.Repository.Repositories
                        cat.Sides = (int)cat.ProductCategoryId;
                        cat.OrganisationId = OrganisationId;
                        cat.CompanyId = objCompany.CompanyId;
+                       cat.ProductCategoryItems = null;
                        if (cat.CategoryTerritories != null && cat.CategoryTerritories.Count > 0)
                        {
                            foreach (var territory in cat.CategoryTerritories)
@@ -5867,11 +6011,12 @@ namespace MPC.Repository.Repositories
        {
             try
             {
-
-                if (OldCompany.Items != null && OldCompany.Items.Count > 0)
+                List<Item> items = new List<Item>();
+                items = db.Items.Where(c => c.CompanyId == OldCompany.CompanyId).ToList();
+                if (items != null && items.Count > 0)
                 {
 
-                    foreach (var item in OldCompany.Items)
+                    foreach (var item in items)
                     {
                         if (item.ProductCategoryItems != null && item.ProductCategoryItems.Count > 0)
                         {
@@ -5880,13 +6025,18 @@ namespace MPC.Repository.Repositories
                             {
                                 Item NewItemId = NewCompany.Items != null ? NewCompany.Items.Where(c => c.Tax3 == pc.ItemId).FirstOrDefault() : null;
                                 ProductCategory NewCatId = NewCompany.ProductCategories != null ? NewCompany.ProductCategories.Where(c => c.ContentType == Convert.ToString(pc.CategoryId)).FirstOrDefault() : null;
-                                ProductCategoryItem pci = new ProductCategoryItem();
-                              //  pci = pc;
 
-                                pci.ItemId = NewItemId.ItemId;
-                                pci.CategoryId = NewCatId.ProductCategoryId;
+                                if (NewItemId != null && NewCatId != null)
+                                {
+                                    ProductCategoryItem pci = new ProductCategoryItem();
+                                    //  pci = pc;
 
-                                db.ProductCategoryItems.Add(pci);
+                                    pci.ItemId = NewItemId.ItemId;
+                                    pci.CategoryId = NewCatId.ProductCategoryId;
+
+                                    db.ProductCategoryItems.Add(pci);
+                                }
+                               
                             }
                             
 
@@ -5894,32 +6044,38 @@ namespace MPC.Repository.Repositories
                     }
 
                 }
+                //List<ProductCategory> categories = db.ProductCategories.Where(c => c.CompanyId == OldCompany.CompanyId).ToList();
+                //if (categories != null && categories.Count > 0)
+                //{
 
-                if (OldCompany.ProductCategories != null && OldCompany.ProductCategories.Count > 0)
-                {
+                //    foreach (var item in categories)
+                //    {
+                //        if (item.ProductCategoryItems != null && item.ProductCategoryItems.Count > 0)
+                //        {
 
-                    foreach (var item in OldCompany.ProductCategories)
-                    {
-                        if (item.ProductCategoryItems != null && item.ProductCategoryItems.Count > 0)
-                        {
-
-                            foreach (var pc in item.ProductCategoryItems)
-                            {
-                                long NewItemId = NewCompany.Items != null ? NewCompany.Items.Where(c => c.Tax3 == pc.ItemId).Select(c => c.ItemId).FirstOrDefault() : 0;
-                                long NewCatId = NewCompany.ProductCategories != null ? NewCompany.ProductCategories.Where(c => c.ContentType == Convert.ToString(pc.CategoryId)).Select(c => c.ProductCategoryId).FirstOrDefault() : 0;
-                                ProductCategoryItem pci = new ProductCategoryItem();
-                               // pci = pc;
-                                pci.ItemId = NewItemId;
-                                pci.CategoryId = NewCatId;
-
-                                db.ProductCategoryItems.Add(pci);
-                            }
+                //            foreach (var pc in item.ProductCategoryItems)
+                //            {
+                //                long NewItemId = NewCompany.Items != null ? NewCompany.Items.Where(c => c.Tax3 == pc.ItemId).Select(c => c.ItemId).FirstOrDefault() : 0;
+                //                long NewCatId = NewCompany.ProductCategories != null ? NewCompany.ProductCategories.Where(c => c.ContentType == Convert.ToString(pc.CategoryId)).Select(c => c.ProductCategoryId).FirstOrDefault() : 0;
 
 
-                        }
-                    }
+                //                if (NewItemId != null && NewCatId != null)
+                //                {
+                //                    ProductCategoryItem pci = new ProductCategoryItem();
+                //                    // pci = pc;
+                //                    pci.ItemId = NewItemId;
+                //                    pci.CategoryId = NewCatId;
 
-                }
+                //                    db.ProductCategoryItems.Add(pci);
+                //                }
+                              
+                //            }
+
+
+                //        }
+                //    }
+
+                //}
             }
             catch(Exception ex)
             {
