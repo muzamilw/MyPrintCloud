@@ -77,8 +77,9 @@ namespace MPC.Webstore.Controllers
                 List<ProductMarketBriefAnswer> NS = new List<ProductMarketBriefAnswer>();
 
                 List<ProductMarketBriefQuestion> QuestionsList = _IItemService.GetMarketingInquiryQuestionsByItemID(ItemID);
-                if (QuestionsList.Count > 0)
+                if (QuestionsList != null && QuestionsList.Count > 0)
                 {
+                    QuestionsList = QuestionsList.OrderBy(g => g.SortOrder).ToList();
                     ViewData["QuestionsList"] = QuestionsList;
                     if (QuestionsList != null)
                     {

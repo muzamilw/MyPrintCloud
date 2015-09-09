@@ -7154,7 +7154,7 @@ define("stores/stores.viewModel",
                 },
                 // On Copy Store
                 onCopyStore = function () {
-                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                    confirmation.messageText("Are you sure you want to copy this store?");
                     confirmation.afterProceed(function () {
                         copyFullStore(selectedStore().companyId());
                     });
@@ -7191,15 +7191,19 @@ define("stores/stores.viewModel",
                 // copy Company
                     copyFullStore = function (id) {
                         dataservice.copyFullStore({ CompanyId: id }, {
-                            success: function () {
+                            success: function (data) {
                                 toastr.success("Store copy successfully!");
                                 isEditorVisible(false);
-                                if (selectedStore()) {
-                                    var store = getCompanyByIdFromListView(selectedStore().companyId());
-                                    if (store) {
-                                        stores.remove(store);
+                                if (data != null)
+                                {
+                                    if (selectedStore()) {
+                                        var store = getCompanyByIdFromListView(data.CompanyId);
+                                        if (store) {
+                                            stores.add(store);
+                                        }
                                     }
                                 }
+                               
                                 resetStoreEditor();
                             },
                             error: function (response) {
