@@ -3361,10 +3361,10 @@
 
             <td class="text-center">
                 <!-- ko if: $index() < $parent.productMarketBriefQuestions().length - 1 -->
-                <img src="@Url.Content("~/Content/themes/Centaurus/img/ArrowDown.png")" style="width: 30px;" alt="" data-bind="click: $parent.moveProductMarketBriefQuestionDown" />
+                <img src="@Url.Content("~/Content/themes/Centaurus/img/ArrowDown.png")" style="width: 30px;cursor: pointer;" alt="" data-bind="click: $parent.moveProductMarketBriefQuestionDown" />
                 <!-- /ko-->
                 <!-- ko if: $index() >= 1 -->
-                <img src="@Url.Content("~/Content/themes/Centaurus/img/ArrowUp.png")" style="width: 30px;" alt="" data-bind="click: $parent.moveProductMarketBriefQuestionUp" />
+                <img src="@Url.Content("~/Content/themes/Centaurus/img/ArrowUp.png")" style="width: 30px;cursor: pointer;" alt="" data-bind="click: $parent.moveProductMarketBriefQuestionUp" />
                 <!-- /ko-->
             </td>
         </tr>
