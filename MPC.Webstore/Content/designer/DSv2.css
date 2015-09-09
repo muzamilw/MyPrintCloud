@@ -5075,30 +5075,14 @@ h2 + .gallery {
 #BtnBoldTxt {
     margin-right: -1px;
     margin-left: 1px !important;
-    /*background: url('assets-v2/sprite1.png') -402px -13px;
-    background-repeat: no-repeat;
-    width: 22px;
-    height: 22px;
-    vertical-align: middle;
-    
-    margin-left: 0px;
-    border: none;*/
 }
 
 #BtnBulletedLstTxt {
-    margin-left: 5px;
-    /*visibility:hidden;*/
+
+    margin-right: 39px;
 }
 
 #BtnItalicTxt {
-    /*vertical-align: middle;
-    background: url('assets-v2/sprite1.png') -358px -13px;
-    background-repeat: no-repeat;
-    width: 22px;
-    height: 22px;
-    
-    margin-left: -4px;
-    border: none;*/
 }
 
 
