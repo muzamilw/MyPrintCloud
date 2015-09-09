@@ -1013,7 +1013,7 @@ namespace MPC.Implementation.MISServices
             companyRepository.SaveChanges();
             //Save Files
             SaveSpriteImage(companySavingModel.Company);
-            SaveCompanyCss(companySavingModel.Company);
+           // SaveCompanyCss(companySavingModel.Company);
             UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);
             UpdateContactProfileImage(companySavingModel, companyDbVersion);
 
@@ -3760,7 +3760,7 @@ namespace MPC.Implementation.MISServices
             return voucher;
         }
 
-        public string GetLiveStoresJason()
+        public List<LiveStoreDetails> GetLiveStoresJason()
         {
             string stores = string.Empty;
             List<Company> livestores = companyRepository.GetLiveStoresList();
@@ -3806,8 +3806,8 @@ namespace MPC.Implementation.MISServices
                 });
             }
 
-            stores = JsonConvert.SerializeObject(storeDetails, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
-            return stores;
+
+            return storeDetails;
         }
 
         public string GetCompanyCss(long companyId)

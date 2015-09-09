@@ -55,19 +55,14 @@ namespace MPC.Webstore.Controllers
         [HttpGet]
         public JsonResult GetAllProducts(string cID,string mode)
         {
-
             var Products = _myCompanyService.GetAllRetailDisplayProductsQuickCalc(UserCookieManager.WBStoreId).OrderBy(p => p.SortOrder);
-
-           
             return Json(Products, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public JsonResult GetQuantityPrises(string cID, string mode)
         {
             var QuantityPrizes = _myCompanyService.GetRetailProductsPriceMatrix(UserCookieManager.WBStoreId);
-            
             return Json(QuantityPrizes, JsonRequestBehavior.AllowGet);
-            
         }
     }
 }

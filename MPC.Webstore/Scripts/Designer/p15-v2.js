@@ -157,6 +157,10 @@ function fu04_1GetItem(DT)
                                lstVariableExtensions = DT2.variableExtensions;
                                smartFormClicked = false;
                                fu04_TempCbkGen(DT);
+                               if (Template.contactId != null && Template.contactId != ContactID) {
+                                   $("#smartFormSelectUserProfile").val( Template.contactId);
+                                   $("#optionRadioOtherProfile").click();
+                               }
                            });
                      } else {
                          fu04_TempCbkGen(DT);

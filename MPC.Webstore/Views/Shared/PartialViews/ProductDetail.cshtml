@@ -240,7 +240,7 @@
                     @if (ViewBag.IsTemplateProductWithBanner == true)
                     {
                         <div id="bannnerContainer">
-                            <img id="templBannerImg" class="product-detail-banner-slider" src="/@ViewBag.TempBannerImgURL" style="" />
+                            <img id="templBannerImg" class="product-detail-banner-slider" src="/@ViewBag.TempBannerImgURL" style="    width: 74%;" />
                         </div>
                     }
                     else
@@ -415,191 +415,194 @@
                                                 <div class="mrginBtm" style="text-align:left;">
                                                     <label id="lbl_Product_SelectOption" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProdSelectOption", UserCookieManager.WBStoreId))</label>
                                                 </div>
+                                                @if (ViewData["PriceMatrix"] != null)
+                                                {
+                                                    <table class="cntwidthProductDetailOnlinePrice" cellpadding="5" cellspacing="0">
 
-                                                <table class="cntwidthProductDetailOnlinePrice" cellpadding="5" cellspacing="0">
 
 
 
-
-                                                    @if (stockOptions != null && stockOptions.Count > 0)
-                                                    {
-                                                        <tr>
-                                                            <td class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp" id="lbl_Quantity">
-                                                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.WBStoreId, "Quantity"))
-                                                            </td>
-
-                                                            @foreach (var stock in stockOptions)
-                                                            {
-
-                                                                <td class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp"
-                                                                    style="text-align: right;">
-                                                                    <span id="lblHeaderText1">@stock.StockLabel</span>
+                                                        @if (stockOptions != null && stockOptions.Count > 0)
+                                                        {
+                                                            <tr>
+                                                                <td class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp" id="lbl_Quantity">
+                                                                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.WBStoreId, "Quantity"))
                                                                 </td>
-                                                            }
 
-
-                                                        </tr>
-
-
-                                                    }
-
-
-
-                                                    @foreach (var ObjPriceMatrix in ViewData["PriceMatrix"] as List<ItemPriceMatrix>)
-                                                    {
-
-                                                        <tr>
-                                                            <td class="product_detail_item_cell procu_detail_grid_cell">
-                                                                <input type="hidden" id="txtHiddenPriceMatrixID" value='@ObjPriceMatrix.PriceMatrixId' />
-
-                                                                @if (ViewBag.txtIsQuantityRanged == "false")
+                                                                @foreach (var stock in stockOptions)
                                                                 {
-                                                                    <span id="spanFixedQuantity">
-                                                                        @ObjPriceMatrix.Quantity
-                                                                    </span>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <span id="spanRangedQuantity">
-                                                                        @ObjPriceMatrix.QtyRangeFrom
-                                                                        -
-                                                                        @ObjPriceMatrix.QtyRangeTo
-                                                                    </span>
+
+                                                                    <td class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp"
+                                                                        style="text-align: right;">
+                                                                        <span id="lblHeaderText1">@stock.StockLabel</span>
+                                                                    </td>
                                                                 }
 
-                                                            </td>
 
-                                                            @if (stockOptions.Count > 0)
-                                                            {
-                                                                <td id="td1" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn1">
-                                                                        <span id='Matt_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType1'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PricePaperType1.ToString())
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
+                                                            </tr>
 
-                                                            @if (stockOptions.Count > 1)
-                                                            {
-                                                                <td id="td2" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn2">
-                                                                        <span id='Glossy_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType2'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PricePaperType2.ToString())
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
 
-                                                            @if (stockOptions.Count > 2)
-                                                            {
-                                                                <td id="td3" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn3">
-                                                                        <span id='PremiumMatt_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType3'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PricePaperType3.ToString())
+                                                        }
+
+
+
+                                                        @foreach (var ObjPriceMatrix in ViewData["PriceMatrix"] as List<ItemPriceMatrix>)
+                                                        {
+
+                                                            <tr>
+                                                                <td class="product_detail_item_cell procu_detail_grid_cell">
+                                                                    <input type="hidden" id="txtHiddenPriceMatrixID" value='@ObjPriceMatrix.PriceMatrixId' />
+
+                                                                    @if (ViewBag.txtIsQuantityRanged == "false")
+                                                                    {
+                                                                        <span id="spanFixedQuantity">
+                                                                            @ObjPriceMatrix.Quantity
                                                                         </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
-                                                            @if (stockOptions.Count > 3)
-                                                            {
-                                                                <td id="td4" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn4" class="Stock4PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                        <span id='4_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType4'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType4.ToString())
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <span id="spanRangedQuantity">
+                                                                            @ObjPriceMatrix.QtyRangeFrom
+                                                                            -
+                                                                            @ObjPriceMatrix.QtyRangeTo
                                                                         </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
-                                                            @if (stockOptions.Count > 4)
-                                                            {
-                                                                <td id="td5" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn5" class="Stock5PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                        <span id='5_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType5'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType5.ToString())
-                                                                        </span>
-                                                                    </div>
+                                                                    }
+
                                                                 </td>
 
-                                                            }
+                                                                @if (stockOptions.Count > 0)
+                                                                {
+                                                                    <td id="td1" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn1">
+                                                                            <span id='Matt_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType1'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PricePaperType1.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
 
-                                                            @if (stockOptions.Count > 5)
-                                                            {
-                                                                <td id="td6" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn6" class="Stock6PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                        <span id='6_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType6'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType6.ToString())
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
+                                                                @if (stockOptions.Count > 1)
+                                                                {
+                                                                    <td id="td2" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn2">
+                                                                            <span id='Glossy_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType2'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PricePaperType2.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
 
-                                                            @if (stockOptions.Count > 6)
-                                                            {
-                                                                <td id="td7" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn7" class="Stock7PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                        <span id='7_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType7'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType7.ToString())
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
+                                                                @if (stockOptions.Count > 2)
+                                                                {
+                                                                    <td id="td3" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn3">
+                                                                            <span id='PremiumMatt_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType3'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PricePaperType3.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
+                                                                @if (stockOptions.Count > 3)
+                                                                {
+                                                                    <td id="td4" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn4" class="Stock4PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                                                            <span id='4_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType4'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType4.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
+                                                                @if (stockOptions.Count > 4)
+                                                                {
+                                                                    <td id="td5" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn5" class="Stock5PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                                                            <span id='5_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType5'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType5.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
 
-                                                            @if (stockOptions.Count > 7)
-                                                            {
-                                                                <td id="td8" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn8" class="Stock8PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                        <span id='8_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType8'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType8.ToString())
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
-                                                            @if (stockOptions.Count > 8)
-                                                            {
-                                                                <td id="td9" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn9" class="Stock9PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                        <span id='9_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType9'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType9.ToString())
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
-                                                            @if (stockOptions.Count > 9)
-                                                            {
-                                                                <td id="td10" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn10" class="Stock10PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                        <span id='10_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType10'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType10.ToString())
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
-                                                            @if (stockOptions.Count > 10)
-                                                            {
-                                                                <td id="td11" class="product_detail_item_cell procu_detail_grid_cell"
-                                                                    style="text-align: right;">
-                                                                    <div id="matrixItemColumn11" class="Stock11PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                                                        <span id='11_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType11'>
-                                                                            @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType11.ToString())
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                            }
-                                                        </tr>
-                                                    }
+                                                                }
 
-                                                </table>
+                                                                @if (stockOptions.Count > 5)
+                                                                {
+                                                                    <td id="td6" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn6" class="Stock6PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                                                            <span id='6_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType6'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType6.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
+
+                                                                @if (stockOptions.Count > 6)
+                                                                {
+                                                                    <td id="td7" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn7" class="Stock7PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                                                            <span id='7_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType7'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType7.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
+
+                                                                @if (stockOptions.Count > 7)
+                                                                {
+                                                                    <td id="td8" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn8" class="Stock8PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                                                            <span id='8_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType8'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType8.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
+                                                                @if (stockOptions.Count > 8)
+                                                                {
+                                                                    <td id="td9" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn9" class="Stock9PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                                                            <span id='9_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType9'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType9.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
+                                                                @if (stockOptions.Count > 9)
+                                                                {
+                                                                    <td id="td10" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn10" class="Stock10PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                                                            <span id='10_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType10'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType10.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
+                                                                @if (stockOptions.Count > 10)
+                                                                {
+                                                                    <td id="td11" class="product_detail_item_cell procu_detail_grid_cell"
+                                                                        style="text-align: right;">
+                                                                        <div id="matrixItemColumn11" class="Stock11PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
+                                                                            <span id='11_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType11'>
+                                                                                @ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType11.ToString())
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                }
+                                                            </tr>
+                                                        }
+
+                                                    </table>
+                                                }
+                                             
                                                 <div class="product_detail_note">
 
                                                     <label id="lblTaxLabel" class="lblTxtProdDet">@ViewBag.VATLabel</label>

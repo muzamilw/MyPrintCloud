@@ -119,18 +119,15 @@
                             
       grid.Column(header:Result, format:@<text>@if (ContactRoleId == 1)
       {
-          if (item.ContactRoleID == 2)
+          if (item.ContactRoleID == 2 || item.ContactRoleID == 1)
           {
-            <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnEditRecord", UserCookieManager.WBStoreId, "Edit"))" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
+            <input type="button" value="" style="height: 30px; width: 30px; background-image: url('Content/Images/edit.png');  border: none;background-size: contain;
           background-color: transparent;" class="rounded_corners" onclick="LoadAllData(@item.ContactId)" />
           }
 
       }
         
-      </text>),
-     grid.Column( format:@<text>@if (item.ContactRoleId != 1 || item.IsDefaultContact != 1)
-     {<input type="button" id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelete", UserCookieManager.WBStoreId, "Delete"))" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="DeleteReord(@item.ContactId)" />
-     }</text>)
+      </text>)
        }
       )
                 @if (Convert.ToInt32(ViewBag.totalcount) > 15)

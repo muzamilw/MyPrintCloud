@@ -168,13 +168,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             storeImagePath = ko.observable(specifiedStoreImagePath),
             currentThemeId = ko.observable(),
             currentThemeName = ko.observable(),
-            //webAccessCode = ko.observable(specifiedWebAccessCode).extend({
-            //    required: {
-            //        onlyIf: function () {
-            //            return type() == 3;
-            //        }
-            //    }
-            //}),
+           
             webAccessCode = ko.observable(specifiedWebAccessCode).extend({ required: true }),
             twitterUrl = ko.observable(specifiedTwitterUrl),
             facebookUrl = ko.observable(specifiedFacebookUrl),
@@ -202,30 +196,24 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             includeEmailBrokerArtworkOrderJobCard = ko.observable(specifiedincludeEmailBrokerArtworkOrderJobCard),
             makeEmailBrokerArtworkOrderProductionReady = ko.observable(specifiedmakeEmailBrokerArtworkOrderProductionReady),
             isAllowRegistrationFromWeb = ko.observable(undefined),
+            // Is Register Settings Flags
+            isRegisterAccessWebStore = ko.observable(undefined),
+            isRegisterPlaceOrder = ko.observable(undefined),
+            isRegisterPayOnlyByCreditCard = ko.observable(undefined),
+            isRegisterPlaceDirectOrder = ko.observable(undefined),
+            isRegisterPlaceOrderWithoutApproval = ko.observable(undefined),
+
+            // Display VoucherCode
             isDisplayDiscountVoucherCode = ko.observable(undefined),
             canUserEditProfile = ko.observable(undefined),
             isWhiteLabel = ko.observable(undefined),
             showPrices = ko.observable(undefined),
             canUserUpdateAddress = ko.observable(undefined),
             marketingBriefRecipientEmail = ko.observable().extend({email: { params: true, message: 'Please enter Valid Marketing Brief Recipient Email!' } }),
-            // isDeliveryTaxAble = ko.observable(specifiedIsDeliveryTaxAble),
-            // is Delivery TaxAble
+           
             isDeliveryTaxAble = ko.observable(undefined),
             isNewThemeApplied = ko.observable(false),
-            // is Delivery TaxAble ui
-            //isDeliveryTaxAbleUi = ko.computed({
-            //    read: function () {
-            //        return '' + isDeliveryTaxAble();
-            //    },
-            //    write: function (value) {
-            //        var deliveryTaxAble = parseInt(value);
-            //        if (deliveryTaxAble === isDeliveryTaxAble()) {
-            //            return;
-            //        }
-
-            //        isDeliveryTaxAble(deliveryTaxAble);
-            //    }
-            //}),
+           
             pickupAddressId = ko.observable(specifiedPickupAddressId),
             //store Image Logo
             storeImageFileBinary = ko.observable(),
@@ -298,6 +286,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         activeBannerSetId = ko.observable().extend({ required: true }),
         priceFlagId = ko.observable(specifiedPriceFlagId),
         isStoreSetLive = ko.observable(specifiedIsStoreLive),
+       
         // Errors
         errors = ko.validation.group({
             companyId: companyId,
@@ -389,6 +378,13 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             showPrices: showPrices,
             isWhiteLabel: isWhiteLabel,
             isAllowRegistrationFromWeb: isAllowRegistrationFromWeb,
+            // Is Register Settings Flags
+            isRegisterAccessWebStore: isRegisterAccessWebStore,
+            isRegisterPlaceOrder: isRegisterPlaceOrder,
+            isRegisterPayOnlyByCreditCard: isRegisterPayOnlyByCreditCard,
+            isRegisterPlaceDirectOrder: isRegisterPlaceDirectOrder,
+            isRegisterPlaceOrderWithoutApproval: isRegisterPlaceOrderWithoutApproval,
+
             canUserEditProfile: canUserEditProfile,
             priceFlagId: priceFlagId,
             isStoreSetLive: isStoreSetLive,
@@ -396,6 +392,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isWidgetItemsChange: isWidgetItemsChange,
             marketingBriefRecipientEmail:marketingBriefRecipientEmail,
             isNewThemeApplied: isNewThemeApplied
+           
             //#endregion
         }),
         // Has Changes
@@ -462,6 +459,14 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             result.TaxLabel = source.taxLabel();
             result.TaxRate = source.taxRate();
             result.isAllowRegistrationFromWeb = source.isAllowRegistrationFromWeb();
+
+            //Is Register Settings Flags
+            result.IsRegisterAccessWebStore = source.isRegisterAccessWebStore();
+            result.IsRegisterPlaceOrder = source.isRegisterPlaceOrder();
+            result.IsRegisterPayOnlyByCreditCard = source.isRegisterPayOnlyByCreditCard();
+            result.IsRegisterPlaceDirectOrder = source.isRegisterPlaceDirectOrder();
+            result.IsRegisterPlaceOrderWithoutApproval = source.isRegisterPlaceOrderWithoutApproval();
+
             result.IsDisplayDiscountVoucherCode = source.isDisplayDiscountVoucherCode();
             result.CanUserEditProfile = source.canUserEditProfile();
             result.isWhiteLabel = source.isWhiteLabel();
@@ -469,6 +474,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             result.isStoreLive = source.isStoreSetLive();
             result.CanUserUpdateAddress = source.canUserUpdateAddress();
             result.MarketingBriefRecipient = source.marketingBriefRecipientEmail();
+           
             result.RaveReviews = [];
             result.PaymentGateways = [];
             result.CompanyContacts = [];
@@ -645,6 +651,14 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             taxRate: taxRate,
             scopeVariables: scopeVariables,
             isAllowRegistrationFromWeb: isAllowRegistrationFromWeb,
+
+            // Is Regiter Settings Flag 
+            isRegisterAccessWebStore: isRegisterAccessWebStore,
+            isRegisterPlaceOrder: isRegisterPlaceOrder,
+            isRegisterPayOnlyByCreditCard: isRegisterPayOnlyByCreditCard,
+            isRegisterPlaceDirectOrder: isRegisterPlaceDirectOrder,
+            isRegisterPlaceOrderWithoutApproval:isRegisterPlaceOrderWithoutApproval,
+
             isDisplayDiscountVoucherCode: isDisplayDiscountVoucherCode,
             canUserEditProfile: canUserEditProfile,
             isWhiteLabel: isWhiteLabel,
@@ -655,6 +669,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isWidgetItemsChange: isWidgetItemsChange,
             marketingBriefRecipientEmail:marketingBriefRecipientEmail,
             isNewThemeApplied: isNewThemeApplied
+           
             //#endregion
         };
         return self;
@@ -782,12 +797,20 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.ImageSource,
             source.StoreBackgroudImageSource,
             source.isShowGoogleMap,
+
+            //Is Register Settings Flags
+            source.IsRegisterAccessWebStore,
+            source.IsRegisterPlaceOrder,
+            source.IsRegisterPayOnlyByCreditCard,
+            source.IsRegisterPlaceDirectOrder,
+            source.IsRegisterPlaceOrderWithoutApproval,
+
             //source.DefaultSpriteImageSource,
             source.DefaultSpriteSource,
-           // source.UserDefinedSpriteImageSource,
+            // source.UserDefinedSpriteImageSource,
             source.UserDefinedSpriteSource,
             source.UserDefinedSpriteFileName,
-            source.CustomCSS,
+            //source.CustomCSS,
             source.StoreBackgroundImage,
             source.StoreImagePath
 
@@ -803,6 +826,14 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         store.taxLabel(source.TaxLabel);
         store.taxRate(source.TaxRate);
         store.isAllowRegistrationFromWeb(source.isAllowRegistrationFromWeb);
+
+        // Is Register Settings Flags
+        store.isRegisterAccessWebStore(source.IsRegisterAccessWebStore);
+        store.isRegisterPlaceOrder(source.IsRegisterPlaceOrder);
+        store.isRegisterPayOnlyByCreditCard(source.IsRegisterPayOnlyByCreditCard);
+        store.isRegisterPlaceDirectOrder(source.IsRegisterPlaceDirectOrder);
+        store.isRegisterPlaceOrderWithoutApproval(source.IsRegisterPlaceOrderWithoutApproval);
+
         store.isDeliveryTaxAble(source.isDeliveryTaxAble);
         store.isDisplayDiscountVoucherCode(source.IsDisplayDiscountVoucherCode);
         store.canUserEditProfile(source.CanUserEditProfile);

@@ -107,7 +107,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 new List<ItemSection>(),
                 ItemImages = source.ItemImages != null ? source.ItemImages.Select(pci => pci.CreateFrom()) : new List<ItemImage>(),
                 ProductMarketBriefQuestions = source.ProductMarketBriefQuestions != null ?
-                source.ProductMarketBriefQuestions.Select(questions => questions.CreateFrom()).ToList() : null
+                source.ProductMarketBriefQuestions.Select(questions => questions.CreateFrom()).ToList().OrderBy(q => q.SortOrder) : null
             };
 
             // Load Thumbnail Image

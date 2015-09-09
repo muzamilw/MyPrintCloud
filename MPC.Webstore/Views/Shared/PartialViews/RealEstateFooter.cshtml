@@ -1,5 +1,6 @@
 ﻿@{
     Layout = null;
+    var Company = ViewBag.Company as MPC.Models.DomainModels.Company;
 }
 @using MPC.Webstore.Common;
 <link href="~/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
@@ -38,18 +39,30 @@
         </div>
 
         <div class="SocialMedia-Main-Div">
+            @if(Company.LinkedinURL!=null&&Company.LinkedinURL!=string.Empty)
             <div>
-                <img src="~/Content/Images/linkedin.png" class="socialImages" />
+                <a href="@Company.LinkedinURL">
+                    <img src="/Content/Images/LinkedInNew.png" class="socialImages" />
+               </a>
             </div>
+            }
+            @if(Company.TwitterURL!=null&&Company.LinkedinURL!=string.Empty)
+            { 
             <div>
-                <img src="~/Content/Images/Twitter.png" class="socialImages" />
+                <a href="@Company.TwitterURL">
+                    <img src="/Content/Images/TwitterNew.png" class="socialImages" />
+                </a>
             </div>
+            }
+            @if (Company.FacebookURL != null && Company.FacebookURL != string.Empty)
+            { 
             <div>
-                <img src="~/Content/Images/Facebook.png" class="socialImages" />
+                <a href="@Company.FacebookURL">
+                    <img src="/Content/Images/facebookNew.png" class="socialImages" />
+                </a>
             </div>
-            <div>
-                <img src="~/Content/Images/googlePlus.png" class="socialImages" />
-            </div>
+            }
+            
         </div>
 
         <div class="SocialMedia-Message-Main-Div">

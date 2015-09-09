@@ -296,6 +296,10 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         if (ooBject.IsSpotColor.HasValue == true && ooBject.IsSpotColor.Value == true)
                         {
+                            if (ooBject.SpotColorName == "null" || ooBject.SpotColorName == null)
+                            {
+                                ooBject.SpotColorName = ooBject.ColorC.ToString() +  ooBject.ColorM.ToString() +  ooBject.ColorY.ToString() + ooBject.ColorK.ToString();
+                            }
                             oPdf.ColorSpace = oPdf.AddColorSpaceSpot(ooBject.SpotColorName, ooBject.ColorC.ToString() + " " + ooBject.ColorM.ToString() + " " + ooBject.ColorY.ToString() + " " + ooBject.ColorK.ToString());
                             oPdf.Color.Gray = 255;
                         }else
@@ -467,8 +471,12 @@ namespace MPC.Implementation.WebStoreServices
                                         // fontTag += " color='#FF' csid=" + csInlineID;
                                         if(isTemplateSpot)
                                         {
+                                            if(objStyle.spotColorName == "null")
+                                            {
+                                                objStyle.spotColorName = objStyle.textCMYK.Replace(" ","");
+                                            }
                                             int csInlineID = oPdf.AddColorSpaceSpot(objStyle.spotColorName, objStyle.textCMYK);
-                                            oPdf.Color.Gray = 255;
+                                            //oPdf.Color.Gray = 255;
                                             fontTag += " color='#FF' csid=" + csInlineID;
                                         }else
                                         {
@@ -1428,7 +1436,8 @@ namespace MPC.Implementation.WebStoreServices
                             YFactor = objObjects.PositionY.Value - 7;
                         else
                             YFactor = 0;
-                        XFactor = objObjects.PositionX.Value;
+                        if(objObjects.PositionX.HasValue)
+                          XFactor = objObjects.PositionX.Value;
                     }
 
 

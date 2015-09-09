@@ -366,6 +366,7 @@
     <Compile Include="Areas\WebstoreApi\Controllers\DiscountVoucherController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\DownloadArtworkController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\FileAttachmentsController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\FileUploadController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\OrderController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\OrganisationCacheController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RFQController.cs" />
@@ -491,6 +492,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\carousel.css" />
+    <Content Include="Content\cbre.css" />
+    <Content Include="Content\clublinks.css" />
     <Content Include="Content\content.css" />
     <Content Include="Content\Designer\assets-v2\active.png" />
     <Content Include="Content\Designer\assets-v2\addlist.png" />
@@ -522,6 +525,7 @@
     <Content Include="Content\Images\costcentreLoader.gif" />
     <Content Include="Content\Images\delete.png" />
     <Content Include="Content\Images\download-icon.png" />
+    <Content Include="Content\Images\edit.png" />
     <Content Include="Content\Images\Facebook.png" />
     <Content Include="Content\Designer\assets-v2\bckground.png" />
     <Content Include="Content\Designer\assets-v2\bold.png" />
@@ -564,6 +568,7 @@
     <Content Include="Content\Designer\assets-v2\valign2.png" />
     <Content Include="Content\Designer\assets-v2\valign3.png" />
     <Content Include="Content\Images\artwork_arrow_icons.png" />
+    <Content Include="Content\Images\facebookNew.png" />
     <Content Include="Content\Images\fancybox_loading.gif" />
     <Content Include="Content\Designer\assets-v2\bkColor.jpg" />
     <Content Include="Content\Designer\assets-v2\bleed_area.png" />
@@ -663,6 +668,7 @@
     <Content Include="Content\Images\IcoPhotoshop.png" />
     <Content Include="Content\Images\icoPNG.png" />
     <Content Include="Content\Images\linkedin.png" />
+    <Content Include="Content\Images\LinkedInNew.png" />
     <Content Include="Content\Images\linkInShare.PNG" />
     <Content Include="Content\Images\Listing-next-horizoltal.png" />
     <Content Include="Content\Images\Listing-prev-horizoltal.png" />
@@ -693,6 +699,7 @@
     <Content Include="Content\Images\Telephone-Icon-Blue.png" />
     <Content Include="Content\Images\tiger.jpg" />
     <Content Include="Content\Images\topnav_bg.jpg" />
+    <Content Include="Content\Images\TwitterNew.png" />
     <Content Include="Content\Images\Van-Icon-Blue.png" />
     <Content Include="Content\Images\view-order.png" />
     <Content Include="Content\Images\visa_49x31.jpg" />

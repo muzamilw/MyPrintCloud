@@ -409,8 +409,7 @@ define("stores/stores.viewModel",
                         resetObservableArrays();
                         editorViewModel.selectItem(item);
                         openEditDialog();
-                        //$('.nav-tabs').children().removeClass('active');
-                        //$('#generalInfoTab').addClass('active');
+                       
                         $('.nav-tabs li:first-child a').tab('show');
                         $('.nav-tabs li:eq(0) a').tab('show');
                         sharedNavigationVM.initialize(selectedStore, function(saveCallback) { saveStore(saveCallback); });
@@ -5393,15 +5392,15 @@ define("stores/stores.viewModel",
                             selectedItemsForOfferList.push(item);
                             selectedItemForAdd().isInSelectedList(true);
                             //remove items of other offer type from list, if another offer type items add(At a time only one offer type item selected)
-                            var removeOfferList = [];
-                            _.each(selectedItemsForOfferList(), function (offerItem) {
-                                if (selectedOfferType() !== offerItem.offerType()) {
-                                    removeOfferList.push(offerItem);
-                                }
-                            });
-                            _.each(removeOfferList, function (offerItem) {
-                                selectedItemsForOfferList.remove(offerItem);
-                            });
+                            //var removeOfferList = [];
+                            //_.each(selectedItemsForOfferList(), function (offerItem) {
+                            //    if (selectedOfferType() !== offerItem.offerType()) {
+                            //        removeOfferList.push(offerItem);
+                            //    }
+                            //});
+                            //_.each(removeOfferList, function (offerItem) {
+                            //    selectedItemsForOfferList.remove(offerItem);
+                            //});
                             selectedItemForAdd(undefined);
                         }
                     },
