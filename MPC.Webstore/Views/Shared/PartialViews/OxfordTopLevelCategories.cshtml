@@ -37,7 +37,7 @@
                             {
                                 <div id="parentCatsContainer" class="panel panel-default">
                                     <div class="panel-heading">
-                                        <a id="@CatName@items" data-toggle="collapse" data-parent="#accordionmenu" data-id="@items" onclick="sideBarClick(@items)" href="/Category/@Html.ResolveString(AllRetailCa.CategoryName)/@AllRetailCa.ProductCategoryId">
+                                        <a id="@CatName@items" data-toggle="collapse" data-parent="#accordionmenu" data-id="@items" onclick="sideBarClick(@items)" href="/Category/@Utils.specialCharactersEncoder(AllRetailCa.CategoryName)/@AllRetailCa.ProductCategoryId">
                                             @AllRetailCa.CategoryName
                                         </a>
                                     </div>
@@ -50,7 +50,7 @@
                                             <ul class="submenu list-unstyled">
                                                 @foreach (var ccategories in childCats)
                                                 {
-                                                    <li><a id="ltrlSubCatName" href="/Category/@Html.ResolveString(ccategories.CategoryName)/@ccategories.ProductCategoryId"><i class="fa fa-play-circle"></i><span>@ccategories.CategoryName</span></a></li>
+                                                    <li><a id="ltrlSubCatName" href="/Category/@Utils.specialCharactersEncoder(ccategories.CategoryName)/@ccategories.ProductCategoryId"><i class="fa fa-play-circle"></i><span>@ccategories.CategoryName</span></a></li>
                                                 }
                                             </ul>
                                         </div>
@@ -78,7 +78,7 @@
                             }
                             @foreach (var seabluectg in SeaBlueTopCategories)
                             {
-                                var redirecturl = "/Category/" + Html.ResolveString(seabluectg.CategoryName) + "/" + seabluectg.ProductCategoryId;
+                                var redirecturl = "/Category/" + Utils.specialCharactersEncoder(seabluectg.CategoryName) + "/" + seabluectg.ProductCategoryId;
                                 <div class="col-sm-12 col-md-6 product-box">
                                     <div class="hover-box-shadow">
                                         <p class="text-center">

@@ -351,6 +351,7 @@ namespace MPC.Implementation.MISServices
         {
             string invoiceCode = prefixRepository.GetNextInvoiceCodePrefix();
             invoice.InvoiceCode = invoiceCode;
+            invoice.InvoiceType = 0;
             invoiceRepository.Add(invoice);
             invoiceRepository.SaveChanges();
 

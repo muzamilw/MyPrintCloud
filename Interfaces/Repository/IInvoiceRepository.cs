@@ -22,5 +22,7 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         Invoice GetInvoiceByEstimateId(long Id);
 
+        long GetInvoieFlag();
+
     }
 }

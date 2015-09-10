@@ -436,7 +436,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
 
     InvoicesListView = function (specifiedId, specifiedName, specifiedType, specifiedCode, specifiedCompanyName, specifiedInvoiceDate, specifiedItemsCount,
-                            specifiedFlagColor, specifiedInvoiceTotal, specifiedOrderNo, specifiedStatus) {
+                            specifiedFlagColor, specifiedInvoiceTotal, specifiedisDirectSale, specifiedStatus) {
         var
             self,
             //Unique ID
@@ -452,7 +452,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             flagColor = ko.observable(specifiedFlagColor),
             status = ko.observable(specifiedStatus),
             invoiceTotal = ko.observable(specifiedInvoiceTotal).extend({ numberInput: ist.numberFormat }),
-            isDirectSale = ko.observable(specifiedOrderNo === null ? true : false),
+            isDirectSale = ko.observable(specifiedisDirectSale),
                 // Number of Items UI
                 noOfItemsUi = ko.computed(function () {
                     return "( " + itemsCount() + " ) Items";
@@ -482,7 +482,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
     InvoicesListView.Create = function (source) {
         return new InvoicesListView(source.InvoiceId, source.InvoiceName, source.InvoiceType, source.InvoiceCode,
-            source.CompanyName, source.InvoiceDate, source.ItemsCount, source.FlagColor, source.InvoiceTotal, source.OrderNo, source.Status);
+            source.CompanyName, source.InvoiceDate, source.ItemsCount, source.FlagColor, source.InvoiceTotal, source.isDirectSale, source.Status);
     };
 
     return {

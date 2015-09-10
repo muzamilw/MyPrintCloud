@@ -281,7 +281,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isWidgetItemsChange = ko.observable(),
         //Is Show Google Map
         isShowGoogleMap = ko.observable(specifiedIsShowGoogleMap != undefined ? specifiedIsShowGoogleMap.toString() : "1"),
-        customCSS = ko.observable(specifiedCustomCSS),
+        customCSS = ko.observable(),
         //Company Domain Copy
         defaultCompanyDomainCopy = ko.observable(),
         taxLabel = ko.observable(undefined),

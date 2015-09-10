@@ -150,6 +150,14 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.FirstOrDefault(i => i.EstimateId == Id);
         }
+
+        /// <summary>
+        /// Get flag for INVOICE
+        /// </summary>
+        public long GetInvoieFlag()
+        {
+            return db.SectionFlags.Where(c => c.SectionId == (int)SectionEnum.Invoices).Select(c => c.SectionFlagId).FirstOrDefault();
+        }
         #endregion
     }
 }

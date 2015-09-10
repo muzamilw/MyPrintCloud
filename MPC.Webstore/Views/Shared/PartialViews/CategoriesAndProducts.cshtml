@@ -39,7 +39,7 @@
                                             {
                                                 if (child.ParentCategoryId == category.ProductCategoryId)
                                                 {
-                                                    <li><a id="ltrlSubCatName" href="/Category/@Html.ResolveString(child.CategoryName)/@child.ProductCategoryId"><span>@child.CategoryName</span></a></li>
+                                                    <li><a id="ltrlSubCatName" href="/Category/@Utils.specialCharactersEncoder(child.CategoryName)/@child.ProductCategoryId"><span>@child.CategoryName</span></a></li>
                                                 }
 
                                             }
