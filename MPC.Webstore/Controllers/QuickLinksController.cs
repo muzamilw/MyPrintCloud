@@ -1,4 +1,5 @@
 ﻿using MPC.Interfaces.WebStoreServices;
+using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
 using MPC.Webstore.Common;
 using MPC.Webstore.ModelMappers;
@@ -55,7 +56,16 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.Display = "1";
 
-                ViewData["PageCategory"] = StoreBaseResopnse.PageCategories;
+                List<PageCategory> oPageCategories = StoreBaseResopnse.PageCategories.ToList();
+                List<PageCategory> oPageUpdateCategories = new List<PageCategory>();
+                foreach (PageCategory opageC in oPageCategories)
+                {
+                    if (StoreBaseResopnse.SecondaryPages != null && StoreBaseResopnse.SecondaryPages.Where(p => p.CategoryId == opageC.CategoryId).ToList().Count() > 0) 
+                    {
+                        oPageUpdateCategories.Add(opageC);
+                    }
+                }
+                ViewData["PageCategory"] = oPageUpdateCategories.ToList();
                 ViewData["CmsPage"] = StoreBaseResopnse.SecondaryPages;
 
                 if (StoreBaseResopnse.StoreDetaultAddress != null)

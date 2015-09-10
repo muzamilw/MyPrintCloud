@@ -6906,8 +6906,8 @@ namespace MPC.Implementation.MISServices
                 // update data
                 Company objCompany = companyRepository.LoadCompanyWithItems(NewCompanyId);
 
-                companyRepository.InsertProductCategories(source.ProductCategories != null ? source.ProductCategories.ToList() : null, objCompany);
-                companyRepository.InsertItem(source.Items != null ? source.Items.ToList() : null, objCompany);
+                companyRepository.InsertProductCategories(objCompany,source.CompanyId);
+                companyRepository.InsertItem(objCompany,source.CompanyId);
                 if (objCompany != null)
                 {
                     string SetName = source.CompanyBannerSets.Where(c => c.CompanySetId == source.ActiveBannerSetId).Select(c => c.SetName).FirstOrDefault();
@@ -7024,26 +7024,7 @@ namespace MPC.Implementation.MISServices
                 return target.CompanyId;
                
 
-                // clone cms offer after submet changes because itsm not addup
-
-
-                //// Save Changes
-                //itemRepository.SaveChanges();
-
-                //// Copy Files and place them under new Product folder
-                //CloneProductImages(target);
-
-                //// Clone Template - Call CloneTemplate from TemplateService
-                //// That will clone Template deeply
-                //if (source.TemplateId.HasValue)
-                //{
-                //    long templateId = templateService.CopyTemplate(source.TemplateId.Value, 0, string.Empty, target.OrganisationId.HasValue ?
-                //        target.OrganisationId.Value : itemRepository.OrganisationId);
-
-                //    target.TemplateId = templateId;
-                //}
-
-                // Save Changes
+               
              
 
 
@@ -8123,7 +8104,7 @@ namespace MPC.Implementation.MISServices
                         if (media.MediaId > 0)
                             NewMediaID = Convert.ToString(media.MediaId);
 
-
+                        dictionaryMediaIds.Add(OldMediaID, NewMediaID);
 
                         // DestinationsPath.Add(OldMediaID, NewMediaID);
 

@@ -559,13 +559,17 @@
             if (files.length > 4) {
                 ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Please select 4 files only!")
             } else {
+                debugger;
                 var isAddfile = 1;
-                if (files.length == 1)
-                {
-                    debugger;
-                    var fileext = files[0].name.split('.');
+                for (i = 0; i < files.length; i++) {
+               
+                    var fileext = files[i].name.split('.');
                     var lastIndex = fileext.length;
                     var extname = fileext[lastIndex - 1];
+                    if (files[i].size != null && files[i].size > 10000000) {
+                        ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "Files with size less than 10 MB are allowed only !");
+                        isAddfile = 0;
+                    }
                     if (extname != "png" && extname != "jpg" && extname != "jpeg" && extname != "pdf" && extname != "gif") {
                         ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', "File format is not allowed!");
                         isAddfile = 0;
