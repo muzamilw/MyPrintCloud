@@ -160,10 +160,10 @@
 
             <div class="white_background">
 
-                <div class="SolidBorderCS left_align pad20 mrginBtm" style="display:none;">
+                @*<div class="SolidBorderCS left_align pad20 mrginBtm" style="display:none;">
                     <label id="lblHeader" class="FileUploadHeaderText" style="color:green;"></label>
                     <label id="ErrorEmailMsg" class="FileUploadHeaderText" style="color:red; font-size:15px!important">Please,Enter Valid Email For proceed</label>
-                </div>
+                </div>*@
                 <div class="pop_body_corp">
                     <div class="left_user_popup_area">
                         <div class="address_label_area1">
@@ -285,13 +285,13 @@
 
                         </div>
                         <div class="address_contol_area1">
-                            <textarea id="txtAddress" name="Text1" cols="40" rows="5" class="text_box200 rounded_corners5" maxlength="250" style="height:60px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlBillingDetail", UserCookieManager.WBStoreId, "Billing Detail"))"></textarea>
+                            <textarea readonly="readonly" id="txtAddress" name="Text1" cols="40" rows="5" class="text_box200 rounded_corners5" maxlength="250" style="height:60px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlBillingDetail", UserCookieManager.WBStoreId, "Billing Detail"))"></textarea>
                         </div>
                         <div class="user_label_area2">
                             <label id="ltrlShipAddrs">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlShipDetails", UserCookieManager.WBStoreId, "Shipping Detail")):</label>
                         </div>
                         <div class="user_contol_area2">
-                            <textarea id="txtShippingAddress" cols="40" rows="5" class="text_box200 rounded_corners5"
+                            <textarea  readonly="readonly"id="txtShippingAddress" cols="40" rows="5" class="text_box200 rounded_corners5"
                                       style="height:60px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlShipDetails", UserCookieManager.WBStoreId, "Shipping Detail"))"></textarea>
                         </div>
                         <div class="clearBoth">
@@ -381,7 +381,10 @@
                                 @*<span id="EmailErrorMsg" style="color:red;font-size:8px;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplzentervalidemail", UserCookieManager.WBStoreId, "please,enter valid email"))</span>*@
                             </div>
                             
-
+                            <div class="SolidBorderCS left_align pad20 mrginBtm " style="display:none;">
+                                <label id="lblHeader" style="display:none;color:red;font-size:12px;margin-left:-27px;" class="FileUploadHeaderText"></label>
+                                <label id="ErrorEmailMsg" class="FileUploadHeaderText" style="color:red; font-size:12px!important;display:none;margin-left:-100px;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplzentervalidemail", UserCookieManager.WBStoreId, "please,enter valid email!"))!</label>
+                            </div>
                         </div>
                         
                         <div class="clearBoth">
@@ -464,11 +467,11 @@
             });
         },
         select: function (event, ui) {
-          
+
         },
         minLength: 1,
         change: function (event, ui) {
-            
+
             if ($("#txtsearch").val() == '') {
                 RebindGrid();
             }
@@ -477,8 +480,8 @@
             }
 
         }, close: function () {
-           
-           
+
+
 
         },
 
@@ -500,8 +503,8 @@
         }
         function ResetTextboxes() {
             UpdateStatus = false;
-           
-                
+
+
                 $("#chkCanOrder")[0].checked = true;
                 $("#chkCanByCredit")[0].checked = true;
 
@@ -509,7 +512,7 @@
 
                 $("#chkHasWebAccess")[0].checked = true;
 
-            
+
             //  var PHtml = $("#UpdateModelPopUp").html();
             //  ShippingBillingDetails("Add New Address", PHtml);
             $("#modelTitle").text("Add New  Contact");
@@ -547,7 +550,7 @@
 
             $("#txtNotes").val('');
 
-          
+
             $("#fuImageUpload").val('');
 
 
@@ -669,7 +672,7 @@
 
             var IsValid = true;
             var errorMessage = '';
-            $("#ErrorEmailMsg").css("display", "none");
+
             if ($("#tboxfirstname").val() == '') {
                 var AddressNAme = "First Name Is Required";
                 errorMessage = errorMessage + AddressNAme + "<br>";
@@ -707,10 +710,13 @@
                 if (ValidateEmail($("#tboxEmail").val()) == false) {
                     IsValid = false;
                     $(".SolidBorderCS").css("display", "block");
-                    $("#popupBody").animate({
-                        scrollTop: $("#ErrorEmailMsg").offset().top
-                    }, 1500);
+                    //$("#popupBody").animate({
+                    //    scrollTop: $("#ErrorEmailMsg").offset().top
+                    //}, 1500);
                     $("#ErrorEmailMsg").css("display", "block");
+                    $("#tboxEmail").css("border", "2px solid red");
+
+                    $("#lblHeader").css("display", "none");
                 }
                 else {
                     $("#tboxEmail").css("border", "1px solid #c1c6cc");
@@ -1098,100 +1104,6 @@
                 async: true,
                 processData: false,
                 success: function (response) {
-                    HideLoader();
-                    RebindGrid();
-                    @*ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlContactUpdatedSucessffuly", UserCookieManager.WBStoreId, "Contact Updated Sucessfully!"))');*@
-                },
-                error: function (error) {
-
-                }
-            });
-        }
-
-        function AddNewContact() {
-
-            $('.pass').css('display', 'block');
-            if (UpdateStatus == true) {
-                //  var PHtml = $("#UpdateModelPopUp").html();
-                //  ShippingBillingDetails("", PHtml);
-                $("#modelTitle").text("");
-
-            }
-            else {
-                $("#modelTitle").text("Add New Contact");
-            }
-
-            document.getElementById("layer").style.display = "block";
-            document.getElementById("innerLayer").style.display = "block";
-            document.getElementById("innerLayer").style.display = "block";
-            var FirstName = $("#tboxfirstname").val();
-            var txtLastName = $("#tboxLastName").val();
-            var Email = $("#tboxEmail").val();
-            var JobTitle = $("#txtJobTitle").val();
-
-            var HomeTel1 = $("#txtDirectLine").val();
-
-            var Mobile = $("#txtCellNumber").val();
-
-            var FAX = $("#txtFax").val();
-
-            var CreditLimit = $("#txtCreditLimit").val();
-
-            var ddSecretQuestion = $("#ddlSecretQuestions").val();
-
-            var SecretAnswer = $("#txtSecretAnswer").val();
-
-            var ddTerritory = $("#ddlTerritory").val();
-
-            var ddRoles = $("#ddlRole").val();
-
-            var ddbillingAddress = $("#ddlBillingAddress").val();
-
-            var ddShippingAddess = $("#ddlShippingAddress").val();
-
-            var BillAddressDetail = $("#txtAddress").val();
-
-            var ShipAddressDetail = $("#txtShippingAddress").val();
-
-            var Notes = $("#txtNotes").val();
-
-
-            var canOrder = $("#chkCanOrder")[0].checked;
-            var CanByCredit = $("#chkCanByCredit")[0].checked;
-            var ShowPricesForProduct = $("#chkShowPricesForProduct")[0].checked;
-
-            var HasWebAccess = $("#chkHasWebAccess")[0].checked;
-
-            var Image = $("#fuImageUpload").val();
-
-            var ConfirmPassword = $("#tboxPassword").val();
-
-            var data = new FormData();
-
-            if ($("#fuImageUpload").val() != null) {
-                var files = $("#fuImageUpload").get(0).files;
-
-                if (files.length > 0) {
-                    data.append("UploadedImage", files[0]);
-                }
-            }
-
-           
-
-            var IsSymoblicPhoneNumber = FAX.indexOf('+') != -1;
-            var IsSymobolicDirectLine = HomeTel1.indexOf('+') != -1;
-            var IsSymbolicMobile = Mobile.indexOf('+') != -1;
-
-            $.ajax({
-                type: "POST",
-                url: "/webstoreapi/ContactImageUploader/AddDataForSystemUser?CreditLimit=" + CreditLimit + "&ContactRoleId=" + ddRoles + "&Email=" + Email + "&Fax=" + FAX.toString() + "&FirstName=" + FirstName + "&HomeTel1=" + HomeTel1 + "&isWebAccess=" + HasWebAccess + "&isPlaceOrder=" + canOrder + "&IsPayByPersonalCreditCard=" + CanByCredit + "&IsPricingshown=" + ShowPricesForProduct + "&JobTitle=" + JobTitle + "&LastName=" + txtLastName + "&Mobile=" + Mobile + "&Notes=" + Notes + "&QuestionId=" + ddSecretQuestion + "&SecretAnswer=" + SecretAnswer + "&TerritoryId=" + ddTerritory + "&AddressId=" + ddbillingAddress + "&ShippingAddressId=" + ddShippingAddess + "&Password=" + ConfirmPassword + "&ContactId=" + ContactID + "&IsSymoblicPhoneNumber=" + IsSymoblicPhoneNumber + "&IsSymobolicDirectLine=" + IsSymobolicDirectLine + "&IsSymbolicMobile=" + IsSymbolicMobile +"",
-
-                contentType: false,
-                data: data,
-                async: true,
-                processData: false,
-                success: function (response) {
-
                     if (response == 'Ok') {
 
                         HideLoader();
@@ -1199,26 +1111,137 @@
 
                     }
                     else {
+
                         // HideLoader();
                         $(".SolidBorderCS").css("display", "block");
-                        $("#lblHeader").text('Sorry, There is already Exits a contact with this Email!');
-                        $("#popupBody").animate({
-                            scrollTop: $("#lblHeader").offset().top
-                        }, 1500);
-                        
-                        @*ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlExistsContact", UserCookieManager.WBStoreId, "Sorry, There is already Exits a contact with this Email!"))');*@
+                        $("#lblHeader").css("display", "block");
+                        $("#lblHeader").text('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlAlreadyreg", UserCookieManager.WBStoreId, "Sorry,this email is already registered!"))');
+                        //$("#popupBody").animate({
+                        //    scrollTop: $("#lblHeader").offset().top
+                        //}, 1500);
+                        $("#ErrorEmailMsg").css("display", "none");
                     }
-                },
-                error: function (error) {
+
+                    @*ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlContactUpdatedSucessffuly", UserCookieManager.WBStoreId, "Contact Updated Sucessfully!"))');*@
+            },
+            error: function (error) {
+
+            }
+        });
+    }
+
+    function AddNewContact() {
+
+        $('.pass').css('display', 'block');
+        if (UpdateStatus == true) {
+            //  var PHtml = $("#UpdateModelPopUp").html();
+            //  ShippingBillingDetails("", PHtml);
+            $("#modelTitle").text("");
+
+        }
+        else {
+            $("#modelTitle").text("Add New Contact");
+        }
+
+        document.getElementById("layer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        document.getElementById("innerLayer").style.display = "block";
+        var FirstName = $("#tboxfirstname").val();
+        var txtLastName = $("#tboxLastName").val();
+        var Email = $("#tboxEmail").val();
+        var JobTitle = $("#txtJobTitle").val();
+
+        var HomeTel1 = $("#txtDirectLine").val();
+
+        var Mobile = $("#txtCellNumber").val();
+
+        var FAX = $("#txtFax").val();
+
+        var CreditLimit = $("#txtCreditLimit").val();
+
+        var ddSecretQuestion = $("#ddlSecretQuestions").val();
+
+        var SecretAnswer = $("#txtSecretAnswer").val();
+
+        var ddTerritory = $("#ddlTerritory").val();
+
+        var ddRoles = $("#ddlRole").val();
+
+        var ddbillingAddress = $("#ddlBillingAddress").val();
+
+        var ddShippingAddess = $("#ddlShippingAddress").val();
+
+        var BillAddressDetail = $("#txtAddress").val();
+
+        var ShipAddressDetail = $("#txtShippingAddress").val();
+
+        var Notes = $("#txtNotes").val();
+
+
+        var canOrder = $("#chkCanOrder")[0].checked;
+        var CanByCredit = $("#chkCanByCredit")[0].checked;
+        var ShowPricesForProduct = $("#chkShowPricesForProduct")[0].checked;
+
+        var HasWebAccess = $("#chkHasWebAccess")[0].checked;
+
+        var Image = $("#fuImageUpload").val();
+
+        var ConfirmPassword = $("#tboxPassword").val();
+
+        var data = new FormData();
+
+        if ($("#fuImageUpload").val() != null) {
+            var files = $("#fuImageUpload").get(0).files;
+
+            if (files.length > 0) {
+                data.append("UploadedImage", files[0]);
+            }
+        }
+
+
+
+        var IsSymoblicPhoneNumber = FAX.indexOf('+') != -1;
+        var IsSymobolicDirectLine = HomeTel1.indexOf('+') != -1;
+        var IsSymbolicMobile = Mobile.indexOf('+') != -1;
+
+        $.ajax({
+            type: "POST",
+            url: "/webstoreapi/ContactImageUploader/AddDataForSystemUser?CreditLimit=" + CreditLimit + "&ContactRoleId=" + ddRoles + "&Email=" + Email + "&Fax=" + FAX.toString() + "&FirstName=" + FirstName + "&HomeTel1=" + HomeTel1 + "&isWebAccess=" + HasWebAccess + "&isPlaceOrder=" + canOrder + "&IsPayByPersonalCreditCard=" + CanByCredit + "&IsPricingshown=" + ShowPricesForProduct + "&JobTitle=" + JobTitle + "&LastName=" + txtLastName + "&Mobile=" + Mobile + "&Notes=" + Notes + "&QuestionId=" + ddSecretQuestion + "&SecretAnswer=" + SecretAnswer + "&TerritoryId=" + ddTerritory + "&AddressId=" + ddbillingAddress + "&ShippingAddressId=" + ddShippingAddess + "&Password=" + ConfirmPassword + "&ContactId=" + ContactID + "&IsSymoblicPhoneNumber=" + IsSymoblicPhoneNumber + "&IsSymobolicDirectLine=" + IsSymobolicDirectLine + "&IsSymbolicMobile=" + IsSymbolicMobile +"",
+
+            contentType: false,
+            data: data,
+            async: true,
+            processData: false,
+            success: function (response) {
+
+                if (response == 'Ok') {
+
+                    HideLoader();
+                    RebindGrid();
 
                 }
-            });
-        }
+                else {
+                    // HideLoader();
+                    $(".SolidBorderCS").css("display", "block");
+                    $("#lblHeader").css("display", "block");
+                    $("#lblHeader").text('Sorry,this email is already registered!');
+                    //$("#popupBody").animate({
+                    //    scrollTop: $("#lblHeader").offset().top
+                    //}, 1500);
+                    $("#ErrorEmailMsg").css("display", "none");
+                    @*ShowPopUp('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlMessage", UserCookieManager.WBStoreId, "Message"))', '@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlExistsContact", UserCookieManager.WBStoreId, "Sorry, There is already Exits a contact with this Email!"))');*@
+                }
+            },
+            error: function (error) {
 
-        function DeleteReord(ContactId)
-        { }
-        function RebindGrid() {
+            }
+        });
+    }
 
-            window.location.href = "/UserManager";
-        }
+    function DeleteReord(ContactId)
+    { }
+    function RebindGrid() {
+
+        window.location.href = "/UserManager";
+    }
 </script>

@@ -1452,6 +1452,7 @@ define("stores/stores.viewModel",
                                     item.companySetId(companyBanner.companySetId());
                                     item.fileBinary(companyBanner.fileBinary());
                                     item.imageSource(companyBanner.fileBinary());
+                                    item.filePath(companyBanner.filePath());
                                     item.filename(companyBanner.filename());
                                 }
 
