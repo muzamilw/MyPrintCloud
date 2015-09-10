@@ -180,7 +180,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         }
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public void UpdateDataForSystemUser(long? CreditLimit, int ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool ?isWebAccess, bool ?isPlaceOrder, bool ?IsPayByPersonalCreditCard, bool ?IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int QuestionId, string SecretAnswer, long TerritoryId, long AddressId, long ShippingAddressId, string Password, long ContactId)
+        public void UpdateDataForSystemUser(long? CreditLimit, int ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool? isWebAccess, bool? isPlaceOrder, bool? IsPayByPersonalCreditCard, bool? IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int QuestionId, string SecretAnswer, long TerritoryId, long AddressId, long ShippingAddressId, string Password, long ContactId, bool IsSymoblicPhoneNumber, bool IsSymobolicDirectLine, bool IsSymbolicMobile)
         {
             try
             {
@@ -193,16 +193,38 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 con.CreditLimit = CreditLimit;
                 con.ContactRoleId = ContactRoleId;
                 con.Email = Email;
-                con.FAX = Fax;
+                if (IsSymoblicPhoneNumber == true)
+                {
+                    con.FAX = "+" + Fax;
+                }
+                else
+                {
+                    con.FAX =Fax;
+                
+                }
                 con.FirstName = FirstName;
-                con.HomeTel1 = HomeTel1;
+                if (IsSymobolicDirectLine == true)
+                {
+                    con.HomeTel1 = "+"+HomeTel1;
+                }
+                else
+                {
+                    con.HomeTel1 = HomeTel1;
+                }
                 con.isWebAccess = isWebAccess;
                 con.isArchived = false;
                 con.isPlaceOrder = isPlaceOrder;
                 con.IsPayByPersonalCreditCard = IsPayByPersonalCreditCard;
                 con.IsPricingshown = IsPricingshown;
                 con.JobTitle = JobTitle;
-                con.Mobile = Mobile;
+                if (IsSymbolicMobile == true)
+                {
+                    con.Mobile = "+" + Mobile;
+                }
+                else
+                {
+                    con.Mobile = Mobile;
+                }
                 con.Notes = Notes;
                 con.QuestionId = QuestionId;
                 con.SecretAnswer = SecretAnswer;
@@ -210,6 +232,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 con.AddressId = AddressId;
                 con.ShippingAddressId = ShippingAddressId;
                 con.Password = Password;
+                con.SecretQuestion = QuestionId.ToString();
                 _companyService.UpdateDataSystemUser(con);
             }
             catch (Exception ex)
@@ -219,11 +242,11 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         }
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage AddDataForSystemUser(long? CreditLimit, int? ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool? isWebAccess, bool? isPlaceOrder, bool? IsPayByPersonalCreditCard, bool? IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int? QuestionId, string SecretAnswer, long? TerritoryId, long AddressId, long? ShippingAddressId, string Password, long ContactId)
+        public HttpResponseMessage AddDataForSystemUser(long? CreditLimit, int? ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool? isWebAccess, bool? isPlaceOrder, bool? IsPayByPersonalCreditCard, bool? IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int? QuestionId, string SecretAnswer, long? TerritoryId, long AddressId, long? ShippingAddressId, string Password, long ContactId, bool IsSymoblicPhoneNumber, bool IsSymobolicDirectLine, bool IsSymbolicMobile)
         {
             
             string Message = string.Empty;
-           
+            
            CompanyContact ExistingContact= _companyService.GetCorporateContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
             var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
             if (ExistingContact!= null)
@@ -246,9 +269,24 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 NewContact.CreditLimit = CreditLimit;
                 NewContact.ContactRoleId = ContactRoleId;
                 NewContact.Email = Email;
-                NewContact.FAX = Fax;
+                if (IsSymoblicPhoneNumber == true)
+                {
+                    NewContact.FAX = "+" + Fax;
+                }
+                else
+                {
+                    NewContact.FAX = Fax;
+                }
+                
                 NewContact.FirstName = FirstName;
-                NewContact.HomeTel1 = HomeTel1;
+                if (IsSymobolicDirectLine == true)
+                {
+                    NewContact.HomeTel1 = "+" + HomeTel1;
+                }
+                else
+                {
+                    NewContact.HomeTel1 = HomeTel1;
+                }
                 NewContact.isWebAccess = isWebAccess;
                 NewContact.isArchived = false;
                 NewContact.isPlaceOrder = isPlaceOrder;
@@ -256,7 +294,14 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 NewContact.IsPricingshown = IsPricingshown;
                 NewContact.JobTitle = JobTitle;
                 NewContact.LastName = LastName;
-                NewContact.Mobile = Mobile;
+                if (IsSymbolicMobile == true)
+                {
+                    NewContact.Mobile = "+" + Mobile;
+                }
+                else
+                {
+                    NewContact.Mobile = "+" + Mobile;
+                }
                 NewContact.Notes = Notes;
                 NewContact.QuestionId = QuestionId;
                 NewContact.SecretAnswer = SecretAnswer;

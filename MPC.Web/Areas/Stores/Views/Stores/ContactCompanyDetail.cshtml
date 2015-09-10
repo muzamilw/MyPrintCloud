@@ -2745,7 +2745,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                 <div class="tabsdescriptions">
                                     <p class="group-header-description">The store layout editor allows you to change widgets within a page, some widgets allow editing of the HTML, if changes don’t take effect remember to clear your browser cache.</p>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-4">
                                     <div class="clearfix">
 
                                         <header class="main-box-header clearfix" style="padding-left: 0px;margin-left: 0px;padding-top:0px">
@@ -2781,7 +2781,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-9 form-horizontal">
+                                <div class="col-lg-8 form-horizontal">
                                     <div class="clearfix">
                                         @*<header class="main-box-header clearfix">
 
@@ -3863,9 +3863,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
 </script>
 <script id="widgetItemTemplate" type="text/html">
     <li class="dd-item dd-item-list">
-        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-        <div class="dd-handle">
-            <span data-bind="text: $data.widgetControlName(),drag: $root.dragged" style="cursor: move;z-index: 1000" title="Drag widget to add to the right panel"></span>
+        <div class="dd-handle-list" style="height:100%;"><i class="fa fa-bars"></i></div>
+        <div class="dd-handle" style="height:auto;">
+            <span data-bind="text: $data.widgetControlName(),drag: $root.dragged" style="cursor: move;z-index:1000;" title="Drag widget to add to the right panel"></span>
             <div class="nested-links">
                 <a href="#" class="nested-link" title="Add Widget" data-bind="click:$root.addWidgetToPageLayout"><i class="fa fa-plus"></i></a>
             </div>
@@ -3946,7 +3946,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
     <tr>
         <td class="modifyVariabletd">
             <div class="form-group" style="padding-bottom: 32px;padding-top: 5px;">
-                <div class="col-lg-3 text-right">
+                <div class="col-lg-3 text-right" style="padding-top:6px;">
                     <div class="bs-example-tooltips tooltip-float-width">
                         <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                             @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@

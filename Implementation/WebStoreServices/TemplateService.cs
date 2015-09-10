@@ -3355,6 +3355,10 @@ namespace MPC.Implementation.WebStoreServices
                 throw e;
                 return null;
             }
+            finally
+            {
+                theDoc.Dispose();
+            }
         }
 
         public bool updatecontactId(long templateId, long contactId)
