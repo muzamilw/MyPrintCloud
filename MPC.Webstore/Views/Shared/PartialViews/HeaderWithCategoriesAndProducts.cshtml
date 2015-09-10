@@ -20,11 +20,11 @@
                       int count = AllChildCategories.Where(g => g.ParentCategoryId == ParentProduct.ProductCategoryId).Count();
                       var ChildCategories = AllChildCategories.Where(i => i.ParentCategoryId == ParentProduct.ProductCategoryId).ToList();
                     <li>
-                        <a aria-haspopup="true" href="/Category/@Html.ResolveString(ParentProduct.CategoryName)/@ParentProduct.ProductCategoryId">@ParentProduct.CategoryName</a>
+                        <a aria-haspopup="true" href="/Category/@Utils.specialCharactersEncoder(ParentProduct.CategoryName)/@ParentProduct.ProductCategoryId">@ParentProduct.CategoryName</a>
                         <ul>
                             @foreach (var chCtg in ChildCategories)
                             { 
-                            <li><a href="/Category/@Html.ResolveString(chCtg.CategoryName)/@chCtg.ProductCategoryId">@chCtg.CategoryName</a></li>
+                            <li><a href="/Category/@Utils.specialCharactersEncoder(chCtg.CategoryName)/@chCtg.ProductCategoryId">@chCtg.CategoryName</a></li>
                             }
                         </ul>
                     </li>

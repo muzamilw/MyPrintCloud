@@ -19995,6 +19995,7 @@ width:149px!important;
 }
 
 @media (min-width:1025px) {
+
     .delivery-toBeCaltext {
         color: red !important;
         position: absolute;
@@ -21942,13 +21943,13 @@ width:149px!important;
 	border-color: #F9F9F9;*/
         text-align: center;
         width: 226px !important;
-        margin-right: 5px !important;
-        margin-bottom: 9px !important;
+        margin-right: 30px !important;
+        margin-bottom: 15px !important;
         background-color: transparent;
         background: #fff;
         border: 1px solid #000000;
         padding: 20px 10px 10px 10px;
-        min-height: 390px;
+        min-height: 435px;
     }
 
 
