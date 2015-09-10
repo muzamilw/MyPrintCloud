@@ -13,11 +13,11 @@
                        <div class="col-sm-12 col-md-3 product-box">
                            <div class="hover-box-shadow">
                                <p class="text-center">
-                                   <a id="ProductUrl" class='thumbnail' href="/Category/@Html.ResolveString(categories.CategoryName)/@categories.ProductCategoryId" onclick="ShowLoader();">
+                                   <a id="ProductUrl" class='thumbnail' href="/Category/@Utils.specialCharactersEncoder(categories.CategoryName)/@categories.ProductCategoryId" onclick="ShowLoader();">
                                        <img id="productImge" src="@Html.GetAppBasePath()@categories.ThumbnailPath"  class="img-responsive" itemprop="image" />
                                    </a>
                                </p>
-                               <p class="text-center"><a id="prductlinkUrl" href="/Category/@Html.ResolveString(categories.CategoryName)/@categories.ProductCategoryId" onclick="ShowLoader();" class='btn btn-info' itemprop="url">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlviewdetails", UserCookieManager.WBStoreId,"View details")) <i class="fa fa-angle-double-right"></i></a></p>
+                               <p class="text-center"><a id="prductlinkUrl" href="/Category/@Utils.specialCharactersEncoder(categories.CategoryName)/@categories.ProductCategoryId" onclick="ShowLoader();" class='btn btn-info' itemprop="url">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlviewdetails", UserCookieManager.WBStoreId,"View details")) <i class="fa fa-angle-double-right"></i></a></p>
                                <h3 itemprop="name" id="productName"  >@categories.CategoryName</h3>
                                <div class="product-desc" itemprop="description">
                                    <p id="productDesc"  >@categories.Description1

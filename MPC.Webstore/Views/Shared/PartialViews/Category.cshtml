@@ -55,7 +55,7 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
                                     @{
 
 
-                                        <a id="hlCategory" href="/Category/@Html.ResolveString(@cat.CategoryName)/@cat.ProductCategoryId" onclick="ShowLoader();">
+                                        <a id="hlCategory" href="/Category/@Utils.specialCharactersEncoder(cat.CategoryName)/@cat.ProductCategoryId" onclick="ShowLoader();">
                                             <div class="PDTC_CAT FI_CAT">
                                                 @{
 
