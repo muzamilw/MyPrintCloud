@@ -7196,12 +7196,13 @@ define("stores/stores.viewModel",
                                 isEditorVisible(false);
                                 if (data != null)
                                 {
-                                    if (selectedStore()) {
-                                        var store = getCompanyByIdFromListView(data.CompanyId);
-                                        if (store) {
-                                            stores.add(store);
-                                        }
-                                    }
+                                    getStores();
+                                    //if (selectedStore()) {
+                                    //    var store = getCompanyByIdFromListView(data.CompanyId);
+                                    //    if (store) {
+                                    //        stores.add(store);
+                                    //    }
+                                    //}
                                 }
                                
                                 resetStoreEditor();
