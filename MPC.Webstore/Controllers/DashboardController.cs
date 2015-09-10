@@ -176,14 +176,14 @@ namespace MPC.Webstore.Controllers
                         BCDetail.PageNavigateURl = "/ProductOrderHistory";
                         BCDetail.IsChangePassword = false;
                         BCDashBordItems.Add(BCDetail);
-                        //BCDetail = new DashboardViewModel(4);
-                        //BCDetail.Name = Utils.GetKeyValueFromResourceFile("ltrlsystemusermanger", UserCookieManager.WBStoreId, "System User Manager"); // (string)GetGlobalResourceObject("MyResource", "lblOrderProductnBtn") + UpdateOrdersInProductionCount();
-                        //BCDetail.Description = Utils.GetKeyValueFromResourceFile("ltrlsystemmanger", UserCookieManager.WBStoreId, "System Manager");
-                        ////(string)GetGlobalResourceObject("MyResource", "lblViewCurOrderStatus");
-                        //BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";
-                        //BCDetail.PageNavigateURl = "/UserManager";
-                        //BCDetail.IsChangePassword = false;
-                        //BCDashBordItems.Add(BCDetail);
+                        BCDetail = new DashboardViewModel(4);
+                        BCDetail.Name = Utils.GetKeyValueFromResourceFile("ltrlsystemusermanger", UserCookieManager.WBStoreId, "System User Manager"); // (string)GetGlobalResourceObject("MyResource", "lblOrderProductnBtn") + UpdateOrdersInProductionCount();
+                        BCDetail.Description = Utils.GetKeyValueFromResourceFile("ltrlsystemmanger", UserCookieManager.WBStoreId, "System Manger");
+                        //(string)GetGlobalResourceObject("MyResource", "lblViewCurOrderStatus");
+                        BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";
+                        BCDetail.PageNavigateURl = "/UserManager";
+                        BCDetail.IsChangePassword = false;
+                        BCDashBordItems.Add(BCDetail);
                     }
 
                 }
