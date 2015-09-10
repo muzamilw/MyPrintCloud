@@ -711,7 +711,7 @@
                                                                 Add New Contact
                                                             </a>
                                                         </div>
-
+                                                        <!--ko if: $root.selectedStore().isCustomer() == 3 -->
                                                         <div class="col-lg-2" style="margin-top:-2px;">
                                                             <div class="fileUpload btn btn-primary">
                                                                 <span>Import Contacts</span>
@@ -723,7 +723,7 @@
                                                                 Export Contacts
                                                             </a>
                                                         </div>
-
+                                                        <!-- /ko -->
                                                         <footer class="main-box-header" style=" margin-right:-15px;text-align:right;margin-top:-17px;padding-right:0px;">
                                                             <div id="pagerDivUsers">
                                                                 <!-- ko with: $root.contactCompanyPager -->
