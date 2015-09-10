@@ -53,6 +53,7 @@ namespace MPC.Webstore.Controllers
             }
             ViewBag.totalcount = contacts.Count;
             ViewBag.LoginContactRoleID = _myClaimHelper.loginContactRoleID();
+            ViewBag.TempText = null;
             return View("PartialViews/UserManager", contacts);
 
         }
@@ -81,6 +82,7 @@ namespace MPC.Webstore.Controllers
             {
                 TempData["HeaderStatus"] = true;
             }
+            ViewBag.TempText = SearchString;
             ViewBag.LoginContactRoleID = _myClaimHelper.loginContactRoleID();
             return View("PartialViews/UserManager",contacts);
         }
