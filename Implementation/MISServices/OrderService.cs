@@ -712,7 +712,7 @@ namespace MPC.Implementation.MISServices
 
             //Create Invoice
             //Req. Whenever Its Status is Shipped and Invoiced 
-            if (orderStatusId != (int)OrderStatus.Invoice && estimate.StatusId == (int)OrderStatus.Invoice)
+            if (estimate.StatusId == (int)OrderStatus.Invoice)
             {
                 try
                 {
@@ -742,6 +742,26 @@ namespace MPC.Implementation.MISServices
         private void CreateInvoice(Estimate order)
         {
             Invoice itemTarget = CreateNewInvoice();
+
+            if (order.isDirectSale ?? true)
+            {
+                itemTarget.InvoiceType = 0;
+            }
+            else
+            {
+                itemTarget.InvoiceType = 1;
+            }
+
+            long FlagId = invoiceRepository.GetInvoieFlag();
+            if(FlagId > 0)
+            {
+                itemTarget.FlagID = (int)FlagId;
+            }
+            else
+            {
+                itemTarget.FlagID = 0;
+            }
+           
             order.AddInvoice(itemTarget);
         }
 

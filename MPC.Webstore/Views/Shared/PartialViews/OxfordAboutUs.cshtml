@@ -40,15 +40,15 @@
                                      if (count>0)
                                      { 
                                         <li>
-                                            <a id="ParentCateLink" style="width: 100%;" href="/Category/@Html.ResolveString(PCategory.CategoryName)/@PCategory.ProductCategoryId">
+                                            <a id="ParentCateLink" style="width: 100%;" href="/Category/@Utils.specialCharactersEncoder(PCategory.CategoryName)/@PCategory.ProductCategoryId">
                                                 <i class="icon-th-large"></i>
                                                 <span><b id="parentCatName">@PCategory.CategoryName</b></span>
                                             </a><br />
                                             <ul>
                                                 @foreach (var childs in childCats)
                                                 { 
-                                                 <li style="width:100%;"><a id="subCatLink" style="width: 100%;" href="/Category/@Html.ResolveString(childs.CategoryName)/@childs.ProductCategoryId"><span id="subCatName">@childs.CategoryName</span></a></li>
-                                                 <br/>
+                                                 <li style="width:100%;"><a id="subCatLink" style="width: 100%;" href="/Category/@Utils.specialCharactersEncoder(childs.CategoryName)/@childs.ProductCategoryId"><span id="subCatName">@childs.CategoryName</span></a></li>
+                                                
                                                 }
                                             </ul>
                                         </li>

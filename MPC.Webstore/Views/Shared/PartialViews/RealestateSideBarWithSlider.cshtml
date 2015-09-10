@@ -62,7 +62,7 @@
                             var anchorId = "linkParentCategoryName" + @ParentCategory.ProductCategoryId;
                             var iconId = "linkChevronIcon" + @ParentCategory.ProductCategoryId;
                                 }
-                                <a id="@anchorId" href="/Category/@Html.ResolveString(ParentCategory.CategoryName)/@ParentCategory.ProductCategoryId" class="float_left_simple real-profile-textcolor" style="color: #bebab8; float: left;" onclick="ShowLoader();">@ParentCategory.CategoryName</a>
+                                <a id="@anchorId" href="/Category/@Utils.specialCharactersEncoder(ParentCategory.CategoryName)/@ParentCategory.ProductCategoryId" class="float_left_simple real-profile-textcolor" style="color: #bebab8; float: left;" onclick="ShowLoader();">@ParentCategory.CategoryName</a>
                                 @if (filteredChildCategories != null && filteredChildCategories.Count() > 0)
                                 {
                                     <a data-toggle="collapse" id=@iconId data-parent="accordionmenu" class="float_right real-profile-textcolor" onclick="ExpandCollapseCategory(@ParentCategory.ProductCategoryId)" data-id="@ParentCategory.ProductCategoryId">
@@ -76,7 +76,7 @@
                                     <ul id="mycarasoulList" class="submenu list-unstyled" style="padding-left: 15px; line-height: 2; margin-top: 5px;">
                                         @foreach (var ChildCategory in filteredChildCategories)
                                         {
-                                            <li><a id="linkChildCatLink" href="/Category/@Html.ResolveString(ChildCategory.CategoryName)/@ChildCategory.ProductCategoryId" onclick="ShowLoader();"><span id="childCatName" style="color: #bebab8;">@ChildCategory.CategoryName</span></a></li>
+                                            <li><a id="linkChildCatLink" href="/Category/@Utils.specialCharactersEncoder(ChildCategory.CategoryName)/@ChildCategory.ProductCategoryId" onclick="ShowLoader();"><span id="childCatName" style="color: #bebab8;">@ChildCategory.CategoryName</span></a></li>
                                         }
                                     </ul>
                                 </div>

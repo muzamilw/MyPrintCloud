@@ -45,7 +45,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Code
             code = ko.observable(specifiedCode || undefined),
             // Product Name
-            productName = ko.observable(specifiedProductName || undefined).extend({ required: true }),
+            productName = ko.observable(specifiedProductName || undefined).extend({ required: true, pattern: { params: /^[a-zA-Z0-9_ -]*$/g, message: "Invalid symbols in product name." } }),
             // Product Name For Grid
             productNameForGrid = ko.computed(function () {
                 if (!productName()) {

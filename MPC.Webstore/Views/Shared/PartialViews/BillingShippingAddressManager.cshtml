@@ -53,9 +53,14 @@
                         @using (Html.BeginForm())
                         {
                             <td style="padding-left: 10px;">
-                                @*<asp:TextBox ID="txtsearch" runat="server" Width="400px" CssClass="text_box150 rounded_corners5"></asp:TextBox>*@
-                                @*@Html.TextBoxFor(model => model.FirstName, new { id = "txtsearch", @class = "text_box150 rounded_corners5", placeholder = "Search", maxlength = 500, })*@
-                                <input id="txtsearch" type="text" style="width:248px;" class="text_box150 rounded_corners5" name="SearchString" placeholder="Search Address" />
+                                @if (ViewBag.TempText != null && ViewBag.TempText != string.Empty)
+                                {
+                                    <input id="txtsearch" type="text" style="width:248px;" class="text_box150 rounded_corners5" name="SearchString" placeholder="Search Address" value="@ViewBag.TempText" />
+                                }
+                                else
+                                {
+                                    <input id="txtsearch" type="text" style="width:248px;" class="text_box150 rounded_corners5" name="SearchString" placeholder="Search Address" />
+                                }
                             </td>
 
                             <td style="padding-left: 10px;">
@@ -329,10 +334,13 @@ grid.Column("Default Shipping",format:@<p>
         },
         minLength: 1,
         change: function (event, ui) {
+            
             if ($("#txtsearch").val() == '') {
-                alert('Empty');
+                RebindGrid();
             }
-            $("#btnsearch").trigger('click');
+            else {
+                $("#btnsearch").trigger('click');
+            }
 
         }
 
@@ -572,6 +580,10 @@ grid.Column("Default Shipping",format:@<p>
         //if (StateName == null) {
         //    StateName = '';
         //}
+        var IsSymoblicTel1 = Tel1.indexOf('+') != -1;
+        var IsSymoblicTel2 = Tel2.indexOf('+') != -1;
+        var IsSymbolicExt1 = Extension1.indexOf('+') != -1;
+        var IsSymbolicExt2 = Extension2.indexOf('+') != -1;
 
         var data = { AddressName: AddressName, FAO: FAO, Address1: Address1, Reference: Reference, Address2: Address2, Tel1: Tel1, Extension1: Extension1, Address3: Address3, Tel2: Tel2, Extension2: Extension2, City: City, Fax: Fax, GeoLatitude: GeoLatitude, GeoLongitude: GeoLongitude, PostCode: PostCode, StateId: StateId, CountryId: CountryId, TerritoryId: TerritoryId };
         $.ajax({
