@@ -1360,7 +1360,7 @@ namespace MPC.Repository.Repositories
 
             tblOrder.Items.ToList().ForEach(item =>
             {
-                if (item.IsOrderedItem.HasValue && item.IsOrderedItem.Value)
+                if (item.IsOrderedItem.HasValue && item.IsOrderedItem.Value == true)
                 {
                     if (orderStatus != OrderStatus.ShoppingCart)
                         item.StatusId = (short)itemStatus;
