@@ -952,7 +952,7 @@ namespace MPC.Models.ModelMappers
             target.InvoiceName = source.Estimate_Name;
             target.InvoiceDate = DateTime.Now;
             target.InvoiceTotal = source.Estimate_Total;
-            target.FlagID = source.SectionFlagId;
+            //target.FlagID = source.SectionFlagId;
             target.AccountNumber = source.AccountNumber;
             target.ReportSignedBy = source.OrderReportSignedBy;
             //target.InvoicePostedBy = source.OrderReportSignedBy;
