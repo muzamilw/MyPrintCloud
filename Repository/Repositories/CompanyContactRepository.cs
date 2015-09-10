@@ -1868,6 +1868,8 @@ namespace MPC.Repository.Repositories
                 con.AddressId = Contact.AddressId;
                 con.ShippingAddressId = Contact.ShippingAddressId;
                 con.Password = HashingManager.ComputeHashSHA1(Contact.Password);
+                con.IsDefaultContact = 0;
+                con.SecretQuestion = Contact.QuestionId.ToString();
                 db.CompanyContacts.Add(con);
                 db.SaveChanges();
             }

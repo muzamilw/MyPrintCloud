@@ -215,21 +215,27 @@ namespace MPC.Webstore.Controllers
                 else
                 {
                     string Email = string.Empty;
-                    SystemUser SalesMagerRec = _IUserManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
-                    if (SalesMagerRec != null)
-                    {
-                        EmailParams.SystemUserId = SalesMagerRec.SystemUserId;
-                        Email = SalesMagerRec.Email;
-                    }
-                   
                     EmailParams.StoreId = UserCookieManager.WBStoreId;
                     EmailParams.SalesManagerContactID = _myClaimHelper.loginContactID();
 
+                    if (StoreBaseResopnse.Company.MarketingBriefRecipient != null)
+                    {
+                        _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail, (int)org.OrganisationId, "", "", "", StoreBaseResopnse.Company.MarketingBriefRecipient, StoreBaseResopnse.Company.Name, SecondEmail, Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
+                    }
+                    else
+                    {
+                        SystemUser SalesMagerRec = _IUserManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+                        if (SalesMagerRec != null)
+                        {
+                            EmailParams.SystemUserId = SalesMagerRec.SystemUserId;
+                            Email = SalesMagerRec.Email;
+                        }
 
-                    int OID = (int)org.OrganisationId;
-                    _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail, OID, "", "", "", Email, "", "", Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
+                        _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail,(int)org.OrganisationId, "", "", "", Email, "", "", Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);
 
 
+                    }
+                   
                 }
 
 

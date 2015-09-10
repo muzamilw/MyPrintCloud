@@ -2300,14 +2300,14 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <div>
                                                     <div>
                                                         <label for="idAccessWebStore">
-                                                            Is Register Access WebStore
+                                                            Can User Access Web Store
                                                         </label>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2" style="padding-left:11px;border:1px solid lightgray;border-bottom:none;border-left:none;padding-top:20px;">
                                                 <div class="checkbox-nice">
-                                                    <input type="checkbox" id="idAccessWebStore" data-bind="checked:$root.selectedStore().isRegisterAccessWebStore">
+                                                    <input type="checkbox" id="idAccessWebStore" data-bind="checked:isRegisterAccessWebStore">
                                                     <label for="idAccessWebStore">
                                                     </label>
                                                 </div>
@@ -2322,14 +2322,14 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             <div>
                                                 <div>
                                                     <label for="idPlaceOrder">
-                                                        Is Register Place Order
+                                                        Can User Place Order
                                                     </label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-2" style="padding-left:11px;border-right:1px solid lightgray;">
                                             <div class="checkbox-nice">
-                                                <input type="checkbox" id="idPlaceOrder" data-bind="checked:$root.selectedStore().isRegisterPlaceOrder">
+                                                <input type="checkbox" id="idPlaceOrder" data-bind="checked:isRegisterPlaceOrder">
                                                 <label for="idPlaceOrder">
                                                 </label>
                                             </div>
@@ -2343,7 +2343,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         <div class="col-lg-6" style="border-left:1px solid lightgray;">
                                             <div>
                                                 <label for="idPayOnlyByCreditCard">
-                                                    Is Register Pay Only By Credit Card
+                                                    Can User Pay Only By Credit Card
                                                 </label>
                                             </div>
                                         </div>
@@ -2363,7 +2363,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         <div class="col-lg-6" style="border-left:1px solid lightgray;">
                                             <div>
                                                 <label for="idPlaceDirectOrder">
-                                                    Is Register Place Direct Order
+                                                    Can User Place Direct Order
                                                 </label>
                                             </div>
                                         </div>
@@ -2384,7 +2384,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         <div class="col-lg-6" style="border:1px solid lightgray;border-top:none !important;border-right:none !important;padding-bottom:20px;">
                                             <div>
                                                 <label for="idplaceorderwithoutapproval">
-                                                    Is Register Place Order Without Approval
+                                                    Can User Place Order Without Approval
                                                 </label>
                                             </div>
                                         </div>
@@ -2745,7 +2745,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                 <div class="tabsdescriptions">
                                     <p class="group-header-description">The store layout editor allows you to change widgets within a page, some widgets allow editing of the HTML, if changes don’t take effect remember to clear your browser cache.</p>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-4">
                                     <div class="clearfix">
 
                                         <header class="main-box-header clearfix" style="padding-left: 0px;margin-left: 0px;padding-top:0px">
@@ -2781,7 +2781,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-9 form-horizontal">
+                                <div class="col-lg-8 form-horizontal">
                                     <div class="clearfix">
                                         @*<header class="main-box-header clearfix">
 
@@ -3863,9 +3863,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
 </script>
 <script id="widgetItemTemplate" type="text/html">
     <li class="dd-item dd-item-list">
-        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-        <div class="dd-handle">
-            <span data-bind="text: $data.widgetControlName(),drag: $root.dragged" style="cursor: move;z-index: 1000" title="Drag widget to add to the right panel"></span>
+        <div class="dd-handle-list" style="height:100%;"><i class="fa fa-bars"></i></div>
+        <div class="dd-handle" style="height:auto;">
+            <span data-bind="text: $data.widgetControlName(),drag: $root.dragged" style="cursor: move;z-index:1000;" title="Drag widget to add to the right panel"></span>
             <div class="nested-links">
                 <a href="#" class="nested-link" title="Add Widget" data-bind="click:$root.addWidgetToPageLayout"><i class="fa fa-plus"></i></a>
             </div>
@@ -3946,7 +3946,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
     <tr>
         <td class="modifyVariabletd">
             <div class="form-group" style="padding-bottom: 32px;padding-top: 5px;">
-                <div class="col-lg-3 text-right">
+                <div class="col-lg-3 text-right" style="padding-top:6px;">
                     <div class="bs-example-tooltips tooltip-float-width">
                         <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                             @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
