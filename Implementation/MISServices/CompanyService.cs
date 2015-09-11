@@ -6895,7 +6895,7 @@ namespace MPC.Implementation.MISServices
                 // insert product categories and items
                // companyRepository.CopyProductByStore(NewCompanyId, companyId);
 
-               
+          
 
 
                 // insert discount voucher
@@ -6906,6 +6906,7 @@ namespace MPC.Implementation.MISServices
                 // update data
                 Company objCompany = companyRepository.LoadCompanyWithItems(NewCompanyId);
 
+                companyRepository.SetTerritoryIdAddress(objCompany,source.CompanyId);
                 companyRepository.InsertProductCategories(objCompany,source.CompanyId);
                 companyRepository.InsertItem(objCompany,source.CompanyId);
                 if (objCompany != null)
@@ -7273,6 +7274,7 @@ namespace MPC.Implementation.MISServices
                 CompanyTerritory targetCompanyTerritory = companyTerritoryRepository.Create();
                 companyTerritoryRepository.Add(targetCompanyTerritory);
                 targetCompanyTerritory.CompanyId = target.CompanyId;
+                targetCompanyTerritory.Addresses = null;
                 target.CompanyTerritories.Add(targetCompanyTerritory);
                 companyTerritory.Clone(targetCompanyTerritory);
             }
@@ -7297,19 +7299,21 @@ namespace MPC.Implementation.MISServices
             foreach (Address addresses in source.Addresses)
             {
 
-                string OldTerritoryName = addresses.CompanyTerritory.TerritoryName;
-                string oldTerritoryCode = addresses.CompanyTerritory.TerritoryCode;
+                //string OldTerritoryName = addresses.CompanyTerritory.TerritoryName;
+                //string oldTerritoryCode = addresses.CompanyTerritory.TerritoryCode;
 
-                CompanyTerritory NewTerrObj = target.CompanyTerritories.Where(c => c.TerritoryName == OldTerritoryName && c.TerritoryCode == oldTerritoryCode).FirstOrDefault();
+                //CompanyTerritory NewTerrObj = target.CompanyTerritories.Where(c => c.TerritoryName == OldTerritoryName && c.TerritoryCode == oldTerritoryCode).FirstOrDefault();
 
 
                 Address targetAddress = addressRepository.Create();
                 addressRepository.Add(targetAddress);
                 targetAddress.CompanyId = target.CompanyId;
-                targetAddress.TerritoryId = NewTerrObj != null ? NewTerrObj.TerritoryId : 0;
+                
+               // targetAddress.TerritoryId = NewTerrObj != null ? NewTerrObj.TerritoryId : 0;
                 target.Addresses.Add(targetAddress);
                 addresses.Clone(targetAddress);
             }
+           
         }
 
         /// <summary>
@@ -7338,7 +7342,7 @@ namespace MPC.Implementation.MISServices
 
                 string OldShippingAddressName = contacts.Address.AddressName;
 
-                CompanyTerritory NewTerrObj = target.CompanyTerritories.Where(c => c.TerritoryName == OldTerritoryName && c.TerritoryCode == oldTerritoryCode).FirstOrDefault();
+               // CompanyTerritory NewTerrObj = target.CompanyTerritories.Where(c => c.TerritoryName == OldTerritoryName && c.TerritoryCode == oldTerritoryCode).FirstOrDefault();
 
                 Address NewAddressObj = target.Addresses.Where(c => c.AddressName == OldAddressName).FirstOrDefault();
 
@@ -7347,7 +7351,7 @@ namespace MPC.Implementation.MISServices
                 CompanyContact targetCompanyContact = companyContactRepository.Create();
                 companyContactRepository.Add(targetCompanyContact);
                 targetCompanyContact.CompanyId = target.CompanyId;
-                targetCompanyContact.TerritoryId = NewTerrObj != null ? NewTerrObj.TerritoryId : 0;
+               // targetCompanyContact.TerritoryId = NewTerrObj != null ? NewTerrObj.TerritoryId : 0;
                
                 
                 if (NewAddressObj != null)

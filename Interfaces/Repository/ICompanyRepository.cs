@@ -113,5 +113,7 @@ namespace MPC.Interfaces.Repository
         void InsertProductCategories(Company objCompany, long OldCompanyId);
 
         void InsertProductCategoryItems(Company NewCompany, Company OldCompany);
+
+        void SetTerritoryIdAddress(Company objCompany, long OldCompanyId);
     }
 }
