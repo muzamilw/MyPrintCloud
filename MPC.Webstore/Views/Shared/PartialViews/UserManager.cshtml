@@ -52,7 +52,7 @@
                 <table style="width: auto; border-collapse: separate; border-spacing: 2px;">
                     <tr>
                         <td>
-                            <label id="ltrlSearchrecords">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlSearchrecords", UserCookieManager.WBStoreId, "Search Records"))</label>
+                            <label id="ltrlSearchrecords " style="display:none;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlSearchrecords", UserCookieManager.WBStoreId, "Search Records"))</label>
                         </td>
                         <td style="padding-left: 10px;">
                             @if (ViewBag.TempText != null && ViewBag.TempText != string.Empty)
@@ -464,6 +464,7 @@
                 var ContactID = 0;
                 var res = 0;
                 var Rflag = false;
+                var OldEmail;
                 $("#txtsearch").autocomplete({
                     source: function (request, response) {
                         // your ajax code
@@ -518,8 +519,6 @@
                 }
                 function ResetTextboxes() {
                     UpdateStatus = false;
-
-
                     $("#chkCanOrder")[0].checked = true;
                     $("#chkCanByCredit")[0].checked = true;
 
@@ -742,7 +741,7 @@
                     //    ShowPopUp('Message', errorMessage);
                     //}
                     if (UpdateStatus == false) {
-
+                        
                         if ($("#tboxPassword").val() == '') {
                             var City = "Password is Ruquired";
                             errorMessage = errorMessage + City + "<br>";
@@ -827,6 +826,7 @@
 
                 }
                 function LoadAllData(ContactID) {
+                    UpdateStatus = true;
                     document.getElementById("layer").style.display = "block";
                     document.getElementById("innerLayer").style.display = "block";
                     $('.pass').css('display', 'none');
@@ -839,6 +839,7 @@
                     $("#modelTitle").text("Update Contact");
                     // ShowLoader();
                     // alert(ContactID);
+                    
                     $.getJSON("/webstoreapi/UM/UserProfileData?ContactID=" + ContactID + "",
                                   function (xdata) {
                                       LoadDDTerritories(xdata.CompanyTerritory, xdata.setSelectedTerritory.TerritoryId);
@@ -866,6 +867,7 @@
                     $("#tboxLastName").val(LoginContactAddress.LastName);
 
                     $("#tboxEmail").val(LoginContactAddress.Email);
+                     OldEmail = LoginContactAddress.Email;
                     $("#txtJobTitle").val(LoginContactAddress.JobTitle);
 
                     $("#txtDirectLine").val(LoginContactAddress.HomeTel1.split(" ").join(""));
@@ -1095,7 +1097,7 @@
 
 
                     var ConfirmPassword = $("#tboxPassword").val();
-
+                    var CheckEmail=false;
                     var data = new FormData();
 
                     if ($("#fuImageUpload").val() != null) {
@@ -1105,14 +1107,19 @@
                             data.append("UploadedImage", files[0]);
                         }
                     }
+                    $('.pass').css('display', 'none');
                     var IsSymoblicPhoneNumber = FAX.indexOf('+') != -1;
                     var IsSymobolicDirectLine = HomeTel1.indexOf('+') != -1;
                     var IsSymbolicMobile = Mobile.indexOf('+') != -1;
+                    if (OldEmail != Email)
+                    {
+                        CheckEmail = true;
+                    }
                     //  var Model = { FirstName: FirstName, LastName: txtLastName, CreditLimit: CreditLimit, ContactRoleId: ddRoles, Email: Email, Fax: FAX, FirstName: FirstName, HomeTel1: HomeTel1, isWebAccess: HasWebAccess, isPlaceOrder: canOrder, IsPayByPersonalCreditCard: CanByCredit, IsPricingshown: ShowPricesForProduct, JobTitle: JobTitle, Mobile: Mobile, Notes: Notes, QuestionId: ddSecretQuestion, SecretAnswer: SecretAnswer, TerritoryId: ddTerritory, AddressId: ddbillingAddress, ShippingAddressId: ddShippingAddess, Password: ConfirmPassword, ContactId: ContactID };
 
                     $.ajax({
                         type: "POST",
-                        url: "/webstoreapi/ContactImageUploader/UpdateDataForSystemUser?CreditLimit=" + CreditLimit + "&ContactRoleId=" + ddRoles + "&Email=" + Email + "&Fax=" + FAX + "&FirstName=" + FirstName + "&HomeTel1=" + HomeTel1 + "&isWebAccess=" + HasWebAccess + "&isPlaceOrder=" + canOrder + "&IsPayByPersonalCreditCard=" + CanByCredit + "&IsPricingshown=" + ShowPricesForProduct + "&JobTitle=" + JobTitle + "&LastName=" + txtLastName + "&Mobile=" + Mobile + "&Notes=" + Notes + "&QuestionId=" + ddSecretQuestion + "&SecretAnswer=" + SecretAnswer + "&TerritoryId=" + ddTerritory + "&AddressId=" + ddbillingAddress + "&ShippingAddressId=" + ddShippingAddess + "&Password=" + ConfirmPassword + "&ContactId=" + ContactID + "&IsSymoblicPhoneNumber=" + IsSymoblicPhoneNumber + "&IsSymobolicDirectLine=" + IsSymobolicDirectLine + "&IsSymbolicMobile=" + IsSymbolicMobile + "",
+                        url: "/webstoreapi/ContactImageUploader/UpdateDataForSystemUser?CreditLimit=" + CreditLimit + "&ContactRoleId=" + ddRoles + "&Email=" + Email + "&Fax=" + FAX + "&FirstName=" + FirstName + "&HomeTel1=" + HomeTel1 + "&isWebAccess=" + HasWebAccess + "&isPlaceOrder=" + canOrder + "&IsPayByPersonalCreditCard=" + CanByCredit + "&IsPricingshown=" + ShowPricesForProduct + "&JobTitle=" + JobTitle + "&LastName=" + txtLastName + "&Mobile=" + Mobile + "&Notes=" + Notes + "&QuestionId=" + ddSecretQuestion + "&SecretAnswer=" + SecretAnswer + "&TerritoryId=" + ddTerritory + "&AddressId=" + ddbillingAddress + "&ShippingAddressId=" + ddShippingAddess + "&Password=" + ConfirmPassword + "&ContactId=" + ContactID + "&IsSymoblicPhoneNumber=" + IsSymoblicPhoneNumber + "&IsSymobolicDirectLine=" + IsSymobolicDirectLine + "&IsSymbolicMobile=" + IsSymbolicMobile + "&CheckEmail=" + CheckEmail + "",
 
                         contentType: false,
                         data: data,
