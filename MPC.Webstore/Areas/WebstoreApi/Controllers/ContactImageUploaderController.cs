@@ -180,21 +180,78 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         }
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage UpdateDataForSystemUser(long? CreditLimit, int ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool? isWebAccess, bool? isPlaceOrder, bool? IsPayByPersonalCreditCard, bool? IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int QuestionId, string SecretAnswer, long TerritoryId, long AddressId, long ShippingAddressId, string Password, long ContactId, bool IsSymoblicPhoneNumber, bool IsSymobolicDirectLine, bool IsSymbolicMobile)
+        public HttpResponseMessage UpdateDataForSystemUser(long? CreditLimit, int ContactRoleId, string Email, string Fax, string FirstName, string HomeTel1, bool? isWebAccess, bool? isPlaceOrder, bool? IsPayByPersonalCreditCard, bool? IsPricingshown, string JobTitle, string LastName, string Mobile, string Notes, int QuestionId, string SecretAnswer, long TerritoryId, long AddressId, long ShippingAddressId, string Password, long ContactId, bool IsSymoblicPhoneNumber, bool IsSymobolicDirectLine, bool IsSymbolicMobile, bool CheckEmail)
         {
             try
             {
                 string Message = string.Empty;
                 CompanyContact ExistingContact = _companyService.GetCorporateContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
-                if (ExistingContact != null)
+                if (CheckEmail == true)
                 {
-                    var formatter = new JsonMediaTypeFormatter();
-                    var json = formatter.SerializerSettings;
-                    json.Formatting = Newtonsoft.Json.Formatting.Indented;
-                    json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    Message = Utils.GetKeyValueFromResourceFile("ltrlExistsContact", UserCookieManager.WBStoreId, "Sorry, There is already Exits a contact with this Email");
+                    if (ExistingContact != null)
+                    {
+                        var formatter = new JsonMediaTypeFormatter();
+                        var json = formatter.SerializerSettings;
+                        json.Formatting = Newtonsoft.Json.Formatting.Indented;
+                        json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                        Message = Utils.GetKeyValueFromResourceFile("ltrlExistsContact", UserCookieManager.WBStoreId, "Sorry, There is already Exits a contact with this Email");
 
-                    return Request.CreateResponse(HttpStatusCode.OK, Message, formatter);
+                        return Request.CreateResponse(HttpStatusCode.OK, Message, formatter);
+                    }
+                    else
+                    {
+                        Message = "Ok";
+                        var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
+                        CompanyContact con = new CompanyContact();
+                        con.FirstName = FirstName;
+                        con.LastName = LastName;
+                        con.ContactId = ContactId;
+                        con.image = UpdateImage(httpPostedFile);
+                        con.CreditLimit = CreditLimit;
+                        con.ContactRoleId = ContactRoleId;
+                        con.Email = Email;
+                        if (IsSymoblicPhoneNumber == true)
+                        {
+                            con.FAX = "+" + Fax;
+                        }
+                        else
+                        {
+                            con.FAX = Fax;
+
+                        }
+                        con.FirstName = FirstName;
+                        if (IsSymobolicDirectLine == true)
+                        {
+                            con.HomeTel1 = "+" + HomeTel1;
+                        }
+                        else
+                        {
+                            con.HomeTel1 = HomeTel1;
+                        }
+                        con.isWebAccess = isWebAccess;
+                        con.isArchived = false;
+                        con.isPlaceOrder = isPlaceOrder;
+                        con.IsPayByPersonalCreditCard = IsPayByPersonalCreditCard;
+                        con.IsPricingshown = IsPricingshown;
+                        con.JobTitle = JobTitle;
+                        if (IsSymbolicMobile == true)
+                        {
+                            con.Mobile = "+" + Mobile;
+                        }
+                        else
+                        {
+                            con.Mobile = Mobile;
+                        }
+                        con.Notes = Notes;
+                        con.QuestionId = QuestionId;
+                        con.SecretAnswer = SecretAnswer;
+                        con.TerritoryId = TerritoryId;
+                        con.AddressId = AddressId;
+                        con.ShippingAddressId = ShippingAddressId;
+                        con.Password = Password;
+                        con.SecretQuestion = QuestionId.ToString();
+                        _companyService.UpdateDataSystemUser(con);
+                    }
                 }
                 else
                 {
