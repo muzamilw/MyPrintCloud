@@ -435,7 +435,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyCostCentres = source.CompanyCostCentres != null ? source.CompanyCostCentres.Select(x => x.CreateFrom()).ToList() : null,
                 FieldVariables = source.FieldVariables != null ? source.FieldVariables.Select(x => x.CreateFrom()).ToList() : null,
                 SmartForms = source.SmartForms != null ? source.SmartForms.Select(x => x.CreateFrom()).ToList() : null,
-                ScopeVariables = source.ScopeVariables != null ? source.ScopeVariables.Select(ccv => ccv.CreateFrom()).ToList() : null
+                ScopeVariables = source.ScopeVariables != null ? source.ScopeVariables.Select(ccv => ccv.CreateFrom()).ToList() : null,
+                
+                // Regiter Settings Flags
+                IsRegisterAccessWebStore = source.IsRegisterAccessWebStore == true ? true : false,
+                IsRegisterPlaceOrder = source.IsRegisterPlaceOrder == true ? true : false,
+                IsRegisterPayOnlyByCreditCard = source.IsRegisterPayOnlyByCreditCard == true ? true : false,
+                IsRegisterPlaceDirectOrder = source.IsRegisterPlaceDirectOrder == true ? true : false,
+                IsRegisterPlaceOrderWithoutApproval = source.IsRegisterPlaceOrderWithoutApproval == true ? true : false
+ 
             };
 
             return company;

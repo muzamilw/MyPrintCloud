@@ -35,14 +35,14 @@ namespace MPC.Webstore.Controllers
             else
             {
                 contacts = _mycompanyservice.GetContactsByTerritory(UserCookieManager.WBStoreId, 0);
-                foreach (var conta in contacts)
-                {
-                    var a = conta.isPlaceOrder.HasValue;
-                }
+                //foreach (var conta in contacts)
+                //{
+                //    var a = conta.isPlaceOrder.HasValue;
+                //}
             }
             
             ViewBag.Contacts = contacts;
-            ViewBag.TotalRecords = contacts.Count.ToString() + Utils.GetKeyValueFromResourceFile("lblTotalRecords", UserCookieManager.WBStoreId, Utils.GetKeyValueFromResourceFile("lblTotalRecords", UserCookieManager.WBStoreId, "matches found"));
+            ViewBag.TotalRecords = contacts.Count.ToString() +" "+ Utils.GetKeyValueFromResourceFile("lblTotalRecords", UserCookieManager.WBStoreId, Utils.GetKeyValueFromResourceFile("lblTotalRecords", UserCookieManager.WBStoreId, "matches found"));
             if (contacts.Count == 0 || contacts == null)
             {
                 TempData["HeaderStatus"] = false;
@@ -73,7 +73,7 @@ namespace MPC.Webstore.Controllers
 
            
             ViewBag.Contacts = contacts;
-            ViewBag.TotalRecords = contacts.Count.ToString() + Utils.GetKeyValueFromResourceFile("lblTotalRecords", UserCookieManager.WBStoreId, "matches found");
+            ViewBag.TotalRecords = contacts.Count.ToString() +" "+ Utils.GetKeyValueFromResourceFile("lblTotalRecords", UserCookieManager.WBStoreId, "matches found");
             if (contacts.Count == 0 || contacts == null)
             {
                 TempData["HeaderStatus"] = false;
