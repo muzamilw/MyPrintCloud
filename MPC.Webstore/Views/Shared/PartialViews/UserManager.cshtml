@@ -56,13 +56,13 @@
                         </td>
                         <td style="padding-left: 10px;">
                             @if (ViewBag.TempText != null && ViewBag.TempText != string.Empty)
-                                {
-                                <input type="text" style="width:200px;" id="txtsearch" class="text_box150 rounded_corners5" name="SearchString" value="@ViewBag.TempText" />
-                                }
-                                else
-                                {
-                                <input type="text" style="width:200px;" id="txtsearch" class="text_box150 rounded_corners5" name="SearchString" />
-                                }
+                            {
+                                <input type="text" style="width:200px;" id="txtsearch" class="text_box150 rounded_corners5" name="SearchString" value="@ViewBag.TempText" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("lrlSearchContact", UserCookieManager.WBStoreId, "Search Contact"))" />
+                            }
+                            else
+                            {
+                                <input type="text" style="width:200px;" id="txtsearch" class="text_box150 rounded_corners5" name="SearchString" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("lrlSearchContact", UserCookieManager.WBStoreId, "Search Contact"))" />
+                            }
                         </td>
                         <td style="padding-left: 10px; visibility:hidden">
                             <button type="submit" id="btnsearch" value="Go" class="start_creating_btn rounded_corners5"></button>
