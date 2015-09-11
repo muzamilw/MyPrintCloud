@@ -52,7 +52,7 @@
                 <table style="width: auto; border-collapse: separate; border-spacing: 2px;">
                     <tr>
                         <td>
-                            <label id="ltrlSearchrecords">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlSearchrecords", UserCookieManager.WBStoreId, "Search Records"))</label>
+                            <label id="ltrlSearchrecords " style="display:none;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlSearchrecords", UserCookieManager.WBStoreId, "Search Records"))</label>
                         </td>
                         <td style="padding-left: 10px;">
                             @if (ViewBag.TempText != null && ViewBag.TempText != string.Empty)
