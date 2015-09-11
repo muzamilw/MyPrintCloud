@@ -17572,8 +17572,8 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
           var dx = x + imageMargins.marginX;
           var dy = y + imageMargins.marginY;
 
-          if (swidth > dWidth) swidth = dWidth;
-          if (sheight > dHeight) sheight = dHeight;
+          //if (swidth > dWidth) swidth = dWidth;
+          //if (sheight > dHeight) sheight = dHeight;
 
           elementToDraw && ctx.drawImage(elementToDraw,sx, sy, swidth, sheight,
                                   dx,
