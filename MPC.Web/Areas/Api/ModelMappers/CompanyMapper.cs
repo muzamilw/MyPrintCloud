@@ -438,11 +438,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ScopeVariables = source.ScopeVariables != null ? source.ScopeVariables.Select(ccv => ccv.CreateFrom()).ToList() : null,
                 
                 // Regiter Settings Flags
-                IsRegisterAccessWebStore = source.IsRegisterAccessWebStore,
-                IsRegisterPlaceOrder = source.IsRegisterPlaceOrder,
-                IsRegisterPayOnlyByCreditCard = source.IsRegisterPayOnlyByCreditCard,
-                IsRegisterPlaceDirectOrder = source.IsRegisterPlaceDirectOrder,
-                IsRegisterPlaceOrderWithoutApproval = source.IsRegisterPlaceOrderWithoutApproval
+                IsRegisterAccessWebStore = source.IsRegisterAccessWebStore == true ? true : false,
+                IsRegisterPlaceOrder = source.IsRegisterPlaceOrder == true ? true : false,
+                IsRegisterPayOnlyByCreditCard = source.IsRegisterPayOnlyByCreditCard == true ? true : false,
+                IsRegisterPlaceDirectOrder = source.IsRegisterPlaceDirectOrder == true ? true : false,
+                IsRegisterPlaceOrderWithoutApproval = source.IsRegisterPlaceOrderWithoutApproval == true ? true : false
  
             };
 
