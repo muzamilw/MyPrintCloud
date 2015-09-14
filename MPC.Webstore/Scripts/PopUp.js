@@ -291,7 +291,7 @@ var GlobalQuestionQueueItemsList = null; // question queues of disfferent cost c
 var idsToValidate = ""; // This variable contain ids of text boxes and validate that each text box must have a correct value
 var GlobalInputQueueItemsList = null;
 function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice, InputQueueObject, CostCentreType, TaxRate, WorkInstructions) {
-
+  
     GlobalQuestionQueueItemsList = QuestionQueueItems;
     GlobalInputQueueItemsList = InputQueueObject;
     var innerHtml = "";
@@ -581,7 +581,7 @@ function SetMatrixAnswer(Answer, MatrixId)
 }
 
 function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Currency, ItemPrice, CostCentreType, TaxRate) {
-   
+
     var arrayOfIds = idsToValidate.split(",");
 
     var isDisplyEmptyFieldsMesg = 0;
@@ -1102,10 +1102,15 @@ function CustomeAlertBoxDesigner(msg,callbackFuncName) {
 }
 
 function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfQuestion, ItemPrice, CurrencyCode, isPromptAQuestion, TaxRate) {
-    debugger;
+ 
     var jsonObjectsOfGlobalQueue = null;
-    if ($("#costCentreQueueItems").val() == "" || $("#costCentreQueueItems").val() == "null") {
 
+ 
+    if ($("#costCentreQueueItems").val() == "" || $("#costCentreQueueItems").val() == "null" || $("#costCentreQueueItems").val() == null) {
+        
+        if (GlobalInputQueueItemsList == null) {
+            GlobalInputQueueItemsList = "";
+        }
         var InputAndQuestionQueues = {
             QuestionQueues: GlobalQuestionQueueItemsList,
             InputQueues: GlobalInputQueueItemsList
@@ -1115,8 +1120,10 @@ function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueue
         $("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
 
     } else {
+       
         var isUpdated = false;
         var InputAndQuestionQueues = JSON.parse($("#costCentreQueueItems").val());
+     
         if (InputAndQuestionQueues.InputQueues == null) {
             InputAndQuestionQueues.InputQueues = [];
             for (var i = 0; i < GlobalInputQueueItemsList.length; i++) {
