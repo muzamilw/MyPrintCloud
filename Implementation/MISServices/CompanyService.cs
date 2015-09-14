@@ -112,6 +112,7 @@ namespace MPC.Implementation.MISServices
         private readonly IProductCategoryVoucherRepository productcategoryvoucherRepository;
         private readonly ItemsVoucherRepository itemsVoucherRepository;
         private readonly ICMSOfferRepository cmsofferRepository;
+        private readonly IReportNoteRepository reportNoteRepository;
         #endregion
 
         private bool CheckDuplicateExistenceOfCompanyDomains(CompanySavingModel companySaving)
@@ -3006,7 +3007,7 @@ namespace MPC.Implementation.MISServices
             MPC.Interfaces.WebStoreServices.ITemplateService templateService, ITemplateFontsRepository templateFontRepository, IMarkupRepository markupRepository,
             ITemplateColorStylesRepository templateColorStylesRepository, IStagingImportCompanyContactAddressRepository stagingImportCompanyContactRepository,
             ICostCentersService CostCentreService, IDiscountVoucherRepository discountVoucherRepository, ICampaignImageRepository campaignImageRepository, ICmsSkinPageWidgetParamRepository cmsSkinPageWidgetParamRepository, ITemplateVariableRepository templateVariableRepository,
-            IActivityRepository activityRepository, IProductCategoryVoucherRepository productcategoryvoucherRepository, ItemsVoucherRepository itemsVoucherRepository, ICMSOfferRepository cmsofferRepository)
+            IActivityRepository activityRepository, IProductCategoryVoucherRepository productcategoryvoucherRepository, ItemsVoucherRepository itemsVoucherRepository, ICMSOfferRepository cmsofferRepository, IReportNoteRepository reportNoteRepository)
         {
             if (bannerSetRepository == null)
             {
@@ -3087,6 +3088,7 @@ namespace MPC.Implementation.MISServices
             this.productcategoryvoucherRepository = productcategoryvoucherRepository;
             this.itemsVoucherRepository = itemsVoucherRepository;
             this.cmsofferRepository = cmsofferRepository;
+            this.reportNoteRepository = reportNoteRepository;
 
 
         }
@@ -6903,12 +6905,16 @@ namespace MPC.Implementation.MISServices
 
                 // insert template fonts
                 CloneTemplateFonts(companyId, NewCompanyId);
+
+                CloneReportBanners(companyId, NewCompanyId);
                 // update data
                 Company objCompany = companyRepository.LoadCompanyWithItems(NewCompanyId);
 
                 companyRepository.SetTerritoryIdAddress(objCompany,source.CompanyId);
                 companyRepository.InsertProductCategories(objCompany,source.CompanyId);
                 companyRepository.InsertItem(objCompany,source.CompanyId);
+
+                // insert reports
                 if (objCompany != null)
                 {
                     string SetName = source.CompanyBannerSets.Where(c => c.CompanySetId == source.ActiveBannerSetId).Select(c => c.SetName).FirstOrDefault();
@@ -7410,9 +7416,9 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public void CloneCampaignImages(Campaign campaigns, Campaign targetcampaigns)
         {
-            if (campaigns.CampaignImages == null)
+            if (targetcampaigns.CampaignImages == null)
             {
-                campaigns.CampaignImages = new List<CampaignImage>();
+                targetcampaigns.CampaignImages = new List<CampaignImage>();
             }
 
             foreach (CampaignImage objcampaignImages in campaigns.CampaignImages.ToList())
@@ -7533,16 +7539,17 @@ namespace MPC.Implementation.MISServices
                 SmartFormDetail targetsmartFormDetail = smartFormDetailRepository.Create();
                 smartFormDetailRepository.Add(targetsmartFormDetail);
                 targetsmartFormDetail.SmartFormId = targetsmartForm.SmartFormId;
-                string oldVariableName = objsmartFormDetails.FieldVariable != null ? objsmartFormDetails.FieldVariable.VariableName : "";
 
-                FieldVariable objNewFieldVariable = targetCompany.FieldVariables.Where(c => c.VariableName == oldVariableName).FirstOrDefault();
+                //string oldVariableName = objsmartFormDetails.FieldVariable != null ? objsmartFormDetails.FieldVariable.VariableName : "";
+
+                //FieldVariable objNewFieldVariable = targetCompany.FieldVariables.Where(c => c.VariableName == oldVariableName).FirstOrDefault();
                
-                if(objNewFieldVariable != null)
-                {
-                    targetsmartFormDetail.FieldVariable = objNewFieldVariable;
-                    targetsmartFormDetail.VariableId = objNewFieldVariable != null ? objNewFieldVariable.VariableId : 0;
+                //if(objNewFieldVariable != null)
+                //{
+                //    targetsmartFormDetail.FieldVariable = objNewFieldVariable;
+                //    targetsmartFormDetail.VariableId = objNewFieldVariable != null ? objNewFieldVariable.VariableId : 0;
 
-                }
+                //}
                 
 
                 targetsmartForm.SmartFormDetails.Add(targetsmartFormDetail);
@@ -7860,6 +7867,71 @@ namespace MPC.Implementation.MISServices
                     templateFont = font;
                     templateFont.CustomerId = NewCompanyId;
                     templatefonts.Add(templateFont);
+                }
+            }
+
+
+        }
+
+        // clone report banners
+        public void CloneReportBanners(long OldCompanyid, long NewCompanyId)
+        {
+
+            List<ReportNote> reportNotes = reportNoteRepository.GetReportNotesByCompanyId(OldCompanyid);
+
+            if (reportNotes != null && reportNotes.Count > 0)
+            {
+                foreach (var note in reportNotes)
+                {
+                    ReportNote reportNote = reportNoteRepository.Create();
+                    reportNote = note;
+                    reportNote.CompanyId = NewCompanyId;
+                    if(!string.IsNullOrEmpty(note.ReportBanner))
+                    {
+                      
+                        // update reportbanner path
+                        string name = Path.GetFileName(note.ReportBanner);
+                        string BannerPath = "MPC_Content/Reports/Banners/" + companyRepository.OrganisationId + "/" + NewCompanyId + "/" + name;
+                      
+
+
+                        string DestinationBannerPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Reports/Banners/" + companyRepository.OrganisationId + "/" + NewCompanyId + "/" + name);
+
+                        string DestinationBannerDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Reports/Banners/" + companyRepository.OrganisationId + "/" + NewCompanyId);
+                        string BannerSourcePath = HttpContext.Current.Server.MapPath("~/" + note.ReportBanner);
+                        if (!System.IO.Directory.Exists(DestinationBannerDirectory))
+                        {
+                            Directory.CreateDirectory(DestinationBannerDirectory);
+                            if (Directory.Exists(DestinationBannerDirectory))
+                            {
+                                if (File.Exists(BannerSourcePath))
+                                {
+                                    if (!File.Exists(DestinationBannerPath))
+                                        File.Copy(BannerSourcePath, DestinationBannerPath);
+                                }
+
+
+                            }
+
+                        }
+                        else
+                        {
+                            if (File.Exists(BannerSourcePath))
+                            {
+                                if (!File.Exists(DestinationBannerPath))
+                                    File.Copy(BannerSourcePath, DestinationBannerPath);
+
+                            }
+                        }
+
+
+                        reportNote.ReportBanner = BannerPath;
+                    }
+
+
+                    reportNoteRepository.Add(reportNote);
+
+                    // 
                 }
             }
 
