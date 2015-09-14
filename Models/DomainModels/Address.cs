@@ -101,6 +101,7 @@ namespace MPC.Models.DomainModels
          target.isDefaultTerrorityShipping = isDefaultTerrorityShipping;
          target.OrganisationId = OrganisationId;
          target.DisplayOnContactUs = DisplayOnContactUs;
+         target.TerritoryId = TerritoryId;
 
 
         }

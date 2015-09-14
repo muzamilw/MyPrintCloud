@@ -220,6 +220,7 @@ namespace MPC.Models.DomainModels
             target.SecondaryEmail = SecondaryEmail;
             target.RegistrationDate = RegistrationDate;
             target.FileName = FileName;
+            target.TerritoryId = TerritoryId;
 
         }
         #endregion
