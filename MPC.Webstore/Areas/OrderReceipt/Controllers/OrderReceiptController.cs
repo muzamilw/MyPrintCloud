@@ -64,7 +64,8 @@ namespace MPC.Webstore.Areas.OrderReceipt.Controllers
                 AddressViewModel oStoreDefaultAddress = null;
               //  Address StoreAddress = _myCompanyService.GetDefaultAddressByStoreID(Convert.ToInt64(StoreId));
 
-
+                ViewBag.OrganisationLogo = "";
+                ViewBag.OrganisationName = "";
                 if (oCompany.isWhiteLabel == false)
                 {
                     oStoreDefaultAddress = null;
@@ -73,6 +74,8 @@ namespace MPC.Webstore.Areas.OrderReceipt.Controllers
                 {
                     if (oOrganisation != null)
                     {
+                        ViewBag.OrganisationLogo = oOrganisation.MISLogo;
+                        ViewBag.OrganisationName = oOrganisation.OrganisationName;
                         oStoreDefaultAddress = new AddressViewModel();
                         oStoreDefaultAddress.Address1 = oOrganisation.Address1;
                         oStoreDefaultAddress.Address2 = oOrganisation.Address2;

@@ -92,9 +92,12 @@ namespace MPC.Webstore.Controllers
                 //        oStoreDefaultAddress.Tel = StoreBaseResopnse.StoreDetaultAddress.Tel1;
                 //    }
                 //}
+                ViewBag.OrganisationLogo = "";
+                ViewBag.OrganisationName = "";
                 if (StoreBaseResopnse.Organisation != null)
                 {
-
+                    ViewBag.OrganisationLogo = StoreBaseResopnse.Organisation.MISLogo;
+                    ViewBag.OrganisationName = StoreBaseResopnse.Organisation.OrganisationName;
                     oStoreDefaultAddress.Address1 = StoreBaseResopnse.Organisation.Address1;
                     oStoreDefaultAddress.Address2 = StoreBaseResopnse.Organisation.Address2;
 
@@ -110,8 +113,8 @@ namespace MPC.Webstore.Controllers
                 }
             }
             ViewBag.oStoreDefaultAddress = oStoreDefaultAddress;
-      
-           
+
+            
             ViewBag.OrderId = OrderId;
             ViewBag.StoreId = StoreBaseResopnse.Company.CompanyId;
             return View("PartialViews/Receipt", order);
