@@ -130,6 +130,7 @@
     <Compile Include="Repository\IProductMarketBriefAnswerRepository.cs" />
     <Compile Include="Repository\IProductMarketBriefQuestionRepository.cs" />
     <Compile Include="Repository\IPurchaseDetailRepository.cs" />
+    <Compile Include="Repository\IReportNoteRepository.cs" />
     <Compile Include="Repository\ISectionCostCentreDetailRepository.cs" />
     <Compile Include="Repository\IShippingInformationRepository.cs" />
     <Compile Include="Repository\ISectionInkCoverageRepository.cs" />

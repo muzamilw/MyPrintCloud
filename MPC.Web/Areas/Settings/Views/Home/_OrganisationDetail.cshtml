@@ -1,12 +1,10 @@
 ﻿ 
 <div class="main-box-body clearfix" data-bind="visible: $root.isOrganisationVisible" style="display:none;">
-    <div class="col-md-12 form-horizontal" style="margin-top:18px;">
-        <div style="margin-bottom:15px;">
-            <span>Set your company’s name, address and logo for internal reports</span>
-            <div style="height:20px;">
-                &nbsp;
-            </div>
-            @*  <span style="margin-bottom:5px;font-size:12px;">Set your company’s name, address and logo for internal reports</span>*@
+    <div class="col-md-12 form-horizontal" style="padding-left:0px;">
+        <div class="tabsdescriptions" style="margin-left:-2px;">
+            <p class="group-header-description">Set your company’s name, address and logo for internal reports</p>
+            
+           
         </div>
         <div class="col-md-6">
            
@@ -256,29 +254,29 @@
 
             </div>
         <div class="col-md-6">
-            <div class="form-group">
-                <div class="col-lg-7">
+            <div class="col-lg-12">
+                <div class="col-lg-6">
+                    &nbsp;
                 </div>
-                <div class="col-lg-5" style="width:220px;">
+                <div class="col-lg-6" style="width:220px;">
                     <div style="padding-left:0px;text-align:right;">
                         <div>
                             <!-- ko if: orgnizationImage() -->
                             <img id="orgImage" alt="" src="" style="width:220px;height:130px;-o-object-fit: contain; object-fit: contain;" data-bind="attr:{ src: orgnizationImage() }" />
                             <!-- /ko -->
                             <!-- ko ifnot: orgnizationImage() -->
-                           
+
                             <img id="orgImage" alt="" src="/mis/Content/Images/imageplaceholder.png" style="width:200px;height:180px;-o-object-fit: contain; object-fit: contain;" />
                             <!-- /ko -->
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-12" style="padding-left:0px;padding-right:0px;">
-                    <div class="col-lg-7">
+            </div>
+            <div class="col-lg-12" style="padding-left:0px;padding-right:0px;">
+                    <div class="col-lg-6">
                         &nbsp;
-
                     </div>
-                    <div class="col-lg-4" style="margin-top:10px;width:220px;text-align:center;padding-right:0px;padding-left:20px;">
+                    <div class="col-lg-6" style="margin-top:10px;width:220px;text-align:center;padding-right:0px;padding-left:20px;">
                         <div class="fileUpload btn btn-primary">
                             <span>Upload</span>
                             <input type="file" class="upload" id="orgLogo" name="file" data-bind=" files: { onLoaded: $root.orgImageLoadedCallback, fileFilter: 'image.*'}" />
@@ -287,18 +285,14 @@
 
                     <input type="hidden" id="organizationId" name="organizationId" data-bind="value:id" />
                 </div>
-
-                <div class="col-lg-12" style="margin-top:10px;text-align:center;padding:0px;">
-                    <div class="col-lg-7">
+            <div class="col-lg-12" style="margin-top:2px;text-align:center;padding:0px;">
+                    <div class="col-lg-6">
                         &nbsp;
                     </div>
-                    <div class="col-lg-4" style="width:220px;text-align:center;padding-right:0px;">
+                    <div class="col-lg-6" style="width:220px;text-align:center;padding-right:0px;">
                         <span class="help-block">Upload a Company logo image (PNG,JPG,SVG) for MIS Dashboard<br />(108px w x 25px h) </span>
                     </div>
-                </div>
             </div>
-
-
         </div>
     </div>
 

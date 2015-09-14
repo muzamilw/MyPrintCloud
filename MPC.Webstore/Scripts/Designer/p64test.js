@@ -17572,8 +17572,8 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
           var dx = x + imageMargins.marginX;
           var dy = y + imageMargins.marginY;
 
-          if (swidth > dWidth) swidth = dWidth;
-          if (sheight > dHeight) sheight = dHeight;
+          //if (swidth > dWidth) swidth = dWidth;
+          //if (sheight > dHeight) sheight = dHeight;
 
           elementToDraw && ctx.drawImage(elementToDraw,sx, sy, swidth, sheight,
                                   dx,
@@ -22817,6 +22817,11 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
             this.fire('editing:exited');
             this.canvas && this.canvas.fire('text:editing:exited', { target: this });
             //  c2(this); //added by saqib to update the text in TO
+            $('input, textarea, select').focus(function () {
+                IsInputSelected = true;
+            }).blur(function () {
+                IsInputSelected = false;
+            });
             return this;
         },
 
