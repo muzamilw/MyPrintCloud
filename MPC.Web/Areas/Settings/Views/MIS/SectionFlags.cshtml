@@ -38,12 +38,12 @@
                 <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 6px;" id="saveBtn" data-bind="click: $root.saveFlag, css: { 'btn-warning': $root.sectionHasChanged }, enable: $root.sectionHasChanged">Save</button>
                 <div class="col-lg-12 main-box clearfix" style="margin-top:10px;padding-top:18px;">
                    
-                    <span style="margin-left:20px;">Create and set colors for Flags used to categorize customers, orders, stock types etc…</span>
+                    <p class="group-header-description" style="margin-left:10px;">Create and set colors for Flags used to categorize customers, orders, stock types etc…</p>
                     <div style="height:50px;">
                         &nbsp;
                     </div>
-                    <div class="main-box-body" style="padding:20px;padding-top: 50px;">
-                        <div class="col-md-3" style="padding-bottom:20px;max-height:600px;overflow-y:scroll;">
+                    <div class="col-lg-12" style="padding-top: 50px;">
+                        <div class="col-md-3" style="padding-bottom:20px;max-height:600px;overflow-y:scroll;padding-left:3px;">
 
                             <div class="category" id="nestable2">
 
@@ -61,10 +61,10 @@
                             </div>
 
                         </div>
-                        <div class="col-md-9" style="margin-top:-68px">
+                        <div class="col-md-9" style="margin-top:-68px;padding-right:0px;">
 
-                            <div class="col-md-12 form-horizontal" style="margin-left:18px;">
-                                <button class="btn btn-primary pull-right" data-bind="click:$root.addSectionFlag, enable:$root.selectedsection()!==undefined">
+                            <div class="col-md-12 form-horizontal" style="padding-right:0px;">
+                                <button class="btn btn-primary pull-right" data-bind="click:$root.addSectionFlag, enable:$root.selectedsection()!==undefined" style="margin-bottom: 20px;">
                                     Add New Section Flag
                                 </button>
 
