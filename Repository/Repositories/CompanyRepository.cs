@@ -6092,5 +6092,97 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
        }
+
+        public void SetTerritoryIdAddress(Company objCompany, long OldCompanyId)
+        {
+            try
+            {
+                List<CompanyTerritory> oldTerritories = db.CompanyTerritories.Where(c => c.CompanyId == OldCompanyId).ToList();
+                if(objCompany != null)
+                {
+                    if (objCompany.Addresses != null && objCompany.Addresses.Count > 0)
+                    {
+                        foreach (var add in objCompany.Addresses)
+                        {
+                            if(oldTerritories != null && oldTerritories.Count > 0)
+                            {
+                                CompanyTerritory OldTerritory = oldTerritories.Where(c => c.TerritoryId == add.TerritoryId).FirstOrDefault();
+
+                                if(OldTerritory != null)
+                                {
+                                    string OldTerritoryName = OldTerritory.TerritoryName;
+                                    string OldTerritoryCode = OldTerritory.TerritoryCode;
+
+                                    long NewTerritoryId = objCompany.CompanyTerritories.Where(c => c.TerritoryName == OldTerritoryName && c.TerritoryCode == OldTerritoryCode).Select(c => c.TerritoryId).FirstOrDefault();
+
+                                    if (NewTerritoryId > 0)
+                                    {
+                                        add.TerritoryId = NewTerritoryId;
+                                    }
+                                    else
+                                    {
+                                        add.TerritoryId = null;
+                                    }
+
+                                }
+                                else
+                                {
+                                    add.TerritoryId = null;
+                                }
+
+                                
+                            }
+                            else
+                            {
+                                add.TerritoryId = null;
+                            }
+                          
+                           
+
+
+                        }
+                    }
+
+                    if (objCompany.CompanyContacts != null && objCompany.CompanyContacts.Count > 0)
+                    {
+                        foreach (var con in objCompany.CompanyContacts)
+                        {
+                            if (oldTerritories != null && oldTerritories.Count > 0)
+                            {
+                                CompanyTerritory OldTerritory = oldTerritories.Where(c => c.TerritoryId == con.TerritoryId).FirstOrDefault();
+
+
+                                string OldTerritoryName = OldTerritory.TerritoryName;
+                                string OldTerritoryCode = OldTerritory.TerritoryCode;
+
+                                long NewTerritoryId = objCompany.CompanyTerritories.Where(c => c.TerritoryName == OldTerritoryName && c.TerritoryCode == OldTerritoryCode).Select(c => c.TerritoryId).FirstOrDefault();
+
+
+                                if (NewTerritoryId > 0)
+                                {
+                                    con.TerritoryId = NewTerritoryId;
+                                }
+                                else
+                                {
+                                    con.TerritoryId = null;
+                                }
+                            }
+                            else
+                            {
+                                con.TerritoryId = null;
+                            }
+                         
+
+                        }
+                    }
+                    db.SaveChanges();
+                }
+               
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
