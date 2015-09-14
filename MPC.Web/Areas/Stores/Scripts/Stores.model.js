@@ -2600,7 +2600,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             bussinessAddress = ko.observable(),
             shippingAddress = ko.observable(),
             stateName = ko.observable(),
-
+            imagePath = ko.observable(),
             companyContactVariables = ko.observableArray([]),
             confirmPassword = ko.observable(specifiedPassword).extend({ compareWith: password }),
 
@@ -2810,7 +2810,6 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             },
              update = function (source) {
                  contactId(source.contactId());
-                 contactId(source.contactId());
                  addressId(source.addressId());
                  companyId(source.companyId());
                  firstName(source.firstName());
@@ -2902,6 +2901,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                  stateName(source.stateName());
                  companyContactVariables(source.companyContactVariables());
                  secondaryEmail(source.secondaryEmail);
+                 imagePath(source.imagePath);
              },
             // Reset
             reset = function () {
@@ -3000,6 +3000,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             stateName: stateName,
             secondaryEmail: secondaryEmail,
             companyContactVariables: companyContactVariables,
+            imagePath:imagePath,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,

@@ -193,14 +193,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             byte[] bytes = null;
             string imagePath;
-            if (!string.IsNullOrEmpty(source.Image))
-            {
-                imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
-                if (File.Exists(imagePath))
-                {
-                    bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
-                }
-            }
+            //if (!string.IsNullOrEmpty(source.Image))
+            //{
+            //    imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
+            //    if (File.Exists(imagePath))
+            //    {
+            //        bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
+            //    }
+            //}
             byte[] storeBackgroundImageBytes = null;
             if (!string.IsNullOrEmpty(source.StoreBackgroundImage))
             {
