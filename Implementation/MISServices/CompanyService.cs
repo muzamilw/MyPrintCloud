@@ -7416,9 +7416,9 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public void CloneCampaignImages(Campaign campaigns, Campaign targetcampaigns)
         {
-            if (campaigns.CampaignImages == null)
+            if (targetcampaigns.CampaignImages == null)
             {
-                campaigns.CampaignImages = new List<CampaignImage>();
+                targetcampaigns.CampaignImages = new List<CampaignImage>();
             }
 
             foreach (CampaignImage objcampaignImages in campaigns.CampaignImages.ToList())
@@ -7539,16 +7539,17 @@ namespace MPC.Implementation.MISServices
                 SmartFormDetail targetsmartFormDetail = smartFormDetailRepository.Create();
                 smartFormDetailRepository.Add(targetsmartFormDetail);
                 targetsmartFormDetail.SmartFormId = targetsmartForm.SmartFormId;
-                string oldVariableName = objsmartFormDetails.FieldVariable != null ? objsmartFormDetails.FieldVariable.VariableName : "";
 
-                FieldVariable objNewFieldVariable = targetCompany.FieldVariables.Where(c => c.VariableName == oldVariableName).FirstOrDefault();
+                //string oldVariableName = objsmartFormDetails.FieldVariable != null ? objsmartFormDetails.FieldVariable.VariableName : "";
+
+                //FieldVariable objNewFieldVariable = targetCompany.FieldVariables.Where(c => c.VariableName == oldVariableName).FirstOrDefault();
                
-                if(objNewFieldVariable != null)
-                {
-                    targetsmartFormDetail.FieldVariable = objNewFieldVariable;
-                    targetsmartFormDetail.VariableId = objNewFieldVariable != null ? objNewFieldVariable.VariableId : 0;
+                //if(objNewFieldVariable != null)
+                //{
+                //    targetsmartFormDetail.FieldVariable = objNewFieldVariable;
+                //    targetsmartFormDetail.VariableId = objNewFieldVariable != null ? objNewFieldVariable.VariableId : 0;
 
-                }
+                //}
                 
 
                 targetsmartForm.SmartFormDetails.Add(targetsmartFormDetail);
