@@ -55,7 +55,7 @@ namespace MPC.Webstore.Controllers
         /// </summary>
         public HomeController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker, ICostCentreService CostCentreService
             , IOrderService OrderService)
-            //: base(myCompanyService, webstoreAuthorizationChecker)
+        //: base(myCompanyService, webstoreAuthorizationChecker)
         {
             if (myCompanyService == null)
             {
@@ -77,7 +77,7 @@ namespace MPC.Webstore.Controllers
             this._myCompanyService = myCompanyService;
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
             this._OrderService = OrderService;
-          
+
         }
 
         #endregion
@@ -108,75 +108,79 @@ namespace MPC.Webstore.Controllers
                 //ObjectCache cache = MemoryCache.Default;
 
                 //iqra to fix the route of error page, consult khurram if required to get it propper.
-                if (UserCookieManager.WBStoreId != 0)
+                if (UserCookieManager.WBStoreId > 0)
                 {
-                    //Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse> domainResponse = (cache.Get(CacheKeyName)) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>;
 
-                    //if (domainResponse == null)
+                    model = GetStoreAndUpdatePageSettings(model, UserCookieManager.WBStoreId);
+                    //}
+                }
+                else
+                {
+                    //string url = Request.Url.AbsoluteUri;
+                    //if (!string.IsNullOrEmpty(url))
                     //{
-                    //    if (UserCookieManager.WBStoreId > 0)
+                    //    long storeId = _myCompanyService.GetStoreIdFromDomain(url);
+
+                    //    if (storeId > 0)
                     //    {
-                    //        _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId);
+                    //        UserCookieManager.WBStoreId = storeId;
+                    //        model = GetStoreAndUpdatePageSettings(model, storeId);
                     //    }
-                    //    else 
+                    //    else
                     //    {
-                    //        TempData["ErrorMessage"] = "There is some problem while performing the operation. Please enter valid url to proceed.";
+                    //        TempData["ErrorMessage"] = "The Domain does not exist. Please enter valid url to proceed.";
                     //        return RedirectToAction("Error");
                     //    }
                     //}
                     //else 
                     //{
-                    //    // if company not found in cache then rebuild the cache
-                    //    if (!domainResponse.ContainsKey(UserCookieManager.WBStoreId))
-                    //    {
-                    //        _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId);
-                    //    }
-
-                    //    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.WBStoreId];
-                    MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
-    
-                    if (StoreBaseResopnse != null)
-                        {
-                            string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
-                            if (!_webstoreAuthorizationChecker.isUserLoggedIn())
-                            {
-                                if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
-                                {
-                                    Response.Redirect("/Login");
-                                }
-                            }
-                            else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
-                            {
-                                Response.Redirect("/");
-
-                            }
-
-                            model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse);
-                           
-                        }
-                        else
-                        {
-                            TempData["ErrorMessage"] = "There is some problem while performing the operation.";
-                            return RedirectToAction("Error");
-                        }
-                    //}
-                }
-                else
-                {
-                    TempData["ErrorMessage"] = "The Domain does not exist. Please enter valid url to proceed.";
-                    return RedirectToAction("Error");
+                        TempData["ErrorMessage"] = "The Domain does not exist. Please enter valid url to proceed.";
+                        return RedirectToAction("Error");
+                   // }
+                
                 }
 
 
                 ViewBag.StyleSheet = "/mpc_content/Assets/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/Site.css";
                 return View(model);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 TempData["ErrorMessage"] = "" + ex + "";
                 return RedirectToAction("Error", "Home");
-                
+
             }
+        }
+
+        private List<MPC.Models.DomainModels.CmsSkinPageWidget> GetStoreAndUpdatePageSettings(List<MPC.Models.DomainModels.CmsSkinPageWidget> model, long StoreId)
+        {
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(StoreId);
+
+            if (StoreBaseResopnse != null)
+            {
+                string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
+                if (!_webstoreAuthorizationChecker.isUserLoggedIn())
+                {
+                    if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
+                    {
+                        Response.Redirect("/Login");
+                    }
+                }
+                else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
+                {
+                    Response.Redirect("/");
+
+                }
+
+                model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse);
+
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "There is some problem while performing the operation.";
+                RedirectToAction("Error");
+            }
+            return model;
         }
 
         public List<MPC.Models.DomainModels.CmsSkinPageWidget> GetWidgetsByPageName(List<MPC.Models.Common.CmsPageModel> pageList, string pageName, List<MPC.Models.DomainModels.CmsSkinPageWidget> allPageWidgets, MPC.Models.DomainModels.Address DefaultAddress, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse CompanyObject)
@@ -187,9 +191,9 @@ namespace MPC.Webstore.Controllers
                 if (Page.isUserDefined == true)
                 {
                     ViewBag.pageName = Page.PageTitle.Replace(" ", "-");
-                    
+
                 }
-                else 
+                else
                 {
                     ViewBag.pageName = Page.PageName;
                 }
@@ -205,11 +209,11 @@ namespace MPC.Webstore.Controllers
                     ViewBag.WebMasterTag = CompanyObject.Company.WebMasterTag;
                     ViewBag.WebAnalyticCode = CompanyObject.Company.WebAnalyticCode;
                 }
-                else 
+                else
                 {
                     SetPageMEtaTitle(Page, DefaultAddress, CompanyObject);
                 }
-                  
+
                 return allPageWidgets.Where(widget => widget.PageId == Page.PageId).OrderBy(s => s.Sequence).ToList();
             }
             else        //this is default page being fired.
@@ -225,7 +229,7 @@ namespace MPC.Webstore.Controllers
                 {
                     ViewBag.pageName = Page.PageName;
                 }
-                
+
                 SetPageMEtaTitle(Page, DefaultAddress, CompanyObject);
 
                 return allPageWidgets.Where(widget => widget.PageId == Page.PageId).OrderBy(s => s.Sequence).ToList();
@@ -242,14 +246,14 @@ namespace MPC.Webstore.Controllers
         private void SetPageMEtaTitle(MPC.Models.Common.CmsPageModel oPage, MPC.Models.DomainModels.Address DefaultAddress, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse CompanyObject)
         {
             string[] MetaTags = _myCompanyService.CreatePageMetaTags(oPage.PageTitle == null ? "" : oPage.PageTitle, oPage.Meta_DescriptionContent == null ? "" : oPage.Meta_DescriptionContent, oPage.Meta_KeywordContent == null ? "" : oPage.Meta_KeywordContent, CompanyObject.Company.Name, DefaultAddress);
-            
+
             TempData.Remove("MetaTitle");
             TempData["MetaTitle"] = MetaTags[0];
             TempData.Remove("MetaKeywords");
             TempData["MetaKeywords"] = MetaTags[1];
             TempData.Remove("MetaDescription");
             TempData["MetaDescription"] = MetaTags[2];
-           
+
             ViewBag.WebMasterTag = CompanyObject.Company.WebMasterTag;
             ViewBag.WebAnalyticCode = CompanyObject.Company.WebAnalyticCode;
         }
@@ -391,8 +395,8 @@ namespace MPC.Webstore.Controllers
         {
 
             ViewBag.ErrorMessage = TempData["ErrorMessage"];
-                return View();
-           
+            return View();
+
         }
         public ActionResult NotFound(string Message)
         {
@@ -401,7 +405,7 @@ namespace MPC.Webstore.Controllers
             return View();
 
         }
-        public ActionResult oAuth(int LoginWithId, int isRegistrationProcess,long StoreId ,string ReturnUrl)
+        public ActionResult oAuth(int LoginWithId, int isRegistrationProcess, long StoreId, string ReturnUrl)
         {
 
             MPC.Models.DomainModels.Company oCompany = _myCompanyService.GetCompanyByCompanyID(StoreId);
@@ -502,7 +506,7 @@ namespace MPC.Webstore.Controllers
             }
             return View();
         }
-        
+
         [HttpGet]
         public ActionResult FBAuthentication()
         {
@@ -543,9 +547,9 @@ namespace MPC.Webstore.Controllers
                     }
                 }
 
-                
+
                 Response.Redirect("/Login?Firstname=" + firstname + "&LastName=" + lastname + "&Email=" + email);
-                
+
             }
             return null;
         }
@@ -645,23 +649,23 @@ namespace MPC.Webstore.Controllers
 
             MPC.Models.DomainModels.Company oCompany = _myCompanyService.GetStoreReceiptPage(Convert.ToInt64(StoreId));
 
-            if(oCompany != null)
+            if (oCompany != null)
             {
-              MPC.Models.DomainModels.Organisation oOrganisation = _myCompanyService.GetOrganisatonById(Convert.ToInt64(oCompany.OrganisationId));
-                
+                MPC.Models.DomainModels.Organisation oOrganisation = _myCompanyService.GetOrganisatonById(Convert.ToInt64(oCompany.OrganisationId));
+
                 if (oCompany.ShowPrices == true)
                 {
-                   
-                   ViewBag.IsShowPrices = true;
-                    
+
+                    ViewBag.IsShowPrices = true;
+
                 }
                 else
                 {
-                  
-                   ViewBag.IsShowPrices = false;
-                    
+
+                    ViewBag.IsShowPrices = false;
+
                 }
-                
+
 
                 ViewBag.TaxLabel = oCompany.TaxLabel;
 
@@ -743,7 +747,7 @@ namespace MPC.Webstore.Controllers
                     }
                 }
             }
-          
+
             return View(order);
         }
 

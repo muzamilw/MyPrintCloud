@@ -62,7 +62,7 @@ namespace MPC.Webstore.Areas.OrderReceipt.Controllers
                 ViewBag.Company = oCompany;
 
                 AddressViewModel oStoreDefaultAddress = null;
-                Address StoreAddress = _myCompanyService.GetDefaultAddressByStoreID(Convert.ToInt64(StoreId));
+              //  Address StoreAddress = _myCompanyService.GetDefaultAddressByStoreID(Convert.ToInt64(StoreId));
 
 
                 if (oCompany.isWhiteLabel == false)
@@ -71,20 +71,20 @@ namespace MPC.Webstore.Areas.OrderReceipt.Controllers
                 }
                 else
                 {
-                    if (StoreAddress != null)
+                    if (oOrganisation != null)
                     {
                         oStoreDefaultAddress = new AddressViewModel();
-                        oStoreDefaultAddress.Address1 = StoreAddress.Address1;
-                        oStoreDefaultAddress.Address2 = StoreAddress.Address2;
+                        oStoreDefaultAddress.Address1 = oOrganisation.Address1;
+                        oStoreDefaultAddress.Address2 = oOrganisation.Address2;
 
-                        oStoreDefaultAddress.City = StoreAddress.City;
-                        oStoreDefaultAddress.State = _myCompanyService.GetStateNameById(StoreAddress.StateId ?? 0);
-                        oStoreDefaultAddress.Country = _myCompanyService.GetCountryNameById(StoreAddress.CountryId ?? 0);
-                        oStoreDefaultAddress.ZipCode = StoreAddress.PostCode;
+                        oStoreDefaultAddress.City = oOrganisation.City;
+                        oStoreDefaultAddress.State = _myCompanyService.GetStateNameById(oOrganisation.StateId ?? 0);
+                        oStoreDefaultAddress.Country = _myCompanyService.GetCountryNameById(oOrganisation.CountryId ?? 0);
+                        oStoreDefaultAddress.ZipCode = oOrganisation.ZipCode;
 
-                        if (!string.IsNullOrEmpty(StoreAddress.Tel1))
+                        if (!string.IsNullOrEmpty(oOrganisation.Tel))
                         {
-                            oStoreDefaultAddress.Tel = StoreAddress.Tel1;
+                            oStoreDefaultAddress.Tel = oOrganisation.Tel;
                         }
                     }
                 }

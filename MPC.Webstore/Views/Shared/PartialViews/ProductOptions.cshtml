@@ -854,7 +854,8 @@
     var opt='@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlselectedquantitygreater", UserCookieManager.WBStoreId, "You cannot place order because the selected quantity is more than stock."))';
     var countOfCostCentresTicked = 0;
     var countOfCostCentreOnwhichActionIsPerformed = 0;
-
+    var controlsArrayOnQtyChange = [];
+  
     function ConfirmCart() {
         var MaxstockQty = true;
         if (isPriceSelected == 0) {
@@ -1080,7 +1081,7 @@
     }
 
     function CalculatePriceBaseOnSelectedQuantity(selectedQuantityIndex) {
-
+        
         var selectedStockNo = StockNo();
 
         var JsonData = jQuery.parseJSON($('.JsonPriceMatrixValue').val());
@@ -1223,7 +1224,7 @@
     }
 
     function displayTotalPrice(itemPrice, addOnPrice) {
-
+       
         itemPrice = parseFloat(itemPrice);
         addOnPrice = parseFloat(addOnPrice);
 
@@ -1338,11 +1339,8 @@
 
         }
         var isUpdateJson = 0;
-        //var isCostCentresRecalculated = false;
-        // var selectedAddonsList = "";
         $(".checkBoxAdOnPriceCheckBox").each(function(i, val) {
-            console.log("$(val)" + $(val));
-            console.log($(val).is(':checked'));
+
             if ($(val).is(':checked')) {
 
                 // countOfCostCentresTicked = parseInt(countOfCostCentresTicked) + 1;
@@ -1388,7 +1386,7 @@
                     //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
 
                     var actualPrice = selectedCheckBox.ActualPrice;
-
+                   
                     @*if (selectedCheckBox.Type == 2) {
                             var ActualPriceIncludeVat = 0;
                             if (isRanged) {
@@ -1419,7 +1417,7 @@
                     if ($(val).next().next().children(':first').text() == "") {
 
                     } else {
-                        console.log("isReCalCostCentreOnQuantityChange" + isReCalCostCentreOnQuantityChange);
+
                         if (isReCalCostCentreOnQuantityChange == true) {
                             PromptQuestion(selectedCheckBox.CostCenterId, $(val).attr('id'), selectedCheckBox.Type, 2, selectedCheckBox.QuantitySourceType, selectedCheckBox.TimeSourceType);
                             checkedPriceTotal = checkedPriceTotal + parseFloat($(val).next().next().children(':first').text().replace("@ViewBag.Currency", ""));
@@ -1455,7 +1453,14 @@
             selectedCheckBox = null;
 
         });
-        isReCalCostCentreOnQuantityChange = false;
+      
+       
+
+        if (isReCalCostCentreOnQuantityChange == true) {
+            isReCalCostCentreOnQuantityChange = false;
+            controlsArrayOnQtyChange = [];
+        }
+
         $('#lblExtra').html(itemsList);
 
         return checkedPriceTotal;
@@ -1463,9 +1468,9 @@
 
 
     $('input[name=addOnChecks]').on('change', function(e) {
-
-        displayTotalPrice(TotalItemPrice, calculateAddOns(false));
-
+       
+        //displayTotalPrice(TotalItemPrice, calculateAddOns(false));
+        calculateAddOns(false);
     });
 
 
@@ -1667,7 +1672,7 @@
                 ShowLoader();
                 countOfCostCentresTicked = 0;
 
-               // var controlsArray = [];
+                // var controlsArrayOnQtyChange = [];
 
                 $(".checkBoxAdOnPriceCheckBox").each(function(i, val) {
 
@@ -1783,36 +1788,42 @@
                             for (var i = 0; i < $(updatedAddOns).length; i++) {
 
                                 JsonToReSubmit.push($(updatedAddOns)[i]);
-                                TaxAppliedValue = parseFloat($(updatedAddOns)[i].ActualPrice);
-                                TaxAppliedValue = TaxAppliedValue + ((TaxAppliedValue * parseFloat("@ViewBag.TaxRate")) / 100);
+                                if ($(updatedAddOns)[i].CostCenterId == CostCentreId) {
 
-                                totalVal = parseFloat(totalVal) + parseFloat(TaxAppliedValue);
+                                    TaxAppliedValue = parseFloat($(updatedAddOns)[i].ActualPrice);
+                                    TaxAppliedValue = TaxAppliedValue + ((TaxAppliedValue * parseFloat("@ViewBag.TaxRate")) / 100);
+
+                                    totalVal = parseFloat(totalVal) + parseFloat(TaxAppliedValue);
+                                }
+
 
                             }
-
-                            displayTotalPrice(TotalItemPrice, totalVal);
                             
-                            //controlsArray.push({controlId : ControlId , controlValue: "@ViewBag.Currency" + (TaxAppliedValue).toFixed(2).toString()});
-                         
+                            displayTotalPrice(TotalItemPrice, totalVal);
+
+
                             if(addModifyLinkToCCValue == 1){
-                                $("#extrapricing" + ControlId).html('<label>' + "@ViewBag.Currency" + (TaxAppliedValue).toFixed(2).toString() + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + CostCentreId + ',' + ControlId + ',' + CostCentreType + ', 1);" >Modify</a> ');
-                            }else{console.log("#extrapricing" + ControlId);
-                                $("#extrapricing" + ControlId).html('<label>' +"@ViewBag.Currency" + (TaxAppliedValue).toFixed(2).toString()+ '</label>');
+                                // $("#extrapricing" + ControlId).html('<label>' + "@ViewBag.Currency" + (TaxAppliedValue).toFixed(2).toString() + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + CostCentreId + ',' + ControlId + ',' + CostCentreType + ', 1);" >Modify</a> ');
+                                controlsArrayOnQtyChange.push({controlId : "#extrapricing" + ControlId , controlValue: '<label>' + "@ViewBag.Currency" + (TaxAppliedValue).toFixed(2).toString() + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + CostCentreId + ',' + ControlId + ',' + CostCentreType + ', 1);" >Modify</a> '});
+
+                            }else{
+                                //$("#extrapricing" + ControlId).html('<label>' +"@ViewBag.Currency" + (TaxAppliedValue).toFixed(2).toString()+ '</label>');
+                                controlsArrayOnQtyChange.push({controlId : "#extrapricing" + ControlId , controlValue: '<label>' +"@ViewBag.Currency" + (TaxAppliedValue).toFixed(2).toString()+ '</label>'});
                             }
-                            //console.log("ControlId" + ControlId);
-                            //console.log("totalVal" + totalVal);
+
                             $("#VMAddOnrice").val(totalVal);
                             $("#VMJsonAddOns").val(JSON.stringify(JsonToReSubmit));
                         }
 
                         countOfCostCentreOnwhichActionIsPerformed = parseInt(countOfCostCentreOnwhichActionIsPerformed) + 1;
-                        console.log(countOfCostCentreOnwhichActionIsPerformed + "=" + countOfCostCentresTicked);
+
                         if(countOfCostCentresTicked == countOfCostCentreOnwhichActionIsPerformed){
                             //console.log();
                             countOfCostCentreOnwhichActionIsPerformed = 0;
-                            //$.each(controlsArray, function (i, ite) {
-                            //    $(ite.controlId).html(ite.controlValue);
-                            //});
+                            $.each(controlsArrayOnQtyChange, function (i, ite) {
+
+                                $(ite.controlId).html(ite.controlValue);
+                            });
                             HideLoader();
                         }
 
@@ -2067,8 +2078,9 @@
                 }
             }
         }else{ // remove the added array of cost centre as cost centre is un checked and apply the price to total
-
+          
             var JsonAllQueueItemArray = JSON.parse($("#costCentreQueueItems").val());
+         
             if(JsonAllQueueItemArray.QuestionQueues.length > 0){
 
                 JsonAllQueueItemArray.QuestionQueues = $.grep(JsonAllQueueItemArray.QuestionQueues, function (n, i) {
@@ -2082,7 +2094,7 @@
 
             }
             $("#costCentreQueueItems").val(JSON.stringify(JsonAllQueueItemArray, null, 2));
-            ReAddCostCentresValuesToTotalOnUnCheck();
+            ReAddCostCentresValuesToTotalOnUnCheck(CostCentreId);
         }
     }
 
@@ -2124,6 +2136,7 @@
     }
 
     function SetCostCentreQueueLabelsOnModify(){
+      
         if ("@ViewBag.Mode" == "Modify") {
             var UpdatedGlobalQueueArrayOnLoad = JSON.parse($("#costCentreQueueItems").val());
             var CostCentreQueueObjectToSetLabels = [];
@@ -2181,19 +2194,25 @@
         }
     }
 
-    function ReAddCostCentresValuesToTotalOnUnCheck(){
+    function ReAddCostCentresValuesToTotalOnUnCheck(CostCentreId){
+
         var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
+    
         var ReTaxAppliedValueOnUnCheck = 0;
         var ReCalTotalVal = 0;
         if (updatedAddOns != null) {
             for (var i = 0; i < $(updatedAddOns).length; i++) {
-                ReTaxAppliedValueOnUnCheck = parseFloat($(updatedAddOns)[i].ActualPrice);
-                ReTaxAppliedValueOnUnCheck = ReTaxAppliedValueOnUnCheck + ((ReTaxAppliedValueOnUnCheck * @ViewBag.TaxRate) / 100);
-                ReCalTotalVal = parseFloat(ReCalTotalVal) + parseFloat(ReTaxAppliedValueOnUnCheck);
+               
+                if($(updatedAddOns)[i].CostCenterId != CostCentreId){
+                    ReTaxAppliedValueOnUnCheck = parseFloat($(updatedAddOns)[i].ActualPrice);
+                    ReTaxAppliedValueOnUnCheck = ReTaxAppliedValueOnUnCheck + ((ReTaxAppliedValueOnUnCheck * @ViewBag.TaxRate) / 100);
+                    ReCalTotalVal = parseFloat(ReCalTotalVal) + parseFloat(ReTaxAppliedValueOnUnCheck);
+
+                }
 
             }
         }
-        displayTotalPrice(TotalItemPrice, ReCalTotalVal);
+        displayTotalPrice(TotalItemPrice, parseFloat(ReCalTotalVal));
     }
 
     function DeleteArtWork(AttachmentId, ItemId) {

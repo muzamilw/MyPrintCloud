@@ -76,20 +76,36 @@ namespace MPC.Webstore.Controllers
             else 
             {
                 oStoreDefaultAddress = new AddressViewModel();
-                if (StoreBaseResopnse.StoreDetaultAddress != null)
-                {
+                //if (StoreBaseResopnse.StoreDetaultAddress != null)
+                //{
                     
-                    oStoreDefaultAddress.Address1 = StoreBaseResopnse.StoreDetaultAddress.Address1;
-                    oStoreDefaultAddress.Address2 = StoreBaseResopnse.StoreDetaultAddress.Address2;
+                //    oStoreDefaultAddress.Address1 = StoreBaseResopnse.StoreDetaultAddress.Address1;
+                //    oStoreDefaultAddress.Address2 = StoreBaseResopnse.StoreDetaultAddress.Address2;
 
-                    oStoreDefaultAddress.City = StoreBaseResopnse.StoreDetaultAddress.City;
-                    oStoreDefaultAddress.State = _myCompanyService.GetStateNameById(StoreBaseResopnse.StoreDetaultAddress.StateId ?? 0);
-                    oStoreDefaultAddress.Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.StoreDetaultAddress.CountryId ?? 0);
-                    oStoreDefaultAddress.ZipCode = StoreBaseResopnse.StoreDetaultAddress.PostCode;
+                //    oStoreDefaultAddress.City = StoreBaseResopnse.StoreDetaultAddress.City;
+                //    oStoreDefaultAddress.State = _myCompanyService.GetStateNameById(StoreBaseResopnse.StoreDetaultAddress.StateId ?? 0);
+                //    oStoreDefaultAddress.Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.StoreDetaultAddress.CountryId ?? 0);
+                //    oStoreDefaultAddress.ZipCode = StoreBaseResopnse.StoreDetaultAddress.PostCode;
 
-                    if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Tel1))
+                //    if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Tel1))
+                //    {
+                //        oStoreDefaultAddress.Tel = StoreBaseResopnse.StoreDetaultAddress.Tel1;
+                //    }
+                //}
+                if (StoreBaseResopnse.Organisation != null)
+                {
+
+                    oStoreDefaultAddress.Address1 = StoreBaseResopnse.Organisation.Address1;
+                    oStoreDefaultAddress.Address2 = StoreBaseResopnse.Organisation.Address2;
+
+                    oStoreDefaultAddress.City = StoreBaseResopnse.Organisation.City;
+                    oStoreDefaultAddress.State = _myCompanyService.GetStateNameById(StoreBaseResopnse.Organisation.StateId ?? 0);
+                    oStoreDefaultAddress.Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.Organisation.CountryId ?? 0);
+                    oStoreDefaultAddress.ZipCode = StoreBaseResopnse.Organisation.ZipCode;
+
+                    if (!string.IsNullOrEmpty(StoreBaseResopnse.Organisation.Tel))
                     {
-                        oStoreDefaultAddress.Tel = StoreBaseResopnse.StoreDetaultAddress.Tel1;
+                        oStoreDefaultAddress.Tel = StoreBaseResopnse.Organisation.Tel;
                     }
                 }
             }
