@@ -1571,7 +1571,7 @@ function fu02UI() {
             stop: k8
         });
         $("#BtnFontSize").spinner({
-            step: 0.50,
+            step: 0.10,
             numberFormat: "n",
             change: function (event, ui) {
                 var fz = $('#BtnFontSize').val();
@@ -4066,7 +4066,6 @@ function togglePage(pId) {
             var he = IOL.getHeight();
             var bestPer = 1;
             if (IO.ContentString.indexOf("Imageplaceholder_sim") == -1 && IsCalledFrom == 4 && IO.ContentString.indexOf("http") != -1) {
-
                 if (IO.ObjectType == 8 || IO.ObjectType == 12) {
                     if (IW >= IOL.getWidth() && IH >= IOL.getHeight()) {
                         while (originalWidth > IOL.getWidth() && originalHeight > IOL.getHeight()) {
