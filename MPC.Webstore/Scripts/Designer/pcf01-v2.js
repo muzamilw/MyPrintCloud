@@ -1603,8 +1603,8 @@ function fu02UI() {
             stop: k5
         });
         $("#inputPositionYTxt").spinner({
-            change: k5,
-            stop: k5
+            change: k5_y,
+            stop: k5_y
         });
         $("#inputObjectWidth").spinner({
             change: k7,
@@ -1623,8 +1623,8 @@ function fu02UI() {
             stop: k5
         });
         $("#inputPositionY").spinner({
-            change: k5,
-            stop: k5
+            change: k5_y,
+            stop: k5_y
         });
     }
 
@@ -2848,22 +2848,22 @@ function togglePage(pId) {
             t = Math.round(t);
             var w;
             var h;
-            $("#inputPositionX").val(l);
-            $("#inputPositionY").val(t);
+            $("#inputPositionX").val(l/( dfZ1l));
+            $("#inputPositionY").val(t /(  dfZ1l));
             if (D1AO.type === 'text' || D1AO.type === 'i-text') {
-                w = Math.round(D1AO.maxWidth);
-                h = Math.round(D1AO.maxHeight);
-                $("#inputObjectWidthTxt").val(w);
-                $("#inputObjectHeightTxt").val(h);
-                $("#inputPositionXTxt").val(l);
-                $("#inputPositionYTxt").val(t);
+                w = (D1AO.maxWidth);
+                h = (D1AO.maxHeight);
+                $("#inputObjectWidthTxt").val(w /(dfZ1l));
+                $("#inputObjectHeightTxt").val(h /(dfZ1l));
+                $("#inputPositionXTxt").val(l /(dfZ1l));
+                $("#inputPositionYTxt").val(t / (dfZ1l));
             } else {
                 // animatedcollapse.show('divPositioningPanel');
-                w = Math.round(D1AO.getWidth());
-                h = Math.round(D1AO.getHeight());
+                w =(D1AO.getWidth());
+                h =(D1AO.getHeight());
                 o = D1AO.getOpacity() * 100;
-                $("#inputObjectWidth").val(w);
-                $("#inputObjectHeight").val(h);
+                $("#inputObjectWidth").val(w /(dfZ1l));
+                $("#inputObjectHeight").val(h /(dfZ1l));
                 $("#inputObjectAlpha").val(o);
                 $(".transparencySlider").slider("option", "value", o);
 
@@ -2883,28 +2883,38 @@ function togglePage(pId) {
         if (!$.isNumeric($("#inputPositionX").val())) {
             $("#inputPositionX").val(0);
         }
-        if (!$.isNumeric($("#inputPositionY").val())) {
-            $("#inputPositionY").val(0);
-        }
+       
         if (!$.isNumeric($("#inputPositionXTxt").val())) {
             $("#inputPositionXTxt").val(0);
+        }
+        
+        var D1AO = canvas.getActiveObject();
+        if (!D1AO) return;
+        var l = D1AO.left - D1AO.getWidth() / 2;
+        l = Math.round(l);
+        var dL = ($("#inputPositionX").val() *(  dfZ1l)) - l;
+        if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
+            dL = ($("#inputPositionXTxt").val()*(  dfZ1l)) - l;
+        }
+        D1AO.left += dL;
+        // c2(D1AO);
+        canvas.renderAll(); D1AO.setCoords();
+    }
+    function k5_y() {
+        if (!$.isNumeric($("#inputPositionY").val())) {
+            $("#inputPositionY").val(0);
         }
         if (!$.isNumeric($("#inputPositionYTxt").val())) {
             $("#inputPositionYTxt").val(0);
         }
         var D1AO = canvas.getActiveObject();
         if (!D1AO) return;
-        var l = D1AO.left - D1AO.getWidth() / 2;
         var t = D1AO.top - D1AO.getHeight() / 2;
-        l = Math.round(l);
         t = Math.round(t);
-        var dL = $("#inputPositionX").val() - l;
-        var dT = $("#inputPositionY").val() - t;
+        var dT = ($("#inputPositionY").val() * (dfZ1l)) - t;
         if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
-            dL = $("#inputPositionXTxt").val() - l;
-            dT = $("#inputPositionYTxt").val() - t;
+            dT = ($("#inputPositionYTxt").val() * (dfZ1l)) - t;
         }
-        D1AO.left += dL;
         D1AO.top += dT;
         // c2(D1AO);
         canvas.renderAll(); D1AO.setCoords();
@@ -2920,7 +2930,7 @@ function togglePage(pId) {
         if (!D1AO) return;
         var oldH1 = D1AO.getHeight();
         if (D1AO.type === 'text' || D1AO.type === 'i-text') {
-            var h = $("#inputObjectHeightTxt").val();
+            var h = $("#inputObjectHeightTxt").val() * (dfZ1l);
             var oldH = D1AO.getHeight();
             D1AO.maxHeight = h;
             var newScaleY = D1AO.maxHeight / D1AO.height;
@@ -2932,7 +2942,7 @@ function togglePage(pId) {
             D1AO.top = D1AO.top + dif;
 
         } else {
-            var h = $("#inputObjectHeight").val();
+            var h = $("#inputObjectHeight").val() *(dfZ1l);
             var oldH = D1AO.getHeight();
             D1AO.maxHeight = h;
             D1AO.scaleY = D1AO.maxHeight / D1AO.height;
@@ -2942,7 +2952,7 @@ function togglePage(pId) {
         }
         //  c2(D1AO);
         canvas.renderAll(); D1AO.setCoords();
-        k4();
+     //   k4();
     }
     function k7() {
         if (!$.isNumeric($("#inputObjectWidthTxt").val())) {
@@ -2955,7 +2965,7 @@ function togglePage(pId) {
         if (!D1AO) return;
         var oldW1 = D1AO.getWidth();
         if (D1AO.type === 'text' || D1AO.type === 'i-text') {
-            var w = $("#inputObjectWidthTxt").val();
+            var w = $("#inputObjectWidthTxt").val() * (dfZ1l);
             var oldW = D1AO.getWidth();
             D1AO.maxWidth = w;
             var scaleX = D1AO.maxWidth / D1AO.width;
@@ -2966,7 +2976,7 @@ function togglePage(pId) {
             dif = dif / 2
             D1AO.left = D1AO.left + dif;
         } else {
-            var w = $("#inputObjectWidth").val();
+            var w = $("#inputObjectWidth").val() *(dfZ1l);
             var oldW = D1AO.getWidth();
             D1AO.maxWidth = w;
             D1AO.scaleX = D1AO.maxWidth / D1AO.width;
@@ -2977,7 +2987,7 @@ function togglePage(pId) {
         }
         //  c2(D1AO);
         canvas.renderAll(); D1AO.setCoords();
-        k4();
+      //  k4();
     }
     function k7_trans() {
         if (!$.isNumeric($("#inputObjectAlpha").val())) {
