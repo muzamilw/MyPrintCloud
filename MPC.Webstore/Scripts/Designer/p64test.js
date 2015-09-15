@@ -20103,7 +20103,58 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
 
             return this._charWidthsCache[cacheProp];
         },
+        _applyCharStylesGetWidthCs: function (ctx, _char, cIndex, decl, fontFamily, fontColor, fontSize, fontWeight, fontStyle) { //added by saqib
+         //   var cIndex = this.GetCharIndexFromLineIndex(lineIndex, charIndex);
+            var styleDeclaration = decl ||
+                                (this.customStyles[cIndex]);
+            if (styleDeclaration) {
+                // cloning so that original style object is not polluted with following font declarations
+                styleDeclaration = clone(styleDeclaration);
+            }
+            else {
+                styleDeclaration = {};
+            }
+            this._applyFontStyles(styleDeclaration, fontFamily, fontSize, fontWeight, fontStyle);
 
+            var cacheProp = this._getCacheProp(_char, styleDeclaration);
+
+            // short-circuit if no styles
+            if (this.isEmptyStyles() && this._charWidthsCache[cacheProp] && this.caching) {
+                return this._charWidthsCache[cacheProp];
+            }
+
+            if (typeof styleDeclaration.shadow === 'string') {
+                styleDeclaration.shadow = new fabric.Shadow(styleDeclaration.shadow);
+            }
+            if (fontColor == undefined || fontColor == null || fontColor == "") {
+                fontColor = this.fill
+            }
+            var fill = fontColor;
+            ctx.fillStyle = fill.toLive
+            ? fill.toLive(ctx)
+            : fill;
+
+            if (styleDeclaration.stroke) {
+                ctx.strokeStyle = (styleDeclaration.stroke && styleDeclaration.stroke.toLive)
+              ? styleDeclaration.stroke.toLive(ctx)
+              : styleDeclaration.stroke;
+            }
+            ctx.lineWidth = styleDeclaration.strokeWidth || this.strokeWidth;
+            //ctx.font = this._getFontDeclaration.call(styleDeclaration);
+
+            ctx.font = this._getFontDeclarationcustom(fontFamily, fontSize, fontStyle, fontWeight);
+            this._setShadow.call(styleDeclaration, ctx);
+
+            if (!this.caching) {
+                return ctx.measureText(_char).width;
+            }
+
+            if (!this._charWidthsCache[cacheProp]) {
+                this._charWidthsCache[cacheProp] = ctx.measureText(_char).width;
+            }
+
+            return this._charWidthsCache[cacheProp];
+        },
         /**
         * @private
         * @param {Object} styleDeclaration
@@ -20220,6 +20271,36 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
             // }
             return this._getWidthOfCharsAt(ctx, lineIndex, textLines[lineIndex].length, textLines);
         },
+        _getWidthOfLineCustom: function (ctx, chars, text) { //added by saqib
+            var maxWidth = 0;
+            var startIndex = text.indexOf(chars);
+            var endIndex = startIndex + chars.length;
+            var charIndex = 0;
+            for (var i = startIndex; i < endIndex; i++) {
+                if (this.customStyles != null && this.customStyles != undefined && this.customStyles.length != 0 && !this.isEmptyStyles()) {
+                    if (this.customStyles[i]) {
+                        if (this.customStyles[i]['font-Size'] != null) {
+                            ctx.save();
+                          //  var cIndex = this.GetCharIndexFromLineIndex(lineIndex, charIndex);
+                            var objStyle = this.customStyles[i];
+                            if (objStyle == null || objStyle == undefined || objStyle == "") {
+                                objStyle = []
+                                objStyle['font-family'] = "";
+                                objStyle['color'] = "";
+                                objStyle['font-Size'] = "";
+                                objStyle['font-Weight'] = this.fontWeight;//"normal";
+                                objStyle['font-Style'] = this.fontStyle;//"normal";
+                            }
+                            var width = this._applyCharStylesGetWidthCs(ctx, chars[charIndex], i, [], objStyle['font-family'], objStyle['color'], objStyle['font-Size'], objStyle['font-Weight'], objStyle['font-Style']);
+                            ctx.restore();
+                            maxWidth += width;
+                            charIndex++;
+                        }
+                    }
+                }
+            }
+            return maxWidth;
+        },
         _getHeightOfLineCustom: function (ctx, lineIndex, textLines) {
             textLines = textLines || this.clippedText.split(this._reNewline); // this.text.split(this._reNewline);
 
@@ -20284,7 +20365,8 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                     var maxHeightLastLine = 0;
                     var renderFast = false;
                     if (this.customStyles != null && this.customStyles != undefined && this.customStyles.length != 0 && !this.isEmptyStyles()) {
-                        maxWidthLastLine = this._getWidthOfLine(context, demoLines.length - 1, demoLines);
+                     //   maxWidthLastLine = this._getWidthOfLine(context, demoLines.length - 1, demoLines);
+                        maxWidthLastLine = this._getWidthOfLineCustom(context,demoLines[demoLines.length - 1], text);
                       //  maxHeightLastLine = this._getHeightOfLineCustom(context, demoLines.length - 1, demoLines);
                     } else {
                         var metrics = context.measureText(testLine);
