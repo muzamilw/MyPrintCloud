@@ -52,14 +52,14 @@ namespace MPC.Webstore.Controllers
                 {
                     lstParentCategories = _myCompanyService.GetAllParentCorporateCatalogByTerritory((int)_myClaimHelper.loginContactCompanyID(), (int)_myClaimHelper.loginContactID());
                 }
-
+                ViewBag.AllRetailCat = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID).ToList();
             }
             else
             {
 
-                List<ProductCategory> AllCategroies = new List<ProductCategory>();
+             //   List<ProductCategory> AllCategroies = new List<ProductCategory>();
                 //List<ProductCategory> ChildCategories = new List<ProductCategory>();
-                AllCategroies = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+               // AllCategroies = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
                 //SeablueToCategories
                 ViewBag.lstParentCategories = _myCompanyService.GetStoreParentCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID).OrderBy(i => i.DisplayOrder).ToList();
                 //rptRetroPCats
