@@ -26,5 +26,65 @@ namespace MPC.Interfaces.WebStoreServices
         List<FieldVariable> GetVariablesListWithValues(long listingId, long itemId, long ContactID, long ContactCompanyID, long FlagID, long AddressID, out List<MPC.Models.Common.TemplateVariable> lstVariableAndValue, out List<MPC.Models.Common.TemplateVariable> lstGeneralVariables, out List<MPC.Models.Common.TemplateVariable> lstListingImages, out List<VariableSection> lstSectionsName);
         string UpdateListingData(ListingProperty objProperty);
         List<MPC.Models.DomainModels.Listing> GetPropertiesByContactCompanyID(long CompanyID);
+
+        #region SaveListingRealEstateCompaign
+
+        bool AddListingData(ListingProperty objProperty);
+        void AddListingVendors(int newlyAddedListing, List<ListingVendors> list);
+        void AddListingConjunctionalAgents(int newlyAddedListing, List<ListingConjunctionalAgents> list);
+        void AddListingAgents(int newlyAddedListing, List<ListingAgents> lstAgents, int CompanyId);
+        void AddListingLinks(int newlyAddedListing, List<ListingLinks> lstListingLinks);
+        void AddListingFloorPlans(int newlyAddedListing, List<ListingFloorplans> lstFloorPlans);
+        void AddListingCustomCopy(int newlyAddedListing, ListingCustomCopy listingCustomCopy);
+        void AddListingOFIs(int newlyAddedListing, List<ListingOFIs> listingOFIs);
+        void AddListingImages(int newlyAddedListing, List<ListingImages> listingImages, string contactCompanyId);
+
+        #endregion
+
+        #region UpdateListingRealEstateCompaign
+
+        bool UpdateListingData(ListingProperty objProperty, MPC.Models.DomainModels.Listing listing);
+        int UpdateListing(MPC.Models.DomainModels.Listing propertyListing, MPC.Models.DomainModels.Listing tblListing);
+        void UpdateListingVendors(int updatedListingID, List<ListingVendors> list);
+        void UpdateListingConjunctionalAgents(int updatedListingID, List<ListingConjunctionalAgents> list);
+        void UpdateListingAgents(int updatedListingID, List<ListingAgents> lstAgents);
+        void UpdateListingLinks(int updatedListingID, List<ListingLinks> list);
+        void UpdateListingFloorPlans(int updatedListing, List<ListingFloorplans> listingFloorPlans);
+        void UpdateListingOFIs(int updatedListingID, List<ListingOFIs> listingOFIs);
+        void UpdateListingImages(int updatedListing, List<ListingImages> listingImages, string ContactCompanyID);
+        void UpdateListingCustomCopy(int updatedListing, ListingCustomCopy listingCustomCopy);
+
+        #endregion
+
+        #region Staff Member
+
+        void ProcessStaffMember(int newlyAddedAddress, List<ListingStaffMember> lstStaffMember, string contactCompanyId, int territoryId);
+        void UpdateStaffMember(int newlyAddedAddress, CompanyContact contact, ListingStaffMember lstStaffMember, string contactCompanyId, int territoryId);
+        void AddStaffMember(int newlyAddedAddress, ListingStaffMember lstStaffMembers, string contactCompanyId, int territoryId);
+        void AddStaffMembers(int newlyAddedAddress, List<ListingStaffMember> lstStaffMembers, string contactCompanyId);
+
+        #endregion
+
+        #region ListingOffice(Address)
+
+        int ProcessOffice(ListingOffice listingOffice, string contactCompanyId, int territoryId);
+        int AddOffice(ListingOffice listingOffice, string contactCompanyId, int territoryId);
+        int UpdateOffice(Address address, ListingOffice listingOffice, string contactCompanyId, int territoryId);
+
+        #endregion
+
+        #region CommonFunction
+
+        bool IsValidEmail(string email);
+        bool IsNewEmail(string email);
+        bool DownloadImageLocally(string SourceURL, string DestinationBasePath);
+        CompanyContact GetContactIDForListinAgent(string memberID);
+        int GetDefaultTerritoryByContactCompanyID(string contactCompanyId);
+        MPC.Models.DomainModels.Listing CheckListingForUpdate(string clientListingID);
+        int GetContactCompanyID(string sStoreCode);
+
+        #endregion
+
+
     }
 }
