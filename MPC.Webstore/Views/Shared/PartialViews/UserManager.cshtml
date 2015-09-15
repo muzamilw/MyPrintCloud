@@ -399,8 +399,8 @@
                                 <div class="SolidBorderCS left_align pad20 mrginBtm " style="display:none;">
                                     <label id="lblHeader" style="display:none;color:red;font-size:12px;margin-left:-27px;" class="FileUploadHeaderText"></label>
                                     <label id="ErrorEmailMsg" class="FileUploadHeaderText" style="color:red; font-size:12px!important;display:none;margin-left:-100px;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplzentervalidemail", UserCookieManager.WBStoreId, "please,enter valid email!"))!</label>
-                                    <label id="PasswordValidator" class="FileUploadHeaderText" style="color:red; font-size:12px!important;display:none;margin-left:-100px">minimum 6 password characters</label>
-                                    <label id="NewAndOldPass" class="FileUploadHeaderText" style="color:red; font-size:12px!important;display:none;margin-left:-100px">New and confirm password does,nt match</label>
+                                    <label id="PasswordValidator" class="FileUploadHeaderText" style="color:red; font-size:12px!important;display:none;margin-left:-100px">minimum 6 password characters!</label>
+                                    <label id="NewAndOldPass" class="FileUploadHeaderText" style="color:red; font-size:12px!important;display:none;margin-left:-100px">New and confirm password does,nt match!</label>
                                 </div>
                             </div>
 
@@ -703,7 +703,7 @@
 
                     //$("#ErrorEmailMsg ").css("display", "block");
                     //$("#PasswordValidator").css("display", "block");
-                    //$("#lblHeader").css("display", "block");
+                    $("#lblHeader").css("display", "none");
                     var IsValid = true;
                     var errorMessage = '';
 
@@ -751,7 +751,7 @@
                             $("#tboxEmail").css("border", "2px solid red");
 
                           //  $("#lblHeader").css("display", "none");
-                            return;
+                            //return;
                         }
                         else {
 
@@ -762,14 +762,16 @@
                     //{
                     //    ShowPopUp('Message', errorMessage);
                     //}
-                    if (UpdateStatus == false) {
-                        
+                    //if (UpdateStatus == false) {
+                    
+                    if($('.pass').is(":visible"))
+                    {
                         if ($("#txtConfirmPassword").val() == '') {
                             $("#txtConfirmPassword").css("border", "2px solid red");
                             IsValid = false;
                         }
                         else {
-                            
+
                             $("#txtConfirmPassword").css("border", "1px solid #c1c6cc");
                         }
                         if ($("#tboxPassword").val() == '') {
@@ -787,7 +789,7 @@
                                 $("#PasswordValidator").css("display", "none");
                             }
                             else {
-                                
+
                                 $("#tboxPassword").css("border", "2px solid red");
                                 $(".SolidBorderCS").css("display", "block");
                                 $("#ErrorEmailMsg").css("display", "none");
@@ -809,6 +811,7 @@
                             }
                         }
                     }
+                    //}
                     return IsValid;
 
                 }
