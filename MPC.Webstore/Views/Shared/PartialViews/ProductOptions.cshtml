@@ -855,7 +855,7 @@
     var countOfCostCentresTicked = 0;
     var countOfCostCentreOnwhichActionIsPerformed = 0;
     var controlsArrayOnQtyChange = [];
-  
+
     function ConfirmCart() {
         var MaxstockQty = true;
         if (isPriceSelected == 0) {
@@ -1081,7 +1081,7 @@
     }
 
     function CalculatePriceBaseOnSelectedQuantity(selectedQuantityIndex) {
-        
+
         var selectedStockNo = StockNo();
 
         var JsonData = jQuery.parseJSON($('.JsonPriceMatrixValue').val());
@@ -1224,7 +1224,7 @@
     }
 
     function displayTotalPrice(itemPrice, addOnPrice) {
-       
+
         itemPrice = parseFloat(itemPrice);
         addOnPrice = parseFloat(addOnPrice);
 
@@ -1386,7 +1386,7 @@
                     //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
 
                     var actualPrice = selectedCheckBox.ActualPrice;
-                   
+
                     @*if (selectedCheckBox.Type == 2) {
                             var ActualPriceIncludeVat = 0;
                             if (isRanged) {
@@ -1453,8 +1453,8 @@
             selectedCheckBox = null;
 
         });
-      
-       
+
+
 
         if (isReCalCostCentreOnQuantityChange == true) {
             isReCalCostCentreOnQuantityChange = false;
@@ -1468,7 +1468,7 @@
 
 
     $('input[name=addOnChecks]').on('change', function(e) {
-       
+
         //displayTotalPrice(TotalItemPrice, calculateAddOns(false));
         calculateAddOns(false);
     });
@@ -1477,7 +1477,7 @@
     function SetAddOnsPriceOnPageLoad() {
 
         var selectedCheckBox = null;
-
+        var unSelectedCheckBox = null;
         var itemsList = '';
 
         var orderedQuantity = $(".dropdownQtyListClass").find(":selected").val();
@@ -1488,54 +1488,59 @@
         }
 
         var addOnJasonData = jQuery.parseJSON($('.JsonAddonCostCentreValue').val());
-
-        $(".checkBoxAdOnPriceCheckBox").each(function(i, val) {
+        console.log(addOnJasonData);
+        @*var selectedStockItemId = parseInt(@ViewBag.SelectedStockItemId);
+        console.log("parseInt()" + selectedStockItemId);*@
+        //$(".checkBoxAdOnPriceCheckBox").each(function(i, val) {
 
             if (addOnJasonData != null) {
-
+      
                 for (var i = 0; i < $(addOnJasonData).length; i++) {
-                    if ($(addOnJasonData)[i].Id == $(val).attr('id')) {
-                        selectedCheckBox = $(addOnJasonData)[i];
-                        break;
-                    }
-                }
-                itemsList = itemsList + ", " + $(this).parent().next().text();
+                    selectedCheckBox = $(addOnJasonData)[i];
+                    
+                    if (selectedCheckBox.isChecked == 1) {
+                        console.log($(addOnJasonData)[i].Id + "=" + $(addOnJasonData)[i].isChecked);
+                        var ActualPriceIncludeVatOnModifyingProductCase = selectedCheckBox.ActualPrice + ((selectedCheckBox.ActualPrice * @ViewBag.TaxRate) / 100);
+                        ActualPriceIncludeVatOnModifyingProductCase =   "@ViewBag.Currency" + (ActualPriceIncludeVatOnModifyingProductCase).toFixed(2).toString();
+                        if(selectedCheckBox.Type == 3){ // quantity cc
+                            if(selectedCheckBox.QuantitySourceType == 1){
+                                $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase  + '</label>');
+                            }else{
+                                $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
+                            }
+                        }else if(selectedCheckBox.Type == 2){
+                            if(selectedCheckBox.TimeSourceType == 1){
+                                $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>');
+                            }else{
+                                $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
+                            }
 
-                // check the costcenter if its type is fixed then we will take its setup cost
-                //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
-                //var actualPrice = selectedCheckBox.ActualPrice;
-
-
-                if (selectedCheckBox.isChecked == true) {
-                    var ActualPriceIncludeVatOnModifyingProductCase = selectedCheckBox.ActualPrice + ((selectedCheckBox.ActualPrice * @ViewBag.TaxRate) / 100);
-                    ActualPriceIncludeVatOnModifyingProductCase =   "@ViewBag.Currency" + (ActualPriceIncludeVatOnModifyingProductCase).toFixed(2).toString();
-                    if(selectedCheckBox.Type == 3){ // quantity cc
-                        if(selectedCheckBox.QuantitySourceType == 1){
-                            $(val).next().next().html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase  + '</label>');
                         }else{
-                            $(val).next().next().html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $(val).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
+                            $("#extrapricing" + $(addOnJasonData)[i].Id).html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
                         }
-                    }else if(selectedCheckBox.Type == 2){
-                        if(selectedCheckBox.TimeSourceType == 1){
-                            $(val).next().next().html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>');
-                        }else{
-                            $(val).next().next().html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $(val).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
-                        }
-
-                    }else{
-                        $(val).next().next().html('<label>' +  ActualPriceIncludeVatOnModifyingProductCase + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + selectedCheckBox.CostCenterId + ',' + $(val).attr('id') + ',' + selectedCheckBox.Type +', 1, ' + selectedCheckBox.QuantitySourceType + ',' + selectedCheckBox.TimeSourceType + ');" >Modify</a> ');
+                        $("#" + $(addOnJasonData)[i].Id).click();
                     }
-                    $(val).click();
+                    $("#" + $(addOnJasonData)[i].Id).attr('onclick', 'PromptQuestion(' + selectedCheckBox.CostCenterId + ', ' + $("#" +$(addOnJasonData)[i].Id).attr('id') + ',' + selectedCheckBox.Type + ', \"New\",'+ selectedCheckBox.QuantitySourceType +',' + selectedCheckBox.TimeSourceType + ');');
+
+                    $("#costCentreQueueItems").val(JSON.stringify(@Html.Raw(Json.Encode(ViewBag.CostCentreQueueItems))));
+
+         
+              
                 }
-                $(val).attr('onclick', 'PromptQuestion(' + selectedCheckBox.CostCenterId + ', ' + $(val).attr('id') + ',' + selectedCheckBox.Type + ', \"New\",'+ selectedCheckBox.QuantitySourceType +',' + selectedCheckBox.TimeSourceType + ');');
-
-                $("#costCentreQueueItems").val(JSON.stringify(@Html.Raw(Json.Encode(ViewBag.CostCentreQueueItems))));
-
-
             }
-        });
+           // itemsList = itemsList + ", " + $(this).parent().next().text();
+
+            // check the costcenter if its type is fixed then we will take its setup cost
+            //if it is per quantity type then we will (qty * priceperunitqty) + setupcost
+            //var actualPrice = selectedCheckBox.ActualPrice;
+            console.log(selectedCheckBox.isChecked);
+            
+
+            
+        //});
 
         selectedCheckBox = null;
+        unSelectedCheckBox = null;
     }
 
     function ShowArtworkPanel() {
@@ -1798,7 +1803,7 @@
 
 
                             }
-                            
+
                             displayTotalPrice(TotalItemPrice, totalVal);
 
 
@@ -2078,9 +2083,9 @@
                 }
             }
         }else{ // remove the added array of cost centre as cost centre is un checked and apply the price to total
-          
+
             var JsonAllQueueItemArray = JSON.parse($("#costCentreQueueItems").val());
-         
+
             if(JsonAllQueueItemArray.QuestionQueues.length > 0){
 
                 JsonAllQueueItemArray.QuestionQueues = $.grep(JsonAllQueueItemArray.QuestionQueues, function (n, i) {
@@ -2136,7 +2141,7 @@
     }
 
     function SetCostCentreQueueLabelsOnModify(){
-      
+
         if ("@ViewBag.Mode" == "Modify") {
             var UpdatedGlobalQueueArrayOnLoad = JSON.parse($("#costCentreQueueItems").val());
             var CostCentreQueueObjectToSetLabels = [];
@@ -2197,12 +2202,12 @@
     function ReAddCostCentresValuesToTotalOnUnCheck(CostCentreId){
 
         var updatedAddOns = jQuery.parseJSON($('#VMJsonAddOns').val());
-    
+
         var ReTaxAppliedValueOnUnCheck = 0;
         var ReCalTotalVal = 0;
         if (updatedAddOns != null) {
             for (var i = 0; i < $(updatedAddOns).length; i++) {
-               
+
                 if($(updatedAddOns)[i].CostCenterId != CostCentreId){
                     ReTaxAppliedValueOnUnCheck = parseFloat($(updatedAddOns)[i].ActualPrice);
                     ReTaxAppliedValueOnUnCheck = ReTaxAppliedValueOnUnCheck + ((ReTaxAppliedValueOnUnCheck * @ViewBag.TaxRate) / 100);
