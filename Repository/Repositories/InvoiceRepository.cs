@@ -158,6 +158,26 @@ namespace MPC.Repository.Repositories
         {
             return db.SectionFlags.Where(c => c.SectionId == (int)SectionEnum.Invoices).Select(c => c.SectionFlagId).FirstOrDefault();
         }
+
+        public List<ZapierInvoiceDetail> GetZapierInvoiceDetails()
+        {
+            var inv = DbSet.Include(i => i.Items).Where(i => i.OrganisationId == OrganisationId)
+                .Select(i => new
+                {
+                    CustomerName = i.Company.Name,
+                    URL = i.Company.URL,
+                    TaxRate = i.Company.TaxRate,
+                    VatNumber = i.Company.VATRegNumber,
+                    FirstName = i.CompanyContact.FileName,
+                    LastName = i.CompanyContact.LastName,
+
+
+                }).ToList().Select(c => new ZapierInvoiceDetail
+                {
+                    CustomerName = c.CustomerName
+                }).ToList();
+            return inv;
+        }
         #endregion
     }
 }

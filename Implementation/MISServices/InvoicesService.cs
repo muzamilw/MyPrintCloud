@@ -4,6 +4,7 @@ using System.IO;
 using System.Web;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
+using MPC.Models.Common;
 using MPC.Models.ModelMappers;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -384,6 +385,11 @@ namespace MPC.Implementation.MISServices
             target.InvoicePostedBy = source.InvoicePostedBy;
             target.HeadNotes = source.HeadNotes;
             target.FootNotes = source.FootNotes;
+        }
+
+        public ZapierInvoiceDetail GetZapierInvoiceDetail()
+        {
+            return  new ZapierInvoiceDetail();
         }
         #endregion
     }
