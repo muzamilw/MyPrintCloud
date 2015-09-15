@@ -276,13 +276,16 @@
     </script>
     <script id="editMarkupTemplate" type="text/html">
         <tr data-bind="css: { selectedRow: $data === $root.selectedMarkup() }">
+            <td></td>
             <td>
                 <input class="form-control" type="text" name="Name" data-bind="value: name, validationTooltip: name, attr: { id: 'markupName' + $index() }, validationOnElement:name" />
             </td>
             <td>
                 <input class="form-control" style="width: 70px;" name="Rate" type="text" data-bind="value: rateUi, validationTooltip: rate, validationDependsOn: rate, validationOnElement:rate" />
             </td>
-            <td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td style="text-align:right;">
                 <!-- ko template: { name: 'editActionMarkupTemplate' } -->
                 <!-- /ko -->
                 <!-- ko template: { name: 'deleteActionMarkupTemplate' } -->
@@ -292,9 +295,12 @@
     </script>
     <script id="itemMarkupTemplate" type="text/html">
         <tr>
-            <td style="width: 50%" data-bind="text: name, attr: { id: 'markupName' + $index() }"></td>
-            <td style="width: 40%" data-bind="text: rate"></td>
-            <td style="width: 20%">
+            <td></td>
+            <td data-bind="text: name, attr: { id: 'markupName' + $index() }"></td>
+            <td data-bind="text: rate"></td>
+            <td></td>
+            <td></td>
+            <td style="text-align:right;">
                 <!-- ko template: { name: 'editActionMarkupTemplate' } -->
                 <!-- /ko -->
                 <!-- ko template: { name: 'deleteActionMarkupTemplate' } -->

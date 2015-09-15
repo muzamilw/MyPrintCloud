@@ -399,6 +399,8 @@
                                 <div class="SolidBorderCS left_align pad20 mrginBtm " style="display:none;">
                                     <label id="lblHeader" style="display:none;color:red;font-size:12px;margin-left:-27px;" class="FileUploadHeaderText"></label>
                                     <label id="ErrorEmailMsg" class="FileUploadHeaderText" style="color:red; font-size:12px!important;display:none;margin-left:-100px;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplzentervalidemail", UserCookieManager.WBStoreId, "please,enter valid email!"))!</label>
+                                    <label id="PasswordValidator" class="FileUploadHeaderText" style="color:red; font-size:12px!important;display:none;margin-left:-100px">minimum 6 password characters!</label>
+                                    <label id="NewAndOldPass" class="FileUploadHeaderText" style="color:red; font-size:12px!important;display:none;margin-left:-100px">New and confirm password does,nt match!</label>
                                 </div>
                             </div>
 
@@ -465,7 +467,7 @@
                 var res = 0;
                 var Rflag = false;
                 var OldEmail;
-                $("#txtsearch").autocomplete({
+                $("#txtsearch").autocomplete({autoFocus: true,
                     source: function (request, response) {
                         // your ajax code
                         $.ajax({
@@ -487,6 +489,14 @@
                     },
                     minLength: 1,
                     change: function (event, ui) {
+                        
+                        //$("#txtsearch").keydown(function (event) {
+                            
+                        //    if (event.keyCode == 13) {
+                        //        alert(event.keyCode);
+                        //    }
+                        //});
+
 
                         if ($("#txtsearch").val() == '') {
                             RebindGrid();
@@ -525,7 +535,7 @@
                     $("#chkShowPricesForProduct")[0].checked = false;
 
                     $("#chkHasWebAccess")[0].checked = true;
-
+                    $("#txtConfirmPassword").val('');
 
                     //  var PHtml = $("#UpdateModelPopUp").html();
                     //  ShippingBillingDetails("Add New Address", PHtml);
@@ -574,7 +584,7 @@
                     $("#txtSecretAnswer").css("border", "1px solid #c1c6cc");
                     $("#tboxEmail").css("border", "1px solid #c1c6cc");
                     $("#tboxPassword").css("border", "1px solid #c1c6cc");
-
+                    $("#txtConfirmPassword").css("border", "1px solid #c1c6cc");
                     $('#imgContactPicture').attr('src', '');
                     document.getElementById("layer").style.display = "block";
                     document.getElementById("innerLayer").style.display = "block";
@@ -683,7 +693,17 @@
                     // }
                 }
                 function Validation(UpdateStatus) {
+                    //  
+                    
+                    //$("#tboxfirstname").css("border", "1px solid #c1c6cc");
+                    //$("#txtSecretAnswer").css("border", "1px solid #c1c6cc");
+                    //$("#tboxEmail").css("border", "1px solid #c1c6cc");
+                    //$("#tboxPassword").css("border", "1px solid #c1c6cc");
+                    //$("#txtConfirmPassword").css("border", "1px solid #c1c6cc");
 
+                    //$("#ErrorEmailMsg ").css("display", "block");
+                    //$("#PasswordValidator").css("display", "block");
+                    $("#lblHeader").css("display", "none");
                     var IsValid = true;
                     var errorMessage = '';
 
@@ -691,7 +711,6 @@
                         var AddressNAme = "First Name Is Required";
                         errorMessage = errorMessage + AddressNAme + "<br>";
                         $("#tboxfirstname").css("border", "2px solid red");
-
                         IsValid = false;
                     }
                     else {
@@ -711,13 +730,14 @@
                         //$("#divAddress1").css('display', 'none');
                         $("#txtSecretAnswer").css("border", "1px solid #c1c6cc");
                     }
+                  
 
                     if ($("#tboxEmail").val() == '') {
                         var City = "Email is Ruquired";
                         errorMessage = errorMessage + City + "<br>";
                         $("#tboxEmail").css("border", "2px solid red");
                         IsValid = false;
-
+                       
                     }
                     else {
                         //$("#divCity").css('display', 'none');
@@ -730,9 +750,11 @@
                             $("#ErrorEmailMsg").css("display", "block");
                             $("#tboxEmail").css("border", "2px solid red");
 
-                            $("#lblHeader").css("display", "none");
+                          //  $("#lblHeader").css("display", "none");
+                            //return;
                         }
                         else {
+
                             $("#tboxEmail").css("border", "1px solid #c1c6cc");
                         }
                     }
@@ -740,8 +762,18 @@
                     //{
                     //    ShowPopUp('Message', errorMessage);
                     //}
-                    if (UpdateStatus == false) {
-                        
+                    //if (UpdateStatus == false) {
+                    
+                    if($('.pass').is(":visible"))
+                    {
+                        if ($("#txtConfirmPassword").val() == '') {
+                            $("#txtConfirmPassword").css("border", "2px solid red");
+                            IsValid = false;
+                        }
+                        else {
+
+                            $("#txtConfirmPassword").css("border", "1px solid #c1c6cc");
+                        }
                         if ($("#tboxPassword").val() == '') {
                             var City = "Password is Ruquired";
                             errorMessage = errorMessage + City + "<br>";
@@ -751,10 +783,35 @@
                         }
                         else {
                             //$("#divCity").css('display', 'none');
-                            $("#tboxPassword").css("border", "1px solid #c1c6cc");
-                            $('.pass').css('display', 'block');
+                            if ($("#tboxPassword").val().length >= 6) {
+                                $("#tboxPassword").css("border", "1px solid #c1c6cc");
+                                $('.pass').css('display', 'block');
+                                $("#PasswordValidator").css("display", "none");
+                            }
+                            else {
+
+                                $("#tboxPassword").css("border", "2px solid red");
+                                $(".SolidBorderCS").css("display", "block");
+                                $("#ErrorEmailMsg").css("display", "none");
+                                $("#PasswordValidator").css("display", "block");
+                                IsValid = false;
+                            }
+                            if ($("#txtConfirmPassword").val() == '') {
+                                //if ($("#txtConfirmPassword").val() != $("#tboxPassword").val()) {
+                                //    $("#NewAndOldPass").css("display", "block");
+                                //    IsValid = false;
+                                //}
+                                //else {
+                                //    $("#NewAndOldPass").css("display", "none");
+                                //}
+                                $("#txtConfirmPassword").css("border", "2px solid red");
+                            }
+                            else {
+                                $("#txtConfirmPassword").css("border", "1px solid #c1c6cc");
+                            }
                         }
                     }
+                    //}
                     return IsValid;
 
                 }
@@ -830,6 +887,9 @@
                     document.getElementById("layer").style.display = "block";
                     document.getElementById("innerLayer").style.display = "block";
                     $('.pass').css('display', 'none');
+                    $('#ErrorEmailMsg ').css('display', 'none');
+                    $('#PasswordValidator').css('display', 'none');
+                    $('#lblHeader').css('display', 'none');
                     $("#btnChangePassword").css('display', 'block');
 
                     $("#tboxfirstname").css("border", "1px solid #c1c6cc");
@@ -869,15 +929,15 @@
                     $("#tboxEmail").val(LoginContactAddress.Email);
                      OldEmail = LoginContactAddress.Email;
                     $("#txtJobTitle").val(LoginContactAddress.JobTitle);
-
-                    $("#txtDirectLine").val(LoginContactAddress.HomeTel1.split(" ").join(""));
-
-
-                    $("#txtCellNumber").val(LoginContactAddress.Mobile.split(" ").join(""));
-
-
-                    $("#txtFax").val(LoginContactAddress.FAX.split(" ").join(""));
-
+                    if (LoginContactAddress.HomeTel1 != null && LoginContactAddress.HomeTel1 != '') {
+                        $("#txtDirectLine").val(LoginContactAddress.HomeTel1.split(" ").join(""));
+                    }
+                    if (LoginContactAddress.Mobile != null && LoginContactAddress.Mobile != '') {
+                        $("#txtCellNumber").val(LoginContactAddress.Mobile.split(" ").join(""));
+                    }
+                    if (LoginContactAddress.FAX != null && LoginContactAddress.FAX != '') {
+                        $("#txtFax").val(LoginContactAddress.FAX.split(" ").join(""));
+                    }
                     //  var dest = $(this);
                     //  dest.val(dest.val().split(" ").join(""));
 
@@ -900,7 +960,7 @@
                     $("#txtShippingAddress").val("Address : " + ShipAddName + "\n" + "City : " + shipCity + "\n" + "State : " + shipStateName);
 
                     $("#txtNotes").val(LoginContactAddress.Notes);
-
+                    
                     $("#chkCanOrder")[0].checked = LoginContactAddress.isPlaceOrder;
                     $("#chkCanByCredit")[0].checked = LoginContactAddress.IsPayByPersonalCreditCard;
                     $("#chkShowPricesForProduct")[0].checked = LoginContactAddress.IsPricingshown;
