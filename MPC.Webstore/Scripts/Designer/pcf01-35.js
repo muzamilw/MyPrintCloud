@@ -3126,7 +3126,7 @@ function pcl42() {
         d5_sub(SP,true);
     } else
     {
-        alert("Variable validation failed");
+        alert("Please enter valid information in all highlighted fields to continue.");
     } 
 
     clearInterval(var2);
