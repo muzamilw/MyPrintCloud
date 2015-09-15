@@ -5773,6 +5773,7 @@ namespace MPC.Repository.Repositories
                        Item newItem = new Item();
                        item.Clone(newItem);
 
+                       newItem.TemplateId = item.TemplateId;
                        newItem.OrganisationId = OrganisationId;
                        newItem.CompanyId = objCompany.CompanyId;
                        newItem.Tax3 = (int)item.ItemId;

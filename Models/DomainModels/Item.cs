@@ -853,6 +853,7 @@ namespace MPC.Models.DomainModels
             target.IsRealStateProduct = IsRealStateProduct;
             target.SmartFormId = SmartFormId;
             target.ItemType = ItemType;
+           
             
             // Copy Internal Descriptions
             CloneInternalDescriptions(target);
