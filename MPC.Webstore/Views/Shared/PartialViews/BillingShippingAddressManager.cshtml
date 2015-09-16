@@ -309,8 +309,18 @@ grid.Column("Default Shipping",format:@<p>
 
         Search(SeearchString);
     }
+    $("#txtsearch").keypress(function (event) {
+        if (event.keyCode == 13) {
+            if ($("#txtsearch").val() == '') {
+                RebindGrid();
+                event.preventDefault();
+                return false;
 
-    $("#txtsearch").autocomplete({
+            }
+        }
+
+    });
+    $("#txtsearch").autocomplete({autoFocus: true,
         source: function (request, response) {
             // your ajax code
             $.ajax({
