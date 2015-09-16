@@ -66,6 +66,7 @@ namespace MPC.Webstore.Areas.OrderReceipt.Controllers
 
                 ViewBag.OrganisationLogo = "";
                 ViewBag.OrganisationName = "";
+                ViewBag.OrgVATRegNumber = "";
                 if (oCompany.isWhiteLabel == false)
                 {
                     oStoreDefaultAddress = null;
@@ -76,6 +77,7 @@ namespace MPC.Webstore.Areas.OrderReceipt.Controllers
                     {
                         ViewBag.OrganisationLogo = oOrganisation.MISLogo;
                         ViewBag.OrganisationName = oOrganisation.OrganisationName;
+                        ViewBag.OrganisationName = oOrganisation.VATRegNumber;
                         oStoreDefaultAddress = new AddressViewModel();
                         oStoreDefaultAddress.Address1 = oOrganisation.Address1;
                         oStoreDefaultAddress.Address2 = oOrganisation.Address2;
