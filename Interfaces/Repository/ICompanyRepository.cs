@@ -115,5 +115,6 @@ namespace MPC.Interfaces.Repository
         void InsertProductCategoryItems(Company NewCompany, Company OldCompany);
 
         void SetTerritoryIdAddress(Company objCompany, long OldCompanyId);
+        long GetStoreIdByAccessCode(string sWebAccessCode);
     }
 }
