@@ -62,15 +62,15 @@ namespace MPC.MIS.Areas.Api.Controllers
 
                 GetZipFile(themeId, fullZipPath, companyId);
                 // Get List of Skins 
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri(HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Host);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                //using (var client = new HttpClient())
+                //{
+                //    client.BaseAddress = new Uri(HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Host);
+                //    client.DefaultRequestHeaders.Accept.Clear();
+                //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                    string url = "WebstoreApi/StoreCache/Get?id=" + companyId;
-                    var response = client.GetAsync(url);
-                }
+                //    string url = "WebstoreApi/StoreCache/Get?id=" + companyId;
+                //    var response = client.GetAsync(url);
+                //}
             }
 
 
