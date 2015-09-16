@@ -73,7 +73,7 @@ namespace MPC.MIS.Controllers
            
 
             //For Development environment Set these values and comment code above starting from using...
-            if (System.Web.HttpContext.Current.Request.Url.Authority == "mpc" || System.Web.HttpContext.Current.Request.Url.Authority == "localhost" || System.Web.HttpContext.Current.Request.Url.Authority == "mpcmis")
+            if (System.Web.HttpContext.Current.Request.Url.Authority == "mpc" || System.Web.HttpContext.Current.Request.Url.Authority == "localhost" || System.Web.HttpContext.Current.Request.Url.Authority == "mpcmis" || System.Web.HttpContext.Current.Request.Url.Authority.Contains("ngrok"))
             {
                 validationInfo = new ValidationInfo();
                 validationInfo.CustomerID = "1";

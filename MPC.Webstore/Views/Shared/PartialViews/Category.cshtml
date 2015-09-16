@@ -39,7 +39,7 @@ if (!string.IsNullOrEmpty(Model.ImagePath))
             }
         </div>
         <div class="cntParentCategDesc col-md-12 col-lg-12 col-xs-12">
-            <label id="lblParentCategoryDesc">@Model.Description1</label>
+            <label id="lblParentCategoryDesc">@Html.Raw(Model.Description1)</label>
         </div>
         <div id="CategoryDisplay responsivePad15">
 

@@ -316,7 +316,7 @@
                                         <label  class="Fsize13 colorBlack displayClear">@subtotal</label>
                                         @if (_DiscountAmountTotal > 0)
                                         {
-                                            <label id="lblVoucherCodeDiscAmount" class="Fsize13 colorBlack displayClear clrRed">@Utils.FormatDecimalValueToTwoDecimal(_DiscountAmountTotal.ToString(), ViewBag.Currency)</label>
+                                            <label id="lblVoucherCodeDiscAmount_shopCart" class="Fsize13 colorBlack displayClear clrRed">@Utils.FormatDecimalValueToTwoDecimal(_DiscountAmountTotal.ToString(), ViewBag.Currency)</label>
                                         }
                                         
                                         @if (Model.DeliveryCostCenterID == 0)

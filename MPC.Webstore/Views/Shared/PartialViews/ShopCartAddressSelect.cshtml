@@ -565,37 +565,39 @@
                                                 <div class="cnttotalPayablesAS">
 
                                                     <div class="cntsubHeadingsAS">
-                                                        <label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId, "Sub Total"))</label>
+                                                        <div><label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId, "Sub Total"))</label></div>
                                                         @if (_DiscountAmountTotal > 0)
                                                         {
-                                                            <label id="lblVoucherDiscPercentageDisplay" class="clrRed LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVoucherDiscPercentageDisplay", UserCookieManager.WBStoreId, "Discount")):</label>
+                                                            <div><label id="lblVoucherDiscPercentageDisplay" class="clrRed LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVoucherDiscPercentageDisplay", UserCookieManager.WBStoreId, "Discount")):</label></div>
                                                         }
-                                                        <label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("tddelivery", UserCookieManager.WBStoreId, "Delivery:"))</label>
-                                                        <label class=" LightGrayLabels displayClear">@Model.TaxLabel</label>
-                                                        <label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("spntotal", UserCookieManager.WBStoreId, "Total:"))</label>
+                                                        <div><label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("tddelivery", UserCookieManager.WBStoreId, "Delivery:"))</label></div>
+                                                        <div><label class=" LightGrayLabels displayClear">@Model.TaxLabel</label></div>
+                                                        <div><label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("spntotal", UserCookieManager.WBStoreId, "Total:"))</label></div>
                                                     </div>
 
                                                     <div class="cnttotalsAS" id="cntRightPricing1">
 
-                                                        <label id="lblSubTotal" class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(SubTotal.ToString(), Model.Currency)</label>
+                                                        <div><label id="lblSubTotal_add" class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(SubTotal.ToString(), Model.Currency)</label></div>
 
                                                         @if (_DiscountAmountTotal > 0)
                                                         {
-                                                            <label id="lblVoucherCodeDiscAmount" class="Fsize13 colorBlack displayClear clrRed">@Utils.FormatDecimalValueToTwoDecimal(_DiscountAmountTotal.ToString(), Model.Currency)</label>
+                                                            <div><label id="lblVoucherCodeDiscAmount" class="Fsize13 colorBlack displayClear clrRed">@Utils.FormatDecimalValueToTwoDecimal(_DiscountAmountTotal.ToString(), Model.Currency)</label></div>
                                                         }
                                                         @if (Model.DeliveryDiscountVoucherID == null)
                                                         {
-                                                            <label class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(deliveryTotal.ToString(), Model.Currency)</label>
+                                                            <div><label class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(deliveryTotal.ToString(), Model.Currency)</label></div>
 
                                                         }
                                                         else
                                                         {
-                                                            <label class="Fsize13 colorBlack displayClear delivery-checkouttext">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label>
-                                                             <label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label>
+                                                            <div><label id="Addres_slect_del" class="Fsize13 colorBlack displayClear delivery-checkouttext">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label></div>
+                                                            <div><label class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</label></div>
                                                         }
-                                                        <label class="Fsize13 colorBlack displayClear">@deliveryTax</label>
-                                                        <label class="Fsize13 colorBlack displayClear">@GrandTotal</label>
-                                                    </div>
+                                                        <div><label id="ShopCart_Deltax" class="Fsize13 colorBlack displayClear">@deliveryTax</label></div>
+                                                        <div>
+                                                            <label id="Shopcart_Add_Total"class="Fsize13 colorBlack displayClear">@GrandTotal</label>
+                                                        </div>
+                                                        </div>
 
                                                     <div class="clearBoth">
                                                     </div>

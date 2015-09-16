@@ -1352,6 +1352,7 @@ function g2(e) {
 
 }
 function g2_1(e) {
+
     var D1AO = canvas.getActiveObject();
     var D1AG = canvas.getActiveGroup();
     var lastPanelLocal = D1LP;
@@ -2201,7 +2202,7 @@ function l3(e) {
             if (!lockedObjectFound) {
                 pcL13();   // show group property panel and hide others
                 pcL36('hide', '#textPropertPanel ,#DivAdvanceColorPanel , #DivColorPallet , #DivColorPallet , #ShapePropertyPanel ,#ImagePropertyPanel , #UploadImage , #quickText , #addImage , #addText');
-                k4();
+                k4(); 
                 pcL36('show', "#DivAlignObjs");
             } else {
                 // hide all panels 

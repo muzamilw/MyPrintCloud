@@ -179,6 +179,9 @@
     <Compile Include="Common\USTaxInfo.cs" />
     <Compile Include="Common\Utility.cs" />
     <Compile Include="Common\ValidationInfo.cs" />
+    <Compile Include="Common\ZapierInvoiceDetail.cs" />
+    <Compile Include="Common\ZapierInvoiceItem.cs" />
+    <Compile Include="Common\ZapierInvoiceItemSupplier.cs" />
     <Compile Include="DomainModels\Activity.cs" />
     <Compile Include="DomainModels\ActivityType.cs" />
     <Compile Include="DomainModels\Address.cs" />

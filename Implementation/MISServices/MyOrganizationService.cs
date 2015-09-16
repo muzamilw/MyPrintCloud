@@ -231,6 +231,7 @@ namespace MPC.Implementation.MISServices
             organisationDbVersion.Email = organisation.Email;
             organisationDbVersion.Fax = organisation.Fax;
             organisationDbVersion.VATRegNumber = organisation.VATRegNumber;
+            organisationDbVersion.TaxRegistrationNo = organisation.TaxRegistrationNo;
             organisationDbVersion.BleedAreaSize = organisation.BleedAreaSize;
             organisationDbVersion.ShowBleedArea = organisation.ShowBleedArea;
             organisationDbVersion.CurrencyId = organisation.CurrencyId;
