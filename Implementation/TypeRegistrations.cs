@@ -53,7 +53,8 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ITemplateFontsService, TemplateFontsService>();
             unityContainer.RegisterType<ITemplateBackgroundImagesService, TemplateBackgroundImagesService>();
             unityContainer.RegisterType<ICostCentreService, CostCentreService>();
-            unityContainer.RegisterType<IListingService, ListingService>();
+            unityContainer.RegisterType<IListingService,ListingService>();
+          
             unityContainer.RegisterType<IImagePermissionsService, ImagePermissionService>();
             unityContainer.RegisterType<ICostCentersService, CostCenterService>();
             unityContainer.RegisterType<IMachineService, MachineService>();
