@@ -1790,6 +1790,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                
                 CompanyContact con = db.CompanyContacts.Where(i => i.ContactId == Contact.ContactId).FirstOrDefault();
                 con.FileName = Contact.FirstName;
                 con.LastName = Contact.LastName;
@@ -1821,6 +1822,8 @@ namespace MPC.Repository.Repositories
                 con.TerritoryId = Contact.TerritoryId;
                 con.AddressId = Contact.AddressId;
                 con.ShippingAddressId = Contact.ShippingAddressId;
+                con.OrganisationId = Contact.OrganisationId;
+                
                 if (Contact.Password == null)
                 {
                     
@@ -1869,6 +1872,7 @@ namespace MPC.Repository.Repositories
                 con.ShippingAddressId = Contact.ShippingAddressId;
                 con.Password = HashingManager.ComputeHashSHA1(Contact.Password);
                 con.IsDefaultContact = 0;
+                con.OrganisationId = Contact.OrganisationId;
                 con.SecretQuestion = Contact.QuestionId.ToString();
                 db.CompanyContacts.Add(con);
                 db.SaveChanges();
