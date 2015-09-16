@@ -969,6 +969,7 @@ function d5_sub(pageID, isloading) {
                 canvasWidth = (Template.PDFTemplateWidth);
             }
             D1CS = 1, dfZ1l = 1;
+
             //autozoom settings 
             var contentAreaheight = $(window).height() - 136, contentAreaWidth = $(window).width() - 380,  DzoomFactor = dfZ1l;
            
@@ -1012,7 +1013,7 @@ function d5_sub(pageID, isloading) {
             //$(".page").css("left", (($("#canvasDocument").width() - $(".page").width()) / 2) + "px");
             //$("#addNewPage").css("top", (Template.PDFTemplateHeight + 150) + "px");
             //$("#addNewPage ").css("left", (($("#canvasDocument").width() - $("#addNewPage").width()) / 2) + "px");
-           
+            $(".zoomTxt").html("ZOOM <br />" + Math.floor(D1CS * 100) + " % ");
             if (IT.BackGroundType == 2) {
                 canvas.setBackgroundImage(null, function (IOL) {
                     canvas.renderAll();
@@ -1199,6 +1200,7 @@ function e0(caller) {
     D1CS = 1;
     D1CS = 1;
     D1CZL = 0;
+    $(".zoomTxt").html("ZOOM <br />" + Math.floor(D1CS * 100) + " % ");
 }
 function e6() {
     pcL36('hide', '#PreviewerContainerDesigner');
@@ -1571,7 +1573,7 @@ function fu02UI() {
             stop: k8
         });
         $("#BtnFontSize").spinner({
-            step: 0.50,
+            step: 0.10,
             numberFormat: "n",
             change: function (event, ui) {
                 var fz = $('#BtnFontSize').val();
@@ -1601,8 +1603,8 @@ function fu02UI() {
             stop: k5
         });
         $("#inputPositionYTxt").spinner({
-            change: k5,
-            stop: k5
+            change: k5_y,
+            stop: k5_y
         });
         $("#inputObjectWidth").spinner({
             change: k7,
@@ -1621,8 +1623,8 @@ function fu02UI() {
             stop: k5
         });
         $("#inputPositionY").spinner({
-            change: k5,
-            stop: k5
+            change: k5_y,
+            stop: k5_y
         });
     }
 
@@ -1800,7 +1802,8 @@ function b3_lDimensions() {
         }
     });
   //  $(".dimentionsBC").append("<br /><span class='spanZoomContainer'> Zoom - " + D1CS * 100 + " % </span>");
- //   $(".zoomToolBar").html(" Zoom " + Math.floor(D1CS * 100) + " % ");
+    //   $(".zoomToolBar").html(" Zoom " + Math.floor(D1CS * 100) + " % ");
+    $(".zoomTxt").html("ZOOM <br />" + Math.floor(D1CS * 100) + " % ");
 }
 function fu05_svcCall(DT) {
     if (IsCalledFrom == 2 || IsCalledFrom == 4)
@@ -2845,22 +2848,22 @@ function togglePage(pId) {
             t = Math.round(t);
             var w;
             var h;
-            $("#inputPositionX").val(l);
-            $("#inputPositionY").val(t);
+            $("#inputPositionX").val(l/( dfZ1l));
+            $("#inputPositionY").val(t /(  dfZ1l));
             if (D1AO.type === 'text' || D1AO.type === 'i-text') {
-                w = Math.round(D1AO.maxWidth);
-                h = Math.round(D1AO.maxHeight);
-                $("#inputObjectWidthTxt").val(w);
-                $("#inputObjectHeightTxt").val(h);
-                $("#inputPositionXTxt").val(l);
-                $("#inputPositionYTxt").val(t);
+                w = (D1AO.maxWidth);
+                h = (D1AO.maxHeight);
+                $("#inputObjectWidthTxt").val(w /(dfZ1l));
+                $("#inputObjectHeightTxt").val(h /(dfZ1l));
+                $("#inputPositionXTxt").val(l /(dfZ1l));
+                $("#inputPositionYTxt").val(t / (dfZ1l));
             } else {
                 // animatedcollapse.show('divPositioningPanel');
-                w = Math.round(D1AO.getWidth());
-                h = Math.round(D1AO.getHeight());
+                w =(D1AO.getWidth());
+                h =(D1AO.getHeight());
                 o = D1AO.getOpacity() * 100;
-                $("#inputObjectWidth").val(w);
-                $("#inputObjectHeight").val(h);
+                $("#inputObjectWidth").val(w /(dfZ1l));
+                $("#inputObjectHeight").val(h /(dfZ1l));
                 $("#inputObjectAlpha").val(o);
                 $(".transparencySlider").slider("option", "value", o);
 
@@ -2880,28 +2883,38 @@ function togglePage(pId) {
         if (!$.isNumeric($("#inputPositionX").val())) {
             $("#inputPositionX").val(0);
         }
-        if (!$.isNumeric($("#inputPositionY").val())) {
-            $("#inputPositionY").val(0);
-        }
+       
         if (!$.isNumeric($("#inputPositionXTxt").val())) {
             $("#inputPositionXTxt").val(0);
+        }
+        
+        var D1AO = canvas.getActiveObject();
+        if (!D1AO) return;
+        var l = D1AO.left - D1AO.getWidth() / 2;
+        l = Math.round(l);
+        var dL = ($("#inputPositionX").val() *(  dfZ1l)) - l;
+        if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
+            dL = ($("#inputPositionXTxt").val()*(  dfZ1l)) - l;
+        }
+        D1AO.left += dL;
+        // c2(D1AO);
+        canvas.renderAll(); D1AO.setCoords();
+    }
+    function k5_y() {
+        if (!$.isNumeric($("#inputPositionY").val())) {
+            $("#inputPositionY").val(0);
         }
         if (!$.isNumeric($("#inputPositionYTxt").val())) {
             $("#inputPositionYTxt").val(0);
         }
         var D1AO = canvas.getActiveObject();
         if (!D1AO) return;
-        var l = D1AO.left - D1AO.getWidth() / 2;
         var t = D1AO.top - D1AO.getHeight() / 2;
-        l = Math.round(l);
         t = Math.round(t);
-        var dL = $("#inputPositionX").val() - l;
-        var dT = $("#inputPositionY").val() - t;
+        var dT = ($("#inputPositionY").val() * (dfZ1l)) - t;
         if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
-            dL = $("#inputPositionXTxt").val() - l;
-            dT = $("#inputPositionYTxt").val() - t;
+            dT = ($("#inputPositionYTxt").val() * (dfZ1l)) - t;
         }
-        D1AO.left += dL;
         D1AO.top += dT;
         // c2(D1AO);
         canvas.renderAll(); D1AO.setCoords();
@@ -2917,7 +2930,7 @@ function togglePage(pId) {
         if (!D1AO) return;
         var oldH1 = D1AO.getHeight();
         if (D1AO.type === 'text' || D1AO.type === 'i-text') {
-            var h = $("#inputObjectHeightTxt").val();
+            var h = $("#inputObjectHeightTxt").val() * (dfZ1l);
             var oldH = D1AO.getHeight();
             D1AO.maxHeight = h;
             var newScaleY = D1AO.maxHeight / D1AO.height;
@@ -2929,7 +2942,7 @@ function togglePage(pId) {
             D1AO.top = D1AO.top + dif;
 
         } else {
-            var h = $("#inputObjectHeight").val();
+            var h = $("#inputObjectHeight").val() *(dfZ1l);
             var oldH = D1AO.getHeight();
             D1AO.maxHeight = h;
             D1AO.scaleY = D1AO.maxHeight / D1AO.height;
@@ -2939,7 +2952,7 @@ function togglePage(pId) {
         }
         //  c2(D1AO);
         canvas.renderAll(); D1AO.setCoords();
-        k4();
+     //   k4();
     }
     function k7() {
         if (!$.isNumeric($("#inputObjectWidthTxt").val())) {
@@ -2952,7 +2965,7 @@ function togglePage(pId) {
         if (!D1AO) return;
         var oldW1 = D1AO.getWidth();
         if (D1AO.type === 'text' || D1AO.type === 'i-text') {
-            var w = $("#inputObjectWidthTxt").val();
+            var w = $("#inputObjectWidthTxt").val() * (dfZ1l);
             var oldW = D1AO.getWidth();
             D1AO.maxWidth = w;
             var scaleX = D1AO.maxWidth / D1AO.width;
@@ -2963,7 +2976,7 @@ function togglePage(pId) {
             dif = dif / 2
             D1AO.left = D1AO.left + dif;
         } else {
-            var w = $("#inputObjectWidth").val();
+            var w = $("#inputObjectWidth").val() *(dfZ1l);
             var oldW = D1AO.getWidth();
             D1AO.maxWidth = w;
             D1AO.scaleX = D1AO.maxWidth / D1AO.width;
@@ -2974,7 +2987,7 @@ function togglePage(pId) {
         }
         //  c2(D1AO);
         canvas.renderAll(); D1AO.setCoords();
-        k4();
+      //  k4();
     }
     function k7_trans() {
         if (!$.isNumeric($("#inputObjectAlpha").val())) {
@@ -3008,7 +3021,7 @@ function togglePage(pId) {
             D1AO.setOpacity(o);
             o = D1AO.getOpacity() * 100;
             $(".transparencySlider").slider("option", "value", o);
-
+            $(".lblObjectOpacity").html((o) + "%");
         }
         //  c2(D1AO);
         canvas.renderAll();
@@ -4066,7 +4079,6 @@ function togglePage(pId) {
             var he = IOL.getHeight();
             var bestPer = 1;
             if (IO.ContentString.indexOf("Imageplaceholder_sim") == -1 && IsCalledFrom == 4 && IO.ContentString.indexOf("http") != -1) {
-
                 if (IO.ObjectType == 8 || IO.ObjectType == 12) {
                     if (IW >= IOL.getWidth() && IH >= IOL.getHeight()) {
                         while (originalWidth > IOL.getWidth() && originalHeight > IOL.getHeight()) {
