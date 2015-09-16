@@ -3578,6 +3578,7 @@ namespace MPC.Implementation.MISServices
             string source =
                 HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/fonts");
             ApplyThemeFonts(source, target);
+
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Host);
@@ -3586,7 +3587,12 @@ namespace MPC.Implementation.MISServices
 
                 string url = "WebstoreApi/StoreCache/Get?id=" + companyId;
                 var response = client.GetAsync(url);
+                if (!response.Result.IsSuccessStatusCode)
+                {
+                    //throw new MPCException("Failed to clear store cache", companyRepository.OrganisationId);
+                }
             }
+
         }
 
         private void DeleteMediaFiles(long companyId)

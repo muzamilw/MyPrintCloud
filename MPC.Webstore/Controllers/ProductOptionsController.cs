@@ -465,6 +465,8 @@ namespace MPC.Webstore.Controllers
 
             AddonObjectList = new List<AddOnCostCenterViewModel>();
 
+            long stockOptionSelected = Convert.ToInt64(ViewBag.SelectedStockItemId);
+            
 
             foreach (var addOn in listOfCostCentres)
             {
@@ -474,7 +476,7 @@ namespace MPC.Webstore.Controllers
                     bool isAddedToList = false;
                     foreach (var cItem in clonedSectionCostCentres)
                     {
-                        if (cItem.CostCentreId == addOn.CostCenterID)
+                        if (cItem.CostCentreId == addOn.CostCenterID && addOn.ItemStockOptionId == stockOptionSelected)
                         {
                             // var objCS = objSettings.Where(g => g.CostCentreID == cItem.CostCentreId).ToList();
 
@@ -490,9 +492,10 @@ namespace MPC.Webstore.Controllers
                                 ActualPrice = cItem.Qty1NetTotal ?? 0,
                                 StockOptionId = addOn.ItemStockId,
                                 Description = "",
-                                isChecked = true,
+                                isChecked = 1,
                                 QuantitySourceType = addOn.QuantitySourceType,
-                                TimeSourceType = addOn.TimeSourceType
+                                TimeSourceType = addOn.TimeSourceType,
+                                ItemStockOptionId = addOn.ItemStockOptionId
                                 // CostCentreJasonData = JsonConvert.SerializeObject(objCS, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })
                                 //   CostCenterModifiedJson =  objCS
                             };
@@ -534,9 +537,10 @@ namespace MPC.Webstore.Controllers
                             ActualPrice = addOn.AddOnPrice ?? 0.0,
                             StockOptionId = addOn.ItemStockId,
                             Description = "",
-                            isChecked = false,
+                            isChecked = 0,
                             QuantitySourceType = addOn.QuantitySourceType,
-                            TimeSourceType = addOn.TimeSourceType
+                            TimeSourceType = addOn.TimeSourceType,
+                            ItemStockOptionId = addOn.ItemStockOptionId
                         };
                         AddonObjectList.Add(addOnsObject);
                     }
@@ -553,7 +557,7 @@ namespace MPC.Webstore.Controllers
                         ActualPrice = addOn.AddOnPrice ?? 0.0,
                         StockOptionId = addOn.ItemStockId,
                         Description = "",
-                        isChecked = false,
+                        isChecked = 0,
                         QuantitySourceType = addOn.QuantitySourceType,
                         TimeSourceType = addOn.TimeSourceType
                     };
