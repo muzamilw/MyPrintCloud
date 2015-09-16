@@ -33,5 +33,11 @@ namespace MPC.Interfaces.Repository
         bool AddListingData(ListingProperty objProperty);
         List<MPC.Models.DomainModels.Listing> GetPropertiesByContactCompanyID(long CompanyID);
 
+
+
+
+        
+
+
     }
 }

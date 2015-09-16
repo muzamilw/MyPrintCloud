@@ -13,8 +13,8 @@ namespace MPC.Implementation.WebStoreServices
     public class ListingService : IListingService
     {
         private readonly IListingRepository _ListingRepository;
-        
-        
+
+
         /// <summary>
         ///  Constructor
         /// </summary>
@@ -149,9 +149,9 @@ namespace MPC.Implementation.WebStoreServices
             {
                 bool dataAdded = false;
 
-               
 
-                dataAdded = _ListingRepository.UpdateListingData(objProperty,listing);
+
+                dataAdded = _ListingRepository.UpdateListingData(objProperty, listing);
 
                 return dataAdded;
             }
@@ -160,10 +160,7 @@ namespace MPC.Implementation.WebStoreServices
                 throw;
             }
         }
-
-        #region AddListingData
-
-        public bool AddListingData(ListingProperty objProperty)
+        private bool AddListingData(ListingProperty objProperty)
         {
             try
             {
@@ -188,40 +185,5 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ListingRepository.GetAllListingImages();
         }
-        public void AddListingVendors(int newlyAddedListing, List<ListingVendors> list)
-        {
-            _ListingRepository.AddListingVendors(newlyAddedListing, list);
-        }
-        public  void AddListingConjunctionalAgents(int newlyAddedListing, List<ListingConjunctionalAgents> list)
-        {
-            _ListingRepository.AddListingConjunctionalAgents(newlyAddedListing, list);
-        }
-        public void AddListingAgents(int newlyAddedListing, List<ListingAgents> lstAgents, int CompanyId)
-        {
-            _ListingRepository.AddListingAgents(newlyAddedListing, lstAgents, CompanyId);
-        }
-        public void AddListingLinks(int newlyAddedListing, List<ListingLinks> lstListingLinks)
-        {
-            _ListingRepository.AddListingLinks(newlyAddedListing, lstListingLinks);
-        }
-        public void AddListingFloorPlans(int newlyAddedListing, List<ListingFloorplans> lstFloorPlans)
-        {
-            _ListingRepository.AddListingFloorPlans(newlyAddedListing, lstFloorPlans);
-        }
-        public void AddListingCustomCopy(int newlyAddedListing, ListingCustomCopy listingCustomCopy)
-        {
-            _ListingRepository.AddListingCustomCopy(newlyAddedListing, listingCustomCopy);
-        }
-
-        public void AddListingOFIs(int newlyAddedListing, List<ListingOFIs> listingOFIs)
-        {
-            _ListingRepository.AddListingOFIs(newlyAddedListing, listingOFIs);
-        }
-        public void AddListingImages(int newlyAddedListing, List<ListingImages> listingImages, string contactCompanyId)
-        {
-            _ListingRepository.AddListingImages(newlyAddedListing, listingImages, contactCompanyId);
-        }
-
-        #endregion
     }
 }
