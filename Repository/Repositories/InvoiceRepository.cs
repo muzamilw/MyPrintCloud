@@ -161,20 +161,57 @@ namespace MPC.Repository.Repositories
 
         public List<ZapierInvoiceDetail> GetZapierInvoiceDetails()
         {
+            var invd = DbSet.Include(i => i.Items).Where(i => i.OrganisationId == OrganisationId);
             var inv = DbSet.Include(i => i.Items).Where(i => i.OrganisationId == OrganisationId)
                 .Select(i => new
                 {
-                    CustomerName = i.Company.Name,
-                    URL = i.Company.URL,
-                    TaxRate = i.Company.TaxRate,
-                    VatNumber = i.Company.VATRegNumber,
-                    FirstName = i.CompanyContact.FileName,
-                    LastName = i.CompanyContact.LastName,
-
+                    CustomerName = i.Company != null? i.Company.Name : string.Empty,
+                    URL = i.Company != null? i.Company.URL : string.Empty,
+                    TaxRate = i.Company != null ? i.Company.TaxRate : 0,
+                    VatNumber = i.Company != null ? i.Company.VATRegNumber: string.Empty,
+                    FirstName = i.CompanyContact != null ? i.CompanyContact.FirstName : string.Empty,
+                    LastName = i.CompanyContact != null ?i.CompanyContact.LastName: string.Empty,
+                    Email = i.CompanyContact != null ?i.CompanyContact.Email:string.Empty,
+                    Phone = i.CompanyContact != null ?i.CompanyContact.HomeTel1:string.Empty,
+                    BillingAddresss = i.Company != null ? i.Company.Addresses.Where(a => a.AddressId == (i.AddressId?? 0)).FirstOrDefault() : null,
+                    InvoiceCode = i.InvoiceCode,
+                    InvoiceDate = i.InvoiceDate,
+                    InvoiceId = i.InvoiceId,
+                    InvoicedItems = i.Items.Select(p => new ZapierInvoiceItem
+                    {
+                        ProductCode = p.ProductCode,
+                        ProductDescription = p.ProductSpecification,
+                        Quantity = p.Qty1?? 0,
+                        NetTotal = p.Qty1NetTotal ?? 0,
+                        TaxValue = p.Qty1Tax1Value ?? 0,
+                        GrossTotal = p.Qty1GrossTotal?? 0,
+                        ProductName = p.ProductName
+                        
+                    }).ToList()
+                    
 
                 }).ToList().Select(c => new ZapierInvoiceDetail
                 {
-                    CustomerName = c.CustomerName
+                    CustomerName = c.CustomerName,
+                    Address1 = c.BillingAddresss != null ? c.BillingAddresss.Address1 : "",
+                    Address2 = c.BillingAddresss != null ? c.BillingAddresss.Address2 : "",
+                    AddressCity = c.BillingAddresss != null ? c.BillingAddresss.City : "",
+                    AddressCountry = c.BillingAddresss != null ? c.BillingAddresss.Country.CountryName : "",
+                    AddressName = c.BillingAddresss != null ? c.BillingAddresss.AddressName : "",
+                    AddressState = c.BillingAddresss != null ? c.BillingAddresss.State.StateName : "",
+                    AddressPostalCode = c.BillingAddresss != null ? c.BillingAddresss.PostCode : "",
+                    VatNumber = c.VatNumber,
+                    CustomerUrl = c.URL,
+                    ContactFirstName = c.FirstName,
+                    ContactLastName = c.LastName,
+                    ContactEmail = c.Email,
+                    ContactPhone = c.Phone,
+                    TaxRate = c.TaxRate ?? 0,
+                    InvoiceItems = c.InvoicedItems,
+                    InvoiceCode = c.InvoiceCode,
+                    InvoiceDate = c.InvoiceDate ?? DateTime.Now,
+                    InvoiceId = c.InvoiceId
+
                 }).ToList();
             return inv;
         }

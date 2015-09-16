@@ -17,21 +17,14 @@ namespace MPC.Models.Common
         public string ContactLastName  { get; set; }
         public string ContactEmail { get; set; }
         public string ContactPhone { get; set; }
-        public string BillingAddressName { get; set; }
-        public string BillingAddress1 { get; set; }
-        public string BillingAddress2 { get; set; }
-        public string BillingAddressCity { get; set; }
-        public string BillingAddressState { get; set; }
-        public string BillingAddressPostalCode { get; set; }
-        public string BillingAddressCountry { get; set; }
-
-        public string ShippingAddressName { get; set; }
-        public string ShippingAddress1 { get; set; }
-        public string ShippingAddress2 { get; set; }
-        public string ShippingAddressCity { get; set; }
-        public string ShippingAddressState { get; set; }
-        public string ShippingAddressPostalCode { get; set; }
-        public string ShippingAddressCountry { get; set; }
+        public string AddressName { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string AddressCity { get; set; }
+        public string AddressState { get; set; }
+        public string AddressPostalCode { get; set; }
+        public string AddressCountry { get; set; }
+        
         public DateTime InvoiceDueDate { get; set; }
         public DateTime InvoiceDate { get; set; }
         public long InvoiceId { get; set; }

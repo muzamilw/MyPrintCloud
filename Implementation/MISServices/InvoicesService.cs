@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Web;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
@@ -26,6 +28,7 @@ namespace MPC.Implementation.MISServices
         private readonly ISectionInkCoverageRepository sectionInkCoverageRepository;
         private readonly ISectionCostCentreDetailRepository sectionCostCentreDetailRepository;
         private readonly IInvoiceDetailRepository invoiceDetailRepository;
+        private readonly IOrganisationRepository organisationRepository;
 
         /// <summary>
         /// Creates New Item and assigns new generated code
@@ -253,7 +256,7 @@ namespace MPC.Implementation.MISServices
         public InvoicesService(IInvoiceRepository invoiceRepository, ICostCentreRepository costCentreRepository, IItemRepository itemRepository,
             IPrefixRepository prefixRepository, IItemAttachmentRepository itemAttachmentRepository, IItemSectionRepository itemsectionRepository,
             ISectionCostCentreRepository sectionCostCentreRepository, ISectionInkCoverageRepository sectionInkCoverageRepository,
-            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IInvoiceDetailRepository invoiceDetailRepository)
+            ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IInvoiceDetailRepository invoiceDetailRepository, IOrganisationRepository organisationRepository)
         {
             this.invoiceRepository = invoiceRepository;
             CostCentreRepository = costCentreRepository;
@@ -266,6 +269,7 @@ namespace MPC.Implementation.MISServices
             this.sectionInkCoverageRepository = sectionInkCoverageRepository;
             this.sectionCostCentreDetailRepository = sectionCostCentreDetailRepository;
             this.invoiceDetailRepository = invoiceDetailRepository;
+            this.organisationRepository = organisationRepository;
         }
 
         #endregion
@@ -387,9 +391,11 @@ namespace MPC.Implementation.MISServices
             target.FootNotes = source.FootNotes;
         }
 
-        public ZapierInvoiceDetail GetZapierInvoiceDetail()
+        public List<ZapierInvoiceDetail> GetZapierInvoiceDetail()
         {
-            return  new ZapierInvoiceDetail();
+            var invDetails = invoiceRepository.GetZapierInvoiceDetails();
+            invDetails.ForEach(c => c.CurrencyCode = organisationRepository.GetOrganizatiobByID().Currency.CurrencyCode);
+            return invDetails;
         }
         #endregion
     }
