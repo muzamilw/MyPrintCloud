@@ -3578,6 +3578,8 @@ namespace MPC.Implementation.MISServices
             string source =
                 HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/fonts");
             ApplyThemeFonts(source, target);
+
+           
         }
 
         private void DeleteMediaFiles(long companyId)

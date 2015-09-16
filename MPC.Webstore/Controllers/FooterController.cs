@@ -44,12 +44,7 @@ namespace MPC.Webstore.Controllers
         // GET: Footer
         public ActionResult Index()
         {
-            //string CacheKeyName = "CompanyBaseResponse";
-            //ObjectCache cache = MemoryCache.Default;
             MPC.Models.DomainModels.Company model = null;
-
-          //  MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-          //  MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
@@ -58,10 +53,24 @@ namespace MPC.Webstore.Controllers
                 model = StoreBaseResopnse.Company;
             }
 
+            ViewBag.TermAndCondition = null;
+            ViewBag.PrivacyPolicy = null;
+
+            if (StoreBaseResopnse.SecondaryPages != null) 
+            {
+                if (StoreBaseResopnse.SecondaryPages.Where(p => p.PageTitle.Contains("Terms & Conditions") && p.isUserDefined == true && p.isEnabled == true).Count() > 0) 
+                {
+                    ViewBag.TermAndCondition = StoreBaseResopnse.SecondaryPages.Where(p => p.PageTitle.Contains("Terms & Conditions") && p.isUserDefined == true && p.isEnabled == true).FirstOrDefault();
+                }
+
+                if (StoreBaseResopnse.SecondaryPages.Where(p => p.PageTitle.Contains("Privacy Policy") && p.isUserDefined == true && p.isEnabled == true).Count() > 0)
+                {
+                    ViewBag.PrivacyPolicy = StoreBaseResopnse.SecondaryPages.Where(p => p.PageTitle.Contains("Privacy Policy") && p.isUserDefined == true && p.isEnabled == true).FirstOrDefault();
+                }
+            }
+
             StoreBaseResopnse = null;
            
-            //MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(storeId).CreateFromCompany();
-
             return PartialView("PartialViews/Footer", model);
         }
 

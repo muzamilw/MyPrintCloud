@@ -40,7 +40,7 @@ namespace MPC.Webstore.ViewModels
         public long StockOptionId { get; set; }
         public string Description { get; set; }
 
-        public bool isChecked { get; set; }
+        public int isChecked { get; set; }
 
         // this will be set only in modify product case 
         public string CostCentreJasonData { get; set; }

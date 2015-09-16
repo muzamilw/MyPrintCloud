@@ -29,8 +29,9 @@
         @Html.Raw(ViewBag.WebMasterTag)
     }
 }
-
-@foreach (var widget in Model)
+@if(Model != null && Model.Count > 0)
+{
+    foreach (var widget in Model)
 {
     if (widget.WidgetId == 14)
     {
@@ -45,9 +46,10 @@
                 string widgetname = widget.Widget.WidgetName;
                 Html.RenderAction("Index", widgetname);
             }
-          <!--0000000000000000000 @widget.Widget.WidgetName --> 
+            <!--0000000000000000000 @widget.Widget.WidgetName -->
         </div>
     }
 
+}
 }
 

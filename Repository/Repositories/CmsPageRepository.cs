@@ -125,7 +125,8 @@ namespace MPC.Repository.Repositories
                                 Meta_RevisitAfterContent = page.Meta_RevisitAfterContent,
                                 Meta_RobotsContent = page.Meta_RobotsContent,
                                 Meta_Title = page.Meta_Title,
-                                PageTitle = page.PageTitle
+                                PageTitle = page.PageTitle,
+                                isDisplay = page.isDisplay
 
                             };
                 return query.ToList<CmsPageModel>();
@@ -171,5 +172,6 @@ namespace MPC.Repository.Repositories
             }).ToList();
             return qry;
         }
+
     }
 }
