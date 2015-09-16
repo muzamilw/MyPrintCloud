@@ -98,7 +98,7 @@ namespace MPC.Webstore.Controllers
                 if (StoreBaseResopnse.Organisation != null)
                 {
                     ViewBag.OrganisationLogo = StoreBaseResopnse.Organisation.MISLogo;
-                    ViewBag.OrgVATRegNumber = StoreBaseResopnse.Organisation.VATRegNumber;
+                    ViewBag.OrgVATRegNumber = StoreBaseResopnse.Organisation.TaxRegistrationNo;
                     ViewBag.OrganisationName = StoreBaseResopnse.Organisation.OrganisationName;
                     oStoreDefaultAddress.Address1 = StoreBaseResopnse.Organisation.Address1;
                     oStoreDefaultAddress.Address2 = StoreBaseResopnse.Organisation.Address2;
