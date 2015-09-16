@@ -193,7 +193,7 @@
                             </div>
                             <div class="user_contol_area2">
                                 <input type="text" id="txtJobTitle" class="text_box200 rounded_corners5"
-                                       maxlength="50" tabindex="14" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("divjobtitle", UserCookieManager.WBStoreId, "Job Title"))" />
+                                       maxlength="50" tabindex="2" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("divjobtitle", UserCookieManager.WBStoreId, "Job Title"))" />
                             </div>
                             <div class="clearBoth">
                                 &nbsp;
@@ -203,7 +203,7 @@
                             </div>
                             <div class="address_contol_area1">
                                 <input id="tboxLastName" class="text_box200 rounded_corners5"
-                                       maxlength="50" tabindex="2" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("Lname", UserCookieManager.WBStoreId, "Last Name"))" />
+                                       maxlength="50" tabindex="3" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("Lname", UserCookieManager.WBStoreId, "Last Name"))" />
                             </div>
                             <div class="user_label_area2">
                                 <label id="ltrldirectline">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrldirectline", UserCookieManager.WBStoreId, "Direct Line")):</label>
@@ -220,7 +220,7 @@
                             </div>
                             <div class="address_contol_area1">
                                 <input type="text" id="txtCellNumber" class="text_box200 rounded_corners5"
-                                       maxlength="30" tabindex="3" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("divcellnumber", UserCookieManager.WBStoreId, "Cell Number"))" />
+                                       maxlength="30" tabindex="4" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("divcellnumber", UserCookieManager.WBStoreId, "Cell Number"))" />
                             </div>
                             <div class="user_label_area2 ">
                                 <label id="ltrlfax">@Html.Raw(Html.GetKeyValueFromResourceFile("divfax", UserCookieManager.WBStoreId, "Fax")):</label>
@@ -245,21 +245,21 @@
                             </div>
                             <div class="user_contol_area2">
                                 <input type="text" id="txtCreditLimit" class="text_box200 rounded_corners5 float_input"
-                                       maxlength="8" tabindex="19" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcreditlimit", UserCookieManager.WBStoreId, "Credit Limit"))" />
+                                       maxlength="8" tabindex="7" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcreditlimit", UserCookieManager.WBStoreId, "Credit Limit"))" />
                             </div>
                             <div class="address_label_area1">
                                 <label id="ltrlsecrquestion">@Html.Raw(Html.GetKeyValueFromResourceFile("SecretQuestion", UserCookieManager.WBStoreId, "Secret Question")):</label>
                             </div>
                             <div class="address_contol_area1">
                                 <select style="width:210px;" id="ddlSecretQuestions" class="rounded_corners5 dropdown"
-                                        tabindex="7"></select>
+                                        tabindex="8"></select>
                             </div>
                             <div class="user_label_area2">
                                 <label id="ltrlSecretAnswer">@Html.Raw(Html.GetKeyValueFromResourceFile("SecretAnswer", UserCookieManager.WBStoreId, "Secret Answer")):</label>
                             </div>
                             <div class="user_contol_area2">
                                 <input id="txtSecretAnswer" class="text_box200 rounded_corners5"
-                                       maxlength="200" tabindex="8" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("SecretAnswer", UserCookieManager.WBStoreId, "Secret Answer"))" />
+                                       maxlength="200" tabindex="9" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("SecretAnswer", UserCookieManager.WBStoreId, "Secret Answer"))" />
                             </div>
                             <div class="clearBoth">
                                 &nbsp;
@@ -271,14 +271,14 @@
 
                             </div>
                             <div class="address_contol_area1 height30px">
-                                <select id="ddlTerritory" style="width:210px;" class="rounded_corners5 dropdown"></select>
+                                <select id="ddlTerritory" style="width:210px;" class="rounded_corners5 dropdown" tabindex="10"></select>
                             </div>
                             <div class="user_label_area2">
                                 <label id="ltrlrole">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlrole", UserCookieManager.WBStoreId, "Role")):</label>
                             </div>
                             <div class="user_contol_area2">
                                 <select id="ddlRole" class="rounded_corners5 dropdown"
-                                        style="width:210px;" tabindex="10"></select>
+                                        style="width:210px;" tabindex="11"></select>
                             </div>
                             <div class="clearBoth">
                                 &nbsp;
@@ -287,26 +287,26 @@
                                 <label id="ltrlbusinaddress">@Html.Raw(Html.GetKeyValueFromResourceFile("baddresss", UserCookieManager.WBStoreId, "Billing Address")):</label>
                             </div>
                             <div class="address_contol_area1 height30px">
-                                <select id="ddlBillingAddress" class="rounded_corners5 dropdown" style="width:210px;"></select>
+                                <select id="ddlBillingAddress" class="rounded_corners5 dropdown" style="width:210px;" tabindex="12"></select>
                             </div>
                             <div class="user_label_area2">
                                 <label id="Literal1">@Html.Raw(Html.GetKeyValueFromResourceFile("shippinadresss", UserCookieManager.WBStoreId, "Shipping Address")):</label>
                             </div>
                             <div class="user_contol_area2">
-                                <select id="ddlShippingAddress" style="width:210px;" class="rounded_corners5 dropdown"></select>
+                                <select id="ddlShippingAddress" style="width:210px;" class="rounded_corners5 dropdown" tabindex="13"></select>
                             </div>
                             <div class="address_label_area1">
                                 <label id="ltrlBilladdress">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlBillingDetail", UserCookieManager.WBStoreId, "Billing Detail")):</label>
 
                             </div>
                             <div class="address_contol_area1">
-                                <textarea readonly="readonly" id="txtAddress" name="Text1" cols="40" rows="5" class="text_box200 rounded_corners5" maxlength="250" style="height:60px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlBillingDetail", UserCookieManager.WBStoreId, "Billing Detail"))"></textarea>
+                                <textarea readonly="readonly" id="txtAddress" tabindex="14" name="Text1" cols="40" rows="5" class="text_box200 rounded_corners5" maxlength="250" style="height:60px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlBillingDetail", UserCookieManager.WBStoreId, "Billing Detail"))"></textarea>
                             </div>
                             <div class="user_label_area2">
                                 <label id="ltrlShipAddrs">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlShipDetails", UserCookieManager.WBStoreId, "Shipping Detail")):</label>
                             </div>
                             <div class="user_contol_area2">
-                                <textarea readonly="readonly" id="txtShippingAddress" cols="40" rows="5" class="text_box200 rounded_corners5"
+                                <textarea readonly="readonly" tabindex="15" id="txtShippingAddress" cols="40" rows="5" class="text_box200 rounded_corners5"
                                           style="height:60px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlShipDetails", UserCookieManager.WBStoreId, "Shipping Detail"))"></textarea>
                             </div>
                             <div class="clearBoth">
@@ -316,7 +316,7 @@
                                 <label id="ltrlnotes">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlnotes", UserCookieManager.WBStoreId, "Notes")):</label>
                             </div>
                             <div class="left_multiline_text_box" style="padding-left: 0px;">
-                                <textarea id="txtNotes" cols="40" rows="5" class="rounded_corners5 text_box"
+                                <textarea id="txtNotes" tabindex="16" cols="40" rows="5" class="rounded_corners5 text_box"
                                           style="height:40px;width:550px;" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlnotes", UserCookieManager.WBStoreId, "Notes"))"></textarea>
                             </div>
                             <div class="clearBoth">
@@ -326,11 +326,11 @@
                                 &nbsp;
                             </div>
                             <div class="left_multiline_text_box">
-                                <input type="checkbox" id="chkCanOrder" value="&nbsp;&nbsp;&nbsp;Can Place Order" tabindex="12" />
+                                <input type="checkbox" id="chkCanOrder" value="&nbsp;&nbsp;&nbsp;Can Place Order" tabindex="17" />
                                 <label id="porder">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcanPlacOrder", UserCookieManager.WBStoreId, "Can Place Order"))</label>
                             </div>
                             <div class="right_multiline_text_box">
-                                <input id="chkCanByCredit" type="checkbox" tabindex="13" value="&nbsp;&nbsp;&nbsp;Can Pay By Credit Card" />
+                                <input id="chkCanByCredit" type="checkbox" tabindex="18" value="&nbsp;&nbsp;&nbsp;Can Pay By Credit Card"  />
                                 <label id="canpaycreditcard">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcanPayByCreditCard", UserCookieManager.WBStoreId, "Can Pay By Credit Card"))</label>
                             </div>
                             <div class="clearBoth">
@@ -340,11 +340,11 @@
                                 &nbsp;
                             </div>
                             <div class="left_multiline_text_box">
-                                <input type="checkbox" id="chkShowPricesForProduct" value="&nbsp;&nbsp;&nbsp;Show Prices on Products" tabindex="14" />
+                                <input type="checkbox" id="chkShowPricesForProduct" value="&nbsp;&nbsp;&nbsp;Show Prices on Products" tabindex="19" />
                                 <label id="showpricesonPro">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlShowPricesOnProducts", UserCookieManager.WBStoreId, "Show Prices on Products"))</label>
                             </div>
                             <div class="right_multiline_text_box">
-                                <input id="chkHasWebAccess" type="checkbox" value="&nbsp;&nbsp;Has Web Access" tabindex="12" />
+                                <input id="chkHasWebAccess" type="checkbox" value="&nbsp;&nbsp;Has Web Access" tabindex="20" />
                                 <label id="haswebaccess">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlHAsWebAccess", UserCookieManager.WBStoreId, "Has Web Access"))</label>
                             </div>
                             <div class="clearBoth">
@@ -358,13 +358,13 @@
                                         <img id="imgContactPicture" class="user_image_container" />
                                         <br />
                                         <br />
-                                        <input type="file" style="width:200px;" id="fuImageUpload" name="fuImageUpload" class="file_upload_box rounded_corners5" tabindex="23" onchange="ShowPreview(this)" />
+                                        <input type="file" style="width:200px;" id="fuImageUpload" name="fuImageUpload" class="file_upload_box rounded_corners5" tabindex="21" onchange="ShowPreview(this)" />
                                         <br />
                                         <br />
                                     </div>
                                     <button id="btnChangePassword" class="start_creating_btn rounded_corners5"
                                             value="Change Password"
-                                            tabindex="25" style="width: 145px; float: right; margin-right: 25px;" onclick="ShowChangePassword();">
+                                            tabindex="22" style="width: 145px; float: right; margin-right: 25px;" onclick="ShowChangePassword();">
                                         Change Password
                                     </button>
                                     <div id="divPass" class="pass" style="text-align: left; margin-left: 5px;">
@@ -372,7 +372,7 @@
                                     </div>
                                     <div id="divPassContr" class="user_contol_area2 pass">
                                         <input type="password" id="tboxPassword" class="text_box200 rounded_corners5"
-                                               maxlength="200" tabindex="20" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password")):" />
+                                               maxlength="200" tabindex="23" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("lblPassword", UserCookieManager.WBStoreId, "Password")):" />
                                     </div>
                                     <div class="clearBoth">
                                         &nbsp;
@@ -382,17 +382,17 @@
                                     </div>
                                     <div id="divConfirmPassContr" class="user_contol_area2 pass">
                                         <input type="password" id="txtConfirmPassword" class="text_box200 rounded_corners5"
-                                               maxlength="200" tabindex="21" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmpass", UserCookieManager.WBStoreId, "Confirm Password"))" />
+                                               maxlength="200" tabindex="24" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlconfirmpass", UserCookieManager.WBStoreId, "Confirm Password"))" />
                                     </div>
                                     <div class="clearBoth">
                                         &nbsp;
                                     </div>
                                 </div>
                                 <div class="float_left" style="padding-left:25px;">
-                                    <button id="btnSaveUser" class="start_creating_btn rounded_corners5" onclick="SaveCall();" tabindex="23">@Html.Raw(Html.GetKeyValueFromResourceFile("btnSave", UserCookieManager.WBStoreId, "Save"))</button>
+                                    <button id="btnSaveUser" class="start_creating_btn rounded_corners5" onclick="SaveCall();" tabindex="25">@Html.Raw(Html.GetKeyValueFromResourceFile("btnSave", UserCookieManager.WBStoreId, "Save"))</button>
                                 </div>
                                 <div class="float_left">
-                                    <button id="btnCancelUser" value="Cancel" class="start_creating_btn rounded_corners5" tabindex="24" onclick="HideMessagePopUpCustom();">@Html.Raw(Html.GetKeyValueFromResourceFile("btnCancel", UserCookieManager.WBStoreId, "Cancel"))</button>
+                                    <button id="btnCancelUser" value="Cancel" class="start_creating_btn rounded_corners5" tabindex="26" onclick="HideMessagePopUpCustom();">@Html.Raw(Html.GetKeyValueFromResourceFile("btnCancel", UserCookieManager.WBStoreId, "Cancel"))</button>
                                     @*<span id="EmailErrorMsg" style="color:red;font-size:8px;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplzentervalidemail", UserCookieManager.WBStoreId, "please,enter valid email"))</span>*@
                                 </div>
 

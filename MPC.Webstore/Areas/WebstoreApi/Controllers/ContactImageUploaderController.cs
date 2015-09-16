@@ -250,6 +250,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                         con.ShippingAddressId = ShippingAddressId;
                         con.Password = Password;
                         con.SecretQuestion = QuestionId.ToString();
+                        con.OrganisationId = UserCookieManager.WEBOrganisationID;
                         _companyService.UpdateDataSystemUser(con);
                     }
                 }
@@ -305,6 +306,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     con.ShippingAddressId = ShippingAddressId;
                     con.Password = Password;
                     con.SecretQuestion = QuestionId.ToString();
+                    con.OrganisationId = UserCookieManager.WEBOrganisationID;
                     _companyService.UpdateDataSystemUser(con);
                 }
                 var formatter1 = new JsonMediaTypeFormatter();
@@ -342,6 +344,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 Message = "Ok";
                 CompanyContact NewContact = new CompanyContact();
                 NewContact.CompanyId = UserCookieManager.WBStoreId;
+                NewContact.OrganisationId = UserCookieManager.WEBOrganisationID;
                 NewContact.isWebAccess = true;
                 NewContact.image = UpdateImage(httpPostedFile);
                 NewContact.CreditLimit = CreditLimit;
