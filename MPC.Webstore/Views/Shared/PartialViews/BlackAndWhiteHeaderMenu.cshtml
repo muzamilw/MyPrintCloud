@@ -39,21 +39,21 @@
                 <a id="lnkBtnSignOut" href="@Url.Action("LogOut", "BlackAndWhiteHeaderMenu")" >@Html.Raw(Html.GetKeyValueFromResourceFile("lout", UserCookieManager.WBStoreId, "Log Out"))</a>
             </li>
         </ul>
-        <ul id="bonhamUserStatus" class="navM" style="width: 1000px; padding-left: 0px;">
-            <li style="width: 12%; ">
+        <ul id="bonhamUserStatus" class="navM">
+            <li style=" ">
                 <Label ID="loggedInUser" >@ViewBag.loggedInUser</Label>
             </li>
-            <li style="width: 28%; margin-right: 0px;">
+            <li style="">
                 <Label ID="savedDesnglbl"> @ViewBag.SavedDesignItmesTotal @Html.Raw(Html.GetKeyValueFromResourceFile("svprojects", UserCookieManager.WBStoreId, "Saved Project(s)"))</Label>
 
             </li>
 
-            <li style="width: 29%; margin-right: 0px;">
+            <li style="">
 
                 <Label ID="cartItemsCount">@Html.Raw(Html.GetKeyValueFromResourceFile("Youhave", UserCookieManager.WBStoreId, "You have")) @ViewBag.CartCount @Html.Raw(Html.GetKeyValueFromResourceFile("iteminbasket", UserCookieManager.WBStoreId, "Items in your basket(s)"))</Label>
             </li>
 
-            <li style="width: 29%; margin-right: 0px;">
+            <li style="">
                 <Label ID="cartBalance">@ViewBag.OrderTotal</Label>
 
             </li>
