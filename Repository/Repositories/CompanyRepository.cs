@@ -5773,6 +5773,7 @@ namespace MPC.Repository.Repositories
                        Item newItem = new Item();
                        item.Clone(newItem);
 
+                       newItem.TemplateId = item.TemplateId;
                        newItem.OrganisationId = OrganisationId;
                        newItem.CompanyId = objCompany.CompanyId;
                        newItem.Tax3 = (int)item.ItemId;
@@ -5863,11 +5864,13 @@ namespace MPC.Repository.Repositories
                                section.Clone(iss);
                                iss.Item = newItem;
                                iss.ItemId = newItem.ItemId;
-
-                               if (iss.SectionInkCoverages != null && iss.SectionInkCoverages.Count > 0)
+                              
+                               if (section.SectionInkCoverages != null && section.SectionInkCoverages.Count > 0)
                                {
-                                   foreach (var sectionInk in iss.SectionInkCoverages)
+                                   iss.SectionInkCoverages = new List<SectionInkCoverage>();
+                                   foreach (var sectionInk in section.SectionInkCoverages)
                                    {
+                                       
                                        SectionInkCoverage sic = new SectionInkCoverage();
                                        sectionInk.Clone(sic);
                                        sic.ItemSection = iss;
@@ -5891,6 +5894,21 @@ namespace MPC.Repository.Repositories
                                sectionOption.Clone(iso);
                                iso.Item = newItem;
                                iso.ItemId = newItem.ItemId;
+
+                               if (sectionOption.ItemAddonCostCentres != null && sectionOption.ItemAddonCostCentres.Count > 0)
+                               {
+                                   iso.ItemAddonCostCentres = new List<ItemAddonCostCentre>();
+                                   foreach (var addsOn in sectionOption.ItemAddonCostCentres)
+                                   {
+                                       ItemAddonCostCentre IACC = new ItemAddonCostCentre();
+                                       addsOn.Clone(IACC);
+                                       IACC.ItemStockOption = iso;
+                                       IACC.ItemStockOptionId = iso.ItemStockOptionId;
+
+                                       iso.ItemAddonCostCentres.Add(IACC);
+                                   }
+
+                               }
 
                                newItem.ItemStockOptions.Add(iso);
                            }
@@ -5925,9 +5943,10 @@ namespace MPC.Repository.Repositories
                                pmbq.Item = newItem;
                                pmbq.ItemId = newItem.ItemId;
 
-                               if (pmbq.ProductMarketBriefAnswers != null && pmbq.ProductMarketBriefAnswers.Count > 0)
+                               if (questions.ProductMarketBriefAnswers != null && questions.ProductMarketBriefAnswers.Count > 0)
                                {
-                                   foreach (var ans in pmbq.ProductMarketBriefAnswers)
+                                   pmbq.ProductMarketBriefAnswers = new List<ProductMarketBriefAnswer>();
+                                   foreach (var ans in questions.ProductMarketBriefAnswers)
                                    {
                                        ProductMarketBriefAnswer sia = new ProductMarketBriefAnswer();
                                        ans.Clone(sia);
@@ -6183,6 +6202,11 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
+        }
+
+        public long GetStoreIdByAccessCode(string sWebAccessCode)
+        {
+           return DbSet.Where(c => c.WebAccessCode == sWebAccessCode && c.OrganisationId == OrganisationId).Select(c => c.CompanyId).FirstOrDefault();
         }
 
        

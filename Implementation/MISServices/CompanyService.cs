@@ -30,6 +30,7 @@ using System.Net.Http.Headers;
 using MPC.Common;
 using Newtonsoft.Json.Linq;
 using Scope = System.IdentityModel.Scope;
+using System.Text;
 
 
 namespace MPC.Implementation.MISServices
@@ -9224,6 +9225,98 @@ namespace MPC.Implementation.MISServices
                         File.Copy(SourceSpriteFile, DestinationSpriteFile);
                 }
             }        
+        }
+        #endregion
+
+        #region Real Estate Property Pull 
+        public string PropertyPull(Stream propertyData)
+        {
+            string dataError = string.Empty;
+
+            try
+            {
+                bool dataProcessed = false;
+                string cultureKey = ConfigurationManager.AppSettings["PropertyCulture"];
+                IFormatProvider culture;
+
+                if (cultureKey == null) //not defined in web.config
+                {
+                    culture = new System.Globalization.CultureInfo("en-AU", true); // AU is default
+                }
+                else
+                {
+                    culture = new System.Globalization.CultureInfo(cultureKey, true);
+                }
+
+                using (StreamReader sr = new StreamReader(propertyData))
+                {
+                    String doc = sr.ReadToEnd();
+
+                    //write File
+                    string filePath = HttpContext.Current.Server.MapPath("~/StoredImages/RealEstateImages/RECData" + DateTime.Now.ToShortDateString().Replace("/", "-") + ".txt");
+
+                    if (File.Exists(filePath))
+                    {
+                        File.Delete(filePath);
+                    }
+
+                    //File.WriteAllText(filePath, doc);
+
+                    // Create the file. 
+                    using (FileStream fs = File.Create(filePath))
+                    {
+                        Byte[] info = new UTF8Encoding(true).GetBytes(doc);
+                        // Add some information to the file.
+                        fs.Write(info, 0, info.Length);
+                    }
+
+                    if (doc.Contains("&quot;"))
+                        doc = doc.Replace("&quot;", "\"");
+                    ListingProperty objProperty = JsonConvert.DeserializeObject<ListingProperty>(doc);
+                    if (objProperty.Office.StoreCode == null)
+                    {
+                        dataError = "Store code is missing";
+                        return dataError;
+                    }
+                    long iContactCompanyID = companyRepository.GetStoreIdByAccessCode(objProperty.Office.StoreCode);
+                    
+
+                    if (iContactCompanyID == 0)
+                    {
+                        dataError = "Invalid Store code [" + objProperty.Office.StoreCode + "]";
+                        return dataError;
+                    }
+                    else
+                    {
+                        objProperty.Listing.ContactCompanyID = Convert.ToString(iContactCompanyID);
+                    }
+
+                    //tbl_Listing listing = CheckListingForUpdate(objProperty.Listing.ListingID);
+
+                    //if (listing != null) // update
+                    //{
+                    //    dataProcessed = UpdateListingData(objProperty, listing);
+                    //}
+                    //else
+                    //{
+                    //    dataProcessed = AddListingData(objProperty);
+                    //}
+
+                    if (dataProcessed)
+                        dataError = "Data processed successfully.";
+                    else
+                        dataError = "Error occurred while processing data.";
+                }
+
+                return dataError;
+            }
+            catch (Exception ex)
+            {
+
+                dataError = "Error occurred while processing data.";
+
+                return dataError;
+            }
         }
         #endregion
 

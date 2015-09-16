@@ -487,13 +487,14 @@ function e3() {
         canvas.backgroundImage.originX = 'left';
         canvas.backgroundImage.originY = 'top';
     }
-    $("#zoomText").html(Math.floor(D1CS * 100) + "%");
+    $(".zoomTxt").html("ZOOM <br />" + Math.floor(D1CS * 100) + " % ");
     $(".page").css("height", ((Template.PDFTemplateHeight * dfZ1l) + 20) + "px");
     $(".page").css("width", ((Template.PDFTemplateWidth * dfZ1l) + 0) + "px");
     var val = $("#canvasDocument").width() - $(".page").width();
     val = val / 2;
     if (val < 0) val = 20;
     $(".page").css("left", val + "px");
+    $(".zoomTxt").html("ZOOM <br />" + Math.floor(D1CS * 100) + " % ");
 }
 
 function e5() {
@@ -530,14 +531,14 @@ function e5() {
         canvas.backgroundImage.maxHeight = canvas.getHeight();
         canvas.backgroundImage.originX = 'left';
         canvas.backgroundImage.originY = 'top';
-    } $("#zoomText").html(Math.floor(D1CS * 100) + "%");
-    $("#zoomText").html(Math.floor(D1CS * 100) + "%");
+    } 
     $(".page").css("height", ((Template.PDFTemplateHeight * dfZ1l) + 20) + "px");
     $(".page").css("width", ((Template.PDFTemplateWidth * dfZ1l) + 0) + "px");
     var val = $("#canvasDocument").width() - $(".page").width();
     val = val / 2;
     if (val < 0) val = 20;
     $(".page").css("left", val + "px");
+    $(".zoomTxt").html("ZOOM <br />" + Math.floor(D1CS * 100) + " % ");
 }
 function f2_ChangeSVGColor(pathIndex) {
     selectedPathIndex = pathIndex;
@@ -1351,6 +1352,7 @@ function g2(e) {
 
 }
 function g2_1(e) {
+
     var D1AO = canvas.getActiveObject();
     var D1AG = canvas.getActiveGroup();
     var lastPanelLocal = D1LP;
@@ -1556,6 +1558,7 @@ function g2_22(mode) {
     $("#textPropertyPanel").css("display", "none");
     $("#objPropertyPanel").css("display", "block");
     $(".inputObjectAlphaSlider").slider("option", "value", (D1AO.getOpacity() * 100));
+    $(".lblObjectOpacity").html((D1AO.getOpacity() * 100) + "%");
     if (D1AO.IsEditable) {
         $("#LockImgProperties").prop('checked', true);
 
@@ -1597,7 +1600,7 @@ function g2_22(mode) {
                 //DisplayDiv('1');
             }
             $(".svgColorPanel").css("display", "none");
-            $(".inputObjectAlphaSlider ").css("display", "inline-block");
+            $(".inputObjectAlphaSlider,.lblObjectOpacity ").css("display", "inline-block");
 
         // }
           
@@ -1616,7 +1619,7 @@ function g2_22(mode) {
                 m0();
             } 
         }
-        $(".svgColorPanel").css("display", "block"); $("#AddColorShape").css("visibility", "hidden"); $(".inputObjectAlphaSlider ").css("display", "none");
+        $(".svgColorPanel").css("display", "block"); $("#AddColorShape").css("visibility", "hidden"); $(".inputObjectAlphaSlider,.lblObjectOpacity ").css("display", "none");
         $(".svgColorContainer").html("");
         var lstClrs = [];
         if (D1AO.customStyles != null) {
@@ -1633,7 +1636,7 @@ function g2_22(mode) {
         } 
     } else {
         $("#AddColorShape").css("visibility", "visible");
-        $(".svgColorPanel").css("display", "none"); $(".inputObjectAlphaSlider ").css("display", "inline-block");
+        $(".svgColorPanel").css("display", "none"); $(".inputObjectAlphaSlider,.lblObjectOpacity ").css("display", "inline-block");
         if ((D1AO.IsTextEditable && (IsCalledFrom == 4))) {
         } else {
             $(".rotateSlider").slider("option", "value", D1AO.getAngle());
@@ -2199,7 +2202,7 @@ function l3(e) {
             if (!lockedObjectFound) {
                 pcL13();   // show group property panel and hide others
                 pcL36('hide', '#textPropertPanel ,#DivAdvanceColorPanel , #DivColorPallet , #DivColorPallet , #ShapePropertyPanel ,#ImagePropertyPanel , #UploadImage , #quickText , #addImage , #addText');
-                k4();
+                k4(); 
                 pcL36('show', "#DivAlignObjs");
             } else {
                 // hide all panels 
