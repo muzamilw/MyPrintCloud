@@ -12,26 +12,36 @@
     <div class="bannerContainer">
         <div id="top-banner" class="carousel slide hidden-xs " data-interval="6000" data-ride="carousel">
             <ol class="carousel-indicators">
-                <li data-target="#top-banner" data-slide-to="0" class="active"></li>
-                <li data-target="#top-banner" data-slide-to="1"></li>
+                @for (int i = 0; i <= Model.Count(); i++)
+                {
+                    if (i == 0)
+                    {
+                        <li data-target="#top-banner" data-slide-to="@i" class="active"></li>
+                    }
+                    else
+                    {
+                        <li data-target="#top-banner" data-slide-to="@i"></li>
+                    }
+                }
+                
             </ol>
             <div class="carousel-inner">
 
                 @foreach (var banner in Model)
                 {
-                if (index == 1)
-                {
+                    if (index == 1)
+                    {
                 <div class="item text-center active">
                     <a href="@banner.ButtonURL"> <img id="banner1Img" src="@banner.ImageURL" alt="Banner 1" title="Banner 1" /></a><div class="carousel-caption" style=""></div>
                 </div>
-                }
-                else
-                {
+                    }
+                    else
+                    {
                 <div class="item text-center">
                     <a href="@banner.ButtonURL"> <img id="banner1Img" src="@banner.ImageURL" alt="Banner 1" title="Banner 1" /></a><div class="carousel-caption" style=""></div>
                 </div>
-                }
-                index++;
+                    }
+                    index++;
 
                 }
 
