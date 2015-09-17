@@ -116,5 +116,6 @@ namespace MPC.Interfaces.Repository
 
         void SetTerritoryIdAddress(Company objCompany, long OldCompanyId);
         long GetStoreIdByAccessCode(string sWebAccessCode);
+        
     }
 }

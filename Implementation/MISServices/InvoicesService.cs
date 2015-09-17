@@ -394,7 +394,7 @@ namespace MPC.Implementation.MISServices
         public List<ZapierInvoiceDetail> GetZapierInvoiceDetail()
         {
             var invDetails = invoiceRepository.GetZapierInvoiceDetails();
-            invDetails.ForEach(c => c.CurrencyCode = organisationRepository.GetOrganizatiobByID().Currency.CurrencyCode);
+            //invDetails.ForEach(c => c.CurrencyCode = organisationRepository.GetOrganizatiobByID().Currency.CurrencyCode);
             return invDetails;
         }
         #endregion
