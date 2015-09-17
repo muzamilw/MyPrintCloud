@@ -20,8 +20,8 @@
                         <h1 class="SecPagesHeading ">
                             <label id="ltlHeading">@Model.PageTitle</label>
                         </h1>
-                        <div class="paddingLeft10px">
-                            <label id="lblPageContents">@Html.Raw(Model.PageHTML)</label>
+                        <div id="lblPageContents" class="paddingLeft10px">
+                            @Html.Raw(Model.PageHTML)
                         </div>
                     </div>
                 </div>

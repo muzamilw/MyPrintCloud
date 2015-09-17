@@ -3764,10 +3764,19 @@ Public  - allows users to see other users addresses and orders." data-original-t
     <script id="itemCompanyDomainTemplate" type="text/html">
         <tr style="cursor: pointer" data-bind="click: $root.selectCompanyDomain, css: { selectedRow: $data === $root.selectedCompanyDomainItem() }">
             <!--ko if: isMandatoryDomain()-->
-            <td class="col-lg-12"><a data-bind="text: domain, attr: {href: domain}, click: function(){$root.openDomainInTab($data, event);}" target="_new"></a>  (Default)</td>
+            <td class="col-lg-12">
+            <a data-bind="text: domain, attr: {href: domain}, click: function(){$root.openDomainInTab($data);}" target="_new"></a>  
+                @*<a href="https://www.google.com.pk/">YAHOO</a>*@
+              
+            (Default)</td>
             <!-- /ko -->
             <!--ko if: !isMandatoryDomain()-->
-            <td class="col-lg-12"><a data-bind="text: domain, attr: {href: domain}, click: function(){$root.openDomainInTab($data, event);}" target="_new"></a></td>
+            
+            <td class="col-lg-12">
+                @*<a href="https://www.google.com.pk/" target="_newtab">YAHOO</a>*@
+                <a data-bind="text: domain, attr: {href: domain}, click: function(){$root.openDomainInTab($data);}" target="_new"></a>
+            
+            </td>
             <!-- /ko -->
             <td class="col-lg-1">
                 <!-- ko template: { name: 'deleteCompanyDomainItemTemplate' } -->

@@ -164,7 +164,7 @@ namespace MPC.Models.DomainModels
             target.quickCompanyName = quickCompanyName;
             target.quickAddress1 = quickAddress1;
             target.quickAddress2 = quickAddress2;
-            target.quickAddress3 = quickAddress3;
+            //target.quickAddress3 = quickAddress3;
             target.quickPhone = quickPhone;
             target.quickFax = quickFax;
             target.quickEmail = quickEmail;
