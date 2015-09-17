@@ -528,14 +528,32 @@
                             ImageDir.readAsDataURL(input.files[0]);
                         }
                     }
+                   function GetCompanyFlags()
+                    {
+                      
+                       $.getJSON("/UserManager/GetCompanyFlags",
+                                   function (xdata) {
+                                       $("#chkCanOrder")[0].checked = xdata.canUserPlaceOrderWithoutApproval;
+                                      
+                                       $("#chkCanByCredit")[0].checked = xdata.IsRegisterPayOnlyByCreditCard;
+                                       
+                                       $("#chkShowPricesForProduct")[0].checked = xdata.ShowPrices;
+                                      
+                                        $("#chkHasWebAccess")[0].checked = xdata.IsRegisterAccessWebStore;
+                                        
+                                   });
+                       
+                   }
                     function ResetTextboxes() {
                         UpdateStatus = false;
-                        $("#chkCanOrder")[0].checked = true;
-                        $("#chkCanByCredit")[0].checked = true;
+                        GetCompanyFlags();
+                        
+                      //  $("#chkCanOrder")[0].checked = GetCompanyFlags().canUserPlaceOrderWithoutApproval;
+                       // $("#chkCanByCredit")[0].checked = GetCompanyFlags().IsRegisterPayOnlyByCreditCard;
+                        
+                       // $("#chkShowPricesForProduct")[0].checked = false;
 
-                        $("#chkShowPricesForProduct")[0].checked = false;
-
-                        $("#chkHasWebAccess")[0].checked = true;
+                    //    $("#chkHasWebAccess")[0].checked = GetCompanyFlags().IsRegisterAccessWebStore;
                         $("#txtConfirmPassword").val('');
 
                         //  var PHtml = $("#UpdateModelPopUp").html();
@@ -884,6 +902,7 @@
 
                     }
                     function LoadAllData(ContactID) {
+                       
                         UpdateStatus = true;
                         document.getElementById("layer").style.display = "block";
                         document.getElementById("innerLayer").style.display = "block";
@@ -898,10 +917,11 @@
                         $("#tboxEmail").css("border", "1px solid #c1c6cc");
                         $("#tboxPassword").css("border", "1px solid #c1c6cc");
                         $("#modelTitle").text("Update Contact");
-                        // ShowLoader();
+                        ShowLoader();
                        // alert(ContactID);
 
                         $.getJSON("/webstoreapi/UM/UserProfileData?ContactID=" + ContactID + "",
+                            
                                       function (xdata) {
                                           LoadDDTerritories(xdata.CompanyTerritory, xdata.setSelectedTerritory.TerritoryId);
                                           LoadDDQuestions(xdata.RegistrationQuestions, xdata.SelectedQuestion.QuestionId);

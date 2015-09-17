@@ -390,6 +390,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 NewContact.AddressId = AddressId;
                 NewContact.ShippingAddressId = ShippingAddressId;
                 NewContact.Password = Password;
+                
                 _companyService.AddDataSystemUser(NewContact);
                 if (isWebAccess == true)
                 {
