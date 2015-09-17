@@ -14,6 +14,7 @@ using System.Data.SqlClient;
 using System.Data.Entity.Core.Objects;
 using System.Linq.Expressions;
 using AutoMapper;
+using MPC.ExceptionHandling;
 
 namespace MPC.Repository.Repositories
 {
@@ -1198,6 +1199,40 @@ namespace MPC.Repository.Repositories
 		#endregion
 
 
+        public void DeleteCostCentre(long CostCentreId)
+        {
+            try
+            {
+                int type = db.CostCentres.Where(c => c.CostCentreId == CostCentreId).Select(c => c.Type).FirstOrDefault();
 
+                if(type == (int)CostCenterTypes.Delivery)
+                {
+
+                }
+                else
+                {
+                    bool isCostCentreExist = false;
+
+                    isCostCentreExist = db.SectionCostcentres.Any(c => c.CostCentreId == CostCentreId);
+                    isCostCentreExist = db.ItemAddonCostCentres.Any(c => c.CostCentreId == CostCentreId);
+                    isCostCentreExist = db.CompanyCostCentres.Any(c => c.CostCentreId == CostCentreId);
+
+                    if(isCostCentreExist)
+                        throw new MPCException("Cost Centre can't delete", OrganisationId);
+
+
+
+
+                }
+               
+
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
+        }
 	}
 }

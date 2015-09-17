@@ -176,6 +176,32 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
 
             },
+             onDeletePermanent = function () {
+                 confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                 confirmation.afterProceed(function () {
+                     deleteCostCentre(selectedCostCenter().costCentreId());
+                 });
+                 confirmation.show();
+             },
+               // Delete Company Permanently
+                deleteCostCentre = function (id) {
+                    dataservice.deleteCostCentre({ CostCentreId: id }, {
+                        success: function () {
+                            toastr.success("Cost Centre deleted successfully!");
+                            isEditorVisible(false);
+                            if (selectedStore()) {
+                                var store = getCompanyByIdFromListView(selectedStore().companyId());
+                                if (store) {
+                                    stores.remove(store);
+                                }
+                            }
+                            resetStoreEditor();
+                        },
+                        error: function (response) {
+                            toastr.error("Failed to delete store. Error: " + response, "", ist.toastrOptions);
+                        }
+                    });
+                };
             OnEditMatrixVariable = function (oMatrix) {
                 if (oMatrix.MatrixId == undefined || oMatrix.MatrixId == null) {
                     var Id = parseInt($('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id'));
@@ -1376,7 +1402,8 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 variableDropdownList: variableDropdownList,
                 AddtoInputControl: AddtoInputControl,
                 RowscolCountList: RowscolCountList,
-                getCostCenterByFilter: getCostCenterByFilter
+                getCostCenterByFilter: getCostCenterByFilter,
+                onDeletePermanent: onDeletePermanent
 
             };
         })()
