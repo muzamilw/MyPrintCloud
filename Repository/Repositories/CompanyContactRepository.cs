@@ -725,7 +725,7 @@ namespace MPC.Repository.Repositories
             {
                 if (regContact != null)
                 {
-
+                    Company oCompanyRec = db.Companies.Where(c => c.CompanyId == CustomerId).FirstOrDefault();
                     CompanyTerritory companyTerritory = db.CompanyTerritories.Where(t => t.isDefault == true && t.CompanyId == CustomerId).FirstOrDefault();
                     CompanyContact Contact = new CompanyContact(); // ContactManager.PopulateContactsObject(CustomerId, defaultAddressID, false);
 
@@ -743,18 +743,8 @@ namespace MPC.Repository.Repositories
                     Contact.AuthentifiedBy = regContact.AuthentifiedBy;
                     Contact.isArchived = false;
                     Contact.twitterScreenName = TwitterScreenName;
-                    if (isAutoRegister == true)
-                    {
-                        Contact.isWebAccess = true;
-                    }
-                    else
-                    {
-                        Contact.isWebAccess = false;
-                    }
-
                     Contact.ContactRoleId = Convert.ToInt32(Roles.User);
                     Contact.OrganisationId = OrganisationId;
-                    Contact.isPlaceOrder = true;
 
                     //Quick Text Fields
                     Contact.quickAddress1 = regContact.quickAddress1;
@@ -771,6 +761,24 @@ namespace MPC.Repository.Repositories
                     Contact.IsPricingshown = true;
                     Contact.AddressId = 0;
                     Contact.ShippingAddressId = 0;
+                    if(oCompanyRec != null)
+                    {
+                        Contact.isWebAccess = oCompanyRec.IsRegisterAccessWebStore;
+                        Contact.isPlaceOrder = oCompanyRec.IsRegisterPlaceOrder;
+                        Contact.IsPayByPersonalCreditCard = oCompanyRec.IsRegisterPayOnlyByCreditCard;
+                        Contact.canPlaceDirectOrder = oCompanyRec.IsRegisterPlaceDirectOrder;
+                        Contact.canUserPlaceOrderWithoutApproval = oCompanyRec.IsRegisterPlaceOrderWithoutApproval;
+                    }
+                    //if (isAutoRegister == true)
+                    //{
+                    //    Contact.isWebAccess = true;
+                    //}
+                    //else
+                    //{
+                    //    Contact.isWebAccess = false;
+                    //}
+
+                    
                     if (companyTerritory != null)
                     {
                         Contact.TerritoryId = companyTerritory.TerritoryId;

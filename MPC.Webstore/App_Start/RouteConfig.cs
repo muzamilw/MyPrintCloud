@@ -410,11 +410,11 @@ namespace MPC.Webstore
                 new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
             );
 
-            routes.MapRoute(
-                "ReceiptPlain",
-                "ReceiptPlain/{OrderId}/{StoreId}/{IsPrintReceipt}",
-                new { controller = "ReceiptPlain", action = "ReceiptPlain", OrderId = UrlParameter.Optional, StoreId = UrlParameter.Optional, IsPrintReceipt = UrlParameter.Optional }
-            );
+            //routes.MapRoute(
+            //    "ReceiptPlain",
+            //    "ReceiptPlain/{OrderId}/{StoreId}/{IsPrintReceipt}",
+            //    new { controller = "ReceiptPlain", action = "ReceiptPlain", OrderId = UrlParameter.Optional, StoreId = UrlParameter.Optional, IsPrintReceipt = UrlParameter.Optional }
+            //);
 
             routes.MapRoute(
                 "autologin",
