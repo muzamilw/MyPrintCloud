@@ -3351,17 +3351,18 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                       </div>
                                     <div class="col-lg-7 btn-group" style="float: left; margin-top:11px;margin-left:-5px;">
-                                        <div class="filter-block">
-                                            <a class="btn btn-primary">
-                                               Edit Variable Icons
-                                            </a>
-                                        </div>
+                                        
+                                        <button id="open-wizard" class="btn btn-primary" data-bind="click:$root.showcreateVariableDialog">
+                                            Edit Variable Icons
+                                        </button>
                                     </div>
+                                    
                                  </div>
                             </div>
+                           
                     </div>
                 </div>
-
+               
         <!-- ko stopBinding: true -->
         <div id="productDetailBindingSection" class="main-box-body clearfix">
             @{
@@ -3834,6 +3835,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 @Html.Partial("~/Areas/Stores/Views/Shared/_ProductCategoryDetail.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Shared/_ViewMediaLibImage.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/_EditStoreCss.cshtml")
+@Html.Partial("~/Areas/Stores/Views/Stores/_RealEstateCompaignDailog.cshtml")
 
 <script id="workflowEmailItemTemplate" type="text/html">
     <!-- ko if: campaignType() === 1 -->

@@ -7215,6 +7215,16 @@ define("stores/stores.viewModel",
                     };
                 //#region _________R E T U R N_____________________
 
+                //Open VariableIcon Dialog
+                showcreateVariableDialog = function ()
+                {
+                   openDialog();
+                },
+                openDialog = function ()
+                {
+                   view.showVariableIconDialog();
+                }
+
                 return {
                     //storeProduct: storeProduct,
                     MultipleImageFilesLoadedCallback: MultipleImageFilesLoadedCallback,
@@ -7632,7 +7642,10 @@ define("stores/stores.viewModel",
                     bannerButtonCaption: bannerButtonCaption,
                     selectedStoreCss: selectedStoreCss,
                     onEditCss: onEditCss,
-                    onSaveCompanyCss: onSaveCompanyCss
+                    onSaveCompanyCss: onSaveCompanyCss,
+                    openDialog: openDialog,
+                    //Show RealEstateCompaign VariableIcons Dialog
+                    showcreateVariableDialog: showcreateVariableDialog
                 };
                 //#endregion
             })()

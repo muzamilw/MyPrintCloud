@@ -2275,6 +2275,7 @@
     <Content Include="Areas\Stores\Views\Stores\_ProductDialogForDiscountVoucher.cshtml" />
     <Content Include="Areas\Settings\Views\Home\_UnleashedXero.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_EditStoreCss.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_RealEstateCompaignDailog.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
