@@ -388,6 +388,7 @@ namespace MPC.Models.DomainModels
             target.facebookAppId = facebookAppId;
             target.facebookAppKey = facebookAppKey;
             target.twitterAppId = twitterAppId;
+            target.twitterAppKey = twitterAppKey;
             target.isStoreModePrivate = isStoreModePrivate;
             target.CustomCSS = CustomCSS;
 

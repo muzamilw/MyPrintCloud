@@ -77,7 +77,7 @@ namespace MPC.Webstore.Areas.OrderReceipt.Controllers
                     {
                         ViewBag.OrganisationLogo = oOrganisation.MISLogo;
                         ViewBag.OrganisationName = oOrganisation.OrganisationName;
-                        ViewBag.OrganisationName = oOrganisation.VATRegNumber;
+                        ViewBag.OrgVATRegNumber = oOrganisation.TaxRegistrationNo;
                         oStoreDefaultAddress = new AddressViewModel();
                         oStoreDefaultAddress.Address1 = oOrganisation.Address1;
                         oStoreDefaultAddress.Address2 = oOrganisation.Address2;

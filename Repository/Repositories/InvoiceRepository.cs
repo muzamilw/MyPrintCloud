@@ -161,13 +161,19 @@ namespace MPC.Repository.Repositories
 
         public List<ZapierInvoiceDetail> GetZapierInvoiceDetails()
         {
-            var invd = DbSet.Include(i => i.Items).Where(i => i.OrganisationId == OrganisationId);
-            var inv = DbSet.Include(i => i.Items).Where(i => i.OrganisationId == OrganisationId)
-                .Select(i => new
+            db.Configuration.LazyLoadingEnabled = false;
+            var invd = DbSet.Include(i => i.Items)
+                .Include(i => i.Company)
+                .Include(i => i.CompanyContact)
+                .Include(i => i.Company.Addresses)
+                .Where(i => i.OrganisationId == OrganisationId).ToList();
+            if (invd.Any())
+            {
+               var zapDetail = invd.Select(i => new
                 {
                     CustomerName = i.Company != null? i.Company.Name : string.Empty,
                     URL = i.Company != null? i.Company.URL : string.Empty,
-                    TaxRate = i.Company != null ? i.Company.TaxRate : 0,
+                    TaxRate = i.Company != null ? i.Company.TaxRate??0 : 0,
                     VatNumber = i.Company != null ? i.Company.VATRegNumber: string.Empty,
                     FirstName = i.CompanyContact != null ? i.CompanyContact.FirstName : string.Empty,
                     LastName = i.CompanyContact != null ?i.CompanyContact.LastName: string.Empty,
@@ -196,9 +202,9 @@ namespace MPC.Repository.Repositories
                     Address1 = c.BillingAddresss != null ? c.BillingAddresss.Address1 : "",
                     Address2 = c.BillingAddresss != null ? c.BillingAddresss.Address2 : "",
                     AddressCity = c.BillingAddresss != null ? c.BillingAddresss.City : "",
-                    AddressCountry = c.BillingAddresss != null ? c.BillingAddresss.Country.CountryName : "",
+                    AddressCountry = c.BillingAddresss != null ? c.BillingAddresss.Country != null ? c.BillingAddresss.Country.CountryName: "" : "",
                     AddressName = c.BillingAddresss != null ? c.BillingAddresss.AddressName : "",
-                    AddressState = c.BillingAddresss != null ? c.BillingAddresss.State.StateName : "",
+                    AddressState = c.BillingAddresss != null ? c.BillingAddresss.State != null ? c.BillingAddresss.State.StateName: "" : "",
                     AddressPostalCode = c.BillingAddresss != null ? c.BillingAddresss.PostCode : "",
                     VatNumber = c.VatNumber,
                     CustomerUrl = c.URL,
@@ -206,14 +212,20 @@ namespace MPC.Repository.Repositories
                     ContactLastName = c.LastName,
                     ContactEmail = c.Email,
                     ContactPhone = c.Phone,
-                    TaxRate = c.TaxRate ?? 0,
+                    TaxRate = c.TaxRate,
                     InvoiceItems = c.InvoicedItems,
                     InvoiceCode = c.InvoiceCode,
                     InvoiceDate = c.InvoiceDate ?? DateTime.Now,
                     InvoiceId = c.InvoiceId
 
                 }).ToList();
-            return inv;
+                return zapDetail;
+            }
+            else
+            {
+                return null;
+            }
+            
         }
         #endregion
     }
