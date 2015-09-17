@@ -1429,11 +1429,18 @@ namespace MPC.Implementation.WebStoreServices
                 }
                 foreach (var objObjects in oParentObjects)
                 {
-
+                    if (objObjects.PositionY == null)
+                        objObjects.PositionY = 0;
+                    if (objObjects.PositionX == null)
+                        objObjects.PositionX = 0;
                     if (XFactor != objObjects.PositionX)
                     {
-                        if (objObjects.ContentString == "")
-                            YFactor = objObjects.PositionY.Value - 7;
+                        if (objObjects.ContentString == ""){
+                            if(objObjects.PositionY.HasValue)
+                                YFactor = objObjects.PositionY.Value - 7;
+                            else
+                                YFactor = 0;
+                        }
                         else
                             YFactor = 0;
                         if(objObjects.PositionX.HasValue)
@@ -1754,11 +1761,18 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     foreach (var objObjects in oParentObjects)
                     {
-
+                        if (objObjects.PositionX == null)
+                            objObjects.PositionX = 0;
+                        if (objObjects.PositionY == null)
+                            objObjects.PositionY = 0;
                         if (XFactor != objObjects.PositionX)
                         {
-                            if (objObjects.ContentString == "")
-                                YFactor = objObjects.PositionY.Value - 7;
+                            if (objObjects.ContentString == ""){
+                                  if(objObjects.PositionY.HasValue)
+                                      YFactor = objObjects.PositionY.Value - 7;
+                            else
+                                YFactor = 0;
+                            }
                             else
                                 YFactor = 0;
                             if (objObjects.PositionX.HasValue)
