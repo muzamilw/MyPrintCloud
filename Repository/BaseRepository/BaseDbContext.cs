@@ -180,6 +180,8 @@ namespace MPC.Repository.BaseRepository
         public DbSet<CompanyCMYKColor> CompanyCmykColors { get; set; }
         public DbSet<GetItemsListView> GetItemsListViews { get; set; }
 
+        public DbSet<vw_RealEstateProperties> vw_RealEstateProperties { get; set; }
+
         public DbSet<GetCategoryProduct> GetCategoryProducts { get; set; }
 
         public DbSet<Address> Addesses { get; set; }
@@ -1209,6 +1211,16 @@ namespace MPC.Repository.BaseRepository
             new ObjectParameter("OldStoreId", typeof(long));
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_CopyStoreProducts", OldstoreIdParameter, NewstoreIdParameter,organisationIdParameter);
+        }
+
+        public int usp_DeleteCostCentre(long? costcentreId)
+        // ReSharper restore InconsistentNaming
+        {
+            var costcentreIdParameter = costcentreId.HasValue ?
+                new ObjectParameter("costcentreId", costcentreId) :
+                new ObjectParameter("costcentreId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteCostCentre", costcentreIdParameter);
         }
         #endregion
     }
