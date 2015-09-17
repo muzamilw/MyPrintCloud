@@ -197,6 +197,12 @@ namespace MPC.Webstore.Controllers
 
             return Json(sb.ToString(), JsonRequestBehavior.DenyGet);
         }
+         [HttpGet]
+        public JsonResult GetCompanyFlags()
+        {
+            Company Company = _mycompanyservice.GetCompanyByCompanyID(UserCookieManager.WBStoreId);
+            return Json(Company, JsonRequestBehavior.AllowGet);
+        }
         
     }
     public class jsonResponse

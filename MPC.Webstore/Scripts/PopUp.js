@@ -1372,7 +1372,6 @@ function CreateGenericPopup(PopUpTitle, HtmlID) {
         //left = parseInt((bws.width) / 2);
         document.getElementById("popupLayer").style.width = (bws.width) + "px";
         container = '<div class="md-modal md-effect-7 col-xs-12" id="modal-7" ><div class=""><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUpGeneric(); >&times;</button><h4 class="modal-title" id="popupTitle"></h4></div><div class="modal-body" style="height: 500px; overflow: scroll; overflow-x: hidden;" id="popupContent"></div></div>';
-
     }
     else if (bws.width == 640) {
         //left = parseInt((bws.width) / 2);
@@ -1402,7 +1401,7 @@ function CreateGenericPopup(PopUpTitle, HtmlID) {
 
         left = parseInt((bws.width - 730) / 2);
         document.getElementById("popupLayer").style.width = "730px";
-        container = '<div class="md-modal md-effect-7 col-xs-12" id="modal-7" ><div class="md-content" style="border-style:none!important;border-width:0px!important;border-radius:0px!important;border-color:none!important;"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUpGeneric(); >&times;</button><h4 class="modal-title" id="popupTitle"></h4></div><div class="modal-body" id="popupContent"></div></div>';
+        container = '<div class="md-modal md-effect-7 col-xs-12" id="modal-7" ><div class="md-content" style="border-style:none!important;border-width:0px!important;border-radius:0px!important;border-color:none!important;"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUpGeneric(); >&times;</button><h4 class="modal-title" id="popupTitle"></h4></div><div class="modal-body" style="overflow-y:scroll;height:580px;" id="popupContent"></div></div>';
 
 
     }
