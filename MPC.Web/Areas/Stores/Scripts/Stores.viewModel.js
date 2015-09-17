@@ -309,7 +309,7 @@ define("stores/stores.viewModel",
                             return getStoreHeading();
                         }
                     }),
-                    openDomainInTab = function(data, event) {
+                    openDomainInTab = function(data) {
                         window.open(window.location.protocol + "//" + data.domain());
                         event.stopImmediatePropagation();
                     },

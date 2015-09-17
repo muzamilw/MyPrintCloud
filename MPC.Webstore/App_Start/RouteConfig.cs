@@ -79,6 +79,11 @@ namespace MPC.Webstore
                new { controller = "UserManager", action = "GetContactsIntellicence", id = UrlParameter.Optional }
            );
             routes.MapRoute(
+              "GetCompanyFlags",
+              "UserManager/GetCompanyFlags",
+              new { controller = "UserManager", action = "GetCompanyFlags", id = UrlParameter.Optional }
+          );
+            routes.MapRoute(
                 "BillingShippingIntellisenceData",
                 "BillingShippingAddressManager/IntellisenceData",
                 new { controller = "BillingShippingAddressManager", action = "IntellisenceData", id = UrlParameter.Optional }
