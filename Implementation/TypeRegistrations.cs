@@ -53,8 +53,8 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ITemplateFontsService, TemplateFontsService>();
             unityContainer.RegisterType<ITemplateBackgroundImagesService, TemplateBackgroundImagesService>();
             unityContainer.RegisterType<ICostCentreService, CostCentreService>();
-            unityContainer.RegisterType<IListingService,ListingService>();
-          
+            unityContainer.RegisterType<webstoreInterfaces.IListingService,webstoreImplementation.ListingService>();
+            unityContainer.RegisterType<MISInterfaces.IListingService, MISImplementation.ListingService>();
             unityContainer.RegisterType<IImagePermissionsService, ImagePermissionService>();
             unityContainer.RegisterType<ICostCentersService, CostCenterService>();
             unityContainer.RegisterType<IMachineService, MachineService>();

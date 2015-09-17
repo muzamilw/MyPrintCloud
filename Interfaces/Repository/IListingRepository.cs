@@ -10,6 +10,8 @@ namespace MPC.Interfaces.Repository
 {
     public interface IListingRepository : IBaseRepository<MPC.Models.DomainModels.Listing, long>
     {
+
+        IEnumerable<vw_RealEstateProperties> GetRealEstatePropertyCompaigns();
         List<MPC.Models.DomainModels.ListingImage> GetAllListingImages();
         List<MPC.Models.DomainModels.ListingImage> GetListingImagesByListingID(int propertyId);
         List<MPC.Models.DomainModels.Listing> GetRealEstateProperties();

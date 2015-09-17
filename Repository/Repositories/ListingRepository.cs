@@ -178,6 +178,15 @@ namespace MPC.Repository.Repositories
         }
         #endregion
 
+        #region GetRealEstateCompaigns
+
+        public IEnumerable<vw_RealEstateProperties> GetRealEstatePropertyCompaigns()
+        {
+            return db.vw_RealEstateProperties.ToList();
+        }
+
+        #endregion
+
         public List<FieldVariable> GetVariablesListWithValues(long listingId, long itemId, long ContactID, long ContactCompanyID, long FlagID, long AddressID, out List<MPC.Models.Common.TemplateVariable> lstVariableAndValue, out List<MPC.Models.Common.TemplateVariable> lstGeneralVariables, out List<MPC.Models.Common.TemplateVariable> lstListingImages, out List<VariableSection> lstSectionsName)
         {
             List<FieldVariable> lstFieldVariable = new List<FieldVariable>();
