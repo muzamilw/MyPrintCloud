@@ -67,8 +67,8 @@
                         <label id="lbl_PoweredBy" style="color: #C72965;  font-weight: bold; font-style: normal; font-weight: bold; display: none; font-size: 13px; line-height: 16px; float: right; margin-top: 25px;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlPoweredBy", UserCookieManager.WBStoreId, "Powered by"))</label>
                     </div>
                     <div id="trWhiteLabel" class="col-md-4 col-lg-4 col-xs-12 receiptWhitelblleftcnt">
-                        <img id="Companyimg" class="IframeCompanyLogoCs_AddSelectCS" src="/@ViewBag.Company.Image" /><br />
-                        <label id="ltrlCompanyName" style="font-size: 18px; font-weight: bold;">@ViewBag.Company.Name</label><br />
+                        <img id="Companyimg" class="IframeCompanyLogoCs_AddSelectCS" src="/@ViewBag.OrganisationLogo" /><br />
+                        <label id="ltrlCompanyName" style="font-size: 18px; font-weight: bold;">@ViewBag.OrganisationName</label><br />
                         <label id="lblAddLine1" style="color: black;  font-weight: normal; font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.Address1</label>
                         <label id="lblAddLine2" style="color: black;  font-weight: normal;  font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.Address2</label><br />
                         <label id="lblTown" style="color: black;  font-weight: normal;  font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.City</label>
@@ -83,7 +83,7 @@
                     </div>
                     <div id="trVatNumb" style="height: 30px;" class="col-md-4 col-lg-4 col-xs-12 receiptWhitelblleftcnt">
                         <label id="lbl_VATRegisterationNumber" style="font-weight: normal;">@Html.Raw(Html.GetKeyValueFromResourceFile("VatResgNo", UserCookieManager.WBStoreId, "ABN:"))</label>
-                        <label id="lblVatNum" class="receiptVatNum" style="font-weight: normal;">@ViewBag.Company.VATRegNumber</label>
+                        <label id="lblVatNum" class="receiptVatNum" style="font-weight: normal;">@ViewBag.OrgVATRegNumber</label>
                     </div>
                     <div class="clearBoth" style="border-top: 2px solid #f3f3f3;">
                     </div>

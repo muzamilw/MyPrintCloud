@@ -6295,6 +6295,11 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        public long GetStoreIdByAccessCode(string sWebAccessCode)
+        {
+           return DbSet.Where(c => c.WebAccessCode == sWebAccessCode && c.OrganisationId == OrganisationId).Select(c => c.CompanyId).FirstOrDefault();
+        }
+
        
     }
 }

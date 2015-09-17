@@ -30,6 +30,7 @@ using System.Net.Http.Headers;
 using MPC.Common;
 using Newtonsoft.Json.Linq;
 using Scope = System.IdentityModel.Scope;
+using System.Text;
 
 
 namespace MPC.Implementation.MISServices
@@ -3577,6 +3578,21 @@ namespace MPC.Implementation.MISServices
             string source =
                 HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/fonts");
             ApplyThemeFonts(source, target);
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Host);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                string url = "WebstoreApi/StoreCache/Get?id=" + companyId;
+                var response = client.GetAsync(url);
+                if (!response.Result.IsSuccessStatusCode)
+                {
+                    //throw new MPCException("Failed to clear store cache", companyRepository.OrganisationId);
+                }
+            }
+
         }
 
         private void DeleteMediaFiles(long companyId)
@@ -9317,6 +9333,8 @@ namespace MPC.Implementation.MISServices
             }        
         }
         #endregion
+
+        
 
 
 
