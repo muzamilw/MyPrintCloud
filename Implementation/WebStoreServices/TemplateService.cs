@@ -1429,11 +1429,18 @@ namespace MPC.Implementation.WebStoreServices
                 }
                 foreach (var objObjects in oParentObjects)
                 {
-
+                    if (objObjects.PositionY == null)
+                        objObjects.PositionY = 0;
+                    if (objObjects.PositionX == null)
+                        objObjects.PositionX = 0;
                     if (XFactor != objObjects.PositionX)
                     {
-                        if (objObjects.ContentString == "")
-                            YFactor = objObjects.PositionY.Value - 7;
+                        if (objObjects.ContentString == ""){
+                            if(objObjects.PositionY.HasValue)
+                                YFactor = objObjects.PositionY.Value - 7;
+                            else
+                                YFactor = 0;
+                        }
                         else
                             YFactor = 0;
                         if(objObjects.PositionX.HasValue)
@@ -1754,11 +1761,22 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     foreach (var objObjects in oParentObjects)
                     {
-
+                        if (objObjects.PositionX == null)
+                            objObjects.PositionX = 0;
+                        if (objObjects.PositionY == null)
+                            objObjects.PositionY = 0;
+                        if (objObjects.MaxHeight == null)
+                            objObjects.MaxHeight = 0;
+                        if (objObjects.MaxWidth == null)
+                            objObjects.MaxWidth = 0;
                         if (XFactor != objObjects.PositionX)
                         {
-                            if (objObjects.ContentString == "")
-                                YFactor = objObjects.PositionY.Value - 7;
+                            if (objObjects.ContentString == ""){
+                                  if(objObjects.PositionY.HasValue)
+                                      YFactor = objObjects.PositionY.Value - 7;
+                            else
+                                YFactor = 0;
+                            }
                             else
                                 YFactor = 0;
                             if (objObjects.PositionX.HasValue)
@@ -1782,7 +1800,7 @@ namespace MPC.Implementation.WebStoreServices
                             double currentX = objObjects.PositionX.Value, currentY = objObjects.PositionY.Value;
 
 
-                            if (VAlign == 1 || VAlign == 2)
+                            if (VAlign == 1 || VAlign == 2 || VAlign == 3)
                                 currentY = objObjects.PositionY.Value + objObjects.MaxHeight.Value;
                             bool isTemplateSpot = false;
                             if (objProduct.isSpotTemplate.HasValue == true && objProduct.isSpotTemplate.Value == true)
@@ -2891,7 +2909,7 @@ namespace MPC.Implementation.WebStoreServices
            GenerateTemplatePdf(productID, OrganisationID, printCuttingMargins, false, false, false, bleedAreaSize, isMultipageProduct);
 
         }
-        // called from webstore to save template locally // added by saqib ali // not tested yet
+        // called from webstore to save template locally // added by saqib ali =
         // base path = F:\Development\Github\MyprintCloud-dev\MPC.Web\MPC_Content\Designer\Organisation2\
         // mode = 1 => create a new template from v2 objects
         // mode =2 => update an existing template  from v2 objects
@@ -2996,6 +3014,7 @@ namespace MPC.Implementation.WebStoreServices
             {
 
                 long productID = 0;
+                List<TemplateObject> objsToRemove = new List<TemplateObject>();
                // List<TemplateObject> objsToAdd = new List<TemplateObject>();
                 if (lstTemplatesObjects.Count > 0)
                 {
@@ -3003,8 +3022,21 @@ namespace MPC.Implementation.WebStoreServices
                     productID = lstTemplatesObjects[0].ProductId.Value;
                     foreach (var oObject in lstTemplatesObjects)
                     {
-                        if (oObject.ObjectId != -999)
+                        if (oObject.ObjectId != -999 )
                         {
+                            if (oObject.PositionX == null && oObject.PositionY == null && oObject.MaxHeight == null && oObject.MaxWidth == null)
+                                objsToRemove.Add(oObject);
+
+                            if (oObject.PositionX == null)
+                                oObject.PositionX = 0;
+                            if (oObject.PositionY == null)
+                                oObject.PositionY = 0;
+                            if (oObject.MaxHeight == null)
+                                oObject.MaxHeight = 0;
+                            if (oObject.MaxWidth == null)
+                                oObject.MaxWidth = 0;
+
+                           
                             if(oObject.PositionX.HasValue)
                                 oObject.PositionX = Math.Round(DesignerUtils.PixelToPoint(oObject.PositionX.Value), 6);
                             if(oObject.PositionY.HasValue)
@@ -3034,6 +3066,10 @@ namespace MPC.Implementation.WebStoreServices
                             oObject.ProductId = productID;
 
                         }
+                    }
+                    foreach(var objR in objsToRemove)
+                    {
+                        lstTemplatesObjects.Remove(objR);
                     }
 
                 }

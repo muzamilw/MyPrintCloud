@@ -1340,11 +1340,11 @@ $("#BtnAlignObjLeft").click(function (ev) {
             var left = 0
             mintop = D1AG[0].top;
             minID = D1AG[0].ObjectID;
-            left = D1AG[0].left - D1AG[0].currentWidth / 2;
+            left = D1AG[0].left - D1AG[0].getWidth() / 2;
             if (D1AG) {
                 for (i = 0; i < D1AG.length; i++) {
                     if (D1AG[i].ObjectID != minID) {
-                        D1AG[i].left = left + D1AG[i].currentWidth / 2;
+                        D1AG[i].left = left + D1AG[i].getWidth() / 2;
                     }
                 }
                 canvas.discardActiveGroup();
@@ -1362,12 +1362,12 @@ $("#BtnAlignObjRight").click(function (ev) {
             var left = 0
             mintop = D1AG[0].top;
             minID = D1AG[0].ObjectID;
-            left = D1AG[0].left + D1AG[0].currentWidth / 2;
+            left = D1AG[0].left + D1AG[0].getWidth() / 2;
 
             if (D1AG) {
                 for (i = 0; i < D1AG.length; i++) {
                     if (D1AG[i].ObjectID != minID) {
-                        D1AG[i].left = left - D1AG[i].currentWidth / 2;
+                        D1AG[i].left = left - D1AG[i].getWidth() / 2;
                     }
                 }
                 canvas.discardActiveGroup();
@@ -1385,11 +1385,11 @@ $("#BtnAlignObjTop").click(function (ev) {
             var top = 0
             minLeft = D1AG[0].left;
             minID = D1AG[0].ObjectID;
-            top = D1AG[0].top - D1AG[0].currentHeight / 2;
+            top = D1AG[0].top - D1AG[0].getHeight() / 2;
             if (D1AG) {
                 for (i = 0; i < D1AG.length; i++) {
                     if (D1AG[i].ObjectID != minID) {
-                        D1AG[i].top = top + D1AG[i].currentHeight / 2;
+                        D1AG[i].top = top + D1AG[i].getHeight() / 2;
                     }
                 }
                 canvas.discardActiveGroup();
@@ -1429,11 +1429,11 @@ $("#BtnAlignObjBottom").click(function (ev) {
             var top = 0
             minLeft = D1AG[0].left;
             minID = D1AG[0].ObjectID;
-            top = D1AG[0].top + D1AG[0].currentHeight / 2;
+            top = D1AG[0].top + D1AG[0].getHeight() / 2;
             if (D1AG) {
                 for (i = 0; i < D1AG.length; i++) {
                     if (D1AG[i].ObjectID != minID) {
-                        D1AG[i].top = top - D1AG[i].currentHeight / 2;
+                        D1AG[i].top = top - D1AG[i].getHeight() / 2;
                     }
                 }
                 canvas.discardActiveGroup();

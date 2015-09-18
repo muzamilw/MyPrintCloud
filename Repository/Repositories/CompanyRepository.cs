@@ -4399,8 +4399,34 @@ namespace MPC.Repository.Repositories
                         {
                             if (!string.IsNullOrEmpty(pages.PageBanner))
                             {
+                               // string name = Path.GetFileName(pages.PageBanner);
+                                string OldMediaID = string.Empty;
+                                string newMediaID = string.Empty;
                                 string name = Path.GetFileName(pages.PageBanner);
-                                pages.PageBanner = "/MPC_Content/Media/" + NewOrgID + "/" + oCID + "/" + name;
+
+                                string[] SplitMain = name.Split('_');
+
+                                if (SplitMain != null)
+                                {
+                                    if (SplitMain[0] != string.Empty)
+                                    {
+                                        OldMediaID = SplitMain[0];
+
+                                    }
+                                }
+
+                                if (dictionaryMediaIds != null && dictionaryMediaIds.Count > 0)
+                                {
+                                    var dec = dictionaryMediaIds.Where(s => s.Key == OldMediaID).Select(s => s.Value).FirstOrDefault();
+                                    if (dec != null)
+                                    {
+                                        newMediaID = dec.ToString();
+                                    }
+                                }
+
+
+                                string newCMSPageName = name.Replace(OldMediaID + "_", newMediaID + "_");
+                                pages.PageBanner = "/MPC_Content/Media/" + NewOrgID + "/" + oCID + "/" + newCMSPageName;
                             }
 
                         }
@@ -5765,13 +5791,24 @@ namespace MPC.Repository.Repositories
               
                List<Item> items = new List<Item>();
                items = db.Items.Where(c => c.CompanyId == OldCompanyId && c.EstimateId == null && (c.IsArchived == null || c.IsArchived == false)).ToList();
-
+               List<SmartForm> smartFormsNew = db.SmartForms.Where(c => c.CompanyId == objCompany.CompanyId).ToList();
+               List<SmartForm> smartFormsOld = db.SmartForms.Where(c => c.CompanyId == OldCompanyId).ToList();
                if (items != null && items.Count > 0)
                {
                    foreach (var item in items)
                    {
                        Item newItem = new Item();
                        item.Clone(newItem);
+                       long smartFormId = 0;
+                       string smartFormName = smartFormsOld.Where(c => c.SmartFormId == item.SmartFormId).Select(c => c.Name).FirstOrDefault();
+                       if(!string.IsNullOrEmpty(smartFormName))
+                       {
+                           smartFormId = smartFormsNew.Where(c => c.Name == smartFormName).Select(c => c.SmartFormId).FirstOrDefault();
+
+                           
+                       }
+
+                       newItem.SmartFormId = smartFormId;
 
                        newItem.TemplateId = item.TemplateId;
                        newItem.OrganisationId = OrganisationId;
@@ -5821,6 +5858,20 @@ namespace MPC.Repository.Repositories
                            }
                        }
 
+                       // for item videos
+                       if (item.ItemVideos != null && item.ItemVideos.Count > 0)
+                       {
+                           newItem.ItemVideos = new List<ItemVideo>();
+                           foreach (var videos in item.ItemVideos)
+                           {
+                               ItemVideo vid = new ItemVideo();
+                               vid.VideoLink = videos.VideoLink;
+                               vid.Caption = videos.Caption;
+                               vid.Item = newItem;
+                               vid.ItemId = newItem.ItemId;
+                               newItem.ItemVideos.Add(vid);
+                           }
+                       }
 
                        // for state taxes
 
@@ -6010,22 +6061,62 @@ namespace MPC.Repository.Repositories
                        cat.OrganisationId = OrganisationId;
                        cat.CompanyId = objCompany.CompanyId;
                        cat.ProductCategoryItems = null;
-                       if (cat.CategoryTerritories != null && cat.CategoryTerritories.Count > 0)
-                       {
-                           foreach (var territory in cat.CategoryTerritories)
-                           {
-                               territory.CompanyId = objCompany.CompanyId;
-                               territory.OrganisationId = OrganisationId;
-
-                               territory.TerritoryId = TerritoryId;
-                           }
-                       }
+                       cat.CategoryTerritories = null;
+                       //if (cat.CategoryTerritories != null && cat.CategoryTerritories.Count > 0)
+                       //{
+                       //    foreach (var territory in cat.CategoryTerritories)
+                       //    {
+                       //        territory.CompanyId = objCompany.CompanyId;
+                       //        territory.OrganisationId = OrganisationId;
+                       //        //territory.ProductCategoryId = 
+                       //        territory.TerritoryId = TerritoryId;
+                       //    }
+                       //}
                        db.ProductCategories.Add(cat);
-                   
+                      
 
                    }
+                   db.SaveChanges();
+
+                   // set category territory
+                   List<ProductCategory> categories = db.ProductCategories.Where(c => c.CompanyId == objCompany.CompanyId).ToList();
+
+                   List<CategoryTerritory> territories = db.CategoryTerritories.Where(c => c.CompanyId == OldCompanyId).ToList();
 
 
+                   if (territories != null && territories.Count > 0)
+                   {
+
+
+                       foreach (var ct in territories)
+                       {
+                               string OldCatId = string.Empty;
+                               if (ct.ProductCategoryId != null)
+                                   OldCatId = Convert.ToString(ct.ProductCategoryId);
+
+                               long NewprodId = categories.Where(c => c.ContentType == OldCatId).Select(c => c.ProductCategoryId).FirstOrDefault();
+
+                              
+
+
+                               CategoryTerritory objCatTerritory = new CategoryTerritory();
+                               objCatTerritory.CompanyId = objCompany.CompanyId;
+                               if (NewprodId > 0)
+                                   objCatTerritory.ProductCategoryId = NewprodId;
+                               else
+                                   objCatTerritory.ProductCategoryId = null;
+                               objCatTerritory.TerritoryId = TerritoryId;
+                               objCatTerritory.OrganisationId = OrganisationId;
+                               db.CategoryTerritories.Add(objCatTerritory);
+                        }
+
+                           db.SaveChanges();
+                         
+                    }
+                      
+
+                   
+                  
 
                }
            }
