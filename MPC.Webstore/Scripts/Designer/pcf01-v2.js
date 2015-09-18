@@ -2589,6 +2589,9 @@ function togglePage(pId) {
                                 canvas.renderAll();
                             }
                         });
+                    } else
+                    {
+                        alert("You are trying to place an SVg in an image placeholder, SVG will be converted into image during this process.");
                     }
                     IT.ContentString = src;
                 
@@ -2621,9 +2624,11 @@ function togglePage(pId) {
                                 var p = src.split('_thumb.');
                                 url += p[0] + "." + p[1];
                             } else {
+
                                 url = src;
                             }
                         } else {
+                            alert("You are trying to place an SVg in an image placeholder, SVG will be converted into image during this process.");
                             url = src;
                         }
                         src = url;
@@ -2853,8 +2858,8 @@ function togglePage(pId) {
             if (D1AO.type === 'text' || D1AO.type === 'i-text') {
                 w = (D1AO.maxWidth);
                 h = (D1AO.maxHeight);
-                $("#inputObjectWidthTxt").val(w /(dfZ1l));
-                $("#inputObjectHeightTxt").val(h /(dfZ1l));
+                $("#inputObjectWidthTxt").val(w /(1));
+                $("#inputObjectHeightTxt").val(h /(1));
                 $("#inputPositionXTxt").val(l /(dfZ1l));
                 $("#inputPositionYTxt").val(t / (dfZ1l));
             } else {
@@ -2930,7 +2935,7 @@ function togglePage(pId) {
         if (!D1AO) return;
         var oldH1 = D1AO.getHeight();
         if (D1AO.type === 'text' || D1AO.type === 'i-text') {
-            var h = $("#inputObjectHeightTxt").val() * (dfZ1l);
+            var h = $("#inputObjectHeightTxt").val() * (1);
             var oldH = D1AO.getHeight();
             D1AO.maxHeight = h;
             var newScaleY = D1AO.maxHeight / D1AO.height;
@@ -2965,7 +2970,7 @@ function togglePage(pId) {
         if (!D1AO) return;
         var oldW1 = D1AO.getWidth();
         if (D1AO.type === 'text' || D1AO.type === 'i-text') {
-            var w = $("#inputObjectWidthTxt").val() * (dfZ1l);
+            var w = $("#inputObjectWidthTxt").val() * (1);
             var oldW = D1AO.getWidth();
             D1AO.maxWidth = w;
             var scaleX = D1AO.maxWidth / D1AO.width;
@@ -3021,7 +3026,7 @@ function togglePage(pId) {
             D1AO.setOpacity(o);
             o = D1AO.getOpacity() * 100;
             $(".transparencySlider").slider("option", "value", o);
-            $(".lblObjectOpacity").html((o) + "%");
+            $(".lblObjectOpacity").html((parseInt(o)) + "%");
         }
         //  c2(D1AO);
         canvas.renderAll();
