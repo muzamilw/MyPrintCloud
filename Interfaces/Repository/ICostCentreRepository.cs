@@ -82,5 +82,7 @@ namespace MPC.Interfaces.Repository
         List<CostCentre> GetAllCostCentresForRecompiling(long OrganisationId);
         CostCentre GetGlobalWebOrderCostCentre(long OrganisationId);
         long GetCostCentreIdByName(string costCenterName);
+
+        void DeleteCostCentre(long CostCentreId);
     }
 }

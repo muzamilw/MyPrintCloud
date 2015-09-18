@@ -84,17 +84,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
 
        
-        [ApiException]
-        [CompressFilterAttribute]
-        public void Delete(long CostCentreId)
-        {
-            if (CostCentreId == 0 || !ModelState.IsValid)
-            {
-                throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
-            }
-
-            //_costCenterService.DeleteCompanyPermanently(model.CompanyId);
-        }
+      
        
         #endregion
     }

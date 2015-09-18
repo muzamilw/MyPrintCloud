@@ -99,9 +99,8 @@ define("costcenter/costcenter.dataservice", function () {
                     });
                     // Define request to Delete cost centre Permanently
                     amplify.request.define('deleteCostCentre', 'ajax', {
-                        url: ist.siteUrl + '/Api/CostCenter',
+                        url: ist.siteUrl + '/Api/DeleteCostCentre',
                         dataType: 'json',
-                        decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'DELETE'
                     });
                     isInitialized = true;

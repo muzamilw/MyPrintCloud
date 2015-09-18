@@ -1535,7 +1535,7 @@ namespace MPC.Implementation.MISServices
 
         public void DeleteCostCentre(long CostCentreId)
         {
-
+            _costCenterRepository.DeleteCostCentre(CostCentreId);
         }
         #endregion
 
