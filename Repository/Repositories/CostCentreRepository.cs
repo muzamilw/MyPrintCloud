@@ -1207,21 +1207,25 @@ namespace MPC.Repository.Repositories
 
                 if(type == (int)CostCenterTypes.Delivery)
                 {
-
+                    db.usp_DeleteCostCentre(CostCentreId);
                 }
                 else
                 {
-                    bool isCostCentreExist = false;
+                    bool isSectionCostCentreExist = false;
+                    bool isItemAddOnCostCentre = false;
+                    bool isCompanyCostCentre = false;
 
-                    isCostCentreExist = db.SectionCostcentres.Any(c => c.CostCentreId == CostCentreId);
-                    isCostCentreExist = db.ItemAddonCostCentres.Any(c => c.CostCentreId == CostCentreId);
-                    isCostCentreExist = db.CompanyCostCentres.Any(c => c.CostCentreId == CostCentreId);
 
-                    if(isCostCentreExist)
+
+                    isSectionCostCentreExist = db.SectionCostcentres.Any(c => c.CostCentreId == CostCentreId);
+                    isItemAddOnCostCentre = db.ItemAddonCostCentres.Any(c => c.CostCentreId == CostCentreId);
+                    isCompanyCostCentre = db.CompanyCostCentres.Any(c => c.CostCentreId == CostCentreId);
+
+                    if(isSectionCostCentreExist || isItemAddOnCostCentre || isCompanyCostCentre)
                         throw new MPCException("Cost Centre can't delete", OrganisationId);
 
 
-
+                    db.usp_DeleteCostCentre(CostCentreId);
 
                 }
                
