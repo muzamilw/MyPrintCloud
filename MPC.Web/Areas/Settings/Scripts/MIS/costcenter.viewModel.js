@@ -188,20 +188,31 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     dataservice.deleteCostCentre({ CostCentreId: id }, {
                         success: function () {
                             toastr.success("Cost Centre deleted successfully!");
-                            isEditorVisible(false);
-                            if (selectedStore()) {
-                                var store = getCompanyByIdFromListView(selectedStore().companyId());
-                                if (store) {
-                                    stores.remove(store);
+
+                            closeCostCenterDetail(false);
+                            //isEditorVisible(false);
+                            if (selectedCostCenter()) {
+                                var costCentre = getCostCentreById(selectedCostCenter().costCentreId());
+                                if (costCentre) {
+                                    costCentersList.remove(costCentre);
                                 }
                             }
-                            resetStoreEditor();
+                           
                         },
                         error: function (response) {
-                            toastr.error("Failed to delete store. Error: " + response, "", ist.toastrOptions);
+                            toastr.error("Cost Centre is in use and can not delete.");
                         }
                     });
                 };
+
+            // Get Company By Id
+            getCostCentreById = function (id) {
+                return costCentersList.find(function (costcentre) {
+                    return costcentre.costCenterId() === id;
+                });
+            },
+
+
             OnEditMatrixVariable = function (oMatrix) {
                 if (oMatrix.MatrixId == undefined || oMatrix.MatrixId == null) {
                     var Id = parseInt($('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id'));

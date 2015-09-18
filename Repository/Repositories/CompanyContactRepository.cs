@@ -1699,9 +1699,13 @@ namespace MPC.Repository.Repositories
 
             //db.Configuration.LazyLoadingEnabled = false;
             var contact = db.CompanyContacts.Where(c => c.ContactId == ContactId).FirstOrDefault();
-            contact.Company.StoreName = GetStoreNameByStoreId(contact.Company.StoreId ?? 0);
-            if (string.IsNullOrEmpty(contact.Company.StoreName))
-                contact.Company.StoreName = contact.Company.Name;
+            if(contact != null)
+            {
+                contact.Company.StoreName = GetStoreNameByStoreId(contact.Company.StoreId ?? 0);
+                if (string.IsNullOrEmpty(contact.Company.StoreName))
+                    contact.Company.StoreName = contact.Company.Name;
+            }
+           
             return contact;
 
 
