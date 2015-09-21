@@ -375,6 +375,7 @@
     <Compile Include="DomainModels\TemplateVariable.cs" />
     <Compile Include="DomainModels\usp_GetRealEstateProducts_Result.cs" />
     <Compile Include="DomainModels\VariableSection.cs" />
+    <Compile Include="DomainModels\vw_CompanyVariableIcons.cs" />
     <Compile Include="DomainModels\vw_RealEstateProperties.cs" />
     <Compile Include="DomainModels\WeightUnit.cs" />
     <Compile Include="DomainModels\Widget.cs" />
