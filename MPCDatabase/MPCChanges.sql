@@ -8336,3 +8336,63 @@ select @NewTemplateID
 END
 
 
+------------------------ sp and view ------------
+
+
+
+/****** Object:  View [dbo].[vw_RealEstateProperties]    Script Date: 9/17/2015 11:44:51 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+
+Create VIEW [dbo].[vw_RealEstateProperties] AS
+
+select ListingID, WebLink, AddressDisplay, StreetAddress, StreetNumber, Street, Suburb, State, PropertyName, PropertyType, PropertyCategory
+		, DisplayPrice,MainHeadLine, MainDescription, BedRooms, BathRooms, LoungeRooms, Toilets, Studies, Pools, Garages
+		, Carports, Features, CompanyId, (select top(1) ImageURL from ListingImage where ListingID = listing.ListingID) as ListingImage
+		, (select top(1) Name from ListingAgent where ListingID = listing.ListingID) as ListingAgent
+	 from Listing listing
+
+
+
+
+GO
+
+
+
+------------------------
+
+
+
+/****** Object:  StoredProcedure [dbo].[usp_DeleteCostCentre]    Script Date: 9/17/2015 3:29:05 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[usp_DeleteCostCentre]
+	@CostCentreId int
+AS
+BEGIN
+
+
+
+		delete from SectionCostcentre where costcentreid = @CostCentreId
+		delete from ItemAddonCostCentre where costcentreid = @CostCentreId
+		delete from CostcentreInstruction where costcentreid = @CostCentreId
+		delete from CompanyCostCentre where costcentreid = @CostCentreId
+
+		delete from costcentre where costcentreid = @CostCentreId
+
+		
+
+
+
+END
+
+
+

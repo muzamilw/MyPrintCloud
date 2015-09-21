@@ -6,15 +6,15 @@
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-lg-12">
-                    <ol class="breadcrumb">
+                    <ol class="breadcrumb" style="padding-left:5px;">
                         <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
                         <li><a href="~/Settings" class="my-navigator">Settings</a></li>
                         <li><a href="~/Settings/MIS/Inventory" class="my-navigator">Paper & Inks</a></li>
                         <li class="active"><span>Paper & Inks Detail</span></li>
                     </ol>
-                    <div data-bind="with:selectedInventory">
+                    <div data-bind="with:selectedInventory" style="padding-left:10px;">
                         <div class="clearfix dynamicNameHeading">
-                            <h1 class="pull-left" data-bind="text:itemName">&nbsp;</h1>
+                            <h1 class="pull-left" data-bind="text:itemName" style="padding-left:0px;">&nbsp;</h1>
                         </div>
                         <div class="pull-left validationSummaryContainer">
                             <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopup', popoverId: 'validationSummaryPopoverBody' }" style="display: none">Invalid data: Click here to see details.</a>
@@ -29,12 +29,12 @@
                             </div>
                         </div>
                         <div class="pull-right top-page-ui" style="padding-right:10PX;">
-                            <button class="btn btn-danger" id="delButton" data-bind="click: $root.onArchiveStock, visible:itemId()!== 0">Archive</button>
-                            @*<button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="margin-right:-1px">
-                                Print
-                            </button>*@
-                            <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveInventory, enable: $root.hasChangesOnInventory, css: { 'btn-warning': $root.hasChangesOnInventory }">Save</button>
-                            <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeInventoryEditor">Close</button>
+                            <div style="margin-top:-1px;">
+                                <button class="btn btn-danger" id="delButton" data-bind="click: $root.onArchiveStock, visible:itemId()!== 0">Archive</button>
+
+                                <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveInventory, enable: $root.hasChangesOnInventory, css: { 'btn-warning': $root.hasChangesOnInventory }">Save</button>
+                                <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeInventoryEditor">Close</button>
+                            </div>
                         </div>
                         <div id="detailArea">
                             &nbsp;
@@ -45,14 +45,14 @@
                 </div>
             </div>
             <div class="row" data-bind="with:selectedInventory" style="padding-left:7px;padding-right:10px;margin-top:6px;">
-                <div class="col-lg-12">
+                <div class="col-lg-12" style="padding-left:10px;">
                     <div class="main-box no-header clearfix">
 
-                        <div class="main-box-body clearfix">
+                        <div style="padding-left:10px;padding-right:10px;">
                             <form class="form-horizontal">
-                                <div class="col-lg-6">
+                                <div class="col-lg-9">
                                     <div class="form-group ">
-                                        <div class="col-lg-5 text-right" style="margin-top:12px;">
+                                        <div class="col-lg-3 text-right" style="margin-top:12px;">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-content="Enter Stock Name" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -60,12 +60,12 @@
                                             </div>
                                             <label for="name" class="control-label text-right tooltip-float">Inventory Name</label>
                                         </div>
-                                        <div class="col-lg-7" style="padding-left:13px;">
+                                        <div class="col-lg-6" style="padding-left:13px;">
                                             <input type="text" style="height:60px;" class="form-control font24px" placeholder="Enter Inventory Name" id="name" data-bind="value:itemName, validationTooltip: itemName, validationOnElement:itemName" />
                                         </div>
                                     </div>
                                     <div class="form-group ">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-content="Select Stock Category" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -73,12 +73,12 @@
                                             </div>
                                             <label for="category" class="control-label text-right tooltip-float">Inventory Category</label>
                                         </div>
-                                        <div class="col-lg-7" style="padding-left:13px;">
+                                        <div class="col-lg-6" style="padding-left:13px;">
                                             <select id="category" class="form-control" data-bind="disable:(itemId()!==0),options: $root.categories, optionsText: 'Name', optionsValue: 'CategoryId',value:categoryId, validationTooltip: categoryId, validationOnElement:categoryId"></select>
                                         </div>
                                     </div>
                                     <div class="form-group ">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-content="Select Stock Sub Category" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -86,30 +86,30 @@
                                             </div>
                                             <label for="subcategory" class="control-label text-right tooltip-float">Inventory Sub Category</label>
                                         </div>
-                                        <div class="col-lg-7" style="padding-left:13px;">
+                                        <div class="col-lg-6" style="padding-left:13px;">
                                             <select id="subcategory" class="form-control" data-bind="disable:(itemId()!==0),options: $root.filteredSubCategoriesForDetail, optionsText: 'Name', optionsValue: 'SubCategoryId',value:subCategoryId, validationTooltip: subCategoryId, validationOnElement:subCategoryId"></select>
                                         </div>
                                     </div>
 
                                     <div class="form-group " data-bind="visible:itemId()!== 0">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Description" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>*@
                                             </div>
-                                            <label for="description" class="control-label text-right tooltip-float">Description / Friendly Name</label>
+                                            <label for="description" class="control-label text-right tooltip-float">Description</label>
                                         </div>
-                                        <div class="col-lg-7" style="padding-left:14px;">
+                                        <div class="col-lg-6" style="padding-left:14px;">
                                             <textarea class="form-control notes" rows="4" id="description" data-bind="value: description, valueUpdate: 'keyup'"></textarea>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-12">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-9">
                                         <div class="form-group ">
-                                            <div class="col-lg-5 text-right">
+                                            <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
                                                     @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Flag" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -117,7 +117,7 @@
                                                 </div>
                                                 <label for="flag" class="control-label text-right tooltip-float">Flag</label>
                                             </div>
-                                            <div class="col-lg-7">
+                                            <div class="col-lg-6">
                                                 <select style="width: 100% !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: flagId, foreach: $root.sectionFlags">
                                                     <option style="width: 100% !important;" data-bind="text: FlagName, attr: { 'data-color': FlagColor, value: SectionFlagId }"></option>
                                                 </select>
@@ -129,9 +129,9 @@
 
                                 </div>
                                 <div class="col-lg-12" data-bind="visible:categoryId() === 1">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-9">
                                         <div class="form-group ">
-                                            <div class="col-lg-5 text-right">
+                                            <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
                                                     @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Paper Type" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -208,9 +208,9 @@
                             </form>
                             <div class="col-lg-12 form-horizontal">
                                 <h3 class="group-header">Buy-in Dimensions & Pack Size</h3>
-                                <div class="col-lg-6">
+                                <div class="col-lg-9">
                                     <div class="form-group">
-                                        <div class="col-lg-5 text-right" data-bind="visible:perQtyType()!==2 && perQtyType()!==3">
+                                        <div class="col-lg-3 text-right" data-bind="visible:perQtyType()!==2 && perQtyType()!==3">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                             </div>
                                             <label for="packedin" class="control-label text-right tooltip-float">Packed In</label>
@@ -220,7 +220,7 @@
                                                 <input type="text" style="text-align:right;" class="form-control" id="packedin" data-bind="value:packageQty, validationTooltip: packageQty, validationOnElement:packageQty" />
                                             </div>
                                         </div>
-                                        <div class="col-lg-4" data-bind="visible:categoryId()=== 1">
+                                        <div class="col-lg-3" data-bind="visible:categoryId()=== 1">
                                             <select class="form-control" data-bind="options: $root.filteredUnits, optionsText: 'Text', optionsValue: 'Id',value:perQtyType"></select>
                                         </div>
                                         <div class="col-lg-3" data-bind="visible:(categoryId()!== 1 && categoryId()!== 2)">
@@ -228,13 +228,13 @@
                                         </div>
                                     </div>
                                     <div class="form-group" data-bind="visible:(categoryId() === 1 && paperTypeId()=== '1')">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                             </div>
                                             <label class="control-label text-right tooltip-float">Sheet Size</label>
                                         </div>
-                                        <div class="col-lg-7">
+                                        <div class="col-lg-6">
                                             <select class="form-control" data-bind="options: $root.paperSizes, optionsText: 'Name', optionsValue: 'PaperSizeId',disable:itemSizeCustom,value:itemSizeId"></select>
                                         </div>
                                     </div>
@@ -281,9 +281,9 @@
                             <!--new portion-->
                             <div class="col-lg-12 form-horizontal" data-bind="visible:( categoryId()=== 1 ||categoryId()=== 2)">
                                 <h3 class="group-header">Inventory Attributes</h3>
-                                <div class="col-lg-6">
+                                <div class="col-lg-9">
                                     <div class="form-group" data-bind="visible:categoryId() !== 2 && IsImperical() === false">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Set your standard average of paper weights, starting at your average lowest weight and up to the guillotines average max weight" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -301,7 +301,7 @@
                                     </div>
 
                                     <div class="form-group" data-bind="visible:categoryId() !== 2 && IsImperical() === true">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Paper Basis Area" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -309,7 +309,7 @@
                                             </div>
                                             <label class="control-label text-right tooltip-float">Paper Basis Area</label>
                                         </div>
-                                        <div class="col-lg-7">
+                                        <div class="col-lg-6">
                                             <select class="form-control" data-bind="options: $root.paperBasisAreas, optionsText: 'Name', optionsValue: 'PaperBasisAreaId',value:paperBasicAreaId "></select>
                                         </div>
                                     </div>
@@ -332,7 +332,7 @@
                             <!--New portion-->
                             <div class="col-lg-12 form-horizontal">
                                 <h3 class="group-header">Stock Control</h3>
-                                <div class="col-lg-6">
+                                <div class="col-lg-9">
                                     @*<div class="form-group " data-bind="visible:itemId()!== 0">
                                             <div class="col-lg-5 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
@@ -395,7 +395,7 @@
                                         </div>
                                     </div>*@
                                     <div class="form-group ">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="When an inventory item reaches this level a purchase order will be generated to the selected supplier to replenish the stock level.  Enter the quantity required for replenishment in default Reorder Quantity" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -408,7 +408,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group " data-bind="visible:itemId()!==0">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Last Qty Order" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -416,12 +416,12 @@
                                             </div>
                                             <label for="weight" class="control-label text-right tooltip-float">Last Quantity Ordered</label>
                                         </div>
-                                        <div class="col-lg-7">
+                                        <div class="col-lg-6">
                                             <label id="inStock" class="control-label" data-bind="text:lastOrderQty"></label>
                                         </div>
                                     </div>
                                     <div class="form-group " data-bind="visible:itemId()!==0">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 @*<a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Last Order Date" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -429,25 +429,25 @@
                                             </div>
                                             <label for="weight" class="control-label text-right tooltip-float">Last Order Date</label>
                                         </div>
-                                        <div class="col-lg-7">
+                                        <div class="col-lg-6">
                                             <label id="inStock" class="control-label" data-bind="text:lastOrderDate"></label>
                                         </div>
                                     </div>
                                     <div class="form-group ">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="This is the amount that will be reordered through the selected supplier once the reorder level has been reached.  NOTE: because this stock monitoring is automatic you may choose to hold less stock or buy more to reduce your cost of goods" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                 </a>
                                             </div>
-                                            <label for="weight" class="control-label text-right tooltip-float">Default Reorder Quantity</label>
+                                            <label for="weight" class="control-label text-right tooltip-float">Reorder Quantity</label>
                                         </div>
                                         <div class="col-lg-3">
                                             <input type="text" style="text-align:right;" id="inStock" class="form-control" data-bind="value:reorderQty, validationTooltip: reorderQty, validationOnElement:reorderQty" />
                                         </div>
                                     </div>
                                     <div class="form-group " data-bind="visible:itemId()!==0">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Location" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -455,12 +455,12 @@
                                             </div>
                                             <label for="weight" class="control-label text-right tooltip-float">Bin/Shelf Location</label>
                                         </div>
-                                        <div class="col-lg-7">
+                                        <div class="col-lg-6">
                                             <input type="text" id="inStock" class="form-control" data-bind="value:stockLocation" />
                                         </div>
                                     </div>
                                     <div class="form-group ">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Quantity in Stock" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -481,7 +481,7 @@
 
                                     </div>
                                     <div class="form-group ">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Threshold Quantity" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -494,15 +494,10 @@
                                         </div>
                                     </div>
                                     <div class="form-group ">
-                                        <div class="col-lg-5 text-right">
-                                            @*<div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Allow Back Order" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
-                                                <label for="weight" class="control-label text-right tooltip-float">Allow Back Order</label>*@
+                                        <div class="col-lg-3 text-right">
+                                            
                                         </div>
-                                        <div class="col-lg-5">
+                                        <div class="col-lg-6">
                                             <div class="checkbox-nice">
                                                 <input type="checkbox" id="allowBack" data-bind="checked:isAllowBackOrder">
                                                 <label for="allowBack">
@@ -515,42 +510,35 @@
                             </div>
 
                             <div class="col-lg-12 form-horizontal" style="padding-left:0px;">
-                                <div class="col-lg-2">
-
-                                </div>
-                                <div class="col-lg-9" style="margin-left:50px;">
-                                    <div class="col-lg-12" style="background-color:#DCDCDC;padding:20px;">
-                                        <div class="inlineGrid">
-                                            <div class="table-responsive">
-                                                <span style="font-size:16px">Stock Level History</span>
-                                                <br />
-                                                <br />
-                                                <br />
-                                                <table id="Tablle" class="table table-striped table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="col-lg-3"> <span>Action<span></span></span></th>
-                                                            <th class="col-lg-2"> <span>Action Qty<span></span></span></th>
-                                                            <th class="col-lg-2"> <span>Modify Date<span></span></span></th>
-                                                            <th class="col-lg-3"> <span>Modify By<span></span></span></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <!-- ko template: { name: 'itemStockUpdateHistoryTemplate' , foreach: itemStockUpdateHistories } -->
-                                                        <!-- /ko -->
-                                                    </tbody>
-                                                </table>
+                                <div class="col-lg-12" style="padding-left:3%;padding-right:0px;margin-bottom:20px;">
+                                    <div class="col-lg-2">
+                                    </div>
+                                    <div class="col-lg-10" style="padding-right:0px;">
+                                        <div style="background-color:#DCDCDC;padding:20px;">
+                                            <div class="inlineGrid">
+                                                <div class="table-responsive">
+                                                    <span style="font-size:16px">Stock Level History</span>
+                                                    <br />
+                                                    <br />
+                                                    <br />
+                                                    <table id="Tablle" class="table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="col-lg-3"> <span>Action<span></span></span></th>
+                                                                <th class="col-lg-2"> <span>Action Qty<span></span></span></th>
+                                                                <th class="col-lg-2"> <span>Modify Date<span></span></span></th>
+                                                                <th class="col-lg-3"> <span>Modify By<span></span></span></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!-- ko template: { name: 'itemStockUpdateHistoryTemplate' , foreach: itemStockUpdateHistories } -->
+                                                            <!-- /ko -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    @*<div class="form-group">
-                                            <div class="filter-block pull-left" style="margin-left: 12px;">
-                                                <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.addStockQuantity">
-                                                    Add Stock Quantity
-                                                </a>
-                                            </div>
-                                        </div>*@
-
                                 </div>
 
                             </div>

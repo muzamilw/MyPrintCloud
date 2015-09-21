@@ -99,6 +99,10 @@ namespace MPC.Repository.Repositories
             //db.SystemUsers.Where(s => s.SystemUserId == SytemUserId).FirstOrDefault();
         }
        
+        public SystemUser GetFirstSystemUser()
+        {
+            return db.SystemUsers.Where(c => c.OrganizationId == OrganisationId).FirstOrDefault();
+        }
         #endregion
     }
 }
