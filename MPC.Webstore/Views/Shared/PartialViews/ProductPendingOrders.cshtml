@@ -532,8 +532,12 @@
                     }
                     $.each(GridItems, function (i, IT) {
                         {
+                            var AttachFileName = IT.Attatchment._fileName;
+                            while (AttachFileName.indexOf(" ") > 0) {
+                                AttachFileName = AttachFileName.replace(" ", "");
+                            }
                             //InnerHtml += '<tr>';
-                            var filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + IT.Attatchment._fileName + "Thumb.png";
+                            var filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + AttachFileName + "Thumb.png";
 
                             if ('@ViewBag.IsShowPrices' == "True")
                             {
