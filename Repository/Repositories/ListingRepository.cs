@@ -2,6 +2,8 @@
 using MPC.Common;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
 using System;
 using System.Collections.Generic;
@@ -180,9 +182,19 @@ namespace MPC.Repository.Repositories
 
         #region GetRealEstateCompaigns
 
-        public IEnumerable<vw_RealEstateProperties> GetRealEstatePropertyCompaigns()
+        public RealEstateListViewResponse GetRealEstatePropertyCompaigns(RealEstateRequestModel request)
         {
-            return db.vw_RealEstateProperties.ToList();
+           // return db.vw_RealEstateProperties.ToList();
+
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isString = !string.IsNullOrEmpty(request.SearchString);
+
+
+            List<vw_RealEstateProperties> RealEstates = db.vw_RealEstateProperties.Where(c => c.CompanyId == request.CompanyId).ToList();
+
+            return new RealEstateListViewResponse { RealEstates = RealEstates, RowCount = RealEstates.Count() };
+
         }
 
         #endregion

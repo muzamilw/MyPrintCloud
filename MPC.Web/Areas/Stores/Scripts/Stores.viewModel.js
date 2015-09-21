@@ -49,6 +49,9 @@ define("stores/stores.viewModel",
                     // widget section sub header title for Selected
                     productsFilterSubHeadingSelected = ko.observable(),
                     discountVouuchers = ko.observableArray([]),
+
+                    // for real estate lisitng
+                    realEstateCampaigns = ko.observableArray([]),
                     // Count of Users
                     userCount = ko.observable(0),
                     // Count of Orders
@@ -5049,6 +5052,7 @@ define("stores/stores.viewModel",
                         edittedAddresses.removeAll();
                         fieldVariables.removeAll();
                         discountVouuchers.removeAll();
+                        realEstateCampaigns.removeAll();
                         newAddresses.removeAll();
                         deletedCompanyTerritories.removeAll();
                         edittedCompanyTerritories.removeAll();
@@ -5084,6 +5088,7 @@ define("stores/stores.viewModel",
                         fieldVariablesOfTerritoryType.removeAll();
                         fieldVariablesOfStoreType.removeAll();
                         discountVouuchers.removeAll();
+                        realEstateCampaigns.removeAll();
                         newAddedCampaigns.removeAll();
                         filteredCompanyBanners.removeAll();
                         editedCampaigns.removeAll();
@@ -6722,6 +6727,36 @@ define("stores/stores.viewModel",
                 },
 
 
+                // GET REAL estate campaign
+                getRealEstateCampaigns = function () {
+                    dataservice.getRealEstateCampaigns({
+                        CompanyId: selectedStore().companyId(),
+                    }, {
+                        success: function (data) {
+                            realEstateCampaigns.removeAll();
+                            if (data != null) {
+                                mapRealEstateCampaigns(data);
+                            }
+                            isLoadingStores(false);
+                        },
+                        error: function (response) {
+                            isLoadingStores(false);
+                            toastr.error("Error: Failed To Real Estate Camoaign" + response, "", ist.toastrOptions);
+                        }
+                    });
+
+                },
+
+                   mapRealEstateCampaigns = function (data) {
+
+                       _.each(data.RealEstateList, function (realEstate) {
+                           var module = model.realEstateListView.Create(realEstate);
+                         
+                           realEstateCampaigns.push(module);
+                       });
+                      // discountVoucherpager().totalCount(data.RowCount);
+                   },
+
 
 
 
@@ -7611,7 +7646,9 @@ define("stores/stores.viewModel",
                     productCategoryHasChanges: productCategoryHasChanges,
                     openDiscountVoucherDetailDilog: openDiscountVoucherDetailDialog,
                     getDiscountVouchers: getDiscountVouchers,
+                    getRealEstateCampaigns: getRealEstateCampaigns,
                     discountVouuchers: discountVouuchers,
+                    realEstateCampaigns: realEstateCampaigns,
                     discountVoucherpager: discountVoucherpager,
                     selectedDiscountVoucher: selectedDiscountVoucher,
                     createDiscountVoucher: createDiscountVoucher,

@@ -75,7 +75,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
         }
 
-     
+
+        /// <summary>
+        /// Create From Domain Model
+        /// </summary>
+        public static RealEstateListViewResponse CreateFromListView(this  MPC.Models.ResponseModels.RealEstateListViewResponse source)
+        {
+            return new RealEstateListViewResponse
+            {
+                RowCount = source.RowCount,
+                RealEstateList = source.RealEstates.Select(real => real.CreateFrom())
+            };
+        }
+
 
     }
 }

@@ -1,4 +1,6 @@
 ﻿using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,6 @@ namespace MPC.Interfaces.MISServices
 {
     public interface IListingService
     {
-        IEnumerable<vw_RealEstateProperties> GetRealEstatePropertyCompaigns();
+         RealEstateListViewResponse GetRealEstatePropertyCompaigns(RealEstateRequestModel request);
     }
 }
