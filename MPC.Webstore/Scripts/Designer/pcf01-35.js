@@ -3130,6 +3130,7 @@ function pcl42() {
     } else
     {
         alert("Please enter valid information in all highlighted fields to continue.");
+        smartFormClicked = false;
     } 
 
     clearInterval(var2);
