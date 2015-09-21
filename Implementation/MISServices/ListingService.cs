@@ -1,6 +1,8 @@
 ﻿using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +21,9 @@ namespace MPC.Implementation.MISServices
             this.listingRepository = listingRepository;
         }
 
-        public IEnumerable<vw_RealEstateProperties> GetRealEstatePropertyCompaigns()
+        public RealEstateListViewResponse GetRealEstatePropertyCompaigns(RealEstateRequestModel request)
         {
-            return listingRepository.GetRealEstatePropertyCompaigns();
+            return listingRepository.GetRealEstatePropertyCompaigns(request);
         }
     }
 }

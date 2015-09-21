@@ -5,13 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MPC.Common;
+using MPC.Models.ResponseModels;
+using MPC.Models.RequestModels;
 
 namespace MPC.Interfaces.Repository
 {
     public interface IListingRepository : IBaseRepository<MPC.Models.DomainModels.Listing, long>
     {
 
-        IEnumerable<vw_RealEstateProperties> GetRealEstatePropertyCompaigns();
+        RealEstateListViewResponse GetRealEstatePropertyCompaigns(RealEstateRequestModel request);
         List<MPC.Models.DomainModels.ListingImage> GetAllListingImages();
         List<MPC.Models.DomainModels.ListingImage> GetListingImagesByListingID(int propertyId);
         List<MPC.Models.DomainModels.Listing> GetRealEstateProperties();
