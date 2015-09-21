@@ -341,6 +341,7 @@
         <AssociationConnector Association="DomainModels.FK_DiscountVoucher_ProductCategoruVoucher" />
         <EntityTypeShape EntityType="DomainModels.MarketingBriefHistory" Width="1.5" PointX="41.375" PointY="31.125" />
         <EntityTypeShape EntityType="DomainModels.vw_RealEstateProperties" Width="1.5" PointX="43.375" PointY="42.75" />
+        <EntityTypeShape EntityType="DomainModels.vw_CompanyVariableIcons" Width="1.5" PointX="43.375" PointY="31" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
