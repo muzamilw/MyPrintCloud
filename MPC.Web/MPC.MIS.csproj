@@ -657,6 +657,7 @@
     <Compile Include="Areas\Api\Models\PurchaseDetail.cs" />
     <Compile Include="Areas\Api\Models\PurchaseListView.cs" />
     <Compile Include="Areas\Api\Models\PurchaseResponseModel.cs" />
+    <Compile Include="Areas\Api\Models\RealEstateListViewResponse.cs" />
     <Compile Include="Areas\Api\Models\Report.cs" />
     <Compile Include="Areas\Api\Models\ReportCategory.cs" />
     <Compile Include="Areas\Api\Models\ReportCategoryRequestModel.cs" />

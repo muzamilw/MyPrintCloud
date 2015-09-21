@@ -83,7 +83,7 @@
                             <li><a href="#tab-StoreVariables" data-toggle="tab" data-bind=click:$root.getScopeVariables>Custom Store Defaults</a></li>
                             <li><a href="#tab-featuredProducts" data-toggle="tab">Featured Products</a></li>
                             <li><a href="#tab-DiscountVoucher" data-bind="click:$root.getDiscountVouchers" data-toggle="tab"> Discount Voucher</a></li>
-                            <li><a href="#tab-RealEstate" data-toggle="tab">Real Estate Compaigns</a></li>
+                            <li><a href="#tab-RealEstate" data-bind="click:$root.getRealEstateCampaigns" data-toggle="tab">Real Estate Compaigns</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" data-bind="with: $root.selectedStore" id="tab-generalinfo">
@@ -3322,26 +3322,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                     </thead>
 
                                                     <tbody style="cursor:pointer;">
-                                                        <tr>
-                                                            <td>
-
-                                                            </td>
-                                                            <td>
-                                                                American Property
-                                                            </td>
-                                                            <td>
-                                                                Commercial
-                                                            </td>
-                                                            <td>
-                                                                John Fassand
-                                                            </td>
-                                                            <td style="text-align:right;">
-                                                                200000
-                                                            </td>
-                                                            <td>
-
-                                                            </td>
-                                                        </tr>
+                                                        <!-- ko template: { name: 'realEstateCampaign' , foreach: $root.realEstateCampaigns  } -->
+                                                        <!-- /ko -->
                                                     </tbody>
 
                                                  </table>
@@ -3356,7 +3338,16 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             Edit Variable Icons
                                         </button>
                                     </div>
-                                    
+                                    @*<div class="col-lg-12 btn-group" style="float: left; margin-top:15px; margin-left: -8px;padding-left:0px;">
+                                               
+                                        <footer class="main-box-header" style=" margin-right:-15px;text-align:right;margin-top:-17px;padding-right:0px;">
+                                            <div id="pagerDivUsers">
+                                                <!-- ko with: $root.contactCompanyPager -->
+                                                @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                <!-- /ko -->
+                                            </div>
+                                        </footer>
+                                    </div>*@
                                  </div>
                             </div>
                            
@@ -4038,5 +4029,19 @@ Public  - allows users to see other users addresses and orders." data-original-t
         </a>
         <img class="themePreview" src="" data-bind="attr:{ src: Thumbnail }">
     </li>
+</script>
+
+<script id="realEstateCampaign" type="text/html">
+    <tr>
+        <td></td>
+        <td data-bind="text:propertyName">
+           
+        </td>
+        <td data-bind="text:propertyType"></td>
+        <td data-bind="text:agent"></td>
+        <td style="text-align:right;" data-bind="text:propertyValue"></td>
+        <td></td>
+    </tr>
+
 </script>
 

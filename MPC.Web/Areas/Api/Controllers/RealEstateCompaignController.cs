@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using MPC.MIS.Areas.Api.ModelMappers;
 using System.Web.Http;
 using MPC.MIS.Areas.Api.Models;
+using MPC.Models.RequestModels;
 
 
 namespace MPC.MIS.Areas.Api.Controllers
@@ -21,9 +22,9 @@ namespace MPC.MIS.Areas.Api.Controllers
             this.objlistingservice = objlistingservice;
         }
 
-        public IEnumerable<vw_RealEstateProperties> Get()
+        public Models.RealEstateListViewResponse Get([FromUri]RealEstateRequestModel request)
         {
-            return objlistingservice.GetRealEstatePropertyCompaigns().Select(r => r.CreateFrom());
+            return objlistingservice.GetRealEstatePropertyCompaigns(request).CreateFromListView();
         }
     }
 }
