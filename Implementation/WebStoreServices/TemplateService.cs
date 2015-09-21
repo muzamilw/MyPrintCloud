@@ -347,10 +347,13 @@ namespace MPC.Implementation.WebStoreServices
                 oPdf.TextStyle.Size = ooBject.FontSize.Value;
                 if (ooBject.IsUnderlinedText.HasValue)
                     oPdf.TextStyle.Underline = ooBject.IsUnderlinedText.Value;
-                oPdf.TextStyle.Bold = ooBject.IsBold.Value;
-
-                oPdf.TextStyle.Italic = ooBject.IsItalic.Value;
-                double linespacing = ooBject.LineSpacing.Value - 1;
+                if(ooBject.IsBold.HasValue)
+                    oPdf.TextStyle.Bold = ooBject.IsBold.Value;
+                if(ooBject.IsItalic.HasValue)
+                    oPdf.TextStyle.Italic = ooBject.IsItalic.Value;
+                double linespacing = 0;
+                if (ooBject.LineSpacing.HasValue)
+                    linespacing = ooBject.LineSpacing.Value - 1;
                 linespacing = (linespacing * ooBject.FontSize.Value);
                 oPdf.TextStyle.LineSpacing = linespacing;
                 if (ooBject.Allignment == 1)
