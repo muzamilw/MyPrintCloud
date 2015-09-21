@@ -538,6 +538,7 @@
     <Compile Include="ResponseModels\PurchaseBaseResponse.cs" />
     <Compile Include="ResponseModels\PurchaseResponseModel.cs" />
     <Compile Include="ResponseModels\RealEstateListViewResponse.cs" />
+    <Compile Include="ResponseModels\RealEstateVariableIconsListViewResponse.cs" />
     <Compile Include="ResponseModels\ReportEmailResponse.cs" />
     <Compile Include="ResponseModels\ReportEmailResponseModel.cs" />
     <Compile Include="ResponseModels\ReportparamResponse.cs" />

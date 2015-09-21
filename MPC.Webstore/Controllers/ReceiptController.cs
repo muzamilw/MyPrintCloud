@@ -44,7 +44,7 @@ namespace MPC.Webstore.Controllers
             //string CacheKeyName = "CompanyBaseResponse";
             //ObjectCache cache = MemoryCache.Default;
 
-
+            ViewBag.OrderId = OrderId;
             //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
             MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);

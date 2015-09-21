@@ -395,8 +395,16 @@ namespace MPC.Webstore.Controllers
                 _campaignService.emailBodyGenerator(RegistrationCampaign, cep, CorpContact, StoreMode.Corp, (int)StoreBaseResopnse.Company.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
 
                 _campaignService.SendPendingCorporateUserRegistrationEmailToAdmins((int)CorpContact.ContactId, (int)UserCookieManager.WBStoreId, (int)StoreBaseResopnse.Company.OrganisationId);
+               
+                if (StoreBaseResopnse.Company.IsRegisterAccessWebStore == true)
+                {
+                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlHasWebacces", UserCookieManager.WBStoreId, "You are successfully registered on store please login to continue.");
+                }
+                else 
+                {
+                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlwebacces", UserCookieManager.WBStoreId, "You are successfully registered on store but your account does not have the web access enabled. Please contact your Order Manager.");
+                }
                 StoreBaseResopnse = null;
-                ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlwebacces", UserCookieManager.WBStoreId, "You are successfully registered on store but your account does not have the web access enabled. Please contact your Order Manager.");
                 return;
             }
 
