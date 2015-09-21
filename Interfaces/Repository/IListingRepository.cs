@@ -5,11 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MPC.Common;
+using MPC.Models.ResponseModels;
+using MPC.Models.RequestModels;
 
 namespace MPC.Interfaces.Repository
 {
     public interface IListingRepository : IBaseRepository<MPC.Models.DomainModels.Listing, long>
     {
+
+        RealEstateListViewResponse GetRealEstatePropertyCompaigns(RealEstateRequestModel request);
         List<MPC.Models.DomainModels.ListingImage> GetAllListingImages();
         List<MPC.Models.DomainModels.ListingImage> GetListingImagesByListingID(int propertyId);
         List<MPC.Models.DomainModels.Listing> GetRealEstateProperties();
@@ -32,6 +36,22 @@ namespace MPC.Interfaces.Repository
         bool UpdateListingData(ListingProperty objProperty, MPC.Models.DomainModels.Listing listing);
         bool AddListingData(ListingProperty objProperty);
         List<MPC.Models.DomainModels.Listing> GetPropertiesByContactCompanyID(long CompanyID);
+
+
+
+        
+
+        
+
+        
+
+        
+
+        
+
+
+
+
 
     }
 }

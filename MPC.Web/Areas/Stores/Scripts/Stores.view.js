@@ -193,6 +193,9 @@ define("stores/stores.view",
                 hideCssDialog = function () {
                     $("#editStoreCssModal").modal("hide");
                 },
+
+               
+
                    
 
                 //#endregion
@@ -517,6 +520,11 @@ define("stores/stores.view",
                 hideItemDialog = function () {
                     $("#itemsDialogForDiscountVoucher").modal("hide");
                 },
+                 //Show RealEstateCompaign VariableIcon Dialog
+                showVariableIconDialog = function ()
+                {
+                    $("#editvariableIconsModal").modal("show");
+                },
 
                 //#endregion
             // Initialize
@@ -591,7 +599,9 @@ define("stores/stores.view",
                 getCategoryIdFromElement: getCategoryIdFromElement,
                 appendChildCategory: appendChildCategory,
                 showCssDialog: showCssDialog,
-                hideCssDialog: hideCssDialog
+                hideCssDialog: hideCssDialog,
+                //Show RealEstateCompaign VariableIcon Dialog
+                showVariableIconDialog: showVariableIconDialog
             };
         })(storesViewModel);
 

@@ -176,6 +176,43 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
 
             },
+             onDeletePermanent = function () {
+                 confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                 confirmation.afterProceed(function () {
+                     deleteCostCentre(selectedCostCenter().costCentreId());
+                 });
+                 confirmation.show();
+             },
+               // Delete Company Permanently
+                deleteCostCentre = function (id) {
+                    dataservice.deleteCostCentre({ CostCentreId: id }, {
+                        success: function () {
+                            toastr.success("Cost Centre deleted successfully!");
+
+                            closeCostCenterDetail(false);
+                            //isEditorVisible(false);
+                            if (selectedCostCenter()) {
+                                var costCentre = getCostCentreById(selectedCostCenter().costCentreId());
+                                if (costCentre) {
+                                    costCentersList.remove(costCentre);
+                                }
+                            }
+                           
+                        },
+                        error: function (response) {
+                            toastr.error("Cost Centre is in use and can not delete.");
+                        }
+                    });
+                };
+
+            // Get Company By Id
+            getCostCentreById = function (id) {
+                return costCentersList.find(function (costcentre) {
+                    return costcentre.costCenterId() === id;
+                });
+            },
+
+
             OnEditMatrixVariable = function (oMatrix) {
                 if (oMatrix.MatrixId == undefined || oMatrix.MatrixId == null) {
                     var Id = parseInt($('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id'));
@@ -1376,7 +1413,8 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 variableDropdownList: variableDropdownList,
                 AddtoInputControl: AddtoInputControl,
                 RowscolCountList: RowscolCountList,
-                getCostCenterByFilter: getCostCenterByFilter
+                getCostCenterByFilter: getCostCenterByFilter,
+                onDeletePermanent: onDeletePermanent
 
             };
         })()

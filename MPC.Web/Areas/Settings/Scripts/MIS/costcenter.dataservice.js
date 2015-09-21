@@ -97,6 +97,12 @@ define("costcenter/costcenter.dataservice", function () {
                         dataType: 'json',
                         type: 'DELETE'
                     });
+                    // Define request to Delete cost centre Permanently
+                    amplify.request.define('deleteCostCentre', 'ajax', {
+                        url: ist.siteUrl + '/Api/DeleteCostCentre',
+                        dataType: 'json',
+                        type: 'DELETE'
+                    });
                     isInitialized = true;
                 }
             },
@@ -221,6 +227,15 @@ define("costcenter/costcenter.dataservice", function () {
                  data: param // JSON.stringify(param)
              });
          },
+         deleteCostCentre = function (param, callbacks) {
+             initialize();
+             return amplify.request({
+                 resourceId: 'deleteCostCentre',
+                 success: callbacks.success,
+                 error: callbacks.error,
+                 data: param
+             });
+         },
         // Save Cost Center 
         saveCostCenter = function (param, callbacks) {
             initialize();
@@ -246,7 +261,8 @@ define("costcenter/costcenter.dataservice", function () {
             deleteAnswerVariable: deleteAnswerVariable,
             saveNewQuestionVariable: saveNewQuestionVariable,
             saveVariable: saveVariable,
-            DeleteMatrixVariable: DeleteMatrixVariable
+            DeleteMatrixVariable: DeleteMatrixVariable,
+            deleteCostCentre: deleteCostCentre
         };
     })();
 

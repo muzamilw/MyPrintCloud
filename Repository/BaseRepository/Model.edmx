@@ -3977,6 +3977,20 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="DefaultItemTax" Type="float" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'MPC.dbo.vw_CompanyVariableIcons' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_CompanyVariableIcons">
+          <Key>
+            <PropertyRef Name="variableid" />
+          </Key>
+          <Property Name="variableid" Type="bigint" Nullable="false" />
+          <Property Name="variablename" Type="varchar" MaxLength="200" />
+          <Property Name="variabletag" Type="varchar" MaxLength="200" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="OrganisationId" Type="bigint" />
+          <Property Name="ContactCompanyId" Type="bigint" />
+          <Property Name="Icon" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'MPC.dbo.vw_JobCardReport' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_JobCardReport">
           <Key>
@@ -4148,6 +4162,39 @@ warning 6002: The table/view 'MPC.dbo.vw_OrderReport' does not have a primary ke
           <Property Name="EstimateCodeLabel" Type="varchar" MaxLength="14" />
           <Property Name="Estimate_Code" Type="varchar" MaxLength="100" />
           <Property Name="UserNotes" Type="text" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MPC.dbo.vw_RealEstateProperties' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_RealEstateProperties">
+          <Key>
+            <PropertyRef Name="ListingID" />
+          </Key>
+          <Property Name="ListingID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WebLink" Type="varchar" MaxLength="200" />
+          <Property Name="AddressDisplay" Type="varchar" MaxLength="255" />
+          <Property Name="StreetAddress" Type="varchar" MaxLength="255" />
+          <Property Name="StreetNumber" Type="int" />
+          <Property Name="Street" Type="varchar" MaxLength="255" />
+          <Property Name="Suburb" Type="varchar" MaxLength="50" />
+          <Property Name="State" Type="varchar" MaxLength="50" />
+          <Property Name="PropertyName" Type="varchar" MaxLength="255" />
+          <Property Name="PropertyType" Type="varchar" MaxLength="50" />
+          <Property Name="PropertyCategory" Type="varchar" MaxLength="100" />
+          <Property Name="DisplayPrice" Type="float" />
+          <Property Name="MainHeadLine" Type="varchar" MaxLength="255" />
+          <Property Name="MainDescription" Type="varchar" MaxLength="2000" />
+          <Property Name="BedRooms" Type="int" />
+          <Property Name="BathRooms" Type="int" />
+          <Property Name="LoungeRooms" Type="int" />
+          <Property Name="Toilets" Type="int" />
+          <Property Name="Studies" Type="int" />
+          <Property Name="Pools" Type="int" />
+          <Property Name="Garages" Type="int" />
+          <Property Name="Carports" Type="int" />
+          <Property Name="Features" Type="varchar" MaxLength="2000" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="ListingImage" Type="varchar" MaxLength="500" />
+          <Property Name="ListingAgent" Type="varchar" MaxLength="255" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -6204,6 +6251,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
         <Function Name="usp_DeleteContactCompanyByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CompanyID" Type="int" Mode="In" />
         </Function>
+        <Function Name="usp_DeleteCostCentre" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CostCentreId" Type="int" Mode="In" />
+        </Function>
         <Function Name="usp_DeleteCRMCompanyByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CompanyID" Type="int" Mode="In" />
         </Function>
@@ -6529,6 +6579,17 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
     [ProductCategoriesView].[DefaultItemTax] AS [DefaultItemTax]
     FROM [dbo].[ProductCategoriesView] AS [ProductCategoriesView]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_CompanyVariableIcons" EntityType="Self.vw_CompanyVariableIcons" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_CompanyVariableIcons].[variableid] AS [variableid], 
+    [vw_CompanyVariableIcons].[variablename] AS [variablename], 
+    [vw_CompanyVariableIcons].[variabletag] AS [variabletag], 
+    [vw_CompanyVariableIcons].[CompanyId] AS [CompanyId], 
+    [vw_CompanyVariableIcons].[OrganisationId] AS [OrganisationId], 
+    [vw_CompanyVariableIcons].[ContactCompanyId] AS [ContactCompanyId], 
+    [vw_CompanyVariableIcons].[Icon] AS [Icon]
+    FROM [dbo].[vw_CompanyVariableIcons] AS [vw_CompanyVariableIcons]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_JobCardReport" EntityType="Self.vw_JobCardReport" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_JobCardReport].[EstimateId] AS [EstimateId], 
@@ -6686,6 +6747,36 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
     [vw_OrderReport].[Estimate_Code] AS [Estimate_Code], 
     [vw_OrderReport].[UserNotes] AS [UserNotes]
     FROM [dbo].[vw_OrderReport] AS [vw_OrderReport]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_RealEstateProperties" EntityType="Self.vw_RealEstateProperties" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_RealEstateProperties].[ListingID] AS [ListingID], 
+    [vw_RealEstateProperties].[WebLink] AS [WebLink], 
+    [vw_RealEstateProperties].[AddressDisplay] AS [AddressDisplay], 
+    [vw_RealEstateProperties].[StreetAddress] AS [StreetAddress], 
+    [vw_RealEstateProperties].[StreetNumber] AS [StreetNumber], 
+    [vw_RealEstateProperties].[Street] AS [Street], 
+    [vw_RealEstateProperties].[Suburb] AS [Suburb], 
+    [vw_RealEstateProperties].[State] AS [State], 
+    [vw_RealEstateProperties].[PropertyName] AS [PropertyName], 
+    [vw_RealEstateProperties].[PropertyType] AS [PropertyType], 
+    [vw_RealEstateProperties].[PropertyCategory] AS [PropertyCategory], 
+    [vw_RealEstateProperties].[DisplayPrice] AS [DisplayPrice], 
+    [vw_RealEstateProperties].[MainHeadLine] AS [MainHeadLine], 
+    [vw_RealEstateProperties].[MainDescription] AS [MainDescription], 
+    [vw_RealEstateProperties].[BedRooms] AS [BedRooms], 
+    [vw_RealEstateProperties].[BathRooms] AS [BathRooms], 
+    [vw_RealEstateProperties].[LoungeRooms] AS [LoungeRooms], 
+    [vw_RealEstateProperties].[Toilets] AS [Toilets], 
+    [vw_RealEstateProperties].[Studies] AS [Studies], 
+    [vw_RealEstateProperties].[Pools] AS [Pools], 
+    [vw_RealEstateProperties].[Garages] AS [Garages], 
+    [vw_RealEstateProperties].[Carports] AS [Carports], 
+    [vw_RealEstateProperties].[Features] AS [Features], 
+    [vw_RealEstateProperties].[CompanyId] AS [CompanyId], 
+    [vw_RealEstateProperties].[ListingImage] AS [ListingImage], 
+    [vw_RealEstateProperties].[ListingAgent] AS [ListingAgent]
+    FROM [dbo].[vw_RealEstateProperties] AS [vw_RealEstateProperties]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_SaveDesign" EntityType="Self.vw_SaveDesign" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -8312,6 +8403,11 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <Parameter Name="OrganisationId" Mode="In" Type="Int64" />
           </FunctionImport>
           <EntitySet Name="MarketingBriefHistories" EntityType="DomainModels.MarketingBriefHistory" />
+          <FunctionImport Name="usp_DeleteCostCentre">
+          <Parameter Name="CostCentreId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="vw_RealEstateProperties" EntityType="DomainModels.vw_RealEstateProperties" />
+          <EntitySet Name="vw_CompanyVariableIcons" EntityType="DomainModels.vw_CompanyVariableIcons" />
         </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -15216,6 +15312,49 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ContactId" Type="Int64" />
           <Property Name="ItemId" Type="Int64" />
         </EntityType>
+        <EntityType Name="vw_RealEstateProperties">
+          <Key>
+            <PropertyRef Name="ListingID" />
+          </Key>
+          <Property Name="ListingID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WebLink" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="AddressDisplay" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="StreetAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="StreetNumber" Type="Int32" />
+          <Property Name="Street" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Suburb" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PropertyName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PropertyType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PropertyCategory" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DisplayPrice" Type="Double" />
+          <Property Name="MainHeadLine" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="MainDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="BedRooms" Type="Int32" />
+          <Property Name="BathRooms" Type="Int32" />
+          <Property Name="LoungeRooms" Type="Int32" />
+          <Property Name="Toilets" Type="Int32" />
+          <Property Name="Studies" Type="Int32" />
+          <Property Name="Pools" Type="Int32" />
+          <Property Name="Garages" Type="Int32" />
+          <Property Name="Carports" Type="Int32" />
+          <Property Name="Features" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="ListingImage" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ListingAgent" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vw_CompanyVariableIcons">
+          <Key>
+            <PropertyRef Name="variableid" />
+          </Key>
+          <Property Name="variableid" Type="Int64" Nullable="false" />
+          <Property Name="variablename" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="variabletag" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <Property Name="ContactCompanyId" Type="Int64" />
+          <Property Name="Icon" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -20069,6 +20208,52 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="HtmlMsg" ColumnName="HtmlMsg" />
                 <ScalarProperty Name="MarketingBriefHistoryId" ColumnName="MarketingBriefHistoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_DeleteCostCentre" FunctionName="DomainModels.Store.usp_DeleteCostCentre" />
+          <EntitySetMapping Name="vw_RealEstateProperties">
+            <EntityTypeMapping TypeName="DomainModels.vw_RealEstateProperties">
+              <MappingFragment StoreEntitySet="vw_RealEstateProperties">
+                <ScalarProperty Name="ListingAgent" ColumnName="ListingAgent" />
+                <ScalarProperty Name="ListingImage" ColumnName="ListingImage" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Features" ColumnName="Features" />
+                <ScalarProperty Name="Carports" ColumnName="Carports" />
+                <ScalarProperty Name="Garages" ColumnName="Garages" />
+                <ScalarProperty Name="Pools" ColumnName="Pools" />
+                <ScalarProperty Name="Studies" ColumnName="Studies" />
+                <ScalarProperty Name="Toilets" ColumnName="Toilets" />
+                <ScalarProperty Name="LoungeRooms" ColumnName="LoungeRooms" />
+                <ScalarProperty Name="BathRooms" ColumnName="BathRooms" />
+                <ScalarProperty Name="BedRooms" ColumnName="BedRooms" />
+                <ScalarProperty Name="MainDescription" ColumnName="MainDescription" />
+                <ScalarProperty Name="MainHeadLine" ColumnName="MainHeadLine" />
+                <ScalarProperty Name="DisplayPrice" ColumnName="DisplayPrice" />
+                <ScalarProperty Name="PropertyCategory" ColumnName="PropertyCategory" />
+                <ScalarProperty Name="PropertyType" ColumnName="PropertyType" />
+                <ScalarProperty Name="PropertyName" ColumnName="PropertyName" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Suburb" ColumnName="Suburb" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="StreetNumber" ColumnName="StreetNumber" />
+                <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
+                <ScalarProperty Name="AddressDisplay" ColumnName="AddressDisplay" />
+                <ScalarProperty Name="WebLink" ColumnName="WebLink" />
+                <ScalarProperty Name="ListingID" ColumnName="ListingID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_CompanyVariableIcons">
+            <EntityTypeMapping TypeName="DomainModels.vw_CompanyVariableIcons">
+              <MappingFragment StoreEntitySet="vw_CompanyVariableIcons">
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="ContactCompanyId" ColumnName="ContactCompanyId" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="variabletag" ColumnName="variabletag" />
+                <ScalarProperty Name="variablename" ColumnName="variablename" />
+                <ScalarProperty Name="variableid" ColumnName="variableid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
