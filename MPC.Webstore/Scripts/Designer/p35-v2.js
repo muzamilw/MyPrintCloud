@@ -2246,8 +2246,9 @@ $("#smartFormSelectUserProfile").change(function () {
     pcl40_InsertUserData(data);
 });
 $("#BtnSmartFormSave").click(function () {
+    smartFormClicked = true;
     pcl42();
-    smartFormClicked = true; $(".messageSmartForm").css("display", "none");
+     $(".messageSmartForm").css("display", "none");
     $("#collapseDesignerMenu").click();
     if(IsCalledFrom != 2)
        pcl45_upData();
