@@ -33,9 +33,10 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
         #endregion
         [HttpPost]
-        public HttpResponseMessage SaveListing([FromBody]  ListingProperty obj)
+        public HttpResponseMessage SaveListing(string obj)
         {
-            var result = listingService.UpdateListingData(obj);
+            ListingProperty listingProperty = JsonConvert.DeserializeObject<ListingProperty>(obj);
+            var result = listingService.UpdateListingData(listingProperty);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;

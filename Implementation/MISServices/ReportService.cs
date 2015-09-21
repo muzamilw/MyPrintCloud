@@ -356,6 +356,10 @@ namespace MPC.Implementation.MISServices
              }
 
             SystemUser objSystemUser = SystemUserRepository.GetUserrById(SystemUserId);
+            if(objSystemUser == null)
+            {
+                objSystemUser = SystemUserRepository.GetFirstSystemUser();
+            }
             Organisation objOrg = organisationRepository.GetOrganizatiobByID();
 
             string[] stringSeparators = new string[] {"mpc_content/"};
@@ -374,18 +378,14 @@ namespace MPC.Implementation.MISServices
             string Path = string.Empty;
             if(isPDF)
             {
-                Path = ExportReportHelper.ExportPDF(ReportId, 0, ReportType.Internal, 0, string.Empty);
+                Path = ExportReportHelper.ExportPDF(ReportId, 0, ReportType.Internal, 0, string.Empty,0,false);
             }
             else
             {
-                Path = ExportReportHelper.ExportExcel(ReportId, 0, ReportType.Internal, 0, string.Empty);
+                Path = ExportReportHelper.ExportExcel(ReportId, 0, ReportType.Internal, 0, string.Empty,0,false);
             }
 
-            
-            string[] stringSeparators = new string[] { "MPC.Web" };
-            string[] SplitPath = Path.Split(stringSeparators, StringSplitOptions.None);
-            Path = SplitPath[1];
-
+         
             return Path;
         }
     }

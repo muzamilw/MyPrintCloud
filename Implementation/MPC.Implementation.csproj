@@ -207,6 +207,7 @@
     <Compile Include="MISServices\CostCenterService.cs" />
     <Compile Include="MISServices\LengthConversionHelper.cs" />
     <Compile Include="MISServices\LengthConversionService.cs" />
+    <Compile Include="MISServices\ListingService.cs" />
     <Compile Include="MISServices\LiveJobsService.cs" />
     <Compile Include="MISServices\LookupMethodService.cs" />
     <Compile Include="MISServices\MachineService.cs" />

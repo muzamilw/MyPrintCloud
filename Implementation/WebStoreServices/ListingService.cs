@@ -13,8 +13,8 @@ namespace MPC.Implementation.WebStoreServices
     public class ListingService : IListingService
     {
         private readonly IListingRepository _ListingRepository;
-        
-        
+
+
         /// <summary>
         ///  Constructor
         /// </summary>
@@ -149,9 +149,9 @@ namespace MPC.Implementation.WebStoreServices
             {
                 bool dataAdded = false;
 
-               
 
-                dataAdded = _ListingRepository.UpdateListingData(objProperty,listing);
+
+                dataAdded = _ListingRepository.UpdateListingData(objProperty, listing);
 
                 return dataAdded;
             }

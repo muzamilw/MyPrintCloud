@@ -271,6 +271,15 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    
+
+                    // Define request to Get Discount Vouchers
+                    amplify.request.define('getRealEstateCampaign', 'ajax', {
+                        url: ist.siteUrl + '/Api/RealEstateCompaign',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     // Define request to Get Company Territory Validation check
                     amplify.request.define('validateCompanyToDelete', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyTerritory',
@@ -726,6 +735,18 @@
                     data: params
                 });
             },
+
+               // get realEstate
+            getRealEstateCampaigns = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getRealEstateCampaign',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+
         // validate Company To Delete
         validateCompanyToDelete = function (param, callbacks) {
             initialize();
@@ -1045,7 +1066,8 @@
             validateLiveStoresCount: validateLiveStoresCount,
             validateCanStoreSaveById: validateCanStoreSaveById,
             getStoreCss: getStoreCss,
-            updateStoreCss: updateStoreCss
+            updateStoreCss: updateStoreCss,
+            getRealEstateCampaigns: getRealEstateCampaigns
         };
     })();
 

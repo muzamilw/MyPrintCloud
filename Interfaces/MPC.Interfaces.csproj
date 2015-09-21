@@ -99,6 +99,7 @@
     <Compile Include="MISServices\IItemJobStatusService.cs" />
     <Compile Include="MISServices\IItemSectionService.cs" />
     <Compile Include="MISServices\ILengthConversionService.cs" />
+    <Compile Include="MISServices\IListingService.cs" />
     <Compile Include="MISServices\ILiveJobsService.cs" />
     <Compile Include="MISServices\ILookupMethodService.cs" />
     <Compile Include="MISServices\IOrderForCrmService.cs" />

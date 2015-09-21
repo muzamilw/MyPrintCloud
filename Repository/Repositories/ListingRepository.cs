@@ -2,6 +2,8 @@
 using MPC.Common;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
 using System;
 using System.Collections.Generic;
@@ -176,6 +178,25 @@ namespace MPC.Repository.Repositories
 
             return finalList;
         }
+        #endregion
+
+        #region GetRealEstateCompaigns
+
+        public RealEstateListViewResponse GetRealEstatePropertyCompaigns(RealEstateRequestModel request)
+        {
+           // return db.vw_RealEstateProperties.ToList();
+
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isString = !string.IsNullOrEmpty(request.SearchString);
+
+
+            List<vw_RealEstateProperties> RealEstates = db.vw_RealEstateProperties.Where(c => c.CompanyId == request.CompanyId).ToList();
+
+            return new RealEstateListViewResponse { RealEstates = RealEstates, RowCount = RealEstates.Count() };
+
+        }
+
         #endregion
 
         public List<FieldVariable> GetVariablesListWithValues(long listingId, long itemId, long ContactID, long ContactCompanyID, long FlagID, long AddressID, out List<MPC.Models.Common.TemplateVariable> lstVariableAndValue, out List<MPC.Models.Common.TemplateVariable> lstGeneralVariables, out List<MPC.Models.Common.TemplateVariable> lstListingImages, out List<VariableSection> lstSectionsName)
