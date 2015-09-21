@@ -5380,6 +5380,62 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
     // #endregion ______________ Discount Voucher   _________________
 
+
+    // #region ______________  Real Estate Campaign _________________
+    var realEstateListView = function (specifiedListingId, specifiedPropertyName, specifiedPropertyType, specifiedAgent, specifiedPropertyValue,specifiedListingImage) {
+        var self,
+            id = ko.observable(specifiedListingId),
+            propertyName = ko.observable(specifiedPropertyName),
+            propertyType = ko.observable(specifiedPropertyType),
+            agent = ko.observable(specifiedAgent),
+            propertyValue = ko.observable(specifiedPropertyValue),
+            propertyListingImage = ko.observable(specifiedListingImage),
+           
+            // Errors
+            errors = ko.validation.group({
+                propertyName: propertyName,
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+
+            }),
+            // True If Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset Dirty State
+            reset = function () {
+                dirtyFlag.reset();
+            };
+
+        self = {
+            id: id,
+            propertyName: propertyName,
+            propertyType: propertyType,
+            agent: agent,
+            propertyValue: propertyValue,
+            propertyListingImage: propertyListingImage,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset
+        };
+        return self;
+    };
+    //Discount Voucher Create Factory
+    realEstateListView.Create = function (source) {
+        return new realEstateListView(source.ListingID, source.PropertyName,
+            source.PropertyType,
+            source.ListingAgent,
+            source.DisplayPrice,
+            source.ListingImage);
+    };
+
     // #region ______________  Smart Form Detail _________________
     var SmartFormDetail = function (specifiedSmartFormDetailId, specifiedSmartFormId, specifiedObjectType,
         specifiedSortOrder, specifiedIsRequired, specifiedVariableId, specifiedCaptionValue, specifiedWaterMark) {
@@ -5493,6 +5549,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     //#region ______________ R E T U R N ______________
     return {
         discountVoucherListView: discountVoucherListView,
+        realEstateListView: realEstateListView,
         StoreListView: StoreListView,
         Store: Store,
         CompanyType: CompanyType,

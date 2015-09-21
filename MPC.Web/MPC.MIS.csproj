@@ -355,6 +355,7 @@
     <Compile Include="Areas\Api\Controllers\OrganisationLicensingController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductChildCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForOrderController.cs" />
+    <Compile Include="Areas\Api\Controllers\RealEstateCompaignController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionFlagsController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCrmCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\DeliveryNoteBaseController.cs" />
@@ -487,6 +488,7 @@
     <Compile Include="Areas\Api\ModelMappers\ItemsForDiscountVoucherMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemStockUpdateHistoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemsVoucherMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ListingMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductCategoryVoucherMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductMarketBriefAnswerMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ProductMarketBriefQuestionMapper.cs" />
@@ -655,6 +657,7 @@
     <Compile Include="Areas\Api\Models\PurchaseDetail.cs" />
     <Compile Include="Areas\Api\Models\PurchaseListView.cs" />
     <Compile Include="Areas\Api\Models\PurchaseResponseModel.cs" />
+    <Compile Include="Areas\Api\Models\RealEstateListViewResponse.cs" />
     <Compile Include="Areas\Api\Models\Report.cs" />
     <Compile Include="Areas\Api\Models\ReportCategory.cs" />
     <Compile Include="Areas\Api\Models\ReportCategoryRequestModel.cs" />
@@ -885,6 +888,7 @@
     <Compile Include="Areas\Api\Models\usp_TotalEarnings_Result.cs" />
     <Compile Include="Areas\Api\Models\VariableExtension.cs" />
     <Compile Include="Areas\Api\Models\VariableOption.cs" />
+    <Compile Include="Areas\Api\Models\vw_RealEstateProperties.cs" />
     <Compile Include="Areas\Api\Models\Widget.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetBaseController.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
@@ -2277,6 +2281,7 @@
     <Content Include="Areas\Stores\Views\Stores\_ProductDialogForDiscountVoucher.cshtml" />
     <Content Include="Areas\Settings\Views\Home\_UnleashedXero.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_EditStoreCss.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_RealEstateCompaignDailog.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
@@ -3506,6 +3511,7 @@
     <Folder Include="Areas\Api\Views\ProductCostCenter\" />
     <Folder Include="Areas\Api\Views\ProgressEstimate\" />
     <Folder Include="Areas\Api\Views\PTVCalculation\" />
+    <Folder Include="Areas\Api\Views\RealEstateCompaign\" />
     <Folder Include="Areas\Api\Views\ReportManager\" />
     <Folder Include="Areas\Api\Views\SectionFlags\" />
     <Folder Include="Areas\Api\Views\Section\" />

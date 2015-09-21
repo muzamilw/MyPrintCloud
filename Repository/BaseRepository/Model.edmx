@@ -3977,6 +3977,20 @@ warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a pri
           <Property Name="DefaultItemTax" Type="float" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'MPC.dbo.vw_CompanyVariableIcons' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_CompanyVariableIcons">
+          <Key>
+            <PropertyRef Name="variableid" />
+          </Key>
+          <Property Name="variableid" Type="bigint" Nullable="false" />
+          <Property Name="variablename" Type="varchar" MaxLength="200" />
+          <Property Name="variabletag" Type="varchar" MaxLength="200" />
+          <Property Name="CompanyId" Type="bigint" />
+          <Property Name="OrganisationId" Type="bigint" />
+          <Property Name="ContactCompanyId" Type="bigint" />
+          <Property Name="Icon" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'MPC.dbo.vw_JobCardReport' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_JobCardReport">
           <Key>
@@ -6565,6 +6579,17 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
     [ProductCategoriesView].[DefaultItemTax] AS [DefaultItemTax]
     FROM [dbo].[ProductCategoriesView] AS [ProductCategoriesView]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_CompanyVariableIcons" EntityType="Self.vw_CompanyVariableIcons" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_CompanyVariableIcons].[variableid] AS [variableid], 
+    [vw_CompanyVariableIcons].[variablename] AS [variablename], 
+    [vw_CompanyVariableIcons].[variabletag] AS [variabletag], 
+    [vw_CompanyVariableIcons].[CompanyId] AS [CompanyId], 
+    [vw_CompanyVariableIcons].[OrganisationId] AS [OrganisationId], 
+    [vw_CompanyVariableIcons].[ContactCompanyId] AS [ContactCompanyId], 
+    [vw_CompanyVariableIcons].[Icon] AS [Icon]
+    FROM [dbo].[vw_CompanyVariableIcons] AS [vw_CompanyVariableIcons]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_JobCardReport" EntityType="Self.vw_JobCardReport" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_JobCardReport].[EstimateId] AS [EstimateId], 
@@ -8382,6 +8407,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Parameter Name="CostCentreId" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="vw_RealEstateProperties" EntityType="DomainModels.vw_RealEstateProperties" />
+          <EntitySet Name="vw_CompanyVariableIcons" EntityType="DomainModels.vw_CompanyVariableIcons" />
         </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -15317,6 +15343,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ListingImage" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="ListingAgent" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="vw_CompanyVariableIcons">
+          <Key>
+            <PropertyRef Name="variableid" />
+          </Key>
+          <Property Name="variableid" Type="Int64" Nullable="false" />
+          <Property Name="variablename" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="variabletag" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyId" Type="Int64" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <Property Name="ContactCompanyId" Type="Int64" />
+          <Property Name="Icon" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -20203,6 +20241,19 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="AddressDisplay" ColumnName="AddressDisplay" />
                 <ScalarProperty Name="WebLink" ColumnName="WebLink" />
                 <ScalarProperty Name="ListingID" ColumnName="ListingID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_CompanyVariableIcons">
+            <EntityTypeMapping TypeName="DomainModels.vw_CompanyVariableIcons">
+              <MappingFragment StoreEntitySet="vw_CompanyVariableIcons">
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="ContactCompanyId" ColumnName="ContactCompanyId" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="variabletag" ColumnName="variabletag" />
+                <ScalarProperty Name="variablename" ColumnName="variablename" />
+                <ScalarProperty Name="variableid" ColumnName="variableid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
