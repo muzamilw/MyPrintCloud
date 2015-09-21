@@ -5382,13 +5382,14 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
 
 
     // #region ______________  Real Estate Campaign _________________
-    var realEstateListView = function (specifiedListingId, specifiedPropertyName, specifiedPropertyType, specifiedAgent, specifiedPropertyValue) {
+    var realEstateListView = function (specifiedListingId, specifiedPropertyName, specifiedPropertyType, specifiedAgent, specifiedPropertyValue,specifiedListingImage) {
         var self,
             id = ko.observable(specifiedListingId),
             propertyName = ko.observable(specifiedPropertyName),
             propertyType = ko.observable(specifiedPropertyType),
             agent = ko.observable(specifiedAgent),
             propertyValue = ko.observable(specifiedPropertyValue),
+            propertyListingImage = ko.observable(specifiedListingImage),
            
             // Errors
             errors = ko.validation.group({
@@ -5417,6 +5418,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             propertyType: propertyType,
             agent: agent,
             propertyValue: propertyValue,
+            propertyListingImage: propertyListingImage,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -5430,7 +5432,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         return new realEstateListView(source.ListingID, source.PropertyName,
             source.PropertyType,
             source.ListingAgent,
-            source.DisplayPrice);
+            source.DisplayPrice,
+            source.ListingImage);
     };
 
     // #region ______________  Smart Form Detail _________________
