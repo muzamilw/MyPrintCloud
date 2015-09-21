@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
+using System.Reflection.Emit;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
@@ -44,36 +45,21 @@ namespace MPC.MIS.Areas.Api.Controllers
         #endregion
         [ApiException]
         //[ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
-        public HttpResponseMessage Get(HttpActionContext httpContext)
+        public HttpResponseMessage Get()
         {
             try
             {
+                long organisationId = 1;
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri("https://myprintcloud.com/Account/Login");
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    string authCode = string.Empty;
                     string url = "?email=staging@myprintcloud.com&password=p@ssw0rd&RememberMe=false";
-                    string responsestr = "";
                     var response = client.GetAsync(url);
                     if (response.Result.IsSuccessStatusCode)
                     {
-                        responsestr = response.Result.Content.ReadAsStringAsync().Result;
-                        //HtmlString str = new HtmlString(responsestr.Replace("<br>", "<br />"));
-
-                        XElement info = XElement.Parse(responsestr.Replace("<br>", "<br />"));
-                        var code = (info.Descendants("input")).FirstOrDefault();
-
-                        if (code != null)
-                        {
-                            authCode = code.LastAttribute.Value;
-                            response = client.GetAsync(url + "&__RequestVerificationToken="+authCode);
-                            if (response.Result.IsSuccessStatusCode)
-                            {
-                                responsestr = response.Result.Content.ReadAsStringAsync().Result;
-                            }
-                        }
+                        
                             
                     }
 
@@ -84,7 +70,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 var json = formatter.SerializerSettings;
                 json.Formatting = Newtonsoft.Json.Formatting.Indented;
                 json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                return Request.CreateResponse(HttpStatusCode.OK, _invoiceService.GetZapierInvoiceDetail(), formatter);
+                return Request.CreateResponse(HttpStatusCode.OK, _invoiceService.GetZapierInvoiceDetail(organisationId), formatter);
             }
             catch (Exception ex)
             {

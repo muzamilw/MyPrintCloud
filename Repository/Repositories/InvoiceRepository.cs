@@ -159,14 +159,14 @@ namespace MPC.Repository.Repositories
             return db.SectionFlags.Where(c => c.SectionId == (int)SectionEnum.Invoices).Select(c => c.SectionFlagId).FirstOrDefault();
         }
 
-        public List<ZapierInvoiceDetail> GetZapierInvoiceDetails()
+        public List<ZapierInvoiceDetail> GetZapierInvoiceDetails(long organizationId)
         {
             db.Configuration.LazyLoadingEnabled = false;
             var invd = DbSet.Include(i => i.Items)
                 .Include(i => i.Company)
                 .Include(i => i.CompanyContact)
                 .Include(i => i.Company.Addresses)
-                .Where(i => i.OrganisationId == OrganisationId).ToList();
+                .Where(i => i.OrganisationId == organizationId).ToList();
             if (invd.Any())
             {
                var zapDetail = invd.Select(i => new
