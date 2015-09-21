@@ -182,6 +182,8 @@ namespace MPC.Repository.BaseRepository
 
         public DbSet<vw_RealEstateProperties> vw_RealEstateProperties { get; set; }
 
+        public DbSet<vw_CompanyVariableIcons> vw_CompanyVariableIcons { get; set; }
+
         public DbSet<GetCategoryProduct> GetCategoryProducts { get; set; }
 
         public DbSet<Address> Addesses { get; set; }
