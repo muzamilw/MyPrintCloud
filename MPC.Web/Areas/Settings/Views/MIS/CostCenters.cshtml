@@ -32,7 +32,7 @@
             
             <div class="row">
                 
-                <div class="col-lg-12"style="margin-left:7px;padding-right:23px;">
+                <div class="col-lg-12"style="margin-left:7px;padding-right:23px;margin-top:10px;">
                     <!-- ko template: { name: 'filterTemplate' } -->
                     <!-- /ko -->
                     <div class="main-box no-header clearfix">
@@ -120,7 +120,7 @@
         @* Filter Template *@
 
         <script id="filterTemplate" type="text/html">
-            <div class="filter-body" id="filter" style="margin-bottom:10px;">
+            <div class="filter-body" id="filter" style="height:62px;">
                 <div class="pull-left">
                     <div class="row">
                         <div style="height:20px;">
@@ -131,7 +131,7 @@
                 </div>
                 <form data-bind="submit: $root.getCostCenterByFilter" > 
                     <div class="filter-block pull-right" style="margin-right: -10px; margin-top: -3px;">
-                        <div class="form-group pull-left">
+                        <div class="form-group pull-left" style="margin-top:6px;">
                             <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
                             <i class="fa fa-search search-icon" data-bind="click:$root.getCostCenterByFilter"></i>
                         </div>
