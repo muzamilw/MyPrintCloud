@@ -517,6 +517,7 @@
     <Content Include="Content\ErrorPage.css" />
     <Content Include="Content\FancyBoxStyless.css" />
     <Content Include="Content\HomeBannerS4.js" />
+    <Content Include="Content\Images\20304_Checkmark.png" />
     <Content Include="Content\Images\artwork_light_icons.png" />
     <Content Include="Content\Images\bg2.png" />
     <Content Include="Content\Images\bonhamsBakground.png" />
