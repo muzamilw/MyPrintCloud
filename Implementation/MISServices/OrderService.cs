@@ -897,7 +897,14 @@ namespace MPC.Implementation.MISServices
             int ordersCount = isDirectSale ? org.MisOrdersCount??0 : org.WebStoreOrdersCount ?? 0;
             DateTime billingDate = org.BillingDate ?? DateTime.Now;
             bool isExtra = orderRepository.IsExtradOrderForBillingCycle(billingDate, isDirectSale, ordersCount, orderId, org.OrganisationId);
-            return isExtra;
+            if (org.isTrial == false)
+            {
+                return isExtra;
+            }
+            else
+            {
+                return true;
+            }
         }
         
         /// <summary>
