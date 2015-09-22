@@ -341,6 +341,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyVariableIconController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCostCentreController.cs" />
     <Compile Include="Areas\Api\Controllers\DiscountVoucherController.cs" />
     <Compile Include="Areas\Api\Controllers\CopyOrderController.cs" />
@@ -450,6 +451,7 @@
     <Compile Include="Areas\Api\Controllers\StoreCssController.cs" />
     <Compile Include="Areas\Api\Controllers\SystemUserController.cs" />
     <Compile Include="Areas\Api\Controllers\SystemVariableController.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CompanyVariableIconsMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\DiscountVoucherMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ActivityMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ActivityTypeMapper.cs" />
@@ -582,6 +584,7 @@
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactForCalendar.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactResponseForCalendar.cs" />
+    <Compile Include="Areas\Api\Models\CompanyVariableIconeDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\ContactResponseForOrder.cs" />
     <Compile Include="Areas\Api\Models\CostCenterFixedVariable.cs" />
     <Compile Include="Areas\Api\Models\CostCenterVariablesResponseModel.cs" />
@@ -658,6 +661,7 @@
     <Compile Include="Areas\Api\Models\PurchaseListView.cs" />
     <Compile Include="Areas\Api\Models\PurchaseResponseModel.cs" />
     <Compile Include="Areas\Api\Models\RealEstateListViewResponse.cs" />
+    <Compile Include="Areas\Api\Models\RealEstateVariableIconeListViewResponse.cs" />
     <Compile Include="Areas\Api\Models\Report.cs" />
     <Compile Include="Areas\Api\Models\ReportCategory.cs" />
     <Compile Include="Areas\Api\Models\ReportCategoryRequestModel.cs" />
@@ -888,6 +892,7 @@
     <Compile Include="Areas\Api\Models\usp_TotalEarnings_Result.cs" />
     <Compile Include="Areas\Api\Models\VariableExtension.cs" />
     <Compile Include="Areas\Api\Models\VariableOption.cs" />
+    <Compile Include="Areas\Api\Models\vw_CompanyVariableIcons.cs" />
     <Compile Include="Areas\Api\Models\vw_RealEstateProperties.cs" />
     <Compile Include="Areas\Api\Models\Widget.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetBaseController.cs" />
@@ -3481,6 +3486,7 @@
     <Folder Include="Areas\Api\Views\CompanyContactForCrm\" />
     <Folder Include="Areas\Api\Views\CompanyContact\" />
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
+    <Folder Include="Areas\Api\Views\CompanyVariableIcon\" />
     <Folder Include="Areas\Api\Views\CopyEstimate\" />
     <Folder Include="Areas\Api\Views\CostCentreMatrix\" />
     <Folder Include="Areas\Api\Views\CrmBase\" />

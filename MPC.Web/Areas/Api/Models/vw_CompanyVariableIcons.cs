@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace MPC.Models.DomainModels
+namespace MPC.MIS.Areas.Api.Models
 {
     public partial class vw_CompanyVariableIcons
     {

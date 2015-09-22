@@ -8396,6 +8396,40 @@ END
 
 
 
+-------------------------
+
+ALTER TABLE CompanyVariableIcon
+ADD PRIMARY KEY (VariableIconId)
+
+
+-----------------------
+
+
+
+/****** Object:  View [dbo].[vw_CompanyVariableIcons]    Script Date: 9/22/2015 5:35:33 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+Create VIEW [dbo].[vw_CompanyVariableIcons] AS
+
+
+
+
+
+select fv.variableid,fv.variablename,fv.variabletag,fv.CompanyId,fv.OrganisationId, cvi.ContactCompanyId,cvi.Icon, cvi.VariableIconId from fieldvariable fv
+left join CompanyVariableIcon cvi on cvi.variableid = fv.variableid 
+where fv.scope = 5 or fv.scope = 6
+
+GO
+
+
+
+
 /*must be executed on all servers for real estate*/
 update fieldVariable set KeyField = 'ListingId' where RefTableName = 'Listing'
 update fieldVariable set KeyField = 'ListingId' where RefTableName = 'ListingImage'

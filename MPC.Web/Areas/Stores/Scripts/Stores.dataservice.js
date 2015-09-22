@@ -58,6 +58,16 @@
                         type: 'DELETE',
                         decoder: amplify.request.decoders.istStatusDecoder
                     });
+                    // Define request to delete variable icon id
+                    amplify.request.define('deleteCompanyVariableIcon', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyVariableIcon',
+                        dataType: 'json',
+                        type: 'DELETE',
+                        decoder: amplify.request.decoders.istStatusDecoder
+                    });
+
+                    
+
 
                     // Define request to get Company Territory
                     amplify.request.define('searchCompanyTerritory', 'ajax', {
@@ -280,6 +290,13 @@
                         type: 'GET'
                     });
 
+                    // Define request to Get company variable icon
+                    amplify.request.define('getCompanyVariableIcon', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyVariableIcon',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     // Define request to Get Company Territory Validation check
                     amplify.request.define('validateCompanyToDelete', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyTerritory',
@@ -403,7 +420,14 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
-                    
+                    // Define request to save Store
+                    amplify.request.define('saveCompanyVariableIcon', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyVariableIcon',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+
                     isInitialized = true;
                 }
             },
@@ -461,6 +485,17 @@
                 initialize();
                 return amplify.request({
                     resourceId: 'deleteMediaLibraryItemById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+
+               // delete company variable icon
+            deleteCompanyVariableIcons = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCompanyVariableIcon',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -747,6 +782,17 @@
                 });
             },
 
+             // get companyVariable Icons
+            getCompanyVariableIcons = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getCompanyVariableIcon',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+
         // validate Company To Delete
         validateCompanyToDelete = function (param, callbacks) {
             initialize();
@@ -997,6 +1043,17 @@
                 });
        },
        
+        // save company variable icon
+            saveCompanyVariableIcon = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'saveCompanyVariableIcon',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+
         // save Store
         saveStore = function (param, callbacks) {
             initialize();
@@ -1016,6 +1073,7 @@
             getBaseData: getBaseData,
             getBaseDataForNewCompany: getBaseDataForNewCompany,
             deleteStore: deleteStore,
+            saveCompanyVariableIcon: saveCompanyVariableIcon,
             saveStore: saveStore,
             searchCompanyTerritory: searchCompanyTerritory,
             getFieldVariablesByCompanyId: getFieldVariablesByCompanyId,
@@ -1057,6 +1115,7 @@
             deleteCompanyPermanent: deleteCompanyPermanent,
             copyFullStore: copyFullStore,
             deleteMediaLibraryItemById: deleteMediaLibraryItemById,
+            deleteCompanyVariableIcons: deleteCompanyVariableIcons,
             saveSecondaryPage: saveSecondaryPage,
             deleteSecondaryPage: deleteSecondaryPage,
             getPaymentGateways: getPaymentGateways,
@@ -1067,7 +1126,8 @@
             validateCanStoreSaveById: validateCanStoreSaveById,
             getStoreCss: getStoreCss,
             updateStoreCss: updateStoreCss,
-            getRealEstateCampaigns: getRealEstateCampaigns
+            getRealEstateCampaigns: getRealEstateCampaigns,
+            getCompanyVariableIcons: getCompanyVariableIcons
         };
     })();
 
