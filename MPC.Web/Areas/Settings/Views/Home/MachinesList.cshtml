@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="row">
-                        <div class="col-lg-12 col-md-8 col-sm-8">
+                        <div class="col-lg-12 col-md-8 col-sm-8" style="margin-top:9px;">
                             <div class="main-box clearfix machineDetailsHeader">
                                 <div class="tabs-wrapper profile-tabs">
                                     <ul class="nav nav-tabs">
@@ -76,11 +76,11 @@
 
                                         </div>
                                         <div class="tab-pane fade " id="tab-Guillotine">
-                                            <div class="col-lg-12">
+                                            <div class="col-lg-12" style="padding-left:7px;">
                                                 <div class="no-header clearfix">
-                                                    <div class="main-box-body clearfix">
+                                                    <div class="col-lg-12" style="padding-left:2px;padding-right:2px;">
                                                         <div class="table-responsive">
-                                                            <span>Set guillotines throat intake and cutting speeds.</span>
+                                                            <p class="group-header-description">Set guillotines throat intake and cutting speeds.</p>
                                                             <div style="height:20px;">
                                                                 &nbsp;
                                                             </div>
@@ -88,10 +88,12 @@
                                                             <table class="table user-list table-striped table-hover">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th><span>Machine Name</span></th>
-                                                                        <th><span>Max Sheet Size</span></th>
-                                                                        <th><span>Min Sheet Size</span></th>
-                                                                       
+                                                                        <th class="col-lg-1"></th>
+                                                                        <th class="col-lg-3"><span>Machine Name</span></th>
+                                                                        <th class="col-lg-2"><span>Max Sheet Size</span></th>
+                                                                        <th class="col-lg-2"><span>Min Sheet Size</span></th>
+                                                                        <th class="col-lg-2"></th>
+                                                                        <th class="col-lg-2"></th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -126,7 +128,7 @@
 <script id="itemMachineTemplate" type="text/html">
     @*<tr data-bind="click: $root.selectItem, css: { selectedRow: $data === $root.selectedMachine}">*@
     <tr data-bind=" click: $root.onEditItem" style="cursor: pointer">
-
+        <td></td>
         <!-- ko ifnot: MachineCatId()=== 4 -->
         <!-- ko if: isSpotColor() -->
         <td><img src="@Url.Content("~/Content/Images/Section_spotColor.jpeg")" style="  width: 100%; float: left;" /></td>
@@ -141,12 +143,9 @@
         </td>
         <td><span data-bind="text: maximumsheetwidth"> </span><span> x </span> <span data-bind="text: maximumsheetheight"> </span>  </td>
         <td><span data-bind="text: minimumsheetwidth"> </span><span> x </span> <span data-bind="text: minimumsheetheight"> </span>  </td>
-
-        @*<td id="actionColumn">
-                <!-- ko template: { name: "MachineActionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                <!-- /ko -->
-
-            </td>*@
+        <td></td>
+        <td></td>
+       
     </tr>
 </script>
 
