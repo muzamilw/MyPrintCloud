@@ -17,5 +17,6 @@ namespace MPC.Interfaces.Repository
         List<TemplateFont> getTemplateFontsByCompanyID(long CustomerID);
 
         List<TemplateFont> getTemplateFonts();
+        List<TemplateFont> GetFontListForTemplate(long templateId);
     }
 }

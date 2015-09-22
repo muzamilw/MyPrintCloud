@@ -95,6 +95,17 @@ namespace MPC.Repository.Repositories
             return db.TemplateFonts.ToList();
 
         }
+        public List<TemplateFont> GetFontListForTemplate(long templateId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            List<TemplateFont> fonts = new List<TemplateFont>();
+            var item = db.Items.Where(g => g.TemplateId == templateId).SingleOrDefault();
+            if(item != null)
+            {
+                fonts = db.TemplateFonts.Where(g => g.CustomerId == item.CompanyId).ToList();
+            }
+            return fonts;
+        }
         public  void InsertFontFile(TemplateFont objFont)
         {
             db.TemplateFonts.Add(objFont);
