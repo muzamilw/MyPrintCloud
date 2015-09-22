@@ -8396,3 +8396,18 @@ END
 
 
 
+/*must be executed on all servers for real estate*/
+update fieldVariable set KeyField = 'ListingId' where RefTableName = 'Listing'
+update fieldVariable set KeyField = 'ListingId' where RefTableName = 'ListingImage'
+update fieldVariable set KeyField = 'ListingId' where RefTableName = 'ListingOFIs'
+update fieldVariable set KeyField = 'ListingId' where RefTableName = 'ListingVendor'
+update fieldVariable set KeyField = 'ListingId' where RefTableName = 'ListingLink'
+update fieldVariable set KeyField = 'ListingId' where RefTableName = 'ListingFloorPlan'
+update fieldVariable set KeyField = 'ListingId' where RefTableName = 'ListingConjunctionAgent'
+
+update fieldVariable set VariableTag = '{{Agent1Name}}' where VariableId = 90
+update fieldVariable set VariableTag = '{{Agent1Email}}' where VariableId = 91
+update fieldVariable set VariableTag = '{{Agent1Phone1}}' where VariableId = 92
+update fieldVariable set VariableTag = '{{Agent1Phone2}}' where VariableId = 93
+update fieldVariable set VariableTag = '{{Agent1Mobile}}' where VariableId = 94 
+update fieldVariable set VariableTag = '{{Agent1Ref}}' where VariableId = 95

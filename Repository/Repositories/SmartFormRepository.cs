@@ -279,6 +279,7 @@ namespace MPC.Repository.Repositories
             List<ScopeVariable> result = new List<ScopeVariable>();
             hasContactVariables = false;
             var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
+            long ListingId = 0;
             foreach(SmartFormDetail obj in smartFormDetails)
             {
                 if(obj.ObjectType == (int)SmartFormDetailFieldType.VariableField)
@@ -297,128 +298,29 @@ namespace MPC.Repository.Repositories
                             obj.FieldVariable.VariableExtensions = null;
                             switch (obj.FieldVariable.RefTableName)
                             {
-                                case "tbl_Listing":
-                                    //   fieldValue = Convert.ToString(listing.GetType().GetProperty(item.CriteriaFieldName).GetValue(listing, null));
+                                case "Listing":
+                                    fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
                                     break;
-                                case "tbl_ListingImage":
-
-                                    //if (listingImages.Count > listingImageCount)
-                                    //{
-                                    //    fieldValue = Convert.ToString(listingImages[listingImageCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingImages[listingImageCount], null));
-                                    //}
-                                    //else
-                                    //{
-                                    //    listingImageCount++;
-                                    //    listingOverflow = true;
-                                    //    childType = "image";
-                                    //    break;
-                                    //}
-
-                                    //isChildList = true;
-                                    //childType = "image";
-                                    //listingImageCount++;
+                                case "ListingImage":  // listing images table based on listing id and image count write a seperate service for it to return all the data 
+                                    // fieldValue = GetRealEstateAgent(obj, ListingId);
                                     break;
-                                case "tbl_ListingAgent":
-
-                                    //if (listingAgents.Count > listingAgentCount)
-                                    //{
-                                    //    fieldValue = Convert.ToString(listingAgents[listingAgentCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingAgents[listingAgentCount], null));
-                                    //}
-                                    //else
-                                    //{
-                                    //    listingAgentCount++;
-                                    //    listingOverflow = true;
-                                    //    break;
-                                    //}
-
-                                    //isChildList = true;
-                                    //childType = "agent";
-                                    //listingAgentCount++;
+                                case "ListingAgent": //from users table based on company id and agent count
+                                    fieldValue = GetRealEstateAgent(obj.FieldVariable, ListingId);
                                     break;
-                                case "tbl_ListingOFID":
-
-                                    //if (listingOFIDs.Count > listingOFIDCount)
-                                    //{
-                                    //    fieldValue = Convert.ToString(listingOFIDs[listingOFIDCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingOFIDs[listingOFIDCount], null));
-                                    //}
-                                    //else
-                                    //{
-                                    //    listingOFIDCount++;
-                                    //    listingOverflow = true;
-                                    //    break;
-                                    //}
-
-                                    //isChildList = true;
-                                    //childType = "ofi";
-                                    //listingOFIDCount++;
+                                case "ListingOFIs":
+                                    fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
                                     break;
-                                case "tbl_ListingVendor":
-
-                                    //if (listingVendors.Count > listingVendrosCount)
-                                    //{
-                                    //    fieldValue = Convert.ToString(listingVendors[listingVendrosCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingVendors[listingVendrosCount], null));
-                                    //}
-                                    //else
-                                    //{
-                                    //    listingVendrosCount++;
-                                    //    listingOverflow = true;
-                                    //    break;
-                                    //}
-
-                                    //isChildList = true;
-                                    //childType = "vendor";
-                                    //listingVendrosCount++;
+                                case "ListingVendor":
+                                    fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
                                     break;
-                                case "tbl_ListingLink":
-
-                                    //if (listingLinks.Count > listingLinkCount)
-                                    //{
-                                    //    fieldValue = Convert.ToString(listingLinks[listingLinkCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingLinks[listingLinkCount], null));
-                                    //}
-                                    //else
-                                    //{
-                                    //    listingLinkCount++;
-                                    //    listingOverflow = true;
-                                    //    break;
-                                    //}
-
-                                    //isChildList = true;
-                                    //childType = "link";
-                                    //listingLinkCount++;
+                                case "ListingLink":
+                                    fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
                                     break;
-                                case "tbl_ListingFloorPlan":
-
-                                    //if (listingFloorPlans.Count > listingFloorPlansCount)
-                                    //{
-                                    //    fieldValue = Convert.ToString(listingFloorPlans[listingFloorPlansCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingFloorPlans[listingFloorPlansCount], null));
-                                    //}
-                                    //else
-                                    //{
-                                    //    listingFloorPlansCount++;
-                                    //    listingOverflow = true;
-                                    //    break;
-                                    //}
-
-                                    //isChildList = true;
-                                    //childType = "floor";
-                                    //listingFloorPlansCount++;
+                                case "ListingFloorPlan":
+                                    fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
                                     break;
-                                case "tbl_ListingConjunctionAgent":
-
-                                    //if (listingConjuctionAgents.Count > listingConAgentCount)
-                                    //{
-                                    //    fieldValue = Convert.ToString(listingConjuctionAgents[listingConAgentCount].GetType().GetProperty(item.CriteriaFieldName).GetValue(listingConjuctionAgents[listingConAgentCount], null));
-                                    //}
-                                    //else
-                                    //{
-                                    //    listingConAgentCount++;
-                                    //    listingOverflow = true;
-                                    //    break;
-                                    //}
-
-                                    //isChildList = true;
-                                    //childType = "conAgent";
-                                    //listingConAgentCount++;
+                                case "ListingConjunctionAgent":
+                                    fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
                                     break;
                                 case "CompanyContact":
                                     hasContactVariables = true;
@@ -633,6 +535,7 @@ namespace MPC.Repository.Repositories
         public List<ScopeVariable> GetTemplateScopeVariables(long templateID, long contactId)
         {
             db.Configuration.LazyLoadingEnabled = false;
+            long ListingId = 0;
             List<ScopeVariable> result = new List<ScopeVariable>();
             var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
             List<MPC.Models.DomainModels.TemplateVariable> lstTemplateVariables = new List<Models.DomainModels.TemplateVariable>();
@@ -664,21 +567,29 @@ namespace MPC.Repository.Repositories
                     {
                         switch (obj.RefTableName)
                         {
-                            case "tbl_Listing":
+                            case "Listing":
+                                fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
                                 break;
-                            case "tbl_ListingImage":
+                            case "ListingImage":  // listing images table based on listing id and image count write a seperate service for it to return all the data 
+                               // fieldValue = GetRealEstateAgent(obj, ListingId);
                                 break;
-                            case "tbl_ListingAgent":
+                            case "ListingAgent": //from users table based on company id and agent count
+                                fieldValue = GetRealEstateAgent(obj, ListingId);
                                 break;
-                            case "tbl_ListingOFID":
+                            case "ListingOFIs":
+                                fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
                                 break;
-                            case "tbl_ListingVendor":
+                            case "ListingVendor":
+                                fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
                                 break;
-                            case "tbl_ListingLink":
+                            case "ListingLink":
+                                fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
                                 break;
-                            case "tbl_ListingFloorPlan":
+                            case "ListingFloorPlan":
+                                fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
                                 break;
-                            case "tbl_ListingConjunctionAgent":
+                            case "ListingConjunctionAgent":
+                                fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
                                 break;
                             case "CompanyContact":
                                 fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, contactId);
@@ -968,21 +879,21 @@ namespace MPC.Repository.Repositories
                             {
                                 switch (variable.RefTableName)
                                 {
-                                    case "tbl_Listing":
+                                    case "Listing":
                                         break;
-                                    case "tbl_ListingImage":
+                                    case "ListingImage":
                                         break;
-                                    case "tbl_ListingAgent":
+                                    case "ListingAgent":
                                         break;
-                                    case "tbl_ListingOFID":
+                                    case "ListingOFIs":
                                         break;
-                                    case "tbl_ListingVendor":
+                                    case "ListingVendor":
                                         break;
-                                    case "tbl_ListingLink":
+                                    case "ListingLink":
                                         break;
-                                    case "tbl_ListingFloorPlan":
+                                    case "ListingFloorPlan":
                                         break;
-                                    case "tbl_ListingConjunctionAgent":
+                                    case "ListingConjunctionAgent":
                                         break;
                                     case "CompanyContact":
                                         fieldValue = DynamicQueryToSetRecord(variable.CriteriaFieldName, variable.RefTableName, variable.KeyField, contactId,scope.Value);
@@ -1221,6 +1132,7 @@ namespace MPC.Repository.Repositories
             CompanyContact contact = db.CompanyContacts.Where(g => g.ContactId == contactID).SingleOrDefault();
             Item item = db.Items.Where(g=>g.ItemId == itemId).SingleOrDefault();
             Item orignalItem = null;
+            long ListingId = 0;
             if(item != null)
             {
                 orignalItem = db.Items.Where(g=>g.ItemId == item.RefItemId).SingleOrDefault();
@@ -1243,23 +1155,29 @@ namespace MPC.Repository.Repositories
 
                                     switch (FieldVariable.RefTableName)
                                     {
-                                        case "tbl_Listing":
-                                             break;
-                                        case "tbl_ListingImage":
-
-
+                                        case "Listing":
+                                            fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
                                             break;
-                                        case "tbl_ListingAgent":
+                                        case "ListingImage":  // listing images table based on listing id and image count write a seperate service for it to return all the data 
+                                            // fieldValue = GetRealEstateAgent(obj, ListingId);
                                             break;
-                                        case "tbl_ListingOFID":
+                                        case "ListingAgent": //from users table based on company id and agent count
+                                            fieldValue = GetRealEstateAgent(FieldVariable, ListingId);
                                             break;
-                                        case "tbl_ListingVendor":
+                                        case "ListingOFIs":
+                                            fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
                                             break;
-                                        case "tbl_ListingLink":
+                                        case "ListingVendor":
+                                            fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
                                             break;
-                                        case "tbl_ListingFloorPlan":
+                                        case "ListingLink":
+                                            fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
                                             break;
-                                        case "tbl_ListingConjunctionAgent":
+                                        case "ListingFloorPlan":
+                                            fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
+                                            break;
+                                        case "ListingConjunctionAgent":
+                                            fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
                                             break;
                                         case "CompanyContact":
                                             fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, contactID);
@@ -1567,6 +1485,13 @@ namespace MPC.Repository.Repositories
                 }
             }
             return listExtensions;
+        }
+
+        public string GetRealEstateAgent(FieldVariable obj , long propertyId)
+        {
+            int count = 1;
+
+            return "";
         }
         #endregion
     }
