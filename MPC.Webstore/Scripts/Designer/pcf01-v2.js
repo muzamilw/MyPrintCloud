@@ -1575,11 +1575,7 @@ function fu02UI() {
                              //   varExtensions.push(extToAdd);  //already mapping while saving template 
                             }
                             var txtToAdd = "{{" + tag + "_pre}} " + txt + " {{" + tag + "_post}}";
-<<<<<<< HEAD
-                            if (DIAO.autoCollapseText != true)
-=======
                             if (DIAO.autoCollapseText == true)
->>>>>>> 706a4a9c69a8cdee93c765dc5d7c87a02e9cde65
                             {
                                 txtToAdd =txt ;
                             }
