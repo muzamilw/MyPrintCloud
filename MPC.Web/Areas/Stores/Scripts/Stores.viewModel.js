@@ -52,6 +52,9 @@ define("stores/stores.viewModel",
 
                     // for real estate lisitng
                     realEstateCampaigns = ko.observableArray([]),
+
+                      // for company variable icons
+                    companyVariableIcons = ko.observableArray([]),
                     // Count of Users
                     userCount = ko.observable(0),
                     // Count of Orders
@@ -98,6 +101,13 @@ define("stores/stores.viewModel",
                     //Check Is Base Data Loaded
                     isBaseDataLoaded = ko.observable(false),
                     bannerButtonCaption = ko.observable(),
+
+                    CompanyVariableIconBinary = ko.observable(),
+                     CompanyVariableIconName = ko.observable(),
+                      CompanyVariableId = ko.observable(),
+                       CompanyVariableName = ko.observable(),
+                       isIconLoading = ko.observable(true),
+                       CompanyVariableRowCount = ko.observable(),
                     //#endregion
 
                     //#region ________ O B S E R V A B L E S   A R R A Y S___________
@@ -500,6 +510,36 @@ define("stores/stores.viewModel",
                         selectedStore().storeImageFileBinary(data);
                         selectedStore().storeImageName(file.name);
                         //selectedProductCategoryForEditting().fileType(data.imageType);
+                    },
+                    // company variable  icons
+                    SavecompanyVariableIcons = function (file, data,variableId,variableName) {
+                        CompanyVariableIconBinary(data);
+                        CompanyVariableIconName(file.name);
+                        CompanyVariableId(variableId);
+                        CompanyVariableName(variableName);
+                        
+
+                        dataservice.saveCompanyVariableIcon({
+                            IconBytes: CompanyVariableIconBinary(),
+                            IconName: CompanyVariableIconName(),
+                            VariableId: CompanyVariableId(),
+                            VariableName: CompanyVariableName(),
+                            CompanyId: selectedStore().companyId()
+                        }, {
+                            success: function (data) {
+                              
+                                isIconLoading(false);
+                                getCompanyVariableIcons();
+                                isIconLoading(true);
+                                toastr.success(" Upload Successfully !");
+                               
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to Delete . Error: " + response, "", ist.toastrOptions);
+                            }
+                        });
+
+
                     },
                     //store Backgroud Image Upload Callback
                     storeBackgroudImageUploadCallback = function(file, data) {
@@ -5053,6 +5093,7 @@ define("stores/stores.viewModel",
                         fieldVariables.removeAll();
                         discountVouuchers.removeAll();
                         realEstateCampaigns.removeAll();
+                        companyVariableIcons.removeAll();
                         newAddresses.removeAll();
                         deletedCompanyTerritories.removeAll();
                         edittedCompanyTerritories.removeAll();
@@ -5089,6 +5130,7 @@ define("stores/stores.viewModel",
                         fieldVariablesOfStoreType.removeAll();
                         discountVouuchers.removeAll();
                         realEstateCampaigns.removeAll();
+                        companyVariableIcons.removeAll();
                         newAddedCampaigns.removeAll();
                         filteredCompanyBanners.removeAll();
                         editedCampaigns.removeAll();
@@ -7251,14 +7293,87 @@ define("stores/stores.viewModel",
                 //#region _________R E T U R N_____________________
 
                 //Open VariableIcon Dialog
-                showcreateVariableDialog = function ()
-                {
-                   openDialog();
+                //showcreateVariableDialog = function ()
+                //{
+                //   openDialog();
+                //},
+                //openDialog = function ()
+                //{
+
+
+
+                  
+                //}
+
+                // GET company VariableIcon
+                getCompanyVariableIcons = function () {
+                    dataservice.getCompanyVariableIcons({
+                        CompanyId: selectedStore().companyId(),
+                    }, {
+                        success: function (data) {
+                            companyVariableIcons.removeAll();
+                            if (data != null) {
+                                CompanyVariableRowCount(data.RowCount);
+                                mapCompanyVariableIcons(data);
+                            }
+                            isLoadingStores(false);
+                            if (isIconLoading())
+                            {
+                                view.showVariableIconDialog();
+                            }
+                                
+                        },
+                        error: function (response) {
+                            isLoadingStores(false);
+                            toastr.error("Error: Failed to load company variable icons" + response, "", ist.toastrOptions);
+                        }
+                    });
+
                 },
-                openDialog = function ()
-                {
-                   view.showVariableIconDialog();
-                }
+
+                mapCompanyVariableIcons = function (data) {
+
+                    _.each(data.RealEstatesVariableIcons, function (variableIcon) {
+
+
+                        var module = model.companyVariableIcons.Create(variableIcon);
+                       
+                        module.icon(module.icon() + "?" + Date());
+
+                        companyVariableIcons.push(module);
+                    });
+                    // discountVoucherpager().totalCount(data.RowCount);
+                },
+
+                //Delete company variable icon
+                    onDeleteCompanyVariableIcon = function(variableIcon) {
+                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                        confirmation.afterProceed(function() {
+                           
+                            dataservice.deleteCompanyVariableIcons({ VariableIconeId: variableIcon.iconId }, {
+                                success: function (data) {
+                                    //companyVariableIcons.remove(variableIcon);
+                                    isIconLoading(false);
+                                    getCompanyVariableIcons();
+                                    isIconLoading(true);
+                                    toastr.success("Successfully deleted.");
+                                },
+                                error: function (exceptionMessage, exceptionType) {
+
+                                    if (exceptionType === ist.exceptionType.MPCGeneralException) {
+
+                                        toastr.error(exceptionMessage, "", ist.toastrOptions);
+
+                                    } else {
+
+                                        toastr.error("Failed to delete.", "", ist.toastrOptions);
+                                    }
+                                }
+                            });
+                            
+                        });
+                        confirmation.show();
+                    }
 
                 return {
                     //storeProduct: storeProduct,
@@ -7281,6 +7396,7 @@ define("stores/stores.viewModel",
                     makeEditable: makeEditable,
                     createNewStore: createNewStore,
                     storeImageFilesLoadedCallback: storeImageFilesLoadedCallback,
+                    SavecompanyVariableIcons: SavecompanyVariableIcons,
                     onEditItem: onEditItem,
                     isStoreEditorVisible: isStoreEditorVisible,
                     deleteStore: deleteStore,
@@ -7672,7 +7788,7 @@ define("stores/stores.viewModel",
                     validateStoreLiveHandler: validateStoreLiveHandler,
                     ExportCSVForCompanyContacts: ExportCSVForCompanyContacts,
                     validateCanStoreSave: validateCanStoreSave,
-                   
+                    getCompanyVariableIcons: getCompanyVariableIcons,
                     onDeleteStoreBackground: onDeleteStoreBackground,
                     onCopyStore: onCopyStore,
                     onFeaturedDialogOk: onFeaturedDialogOk,
@@ -7680,9 +7796,11 @@ define("stores/stores.viewModel",
                     selectedStoreCss: selectedStoreCss,
                     onEditCss: onEditCss,
                     onSaveCompanyCss: onSaveCompanyCss,
-                    openDialog: openDialog,
+                    companyVariableIcons: companyVariableIcons,
+                    onDeleteCompanyVariableIcon: onDeleteCompanyVariableIcon,
+                    CompanyVariableRowCount: CompanyVariableRowCount
                     //Show RealEstateCompaign VariableIcons Dialog
-                    showcreateVariableDialog: showcreateVariableDialog
+                    //showcreateVariableDialog: showcreateVariableDialog
                 };
                 //#endregion
             })()

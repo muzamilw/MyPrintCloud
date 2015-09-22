@@ -5436,6 +5436,66 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.ListingImage);
     };
 
+    // #endregion ______________ Real Estate Campaign   _________________
+
+
+    // #region ______________  Company Variable icons _________________
+    var companyVariableIcons = function (specifiedVariableIconId, specifiedVariableId, specifiedVariableName, specifiedVariableTag, specifiedIcon) {
+        var self,
+            iconId = ko.observable(specifiedVariableIconId),
+            variableId = ko.observable(specifiedVariableId),
+            variableName = ko.observable(specifiedVariableName),
+            variableTag = ko.observable(specifiedVariableTag),
+            icon = ko.observable(specifiedIcon)
+            
+
+
+            // Errors
+            errors = ko.validation.group({
+                variableName: variableName,
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+
+            }),
+            // True If Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset Dirty State
+            reset = function () {
+                dirtyFlag.reset();
+            };
+
+        self = {
+            iconId: iconId,
+            variableId: variableId,
+            variableName: variableName,
+            variableTag: variableTag,
+            icon: icon,
+         
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset
+        };
+        return self;
+    };
+    //Discount Voucher Create Factory
+    companyVariableIcons.Create = function (source) {
+        return new companyVariableIcons(source.VariableIconId, source.variableid,
+            source.variablename,
+            source.variabletag,
+            source.Icon);
+    };
+
+    // #endregion ______________ Company Variable icons   _________________
+
     // #region ______________  Smart Form Detail _________________
     var SmartFormDetail = function (specifiedSmartFormDetailId, specifiedSmartFormId, specifiedObjectType,
         specifiedSortOrder, specifiedIsRequired, specifiedVariableId, specifiedCaptionValue, specifiedWaterMark) {
@@ -5599,7 +5659,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         ProductForDialog: ProductForDialog,
         ProductCategoryVoucher: ProductCategoryVoucher,
         ItemsVouchers: ItemsVouchers,
-        StoreCss: StoreCss
+        StoreCss: StoreCss,
+        companyVariableIcons: companyVariableIcons
        
     };
     // #endregion 

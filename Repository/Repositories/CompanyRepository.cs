@@ -6300,6 +6300,112 @@ namespace MPC.Repository.Repositories
            return DbSet.Where(c => c.WebAccessCode == sWebAccessCode && c.OrganisationId == OrganisationId).Select(c => c.CompanyId).FirstOrDefault();
         }
 
-       
+
+
+        public RealEstateVariableIconsListViewResponse GetCompanyVariableIcons(CompanyVariableIconRequestModel request)
+        {
+            // return db.vw_RealEstateProperties.ToList();
+
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isString = !string.IsNullOrEmpty(request.SearchString);
+
+
+
+            List<vw_CompanyVariableIcons> companyVariableIcons = db.vw_CompanyVariableIcons.Where(c => c.CompanyId == request.CompanyId).ToList();
+
+            return new RealEstateVariableIconsListViewResponse { RealEstatesVariableIcons = companyVariableIcons, RowCount = companyVariableIcons.Count() };
+
+        }
+
+        public void DeleteCompanyVariableIcon(long iconId)
+        {
+            try
+            {
+
+                CompanyVariableIcon objIcon = db.CompanyVariableIcons.Where(c => c.VariableIconId == iconId).FirstOrDefault();
+
+                db.CompanyVariableIcons.Remove(objIcon);
+
+                if(db.SaveChanges() > 0)
+                {
+                    string currFile = HttpContext.Current.Server.MapPath("~/" + objIcon.Icon);
+                    if (File.Exists(currFile))
+                        File.Delete(currFile);
+                }
+
+
+
+              
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+
+        public void SaveCompanyVariableIcon(CompanyVariableIconRequestModel request)
+        {
+            try
+            {
+                if(request.VariableId > 0)
+                {
+                    CompanyVariableIcon CVI = db.CompanyVariableIcons.Where(c => c.VariableId == request.VariableId).FirstOrDefault();
+
+                    // means add new company variabel icon
+                    if (CVI == null)
+                    {
+                        CompanyVariableIcon objcvi = new CompanyVariableIcon();
+                        objcvi.VariableId = request.VariableId;
+                        objcvi.Icon = SaveVariableIcon(request.IconBytes, request.CompanyId, request.VariableId, request.VariableName);
+                        db.CompanyVariableIcons.Add(objcvi);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        CVI.Icon = SaveVariableIcon(request.IconBytes, request.CompanyId, request.VariableId, request.VariableName);
+
+                        db.SaveChanges();
+
+                    }
+
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private string SaveVariableIcon(string IconByte, long companyId,long VariableId,string VariableName)
+        {
+            if (!string.IsNullOrEmpty(IconByte))
+            {
+                if (!string.IsNullOrEmpty(VariableName))
+                    VariableName = VariableName.Replace(" ", "");
+                string base64 = IconByte.Substring(IconByte.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/RealEstateIcons/" + OrganisationId + "/" + companyId + "/Icons");
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                Random r = new Random();
+                int n = r.Next();
+                string savePath = directoryPath + "\\" + VariableId + "_" + VariableName + ".png";
+               
+                File.WriteAllBytes(savePath, data);
+
+              
+
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
+                return savePath;
+            }
+            return null;
+        }
+     
     }
 }
