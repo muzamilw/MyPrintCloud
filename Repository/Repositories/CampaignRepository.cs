@@ -555,7 +555,7 @@ namespace MPC.Repository.Repositories
 
                                                         if (orderid > 0)
                                                         {
-                                                            tagValue = "/mis/api/DownloadArtwork?OrderId=" + orderid + "&OrganisationId=" + OrganizationRec.OrganisationId + "&Format=1"; // "mis/Services/OrderSvc.svc/DownloadOrderXMLByID?OrderID=" + orderid + "&Format=1";
+                                                            tagValue = "/mis/api/DownloadArtwork?OrderId=" + orderid + "&OrganisationId=" + OrganizationRec.OrganisationId + "&formatxml=1"; // "mis/Services/OrderSvc.svc/DownloadOrderXMLByID?OrderID=" + orderid + "&Format=1";
 
                                                             tagValue = oContext.Request.Url.Scheme + "://" + oContext.Request.Url.Authority + "/" + tagValue;
 

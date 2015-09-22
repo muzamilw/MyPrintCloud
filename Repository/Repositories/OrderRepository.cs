@@ -421,7 +421,7 @@ namespace MPC.Repository.Repositories
                             
                             prodItem = CreateProductItem(item, StockName);
                             prodItem.Attatchment = this.ExtractAttachment(item);
-
+                            prodItem.OtherItemAttatchments = item.ItemAttachments.Where(attatchment => attatchment.ItemId == item.ItemId && string.Compare(attatchment.Type, UploadFileTypes.Artwork.ToString(), true) == 0).ToList();
                             productItemsList.Add(prodItem);
                             allItemsAddOnsList.AddRange(this.ExtractAdditionalAddons(item)); //Collects the addons for each item
 
@@ -510,7 +510,7 @@ namespace MPC.Repository.Repositories
 
                 List<ItemAttachment> newlistAttach = tblItem.ItemAttachments.Where(attatchment => attatchment.ItemId == tblItem.ItemId && string.Compare(attatchment.Type, UploadFileTypes.Artwork.ToString(), true) == 0).Take(2).ToList();
                 tblItemAttchment = newlistAttach[0];
-
+                
                 if (tblItemAttchment != null)
                 {
                     if (tblItemAttchment.FileName.Contains("overlay"))
