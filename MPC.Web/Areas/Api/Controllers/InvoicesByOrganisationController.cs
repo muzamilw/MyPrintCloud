@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -14,6 +15,7 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Xml.Linq;
 using GrapeCity.Viewer.Common.Model;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.Models.Common;
@@ -50,27 +52,46 @@ namespace MPC.MIS.Areas.Api.Controllers
             try
             {
                 long organisationId = 1;
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri("https://myprintcloud.com/Account/Login");
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    string url = "?email=staging@myprintcloud.com&password=p@ssw0rd&RememberMe=false";
-                    var response = client.GetAsync(url);
-                    if (response.Result.IsSuccessStatusCode)
-                    {
-                        
+                string param = string.Empty;
+                param = Request.RequestUri.Query;
+                //using (var client = new HttpClient())
+                //{
+                //    client.BaseAddress = new Uri("https://myprintcloud.com/Account/Login");
+                //    client.DefaultRequestHeaders.Accept.Clear();
+                //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                //    string url = param; //"?email=staging@myprintcloud.com&password=p@ssw0rd&RememberMe=false";
+                //    var response = client.GetAsync(url);
+                //    if (response.Result.IsSuccessStatusCode)
+                //    {
+                //        if (response.Result.Content.Equals(true))
+                //        {
+                //            var formatter = new JsonMediaTypeFormatter();
+                //            var json = formatter.SerializerSettings;
+                //            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+                //            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                //            return Request.CreateResponse(HttpStatusCode.OK, _invoiceService.GetZapierInvoiceDetail(organisationId), formatter);
+                //        }
+                //        else
+                //        {
+                //            throw new MPCException("Service Not Authenticated!", organisationId);
+                //        }
                             
-                    }
+                //    }
+                //    else
+                //    {
+                //        throw new MPCException("Service Not Authenticated!", organisationId);
+                //    }
 
-                }
-                
-                
+                //}
+
                 var formatter = new JsonMediaTypeFormatter();
                 var json = formatter.SerializerSettings;
                 json.Formatting = Newtonsoft.Json.Formatting.Indented;
                 json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 return Request.CreateResponse(HttpStatusCode.OK, _invoiceService.GetZapierInvoiceDetail(organisationId), formatter);
+                
+                
+                
             }
             catch (Exception ex)
             {

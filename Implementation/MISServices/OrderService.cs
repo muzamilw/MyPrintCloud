@@ -1247,6 +1247,11 @@ namespace MPC.Implementation.MISServices
             // return ExportPDF(105, 0, ReportType.Invoice, 814, string.Empty);
         }
 
+        public string DownloadOrderXml(int orderId, long organisationId)
+        {
+            return exportReportHelper.ExportOrderReportXML(orderId, "", "0", organisationId);
+        }
+
         public string GenerateOrderArtworkArchive(int OrderID, string sZipName, long WebStoreOrganisationId)
         {
 
