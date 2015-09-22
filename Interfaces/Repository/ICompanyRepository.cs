@@ -116,6 +116,12 @@ namespace MPC.Interfaces.Repository
 
         void SetTerritoryIdAddress(Company objCompany, long OldCompanyId);
         long GetStoreIdByAccessCode(string sWebAccessCode);
+
+        RealEstateVariableIconsListViewResponse GetCompanyVariableIcons(CompanyVariableIconRequestModel request);
+
+        void DeleteCompanyVariableIcon(long iconId);
+
+        void SaveCompanyVariableIcon(CompanyVariableIconRequestModel request);
         
     }
 }

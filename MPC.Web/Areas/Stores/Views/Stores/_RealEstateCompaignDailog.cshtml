@@ -6,9 +6,9 @@
                 </div>
 
                 <div class="col-lg-12 clearfix" style="padding-left:6px;">
-                    <div style="background-color:gainsboro;border-radius:3px;margin-left:5px;margin-right:5px;margin-top:20px;">
+                    <div style="background-color:gainsboro;border-radius:3px;margin-left:5px;margin-right:5px;margin-top:20px;overflow-y:auto;max-height: 500px;min-height: 500px;">
                         <div class="main-box-body clearfix" style="padding-left:20px;padding-right:20px;">
-                            <div class="table-responsive">
+                            <div class="table-responsive" >
 
                                 <table class="table table-striped table-hover">
                                     <thead>
@@ -16,28 +16,41 @@
                                             <th class="col-lg-1">&nbsp;</th>
                                             <th class="col-lg-3"><span>Variable Name</span></th>
                                             <th class="col-lg-2"><span>Variable Tag</span></th>
-                                            <th class="col-lg-2"><span>Variable Icon</span></th>
+                                            <th class="col-lg-2"><span>Variable Icons</span></th>
                                             <th class="col-lg-2"></th>
                                             <th class="col-lg-2"></th>
 
                                         </tr>
                                     </thead>
 
-                                    <tbody style="cursor:pointer;">
+                                    <tbody>
+                                        <!-- ko if: $root.CompanyVariableRowCount() == 0 -->
                                         <tr>
-                                            <td></td>
+                                           <td style="width: 16%;">
+                                               No Icons found
+                                           </td>
                                             <td>
-                                                American Property
+                                               
                                             </td>
                                             <td>
-                                                Commercial
+                                              
                                             </td>
                                             <td>
-                                                none
+                                                
                                             </td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>
+                                              
+                                            </td>
+                                            <td>
+                                               
+                                            </td>
                                         </tr>
+
+                                        <!-- /ko -->
+                                        <!-- ko if: $root.CompanyVariableRowCount() > 0 -->
+                                            <!-- ko template: { name: 'companyVariableIcons' , foreach: $root.companyVariableIcons } -->
+                                            <!-- /ko -->
+                                        <!-- /ko -->
                                     </tbody>
 
                                 </table>
@@ -53,7 +66,7 @@
                    
                     <div style="padding-left:8px;padding-right:8px;">
                        
-                        <button type="button" class="btn btn-primary">Save</button>
+                      
                         <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
                     </div>
                 </div>
@@ -61,3 +74,53 @@
             </div>
         </div>
 </div>
+@* Product Category Template *@
+<script id="companyVariableIcons" type="text/html">
+    <tr>
+        <td></td>
+        <td data-bind="text:variableName"></td>
+        <td data-bind="text:variableTag"></td>
+
+        @*<td>
+            <img id="idVariableIcon" style="width:27%;max-width: 43%; -o-object-fit: contain; object-fit: contain;" data-bind="visible:iconBinary()==undefined ,attr: { src: '@Url.Content("~/")' + icon() }" />
+            <img style="width:27%;max-width: 43%; -o-object-fit: contain; object-fit: contain;" data-bind="visible:iconBinary()!==undefined,attr: { src: iconBinary }" />
+
+        </td>*@
+
+        <!-- ko if: iconId() > 0 -->
+        <td><img style="width:37%;max-width: 43%;" data-bind="attr: { src: '/mis/' + icon() }" />
+            <a href="#" class="table-link danger" style="color:#e74c3c;" data-bind="click : $root.onDeleteCompanyVariableIcon">
+                <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        </td>
+        <!-- /ko -->
+        <!-- ko if: iconId() === null -->
+        <td><img style="width:37%;max-width: 43%;" src="/mis/Content/Images/imageplaceholder.png" />
+          
+        
+        </td>
+        <!-- /ko -->
+        <td>
+            @*<div class="fileUpload btn btn-primary">
+                <span>Upload </span>
+                <input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: function(file, data){ $root.SavecompanyVariableIcons(file, data, variableId(), variableName()); }, fileFilter: 'image.*'}" />
+            </div>*@
+        </td>
+        <td>
+            <div class="fileUpload btn btn-primary">
+            <span>Upload </span>
+            <input type="file" class="upload" id="image_files" data-bind="files: { onLoaded: function(file, data){ $root.SavecompanyVariableIcons(file, data, variableId(), variableName()); }, fileFilter: 'image.*'}" />
+        </div>
+
+            @*<!-- ko if: iconId() > 0 -->
+            <button type="button" class="btn btn-danger pull-right" data-bind="click : $root.onDeleteCompanyVariableIcon">
+                Remove
+            </button>
+            <!-- /ko -->*@
+        </td>
+    </tr>
+</script>
