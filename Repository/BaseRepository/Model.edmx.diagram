@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="12">
+      <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="55">
         <EntityTypeShape EntityType="DomainModels.Company" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.ChartOfAccount" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.CmsSkinPageWidget" Width="1.5" PointX="9.125" PointY="3.125" />
@@ -190,7 +190,6 @@
         <EntityTypeShape EntityType="DomainModels.ListingLink" Width="1.5" PointX="33.375" PointY="21" />
         <EntityTypeShape EntityType="DomainModels.ListingOFI" Width="1.5" PointX="33.375" PointY="24" />
         <EntityTypeShape EntityType="DomainModels.ListingVendor" Width="1.5" PointX="33.375" PointY="27.125" />
-        <EntityTypeShape EntityType="DomainModels.CompanyVariableIcon" Width="1.5" PointX="33.375" PointY="30.75" />
         <AssociationConnector Association="DomainModels.FK_tbl_FavoriteDesign_tbl_contacts" />
         <AssociationConnector Association="DomainModels.FK_tbl_FavoriteDesign_tbl_items" />
         <EntityTypeShape EntityType="DomainModels.Phrase" Width="1.5" PointX="33.375" PointY="34.875" />
@@ -342,6 +341,7 @@
         <EntityTypeShape EntityType="DomainModels.MarketingBriefHistory" Width="1.5" PointX="41.375" PointY="31.125" />
         <EntityTypeShape EntityType="DomainModels.vw_RealEstateProperties" Width="1.5" PointX="43.375" PointY="42.75" />
         <EntityTypeShape EntityType="DomainModels.vw_CompanyVariableIcons" Width="1.5" PointX="43.375" PointY="31" />
+        <EntityTypeShape EntityType="DomainModels.CompanyVariableIcon" Width="1.5" PointX="44.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

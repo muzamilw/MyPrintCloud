@@ -819,8 +819,51 @@ function d1(cCanvas, IO, isCenter) {
     var Curl = IO.ContentString;
     if (IO.ContentString.indexOf("MPC_Content"))
         IO.ContentString = IO.ContentString.replace("/MPC_Content/", "");
-
-    fabric.Image.fromURL("/MPC_Content/" + IO.ContentString, function (IOL) {
+    var url =  IO.ContentString;
+    if (url == "{{ListingImage1}}") {
+        url = "/Content/Designer/assets-v2/placeholder1.png";
+    } else if (url == "{{ListingImage2}}") {
+        url = "/Content/Designer/assets-v2/placeholder2.png";
+    } else if (url == "{{ListingImage3}}") {
+        url = "/Content/Designer/assets-v2/placeholder3.png";
+    } else if (url == "{{ListingImage4}}") {
+        url = "/Content/Designer/assets-v2/placeholder4.png";
+    } else if (url == "{{ListingImage5}}") {
+        url = "/Content/Designer/assets-v2/placeholder5.png";
+    } else if (url == "{{ListingImage6}}") {
+        url = "/Content/Designer/assets-v2/placeholder6.png";
+    } else if (url == "{{ListingImage7}}") {
+        url = "/Content/Designer/assets-v2/placeholder7.png";
+    } else if (url == "{{ListingImage8}}") {
+        url = "/Content/Designer/assets-v2/placeholder8.png";
+    } else if (url == "{{ListingImage9}}") {
+        url = "/Content/Designer/assets-v2/placeholder9.png";
+    } else if (url == "{{ListingImage10}}") {
+        url = "/Content/Designer/assets-v2/placeholder10.png";
+    } else if (url == "{{ListingImage11}}") {
+        url = "/Content/Designer/assets-v2/placeholder11.png";
+    } else if (url == "{{ListingImage12}}") {
+        url = "/Content/Designer/assets-v2/placeholder12.png";
+    } else if (url == "{{ListingImage13}}") {
+        url = "/Content/Designer/assets-v2/placeholder13.png";
+    } else if (url == "{{ListingImage14}}") {
+        url = "/Content/Designer/assets-v2/placeholder14.png";
+    } else if (url == "{{ListingImage15}}") {
+        url = "/Content/Designer/assets-v2/placeholder15.png";
+    } else if (url == "{{ListingImage16}}") {
+        url = "/Content/Designer/assets-v2/placeholder16.png";
+    } else if (url == "{{ListingImage17}}") {
+        url = "/Content/Designer/assets-v2/placeholder17.png";
+    } else if (url == "{{ListingImage18}}") {
+        url = "/Content/Designer/assets-v2/placeholder18.png";
+    } else if (url == "{{ListingImage19}}") {
+        url = "/Content/Designer/assets-v2/placeholder19.png";
+    } else if (url == "{{ListingImage20}}") {
+        url = "/Content/Designer/assets-v2/placeholder20.png";
+    } else {
+        url = "/MPC_Content/" + IO.ContentString;
+    }
+    fabric.Image.fromURL(url, function (IOL) {
         IOL.set({
             left: (IO.PositionX + IO.MaxWidth / 2) * dfZ1l,
             top: (IO.PositionY + IO.MaxHeight / 2) * dfZ1l,
@@ -2455,7 +2498,7 @@ function togglePage(pId) {
                     $.each(TO, function (j, ite) {
                         if (ite.ObjectID == TempTo[i].ObjectID) {
                             if (TempTo[i].ContentString == cs || TempTo[i].ContentString == "./" + cs) {
-                                ite.ContentString = "./assets/Imageplaceholder.png";
+                                ite.ContentString = "/Content/Designer/assets-v2/Imageplaceholder.png";
                             }
                         }
                     });
@@ -4451,9 +4494,9 @@ function togglePage(pId) {
     function pcl40(xdata) {
         $("#divVarList").html("");
         var sc = "";
-        var html = "";
+        var html = ""; 
         $.each(xdata, function (j, Obj) {
-            if (Obj.VariableType != 3) {
+            if (Obj.VariableType != 6) {
                 if (Obj.SectionName != sc) {
                     html += '<div class="titletxt">' + Obj.SectionName + '</div>';
                     sc = Obj.SectionName;
@@ -4461,9 +4504,8 @@ function togglePage(pId) {
                 html += '<div id="' + Obj.VariableID + '" class="divVar" title="' + Obj.VariableName + '">' + Obj.VariableTag + '</div>';
             } else {
                 if (IsCalledFrom == 2) {
-                    var btnHtml = "<button class='" + Obj.VariableName + " listingImg' onClick='AddImgVar(&#39;" + Obj.VariableTag + "&#39;," + Obj.VariableID + ")'></button>";
-                    $(".propertyVarContainer").css("display", "block");
-                    $(".propertyVarContainer").append(btnHtml);
+                    var btnHtml = "<a  class=' SampleBtn btntxt  " + Obj.VariableName + " listingImgBtn' onClick='AddImgVar(&#39;" + Obj.VariableTag + "&#39;," + Obj.VariableID + ")'>" + Obj.VariableTag + "</a>";
+                    $(".divPlaceHolders").append(btnHtml);
                 }
             }
         });
@@ -4476,6 +4518,47 @@ function togglePage(pId) {
             appendTo: "body",
             cursor: 'move'
         });
+    }
+
+ 
+    function AddImgVar(varTag, varId) {
+        var center = canvas.getCenter();
+        d1PHRealStateToCanvas(center.left - 150, center.top - 150, varTag);
+        var objToAdd = { "VariableTag": varTag, "VariableID": varId, "TemplateID": tID };
+        varList.push(objToAdd);
+    }
+
+    function d1PHRealStateToCanvas(x, y, varTag) {
+        var canvasHeight = Math.floor(canvas.height);
+        var canvasWidth = Math.floor(canvas.width);
+        var D1NIO = {};
+        D1NIO = fabric.util.object.clone(TO[0]);
+        D1NIO.ObjectID = --NCI;
+        D1NIO.ColorHex = "#000000";
+        D1NIO.IsBold = false;
+        D1NIO.IsItalic = false;
+        D1NIO.ProductPageId = SP;
+        D1NIO.MaxWidth = 100;
+        D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
+        D1NIO.PositionX = x;
+        D1NIO.PositionY = y;
+        D1NIO.ObjectType = 13;
+
+        D1NIO.MaxHeight = 300;
+        D1NIO.Height = 300;
+        D1NIO.MaxWidth = 300;
+        D1NIO.Width = 300;
+
+        D1NIO.IsQuickText = true;
+        D1NIO.ContentString = varTag;//"./assets/Imageplaceholder.png";
+        D1NIO.DisplayOrder = TO.length + 1;
+        d1(canvas, D1NIO);
+        var OBS = canvas.getObjects();
+
+        D1NIO.DisplayOrderPdf = OBS.length;
+        canvas.renderAll();
+        TO.push(D1NIO);
+
     }
     function pcl41(xdata) {
         var tabIndex = 1;

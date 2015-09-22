@@ -430,6 +430,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="RequestModels\CompanyVariableIconRequestModel.cs" />
     <Compile Include="RequestModels\DiscountVoucherRequestModel.cs" />
     <Compile Include="RequestModels\ActivityRequestModel.cs" />
     <Compile Include="RequestModels\AddressRequestModel.cs" />

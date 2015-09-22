@@ -24,7 +24,7 @@
                     <li class="active"><span data-bind="text:$root.productStatus"></span></li>
                     <!-- /ko -->
                 </ol>
-                <div class="tab-content dynamicNameHeading" data-bind="with: $root.selectedStore()" style="height:41px;margin-left:-3px;">
+                <div class="tab-content dynamicNameHeading" data-bind="with: $root.selectedStore()" style="height:41px;margin-left:0px;">
                     <h1 data-bind="text:$root.storeHeading()!='undefined-undefined' ?$root.storeHeading():'' " style="padding-left:0px;"></h1>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                             <li><a href="#tab-StoreVariables" data-toggle="tab" data-bind=click:$root.getScopeVariables>Custom Store Defaults</a></li>
                             <li><a href="#tab-featuredProducts" data-toggle="tab">Featured Products</a></li>
                             <li><a href="#tab-DiscountVoucher" data-bind="click:$root.getDiscountVouchers" data-toggle="tab"> Discount Voucher</a></li>
-                            @*<li><a href="#tab-RealEstate" data-bind="click:$root.getRealEstateCampaigns" data-toggle="tab">Real Estate Compaigns</a></li>*@
+                            <li><a href="#tab-RealEstate" data-bind="click:$root.getRealEstateCampaigns" data-toggle="tab">Real Estate Campaigns</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" data-bind="with: $root.selectedStore" id="tab-generalinfo">
@@ -3321,10 +3321,10 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                         </tr>
                                                     </thead>
 
-                                                    @*<tbody style="cursor:pointer;">
+                                                    <tbody style="cursor:pointer;">
                                                         <!-- ko template: { name: 'realEstateCampaign' , foreach: $root.realEstateCampaigns  } -->
                                                         <!-- /ko -->
-                                                    </tbody>*@
+                                                    </tbody>
 
                                                  </table>
 
@@ -3334,7 +3334,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                       </div>
                                     <div class="col-lg-7 btn-group" style="float: left; margin-top:11px;margin-left:-5px;">
                                         
-                                        <button id="open-wizard" class="btn btn-primary" data-bind="click:$root.showcreateVariableDialog">
+                                        <button id="open-wizard" class="btn btn-primary" data-bind="click:$root.getCompanyVariableIcons">
                                             Edit Variable Icons
                                         </button>
                                     </div>
@@ -4032,9 +4032,14 @@ Public  - allows users to see other users addresses and orders." data-original-t
     </li>
 </script>
 
-@*<script id="realEstateCampaign" type="text/html">
+<script id="realEstateCampaign" type="text/html">
     <tr>
+        <!-- ko if: propertyListingImage() === null -->
+        <td><img style="width:37%;max-width: 43%;" src="/mis/Content/Images/imageplaceholder.png" /></td>
+        <!-- /ko -->
+        <!-- ko if: propertyListingImage() != null -->
         <td><img style="width:27%;max-width: 43%;" data-bind="attr: { src: '/mis/' + propertyListingImage() }" /></td>
+        <!-- /ko -->
         <td data-bind="text:propertyName">
            
         </td>
@@ -4044,5 +4049,5 @@ Public  - allows users to see other users addresses and orders." data-original-t
         <td></td>
     </tr>
 
-</script>*@
+</script>
 

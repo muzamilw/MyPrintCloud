@@ -3842,7 +3842,24 @@ namespace MPC.Implementation.MISServices
             return defaultCss;
         }
 
-        
+
+        public RealEstateVariableIconsListViewResponse GetCompanyVariableIcons(CompanyVariableIconRequestModel request)
+        {
+            return companyRepository.GetCompanyVariableIcons(request);
+        }
+
+        public void DeleteCompanyVariableIcon(long iconId)
+        {
+            companyRepository.DeleteCompanyVariableIcon(iconId);
+        }
+
+
+        public void SaveCompanyVariableIcon(CompanyVariableIconRequestModel request)
+        {
+            companyRepository.SaveCompanyVariableIcon(request);
+        }
+
+       
         #endregion
 
         #region ExportOrganisation

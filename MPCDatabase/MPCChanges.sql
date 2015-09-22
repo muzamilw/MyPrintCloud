@@ -8396,3 +8396,52 @@ END
 
 
 
+-------------------------
+
+ALTER TABLE CompanyVariableIcon
+ADD PRIMARY KEY (VariableIconId)
+
+
+-----------------------
+
+
+
+/****** Object:  View [dbo].[vw_CompanyVariableIcons]    Script Date: 9/22/2015 5:35:33 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+Create VIEW [dbo].[vw_CompanyVariableIcons] AS
+
+
+
+
+
+select fv.variableid,fv.variablename,fv.variabletag,fv.CompanyId,fv.OrganisationId, cvi.ContactCompanyId,cvi.Icon, cvi.VariableIconId from fieldvariable fv
+left join CompanyVariableIcon cvi on cvi.variableid = fv.variableid 
+where fv.scope = 5 or fv.scope = 6
+
+GO
+
+
+
+
+/*must be executed on all servers for real estate*/
+update fieldVariable set KeyField = 'ListingId' where RefTableName = 'Listing'
+update fieldVariable set KeyField = 'ListingId' where RefTableName = 'ListingImage'
+update fieldVariable set KeyField = 'ListingId' where RefTableName = 'ListingOFIs'
+update fieldVariable set KeyField = 'ListingId' where RefTableName = 'ListingVendor'
+update fieldVariable set KeyField = 'ListingId' where RefTableName = 'ListingLink'
+update fieldVariable set KeyField = 'ListingId' where RefTableName = 'ListingFloorPlan'
+update fieldVariable set KeyField = 'ListingId' where RefTableName = 'ListingConjunctionAgent'
+
+update fieldVariable set VariableTag = '{{Agent1Name}}' where VariableId = 90
+update fieldVariable set VariableTag = '{{Agent1Email}}' where VariableId = 91
+update fieldVariable set VariableTag = '{{Agent1Phone1}}' where VariableId = 92
+update fieldVariable set VariableTag = '{{Agent1Phone2}}' where VariableId = 93
+update fieldVariable set VariableTag = '{{Agent1Mobile}}' where VariableId = 94 
+update fieldVariable set VariableTag = '{{Agent1Ref}}' where VariableId = 95
