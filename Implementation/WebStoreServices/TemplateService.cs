@@ -425,11 +425,12 @@ namespace MPC.Implementation.WebStoreServices
                                 string pid = "";
                                 if (objStyle.fontName != null)
                                 {
+                                    int inlineFontId = 0;
                                     var oFont = oFonts.Where(g => g.FontName == objStyle.fontName).FirstOrDefault();
                                     if (System.IO.File.Exists(Font + path + oFont.FontFile + ".ttf"))
-                                        FontID = oPdf.EmbedFont(Font + path + oFont.FontFile + ".ttf");
+                                        inlineFontId = oPdf.EmbedFont(Font + path + oFont.FontFile + ".ttf");
                                     // fontTag += " face='" + objStyle.fontName + "' embed= "+ FontID+" ";
-                                    pid = "pid ='" + FontID.ToString() + "' ";
+                                    pid = "pid ='" + inlineFontId.ToString() + "' ";
                                 }
                                 string lineSpacingString = "";
                                 if (ooBject.LineSpacing != null)
@@ -1276,7 +1277,7 @@ namespace MPC.Implementation.WebStoreServices
             Doc doc = new Doc();
             try
             {
-                var FontsList = _templateFontService.GetFontList();
+                var FontsList = _templateFontService.GetFontListForTemplate(objProduct.ProductId);
                 doc.TopDown = true;
 
                 try
@@ -1629,7 +1630,7 @@ namespace MPC.Implementation.WebStoreServices
             Doc doc = new Doc();
             try
             {
-                var FontsList = _templateFontService.GetFontList();
+                var FontsList = _templateFontService.GetFontListForTemplate(objProduct.ProductId);
                 doc.TopDown = true;
                 foreach (var objProductPage in productPages)
                 {

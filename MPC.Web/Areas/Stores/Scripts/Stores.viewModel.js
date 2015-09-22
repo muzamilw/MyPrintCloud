@@ -5529,7 +5529,8 @@ define("stores/stores.viewModel",
                             success: function (data) {
                                 toastr.success("Store CSS Updated Successfully.");
                                 isLoadingStores(false);
-                                view.hideCssDialog();
+                                selectedStoreCss().reset();
+                                //view.hideCssDialog();
                             },
                             error: function (response) {
                                 isLoadingStores(false);

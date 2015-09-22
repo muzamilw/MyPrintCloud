@@ -7278,3 +7278,7 @@ input[type="radio"] {
     margin-top: 9px;
     text-align: center;
 }
+.listingImgBtn{
+    margin-top: 14px;
+    font-size: 11px !important; 
+}

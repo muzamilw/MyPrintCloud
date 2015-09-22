@@ -15,7 +15,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="pull-right top-page-ui" style="margin-bottom:19px;margin-top:-21px;">
+                    <div class="pull-right top-page-ui" style="margin-bottom:19px;margin-top:0px;">
                         <button class="btn btn-yellow" id="editTemplate" data-bind="click: $root.editTemplate, visible: $root.canEditTemplateFromEditor">Edit Template</button>
                         <button class="btn btn-danger"  data-bind="click: $root.onDeleteProduct, visible: id() > 0">Delete</button>
                         <button class="btn" data-bind="click: $root.onArchiveProduct, visible: id() > 0">Archive</button>
@@ -109,7 +109,7 @@
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" style="height:60px;" class="form-control height60 font24px" id="txtProductName" name="Product Name" placeholder="Enter Product Name" maxlength="500" data-bind="value: productName, validationTooltip: productName, validationOnElement: productName">
+                                                <input type="text" style="height:60px;" class="form-control height60 font24px" id="txtProductName" name="Product Name" placeholder="Enter Product Name" maxlength="500" data-bind="value: productName, validationTooltip: productName">
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>

@@ -14,6 +14,8 @@ namespace MPC.Interfaces.WebStoreServices
         void DeleteTemplateFonts(long Companyid, long OrganisationID);
 
         List<TemplateFont> GetFontList();
+
+        List<TemplateFont> GetFontListForTemplate(long templateId);
         void InsertFontFile(long customerId, long organisationId, string FontName, string fontDisplayName);
     }
 }

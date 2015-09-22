@@ -61,8 +61,15 @@ namespace MPC.Repository.Repositories
             return DbSet.Where(sm => sm.CompanyId == companyId).OrderBy(sm => sm.Name).ToList();
         }
 
-        public List<VariableList> GetVariablesData(bool isRealestateproduct, long companyId, long organisationId)
+        public List<VariableList> GetVariablesData(long itemID, long companyId, long organisationId)
         {
+            bool isRealestateproduct = false;
+            Item item = db.Items.Where(g => g.ItemId == itemID).SingleOrDefault();
+            if(item != null)
+            {
+                if (item.IsRealStateProduct.HasValue)
+                    isRealestateproduct = item.IsRealStateProduct.Value;
+            }
             List<VariableList> resultList = new List<VariableList>();
             if (isRealestateproduct)
             {

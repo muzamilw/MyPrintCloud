@@ -391,10 +391,9 @@ namespace MPC.Implementation.MISServices
             target.FootNotes = source.FootNotes;
         }
 
-        public List<ZapierInvoiceDetail> GetZapierInvoiceDetail()
+        public List<ZapierInvoiceDetail> GetZapierInvoiceDetail(long organizationId)
         {
-            var invDetails = invoiceRepository.GetZapierInvoiceDetails();
-            //invDetails.ForEach(c => c.CurrencyCode = organisationRepository.GetOrganizatiobByID().Currency.CurrencyCode);
+            var invDetails = invoiceRepository.GetZapierInvoiceDetails(organizationId);
             return invDetails;
         }
         #endregion

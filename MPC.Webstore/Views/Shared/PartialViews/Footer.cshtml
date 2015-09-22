@@ -23,6 +23,12 @@
                             @{
                                 string privacyAndTermsHtml = "";
 
+                                if (ViewBag.PrivacyPolicy != null)
+                                {
+                                    privacyAndTermsHtml = privacyAndTermsHtml + " <a id='lbl_CopyRightMessage' onclick='ShowLoader();' style='font-size: 12px;  font-weight: normal;' href=/pages/" + Utils.specialCharactersEncoder(ViewBag.PrivacyPolicy.PageTitle) + "/" + ViewBag.PrivacyPolicy.PageId + ">" + Html.Raw(Html.GetKeyValueFromResourceFile("lnkPrivacyPolicy", UserCookieManager.WBStoreId, "Privacy Policy")) + "</a>";
+
+                                }
+                                
                                 if (ViewBag.TermAndCondition != null)
                                 {
 
@@ -30,11 +36,7 @@
                                     
                                 }
 
-                                if (ViewBag.PrivacyPolicy != null)
-                                {
-                                    privacyAndTermsHtml = privacyAndTermsHtml + " <a id='lbl_CopyRightMessage' onclick='ShowLoader();' style='font-size: 12px;  font-weight: normal;' href=/pages/" + Utils.specialCharactersEncoder(ViewBag.PrivacyPolicy.PageTitle) + "/" + ViewBag.PrivacyPolicy.PageId + ">" + Html.Raw(Html.GetKeyValueFromResourceFile("lnkPrivacyPolicy", UserCookieManager.WBStoreId, "Privacy Policy")) + "</a>";
-                                    
-                                }
+                               
                             }
 
                             
