@@ -62,6 +62,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 if (order.OrderDetails.CartItemsList != null && order.OrderDetails.CartItemsList.Count() > 0) 
                 {
                     order.OrderDetails.CartItemsList = order.OrderDetails.CartItemsList.Where(i => i.Status != (int)OrderStatus.ShoppingCart).ToList();
+                
                 }
             }
             Address BillingAddress = _orderService.GetBillingAddress(order.BillingAddressID);

@@ -268,44 +268,7 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult About(string mode)
         {
-            try
-            {
-                string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ReceiptPlain?OrderId=46783";
-
-                string FileName = "_OrderReceipt.pdf";
-                string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Downloads/" + FileName);
-                string AttachmentPath = "/mpc_content/Downloads/" + FileName;
-                using (Doc theDoc = new Doc())
-                {
-                    //theDoc.HtmlOptions.Engine = EngineType.Gecko;
-                    theDoc.FontSize = 22;
-                    int objid = theDoc.AddImageUrl(URl);
-
-
-                    while (true)
-                    {
-                        theDoc.FrameRect();
-                        if (!theDoc.Chainable(objid))
-                            break;
-                        theDoc.Page = theDoc.AddPage();
-                        objid = theDoc.AddImageToChain(objid);
-                    }
-                    string physicalFolderPath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Downloads/");
-                    if (!Directory.Exists(physicalFolderPath))
-                        Directory.CreateDirectory(physicalFolderPath);
-                    theDoc.Save(FilePath);
-                    theDoc.Clear();
-                }
-                // if (System.IO.File.Exists(FilePath))
-                //return AttachmentPath;
-                //   else
-                // return null;
-            }
-            catch (Exception e)
-            {
-                //   LoggingManager.LogBLLException(e);
-                // return null;
-            }
+            
             //if (mode == "compile")
             //{
             //   _CostCentreService.SaveCostCentre(Convert.ToInt32(mode), 1, "Test");
@@ -643,113 +606,113 @@ namespace MPC.Webstore.Controllers
             }
         }
 
-        [AllowAnonymous]
-        public ActionResult ReceiptPlain(string OrderId, string StoreId, string IsPrintReceipt)
-        {
+        //[AllowAnonymous]
+        //public ActionResult ReceiptPlain(string OrderId, string StoreId, string IsPrintReceipt)
+        //{
 
-            MPC.Models.DomainModels.Company oCompany = _myCompanyService.GetStoreReceiptPage(Convert.ToInt64(StoreId));
+        //    MPC.Models.DomainModels.Company oCompany = _myCompanyService.GetStoreReceiptPage(Convert.ToInt64(StoreId));
 
-            if (oCompany != null)
-            {
-                MPC.Models.DomainModels.Organisation oOrganisation = _myCompanyService.GetOrganisatonById(Convert.ToInt64(oCompany.OrganisationId));
+        //    if (oCompany != null)
+        //    {
+        //        MPC.Models.DomainModels.Organisation oOrganisation = _myCompanyService.GetOrganisatonById(Convert.ToInt64(oCompany.OrganisationId));
 
-                if (oCompany.ShowPrices == true)
-                {
+        //        if (oCompany.ShowPrices == true)
+        //        {
 
-                    ViewBag.IsShowPrices = true;
+        //            ViewBag.IsShowPrices = true;
 
-                }
-                else
-                {
+        //        }
+        //        else
+        //        {
 
-                    ViewBag.IsShowPrices = false;
+        //            ViewBag.IsShowPrices = false;
 
-                }
-
-
-                ViewBag.TaxLabel = oCompany.TaxLabel;
-
-                ViewBag.Company = oCompany;
-
-                AddressViewModel oStoreDefaultAddress = null;
-                Address StoreAddress = _myCompanyService.GetDefaultAddressByStoreID(Convert.ToInt64(StoreId));
+        //        }
 
 
-                if (oCompany.isWhiteLabel == false)
-                {
-                    oStoreDefaultAddress = null;
-                }
-                else
-                {
-                    if (StoreAddress != null)
-                    {
-                        oStoreDefaultAddress = new AddressViewModel();
-                        oStoreDefaultAddress.Address1 = StoreAddress.Address1;
-                        oStoreDefaultAddress.Address2 = StoreAddress.Address2;
+        //        ViewBag.TaxLabel = oCompany.TaxLabel;
 
-                        oStoreDefaultAddress.City = StoreAddress.City;
-                        oStoreDefaultAddress.State = _myCompanyService.GetStateNameById(StoreAddress.StateId ?? 0);
-                        oStoreDefaultAddress.Country = _myCompanyService.GetCountryNameById(StoreAddress.CountryId ?? 0);
-                        oStoreDefaultAddress.ZipCode = StoreAddress.PostCode;
+        //        ViewBag.Company = oCompany;
 
-                        if (!string.IsNullOrEmpty(StoreAddress.Tel1))
-                        {
-                            oStoreDefaultAddress.Tel = StoreAddress.Tel1;
-                        }
-                    }
-                }
-
-                ViewBag.oStoreDefaultAddress = oStoreDefaultAddress;
-
-                string currency = "";
-
-                //if (oOrganisation != null)
-                //{
-                //   currency = _currencyRepository.GetCurrencySymbolById(Convert.ToInt64(oOrganisation.CurrencyId));
-                //}
-
-                if (!string.IsNullOrEmpty(currency))
-                {
-                    ViewBag.Currency = currency;
-                }
-                else
-                {
-                    ViewBag.Currency = "";
-                }
+        //        AddressViewModel oStoreDefaultAddress = null;
+        //        Address StoreAddress = _myCompanyService.GetDefaultAddressByStoreID(Convert.ToInt64(StoreId));
 
 
-            }
+        //        if (oCompany.isWhiteLabel == false)
+        //        {
+        //            oStoreDefaultAddress = null;
+        //        }
+        //        else
+        //        {
+        //            if (StoreAddress != null)
+        //            {
+        //                oStoreDefaultAddress = new AddressViewModel();
+        //                oStoreDefaultAddress.Address1 = StoreAddress.Address1;
+        //                oStoreDefaultAddress.Address2 = StoreAddress.Address2;
 
-            OrderDetail order = _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
+        //                oStoreDefaultAddress.City = StoreAddress.City;
+        //                oStoreDefaultAddress.State = _myCompanyService.GetStateNameById(StoreAddress.StateId ?? 0);
+        //                oStoreDefaultAddress.Country = _myCompanyService.GetCountryNameById(StoreAddress.CountryId ?? 0);
+        //                oStoreDefaultAddress.ZipCode = StoreAddress.PostCode;
 
-            ViewBag.StoreId = StoreId;
+        //                if (!string.IsNullOrEmpty(StoreAddress.Tel1))
+        //                {
+        //                    oStoreDefaultAddress.Tel = StoreAddress.Tel1;
+        //                }
+        //            }
+        //        }
 
-            if (IsPrintReceipt == "1")
-            {
-                ViewBag.Print = "<script type='text/javascript'>function MyPrint() {window.print();}</script>";
-            }
-            else
-            {
-                ViewBag.Print = "";
-            }
+        //        ViewBag.oStoreDefaultAddress = oStoreDefaultAddress;
 
-            if (oCompany.IsCustomer == (int)CustomerTypes.Corporate)
-            {
-                if (order != null && order.CompanyContact != null)
-                {
-                    if (order.CompanyContact.IsPricingshown == true)
-                    {
-                        ViewBag.IsShowPrices = true;
-                    }
-                    else
-                    {
-                        ViewBag.IsShowPrices = false;
-                    }
-                }
-            }
+        //        string currency = "";
 
-            return View(order);
-        }
+        //        //if (oOrganisation != null)
+        //        //{
+        //        //   currency = _currencyRepository.GetCurrencySymbolById(Convert.ToInt64(oOrganisation.CurrencyId));
+        //        //}
+
+        //        if (!string.IsNullOrEmpty(currency))
+        //        {
+        //            ViewBag.Currency = currency;
+        //        }
+        //        else
+        //        {
+        //            ViewBag.Currency = "";
+        //        }
+
+
+        //    }
+
+        //    OrderDetail order = _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
+
+        //    ViewBag.StoreId = StoreId;
+
+        //    if (IsPrintReceipt == "1")
+        //    {
+        //        ViewBag.Print = "<script type='text/javascript'>function MyPrint() {window.print();}</script>";
+        //    }
+        //    else
+        //    {
+        //        ViewBag.Print = "";
+        //    }
+
+        //    if (oCompany.IsCustomer == (int)CustomerTypes.Corporate)
+        //    {
+        //        if (order != null && order.CompanyContact != null)
+        //        {
+        //            if (order.CompanyContact.IsPricingshown == true)
+        //            {
+        //                ViewBag.IsShowPrices = true;
+        //            }
+        //            else
+        //            {
+        //                ViewBag.IsShowPrices = false;
+        //            }
+        //        }
+        //    }
+
+        //    return View(order);
+        //}
 
         public ActionResult AutoLoginOrRegister(string C, string F, string L, string E, string CC)
         {

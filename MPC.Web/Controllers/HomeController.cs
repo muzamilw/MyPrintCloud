@@ -70,10 +70,10 @@ namespace MPC.MIS.Controllers
              */
             
             ValidationInfo validationInfo = null;
-           
 
+            //|| System.Web.HttpContext.Current.Request.Url.Authority.Contains("ngrok")
             //For Development environment Set these values and comment code above starting from using...
-            if (System.Web.HttpContext.Current.Request.Url.Authority == "mpc" || System.Web.HttpContext.Current.Request.Url.Authority == "localhost" || System.Web.HttpContext.Current.Request.Url.Authority == "mpcmis" || System.Web.HttpContext.Current.Request.Url.Authority.Contains("ngrok"))
+            if (System.Web.HttpContext.Current.Request.Url.Authority == "mpc" || System.Web.HttpContext.Current.Request.Url.Authority == "localhost" || System.Web.HttpContext.Current.Request.Url.Authority == "mpcmis")
             {
                 validationInfo = new ValidationInfo();
                 validationInfo.CustomerID = "1";

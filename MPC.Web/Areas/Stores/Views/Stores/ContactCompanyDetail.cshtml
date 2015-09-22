@@ -24,7 +24,7 @@
                     <li class="active"><span data-bind="text:$root.productStatus"></span></li>
                     <!-- /ko -->
                 </ol>
-                <div class="tab-content dynamicNameHeading" data-bind="with: $root.selectedStore()" style="height:41px;margin-left:-3px;">
+                <div class="tab-content dynamicNameHeading" data-bind="with: $root.selectedStore()" style="height:41px;margin-left:0px;">
                     <h1 data-bind="text:$root.storeHeading()!='undefined-undefined' ?$root.storeHeading():'' " style="padding-left:0px;"></h1>
                 </div>
             </div>
@@ -3354,25 +3354,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     </div>
                 </div>
                
-        <!-- ko stopBinding: true -->
-        <div id="productDetailBindingSection" class="main-box-body clearfix">
-            @{
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div data-bind="visible: ist.product.viewModel.isProductDetailsVisible" style="display: none">
-                            <h1 class="pull-left">Product Detail</h1>
-                        </div>
-                    </div>
-                </div>
-                <div id="productDetailBinding">
-                    @{
-                        Html.RenderPartial("~/Areas/Products/Views/Home/_ProductDetail.cshtml");
-                    }
-                </div>
-            }
-        </div>
-        <!-- /ko -->
-    </div>
+       
+            </div>
     <script id="actionsRaveReviewTemplate" type="text/html">
         <a class="table-link" data-bind="click : $root.onEditRaveReview">
             <span class="fa-stack">
@@ -3797,9 +3780,27 @@ Public  - allows users to see other users addresses and orders." data-original-t
     </script>
     @*</form>*@
 </div>
-            </div>
         </div>
-   </div>
+        <!-- ko stopBinding: true -->
+        <div id="productDetailBindingSection" class="main-box-body clearfix">
+            @{
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div data-bind="visible: ist.product.viewModel.isProductDetailsVisible" style="display: none">
+                            <h1 class="pull-left">Product Detail</h1>
+                        </div>
+                    </div>
+                </div>
+                <div id="productDetailBinding">
+                    @{
+                        Html.RenderPartial("~/Areas/Products/Views/Home/_ProductDetail.cshtml");
+                    }
+                </div>
+            }
+        </div>
+        <!-- /ko -->
+    </div>
+</div>
 <style type="text/css" media="screen">
     #editor {
         margin: 0;
