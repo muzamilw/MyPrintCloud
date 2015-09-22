@@ -2719,7 +2719,7 @@ define("order/order.viewModel",
                                         inq.title(selectedInquiry().title());
                                     }
                                 });
-                                //inquiries.splice(0, 0, selectedInquiry());
+                                getInquiries();
                                 toastr.success("Saved Successfully !");
                                 closeOrderEditor();
                             },

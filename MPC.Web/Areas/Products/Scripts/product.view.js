@@ -449,8 +449,10 @@ define("product/product.view",
                 // Edit Template
                 editTemplate = function (product) {
                     var host = window.location.host;
+                    var productstr = product.productName();
+                    var productfinal = productstr.replace(/\s/g, "-");
                     var templateId = product.template() && product.template().id() ? product.template().id() : product.templateId();
-                    var uri = encodeURI("http://" + host + "/Designer/" + product.productName() + "/0/" + templateId + "/" + product.id() +
+                    var uri = encodeURI("http://" + host + "/Designer/" + product.productName(productfinal) + "/0/" + templateId + "/" + product.id() +
                         "/" + product.companyId() + "/" + 0 + "/2/" + product.organisationId() + "/" + product.printCropMarks() + "/" + product.drawWatermarkText()
                         + "/false");
                     openUrlInNewWindow(uri);
