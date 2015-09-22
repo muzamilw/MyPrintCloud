@@ -1156,7 +1156,7 @@ namespace MPC.Repository.Repositories
                                     switch (FieldVariable.RefTableName)
                                     {
                                         case "Listing":
-                                            fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
+                                            fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
                                             break;
                                         case "ListingImage":  // listing images table based on listing id and image count write a seperate service for it to return all the data 
                                             // fieldValue = GetRealEstateAgent(obj, ListingId);
