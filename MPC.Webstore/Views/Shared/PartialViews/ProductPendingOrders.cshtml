@@ -534,7 +534,7 @@
                         {
                             var AttachFileName = IT.Attatchment._fileName;
                             while (AttachFileName.indexOf(" ") > 0) {
-                                AttachFileName = AttachFileName.replace(" ", "");
+                                AttachFileName = AttachFileName.replace(" ", "%20");
                             }
                             //InnerHtml += '<tr>';
                             var filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + AttachFileName + "Thumb.png";
