@@ -158,7 +158,7 @@
                                                 @*<span class="input-group-addon">%</span>*@
                                                 <div class="input-group">
                                                     <span data-bind="text:CurrencySymbol" class="input-group-addon"></span>
-                                                    <div class="col-xs-4" style="width: 23%; padding:0">
+                                                    <div class="col-xs-4" style="padding:0">
                                                         <input type="text" class="form-control txtBox-contentAlignRight" value="20" id="qty11" placeholder="Setup Charge" data-bind="autoNumeric: SetupCharge , settings:{mDec:2}" />
                                                     </div>
                                                 </div>
@@ -177,7 +177,7 @@
                                             <div class="col-lg-6">
                                                 <div class="input-group">
                                                     <span data-bind="text:CurrencySymbol" class="input-group-addon"></span>
-                                                    <div class="col-xs-4" style="width: 23%; padding:0">
+                                                    <div class="col-xs-4" style="padding:0">
                                                         <input type="text" class="form-control txtBox-contentAlignRight" placeholder="Volume of Ink Duct Per Head" data-bind="autoNumeric: MinimumCharge, settings:{mDec:2}">
                                                     </div>
                                                 </div>
@@ -210,7 +210,7 @@
                                             <div class="col-lg-6">
                                                 <div class="input-group">
                                                     <span data-bind="text:CurrencySymbol" class="input-group-addon"></span>
-                                                    <div class="col-xs-4" style="width: 23%; padding:0">
+                                                    <div class="col-xs-4" style="padding:0">
                                                         <input type="text" class="form-control txtBox-contentAlignRight" placeholder="Premium Per Head" data-bind="autoNumeric: worknturncharge, settings:{mDec:2}">
                                                     </div>
                                                 </div>
@@ -823,9 +823,9 @@
                             <div class="tab-pane fade PressControls" id="tab-lookup">
                                 <div class="col-md-12 form-horizontal">
                                     <h3 class="group-header" data-bind="visible: !$root.isGuillotineList()">Lookup Methods</h3>
-                                    <div class="col-md-9" data-bind="visible: !$root.isGuillotineList()">
+                                    <div class="col-md-12" data-bind="visible: !$root.isGuillotineList()">
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
+                                            <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
                                                     <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Setup Spoilage is the average number of sheets required to be printed in order to get to the first chargeable sheet." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -861,7 +861,7 @@
 
                                             </div>*@
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
+                                            <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
                                                     <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Running Spoilages the average percentage of spoils or jams while a press is running." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -881,7 +881,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
+                                            <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
                                                     <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Passes Multiply the press calculations, mainly used in roll and UV large format where the quality mode determines the number of passes the heads make before advancing down the sheet" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -896,7 +896,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-4 text-right">
+                                            <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
                                                     <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Ink Coverage multiplies the cost of ink and clicks, uplifting the ink calculations by this amount.  Black and White impressions may multiply by 1, while CMYK multiply by 3.5 up to 6 (heavy)" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
