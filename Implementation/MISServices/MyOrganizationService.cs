@@ -709,10 +709,18 @@ namespace MPC.Implementation.MISServices
             var livestores = _companyRepository.GetLiveStoresCount(organisationRepository.OrganisationId);
             var org = organisationRepository.GetOrganizatiobByID();
 
-            if (livestores < (org.LiveStoresCount ?? 0))
-                return true;
+            if (org.isTrial == false)
+            {
+                if (livestores < (org.LiveStoresCount ?? 0))
+                    return true;
+                else
+                    return false;
+            }
             else
-                return false;
+            {
+                return true;
+            }
+            
             
         }
         

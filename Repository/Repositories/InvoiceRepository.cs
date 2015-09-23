@@ -161,11 +161,12 @@ namespace MPC.Repository.Repositories
 
         public List<ZapierInvoiceDetail> GetZapierInvoiceDetails(long organizationId)
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            var invd = DbSet.Include(i => i.Items)
-                .Include(i => i.Company)
-                .Include(i => i.CompanyContact)
-                .Include(i => i.Company.Addresses)
+            //db.Configuration.LazyLoadingEnabled = false;
+            //.Include(i => i.Items)
+            //    .Include(i => i.Company)
+            //    .Include(i => i.CompanyContact)
+            //    .Include(i => i.Company.Addresses)
+            var invd = DbSet
                 .Where(i => i.OrganisationId == organizationId).ToList();
             if (invd.Any())
             {

@@ -6300,6 +6300,332 @@ namespace MPC.Repository.Repositories
            return DbSet.Where(c => c.WebAccessCode == sWebAccessCode && c.OrganisationId == OrganisationId).Select(c => c.CompanyId).FirstOrDefault();
         }
 
+        public CompanyResponse GetStoreContactsByStoreCode(long storeCode)
+        {
+            try
+            {
+
+                CompanyResponse companyResponse = new CompanyResponse();
+                var company = db.Companies.Include(c => c.CmsPages)
+                    .Include(c => c.RaveReviews)
+                    .Include(c => c.TemplateColorStyles)
+                    .Include(c => c.CompanyBannerSets)
+                    .Include(c => c.Campaigns)
+                    .Include(c => c.PaymentGateways)
+                    .Include(c => c.ProductCategories)
+                    .Include(c => c.MediaLibraries)
+                    .Include(c => c.CompanyDomains)
+                    .Include(c => c.CmsOffers)
+                    .Include(c => c.CompanyCostCentres)
+                    .Include(c => c.Addresses)
+                    .Include(c => c.CompanyContacts)
+                    .Include(c => c.CompanyTerritories)
+                    .Where(c => c.CompanyId == storeCode)
+                    .Select(c => new
+                    {
+                        c.CompanyId,
+                        c.Name,
+                        c.AccountNumber,
+                        c.URL,
+                        c.CreditReference,
+                        c.CreditLimit,
+                        c.Terms,
+                        c.TypeId,
+                        c.DefaultMarkUpId,
+                        c.AccountOpenDate,
+                        c.AccountManagerId,
+                        c.DefaultNominalCode,
+                        c.CurrentThemeId,
+                        c.Status,
+                        c.IsCustomer,
+                        c.Notes,
+                        c.IsDisabled,
+                        c.AccountBalance,
+                        c.CreationDate,
+                        c.VATRegNumber,
+                        c.VATRegReference,
+                        c.FlagId,
+                        c.PhoneNo,
+                        c.IsGeneral,
+                        c.WebAccessCode,
+                        c.isArchived,
+                        c.PayByPersonalCredeitCard,
+                        c.PONumberRequired,
+                        c.ShowPrices,
+                        c.isDisplayBanners,
+                        c.isDisplayMenuBar,
+                        c.isDisplaySecondaryPages,
+                        c.isAllowRegistrationFromWeb,
+                        c.isDisplayFeaturedProducts,
+                        c.isDisplayPromotionalProducts,
+                        c.isDisplaySiteFooter,
+                        c.isDisplaySiteHeader,
+                        c.isShowGoogleMap,
+                        c.RedirectWebstoreURL,
+                        c.isTextWatermark,
+                        c.WatermarkText,
+                        c.MapImageUrl,
+                        c.facebookAppId,
+                        c.facebookAppKey,
+                        c.twitterAppId,
+                        c.twitterAppKey,
+                        c.TwitterURL,
+                        c.isStoreModePrivate,
+                        c.TaxPercentageId,
+                        c.canUserPlaceOrderWithoutApproval,
+                        c.CanUserEditProfile,
+                        c.SalesAndOrderManagerId1,
+                        c.SalesAndOrderManagerId2,
+                        c.ProductionManagerId1,
+                        c.ProductionManagerId2,
+                        c.StockNotificationManagerId1,
+                        c.StockNotificationManagerId2,
+                        c.IsDeliveryTaxAble,
+                        c.IsDisplayDeliveryOnCheckout,
+                        c.isPaymentRequired,
+                        c.isIncludeVAT,
+                        c.includeEmailArtworkOrderReport,
+                        c.includeEmailArtworkOrderXML,
+                        c.includeEmailArtworkOrderJobCard,
+                        c.StoreBackgroundImage,
+                        c.makeEmailArtworkOrderProductionReady,
+                        c.IsRegisterAccessWebStore,
+                        c.IsRegisterPlaceOrder,
+                        c.IsRegisterPayOnlyByCreditCard,
+                        c.IsRegisterPlaceDirectOrder,
+                        c.IsRegisterPlaceOrderWithoutApproval,
+                        c.CompanyType,
+                        c.PickupAddressId,
+                        c.WebAnalyticCode,
+                        c.WebMasterTag,
+                        c.FacebookURL,
+                        c.LinkedinURL,
+                        c.isCalculateTaxByService,
+                        c.isWhiteLabel,
+                        c.TaxLabel,
+                        c.TaxRate,
+                        c.IsDisplayDiscountVoucherCode,
+                        c.PriceFlagId,
+                        c.StoreId,
+                        c.isStoreLive,
+                        c.CanUserUpdateAddress,
+                        c.MarketingBriefRecipient,
+                        RaveReviews = c.RaveReviews.OrderBy(r => r.SortOrder).ToList(),
+                        CmsPages = c.CmsPages.Where(page => page.isUserDefined == true).Take(5).Select(cms => new
+                        {
+                            cms.PageId,
+                            cms.PageTitle,
+                            cms.isDisplay,
+                            cms.isEnabled,
+                            cms.Meta_Title,
+                            cms.isUserDefined,
+                            cms.PageCategory,
+                            cms.PageBanner
+                        }).ToList(),
+                        SystemPages = c.CmsPages.Where(page => page.isUserDefined == false).Take(5).Select(cms => new
+                        {
+                            cms.PageId,
+                            cms.PageTitle,
+                            cms.isDisplay,
+                            cms.isEnabled,
+                            cms.Meta_Title,
+                            cms.isUserDefined,
+                            cms.PageCategory,
+                            cms.PageBanner
+                        }).ToList(),
+                        c.TemplateColorStyles,
+                        c.CompanyBannerSets,
+                        Campaigns = c.Campaigns.Select(cam => new
+                        {
+                            cam.CampaignId,
+                            cam.CampaignName,
+                            cam.CampaignType,
+                            cam.StartDateTime,
+                            cam.SendEmailAfterDays,
+                            cam.IsEnabled,
+                            cam.CampaignEmailEvent
+                        }),
+                        c.PaymentGateways,
+                        ProductCategories = c.ProductCategories.Where(pc => pc.ParentCategoryId == null),
+                        c.MediaLibraries,
+                        c.CompanyDomains,
+                        c.CmsOffers,
+                        c.CompanyCostCentres,
+                        CompanyTerritories = c.CompanyTerritories.Take(1).ToList(),
+                        Addresses = c.Addresses.Where(address => (!address.isArchived.HasValue || !address.isArchived.Value)).Take(1).ToList(),
+                        CompanyContacts = c.CompanyContacts.Take(1).ToList(),
+                        c.Image,
+                        c.ActiveBannerSetId,
+                        c.OrganisationId
+                    }).ToList().Select(c => new Company
+                    {
+                        CompanyId = c.CompanyId,
+                        Name = c.Name,
+                        AccountNumber = c.AccountNumber,
+                        URL = c.URL,
+                        CreditReference = c.CreditReference,
+                        CreditLimit = c.CreditLimit,
+                        Terms = c.Terms,
+                        TypeId = c.TypeId,
+                        DefaultMarkUpId = c.DefaultMarkUpId,
+                        AccountOpenDate = c.AccountOpenDate,
+                        AccountManagerId = c.AccountManagerId,
+                        DefaultNominalCode = c.DefaultNominalCode,
+                        Status = c.Status,
+                        IsCustomer = c.IsCustomer,
+                        Notes = c.Notes,
+                        IsDisabled = c.IsDisabled,
+                        CurrentThemeId = c.CurrentThemeId,
+                        AccountBalance = c.AccountBalance,
+                        CreationDate = c.CreationDate,
+                        VATRegNumber = c.VATRegNumber,
+                        VATRegReference = c.VATRegReference,
+                        FlagId = c.FlagId,
+                        PhoneNo = c.PhoneNo,
+                        IsDisplayDiscountVoucherCode = c.IsDisplayDiscountVoucherCode,
+                        isWhiteLabel = c.isWhiteLabel,
+                        IsGeneral = c.IsGeneral,
+                        WebAccessCode = c.WebAccessCode,
+                        isArchived = c.isArchived,
+                        PayByPersonalCredeitCard = c.PayByPersonalCredeitCard,
+                        PONumberRequired = c.PONumberRequired,
+                        ShowPrices = c.ShowPrices,
+                        isDisplayBanners = c.isDisplayBanners,
+                        isDisplayMenuBar = c.isDisplayMenuBar,
+                        isDisplaySecondaryPages = c.isDisplaySecondaryPages,
+                        isAllowRegistrationFromWeb = c.isAllowRegistrationFromWeb,
+                        isDisplayFeaturedProducts = c.isDisplayFeaturedProducts,
+                        isDisplayPromotionalProducts = c.isDisplayPromotionalProducts,
+                        isDisplaySiteFooter = c.isDisplaySiteFooter,
+                        isDisplaySiteHeader = c.isDisplaySiteHeader,
+                        isShowGoogleMap = c.isShowGoogleMap,
+                        IsRegisterAccessWebStore = c.IsRegisterAccessWebStore,
+                        IsRegisterPlaceOrder = c.IsRegisterPlaceOrder,
+                        IsRegisterPayOnlyByCreditCard = c.IsRegisterPayOnlyByCreditCard,
+                        IsRegisterPlaceDirectOrder = c.IsRegisterPlaceDirectOrder,
+                        IsRegisterPlaceOrderWithoutApproval = c.IsRegisterPlaceOrderWithoutApproval,
+                        RedirectWebstoreURL = c.RedirectWebstoreURL,
+                        isTextWatermark = c.isTextWatermark,
+                        WatermarkText = c.WatermarkText,
+                        MapImageUrl = c.MapImageUrl,
+                        facebookAppId = c.facebookAppId,
+                        facebookAppKey = c.facebookAppKey,
+                        twitterAppId = c.twitterAppId,
+                        twitterAppKey = c.twitterAppKey,
+                        TwitterURL = c.TwitterURL,
+                        isStoreModePrivate = c.isStoreModePrivate,
+                        TaxPercentageId = c.TaxPercentageId,
+                        canUserPlaceOrderWithoutApproval = c.canUserPlaceOrderWithoutApproval,
+                        CanUserEditProfile = c.CanUserEditProfile,
+                        SalesAndOrderManagerId1 = c.SalesAndOrderManagerId1,
+                        SalesAndOrderManagerId2 = c.SalesAndOrderManagerId2,
+                        ProductionManagerId1 = c.ProductionManagerId1,
+                        ProductionManagerId2 = c.ProductionManagerId2,
+                        StockNotificationManagerId1 = c.StockNotificationManagerId1,
+                        StockNotificationManagerId2 = c.StockNotificationManagerId2,
+                        IsDeliveryTaxAble = c.IsDeliveryTaxAble,
+                        IsDisplayDeliveryOnCheckout = c.IsDisplayDeliveryOnCheckout,
+                        isPaymentRequired = c.isPaymentRequired,
+                        isIncludeVAT = c.isIncludeVAT,
+                        includeEmailArtworkOrderReport = c.includeEmailArtworkOrderReport,
+                        includeEmailArtworkOrderXML = c.includeEmailArtworkOrderXML,
+                        includeEmailArtworkOrderJobCard = c.includeEmailArtworkOrderJobCard,
+                        StoreBackgroundImage = c.StoreBackgroundImage,
+                        makeEmailArtworkOrderProductionReady = c.makeEmailArtworkOrderProductionReady,
+                        CompanyType = c.CompanyType,
+                        PickupAddressId = c.PickupAddressId,
+                        WebAnalyticCode = c.WebAnalyticCode,
+                        WebMasterTag = c.WebMasterTag,
+                        FacebookURL = c.FacebookURL,
+                        LinkedinURL = c.LinkedinURL,
+                        isCalculateTaxByService = c.isCalculateTaxByService,
+                        RaveReviews = c.RaveReviews,
+                        TaxLabel = c.TaxLabel,
+                        PriceFlagId = c.PriceFlagId,
+                        TaxRate = c.TaxRate,
+                        StoreId = c.StoreId,
+                        isStoreLive = c.isStoreLive,
+                        CanUserUpdateAddress = c.CanUserUpdateAddress,
+                        MarketingBriefRecipient = c.MarketingBriefRecipient,
+                        CmsPages = c.CmsPages.Select(cms => new CmsPage
+                        {
+                            PageId = cms.PageId,
+                            PageTitle = cms.PageTitle,
+                            isDisplay = cms.isDisplay,
+                            isEnabled = cms.isEnabled,
+                            Meta_Title = cms.Meta_Title,
+                            isUserDefined = cms.isUserDefined,
+                            PageCategory = cms.PageCategory,
+                            PageBanner = cms.PageBanner
+                        }).ToList(),
+                        SystemPages = c.SystemPages.Select(cms => new CmsPage
+                        {
+                            PageId = cms.PageId,
+                            PageTitle = cms.PageTitle,
+                            isDisplay = cms.isDisplay,
+                            isEnabled = cms.isEnabled,
+                            Meta_Title = cms.Meta_Title,
+                            isUserDefined = cms.isUserDefined,
+                            PageCategory = cms.PageCategory,
+                            PageBanner = cms.PageBanner
+                        }).ToList(),
+                        TemplateColorStyles = c.TemplateColorStyles,
+                        CompanyBannerSets = c.CompanyBannerSets,
+                        Campaigns = c.Campaigns.Select(cam => new Campaign
+                        {
+                            CampaignName = cam.CampaignName,
+                            CampaignId = cam.CampaignId,
+                            CampaignType = cam.CampaignType,
+                            StartDateTime = cam.StartDateTime,
+                            SendEmailAfterDays = cam.SendEmailAfterDays,
+                            IsEnabled = cam.IsEnabled,
+                            CampaignEmailEvent = cam.CampaignEmailEvent
+                        }).ToList(),
+                        PaymentGateways = c.PaymentGateways,
+                        ProductCategories = c.ProductCategories.ToList(),
+                        MediaLibraries = c.MediaLibraries,
+                        CompanyDomains = c.CompanyDomains,
+                        CmsOffers = c.CmsOffers,
+                        CompanyCostCentres = c.CompanyCostCentres,
+                        Image = c.Image,
+                        ActiveBannerSetId = c.ActiveBannerSetId,
+                        OrganisationId = c.OrganisationId,
+                        CompanyTerritories = c.CompanyTerritories.ToList(),
+                        Addresses = c.Addresses.ToList(),
+                        CompanyContacts = c.CompanyContacts.ToList()
+                    }).FirstOrDefault();
+
+                companyResponse.SecondaryPageResponse = new SecondaryPageResponse
+                {
+                    RowCount =
+                        db.CmsPages.Count(
+                            cmp =>
+                        cmp.CompanyId == storeCode && cmp.isUserDefined == true),
+                    CmsPages =
+                        company != null
+                            ? company.CmsPages
+                            : new List<CmsPage>(),
+
+                    SystemPagesRowCount =
+                db.CmsPages.Count(
+                    cmp =>
+                cmp.CompanyId == storeCode && cmp.isUserDefined == false),
+                    SystemPages =
+                        company != null
+                            ? company.SystemPages
+                            : new List<CmsPage>()
+                };
+                companyResponse.Company = company;
+                return companyResponse;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
+
 
 
         public RealEstateVariableIconsListViewResponse GetCompanyVariableIcons(CompanyVariableIconRequestModel request)
