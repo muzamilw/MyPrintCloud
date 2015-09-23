@@ -8439,9 +8439,17 @@ update fieldVariable set KeyField = 'ListingId' where RefTableName = 'ListingLin
 update fieldVariable set KeyField = 'ListingId' where RefTableName = 'ListingFloorPlan'
 update fieldVariable set KeyField = 'ListingId' where RefTableName = 'ListingConjunctionAgent'
 
-update fieldVariable set VariableTag = '{{Agent1Name}}' where VariableId = 90
-update fieldVariable set VariableTag = '{{Agent1Email}}' where VariableId = 91
-update fieldVariable set VariableTag = '{{Agent1Phone1}}' where VariableId = 92
-update fieldVariable set VariableTag = '{{Agent1Phone2}}' where VariableId = 93
-update fieldVariable set VariableTag = '{{Agent1Mobile}}' where VariableId = 94 
-update fieldVariable set VariableTag = '{{Agent1Ref}}' where VariableId = 95
+update fieldVariable set VariableTag = '{{Agent1Name}}' where VariableTag = '{{AgentName}}'
+update fieldVariable set VariableTag = '{{Agent1Email}}' where VariableTag = '{{AgentEmail}}'
+update fieldVariable set VariableTag = '{{Agent1Phone1}}' where VariableTag = '{{AgentPhone1}}'
+update fieldVariable set VariableTag = '{{Agent1Phone2}}' where VariableTag = '{{AgentPhone2}}'
+update fieldVariable set VariableTag = '{{Agent1Mobile}}' where VariableTag = '{{AgentMobile}}' 
+update fieldVariable set VariableTag = '{{Agent1Ref}}' where VariableTag = '{{AgentRef}}'
+
+
+
+update FieldVariable set CriteriaFieldName = 'InspectionTypye' where CriteriaFieldName = 'InspectionType'
+update FieldVariable set CriteriaFieldName = 'IsSoldPriceConfidential' where CriteriaFieldName = 'SoldPriceConfidential'
+update FieldVariable set CriteriaFieldName = 'CounsilRates' where CriteriaFieldName = 'CouncilRates'
+update FieldVariable set CriteriaFieldName = 'Email' where CriteriaFieldName = 'SecondaryEmail' and VariableTag = '{{VendorEmail}}' 
+update FieldVariable set CriteriaFieldName = 'Email' where CriteriaFieldName = 'SecondaryEmail' and VariableTag = '{{ConjunctionAgentEmail}}' 

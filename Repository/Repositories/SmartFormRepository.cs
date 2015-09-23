@@ -1490,8 +1490,43 @@ namespace MPC.Repository.Repositories
         public string GetRealEstateAgent(FieldVariable obj , long propertyId)
         {
             int count = 1;
+            string fieldValue = "";
+            count = Convert.ToInt32(obj.VariableTag.Replace("{{Agent", "").Replace("Name}}", "").Replace("Email}}", "").Replace("Phone1}}", "").Replace("Phone2}}", "").Replace("Mobile}}", "").Replace("Ref}}", ""));
+            var property = db.Listings.Where(g => g.ListingId == propertyId).SingleOrDefault();
+            if (property != null)
+            {
+                List<CompanyContact> list = db.CompanyContacts.Where(c => c.CompanyId == property.CompanyId && (c.isArchived == false || c.isArchived == null) && c.ContactRoleId == (int)Roles.User).ToList();
+                if (list != null && list.Count > 0)
+                {
+                    CompanyContact contact = new CompanyContact();
+                    if (list.Count < count)
+                        contact = list[0];
+                    else
+                        contact = list[count];
+                    if (obj.VariableTag.Contains("Name}}"))
+                    {
+                        fieldValue = contact.FirstName;
+                    }
+                    else if (obj.VariableTag.Contains("Email}}"))
+                    {
+                        fieldValue = contact.Email;
+                    }
+                    else if (obj.VariableTag.Contains("Phone1}}"))
+                    {
+                        fieldValue = contact.HomeTel1;
+                    }
+                    else if (obj.VariableTag.Contains("Phone2}}"))
+                    {
+                        fieldValue = contact.HomeTel2;
+                    }
+                    else if (obj.VariableTag.Contains("Mobile}}"))
+                    {
+                        fieldValue = contact.Mobile;
+                    }
+                }
 
-            return "";
+            }
+            return fieldValue;
         }
         #endregion
     }
