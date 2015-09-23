@@ -20365,7 +20365,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                     var maxHeightLastLine = 0;
                     var renderFast = false;
                     if (this.customStyles != null && this.customStyles != undefined && this.customStyles.length != 0 && !this.isEmptyStyles()) {
-                        maxWidthLastLine = this._getWidthOfLine(context, demoLines.length - 1, demoLines); console.log(maxWidthLastLine);
+                        maxWidthLastLine = this._getWidthOfLine(context, demoLines.length - 1, demoLines); 
                      //   maxWidthLastLine = this._getWidthOfLineCustom(context,demoLines[demoLines.length - 1], text);
                         maxHeightLastLine = this._getHeightOfLineCustom(context, demoLines.length - 1, demoLines);
                     } else {
