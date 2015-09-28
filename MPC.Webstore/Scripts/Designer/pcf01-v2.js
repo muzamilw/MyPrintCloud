@@ -818,7 +818,8 @@ function d1(cCanvas, IO, isCenter) {
     }
     var Curl = IO.ContentString;
     if (IO.ContentString.indexOf("MPC_Content"))
-        IO.ContentString = IO.ContentString.replace("/MPC_Content/", "");
+        IO.ContentString = IO.ContentString.replace("/MPC_Content", "");
+
     var url =  IO.ContentString;
     if (url == "{{ListingImage1}}") {
         url = "/Content/Designer/assets-v2/placeholder1.png";

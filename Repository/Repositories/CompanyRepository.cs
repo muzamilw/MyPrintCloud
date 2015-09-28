@@ -6656,7 +6656,7 @@ namespace MPC.Repository.Repositories
 
 
 
-            List<vw_CompanyVariableIcons> companyVariableIcons = db.vw_CompanyVariableIcons.Where(c => c.CompanyId == request.CompanyId).ToList();
+            List<vw_CompanyVariableIcons> companyVariableIcons = db.vw_CompanyVariableIcons.ToList();
 
             return new RealEstateVariableIconsListViewResponse { RealEstatesVariableIcons = companyVariableIcons, RowCount = companyVariableIcons.Count() };
 
@@ -6702,6 +6702,7 @@ namespace MPC.Repository.Repositories
                     {
                         CompanyVariableIcon objcvi = new CompanyVariableIcon();
                         objcvi.VariableId = request.VariableId;
+                        objcvi.ContactCompanyId = request.CompanyId;
                         objcvi.Icon = SaveVariableIcon(request.IconBytes, request.CompanyId, request.VariableId, request.VariableName);
                         db.CompanyVariableIcons.Add(objcvi);
                         db.SaveChanges();
