@@ -8000,6 +8000,11 @@ namespace MPC.Implementation.MISServices
                     {
                         foreach(var sv in fv.ScopeVariables)
                         {
+                            // store
+                            if(sv.Scope == 1)
+                            {
+                                sv.Id = company.CompanyId;
+                            }
                             // contact
                             if(sv.Scope == 2)
                             {

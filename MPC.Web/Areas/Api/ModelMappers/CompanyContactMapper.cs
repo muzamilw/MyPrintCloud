@@ -121,17 +121,17 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             byte[] bytes = null;
             string fileName = string.Empty;
-            
-            //if (!string.IsNullOrEmpty(source.image))
-            //{
-            //    string path =
-            //        HttpContext.Current.Server.MapPath("~/" + source.image);
-            //    if (File.Exists(path))
-            //    {
-            //        //bytes = File.ReadAllBytes(path);
-                    
-            //    }
-            //}
+
+            if (!string.IsNullOrEmpty(source.image))
+            {
+                string path =
+                    HttpContext.Current.Server.MapPath("~/" + source.image);
+                if (File.Exists(path))
+                {
+                    bytes = File.ReadAllBytes(path);
+
+                }
+            }
             return new CompanyContact
                    {
                        ContactId = source.ContactId,
@@ -166,6 +166,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        IsEmailSubscription = source.IsEmailSubscription,
                        IsNewsLetterSubscription = source.IsNewsLetterSubscription,
                        Image = bytes,
+                       //Bytes = source.image,
                        quickFullName = source.quickFullName,
                        quickTitle = source.quickTitle,
                        quickCompanyName = source.quickCompanyName,
