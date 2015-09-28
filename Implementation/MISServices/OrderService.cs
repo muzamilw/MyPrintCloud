@@ -863,7 +863,12 @@ namespace MPC.Implementation.MISServices
         public OrderBaseResponseForCompany GetBaseDataForCompany(long companyId, long storeId)
         {
             bool isStoreLive = companyRepository.IsStoreLive(storeId);
-            //var org = organisationRepository.GetOrganizatiobByID();
+            var org = organisationRepository.GetOrganizatiobByID();
+            if(org.isTrial ?? true)
+            {
+                isStoreLive = true;
+            }
+
             //bool isMisReached = GetMonthlyOrdersReached(org, true);
             //bool isWebReached = GetMonthlyOrdersReached(org, false);
 
@@ -903,7 +908,7 @@ namespace MPC.Implementation.MISServices
             }
             else
             {
-                return true;
+                return false;
             }
         }
         
