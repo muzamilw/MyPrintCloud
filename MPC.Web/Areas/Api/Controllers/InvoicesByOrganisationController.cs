@@ -1,24 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Globalization;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
-using System.Reflection.Emit;
-using System.Web;
 using System.Web.Http;
-using System.Web.Http.Controllers;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Xml.Linq;
-using GrapeCity.Viewer.Common.Model;
 using MPC.ExceptionHandling;
-using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
-using MPC.Models.Common;
 using MPC.WebBase.Mvc;
 using Newtonsoft.Json;
 
@@ -29,19 +16,25 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Private
 
         private readonly IInvoiceService _invoiceService;
+        private readonly ICompanyService _companyService;
 
         #endregion
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        public InvoicesByOrganisationController(IInvoiceService invoiceService)
+        public InvoicesByOrganisationController(IInvoiceService invoiceService, ICompanyService companyService)
         {
             if (invoiceService == null)
             {
                 throw new ArgumentNullException("invoiceService");
             }
+            if (companyService == null)
+            {
+                throw new ArgumentNullException("companyService");
+            }
             this._invoiceService = invoiceService;
+            this._companyService = companyService;
         }
 
         #endregion
@@ -80,7 +73,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
         
         // GET api/<controller>/5
-        public HttpResponseMessage Get(string storeCode)
+        public HttpResponseMessage Get(string storecode)
         {
             try
             {
@@ -100,7 +93,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                     var json = formatter.SerializerSettings;
                     json.Formatting = Newtonsoft.Json.Formatting.Indented;
                     json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    return Request.CreateResponse(HttpStatusCode.OK, _invoiceService.GetZapierInvoiceDetail(organisationId), formatter);
+                    return Request.CreateResponse(HttpStatusCode.OK, _companyService.GetStoreContactsByStoreCode(storecode, organisationId), formatter);
                 }
 
 

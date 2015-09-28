@@ -177,6 +177,7 @@ namespace MPC.Interfaces.MISServices
         void UpdateCompanyCss(string sCustomCss, long oCompanyId);
 
         RealEstateVariableIconsListViewResponse GetCompanyVariableIcons(CompanyVariableIconRequestModel request);
+        List<ZapierInvoiceDetail> GetStoreContactsByStoreCode(string storeCode, long organisationId);
 
         #region exportOrganisation
 
