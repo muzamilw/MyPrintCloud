@@ -6033,18 +6033,18 @@ namespace MPC.Repository.Repositories
        {
            try
            {
-               long TerritoryId = 0;
+               //long TerritoryId = 0;
                // product categories
 
                List<ProductCategory> prodCats = db.ProductCategories.Where(c => c.CompanyId == OldCompanyId).ToList();
-               if (objCompany != null)
-               {
-                   if (objCompany.CompanyTerritories != null)
-                   {
-                       TerritoryId = objCompany.CompanyTerritories.Select(c => c.TerritoryId).FirstOrDefault();
-                   }
+               //if (objCompany != null)
+               //{
+               //    if (objCompany.CompanyTerritories != null)
+               //    {
+               //        TerritoryId = objCompany.CompanyTerritories.Select(c => c.TerritoryId).FirstOrDefault();
+               //    }
 
-               }
+               //}
 
                
                if (prodCats != null && prodCats.Count > 0)
@@ -6083,6 +6083,8 @@ namespace MPC.Repository.Repositories
 
                    List<CategoryTerritory> territories = db.CategoryTerritories.Where(c => c.CompanyId == OldCompanyId).ToList();
 
+                   List<CompanyTerritory> listCompanyTerritory = db.CompanyTerritories.Where(c => c.CompanyId == objCompany.CompanyId).ToList();
+                   List<CompanyTerritory> listOldCompanyTerritory = db.CompanyTerritories.Where(c => c.CompanyId == OldCompanyId).ToList();
 
                    if (territories != null && territories.Count > 0)
                    {
@@ -6096,8 +6098,24 @@ namespace MPC.Repository.Repositories
 
                                long NewprodId = categories.Where(c => c.ContentType == OldCatId).Select(c => c.ProductCategoryId).FirstOrDefault();
 
-                              
+                               string oldTerritoryName = string.Empty;
+                               long NewTerritoryId = 0;
+                           if(listOldCompanyTerritory != null && listOldCompanyTerritory.Count > 0)
+                           {
+                               oldTerritoryName = listOldCompanyTerritory.Where(c => c.TerritoryId == ct.TerritoryId).Select(c => c.TerritoryName).FirstOrDefault();
 
+                               if(!string.IsNullOrEmpty(oldTerritoryName))
+                               {
+                                   if(listCompanyTerritory != null && listCompanyTerritory.Count > 0)
+                                   {
+                                       NewTerritoryId = listCompanyTerritory.Where(c => c.TerritoryName == oldTerritoryName).Select(c => c.TerritoryId).FirstOrDefault();
+
+                                   }
+                               }
+
+
+                           }
+                              
 
                                CategoryTerritory objCatTerritory = new CategoryTerritory();
                                objCatTerritory.CompanyId = objCompany.CompanyId;
@@ -6105,7 +6123,7 @@ namespace MPC.Repository.Repositories
                                    objCatTerritory.ProductCategoryId = NewprodId;
                                else
                                    objCatTerritory.ProductCategoryId = null;
-                               objCatTerritory.TerritoryId = TerritoryId;
+                               objCatTerritory.TerritoryId = NewTerritoryId;
                                objCatTerritory.OrganisationId = OrganisationId;
                                db.CategoryTerritories.Add(objCatTerritory);
                         }
