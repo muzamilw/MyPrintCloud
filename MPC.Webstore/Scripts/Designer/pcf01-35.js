@@ -3227,7 +3227,11 @@ function pcl42_UpdateTO(isFirstLoad) {
                         }
                     });
                     value = obj.Value;//value = prefix + obj.Value + post;
-
+                    // add variable icon 
+                    if (obj.VariableIconUrl != null && obj.VariableIconUrl != "") {
+                        AddPortFolioIcon(obj.VariableIconUrl, IT, variableTag);
+                        // ExField1
+                    }
                     while (IT.ContentString.indexOf(variableTag) != -1)
                         updateTOWithStyles(IT, variableTag, value);
                     while (IT.ContentString.indexOf(variableTagUpperCase) != -1)
@@ -3265,6 +3269,8 @@ function pcl42_UpdateTO(isFirstLoad) {
                     while (IT.ContentString.indexOf(postfixVarLowerCase) != -1)
                         updateTOWithStyles(IT, postfixVarLowerCase, post.toLowerCase());
 
+
+                   
                 }
               //  }
             });
@@ -3305,7 +3311,12 @@ function pcl42_UpdateTO(isFirstLoad) {
                             }
                         }
                     });
-                    value = obj.Value ;//value = prefix + obj.Value + post;
+                    value = obj.Value;//value = prefix + obj.Value + post;
+                    // add variable icon 
+                    if (obj.VariableIconUrl != null && obj.VariableIconUrl != "") {
+                        AddPortFolioIcon(obj.VariableIconUrl, IT, variableTag);
+                        // ExField1
+                    }
                     while (IT.ContentString.indexOf(variableTag) != -1) {
                         updateTOWithStyles(IT, variableTag, value);
                     }
@@ -3343,6 +3354,7 @@ function pcl42_UpdateTO(isFirstLoad) {
                         updateTOWithStyles(IT, postfixVarUpperCase, post.toUpperCase());
                     while (IT.ContentString.indexOf(postfixVarLowerCase) != -1)
                         updateTOWithStyles(IT, postfixVarLowerCase, post.toLowerCase());
+                  
                 }
             });
         }); 
@@ -3374,7 +3386,12 @@ function pcl42_updateTemplate(DT) {
                         }
                     }
                 });
-                value =  vari.Value ;//prefix + vari.Value + post;
+                value = vari.Value;//prefix + vari.Value + post;
+                // add variable icon 
+                if (vari.VariableIconUrl != null && vari.VariableIconUrl != "") {
+                    AddPortFolioIcon(vari.VariableIconUrl, objDT, variableTag);
+                    // ExField1
+                }
                 $.each(DT, function (i, objDT) {
                     while (objDT.ContentString.indexOf(variableTag) != -1)
                         updateTOWithStyles(objDT, variableTag, value);
@@ -3412,6 +3429,7 @@ function pcl42_updateTemplate(DT) {
                         updateTOWithStyles(objDT, postfixVarUpperCase, post.toUpperCase());
                     while (objDT.ContentString.indexOf(postfixVarLowerCase) != -1)
                         updateTOWithStyles(objDT, postfixVarLowerCase, post.toLowerCase());
+                    
                 });
             } else {
                 var variableTag = vari.FieldVariable.VariableTag;
@@ -3471,9 +3489,65 @@ function pcl42_updateTemplate(DT) {
                     while (objDT.ContentString.indexOf(postfixVarLowerCase) != -1)
                         updateTOWithStyles(objDT, postfixVarLowerCase, post.toLowerCase());
 
+                    // add variable icon  not needed as variable value is null
+                    //if (vari.VariableIconUrl != null && vari.VariableIconUrl != "") {
+                    //    AddPortFolioIcon(vari.VariableIconUrl, objDT);
+                    //    // ExField1
+                    //}
+
                 });
             }
         });
+    }
+}
+function AddPortFolioIcon(url,objTO,tag)
+{
+    var alreadyHI = false;
+    var oJobj = null;
+    $.each(TO, function (i, IT) {
+        if (IT.ExField1 == objTO.ObjectID + "")
+            alreadyHI = true;
+        if (IT.ObjectID == objTO.ObjectID && IT.ContentString.toLowerCase().indexOf(tag.toLowerCase()) != -1)
+            oJobj = IT;
+    });
+
+    if (!alreadyHI && oJobj != null) {
+        var pic_real_width, pic_real_height;
+        $("<img/>") 
+            .attr("src", "/" + url)
+            .load(function () {
+                pic_real_width = this.width;  
+                pic_real_height = this.height;
+
+                var D1NIO = {};
+                D1NIO = fabric.util.object.clone(TO[0]);
+                D1NIO.ObjectID = --NCI;
+                D1NIO.ColorHex = "#000000";
+                D1NIO.IsBold = false;
+                D1NIO.IsItalic = false;
+                D1NIO.ProductPageId = objTO.ProductPageId;
+                D1NIO.$id = (parseInt(TO[TO.length - 1].$id) + 4);
+
+                D1NIO.ObjectType = 3;
+
+                D1NIO.MaxHeight = oJobj.MaxHeight;
+                D1NIO.MaxWidth = oJobj.MaxHeight * parseFloat(pic_real_width / pic_real_height);
+
+                D1NIO.PositionX = oJobj.PositionX - D1NIO.MaxWidth;
+                D1NIO.PositionY = oJobj.PositionY;
+
+
+                D1NIO.ExField1 = objTO.ObjectID;
+                D1NIO.IsQuickText = true;
+                D1NIO.ContentString = "/" + url;//"./assets/Imageplaceholder.png";
+                D1NIO.DisplayOrder = TO.length + 1;
+                d1(canvas, D1NIO);
+                var OBS = canvas.getObjects();
+
+                D1NIO.DisplayOrderPdf = OBS.length;
+                canvas.renderAll();
+                TO.push(D1NIO);
+            });
     }
 }
 function getObjectToRemove(stylesCopy,objStyle){

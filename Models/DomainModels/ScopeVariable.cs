@@ -18,7 +18,8 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public long? FakeVariableId { get; set; }
 
-
+        [NotMapped]
+        public string VariableIconUrl { get; set; }
         #region public
 
 
