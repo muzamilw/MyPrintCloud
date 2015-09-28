@@ -280,6 +280,12 @@ namespace MPC.Repository.Repositories
             hasContactVariables = false;
             var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
             long ListingId = 0;
+            var template = db.Templates.Where(g => g.ProductId == templateId).SingleOrDefault();
+            if (template != null)
+            {
+                if (template.realEstateId.HasValue)
+                    ListingId = template.realEstateId.Value;
+            }
             foreach(SmartFormDetail obj in smartFormDetails)
             {
                 if(obj.ObjectType == (int)SmartFormDetailFieldType.VariableField)
@@ -511,7 +517,6 @@ namespace MPC.Repository.Repositories
                         }
                     }
                 }
-                var template = db.Templates.Where(g => g.ProductId == templateId).SingleOrDefault();
                 if (template != null)
                 {
                     if (contactId == template.contactId)
@@ -538,6 +543,12 @@ namespace MPC.Repository.Repositories
             long ListingId = 0;
             List<ScopeVariable> result = new List<ScopeVariable>();
             var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
+            var template = db.Templates.Where(g => g.ProductId == templateID).SingleOrDefault();
+            if(template != null)
+            {
+                if (template.realEstateId.HasValue)
+                    ListingId = template.realEstateId.Value;
+            }
             List<MPC.Models.DomainModels.TemplateVariable> lstTemplateVariables = new List<Models.DomainModels.TemplateVariable>();
             List<FieldVariable> lstVariables = new List<FieldVariable>();
             lstTemplateVariables = db.TemplateVariables.Where(g => g.TemplateId == templateID).ToList();
@@ -1133,9 +1144,16 @@ namespace MPC.Repository.Repositories
             Item item = db.Items.Where(g=>g.ItemId == itemId).SingleOrDefault();
             Item orignalItem = null;
             long ListingId = 0;
+
             if(item != null)
             {
                 orignalItem = db.Items.Where(g=>g.ItemId == item.RefItemId).SingleOrDefault();
+                var template = db.Templates.Where(g => g.ProductId == item.TemplateId).SingleOrDefault();
+                if (template != null)
+                {
+                    if (template.realEstateId.HasValue)
+                        ListingId = template.realEstateId.Value;
+                }
                 if(orignalItem != null)
                 {
                     List<MPC.Models.DomainModels.TemplateVariable> listTemplateVariables = new List<Models.DomainModels.TemplateVariable>();
@@ -1350,7 +1368,6 @@ namespace MPC.Repository.Repositories
                             }
                         }
                     }
-                    var template = db.Templates.Where(g => g.ProductId == item.TemplateId).SingleOrDefault();
                     if(template != null)
                     {
                         if (contactID == template.contactId)
@@ -1490,8 +1507,43 @@ namespace MPC.Repository.Repositories
         public string GetRealEstateAgent(FieldVariable obj , long propertyId)
         {
             int count = 1;
+            string fieldValue = "";
+            count = Convert.ToInt32(obj.VariableTag.Replace("{{Agent", "").Replace("Name}}", "").Replace("Email}}", "").Replace("Phone1}}", "").Replace("Phone2}}", "").Replace("Mobile}}", "").Replace("Ref}}", ""));
+            var property = db.Listings.Where(g => g.ListingId == propertyId).SingleOrDefault();
+            if (property != null)
+            {
+                List<CompanyContact> list = db.CompanyContacts.Where(c => c.CompanyId == property.CompanyId && (c.isArchived == false || c.isArchived == null) && c.ContactRoleId == (int)Roles.User).ToList();
+                if (list != null && list.Count > 0)
+                {
+                    CompanyContact contact = new CompanyContact();
+                    if (list.Count < count)
+                        contact = list[0];
+                    else
+                        contact = list[count];
+                    if (obj.VariableTag.Contains("Name}}"))
+                    {
+                        fieldValue = contact.FirstName;
+                    }
+                    else if (obj.VariableTag.Contains("Email}}"))
+                    {
+                        fieldValue = contact.Email;
+                    }
+                    else if (obj.VariableTag.Contains("Phone1}}"))
+                    {
+                        fieldValue = contact.HomeTel1;
+                    }
+                    else if (obj.VariableTag.Contains("Phone2}}"))
+                    {
+                        fieldValue = contact.HomeTel2;
+                    }
+                    else if (obj.VariableTag.Contains("Mobile}}"))
+                    {
+                        fieldValue = contact.Mobile;
+                    }
+                }
 
-            return "";
+            }
+            return fieldValue;
         }
         #endregion
     }
