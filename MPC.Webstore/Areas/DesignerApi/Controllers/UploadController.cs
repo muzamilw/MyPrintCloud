@@ -32,7 +32,8 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                     foreach (var file in streamProvider.FileData)
                     {
                         FileInfo fi = new FileInfo(file.LocalFileName);
-                        messages.Add( fi.Name);
+                        System.IO.File.Move( file.LocalFileName, file.LocalFileName.Replace("&",""));
+                        messages.Add( fi.Name.Replace("&",""));
 
                     }
 
