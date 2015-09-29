@@ -881,7 +881,7 @@ namespace MPC.Repository.Repositories
                       (s.FirstName.Contains(request.SearchFilter)) ||
                        (s.LastName.Contains(request.SearchFilter)) ||
                      (s.quickFullName.Contains(request.SearchFilter)) ||
-                     !isSearchFilterSpecified) && s.CompanyId == request.CompanyId && s.isArchived != true && ((isTerritoryFilterSpecified && s.TerritoryId == request.TerritoryId) || !isTerritoryFilterSpecified);//&& s.OrganisationId == OrganisationId
+                     !isSearchFilterSpecified) && s.CompanyId == request.CompanyId  && ((isTerritoryFilterSpecified && s.TerritoryId == request.TerritoryId) || !isTerritoryFilterSpecified);//&& s.OrganisationId == OrganisationId
 
             int rowCount = DbSet.Count(query);
             // ReSharper disable once ConditionalTernaryEqualBranch
