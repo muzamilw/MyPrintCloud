@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using GrapeCity.ActiveReports.PageReportModel;
 using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
+using MPC.Models.Common;
 using MPC.WebBase.Mvc;
 using Newtonsoft.Json;
 
@@ -41,11 +44,8 @@ namespace MPC.MIS.Areas.Api.Controllers
                 long organisationId = 1;
                 string param = string.Empty;
                 param = Request.RequestUri.Query;
-                if (Request.Headers.UserAgent.Equals("Zapier"))
-                {
-                    
-                }
-                string responsestr = "1"; //GetActiveOrganisationId(param);
+                
+                string responsestr = GetActiveOrganisationId(param);
                 
                 if (string.IsNullOrEmpty(responsestr) || responsestr == "Fail")
                 {
