@@ -123,5 +123,6 @@ namespace MPC.Interfaces.Repository
 
         void SaveCompanyVariableIcon(CompanyVariableIconRequestModel request);
         
+
     }
 }
