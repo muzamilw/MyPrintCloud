@@ -13,6 +13,7 @@ namespace MPC.Models.DomainModels
         public string variabletag { get; set; }
         public Nullable<long> CompanyId { get; set; }
         public Nullable<long> OrganisationId { get; set; }
+        public Nullable<long> VariableIconId { get; set; }
         public Nullable<long> ContactCompanyId { get; set; }
         public string Icon { get; set; }
     }

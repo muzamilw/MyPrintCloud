@@ -147,6 +147,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<ICmsSkinPageWidgetParamRepository, CmsSkinPageWidgetParamRepository>();
             unityContainer.RegisterType<ICMSOfferRepository, CMSOfferRepository>();
             unityContainer.RegisterType<IReportNoteRepository, ReportNoteRepository>();
+            unityContainer.RegisterType<IVariableExtensionRespository, VariableExtensionRespository>();
         }
     }
 }

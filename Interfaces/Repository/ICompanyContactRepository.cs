@@ -147,5 +147,6 @@ namespace MPC.Interfaces.Repository
         void LoadProperty<T>(object entity, Expression<Func<T>> propertyExpression, bool isCollection = false);
 
         CompanyContactResponse GetRetailContacts();
+        List<ZapierInvoiceDetail> GetStoreContactForZapier(long organisationId);
     }
 }

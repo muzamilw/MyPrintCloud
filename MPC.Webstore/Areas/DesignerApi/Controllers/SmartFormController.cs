@@ -36,7 +36,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
 
         #endregion
         #region public
-        public HttpResponseMessage GetVariablesList(bool parameter1, long parameter2,long parameter3)
+        public HttpResponseMessage GetVariablesList(long parameter1, long parameter2,long parameter3)
         {
             var result = smartFormService.GetVariablesData(parameter1, parameter2, parameter3);
             var formatter = new JsonMediaTypeFormatter();

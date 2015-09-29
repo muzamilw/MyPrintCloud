@@ -40,6 +40,10 @@ namespace MPC.MIS.Areas.Api.Controllers
         {
             return orderService.DownloadOrderArtwork(OrderId, string.Empty, OrganisationId);
         }
+        public string Get(int OrderId, long OrganisationId, int formatxml)
+        {
+            return orderService.DownloadOrderXml(OrderId, OrganisationId);
+        }
         #endregion
     }
 }

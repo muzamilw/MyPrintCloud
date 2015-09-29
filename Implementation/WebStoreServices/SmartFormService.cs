@@ -24,9 +24,9 @@ namespace MPC.Implementation.WebStoreServices
         #endregion
 
         #region public
-        public List<VariableList> GetVariablesData(bool isRealestateproduct, long companyId, long organisationId)
+        public List<VariableList> GetVariablesData(long itemID, long companyId, long organisationId)
         {
-            return _smartFormRepository.GetVariablesData(isRealestateproduct, companyId, organisationId);
+            return _smartFormRepository.GetVariablesData(itemID, companyId, organisationId);
         }
         public List<TemplateVariablesObj> GetTemplateVariables(long templateId)
         {

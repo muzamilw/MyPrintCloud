@@ -65,6 +65,10 @@ namespace MPC.Implementation.WebStoreServices
         {
            return _templateFontRepository.GetFontList();
         }
+        public List<TemplateFont> GetFontListForTemplate(long templateId)
+        {
+            return _templateFontRepository.GetFontListForTemplate(templateId);
+        }
         public void InsertFontFile(long customerId, long organisationId, string FontName,string fontDisplayName)
         {
             try
