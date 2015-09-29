@@ -735,6 +735,7 @@
     <Content Include="Content\Sunny.css" />
     <Content Include="Content\TFEHotels.css" />
     <Content Include="Content\zoomslider.css" />
+    <Content Include="HtmlJsonPage\RealEstateJsonPage.html" />
     <Content Include="LightBox\Css\jquery.fancybox.css" />
     <Content Include="LightBox\Images\blank.gif" />
     <Content Include="LightBox\Images\fancybox_buttons.png" />
@@ -1013,6 +1014,7 @@
     <Content Include="Views\Shared\PartialViews\BlackAndWhiteHeaderMenu.cshtml" />
     <Content Include="Views\Shared\PartialViews\UserManager.cshtml" />
     <Content Include="Views\ReceiptPlain\ReceiptPlain.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ReaEstateData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

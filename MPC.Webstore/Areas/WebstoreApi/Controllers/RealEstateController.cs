@@ -14,7 +14,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 {
     public class RealEstateController : ApiController
     {
-         #region Private
+        #region Private
 
         private readonly IListingService listingService;
         private readonly MPC.Implementation.MISServices.CompanyService myCompanyService;
@@ -32,18 +32,25 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         }
 
         #endregion
-        [HttpPost]
-        public HttpResponseMessage SaveListing(string obj)
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage SaveListing([FromBody] string obj)
         {
             ListingProperty listingProperty = JsonConvert.DeserializeObject<ListingProperty>(obj);
             var result = listingService.UpdateListingData(listingProperty);
-            var formatter = new JsonMediaTypeFormatter();
-            var json = formatter.SerializerSettings;
-            json.Formatting = Newtonsoft.Json.Formatting.Indented;
-            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
+            var formatter1 = new JsonMediaTypeFormatter();
+            var json1 = formatter1.SerializerSettings;
+            json1.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json1.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, "ok", formatter1);
         }
 
-    
     }
+    
+    public class MyActionDTO
+    {
+        public string value1 { get; set; }
+        
+    }
+
 }
