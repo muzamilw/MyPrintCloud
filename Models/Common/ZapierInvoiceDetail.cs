@@ -28,6 +28,7 @@ namespace MPC.Models.Common
         public DateTime InvoiceDueDate { get; set; }
         public DateTime InvoiceDate { get; set; }
         public long InvoiceId { get; set; }
+        public long ContactId { get; set; }
         public string InvoiceCode { get; set; }
         public List<ZapierInvoiceItem> InvoiceItems { get; set; }
 

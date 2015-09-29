@@ -84,18 +84,18 @@ namespace MPC.Implementation.WebStoreServices
         {
             string dataError = string.Empty;
             bool dataProcessed = false;
-
-            if (objProperty.Listing.StoreCode == null)
+           // objProperty.Listing.StoreCode == null
+            if (objProperty.Office.StoreCode == null)
             {
                 dataError = "Store code is missing";
                 return dataError;
             }
-            long iContactCompanyID = GetContactCompanyID(objProperty.Listing.StoreCode);
+            long iContactCompanyID = GetContactCompanyID(objProperty.Office.StoreCode);
             //int territoryId = GetDefaultTerritoryByContactCompanyID(objProperty.Listing.StoreCode);
 
             if (iContactCompanyID == 0)
             {
-                dataError = "Invalid Store code [" + objProperty.Listing.StoreCode + "]";
+                dataError = "Invalid Store code [" + objProperty.Office.StoreCode + "]";
                 return dataError;
             }
             else
@@ -104,15 +104,15 @@ namespace MPC.Implementation.WebStoreServices
             }
 
             MPC.Models.DomainModels.Listing listing = CheckListingForUpdate(objProperty.Listing.ListingID);
-
-            if (listing != null) // update
-            {
-                dataProcessed = UpdateListingData(objProperty, listing);
-            }
-            else
-            {
+            //here stratsss
+          //if (listing != null) // update
+          //  {
+          //   dataProcessed = UpdateListingData(objProperty, listing);
+          //}
+           // else
+           //{
                 dataProcessed = AddListingData(objProperty);
-            }
+           //}
 
             if (dataProcessed)
                 dataError = "Data processed successfully.";

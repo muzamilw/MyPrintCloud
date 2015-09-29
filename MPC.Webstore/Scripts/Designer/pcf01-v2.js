@@ -1576,10 +1576,7 @@ function fu02UI() {
                              //   varExtensions.push(extToAdd);  //already mapping while saving template 
                             }
                             var txtToAdd = "{{" + tag + "_pre}} " + txt + " {{" + tag + "_post}}";
-                            if (DIAO.autoCollapseText == true)
-                            {
-                                txtToAdd =txt ;
-                            }
+                            txtToAdd = $(ui.draggable).attr("data-Variables");
                             for (var i = 0; i < txtToAdd.length; i++) {
                                 DIAO.insertChars(txtToAdd[i]);
                             }
@@ -4495,14 +4492,29 @@ function togglePage(pId) {
     function pcl40(xdata) {
         $("#divVarList").html("");
         var sc = "";
-        var html = ""; 
+        var html = "";
         $.each(xdata, function (j, Obj) {
             if (Obj.VariableType != 6) {
+                var dataAttr = "";
                 if (Obj.SectionName != sc) {
                     html += '<div class="titletxt">' + Obj.SectionName + '</div>';
                     sc = Obj.SectionName;
                 }
-                html += '<div id="' + Obj.VariableID + '" class="divVar" title="' + Obj.VariableName + '">' + Obj.VariableTag + '</div>';
+                var txt = Obj.VariableTag;
+                var tag = txt.replace("{{", "");
+                tag = tag.replace("}}", "");
+                var prefix = "";
+                var postfix = "";
+                if (Obj.CollapsePostfix == true)
+                {
+                    postfix = " {{" + tag + "_post}}";
+                }
+                if (Obj.CollapsePrefix == true)
+                {
+                    prefix = "{{" + tag + "_pre}} ";
+                }
+                var txtToAdd = prefix + txt + postfix;
+                html += '<div id="' + Obj.VariableID + '" class="divVar" title="' + Obj.VariableName + '" data-Variables="' + txtToAdd + '">' + Obj.VariableTag + '</div>';
             } else {
                 if (IsCalledFrom == 2) {
                     var btnHtml = "<a  class=' SampleBtn btntxt  " + Obj.VariableName + " listingImgBtn' onClick='AddImgVar(&#39;" + Obj.VariableTag + "&#39;," + Obj.VariableID + ")'>" + Obj.VariableTag + "</a>";

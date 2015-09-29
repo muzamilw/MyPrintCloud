@@ -537,6 +537,7 @@
     <Content Include="Content\ErrorPage.css" />
     <Content Include="Content\FancyBoxStyless.css" />
     <Content Include="Content\HomeBannerS4.js" />
+    <Content Include="Content\Images\20304_Checkmark.png" />
     <Content Include="Content\Images\artwork_light_icons.png" />
     <Content Include="Content\Images\bg2.png" />
     <Content Include="Content\Images\bonhamsBakground.png" />
@@ -754,6 +755,7 @@
     <Content Include="Content\Sunny.css" />
     <Content Include="Content\TFEHotels.css" />
     <Content Include="Content\zoomslider.css" />
+    <Content Include="HtmlJsonPage\RealEstateJsonPage.html" />
     <Content Include="LightBox\Css\jquery.fancybox.css" />
     <Content Include="LightBox\Images\blank.gif" />
     <Content Include="LightBox\Images\fancybox_buttons.png" />
@@ -1032,6 +1034,7 @@
     <Content Include="Views\Shared\PartialViews\BlackAndWhiteHeaderMenu.cshtml" />
     <Content Include="Views\Shared\PartialViews\UserManager.cshtml" />
     <Content Include="Views\ReceiptPlain\ReceiptPlain.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ReaEstateData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

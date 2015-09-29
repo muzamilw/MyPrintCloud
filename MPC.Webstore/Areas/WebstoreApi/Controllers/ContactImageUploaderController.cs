@@ -1,4 +1,5 @@
-﻿using MPC.Interfaces.Repository;
+﻿using MPC.Common;
+using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
@@ -27,6 +28,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         private readonly ICampaignService _campaignService;
         private readonly IUserManagerService _usermanagerService;
         private readonly ICompanyContactRepository _companyContact;
+        private readonly IListingService listingService;
+        private readonly MPC.Implementation.MISServices.CompanyService myCompanyService;
         #endregion
         #region Constructor
 
@@ -35,7 +38,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         /// </summary>
         /// <param name="companyService"></param>
         private readonly IOrderService _orderService;
-        public ContactImageUploaderController(IItemService ItemService, IOrderService _orderService, ICompanyService companyService, IWebstoreClaimsHelperService _webstoreAuthorizationChecker, ICampaignService _campaignService, IUserManagerService _usermanagerService, ICompanyContactRepository _companyContact)
+        public ContactImageUploaderController(IItemService ItemService, IOrderService _orderService, ICompanyService companyService, IWebstoreClaimsHelperService _webstoreAuthorizationChecker, ICampaignService _campaignService, IUserManagerService _usermanagerService, ICompanyContactRepository _companyContact, IListingService listingService)
         {
             
             this._ItemService = ItemService;
@@ -45,6 +48,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             this._campaignService = _campaignService;
             this._usermanagerService = _usermanagerService;
             this._companyContact = _companyContact;
+            this.listingService = listingService;
+           
         }
 
         #endregion
@@ -425,6 +430,18 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 jsons.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 return Request.CreateResponse(HttpStatusCode.OK, Message, formatterr);
             }
+        }
+
+      [HttpPost]
+        public void SaveListing(string obj)
+        {
+            ListingProperty listingProperty = JsonConvert.DeserializeObject<ListingProperty>(obj);
+            var result = listingService.UpdateListingData(listingProperty);
+            //var formatter = new JsonMediaTypeFormatter();
+            //var json = formatter.SerializerSettings;
+            //json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            //json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            //return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
         }
     }
 }

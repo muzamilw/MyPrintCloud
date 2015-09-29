@@ -79,6 +79,12 @@ namespace MPC.Webstore
                new { controller = "UserManager", action = "GetContactsIntellicence", id = UrlParameter.Optional }
            );
             routes.MapRoute(
+             "RealEstateProducts1",
+             "RealEstateProducts/{propertyid}",
+             new { controller = "RealEstateProducts", action = "Index", propertyid = UrlParameter.Optional }
+         );
+
+            routes.MapRoute(
               "GetCompanyFlags",
               "UserManager/GetCompanyFlags",
               new { controller = "UserManager", action = "GetCompanyFlags", id = UrlParameter.Optional }
@@ -353,6 +359,11 @@ namespace MPC.Webstore
                 "CloneProducts/{id}",
                 new { controller = "CategoriesAndProducts", action = "CloneProducts", id = UrlParameter.Optional }
             );
+            routes.MapRoute(
+               "CloneRealEstateProducts",
+               "CloneRealEstateItem/{id}",
+               new { controller = "RealEstateProducts", action = "CloneRealEstateItem", id = UrlParameter.Optional }
+           );
 
             routes.MapRoute(
                 "CloneItem",

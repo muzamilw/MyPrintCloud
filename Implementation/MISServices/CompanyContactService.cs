@@ -1136,6 +1136,9 @@ namespace MPC.Implementation.MISServices
             }
             return dbCompanyContact;
         }
-
+        public List<ZapierInvoiceDetail> GetStoreContactForZapier(long organisationId)
+        {
+            return companyContactRepository.GetStoreContactForZapier(organisationId);
+        }
     }
 }
