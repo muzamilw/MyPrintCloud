@@ -114,6 +114,7 @@ namespace MPC.Implementation.MISServices
         private readonly ItemsVoucherRepository itemsVoucherRepository;
         private readonly ICMSOfferRepository cmsofferRepository;
         private readonly IReportNoteRepository reportNoteRepository;
+        private readonly IVariableExtensionRespository variableExtensionRespository;
         #endregion
 
         private bool CheckDuplicateExistenceOfCompanyDomains(CompanySavingModel companySaving)
@@ -3008,7 +3009,7 @@ namespace MPC.Implementation.MISServices
             MPC.Interfaces.WebStoreServices.ITemplateService templateService, ITemplateFontsRepository templateFontRepository, IMarkupRepository markupRepository,
             ITemplateColorStylesRepository templateColorStylesRepository, IStagingImportCompanyContactAddressRepository stagingImportCompanyContactRepository,
             ICostCentersService CostCentreService, IDiscountVoucherRepository discountVoucherRepository, ICampaignImageRepository campaignImageRepository, ICmsSkinPageWidgetParamRepository cmsSkinPageWidgetParamRepository, ITemplateVariableRepository templateVariableRepository,
-            IActivityRepository activityRepository, IProductCategoryVoucherRepository productcategoryvoucherRepository, ItemsVoucherRepository itemsVoucherRepository, ICMSOfferRepository cmsofferRepository, IReportNoteRepository reportNoteRepository)
+            IActivityRepository activityRepository, IProductCategoryVoucherRepository productcategoryvoucherRepository, ItemsVoucherRepository itemsVoucherRepository, ICMSOfferRepository cmsofferRepository, IReportNoteRepository reportNoteRepository, IVariableExtensionRespository variableExtensionRespository)
         {
             if (bannerSetRepository == null)
             {
@@ -3090,6 +3091,7 @@ namespace MPC.Implementation.MISServices
             this.itemsVoucherRepository = itemsVoucherRepository;
             this.cmsofferRepository = cmsofferRepository;
             this.reportNoteRepository = reportNoteRepository;
+            this.variableExtensionRespository = variableExtensionRespository;
 
 
         }
@@ -7648,6 +7650,15 @@ namespace MPC.Implementation.MISServices
                 // Clone scope variable
                 CloneTemplateVariables(companyFielVariables, targetfieldVariables);
 
+                // Clone variable extension
+                if (companyFielVariables.VariableExtensions == null)
+                {
+                    continue;
+                }
+
+                // Clone variable extension
+                CloneVariableExtension(companyFielVariables, targetfieldVariables);
+
 
 
             }
@@ -7710,7 +7721,22 @@ namespace MPC.Implementation.MISServices
             }
         }
 
+        public void CloneVariableExtension(FieldVariable fieldVariables, FieldVariable targetfieldVariables)
+        {
+            if (targetfieldVariables.VariableExtensions == null)
+            {
+                targetfieldVariables.VariableExtensions = new List<MPC.Models.DomainModels.VariableExtension>();
+            }
 
+            foreach (MPC.Models.DomainModels.VariableExtension objVariableExtension in fieldVariables.VariableExtensions.ToList())
+            {
+                MPC.Models.DomainModels.VariableExtension targetVariableExtension =  variableExtensionRespository.Create();
+                variableExtensionRespository.Add(targetVariableExtension);
+                targetVariableExtension.FieldVariableId = targetfieldVariables.VariableId;
+                targetfieldVariables.VariableExtensions.Add(targetVariableExtension);
+                objVariableExtension.Clone(targetVariableExtension);
+            }
+        }
 
         /// <summary>
         /// Copy color palletes
@@ -8028,6 +8054,13 @@ namespace MPC.Implementation.MISServices
                                 }
                               
                             }
+                        }
+                    }
+                    if(fv.VariableExtensions != null && fv.VariableExtensions.Count > 0)
+                    {
+                        foreach (var ve in fv.VariableExtensions)
+                        {
+                            ve.CompanyId = (int)company.CompanyId;
                         }
                     }
                 }
