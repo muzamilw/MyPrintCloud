@@ -122,7 +122,7 @@ namespace MPC.Interfaces.Repository
         void DeleteCompanyVariableIcon(long iconId);
 
         void SaveCompanyVariableIcon(CompanyVariableIconRequestModel request);
-        List<ZapierInvoiceDetail> GetStoreContactsByStoreCode(string storeCode, long organisationId);
+        
 
     }
 }

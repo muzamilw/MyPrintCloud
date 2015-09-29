@@ -6033,18 +6033,18 @@ namespace MPC.Repository.Repositories
        {
            try
            {
-               //long TerritoryId = 0;
+               long TerritoryId = 0;
                // product categories
 
                List<ProductCategory> prodCats = db.ProductCategories.Where(c => c.CompanyId == OldCompanyId).ToList();
-               //if (objCompany != null)
-               //{
-               //    if (objCompany.CompanyTerritories != null)
-               //    {
-               //        TerritoryId = objCompany.CompanyTerritories.Select(c => c.TerritoryId).FirstOrDefault();
-               //    }
+               if (objCompany != null)
+               {
+                   if (objCompany.CompanyTerritories != null)
+                   {
+                       TerritoryId = objCompany.CompanyTerritories.Select(c => c.TerritoryId).FirstOrDefault();
+                   }
 
-               //}
+               }
 
                
                if (prodCats != null && prodCats.Count > 0)
@@ -6083,8 +6083,6 @@ namespace MPC.Repository.Repositories
 
                    List<CategoryTerritory> territories = db.CategoryTerritories.Where(c => c.CompanyId == OldCompanyId).ToList();
 
-                   List<CompanyTerritory> listCompanyTerritory = db.CompanyTerritories.Where(c => c.CompanyId == objCompany.CompanyId).ToList();
-                   List<CompanyTerritory> listOldCompanyTerritory = db.CompanyTerritories.Where(c => c.CompanyId == OldCompanyId).ToList();
 
                    if (territories != null && territories.Count > 0)
                    {
@@ -6098,24 +6096,8 @@ namespace MPC.Repository.Repositories
 
                                long NewprodId = categories.Where(c => c.ContentType == OldCatId).Select(c => c.ProductCategoryId).FirstOrDefault();
 
-                               string oldTerritoryName = string.Empty;
-                               long NewTerritoryId = 0;
-                           if(listOldCompanyTerritory != null && listOldCompanyTerritory.Count > 0)
-                           {
-                               oldTerritoryName = listOldCompanyTerritory.Where(c => c.TerritoryId == ct.TerritoryId).Select(c => c.TerritoryName).FirstOrDefault();
-
-                               if(!string.IsNullOrEmpty(oldTerritoryName))
-                               {
-                                   if(listCompanyTerritory != null && listCompanyTerritory.Count > 0)
-                                   {
-                                       NewTerritoryId = listCompanyTerritory.Where(c => c.TerritoryName == oldTerritoryName).Select(c => c.TerritoryId).FirstOrDefault();
-
-                                   }
-                               }
-
-
-                           }
                               
+
 
                                CategoryTerritory objCatTerritory = new CategoryTerritory();
                                objCatTerritory.CompanyId = objCompany.CompanyId;
@@ -6123,7 +6105,7 @@ namespace MPC.Repository.Repositories
                                    objCatTerritory.ProductCategoryId = NewprodId;
                                else
                                    objCatTerritory.ProductCategoryId = null;
-                               objCatTerritory.TerritoryId = NewTerritoryId;
+                               objCatTerritory.TerritoryId = TerritoryId;
                                objCatTerritory.OrganisationId = OrganisationId;
                                db.CategoryTerritories.Add(objCatTerritory);
                         }
@@ -6318,77 +6300,7 @@ namespace MPC.Repository.Repositories
            return DbSet.Where(c => c.WebAccessCode == sWebAccessCode && c.OrganisationId == OrganisationId).Select(c => c.CompanyId).FirstOrDefault();
         }
 
-        public List<ZapierInvoiceDetail> GetStoreContactsByStoreCode(string storeCode, long organisationId)
-        {
-            try
-            {
-                List<ZapierInvoiceDetail> list = new List<ZapierInvoiceDetail>();
-                var company = db.Companies
-                    .Where(c => c.WebAccessCode == storeCode && c.OrganisationId == organisationId)
-                    .Select(c => new
-                    {
-                        c.CompanyId,
-                        c.Name,
-                        c.AccountNumber,
-                        c.URL,
-                        c.CreditReference,
-                        c.CreditLimit,
-                        c.Terms,
-                        c.Status,
-                        c.IsCustomer,
-                        c.Notes,
-                        c.AccountBalance,
-                        c.CreationDate,
-                        c.VATRegNumber,
-                        c.VATRegReference,
-                        c.PhoneNo,
-                        c.WebAccessCode,
-                        c.isArchived,
-                        c.PayByPersonalCredeitCard,
-                        c.PONumberRequired,
-                        c.TaxLabel,
-                        c.TaxRate,
-                        CompanyContacts = c.CompanyContacts.Where(ct => ct.isArchived != true).ToList(),
-
-                    }).FirstOrDefault();
-
-                if (company != null)
-                {
-                   company.CompanyContacts.ForEach(ct => list.Add(new ZapierInvoiceDetail
-                   {
-                       CustomerName = company.Name,
-                       Address1 = ct.Address != null? ct.Address.Address1 : string.Empty,
-                       Address2 = ct.Address != null ? ct.Address.Address2 : string.Empty,
-                       AddressCity = ct.Address != null ? ct.Address.City : string.Empty,
-                       AddressCountry = ct.Address != null ? ct.Address.Country != null ? ct.Address.Country.CountryName: string.Empty : string.Empty,
-                       AddressState = ct.Address != null ? ct.Address.State != null ? ct.Address.State.StateName : string.Empty : string.Empty,
-                       AddressName = ct.Address != null ? ct.Address.AddressName : string.Empty,
-                       AddressPostalCode = ct.Address != null ? ct.Address.PostCode : string.Empty,
-                       
-                       ContactId = ct.ContactId,
-                       ContactFirstName = ct.FirstName,
-                       ContactLastName = ct.LastName,
-                       ContactEmail = ct.Email,
-                       ContactPhone = ct.HomeTel1,
-                       VatNumber = company.VATRegNumber,
-                       CustomerUrl = company.URL,
-                       TaxRate = company.TaxRate??0,
-
-                   }));
-                    
-                }
-
-
-
-                return list;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-
-            }
-
-        }
+        
 
 
 

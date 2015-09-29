@@ -6369,10 +6369,7 @@ namespace MPC.Implementation.MISServices
             }
         }
 
-        public List<ZapierInvoiceDetail> GetStoreContactsByStoreCode(string storeCode, long organisationId)
-        {
-            return companyRepository.GetStoreContactsByStoreCode(storeCode, organisationId);
-        }
+       
         #endregion
 
         #region ImportOrganisation

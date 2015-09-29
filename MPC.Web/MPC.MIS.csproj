@@ -342,6 +342,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyVariableIconController.cs" />
+    <Compile Include="Areas\Api\Controllers\ZapierAuthenticationController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCostCentreController.cs" />
     <Compile Include="Areas\Api\Controllers\DiscountVoucherController.cs" />
     <Compile Include="Areas\Api\Controllers\CopyOrderController.cs" />
@@ -350,6 +351,7 @@
     <Compile Include="Areas\Api\Controllers\DownloadReportController.cs" />
     <Compile Include="Areas\Api\Controllers\ExportController.cs" />
     <Compile Include="Areas\Api\Controllers\ExportCRMContactsController.cs" />
+    <Compile Include="Areas\Api\Controllers\ContactsByOrganisationAndStoreController.cs" />
     <Compile Include="Areas\Api\Controllers\InvoicesByOrganisationController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemsForDiscountVoucherController.cs" />
     <Compile Include="Areas\Api\Controllers\LiveStoresController.cs" />
