@@ -2944,7 +2944,7 @@ function togglePage(pId) {
         var D1AO = canvas.getActiveObject();
         if (!D1AO) return;
         var l = D1AO.left - D1AO.getWidth() / 2;
-        l = Math.round(l);
+      //  l = Math.round(l);
         var dL = ($("#inputPositionX").val() *(  dfZ1l)) - l;
         if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
             dL = ($("#inputPositionXTxt").val()*(  dfZ1l)) - l;
@@ -2963,7 +2963,7 @@ function togglePage(pId) {
         var D1AO = canvas.getActiveObject();
         if (!D1AO) return;
         var t = D1AO.top - D1AO.getHeight() / 2;
-        t = Math.round(t);
+      //  t = Math.round(t);
         var dT = ($("#inputPositionY").val() * (dfZ1l)) - t;
         if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
             dT = ($("#inputPositionYTxt").val() * (dfZ1l)) - t;
