@@ -1,70 +1,36 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Web.Http;
 using MPC.ExceptionHandling;
-using MPC.Interfaces.MISServices;
 using MPC.WebBase.Mvc;
-using Newtonsoft.Json;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
-    public class InvoicesByOrganisationController : ApiController
+    public class ZapierAuthenticationController : ApiController
     {
-        #region Private
-
-        private readonly IInvoiceService _invoiceService;
-
-        #endregion
-        #region Constructor
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public InvoicesByOrganisationController(IInvoiceService invoiceService)
-        {
-            if (invoiceService == null)
-            {
-                throw new ArgumentNullException("invoiceService");
-            }
-          
-            this._invoiceService = invoiceService;
-            
-        }
-
-        #endregion
-        [ApiException]
-        //[ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
-        public HttpResponseMessage Get(string storecode)
-        {
-            throw new MPCException("Service Not Authenticated!", 0);
-
-        }
         
-        // GET api/<controller>/5
+        
+       
+        [ApiException]
         public HttpResponseMessage Get()
         {
             try
             {
                 long organisationId = 0;
-                string param = string.Empty;
-                param = Request.RequestUri.Query;
+                string param = Request.RequestUri.Query;
                 string responsestr = GetActiveOrganisationId(param);
-
+                
                 if (string.IsNullOrEmpty(responsestr) || responsestr == "Fail")
                 {
                     throw new MPCException("Service Not Authenticated!", organisationId);
                 }
                 else
                 {
-                    organisationId = Convert.ToInt64(responsestr);
-                    var formatter = new JsonMediaTypeFormatter();
-                    var json = formatter.SerializerSettings;
-                    json.Formatting = Newtonsoft.Json.Formatting.Indented;
-                    json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    return Request.CreateResponse(HttpStatusCode.OK, _invoiceService.GetZapierInvoiceDetail(organisationId), formatter);
+                    return Request.CreateResponse(HttpStatusCode.OK);
                 }
+
 
             }
             catch (Exception ex)

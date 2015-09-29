@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -43,6 +44,7 @@ namespace MPC.Interfaces.MISServices
         string ExportCSV(long CompanyId);
 
         string ExportCRMContacts();
+        List<ZapierInvoiceDetail> GetStoreContactForZapier(long organisationId);
 
     }
 }
