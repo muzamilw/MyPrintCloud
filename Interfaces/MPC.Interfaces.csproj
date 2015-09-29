@@ -237,6 +237,7 @@
     <Compile Include="Repository\ISystemUserRepository.cs" />
     <Compile Include="Repository\ITemplateVariableRepository.cs" />
     <Compile Include="Repository\IUserManagerRepository.cs" />
+    <Compile Include="Repository\IVariableExtensionRespository.cs" />
     <Compile Include="Repository\IVariableOptionRepository.cs" />
     <Compile Include="Repository\IWeightUnitRepository.cs" />
     <Compile Include="Repository\IWidgetRepository.cs" />

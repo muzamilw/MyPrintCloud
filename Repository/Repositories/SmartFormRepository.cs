@@ -278,6 +278,7 @@ namespace MPC.Repository.Repositories
             db.Configuration.LazyLoadingEnabled = false;
             List<ScopeVariable> result = new List<ScopeVariable>();
             hasContactVariables = false;
+            bool isRealEstateVariable = false;
             var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
             long ListingId = 0;
             var template = db.Templates.Where(g => g.ProductId == templateId).SingleOrDefault();
@@ -305,27 +306,34 @@ namespace MPC.Repository.Repositories
                             switch (obj.FieldVariable.RefTableName)
                             {
                                 case "Listing":
+                                    isRealEstateVariable = true;
                                     fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
                                     break;
                                 case "ListingImage":  // listing images table based on listing id and image count write a seperate service for it to return all the data 
-                                    // fieldValue = GetRealEstateAgent(obj, ListingId);
+                                   
                                     break;
                                 case "ListingAgent": //from users table based on company id and agent count
+                                    isRealEstateVariable = true;
                                     fieldValue = GetRealEstateAgent(obj.FieldVariable, ListingId);
                                     break;
                                 case "ListingOFIs":
+                                    isRealEstateVariable = true;
                                     fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
                                     break;
                                 case "ListingVendor":
+                                    isRealEstateVariable = true;
                                     fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
                                     break;
                                 case "ListingLink":
+                                    isRealEstateVariable = true;
                                     fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
                                     break;
                                 case "ListingFloorPlan":
+                                    isRealEstateVariable = true;
                                     fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
                                     break;
                                 case "ListingConjunctionAgent":
+                                    isRealEstateVariable = true;
                                     fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, ListingId);
                                     break;
                                 case "CompanyContact":
@@ -404,6 +412,12 @@ namespace MPC.Repository.Repositories
                             obj.FieldVariable.TemplateVariables = null;
                             obj.FieldVariable.VariableExtensions = null;
                             objScopeVariable.FieldVariable = obj.FieldVariable;
+                            if (isRealEstateVariable)
+                            {
+                                var listingImg = db.CompanyVariableIcons.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.ContactCompanyId == contact.CompanyId).SingleOrDefault();
+                                if (listingImg != null)
+                                    objScopeVariable.VariableIconUrl = listingImg.Icon;
+                            }
                             if(obj != null)
                                 result.Add(objScopeVariable);
                         }
@@ -541,6 +555,7 @@ namespace MPC.Repository.Repositories
         {
             db.Configuration.LazyLoadingEnabled = false;
             long ListingId = 0;
+            bool isRealEstateVariable = false;
             List<ScopeVariable> result = new List<ScopeVariable>();
             var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
             var template = db.Templates.Where(g => g.ProductId == templateID).SingleOrDefault();
@@ -579,27 +594,34 @@ namespace MPC.Repository.Repositories
                         switch (obj.RefTableName)
                         {
                             case "Listing":
+                                isRealEstateVariable = true;
                                 fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
                                 break;
                             case "ListingImage":  // listing images table based on listing id and image count write a seperate service for it to return all the data 
-                               // fieldValue = GetRealEstateAgent(obj, ListingId);
+                               
                                 break;
                             case "ListingAgent": //from users table based on company id and agent count
+                                isRealEstateVariable = true;
                                 fieldValue = GetRealEstateAgent(obj, ListingId);
                                 break;
                             case "ListingOFIs":
+                                isRealEstateVariable = true;
                                 fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
                                 break;
                             case "ListingVendor":
+                                isRealEstateVariable = true;
                                 fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
                                 break;
                             case "ListingLink":
+                                isRealEstateVariable = true;
                                 fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
                                 break;
                             case "ListingFloorPlan":
+                                isRealEstateVariable = true;
                                 fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
                                 break;
                             case "ListingConjunctionAgent":
+                                isRealEstateVariable = true;
                                 fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, ListingId);
                                 break;
                             case "CompanyContact":
@@ -669,7 +691,13 @@ namespace MPC.Repository.Repositories
                         objScopeVariable.Scope = 0;
                         objScopeVariable.VariableId = obj.VariableId;
                         objScopeVariable.Value = fieldValue;
-                        objScopeVariable.FieldVariable = obj; 
+                        objScopeVariable.FieldVariable = obj;
+                        if (isRealEstateVariable)
+                        {
+                            var listingImg = db.CompanyVariableIcons.Where(g => g.VariableId == obj.VariableId && g.ContactCompanyId == contact.CompanyId).SingleOrDefault();
+                            if (listingImg != null)
+                                objScopeVariable.VariableIconUrl = listingImg.Icon;
+                        }
                         result.Add(objScopeVariable);
                     }
                 }
@@ -1144,7 +1172,7 @@ namespace MPC.Repository.Repositories
             Item item = db.Items.Where(g=>g.ItemId == itemId).SingleOrDefault();
             Item orignalItem = null;
             long ListingId = 0;
-
+            bool isRealEstateVariable = false;
             if(item != null)
             {
                 orignalItem = db.Items.Where(g=>g.ItemId == item.RefItemId).SingleOrDefault();
@@ -1174,27 +1202,33 @@ namespace MPC.Repository.Repositories
                                     switch (FieldVariable.RefTableName)
                                     {
                                         case "Listing":
+                                            isRealEstateVariable = true;
                                             fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
                                             break;
                                         case "ListingImage":  // listing images table based on listing id and image count write a seperate service for it to return all the data 
-                                            // fieldValue = GetRealEstateAgent(obj, ListingId);
+                                           
                                             break;
                                         case "ListingAgent": //from users table based on company id and agent count
+                                            isRealEstateVariable = true;
                                             fieldValue = GetRealEstateAgent(FieldVariable, ListingId);
                                             break;
                                         case "ListingOFIs":
                                             fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
                                             break;
                                         case "ListingVendor":
+                                            isRealEstateVariable = true;
                                             fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
                                             break;
                                         case "ListingLink":
+                                            isRealEstateVariable = true;
                                             fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
                                             break;
                                         case "ListingFloorPlan":
+                                            isRealEstateVariable = true;
                                             fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
                                             break;
                                         case "ListingConjunctionAgent":
+                                            isRealEstateVariable = true;
                                             fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, ListingId);
                                             break;
                                         case "CompanyContact":
@@ -1267,6 +1301,12 @@ namespace MPC.Repository.Repositories
                                     objScopeVariable.VariableId = FieldVariable.VariableId;
                                     objScopeVariable.Value = fieldValue;
                                     objScopeVariable.FieldVariable = FieldVariable;
+                                    if(isRealEstateVariable)
+                                    {
+                                        var listingImg = db.CompanyVariableIcons.Where(g => g.VariableId == FieldVariable.VariableId && g.ContactCompanyId == contact.CompanyId).SingleOrDefault();
+                                        if (listingImg != null)
+                                            objScopeVariable.VariableIconUrl = listingImg.Icon;
+                                    }
                                     result.Add(objScopeVariable);
                                 }
                             }
@@ -1411,13 +1451,92 @@ namespace MPC.Repository.Repositories
                     {
 
                         obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag, variable.Value);
+                        if(variable.VariableIconUrl != null && variable.VariableIconUrl != "")
+                        {
+                            variable.VariableIconUrl = variable.VariableIconUrl.Replace("/MPC_Content", "");
+                            string contentStringPath = @"/" + variable.VariableIconUrl;
+
+                            System.Drawing.Image objImage = System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath("~/MPC_Content" + contentStringPath));
+                            int ImageWidth = objImage.Width;
+                            int ImageHeight = objImage.Height;
+                            if (ImageWidth > ImageHeight)
+                            {
+                                //  templateObject.MaxHeight = templateObject.MaxWidth * Convert.ToDouble(ImageHeight / ImageWidth);
+                            }
+                            else
+                            {
+                                //  templateObject.MaxWidth = templateObject.MaxHeight * Convert.ToDouble(ImageWidth / ImageHeight);
+                            }
+                            objImage.Dispose();
+
+                            //entery in template object
+                            TemplateObject variableIconTemp = new TemplateObject();
+                            variableIconTemp.ObjectType = 3;
+                            variableIconTemp.Name = "Variable Icon";
+                            variableIconTemp.IsEditable = true;// templateObject.IsEditable;
+                            variableIconTemp.IsHidden = false;// templateObject.IsHidden;
+                            variableIconTemp.IsMandatory = false;// templateObject.IsMandatory;
+                            variableIconTemp.AutoShrinkText = obj.AutoShrinkText;
+                            variableIconTemp.IsPositionLocked = false;// templateObject.IsPositionLocked;
+                            variableIconTemp.DisplayOrderPdf = obj.DisplayOrderPdf;
+                            variableIconTemp.ProductId = obj.ProductId;
+                            variableIconTemp.ContentString = contentStringPath;
+
+                            variableIconTemp.MaxHeight = obj.MaxHeight;
+                            variableIconTemp.MaxWidth = obj.MaxHeight * Convert.ToDouble(ImageWidth / ImageHeight);//templateObject.MaxWidth;
+                            variableIconTemp.PositionX = obj.PositionX - variableIconTemp.MaxWidth;
+                            variableIconTemp.PositionY = obj.PositionY; //  -ImageWidth; ;
+
+
+                            variableIconTemp.MaxCharacters = 0;
+                            variableIconTemp.RotationAngle = 0;
+                            variableIconTemp.IsFontCustom = false;
+                            variableIconTemp.IsFontNamePrivate = false;
+                            variableIconTemp.FontName = string.Empty;
+                            variableIconTemp.FontSize = 0;
+                            variableIconTemp.IsBold = false;
+                            variableIconTemp.IsItalic = false;
+                            variableIconTemp.Allignment = 0;
+                            variableIconTemp.VAllignment = 0;
+                            variableIconTemp.Indent = 0;
+                            variableIconTemp.IsUnderlinedText = false;
+                            variableIconTemp.ColorType = 0;
+                            variableIconTemp.ColorName = string.Empty;
+                            variableIconTemp.ColorC = 0;
+                            variableIconTemp.ColorM = 0;
+                            variableIconTemp.ColorY = 0;
+                            variableIconTemp.ColorK = 0;
+                            variableIconTemp.Tint = 0;
+                            variableIconTemp.IsSpotColor = false;
+                            variableIconTemp.SpotColorName = string.Empty;
+                            variableIconTemp.ContentCaseType = 0;
+                            variableIconTemp.DisplayOrderTxtControl = 0;
+                            variableIconTemp.RColor = 0;
+                            variableIconTemp.GColor = 0;
+                            variableIconTemp.BColor = 0;
+                            variableIconTemp.LineSpacing = 0;
+                            variableIconTemp.ProductPageId = obj.ProductPageId;
+                            variableIconTemp.ParentId = 0;
+                            variableIconTemp.CircleRadiusX = 0;
+                            variableIconTemp.Opacity = 1;
+                            variableIconTemp.ExField1 = string.Empty;
+                            variableIconTemp.ExField2 = string.Empty;
+                            variableIconTemp.ColorHex = string.Empty;
+                            variableIconTemp.CircleRadiusY = 0;
+                            variableIconTemp.IsTextEditable = false;
+                            variableIconTemp.QuickTextOrder = 0;
+                            variableIconTemp.IsQuickText = false;
+                            variableIconTemp.CharSpacing = 0;
+                            variableIconTemp.watermarkText = string.Empty;
+                            variableIconTemp.textStyles = string.Empty;
+                            variableIconTemp.IsOverlayObject = false;
+                            variableIconTemp.ClippedInfo = null;
+
+                            db.TemplateObjects.Add(variableIconTemp);
+                            db.SaveChanges();
+                        }
                         if (variable.FieldVariable != null)
                         {
-                            //if (variable != null && variable.Value != "" && variable.FieldVariable.VariableTag != "")
-                            //{
-                            //    obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag.ToUpper(), variable.Value.ToUpper());
-                            //    obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag.ToLower(), variable.Value.ToLower());
-                            //}
                             // replace prefix and postFixes 
                             if (variable.FieldVariable.VariableTag != null)
                             {
@@ -1434,14 +1553,10 @@ namespace MPC.Repository.Repositories
                                         if (ext.VariablePrefix != null && ext.VariablePrefix != "")
                                         {
                                             obj.ContentString = obj.ContentString.Replace(preFix, ext.VariablePrefix);
-                                            //obj.ContentString = obj.ContentString.Replace(preFix.ToUpper(), ext.VariablePrefix.ToUpper());
-                                            //obj.ContentString = obj.ContentString.Replace(preFix.ToLower(), ext.VariablePrefix.ToLower());
                                         }
                                         if (ext.VariablePostfix != null && ext.VariablePostfix != "")
                                         {
                                             obj.ContentString = obj.ContentString.Replace(postFix, ext.VariablePostfix);
-                                            //obj.ContentString = obj.ContentString.Replace(postFix.ToUpper(), ext.VariablePostfix.ToUpper());
-                                            //obj.ContentString = obj.ContentString.Replace(postFix.ToLower(), ext.VariablePostfix.ToLower());
                                         }
                                     }
                                 }
