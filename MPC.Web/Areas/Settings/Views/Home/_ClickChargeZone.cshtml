@@ -45,29 +45,34 @@
 
             </div>
         </div>*@
-    <div class="col-md-12">
+    <div class="col-md-12" style="padding-left:0px;padding-right:0px;">
         <div class="form-group">
             <div class="col-lg-3" style="text-align:right;display:inline;">
 
                 <label class="control-label text-right tooltip-float" style="float:right;">Specify Click Charge Zone Rates</label>
             </div>
             <div class="col-lg-6">
-                <div class="col-lg-2">
-                    <label class="control-label tooltip-float" style="text-align:left !important;">Chargeable Sheets</label>
-                </div>
-                <div class="col-lg-2">
-                    <div><label class="control-label">Cost </label></div>
-                    <div><label data-bind="text:$root.CurrencySymbol"></label></div>
+                <div class="col-lg-12" style="padding-left:0px;padding-right:0px;">
+                        <div class="col-lg-3">
+                            <label class="control-label tooltip-float" style="text-align:left !important;">Chargeable Sheets</label>
+                        </div>
+                        <div class="col-lg-3" style="padding-left:10px;">
+                            <div><label class="control-label">Cost </label></div>
+                            <div><label data-bind="text:$root.CurrencySymbol"></label></div>
 
-                </div>
-                <div class="col-lg-2">
-                    <div><label class="control-label">Price </label></div>
-                    <div><label data-bind="text:$root.CurrencySymbol"></label></div>
+                        </div>
+                        <div class="col-lg-3" style="padding-left:10px;">
+                            <div><label class="control-label">Price </label></div>
+                            <div><label data-bind="text:$root.CurrencySymbol"></label></div>
+                        </div>
+                        <div class="col-lg-3">
+                            &nbsp;
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
-    </div>
+   
 
 
 
@@ -396,39 +401,51 @@
         </div>
     </div>
 
-    <div class="form-group col-lg-12">
-        <div class="col-lg-3">
-            <label class="control-label text-right tooltip-float" data-bind="text:$root.selectedClickChargeZones() ? $root.selectedClickChargeZones().From14() : 0" style="float:right;"></label>
-        </div>
-        <div class="col-lg-1">
-            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().To14, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('14');}}" placeholder="0">
-        </div>
-        <div class="col-lg-1">
-            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().Sheets14, settings:{mDec:0}" placeholder="0">
-        </div>
-        <div class="col-lg-1">
-            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetCost14, settings:{mDec:2}" placeholder="0">
-        </div>
-        <div class="col-lg-1">
-            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetPrice14, settings:{mDec:2}" placeholder="0">
+    <div class="col-lg-12" style="padding-left:0px;padding-right:0px;">
+        <div class="form-group">
+            <div class="col-lg-3">
+                <label class="control-label text-right tooltip-float" data-bind="text:$root.selectedClickChargeZones() ? $root.selectedClickChargeZones().From14() : 0" style="float:right;"></label>
+            </div>
+            <div class="col-lg-6">
+                <div class="col-lg-12" style="padding-left:0px;padding-right:0px;">
+                    <div class="col-lg-3" style="padding-right:0px;">
+                        <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().To14, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('14');}}" placeholder="0">
+                    </div>
+                    <div class="col-lg-3" style="padding-right:0px;">
+                        <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().Sheets14, settings:{mDec:0}" placeholder="0">
+                    </div>
+                    <div class="col-lg-3" style="padding-right:0px;">
+                        <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().SheetCost14, settings:{mDec:2}" placeholder="0">
+                    </div>
+                    <div class="col-lg-3" style="padding-right:0px;">
+                        <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().SheetPrice14, settings:{mDec:2}" placeholder="0">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="form-group col-lg-12">
-        <div class="col-lg-3">
-            <label class="control-label text-right tooltip-float" data-bind="text:$root.selectedClickChargeZones() ? $root.selectedClickChargeZones().From15() : 0" style="float:right;"></label>
-        </div>
-        <div class="col-lg-1">
-            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().To15, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('15');}}" placeholder="0">
-        </div>
-        <div class="col-lg-1">
-            <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().Sheets15, settings:{mDec:0}" placeholder="0">
-        </div>
-        <div class="col-lg-1">
-            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetCost15, settings:{mDec:2}" placeholder="0">
-        </div>
-        <div class="col-lg-1">
-            <input type="text" style="text-align: right;" class="form-control textboxwidth" data-bind="value:$root.selectedClickChargeZones().SheetPrice15, settings:{mDec:2}" placeholder="0">
+    <div class="col-lg-12" style="padding-left:0px;padding-right:0px;">
+        <div class="form-group">
+            <div class="col-lg-3">
+                <label class="control-label text-right tooltip-float" data-bind="text:$root.selectedClickChargeZones() ? $root.selectedClickChargeZones().From15() : 0" style="float:right;"></label>
+            </div>
+            <div class="col-lg-6">
+                <div class="col-lg-12" style="padding-left:0px;padding-right:0px;">
+                    <div class="col-lg-3" style="padding-right:0px;">
+                        <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().To15, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('15');}}" placeholder="0">
+                    </div>
+                    <div class="col-lg-3" style="padding-right:0px;">
+                        <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().Sheets15, settings:{mDec:0}" placeholder="0">
+                    </div>
+                    <div class="col-lg-3" style="padding-right:0px;">
+                        <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().SheetCost15, settings:{mDec:2}" placeholder="0">
+                    </div>
+                    <div class="col-lg-3" style="padding-right:0px;">
+                        <input type="text" style="text-align: right;" class="form-control" data-bind="value:$root.selectedClickChargeZones().SheetPrice15, settings:{mDec:2}" placeholder="0">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
