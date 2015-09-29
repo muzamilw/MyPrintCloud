@@ -73,53 +73,118 @@ namespace MPC.Repository.Repositories
             List<VariableList> resultList = new List<VariableList>();
             if (isRealestateproduct)
             {
-                var objList = from p in db.VariableSections
-                              join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
-                              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)))
-                              orderby p.VariableSectionId, es.VariableTag, es.VariableType, es.SortOrder
-                              select new
-                              {
-                                  SectionName = p.SectionName,
-                                  VariableID = es.VariableId,
-                                  VariableName = es.VariableName,
-                                  VariableTag = es.VariableTag,
-                                  VariableType = es.Scope
+                var query2 = (
+                    from p in db.VariableSections
+                    from es in db.FieldVariables
+                        .Where(es => es.VariableSectionId == p.VariableSectionId &&( es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)))
+                    from ext in db.VariableExtensions
+                        .Where(ext => ext.FieldVariableId == es.VariableId && ext.CompanyId == companyId).DefaultIfEmpty()
+                    orderby p.VariableSectionId, es.VariableTag, es.VariableType, es.SortOrder
 
-                              };
-                var listItems = objList.ToList();
+                    select new
+                    {
+                        SectionName = p.SectionName,
+                        VariableID = es.VariableId,
+                        VariableName = es.VariableName,
+                        VariableTag = es.VariableTag,
+                        VariableType = es.Scope,
+                        CollapsePostfix = ext.CollapsePostfix,
+                        CollapsePrefix = ext.CollapsePrefix
+                    }
+
+                );
+
+
+                var listItems = (query2).ToList();
+                //var objList = from p in db.VariableSections
+                //              join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
+                //              join ext in db.VariableExtensions on es.VariableId equals ext.FieldVariableId
+                //              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)) && ext.CompanyId == companyId)
+                              
+                //              orderby p.VariableSectionId, es.VariableTag, es.VariableType, es.SortOrder
+                //              select new
+                //              {
+                //                  SectionName = p.SectionName,
+                //                  VariableID = es.VariableId,
+                //                  VariableName = es.VariableName,
+                //                  VariableTag = es.VariableTag,
+                //                  VariableType = es.Scope
+
+                //              };
+            //    var listItems = objList.ToList();
                 foreach (var obj in listItems)
                 {
-                    VariableList objVarList = new VariableList(obj.SectionName, obj.VariableID, obj.VariableName, obj.VariableTag, obj.VariableType.Value);
+                    VariableList objVarList = new VariableList(obj.SectionName, obj.VariableID, obj.VariableName, obj.VariableTag, obj.VariableType.Value,obj.CollapsePrefix,obj.CollapsePostfix);
                     resultList.Add(objVarList);
                 }
             }
             else
             {
-                var objList = from p in db.VariableSections
-                              join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
-                              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)) && (es.Scope == (int)FieldVariableScopeType.SystemAddress || es.Scope == (int)FieldVariableScopeType.SystemContact || es.Scope == (int)FieldVariableScopeType.SystemStore || es.Scope == (int)FieldVariableScopeType.SystemTerritory))
-                              orderby p.VariableSectionId,es.VariableTag, es.VariableType, es.SortOrder
-                              select new
-                              {
-                                  SectionName = p.SectionName,
-                                  VariableID = es.VariableId,
-                                  VariableName = es.VariableName,
-                                  VariableTag = es.VariableTag,
-                                  VariableType = es.Scope
+                //var objList = from p in db.VariableSections
+                //              join es in db.FieldVariables on p.VariableSectionId equals es.VariableSectionId
+                //              where ((es.IsSystem == true || (es.CompanyId == companyId && es.OrganisationId == organisationId)) && (es.Scope == (int)FieldVariableScopeType.SystemAddress || es.Scope == (int)FieldVariableScopeType.SystemContact || es.Scope == (int)FieldVariableScopeType.SystemStore || es.Scope == (int)FieldVariableScopeType.SystemTerritory))
+                //              orderby p.VariableSectionId,es.VariableTag, es.VariableType, es.SortOrder
+                //              select new
+                //              {
+                //                  SectionName = p.SectionName,
+                //                  VariableID = es.VariableId,
+                //                  VariableName = es.VariableName,
+                //                  VariableTag = es.VariableTag,
+                //                  VariableType = es.Scope
 
-                              };
+                //              };
+                var objList = (
+                  from p in db.VariableSections
+                  from es in db.FieldVariables
+                      .Where(es => es.VariableSectionId == p.VariableSectionId && (es.IsSystem == true  && (es.Scope == (int)FieldVariableScopeType.SystemAddress || es.Scope == (int)FieldVariableScopeType.SystemContact || es.Scope == (int)FieldVariableScopeType.SystemStore || es.Scope == (int)FieldVariableScopeType.SystemTerritory)))
+                  from ext in db.VariableExtensions
+                      .Where(ext => ext.FieldVariableId == es.VariableId && ext.CompanyId == companyId).DefaultIfEmpty()
+                  orderby p.VariableSectionId, es.VariableTag, es.VariableType, es.SortOrder
+
+                  select new
+                  {
+                      SectionName = p.SectionName,
+                      VariableID = es.VariableId,
+                      VariableName = es.VariableName,
+                      VariableTag = es.VariableTag,
+                      VariableType = es.Scope,
+                      CollapsePostfix = ext.CollapsePostfix,
+                      CollapsePrefix = ext.CollapsePrefix
+                  }
+
+              );
+
                 var listItems = objList.ToList();
                 foreach (var obj in listItems)
                 {
-                    VariableList objVarList = new VariableList(obj.SectionName, obj.VariableID, obj.VariableName, obj.VariableTag, obj.VariableType);
+                    VariableList objVarList = new VariableList(obj.SectionName, obj.VariableID, obj.VariableName, obj.VariableTag, obj.VariableType,obj.CollapsePrefix,obj.CollapsePostfix);
                     resultList.Add(objVarList);
                 }
             }
 
-            var customVariables = db.FieldVariables.Where(g => g.CompanyId == companyId && (g.IsSystem == null || g.IsSystem == false)).ToList();
+            //var customVariables = db.FieldVariables.Where(g => g.CompanyId == companyId && (g.IsSystem == null || g.IsSystem == false)).ToList();
+            var customVariables = (
+                  from es in db.FieldVariables
+                      .Where(es => es.CompanyId == companyId && (es.IsSystem == null || es.IsSystem == false))
+                  from ext in db.VariableExtensions
+                      .Where(ext => ext.FieldVariableId == es.VariableId && ext.CompanyId == companyId).DefaultIfEmpty()
+
+
+                  select new
+                  {
+                      SectionName = "Custom CRM Fields",
+                      VariableID = es.VariableId,
+                      VariableName = es.VariableName,
+                      VariableTag = es.VariableTag,
+                      VariableType = es.Scope,
+                      CollapsePostfix = ext.CollapsePostfix,
+                      CollapsePrefix = ext.CollapsePrefix
+                  }
+
+              ).ToList();
             foreach (var customVar in customVariables)
             {
-                VariableList objVarList = new VariableList("Custom CRM Fields", customVar.VariableId, customVar.VariableName, customVar.VariableTag, customVar.VariableType);
+                VariableList objVarList = new VariableList("Custom CRM Fields", customVar.VariableID, customVar.VariableName, customVar.VariableTag, customVar.VariableType,customVar.CollapsePrefix,customVar.CollapsePostfix);
                 resultList.Add(objVarList);
             }
             return resultList;
