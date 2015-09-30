@@ -99,7 +99,7 @@ var slLLID = 0;
 var isLoading = true;
 var udCutMar = 0;
 var bleedPrinted = false;
-
+var propertyImages = null;
 var D1CD = false;
 var D1SD = false;
 var D1SK = 16, ctrlKey = 17, vKey = 86, cKey = 67;
