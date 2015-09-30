@@ -495,6 +495,8 @@ function c7(PageID) {
             }
             else if (IT.ObjectType == 12) {
                 k31(canvas, IT);
+            } else if (IT.ObjectType == 13) {
+                k31(canvas, IT);
             }
         }
     });
@@ -4042,7 +4044,50 @@ function togglePage(pId) {
         if (IO.MaxHeight == 0) {
             IO.MaxHeight = 50;
         }
-        var url = "/MPC_Content/" + IO.ContentString;
+        var url = IO.ContentString;
+        if (url == "{{ListingImage1}}") {
+            url = "/Content/Designer/assets-v2/placeholder1.png";
+        } else if (url == "{{ListingImage2}}") {
+            url = "/Content/Designer/assets-v2/placeholder2.png";
+        } else if (url == "{{ListingImage3}}") {
+            url = "/Content/Designer/assets-v2/placeholder3.png";
+        } else if (url == "{{ListingImage4}}") {
+            url = "/Content/Designer/assets-v2/placeholder4.png";
+        } else if (url == "{{ListingImage5}}") {
+            url = "/Content/Designer/assets-v2/placeholder5.png";
+        } else if (url == "{{ListingImage6}}") {
+            url = "/Content/Designer/assets-v2/placeholder6.png";
+        } else if (url == "{{ListingImage7}}") {
+            url = "/Content/Designer/assets-v2/placeholder7.png";
+        } else if (url == "{{ListingImage8}}") {
+            url = "/Content/Designer/assets-v2/placeholder8.png";
+        } else if (url == "{{ListingImage9}}") {
+            url = "/Content/Designer/assets-v2/placeholder9.png";
+        } else if (url == "{{ListingImage10}}") {
+            url = "/Content/Designer/assets-v2/placeholder10.png";
+        } else if (url == "{{ListingImage11}}") {
+            url = "/Content/Designer/assets-v2/placeholder11.png";
+        } else if (url == "{{ListingImage12}}") {
+            url = "/Content/Designer/assets-v2/placeholder12.png";
+        } else if (url == "{{ListingImage13}}") {
+            url = "/Content/Designer/assets-v2/placeholder13.png";
+        } else if (url == "{{ListingImage14}}") {
+            url = "/Content/Designer/assets-v2/placeholder14.png";
+        } else if (url == "{{ListingImage15}}") {
+            url = "/Content/Designer/assets-v2/placeholder15.png";
+        } else if (url == "{{ListingImage16}}") {
+            url = "/Content/Designer/assets-v2/placeholder16.png";
+        } else if (url == "{{ListingImage17}}") {
+            url = "/Content/Designer/assets-v2/placeholder17.png";
+        } else if (url == "{{ListingImage18}}") {
+            url = "/Content/Designer/assets-v2/placeholder18.png";
+        } else if (url == "{{ListingImage19}}") {
+            url = "/Content/Designer/assets-v2/placeholder19.png";
+        } else if (url == "{{ListingImage20}}") {
+            url = "/Content/Designer/assets-v2/placeholder20.png";
+        } else {
+            url = "/MPC_Content/" + IO.ContentString;
+        }
         if (IO.ContentString.indexOf("Imageplaceholder_sim") != -1 || IO.ContentString.indexOf("http") != -1)
             url = IO.ContentString;
         fabric.Image.fromURL(url, function (IOL) {
