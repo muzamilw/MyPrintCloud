@@ -56,5 +56,9 @@ namespace MPC.Common
         }
     }
 
-
+    public class RealEstateImage
+    {
+        public long ImageId { get; set; }
+        public string ImageUrl { get; set; }
+    }
 }
