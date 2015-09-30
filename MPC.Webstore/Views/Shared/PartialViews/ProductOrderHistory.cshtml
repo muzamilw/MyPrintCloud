@@ -654,10 +654,11 @@
                     var otherAttachmentLink = "";
                     $.each(GridItems, function (i, IT) {
                         { 
-                            if(IT.OtherItemAttatchments.length > 1){
+                            if(IT.OtherItemAttatchments != null){
+
+                             if(IT.OtherItemAttatchments.length > 1){
 
                                 $(IT.OtherItemAttatchments).each(function(i, otherAttachVal) {
-                                    console.log(otherAttachVal.FileName);
                                    
                                     if(otherAttachVal.FileName == IT.Attatchment._fileName){
                                     }else{
@@ -672,16 +673,23 @@
                                     }
 
                                 });
+                             }
                             }
+                           
                            
                            
                            
                             var AttachFileName = IT.Attatchment._fileName;
-
-                            while (AttachFileName.indexOf(" ") > 0)
-                            {
-                                AttachFileName = AttachFileName.replace(" ", "%20");
+                            
+                            if(AttachFileName != "" && AttachFileName != null){
+                                while (AttachFileName.indexOf(" ") > 0)
+                                {
+                                    AttachFileName = AttachFileName.replace(" ", "%20");
+                                }
                             }
+                           
+
+                          
 
                             var filePathOfAttachment = "/" + IT.Attatchment._folderPath + "/" + AttachFileName + "Thumb.png";
                             

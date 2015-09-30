@@ -421,7 +421,14 @@ namespace MPC.Repository.Repositories
                             
                             prodItem = CreateProductItem(item, StockName);
                             prodItem.Attatchment = this.ExtractAttachment(item);
-                            prodItem.OtherItemAttatchments = item.ItemAttachments.Where(attatchment => attatchment.ItemId == item.ItemId && string.Compare(attatchment.Type, UploadFileTypes.Artwork.ToString(), true) == 0).ToList();
+                            if (item.ItemAttachments != null)
+                            {
+                                prodItem.OtherItemAttatchments = item.ItemAttachments.Where(attatchment => attatchment.ItemId == item.ItemId && string.Compare(attatchment.Type, UploadFileTypes.Artwork.ToString(), true) == 0).ToList();
+                            }
+                            else 
+                            {
+                                prodItem.OtherItemAttatchments = null;
+                            }
                             productItemsList.Add(prodItem);
                             allItemsAddOnsList.AddRange(this.ExtractAdditionalAddons(item)); //Collects the addons for each item
 
