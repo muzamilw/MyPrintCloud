@@ -2,18 +2,21 @@
 @{
     Layout = null;
 }
-
+@{
+    var ListingId = ViewBag.ListingID;
+    
+}
 <div class="container content_area">
     <div class="left_right_padding row">
         @foreach (var cat in ViewData["RealEstateProducts"] as List<MPC.Models.DomainModels.usp_GetRealEstateProducts_Result>)
         {
             <div id="Maincontainer" class="CAT_Body rounded_corners">
                 <div class="LCLB">
-                                        @{
+                           @{
 
                        var RedirectURL = "/RealEstateProducts/CloneRealEstateItem/" + cat.ItemId;
 
-                    <a id="hlCategory" href="@Url.Action("CloneRealEstateItem", "RealEstateProducts", new { id = cat.ItemId })">
+                    <a id="hlCategory" href="@Url.Action("CloneRealEstateItem", "RealEstateProducts", new { id = cat.ItemId, PropertyId=ListingId})">
 
                             <div class=" pdtc_cat fi_cat">
                         @{
