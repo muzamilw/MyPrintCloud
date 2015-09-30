@@ -1,15 +1,17 @@
-﻿@{
+﻿@using MPC.Webstore.Common;
+@{
     Layout = null;
-    var Company = ViewBag.Company as MPC.Models.DomainModels.Company;
 }
-@using MPC.Webstore.Common;
-<link href="~/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
-
+@{
+     var Company = ViewBag.Company as MPC.Models.DomainModels.Company;
+}
+<head>
+    <link href="~/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
+</head>
 <div class="content_area" style="width:100%; height:170px; box-shadow: 0 -4px 22px -1px lightgray; position: absolute; background-color: #a5a6a5; padding-top:20px; text-align:center;z-index:100;">
         <div class="Contact-Main-Div">
             <div class="controlDivStyle">
                 <input type="text" id="txtName" class="footerControl" placeholder="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlname", UserCookieManager.WBStoreId, "Name"))" />
-                      
             </div>
 
             <div class="controlDivStyle">
@@ -39,14 +41,15 @@
         </div>
 
         <div class="SocialMedia-Main-Div">
-            @if(Company.LinkedinURL!=null&&Company.LinkedinURL!=string.Empty)
+            @if (!string.IsNullOrEmpty(Company.LinkedinURL))
+            { 
             <div>
                 <a href="@Company.LinkedinURL">
                     <img src="/Content/Images/LinkedInNew.png" class="socialImages" />
                </a>
             </div>
             }
-            @if(Company.TwitterURL!=null&&Company.LinkedinURL!=string.Empty)
+            @if(!string.IsNullOrEmpty(Company.TwitterURL))
             { 
             <div>
                 <a href="@Company.TwitterURL">
@@ -54,8 +57,8 @@
                 </a>
             </div>
             }
-            @if (Company.FacebookURL != null && Company.FacebookURL != string.Empty)
-            { 
+            @if (!string.IsNullOrEmpty(Company.FacebookURL))
+            {
             <div>
                 <a href="@Company.FacebookURL">
                     <img src="/Content/Images/facebookNew.png" class="socialImages" />

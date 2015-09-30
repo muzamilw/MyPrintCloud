@@ -6957,6 +6957,8 @@ namespace MPC.Implementation.MISServices
                     string SetName = source.CompanyBannerSets.Where(c => c.CompanySetId == source.ActiveBannerSetId).Select(c => c.SetName).FirstOrDefault();
                     SetValuesAfterClone(objCompany, SetName,source.CompanyId);
 
+                    // copy variable extension of system variables
+                    companyRepository.SaveSystemVariableExtension(companyId, objCompany.CompanyId);
                     companyRepository.InsertProductCategoryItems(objCompany, source);
                     // copy All files or images
                     CopyCompanyFiles(objCompany, companyId);

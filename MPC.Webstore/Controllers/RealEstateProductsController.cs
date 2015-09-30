@@ -29,14 +29,11 @@ namespace MPC.Webstore.Controllers
 
             ViewData["RealEstateProducts"] = lstRealEstateProducts;
             ViewBag.ListingID = Lid;
-
-
-
             return View("PartialViews/RealEstateProducts");
         }
-        public ActionResult CloneRealEstateItem(long id)
+        public ActionResult CloneRealEstateItem(long id,long PropertyId)
         {
-            ItemCloneResult cloneObject = _IItemService.CloneItemAndLoadDesigner(id, (StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID);
+            ItemCloneResult cloneObject = _IItemService.CloneItemAndLoadDesigner(id,(StoreMode)UserCookieManager.WEBStoreMode, UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID, PropertyId);
             UserCookieManager.TemporaryCompanyId = cloneObject.TemporaryCustomerId;
             UserCookieManager.WEBOrderId = cloneObject.OrderId;
             Response.Redirect(cloneObject.RedirectUrl);

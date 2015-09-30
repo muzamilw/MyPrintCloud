@@ -6409,6 +6409,35 @@ namespace MPC.Repository.Repositories
             }
             return null;
         }
+
+        public void SaveSystemVariableExtension(long oldCompanyId,long NewCompanyid)
+        {
+            try
+            {
+
+                List<long> systemVariableIds = db.FieldVariables.Where(c => c.IsSystem == true && c.OrganisationId == null).Select(c => c.VariableId).ToList();
+                List<VariableExtension> variableExtensions = db.VariableExtensions.Where(c => systemVariableIds.Contains((int)c.FieldVariableId) && c.CompanyId == oldCompanyId).ToList();
+
+                if (variableExtensions != null && variableExtensions.Count > 0)
+                {
+                    foreach (var ext in variableExtensions)
+                    {
+                        VariableExtension objVE = new VariableExtension();
+                        objVE = ext;
+                        objVE.CompanyId = (int)NewCompanyid;
+                        db.VariableExtensions.Add(objVE);
+                    }
+                    db.SaveChanges();
+                }
+
+
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
      
     }
 }
