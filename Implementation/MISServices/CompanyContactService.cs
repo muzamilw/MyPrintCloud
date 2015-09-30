@@ -150,16 +150,17 @@ namespace MPC.Implementation.MISServices
                 CompanyTerritories = companyTerritoryRepository.GetCompanyTerritory(new CompanyTerritoryRequestModel { CompanyId = request.CompanyId }).CompanyTerritories
             };
         }
-        public bool Delete(long companyContactId)
+        public CompanyContact Delete(long companyContactId)
         {
             var dbCompanyContact = companyContactRepository.GetContactByID(companyContactId);
             if (dbCompanyContact != null)
             {
-                companyContactRepository.Delete(dbCompanyContact);
+                //companyContactRepository.Delete(dbCompanyContact);
+                dbCompanyContact.isArchived = true;
                 companyContactRepository.SaveChanges();
-                return true;
+                
             }
-            return false;
+            return dbCompanyContact;
         }
 
         /// <summary>
@@ -1123,7 +1124,18 @@ namespace MPC.Implementation.MISServices
 
         }
 
+        public CompanyContact UnArchiveCompanyContact(long ContactId)
+        {
+            var dbCompanyContact = companyContactRepository.GetContactByID(ContactId);
+            if (dbCompanyContact != null)
+            {
+                //companyContactRepository.Delete(dbCompanyContact);
+                dbCompanyContact.isArchived = false;
+                companyContactRepository.SaveChanges();
 
+            }
+            return dbCompanyContact;
+        }
         public List<ZapierInvoiceDetail> GetStoreContactForZapier(long organisationId)
         {
             return companyContactRepository.GetStoreContactForZapier(organisationId);

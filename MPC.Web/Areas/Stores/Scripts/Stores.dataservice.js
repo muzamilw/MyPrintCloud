@@ -357,6 +357,13 @@
                         dataType: 'json',
                         type: 'DELETE'
                     });
+                    // Define request to Delete Company Contact
+                    amplify.request.define('unarchiveCompanyContact', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyContactForOrder',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                     // Define request to Get Address Validation check
                     amplify.request.define('validateAddressToDelete', 'ajax', {
                         url: ist.siteUrl + '/Api/Address',
@@ -905,6 +912,18 @@
                     data: param
                 });
             },
+
+
+            // unarchive Company Contact
+            unarchiveCompanyContact = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'unarchiveCompanyContact',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
             // Delete Secondary Page
             deleteSecondaryPage = function (param, callbacks) {
                 initialize();
@@ -1098,6 +1117,7 @@
             deleteCompanyTerritory: deleteCompanyTerritory,
             deleteCompanyAddress: deleteCompanyAddress,
             deleteCompanyContact: deleteCompanyContact,
+            unarchiveCompanyContact: unarchiveCompanyContact,
             saveFieldVariable: saveFieldVariable,
             deleteFieldVariable: deleteFieldVariable,
             getFieldVariableDetailById: getFieldVariableDetailById,

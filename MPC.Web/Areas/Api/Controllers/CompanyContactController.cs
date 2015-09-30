@@ -64,18 +64,21 @@ namespace MPC.MIS.Areas.Api.Controllers
             return companyContactService.Save(companyContact.Createfrom()).CreateFrom();
         }
 
+
+      
+
         /// <summary>
         /// Delete Contact
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         [CompressFilterAttribute]
-        public bool Delete(CompanyContactDeleteModel request)
+        public CompanyContact Delete(CompanyContactDeleteModel request)
         {
             if (request == null || !ModelState.IsValid || request.CompanyContactId <= 0)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
-            return companyContactService.Delete(request.CompanyContactId);
+            return companyContactService.Delete(request.CompanyContactId).CreateFrom();
         }
         #endregion
 	}

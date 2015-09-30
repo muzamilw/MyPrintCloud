@@ -202,9 +202,9 @@ namespace MPC.Repository.Repositories
                     }).ToList()
                 });
 
-                //inv.IsRead = true;
-                //Update(inv);
-                //SaveChanges();
+                inv.IsRead = true;
+                Update(inv);
+                SaveChanges();
 
             }
             return lstInvoiceDetails;    

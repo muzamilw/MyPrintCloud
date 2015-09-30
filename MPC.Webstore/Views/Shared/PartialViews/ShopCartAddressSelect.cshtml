@@ -154,7 +154,7 @@
                     </div>
                     <div class="clearBoth">
                     </div>
-                    @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                    @if (ViewBag.isPoRequired == 1)
                     {
                         <div id="CorporateBox" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                             <label id="ltrlcheckoutfirstdiv" class="col-md-3 col-lg-3 col-xs-12 smallCheckoutAvenior">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcheckoutfirstdiv",UserCookieManager.WBStoreId,"Your Ref / PO"))</label>
