@@ -90,7 +90,7 @@ namespace MPC.Implementation.WebStoreServices
                 dataError = "Store code is missing";
                 return dataError;
             }
-            long iContactCompanyID = GetContactCompanyID(objProperty.Office.StoreCode);
+            long iContactCompanyID = GetContactCompanyID(objProperty.Office.StoreCode, objProperty.Office.CompanyName);
             //int territoryId = GetDefaultTerritoryByContactCompanyID(objProperty.Listing.StoreCode);
 
             if (iContactCompanyID == 0)
@@ -105,10 +105,10 @@ namespace MPC.Implementation.WebStoreServices
 
             MPC.Models.DomainModels.Listing listing = CheckListingForUpdate(objProperty.Listing.ListingID);
             //here stratsss
-          if (listing != null) // update
-          {
-             dataProcessed = UpdateListingData(objProperty, listing);
-          }
+            if (listing != null) // update
+            {
+              dataProcessed = UpdateListingData(objProperty, listing);
+            }
             else
             {
                 dataProcessed = AddListingData(objProperty);
@@ -121,11 +121,11 @@ namespace MPC.Implementation.WebStoreServices
 
             return dataError;
         }
-        private long GetContactCompanyID(string sStoreCode)
+        private long GetContactCompanyID(string sStoreCode,string CompanyName)
         {
             try
             {
-                return _ListingRepository.GetContactCompanyID(sStoreCode);
+                return _ListingRepository.GetContactCompanyID(sStoreCode, CompanyName);
             }
             catch (Exception ex)
             {
