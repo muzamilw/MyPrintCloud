@@ -138,7 +138,10 @@ namespace MPC.Implementation.WebStoreServices
                 Item ActualItem = _ItemRepository.GetActualItemToClone(itemID);
                 //******************new item*********************
                 newItem = _ItemRepository.Clone<Item>(ActualItem);
-
+                if (PropertyId > 0)
+                {
+                    clonedTemplate.realEstateId = PropertyId;
+                }
                 newItem.ItemId = 0;
 
                 newItem.IsPublished = false;
@@ -257,10 +260,8 @@ namespace MPC.Implementation.WebStoreServices
 
                         var oCutomer = _CompanyRepository.Find(CustomerID); //db.Companies.Where(i => i.CompanyId == CustomerID).FirstOrDefault();
                         clonedTemplate.ProductName = clonedTemplate.ProductName == null ? newItem.ProductName : clonedTemplate.ProductName;
-                        if (PropertyId > 0)
-                        {
-                            clonedTemplate.realEstateId = PropertyId;
-                        }
+                       
+
                         if (oCutomer != null)
                         {
                             clonedTemplate.TempString = oCutomer.WatermarkText;
@@ -2029,7 +2030,6 @@ namespace MPC.Implementation.WebStoreServices
 
             ItemCloneResult itemCloneObj = new ItemCloneResult();
             Item item = null;
-
             long ItemID = 0;
             long TemplateID = 0;
             bool isCorp = true;
@@ -2039,12 +2039,12 @@ namespace MPC.Implementation.WebStoreServices
                 isCorp = false;
             int TempDesignerID = 0;
             string ProductName = string.Empty;
-
             long ContactID = ContactIdFromClaim;
             long CompanyID = CompanyIdFromClaim;
             itemCloneObj.OrderId = OrderIdFromCookie;
             itemCloneObj.TemporaryCustomerId = TemporaryRetailCompanyIdFromCookie;
             long TemporaryRetailCompanyId = 0;
+        
             if (OrderIdFromCookie == 0)
             {
                 long OrderID = 0;
@@ -2077,7 +2077,7 @@ namespace MPC.Implementation.WebStoreServices
                 // create new order
 
 
-                item = CloneItem(ItemId, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId);
+                item = CloneItem(ItemId, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId,false,PropertyId);
 
                 if (item != null)
                 {
@@ -2085,6 +2085,7 @@ namespace MPC.Implementation.WebStoreServices
                     TemplateID = item.TemplateId ?? 0;
                     TempDesignerID = item.DesignerCategoryId ?? 0;
                     ProductName = item.ProductName;
+                   
                 }
 
             }
@@ -2131,7 +2132,7 @@ namespace MPC.Implementation.WebStoreServices
                 }
                
 
-                item = CloneItem(ItemId, 0, OrderIdFromCookie, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId);
+                item = CloneItem(ItemId, 0, OrderIdFromCookie, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId,false,PropertyId);
 
                 if (item != null)
                 {
@@ -2172,8 +2173,6 @@ namespace MPC.Implementation.WebStoreServices
             {
                 itemCloneObj.RedirectUrl = "/Designer/" + ProductName + "/0/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationId + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
             }
-
-
             return itemCloneObj;
         }
         /// <summary>

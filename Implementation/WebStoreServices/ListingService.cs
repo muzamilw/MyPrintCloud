@@ -105,14 +105,14 @@ namespace MPC.Implementation.WebStoreServices
 
             MPC.Models.DomainModels.Listing listing = CheckListingForUpdate(objProperty.Listing.ListingID);
             //here stratsss
-          //if (listing != null) // update
-          //  {
-          //   dataProcessed = UpdateListingData(objProperty, listing);
-          //}
-           // else
-           //{
+          if (listing != null) // update
+          {
+             dataProcessed = UpdateListingData(objProperty, listing);
+          }
+            else
+            {
                 dataProcessed = AddListingData(objProperty);
-           //}
+            }
 
             if (dataProcessed)
                 dataError = "Data processed successfully.";
