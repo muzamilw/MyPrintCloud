@@ -419,13 +419,24 @@ namespace MPC.Webstore.Controllers
             if (baseresponseComp != null)
             {
                 AddressSelectModel.TaxLabel = baseresponseComp.TaxLabel + " :";
+                if (baseresponseComp.PONumberRequired == true)
+                {
+                    ViewBag.isPoRequired = 1;
+                }
+                else 
+                {
+                    ViewBag.isPoRequired = 0;
+                }
             }
-
+            else
+            {
+                ViewBag.isPoRequired = 0;
+            }
             AddressSelectModel.chkBoxDeliverySameAsBilling = "True";
             AddressSelectModel.Warning = "warning"; // Utils.GetKeyValueFromResourceFile("lnkWarnMesg", UserCookieManager.StoreId) + " " + baseresponseOrg.Organisation.Country + "."; // (string)GetGlobalResourceObject("MyResource", "lnkWarnMesg") + " " + companySite.Country + ".";
 
             ViewBag.IsShowPrices = _myCompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, baseresponseComp.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
-
+            
 
         }
 
