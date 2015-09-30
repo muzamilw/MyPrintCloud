@@ -10,13 +10,14 @@
     </div>
 </body>
 </html>
+
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
 <script type="text/javascript">
     function GetJsonData() {
 
         var obj = $("#Jsontext").val();
-        var val = $("#Jsontext").val();
-        alert(obj);
+        
+        
         var data = { obj: obj};
         //$.getJSON("/webstoreapi/RealEstate/SaveListing?obj=" + val + "",
         //                                function (xdata) {
@@ -31,14 +32,14 @@
 
         $.ajax({
             type: "POST",
-            url: "www.staging.myprintcloud.com/webstoreapi/RealEstate/SaveListing",
+            url: "http://staging.myprintcloud.com/webstoreapi/RealEstate/SaveListing",
             data: { "": obj },
             success: function (exists) {
-                if (exists) {
-                    fileExists = true;
-                } else {
-                    fileExists = false;
-                }
+                //if (exists) {
+                //    fileExists = true;
+                //} else {
+                //    fileExists = false;
+                //}
             }
         });
 

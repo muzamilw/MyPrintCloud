@@ -1230,7 +1230,7 @@
                 isValid = false;
                 $('html, body').animate({
                     scrollTop: $("#maincntCheckout").offset().top
-                }, 500);
+                },500);
                 $("#MessgeToDisply").css("display", "block");
                 $("#ltrlMessge").text('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlenterhighlightedfields", UserCookieManager.WBStoreId, "Please enter in the highlighted fields below."))');
             } else if (isContainBlanksInShipping == 1) {

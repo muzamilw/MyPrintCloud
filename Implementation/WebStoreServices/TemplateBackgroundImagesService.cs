@@ -863,6 +863,10 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _templateImagesRepository.UpdateImgTerritories(imgID, territory);
         }
+        public List<RealEstateImage> getPropertyImages(long propertyId)
+        {
+            return _templateImagesRepository.getPropertyImages(propertyId);
+        }
         #endregion
     }
    

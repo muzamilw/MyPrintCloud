@@ -869,6 +869,15 @@ $(".btnTemplateImages").click(function (event) {
     fu13(2, 1, 3, 1);
     pcL29_pcMove(6); spPanel = ".btnBackFromImgs , .btnBackTimgs";
 });
+$(".btnPropertyImages").click(function (event) {
+    fu13(2, 1, 2, 1);
+    pcL29_pcMove(6); spPanel = ".btnBackMyProperty , .btnBackFromImgs";
+});
+$(".btnBackMyProperty").click(function (event) {
+    //   fu13(2, 1, 1, 1);
+    $(".realEstateContainer").addClass("disappearing"); selCat = "00";
+    pcL29_pcRestore(4); spPanel = "";
+});
 $(".btnBackTimgs").click(function (event) {
     fu13(2, 1, 3, 1);
     pcL29_pcRestore(6); spPanel = ".btnBackFromImgs ";
