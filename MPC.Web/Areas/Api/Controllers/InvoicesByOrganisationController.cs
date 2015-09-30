@@ -50,7 +50,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 long organisationId = 0;
                 string param = string.Empty;
                 param = Request.RequestUri.Query;
-                string responsestr = GetActiveOrganisationId(param);
+                string responsestr = "1"; //GetActiveOrganisationId(param);
 
                 if (string.IsNullOrEmpty(responsestr) || responsestr == "Fail")
                 {
