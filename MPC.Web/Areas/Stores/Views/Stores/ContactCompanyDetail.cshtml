@@ -689,6 +689,7 @@
                                                                             <th>Email</th>
                                                                             <th>Role</th>
                                                                             <th>Cell Number</th>
+                                                                            <th style="text-align: center;width: 9%;">Status</th>
                                                                             @*<th>Place Order</th>
                                                                                 <th>Approval Required</th>
                                                                                 <th>See Prices</th>
@@ -3639,6 +3640,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
             <td style="width: 10%; max-width: 10%;" data-bind="text: mobile"></td>
 
+            <td class="text-center">
+                <span class="label" data-bind="text: isArchived() ? 'In-Active' : 'Active', css:{ 'label-success': !isArchived(), 'label-danger': isArchived  }"></span>
+            </td>
 
 
 

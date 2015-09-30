@@ -15,7 +15,7 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Delete
         /// </summary>
-        bool Delete(long companyContactId);
+        CompanyContact Delete(long companyContactId);
         /// <summary>
         /// Get Contacts for order screen
         /// </summary>
@@ -45,6 +45,8 @@ namespace MPC.Interfaces.MISServices
 
         string ExportCRMContacts();
         List<ZapierInvoiceDetail> GetStoreContactForZapier(long organisationId);
+
+        CompanyContact UnArchiveCompanyContact(long ContactId);
 
     }
 }

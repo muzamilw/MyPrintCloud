@@ -4385,7 +4385,7 @@ namespace MPC.Repository.Repositories
                 db.Configuration.LazyLoadingEnabled = false;
                 var query = (from category in db.ProductCategories
                              where category.CompanyId ==
-                                     CompanyId && category.OrganisationId == OrganisationId
+                                     CompanyId && category.OrganisationId == OrganisationId && (category.isArchived == false || category.isArchived == null) && category.isPublished == true && category.isEnabled == true
                              select category);
                 return query.ToList<ProductCategory>();
             }

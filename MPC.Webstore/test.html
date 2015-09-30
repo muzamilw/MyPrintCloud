@@ -1,35 +1,112 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Product App</title>
-</head>
-<body>
+﻿<!-- Latest compiled and minified CSS -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" /><!-- Optional theme -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" /><!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<link href="/Content/StyleSheet1.css" rel="stylesheet" />
+<div class="container">
+    <div class="row" style="background-color:#f3f3f4;">
+       
+        <div class="col-md-8">
+            <div class="col-md-1">
+                <div id="posterImage"><img src="/MPC_Content/Media/1831/33612/20295_PosterHome.png" /></div>
+            </div>
 
-   
-    <div>
-        <h2>Search by ID</h2>
-        <input type="text" id="prodId" size="5" />
-        <input type="button" value="Search" onclick="find();" />
-        <p id="product" />
+            <div class="col-md-4" id="Md_Div1">
+                <div id="Product_monthCon">
+                    <h6>PRODUCT OF THE MONTH</h6>
+                    &nbsp;
+
+                    <div id="P_desc">
+                        <div id="Product_desc">
+                            <h4>A1 Poster</h4>
+
+                            <p>592mm x 841mm</p>
+                        </div>
+
+                        <div class="Poster_tick_mark">
+                            <div class="float_left_simple"><img class="poster_tick_img" src="/MPC_Content/Media/1831/33612/20304_Checkmark.png" /></div>
+
+                            <div class="float_left_simple point-free-design">free design templates</div>
+
+                            <div class="Clearboth">&nbsp;</div>
+
+                            <div class="float_left_simple"><img class="poster_tick_img" src="/MPC_Content/Media/1831/33612/20304_Checkmark.png" /></div>
+
+                            <div class="float_left_simple point_free-Del">Printed on 170gsm with silknish</div>
+
+                            <div class="Clearboth">&nbsp;</div>
+
+                            <div class="float_left_simple"><img class="poster_tick_img" src="/MPC_Content/Media/1831/33612/20304_Checkmark.png" /></div>
+
+                            <div class="float_left_simple point_free-Del">Free next day delivery(orders before 2pm)</div>
+
+                            <div class="Clearboth">&nbsp;</div>
+                        </div>
+                    </div>
+
+                    <h4>&pound;4.50 each</h4>
+                </div>
+            </div>
+
+            <div class="col-md-7 padd-lef-right-0px" id="Product_Images" style="  padding-right: 0px;">
+                <div id="Main_PImages">
+                    <div><a href="/Category/Posters/26951"><img src="/MPC_Content/Media/1831/33612/20287_PostersMenuButton.png" /></a></div>
+
+                    <div><a href="/Category/Banners/26949"><img src="/MPC_Content/Media/1831/33612/20291_BannerMenuButton.png" /></a></div>
+
+                    <div><a><img src="/MPC_Content/Media/1831/33612/20290_BusinessCardMenuButton.png" /></a></div>
+
+                    <div><a><img src="/MPC_Content/Media/1831/33612/20288_leafletsMenuButton.png" /></a></div>
+
+                    <div><a><img src="/MPC_Content/Media/1831/33612/20286_StickersMenuButton.png" /></a></div>
+
+                    <div><a><img src="/MPC_Content/Media/1831/33612/20289_FlyersMenuButton.png" /></a></div>
+                </div>
+            </div>
+
+            <div class="col-md-12 border_1x">&nbsp;</div>
+
+            <div class="col-md-12 padd-lef-right-0px">
+                <div id="PosterBanner_2ndWidget">
+                    <h4 class="fontbold">Why choose Poster Banner?</h4>
+
+                    <div class="col-md-4">
+                        <div style="float:left"><img src="/MPC_Content/Media/1831/33612/20303_Lightning-Bolt.png" /></div>
+
+                        <div class="Floatleft width70 ">
+                            <h6 class="fontbold">Fast Turnaround</h6>
+
+                            <p>XXXXXXXXXXX XXXXXXXXXXX XXXXXXXXXXX</p>
+                        </div>
+
+                        <div class="Clearboth">&nbsp;</div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="Floatleft"><img src="/MPC_Content/Media/1831/33612/20298_Star.png" /></div>
+
+                        <div class="Floatleft width70 ">
+                            <h6 class="fontbold">Superior Quality &amp; Best Prices</h6>
+
+                            <p>XXXXXXXXXXX XXXXXXXXXXX XXXXXXXXXXX</p>
+                        </div>
+
+                        <div class="Clearboth">&nbsp;</div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="Floatleft"><img src="/MPC_Content/Media/1831/33612/20302_Paint Palette.png" /></div>
+
+                        <div class="Floatleft width70">
+                            <h6 class="fontbold">Editable designs for free</h6>
+
+                            <p>XXXXXXXXXXX XXXXXXXXXXX XXXXXXXXXXX</p>
+                        </div>
+
+                        <div class="Clearboth">&nbsp;</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
-    <script>
-    var uri = 'designerAPI/template';
-    function formatItem(item) {
-        return item.ProductName + ': $' + item.ApprovedByName;
-    }
-
-    function find() {
-      var id = $('#prodId').val();
-      $.getJSON(uri + '/' + id)
-          .done(function (data) {
-              console.log(data);
-            $('#product').text(formatItem(data));
-          })
-          .fail(function (jqXHR, textStatus, err) {
-            $('#product').text('Error: ' + err);
-          });
-    }
-    </script>
-</body>
-</html>
+</div>
