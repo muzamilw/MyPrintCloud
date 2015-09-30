@@ -1516,29 +1516,34 @@
         }
     }
 
-    function ApplyDeliveryMethod() {
-
-        ShowLoader();
-        console.log(@UserCookieManager.FreeShippingVoucherId);
-        var to;
-        to = "/webstoreapi/ApplyDeliveryMethod/AddDelivery?DeliveryMethodId=" + $("#ddlDeliveyCostCenter option:selected").val() + "&FreeShippingVoucherId=" + @UserCookieManager.FreeShippingVoucherId;
-        var options = {
-            type: "POST",
-            url: to,
-            data: "",
-            contentType: "application/json",
-            async: true,
-            success: function (response) {
-                window.location.reload();
-
-            },
-            error: function (msg) {
-                alert("Error occured ");
-                console.log(msg);
+        function ApplyDeliveryMethod() {
+            if($("#ddlDeliveyCostCenter option:selected").val()=='')
+            {
+                //alert('hdahs');
             }
-        };
-        var returnText = $.ajax(options).responseText;
+            else
+            {
+                ShowLoader();
+                console.log(@UserCookieManager.FreeShippingVoucherId);
+                var to;
+                to = "/webstoreapi/ApplyDeliveryMethod/AddDelivery?DeliveryMethodId=" + $("#ddlDeliveyCostCenter option:selected").val() + "&FreeShippingVoucherId=" + @UserCookieManager.FreeShippingVoucherId;
+                var options = {
+                    type: "POST",
+                    url: to,
+                    data: "",
+                    contentType: "application/json",
+                    async: true,
+                    success: function (response) {
+                        window.location.reload();
 
+                    },
+                    error: function (msg) {
+                        alert("Error occured ");
+                        console.log(msg);
+                    }
+                };
+                var returnText = $.ajax(options).responseText;
+            }
     }
 </script>
 
