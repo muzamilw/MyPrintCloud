@@ -863,7 +863,12 @@ namespace MPC.Implementation.MISServices
         public OrderBaseResponseForCompany GetBaseDataForCompany(long companyId, long storeId)
         {
             bool isStoreLive = companyRepository.IsStoreLive(storeId);
-            //var org = organisationRepository.GetOrganizatiobByID();
+            var org = organisationRepository.GetOrganizatiobByID();
+            if(org.isTrial ?? true)
+            {
+                isStoreLive = true;
+            }
+
             //bool isMisReached = GetMonthlyOrdersReached(org, true);
             //bool isWebReached = GetMonthlyOrdersReached(org, false);
 
@@ -897,7 +902,14 @@ namespace MPC.Implementation.MISServices
             int ordersCount = isDirectSale ? org.MisOrdersCount??0 : org.WebStoreOrdersCount ?? 0;
             DateTime billingDate = org.BillingDate ?? DateTime.Now;
             bool isExtra = orderRepository.IsExtradOrderForBillingCycle(billingDate, isDirectSale, ordersCount, orderId, org.OrganisationId);
-            return isExtra;
+            if (org.isTrial == false)
+            {
+                return isExtra;
+            }
+            else
+            {
+                return false;
+            }
         }
         
         /// <summary>
@@ -1245,6 +1257,11 @@ namespace MPC.Implementation.MISServices
             //return orderRepository.GenerateOrderArtworkArchive(OrderID, sZipName);
             return GenerateOrderArtworkArchive(OrderID, sZipName, WebStoreOrganisationId);
             // return ExportPDF(105, 0, ReportType.Invoice, 814, string.Empty);
+        }
+
+        public string DownloadOrderXml(int orderId, long organisationId)
+        {
+            return exportReportHelper.ExportOrderReportXML(orderId, "", "0", organisationId);
         }
 
         public string GenerateOrderArtworkArchive(int OrderID, string sZipName, long WebStoreOrganisationId)

@@ -9,12 +9,16 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security;
+using System.Security.Permissions;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MPC.Repository.Repositories
 {
@@ -512,7 +516,7 @@ namespace MPC.Repository.Repositories
 
                 long updatedListingID = UpdateListing(objProperty.Listing, listing);
                 UpdateListingCustomCopy(updatedListingID, objProperty.Listing.CustomCopy);
-                UpdateListingImages(updatedListingID, objProperty.ListingImages, objProperty.Listing.ContactCompanyID);
+               UpdateListingImages(updatedListingID, objProperty.ListingImages, objProperty.Listing.ContactCompanyID);
                 UpdateListingOFIs(updatedListingID, objProperty.ListingOFIs);
                 UpdateListingFloorPlans(updatedListingID, objProperty.ListingFloorplans);
                 UpdateListingLinks(updatedListingID, objProperty.ListingLinks);
@@ -562,7 +566,14 @@ namespace MPC.Repository.Repositories
             try
             {
                 string strForParse = string.Empty;
-
+                if (cultureKey == null) //not defined in web.config
+                {
+                    culture = new System.Globalization.CultureInfo("en-AU", true); // AU is default
+                }
+                else
+                {
+                    culture = new System.Globalization.CultureInfo(cultureKey, true);
+                }
 
                 MPC.Models.DomainModels.Listing tbl_listing = new MPC.Models.DomainModels.Listing();
                     tbl_listing.ClientListingId = listing.ListingID;
@@ -747,11 +758,11 @@ namespace MPC.Repository.Repositories
                     tbl_listing.CompanyId = (String.IsNullOrEmpty(listing.ContactCompanyID)) ? 0 : Convert.ToInt32(listing.ContactCompanyID);
 
                     db.Listings.Add(tbl_listing);
-
-                    if (db.SaveChanges() > 0)
-                    {
+                    db.SaveChanges();
+                 //   if (db.SaveChanges() > 0)
+                   // {
                         newlyAddedListing = tbl_listing.ListingId;
-                   }
+                  // }
                 
 
                 return newlyAddedListing;
@@ -954,7 +965,9 @@ namespace MPC.Repository.Repositories
                         listing.LegalFolio = propertyListing.LegalFolio;
                         listing.Zoning = propertyListing.Zoning;
                         listing.CompanyId = (String.IsNullOrEmpty(propertyListing.ContactCompanyID)) ? 0 : Convert.ToInt64(propertyListing.ContactCompanyID);
+                        db.Listings.Attach(listing);
 
+                        db.Entry(listing).State = EntityState.Modified;
                         if (db.SaveChanges() > 0)
                         {
                             updatedListing = listing.ListingId;
@@ -1353,63 +1366,120 @@ namespace MPC.Repository.Repositories
                 throw;
             }
         }
-        private bool DownloadImageLocally(string SourceURL, string DestinationBasePath)
+        private string DownloadImageLocally(string SourceURL, string DestinationBasePath)
         {
-            Stream stream = null;
-            MemoryStream memStream = new MemoryStream();
-            try
-            {
-                WebRequest req = WebRequest.Create(SourceURL);
-                WebResponse response;
+           
+            //Stream stream = null;
+            //MemoryStream memStream = new MemoryStream();
+            //try
+            //{
+            //    WebRequest req = WebRequest.Create(SourceURL);
+            //    WebResponse response;
 
-                try
-                {
-                    response = req.GetResponse();
-                }
-                catch (Exception)
-                {
-                    //No file exists
-                    return false;
-                }
+            //    try
+            //    {
+            //        response = req.GetResponse();
+            //    }
+                 
+            //    catch (Exception)
+            //    {
+            //        //No file exists
+            //        return false;
+            //    }
 
-                if (response != null)
-                {
-                    stream = response.GetResponseStream();
+            //    if (response != null)
+            //    {
+            //        stream = response.GetResponseStream();
+                   
+            //        byte[] buffer = new byte[2048];
 
-                    byte[] buffer = new byte[2048];
+            //        //Get Total Size
+            //        int dataLength = (int)response.ContentLength;
 
-                    //Get Total Size
-                    int dataLength = (int)response.ContentLength;
+            //        int bytesRead;
+            //        while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
+            //        {
+            //            memStream.Write(buffer, 0, bytesRead);
+            //        }
+                   
+            //     ///   FileInfo file = new System.IO.FileInfo(DestinationBasePath);
+            //      // System.IO
+            //        //file.Directory.Create(); // If the directory already exists, this method does nothing.
+                   
+                        
+                        
+            //           // System.IO.File.WriteAllBytes(DestinationBasePath, memStream.ToArray());
 
-                    int bytesRead;
-                    while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
-                    {
-                        memStream.Write(buffer, 0, bytesRead);
-                    }
+            //    // System.IO.File.WriteAllBytes(String.Format("{0}{1}", DestinationBasePath,), memStream.ToArray());
+                    
+            //    }
+            //    else
+            //        return false;
 
-                    FileInfo file = new System.IO.FileInfo(DestinationBasePath);
-                    file.Directory.Create(); // If the directory already exists, this method does nothing.
-                    File.WriteAllBytes(DestinationBasePath, memStream.ToArray());
-                }
-                else
-                    return false;
+            //}
+            //catch (Exception ex)
+            //{
 
-            }
-            catch (Exception ex)
-            {
+            //    throw ex;
+            //}
+            //finally
+            //{
+            //    //Clean up
+            //    if (stream != null)
+            //        stream.Close();
 
-                throw ex;
-            }
-            finally
-            {
-                //Clean up
-                if (stream != null)
-                    stream.Close();
+            //    if (memStream != null)
+            //        memStream.Close();
+            //}
+            //string imageUrl = SourceURL;
+            //string saveLocation = DestinationBasePath;
 
-                if (memStream != null)
-                    memStream.Close();
-            }
-            return true;
+            //byte[] imageBytes;
+            //HttpWebRequest imageRequest = (HttpWebRequest)WebRequest.Create(imageUrl);
+            //WebResponse imageResponse = imageRequest.GetResponse();
+
+            //Stream responseStream = imageResponse.GetResponseStream();
+
+            //using (BinaryReader br = new BinaryReader(responseStream))
+            //{
+            //    imageBytes = br.ReadBytes(500000);
+            //    br.Close();
+            //}
+            //responseStream.Close();
+            //imageResponse.Close();
+
+            //FileStream fs = new FileStream("~/Content/Images", FileMode.Create);
+            //BinaryWriter bw = new BinaryWriter(fs);
+            //try
+            //{
+            //    bw.Write(imageBytes);
+            //}
+            //finally
+            //{
+            //    fs.Close();
+            //    bw.Close();
+            //}
+
+            System.Drawing.Image image = null;
+            System.Net.HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(SourceURL);
+            webRequest.AllowWriteStreamBuffering = true;
+            webRequest.Timeout = 30000;
+           
+            System.Net.WebResponse webResponse = webRequest.GetResponse();
+            string filename = webResponse.ResponseUri.LocalPath;
+           
+            System.IO.Stream stream = webResponse.GetResponseStream();
+       
+          //  string fileName = webResponse.Headers["Content-Disposition"].Replace("attachment; filename=", String.Empty).Replace("\"", String.Empty);
+
+            image = System.Drawing.Image.FromStream(stream);
+          
+
+            string rootPath = DestinationBasePath;
+            string[] tokens = filename.Split(new[] { "/" }, StringSplitOptions.None);
+            string file = System.IO.Path.Combine(rootPath, tokens[1]);
+            image.Save(file);
+            return tokens[1];
         }
         private void UpdateListingImages(long updatedListing, List<ListingImages> listingImages, string ContactCompanyID)
         {
@@ -1417,26 +1487,32 @@ namespace MPC.Repository.Repositories
             {
                     foreach (ListingImages item in listingImages)
                     {
+                       
                         if (item != null)
                         {
                             var listingImage = db.ListingImages.Where(i => i.ClientImageId == item.ImageID).FirstOrDefault();
 
                             if (listingImage != null) //update
                             {
-                                string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Stores/" + ContactCompanyID.ToString() +"/"+ updatedListing + "/" + item.ImageID);
+                                //string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Stores/" + ContactCompanyID.ToString() +"/"+ updatedListing + "/" + item.ImageID);
+                                string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Stores/" + ContactCompanyID.ToString() + "/" + updatedListing);
                                 //first download image locally
                                 if (!System.IO.Directory.Exists((drURL)))
                                     System.IO.Directory.CreateDirectory(drURL);
-                                DownloadImageLocally(item.ImageURL, drURL);
+                              string imgName=  DownloadImageLocally(item.ImageURL, drURL);
 
                                 listingImage.ListingId = updatedListing;
                                 listingImage.ClientImageId = item.ImageID;
-                                listingImage.ImageURL = "/MPC_Content/Stores/" + ContactCompanyID + "/" + updatedListing + "/" + item.ImageID;
+                                //listingImage.ImageURL = "/MPC_Content/Stores/" + ContactCompanyID + "/" + updatedListing + "/" + item.ImageID;
+                                listingImage.ImageURL = "/MPC_Content/Stores/" + ContactCompanyID + "/" + updatedListing + "/" + imgName;
                                 listingImage.ImageOrder = item.ImageOrder;
 
                                 if (!String.IsNullOrEmpty(item.LastMod))
                                     //tbl_listingImage.LastMode = Convert.ToDateTime(item.LastMode, new System.Globalization.CultureInfo("en-AU"));
                                     listingImage.LastMode = DateTime.Parse(item.LastMod, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+                                db.ListingImages.Attach(listingImage);
+
+                                db.Entry(listingImage).State = EntityState.Modified;
 
                                 db.SaveChanges();
                             }
@@ -1448,6 +1524,7 @@ namespace MPC.Repository.Repositories
                                 AddListingImages(updatedListing, lstImageToAdd, ContactCompanyID);
                             }
                         }
+                        
                     }
                 
             }
@@ -1462,19 +1539,21 @@ namespace MPC.Repository.Repositories
             {
                     foreach (ListingImages item in listingImages)
                     {
+                        
                         if (item != null)
                         {
-                           // string destinationPath = HostingEnvironment.MapPath("~/StoredImages/RealEstateImages/" + contactCompanyId + "\\" + newlyAddedListing + "\\" + item.ImageID);
-                            string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Stores/" + contactCompanyId.ToString() + "/" + newlyAddedListing + "/" + item.ImageID);
+                          //  string destinationPath = HostingEnvironment.MapPath("~/StoredImages/RealEstateImages/" + contactCompanyId + "\\" + newlyAddedListing + "\\" + item.ImageID);
+                            string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Stores/" + contactCompanyId.ToString() + "/" + newlyAddedListing);
+
                             //first download image locally
                             if (!System.IO.Directory.Exists((drURL)))
                                 System.IO.Directory.CreateDirectory(drURL);
-                            DownloadImageLocally(item.ImageURL, drURL);
+                           string ImageName= DownloadImageLocally(item.ImageURL, drURL);
 
                             ListingImage tbl_listingImage = new ListingImage();
                             tbl_listingImage.ListingId = newlyAddedListing;
                             tbl_listingImage.ClientImageId = item.ImageID;
-                            tbl_listingImage.ImageURL = "/MPC_Content/Stores/" + contactCompanyId + "/" + newlyAddedListing + "/" + item.ImageID;
+                            tbl_listingImage.ImageURL = "/MPC_Content/Stores/" + contactCompanyId + "/" + newlyAddedListing + "/" + ImageName;
                             tbl_listingImage.ImageOrder = item.ImageOrder;
 
                             if (!String.IsNullOrEmpty(item.LastMod))
@@ -1483,10 +1562,9 @@ namespace MPC.Repository.Repositories
 
                             db.ListingImages.Add(tbl_listingImage);
                         }
+                       
                     }
-
                     db.SaveChanges();
-                
             }
             catch (Exception)
             {
@@ -1516,7 +1594,9 @@ namespace MPC.Repository.Repositories
                             customCopy.BrochureLifeStyle1 = listingCustomCopy.BrochureLifeStyle1;
                             customCopy.BrochureLifeStyle2 = listingCustomCopy.BrochureLifeStyle2;
                             customCopy.BrochureLifeStyle3 = listingCustomCopy.BrochureLifeStyle3;
+                            db.CustomCopies.Attach(customCopy);
 
+                            db.Entry(customCopy).State = EntityState.Modified;
                             db.SaveChanges();
                         }
                         else //add
@@ -1584,7 +1664,8 @@ namespace MPC.Repository.Repositories
                                 if (!String.IsNullOrEmpty(item.LastMod))
                                     //floorPlan.LastMode = Convert.ToDateTime(item.LastMod, new System.Globalization.CultureInfo("en-AU"));
                                     listingFloorPlan.LastMode = DateTime.Parse(item.LastMod, culture, System.Globalization.DateTimeStyles.AssumeLocal);
-
+                                db.ListingFloorPlans.Attach(listingFloorPlan);
+                                db.Entry(listingFloorPlan).State = EntityState.Modified;
                                 db.SaveChanges();
                             }
                             else //add 
@@ -1653,10 +1734,16 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                //State last = (from l in db.States
+                //                 orderby l.StateId descending
+                //                 select l).First();
+
                 long newlyAddedAddress = 0;
 
-                Address address = new Address();
+                //long NewStateID =last.StateId+1;
 
+                    Address address = new Address();
+                    State NState = new State();
                     address.CompanyId = (String.IsNullOrEmpty(contactCompanyId)) ? 0 : Convert.ToInt64(contactCompanyId);
                     address.AddressName = listingOffice.OfficeName;
                     address.Address1 = listingOffice.Address + "; " + listingOffice.TradingName + "; " + listingOffice.ABN;
@@ -1667,7 +1754,15 @@ namespace MPC.Repository.Repositories
                     address.Email = listingOffice.Email;
                     address.Tel1 = listingOffice.Phone;
                     address.Tel2 = listingOffice.Fax;
-                    address.State.StateName = listingOffice.State;
+                    NState.StateName = listingOffice.State;
+                    
+                    address.State = NState;
+                
+                    db.States.Add(NState);
+
+                    db.SaveChanges();
+
+                    address.StateId = NState.StateId;
                     address.PostCode = listingOffice.PostCode;
                     address.TerritoryId = territoryId;
                     address.Reference = listingOffice.OfficeID;
@@ -1709,6 +1804,9 @@ namespace MPC.Repository.Repositories
                 address.PostCode = listingOffice.PostCode;
                 address.TerritoryId = territoryId;
                 address.Reference = listingOffice.OfficeID;
+                db.Addesses.Attach(address);
+
+                db.Entry(address).State = EntityState.Modified;
 
                 if (db.SaveChanges() > 0)
                 {
@@ -1759,7 +1857,7 @@ namespace MPC.Repository.Repositories
 
                         if (contact != null) // update
                         {
-                            UpdateStaffMember(newlyAddedAddress, contact, item, contactCompanyId, territoryId);
+                            UpdateStaffMember(contact.AddressId, contact, item, contactCompanyId, territoryId);
                         }
                         else //add
                         {
@@ -1778,6 +1876,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                //problemarea
                 contact.CompanyId = (String.IsNullOrEmpty(contactCompanyId)) ? 0 : Convert.ToInt64(contactCompanyId);
                 contact.AddressId = newlyAddedAddress;
                 contact.FirstName = lstStaffMember.FirstName;
@@ -1789,7 +1888,9 @@ namespace MPC.Repository.Repositories
                 contact.URL = lstStaffMember.Image;
                 contact.TerritoryId = territoryId;
                 contact.HomePostCode = lstStaffMember.MemberID;
+                db.CompanyContacts.Attach(contact);
 
+                db.Entry(contact).State = EntityState.Modified;
                 db.SaveChanges();
             }
             catch (Exception)

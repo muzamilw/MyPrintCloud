@@ -881,7 +881,7 @@ namespace MPC.Repository.Repositories
                       (s.FirstName.Contains(request.SearchFilter)) ||
                        (s.LastName.Contains(request.SearchFilter)) ||
                      (s.quickFullName.Contains(request.SearchFilter)) ||
-                     !isSearchFilterSpecified) && s.CompanyId == request.CompanyId && s.isArchived != true && ((isTerritoryFilterSpecified && s.TerritoryId == request.TerritoryId) || !isTerritoryFilterSpecified);//&& s.OrganisationId == OrganisationId
+                     !isSearchFilterSpecified) && s.CompanyId == request.CompanyId  && ((isTerritoryFilterSpecified && s.TerritoryId == request.TerritoryId) || !isTerritoryFilterSpecified);//&& s.OrganisationId == OrganisationId
 
             int rowCount = DbSet.Count(query);
             // ReSharper disable once ConditionalTernaryEqualBranch
@@ -2119,6 +2119,50 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
+        }
+
+        public List<ZapierInvoiceDetail> GetStoreContactForZapier(long organisationId)
+        {
+            try
+            {
+                List<ZapierInvoiceDetail> zapContact = new List<ZapierInvoiceDetail>();
+                var companycontact = DbSet.Where(c => c.IsEmailSubscription == false && c.OrganisationId == organisationId).FirstOrDefault();
+                if (companycontact != null)
+                {
+                    zapContact.Add(new ZapierInvoiceDetail
+                    {
+                        CustomerName = companycontact.Company.Name,
+                        Address1 = companycontact.Address != null ? companycontact.Address.Address1 : string.Empty,
+                        Address2 = companycontact.Address != null ? companycontact.Address.Address2 : string.Empty,
+                        AddressCity = companycontact.Address != null ? companycontact.Address.City : string.Empty,
+                        AddressCountry = companycontact.Address != null ? companycontact.Address.Country != null ? companycontact.Address.Country.CountryName : string.Empty : string.Empty,
+                        AddressState = companycontact.Address != null ? companycontact.Address.State != null ? companycontact.Address.State.StateName : string.Empty : string.Empty,
+                        AddressName = companycontact.Address != null ? companycontact.Address.AddressName : string.Empty,
+                        AddressPostalCode = companycontact.Address != null ? companycontact.Address.PostCode : string.Empty,
+
+                        ContactId = companycontact.ContactId,
+                        ContactFirstName = companycontact.FirstName,
+                        ContactLastName = companycontact.LastName,
+                        ContactEmail = companycontact.Email,
+                        ContactPhone = companycontact.HomeTel1,
+                        VatNumber = companycontact.Company.VATRegNumber,
+                        CustomerUrl = companycontact.Company.URL,
+                        TaxRate = companycontact.Company.TaxRate ?? 0
+                    });
+
+                    companycontact.IsEmailSubscription = true;
+                    Update(companycontact);
+                    SaveChanges();
+                }
+
+                return zapContact;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
         }
 
     }

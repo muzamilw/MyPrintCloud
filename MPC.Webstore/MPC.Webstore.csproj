@@ -510,6 +510,26 @@
     <Content Include="Content\Designer\assets-v2\homeIcon_hover.png" />
     <Content Include="Content\Designer\assets-v2\Imageplaceholder_sim.png" />
     <Content Include="Content\Designer\assets-v2\loadingSlider.gif" />
+    <Content Include="Content\Designer\assets-v2\placeholder1.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder10.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder11.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder12.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder13.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder14.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder15.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder16.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder17.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder18.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder19.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder2.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder20.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder3.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder4.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder5.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder6.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder7.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder8.png" />
+    <Content Include="Content\Designer\assets-v2\placeholder9.png" />
     <Content Include="Content\Designer\assets-v2\vert-line.png" />
     <Content Include="Content\Designer\CategoryPageStyles.css" />
     <Content Include="Content\Designer\jquery.cropbox.css" />
@@ -517,6 +537,7 @@
     <Content Include="Content\ErrorPage.css" />
     <Content Include="Content\FancyBoxStyless.css" />
     <Content Include="Content\HomeBannerS4.js" />
+    <Content Include="Content\Images\20304_Checkmark.png" />
     <Content Include="Content\Images\artwork_light_icons.png" />
     <Content Include="Content\Images\bg2.png" />
     <Content Include="Content\Images\bonhamsBakground.png" />
@@ -735,6 +756,7 @@
     <Content Include="Content\Sunny.css" />
     <Content Include="Content\TFEHotels.css" />
     <Content Include="Content\zoomslider.css" />
+    <Content Include="HtmlJsonPage\RealEstateJsonPage.html" />
     <Content Include="LightBox\Css\jquery.fancybox.css" />
     <Content Include="LightBox\Images\blank.gif" />
     <Content Include="LightBox\Images\fancybox_buttons.png" />
@@ -1013,6 +1035,7 @@
     <Content Include="Views\Shared\PartialViews\BlackAndWhiteHeaderMenu.cshtml" />
     <Content Include="Views\Shared\PartialViews\UserManager.cshtml" />
     <Content Include="Views\ReceiptPlain\ReceiptPlain.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ReaEstateData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

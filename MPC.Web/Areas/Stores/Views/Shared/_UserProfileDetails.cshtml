@@ -1120,10 +1120,18 @@
                 </div>
             </div>
             <div class="modal-footer col-xs-12">
-                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyContact, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
-                <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyContact" style="margin-left:0px;">Close</button>
+               
+               
              
-                <button type="button" class="btn btn-danger archiveButton" style="margin-left:0px;" data-bind="click:$root.onDeleteCompanyContact, enable: !$root.isSavingNewCompanyContact()">Archive</button>
+                <!-- ko if: isArchived() == true -->
+                <button type="button" class="btn btn-danger archiveButton" style="margin-left:0px;" data-bind="click:$root.onUnArchiveCompanyContact, enable: !$root.isSavingNewCompanyContact()">UnArchive</button>
+                <!-- /ko -->
+                <!-- ko if: isArchived() == false || isArchived() == null -->
+                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyContact, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                 <button type="button" class="btn btn-danger archiveButton" style="margin-left:0px;" data-bind="click:$root.onDeleteCompanyContact, enable: !$root.isSavingNewCompanyContact()">Archive</button>
+                <!-- /ko -->
+            
+                <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyContact" style="margin-left:0px;">Close</button>
             </div>
             <div class="clearfix">
             </div>

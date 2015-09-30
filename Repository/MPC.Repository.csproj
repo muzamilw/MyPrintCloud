@@ -330,6 +330,7 @@
     <Compile Include="Repositories\TaxRateRepository.cs" />
     <Compile Include="Repositories\TemplateVariableRepository.cs" />
     <Compile Include="Repositories\UserManagerRepository.cs" />
+    <Compile Include="Repositories\VariableExtensionRespository.cs" />
     <Compile Include="Repositories\VariableOptionRepository.cs" />
     <Compile Include="Repositories\WeightUnitRepository.cs" />
     <Compile Include="Repositories\WidgetRepository.cs" />
