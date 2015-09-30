@@ -122,6 +122,8 @@ namespace MPC.Interfaces.Repository
         void DeleteCompanyVariableIcon(long iconId);
 
         void SaveCompanyVariableIcon(CompanyVariableIconRequestModel request);
+
+        void SaveSystemVariableExtension(long oldCompanyId, long NewCompanyid);
         
 
     }
