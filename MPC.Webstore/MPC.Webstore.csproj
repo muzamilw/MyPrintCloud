@@ -1036,6 +1036,7 @@
     <Content Include="Views\Shared\PartialViews\UserManager.cshtml" />
     <Content Include="Views\ReceiptPlain\ReceiptPlain.cshtml" />
     <Content Include="Views\Shared\PartialViews\ReaEstateData.cshtml" />
+    <Content Include="Views\Shared\PartialViews\DescriptiveFooter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
