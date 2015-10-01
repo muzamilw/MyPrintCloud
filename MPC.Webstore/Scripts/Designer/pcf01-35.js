@@ -2131,10 +2131,10 @@ function l2(event) {
             }
         }
     }
-    if (event.keyCode == 46 || event.keyCode == 8) {
+    if (event.keyCode == 46) {//|| event.keyCode == 8
         if (N1LA != 1 && IsInputSelected == false) {
             var D1AO = canvas.getActiveObject();
-            var D1AG = canvas.getActiveGroup();
+            var D1AG = canvas.getActiveGroup(); alert();
             if (D1AG) {
                 if (confirm("Are you sure you want to Remove this Group from the canvas.")) {
                     var objectsInGroup = D1AG.getObjects();
@@ -2181,10 +2181,23 @@ function l3(e) {
         return false
     }
     var sObj = canvas.getActiveObject();
+    var askCnfrmation = false;
     if (!sObj) {
+        askCnfrmation = true;
+    } else {
+        if (sObj.type != 'text' || sObj.type != 'i-text') {
+            askCnfrmation = true;
+        }
+    }
+   
+  
+    if (askCnfrmation)
+    {
         if (e.keyCode == 8 && IsInputSelected == false) {
             if (IsDesignModified) {
                 if (!confirm("You have unsaved changes. Do you want to leave without saving changes ?")) {
+                    e.stopPropagation();
+                    e.preventDefault();
                     return false;
                 }
             }
@@ -2433,7 +2446,6 @@ function pcL02_main2() {
     pcL36('toggle', '#DivColorPickerDraggable');
 }
 function pcL03() {
-   
         var D1AO = canvas.getActiveObject(),
         D1AG = canvas.getActiveGroup();
         if (D1AO) {
