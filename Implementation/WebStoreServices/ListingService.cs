@@ -74,6 +74,7 @@ namespace MPC.Implementation.WebStoreServices
         public List<VariableSection> GetSectionsNameBySectionIDs(List<FieldVariable> fieldVariabes)
         {
             return _ListingRepository.GetSectionsNameBySectionIDs(fieldVariabes);
+           
         }
 
         public List<FieldVariable> GetVariablesListWithValues(long listingId, long itemId, long ContactID, long ContactCompanyID, long FlagID, long AddressID, out List<MPC.Models.Common.TemplateVariable> lstVariableAndValue, out List<MPC.Models.Common.TemplateVariable> lstGeneralVariables, out List<MPC.Models.Common.TemplateVariable> lstListingImages, out List<VariableSection> lstSectionsName)
