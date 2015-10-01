@@ -1,1 +1,184 @@
-﻿
+﻿@using MPC.Webstore.Common;
+@using MPC.Models.Common;
+@model MPC.Models.DomainModels.Company
+<div id="descriptiveFooter" class="container footer-content spacer-top">
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-xs-12 col-md-4 panel-descriptive-footer-headings">
+              
+                        <h3 class="panel-title">@Html.Raw(Html.GetKeyValueFromResourceFile("aboutUs", UserCookieManager.WBStoreId, "About Us"))</h3>
+                  
+            </div>
+            <div class="col-xs-12 col-md-3 panel-descriptive-footer-headings">
+
+                <h3 class="panel-title">@Html.Raw(Html.GetKeyValueFromResourceFile("DescriptiveFooterSectionHeading", UserCookieManager.WBStoreId, "Section"))</h3>
+
+            </div>
+            <div class="col-xs-12 col-md-5 panel-descriptive-footer-headings">
+
+                <h3 class="panel-title">@Html.Raw(Html.GetKeyValueFromResourceFile("DescriptiveFooterNewsHeading", UserCookieManager.WBStoreId, "Newsletter"))</h3>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-4">
+                <div class="" >
+                 
+                        <p>
+                            @Model.Notes
+                        </p>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3">
+                
+                   <ul class="ul-descriptive-footer" style="">
+                       <li>
+                           <a href='@ViewBag.DefaultUrl'>
+                               Home
+                           </a>
+                       </li>
+                       <li>
+                           <a>
+                               About us
+                           </a>
+                       </li>
+                       <li>
+                           <a href="/AllProducts" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId, "All Products"))</a>
+                        
+                       </li>
+                      
+                       <li>
+                           <a>
+                               Site Map
+                           </a>
+                       </li>
+                       <li>
+                           <a>
+                               Blog
+                           </a>
+                       </li>
+                       <li>
+                           <a  href="/ContactUs"  onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId, "Contact Us"))</a>
+                       </li>
+                   </ul>
+                
+            </div>
+            <div class="col-xs-12 col-md-5">
+               
+                    @using (Html.BeginForm())
+                    {
+                    <input id="txtEmailbox" value="Enter email address..."
+                           class="txtSubscribe-Subscribe SubscribeTxtBoxCS" style="    margin-top: 0px !important;
+    margin-bottom: 15px !important;"/>
+
+                    <input id="btnSendNews" onclick=" return ValidateSubscriberEmail(); " type="submit"
+                           class="btnSubscribe rounded_corners" value="Send" />
+                     }
+                    <div class="NewsLtrErrDesCS">
+                        <div class="NewsErrMesgCS">@ViewBag.Message</div>
+                        <label id="errorMsgDescriptive" class="NewsErrMesgCS"></label>
+                    </div>
+                    <p class="follow-us-desc-footer">Follow Us</p>
+                    <div class="col-sm-6">
+                        <table width="100%" cellpadding="0" cellspacing="0">
+                            <tr>
+                                @if (Model.FacebookURL != null && Model.FacebookURL != string.Empty)
+                                {
+                                    <td valign="top">
+                                        <a id="linkFollowUs1" href="@Model.FacebookURL">
+                                            <img id="imgFollowUs1" src="/Content/Images/facebookNew.png" class="imgFollowUs" height="20" />
+                                        </a>
+                                    </td>
+                                }
+                                @if (Model.TwitterURL != null && Model.TwitterURL != string.Empty)
+                                {
+                                    <td valign="top">
+                                        <a id="linkFollowUs2" href="@Model.TwitterURL">
+                                            <img id="imgFollowUs2" class="imgFollowUs" height="20" src="/Content/Images/TwitterNew.png" />
+                                        </a>
+                                    </td>
+                                }
+                                @if (Model.LinkedinURL != null && Model.TwitterURL != string.Empty)
+                                {
+                                    <td valign="top">
+                                        <a id="linkFollowUs3" href="@Model.LinkedinURL">
+                                            <img id="imgFollowUs3" class="imgFollowUs" height="20" src="/Content/Images/LinkedInNew.png" />
+                                        </a>
+                                    </td>
+                                }
+                             
+                            </tr>
+                        </table>
+
+                    </div>
+                    <div class="col-sm-6 company_logo">
+                            <a href='@ViewBag.DefaultUrl'>
+                                <img src="/@Model.Image" class="pink_company_top_logo LOgo_ImgeP" />
+                            </a>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        $("#txtEmailbox").attr("placeholder", '@Html.Raw(Html.GetKeyValueFromResourceFile("EemailAdd", UserCookieManager.WBStoreId, "Enter email address..."))');
+
+        var addEvent = function (elem, type, fn) {
+            if (elem.addEventListener) elem.addEventListener(type, fn, false);
+            else if (elem.attachEvent) elem.attachEvent('on' + type, fn);
+        },
+        textField = document.getElementById('txtEmailbox'),
+        placeholder = '@Html.Raw(Html.GetKeyValueFromResourceFile("EemailAdd", UserCookieManager.WBStoreId, "Enter email address..."))';
+        addEvent(textField, 'focus', function () {
+            if (this.value === placeholder) this.value = '';
+        });
+        addEvent(textField, 'blur', function () {
+            if (this.value === '') this.value = placeholder;
+        });
+    });
+
+
+    $('#txtEmailbox').keydown(function (event) {
+        if (event.keyCode == 13) {
+            $('#btnSendNews').click();
+            return false;
+        }
+    });
+
+
+
+    function ValidateSubscriberEmail() {
+
+        var email = $('#txtEmailbox').val().trim();
+        if (ValidateEmail(email)) {
+            $('#errorMsgDescriptive').html('');
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    function ValidateEmail(email) {
+        var isValid = true;
+        if (email == '') {
+
+            $('#errorMsgDescriptive').css("display", "block");
+            $('#errorMsgDescriptive').html('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlemailreq", UserCookieManager.WBStoreId, "Email Id is required"))');
+            isValid = false;
+        }
+        else {
+            var re = new RegExp("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)");
+            if (!re.test(email)) {
+                $('#errorMsgDescriptive').html('@Html.Raw(Html.GetKeyValueFromResourceFile("EemailAdd", UserCookieManager.WBStoreId, "Enter email address..."))');
+                isValid = false;
+            }
+        }
+        return isValid;
+    }
+</script>
