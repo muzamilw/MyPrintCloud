@@ -211,6 +211,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             canUserEditProfile = ko.observable(undefined),
             isWhiteLabel = ko.observable(undefined),
             showPrices = ko.observable(undefined),
+            poNumberRequired = ko.observable(undefined),
             canUserUpdateAddress = ko.observable(undefined),
             marketingBriefRecipientEmail = ko.observable().extend({email: { params: true, message: 'Please enter Valid Marketing Brief Recipient Email!' } }),
            
@@ -379,6 +380,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             paymentGateway: paymentGateway,
             isDisplayDiscountVoucherCode: isDisplayDiscountVoucherCode,
             showPrices: showPrices,
+            poNumberRequired: poNumberRequired,
             isWhiteLabel: isWhiteLabel,
             isAllowRegistrationFromWeb: isAllowRegistrationFromWeb,
             // Is Register Settings Flags
@@ -474,6 +476,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             result.CanUserEditProfile = source.canUserEditProfile();
             result.isWhiteLabel = source.isWhiteLabel();
             result.ShowPrices = source.showPrices();
+            result.PONumberRequired = source.poNumberRequired();
             result.isStoreLive = source.isStoreSetLive();
             result.CanUserUpdateAddress = source.canUserUpdateAddress();
             result.MarketingBriefRecipient = source.marketingBriefRecipientEmail();
@@ -666,6 +669,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             canUserEditProfile: canUserEditProfile,
             isWhiteLabel: isWhiteLabel,
             showPrices: showPrices,
+            poNumberRequired: poNumberRequired,
             priceFlagId: priceFlagId,
             isStoreSetLive: isStoreSetLive,
             canUserUpdateAddress: canUserUpdateAddress,
@@ -827,6 +831,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         store.canUserEditProfile(source.CanUserEditProfile);
         store.isWhiteLabel(source.isWhiteLabel);
         store.showPrices(source.ShowPrices);
+        store.poNumberRequired(source.PONumberRequired);
         store.priceFlagId(source.PriceFlagId);
         store.isStoreSetLive(source.isStoreLive);
         store.canUserUpdateAddress(source.CanUserUpdateAddress);
