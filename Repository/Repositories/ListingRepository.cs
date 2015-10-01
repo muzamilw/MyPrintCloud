@@ -469,10 +469,10 @@ namespace MPC.Repository.Repositories
             return oResult;
 
         }
-        public long GetContactCompanyID(string sStoreCode,string CompanyName)
+        public long GetContactCompanyID(string sStoreCode,string CompanyName,long OrganisationID)
         {
             long iCompanyId = 0;
-            var comp = db.Companies.Where(c => c.WebAccessCode == sStoreCode && c.Name.Equals(CompanyName)).FirstOrDefault();
+            var comp = db.Companies.Where(c => c.WebAccessCode == sStoreCode && c.Name.Equals(CompanyName) && c.OrganisationId == OrganisationID).FirstOrDefault();
             if (comp != null)
                 iCompanyId = comp.CompanyId;
             return iCompanyId;

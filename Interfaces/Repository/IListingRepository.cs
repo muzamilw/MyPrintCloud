@@ -31,7 +31,8 @@ namespace MPC.Interfaces.Repository
         List<FieldVariable> GetVariablesListWithValues(long listingId, long itemId, long ContactID, long ContactCompanyID, long FlagID, long AddressID, out List<MPC.Models.Common.TemplateVariable> lstVariableAndValue, out List<MPC.Models.Common.TemplateVariable> lstGeneralVariables, out List<MPC.Models.Common.TemplateVariable> lstListingImages, out List<VariableSection> lstSectionsName);
         string DynamicQueryToGetRecord(string CriteriaFieldName, string RefTableName, string KeyField, long keyValue);
 
-        long GetContactCompanyID(string sStoreCode, string CompanyName);
+        long GetContactCompanyID(string sStoreCode, string CompanyName, long OrganisationID);
+
         MPC.Models.DomainModels.Listing CheckListingForUpdate(string clientListingID);
         bool UpdateListingData(ListingProperty objProperty, MPC.Models.DomainModels.Listing listing);
         bool AddListingData(ListingProperty objProperty);
