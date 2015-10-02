@@ -585,8 +585,7 @@
                                                         }
                                                         @if (Model.DeliveryDiscountVoucherID == null)
                                                         {
-                                                            <div><label class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(deliveryTotal.ToString(), Model.Currency)</label></div>
-
+                                                            <div><label id="AddressSelectDelTotal" class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(deliveryTotal.ToString(), Model.Currency)</label></div>
                                                         }
                                                         else
                                                         {
@@ -768,11 +767,11 @@
 
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script type="text/javascript" language="javascript">
-
-
+        var CurrencySymobol='';
     $(document).ready(function () {
         window.onkeydown = keydown;
         initialize();
+        CurrencySymobol = '@Model.Currency';
         var ShipTO = 'Resources.MyResource.ltrlShipTo %>';
 
         if ($("#chkBoxDeliverySameAsBilling")[0].checked == true) {
@@ -1216,7 +1215,7 @@
                 $("#MessgeToDisply").css("display", "block");
                 $("#ltrlMessge").text('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlenterhighlightedfields", UserCookieManager.WBStoreId, "Please enter in the highlighted fields below."))');
                 $('html, body').animate({
-                    scrollTop: $("#maincntCheckout").offset().top
+                    scrollTop: $("#ShopCartAddressSelect").offset().top
                 }, 500);
             } else {
                 $("#hfPageIsValid").val(1);
@@ -1229,7 +1228,7 @@
                 $("#hfPageIsValid").val(0);
                 isValid = false;
                 $('html, body').animate({
-                    scrollTop: $("#maincntCheckout").offset().top
+                    scrollTop: $("#ShopCartAddressSelect").offset().top
                 },500);
                 $("#MessgeToDisply").css("display", "block");
                 $("#ltrlMessge").text('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlenterhighlightedfields", UserCookieManager.WBStoreId, "Please enter in the highlighted fields below."))');
@@ -1239,7 +1238,7 @@
                 $("#MessgeToDisply").css("display", "block");
                 $("#ltrlMessge").text('@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlenterhighlightedfields", UserCookieManager.WBStoreId, "Please enter in the highlighted fields below."))');
                 $('html, body').animate({
-                    scrollTop: $("#maincntCheckout").offset().top
+                    scrollTop: $("#ShopCartAddressSelect").offset().top
                 }, 500);
             } else {
                 $("#hfPageIsValid").val(1);
@@ -1517,9 +1516,12 @@
     }
 
         function ApplyDeliveryMethod() {
+            
             if($("#ddlDeliveyCostCenter option:selected").val()=='')
             {
-                //alert('hdahs');
+                 $('label[id*="AddressSelectDelTotal"]').text('');
+                  var DefaultVal=0;
+                  $('label[id*="AddressSelectDelTotal"]').text(CurrencySymobol+parseFloat(DefaultVal).toFixed(2));
             }
             else
             {
@@ -1543,6 +1545,7 @@
                     }
                 };
                 var returnText = $.ajax(options).responseText;
+                
             }
     }
 </script>
