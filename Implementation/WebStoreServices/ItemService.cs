@@ -293,7 +293,9 @@ namespace MPC.Implementation.WebStoreServices
                 //  SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, newItem.ItemId, StockID, isCopyProduct, "");
                 // additional addon required the newly inserted cloneditem
                 newItem.ItemCode = "ITM-0-001-" + newItem.ItemId;
+        
                 _ItemRepository.SaveChanges();
+             
                 //else
                 //    throw 
 
