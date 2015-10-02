@@ -857,6 +857,12 @@ div#spinner {
 .archiveButton {
   float: left;
 }
+.activeProduct {
+  color: #00DB3B;
+}
+.inactiveProduct {
+  color: red;
+}
 #inventoryBinding #addInventory {
   margin-top: 25px;
 }

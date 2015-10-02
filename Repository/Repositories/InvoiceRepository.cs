@@ -159,10 +159,10 @@ namespace MPC.Repository.Repositories
             return db.SectionFlags.Where(c => c.SectionId == (int)SectionEnum.Invoices).Select(c => c.SectionFlagId).FirstOrDefault();
         }
 
-        public List<ZapierInvoiceDetail> GetZapierInvoiceDetails(long organizationId)
+        public List<ZapierInvoiceDetail> GetZapierInvoiceDetails(long invoiceId)
         {
             List<ZapierInvoiceDetail> lstInvoiceDetails = new List<ZapierInvoiceDetail>();
-            var inv = DbSet.FirstOrDefault(i => i.OrganisationId == organizationId && i.IsRead == false);
+            var inv = DbSet.FirstOrDefault(i => i.InvoiceId == invoiceId);
 
             if (inv != null)
             {
@@ -201,11 +201,6 @@ namespace MPC.Repository.Repositories
 
                     }).ToList()
                 });
-
-                inv.IsRead = true;
-                Update(inv);
-                SaveChanges();
-
             }
             return lstInvoiceDetails;    
             ////var invd = DbSet

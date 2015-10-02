@@ -52,7 +52,7 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public override IEnumerable<Machine> GetAll()
         {
-            return DbSet.Where(machine => machine.OrganisationId == OrganisationId && machine.MachineCatId != (int)MachineCategories.Guillotin).OrderBy(machine => machine.MachineName).ToList();
+            return DbSet.Where(machine => machine.OrganisationId == OrganisationId && machine.MachineCatId != (int)MachineCategories.Guillotin && machine.IsDisabled != true).OrderBy(machine => machine.MachineName).ToList();
             
         }
 
