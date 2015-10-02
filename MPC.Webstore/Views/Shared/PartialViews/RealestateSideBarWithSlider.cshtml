@@ -11,7 +11,8 @@
     var ChildCategories = ViewBag.AllCategories as List<MPC.Models.DomainModels.ProductCategory>;
     var AllListingImages = ViewBag.AllListingImages as List<MPC.Models.DomainModels.ListingImage>;
 }
-
+<link href="/Content/carousel.css" rel="stylesheet" />
+<link href="/Content/content.css" rel="stylesheet" />
 <div class="container">
     <div class="sidebar-offcanvas sidebar realEs-myProfile-leftPanel" id="sidebar-left" role="navigation" style="">
         <div style="height: 10px;">
@@ -106,7 +107,7 @@
                     var ProductUrl = "/RealEstateProducts/" + property.ListingId;
 
                         }
-                        <a href="@Url.Action("Index", "RealEstateProducts", new { listingId = property.ListingId })"  id=" hlproductdetail">
+                        <a href="@ProductUrl" id=" hlproductdetail">
 
                             @if (FilteredLImages.Count > 0)
                             {
@@ -154,15 +155,8 @@
     <!--Center Part-->
 
     
-
- @*<link href="/Content/RealEstate_StyleSheet.css" rel="stylesheet" />
-<script src="/Content/RealEstateSlider/js/jquery-1.7.min.js"></script>
-<script src="/Content/RealEstateSlider/js/jquery.featureCarousel.js"></script>
-<script src="/Content/RealEstateSlider/js/jquery.featureCarousel.min.js"></script>
- <link href="/Content/RealEstateSlider/css/feature-carousel.css" rel="stylesheet" />*@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-<link href="/Content/carousel.css" rel="stylesheet" />
-<link href="/Content/content.css" rel="stylesheet" />
+
 <script src="/Scripts/jquery.mousewheel.min.js"></script>
 <script src="/Scripts/jquery.carousel-1.1.min.js"></script>
 <script src="/Scripts/sample01.js"></script>
