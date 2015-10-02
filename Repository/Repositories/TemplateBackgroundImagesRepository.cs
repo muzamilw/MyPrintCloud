@@ -1,4 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
+using MPC.Common;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
@@ -253,9 +254,33 @@ namespace MPC.Repository.Repositories
             db.SaveChanges();
             result = true;
             return result;
+        }
+
+        public List<RealEstateImage> getPropertyImages(long propertyId)
+        {
+
+            db.Configuration.LazyLoadingEnabled = true;
+            var objList = from p in db.ListingImages
+                          where (p.ListingId == propertyId)
+                          select new
+                          {
+                              ImageId = p.ListingImageId,
+                              ImageUrl = p.ImageURL
+
+                          };
+            List<RealEstateImage> objRes = new List<RealEstateImage>();
             
+            foreach(var obj in objList)
+            {
+                RealEstateImage img = new RealEstateImage();
+                img.ImageId = obj.ImageId;
+                img.ImageUrl = obj.ImageUrl;
+                objRes.Add(img);
+            }
 
-
+            return objRes;
+            //WebOperationContext.Current.OutgoingResponse.ContentType = "application/json; charset=utf-8";
+            //return new MemoryStream(System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(objList)));   
         }
         #endregion
     }

@@ -13,14 +13,15 @@ namespace MPC.Implementation.WebStoreServices
     public class ListingService : IListingService
     {
         private readonly IListingRepository _ListingRepository;
-
+        private readonly ISystemUserRepository _listingUserRepository;
 
         /// <summary>
         ///  Constructor
         /// </summary>
-        public ListingService(IListingRepository ListingRepository)
+        public ListingService(IListingRepository ListingRepository, ISystemUserRepository _listingUserRepository)
         {
             this._ListingRepository = ListingRepository;
+            this._listingUserRepository = _listingUserRepository;
         }
 
         public List<MPC.Models.DomainModels.Listing> GetRealEstateProperties()
@@ -73,6 +74,7 @@ namespace MPC.Implementation.WebStoreServices
         public List<VariableSection> GetSectionsNameBySectionIDs(List<FieldVariable> fieldVariabes)
         {
             return _ListingRepository.GetSectionsNameBySectionIDs(fieldVariabes);
+           
         }
 
         public List<FieldVariable> GetVariablesListWithValues(long listingId, long itemId, long ContactID, long ContactCompanyID, long FlagID, long AddressID, out List<MPC.Models.Common.TemplateVariable> lstVariableAndValue, out List<MPC.Models.Common.TemplateVariable> lstGeneralVariables, out List<MPC.Models.Common.TemplateVariable> lstListingImages, out List<VariableSection> lstSectionsName)
@@ -82,50 +84,63 @@ namespace MPC.Implementation.WebStoreServices
 
         public string UpdateListingData(ListingProperty objProperty)
         {
+            long iContactCompanyID = 0;
             string dataError = string.Empty;
             bool dataProcessed = false;
            // objProperty.Listing.StoreCode == null
-            if (objProperty.Office.StoreCode == null)
+            if (objProperty.Office.SystemUserEmail == null)
             {
-                dataError = "Store code is missing";
-                return dataError;
-            }
-            long iContactCompanyID = GetContactCompanyID(objProperty.Office.StoreCode);
-            //int territoryId = GetDefaultTerritoryByContactCompanyID(objProperty.Listing.StoreCode);
-
-            if (iContactCompanyID == 0)
-            {
-                dataError = "Invalid Store code [" + objProperty.Office.StoreCode + "]";
+                dataError = "Sorry,Invalid User";
+                //  return dataError;
+                if (objProperty.Office.StoreCode == null)
+                {
+                    dataError = "Store code is missing";
+                }
                 return dataError;
             }
             else
             {
-                objProperty.Listing.ContactCompanyID = Convert.ToString(iContactCompanyID);
+                long GetOrganisationID = GetOrganisationIdByEmail(objProperty.Office.SystemUserEmail);
+                if (GetOrganisationID > 0)
+                {
+                    iContactCompanyID = GetContactCompanyID(objProperty.Office.StoreCode, objProperty.Office.CompanyName, GetOrganisationID);
+                }
+
+                //int territoryId = GetDefaultTerritoryByContactCompanyID(objProperty.Listing.StoreCode);
+
+                if (iContactCompanyID == 0)
+                {
+                    dataError = "Invalid Store code [" + objProperty.Office.StoreCode + "]";
+                    return dataError;
+                }
+                else
+                {
+                    objProperty.Listing.ContactCompanyID = Convert.ToString(iContactCompanyID);
+                }
+
+                MPC.Models.DomainModels.Listing listing = CheckListingForUpdate(objProperty.Listing.ListingID);
+                //here stratsss
+                if (listing != null) // update
+                {
+                    dataProcessed = UpdateListingData(objProperty, listing);
+                }
+                else
+                {
+                    dataProcessed = AddListingData(objProperty);
+                }
+
+                if (dataProcessed)
+                    dataError = "Data processed successfully.";
+                else
+                    dataError = "Error occurred while processing data.";
             }
-
-            MPC.Models.DomainModels.Listing listing = CheckListingForUpdate(objProperty.Listing.ListingID);
-            //here stratsss
-          //if (listing != null) // update
-          //  {
-          //   dataProcessed = UpdateListingData(objProperty, listing);
-          //}
-           // else
-           //{
-                dataProcessed = AddListingData(objProperty);
-           //}
-
-            if (dataProcessed)
-                dataError = "Data processed successfully.";
-            else
-                dataError = "Error occurred while processing data.";
-
             return dataError;
         }
-        private long GetContactCompanyID(string sStoreCode)
+        private long GetContactCompanyID(string sStoreCode,string CompanyName,long OrganistaionID)
         {
             try
             {
-                return _ListingRepository.GetContactCompanyID(sStoreCode);
+                return _ListingRepository.GetContactCompanyID(sStoreCode, CompanyName, OrganistaionID);
             }
             catch (Exception ex)
             {
@@ -184,6 +199,10 @@ namespace MPC.Implementation.WebStoreServices
         public List<MPC.Models.DomainModels.ListingImage> GetAllListingImages()
         {
             return _ListingRepository.GetAllListingImages();
+        }
+        public long GetOrganisationIdByEmail(string SystemUserEmail)
+        {
+            return _listingUserRepository.OrganisationThroughSystemUserEmail(SystemUserEmail);
         }
     }
 }

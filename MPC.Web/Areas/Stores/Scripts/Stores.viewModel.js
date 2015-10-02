@@ -1098,7 +1098,7 @@ define("stores/stores.viewModel",
                                                     //Add territory in address drop down to use in saving address
                                                     addressCompanyTerritoriesFilter.push(savedTerritory);
                                                     contactCompanyTerritoriesFilter.push(savedTerritory);
-                                                    addressTerritoryList.push(selectedCompanyTerritory());
+                                                    addressTerritoryList.push(savedTerritory);
                                                 }
                                                     //Else if territory is updating
                                                 else {
@@ -1285,31 +1285,48 @@ define("stores/stores.viewModel",
                             selectedCompanyCMYKColor().errors.showAllMessages();
                             flag = false;
                         }
+                        // check to remove dupplicate color name
+                        var count = 0;
+                        _.each(selectedStore().companyCMYKColors(), function (color) {
+                            if (color.colorName() == selectedCompanyCMYKColor().colorName()) {
+                                
+                                toastr.error("Color Name already exist.");
+                                flag = false;
+                                
+                            }
+                            count = count + 1;
+                        });
+
                         return flag;
                     },
                     //On Save
-                    onSaveCompanyCMYKColor = function() {
-                        if (doBeforeSaveCompanyCMYKColor() && isSavingNew() === true) {
-                            selectedCompanyCMYKColor().colorId(newCompanyCmykId);
-                            addNewCompanyCmykId();
-                            selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
-                            //companyCmykColoreditorViewModel.selectItem(selectedCompanyCMYKColor());
-                            view.hideCompanyCMYKColorDialog();
-                            isSavingNew(false);
+                    onSaveCompanyCMYKColor = function () {
+
+                        if (doBeforeSaveCompanyCMYKColor())
+                        {
+                            if (isSavingNew() === true) {
+                                selectedCompanyCMYKColor().colorId(newCompanyCmykId);
+                                addNewCompanyCmykId();
+                                selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
+                                //companyCmykColoreditorViewModel.selectItem(selectedCompanyCMYKColor());
+                                view.hideCompanyCMYKColorDialog();
+                                isSavingNew(false);
+                            }
+                            if (isSavingNew() !== true) {
+                                //companyCmykColoreditorViewModel.selectItem(selectedCompanyCMYKColor());
+                                var count = 0;
+                                _.each(selectedStore().companyCMYKColors(), function (color) {
+                                    if (color.colorId() == selectedCompanyCMYKColor().colorId()) {
+                                        selectedStore().companyCMYKColors.remove(color);
+                                        selectedStore().companyCMYKColors.splice(count, 0, selectedCompanyCMYKColor());
+                                    }
+                                    count = count + 1;
+                                });
+                                view.hideCompanyCMYKColorDialog();
+                                isSavingNew(false);
+                            }
                         }
-                        if (doBeforeSaveCompanyCMYKColor() && isSavingNew() !== true) {
-                            //companyCmykColoreditorViewModel.selectItem(selectedCompanyCMYKColor());
-                            var count = 0;
-                            _.each(selectedStore().companyCMYKColors(), function(color) {
-                                if (color.colorId() == selectedCompanyCMYKColor().colorId()) {
-                                    selectedStore().companyCMYKColors.remove(color);
-                                    selectedStore().companyCMYKColors.splice(count, 0, selectedCompanyCMYKColor());
-                                }
-                                count = count + 1;
-                            });
-                            view.hideCompanyCMYKColorDialog();
-                            isSavingNew(false);
-                        }
+                       
 
                     },
                     calculateCyanValue = ko.computed({
@@ -3363,12 +3380,15 @@ define("stores/stores.viewModel",
                                                         }
                                                         count = count + 1;
                                                     });
-                                                }
+                                                        }
 
 
 
                                                 var storeGotChanges = selectedStore().hasChanges();
                                                 //var user = getCompanyContactByIdFromListView(companyContact.contactId());
+                                                //if (user) {
+                                                //    selectedStore().users.remove(user);
+                                                //}
                                                 //if (user) {
                                                 //    selectedStore().users.remove(user);
                                                 //}

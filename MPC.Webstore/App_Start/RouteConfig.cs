@@ -78,11 +78,7 @@ namespace MPC.Webstore
                "UserManager/GetContactsIntellicence",
                new { controller = "UserManager", action = "GetContactsIntellicence", id = UrlParameter.Optional }
            );
-            routes.MapRoute(
-             "RealEstateProducts1",
-             "RealEstateProducts/{propertyid}",
-             new { controller = "RealEstateProducts", action = "Index", propertyid = UrlParameter.Optional }
-         );
+       
 
             routes.MapRoute(
               "GetCompanyFlags",

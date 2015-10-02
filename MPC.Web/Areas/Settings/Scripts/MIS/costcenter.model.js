@@ -163,6 +163,7 @@
             isDirectCost: isDirectCost,
             isScheduleable: isScheduleable,
             isPrintOnJobCard: isPrintOnJobCard,
+            perHourPrice: perHourPrice,
             costPerUnitQuantity: costPerUnitQuantity,
             pricePerUnitQuantity: pricePerUnitQuantity,
             timePerUnitQuantity: timePerUnitQuantity,
@@ -191,6 +192,7 @@
             //isTimePrompt: isTimePrompt
             isQtyVariable: isQtyVariable
             //isQtyPrompt: isQtyPrompt
+           
         }),
         hasChanges = ko.computed(function () {
             return dirtyFlag.isDirty();

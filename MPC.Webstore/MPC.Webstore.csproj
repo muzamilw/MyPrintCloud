@@ -388,6 +388,7 @@
     <Compile Include="Controllers\CategoryHeaderController.cs" />
     <Compile Include="Controllers\ContactDetailController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\DescriptiveFooterController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ErrorPage404Controller.cs" />
     <Compile Include="Controllers\FeaturedProductCarousalController.cs" />
@@ -1036,6 +1037,7 @@
     <Content Include="Views\Shared\PartialViews\UserManager.cshtml" />
     <Content Include="Views\ReceiptPlain\ReceiptPlain.cshtml" />
     <Content Include="Views\Shared\PartialViews\ReaEstateData.cshtml" />
+    <Content Include="Views\Shared\PartialViews\DescriptiveFooter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1047,6 +1049,7 @@
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
     <Folder Include="Areas\WebstoreApi\Views\UserManager\" />
     <Folder Include="Views\BlackAndWhiteHeaderMenu\" />
+    <Folder Include="Views\DescriptiveFooter\" />
     <Folder Include="Views\FutureFormHeader\" />
     <Folder Include="Views\UserManager\" />
   </ItemGroup>
@@ -1131,9 +1134,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>30630</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://mpc/</IISUrl>
+          <IISUrl>http://mpc</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://mpc/about</IISAppRootUrl>
+          <IISAppRootUrl>http://mpc</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

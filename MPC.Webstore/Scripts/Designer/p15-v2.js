@@ -215,6 +215,82 @@ function fu04_TempCbkGen(DT) {
     if (DT.IsCorporateEditable == false && IsCalledFrom == 4) {
         restrictControls();
     }
+    if(DT.realEstateId != null && DT.realEstateId > 0)
+    {
+        $.getJSON("/designerapi/TemplateBackgroundImage/getPropertyImages/" + DT.realEstateId,
+        function (xdata) {
+            propertyImages = xdata;
+            $(".realEstateImgBtn").css("display", "block");
+            $.each(propertyImages, function (j, IT) {
+                var url = IT.ImageUrl;
+
+                var title = "LstImg" + IT.ImageId;
+                var draggable = '';
+                var urlThumbnail = url;
+                var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + url +
+                                 '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "' + title + '" alt="' + url + '"></a><p class="bkFileName">' + title + '</p></li>';
+
+                $("#divRealEstateImagesContainer").append(ahtml);
+                $("#" + title).click(function (event) {
+                    var n = url;
+                    while (n.indexOf('/') != -1)
+                        n = n.replace("/", "___");
+                    while (n.indexOf(':') != -1)
+                        n = n.replace(":", "@@");
+                    while (n.indexOf('%20') != -1)
+                        n = n.replace("%20", " ");
+                    while (n.indexOf('./') != -1)
+                        n = n.replace("./", "");
+                    StartLoader("Placing image on canvas");
+                    var imgtype = 2;
+                    if (isBKpnl) {
+                        imgtype = 4;
+                    }
+                    $.getJSON("/designerapi/TemplateBackgroundImage/DownloadImageLocally/" + n + "/" + tID + "/" + imgtype + "/" + organisationId,
+                   function (DT) {
+                       StopLoader();
+                       k27();
+                       parts = DT.split("MPC_Content/");
+                       var imgName = parts[parts.length - 1];
+                       while (imgName.indexOf('%20') != -1)
+                           imgName = imgName.replace("%20", " ");
+
+                       var path = imgName;
+                       j9(event, path, title);
+                   });
+                });
+            });
+            $.each(TO, function (i, objTO) {
+                $.each(propertyImages, function (j, IT) {
+                    if (objTO.ContentString.indexOf("{{ListingImage" + (j+1) + "}}") != -1)
+                    {
+                        var n = IT.ImageUrl;
+                        while (n.indexOf('/') != -1)
+                            n = n.replace("/", "___");
+                        while (n.indexOf(':') != -1)
+                            n = n.replace(":", "@@");
+                        while (n.indexOf('%20') != -1)
+                            n = n.replace("%20", " ");
+                        while (n.indexOf('./') != -1)
+                            n = n.replace("./", "");
+                       
+                        var imgtype = 2;
+                        $.getJSON("/designerapi/TemplateBackgroundImage/DownloadImageLocally/" + n + "/" + tID + "/" + imgtype + "/" + organisationId,
+                       function (DT) {
+                           parts = DT.split("MPC_Content/");
+                           var imgName = parts[parts.length - 1];
+                           while (imgName.indexOf('%20') != -1)
+                               imgName = imgName.replace("%20", " ");
+
+                           var path = imgName;
+                           objTO.ContentString = path;
+                           objTO.originalContentString = path;
+                       });
+                    }
+                });
+            });
+        });
+    }
 }
 function fu04_1(DT) {
     if (IsCalledFrom == 2) {

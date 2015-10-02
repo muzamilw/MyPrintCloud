@@ -30,8 +30,8 @@
                         </ul>
                     </div>
                 </div>
-                    <div class="btn-group" style="float:left;margin-bottom: 3px;margin-left:17px;margin-top:-10px;">
-                        <button type="button" class="btn btn-primary">Actions</button>
+                    <div class="btn-group" style="float:left;margin-bottom: 3px;margin-left:14px;margin-top:-10px;">
+                        @*<button type="button" class="btn btn-primary">Actions</button>
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
@@ -39,19 +39,13 @@
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="#" data-bind="click:$root.openExternalReportsDelivery">Print Delivery Note</a></li>
                             <li><a href="#" data-bind="click:$root.openExternalEmailDeliveryReport">Email Delivery Note</a></li>
-                            
-                        </ul>
+                        </ul>*@
+                        <button class="btn btn-primary" style="margin-top:0px;margin-right:5px;" data-bind="click:$root.openExternalReportsDelivery">Print</button>
+                        <button class="btn btn-primary" style="margin-top:0px;" data-bind="click:$root.openExternalEmailDeliveryReport">Email</button>
                     </div>
-
-                
-               
-                
-                    
-                
-  
                 </div>
         </div>
-        <div class="row" id="prefixesdata" style="float:right;margin-top:-10px;margin-right:5px;">
+        <div class="row" id="prefixesdata" style="float:right;margin-top:-10px;margin-right:0px;">
            
             <div class="input-group">
                 <button data-bind="click:$root.onCloseEditor" class="btn btn-default" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;">Cancel</button>
@@ -67,7 +61,7 @@
             </div>
         </div>
     </div>
-    <div class="row" id="user-profile" data-bind="with: selectedDeliveryNote" style="padding-left: 18px;padding-right:20px;">
+    <div class="row" id="user-profile" data-bind="with: selectedDeliveryNote" style="padding-left:15px;padding-right:16px;">
         <div class="col-sm-12" style="margin-top:20px;">
             <div class="main-box clearfix">
                 <div class="col-sm-12 form-horizontal" style="margin-top:20px;">
@@ -84,8 +78,8 @@
                             <div class="col-sm-6">
                                 <input type="text" style="height: 60px;" data-bind="value: companyName, validationOnElement: companyId, click: !$root.selectedDeliveryNote().deliveryNoteId() ? $root.openCompanyDialog : undefined" readonly placeholder="Select Customer" class="form-control font24px" id="txtCompany" />
                             </div>
-                            <div class="col-sm-1" style="padding-top:10px;margin-left: 10px">
-                                <button data-bind="click: $root.openCompanyDialog, enable: (deliveryNoteId() <= 0) || (deliveryNoteId()===undefined)" class="btn btn-primary pull-right">
+                            <div class="col-sm-1" style="padding-top:10px;padding-left:0px;">
+                                <button data-bind="click: $root.openCompanyDialog, enable: (deliveryNoteId() <= 0) || (deliveryNoteId()===undefined)" class="btn btn-primary">
                                     <i class="fa fa-user"></i>
                                 </button>
                             </div>
@@ -108,8 +102,8 @@
                                 <select class="form-control" data-bind="options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select an address', value: addressId"></select>
                                 <span class="help-block text-right"></span>
                             </div>
-                            <div class="col-sm-1" data-bind="if: $root.isCompanyBaseDataLoaded" style="margin-left: 10px">
-                                <a class="btn btn-primary pull-right" id="addresspull" onclick="addAddress()">
+                            <div class="col-sm-1" data-bind="if: $root.isCompanyBaseDataLoaded" style="padding-left:0px;">
+                                <a class="btn btn-primary" id="addresspull" onclick="addAddress()">
                                     <i id="addresspullicon" class="fa fa-chevron-circle-right drop-icon"></i>
                                 </a>
                             </div>
@@ -198,10 +192,10 @@
                                 &nbsp;
                             </div>
                             <div class="col-sm-6">
-                                <select style="width: 258px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: flagId, foreach: $root.sectionFlags">
+                                <select style="width:322px !important;" id="flag" data-bind="select2: { formatResult: $root.formatResult,formatSelection: $root.formatSelection }, value: flagId, foreach: $root.sectionFlags">
                                     <option style="width: 258px !important;" data-bind="text: name, attr: { 'data-color': color, value: id }"></option>
                                 </select>
-                                <i class="fa fa-sort-desc" style="float: right; padding-right: 10px; position: relative; bottom: 25px;"></i>
+                                @*<i class="fa fa-sort-desc" style="float: right; padding-right: 10px; position: relative; bottom: 25px;"></i>*@
                                 @*<select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select a flag',value:flagId"></select>
                                 <span class="help-block text-right"></span>*@
                             </div>
@@ -290,7 +284,7 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="btn-group" style="float: left; margin-top: 22px;">
+                                    <div class="btn-group" style="float: left; margin-top:14px;">
                                         <button type="button" class="btn btn-primary" data-bind="click:$root.addDeliveryNoteDetail">Add Product</button>
                                     </div>
                                 </div>
@@ -334,7 +328,7 @@
                             </div>
                             <label class="control-label text-right tooltip-float">Raised By</label>*@
                         </div>
-                        <div class="col-sm-3" style="padding-right: 5px;">
+                        <div class="col-sm-3" style="padding-left: 5px;">
                             <select class="form-control" data-bind="options: $root.systemUsers, optionsText: 'fullName', optionsValue: 'id', optionsCaption: 'Select a system user',value:raisedBy"></select>
                             <span class="help-block text-right"></span>
                         </div>
